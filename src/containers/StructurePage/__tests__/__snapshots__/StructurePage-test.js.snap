@@ -1,6 +1,908 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`fetches and renders a list of subjects and topics based on pathname 1`] = `
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.6rem 0;
+}
+
+.emotion-6,
+.emotion-6:hover {
+  padding: 0;
+  color: white;
+  height: 50px;
+  background: #507aa4;
+  border: none;
+}
+
+.emotion-0 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  color: #4d4d4d;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.emotion-0:hover,
+.emotion-0:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-0:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-0[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-0:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-0:hover,
+.emotion-0:active,
+.emotion-0:disabled,
+.emotion-0:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-0:focus {
+  outline-width: medium;
+}
+
+.emotion-2 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  height: 50px;
+  margin-left: auto;
+  padding: 0 13px;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  background: linear-gradient( rgba(226,226,226,0.1),#507aa4 50%,rgba(226,226,226,0.1) 100% );
+}
+
+.emotion-2:hover,
+.emotion-2:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-2:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-2[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-2:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-2:focus {
+  outline-width: medium;
+}
+
+.emotion-2:hover {
+  color: white;
+}
+
+.emotion-4 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  color: #4d4d4d;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  min-width: 50px;
+  width: 50px;
+}
+
+.emotion-4:hover,
+.emotion-4:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-4:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-4[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-4:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-4:hover,
+.emotion-4:active,
+.emotion-4:disabled,
+.emotion-4:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-4:focus {
+  outline-width: medium;
+}
+
+.emotion-156 {
+  margin: 0;
+  padding: 0;
+}
+
+.emotion-429 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.6rem 0;
+}
+
+.emotion-429,
+.emotion-429:hover {
+  padding: 0;
+  color: white;
+  height: 50px;
+  background: linear-gradient(180deg,white,#eff0f2);
+  border: 1px solid #eff0f2;
+}
+
+.emotion-425 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-425:hover,
+.emotion-425:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-425:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-425[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-425:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-425:hover,
+.emotion-425:active,
+.emotion-425:disabled,
+.emotion-425:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-425:focus {
+  outline-width: medium;
+}
+
+.emotion-425,
+.emotion-425:hover,
+.emotion-425:focus {
+  white-space: nowrap;
+  color: #777777;
+  font-size: 1.2rem;
+  border-left: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  background: linear-gradient(180deg,white,#e9eff2 50%,#e9eff2 100%);
+  padding: 0 13px;
+  height: 100%;
+}
+
+.emotion-14 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-14 > div {
+  padding: 0 13px 0 calc(0 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+.emotion-14 > div:hover {
+  background: #f1f5f8;
+}
+
+.emotion-14 > ul {
+  display: none;
+}
+
+.emotion-14 > div > button {
+  color: rgb(32,88,143,0.5);
+}
+
+.emotion-13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.emotion-7 {
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1;
+  font-weight: 600;
+  border: 0;
+  background: 0;
+  color: #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.emotion-7:before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 9px solid #444;
+  margin-right: 6.5px;
+}
+
+.emotion-7:before {
+  -webkit-transition: -webkit-transform 200ms ease;
+  -webkit-transition: transform 200ms ease;
+  transition: transform 200ms ease;
+  -webkit-transform: rotate( 0deg );
+  -ms-transform: rotate( 0deg );
+  transform: rotate( 0deg );
+}
+
+.emotion-11 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-11:hover,
+.emotion-11:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-11:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-11[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-11:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-11:hover,
+.emotion-11:active,
+.emotion-11:disabled,
+.emotion-11:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-11:focus {
+  outline-width: medium;
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  border: 1px solid;
+  line-height: normal;
+  background-color: white;
+}
+
+.emotion-9 > svg {
+  height: 20px;
+  width: 20px;
+}
+
+.emotion-9:hover,
+.emotion-9:focus {
+  background-color: #4d4d4d;
+  color: #f8f8f8;
+}
+
+.emotion-356 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-356 > div {
+  padding: 0 13px 0 calc(0 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+.emotion-356 > div:hover {
+  background: #f1f5f8;
+}
+
+.emotion-356 > ul {
+  display: none;
+}
+
+.emotion-356 > ul {
+  display: block;
+}
+
+.emotion-106 {
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1;
+  font-weight: 600;
+  border: 0;
+  background: 0;
+  color: #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.emotion-106:before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 9px solid #444;
+  margin-right: 6.5px;
+}
+
+.emotion-106:before {
+  -webkit-transition: -webkit-transform 200ms ease;
+  -webkit-transition: transform 200ms ease;
+  transition: transform 200ms ease;
+  -webkit-transform: rotate( 90deg );
+  -ms-transform: rotate( 90deg );
+  transform: rotate( 90deg );
+}
+
+.emotion-112 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-112 > button {
+  outline: none;
+}
+
+.emotion-108 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  border: 1px solid;
+  line-height: normal;
+  background-color: white;
+  margin: 0 calc(13px / 2);
+}
+
+.emotion-108 > svg {
+  height: 20px;
+  width: 20px;
+}
+
+.emotion-108:hover,
+.emotion-108:focus {
+  background-color: #4d4d4d;
+  color: #f8f8f8;
+}
+
+.emotion-116 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: auto;
+}
+
+.emotion-114 {
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.2 font-weight:600;
+  text-transform: uppercase;
+  color: #444;
+  opacity: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-right: 13px;
+  white-space: nowrap;
+}
+
+.emotion-126 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-126 > div {
+  padding: 0 13px 0 calc(1 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+.emotion-126 > div:hover {
+  background: #f1f5f8;
+}
+
+.emotion-126 > ul {
+  display: none;
+}
+
+.emotion-123 {
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1;
+  font-weight: 600;
+  border: 0;
+  background: 0;
+  color: #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.emotion-123:before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid #ceddea;
+  border-left: 2px solid #ceddea;
+  border-bottom-left-radius: 2px;
+  margin-right: 6.5px;
+  margin-left: 7px;
+}
+
+.emotion-123:before {
+  -webkit-transition: -webkit-transform 200ms ease;
+  -webkit-transition: transform 200ms ease;
+  transition: transform 200ms ease;
+  -webkit-transform: rotate( deg );
+  -ms-transform: rotate( deg );
+  transform: rotate( deg );
+}
+
+.emotion-134 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-134 > div {
+  padding: 0 13px 0 calc(2 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+.emotion-134 > div:hover {
+  background: #f1f5f8;
+}
+
+.emotion-134 > ul {
+  display: none;
+}
+
+.emotion-234 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-234 > div {
+  padding: 0 13px 0 calc(1 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+.emotion-234 > div:hover {
+  background: #f1f5f8;
+}
+
+.emotion-234 > ul {
+  display: none;
+}
+
+.emotion-234 > ul {
+  display: block;
+}
+
+.emotion-225 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-225 > div {
+  padding: 0 13px 0 calc(2 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
+}
+
+.emotion-225 > div:hover {
+  background: #ceddea;
+}
+
+.emotion-225 > ul {
+  display: none;
+}
+
+.emotion-225 > ul {
+  display: block;
+}
+
+.emotion-225 > div {
+  background: #ceddea;
+}
+
 <div
   class="o-wrapper undefined"
 >
@@ -8,10 +910,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--taxonomy"
   >
     <div
-      class="css-1bb80c5"
+      class="emotion-6"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -41,7 +943,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-1gbvfca emotion-0"
+        class="emotion-2 emotion-1"
         data-testid="AddSubjectButton"
         type="button"
       >
@@ -72,7 +974,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         injected
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -104,16 +1006,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="css-1l95nvm emotion-68"
+          class="emotion-156 emotion-157"
         >
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:6"
                 type="button"
               >
@@ -127,11 +1029,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -160,13 +1062,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:11"
                 type="button"
               >
@@ -180,11 +1082,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -213,13 +1115,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:16"
                 type="button"
               >
@@ -233,11 +1135,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -266,13 +1168,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:17"
                 type="button"
               >
@@ -286,11 +1188,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -319,13 +1221,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:9"
                 type="button"
               >
@@ -339,11 +1241,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -372,13 +1274,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:2"
                 type="button"
               >
@@ -392,11 +1294,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -425,13 +1327,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:18"
                 type="button"
               >
@@ -445,11 +1347,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -478,13 +1380,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:7"
                 type="button"
               >
@@ -498,11 +1400,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -531,13 +1433,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:10"
                 type="button"
               >
@@ -551,11 +1453,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -584,13 +1486,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
                 type="button"
               >
@@ -604,11 +1506,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -637,13 +1539,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:14"
                 type="button"
               >
@@ -657,11 +1559,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -690,13 +1592,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-26o8mj emotion-6"
+            class="emotion-356 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-16i9ucb emotion-3"
+                class="emotion-106 emotion-8"
                 id="urn:subject:1"
                 type="button"
               >
@@ -707,15 +1609,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 data-cy="folderWrapper"
               >
                 <div
-                  class="css-a978th emotion-50"
+                  class="emotion-112 emotion-113"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     data-cy="settings-button-subject"
                     type="button"
                   >
                     <div
-                      class="css-1rki2l3 emotion-4"
+                      class="emotion-108 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -745,10 +1647,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </button>
                 </div>
                 <div
-                  class="css-1y4kgfw emotion-52"
+                  class="emotion-116 emotion-117"
                 >
                   <span
-                    class="css-3o571t emotion-51"
+                    class="emotion-114 emotion-115"
                   >
                     Filtrer emner
                     :
@@ -758,11 +1660,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -790,16 +1692,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               </div>
             </div>
             <ul
-              class="css-1l95nvm emotion-68"
+              class="emotion-156 emotion-157"
             >
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-1ppc4cm emotion-3"
+                    class="emotion-123 emotion-8"
                     id="urn:subject:1/urn:topic:1:186401"
                     type="button"
                   >
@@ -812,13 +1714,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </div>
               </li>
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="emotion-7 emotion-8"
                     id="urn:subject:1/urn:topic:1:172416"
                     type="button"
                   >
@@ -830,16 +1732,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:172597"
                         type="button"
                       >
@@ -852,13 +1754,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:186404"
                         type="button"
                       >
@@ -871,13 +1773,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:172600"
                         type="button"
                       >
@@ -890,13 +1792,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:186407"
                         type="button"
                       >
@@ -909,13 +1811,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:184482"
                         type="button"
                       >
@@ -930,13 +1832,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="emotion-7 emotion-8"
                     id="urn:subject:1/urn:topic:1:186460"
                     type="button"
                   >
@@ -948,16 +1850,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186464"
                         type="button"
                       >
@@ -970,13 +1872,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:184483"
                         type="button"
                       >
@@ -989,13 +1891,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:183085"
                         type="button"
                       >
@@ -1008,13 +1910,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186468"
                         type="button"
                       >
@@ -1027,13 +1929,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186471"
                         type="button"
                       >
@@ -1046,13 +1948,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186474"
                         type="button"
                       >
@@ -1065,13 +1967,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:169379"
                         type="button"
                       >
@@ -1086,13 +1988,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-ds82gx emotion-6"
+                class="emotion-234 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-16i9ucb emotion-3"
+                    class="emotion-106 emotion-8"
                     id="urn:subject:1/urn:topic:1:186479"
                     type="button"
                   >
@@ -1103,15 +2005,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     data-cy="folderWrapper"
                   >
                     <div
-                      class="css-a978th emotion-50"
+                      class="emotion-112 emotion-113"
                     >
                       <button
-                        class="css-ac6kxl emotion-0"
+                        class="emotion-11 emotion-1"
                         data-cy="settings-button-topic"
                         type="button"
                       >
                         <div
-                          class="css-1rki2l3 emotion-4"
+                          class="emotion-108 emotion-10"
                         >
                           <svg
                             class="c-icon"
@@ -1143,16 +2045,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </div>
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186479/urn:topic:1:186487"
                         type="button"
                       >
@@ -1165,13 +2067,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-nbem2u emotion-6"
+                    class="emotion-225 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186479/urn:topic:1:172650"
                         type="button"
                       >
@@ -1182,15 +2084,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         data-cy="folderWrapper"
                       >
                         <div
-                          class="css-a978th emotion-50"
+                          class="emotion-112 emotion-113"
                         >
                           <button
-                            class="css-ac6kxl emotion-0"
+                            class="emotion-11 emotion-1"
                             data-cy="settings-button-topic"
                             type="button"
                           >
                             <div
-                              class="css-1rki2l3 emotion-4"
+                              class="emotion-108 emotion-10"
                             >
                               <svg
                                 class="c-icon"
@@ -1223,13 +2125,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:186479/urn:topic:1:185606"
                         type="button"
                       >
@@ -1244,13 +2146,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="emotion-7 emotion-8"
                     id="urn:subject:1/urn:topic:1:171906"
                     type="button"
                   >
@@ -1262,16 +2164,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:165853"
                         type="button"
                       >
@@ -1284,13 +2186,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:165738"
                         type="button"
                       >
@@ -1303,13 +2205,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:166321"
                         type="button"
                       >
@@ -1322,13 +2224,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:166872"
                         type="button"
                       >
@@ -1341,13 +2243,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:178849"
                         type="button"
                       >
@@ -1362,13 +2264,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="emotion-7 emotion-8"
                     id="urn:subject:1/urn:topic:1:172361"
                     type="button"
                   >
@@ -1380,16 +2282,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172361/urn:topic:1:186069"
                         type="button"
                       >
@@ -1402,13 +2304,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172361/urn:topic:1:171903"
                         type="button"
                       >
@@ -1423,13 +2325,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="emotion-7 emotion-8"
                     id="urn:subject:1/urn:topic:1:172362"
                     type="button"
                   >
@@ -1441,16 +2343,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:162756"
                         type="button"
                       >
@@ -1463,13 +2365,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:172615"
                         type="button"
                       >
@@ -1482,13 +2384,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:184484"
                         type="button"
                       >
@@ -1501,13 +2403,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:185588"
                         type="button"
                       >
@@ -1520,13 +2422,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:184485"
                         type="button"
                       >
@@ -1541,13 +2443,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="css-18h3lc8 emotion-6"
+                class="emotion-126 emotion-15"
               >
                 <div
-                  class="css-gg4vpm"
+                  class="emotion-13"
                 >
                   <button
-                    class="css-yes69z emotion-3"
+                    class="emotion-7 emotion-8"
                     id="urn:subject:1/urn:topic:1:172568"
                     type="button"
                   >
@@ -1559,16 +2461,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="css-1l95nvm emotion-68"
+                  class="emotion-156 emotion-157"
                 >
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:172789"
                         type="button"
                       >
@@ -1581,13 +2483,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:172790"
                         type="button"
                       >
@@ -1600,13 +2502,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:172791"
                         type="button"
                       >
@@ -1619,13 +2521,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:184496"
                         type="button"
                       >
@@ -1638,13 +2540,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:184504"
                         type="button"
                       >
@@ -1657,13 +2559,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="css-1s4ye1i emotion-6"
+                    class="emotion-134 emotion-15"
                   >
                     <div
-                      class="css-gg4vpm"
+                      class="emotion-13"
                     >
                       <button
-                        class="css-1ppc4cm emotion-3"
+                        class="emotion-123 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:184505"
                         type="button"
                       >
@@ -1680,13 +2582,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </ul>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:13"
                 type="button"
               >
@@ -1700,11 +2602,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -1733,13 +2635,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:3"
                 type="button"
               >
@@ -1753,11 +2655,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -1786,13 +2688,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:12"
                 type="button"
               >
@@ -1806,11 +2708,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -1839,13 +2741,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:15"
                 type="button"
               >
@@ -1859,11 +2761,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -1892,13 +2794,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:5"
                 type="button"
               >
@@ -1912,11 +2814,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -1945,13 +2847,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:8"
                 type="button"
               >
@@ -1965,11 +2867,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -1998,13 +2900,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </div>
           </li>
           <li
-            class="css-b21031 emotion-6"
+            class="emotion-14 emotion-15"
           >
             <div
-              class="css-gg4vpm"
+              class="emotion-13"
             >
               <button
-                class="css-yes69z emotion-3"
+                class="emotion-7 emotion-8"
                 id="urn:subject:4"
                 type="button"
               >
@@ -2018,11 +2920,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   style="display: none;"
                 >
                   <button
-                    class="css-ac6kxl emotion-0"
+                    class="emotion-11 emotion-1"
                     type="button"
                   >
                     <div
-                      class="css-blrba0 emotion-4"
+                      class="emotion-9 emotion-10"
                     >
                       <svg
                         class="c-icon"
@@ -2060,10 +2962,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       class="c-accordion c-accordion--resourceGroup"
     >
       <div
-        class="css-wk9fjy"
+        class="emotion-429"
       >
         <button
-          class="css-1d8mcv4 emotion-0"
+          class="emotion-0 emotion-1"
           type="button"
         >
           <span
@@ -2073,7 +2975,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           </span>
         </button>
         <button
-          class="css-6f3lrq emotion-0"
+          class="emotion-425 emotion-1"
           data-testid="changeTopicDescription"
           type="button"
         >
@@ -2104,7 +3006,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           Endre emnebeskrivelse
         </button>
         <button
-          class="css-1t41wu4 emotion-0"
+          class="emotion-4 emotion-1"
           type="button"
         >
           <svg
@@ -2138,10 +3040,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2151,7 +3053,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2181,7 +3083,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -2214,10 +3116,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2227,7 +3129,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2257,7 +3159,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -2290,10 +3192,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2303,7 +3205,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2333,7 +3235,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -2366,10 +3268,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2379,7 +3281,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2409,7 +3311,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -2442,10 +3344,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2455,7 +3357,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2485,7 +3387,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -2518,10 +3420,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2531,7 +3433,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2561,7 +3463,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg
@@ -2594,10 +3496,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="css-wk9fjy"
+      class="emotion-429"
     >
       <button
-        class="css-1d8mcv4 emotion-0"
+        class="emotion-0 emotion-1"
         type="button"
       >
         <span
@@ -2607,7 +3509,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="css-6f3lrq emotion-0"
+        class="emotion-425 emotion-1"
         type="button"
       >
         <svg
@@ -2637,7 +3539,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="css-1t41wu4 emotion-0"
+        class="emotion-4 emotion-1"
         type="button"
       >
         <svg

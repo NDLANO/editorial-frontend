@@ -16,6 +16,7 @@ export function toEditArticle(articleId, articleType, locale) {
   const url = articleTypes[articleType] || articleTypes.standard;
   return `/subject-matter/${url}/${articleId}/edit/${locale}`;
 }
+
 export function toCreateLearningResource() {
   return '/subject-matter/learning-resource/new';
 }

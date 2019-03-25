@@ -8,7 +8,7 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';

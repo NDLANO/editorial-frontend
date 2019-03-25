@@ -10,7 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
-import styled, { css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 
 const alertModalFooterButtonStyle = css`

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody } from '@ndla/modal';
 import ModalCloseButton from '@ndla/modal/lib/ModalCloseButton';

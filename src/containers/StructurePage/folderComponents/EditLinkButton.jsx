@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Link as LinkIcon } from '@ndla/icons/editor';
 import { colors } from '@ndla/core';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 import { Pencil, Minus } from '@ndla/icons/action';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';

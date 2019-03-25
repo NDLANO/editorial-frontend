@@ -8,7 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes, css } from 'react-emotion';
+import styled from '@emotion/styled';
+import { keyframes, css } from '@emotion/core';
 import { colors } from '@ndla/core';
 
 const spinnerKeyframeStyle = keyframes`

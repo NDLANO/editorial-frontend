@@ -9,7 +9,7 @@
 import React from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
-import { css } from 'react-emotion';
+import { css } from '@emotion/core';
 
 const menuItemSaveButtonStyle = css`
   &,

@@ -5,100 +5,90 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
-import { actions, getAudio } from '../../modules/audio/audio';
-import { AudioShape } from '../../shapes';
+import * as audioApi from '../../modules/audio/audioApi';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { createFormData } from '../../util/formDataHelper';
+import { toEditAudio } from '../../util/routeHelpers';
 
-class EditAudio extends Component {
-  componentDidMount() {
-    const { audioId: id, fetchAudio, audioLanguage } = this.props;
-    if (id) {
-      fetchAudio({ id, language: audioLanguage });
+const transformAudio = audio => {
+  const audioLanguage =
+    audio &&
+    audio.supportedLanguages &&
+    audio.supportedLanguages.includes(audio.language)
+      ? audio.language
+      : undefined;
+
+  return audio
+    ? {
+        ...audio,
+        title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
+        tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
+      }
+    : undefined;
+};
+
+const EditAudio = props => {
+  const { history, locale, audioId, audioLanguage, ...rest } = props;
+  const [audio, setAudio] = useState({});
+
+  const fetchAudio = async () => {
+    if (audioId) {
+      const article = await audioApi.fetchAudio(audioId, locale);
+      setAudio(transformAudio(article));
     }
+  };
+
+  const upsertAudio = async (newAudio, file) => {
+    const formData = await createFormData(file, newAudio);
+    const updatedAudio = newAudio.id
+      ? await audioApi.updateAudio(formData)
+      : await audioApi.postAudio(formData);
+    const transformedAudio = transformAudio(updatedAudio);
+    setAudio(transformedAudio);
+    if (!newAudio.id) {
+      history.push(toEditAudio(updatedAudio.id, newAudio.language));
+    }
+  };
+
+  useEffect(() => {
+    fetchAudio();
+  }, [audioId, audioLanguage]);
+
+  if (audioId && !audio.id) {
+    return null;
   }
 
-  componentDidUpdate({ audioId: prevId }) {
-    const { audioId: id, fetchAudio, audioLanguage, audio } = this.props;
-
-    if (
-      id &&
-      audioLanguage &&
-      ((audio && audio.language !== audioLanguage) || id !== prevId)
-    ) {
-      fetchAudio({ id, language: audioLanguage });
-    }
-  }
-
-  render() {
-    const {
-      history,
-      audio,
-      updateAudio,
-      locale,
-      audioId,
-      ...rest
-    } = this.props;
-    if (audioId && !audio.id) {
-      return null;
-    }
-    return (
-      <AudioForm
-        audio={{ ...audio, language: locale }}
-        revision={audio && audio.revision}
-        audioInfo={audio && audio.audioFile}
-        onUpdate={(updatedAudio, file) =>
-          updateAudio({ audio: updatedAudio, file, history })
-        }
-        {...rest}
-      />
-    );
-  }
-}
+  const language = audioLanguage || locale;
+  return (
+    <AudioForm
+      audio={{ ...audio, language }}
+      revision={audio && audio.revision}
+      onUpdate={upsertAudio}
+      audioLanguage={audioLanguage}
+      {...rest}
+    />
+  );
+};
 
 EditAudio.propTypes = {
   audioId: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchAudio: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
-  audio: AudioShape,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  updateAudio: PropTypes.func.isRequired,
   isSaving: PropTypes.bool.isRequired,
   audioLanguage: PropTypes.string,
 };
 
-EditAudio.defaultProps = {
-  audio: {},
-};
-
-const mapDispatchToProps = {
-  fetchAudio: actions.fetchAudio,
-  updateAudio: actions.updateAudio,
-};
-
-const mapStateToProps = (state, props) => {
-  const { audioId } = props;
-  const getAudioSelector = getAudio(audioId, true);
-  return {
-    audio: getAudioSelector(state),
-  };
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditAudio),
-);
+export default withRouter(EditAudio);

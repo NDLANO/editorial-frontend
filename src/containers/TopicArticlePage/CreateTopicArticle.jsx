@@ -33,6 +33,7 @@ const CreateTopicArticle = props => {
       <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
       <TopicArticleForm
         article={{ language: locale }}
+        staticArticle={{ notes: [] }}
         locale={locale}
         onUpdate={createArticleAndPushRoute}
         tags={tags}

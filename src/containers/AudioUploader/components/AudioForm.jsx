@@ -22,9 +22,9 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-import { FormActionButton } from '../../Form';
 import {
   FormikHeader,
+  FormikActionButton,
   formClasses,
   FormikAlertModalWrapper,
 } from '../../FormikForm';
@@ -110,7 +110,6 @@ class AudioForm extends Component {
       tags,
       licenses,
       isSaving,
-      audioInfo,
       showSaved,
       history,
       audio,
@@ -128,7 +127,6 @@ class AudioForm extends Component {
             classes={formClasses}
             tags={tags}
             setFieldValue={setFieldValue}
-            audioInfo={audioInfo}
             values={values}
           />
         ),
@@ -196,12 +194,12 @@ class AudioForm extends Component {
                 )}
               </Accordion>
               <Field right>
-                <FormActionButton
+                <FormikActionButton
                   outline
                   disabled={isSaving}
                   onClick={history.goBack}>
                   {t('form.abort')}
-                </FormActionButton>
+                </FormikActionButton>
                 <SaveButton isSaving={isSaving} showSaved={showSaved} />
               </Field>
               <FormikAlertModalWrapper
@@ -230,12 +228,6 @@ AudioForm.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
-  audioInfo: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  }),
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,

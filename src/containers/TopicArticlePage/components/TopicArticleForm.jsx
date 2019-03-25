@@ -116,7 +116,7 @@ class TopicArticleForm extends Component {
     }
   }
 
-  getArticle(values) {  
+  getArticle(values) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
     const visualElement = createEmbedTag(values.visualElement);
@@ -184,6 +184,7 @@ class TopicArticleForm extends Component {
       revision,
       article,
       createMessage,
+      updateArticleStatus,
     } = this.props;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -229,6 +230,7 @@ class TopicArticleForm extends Component {
             values={values}
             getArticle={() => this.getArticle(values)}
             createMessage={createMessage}
+            updateArticleStatus={updateArticleStatus}
             revision={revision}>
             <FormikField name="notes" showError={false}>
               {({ field }) => (
@@ -367,6 +369,7 @@ TopicArticleForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  updateArticleStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   history: PropTypes.shape({
     goBack: PropTypes.func,

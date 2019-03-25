@@ -8,8 +8,6 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
 import FormikStatusActions from './components/FormikStatusActions';
 import FormikStatusColumns from './components/FormikStatusColumns';
@@ -43,7 +41,7 @@ class FormikWorkflow extends Component {
   async onUpdateStatus(status) {
     const {
       values,
-      updateStatusDraft,
+      updateArticleStatus,
       getArticle,
       createMessage,
       revision,
@@ -59,7 +57,8 @@ class FormikWorkflow extends Component {
           revision,
         });
       }
-      updateStatusDraft({ id: values.id, status });
+      updateArticleStatus(values.id, status);
+      //updateStatusDraft({ id: values.id, status });
     } catch (error) {
       if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
@@ -122,8 +121,8 @@ FormikWorkflow.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  updateArticleStatus: PropTypes.func,
   createMessage: PropTypes.func.isRequired,
-  updateStatusDraft: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
 };
 
@@ -135,11 +134,4 @@ FormikWorkflow.defaultProps = {
   article: {},
 };
 
-const mapDispatchToProps = {
-  updateStatusDraft: draftActions.updateStatusDraft,
-};
-
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(FormikWorkflow);
+export default FormikWorkflow;

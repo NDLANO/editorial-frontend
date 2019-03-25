@@ -15,10 +15,12 @@ import { toEditArticle } from '../../util/routeHelpers';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
-  const { article, tags, updateArticle } = useFetchArticleData(
-    articleId,
-    selectedLanguage,
-  );
+  const {
+    article,
+    tags,
+    updateArticle,
+    updateArticleStatus,
+  } = useFetchArticleData(articleId, selectedLanguage);
 
   if (!article || !article.id) {
     return null;
@@ -42,6 +44,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
         revision={article.revision}
         articleStatus={article.status}
         onUpdate={updateArticle}
+        updateArticleStatus={updateArticleStatus}
         tags={tags}
         article={{ ...article, language }}
         {...rest}

@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 
-const AudioContent = ({ t, values, audioInfo, setFieldValue }) => (
+const AudioContent = ({ t, values, setFieldValue }) => (
   <Fragment>
     <FormikField
       label={t('form.title.label')}
@@ -22,27 +22,34 @@ const AudioContent = ({ t, values, audioInfo, setFieldValue }) => (
       placeholder={t('form.title.label')}
     />
     {!values.id && (
-      <FormikField
-        id="file"
-        noBorder
-        type="file"
-        onChange={evt => setFieldValue('audioFile', evt.currentTarget.files[0])}
-        name="audioFile"
-        label={t('form.audio.file')}
-      />
+      <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
+        {() => (
+          <input
+            id="audioFile"
+            name="audioFile"
+            type="file"
+            onChange={evt => {
+              //setFieldValue("file", event.currentTarget.files[0]);
+              setFieldValue(
+                'filepath',
+                evt.target && evt.target.files[0]
+                  ? URL.createObjectURL(evt.target.files[0])
+                  : undefined,
+              );
+              setFieldValue('audioFile', evt.target.files[0]);
+            }}
+          />
+        )}
+      </FormikField>
     )}
-    {values.id && <AudioPlayer audio={audioInfo} filepath={values.filepath} />}
+    {(values.id || (values.audioFile && values.filepath)) && (
+      <AudioPlayer audio={values.audioFile} filepath={values.filepath} />
+    )}
   </Fragment>
 );
 
 AudioContent.propTypes = {
   classes: PropTypes.func.isRequired,
-  audioInfo: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  }),
   values: PropTypes.shape({
     id: PropTypes.number,
     audioFile: PropTypes.shape({

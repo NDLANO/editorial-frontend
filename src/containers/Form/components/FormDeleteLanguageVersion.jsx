@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -15,7 +16,13 @@ import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
 import AlertModal from '../../../components/AlertModal';
-import { linkFillButtonCSS, linkFillButtonDeleteCSS } from '../../../style';
+import StyledFilledButton from '../../../components/StyledFilledButton';
+
+const StyledWrapper = styled.div`
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+`;
 
 class FormDeleteLanguageVersion extends React.Component {
   constructor() {
@@ -61,20 +68,20 @@ class FormDeleteLanguageVersion extends React.Component {
       supportedLanguages.length < 2 ||
       !supportedLanguages.includes(language)
     ) {
-      return <div />;
+      return null;
     }
 
     return (
-      <div>
-        <button
+      <StyledWrapper>
+        <StyledFilledButton
           type="button"
-          css={[linkFillButtonCSS, linkFillButtonDeleteCSS]}
+          deleteable
           onClick={this.toggleShowDeleteWarning}>
           <DeleteForever />
           {t('form.workflow.deleteLanguageVersion.button', {
             languageVersion: t(`language.${language}`).toLowerCase(),
           })}
-        </button>
+        </StyledFilledButton>
         <AlertModal
           show={showDeleteWarning}
           text={t('form.workflow.deleteLanguageVersion.modal')}
@@ -92,7 +99,7 @@ class FormDeleteLanguageVersion extends React.Component {
           ]}
           onCancel={this.toggleShowDeleteWarning}
         />
-      </div>
+      </StyledWrapper>
     );
   }
 }

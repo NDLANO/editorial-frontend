@@ -166,11 +166,11 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguage,
       loading,
     } = this.state;
-    const { label, typeOfPreview, t } = this.props;
+    const { label, typeOfPreview, children, t } = this.props;
 
     if (!showPreview) {
-      if (this.props.children) {
-        return this.props.children(this.openPreview);
+      if (children) {
+        return children(this.openPreview);
       }
       return (
         <FormActionButton onClick={this.openPreview} disabled={loading}>

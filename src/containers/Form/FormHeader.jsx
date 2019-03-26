@@ -8,6 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio, Check } from '@ndla/icons/editor';
@@ -19,8 +20,95 @@ import { Link } from 'react-router-dom';
 import FormDeleteLanguageVersion from './components/FormDeleteLanguageVersion';
 import FormLanguage from './FormLanguage';
 import HowToHelper from '../../components/HowTo/HowToHelper';
-import { linkFillButtonCSS } from '../../style';
+import StyledFilledButton from '../../components/StyledFilledButton';
 import PreviewDraftLightbox from '../../components/PreviewDraft/PreviewDraftLightbox';
+
+const StyledSplitter = styled.div`
+  width: 1px;
+  background: ${colors.brand.lighter};
+  height: ${spacing.normal};
+  margin: 0 ${spacing.xsmall};
+`;
+
+const StyledHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${spacing.small} 0 ${spacing.xsmall};
+  margin: ${spacing.normal} 0 ${spacing.small};
+  border-bottom: 2px solid ${colors.brand.light};
+`;
+
+const StyledTitleHeaderWrapper = styled.div`
+  padding-left: ${spacing.small};
+  display: flex;
+  align-items: center;
+  h1 {
+    ${fonts.sizes(26, 1.1)};
+    font-weight: ${fonts.weight.semibold};
+    margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
+    color: ${colors.text.primary};
+  }
+`;
+
+const StyledLanguageWrapper = styled.div`
+  padding-left: ${spacing.small};
+  margin: 0 0 ${spacing.normal};
+  display: flex;
+  align-items: center;
+`;
+
+const StyledLanguagePills = styled.span`
+  background: ${colors.brand.light};
+  color: ${colors.brand.primary};
+  box-shadow: none;
+  border-radius: ${spacing.xsmall};
+  padding: ${spacing.xsmall} ${spacing.small};
+  ${fonts.sizes(16, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  margin-right: ${spacing.xsmall};
+  transition: all 200ms ease;
+  display: flex;
+  align-items: center;
+  .c-icon {
+    margin-right: ${spacing.xsmall};
+  }
+  ${props =>
+    !props.current &&
+    css`
+      &:focus,
+      &:hover {
+        color: #fff;
+        background: ${colors.brand.primary};
+        transform: translate(1px, 1px);
+      }
+    `}
+  ${props =>
+    !props.current &&
+    css`
+      color: #fff;
+      background: ${colors.brand.primary};
+    `}
+`;
+
+const StyledStatusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledStatus = styled.p`
+  ${fonts.sizes(18, 1.1)};
+  font-weight: ${fonts.weight.semibold};
+  text-transform: uppercase;
+  margin: 0 ${spacing.small};
+`;
+
+const StyledSmallText = styled.small`
+  color: ${colors.text.light};
+  padding-right: ${spacing.xsmall};
+  ${fonts.sizes(14, 1.1)};
+  font-weight: ${fonts.weight.light};
+  text-transform: uppercase;
+`;
 
 const { contentTypes } = constants;
 
@@ -51,6 +139,46 @@ const types = {
   },
 };
 
+const HeaderPart = ({ type, noStatus, statusText, newLanguage, t }) => (
+  <StyledHeader>
+    <StyledTitleHeaderWrapper>
+      {types[type].icon}
+      <h1>{t(`${types[type].form}.title`)}</h1>
+    </StyledTitleHeaderWrapper>
+    {!noStatus ? (
+      <StyledStatusWrapper>
+        <StyledSplitter />
+        <StyledStatus>
+          <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
+          {newLanguage
+            ? t('form.status.new_language')
+            : statusText || t('form.status.new')}
+        </StyledStatus>
+        <HowToHelper
+          pageId="status"
+          tooltip={t('form.workflow.statusInfoTooltip')}
+        />
+      </StyledStatusWrapper>
+    ) : (
+      newLanguage && (
+        <StyledStatusWrapper>
+          <StyledSplitter />
+          <StyledStatus>{t('form.status.new_language')}</StyledStatus>
+        </StyledStatusWrapper>
+      )
+    )}
+  </StyledHeader>
+);
+
+HeaderPart.propTypes = {
+  noStatus: PropTypes.bool,
+  statusText: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  editUrl: PropTypes.func,
+  getArticle: PropTypes.func,
+  newLanguage: PropTypes.bool,
+};
+
 const FormHeader = ({
   t,
   model,
@@ -79,72 +207,46 @@ const FormHeader = ({
 
   const newLanguage =
     model.id && !model.supportedLanguages.includes(model.language);
-  const isNew = newLanguage && (
-    <div css={statusWrapperCSS}>
-      <div css={splitterCSS} />
-      <p css={statusCSS}>{t('form.status.new_language')}</p>
-    </div>
-  );
+
+  const StyledLanguagePillsLink = StyledLanguagePills.withComponent(Link);
 
   return (
     <header>
-      <div css={headerCSS}>
-        <div css={titleCSS}>
-          {types[type].icon}
-          <h1>{t(`${types[type].form}.title`)}</h1>
-        </div>
-        {!noStatus ? (
-          <div css={statusWrapperCSS}>
-            <div css={splitterCSS} />
-            <p css={statusCSS}>
-              <span css={smallTextCSS}>{t('form.workflow.statusLabel')}:</span>
-              {newLanguage
-                ? t('form.status.new_language')
-                : statusText || t('form.status.new')}
-            </p>
-            <HowToHelper
-              pageId="status"
-              tooltip={t('form.workflow.statusInfoTooltip')}
-            />
-          </div>
-        ) : (
-          isNew
-        )}
-      </div>
-      <div css={languageWrapperCSS}>
+      <HeaderPart
+        type={type}
+        noStatus={noStatus}
+        statusText={statusText}
+        newLanguage={newLanguage}
+        t={t}
+      />
+      <StyledLanguageWrapper>
         {model.id ? (
           <Fragment>
             {model.supportedLanguages.map(lang =>
               model.language === lang ? (
-                <span
-                  css={languageButtonsCSS}
-                  className="current"
-                  key={`types_${lang}`}>
+                <StyledLanguagePills current key={`types_${lang}`}>
                   <Check />
                   {t(`language.${lang}`)}
-                </span>
+                </StyledLanguagePills>
               ) : (
                 <Tooltip
                   key={`types_${lang}`}
                   tooltip={t('language.change', {
                     language: t(`language.${lang}`).toLowerCase(),
                   })}>
-                  <Link css={languageButtonsCSS} to={editUrl(lang)}>
+                  <StyledLanguagePillsLink to={editUrl(lang)}>
                     {t(`language.${lang}`)}
-                  </Link>
+                  </StyledLanguagePillsLink>
                 </Tooltip>
               ),
             )}
             {newLanguage && (
-              <span
-                css={languageButtonsCSS}
-                className="current"
-                key={`types_${model.language}`}>
+              <StyledLanguagePills current key={`types_${model.language}`}>
                 <Check />
                 {t(`language.${model.language}`)}
-              </span>
+              </StyledLanguagePills>
             )}
-            <div css={splitterCSS} />
+            <StyledSplitter />
             {!noStatus && (
               <>
                 <PreviewDraftLightbox
@@ -152,13 +254,13 @@ const FormHeader = ({
                   typeOfPreview="previewLanguageArticle"
                   getArticle={getArticle}>
                   {openPreview => (
-                    <button css={linkFillButtonCSS} onClick={openPreview}>
+                    <StyledFilledButton type="button" onClick={openPreview}>
                       <FileCompare />
                       {t(`form.previewLanguageArticle.button`)}
-                    </button>
+                    </StyledFilledButton>
                   )}
                 </PreviewDraftLightbox>
-                <div css={splitterCSS} />
+                <StyledSplitter />
               </>
             )}
             <FormLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
@@ -167,15 +269,15 @@ const FormHeader = ({
         ) : (
           <>
             <div>
-              <span css={languageButtonsCSS} className="current">
+              <StyledLanguagePills current>
                 <Check />
                 {t(`language.${model.language}`)}
-              </span>
+              </StyledLanguagePills>
             </div>
             <div />
           </>
         )}
-      </div>
+      </StyledLanguageWrapper>
     </header>
   );
 };
@@ -192,93 +294,5 @@ FormHeader.propTypes = {
   editUrl: PropTypes.func,
   getArticle: PropTypes.func,
 };
-
-const splitterCSS = css`
-  width: 1px;
-  background: ${colors.brand.lighter};
-  height: ${spacing.normal};
-  margin: 0 ${spacing.xsmall};
-`;
-
-const headerCSS = css`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.small} 0 ${spacing.xsmall};
-  margin: ${spacing.normal} 0 ${spacing.small};
-  border-bottom: 2px solid ${colors.brand.light};
-`;
-
-const titleCSS = css`
-  padding-left: ${spacing.small};
-  display: flex;
-  align-items: center;
-  h1 {
-    ${fonts.sizes(26, 1.1)};
-    font-weight: ${fonts.weight.semibold};
-    margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
-    color: ${colors.text.primary};
-  }
-`;
-
-const languageWrapperCSS = css`
-  padding-left: ${spacing.small};
-  margin: 0 0 ${spacing.normal};
-  display: flex;
-  align-items: center;
-  > *:last-child {
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-end;
-  }
-`;
-
-const languageButtonsCSS = css`
-  background: ${colors.brand.light};
-  color: ${colors.brand.primary};
-  box-shadow: none;
-  border-radius: ${spacing.xsmall};
-  padding: ${spacing.xsmall} ${spacing.small};
-  ${fonts.sizes(16, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  margin-right: ${spacing.xsmall};
-  transition: all 200ms ease;
-  display: flex;
-  align-items: center;
-  .c-icon {
-    margin-right: ${spacing.xsmall};
-  }
-  &:not(.current) {
-    &:focus,
-    &:hover {
-      color: #fff;
-      background: ${colors.brand.primary};
-      transform: translate(1px, 1px);
-    }
-  }
-  &.current {
-    color: #fff;
-    background: ${colors.brand.primary};
-  }
-`;
-
-const statusWrapperCSS = css`
-  display: flex;
-  align-items: center;
-`;
-
-const statusCSS = css`
-  ${fonts.sizes(18, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  text-transform: uppercase;
-  margin: 0 ${spacing.small};
-`;
-
-const smallTextCSS = css`
-  color: ${colors.text.light};
-  padding-right: ${spacing.xsmall};
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.light};
-  text-transform: uppercase;
-`;
 
 export default injectT(FormHeader);

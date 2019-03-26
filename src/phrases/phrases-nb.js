@@ -441,6 +441,9 @@ const phrases = {
     contributor: {
       add: 'Legg til',
     },
+    concept: {
+      create: 'Opprett nytt begrep',
+    },
     abort: 'Avbryt',
     edit: 'Rediger',
     remove: 'Fjern',

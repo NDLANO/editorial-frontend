@@ -15,6 +15,7 @@ class EditConcept extends React.PureComponent {
     this.state = { concept: {}, conceptModalOpen: false };
     this.getConcept = this.getConcept.bind(this);
     this.toggleConceptModal = this.toggleConceptModal.bind(this);
+    this.AddNewConcept = this.AddNewConcept.bind(this);
   }
 
   componentDidMount() {
@@ -32,11 +33,20 @@ class EditConcept extends React.PureComponent {
     this.setState({ concept, linkText: node.data.get('link-text') });
   }
 
+  AddNewConcept(id) {
+    console.log('Adding new concept');
+    console.log(id);
+  }
+
   toggleConceptModal(e) {
     e && e.preventDefault();
+    const { node, editor } = this.props;
     this.setState(prevState => ({
       conceptModalOpen: !prevState.conceptModalOpen,
     }));
+    if (!node.data.get('content-id')) {
+      editor.removeNodeByKey(node.key).insertText(node.text);
+    }
   }
 
   render() {
@@ -47,27 +57,30 @@ class EditConcept extends React.PureComponent {
       accessToken,
       createConcept,
     } = this.state;
-    const { t, children } = this.props;
-    console.log(concept.id);
-    console.log(this.props.attributes);
+    const { t, children, node } = this.props;
+    const name = createConcept && node.text;
+
     return (
-      <span {...this.props.attributes} onMouseDown={this.toggleConceptModal}>
-        {concept.id ? (
-          <Notion id={concept.id} ariaLabel={t('notions.edit')}>
-            {linkText}
-          </Notion>
-        ) : (
-          children
-        )}
+      <>
+        <span {...this.props.attributes} onMouseDown={this.toggleConceptModal}>
+          {concept.id ? (
+            <Notion id={concept.id} ariaLabel={t('notions.edit')}>
+              {linkText}
+            </Notion>
+          ) : (
+            children
+          )}
+        </span>
         {conceptModalOpen && (
           <ConceptModal
             id={concept.id}
             accessToken={accessToken}
             onClose={this.toggleConceptModal}
-            createConcept={createConcept}
+            handleMessage={this.AddNewConcept}
+            name={name}
           />
         )}
-      </span>
+      </>
     );
   }
 }

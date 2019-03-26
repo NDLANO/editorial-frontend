@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import config from '../config';
 
 const articleTypes = {
   'topic-article': 'topic-article',
@@ -98,9 +99,16 @@ export const getPathsFromUrl = url =>
       [],
     );
 
-export const toConcept = ({ type, id, accessToken }) => {
-  if (type === 'edit') {
-    return `https://explanations-frontend.test.api.ndla.no/update/${id}/embedded?accessToken=${accessToken}`;
+export const toConcept = ({ id, accessToken, name, create }) => {
+  if (id) {
+    return `https://explanations-frontend.${
+      config.ndlaEnvironment
+    }.api.ndla.no/embedded/concept/${id}/edit?accessToken=${accessToken}`;
   }
-  return `https://explanations-frontend.test.api.ndla.no/create/embedded?accessToken=${accessToken}`;
+  if (create) {
+    return 'https://explanations-frontend.staging.api.ndla.no/embedded/concept/new';
+  }
+  return `https://explanations-frontend.${
+    config.ndlaEnvironment
+  }.api.ndla.no/embedded?accessToken=${accessToken}&term=${name}`;
 };

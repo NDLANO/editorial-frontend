@@ -66,7 +66,7 @@ export class App extends React.Component {
                 path="/edit-markup/:draftId/:language"
                 component={EditMarkupPage}
               />
-              <PrivateRoute
+              <Route
                 path="/preview/:draftId/:language"
                 component={PreviewDraftPage}
               />

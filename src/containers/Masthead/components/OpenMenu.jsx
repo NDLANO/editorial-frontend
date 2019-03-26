@@ -51,6 +51,15 @@ const OpenMenu = ({ t, close }) => {
             <StyledMenuItem to="/structure" onClick={close}>
               <span>{t('subNavigation.structure')}</span>
             </StyledMenuItem>
+            <StyledNormalLink
+              href={`https://explanations-frontend.${
+                config.ndlaEnvironment
+              }.api.ndla.no`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}>
+              <span>{t('subNavigation.concept')}</span>
+            </StyledNormalLink>
           </div>
         </nav>
       </div>

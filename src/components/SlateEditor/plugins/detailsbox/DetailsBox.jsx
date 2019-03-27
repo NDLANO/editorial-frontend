@@ -101,7 +101,7 @@ const DetailsBox = props => {
                     {t('form.abort')}
                   </Button>
                   <Button onClick={onChangeSummary}>
-                    {t('form.image.save')}
+                    {t('form.save')}
                   </Button>
                 </StyledButtonWrapper>
               </ModalBody>

@@ -100,9 +100,7 @@ const DetailsBox = props => {
                   <Button onClick={close} outline>
                     {t('form.abort')}
                   </Button>
-                  <Button onClick={onChangeSummary}>
-                    {t('form.save')}
-                  </Button>
+                  <Button onClick={onChangeSummary}>{t('form.save')}</Button>
                 </StyledButtonWrapper>
               </ModalBody>
             </>

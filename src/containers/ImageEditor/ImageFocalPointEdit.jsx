@@ -78,10 +78,10 @@ class ImageFocalPointEdit extends React.Component {
     const { transformData } = this.props;
     const dimensions = getImageDimensions(target);
     const x = transformData['focal-x']
-      ? (transformData['focal-x'] / 100) * dimensions.current.width
+      ? (parseInt(transformData['focal-x']) / 100) * dimensions.current.width
       : undefined;
     const y = transformData['focal-y']
-      ? (transformData['focal-y'] / 100) * dimensions.current.height
+      ? (parseInt(transformData['focal-y']) / 100) * dimensions.current.height
       : undefined;
 
     this.setState({
@@ -130,12 +130,12 @@ ImageFocalPointEdit.propTypes = {
   }),
   onFocalPointChange: PropTypes.func.isRequired,
   transformData: PropTypes.shape({
-    'upper-left-x': PropTypes.number,
-    'upper-left-y': PropTypes.number,
-    'lower-right-x': PropTypes.number,
-    'lower-right-y': PropTypes.number,
-    'focal-x': PropTypes.number,
-    'focal-y': PropTypes.number,
+    'upper-left-x': PropTypes.string,
+    'upper-left-y': PropTypes.string,
+    'lower-right-x': PropTypes.string,
+    'lower-right-y': PropTypes.string,
+    'focal-x': PropTypes.string,
+    'focal-y': PropTypes.string,
   }),
 };
 

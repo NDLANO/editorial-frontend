@@ -77,8 +77,8 @@ class ImageEditor extends Component {
     onUpdatedImageSettings({
       transformData: {
         ...imageUpdates.transformData,
-        'focal-x': focalPoint.x,
-        'focal-y': focalPoint.y,
+        'focal-x': focalPoint.x.toString(),
+        'focal-y': focalPoint.y.toString(),
       },
     });
   }
@@ -94,10 +94,10 @@ class ImageEditor extends Component {
     } else {
       this.props.onUpdatedImageSettings({
         transformData: {
-          'upper-left-x': crop.x,
-          'upper-left-y': crop.y,
-          'lower-right-x': crop.x + crop.width,
-          'lower-right-y': crop.y + crop.height,
+          'upper-left-x': crop.x.toString(),
+          'upper-left-y': crop.y.toString(),
+          'lower-right-x': (crop.x + crop.width).toString(),
+          'lower-right-y': (crop.y + crop.height).toString(),
           ...defaultData.focalPoint,
         },
       });

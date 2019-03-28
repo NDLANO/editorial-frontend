@@ -21,10 +21,14 @@ const ImageCropEdit = ({ embed, onCropComplete, transformData }) => {
     transformData['lower-right-y'];
   const crop = embedHasCrop
     ? {
-        x: transformData['upper-left-x'],
-        y: transformData['upper-left-y'],
-        width: transformData['lower-right-x'] - transformData['upper-left-x'],
-        height: transformData['lower-right-y'] - transformData['upper-left-y'],
+        x: parseInt(transformData['upper-left-x']),
+        y: parseInt(transformData['upper-left-y']),
+        width:
+          parseInt(transformData['lower-right-x']) -
+          parseInt(transformData['upper-left-x']),
+        height:
+          parseInt(transformData['lower-right-y']) -
+          parseInt(transformData['upper-left-y']),
       }
     : undefined;
   return <ReactCrop src={src} onComplete={onCropComplete} crop={crop} />;
@@ -34,12 +38,12 @@ ImageCropEdit.propTypes = {
   embed: EmbedShape.isRequired,
   onCropComplete: PropTypes.func.isRequired,
   transformData: PropTypes.shape({
-    'upper-left-x': PropTypes.number,
-    'upper-left-y': PropTypes.number,
-    'lower-right-x': PropTypes.number,
-    'lower-right-y': PropTypes.number,
-    'focal-x': PropTypes.number,
-    'focal-y': PropTypes.number,
+    'upper-left-x': PropTypes.string,
+    'upper-left-y': PropTypes.string,
+    'lower-right-x': PropTypes.string,
+    'lower-right-y': PropTypes.string,
+    'focal-x': PropTypes.string,
+    'focal-y': PropTypes.string,
   }),
 };
 

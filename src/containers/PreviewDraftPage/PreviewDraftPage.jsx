@@ -8,18 +8,13 @@
 
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
 import { Hero, OneColumn } from '@ndla/ui';
 import * as draftApi from '../../modules/draft/draftApi';
 import * as articleApi from '../../modules/article/articleApi';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { queryResources } from '../../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
-
-const StyledHero = styled.div`
-  margin-top: -${spacing.spacingUnit * 4}px;
-`;
+import PreviewDraftLanguages from './PreviewDraftLanguages';
 
 const PreviewDraftPage = ({
   match: {
@@ -30,7 +25,6 @@ const PreviewDraftPage = ({
   const [resource, setResource] = useState(undefined);
 
   const fetchDraft = async () => {
-    console.log(draftApi);
     const fetchedDraft = await draftApi.fetchDraft(draftId, language);
     const convertedArticle = await articleApi.getPreviewArticle(
       fetchedDraft,
@@ -52,16 +46,15 @@ const PreviewDraftPage = ({
   if (!draft) {
     return null;
   }
+
   const contentType = resource
     ? getContentTypeFromResourceTypes(resource[0].resourceTypes)
     : undefined;
   return (
     <Fragment>
-      {contentType && (
-        <StyledHero>
-          <Hero contentType={contentType.contentType} />
-        </StyledHero>
-      )}
+      <Hero contentType={contentType.contentType}>
+        <PreviewDraftLanguages supportedLanguages={draft.supportedLanguages} />
+      </Hero>
       <OneColumn>
         <PreviewDraft
           article={draft}

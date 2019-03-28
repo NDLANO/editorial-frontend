@@ -100,15 +100,15 @@ export const getPathsFromUrl = url =>
     );
 
 export const toConcept = ({ id, accessToken, name, create }) => {
+  const local = true;
+  const baseUrl = local
+    ? 'http://localhost:3100'
+    : `https://explanations-frontend.${config.ndlaEnvironment}.api.ndla.no`;
   if (id) {
-    return `https://explanations-frontend.${
-      config.ndlaEnvironment
-    }.api.ndla.no/embedded/concept/${id}/edit?accessToken=${accessToken}`;
+    return `${baseUrl}/embedded/concept/${id}/edit?accessToken=${accessToken}`;
   }
   if (create) {
-    return 'https://explanations-frontend.staging.api.ndla.no/embedded/concept/new';
+    return `${baseUrl}/embedded/concept/new?accessToken=${accessToken}&title=${name}`;
   }
-  return `https://explanations-frontend.${
-    config.ndlaEnvironment
-  }.api.ndla.no/embedded?accessToken=${accessToken}&term=${name}`;
+  return `${baseUrl}/embedded?accessToken=${accessToken}&term=${name}`;
 };

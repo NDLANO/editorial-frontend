@@ -67,7 +67,7 @@ export const IconButton = ({ children, tag, ...rest }) => {
 
 IconButton.propTypes = {
   color: PropTypes.oneOf(['red', 'green']),
-  tag: PropTypes.string,
+  tag: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 IconButton.defaultProps = {

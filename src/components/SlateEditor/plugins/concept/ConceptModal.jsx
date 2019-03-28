@@ -16,13 +16,13 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
       window.removeEventListener('message', handleMessage);
     };
   });
-  const [iframeSrc, setIframeSrc] = useState(
-    toConcept({
-      id,
-      accessToken,
-      name,
-    }),
-  );
+  const [mode, setMode] = useState(id ? 'edit' : 'search');
+  const iframeSrc = toConcept({
+    id,
+    accessToken,
+    name,
+    create: mode === 'create',
+  });
   return (
     <Modal
       controllable
@@ -33,20 +33,30 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
       {() => (
         <>
           <ModalHeader>
+            <StyledHeader>
+              {mode === 'search' && 'Legg til eksisterende begrep'}
+              {mode === 'create' && 'Opprett nytt begrep'}
+              {mode === 'edit' && 'Rediger begrep'}
+            </StyledHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>
           <ModalBody>
+            {mode === 'search' && (
+              <StyledModalButtons>
+                <Button
+                  onClick={() => {
+                    setMode('create');
+                  }}>
+                  {t('form.concept.create')}
+                </Button>
+              </StyledModalButtons>
+            )}
             <iframe
               src={iframeSrc}
               title="concept"
               width="100%"
               css={iframeStyle}
             />
-            <StyledModalButtons>
-              <Button onClick={() => setIframeSrc(toConcept({ create: true }))}>
-                {t('form.concept.create')}
-              </Button>
-            </StyledModalButtons>
           </ModalBody>
         </>
       )}
@@ -55,15 +65,22 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
 };
 
 const iframeStyle = css`
-  height: 75vh;
+  height: 70vh;
   border: none;
 `;
 
 const StyledModalButtons = styled.div`
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  margin-top: 10px;
+  margin-bottom: 20px;
+
+  & > span {
+    margin-left: 20px;
+  }
+`;
+
+const StyledHeader = styled.h1`
+  align-self: flex-start;
 `;
 
 ConceptModal.propTypes = {

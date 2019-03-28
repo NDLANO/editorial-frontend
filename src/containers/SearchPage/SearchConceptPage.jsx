@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 
 const SearchConceptPage = props => {
@@ -21,7 +20,5 @@ const iframeStyle = css`
   height: 100vh;
   border: none;
 `;
-
-SearchConceptPage.propTypes = {};
 
 export default SearchConceptPage;

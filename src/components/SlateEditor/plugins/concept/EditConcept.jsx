@@ -4,10 +4,23 @@ import Notion from '@ndla/notion';
 
 import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
-
+import {
+  getAccessToken,
+  isAccessTokenValid,
+  renewAuth,
+} from '../../../../util/authHelpers';
 import { getLocale } from '../../../../modules/locale/locale';
 import { fetchConcept } from '../../../../modules/article/articleApi';
 import ConceptModal from './ConceptModal';
+import handleError from '../../../../util/handleError';
+
+const setConceptDataAttributes = ({ conceptId, text }) => ({
+  data: {
+    'content-id': conceptId,
+    'link-text': text,
+    resource: 'concept',
+  },
+});
 
 class EditConcept extends React.PureComponent {
   constructor() {
@@ -16,26 +29,62 @@ class EditConcept extends React.PureComponent {
     this.getConcept = this.getConcept.bind(this);
     this.toggleConceptModal = this.toggleConceptModal.bind(this);
     this.AddNewConcept = this.AddNewConcept.bind(this);
+    this.getToken = this.getToken.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.node.data.get('content-id')) {
-      this.getConcept();
+    const conceptId = this.props.node.data.get('content-id');
+    if (conceptId) {
+      this.getConcept(conceptId);
     } else {
       this.setState({ conceptModalOpen: true, createConcept: true });
     }
-    this.setState({ accessToken: localStorage.getItem('access_token') });
+    this.getToken();
   }
 
-  async getConcept() {
+  componentDidUpdate(prevProps) {
+    if (!isAccessTokenValid()) {
+      this.getToken();
+    }
+    if (prevProps.node.data.get('content-id')) return;
+    const conceptId = this.props.node.data.get('content-id');
+    if (conceptId) {
+      this.getConcept(conceptId);
+      this.setState({ conceptModalOpen: false });
+    }
+  }
+
+  async getToken() {
+    if (!isAccessTokenValid()) {
+      await renewAuth();
+    }
+    this.setState({
+      accessToken: getAccessToken(),
+    });
+  }
+
+  async getConcept(conceptId) {
     const { node, locale } = this.props;
-    const concept = await fetchConcept(node.data.get('content-id'), locale);
-    this.setState({ concept, linkText: node.data.get('link-text') });
+    try {
+      const { data: concept } = await fetchConcept(conceptId, locale);
+      this.setState({ concept, linkText: node.data.get('link-text') });
+    } catch (e) {
+      handleError(e);
+    }
   }
 
-  AddNewConcept(id) {
-    console.log('Adding new concept');
-    console.log(id);
+  AddNewConcept(postMessage) {
+    console.log('Received postMessage:');
+    console.log(postMessage.data);
+    if (!postMessage.data) return;
+    const { conceptId } = postMessage.data;
+    const {
+      node: { key, text },
+      editor,
+    } = this.props;
+    if (conceptId) {
+      editor.setNodeByKey(key, setConceptDataAttributes({ conceptId, text }));
+    }
   }
 
   toggleConceptModal(e) {
@@ -59,12 +108,14 @@ class EditConcept extends React.PureComponent {
     } = this.state;
     const { t, children, node } = this.props;
     const name = createConcept && node.text;
-
     return (
       <>
         <span {...this.props.attributes} onMouseDown={this.toggleConceptModal}>
           {concept.id ? (
-            <Notion id={concept.id} ariaLabel={t('notions.edit')}>
+            <Notion
+              id={concept.id}
+              title={concept.title ? concept.title.title : ''}
+              ariaLabel={t('notions.edit')}>
               {linkText}
             </Notion>
           ) : (
@@ -90,6 +141,10 @@ EditConcept.propTypes = {
     data: PropTypes.any,
   }),
   locale: PropTypes.string,
+  editor: PropTypes.object,
+  attributes: PropTypes.shape({
+    'data-key': PropTypes.string.isRequired,
+  }),
 };
 
 const mapStateToProps = state => ({

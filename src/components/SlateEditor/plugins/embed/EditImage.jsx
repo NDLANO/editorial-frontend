@@ -33,10 +33,22 @@ const imageEditorWrapperStyle = css`
 class EditImage extends Component {
   constructor(props) {
     super(props);
+    const { embed } = this.props;
     this.state = {
       alt: props.embed.alt,
       caption: props.embed.caption,
-      imageUpdates: undefined,
+      imageUpdates: {
+        transformData: {
+          'focal-x': embed['focal-x'],
+          'focal-y': embed['focal-y'],
+          'upper-left-x': embed['upper-left-x'],
+          'upper-left-y': embed['upper-left-y'],
+          'lower-right-x': embed['lower-right-x'],
+          'lower-right-y': embed['lower-right-y'],
+        },
+        align: embed.align,
+        size: embed.size,
+      },
       madeChanges: false,
     };
     this.onUpdatedImageSettings = this.onUpdatedImageSettings.bind(this);
@@ -64,10 +76,13 @@ class EditImage extends Component {
   }
 
   onUpdatedImageSettings(imageUpdates) {
-    this.setState({
-      imageUpdates: imageUpdates,
+    this.setState(prevState => ({
+      imageUpdates: {
+        ...this.state.imageUpdates,
+        ...imageUpdates,
+      },
       madeChanges: true,
-    });
+    }));
   }
 
   onSave() {
@@ -84,16 +99,15 @@ class EditImage extends Component {
       alt: alt,
     });
 
-    if (imageUpdates) {
-      const data = {
-        ...getSchemaEmbed(node),
-        ...imageUpdates.transformData,
-        align: imageUpdates.align,
-        size: imageUpdates.size,
-      };
+    const data = {
+      ...getSchemaEmbed(node),
+      ...imageUpdates.transformData,
+      align: imageUpdates.align,
+      size: imageUpdates.size,
+    };
+    console.log(data);
 
-      editor.setNodeByKey(node.key, { data });
-    }
+    editor.setNodeByKey(node.key, { data });
 
     setEditModus(false);
   }
@@ -114,7 +128,7 @@ class EditImage extends Component {
 
   render() {
     const { embed, submitted, t, setEditModus } = this.props;
-    const { caption, madeChanges, alt } = this.state;
+    const { caption, madeChanges, alt, imageUpdates } = this.state;
     return (
       <div
         css={imageEditorWrapperStyle}
@@ -140,6 +154,7 @@ class EditImage extends Component {
                 embedTag={embed}
                 toggleEditModus={setEditModus}
                 onUpdatedImageSettings={this.onUpdatedImageSettings}
+                imageUpdates={imageUpdates}
                 {...this.props}
               />
               <StyledInputWrapper>

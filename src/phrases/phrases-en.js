@@ -423,6 +423,7 @@ const phrases = {
       button: 'Compare different language versions',
       title: 'Draft on {language}',
     },
+    previewNewWindow: 'Preview in a new window',
     contributor: {
       add: 'Add',
     },

@@ -443,6 +443,7 @@ const phrases = {
       button: 'Samanlikn forskjellige språkversjoner',
       title: 'Utkast på {language}',
     },
+    previewNewWindow: 'Forhåndsvis i nytt vindu',
     contributor: {
       add: 'Legg til',
     },

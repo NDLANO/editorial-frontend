@@ -13,6 +13,7 @@ import { getLocale } from '../../../../modules/locale/locale';
 import { fetchConcept } from '../../../../modules/article/articleApi';
 import ConceptModal from './ConceptModal';
 import handleError from '../../../../util/handleError';
+import { getConceptUrl } from '../../../../util/routeHelpers';
 
 const setConceptDataAttributes = ({ conceptId, text }) => ({
   data: {
@@ -73,11 +74,10 @@ class EditConcept extends React.PureComponent {
     }
   }
 
-  AddNewConcept(postMessage) {
+  AddNewConcept({ data, origin }) {
     console.log('Received postMessage:');
-    console.log(postMessage.data);
-    if (!postMessage.data) return;
-    const { conceptId } = postMessage.data;
+    if (origin !== getConceptUrl(true) || !data) return;
+    const { conceptId } = data;
     const {
       node: { key, text },
       editor,

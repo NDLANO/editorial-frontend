@@ -99,11 +99,13 @@ export const getPathsFromUrl = url =>
       [],
     );
 
-export const toConcept = ({ id, accessToken, name, create }) => {
-  const local = true;
-  const baseUrl = local
+export const getConceptUrl = local =>
+  local
     ? 'http://localhost:3100'
     : `https://explanations-frontend.${config.ndlaEnvironment}.api.ndla.no`;
+
+export const toConcept = ({ id, accessToken, name, create }) => {
+  const baseUrl = getConceptUrl(true);
   if (id) {
     return `${baseUrl}/embedded/concept/${id}/edit?accessToken=${accessToken}`;
   }

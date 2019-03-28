@@ -104,8 +104,9 @@ class EditImage extends Component {
       ...imageUpdates.transformData,
       align: imageUpdates.align,
       size: imageUpdates.size,
+      caption,
+      alt,
     };
-    console.log(data);
 
     editor.setNodeByKey(node.key, { data });
 

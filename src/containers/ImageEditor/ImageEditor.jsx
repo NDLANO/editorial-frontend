@@ -84,8 +84,6 @@ class ImageEditor extends Component {
   }
 
   onCropComplete(crop, size) {
-    console.log(crop);
-    console.log(size);
     if (size.width === 0) {
       this.setState({
         editType: undefined,

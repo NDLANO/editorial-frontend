@@ -47,9 +47,10 @@ const PreviewDraftPage = ({
     return null;
   }
 
-  const contentType = resource
-    ? getContentTypeFromResourceTypes(resource[0].resourceTypes)
-    : undefined;
+  const contentType =
+    resource && resource.length > 0
+      ? getContentTypeFromResourceTypes(resource[0].resourceTypes)
+      : undefined;
   return (
     <Fragment>
       <Hero contentType={contentType.contentType}>

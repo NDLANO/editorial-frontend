@@ -79,7 +79,7 @@ class EditLearningResource extends PureComponent {
         />
       );
     }
-    const language = selectedLanguage || article.language;
+    const language = article.language || selectedLanguage;
     return (
       <Fragment>
         <HelmetWithTracker

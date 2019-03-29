@@ -75,7 +75,6 @@ class EditConcept extends React.PureComponent {
   }
 
   AddNewConcept({ data, origin }) {
-    console.log('Received postMessage:');
     if (origin !== getConceptUrl(true) || !data) return;
     const { conceptId } = data;
     const {

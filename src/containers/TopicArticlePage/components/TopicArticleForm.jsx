@@ -177,7 +177,6 @@ class TopicArticleForm extends Component {
     const {
       t,
       tags,
-      isSaving,
       articleStatus,
       licenses,
       history,
@@ -186,7 +185,7 @@ class TopicArticleForm extends Component {
       createMessage,
       updateArticleStatus,
     } = this.props;
-    const panels = ({ values, errors, touched, setFieldValue }) => [
+    const panels = ({ values, errors, touched }) => [
       {
         id: 'topic-article-content',
         title: t('form.contentSection'),
@@ -260,99 +259,103 @@ class TopicArticleForm extends Component {
         }
         enableReinitialize
         validate={values => validateFormik(values, topicArticleRules, t)}>
-        {formikProps => {
-          const { values, initialValues, touched, dirty } = formikProps;
-          return (
-            <Form {...formClasses()}>
-              <FormikHeader
-                values={values}
-                type={values.articleType}
-                editUrl={lang =>
-                  toEditArticle(values.id, values.articleType, lang)
-                }
-              />
-              <Accordion openIndexes={['topic-article-content']}>
-                {({ openIndexes, handleItemClick }) => (
-                  <AccordionWrapper>
-                    {panels(formikProps).map(panel => (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
+        {({
+          values,
+          initialValues,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+        }) => (
+          <Form {...formClasses()}>
+            <FormikHeader
+              values={values}
+              type={values.articleType}
+              editUrl={lang =>
+                toEditArticle(values.id, values.articleType, lang)
+              }
+            />
+            <Accordion openIndexes={['topic-article-content']}>
+              {({ openIndexes, handleItemClick }) => (
+                <AccordionWrapper>
+                  {panels({ values, errors, touched }).map(panel => (
+                    <Fragment key={panel.id}>
+                      <AccordionBar
+                        panelId={panel.id}
+                        ariaLabel={panel.title}
+                        onClick={() => handleItemClick(panel.id)}
+                        hasError={panel.hasError}
+                        isOpen={openIndexes.includes(panel.id)}>
+                        {panel.title}
+                      </AccordionBar>
+                      {openIndexes.includes(panel.id) && (
+                        <AccordionPanel
+                          id={panel.id}
                           hasError={panel.hasError}
                           isOpen={openIndexes.includes(panel.id)}>
-                          {panel.title}
-                        </AccordionBar>
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            hasError={panel.hasError}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className={panel.className}>
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    ))}
-                  </AccordionWrapper>
-                )}
-              </Accordion>
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                {values.id && (
-                  <FormikActionButton
-                    onClick={() => this.setState({ showResetModal: true })}>
-                    {t('form.resetToProd.button')}
-                  </FormikActionButton>
-                )}
-
-                <AlertModal
-                  show={showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onResetFormToProd(formikProps),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />
+                          <div className={panel.className}>
+                            {panel.component}
+                          </div>
+                        </AccordionPanel>
+                      )}
+                    </Fragment>
+                  ))}
+                </AccordionWrapper>
+              )}
+            </Accordion>
+            <Field right>
+              {error && <span className="c-errorMessage">{error}</span>}
+              {values.id && (
                 <FormikActionButton
-                  outline
-                  onClick={history.goBack}
-                  disabled={isSaving}>
-                  {t('form.abort')}
+                  onClick={() => this.setState({ showResetModal: true })}>
+                  {t('form.resetToProd.button')}
                 </FormikActionButton>
-                <SaveButton
-                  {...formClasses}
-                  isSaving={isSaving}
-                  showSaved={
-                    savedToServer &&
-                    !isFormikFormDirty({
-                      values,
-                      initialValues,
-                      showSaved: false,
-                      touched,
-                      dirty,
-                    })
-                  }>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
-              <FormikAlertModalWrapper
-                {...formikProps}
-                severity="danger"
-                text={t('alertModal.notSaved')}
+              )}
+
+              <AlertModal
+                show={showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: () => this.onResetFormToProd({ setValues }),
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
               />
-            </Form>
-          );
-        }}
+              <FormikActionButton
+                outline
+                onClick={history.goBack}
+                disabled={isSubmitting}>
+                {t('form.abort')}
+              </FormikActionButton>
+              <SaveButton
+                {...formClasses}
+                isSaving={isSubmitting}
+                showSaved={
+                  savedToServer &&
+                  !isFormikFormDirty({
+                    values,
+                    initialValues,
+                    showSaved: false,
+                    dirty,
+                  })
+                }>
+                {t('form.save')}
+              </SaveButton>
+            </Field>
+            <FormikAlertModalWrapper
+              isSubmitting={isSubmitting}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
+          </Form>
+        )}
       </Formik>
     );
   }
@@ -364,7 +367,6 @@ TopicArticleForm.propTypes = {
   revision: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),

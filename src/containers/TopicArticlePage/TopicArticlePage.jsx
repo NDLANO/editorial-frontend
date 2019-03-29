@@ -60,7 +60,6 @@ TopicArticlePage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -78,7 +77,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
-  isSaving: getSaving(state),
   licenses: getAllLicenses(state),
 });
 

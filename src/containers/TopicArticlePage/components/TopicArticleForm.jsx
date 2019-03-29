@@ -6,15 +6,10 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import { Field } from '../../../components/Fields';
@@ -26,8 +21,6 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-import TopicArticleMetadata from './TopicArticleMetadata';
-import TopicArticleContent from './TopicArticleContent';
 import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
@@ -35,11 +28,7 @@ import {
   isFormikFormDirty,
   topicArticleRules,
 } from '../../../util/formHelper';
-import FormikField from '../../../components/FormikField';
 import {
-  FormikCopyright,
-  FormikWorkflow,
-  FormikAddNotes,
   FormikAlertModalWrapper,
   formClasses,
   FormikActionButton,
@@ -53,6 +42,7 @@ import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
+import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -147,7 +137,7 @@ class TopicArticleForm extends Component {
     return article;
   }
 
-  async handleSubmit(values, actions, initialValues) {
+  async handleSubmit(values, actions) {
     const { revision, createMessage, articleStatus, onUpdate } = this.props;
     const status = articleStatus ? articleStatus.current : undefined;
 
@@ -174,89 +164,15 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const {
-      t,
-      tags,
-      articleStatus,
-      licenses,
-      history,
-      revision,
-      article,
-      createMessage,
-      updateArticleStatus,
-    } = this.props;
-    const panels = ({ values, errors, touched }) => [
-      {
-        id: 'topic-article-content',
-        title: t('form.contentSection'),
-        className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: [
-          'title',
-          'introduction',
-          'content',
-          'visualElement',
-          'visualElement.alt',
-          'visualElement.caption',
-        ].some(field => !!errors[field] && touched[field]),
-        component: <TopicArticleContent tags={tags} values={values} />,
-      },
-      {
-        id: 'topic-article-copyright',
-        title: t('form.copyrightSection'),
-        className: 'u-6/6',
-        hasError: ['creators', 'rightsholders', 'processors', 'license'].some(
-          field => !!errors[field] && touched[field],
-        ),
-        component: <FormikCopyright values={values} licenses={licenses} />,
-      },
-      {
-        id: 'topic-article-metadata',
-        title: t('form.metadataSection'),
-        className: 'u-6/6',
-        hasError: ['metaDescription', 'tags'].some(
-          field => !!errors[field] && touched[field],
-        ),
-        component: <TopicArticleMetadata tags={tags} />,
-      },
-      {
-        id: 'topic-article-workflow',
-        title: t('form.workflowSection'),
-        className: 'u-6/6',
-        hasError: ['notes'].some(field => !!errors[field] && touched[field]),
-        component: (
-          <FormikWorkflow
-            articleStatus={articleStatus}
-            values={values}
-            getArticle={() => this.getArticle(values)}
-            createMessage={createMessage}
-            updateArticleStatus={updateArticleStatus}
-            revision={revision}>
-            <FormikField name="notes" showError={false}>
-              {({ field }) => (
-                <FormikAddNotes
-                  showError={touched[field.name] && !!errors[field.name]}
-                  labelHeading={t('form.notes.heading')}
-                  labelAddNote={t('form.notes.add')}
-                  article={article}
-                  labelRemoveNote={t('form.notes.remove')}
-                  labelWarningNote={errors[field.name]}
-                  {...field}
-                />
-              )}
-            </FormikField>
-          </FormikWorkflow>
-        ),
-      },
-    ];
+    const { t, history, article, ...rest } = this.props;
+
     const { error, showResetModal, savedToServer } = this.state;
     const initVal = getInitialValues(article);
     return (
       <Formik
         initialValues={initVal}
         validateOnBlur={false}
-        onSubmit={(values, actions) =>
-          this.handleSubmit(values, actions, initVal)
-        }
+        onSubmit={this.handleSubmit}
         enableReinitialize
         validate={values => validateFormik(values, topicArticleRules, t)}>
         {({
@@ -276,34 +192,16 @@ class TopicArticleForm extends Component {
                 toEditArticle(values.id, values.articleType, lang)
               }
             />
-            <Accordion openIndexes={['topic-article-content']}>
-              {({ openIndexes, handleItemClick }) => (
-                <AccordionWrapper>
-                  {panels({ values, errors, touched }).map(panel => (
-                    <Fragment key={panel.id}>
-                      <AccordionBar
-                        panelId={panel.id}
-                        ariaLabel={panel.title}
-                        onClick={() => handleItemClick(panel.id)}
-                        hasError={panel.hasError}
-                        isOpen={openIndexes.includes(panel.id)}>
-                        {panel.title}
-                      </AccordionBar>
-                      {openIndexes.includes(panel.id) && (
-                        <AccordionPanel
-                          id={panel.id}
-                          hasError={panel.hasError}
-                          isOpen={openIndexes.includes(panel.id)}>
-                          <div className={panel.className}>
-                            {panel.component}
-                          </div>
-                        </AccordionPanel>
-                      )}
-                    </Fragment>
-                  ))}
-                </AccordionWrapper>
-              )}
-            </Accordion>
+
+            <TopicArticleAccordionPanels
+              values={values}
+              errors={errors}
+              article={article}
+              touched={touched}
+              getArticle={() => this.getArticle(values)}
+              {...rest}
+            />
+
             <Field right>
               {error && <span className="c-errorMessage">{error}</span>}
               {values.id && (
@@ -312,7 +210,6 @@ class TopicArticleForm extends Component {
                   {t('form.resetToProd.button')}
                 </FormikActionButton>
               )}
-
               <AlertModal
                 show={showResetModal}
                 text={t('form.resetToProd.modal')}

@@ -45,7 +45,7 @@ export const textBlockValidationRules = {
         break;
       }
       case 'next_sibling_type_invalid': {
-        editor.withoutNormalizing(() => {
+        editor.withoutSaving(() => {
           editor.wrapBlockByKey(error.child.key, 'section');
           const wrapper = editor.value.document.getParent(error.child.key);
           editor.insertNodeByKey(

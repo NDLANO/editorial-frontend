@@ -47,6 +47,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
         updateArticleStatus={updateArticleStatus}
         tags={tags}
         article={{ ...article, language }}
+        articleId={articleId}
         {...rest}
       />
     </Fragment>

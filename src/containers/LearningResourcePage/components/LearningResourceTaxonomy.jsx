@@ -260,7 +260,7 @@ class LearningResourceTaxonomy extends Component {
     const { resourceTaxonomy, taxonomyChanges } = this.state;
     let { resourceId } = this.state;
     const { language, articleId, title } = this.props;
-    this.setState({ saveStatus: 'loading' });
+    this.setState({ saveStatus: 'loading', status: 'loading' });
     try {
       if (!resourceId) {
         await createResource({
@@ -279,7 +279,15 @@ class LearningResourceTaxonomy extends Component {
           taxonomyChanges,
           language,
         );
-        if (didUpdate) this.fetchTaxonomy();
+        if (didUpdate) {
+          // Wait a sec before fetching taxonomy again
+          await new Promise(resolve => {
+            setTimeout(() => {
+              resolve('resolved');
+            }, 1000);
+          });
+          this.fetchTaxonomy();
+        }
         this.setState({ saveStatus: 'success' }, () =>
           setTimeout(() => this.setState({ saveStatus: 'initial' }), 5000),
         );

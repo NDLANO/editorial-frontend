@@ -16,8 +16,8 @@ import {
   RemainingCharacters,
 } from '../../../components/Fields';
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
-import MetaImageSearch from './MetaImageSearch';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
+import { FormMetaImageSearch } from '../../Form';
 
 const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
   <Fragment>
@@ -38,7 +38,7 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
     />
     <FieldHeader title={t('form.metaDescription.label')}>
       <HowToHelper
-        pageId="MetaImage"
+        pageId="MetaDescription"
         tooltip={t('form.metaDescription.helpLabel')}
       />
     </FieldHeader>
@@ -59,7 +59,7 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
         }
       />
     </PlainTextField>
-    <MetaImageSearch
+    <FormMetaImageSearch
       metaImageId={model.metaImageId}
       commonFieldProps={commonFieldProps}
       {...commonFieldProps.bindInput('metaImageId')}

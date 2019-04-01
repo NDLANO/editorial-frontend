@@ -17,6 +17,7 @@ import FormikDeleteLanguageVersion from './components/FormikDeleteLanguageVersio
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
+import { ArticleShape } from '../../shapes';
 
 export const formatErrorMessage = error => ({
   message: error.json.messages
@@ -139,6 +140,7 @@ FormikWorkflow.propTypes = {
   updateArticleStatus: PropTypes.func,
   createMessage: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
+  article: ArticleShape,
 };
 
 FormikWorkflow.defaultProps = {

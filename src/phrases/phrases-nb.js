@@ -426,6 +426,7 @@ const phrases = {
       button: 'Sammenlign forskjellige språkversjoner',
       title: 'Utkast på {language}',
     },
+    previewNewWindow: 'Forhåndsvis i nytt vindu',
     contributor: {
       add: 'Legg til',
     },

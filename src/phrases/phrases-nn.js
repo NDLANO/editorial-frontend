@@ -349,11 +349,6 @@ const phrases = {
     title: 'Bilde | {title} ({key})',
   },
   learningResourceForm: {
-    metaImage: {
-      title: 'Bildetittel',
-      copyright: 'Opphav',
-      change: 'Bytt metabilde',
-    },
     title: 'Fagstoff | {title} ({key})',
     validation: {
       missingEmbedData:
@@ -364,11 +359,6 @@ const phrases = {
         title: 'Høgrespalte',
         moveContent: 'Flytt innhald inn i teksten',
         delete: 'Slett høgrespalte',
-      },
-      metaImage: {
-        title: 'Metabilde',
-        label: 'Metabilde',
-        helpLabel: 'Kva er eit metabilde?',
       },
       footnotes: {
         edition: 'Utgåve',
@@ -489,6 +479,15 @@ const phrases = {
     },
     introduction: {
       label: 'Ingress',
+    },
+    metaImage: {
+      title: 'Metabilde',
+      label: 'Metabilde',
+      imageTitle: 'Bildetittel',
+      helpLabel: 'Kva er eit metabilde?',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+      add: 'Velg metabilde',
     },
     visualElement: {
       title: 'Legg til visuelt element',

@@ -37,6 +37,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormDirty,
+  parseImageUrl,
 } from '../../../util/formHelper';
 import {
   FormWorkflow,
@@ -56,6 +57,7 @@ import AlertModal from '../../../components/AlertModal';
 
 export const getInitialModel = (article = {}, language) => {
   const visualElement = parseEmbedTag(article.visualElement);
+  const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
     revision: article.revision,
@@ -73,6 +75,8 @@ export const getInitialModel = (article = {}, language) => {
         ? article.copyright.license.license
         : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    metaImageId,
+    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     notes: [],
     visualElement: visualElement || {},
     language: language || article.language,
@@ -146,6 +150,10 @@ class TopicArticleForm extends Component {
         processors: model.processors,
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
+      },
+      metaImage: {
+        id: model.metaImageId,
+        alt: model.metaImageAlt,
       },
       notes: model.notes || [],
       language: model.language,
@@ -270,6 +278,7 @@ class TopicArticleForm extends Component {
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
             tags={tags}
+            model={model}
           />
         ),
       },

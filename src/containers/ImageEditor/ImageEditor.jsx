@@ -103,8 +103,9 @@ class ImageEditor extends Component {
   }
 
   onFieldChange(evt, field, value) {
+    const { onUpdatedImageSettings } = this.props;
     evt.stopPropagation();
-    this.props.onUpdatedImageSettings({ [field]: value });
+    onUpdatedImageSettings({ [field]: value });
   }
 
   onEditorTypeSet(evt, type) {
@@ -113,12 +114,13 @@ class ImageEditor extends Component {
 
   onRemoveData(evt, field) {
     evt.stopPropagation();
+    const { imageUpdates, onUpdatedImageSettings } = this.props;
     this.setState({
       editType: undefined,
     });
-    this.props.onUpdatedImageSettings({
+    onUpdatedImageSettings({
       transformData: {
-        ...this.props.imageUpdates.transformData,
+        ...imageUpdates.transformData,
         ...defaultData[field],
       },
     });

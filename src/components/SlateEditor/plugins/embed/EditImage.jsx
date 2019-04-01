@@ -33,10 +33,10 @@ const imageEditorWrapperStyle = css`
 class EditImage extends Component {
   constructor(props) {
     super(props);
-    const { embed } = this.props;
+    const { embed } = props;
     this.state = {
-      alt: props.embed.alt,
-      caption: props.embed.caption,
+      alt: embed.alt,
+      caption: embed.caption,
       imageUpdates: {
         transformData: {
           'focal-x': embed['focal-x'],
@@ -78,7 +78,7 @@ class EditImage extends Component {
   onUpdatedImageSettings(imageUpdates) {
     this.setState(prevState => ({
       imageUpdates: {
-        ...this.state.imageUpdates,
+        ...prevState.imageUpdates,
         ...imageUpdates,
       },
       madeChanges: true,

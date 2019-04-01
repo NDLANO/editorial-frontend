@@ -22,7 +22,7 @@ export const StyledButton = styled.button`
   text-decoration: none;
   box-shadow: none;
   color: ${({ color }) =>
-    color ? `${colors.support[color]}99` : colors.brand.tertiary}s;
+    color ? `${colors.support[color]}99` : colors.brand.tertiary};
   width: ${spacing.normal};
   height: ${spacing.normal};
 
@@ -51,7 +51,7 @@ export const StyledButton = styled.button`
   &:hover,
   &:focus {
     color: ${({ color }) =>
-      color ? `${colors.support[color]}` : colors.brand.primary}s;
+      color ? `${colors.support[color]}` : colors.brand.primary};
 
     &::before {
       transform: scale(1.25);

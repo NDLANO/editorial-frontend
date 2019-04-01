@@ -43,23 +43,12 @@ const OpenMenu = ({ t, close }) => {
               onClick={close}>
               <span>{t('subNavigation.learningPathLink')}</span>
             </StyledNormalLink>
-            <StyledMenuItem
-              to=""
-              style={{ pointerEvents: 'none', opacity: 0.3 }}>
+            <StyledMenuItem to={'/notions'} onClick={close}>
               <span>{t('subNavigation.concept')}</span>
             </StyledMenuItem>
             <StyledMenuItem to="/structure" onClick={close}>
               <span>{t('subNavigation.structure')}</span>
             </StyledMenuItem>
-            <StyledNormalLink
-              href={`https://explanations-frontend.${
-                config.ndlaEnvironment
-              }.api.ndla.no`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={close}>
-              <span>{t('subNavigation.concept')}</span>
-            </StyledNormalLink>
           </div>
         </nav>
       </div>

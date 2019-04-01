@@ -32,24 +32,25 @@ class FormMetaImageSearch extends Component {
       showImageSelect: false,
       image: undefined,
     };
+    this.onImageFetch = this.onImageFetch.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     this.onImageSelectClose = this.onImageSelectClose.bind(this);
     this.onImageSelectOpen = this.onImageSelectOpen.bind(this);
   }
-  componentDidUpdate() {
-    const { uploadedImage, clearUploadedImage } = this.props;
+  componentDidUpdate({ metaImageId: prevMetaImageId }) {
+    const { uploadedImage, clearUploadedImage, metaImageId } = this.props;
     if (uploadedImage) {
       this.onImageChange(uploadedImage);
       clearUploadedImage();
     }
+
+    if (metaImageId !== prevMetaImageId) {
+      this.onImageFetch();
+    }
   }
 
-  async componentDidMount() {
-    const { metaImageId } = this.props;
-    if (metaImageId) {
-      const image = await api.fetchImage(metaImageId);
-      this.setState({ image });
-    }
+  componentDidMount() {
+    this.onImageFetch();
   }
 
   componentWillUnmount() {
@@ -59,6 +60,13 @@ class FormMetaImageSearch extends Component {
     }
   }
 
+  async onImageFetch() {
+    const { metaImageId } = this.props;
+    if (metaImageId) {
+      const image = await api.fetchImage(metaImageId);
+      this.setState({ image });
+    }
+  }
   onImageChange(image) {
     this.onImageSelectClose();
     this.setState({ image });

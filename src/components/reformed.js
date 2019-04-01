@@ -155,6 +155,7 @@ const makeWrapper = WrappedComponent => {
         setProperty: this.setProperty,
         setSubmitted: this.setSubmitted,
         bindInput: this.bindInput,
+        setInputFlags: this.setInputFlags,
         bindToChangeEvent: this.bindToChangeEvent,
         onModelSavedToServer: this.onModelSavedToServer,
         setModel: this.setModel,

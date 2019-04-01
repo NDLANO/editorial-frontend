@@ -21,7 +21,7 @@ const StyledSelect = styled.select`
   display: block;
 `;
 
-const PreviewDraftLanguages = ({
+const LanguageSelector = ({
   supportedLanguages,
   t,
   history,
@@ -45,7 +45,7 @@ const PreviewDraftLanguages = ({
   );
 };
 
-PreviewDraftLanguages.propTypes = {
+LanguageSelector.propTypes = {
   supportedLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -56,4 +56,4 @@ PreviewDraftLanguages.propTypes = {
   history: HistoryShape,
 };
 
-export default injectT(withRouter(PreviewDraftLanguages));
+export default injectT(withRouter(LanguageSelector));

@@ -14,7 +14,7 @@ import * as articleApi from '../../modules/article/articleApi';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { queryResources } from '../../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
-import PreviewDraftLanguages from './PreviewDraftLanguages';
+import LanguageSelector from './LanguageSelector';
 
 const PreviewDraftPage = ({
   match: {
@@ -47,20 +47,26 @@ const PreviewDraftPage = ({
     return null;
   }
 
-  const contentType =
+  const contentTypeFromResourceType =
     resource && resource.length > 0
       ? getContentTypeFromResourceTypes(resource[0].resourceTypes)
       : undefined;
+
+  const contentType =
+    contentTypeFromResourceType && contentTypeFromResourceType.contentType
+      ? contentTypeFromResourceType.contentType
+      : undefined;
+
   return (
     <Fragment>
-      <Hero contentType={contentType.contentType}>
-        <PreviewDraftLanguages supportedLanguages={draft.supportedLanguages} />
+      <Hero contentType={contentType}>
+        <LanguageSelector supportedLanguages={draft.supportedLanguages} />
       </Hero>
       <OneColumn>
         <PreviewDraft
           article={draft}
           resource={resource}
-          contentType={contentType ? contentType.contentType : undefined}
+          contentType={contentType}
         />
       </OneColumn>
     </Fragment>

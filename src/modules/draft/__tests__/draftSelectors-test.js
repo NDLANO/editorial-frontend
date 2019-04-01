@@ -14,21 +14,23 @@ const state = {
   drafts: {
     isSaving: true,
     all: {
-      [topicArticleNB.id]: topicArticleNB,
+      [topicArticleNB.id]: { ...topicArticleNB, language: 'nb' },
       2: {
         id: '2',
         created: '2014-12-24T10:44:06Z',
         title: { title: 'Tester', language: 'nb' },
         metaDescription: { metaDescription: 'Beskrivelse', language: 'nb' },
         content: { language: 'nb' },
+        language: 'nb',
       },
       3: {
         id: '3',
         created: '2014-11-24T10:44:06Z',
         title: { title: 'Tester', language: 'nb' },
         content: { language: 'nb' },
+        language: 'nb',
       },
-      [topicArticleEN.id]: topicArticleEN,
+      [topicArticleEN.id]: { ...topicArticleEN, language: 'en' },
     },
   },
 };

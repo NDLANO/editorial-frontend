@@ -80,7 +80,7 @@ export const FigureButtons = ({
       </Tooltip>
       <Tooltip tooltip={url[figureType].editTitle} align="right">
         <IconButton
-          tag={Link}
+          as={Link}
           to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
           target="_blank"
           title={url[figureType].editTitle}

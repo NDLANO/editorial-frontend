@@ -60,10 +60,9 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const IconButton = ({ children, tag, ...rest }) => {
-  const WithButton = StyledButton.withComponent(tag);
-  return <WithButton {...rest}>{children}</WithButton>;
-};
+export const IconButton = ({ children, ...rest }) => (
+  <StyledButton {...rest}>{children}</StyledButton>
+);
 
 IconButton.propTypes = {
   color: PropTypes.oneOf(['red', 'green']),

@@ -39,7 +39,7 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }) => {
   );
 };
 ImageAlignButton.propTypes = {
-  currentAlign: PropTypes.string.isRequired,
+  currentAlign: PropTypes.string,
   alignType: PropTypes.string.isRequired,
   onFieldChange: PropTypes.func.isRequired,
 };

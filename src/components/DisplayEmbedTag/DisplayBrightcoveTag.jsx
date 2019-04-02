@@ -9,9 +9,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { css } from '@emotion/core';
 import config from '../../config';
+import DeleteButton from '../DeleteButton';
 
-const DisplayBrightcoveTag = ({ embedTag, className }) => {
+const removeButtonStyle = css`
+  right: -2rem;
+`;
+
+const DisplayBrightcoveTag = ({ embedTag, className, onRemoveClick }) => {
   const src = `//players.brightcove.net/${config.brightCoveAccountId}/${
     config.brightcovePlayerId
   }_default/index.min.js`;
@@ -31,6 +37,11 @@ const DisplayBrightcoveTag = ({ embedTag, className }) => {
         <track kind="captions" label={embedTag.caption} />
       </video>
       <figcaption>{embedTag.caption}</figcaption>
+      <DeleteButton
+        stripped
+        onClick={onRemoveClick}
+        style={removeButtonStyle}
+      />
     </figure>
   );
 };
@@ -42,6 +53,7 @@ DisplayBrightcoveTag.propTypes = {
     caption: PropTypes.string,
   }).isRequired,
   className: PropTypes.string,
+  onRemoveClick: PropTypes.object,
 };
 
 export default DisplayBrightcoveTag;

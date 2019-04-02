@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FocusLabel from './FocusLabel';

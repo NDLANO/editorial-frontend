@@ -34,6 +34,7 @@ import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
+import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 
 export class App extends React.Component {
   getChildContext() {
@@ -43,7 +44,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { dispatch, messages, t } = this.props;
+    const { dispatch, messages, authenticated, userName, t } = this.props;
     return (
       <ErrorBoundary>
         <PageContainer background>
@@ -51,11 +52,7 @@ export class App extends React.Component {
             meta={[{ name: 'description', content: t('meta.description') }]}
           />
           <Content>
-            <Navigation
-              t={t}
-              authenticated={this.props.authenticated}
-              userName={this.props.userName}
-            />
+            <Navigation authenticated={authenticated} userName={userName} />
             <Switch>
               <Route path="/" exact component={WelcomePage} />
               <Route path="/login" component={Login} />
@@ -68,6 +65,10 @@ export class App extends React.Component {
               <PrivateRoute
                 path="/edit-markup/:draftId/:language"
                 component={EditMarkupPage}
+              />
+              <Route
+                path="/preview/:draftId/:language"
+                component={PreviewDraftPage}
               />
               <PrivateRoute path="/media" component={MediaPage} />
               <PrivateRoute path="/agreement" component={AgreementPage} />

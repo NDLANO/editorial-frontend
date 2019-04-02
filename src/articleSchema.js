@@ -72,6 +72,10 @@ export const topicArticleSchema = {
   visualElement: {
     required: false,
   },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: model => model.metaImageId,
+  },
   'visualElement.alt': {
     required: true,
     onlyValidateIf: model =>

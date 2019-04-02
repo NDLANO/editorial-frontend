@@ -6,9 +6,8 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { injectT } from '@ndla/i18n';
-import { RemainingCharacters } from '../../components/Fields';
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
@@ -18,24 +17,17 @@ const FormikIngress = ({ t }) => (
     <FormikField
       noBorder
       label={t('form.introduction.label')}
-      name="introduction">
+      name="introduction"
+      showMaxLength
+      maxLength={300}>
       {({ field }) => (
-        <Fragment>
-          <PlainTextEditor
-            id={field.name}
-            {...field}
-            placeholder={t('form.introduction.label')}
-            className="article_introduction"
-            data-cy="learning-resource-ingress"
-          />
-          <RemainingCharacters
-            maxLength={300}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })
-            }
-            value={field.value.document.text}
-          />
-        </Fragment>
+        <PlainTextEditor
+          id={field.name}
+          {...field}
+          placeholder={t('form.introduction.label')}
+          className="article_introduction"
+          data-cy="learning-resource-ingress"
+        />
       )}
     </FormikField>
   </StyledFormContainer>

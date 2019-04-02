@@ -9,10 +9,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { RemainingCharacters } from '../../../components/Fields';
 import FormikField from '../../../components/FormikField';
 import MultiSelect from '../../../components/MultiSelect';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
+import FormikMetaImageSearch from '../../FormikForm/FormikMetaImageSearch';
 
 const TopicArticleMetadata = ({ t, tags }) => (
   <Fragment>
@@ -35,23 +35,21 @@ const TopicArticleMetadata = ({ t, tags }) => (
     </FormikField>
     <FormikField
       name="metaDescription"
+      maxLength={155}
+      showMaxLength
       label={t('form.metaDescription.label')}
       description={t('form.metaDescription.description')}>
       {({ field }) => (
-        <Fragment>
-          <PlainTextEditor
-            id={field.name}
-            placeholder={t('form.metaDescription.label')}
-            {...field}
-          />
-          <RemainingCharacters
-            maxLength={155}
-            getRemainingLabel={(maxLength, remaining) =>
-              t('form.remainingCharacters', { maxLength, remaining })
-            }
-            value={field.value.document.text}
-          />
-        </Fragment>
+        <PlainTextEditor
+          id={field.name}
+          placeholder={t('form.metaDescription.label')}
+          {...field}
+        />
+      )}
+    </FormikField>
+    <FormikField name="metaImageId">
+      {({ field }) => (
+        <FormikMetaImageSearch metaImageId={field.value} {...field} />
       )}
     </FormikField>
   </Fragment>

@@ -27,10 +27,7 @@ export const transformArticleToApiVersion = article => ({
   },
 });
 
-const getLanguageFromField = (object, field, fallback = undefined) =>
-  object && object[field] ? object[field].language : fallback;
-
-export const transformArticleFromApiVersion = (article, locale) => ({
+export const transformArticleFromApiVersion = article => ({
   ...article,
   title: convertFieldWithFallback(article, 'title', ''),
   introduction: convertFieldWithFallback(article, 'introduction', ''),
@@ -42,10 +39,6 @@ export const transformArticleFromApiVersion = (article, locale) => ({
       : undefined,
   metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
   tags: convertFieldWithFallback(article, 'tags', []),
-  language:
-    article && article.title
-      ? getLanguageFromField(article, 'title')
-      : getLanguageFromField(article, 'content', locale),
 });
 
 export const transformArticle = article => {

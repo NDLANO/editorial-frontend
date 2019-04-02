@@ -34,6 +34,7 @@ import {
   parseCopyrightContributors,
   isFormikFormDirty,
   topicArticleRules,
+  parseImageUrl,
 } from '../../../util/formHelper';
 import FormikField from '../../../components/FormikField';
 import {
@@ -56,6 +57,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
+  const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
     revision: article.revision,
@@ -73,6 +75,8 @@ export const getInitialValues = (article = {}) => {
         ? article.copyright.license.license
         : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    metaImageId,
+    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     notes: [],
     visualElement: visualElement || {},
     language: article.language,
@@ -139,6 +143,10 @@ class TopicArticleForm extends Component {
         agreementId: values.agreementId,
       },
       notes: values.notes || [],
+      metaImage: {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      },
       language: values.language,
       updated: values.updated,
       supportedLanguages: values.supportedLanguages,

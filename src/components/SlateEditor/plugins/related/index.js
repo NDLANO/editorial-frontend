@@ -27,9 +27,11 @@ export default () => {
         normalize: (editor, error) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
-              editor
-                .moveToEndOfNode(error.child)
-                .insertBlock(defaultBlocks.defaultBlock);
+              editor.withoutSaving(() => {
+                editor
+                  .moveToEndOfNode(error.child)
+                  .insertBlock(defaultBlocks.defaultBlock);
+              });
               break;
             }
             default:

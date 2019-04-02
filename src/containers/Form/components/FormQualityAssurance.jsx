@@ -12,38 +12,52 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import { toPreviewDraft } from '../../../util/routeHelpers';
+import { HistoryShape } from '../../../shapes';
+import FormActionButton from './FormActionButton';
 
-function FormQualityAssurance({ getArticle, model, onValidateClick, t }) {
-  return (
-    <div>
-      <FieldHeader title={t('form.workflow.qualityAssurance')} />
+const FormQualityAssurance = ({
+  getArticle,
+  model,
+  onValidateClick,
+  history,
+  t,
+}) => (
+  <div>
+    <FieldHeader title={t('form.workflow.qualityAssurance')} />
+    {model.id && (
+      <FormActionButton
+        outline
+        onClick={() => window.open(toPreviewDraft(model.id, model.language))}>
+        {t('form.previewNewWindow')}
+      </FormActionButton>
+    )}
+    <PreviewDraftLightbox
+      label={t('subNavigation.learningResource')}
+      typeOfPreview="preview"
+      getArticle={getArticle}
+    />
+    {model.id && (
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
-        typeOfPreview="preview"
+        typeOfPreview="previewProductionArticle"
         getArticle={getArticle}
       />
-      {model.id && (
-        <PreviewDraftLightbox
-          label={t('subNavigation.learningResource')}
-          typeOfPreview="previewProductionArticle"
-          getArticle={getArticle}
-        />
-      )}
-      {model.id && (
-        <PreviewDraftLightbox
-          label={t('subNavigation.learningResource')}
-          typeOfPreview="previewLanguageArticle"
-          getArticle={getArticle}
-        />
-      )}
-      {model.id && (
-        <Button outline onClick={onValidateClick}>
-          {t('form.validate')}
-        </Button>
-      )}
-    </div>
-  );
-}
+    )}
+    {model.id && (
+      <PreviewDraftLightbox
+        label={t('subNavigation.learningResource')}
+        typeOfPreview="previewLanguageArticle"
+        getArticle={getArticle}
+      />
+    )}
+    {model.id && (
+      <Button outline onClick={onValidateClick}>
+        {t('form.validate')}
+      </Button>
+    )}
+  </div>
+);
 
 FormQualityAssurance.propTypes = {
   getArticle: PropTypes.func,
@@ -51,6 +65,7 @@ FormQualityAssurance.propTypes = {
     id: PropTypes.number,
   }),
   onValidateClick: PropTypes.func.isRequired,
+  history: HistoryShape,
 };
 
 export default injectT(FormQualityAssurance);

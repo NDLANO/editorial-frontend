@@ -349,11 +349,6 @@ const phrases = {
     title: 'Bilde | {title} ({key})',
   },
   learningResourceForm: {
-    metaImage: {
-      title: 'Bildetittel',
-      copyright: 'Opphav',
-      change: 'Bytt metabilde',
-    },
     title: 'Fagstoff | {title} ({key})',
     validation: {
       missingEmbedData:
@@ -364,11 +359,6 @@ const phrases = {
         title: 'Høgrespalte',
         moveContent: 'Flytt innhald inn i teksten',
         delete: 'Slett høgrespalte',
-      },
-      metaImage: {
-        title: 'Metabilde',
-        label: 'Metabilde',
-        helpLabel: 'Kva er eit metabilde?',
       },
       footnotes: {
         edition: 'Utgåve',
@@ -461,6 +451,7 @@ const phrases = {
       button: 'Samanlikn forskjellige språkversjoner',
       title: 'Utkast på {language}',
     },
+    previewNewWindow: 'Forhåndsvis i nytt vindu',
     contributor: {
       add: 'Legg til',
     },
@@ -508,6 +499,15 @@ const phrases = {
     introduction: {
       label: 'Ingress',
     },
+    metaImage: {
+      title: 'Metabilde',
+      label: 'Metabilde',
+      imageTitle: 'Bildetittel',
+      helpLabel: 'Kva er eit metabilde?',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+      add: 'Velg metabilde',
+    },
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
@@ -535,6 +535,7 @@ const phrases = {
       user_test: 'Brukertest',
       awaiting_quality_assurance: 'Til kvalitetssikring',
       queued_for_language: 'Til språk',
+      translated: 'Ferdig fra språk',
       quality_assured: 'Publiseringsklar',
       queued_for_publishing: 'Til publisering',
       published: 'Publisert',
@@ -547,6 +548,7 @@ const phrases = {
         USER_TEST: 'Brukertest',
         AWAITING_QUALITY_ASSURANCE: 'Til kvalitetssikring',
         QUEUED_FOR_LANGUAGE: 'Til språk',
+        TRANSLATED: 'Ferdig fra språk',
         QUALITY_ASSURED: 'Publiseringsklar',
         QUEUED_FOR_PUBLISHING: 'Til publisering',
         PUBLISHED: 'Publiser',

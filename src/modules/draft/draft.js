@@ -8,7 +8,6 @@
 
 import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
-import { getLocale } from '../locale/locale';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 
 export const fetchDraft = createAction('FETCH_DRAFT');
@@ -83,7 +82,6 @@ export const getSaving = createSelector(
 
 export const getDraft = articleId =>
   createSelector(
-    [getDraftById(articleId), getLocale],
-    (article, locale) =>
-      article ? transformArticleFromApiVersion(article, locale) : undefined,
+    [getDraftById(articleId)],
+    article => (article ? transformArticleFromApiVersion(article) : undefined),
   );

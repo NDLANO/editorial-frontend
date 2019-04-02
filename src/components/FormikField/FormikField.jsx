@@ -1,26 +1,38 @@
+/*
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'formik';
+import { injectT } from '@ndla/i18n';
+import { Field, connect } from 'formik';
 import { Value } from 'slate';
 import get from 'lodash/fp/get';
-import { connect } from 'formik';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
 import { classes } from './';
-import FormikFieldError from './FormikFieldError';
+import FormikFieldHelp from './FormikFieldHelp';
+import FormikRemainingCharacters from './FormikRemainingCharacters';
 
 const FormikField = ({
   children,
   className,
   label,
   name,
+  maxLength,
+  showMaxLength,
   noBorder,
   title,
   right,
   description,
   obligatory,
   showError,
+  t,
   formik: { values, handleBlur, errors, touched },
   ...rest
 }) => {
@@ -51,7 +63,7 @@ const FormikField = ({
         description={description}
         obligatory={obligatory}
       />
-      <Field name={name} {...rest} {...fieldActions}>
+      <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
         {children
           ? formikProps => {
               return children({
@@ -64,8 +76,17 @@ const FormikField = ({
             }
           : null}
       </Field>
+      {showMaxLength && maxLength && (
+        <FormikRemainingCharacters
+          maxLength={maxLength}
+          getRemainingLabel={(maxLength, remaining) =>
+            t('form.remainingCharacters', { maxLength, remaining })
+          }
+          value={isSlateValue ? values[name].document.text : values[name]}
+        />
+      )}
       {showError && get(name, errors) && get(name, touched) && (
-        <FormikFieldError>{get(name, errors)}</FormikFieldError>
+        <FormikFieldHelp error>{get(name, errors)}</FormikFieldHelp>
       )}
     </div>
   );
@@ -82,11 +103,14 @@ FormikField.propTypes = {
   obligatory: PropTypes.bool,
   description: PropTypes.string,
   formik: FormikShape,
+  maxLength: PropTypes.number,
+  showMaxLength: PropTypes.bool,
 };
 
 FormikField.defaultProps = {
   noBorder: false,
   showError: true,
+  showMaxLength: false,
 };
 
-export default connect(FormikField);
+export default injectT(connect(FormikField));

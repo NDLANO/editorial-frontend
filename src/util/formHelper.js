@@ -122,3 +122,12 @@ export const topicArticleRules = {
         values.visualElement.resource === 'brightcove'),
   },
 };
+
+export const parseImageUrl = metaImage => {
+  if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
+    return '';
+  }
+
+  const splittedUrl = metaImage.url.split('/');
+  return splittedUrl[splittedUrl.length - 1];
+};

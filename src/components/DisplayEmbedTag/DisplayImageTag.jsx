@@ -12,6 +12,10 @@ import { css } from '@emotion/core';
 import config from '../../config';
 import DeleteButton from '../DeleteButton';
 
+const displayImageTagStyle = css`
+  right: -2rem;
+`;
+
 const DisplayImageTag = ({ embedTag, className, onRemoveClick }) => {
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${embedTag.resource_id}`;
   return (
@@ -21,9 +25,7 @@ const DisplayImageTag = ({ embedTag, className, onRemoveClick }) => {
       <DeleteButton
         stripped
         onClick={onRemoveClick}
-        style={css`
-          right: -2rem;
-        `}
+        style={displayImageTagStyle}
       />
     </figure>
   );

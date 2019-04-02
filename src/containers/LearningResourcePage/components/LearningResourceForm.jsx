@@ -116,14 +116,18 @@ class LearningResourceForm extends Component {
       initialModel.revision !== prevModel.revision ||
       initialModel.language !== prevModel.language
     ) {
-      console.log(initialModel.language !== prevModel.language);
-      console.log(initialModel);
       setModel(initialModel);
     }
   }
 
   async onReset() {
-    const { articleId, setModel, selectedLanguage, t } = this.props;
+    const {
+      articleId,
+      setModel,
+      selectedLanguage,
+      setInputFlags,
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -133,10 +137,14 @@ class LearningResourceForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      setModel(getInitialModel(convertedArticle, selectedLanguage));
+      const initialModel = getInitialModel(convertedArticle, selectedLanguage);
+      Object.keys(initialModel).forEach(key =>
+        setInputFlags(key, { dirty: true }),
+      );
+      setModel(initialModel);
       this.setState({ showResetModal: false });
-    } catch (e) {
-      if (e.status === 404) {
+    } catch (err) {
+      if (err.status === 404) {
         this.setState({
           showResetModal: false,
           error: t('errorMessage.noArticleInProd'),
@@ -349,6 +357,7 @@ class LearningResourceForm extends Component {
         ),
       });
     }
+
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -474,6 +483,7 @@ LearningResourceForm.propTypes = {
   userAccess: PropTypes.string,
   article: ArticleShape,
   savedToServer: PropTypes.bool,
+  setInputFlags: PropTypes.func,
 };
 
 export default compose(

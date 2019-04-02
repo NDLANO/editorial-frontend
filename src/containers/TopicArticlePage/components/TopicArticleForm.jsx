@@ -94,10 +94,10 @@ class TopicArticleForm extends Component {
         this.setState({ error: undefined });
       }
       const articleFromProd = await getArticle(articleId);
-      const convertedArticle = transformArticleFromApiVersion(
-        articleFromProd,
-        selectedLanguage,
-      );
+      const convertedArticle = transformArticleFromApiVersion({
+        ...articleFromProd,
+        language: selectedLanguage,
+      });
       const initialValues = getInitialValues(convertedArticle);
       this.setState({ showResetModal: false }, () => setValues(initialValues));
     } catch (err) {
@@ -282,6 +282,7 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
+  savedToServer: PropTypes.bool,
 };
 
 export default compose(

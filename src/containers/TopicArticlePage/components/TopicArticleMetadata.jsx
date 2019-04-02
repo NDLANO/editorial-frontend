@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import FormikField from '../../../components/FormikField';
 import MultiSelect from '../../../components/MultiSelect';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import FormikMetaImageSearch from '../../FormikForm/FormikMetaImageSearch';
+import { FormikMetaImageSearch } from '../../FormikForm';
 
 const TopicArticleMetadata = ({ t, tags }) => (
   <Fragment>

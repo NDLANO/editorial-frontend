@@ -8,6 +8,7 @@ import FormikLicense from './components/FormikLicense.jsx';
 import FormikHeader from './FormikHeader';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
 import FormikActionButton from './components/FormikActionButton';
+import FormikMetaImageSearch from './FormikMetaImageSearch';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -24,5 +25,6 @@ export {
   FormikLicense,
   FormikHeader,
   FormikActionButton,
+  FormikMetaImageSearch,
   formClasses,
 };

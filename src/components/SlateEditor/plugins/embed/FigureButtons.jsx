@@ -47,7 +47,7 @@ const StyledFigureButtons = styled('div')`
     `}
 `;
 
-export const FigureButtons = ({
+const FigureButtons = ({
   t,
   embed,
   locale,
@@ -55,6 +55,7 @@ export const FigureButtons = ({
   figureType,
   onRemoveClick,
   withMargin,
+  onEdit,
 }) => {
   const url = {
     audio: {
@@ -78,17 +79,26 @@ export const FigureButtons = ({
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      <Tooltip tooltip={url[figureType].editTitle} align="right">
-        <IconButton
-          as={Link}
-          to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
-          target="_blank"
-          title={url[figureType].editTitle}
-          color="green"
-          tabIndex={-1}>
-          <Pencil />
-        </IconButton>
-      </Tooltip>
+      {(figureType === 'image' || figureType === 'audio') && (
+        <Tooltip tooltip={url[figureType].editTitle} align="right">
+          <IconButton
+            as={Link}
+            to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
+            target="_blank"
+            title={url[figureType].editTitle}
+            color="green"
+            tabIndex={-1}>
+            <Pencil />
+          </IconButton>
+        </Tooltip>
+      )}
+      {figureType === 'external' && onEdit && (
+        <Tooltip tooltip={t('form.video.editExternal')} align="right">
+          <IconButton color="green" tabIndex={-1} onClick={onEdit}>
+            <Pencil />
+          </IconButton>
+        </Tooltip>
+      )}
     </StyledFigureButtons>
   );
 };
@@ -98,8 +108,9 @@ FigureButtons.propTypes = {
   embed: EmbedShape.isRequired,
   tooltip: PropTypes.string.isRequired,
   figureType: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
+  locale: PropTypes.string,
   withMargin: PropTypes.bool,
+  onEdit: PropTypes.func,
 };
 
 export default injectT(FigureButtons);

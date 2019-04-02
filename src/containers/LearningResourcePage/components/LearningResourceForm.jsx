@@ -115,8 +115,6 @@ class LearningResourceForm extends Component {
       initialModel.revision !== prevModel.revision ||
       initialModel.language !== prevModel.language
     ) {
-      console.log(initialModel.language !== prevModel.language);
-      console.log(initialModel);
       setModel(initialModel);
     }
   }

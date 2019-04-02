@@ -8,13 +8,9 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
-import darken from 'polished/lib/color/darken';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
 import Types from 'slate-prop-types';
-import { Pencil } from '@ndla/icons/action';
-import { colors } from '@ndla/core';
+import { Figure } from '@ndla/ui';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -24,20 +20,7 @@ import { EditorShape } from '../../shapes';
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
-import CrossButton from '../CrossButton';
-
-const colorFigureButtonsLinkStyle = color => css`
-  text-decoration: none;
-  line-height: 1.625;
-  box-shadow: none;
-  color: ${color};
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    color: ${darken(0.1, color)};
-  }
-`;
+import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -53,19 +36,20 @@ export class DisplayExternal extends Component {
   }
 
   componentDidMount() {
-    this.getPropsFromEmbed(this.props.url);
+    this.getPropsFromEmbed();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.url !== this.props.url) {
-      this.getPropsFromEmbed(this.props.url);
+    const { embed } = this.props;
+    if (prevProps.embed.url !== embed.url) {
+      this.getPropsFromEmbed();
     }
   }
 
   onEditEmbed(properties) {
-    const { editor, node } = this.props;
+    const { editor, node, embed } = this.props;
 
-    if (properties.url !== this.props.url) {
+    if (properties.url !== embed.url) {
       editor.setNodeByKey(node.key, {
         data: {
           ...properties,
@@ -75,14 +59,14 @@ export class DisplayExternal extends Component {
     }
   }
 
-  async getPropsFromEmbed(url) {
+  async getPropsFromEmbed() {
     const { embed } = this.props;
-    const domain = urlDomain(url);
+    const domain = urlDomain(embed.url);
     this.setState({ domain });
 
     if (embed.resource === 'external') {
       try {
-        const data = await fetchExternalOembed(url);
+        const data = await fetchExternalOembed(embed.url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {
           this.setState({
@@ -101,7 +85,7 @@ export class DisplayExternal extends Component {
     } else {
       this.setState({
         title: domain,
-        src: url,
+        src: embed.url,
         type: embed.resource,
         height: embed.height,
       });
@@ -126,7 +110,7 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, t } = this.props;
+    const { onRemoveClick, embed, t } = this.props;
     const {
       isEditMode,
       title,
@@ -171,24 +155,19 @@ export class DisplayExternal extends Component {
     }
 
     return (
-      <Fragment>
-        <div>
-          <CrossButton
-            css={colorFigureButtonsLinkStyle(colors.support.red)}
-            stripped
-            onClick={onRemoveClick}
-          />
-          {allowedProvider.name && (
-            <Button
-              css={colorFigureButtonsLinkStyle(colors.support.green)}
-              stripped
-              onClick={() =>
-                this.openEditEmbed(allowedProvider.name.toLowerCase())
-              }>
-              <Pencil />
-            </Button>
-          )}
-        </div>
+      <Figure id={embed.url} className="c-figure">
+        <FigureButtons
+          tooltip={t('form.video.remove')}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          figureType="external"
+          onEdit={
+            allowedProvider.name
+              ? () => this.openEditEmbed(allowedProvider.name.toLowerCase())
+              : undefined
+          }
+        />
+
         <iframe
           ref={iframe => {
             this.iframe = iframe;
@@ -208,13 +187,12 @@ export class DisplayExternal extends Component {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
-      </Fragment>
+      </Figure>
     );
   }
 }
 
 DisplayExternal.propTypes = {
-  url: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,

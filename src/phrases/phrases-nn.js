@@ -730,6 +730,8 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
+      editExternal: 'Rediger eksternt element',
+      remove: 'Fjern video',
     },
     audio: {
       file: 'Lydfil',

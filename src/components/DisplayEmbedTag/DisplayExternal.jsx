@@ -10,7 +10,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
-import { Figure } from '@ndla/ui';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -155,11 +154,12 @@ export class DisplayExternal extends Component {
     }
 
     return (
-      <Figure id={embed.url} className="c-figure">
+      <div className="c-figure">
         <FigureButtons
           tooltip={t('form.video.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
+          t={t}
           figureType="external"
           onEdit={
             allowedProvider.name
@@ -167,7 +167,6 @@ export class DisplayExternal extends Component {
               : undefined
           }
         />
-
         <iframe
           ref={iframe => {
             this.iframe = iframe;
@@ -187,7 +186,7 @@ export class DisplayExternal extends Component {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
-      </Figure>
+      </div>
     );
   }
 }

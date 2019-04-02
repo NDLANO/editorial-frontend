@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
@@ -113,4 +112,4 @@ FigureButtons.propTypes = {
   onEdit: PropTypes.func,
 };
 
-export default injectT(FigureButtons);
+export default FigureButtons;

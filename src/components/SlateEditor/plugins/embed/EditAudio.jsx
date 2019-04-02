@@ -113,6 +113,7 @@ class EditAudio extends Component {
             />
             <FigureButtons
               figureType="audio"
+              t={t}
               tooltip={t('form.audio.remove')}
               onRemoveClick={onRemoveClick}
               embed={embed}

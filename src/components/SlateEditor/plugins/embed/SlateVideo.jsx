@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { Figure } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import config from '../../../../config';
@@ -41,11 +40,12 @@ class SlateVideo extends React.PureComponent {
       config.brightcovePlayerId
     }_default/index.min.js`;
     return (
-      <Figure id={embed.videoid} className="c-figure" {...attributes}>
+      <div className="c-figure" {...attributes}>
         <FigureButtons
           tooltip={t('form.video.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
+          t={t}
           figureType="video"
         />
         <Helmet>
@@ -90,7 +90,7 @@ class SlateVideo extends React.PureComponent {
             </Button>
           </>
         )}
-      </Figure>
+      </div>
     );
   }
 }

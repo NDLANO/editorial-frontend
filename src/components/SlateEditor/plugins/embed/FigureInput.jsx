@@ -66,7 +66,7 @@ FigureInput.propTypes = {
   caption: PropTypes.string,
   alt: PropTypes.string,
   submitted: PropTypes.bool,
-  isEmpty: PropTypes.bool,
+  isEmpty: PropTypes.func,
   madeChanges: PropTypes.bool,
   onEdit: PropTypes.func,
   onAbort: PropTypes.func,

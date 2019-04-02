@@ -89,7 +89,7 @@ EditVideo.propTypes = {
   toggleEditModus: PropTypes.func,
   embed: EmbedShape.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
-  figureClass: PropTypes.string.isRequired,
+  figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
 };
 
 export default injectT(EditVideo);

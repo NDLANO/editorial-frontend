@@ -44,7 +44,6 @@ export const isFormikFormDirty = ({
   values,
   initialValues,
   showSaved = false,
-  touched,
   dirty = false,
 }) => {
   if (!dirty) {
@@ -53,17 +52,15 @@ export const isFormikFormDirty = ({
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];
   const dirtyFields = [];
-  Object.keys(values)
-    .filter(valueKey => touched[valueKey])
-    .forEach(dirtyValue => {
-      if (slateFields.includes(dirtyValue)) {
-        if (isEditorValueDirty(values[dirtyValue])) {
-          dirtyFields.push(dirtyValue);
-        }
-      } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
+  Object.keys(values).forEach(dirtyValue => {
+    if (slateFields.includes(dirtyValue)) {
+      if (isEditorValueDirty(values[dirtyValue])) {
         dirtyFields.push(dirtyValue);
       }
-    });
+    } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
+      dirtyFields.push(dirtyValue);
+    }
+  });
   return dirtyFields.length > 0 && !showSaved;
 };
 

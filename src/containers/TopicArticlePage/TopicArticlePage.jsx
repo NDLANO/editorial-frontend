@@ -11,7 +11,6 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import * as messageActions from '../Messages/messagesActions';
-import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
@@ -60,7 +59,6 @@ TopicArticlePage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -78,7 +76,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
-  isSaving: getSaving(state),
   licenses: getAllLicenses(state),
 });
 

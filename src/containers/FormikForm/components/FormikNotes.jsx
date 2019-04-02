@@ -69,46 +69,45 @@ const shortenName = name =>
     return ` ${namePart.substring(0, 1).toUpperCase()}.`;
   });
 
-class FormikNotes extends React.Component {
-  static async getDerivedStateFromProps(props, state) {
-    const userIds = props.notes
-      .map(note => note.user)
-      .filter(user => user !== 'System');
-    const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-
-    if (state.users.length !== uniqueUserIds) {
-      const users = await fetchAuth0Users(uniqueUserIds);
-      return { users };
-    }
-    return undefined;
-  }
-
+class FormikNotes extends React.PureComponent {
   constructor() {
     super();
     this.getUsername = this.getUsername.bind(this);
+    this.getUsersFromNotes = this.getUsersFromNotes.bind(this);
     this.state = {
       users: [],
     };
   }
 
   async componentDidMount() {
+    this.getUsersFromNotes();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.notes.length !== this.props.notes.length) {
+      this.getUsersFromNotes();
+    }
+  }
+
+  async getUsersFromNotes() {
     const { notes } = this.props;
     const userIds = notes
       .map(note => note.user)
       .filter(user => user !== 'System');
     const uniqueUserIds = Array.from(new Set(userIds)).join(',');
     const users = await fetchAuth0Users(uniqueUserIds);
-    if (users && !users.error) {
-      users.push({ name: 'System', app_metadata: { ndla_id: 'System' } });
-    }
+    const systemUser = { id: 'System', name: 'System' };
     this.setState({
       users:
         users && !users.error
-          ? users.map(user => ({
-              id: user.app_metadata.ndla_id,
-              name: user.name,
-            }))
-          : [{ id: 'System', name: 'System' }],
+          ? [
+              ...users.map(user => ({
+                id: user.app_metadata.ndla_id,
+                name: user.name,
+              })),
+              systemUser,
+            ]
+          : [systemUser],
     });
   }
 

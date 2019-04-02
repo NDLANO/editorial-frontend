@@ -45,6 +45,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
         updateArticleStatus={updateArticleStatus}
         tags={tags}
         article={{ ...article, language }}
+        articleId={articleId}
         {...rest}
       />
     </Fragment>
@@ -53,7 +54,6 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
 
 EditTopicArticle.propTypes = {
   articleId: PropTypes.string.isRequired,
-  updateDraft: PropTypes.func.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
   createMessage: PropTypes.func.isRequired,
 };

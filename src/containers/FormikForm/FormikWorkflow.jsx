@@ -8,12 +8,16 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import * as draftApi from '../../modules/draft/draftApi';
 import FormikStatusActions from './components/FormikStatusActions';
 import FormikStatusColumns from './components/FormikStatusColumns';
 import FormikQualityAssurance from './components/FormikQualityAssurance';
 import FormikDeleteLanguageVersion from './components/FormikDeleteLanguageVersion';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
+import FormikAddNotes from './FormikAddNotes';
+import FormikField from '../../components/FormikField';
+import { ArticleShape } from '../../shapes';
 
 export const formatErrorMessage = error => ({
   message: error.json.messages
@@ -90,12 +94,24 @@ class FormikWorkflow extends Component {
   }
 
   render() {
-    const { values, articleStatus, getArticle, children } = this.props;
+    const { values, articleStatus, getArticle, article, t } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
       <Fragment>
-        {children}
+        <FormikField name="notes" showError={false}>
+          {({ field, form: { errors, touched } }) => (
+            <FormikAddNotes
+              showError={touched[field.name] && !!errors[field.name]}
+              labelHeading={t('form.notes.heading')}
+              labelAddNote={t('form.notes.add')}
+              article={article}
+              labelRemoveNote={t('form.notes.remove')}
+              labelWarningNote={errors[field.name]}
+              {...field}
+            />
+          )}
+        </FormikField>
         <FormikStatusColumns articleStatus={articleStatus} />
         <FormikStatusActions
           articleStatus={articleStatus}
@@ -124,6 +140,7 @@ FormikWorkflow.propTypes = {
   updateArticleStatus: PropTypes.func,
   createMessage: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
+  article: ArticleShape,
 };
 
 FormikWorkflow.defaultProps = {
@@ -134,4 +151,4 @@ FormikWorkflow.defaultProps = {
   article: {},
 };
 
-export default FormikWorkflow;
+export default injectT(FormikWorkflow);

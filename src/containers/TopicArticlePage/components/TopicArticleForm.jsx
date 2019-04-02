@@ -107,7 +107,13 @@ class TopicArticleForm extends Component {
   }
 
   async onReset() {
-    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+    const {
+      articleId,
+      setModel,
+      selectedLanguage,
+      setInputFlags,
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -117,7 +123,13 @@ class TopicArticleForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+
+      const initialModel = getInitialModel(convertedArticle, selectedLanguage);
+      setModel(initialModel);
+      Object.keys(initialModel).forEach(key =>
+        setInputFlags(key, { dirty: true }),
+      );
+
       this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
@@ -416,6 +428,7 @@ TopicArticleForm.propTypes = {
   }).isRequired,
   article: ArticleShape,
   savedToServer: PropTypes.bool,
+  setInputFlags: PropTypes.func,
 };
 
 export default compose(

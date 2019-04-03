@@ -24,6 +24,7 @@ export const isFormDirty = ({ fields, model, showSaved = false }) => {
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];
   const dirtyFields = [];
+  console.log('fields', fields);
   Object.keys(fields)
     .filter(field => fields[field].dirty)
     .forEach(dirtyField => {

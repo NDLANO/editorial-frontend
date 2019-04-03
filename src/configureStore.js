@@ -18,8 +18,10 @@ export default function configureStore(initialState) {
 
   const createFinalStore = compose(
     applyMiddleware(sagaMiddleware, errorReporter),
-    process.env.BUILD_TARGET === 'client' && window && window.devToolsExtension
-      ? window.devToolsExtension()
+    process.env.BUILD_TARGET === 'client' &&
+      window &&
+      window.__REDUX_DEVTOOLS_EXTENSION__
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : f => f,
   )(createStore);
 

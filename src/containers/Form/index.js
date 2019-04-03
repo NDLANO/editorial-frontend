@@ -14,11 +14,13 @@ import FormCopyright from './FormCopyright';
 import AlertModalWrapper from './AlertModalWrapper';
 import FormHeader from './FormHeader';
 import FormActionButton from './components/FormActionButton';
+import FormMetaImageSearch from './FormMetaImageSearch';
 
 export {
   AgreementConnection,
   formClasses,
   FormWorkflow,
+  FormMetaImageSearch,
   FormCopyright,
   FormAddNotes,
   FormHeader,

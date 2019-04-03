@@ -66,6 +66,10 @@ export function toEditAgreement(agreementId) {
   return `/agreement/${agreementId}/edit`;
 }
 
+export function toPreviewDraft(draftId, language) {
+  return `/preview/${draftId}/${language}`;
+}
+
 export function to404() {
   return '/404';
 }

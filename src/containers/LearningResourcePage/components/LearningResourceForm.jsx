@@ -47,6 +47,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormDirty,
+  parseImageUrl,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -54,15 +55,6 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { articleConverter } from '../../../modules/draft/draft';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-
-const parseImageUrl = metaImage => {
-  if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
-    return '';
-  }
-
-  const splittedUrl = metaImage.url.split('/');
-  return splittedUrl[splittedUrl.length - 1];
-};
 
 export const getInitialModel = (article = {}, language) => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -128,7 +120,13 @@ class LearningResourceForm extends Component {
   }
 
   async onReset() {
-    const { articleId, setModel, selectedLanguage, t } = this.props;
+    const {
+      articleId,
+      setModel,
+      selectedLanguage,
+      setInputFlags,
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -138,10 +136,14 @@ class LearningResourceForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      setModel(getInitialModel(convertedArticle, selectedLanguage));
+      const initialModel = getInitialModel(convertedArticle, selectedLanguage);
+      Object.keys(initialModel).forEach(key =>
+        setInputFlags(key, { dirty: true }),
+      );
+      setModel(initialModel);
       this.setState({ showResetModal: false });
-    } catch (e) {
-      if (e.status === 404) {
+    } catch (err) {
+      if (err.status === 404) {
         this.setState({
           showResetModal: false,
           error: t('errorMessage.noArticleInProd'),
@@ -346,6 +348,7 @@ class LearningResourceForm extends Component {
         ),
       });
     }
+
     return (
       <form onSubmit={this.handleSubmit} {...formClasses()}>
         <FormHeader
@@ -471,6 +474,7 @@ LearningResourceForm.propTypes = {
   userAccess: PropTypes.string,
   article: ArticleShape,
   savedToServer: PropTypes.bool,
+  setInputFlags: PropTypes.func,
 };
 
 export default compose(

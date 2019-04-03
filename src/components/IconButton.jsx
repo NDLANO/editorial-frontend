@@ -22,7 +22,7 @@ export const StyledButton = styled.button`
   text-decoration: none;
   box-shadow: none;
   color: ${({ color }) =>
-    color ? `${colors.support[color]}99` : colors.brand.tertiary}s;
+    color ? `${colors.support[color]}99` : colors.brand.tertiary};
   width: ${spacing.normal};
   height: ${spacing.normal};
 
@@ -51,7 +51,7 @@ export const StyledButton = styled.button`
   &:hover,
   &:focus {
     color: ${({ color }) =>
-      color ? `${colors.support[color]}` : colors.brand.primary}s;
+      color ? `${colors.support[color]}` : colors.brand.primary};
 
     &::before {
       transform: scale(1.25);
@@ -60,10 +60,9 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const IconButton = ({ children, tag, ...rest }) => {
-  const WithButton = StyledButton.withComponent(tag);
-  return <WithButton {...rest}>{children}</WithButton>;
-};
+export const IconButton = ({ children, ...rest }) => (
+  <StyledButton {...rest}>{children}</StyledButton>
+);
 
 IconButton.propTypes = {
   color: PropTypes.oneOf(['red', 'green']),

@@ -43,6 +43,18 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'Issuu', url: ['e.issuu.com'] },
-  { name: 'Geogebra', url: ['www.geogebra.org'] },
-  { name: 'IMDB', url: ['www.imdb.com'], height: '398px' },
+  { name: 'Geogebra', url: ['geogebra.org', 'ggbm.at'] },
+  { name: 'IMDB', url: ['www.imdb.com', 'imdb.com'], height: '398px' },
+  { name: 'Tom Knudsen', url: ['www.tomknudsen.no', 'tomknudsen.no'] },
+  { name: 'Phet', url: ['phet.colorado.edu'] },
+  { name: 'Worldbank', url: ['worldbank.org', '*.worldbank.org'] },
+  {
+    name: 'Miljøstatus',
+    url: [
+      'www.miljostatus.no',
+      'miljostatus.no',
+      'miljoatlas.miljodirektoratet.no',
+    ],
+    height: '398px',
+  },
 ];

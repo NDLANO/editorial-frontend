@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { formClasses } from '../../Form';
+import { formClasses } from '../';
 import MetaInformation from '../../../components/MetaInformation';
 import { TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
@@ -21,12 +21,7 @@ const metaImageButtonStyle = css`
   display: block;
 `;
 
-const MetaImage = ({
-  image,
-  toggleImageSearchLightBox,
-  commonFieldProps,
-  t,
-}) => {
+const FormMetaImage = ({ image, onImageSelectOpen, commonFieldProps, t }) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
@@ -34,13 +29,13 @@ const MetaImage = ({
   const title = convertFieldWithFallback(image, 'title', '');
   const alt = convertFieldWithFallback(image, 'alttext', '');
   const imageAction = (
-    <Button css={metaImageButtonStyle} onClick={toggleImageSearchLightBox}>
-      {t('learningResourceForm.metaImage.change')}
+    <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
+      {t('form.metaImage.change')}
     </Button>
   );
   const metaInformationTranslations = {
-    title: t('learningResourceForm.metaImage.title'),
-    copyright: t('learningResourceForm.metaImage.copyright'),
+    title: t('form.metaImage.imageTitle'),
+    copyright: t('form.metaImage.copyright'),
   };
   return (
     <Fragment>
@@ -65,10 +60,10 @@ const MetaImage = ({
   );
 };
 
-MetaImage.propTypes = {
+FormMetaImage.propTypes = {
   image: PropTypes.shape({}),
-  toggleImageSearchLightBox: PropTypes.func.isRequired,
+  onImageSelectOpen: PropTypes.func.isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
-export default injectT(MetaImage);
+export default injectT(FormMetaImage);

@@ -65,18 +65,21 @@ const RichTextEditor = class extends React.PureComponent {
     } else if (isUnderlinedHotkey(e)) {
       mark = 'underlined';
     } else if (e.key === 'Backspace') {
-      const { selection } = value;
-      const numberOfNodesInSection = value.document.nodes.first().nodes.size;
-      if (
-        numberOfNodesInSection === 1 &&
-        value.document.text.length === 0 &&
-        selection.isCollapsed &&
-        selection.anchor.isAtStartOfNode(value.document)
-      ) {
-        this.props.removeSection(this.props.index);
-        return;
+      const { removeSection, index } = this.props;
+      if (removeSection) {
+        const { selection } = value;
+        const numberOfNodesInSection = value.document.nodes.first().nodes.size;
+        if (
+          numberOfNodesInSection === 1 &&
+          value.document.text.length === 0 &&
+          selection.isCollapsed &&
+          selection.anchor.isAtStartOfNode(value.document)
+        ) {
+          removeSection(index);
+          return;
+        }
+        next();
       }
-      next();
     }
 
     if (mark) {

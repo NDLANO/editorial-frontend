@@ -43,8 +43,8 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const fetchTags = async () => {
-    const tags = await draftApi.fetchTags(locale);
-    setTags(tags ? tags.tags : []);
+    const newTags = await draftApi.fetchTags(locale);
+    setTags(newTags ? newTags.tags : []);
   };
 
   useEffect(() => {

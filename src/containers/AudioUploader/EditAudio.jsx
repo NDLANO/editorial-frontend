@@ -7,12 +7,10 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { createFormData } from '../../util/formDataHelper';
-import { toEditAudio } from '../../util/routeHelpers';
 
 const transformAudio = audio => {
   const audioLanguage =
@@ -31,8 +29,7 @@ const transformAudio = audio => {
     : undefined;
 };
 
-const EditAudio = props => {
-  const { history, locale, audioId, audioLanguage, ...rest } = props;
+const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
   const [audio, setAudio] = useState({});
 
   const fetchAudio = async () => {
@@ -42,16 +39,11 @@ const EditAudio = props => {
     }
   };
 
-  const upsertAudio = async (newAudio, file) => {
+  const onUpdate = async (newAudio, file) => {
     const formData = await createFormData(file, newAudio);
-    const updatedAudio = newAudio.id
-      ? await audioApi.updateAudio(formData)
-      : await audioApi.postAudio(formData);
+    const updatedAudio = await audioApi.updateAudio(newAudio.id, formData);
     const transformedAudio = transformAudio(updatedAudio);
     setAudio(transformedAudio);
-    if (!newAudio.id) {
-      history.push(toEditAudio(updatedAudio.id, newAudio.language));
-    }
   };
 
   useEffect(() => {
@@ -67,7 +59,7 @@ const EditAudio = props => {
     <AudioForm
       audio={{ ...audio, language }}
       revision={audio && audio.revision}
-      onUpdate={upsertAudio}
+      onUpdate={onUpdate}
       audioLanguage={audioLanguage}
       {...rest}
     />
@@ -75,7 +67,7 @@ const EditAudio = props => {
 };
 
 EditAudio.propTypes = {
-  audioId: PropTypes.string,
+  audioId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -83,12 +75,8 @@ EditAudio.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  audioLanguage: PropTypes.string,
+  audioLanguage: PropTypes.string.isRequired,
 };
 
-export default withRouter(EditAudio);
+export default EditAudio;

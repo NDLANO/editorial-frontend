@@ -25,7 +25,7 @@ class FormikAlertModalWrapper extends PureComponent {
     const { history, isSubmitting } = this.props;
     this.unblock = history.block(nextLocation => {
       const canNavigate =
-        !isSubmitting ||
+        isSubmitting ||
         !isFormikFormDirty(this.props) ||
         this.state.discardChanges;
       if (!canNavigate) {
@@ -39,6 +39,7 @@ class FormikAlertModalWrapper extends PureComponent {
           discardChanges: false,
         });
       }
+      console.log('canNavigate', canNavigate, this.props);
       return canNavigate;
     });
 

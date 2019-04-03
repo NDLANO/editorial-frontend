@@ -247,7 +247,6 @@ class TopicArticleForm extends Component {
                   !isFormikFormDirty({
                     values,
                     initialValues,
-                    showSaved: false,
                     dirty,
                   })
                 }>
@@ -282,7 +281,6 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
-  savedToServer: PropTypes.bool,
 };
 
 export default compose(

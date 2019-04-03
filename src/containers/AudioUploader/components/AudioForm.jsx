@@ -20,6 +20,7 @@ import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
+  isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import {
@@ -83,9 +84,12 @@ class AudioForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      savedToServer: false,
+    };
   }
 
-  handleSubmit(values, actions) {
+  async handleSubmit(values, actions) {
     const { licenses, onUpdate, revision } = this.props;
     const audioMetaData = {
       id: values.id,
@@ -101,20 +105,14 @@ class AudioForm extends Component {
         rightsholders: values.rightsholders,
       },
     };
-    onUpdate(audioMetaData, values.audioFile);
+    await onUpdate(audioMetaData, values.audioFile);
+    actions.setSubmitting(false);
+    this.setState({ savedToServer: true });
   }
 
   render() {
-    const {
-      t,
-      tags,
-      licenses,
-      isSaving,
-      showSaved,
-      history,
-      audio,
-    } = this.props;
-
+    const { t, tags, licenses, history, audio } = this.props;
+    const { savedToServer } = this.state;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
         id: 'audio-upload-content',
@@ -150,14 +148,15 @@ class AudioForm extends Component {
         ),
       },
     ];
+    const initialValues = getInitialValues(audio);
     return (
       <Formik
-        initialValues={getInitialValues(audio)}
+        initialValues={initialValues}
         onSubmit={this.handleSubmit}
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values } = formikProps;
+          const { values, dirty, isSubmitting } = formikProps;
           return (
             <Form {...formClasses()}>
               <FormikHeader
@@ -196,16 +195,26 @@ class AudioForm extends Component {
               <Field right>
                 <FormikActionButton
                   outline
-                  disabled={isSaving}
+                  disabled={isSubmitting}
                   onClick={history.goBack}>
                   {t('form.abort')}
                 </FormikActionButton>
-                <SaveButton isSaving={isSaving} showSaved={showSaved} />
+                <SaveButton
+                  {...formClasses}
+                  isSaving={isSubmitting}
+                  showSaved={
+                    savedToServer &&
+                    !isFormikFormDirty({
+                      values,
+                      initialValues,
+                      dirty,
+                    })
+                  }
+                />
               </Field>
               <FormikAlertModalWrapper
                 {...formikProps}
                 severity="danger"
-                showSaved={showSaved}
                 text={t('alertModal.notSaved')}
               />
             </Form>
@@ -225,8 +234,6 @@ AudioForm.propTypes = {
   ).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   onUpdate: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
   history: PropTypes.shape({
     goBack: PropTypes.func,

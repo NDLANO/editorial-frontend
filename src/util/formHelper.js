@@ -40,12 +40,7 @@ export const isFormDirty = ({ fields, model, showSaved = false }) => {
   return dirtyFields.length > 0 && !showSaved;
 };
 
-export const isFormikFormDirty = ({
-  values,
-  initialValues,
-  showSaved = false,
-  dirty = false,
-}) => {
+export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   if (!dirty) {
     return false;
   }
@@ -61,7 +56,7 @@ export const isFormikFormDirty = ({
       dirtyFields.push(dirtyValue);
     }
   });
-  return dirtyFields.length > 0 && !showSaved;
+  return dirtyFields.length > 0;
 };
 
 export const getErrorMessages = (label, name, schema) =>

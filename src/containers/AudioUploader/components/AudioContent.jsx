@@ -29,7 +29,6 @@ const AudioContent = ({ t, values, setFieldValue }) => (
             name="audioFile"
             type="file"
             onChange={evt => {
-              //setFieldValue("file", event.currentTarget.files[0]);
               setFieldValue(
                 'filepath',
                 evt.target && evt.target.files[0]

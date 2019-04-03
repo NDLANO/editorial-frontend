@@ -370,6 +370,7 @@ const phrases = {
     headingThree: 'Heading 3',
     footnote: 'Footnote',
     mathml: 'Math',
+    concept: 'Concept',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -482,6 +483,10 @@ const phrases = {
       image: 'Image search',
       imageUpload: 'Upload image',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Create concept',
+      addText: 'Choose a concept and press "connect to topic", or',
     },
     workflow: {
       title: 'Status',

@@ -499,6 +499,10 @@ const phrases = {
       imageUpload: 'Last opp bilde',
       h5p: 'H5P',
     },
+    concept: {
+      create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+    },
     workflow: {
       title: 'Status',
       change: 'Endre status',

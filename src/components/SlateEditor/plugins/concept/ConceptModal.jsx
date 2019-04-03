@@ -12,10 +12,12 @@ import { toConcept } from '../../../../util/routeHelpers';
 const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
   useEffect(() => {
     window.addEventListener('message', handleMessage);
+
     return () => {
       window.removeEventListener('message', handleMessage);
     };
   });
+
   const [mode, setMode] = useState(id ? 'edit' : 'search');
   const iframeSrc = toConcept({
     id,
@@ -31,7 +33,7 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
       backgroundColor="white"
       minHeight="90vh">
       {() => (
-        <>
+        <div css={modalStyles}>
           <ModalHeader>
             <StyledHeader>
               {mode === 'search' && 'Legg til eksisterende begrep'}
@@ -43,6 +45,7 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
           <ModalBody>
             {mode === 'search' && (
               <StyledModalButtons>
+                <span>{t('form.concept.addText')}</span>
                 <Button
                   onClick={() => {
                     setMode('create');
@@ -58,14 +61,14 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
               css={iframeStyle}
             />
           </ModalBody>
-        </>
+        </div>
       )}
     </Modal>
   );
 };
 
 const iframeStyle = css`
-  height: 70vh;
+  height: 95%;
   border: none;
 `;
 
@@ -75,12 +78,24 @@ const StyledModalButtons = styled.div`
   margin-bottom: 20px;
 
   & > span {
-    margin-left: 20px;
+    margin: 0 20px;
   }
 `;
 
 const StyledHeader = styled.h1`
   align-self: flex-start;
+`;
+
+const modalStyles = css`
+  height: 90vh;
+
+  & > .modal-body {
+    height: 84vh;
+  }
+
+  & > .modal-header {
+    height: 6vh;
+  }
 `;
 
 ConceptModal.propTypes = {

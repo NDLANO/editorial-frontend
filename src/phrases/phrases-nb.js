@@ -434,6 +434,7 @@ const phrases = {
     },
     concept: {
       create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
     },
     abort: 'Avbryt',
     edit: 'Rediger',

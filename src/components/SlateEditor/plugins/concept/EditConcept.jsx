@@ -13,7 +13,7 @@ import { getLocale } from '../../../../modules/locale/locale';
 import { fetchConcept } from '../../../../modules/article/articleApi';
 import ConceptModal from './ConceptModal';
 import handleError from '../../../../util/handleError';
-import { getConceptUrl } from '../../../../util/routeHelpers';
+import config from '../../../../config';
 
 const setConceptDataAttributes = ({ conceptId, text }) => ({
   data: {
@@ -75,7 +75,7 @@ class EditConcept extends React.PureComponent {
   }
 
   AddNewConcept({ data, origin }) {
-    if (origin !== getConceptUrl(true) || !data) return;
+    if (origin !== config.explanationFrontendDomain || !data) return;
     const { conceptId } = data;
     const {
       node: { key, text },

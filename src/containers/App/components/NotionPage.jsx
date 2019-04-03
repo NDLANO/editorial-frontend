@@ -12,13 +12,7 @@ const StyledIframe = styled.iframe`
 `;
 
 const NotionPage = props => {
-  return (
-    <StyledIframe
-      src={`https://explanations-frontend.${
-        config.ndlaEnvironment
-      }.api.ndla.no`}
-    />
-  );
+  return <StyledIframe src={config.explanationFrontendDomain} />;
 };
 
 NotionPage.propTypes = {};

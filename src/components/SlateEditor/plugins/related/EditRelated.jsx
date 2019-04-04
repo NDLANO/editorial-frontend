@@ -142,7 +142,7 @@ class EditRelated extends React.PureComponent {
           }}>
           <Portal isOpened>
             <StyledBorderDiv
-              innerRef={embedEl => {
+              ref={embedEl => {
                 this.embedEl = embedEl;
               }}
               {...rest}>

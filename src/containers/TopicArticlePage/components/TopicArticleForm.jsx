@@ -37,6 +37,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormDirty,
+  parseImageUrl,
 } from '../../../util/formHelper';
 import {
   FormWorkflow,
@@ -56,6 +57,7 @@ import AlertModal from '../../../components/AlertModal';
 
 export const getInitialModel = (article = {}, language) => {
   const visualElement = parseEmbedTag(article.visualElement);
+  const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
     revision: article.revision,
@@ -73,6 +75,8 @@ export const getInitialModel = (article = {}, language) => {
         ? article.copyright.license.license
         : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    metaImageId,
+    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     notes: [],
     visualElement: visualElement || {},
     language: language || article.language,
@@ -103,7 +107,13 @@ class TopicArticleForm extends Component {
   }
 
   async onReset() {
-    const { articleId, setModel, taxonomy, selectedLanguage, t } = this.props;
+    const {
+      articleId,
+      setModel,
+      selectedLanguage,
+      setInputFlags,
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -113,7 +123,13 @@ class TopicArticleForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      setModel(getInitialModel(convertedArticle, taxonomy, selectedLanguage));
+
+      const initialModel = getInitialModel(convertedArticle, selectedLanguage);
+      setModel(initialModel);
+      Object.keys(initialModel).forEach(key =>
+        setInputFlags(key, { dirty: true }),
+      );
+
       this.setState({ showResetModal: false });
     } catch (e) {
       if (e.status === 404) {
@@ -146,6 +162,10 @@ class TopicArticleForm extends Component {
         processors: model.processors,
         rightsholders: model.rightsholders,
         agreementId: model.agreementId,
+      },
+      metaImage: {
+        id: model.metaImageId,
+        alt: model.metaImageAlt,
       },
       notes: model.notes || [],
       language: model.language,
@@ -270,6 +290,7 @@ class TopicArticleForm extends Component {
           <TopicArticleMetadata
             commonFieldProps={commonFieldProps}
             tags={tags}
+            model={model}
           />
         ),
       },
@@ -410,6 +431,7 @@ TopicArticleForm.propTypes = {
   }).isRequired,
   article: ArticleShape,
   savedToServer: PropTypes.bool,
+  setInputFlags: PropTypes.func,
 };
 
 export default compose(

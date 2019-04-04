@@ -15,49 +15,56 @@ import {
   RemainingCharacters,
 } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
+import { FormMetaImageSearch } from '../../Form';
 
-const TopicArticleMetadata = ({
-  t,
-  commonFieldProps: { bindInput, ...handlers },
-  tags,
-}) => (
-  <Fragment>
-    <MultiSelectField
-      obligatory
-      name="tags"
-      data={tags}
-      label={t('form.tags.label')}
-      description={t('form.tags.description')}
-      messages={{
-        createOption: t('form.tags.createOption'),
-        emptyFilter: t('form.tags.emptyFilter'),
-        emptyList: t('form.tags.emptyList'),
-      }}
-      bindInput={bindInput}
-      {...handlers}
-    />
-    <PlainTextField
-      label={t('form.metaDescription.label')}
-      placeholder={t('form.metaDescription.label')}
-      description={t('form.metaDescription.description')}
-      name="metaDescription"
-      maxLength={155}
-      {...bindInput('metaDescription')}
-      {...handlers}>
-      <RemainingCharacters
-        maxLength={155}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={bindInput('metaDescription').value.document.text}
+const TopicArticleMetadata = ({ t, commonFieldProps, tags, model }) => {
+  const { bindInput, ...handlers } = commonFieldProps;
+  return (
+    <Fragment>
+      <MultiSelectField
+        obligatory
+        name="tags"
+        data={tags}
+        label={t('form.tags.label')}
+        description={t('form.tags.description')}
+        messages={{
+          createOption: t('form.tags.createOption'),
+          emptyFilter: t('form.tags.emptyFilter'),
+          emptyList: t('form.tags.emptyList'),
+        }}
+        {...commonFieldProps}
       />
-    </PlainTextField>
-  </Fragment>
-);
-
+      <PlainTextField
+        label={t('form.metaDescription.label')}
+        placeholder={t('form.metaDescription.label')}
+        description={t('form.metaDescription.description')}
+        name="metaDescription"
+        maxLength={155}
+        {...bindInput('metaDescription')}
+        {...handlers}>
+        <RemainingCharacters
+          maxLength={155}
+          getRemainingLabel={(maxLength, remaining) =>
+            t('form.remainingCharacters', { maxLength, remaining })
+          }
+          value={bindInput('metaDescription').value.document.text}
+        />
+      </PlainTextField>
+      <FormMetaImageSearch
+        metaImageId={model.metaImageId}
+        commonFieldProps={commonFieldProps}
+        {...bindInput('metaImageId')}
+      />
+    </Fragment>
+  );
+};
 TopicArticleMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   commonFieldProps: CommonFieldPropsShape.isRequired,
+  model: PropTypes.shape({
+    metaImageId: PropTypes.string,
+    metaImageAlt: PropTypes.string,
+  }),
 };
 
 export default injectT(TopicArticleMetadata);

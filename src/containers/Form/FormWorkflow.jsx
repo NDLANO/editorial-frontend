@@ -54,22 +54,29 @@ class FormWorkflow extends Component {
       getArticle,
       createMessage,
       revision,
+      formIsDirty,
     } = this.props;
-
-    try {
-      if (
-        status === articleStatuses.PUBLISHED ||
-        status === articleStatuses.QUEUED_FOR_PUBLISHING
-      ) {
-        await draftApi.validateDraft(id, {
-          ...getArticle(),
-          revision,
-        });
-      }
-      updateStatusDraft({ id, status });
-    } catch (error) {
-      if (error && error.json && error.json.messages) {
-        createMessage(formatErrorMessage(error));
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      try {
+        if (
+          status === articleStatuses.PUBLISHED ||
+          status === articleStatuses.QUEUED_FOR_PUBLISHING
+        ) {
+          await draftApi.validateDraft(id, {
+            ...getArticle(),
+            revision,
+          });
+        }
+        updateStatusDraft({ id, status });
+      } catch (error) {
+        if (error && error.json && error.json.messages) {
+          createMessage(formatErrorMessage(error));
+        }
       }
     }
   }

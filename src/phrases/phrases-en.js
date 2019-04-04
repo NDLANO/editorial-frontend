@@ -351,11 +351,6 @@ const phrases = {
         moveContent: 'Move content into the text',
         delete: 'Delete right aside',
       },
-      metaImage: {
-        title: 'Meta image',
-        label: 'Meta image',
-        helpLabel: 'What is a meta image?',
-      },
       footnotes: {
         edition: 'Edition',
         publisher: 'Publisher',
@@ -421,6 +416,7 @@ const phrases = {
       button: 'Compare language versions',
       title: 'Draft on {language}',
     },
+    previewNewWindow: 'Preview in a new window',
     contributor: {
       add: 'Add',
     },
@@ -472,6 +468,15 @@ const phrases = {
     introduction: {
       label: 'Introduction',
     },
+    metaImage: {
+      copyright: 'Copyright',
+      change: 'Change meta image',
+      title: 'Meta image',
+      imageTitle: 'Image title',
+      label: 'Meta image',
+      helpLabel: 'What is a meta image?',
+      add: 'Choose meta image',
+    },
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
@@ -503,6 +508,7 @@ const phrases = {
       user_test: 'User test',
       awaiting_quality_assurance: 'Quality assurance',
       queued_for_language: 'Queued for language',
+      translated: 'Language done',
       quality_assured: 'Ready for publishing',
       queued_for_publishing: 'Queued for publishing',
       published: 'Published',
@@ -515,6 +521,7 @@ const phrases = {
         USER_TEST: 'User test',
         AWAITING_QUALITY_ASSURANCE: 'To Quality assurance',
         QUEUED_FOR_LANGUAGE: 'Queued for language',
+        TRANSLATED: 'Language done',
         QUALITY_ASSURED: 'Ready for publishing',
         QUEUED_FOR_PUBLISHING: 'Queue for publishng',
         PUBLISHED: 'Publish',

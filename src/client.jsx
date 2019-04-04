@@ -41,7 +41,7 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const browserHistory = createBrowserHistory(basename);
+const browserHistory = createBrowserHistory({ basename });
 
 configureTracker({
   listen: browserHistory.listen,

@@ -7,6 +7,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import Accordion, {
   AccordionWrapper,
@@ -34,6 +35,7 @@ import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
+import * as messageActions from '../../Messages/messagesActions';
 
 export const getInitialValues = (audio = {}) => ({
   id: audio.id,
@@ -89,25 +91,38 @@ class AudioForm extends Component {
     };
   }
 
+  componentDidUpdate({ audioLanguage: prevAudioLanguage }) {
+    const { audioLanguage } = this.props;
+    if (audioLanguage && audioLanguage !== prevAudioLanguage) {
+      this.setState({ savedToServer: false });
+    }
+  }
+
   async handleSubmit(values, actions) {
-    const { licenses, onUpdate, revision } = this.props;
-    const audioMetaData = {
-      id: values.id,
-      revision,
-      title: values.title,
-      language: values.language,
-      tags: values.tags,
-      copyright: {
-        license: licenses.find(license => license.license === values.license),
-        origin: values.origin,
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-      },
-    };
-    await onUpdate(audioMetaData, values.audioFile);
-    actions.setSubmitting(false);
-    this.setState({ savedToServer: true });
+    const { licenses, onUpdate, revision, applicationError } = this.props;
+    try {
+      const audioMetaData = {
+        id: values.id,
+        revision,
+        title: values.title,
+        language: values.language,
+        tags: values.tags,
+        copyright: {
+          license: licenses.find(license => license.license === values.license),
+          origin: values.origin,
+          creators: values.creators,
+          processors: values.processors,
+          rightsholders: values.rightsholders,
+        },
+      };
+      await onUpdate(audioMetaData, values.audioFile);
+      actions.setSubmitting(false);
+      this.setState({ savedToServer: true });
+    } catch (err) {
+      applicationError(err);
+      actions.setSubmitting(false);
+      this.setState({ savedToServer: false });
+    }
   }
 
   render() {
@@ -225,6 +240,10 @@ class AudioForm extends Component {
   }
 }
 
+const mapDispatchToProps = {
+  applicationError: messageActions.applicationError,
+};
+
 AudioForm.propTypes = {
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -239,9 +258,15 @@ AudioForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   audio: AudioShape,
+  applicationError: PropTypes.func.isRequired,
+  audioLanguage: PropTypes.string,
 };
 
 export default compose(
+  connect(
+    undefined,
+    mapDispatchToProps,
+  ),
   withRouter,
   injectT,
 )(AudioForm);

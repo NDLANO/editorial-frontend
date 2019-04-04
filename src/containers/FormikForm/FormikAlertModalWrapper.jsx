@@ -39,7 +39,6 @@ class FormikAlertModalWrapper extends PureComponent {
           discardChanges: false,
         });
       }
-      console.log('canNavigate', canNavigate, this.props);
       return canNavigate;
     });
 

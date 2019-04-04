@@ -67,11 +67,13 @@ TopicArticlePage.propTypes = {
   ).isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
   createMessage: (message = {}) => messageActions.addMessage(message),
+  applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = state => ({

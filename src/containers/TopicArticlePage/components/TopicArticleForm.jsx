@@ -87,6 +87,13 @@ class TopicArticleForm extends Component {
     };
   }
 
+  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
+    const { selectedLanguage } = this.props;
+    if (selectedLanguage !== prevSelectedLanguage) {
+      this.setState({ savedToServer: false });
+    }
+  }
+
   async onResetFormToProd({ setValues }) {
     const { articleId, selectedLanguage, t } = this.props;
     try {
@@ -146,7 +153,13 @@ class TopicArticleForm extends Component {
   }
 
   async handleSubmit(values, actions) {
-    const { revision, createMessage, articleStatus, onUpdate } = this.props;
+    const {
+      revision,
+      createMessage,
+      articleStatus,
+      onUpdate,
+      applicationError,
+    } = this.props;
     const status = articleStatus ? articleStatus.current : undefined;
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
@@ -162,13 +175,20 @@ class TopicArticleForm extends Component {
         return;
       }
     }
-    await onUpdate({
-      ...this.getArticle(values),
-      revision,
-    });
-    actions.setSubmitting(false);
-    actions.setFieldValue('notes', [], false);
-    this.setState({ savedToServer: true });
+
+    try {
+      await onUpdate({
+        ...this.getArticle(values),
+        revision,
+      });
+      actions.setSubmitting(false);
+      actions.setFieldValue('notes', [], false);
+      this.setState({ savedToServer: true });
+    } catch (err) {
+      applicationError(err);
+      actions.setSubmitting(false);
+      this.setState({ savedToServer: false });
+    }
   }
 
   render() {
@@ -271,6 +291,7 @@ TopicArticleForm.propTypes = {
   revision: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
@@ -281,6 +302,7 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
+  selectedLanguage: PropTypes.string.isRequired,
 };
 
 export default compose(

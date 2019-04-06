@@ -26,7 +26,9 @@ function onDrop(event, editor, next) {
   if (Text.isText(sourceNode)) {
     editor
       .insertTextAtRange(targetRange, sourceNode.text)
-      .removeNodeByKey(sourceNode.key);
+      .removeNodeByKey(sourceNode.key)
+      .moveToEndOfText()
+      .focus();
     return;
   }
 
@@ -34,15 +36,22 @@ function onDrop(event, editor, next) {
     editor.withoutNormalizing(() => {
       editor
         .moveNodeByKey(topLevelSourceNode.key, topLevelTarget.key, 0)
-        .unwrapNodeByKey(topLevelSourceNode.key);
+        .unwrapNodeByKey(topLevelSourceNode.key)
+        .moveToEndOfNode(topLevelSourceNode);
     });
   } else {
     editor.withoutNormalizing(() => {
       editor
         .moveNodeByKey(topLevelSourceNode.key, topLevelTarget.key, 0)
-        .unwrapNodeByKey(topLevelSourceNode.key);
+        .unwrapNodeByKey(topLevelSourceNode.key)
+        .moveToEndOfNode(topLevelSourceNode);
     });
   }
+}
+
+function onDragOver(event, editor, next) {
+  event.stopPropagation();
+  event.preventDefault();
 }
 
 function onDragStart(event, editor, next) {
@@ -52,4 +61,4 @@ function onDragStart(event, editor, next) {
   event.dataTransfer.setData('text/nodeKey', dragSource.key);
 }
 
-export default { onDragStart, onDrop, schema: {} };
+export default { onDragStart, onDragOver, onDrop, schema: {} };

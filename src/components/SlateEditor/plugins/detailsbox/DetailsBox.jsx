@@ -16,6 +16,7 @@ import styled from '@emotion/styled';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
+import { DragHorizontal } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { EditorShape } from '../../../../shapes';
@@ -108,6 +109,9 @@ const DetailsBox = props => {
         </Modal>
       </Portal>
       <div css={contentStyle(open)}>{contentNodes}</div>
+      <div draggable css={dragItemStyle}>
+        <DragHorizontal />
+      </div>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
     </div>
   );
@@ -196,6 +200,13 @@ const editButtonStyle = css`
       opacity: 1;
     }
   }
+`;
+
+const dragItemStyle = css`
+  position: absolute;
+  top: 0.1rem;
+  right: 1.5rem;
+  cursor: grab;
 `;
 
 DetailsBox.propTypes = {

@@ -12,7 +12,9 @@ import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
+import { DragHorizontal } from '@ndla/icons/editor';
 import DeleteButton from '../../../DeleteButton';
+
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
@@ -52,6 +54,13 @@ const factBoxButtonStyle = css`
   }
 `;
 
+const dragItemStyle = css`
+  position: absolute;
+  top: 0.1rem;
+  right: 1.5rem;
+  cursor: grab;
+`;
+
 class SlateFactAside extends React.Component {
   constructor() {
     super();
@@ -85,7 +94,9 @@ class SlateFactAside extends React.Component {
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-
+        <div draggable css={dragItemStyle}>
+          <DragHorizontal />
+        </div>
         <DeleteButton
           stripped
           onMouseDown={onRemoveClick}

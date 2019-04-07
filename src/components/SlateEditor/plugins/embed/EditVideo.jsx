@@ -7,6 +7,15 @@ import Overlay from '../../../Overlay';
 import { EmbedShape } from '../../../../shapes';
 import { StyledInputWrapper } from './FigureInput';
 
+const videoStyle = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  right: '0px',
+};
+
 class EditVideo extends Component {
   componentDidMount() {
     const { placeholderEl, embedEl } = this;
@@ -45,16 +54,9 @@ class EditVideo extends Component {
               ref={embedEl => {
                 this.embedEl = embedEl;
               }}>
-              <figure style={{ paddingTop: '56.25%' }} {...figureClass}>
+              <figure css={{ paddingTop: '56.25%' }} {...figureClass}>
                 <video
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: '0px',
-                    left: '0px',
-                    right: '0px',
-                  }}
+                  css={videoStyle}
                   data-video-id={embed.videoid}
                   data-account={embed.account}
                   data-player={embed.player}

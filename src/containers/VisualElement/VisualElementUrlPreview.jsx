@@ -41,6 +41,7 @@ const StyledButtonWrapper = styled('div')`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+
   > * {
     margin-bottom: ${spacing.small};
     margin-right: ${spacing.small};

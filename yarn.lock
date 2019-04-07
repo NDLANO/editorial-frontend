@@ -976,6 +976,13 @@
   dependencies:
     "@ndla/core" "^0.6.0"
 
+"@ndla/button@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.1.tgz#5b3526730a38aac072738cb8441e9f0cc562f4ff"
+  integrity sha512-c34SGwTZVwNq5H9ILvx0kvJcLFwm2DCq+EWNfWwOXI0+22bVQCvPzL4g24AOxVf5vqlwPYN5uCoM/HUCzhGkZg==
+  dependencies:
+    "@ndla/core" "^0.6.1"
+
 "@ndla/carousel@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.2.0.tgz#37d79461fc9e7fef57b39692b09bc1f71831a9c4"
@@ -987,6 +994,16 @@
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.0.tgz#e7b6b5e8a6f4c66d33205e3d65edd0fa4dec190d"
   integrity sha512-af/d0wQTY5YMH13j6NOaDmBeHAhXDvhJFzEw2B0rK2LOXJrPu0nceJHMj/1r17Z2zwUxDofC2QvY2jfiSm5SDA==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.1.tgz#ae0d7701fff56f99e7c3b06f67efd32222ff109e"
+  integrity sha512-ffXC1q5eUyyaLV3S/DO2b0fo7NQcb19V9bXxWE4PM3LiB7Hr9w1fE6o90FkHmnHrkJxiabdrejyUW2m7e84ZQg==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -1072,6 +1089,15 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
+"@ndla/licenses@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.1.tgz#62a928a30349442eab75230e4faeb02e4d8f5c95"
+  integrity sha512-RMNFFD1N3VmJUtrC2Esk96zPN5QfpLJHDjiWNLa5DahqooKtD8eYuwS1H5WF99MGfF31j3OuU1alHkUBcHBH0w==
+  dependencies:
+    "@ndla/core" "^0.6.1"
+    defined "1.0.0"
+    react-bem-helper "1.4.1"
+
 "@ndla/modal@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.1.tgz#ec9c7a983bb45d4216cb368bae5033a541cea15b"
@@ -1081,6 +1107,25 @@
     "@ndla/core" "^0.6.0"
     "@ndla/util" "^0.3.2"
     focus-trap-react "^6.0.0"
+
+"@ndla/modal@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.2.tgz#e33da56dcf908850586e198b9eb49f69a9521b41"
+  integrity sha512-1phHg1Wes2DCXGr/QJ9Yep4a+tVpI6mfpS/e+OJmLiAHk4PF4vt2s8dq96hUF7+zBtt1ETDN5RmieW49hm2FMw==
+  dependencies:
+    "@ndla/button" "^0.3.1"
+    "@ndla/core" "^0.6.1"
+    "@ndla/util" "^0.3.3"
+    focus-trap-react "^6.0.0"
+
+"@ndla/notion@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.2.2.tgz#4a253006dd20f5b8602b6b7313c8915f81fd0943"
+  integrity sha512-dxVXxPDtt/fdC3AM7doT0JI+8NfZanUl8zOBFF1Mob0F3H3OHOdsVjhEa/RZ2hKL3XHG2BfqOSnCroQXq4Xe6g==
+  dependencies:
+    "@ndla/core" "^0.6.1"
+    "@ndla/licenses" "^0.6.1"
+    "@ndla/modal" "^0.3.2"
 
 "@ndla/pager@^0.4.0":
   version "0.4.0"
@@ -1160,6 +1205,13 @@
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.2.tgz#31158f2a846a0a4b92dab2c524f3e978f6a98fc5"
   integrity sha512-dA6GIdlm5azqPDQJD0YvB06e27Q67lNDqPg35VpUns/i0lR5JgDMs9gZcQ5e9uHJAn7tH/ileFoYjUM+E+qflQ==
+  dependencies:
+    defined "1.0.0"
+
+"@ndla/util@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.3.tgz#fa8dde706d36c67990f46a3d16f4585e4418c8da"
+  integrity sha512-tYfHSJPP6qYRALFGZ5DLfCoJw0RMN8LoNXko/EoHCP6m/nQN0c0A8D7DvyR7V9EXXZDiHX7FqANlALQLyUsS9g==
   dependencies:
     defined "1.0.0"
 
@@ -10433,6 +10485,11 @@ react-is@^16.7.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.7.0.tgz#c1bd21c64f1f1364c6f70695ec02d69392f41bfa"
   integrity sha512-Z0VRQdF4NPDoI0tsXVMLkJLiwEBa+RP66g0xDHxgxysxSoCUccSten4RTF/UFvZF1dZvZ9Zu1sx+MDXwcOR34g==
 
+react-is@^16.8.6:
+  version "16.8.6"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
+  integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
+
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
@@ -10535,15 +10592,15 @@ react-test-renderer@^16.0.0-0:
     prop-types "^15.6.0"
     react-is "^16.4.2"
 
-react-test-renderer@^16.5.2:
-  version "16.7.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.7.0.tgz#1ca96c2b450ab47c36ba92cd8c03fcefc52ea01c"
-  integrity sha512-tFbhSjknSQ6+ttzmuGdv+SjQfmvGcq3PFKyPItohwhhOBmRoTf1We3Mlt3rJtIn85mjPXOkKV+TaKK4irvk9Yg==
+react-test-renderer@^16.8.6:
+  version "16.8.6"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.8.6.tgz#188d8029b8c39c786f998aa3efd3ffe7642d5ba1"
+  integrity sha512-H2srzU5IWYT6cZXof6AhUcx/wEyJddQ8l7cLM/F7gDXYyPr4oq+vCIxJYXVGhId1J706sqziAjuOEjyNkfgoEw==
   dependencies:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    react-is "^16.7.0"
-    scheduler "^0.12.0"
+    react-is "^16.8.6"
+    scheduler "^0.13.6"
 
 react-testing-library@^4.1.5:
   version "4.1.9"
@@ -11255,18 +11312,18 @@ sax@^1.2.4, sax@~1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
-scheduler@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.12.0.tgz#8ab17699939c0aedc5a196a657743c496538647b"
-  integrity sha512-t7MBR28Akcp4Jm+QoR63XgAi9YgCUmgvDHqf5otgAj4QvdoBE4ImCX0ffehefePPG+aitiYHp0g/mW6s4Tp+dw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
 scheduler@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.0.tgz#e701f62e1b3e78d2bbb264046d4e7260f12184dd"
   integrity sha512-w7aJnV30jc7OsiZQNPVmBc+HooZuvQZIZIShKutC3tnMFMkcwVN9CZRRSSNw03OnSCKmEkK8usmwcw6dqBaLzw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+
+scheduler@^0.13.6:
+  version "0.13.6"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
+  integrity sha512-IWnObHt413ucAYKsD9J1QShUKkbKLQQHdxRyw73sw4FN26iWr3DY/H34xGPe4nmL1DwXyWmSWmMrA9TfQbE/XQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

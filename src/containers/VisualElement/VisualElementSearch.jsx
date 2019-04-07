@@ -86,7 +86,6 @@ class VisualElementSearch extends Component {
     const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
       provider => provider.name,
     ).filter(name => name === selectedResource);
-
     switch (selectedResource) {
       case 'image':
         return (

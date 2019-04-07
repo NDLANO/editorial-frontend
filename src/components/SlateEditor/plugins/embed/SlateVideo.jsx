@@ -61,7 +61,7 @@ class SlateVideo extends React.PureComponent {
           />
         ) : (
           <>
-            <figure style={{ paddingTop: '56.25%' }} {...figureClass}>
+            <figure draggable style={{ paddingTop: '56.25%' }} {...figureClass}>
               <video
                 style={{
                   width: '100%',

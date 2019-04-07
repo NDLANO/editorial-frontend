@@ -173,6 +173,7 @@ export class RelatedArticleBox extends React.Component {
     return (
       <div
         role="button"
+        draggable
         tabIndex={0}
         data-testid="relatedWrapper"
         onClick={this.openEditMode}

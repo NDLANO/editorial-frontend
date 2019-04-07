@@ -14,7 +14,6 @@ import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
-import { DragHorizontal } from '@ndla/icons/editor';
 import darken from 'polished/lib/color/darken';
 import { css } from '@emotion/core';
 import DeleteButton from '../../../DeleteButton';
@@ -36,13 +35,6 @@ const StyledBodyBox = styled('div')`
   position: relative;
 `;
 
-const dragItemStyle = css`
-  position: absolute;
-  top: 0.1rem;
-  right: 3rem;
-  cursor: grab;
-`;
-
 const SlateBodyBox = props => {
   const { node, editor, t, attributes, children } = props;
 
@@ -55,11 +47,8 @@ const SlateBodyBox = props => {
   };
 
   return (
-    <StyledBodyBox className="c-bodybox" {...attributes}>
+    <StyledBodyBox draggable className="c-bodybox" {...attributes}>
       {children}
-      <div draggable css={dragItemStyle}>
-        <DragHorizontal />
-      </div>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
       <Button
         css={moveContentButtonStyle}

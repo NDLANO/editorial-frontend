@@ -62,7 +62,7 @@ const DetailsBox = props => {
   };
 
   return (
-    <div css={detailsWrapper} {...props.attributes}>
+    <div css={detailsWrapper} draggable={!showEditModal} {...props.attributes}>
       <StyledRow>
         <summary css={summaryStyle(open)} onClick={toggleOpen}>
           {summaryNode}
@@ -109,9 +109,6 @@ const DetailsBox = props => {
         </Modal>
       </Portal>
       <div css={contentStyle(open)}>{contentNodes}</div>
-      <div draggable css={dragItemStyle}>
-        <DragHorizontal />
-      </div>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
     </div>
   );
@@ -200,13 +197,6 @@ const editButtonStyle = css`
       opacity: 1;
     }
   }
-`;
-
-const dragItemStyle = css`
-  position: absolute;
-  top: 0.1rem;
-  right: 1.5rem;
-  cursor: grab;
 `;
 
 DetailsBox.propTypes = {

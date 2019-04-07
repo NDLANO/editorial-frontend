@@ -85,7 +85,9 @@ const getAuth0Hostname = () => {
 };
 
 const explanationFrontendDomain = () => {
-  if (process.env.LOCAL_NOTION) return 'http://localhost:3100';
+  if (process.env.LOCAL_NOTION) {
+    return 'http://localhost:3100';
+  }
   return `https://explanations-frontend.${ndlaEnvironment}.api.ndla.no`;
 };
 

@@ -502,6 +502,8 @@ const phrases = {
     concept: {
       create: 'Opprett nytt begrep',
       addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger begrep',
+      addConcept: 'Legg til eksisterende begrep',
     },
     workflow: {
       title: 'Status',

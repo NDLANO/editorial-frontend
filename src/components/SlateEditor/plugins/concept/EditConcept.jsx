@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Notion from '@ndla/notion';
-
 import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import {
@@ -69,13 +68,15 @@ class EditConcept extends React.PureComponent {
     try {
       const { data: concept } = await fetchConcept(conceptId, locale);
       this.setState({ concept, linkText: node.data.get('link-text') });
-    } catch (e) {
-      handleError(e);
+    } catch (err) {
+      handleError(err);
     }
   }
 
   AddNewConcept({ data, origin }) {
-    if (origin !== config.explanationFrontendDomain || !data) return;
+    if (origin !== config.explanationFrontendDomain || !data) {
+      return;
+    }
     const { conceptId } = data;
     const {
       node: { key, text },
@@ -86,8 +87,8 @@ class EditConcept extends React.PureComponent {
     }
   }
 
-  toggleConceptModal(e) {
-    e && e.preventDefault();
+  toggleConceptModal(evt) {
+    evt && evt.preventDefault();
     const { node, editor } = this.props;
     this.setState(prevState => ({
       conceptModalOpen: !prevState.conceptModalOpen,

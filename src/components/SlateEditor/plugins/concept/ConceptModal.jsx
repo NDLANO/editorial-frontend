@@ -36,9 +36,9 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
         <div css={modalStyles}>
           <ModalHeader>
             <StyledHeader>
-              {mode === 'search' && 'Legg til eksisterende begrep'}
-              {mode === 'create' && 'Opprett nytt begrep'}
-              {mode === 'edit' && 'Rediger begrep'}
+              {mode === 'search' && t('form.concept.addConcept')}
+              {mode === 'create' && t('form.concept.create')}
+              {mode === 'edit' && t('form.concept.edit')}
             </StyledHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>

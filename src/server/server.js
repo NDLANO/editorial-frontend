@@ -23,7 +23,6 @@ import parseHTML from 'prettier/parser-html';
 import proxy from 'express-http-proxy';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
-import Auth0SilentCallback from './Auth0SilentCallback';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
@@ -90,10 +89,6 @@ app.post('/format-html', (req, res) => {
     plugins: [parseHTML],
   });
   res.status(OK).json({ html });
-});
-
-app.get('/login/silent-callback', (req, res) => {
-  res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
 });
 
 app.get('/get_token', (req, res) => {

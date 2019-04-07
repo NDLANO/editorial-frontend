@@ -161,6 +161,7 @@ const phrases = {
     concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
+    searchConcepts: 'Søk begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -497,6 +498,12 @@ const phrases = {
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger begrep',
+      addConcept: 'Legg til eksisterende begrep',
     },
     workflow: {
       title: 'Status',
@@ -879,6 +886,10 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+  },
+  notions: {
+    edit: 'Rediger begrep',
+    closeNotion: 'Lukk begrepsmodal',
   },
   contextTypes: {
     topic: 'Emne',

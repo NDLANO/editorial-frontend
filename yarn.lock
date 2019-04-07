@@ -976,6 +976,13 @@
   dependencies:
     "@ndla/core" "^0.6.0"
 
+"@ndla/button@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.1.tgz#5b3526730a38aac072738cb8441e9f0cc562f4ff"
+  integrity sha512-c34SGwTZVwNq5H9ILvx0kvJcLFwm2DCq+EWNfWwOXI0+22bVQCvPzL4g24AOxVf5vqlwPYN5uCoM/HUCzhGkZg==
+  dependencies:
+    "@ndla/core" "^0.6.1"
+
 "@ndla/carousel@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.2.0.tgz#37d79461fc9e7fef57b39692b09bc1f71831a9c4"
@@ -987,6 +994,16 @@
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.0.tgz#e7b6b5e8a6f4c66d33205e3d65edd0fa4dec190d"
   integrity sha512-af/d0wQTY5YMH13j6NOaDmBeHAhXDvhJFzEw2B0rK2LOXJrPu0nceJHMj/1r17Z2zwUxDofC2QvY2jfiSm5SDA==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.1.tgz#ae0d7701fff56f99e7c3b06f67efd32222ff109e"
+  integrity sha512-ffXC1q5eUyyaLV3S/DO2b0fo7NQcb19V9bXxWE4PM3LiB7Hr9w1fE6o90FkHmnHrkJxiabdrejyUW2m7e84ZQg==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -1072,6 +1089,15 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
+"@ndla/licenses@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.1.tgz#62a928a30349442eab75230e4faeb02e4d8f5c95"
+  integrity sha512-RMNFFD1N3VmJUtrC2Esk96zPN5QfpLJHDjiWNLa5DahqooKtD8eYuwS1H5WF99MGfF31j3OuU1alHkUBcHBH0w==
+  dependencies:
+    "@ndla/core" "^0.6.1"
+    defined "1.0.0"
+    react-bem-helper "1.4.1"
+
 "@ndla/modal@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.1.tgz#ec9c7a983bb45d4216cb368bae5033a541cea15b"
@@ -1081,6 +1107,25 @@
     "@ndla/core" "^0.6.0"
     "@ndla/util" "^0.3.2"
     focus-trap-react "^6.0.0"
+
+"@ndla/modal@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.2.tgz#e33da56dcf908850586e198b9eb49f69a9521b41"
+  integrity sha512-1phHg1Wes2DCXGr/QJ9Yep4a+tVpI6mfpS/e+OJmLiAHk4PF4vt2s8dq96hUF7+zBtt1ETDN5RmieW49hm2FMw==
+  dependencies:
+    "@ndla/button" "^0.3.1"
+    "@ndla/core" "^0.6.1"
+    "@ndla/util" "^0.3.3"
+    focus-trap-react "^6.0.0"
+
+"@ndla/notion@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.2.2.tgz#4a253006dd20f5b8602b6b7313c8915f81fd0943"
+  integrity sha512-dxVXxPDtt/fdC3AM7doT0JI+8NfZanUl8zOBFF1Mob0F3H3OHOdsVjhEa/RZ2hKL3XHG2BfqOSnCroQXq4Xe6g==
+  dependencies:
+    "@ndla/core" "^0.6.1"
+    "@ndla/licenses" "^0.6.1"
+    "@ndla/modal" "^0.3.2"
 
 "@ndla/pager@^0.4.0":
   version "0.4.0"
@@ -1160,6 +1205,13 @@
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.2.tgz#31158f2a846a0a4b92dab2c524f3e978f6a98fc5"
   integrity sha512-dA6GIdlm5azqPDQJD0YvB06e27Q67lNDqPg35VpUns/i0lR5JgDMs9gZcQ5e9uHJAn7tH/ileFoYjUM+E+qflQ==
+  dependencies:
+    defined "1.0.0"
+
+"@ndla/util@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.3.tgz#fa8dde706d36c67990f46a3d16f4585e4418c8da"
+  integrity sha512-tYfHSJPP6qYRALFGZ5DLfCoJw0RMN8LoNXko/EoHCP6m/nQN0c0A8D7DvyR7V9EXXZDiHX7FqANlALQLyUsS9g==
   dependencies:
     defined "1.0.0"
 

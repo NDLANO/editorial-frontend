@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import config from '../config';
 
 const articleTypes = {
   'topic-article': 'topic-article',
@@ -101,3 +102,14 @@ export const getPathsFromUrl = url =>
       ],
       [],
     );
+
+export const toConcept = ({ id, accessToken, name, create }) => {
+  const baseUrl = config.explanationFrontendDomain;
+  if (id) {
+    return `${baseUrl}/embedded/concept/${id}/edit?accessToken=${accessToken}`;
+  }
+  if (create) {
+    return `${baseUrl}/embedded/concept/new?accessToken=${accessToken}&title=${name}`;
+  }
+  return `${baseUrl}/embedded?accessToken=${accessToken}&term=${name}`;
+};

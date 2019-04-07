@@ -14,7 +14,7 @@ import {
 import config from '../../config';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
-const conceptUrl = apiResourceUrl('/article-api/v1/concepts');
+const conceptUrl = apiResourceUrl('/concepts/api/v1/concept');
 
 export const searchArticles = (id, locale, queryString = '') =>
   fetchAuthorized(

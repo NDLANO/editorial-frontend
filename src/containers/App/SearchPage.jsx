@@ -8,7 +8,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { SearchMedia, SearchContent } from '@ndla/icons/editor';
+import { SearchMedia, SearchContent, Concept } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
@@ -17,6 +17,7 @@ import SearchContentPage from '../SearchPage/SearchContentPage';
 import SearchMediaPage from '../SearchPage/SearchMediaPage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
+import SearchConceptPage from '../SearchPage/SearchConceptPage';
 
 const SearchPage = ({ match, t }) => {
   const supportedTypes = [
@@ -43,6 +44,12 @@ const SearchPage = ({ match, t }) => {
       ),
       icon: <SearchMedia className="c-icon--large" />,
     },
+    {
+      title: t('subNavigation.searchConcepts'),
+      type: 'concept',
+      url: toSearch(undefined, 'concept'),
+      icon: <Concept className="c-icon--large" />,
+    },
   ];
 
   return (
@@ -54,6 +61,10 @@ const SearchPage = ({ match, t }) => {
           component={SearchContentPage}
         />
         <PrivateRoute path={`${match.url}/media`} component={SearchMediaPage} />
+        <PrivateRoute
+          path={`${match.url}/concept`}
+          component={SearchConceptPage}
+        />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />

@@ -160,6 +160,7 @@ const phrases = {
     concept: 'Gå til forklaringstjenesten',
     searchContent: 'Søk innhold',
     searchMedia: 'Søk media',
+    searchConcepts: 'Søk begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -381,6 +382,7 @@ const phrases = {
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
     mathml: 'Matte',
+    concept: 'Begrep',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -429,6 +431,12 @@ const phrases = {
     previewNewWindow: 'Forhåndsvis i nytt vindu',
     contributor: {
       add: 'Legg til',
+    },
+    concept: {
+      create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger begrep',
+      addConcept: 'Legg til eksisterende begrep',
     },
     abort: 'Avbryt',
     edit: 'Rediger',
@@ -887,6 +895,10 @@ const phrases = {
   detailBox: {
     label: 'Endre overskrift',
     placeholder: 'Kort sammendrag',
+  },
+  notions: {
+    edit: 'Rediger begrep',
+    closeNotion: 'Lukk begrepsmodal',
   },
   contextTypes: {
     topic: 'Emne',

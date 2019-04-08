@@ -12,7 +12,9 @@ import {
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
+import { getErrorMessages } from '../../../util/formHelper.js';
 
+const contributorTypes = ['rightsholders', 'creators'];
 const AgreementFields = props => {
   const { t, commonFieldProps, licenses, locale } = props;
 
@@ -25,17 +27,26 @@ const AgreementFields = props => {
         placeholder={t('agreementForm.fields.title.placeholder')}
         {...commonFieldProps}
       />
-      <Contributors
-        name="rightsholders"
-        label={t('form.rightsholders.label')}
-        {...commonFieldProps}
+      {contributorTypes.map(contributorType => {
+        const label = t(`form.${contributorType}.label`);
+        return (
+          <Contributors
+            name={contributorType}
+            label={label}
+            showError={commonFieldProps.submitted}
+            errorMessages={getErrorMessages(
+              label,
+              contributorType,
+              commonFieldProps.schema,
+            )}
+            {...commonFieldProps.bindInput(contributorType)}
+          />
+        );
+      })}
+      <FormLicense
+        licenses={licenses}
+        {...commonFieldProps.bindInput('license')}
       />
-      <Contributors
-        name="creators"
-        label={t('form.creators.label')}
-        {...commonFieldProps}
-      />
-      <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
       <TextAreaField
         label={t('agreementForm.fields.content.label')}
         name="content"

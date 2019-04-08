@@ -23,10 +23,10 @@ class RichBlockTextEditor extends PureComponent {
     this.removeSection = this.removeSection.bind(this);
   }
 
-  onChange(change, index) {
+  onChange(evt, index) {
     const { onChange, value, name } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { value: change.value, index };
+    newValue[index] = { value: evt.target.value, index };
     const changedValue = {
       target: {
         value: newValue,

@@ -25,7 +25,6 @@ class AlertModalWrapper extends PureComponent {
     const { history } = this.props;
     this.unblock = history.block(nextLocation => {
       const canNavigate = !isFormDirty(this.props) || this.state.discardChanges;
-
       if (!canNavigate) {
         this.setState({
           openModal: true,
@@ -94,7 +93,7 @@ AlertModalWrapper.propTypes = {
     articleType: PropTypes.string,
     language: PropTypes.string,
   }),
-  fields: PropTypes.objectOf(PropTypes.object).isRequired,
+  fields: PropTypes.objectOf(PropTypes.object),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,

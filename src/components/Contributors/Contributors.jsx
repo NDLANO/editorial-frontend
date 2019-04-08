@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Contributor from './Contributor';
-import { getField } from '../Fields';
 import { getLocale } from '../../modules/locale/locale';
 
 const StyledFormWarningText = styled.p`
@@ -33,15 +32,14 @@ const Contributors = props => {
     name,
     label,
     locale,
-    schema,
-    bindInput,
+    errorMessages,
     disabled,
-    submitted,
+    showError,
+    onChange,
+    value,
     t,
     ...rest
   } = props;
-  const { onChange, value } = bindInput(name);
-
   const onContributorChange = newContributors => {
     onChange({
       target: {
@@ -79,10 +77,6 @@ const Contributors = props => {
       : contributorTypes.nb[item],
   }));
 
-  const errorMessages = getField(name, schema).errors.map(error =>
-    error(label),
-  );
-
   return (
     <div>
       <FieldHeader title={label} width={3 / 4} />
@@ -91,7 +85,7 @@ const Contributors = props => {
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
           contributor={contributor}
           index={index}
-          submitted={submitted}
+          showError={showError}
           errorMessages={errorMessages}
           contributorTypeItems={contributorTypeItems}
           handleContributorChange={handleContributorChange}
@@ -99,7 +93,7 @@ const Contributors = props => {
           {...rest}
         />
       ))}
-      {submitted && value.length === 0 && errorMessages.length > 0 && (
+      {showError && value.length === 0 && errorMessages.length > 0 && (
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
       <Button
@@ -117,13 +111,21 @@ Contributors.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  bindInput: PropTypes.func.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  submitted: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  errorMessages: PropTypes.arrayOf(PropTypes.string),
+  showError: PropTypes.bool,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
+    }),
+  ),
+};
+
+Contributors.defaultProps = {
+  showError: false,
 };
 
 const mapStateToProps = state => ({

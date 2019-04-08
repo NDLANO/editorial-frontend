@@ -406,6 +406,24 @@ const phrases = {
     preview: {
       button: 'Preview',
     },
+    name: {
+      title: 'Title',
+      introduction: 'Introduction',
+      creators: 'Creators',
+      rightsholders: 'Rightsholders',
+      processors: 'Processors',
+      tags: 'Tags',
+      license: 'License',
+      origin: 'Origin',
+      audioFile: 'Audio file',
+      content: 'Content',
+      notes: 'Notes',
+      metaDescription: 'Meta description',
+      visualElement: {
+        caption: 'Caption',
+        alt: 'Alt text',
+      },
+    },
     previewProductionArticle: {
       button: 'Compare draft and article',
       article: 'Article',

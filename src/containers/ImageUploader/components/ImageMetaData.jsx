@@ -47,6 +47,7 @@ const ImageMetaData = props => {
         const label = t(`form.${contributorType}.label`);
         return (
           <Contributors
+            key={contributorType}
             name={contributorType}
             label={label}
             showError={commonFieldProps.submitted}

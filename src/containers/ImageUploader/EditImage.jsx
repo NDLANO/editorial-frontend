@@ -40,7 +40,7 @@ class EditImage extends Component {
     fetchLicenses();
   }
 
-  componentDidUpdate({ prevImageId }) {
+  componentDidUpdate({ imageId: prevImageId }) {
     const { imageId, fetchImage, imageLanguage, image } = this.props;
 
     if (

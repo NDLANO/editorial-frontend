@@ -57,7 +57,6 @@ CreateImage.propTypes = {
   fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchImage: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

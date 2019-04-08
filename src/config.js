@@ -84,6 +84,13 @@ const getAuth0Hostname = () => {
   }
 };
 
+const explanationFrontendDomain = () => {
+  if (process.env.LOCAL_NOTION) {
+    return 'http://localhost:3100';
+  }
+  return `https://explanations-frontend.${ndlaEnvironment}.api.ndla.no`;
+};
+
 const config = {
   ndlaEnvironment,
   componentName: getEnvironmentVariabel('npm_package_name'),
@@ -119,6 +126,7 @@ const config = {
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
+  explanationFrontendDomain: explanationFrontendDomain(),
 };
 
 export function getUniversalConfig() {

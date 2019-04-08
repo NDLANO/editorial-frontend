@@ -12,8 +12,11 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
+import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
+import { Link } from 'react-router-dom';
 import { EmbedShape } from '../../../../shapes';
-import DeleteSectionButton from '../../../DeleteSectionButton';
+import IconButton from '../../../IconButton';
 
 const centerAdjustedStyle = css`
   right: -${spacing.xsmall};
@@ -33,14 +36,68 @@ const StyledFigureButtons = styled('div')`
   ${p => p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
   ${p => p.align === 'left' && leftAdjustedStyle}
   ${p => p.align === 'right' && rightAdjustedStyle}
+  > * {
+    margin-bottom: ${spacing.xsmall};
+  }
+  ${p =>
+    p.withMargin &&
+    css`
+      margin: ${spacing.small};
+    `}
 `;
 
-export const FigureButtons = ({ embed, tooltip, onRemoveClick }) => {
+const FigureButtons = ({
+  t,
+  embed,
+  locale,
+  tooltip,
+  figureType,
+  onRemoveClick,
+  withMargin,
+  onEdit,
+}) => {
+  const url = {
+    audio: {
+      path: '/media/audio-upload',
+      editTitle: t('form.editAudio'),
+    },
+    image: {
+      path: '/media/image-upload',
+      editTitle: t('form.editOriginalImage'),
+    },
+  };
+
   return (
-    <StyledFigureButtons align={embed.align}>
-      <Tooltip tooltip={tooltip}>
-        <DeleteSectionButton onClick={onRemoveClick} tabIndex={-1} />
+    <StyledFigureButtons align={embed.align} withMargin={withMargin}>
+      <Tooltip tooltip={tooltip} align="right">
+        <IconButton
+          color="red"
+          type="button"
+          onClick={onRemoveClick}
+          tabIndex={-1}>
+          <DeleteForever />
+        </IconButton>
       </Tooltip>
+      {(figureType === 'image' || figureType === 'audio') && (
+        <Tooltip tooltip={url[figureType].editTitle} align="right">
+          <IconButton
+            as={Link}
+            to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
+            target="_blank"
+            title={url[figureType].editTitle}
+            color="green"
+            tabIndex={-1}>
+            <Pencil />
+          </IconButton>
+        </Tooltip>
+      )}
+      {figureType === 'external' && onEdit && (
+        <Tooltip tooltip={t('form.video.editExternal')} align="right">
+          <IconButton color="green" tabIndex={-1} onClick={onEdit}>
+            <Pencil />
+          </IconButton>
+        </Tooltip>
+      )}
     </StyledFigureButtons>
   );
 };
@@ -49,6 +106,10 @@ FigureButtons.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   embed: EmbedShape.isRequired,
   tooltip: PropTypes.string.isRequired,
+  figureType: PropTypes.string.isRequired,
+  locale: PropTypes.string,
+  withMargin: PropTypes.bool,
+  onEdit: PropTypes.func,
 };
 
 export default FigureButtons;

@@ -12,26 +12,25 @@ import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import { TextField } from '../../../components/Fields';
-import LearningResourceIngress from '../../LearningResourcePage/components/LearningResourceIngress';
-import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { schema } from '../../../components/SlateEditor/editorSchema';
+import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
 import {
   renderNode,
   renderMark,
 } from '../../../components/SlateEditor/renderNode';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import {
   editListPlugin,
   listTypes,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import { CommonFieldPropsShape } from '../../../shapes';
-import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
-import { FormDatePicker } from '../../Form';
+import createLinkPlugin, {
+  TYPE as link,
+} from '../../../components/SlateEditor/plugins/link';
+import FormikField from '../../../components/FormikField';
+import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
+import { FormikIngress, FormikDatePicker } from '../../FormikForm';
 
 const classes = new BEMHelper({
   name: 'topic-article-content',
@@ -46,7 +45,6 @@ const supportedToolbarElements = {
 
 const plugins = [
   createNoEmbedsPlugin(),
-  createLinkPlugin(),
   headingPlugin(),
 
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
@@ -54,22 +52,21 @@ const plugins = [
   // unwrapping (jumping out of block) will not work.
   blockquotePlugin,
   editListPlugin,
+  createLinkPlugin(),
   paragraphPlugin(),
 ];
 
 const TopicArticleContent = ({
   t,
-  commonFieldProps,
-  model: { id, creators, updated, visualElement },
+  values: { id, creators, updated, visualElement },
 }) => (
   <Fragment>
-    <TextField
+    <FormikField
       label={t('form.title.label')}
       name="title"
       title
       noBorder
       placeholder={t('form.title.label')}
-      {...commonFieldProps}
     />
     {/* TODO: Change to c-article-byline */}
     <div {...classes('info')}>
@@ -78,42 +75,41 @@ const TopicArticleContent = ({
         ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
         : ''}
     </div>
-    <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
     {id && (
-      <FormDatePicker
-        name="updated"
-        enableTime
-        dateFormat="d/m/Y - H:i"
-        {...commonFieldProps.bindInput('updated')}
-      />
+      <FormikField name="published">
+        {({ field }) => (
+          <FormikDatePicker enableTime dateFormat="d/m/Y - H:i" {...field} />
+        )}
+      </FormikField>
     )}
-    <TopicArticleVisualElement
-      visualElement={visualElement}
-      commonFieldProps={commonFieldProps}
-      bindInput={commonFieldProps.bindInput}
-    />
-    <FieldHeader title={t('form.content.label')} />
-    <RichTextField
-      noBorder
-      label={t('form.content.label')}
-      placeholder={t('form.content.placeholder')}
-      name="content"
-      slateSchema={schema}
-      renderNode={renderNode}
-      renderMark={renderMark}
-      plugins={plugins}
-      supportedToolbarElements={supportedToolbarElements}
-      commonFieldProps={commonFieldProps}
-    />
+    <FormikIngress />
+    <TopicArticleVisualElement visualElement={visualElement} />
+    <FormikField name="content" label={t('form.content.label')} noBorder>
+      {({ field, form: { isSubmitting } }) => (
+        <Fragment>
+          <FieldHeader title={t('form.content.label')} />
+          <RichTextEditor
+            placeholder={t('form.content.placeholder')}
+            id={field.name}
+            {...field}
+            submitted={isSubmitting}
+            renderNode={renderNode}
+            renderMark={renderMark}
+            plugins={plugins}
+            supportedToolbarElements={supportedToolbarElements}
+            schema={slateSchema}
+          />
+        </Fragment>
+      )}
+    </FormikField>
   </Fragment>
 );
 
 TopicArticleContent.propTypes = {
-  model: PropTypes.shape({
+  values: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  commonFieldProps: CommonFieldPropsShape.isRequired,
 };
 
 export default injectT(TopicArticleContent);

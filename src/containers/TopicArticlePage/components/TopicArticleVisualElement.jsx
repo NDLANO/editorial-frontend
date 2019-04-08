@@ -6,16 +6,16 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
+import { connect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
-import { TextField } from '../../../components/Fields';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 import VisualElementPreview from '../../VisualElement/VisualElementPreview';
-import { CommonFieldPropsShape } from '../../../shapes';
+import FormikField from '../../../components/FormikField';
 
 export const visualElementClasses = new BEMHelper({
   name: 'visual-element',
@@ -41,35 +41,39 @@ class TopicArticleVisualElement extends Component {
   }
 
   render() {
-    const { t, bindInput, commonFieldProps } = this.props;
+    const {
+      t,
+      formik: {
+        values: { visualElement },
+      },
+    } = this.props;
     const { selectedResource } = this.state;
-    const { schema, submitted } = commonFieldProps;
-
-    const bindInputVisualElement = bindInput('visualElement');
-    const { value: visualElement } = bindInputVisualElement;
     return (
       <div>
         <FieldHeader title={t('form.visualElement.title')} />
-
         {!visualElement.resource ? (
           <VisualElementMenu onSelect={this.handleSelectResource} />
         ) : null}
-        <VisualElementPreview
-          label={t('form.visualElement.label')}
-          schema={schema}
-          submitted={submitted}
-          changeVisualElement={this.handleSelectResource}
-          resetSelectedResource={this.resetSelectedResource}
-          {...bindInputVisualElement}
-        />
-        <VisualElementSelectField
-          selectedResource={selectedResource}
-          {...bindInputVisualElement}
-          resetSelectedResource={this.resetSelectedResource}
-        />
+        <FormikField name="visualElement">
+          {({ field }) => (
+            <Fragment>
+              <VisualElementPreview
+                label={t('form.visualElement.label')}
+                changeVisualElement={this.handleSelectResource}
+                resetSelectedResource={this.resetSelectedResource}
+                {...field}
+              />
+              <VisualElementSelectField
+                selectedResource={selectedResource}
+                resetSelectedResource={this.resetSelectedResource}
+                {...field}
+              />
+            </Fragment>
+          )}
+        </FormikField>
         {visualElement.resource && visualElement.resource !== 'h5p' ? (
           <div>
-            <TextField
+            <FormikField
               placeholder={t(
                 `topicArticleForm.fields.caption.placeholder.${
                   visualElement.resource
@@ -81,16 +85,14 @@ class TopicArticleVisualElement extends Component {
                 }`,
               )}
               name="visualElement.caption"
-              {...commonFieldProps}
               noBorder
               maxLength={300}
             />
             {visualElement.resource === 'image' && (
-              <TextField
+              <FormikField
                 placeholder={t('topicArticleForm.fields.alt.placeholder')}
                 label={t('topicArticleForm.fields.alt.label')}
                 name="visualElement.alt"
-                {...commonFieldProps}
                 noBorder
                 maxLength={300}
               />
@@ -105,14 +107,16 @@ class TopicArticleVisualElement extends Component {
 }
 
 TopicArticleVisualElement.propTypes = {
-  bindInput: PropTypes.func.isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
-  visualElement: PropTypes.shape({
-    caption: PropTypes.string,
-    alt: PropTypes.string,
-    id: PropTypes.string,
-    resource: PropTypes.string,
+  formik: PropTypes.shape({
+    values: PropTypes.shape({
+      visualElement: PropTypes.shape({
+        caption: PropTypes.string,
+        alt: PropTypes.string,
+        id: PropTypes.string,
+        resource: PropTypes.string,
+      }),
+    }),
   }),
 };
 
-export default injectT(TopicArticleVisualElement);
+export default connect(injectT(TopicArticleVisualElement));

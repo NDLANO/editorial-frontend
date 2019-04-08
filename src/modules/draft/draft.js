@@ -8,8 +8,7 @@
 
 import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
-import { getLocale } from '../locale/locale';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { transformArticleFromApiVersion } from '../../util/articleUtil';
 
 export const fetchDraft = createAction('FETCH_DRAFT');
 export const setDraft = createAction('SET_DRAFT');
@@ -81,30 +80,8 @@ export const getSaving = createSelector(
   drafts => drafts.isSaving,
 );
 
-const getLanguageFromField = (object, field, fallback = undefined) =>
-  object && object[field] ? object[field].language : fallback;
-
-export const articleConverter = (article, locale) => ({
-  ...article,
-  title: convertFieldWithFallback(article, 'title', ''),
-  introduction: convertFieldWithFallback(article, 'introduction', ''),
-  visualElement: convertFieldWithFallback(article, 'visualElement', {}),
-  content: convertFieldWithFallback(article, 'content', ''),
-  footnotes:
-    article.content && article.content.footNotes
-      ? article.content.footNotes
-      : undefined,
-  metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
-  tags: convertFieldWithFallback(article, 'tags', []),
-  language:
-    article && article.title
-      ? getLanguageFromField(article, 'title')
-      : getLanguageFromField(article, 'content', locale),
-});
-
 export const getDraft = articleId =>
   createSelector(
-    [getDraftById(articleId), getLocale],
-    (article, locale) =>
-      article ? articleConverter(article, locale) : undefined,
+    [getDraftById(articleId)],
+    article => (article ? transformArticleFromApiVersion(article) : undefined),
   );

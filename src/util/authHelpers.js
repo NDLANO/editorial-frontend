@@ -129,33 +129,26 @@ export const renewSystemAuth = () =>
 export function loginPersonalAccessToken(type) {
   auth.authorize({
     connection: type,
-    clientID: ndlaPersonalClientId,
   });
 }
 
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
-    auth.renewAuth(
-      {
-        redirectUri: `${locationOrigin}/login/silent-callback`,
-        usePostMessage: true,
-      },
-      (err, authResult) => {
-        if (authResult && authResult.accessToken) {
-          setAccessTokenInLocalStorage(authResult.accessToken, true);
-          resolve(authResult.accessToken);
-        } else {
-          client.store.dispatch(
-            messageActions.addAuth0Message({
-              translationKey: 'errorMessage.auth0',
-              translationObject: { message: authResult.errorDescription },
-              timeToLive: 0,
-            }),
-          );
-          reject();
-        }
-      },
-    );
+    auth.checkSession({ scope: 'openid profile email' }, (err, authResult) => {
+      if (authResult && authResult.accessToken) {
+        setAccessTokenInLocalStorage(authResult.accessToken, true);
+        resolve(authResult.accessToken);
+      } else {
+        client.store.dispatch(
+          messageActions.addAuth0Message({
+            translationKey: 'errorMessage.auth0',
+            translationObject: { message: err.errorDescription },
+            timeToLive: 0,
+          }),
+        );
+        reject();
+      }
+    });
   });
 
 export const renewAuth = async () => {

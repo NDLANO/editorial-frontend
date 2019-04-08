@@ -11,7 +11,11 @@ import { Block } from 'slate';
 import defaultBlocks from './defaultBlocks';
 
 export const textBlockValidationRules = {
-  first: { type: 'paragraph' },
+  first: [
+    { type: 'paragraph' },
+    { type: 'heading-two' },
+    { type: 'heading-three' },
+  ],
   nodes: [{ match: 'paragraph', min: 1 }],
   last: { type: 'paragraph' },
   next: [
@@ -45,7 +49,7 @@ export const textBlockValidationRules = {
         break;
       }
       case 'next_sibling_type_invalid': {
-        editor.withoutNormalizing(() => {
+        editor.withoutSaving(() => {
           editor.wrapBlockByKey(error.child.key, 'section');
           const wrapper = editor.value.document.getParent(error.child.key);
           editor.insertNodeByKey(

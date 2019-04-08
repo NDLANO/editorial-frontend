@@ -60,7 +60,6 @@ class FormAddNotes extends Component {
 
   render() {
     const {
-      submitted,
       placeholder,
       value,
       labelAddNote,
@@ -68,8 +67,8 @@ class FormAddNotes extends Component {
       labelHeading,
       labelWarningNote,
       article,
+      showError,
     } = this.props;
-
     return (
       <Fragment>
         <FormNotes notes={article.notes} />
@@ -80,7 +79,7 @@ class FormAddNotes extends Component {
               key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
               <div>
                 <Input
-                  warningText={submitted && note === '' ? labelWarningNote : ''}
+                  warningText={showError && note === '' ? labelWarningNote : ''}
                   container="div"
                   type="text"
                   focusOnMount
@@ -114,10 +113,6 @@ FormAddNotes.defaultProps = {
 FormAddNotes.propTypes = {
   name: PropTypes.string.isRequired,
   labelHeading: PropTypes.string.isRequired,
-  bindInput: PropTypes.func.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
   submitted: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   labelRemoveNote: PropTypes.string.isRequired,
@@ -126,6 +121,7 @@ FormAddNotes.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   article: NewArticleShape,
+  showError: PropTypes.bool,
 };
 
 export default FormAddNotes;

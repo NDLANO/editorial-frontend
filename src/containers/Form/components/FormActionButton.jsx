@@ -12,6 +12,7 @@ import { css } from '@emotion/core';
 
 const buttonStyle = css`
   margin-right: 1rem;
+  margin-bottom: 0.2rem;
 
   &:disabled {
     transform: none;

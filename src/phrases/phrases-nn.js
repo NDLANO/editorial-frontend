@@ -161,6 +161,7 @@ const phrases = {
     concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
+    searchConcepts: 'Søk begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -349,11 +350,6 @@ const phrases = {
     title: 'Bilde | {title} ({key})',
   },
   learningResourceForm: {
-    metaImage: {
-      title: 'Bildetittel',
-      copyright: 'Opphav',
-      change: 'Bytt metabilde',
-    },
     title: 'Fagstoff | {title} ({key})',
     validation: {
       missingEmbedData:
@@ -364,11 +360,6 @@ const phrases = {
         title: 'Høgrespalte',
         moveContent: 'Flytt innhald inn i teksten',
         delete: 'Slett høgrespalte',
-      },
-      metaImage: {
-        title: 'Metabilde',
-        label: 'Metabilde',
-        helpLabel: 'Kva er eit metabilde?',
       },
       footnotes: {
         edition: 'Utgåve',
@@ -409,6 +400,10 @@ const phrases = {
       file: 'Fil',
     },
   },
+  detailBox: {
+    changeTitle: 'Endre overskrift',
+    placeholder: 'Kort sammendrag',
+  },
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
@@ -426,15 +421,38 @@ const phrases = {
     preview: {
       button: 'Forhandsvis',
     },
+    name: {
+      title: 'Tittel',
+      introduction: 'Introduksjon',
+      creators: 'Opphavsperson',
+      rightsholders: 'Rettighetshaver',
+      processors: 'Bearbeider',
+      tags: 'Nøkkelord',
+      license: 'Lisens',
+      origin: 'Opphav',
+      audioFile: 'Lydfil',
+      content: 'Innhald',
+      notes: 'Merknader',
+      metaDescription: 'Metabeskrivelse',
+      visualElement: {
+        caption: 'Figur tekst',
+        alt: 'Alt tekst',
+      },
+    },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
       article: 'Artikkel',
       draft: 'Utkast',
     },
+    detailBox: {
+      changeTitle: 'Endre overskrift',
+      placeholder: 'Kort sammendrag',
+    },
     previewLanguageArticle: {
       button: 'Samanlikn forskjellige språkversjoner',
       title: 'Utkast på {language}',
     },
+    previewNewWindow: 'Forhåndsvis i nytt vindu',
     contributor: {
       add: 'Legg til',
     },
@@ -468,6 +486,7 @@ const phrases = {
       label: 'Oppdatert dato',
     },
     editImage: 'Endre bilde',
+    editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
       button: 'Tilbakestill til prod',
@@ -484,6 +503,15 @@ const phrases = {
     introduction: {
       label: 'Ingress',
     },
+    metaImage: {
+      title: 'Metabilde',
+      label: 'Metabilde',
+      imageTitle: 'Bildetittel',
+      helpLabel: 'Kva er eit metabilde?',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+      add: 'Velg metabilde',
+    },
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
@@ -491,6 +519,12 @@ const phrases = {
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger begrep',
+      addConcept: 'Legg til eksisterende begrep',
     },
     workflow: {
       title: 'Status',
@@ -511,6 +545,7 @@ const phrases = {
       user_test: 'Brukertest',
       awaiting_quality_assurance: 'Til kvalitetssikring',
       queued_for_language: 'Til språk',
+      translated: 'Ferdig fra språk',
       quality_assured: 'Publiseringsklar',
       queued_for_publishing: 'Til publisering',
       published: 'Publisert',
@@ -523,6 +558,7 @@ const phrases = {
         USER_TEST: 'Brukertest',
         AWAITING_QUALITY_ASSURANCE: 'Til kvalitetssikring',
         QUEUED_FOR_LANGUAGE: 'Til språk',
+        TRANSLATED: 'Ferdig fra språk',
         QUALITY_ASSURED: 'Publiseringsklar',
         QUEUED_FOR_PUBLISHING: 'Til publisering',
         PUBLISHED: 'Publiser',
@@ -722,6 +758,8 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
+      editExternal: 'Rediger eksternt element',
+      remove: 'Fjern video',
     },
     audio: {
       file: 'Lydfil',
@@ -869,6 +907,10 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+  },
+  notions: {
+    edit: 'Rediger begrep',
+    closeNotion: 'Lukk begrepsmodal',
   },
   contextTypes: {
     topic: 'Emne',

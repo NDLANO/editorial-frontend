@@ -162,6 +162,7 @@ const phrases = {
     concept: 'Go to concept',
     searchContent: 'Search content',
     searchMedia: 'Search media',
+    searchConcepts: 'Search concepts',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -337,11 +338,6 @@ const phrases = {
     title: 'Image | {title} ({key})',
   },
   learningResourceForm: {
-    metaImage: {
-      title: 'Image title',
-      copyright: 'Copyright',
-      change: 'Change meta image',
-    },
     title: 'Learning resource | {title} ({key})',
     validation: {
       missingEmbedData:
@@ -352,11 +348,6 @@ const phrases = {
         title: 'Right column',
         moveContent: 'Move content into the text',
         delete: 'Delete right aside',
-      },
-      metaImage: {
-        title: 'Meta image',
-        label: 'Meta image',
-        helpLabel: 'What is a meta image?',
       },
       footnotes: {
         edition: 'Edition',
@@ -379,6 +370,7 @@ const phrases = {
     headingThree: 'Heading 3',
     footnote: 'Footnote',
     mathml: 'Math',
+    concept: 'Concept',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -414,6 +406,24 @@ const phrases = {
     preview: {
       button: 'Preview',
     },
+    name: {
+      title: 'Title',
+      introduction: 'Introduction',
+      creators: 'Creators',
+      rightsholders: 'Rightsholders',
+      processors: 'Processors',
+      tags: 'Tags',
+      license: 'License',
+      origin: 'Origin',
+      audioFile: 'Audio file',
+      content: 'Content',
+      notes: 'Notes',
+      metaDescription: 'Meta description',
+      visualElement: {
+        caption: 'Caption',
+        alt: 'Alt text',
+      },
+    },
     previewProductionArticle: {
       button: 'Compare draft and article',
       article: 'Article',
@@ -423,8 +433,13 @@ const phrases = {
       button: 'Compare different language versions',
       title: 'Draft on {language}',
     },
+    previewNewWindow: 'Preview in a new window',
     contributor: {
       add: 'Add',
+    },
+    detailBox: {
+      changeTitle: 'Change title',
+      placeholder: 'Short summary',
     },
     mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
@@ -456,6 +471,7 @@ const phrases = {
       label: 'Updated date',
     },
     editImage: 'Edit image',
+    editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
     resetToProd: {
       button: 'Reset to prod',
@@ -472,6 +488,15 @@ const phrases = {
     introduction: {
       label: 'Introduction',
     },
+    metaImage: {
+      copyright: 'Copyright',
+      change: 'Change meta image',
+      title: 'Meta image',
+      imageTitle: 'Image title',
+      label: 'Meta image',
+      helpLabel: 'What is a meta image?',
+      add: 'Choose meta image',
+    },
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
@@ -479,6 +504,12 @@ const phrases = {
       image: 'Image search',
       imageUpload: 'Upload image',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Create concept',
+      addText: 'Choose a concept and press "connect to topic", or',
+      edit: 'Edit concept',
+      addConcept: 'Add existing concept',
     },
     workflow: {
       title: 'Status',
@@ -499,6 +530,7 @@ const phrases = {
       user_test: 'User test',
       awaiting_quality_assurance: 'Quality assurance',
       queued_for_language: 'Queued for language',
+      translated: 'Language done',
       quality_assured: 'Ready for publishing',
       queued_for_publishing: 'Queued for publishing',
       published: 'Published',
@@ -511,6 +543,7 @@ const phrases = {
         USER_TEST: 'User test',
         AWAITING_QUALITY_ASSURANCE: 'To Quality assurance',
         QUEUED_FOR_LANGUAGE: 'Queued for language',
+        TRANSLATED: 'Language done',
         QUALITY_ASSURED: 'Ready for publishing',
         QUEUED_FOR_PUBLISHING: 'Queue for publishng',
         PUBLISHED: 'Publish',
@@ -855,6 +888,10 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+  },
+  notions: {
+    edit: 'Edit notions',
+    closeNotion: 'Close notion dialog',
   },
   contextTypes: {
     topic: 'Topic',

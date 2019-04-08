@@ -342,7 +342,7 @@ export const PlainTextField = ({
 
 PlainTextField.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   obligatory: PropTypes.bool,
   description: PropTypes.string,
   fieldClassName: PropTypes.string,

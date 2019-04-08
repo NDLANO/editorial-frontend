@@ -1,26 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import FocusTrapReact from 'focus-trap-react';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
-import { spacing, colors, shadows } from '@ndla/core';
-import Button from '@ndla/button';
-import { Input, StyledButtonWrapper } from '@ndla/forms';
+import { spacing, shadows } from '@ndla/core';
+import FigureInput from './FigureInput';
 import { isEmpty } from '../../../validators';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import { EmbedShape, EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
 import Overlay from '../../../Overlay';
-
-const StyledInputWrapper = styled.div`
-  background: ${colors.brand.greyLightest};
-  padding: ${spacing.normal};
-  position: relative;
-  z-index: 20;
-`;
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -33,14 +24,27 @@ const imageEditorWrapperStyle = css`
 class EditImage extends Component {
   constructor(props) {
     super(props);
+    const { embed } = props;
     this.state = {
-      alt: props.embed.alt,
-      caption: props.embed.caption,
-      imageUpdates: undefined,
+      alt: embed.alt,
+      caption: embed.caption,
+      imageUpdates: {
+        transformData: {
+          'focal-x': embed['focal-x'],
+          'focal-y': embed['focal-y'],
+          'upper-left-x': embed['upper-left-x'],
+          'upper-left-y': embed['upper-left-y'],
+          'lower-right-x': embed['lower-right-x'],
+          'lower-right-y': embed['lower-right-y'],
+        },
+        align: embed.align,
+        size: embed.size,
+      },
       madeChanges: false,
     };
     this.onUpdatedImageSettings = this.onUpdatedImageSettings.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onEdit = this.onEdit.bind(this);
     this.onAbort = this.onAbort.bind(this);
   }
 
@@ -64,10 +68,13 @@ class EditImage extends Component {
   }
 
   onUpdatedImageSettings(imageUpdates) {
-    this.setState({
-      imageUpdates: imageUpdates,
+    this.setState(prevState => ({
+      imageUpdates: {
+        ...prevState.imageUpdates,
+        ...imageUpdates,
+      },
       madeChanges: true,
-    });
+    }));
   }
 
   onSave() {
@@ -84,16 +91,16 @@ class EditImage extends Component {
       alt: alt,
     });
 
-    if (imageUpdates) {
-      const data = {
-        ...getSchemaEmbed(node),
-        ...imageUpdates.transformData,
-        align: imageUpdates.align,
-        size: imageUpdates.size,
-      };
+    const data = {
+      ...getSchemaEmbed(node),
+      ...imageUpdates.transformData,
+      align: imageUpdates.align,
+      size: imageUpdates.size,
+      caption,
+      alt,
+    };
 
-      editor.setNodeByKey(node.key, { data });
-    }
+    editor.setNodeByKey(node.key, { data });
 
     setEditModus(false);
   }
@@ -114,7 +121,7 @@ class EditImage extends Component {
 
   render() {
     const { embed, submitted, t, setEditModus } = this.props;
-    const { caption, madeChanges, alt } = this.state;
+    const { caption, madeChanges, alt, imageUpdates } = this.state;
     return (
       <div
         css={imageEditorWrapperStyle}
@@ -140,43 +147,20 @@ class EditImage extends Component {
                 embedTag={embed}
                 toggleEditModus={setEditModus}
                 onUpdatedImageSettings={this.onUpdatedImageSettings}
+                imageUpdates={imageUpdates}
                 {...this.props}
               />
-              <StyledInputWrapper>
-                <Input
-                  name="caption"
-                  label={`${t('form.image.caption.label')}:`}
-                  value={caption}
-                  onChange={e => this.onEdit('caption', e.target.value)}
-                  container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={t('form.image.caption.placeholder')}
-                  white
-                />
-                <Input
-                  name="alt"
-                  label={`${t('form.image.alt.label')}:`}
-                  value={alt}
-                  onChange={e => this.onEdit('alt', e.target.value)}
-                  container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={t('form.image.alt.placeholder')}
-                  white
-                  warningText={
-                    !submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''
-                  }
-                />
-                <StyledButtonWrapper paddingLeft>
-                  <Button onClick={this.onAbort} outline>
-                    {t('form.abort')}
-                  </Button>
-                  <Button disabled={!madeChanges} onClick={this.onSave}>
-                    {t('form.image.save')}
-                  </Button>
-                </StyledButtonWrapper>
-              </StyledInputWrapper>
+              <FigureInput
+                t={t}
+                caption={caption}
+                alt={alt}
+                submitted={submitted}
+                isEmpty={isEmpty}
+                madeChanges={madeChanges}
+                onEdit={this.onEdit}
+                onAbort={this.onAbort}
+                onSave={this.onSave}
+              />
             </div>
           </FocusTrapReact>
         </Portal>

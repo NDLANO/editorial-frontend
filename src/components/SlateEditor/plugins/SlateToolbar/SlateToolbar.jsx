@@ -21,18 +21,6 @@ import { SupportedToolbarElementsShape } from '../../../../shapes';
 
 const DEFAULT_NODE = 'paragraph';
 
-const defaultSupportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link, footnote, mathml],
-};
-
-const defaultSupportedToolbarElementsAside = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-one'],
-  inline: [link, footnote, mathml],
-};
-
 export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
   prefix: 'c-',
@@ -46,7 +34,6 @@ class SlateToolbar extends Component {
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = this.portalRef.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
   }
 
@@ -88,7 +75,6 @@ class SlateToolbar extends Component {
     } else {
       editor.setBlocks(isActive ? DEFAULT_NODE : type);
     }
-    this.handleValueChange(editor);
   }
 
   onClickMark(e, type) {
@@ -112,7 +98,6 @@ class SlateToolbar extends Component {
         editor.wrapInline(type);
       });
     }
-    this.handleValueChange(editor);
   }
 
   onButtonClick(e, kind, type) {
@@ -125,12 +110,6 @@ class SlateToolbar extends Component {
     // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
     // eslint-disable-next-line react/no-find-dom-node
     this.menu = findDOMNode(menu);
-  }
-
-  handleValueChange(value) {
-    const { onChange } = this.props;
-    onChange(value);
-    this.updateMenu();
   }
 
   updateMenu() {
@@ -164,13 +143,27 @@ class SlateToolbar extends Component {
       supportedToolbarElementsAside,
     } = this.props;
     const { value } = editor;
+
+    const defaultSupportedToolbarElements = supportedToolbarElements || {
+      mark: ['bold', 'italic', 'underlined'],
+      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+      inline: [link, footnote, mathml],
+    };
+
+    const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
+      mark: ['bold', 'italic', 'underlined'],
+      block: ['quote', ...listTypes, 'heading-one'],
+      inline: [link, footnote, mathml],
+    };
+
     const toolbarElements = checkSelectionForType(
       'aside',
       value,
       value.selection.start.key,
     )
-      ? supportedToolbarElementsAside
-      : supportedToolbarElements;
+      ? defaultSupportedToolbarElementsAside
+      : defaultSupportedToolbarElements;
+
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton
@@ -190,11 +183,6 @@ class SlateToolbar extends Component {
     );
   }
 }
-
-SlateToolbar.defaultProps = {
-  supportedToolbarElements: defaultSupportedToolbarElements,
-  supportedToolbarElementsAside: defaultSupportedToolbarElementsAside,
-};
 
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,

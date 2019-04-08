@@ -9,12 +9,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import ImageSearch from '@ndla/image-search';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import Tabs from '@ndla/tabs';
 import {
   actions as tagActions,
   getAllTagsByLanguage,
@@ -32,36 +29,28 @@ import {
 } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
 import { getShowSaved } from '../Messages/messagesSelectors';
-import EditImage from '../ImageUploader/EditImage';
 import config from '../../config';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import * as api from './visualElementApi';
 import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import FileUploader from '../../components/FileUploader';
+import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 
 const titles = (t, resource = '') => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
 class VisualElementSearch extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedIndex: 0,
-    };
-    this.changeTabIndex = this.changeTabIndex.bind(this);
-  }
-
   componentDidUpdate() {
     const {
       uploadedImage,
       selectedResource,
       handleVisualElementChange,
     } = this.props;
-    if (this.props.uploadedImage) {
+    if (uploadedImage) {
       const image = getImage(uploadedImage.id, true);
       handleVisualElementChange({
         resource: selectedResource,
@@ -82,12 +71,6 @@ class VisualElementSearch extends Component {
     }
   }
 
-  changeTabIndex(selectedIndex) {
-    this.setState({
-      selectedIndex,
-    });
-  }
-
   render() {
     const {
       isSavingImage,
@@ -103,73 +86,28 @@ class VisualElementSearch extends Component {
     const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
       provider => provider.name,
     ).filter(name => name === selectedResource);
-
     switch (selectedResource) {
       case 'image':
         return (
-          <Tabs
-            onSelect={selectedIndex => {
-              this.setState({
-                selectedIndex,
+          <ImageSearchAndUploader
+            handleVisualElementChange={handleVisualElementChange}
+            locale={locale}
+            isSavingImage={isSavingImage}
+            closeModal={closeModal}
+            fetchImage={api.fetchImage}
+            searchImages={api.searchImages}
+            onError={api.onError}
+            onImageSelect={image => {
+              handleVisualElementChange({
+                resource: selectedResource,
+                resource_id: image.id,
+                size: 'fullbredde',
+                align: '',
+                alt: convertFieldWithFallback(image, 'alttext', ''),
+                caption: convertFieldWithFallback(image, 'caption', ''),
+                metaData: image,
               });
             }}
-            selectedIndex={this.state.selectedIndex}
-            tabs={[
-              {
-                title: titles(t, selectedResource)[selectedResource],
-                content: (
-                  <ImageSearch
-                    fetchImage={api.fetchImage}
-                    searchImages={api.searchImages}
-                    locale={locale}
-                    searchPlaceholder={t('imageSearch.placeholder')}
-                    searchButtonTitle={t('imageSearch.buttonTitle')}
-                    useImageTitle={t('imageSearch.useImage')}
-                    onImageSelect={image => {
-                      handleVisualElementChange({
-                        resource: selectedResource,
-                        resource_id: image.id,
-                        size: 'fullbredde',
-                        align: '',
-                        alt: convertFieldWithFallback(image, 'alttext', ''),
-                        caption: convertFieldWithFallback(image, 'caption', ''),
-                        metaData: image,
-                      });
-                    }}
-                    noResults={
-                      <Fragment>
-                        <div style={{ marginBottom: '20px' }}>
-                          {t('imageSearch.noResultsText')}
-                        </div>
-                        <Button
-                          submit
-                          outline
-                          onClick={() => {
-                            this.setState({
-                              selectedIndex: 1,
-                            });
-                          }}>
-                          {t('imageSearch.noResultsButtonText')}
-                        </Button>
-                      </Fragment>
-                    }
-                    onError={api.onError}
-                  />
-                ),
-              },
-              {
-                title: t('form.visualElement.imageUpload'),
-                content: (
-                  <EditImage
-                    isSaving={isSavingImage}
-                    showSaved={false}
-                    inModal
-                    editingArticle
-                    closeModal={closeModal}
-                  />
-                ),
-              },
-            ]}
           />
         );
       case 'video': {

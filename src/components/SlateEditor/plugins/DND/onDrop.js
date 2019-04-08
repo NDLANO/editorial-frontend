@@ -12,7 +12,11 @@ function onDrop(event, editor, next) {
   }
   const topLevelSource = getTopNode(sourceNode, editor);
 
-  if (!topLevelSource || !topLevelTarget) {
+  if (
+    !topLevelSource ||
+    !topLevelTarget ||
+    topLevelTarget.key === topLevelSource.key
+  ) {
     return next();
   }
 

@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
-import { DragHorizontal } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { EditorShape } from '../../../../shapes';

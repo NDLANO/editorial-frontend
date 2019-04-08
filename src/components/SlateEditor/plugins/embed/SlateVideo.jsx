@@ -69,6 +69,7 @@ class SlateVideo extends React.PureComponent {
           onRemoveClick={onRemoveClick}
           embed={embed}
           figureType="video"
+          t={t}
         />
         {editMode ? (
           <EditVideo

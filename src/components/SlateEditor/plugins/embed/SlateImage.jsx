@@ -74,6 +74,7 @@ class SlateImage extends React.Component {
           tooltip={t('form.image.removeImage')}
           onRemoveClick={onRemoveClick}
           embed={embed}
+          t={t}
           figureType="image"
           locale={locale}
         />

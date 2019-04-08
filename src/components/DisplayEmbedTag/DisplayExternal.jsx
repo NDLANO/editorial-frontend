@@ -159,6 +159,7 @@ export class DisplayExternal extends Component {
           tooltip={t('form.video.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
+          t={t}
           figureType="external"
           onEdit={
             allowedProvider.name

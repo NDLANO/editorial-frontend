@@ -11,13 +11,13 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
-import injectT from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link } from 'react-router-dom';
 import { EmbedShape } from '../../../../shapes';
 import IconButton from '../../../IconButton';
+
 const centerAdjustedStyle = css`
   right: -${spacing.xsmall};
 `;
@@ -112,4 +112,4 @@ FigureButtons.propTypes = {
   onEdit: PropTypes.func,
 };
 
-export default injectT(FigureButtons);
+export default FigureButtons;

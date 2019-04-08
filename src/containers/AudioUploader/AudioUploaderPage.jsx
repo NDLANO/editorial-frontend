@@ -20,9 +20,8 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
-import { getSaving } from '../../modules/audio/audio';
 import { getLocale } from '../../modules/locale/locale';
-import { getShowSaved } from '../Messages/messagesSelectors';
+import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -43,7 +42,7 @@ class AudioUploaderPage extends Component {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() => <EditAudio {...rest} />}
+              render={() => <CreateAudio {...rest} />}
             />
             <Route
               path={`${match.url}/:audioId/edit/:audioLanguage`}
@@ -80,7 +79,6 @@ AudioUploaderPage.propTypes = {
   fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -95,8 +93,6 @@ const mapStateToProps = state => {
     locale,
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
-    isSaving: getSaving(state),
-    showSaved: getShowSaved(state),
   };
 };
 

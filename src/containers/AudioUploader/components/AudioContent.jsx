@@ -9,36 +9,47 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { InputFileField, TextField } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
 import AudioPlayer from './AudioPlayer';
+import FormikField from '../../../components/FormikField';
 
-const AudioContent = ({ t, commonFieldProps, model, audioInfo }) => (
+const AudioContent = ({ t, values, setFieldValue }) => (
   <Fragment>
-    <TextField
+    <FormikField
       label={t('form.title.label')}
       name="title"
       title
       noBorder
       placeholder={t('form.title.label')}
-      {...commonFieldProps}
     />
-    {!model.id && (
-      <InputFileField
-        label={t('form.audio.file')}
-        name="audioFile"
-        {...commonFieldProps}
-      />
+    {!values.id && (
+      <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
+        {() => (
+          <input
+            id="audioFile"
+            name="audioFile"
+            type="file"
+            onChange={evt => {
+              setFieldValue(
+                'filepath',
+                evt.target && evt.target.files[0]
+                  ? URL.createObjectURL(evt.target.files[0])
+                  : undefined,
+              );
+              setFieldValue('audioFile', evt.target.files[0]);
+            }}
+          />
+        )}
+      </FormikField>
     )}
-    {model.id && <AudioPlayer audio={audioInfo} filepath={model.filepath} />}
+    {(values.id || (values.audioFile && values.filepath)) && (
+      <AudioPlayer audio={values.audioFile} filepath={values.filepath} />
+    )}
   </Fragment>
 );
 
 AudioContent.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   classes: PropTypes.func.isRequired,
-  bindInput: PropTypes.func.isRequired,
-  model: PropTypes.shape({
+  values: PropTypes.shape({
     id: PropTypes.number,
     audioFile: PropTypes.shape({
       fileSize: PropTypes.number,
@@ -47,12 +58,7 @@ AudioContent.propTypes = {
       url: PropTypes.string,
     }),
   }),
-  audioInfo: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
-    mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  }),
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export default injectT(AudioContent);

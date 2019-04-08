@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import SlateInputField from './SlateInputField';
+import { Input } from '@ndla/forms';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { EmbedShape } from '../../../../shapes';
+import { StyledInputWrapper } from './FigureInput';
+
+const videoStyle = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  right: '0px',
+};
 
 class EditVideo extends Component {
   componentDidMount() {
@@ -27,9 +37,9 @@ class EditVideo extends Component {
   render() {
     const {
       embed,
-      submitted,
       onFigureInputChange,
       toggleEditModus,
+      figureClass,
       t,
     } = this.props;
     return (
@@ -44,16 +54,31 @@ class EditVideo extends Component {
               ref={embedEl => {
                 this.embedEl = embedEl;
               }}>
-              <SlateInputField
-                name="caption"
-                label={t('form.video.caption.label')}
-                type="text"
-                required
-                value={embed.caption}
-                submitted={submitted}
-                onChange={onFigureInputChange}
-                placeholder={t('form.video.caption.placeholder')}
-              />
+              <figure css={{ paddingTop: '56.25%' }} {...figureClass}>
+                <video
+                  css={videoStyle}
+                  data-video-id={embed.videoid}
+                  data-account={embed.account}
+                  data-player={embed.player}
+                  data-embed="default"
+                  className="video-js"
+                  controls>
+                  <track kind="captions" label={embed.caption} />
+                </video>
+              </figure>
+              <StyledInputWrapper>
+                <Input
+                  name="caption"
+                  label={t('form.video.caption.label')}
+                  value={embed.caption}
+                  onChange={onFigureInputChange}
+                  container="div"
+                  type="text"
+                  autoExpand
+                  placeholder={t('form.video.caption.placeholder')}
+                  white
+                />
+              </StyledInputWrapper>
             </div>
           </Portal>
         </div>
@@ -66,7 +91,7 @@ EditVideo.propTypes = {
   toggleEditModus: PropTypes.func,
   embed: EmbedShape.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
-  submitted: PropTypes.bool.isRequired,
+  figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
 };
 
 export default injectT(EditVideo);

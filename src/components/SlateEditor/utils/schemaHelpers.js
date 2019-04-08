@@ -11,7 +11,11 @@ import { Block } from 'slate';
 import defaultBlocks from './defaultBlocks';
 
 export const textBlockValidationRules = {
-  first: { type: 'paragraph' },
+  first: [
+    { type: 'paragraph' },
+    { type: 'heading-two' },
+    { type: 'heading-three' },
+  ],
   nodes: [{ match: 'paragraph', min: 1 }],
   last: { type: 'paragraph' },
   next: [

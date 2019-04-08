@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import isEqual from 'lodash/fp/isEqual';
 import { isEditorValueDirty } from './articleContentConverter';
+import { getField } from '../components/Fields';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -37,6 +39,81 @@ export const isFormDirty = ({ fields, model, showSaved = false }) => {
       }
     });
   return dirtyFields.length > 0 && !showSaved;
+};
+
+export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
+  if (!dirty) {
+    return false;
+  }
+  // Checking specific slate object fields if they really have changed
+  const slateFields = ['introduction', 'metaDescription', 'content'];
+  const dirtyFields = [];
+  Object.keys(values).forEach(dirtyValue => {
+    if (slateFields.includes(dirtyValue)) {
+      if (isEditorValueDirty(values[dirtyValue])) {
+        dirtyFields.push(dirtyValue);
+      }
+    } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
+      dirtyFields.push(dirtyValue);
+    }
+  });
+  return dirtyFields.length > 0;
+};
+
+export const getErrorMessages = (label, name, schema) =>
+  getField(name, schema).errors.map(error => error(label));
+
+const formikCommonArticleRules = {
+  title: {
+    required: true,
+  },
+  introduction: {
+    maxLength: 300,
+  },
+  metaDescription: {
+    maxLength: 155,
+  },
+  tags: {
+    required: false,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  license: {
+    required: false,
+  },
+  notes: {
+    required: false,
+    test: value => {
+      const emptyNote = value.find(note => note.length === 0);
+      if (emptyNote !== undefined) {
+        return 'validation.noEmptyNote';
+      }
+      return undefined;
+    },
+  },
+};
+
+export const topicArticleRules = {
+  ...formikCommonArticleRules,
+  'visualElement.alt': {
+    required: true,
+    onlyValidateIf: values =>
+      values.visualElement && values.visualElement.resource === 'image',
+  },
+  'visualElement.caption': {
+    required: true,
+    onlyValidateIf: values =>
+      values.visualElement &&
+      (values.visualElement.resource === 'image' ||
+        values.visualElement.resource === 'brightcove'),
+  },
 };
 
 export const parseImageUrl = metaImage => {

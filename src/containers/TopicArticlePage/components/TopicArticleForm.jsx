@@ -10,19 +10,10 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
-import reformed from '../../../components/reformed';
-import validateSchema, {
-  checkTouchedInvalidField,
-} from '../../../components/validateSchema';
 import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
-import { topicArticleSchema } from '../../../articleSchema';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -30,32 +21,31 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-import TopicArticleMetadata from './TopicArticleMetadata';
-import TopicArticleContent from './TopicArticleContent';
 import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  isFormDirty,
+  isFormikFormDirty,
+  topicArticleRules,
   parseImageUrl,
 } from '../../../util/formHelper';
 import {
-  FormWorkflow,
-  FormCopyright,
-  FormHeader,
-  FormActionButton,
+  FormikAlertModalWrapper,
   formClasses,
-  AlertModalWrapper,
-} from '../../Form';
+  FormikActionButton,
+  FormikHeader,
+} from '../../FormikForm';
 import { formatErrorMessage } from '../../Form/FormWorkflow';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
-import { articleConverter } from '../../../modules/draft/draft';
+import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
+import validateFormik from '../../../components/formikValidationSchema';
+import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 
-export const getInitialModel = (article = {}, language) => {
+export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
   const metaImageId = parseImageUrl(article.metaImage);
   return {
@@ -79,7 +69,7 @@ export const getInitialModel = (article = {}, language) => {
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     notes: [],
     visualElement: visualElement || {},
-    language: language || article.language,
+    language: article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
   };
@@ -89,50 +79,36 @@ class TopicArticleForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onResetFormToProd = this.onResetFormToProd.bind(this);
     this.getArticle = this.getArticle.bind(this);
-    this.onReset = this.onReset.bind(this);
     this.state = {
       showResetModal: false,
+      savedToServer: false,
     };
   }
 
-  componentDidUpdate({ initialModel: prevModel }) {
-    const { initialModel, setModel } = this.props;
-    if (
-      initialModel.id !== prevModel.id ||
-      initialModel.language !== prevModel.language
-    ) {
-      setModel(initialModel);
+  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
+    const { selectedLanguage } = this.props;
+    if (selectedLanguage !== prevSelectedLanguage) {
+      this.setState({ savedToServer: false });
     }
   }
 
-  async onReset() {
-    const {
-      articleId,
-      setModel,
-      selectedLanguage,
-      setInputFlags,
-      t,
-    } = this.props;
+  async onResetFormToProd({ setValues }) {
+    const { articleId, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
       const articleFromProd = await getArticle(articleId);
-      const convertedArticle = articleConverter(
-        articleFromProd,
-        selectedLanguage,
-      );
-
-      const initialModel = getInitialModel(convertedArticle, selectedLanguage);
-      setModel(initialModel);
-      Object.keys(initialModel).forEach(key =>
-        setInputFlags(key, { dirty: true }),
-      );
-
-      this.setState({ showResetModal: false });
-    } catch (e) {
-      if (e.status === 404) {
+      const convertedArticle = transformArticleFromApiVersion({
+        ...articleFromProd,
+        language: selectedLanguage,
+      });
+      const initialValues = getInitialValues(convertedArticle);
+      this.setState({ showResetModal: false }, () => setValues(initialValues));
+    } catch (err) {
+      if (err.status === 404) {
         this.setState({
           showResetModal: false,
           error: t('errorMessage.noArticleInProd'),
@@ -141,69 +117,55 @@ class TopicArticleForm extends Component {
     }
   }
 
-  getArticle() {
-    const { model, licenses } = this.props;
-    const emptyField = model.id ? '' : undefined;
-    const visualElement = createEmbedTag(model.visualElement);
-    const content = topicArticleContentToHTML(model.content);
+  getArticle(values) {
+    const { licenses } = this.props;
+    const emptyField = values.id ? '' : undefined;
+    const visualElement = createEmbedTag(values.visualElement);
+    const content = topicArticleContentToHTML(values.content);
 
     const article = {
-      id: model.id,
-      title: model.title,
-      introduction: editorValueToPlainText(model.introduction),
-      tags: model.tags,
+      id: values.id,
+      title: values.title,
+      introduction: editorValueToPlainText(values.introduction),
+      tags: values.tags,
       content: content || emptyField,
       visualElement: visualElement || emptyField,
-      metaDescription: editorValueToPlainText(model.metaDescription),
+      metaDescription: editorValueToPlainText(values.metaDescription),
       articleType: 'topic-article',
       copyright: {
-        license: licenses.find(license => license.license === model.license),
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
-        agreementId: model.agreementId,
+        license: licenses.find(license => license.license === values.license),
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
+        agreementId: values.agreementId,
       },
+      notes: values.notes || [],
       metaImage: {
-        id: model.metaImageId,
-        alt: model.metaImageAlt,
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
       },
-      notes: model.notes || [],
-      language: model.language,
-      updated: model.updated,
-      supportedLanguages: model.supportedLanguages,
+      language: values.language,
+      updated: values.updated,
+      supportedLanguages: values.supportedLanguages,
     };
 
     return article;
   }
 
-  async handleSubmit(evt) {
-    evt.preventDefault();
-
+  async handleSubmit(values, actions) {
     const {
-      model: { id },
-      validationErrors,
       revision,
-      setSubmitted,
       createMessage,
       articleStatus,
       onUpdate,
-      setModelField,
-      onModelSavedToServer,
+      applicationError,
     } = this.props;
-
     const status = articleStatus ? articleStatus.current : undefined;
-    if (!validationErrors.isValid) {
-      setSubmitted(true);
-      return;
-    }
-    if (!isFormDirty(this.props)) {
-      return;
-    }
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
-        await validateDraft(id, {
-          ...this.getArticle(),
+        await validateDraft(values.id, {
+          ...this.getArticle(values),
           revision,
         });
       } catch (error) {
@@ -213,227 +175,137 @@ class TopicArticleForm extends Component {
         return;
       }
     }
-    onUpdate({
-      ...this.getArticle(),
-      revision,
-    });
-    setModelField('notes', []);
-    onModelSavedToServer();
+
+    try {
+      await onUpdate({
+        ...this.getArticle(values),
+        revision,
+      });
+      actions.setSubmitting(false);
+      actions.setFieldValue('notes', [], false);
+      this.setState({ savedToServer: true });
+    } catch (err) {
+      applicationError(err);
+      actions.setSubmitting(false);
+      this.setState({ savedToServer: false });
+    }
   }
 
   render() {
-    const {
-      t,
-      bindInput,
-      validationErrors: schema,
-      model,
-      submitted,
-      tags,
-      isSaving,
-      articleStatus,
-      fields,
-      licenses,
-      history,
-      revision,
-      article,
-      createMessage,
-      savedToServer,
-    } = this.props;
-    const commonFieldProps = { bindInput, schema, submitted };
-    const panels = [
-      {
-        id: 'topic-article-content',
-        title: t('form.contentSection'),
-        className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: [
-          schema.fields.title,
-          schema.fields.introduction,
-          schema.fields.content,
-          schema.fields.visualElement,
-          schema.fields.visualElement.alt,
-          schema.fields.visualElement.caption,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
-          <TopicArticleContent
-            commonFieldProps={commonFieldProps}
-            tags={tags}
-            model={model}
-          />
-        ),
-      },
-      {
-        id: 'topic-article-copyright',
-        title: t('form.copyrightSection'),
-        className: 'u-6/6',
-        hasError: [
-          schema.fields.creators,
-          schema.fields.rightsholders,
-          schema.fields.processors,
-          schema.fields.license,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
-          <FormCopyright
-            model={model}
-            commonFieldProps={commonFieldProps}
-            licenses={licenses}
-          />
-        ),
-      },
-      {
-        id: 'topic-article-metadata',
-        title: t('form.metadataSection'),
-        className: 'u-6/6',
-        hasError: [schema.fields.metaDescription, schema.fields.tags].some(
-          field => checkTouchedInvalidField(field, submitted),
-        ),
-        component: (
-          <TopicArticleMetadata
-            commonFieldProps={commonFieldProps}
-            tags={tags}
-            model={model}
-          />
-        ),
-      },
-      {
-        id: 'topic-article-workflow',
-        title: t('form.workflowSection'),
-        className: 'u-6/6',
-        hasError: [schema.fields.notes].some(field =>
-          checkTouchedInvalidField(field, submitted),
-        ),
-        component: (
-          <FormWorkflow
-            commonFieldProps={commonFieldProps}
-            articleStatus={articleStatus}
-            model={model}
-            getArticle={this.getArticle}
-            createMessage={createMessage}
-            article={article}
-            revision={revision}
-          />
-        ),
-      },
-    ];
-    const { error, showResetModal } = this.state;
-    return (
-      <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <FormHeader
-          model={model}
-          type={model.articleType}
-          editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
-        />
-        <Accordion openIndexes={['topic-article-content']}>
-          {({ openIndexes, handleItemClick }) => (
-            <AccordionWrapper>
-              {panels.map(panel => (
-                <React.Fragment key={panel.id}>
-                  <AccordionBar
-                    panelId={panel.id}
-                    ariaLabel={panel.title}
-                    onClick={() => handleItemClick(panel.id)}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    {panel.title}
-                  </AccordionBar>
-                  {openIndexes.includes(panel.id) && (
-                    <AccordionPanel
-                      id={panel.id}
-                      hasError={panel.hasError}
-                      isOpen={openIndexes.includes(panel.id)}>
-                      <div className={panel.className}>{panel.component}</div>
-                    </AccordionPanel>
-                  )}
-                </React.Fragment>
-              ))}
-            </AccordionWrapper>
-          )}
-        </Accordion>
-        <Field right>
-          {error && <span className="c-errorMessage">{error}</span>}
-          {model.id && (
-            <FormActionButton
-              onClick={() => this.setState({ showResetModal: true })}>
-              {t('form.resetToProd.button')}
-            </FormActionButton>
-          )}
+    const { t, history, article, ...rest } = this.props;
 
-          <AlertModal
-            show={showResetModal}
-            text={t('form.resetToProd.modal')}
-            actions={[
-              {
-                text: t('form.abort'),
-                onClick: () => this.setState({ showResetModal: false }),
-              },
-              {
-                text: 'Reset',
-                onClick: this.onReset,
-              },
-            ]}
-            onCancel={() => this.setState({ showResetModal: false })}
-          />
-          <FormActionButton
-            outline
-            onClick={history.goBack}
-            disabled={isSaving}>
-            {t('form.abort')}
-          </FormActionButton>
-          <SaveButton
-            {...formClasses}
-            isSaving={isSaving}
-            showSaved={savedToServer && !isFormDirty({ model, fields })}>
-            {t('form.save')}
-          </SaveButton>
-        </Field>
-        <AlertModalWrapper
-          model={model}
-          severity="danger"
-          fields={fields}
-          text={t('alertModal.notSaved')}
-        />
-      </form>
+    const { error, showResetModal, savedToServer } = this.state;
+    const initVal = getInitialValues(article);
+    return (
+      <Formik
+        initialValues={initVal}
+        validateOnBlur={false}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
+        validate={values => validateFormik(values, topicArticleRules, t)}>
+        {({
+          values,
+          initialValues,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+        }) => (
+          <Form {...formClasses()}>
+            <FormikHeader
+              values={values}
+              type={values.articleType}
+              editUrl={lang =>
+                toEditArticle(values.id, values.articleType, lang)
+              }
+            />
+
+            <TopicArticleAccordionPanels
+              values={values}
+              errors={errors}
+              article={article}
+              touched={touched}
+              getArticle={() => this.getArticle(values)}
+              {...rest}
+            />
+
+            <Field right>
+              {error && <span className="c-errorMessage">{error}</span>}
+              {values.id && (
+                <FormikActionButton
+                  onClick={() => this.setState({ showResetModal: true })}>
+                  {t('form.resetToProd.button')}
+                </FormikActionButton>
+              )}
+              <AlertModal
+                show={showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: () => this.onResetFormToProd({ setValues }),
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
+              />
+              <FormikActionButton
+                outline
+                onClick={history.goBack}
+                disabled={isSubmitting}>
+                {t('form.abort')}
+              </FormikActionButton>
+              <SaveButton
+                {...formClasses}
+                isSaving={isSubmitting}
+                showSaved={
+                  savedToServer &&
+                  !isFormikFormDirty({
+                    values,
+                    initialValues,
+                    dirty,
+                  })
+                }>
+                {t('form.save')}
+              </SaveButton>
+            </Field>
+            <FormikAlertModalWrapper
+              isSubmitting={isSubmitting}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
 
 TopicArticleForm.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }).isRequired,
-  initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-  }),
-  setModel: PropTypes.func.isRequired,
   validationErrors: SchemaShape,
-  setModelField: PropTypes.func.isRequired,
-  schema: SchemaShape,
-  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  submitted: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
   revision: PropTypes.number,
-  setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
+  applicationError: PropTypes.func.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  updateArticleStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
-  savedToServer: PropTypes.bool,
-  setInputFlags: PropTypes.func,
+  selectedLanguage: PropTypes.string.isRequired,
 };
 
 export default compose(
   injectT,
   withRouter,
-  reformed,
-  validateSchema(topicArticleSchema),
 )(TopicArticleForm);

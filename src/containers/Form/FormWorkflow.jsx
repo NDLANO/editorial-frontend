@@ -8,15 +8,13 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
+import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import { actions as draftActions } from '../../modules/draft/draft';
 import * as draftApi from '../../modules/draft/draftApi';
-import { FormAddNotes } from '.';
-import { CommonFieldPropsShape, NewArticleShape } from '../../shapes';
 import FormStatusActions from './components/FormStatusActions';
 import FormStatusColumns from './components/FormStatusColumns';
 import FormQualityAssurance from './components/FormQualityAssurance';
@@ -128,28 +126,12 @@ class FormWorkflow extends Component {
   }
 
   render() {
-    const {
-      t,
-      model,
-      articleStatus,
-      commonFieldProps,
-      getArticle,
-      article,
-    } = this.props;
+    const { model, articleStatus, getArticle, children, t } = this.props;
     const { possibleStatuses } = this.state;
 
     return (
       <Fragment>
-        <FormAddNotes
-          name="notes"
-          labelHeading={t('form.notes.heading')}
-          labelAddNote={t('form.notes.add')}
-          article={article}
-          labelRemoveNote={t('form.notes.remove')}
-          labelWarningNote={t('form.notes.warning')}
-          {...commonFieldProps}
-          {...commonFieldProps.bindInput('notes')}
-        />
+        {children}
         <FormStatusColumns articleStatus={articleStatus} />
         <FormStatusActions
           articleStatus={articleStatus}
@@ -183,9 +165,7 @@ FormWorkflow.propTypes = {
   }),
   createMessage: PropTypes.func.isRequired,
   updateStatusDraft: PropTypes.func.isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   getArticle: PropTypes.func.isRequired,
-  article: NewArticleShape,
 };
 
 FormWorkflow.defaultProps = {

@@ -161,6 +161,7 @@ const phrases = {
     concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
+    searchConcepts: 'Søk begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -420,6 +421,24 @@ const phrases = {
     preview: {
       button: 'Forhandsvis',
     },
+    name: {
+      title: 'Tittel',
+      introduction: 'Introduksjon',
+      creators: 'Opphavsperson',
+      rightsholders: 'Rettighetshaver',
+      processors: 'Bearbeider',
+      tags: 'Nøkkelord',
+      license: 'Lisens',
+      origin: 'Opphav',
+      audioFile: 'Lydfil',
+      content: 'Innhald',
+      notes: 'Merknader',
+      metaDescription: 'Metabeskrivelse',
+      visualElement: {
+        caption: 'Figur tekst',
+        alt: 'Alt tekst',
+      },
+    },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
       article: 'Artikkel',
@@ -497,6 +516,12 @@ const phrases = {
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger begrep',
+      addConcept: 'Legg til eksisterende begrep',
     },
     workflow: {
       title: 'Status',
@@ -730,6 +755,8 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
+      editExternal: 'Rediger eksternt element',
+      remove: 'Fjern video',
     },
     audio: {
       file: 'Lydfil',
@@ -877,6 +904,10 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+  },
+  notions: {
+    edit: 'Rediger begrep',
+    closeNotion: 'Lukk begrepsmodal',
   },
   contextTypes: {
     topic: 'Emne',

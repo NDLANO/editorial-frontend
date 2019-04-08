@@ -43,9 +43,7 @@ const OpenMenu = ({ t, close }) => {
               onClick={close}>
               <span>{t('subNavigation.learningPathLink')}</span>
             </StyledNormalLink>
-            <StyledMenuItem
-              to=""
-              style={{ pointerEvents: 'none', opacity: 0.3 }}>
+            <StyledMenuItem to={'/notions'} onClick={close}>
               <span>{t('subNavigation.concept')}</span>
             </StyledMenuItem>
             <StyledMenuItem to="/structure" onClick={close}>

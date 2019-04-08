@@ -34,6 +34,7 @@ import MediaPage from './MediaPage';
 import StructurePage from '../StructurePage/StructurePage';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
+import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 
 export class App extends React.Component {
@@ -76,6 +77,7 @@ export class App extends React.Component {
                 path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
                 component={StructurePage}
               />
+              <PrivateRoute path="/notions" component={NotionPage} />
               <Route path="/forbidden" component={ForbiddenPage} />
               <Route component={NotFoundPage} />
             </Switch>

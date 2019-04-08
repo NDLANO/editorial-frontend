@@ -57,7 +57,7 @@ test('DisplayExternal renders external correctly', () => {
   };
 
   const component = TestRenderer.create(
-    <DisplayExternal embed={embed} url={embed.url} t={() => ''} />,
+    <DisplayExternal embed={embed} t={() => ''} />,
   );
   expect(component.toJSON()).toMatchSnapshot();
 });
@@ -71,7 +71,7 @@ test('DisplayExternal renders iframe correctly', () => {
   };
 
   const component = TestRenderer.create(
-    <DisplayExternal embed={embed} url={embed.url} t={() => ''} />,
+    <DisplayExternal embed={embed} t={() => ''} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -87,7 +87,10 @@ test('DisplayExternal display error on fetch fail', () => {
     });
 
   const component = TestRenderer.create(
-    <DisplayExternal url="https://ndla.no/oembed" t={() => 'Error message'} />,
+    <DisplayExternal
+      embed={{ url: 'https://ndla.no/oembed' }}
+      t={() => 'Error message'}
+    />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

@@ -8,24 +8,24 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import defined from 'defined';
-import { Figure } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
+import { Figure } from '@ndla/ui';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
+import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import DeleteButton from '../../../../components/DeleteButton';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
 const getIframeProps = ({ account, videoid, player = 'default' }, sources) => {
-  const source =
-    sources
-      .filter(s => s.width && s.height)
-      .sort((a, b) => a.height < b.height)[0] || {};
+  const sortedSources = sources
+    .filter(s => s.width && s.height)
+    .sort((a, b) => a.height < b.height);
+  const source = sortedSources.length > 0 ? sortedSources[0] : {};
   return {
     src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
-    height: defined(source.height, '480'),
-    width: defined(source.width, '640'),
+    height: source.height || '480',
+    width: source.width || '640',
   };
 };
 
@@ -57,37 +57,47 @@ class SlateVideo extends React.PureComponent {
       attributes,
       figureClass,
       onRemoveClick,
+      t,
       ...rest
     } = this.props;
-    const { iframeData } = this.state;
+    const { iframeData, editMode } = this.state;
 
     return (
-      <Figure id={embed.videoid} resizeIframe {...attributes}>
-        <DeleteButton stripped onClick={onRemoveClick} />
-        <iframe
-          title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
-          frameBorder="0"
-          {...iframeData}
-          allowFullScreen
+      <div className="c-figure" {...attributes}>
+        <FigureButtons
+          tooltip={t('form.video.remove')}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          figureType="video"
         />
-
-        {this.state.editMode ? (
+        {editMode ? (
           <EditVideo
             embed={embed}
             toggleEditModus={this.toggleEditModus}
+            figureClass={figureClass}
             {...rest}
           />
         ) : (
-          <Button
-            stripped
-            style={{ width: '100%', textAlign: 'left' }}
-            onClick={this.toggleEditModus}>
-            <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
-            </figcaption>
-          </Button>
+          <>
+            <Figure {...figureClass} resizeIframe>
+              <iframe
+                title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
+                frameBorder="0"
+                {...iframeData}
+                allowFullScreen
+              />
+            </Figure>
+            <Button
+              stripped
+              style={{ width: '100%' }}
+              onClick={this.toggleEditModus}>
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
+              </figcaption>
+            </Button>
+          </>
         )}
-      </Figure>
+      </div>
     );
   }
 }
@@ -103,4 +113,4 @@ SlateVideo.propTypes = {
   figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
 };
 
-export default SlateVideo;
+export default injectT(SlateVideo);

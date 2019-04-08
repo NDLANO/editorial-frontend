@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Figure } from '@ndla/ui';
 import Button from '@ndla/button';
 import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
@@ -70,10 +69,7 @@ class SlateImage extends React.Component {
       'isSelectedForCopy'}`;
 
     return (
-      <Figure
-        {...attributes}
-        id={embed.resource_id}
-        className={figureClassNames}>
+      <div {...attributes} className={figureClassNames}>
         <FigureButtons
           tooltip={t('form.image.removeImage')}
           onRemoveClick={onRemoveClick}
@@ -99,7 +95,7 @@ class SlateImage extends React.Component {
             </figcaption>
           </figure>
         </Button>
-      </Figure>
+      </div>
     );
   }
 }

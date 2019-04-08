@@ -23,7 +23,6 @@ function onDragStart(event, editor, next) {
   const { type } = getTopNode(dragSource, editor);
   if (Text.isText(dragSource) && !shouldCopyTableOrList(type, editor)) {
     // just copy the text natively
-    console.log('native');
     return next();
   }
   event.dataTransfer.setData('text/nodeKey', dragSource.key);

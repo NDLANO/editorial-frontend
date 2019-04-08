@@ -33,6 +33,7 @@ exports[`it goes in and out of edit mode 2`] = `
 <div
   class="emotion-0"
   data-testid="relatedWrapper"
+  draggable="true"
   role="button"
   tabindex="0"
 >

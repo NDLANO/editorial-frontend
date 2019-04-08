@@ -1,4 +1,5 @@
 import { findNode } from 'slate-react';
+import { findDOMNode } from 'slate-react';
 import { getTopNode } from './utils';
 
 function onDrop(event, editor, next) {
@@ -11,7 +12,6 @@ function onDrop(event, editor, next) {
     return next();
   }
   const topLevelSource = getTopNode(sourceNode, editor);
-
   if (
     !topLevelSource ||
     !topLevelTarget ||
@@ -26,15 +26,19 @@ function onDrop(event, editor, next) {
     editor.withoutNormalizing(() => {
       editor
         .moveNodeByKey(topLevelSourceKey, topLevelTarget.key, 0)
-        .unwrapNodeByKey(topLevelSourceKey)
-        .moveToEndOfNode(topLevelSource);
+        .unwrapNodeByKey(topLevelSourceKey);
     });
   } else {
+    const { height, top } = findDOMNode(target).getBoundingClientRect();
+    const goUp = top + height / 2 > event.clientY;
     editor.withoutNormalizing(() => {
       editor
-        .moveNodeByKey(topLevelSourceKey, topLevelTarget.key, 0)
-        .unwrapNodeByKey(topLevelSourceKey)
-        .moveToEndOfNode(topLevelSource);
+        .moveNodeByKey(
+          topLevelSourceKey,
+          topLevelTarget.key,
+          goUp ? 0 : topLevelTarget.nodes.size,
+        )
+        .unwrapNodeByKey(topLevelSourceKey);
     });
   }
 }

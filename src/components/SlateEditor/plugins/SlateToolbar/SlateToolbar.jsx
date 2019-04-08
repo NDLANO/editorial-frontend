@@ -119,7 +119,9 @@ class SlateToolbar extends Component {
         value: { selection, fragment },
       },
     } = this.props;
-    if (!menu) return;
+    if (!menu) {
+      return;
+    }
     if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
       menu.removeAttribute('style');
       return;

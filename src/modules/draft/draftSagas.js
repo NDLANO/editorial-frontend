@@ -38,7 +38,7 @@ export function* watchFetchDraft() {
 export function* updateDraft(draft) {
   try {
     const updatedDraft = yield call(api.updateDraft, draft);
-    yield put(actions.setDraft(updatedDraft));
+    yield put(actions.setDraft({ ...updatedDraft, language: draft.language }));
     yield put(actions.updateDraftSuccess());
     yield put(messageActions.showSaved());
   } catch (error) {
@@ -61,7 +61,7 @@ export function* updateDraft(draft) {
 export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
-    yield put(actions.setDraft(createdDraft));
+    yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
     yield put(actions.updateDraftSuccess());
     yield put(messageActions.showSaved());
     history.push(

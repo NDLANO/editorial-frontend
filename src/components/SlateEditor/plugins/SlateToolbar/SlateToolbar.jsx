@@ -34,7 +34,6 @@ class SlateToolbar extends Component {
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = this.portalRef.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
   }
 
@@ -76,7 +75,6 @@ class SlateToolbar extends Component {
     } else {
       editor.setBlocks(isActive ? DEFAULT_NODE : type);
     }
-    this.handleValueChange(editor);
   }
 
   onClickMark(e, type) {
@@ -100,7 +98,6 @@ class SlateToolbar extends Component {
         editor.wrapInline(type);
       });
     }
-    this.handleValueChange(editor);
   }
 
   onButtonClick(e, kind, type) {
@@ -113,12 +110,6 @@ class SlateToolbar extends Component {
     // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
     // eslint-disable-next-line react/no-find-dom-node
     this.menu = findDOMNode(menu);
-  }
-
-  handleValueChange(value) {
-    const { onChange } = this.props;
-    onChange(value);
-    this.updateMenu();
   }
 
   updateMenu() {

@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
-import { Figure } from '@ndla/ui';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
@@ -136,15 +135,12 @@ class SlateFigure extends React.Component {
       case 'external':
       case 'iframe':
         return (
-          <Figure id={embed.url}>
-            <DisplayExternal
-              onRemoveClick={this.onRemoveClick}
-              editor={editor}
-              node={node}
-              embed={embed}
-              url={embed.url}
-            />
-          </Figure>
+          <DisplayExternal
+            onRemoveClick={this.onRemoveClick}
+            editor={editor}
+            node={node}
+            embed={embed}
+          />
         );
       case 'error':
         return (

@@ -485,6 +485,12 @@ const phrases = {
     updated: {
       label: 'Oppdatert dato',
     },
+    published: {
+      label: 'Publisert dato',
+      reset: 'Resett dato',
+    },
+    doNotUpdatePublished:
+      'Vil du, ved å huke av, ikke oppdatere datoen automatisk?',
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',

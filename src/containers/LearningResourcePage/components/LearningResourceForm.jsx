@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
+import isEmpty from 'lodash/fp/isEmpty';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
@@ -70,6 +71,8 @@ export const getInitialModel = (article = {}, language) => {
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     updated: article.updated,
+    published: article.published,
+    doNotUpdatePublished: false,
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -96,7 +99,7 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
-
+    this.getPublishedDate = this.getPublishedDate.bind(this);
     this.state = {
       showResetModal: false,
     };
@@ -153,6 +156,19 @@ class LearningResourceForm extends Component {
     }
   }
 
+  getPublishedDate() {
+    const { initialModel, model } = this.props;
+    if (isEmpty(model.published)) {
+      return undefined;
+    }
+
+    const hasPublishedDateChaned = initialModel.published !== model.published;
+    if (hasPublishedDateChaned || model.doNotUpdatePublished) {
+      return model.published;
+    }
+    return undefined;
+  }
+
   getArticleFromModel() {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
@@ -178,7 +194,7 @@ class LearningResourceForm extends Component {
       },
       notes: model.notes || [],
       language: model.language,
-      updated: model.updated,
+      published: this.getPublishedDate(),
       supportedLanguages: model.supportedLanguages,
     };
 
@@ -249,6 +265,8 @@ class LearningResourceForm extends Component {
       article,
       validationErrors,
       savedToServer,
+      initialModel,
+      setModelField,
     } = this.props;
 
     const { error } = this.state;
@@ -268,6 +286,8 @@ class LearningResourceForm extends Component {
           <LearningResourceContent
             userAccess={userAccess}
             model={model}
+            setModelField={setModelField}
+            initialModel={initialModel}
             commonFieldProps={commonFieldProps}
           />
         ),

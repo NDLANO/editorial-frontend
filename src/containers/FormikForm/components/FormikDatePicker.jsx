@@ -8,38 +8,50 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { FieldHeader } from '@ndla/forms';
+import { FieldHeader, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import { Field } from '../../../components/Fields';
 
-const FormDatePicker = ({ t, name, ...rest }) => {
+const FormikDatePicker = ({ t, name, onReset, ...rest }) => {
   return (
     <Field>
       <FieldHeader title={t(`form.${name}.label`)} />
-      <DateTimeInput name={name} {...rest} />
+      <FieldSection>
+        <DateTimeInput name={name} {...rest} />
+        {onReset && (
+          <FieldRemoveButton
+            onClick={onReset}
+            css={css`
+              padding-top: 0;
+            `}>
+            {t(`form.${name}.reset`)}
+          </FieldRemoveButton>
+        )}
+      </FieldSection>
     </Field>
   );
 };
 
-FormDatePicker.propTypes = {
+FormikDatePicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+  onReset: PropTypes.func,
   value: PropTypes.string,
   locale: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
 };
 
-FormDatePicker.defaultProps = {
+FormikDatePicker.defaultProps = {
   disabled: false,
-  name: 'license',
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default connect(mapStateToProps)(injectT(FormDatePicker));
+export default connect(mapStateToProps)(injectT(FormikDatePicker));

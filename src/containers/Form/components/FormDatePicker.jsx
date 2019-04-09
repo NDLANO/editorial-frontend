@@ -10,19 +10,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { FieldHeader } from '@ndla/forms';
+import { css } from '@emotion/core';
+import { FieldHeader, FieldSection, FieldRemoveButton } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import { Field } from '../../../components/Fields';
 
-const FormDatePicker = ({ t, name, ...rest }) => {
-  return (
-    <Field>
-      <FieldHeader title={t(`form.${name}.label`)} />
+const FormDatePicker = ({ t, name, onReset, ...rest }) => (
+  <Field>
+    <FieldHeader title={t(`form.${name}.label`)} />
+    <FieldSection>
       <DateTimeInput name={name} {...rest} />
-    </Field>
-  );
-};
+      {onReset && (
+        <FieldRemoveButton
+          onClick={onReset}
+          css={css`
+            padding-top: 0;
+          `}>
+          {t(`form.${name}.reset`)}
+        </FieldRemoveButton>
+      )}
+    </FieldSection>
+  </Field>
+);
 
 FormDatePicker.propTypes = {
   onChange: PropTypes.func.isRequired,
@@ -31,6 +41,7 @@ FormDatePicker.propTypes = {
   locale: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
+  onReset: PropTypes.func,
 };
 
 FormDatePicker.defaultProps = {

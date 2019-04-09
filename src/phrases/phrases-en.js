@@ -470,6 +470,12 @@ const phrases = {
     updated: {
       label: 'Updated date',
     },
+    published: {
+      label: 'Published date',
+      reset: 'Reset date',
+    },
+    doNotUpdatePublished:
+      'Do you want to automatically update the date by checking off?',
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',

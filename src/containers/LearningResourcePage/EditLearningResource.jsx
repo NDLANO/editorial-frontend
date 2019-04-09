@@ -50,7 +50,7 @@ class EditLearningResource extends PureComponent {
     } = this.props;
 
     if (prevLanguage !== selectedLanguage || articleId !== prevArticleId) {
-      fetchDraft({ id: articleId, language: selectedLanguage });
+      await fetchDraft({ id: articleId, language: selectedLanguage });
     }
     if (article && (!prevArticle || article.id !== prevArticle.id)) {
       fetchTags({ language: article.language });

@@ -101,6 +101,7 @@ class ImageForm extends Component {
       setSubmitted,
       onUpdate,
       revision,
+      onModelSavedToServer,
     } = this.props;
 
     if (!validationErrors.isValid) {
@@ -125,6 +126,7 @@ class ImageForm extends Component {
       },
     };
     onUpdate(imageMetaData, model.imageFile);
+    onModelSavedToServer();
   }
 
   render() {
@@ -288,6 +290,7 @@ ImageForm.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
+  onModelSavedToServer: PropTypes.func.isRequired,
 };
 
 export default compose(

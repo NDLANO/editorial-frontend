@@ -76,7 +76,7 @@ Contributor.propTypes = {
   showError: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  labelRemove: PropTypes.string.isRequired,
+  labelRemove: PropTypes.string,
   contributor: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,

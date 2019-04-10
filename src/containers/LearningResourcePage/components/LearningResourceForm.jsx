@@ -162,8 +162,8 @@ class LearningResourceForm extends Component {
       return undefined;
     }
 
-    const hasPublishedDateChaned = initialModel.published !== model.published;
-    if (hasPublishedDateChaned || model.doNotUpdatePublished) {
+    const hasPublishedDateChanged = initialModel.published !== model.published;
+    if (hasPublishedDateChanged || model.doNotUpdatePublished) {
       return model.published;
     }
     return undefined;

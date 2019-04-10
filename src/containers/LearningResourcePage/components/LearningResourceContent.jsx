@@ -10,7 +10,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
-import { FieldHeader, FieldSection } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import { getLocale } from '../../../modules/locale/locale';
@@ -119,7 +119,7 @@ class LearningResourceContent extends Component {
     } = this.props;
     const { value } = commonFieldProps.bindInput('content');
     const { published, creators } = model;
-    const hasPublishedDateChaned = initialModel.published !== published;
+    const hasPublishedDateChanged = initialModel.published !== published;
     return (
       <Fragment>
         <TextField
@@ -132,19 +132,8 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LastUpdatedLine creators={creators} published={published} />
-
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-        <FieldSection>
-          <FormDatePicker
-            enableTime
-            onReset={() =>
-              setModelField('published', initialModel.published || '')
-            }
-            dateFormat="d/m/Y - H:i"
-            {...commonFieldProps.bindInput('published')}
-          />
-        </FieldSection>
-        {!hasPublishedDateChaned && (
+        {!hasPublishedDateChanged && (
           <Fragment>
             <input
               css={css`
@@ -158,6 +147,16 @@ class LearningResourceContent extends Component {
             />
             <span>{t('form.doNotUpdatePublished')}</span>
           </Fragment>
+        )}
+        {model.doNotUpdatePublished && (
+          <FormDatePicker
+            enableTime
+            onReset={() =>
+              setModelField('published', initialModel.published || '')
+            }
+            dateFormat="d/m/Y - H:i"
+            {...commonFieldProps.bindInput('published')}
+          />
         )}
 
         {model.id && userAccess.includes('drafts:admin') && (

@@ -14,10 +14,9 @@ import { css } from '@emotion/core';
 import { FieldHeader, FieldSection, FieldRemoveButton } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
-import { Field } from '../../../components/Fields';
 
 const FormDatePicker = ({ t, name, onReset, ...rest }) => (
-  <Field>
+  <>
     <FieldHeader title={t(`form.${name}.label`)} />
     <FieldSection>
       <DateTimeInput name={name} {...rest} />
@@ -31,7 +30,7 @@ const FormDatePicker = ({ t, name, onReset, ...rest }) => (
         </FieldRemoveButton>
       )}
     </FieldSection>
-  </Field>
+  </>
 );
 
 FormDatePicker.propTypes = {

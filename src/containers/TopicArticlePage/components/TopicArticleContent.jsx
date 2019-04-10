@@ -9,7 +9,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
 import { spacing } from '@ndla/core';
 import { FieldHeader, FieldSection } from '@ndla/forms';
 import { css } from '@emotion/core';
@@ -18,6 +17,7 @@ import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../components/lastUpdatedLine';
 import {
   renderNode,
   renderMark,
@@ -34,11 +34,6 @@ import createLinkPlugin, {
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { FormikIngress, FormikDatePicker } from '../../FormikForm';
-
-const classes = new BEMHelper({
-  name: 'topic-article-content',
-  prefix: 'c-',
-});
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
@@ -78,14 +73,8 @@ const TopicArticleContent = props => {
         placeholder={t('form.title.label')}
       />
       {/* TODO: Change to c-article-byline */}
-      <div {...classes('info')}>
-        {creators.map(creator => creator.name).join(',')}
-        {published
-          ? ` - ${t('topicArticleForm.info.lastUpdated', {
-              updated: published,
-            })}`
-          : ''}
-      </div>
+
+      <LastUpdatedLine creators={creators} published={published} />
 
       <FormikField name="published">
         {({ field, form }) => (

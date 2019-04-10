@@ -19,6 +19,7 @@ import RichBlockTextField from '../../../components/RichBlockTextField';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LearningResourceIngress from './LearningResourceIngress';
 import { schema } from '../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../components/lastUpdatedLine';
 import {
   renderNode,
   renderMark,
@@ -117,7 +118,8 @@ class LearningResourceContent extends Component {
       setModelField,
     } = this.props;
     const { value } = commonFieldProps.bindInput('content');
-    const hasPublishedDateChaned = initialModel.published !== model.published;
+    const { published, creators } = model;
+    const hasPublishedDateChaned = initialModel.published !== published;
     return (
       <Fragment>
         <TextField
@@ -129,6 +131,8 @@ class LearningResourceContent extends Component {
           data-cy="learning-resource-title"
           {...commonFieldProps}
         />
+        <LastUpdatedLine creators={creators} published={published} />
+
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         <FieldSection>
           <FormDatePicker

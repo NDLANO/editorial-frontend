@@ -130,10 +130,6 @@ class LearningResourceContent extends Component {
           {...commonFieldProps}
         />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-        {model.id && (
-          <FormDatePicker name="updated" enableTime dateFormat="d/m/Y - H:i" />
-        )}
-
         <FieldSection>
           <FormDatePicker
             enableTime

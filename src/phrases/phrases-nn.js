@@ -489,7 +489,7 @@ const phrases = {
       label: 'Publisert dato',
       reset: 'Resett dato',
     },
-    doNotUpdatePublished: 'Endre publisert dato',
+    updatePublished: 'Endre publisert dato',
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',

@@ -54,7 +54,7 @@ export const getInitialValues = (article = {}) => {
     revision: article.revision,
     updated: article.updated,
     published: article.published,
-    doNotUpdatePublished: false,
+    updatePublished: false,
     title: article.title || '',
     introduction: plainTextToEditorValue(article.introduction, true),
     content: topicArticleContentToEditorValue(article.content),
@@ -129,7 +129,7 @@ class TopicArticleForm extends Component {
     const initialValues = getInitialValues(article);
 
     const hasPublishedDateChaned = initialValues.published !== values.published;
-    if (hasPublishedDateChaned || values.doNotUpdatePublished) {
+    if (hasPublishedDateChaned || values.updatePublished) {
       return values.published;
     }
     return undefined;

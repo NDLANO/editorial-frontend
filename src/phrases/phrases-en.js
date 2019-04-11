@@ -474,7 +474,7 @@ const phrases = {
       label: 'Published date',
       reset: 'Reset date',
     },
-    doNotUpdatePublished: 'Update published date',
+    updatePublished: 'Update published date',
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',

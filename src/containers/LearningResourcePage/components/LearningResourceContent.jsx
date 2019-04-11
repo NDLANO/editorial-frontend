@@ -135,20 +135,22 @@ class LearningResourceContent extends Component {
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
         {!hasPublishedDateChanged && (
           <Fragment>
-            <input
-              css={css`
-                display: inline-block;
-                width: auto;
-                appearance: checkbox !important;
-                margin-right: ${spacing.small};
-              `}
-              type="checkbox"
-              {...commonFieldProps.bindInput('doNotUpdatePublished')}
-            />
-            <span>{t('form.doNotUpdatePublished')}</span>
+            <label>
+              <input
+                css={css`
+                  display: inline-block;
+                  width: auto;
+                  appearance: checkbox !important;
+                  margin-right: ${spacing.small};
+                `}
+                type="checkbox"
+                {...commonFieldProps.bindInput('updatePublished')}
+              />
+              <span>{t('form.updatePublished')}</span>
+            </label>
           </Fragment>
         )}
-        {model.doNotUpdatePublished && (
+        {model.updatePublished && (
           <FormDatePicker
             enableTime
             onReset={() =>

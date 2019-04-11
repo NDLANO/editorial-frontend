@@ -91,7 +91,7 @@ const TopicArticleContent = props => {
         )}
       </FormikField>
       {!hasPublishedDateChaned && (
-        <FormikField name="doNotUpdatePublished">
+        <FormikField name="updatePublished">
           {({ field }) => (
             <Fragment>
               <input
@@ -104,7 +104,7 @@ const TopicArticleContent = props => {
                 type="checkbox"
                 {...field}
               />
-              <span>{t('form.doNotUpdatePublished')}</span>
+              <span>{t('form.updatePublished')}</span>
             </Fragment>
           )}
         </FormikField>

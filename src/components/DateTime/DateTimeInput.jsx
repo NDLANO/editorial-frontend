@@ -56,7 +56,11 @@ class DateTimeInput extends React.Component {
       onChange({
         target: {
           name,
-          value: selectedDateValue.toISOString(),
+          value:
+            selectedDateValue
+              .toISOString()
+              .split('.')
+              .shift() + 'Z',
           type: 'DateTime',
         },
       });

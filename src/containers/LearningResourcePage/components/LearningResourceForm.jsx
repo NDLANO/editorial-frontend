@@ -72,7 +72,7 @@ export const getInitialModel = (article = {}, language) => {
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     updated: article.updated,
     published: article.published,
-    doNotUpdatePublished: false,
+    updatePublished: false,
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -163,7 +163,7 @@ class LearningResourceForm extends Component {
     }
 
     const hasPublishedDateChanged = initialModel.published !== model.published;
-    if (hasPublishedDateChanged || model.doNotUpdatePublished) {
+    if (hasPublishedDateChanged || model.updatePublished) {
       return model.published;
     }
     return undefined;

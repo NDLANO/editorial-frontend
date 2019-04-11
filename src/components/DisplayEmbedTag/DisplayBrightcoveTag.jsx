@@ -53,7 +53,7 @@ DisplayBrightcoveTag.propTypes = {
     caption: PropTypes.string,
   }).isRequired,
   className: PropTypes.string,
-  onRemoveClick: PropTypes.object,
+  onRemoveClick: PropTypes.func.isRequired,
 };
 
 export default DisplayBrightcoveTag;

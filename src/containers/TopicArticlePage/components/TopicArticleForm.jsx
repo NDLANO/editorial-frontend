@@ -121,9 +121,12 @@ class TopicArticleForm extends Component {
     }
   }
 
-  getPublishedDate(values) {
+  getPublishedDate(values, preview = false) {
     if (isEmpty(values.published)) {
       return undefined;
+    }
+    if (preview) {
+      return values.published;
     }
     const { article } = this.props;
     const initialValues = getInitialValues(article);
@@ -135,7 +138,8 @@ class TopicArticleForm extends Component {
     return undefined;
   }
 
-  getArticle(values) {
+  // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+  getArticle(values, preview = false) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
     const visualElement = createEmbedTag(values.visualElement);
@@ -162,7 +166,7 @@ class TopicArticleForm extends Component {
         alt: values.metaImageAlt,
       },
       language: values.language,
-      published: this.getPublishedDate(values),
+      published: this.getPublishedDate(values, preview),
       supportedLanguages: values.supportedLanguages,
     };
 

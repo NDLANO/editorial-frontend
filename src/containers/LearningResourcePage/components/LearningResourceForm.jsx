@@ -156,10 +156,13 @@ class LearningResourceForm extends Component {
     }
   }
 
-  getPublishedDate() {
+  getPublishedDate(preview = false) {
     const { initialModel, model } = this.props;
     if (isEmpty(model.published)) {
       return undefined;
+    }
+    if (preview) {
+      return model.published;
     }
 
     const hasPublishedDateChanged = initialModel.published !== model.published;
@@ -169,7 +172,7 @@ class LearningResourceForm extends Component {
     return undefined;
   }
 
-  getArticleFromModel() {
+  getArticleFromModel(preview = false) {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
@@ -194,7 +197,7 @@ class LearningResourceForm extends Component {
       },
       notes: model.notes || [],
       language: model.language,
-      published: this.getPublishedDate(),
+      published: this.getPublishedDate(preview),
       supportedLanguages: model.supportedLanguages,
     };
 

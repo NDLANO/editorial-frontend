@@ -105,7 +105,7 @@ class PreviewDraftLightbox extends React.Component {
   async openPreview() {
     const { getArticle, typeOfPreview } = this.props;
 
-    const article = toApiVersion(getArticle());
+    const article = toApiVersion(getArticle(true));
     const secondArticleLanguage = article.supportedLanguages.find(
       l => l !== article.language,
     );
@@ -136,7 +136,7 @@ class PreviewDraftLightbox extends React.Component {
 
   async previewProductionArticle() {
     const { getArticle } = this.props;
-    const { id, language } = getArticle();
+    const { id, language } = getArticle(true);
     const article = await articleApi.getArticleFromArticleConverter(
       id,
       language,
@@ -146,7 +146,7 @@ class PreviewDraftLightbox extends React.Component {
 
   async previewLanguageArticle(language = undefined) {
     const { getArticle } = this.props;
-    const originalArticle = toApiVersion(getArticle());
+    const originalArticle = toApiVersion(getArticle(true));
     const draftOtherLanguage = await draftApi.fetchDraft(
       originalArticle.id,
       language,

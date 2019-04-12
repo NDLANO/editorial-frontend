@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
-import { FieldHeader, FieldSection } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { css } from '@emotion/core';
 import { connect } from 'formik';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
@@ -58,11 +58,11 @@ const TopicArticleContent = props => {
   const {
     t,
     formik: {
-      values: { creators, published, visualElement },
+      values: { creators, published, visualElement, updatePublished = false },
       initialValues,
     },
   } = props;
-  const hasPublishedDateChaned = initialValues.published !== published;
+  const hasPublishedDateChanged = initialValues.published !== published;
   return (
     <Fragment>
       <FormikField
@@ -73,24 +73,9 @@ const TopicArticleContent = props => {
         placeholder={t('form.title.label')}
       />
       {/* TODO: Change to c-article-byline */}
-
       <LastUpdatedLine creators={creators} published={published} />
-
-      <FormikField name="published">
-        {({ field, form }) => (
-          <FieldSection>
-            <FormikDatePicker
-              enableTime
-              onReset={() =>
-                form.setFieldValue(field.name, initialValues.published || '')
-              }
-              dateFormat="d/m/Y - H:i"
-              {...field}
-            />
-          </FieldSection>
-        )}
-      </FormikField>
-      {!hasPublishedDateChaned && (
+      <FormikIngress />
+      {!hasPublishedDateChanged && (
         <FormikField name="updatePublished">
           {({ field }) => (
             <Fragment>
@@ -109,7 +94,21 @@ const TopicArticleContent = props => {
           )}
         </FormikField>
       )}
-      <FormikIngress />
+      {updatePublished && (
+        <FormikField name="published">
+          {({ field, form }) => (
+            <FormikDatePicker
+              enableTime
+              onReset={() =>
+                form.setFieldValue(field.name, initialValues.published || '')
+              }
+              dateFormat="d/m/Y - H:i"
+              {...field}
+            />
+          )}
+        </FormikField>
+      )}
+
       <TopicArticleVisualElement visualElement={visualElement} />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
@@ -139,11 +138,13 @@ TopicArticleContent.propTypes = {
       id: PropTypes.number,
       published: PropTypes.string,
       title: PropTypes.string,
+      updatePublished: PropTypes.bool,
     }),
     initialValues: PropTypes.shape({
       id: PropTypes.number,
       published: PropTypes.string,
       title: PropTypes.string,
+      updatePublished: PropTypes.bool,
     }),
   }),
 };

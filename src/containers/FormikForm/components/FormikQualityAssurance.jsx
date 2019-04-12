@@ -12,10 +12,19 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
+import { toPreviewDraft } from '../../../util/routeHelpers';
+import FormikActionButton from './FormikActionButton';
 
 const FormikQualityAssurance = ({ getArticle, values, onValidateClick, t }) => (
   <div>
     <FieldHeader title={t('form.workflow.qualityAssurance')} />
+    {values.id && (
+      <FormikActionButton
+        outline
+        onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+        {t('form.previewNewWindow')}
+      </FormikActionButton>
+    )}
     <PreviewDraftLightbox
       label={t('subNavigation.learningResource')}
       typeOfPreview="preview"

@@ -9,6 +9,7 @@ import FormikHeader from './FormikHeader';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
 import FormikActionButton from './components/FormikActionButton';
 import FormikMetaImageSearch from './FormikMetaImageSearch';
+import FormikDatePicker from './components/FormikDatePicker';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -19,6 +20,7 @@ export {
   FormikCopyright,
   FormikAlertModalWrapper,
   FormikAgreementConnection,
+  FormikDatePicker,
   FormikIngress,
   FormikWorkflow,
   FormikAddNotes,

@@ -15,6 +15,7 @@ import AlertModalWrapper from './AlertModalWrapper';
 import FormHeader from './FormHeader';
 import FormActionButton from './components/FormActionButton';
 import FormMetaImageSearch from './FormMetaImageSearch';
+import FormDatePicker from './components/FormDatePicker';
 
 export {
   AgreementConnection,
@@ -24,6 +25,7 @@ export {
   FormCopyright,
   FormAddNotes,
   FormHeader,
+  FormDatePicker,
   FormActionButton,
   AlertModalWrapper,
 };

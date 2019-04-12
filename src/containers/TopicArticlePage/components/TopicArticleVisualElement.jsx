@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { connect } from 'formik';
+import { FieldHeader } from '@ndla/forms';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 import VisualElementPreview from '../../VisualElement/VisualElementPreview';
@@ -49,12 +50,7 @@ class TopicArticleVisualElement extends Component {
     const { selectedResource } = this.state;
     return (
       <div>
-        <div {...visualElementClasses('add-title')}>
-          <span>
-            {t('form.visualElement.title')}
-            <div {...visualElementClasses('add-title', 'border')} />
-          </span>
-        </div>
+        <FieldHeader title={t('form.visualElement.title')} />
         {!visualElement.resource ? (
           <VisualElementMenu onSelect={this.handleSelectResource} />
         ) : null}

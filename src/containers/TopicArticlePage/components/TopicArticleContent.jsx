@@ -9,11 +9,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
+import { spacing } from '@ndla/core';
+import { FieldHeader } from '@ndla/forms';
+import { css } from '@emotion/core';
+import { connect } from 'formik';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../components/lastUpdatedLine';
 import {
   renderNode,
   renderMark,
@@ -29,12 +33,7 @@ import createLinkPlugin, {
 } from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
-import { FormikIngress } from '../../FormikForm';
-
-const classes = new BEMHelper({
-  name: 'topic-article-content',
-  prefix: 'c-',
-});
+import { FormikIngress, FormikDatePicker } from '../../FormikForm';
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
@@ -55,50 +54,99 @@ const plugins = [
   paragraphPlugin(),
 ];
 
-const TopicArticleContent = ({
-  t,
-  values: { creators, updated, visualElement },
-}) => (
-  <Fragment>
-    <FormikField
-      label={t('form.title.label')}
-      name="title"
-      title
-      noBorder
-      placeholder={t('form.title.label')}
-    />
-    {/* TODO: Change to c-article-byline */}
-    <div {...classes('info')}>
-      {creators.map(creator => creator.name).join(',')}
-      {updated
-        ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
-        : ''}
-    </div>
-    <FormikIngress />
-    <TopicArticleVisualElement visualElement={visualElement} />
-    <FormikField name="content" label={t('form.content.label')} noBorder>
-      {({ field, form: { isSubmitting } }) => (
-        <RichTextEditor
-          placeholder={t('form.content.placeholder')}
-          id={field.name}
-          {...field}
-          submitted={isSubmitting}
-          renderNode={renderNode}
-          renderMark={renderMark}
-          plugins={plugins}
-          supportedToolbarElements={supportedToolbarElements}
-          schema={slateSchema}
-        />
+const TopicArticleContent = props => {
+  const {
+    t,
+    formik: {
+      values: { creators, published, visualElement, updatePublished = false },
+      initialValues,
+    },
+  } = props;
+  const hasPublishedDateChanged = initialValues.published !== published;
+  return (
+    <Fragment>
+      <FormikField
+        label={t('form.title.label')}
+        name="title"
+        title
+        noBorder
+        placeholder={t('form.title.label')}
+      />
+      {/* TODO: Change to c-article-byline */}
+      <LastUpdatedLine creators={creators} published={published} />
+      <FormikIngress />
+      {!hasPublishedDateChanged && (
+        <FormikField name="updatePublished">
+          {({ field }) => (
+            <Fragment>
+              <input
+                css={css`
+                  display: inline-block;
+                  width: auto;
+                  appearance: checkbox !important;
+                  margin-right: ${spacing.small};
+                `}
+                type="checkbox"
+                {...field}
+              />
+              <span>{t('form.updatePublished')}</span>
+            </Fragment>
+          )}
+        </FormikField>
       )}
-    </FormikField>
-  </Fragment>
-);
+      {updatePublished && (
+        <FormikField name="published">
+          {({ field, form }) => (
+            <FormikDatePicker
+              enableTime
+              onReset={() =>
+                form.setFieldValue(field.name, initialValues.published || '')
+              }
+              dateFormat="d/m/Y - H:i"
+              {...field}
+            />
+          )}
+        </FormikField>
+      )}
+
+      <TopicArticleVisualElement visualElement={visualElement} />
+      <FormikField name="content" label={t('form.content.label')} noBorder>
+        {({ field, form: { isSubmitting } }) => (
+          <Fragment>
+            <FieldHeader title={t('form.content.label')} />
+            <RichTextEditor
+              placeholder={t('form.content.placeholder')}
+              id={field.name}
+              {...field}
+              submitted={isSubmitting}
+              renderNode={renderNode}
+              renderMark={renderMark}
+              plugins={plugins}
+              supportedToolbarElements={supportedToolbarElements}
+              schema={slateSchema}
+            />
+          </Fragment>
+        )}
+      </FormikField>
+    </Fragment>
+  );
+};
 
 TopicArticleContent.propTypes = {
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
+  formik: PropTypes.shape({
+    values: PropTypes.shape({
+      id: PropTypes.number,
+      published: PropTypes.string,
+      title: PropTypes.string,
+      updatePublished: PropTypes.bool,
+    }),
+    initialValues: PropTypes.shape({
+      id: PropTypes.number,
+      published: PropTypes.string,
+      title: PropTypes.string,
+      updatePublished: PropTypes.bool,
+    }),
   }),
 };
 
-export default injectT(TopicArticleContent);
+export default connect(injectT(TopicArticleContent));

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import { Field } from '../../../components/Fields';
@@ -52,6 +53,8 @@ export const getInitialValues = (article = {}) => {
     id: article.id,
     revision: article.revision,
     updated: article.updated,
+    published: article.published,
+    updatePublished: false,
     title: article.title || '',
     introduction: plainTextToEditorValue(article.introduction, true),
     content: topicArticleContentToEditorValue(article.content),
@@ -81,6 +84,7 @@ class TopicArticleForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onResetFormToProd = this.onResetFormToProd.bind(this);
     this.getArticle = this.getArticle.bind(this);
+    this.getPublishedDate = this.getPublishedDate.bind(this);
     this.state = {
       showResetModal: false,
       savedToServer: false,
@@ -117,12 +121,29 @@ class TopicArticleForm extends Component {
     }
   }
 
-  getArticle(values) {
+  getPublishedDate(values, preview = false) {
+    if (isEmpty(values.published)) {
+      return undefined;
+    }
+    if (preview) {
+      return values.published;
+    }
+    const { article } = this.props;
+    const initialValues = getInitialValues(article);
+
+    const hasPublishedDateChaned = initialValues.published !== values.published;
+    if (hasPublishedDateChaned || values.updatePublished) {
+      return values.published;
+    }
+    return undefined;
+  }
+
+  // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+  getArticle(values, preview = false) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
     const visualElement = createEmbedTag(values.visualElement);
     const content = topicArticleContentToHTML(values.content);
-
     const article = {
       id: values.id,
       title: values.title,
@@ -145,7 +166,7 @@ class TopicArticleForm extends Component {
         alt: values.metaImageAlt,
       },
       language: values.language,
-      updated: values.updated,
+      published: this.getPublishedDate(values, preview),
       supportedLanguages: values.supportedLanguages,
     };
 

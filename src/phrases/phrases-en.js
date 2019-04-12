@@ -467,6 +467,14 @@ const phrases = {
         empty: 'No notes',
       },
     },
+    updated: {
+      label: 'Updated date',
+    },
+    published: {
+      label: 'Published date',
+      reset: 'Reset date',
+    },
+    updatePublished: 'Update published date',
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',

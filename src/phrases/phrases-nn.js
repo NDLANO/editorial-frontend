@@ -482,6 +482,14 @@ const phrases = {
         empty: 'Ingen merknader',
       },
     },
+    updated: {
+      label: 'Oppdatert dato',
+    },
+    published: {
+      label: 'Publisert dato',
+      reset: 'Resett dato',
+    },
+    updatePublished: 'Endre publisert dato',
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',

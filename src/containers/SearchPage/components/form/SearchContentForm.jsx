@@ -20,14 +20,15 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import ArticleStatuses from '../../../../util/constants/index';
+import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { searchFormClasses } from './SearchForm';
 
 const emptySearchState = {
   query: '',
-  language: '',
   subjects: '',
   resourceTypes: '',
   draftStatus: '',
+  users: '',
 };
 
 class SearchContentForm extends Component {
@@ -38,16 +39,17 @@ class SearchContentForm extends Component {
       dropDown: {
         subjects: [],
         resourceTypes: [],
+        users: [],
       },
       search: {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
         draftStatus: searchObject['draft-status'] || '',
         query: searchObject.query || '',
-        language: searchObject.language || '',
+        users: searchObject.users || '',
       },
     };
-    this.getTaxonomyData = this.getTaxonomyData.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
@@ -56,7 +58,7 @@ class SearchContentForm extends Component {
   }
 
   componentDidMount() {
-    this.getTaxonomyData();
+    this.getExternalData();
   }
 
   onFieldChange(evt) {
@@ -67,17 +69,19 @@ class SearchContentForm extends Component {
     );
   }
 
-  async getTaxonomyData() {
+  async getExternalData() {
     const { locale } = this.props;
     const { t } = this.props;
-    const [resourceTypes, subjects] = await Promise.all([
+    const [resourceTypes, subjects, users] = await Promise.all([
       fetchResourceTypes(locale),
       fetchSubjects(locale),
+      this.getUsers(),
     ]);
     this.setState({
       dropDown: {
         subjects,
         resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+        users,
       },
     });
   }
@@ -87,7 +91,7 @@ class SearchContentForm extends Component {
       evt.preventDefault();
     }
     const {
-      search: { resourceTypes, draftStatus, subjects, query, language },
+      search: { resourceTypes, draftStatus, subjects, query, users },
     } = this.state;
     const { search } = this.props;
     search({
@@ -95,7 +99,7 @@ class SearchContentForm extends Component {
       'draft-status': draftStatus,
       subjects,
       query,
-      language,
+      users,
       page: 1,
     });
   }
@@ -117,6 +121,12 @@ class SearchContentForm extends Component {
     });
   }
 
+  async getUsers() {
+    return await fetchAuth0Editors().map(u => {
+      return { id: u.app_metadata.ndla_id, name: u.name };
+    });
+  }
+
   sortByProperty(property) {
     return function(a, b) {
       return a[property].localeCompare(b[property]);
@@ -125,7 +135,7 @@ class SearchContentForm extends Component {
 
   render() {
     const {
-      dropDown: { subjects, resourceTypes },
+      dropDown: { subjects, resourceTypes, users },
     } = this.state;
     const { t } = this.props;
 
@@ -149,10 +159,10 @@ class SearchContentForm extends Component {
         options: this.getDraftStatuses().sort(this.sortByProperty('name')),
       },
       {
-        name: 'language',
-        label: 'language',
+        name: 'users',
+        label: 'users',
         width: 25,
-        options: getResourceLanguages(t).sort(this.sortByProperty('name')),
+        options: users.sort(this.sortByProperty('name')),
       },
     ];
 
@@ -206,6 +216,7 @@ class SearchContentForm extends Component {
             <SearchTagGroup
               onRemoveItem={this.removeTagItem}
               languages={getResourceLanguages}
+              users={users}
               subjects={subjects}
               searchObject={this.state.search}
               resourceTypes={resourceTypes}
@@ -226,9 +237,9 @@ SearchContentForm.propTypes = {
   searchObject: PropTypes.shape({
     query: PropTypes.string,
     subjects: PropTypes.string,
-    language: PropTypes.string,
     'resource-types': PropTypes.string,
     'draft-status': PropTypes.string,
+    users: PropTypes.string,
   }),
 };
 

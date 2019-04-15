@@ -14,6 +14,7 @@ import {
   ResourceTypeShape,
   DraftStatusShape,
   SubjectShape,
+  UserShape,
 } from '../../../../shapes';
 
 const findTagName = (array, value, arrayKey = undefined) => {
@@ -32,6 +33,7 @@ const SearchTagGroup = ({
   resourceTypes,
   draftStatus,
   searchObject,
+  users,
   languages,
   t,
   onRemoveItem,
@@ -42,6 +44,11 @@ const SearchTagGroup = ({
       type: 'language',
       id: searchObject.language,
       name: findTagName(languages(t), searchObject.language, 'id'),
+    },
+    {
+      type: 'users',
+      id: searchObject.users,
+      name: findTagName(users, searchObject.users, 'id'),
     },
     {
       type: 'subjects',
@@ -81,6 +88,7 @@ SearchTagGroup.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
   draftStatus: PropTypes.arrayOf(DraftStatusShape),
+  users: PropTypes.arrayOf(UserShape),
   languages: PropTypes.func,
   searchObject: PropTypes.shape({
     query: PropTypes.string,
@@ -88,6 +96,7 @@ SearchTagGroup.propTypes = {
     subjects: PropTypes.string,
     resourceTypes: PropTypes.string,
     draftStatus: PropTypes.string,
+    users: PropTypes.string,
   }),
 };
 

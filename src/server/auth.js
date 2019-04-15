@@ -71,3 +71,18 @@ export const getUsers = (managementToken, userIds) => {
     },
   ).then(res => res.json());
 };
+
+export const getEditors = managementToken => {
+  return fetch(
+    `https://${
+      getUniversalConfig().auth0Domain
+    }/api/v2/users?q=app_metadata.roles:"drafts:write"`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${managementToken.access_token}`,
+      },
+      json: true,
+    },
+  ).then(res => res.json());
+};

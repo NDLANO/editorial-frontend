@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
@@ -20,6 +20,7 @@ const isAdminStatus = status =>
   status === articleStatuses.UNPUBLISHED;
 
 function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
+  const [isLoading, setValue] = useState(false);
   if (possibleStatuses[articleStatus.current].find(isAdminStatus)) {
     return (
       <div {...formClasses('actions')}>
@@ -28,10 +29,16 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
             status === articleStatuses.PUBLISHED ||
             status === articleStatuses.UNPUBLISHED
           ) {
+            const clickAction = () => {
+              setValue(true);
+              onUpdateStatus(status);
+              setTimeout(() => setValue(false), 2000);
+            };
             return (
               <Button
+                loading={isLoading}
                 key={`status_action_${status}`}
-                onClick={() => onUpdateStatus(status)}>
+                onClick={() => clickAction()}>
                 {t(`form.status.actions.${status}`)}
               </Button>
             );

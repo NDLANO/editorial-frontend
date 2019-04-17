@@ -14,6 +14,7 @@ import { FieldHeader } from '@ndla/forms';
 import { formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import Spinner from '../../../components/Spinner';
 
 const isAdminStatus = status =>
   status === articleStatuses.PUBLISHED ||
@@ -40,6 +41,7 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
                 key={`status_action_${status}`}
                 onClick={() => clickAction()}>
                 {t(`form.status.actions.${status}`)}
+                {isLoading ? <Spinner appearance="small" /> : ''}
               </Button>
             );
           }

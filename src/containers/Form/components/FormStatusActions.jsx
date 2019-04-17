@@ -33,7 +33,7 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
             const clickAction = () => {
               setValue(true);
               onUpdateStatus(status);
-              setTimeout(() => setValue(false), 2000);
+              setTimeout(() => setValue(false), 5000);
             };
             return (
               <Button

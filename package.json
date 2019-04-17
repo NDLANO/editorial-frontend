@@ -23,7 +23,7 @@
     "cy": "cypress open",
     "pree2e-ci": "cross-env NODE_ENV=production node build/server &",
     "e2e-ci_old": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643",
-    "e2e-ci": "cross-env cypress run --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
+    "e2e-ci": "cross-env cypress run --record false --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",

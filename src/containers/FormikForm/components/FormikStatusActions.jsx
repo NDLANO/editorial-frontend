@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
@@ -14,12 +14,21 @@ import { FieldHeader } from '@ndla/forms';
 import { formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { css } from '@emotion/core';
+import { spacing } from '@ndla/core';
+import Spinner from '../../../components/Spinner';
+import { FormActionButton } from '../../Form';
 
 const isAdminStatus = status =>
   status === articleStatuses.PUBLISHED ||
   status === articleStatuses.UNPUBLISHED;
+const customSpinnerStyle = css`
+  display: inline-block;
+  margin-right: ${spacing.xsmall};
+`;
 
 function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
+  const [isLoading, setValue] = useState(false);
   if (possibleStatuses[articleStatus.current].find(isAdminStatus)) {
     return (
       <div {...formClasses('actions')}>
@@ -28,12 +37,21 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
             status === articleStatuses.PUBLISHED ||
             status === articleStatuses.UNPUBLISHED
           ) {
+            const clickAction = () => {
+              setValue(true);
+              onUpdateStatus(status);
+              setTimeout(() => setValue(false), 5000);
+            };
             return (
-              <Button
+              <FormActionButton
                 key={`status_action_${status}`}
-                onClick={() => onUpdateStatus(status)}>
+                onClick={() => clickAction()}
+                disabled={isLoading}>
+                {isLoading && (
+                  <Spinner appearance="small" css={customSpinnerStyle} />
+                )}
                 {t(`form.status.actions.${status}`)}
-              </Button>
+              </FormActionButton>
             );
           }
           return null;

@@ -1,7 +1,7 @@
 import defined from 'defined';
 
 export function createErrorPayload(status, messages, json) {
-  return Object.assign({}, { status, json, messages });
+  throw Object.assign(new Error(''), { status, json, messages }); // TODO: should be fixed in future
 }
 
 export function resolveJsonOrRejectWithError(res, taxonomy = false) {

@@ -87,6 +87,7 @@ class SlateAudio extends React.Component {
         ) : (
           <div
             role="button"
+            draggable
             className="c-placeholder-editmode"
             tabIndex={0}
             onKeyPress={this.toggleEdit}

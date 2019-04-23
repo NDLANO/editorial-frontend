@@ -13,6 +13,7 @@ import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
+
 const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
@@ -78,6 +79,7 @@ class SlateFactAside extends React.Component {
           '',
           this.state.expanded ? 'c-factbox expanded' : 'c-factbox',
         )}
+        draggable
         {...attributes}>
         <div className="c-factbox__content">{children}</div>
         <Button
@@ -85,7 +87,6 @@ class SlateFactAside extends React.Component {
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-
         <DeleteButton
           stripped
           onMouseDown={onRemoveClick}

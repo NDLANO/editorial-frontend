@@ -21,17 +21,18 @@ export function resolveJsonOrRejectWithError(res, taxonomy = false) {
       return resolve(res.json());
     }
 
-    return res
+    res
       .json()
-      .then(json =>
+      .then(json => {
+        // console.log(json);
         reject(
           createErrorPayload(
             res.status,
             defined(json.messages, res.statusText),
             json,
           ),
-        ),
-      )
+        );
+      })
       .catch(reject);
   });
 }

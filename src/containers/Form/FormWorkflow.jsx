@@ -71,8 +71,11 @@ class FormWorkflow extends Component {
             revision,
           });
         }
-        await updateStatusDraft({ id, status });
+
+        const statusObj = updateStatusDraft({ id, status });
+        console.log(statusObj);
       } catch (error) {
+        console.log('comming here', error);
         if (error && error.json && error.json.messages) {
           createMessage(formatErrorMessage(error));
         }

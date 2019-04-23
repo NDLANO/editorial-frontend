@@ -11,7 +11,10 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
+import { FormActionButton } from '../../Form';
 import { formClasses } from '..';
+import { css } from '@emotion/core';
+import { spacing } from '@ndla/core';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import Spinner from '../../../components/Spinner';
@@ -19,6 +22,11 @@ import Spinner from '../../../components/Spinner';
 const isAdminStatus = status =>
   status === articleStatuses.PUBLISHED ||
   status === articleStatuses.UNPUBLISHED;
+
+const customSpinnerStyle = css`
+  display: inline-block;
+  margin-right: ${spacing.xsmall};
+`;
 
 function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
   const [isLoading, setValue] = useState(false);
@@ -36,13 +44,15 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
               setTimeout(() => setValue(false), 5000);
             };
             return (
-              <Button
-                loading={isLoading}
+              <FormActionButton
                 key={`status_action_${status}`}
-                onClick={() => clickAction()}>
+                onClick={() => clickAction()}
+                disabled={isLoading}>
+                {isLoading && (
+                  <Spinner appearance="small" css={customSpinnerStyle} />
+                )}
                 {t(`form.status.actions.${status}`)}
-                {isLoading ? <Spinner appearance="small" /> : ''}
-              </Button>
+              </FormActionButton>
             );
           }
           return null;

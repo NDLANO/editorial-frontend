@@ -26,7 +26,7 @@ import jwksRsa from 'jwks-rsa';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
-import { getToken, getBrightcoveToken, getUsers } from './auth';
+import { getToken, getBrightcoveToken, getUsers, getEditors } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
@@ -139,6 +139,42 @@ app.get(
         );
         const users = await getUsers(managementToken, userIds);
         res.status(OK).json(users);
+      } catch (err) {
+        res.status(INTERNAL_SERVER_ERROR).send(err.message);
+      }
+    }
+  },
+);
+
+app.get(
+  '/get_editors',
+  jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
+    }),
+    audience: 'ndla_system',
+    issuer: `https://${config.auth0Domain}/`,
+    algorithms: ['RS256'],
+  }),
+  async (req, res) => {
+    const { user } = req;
+    const hasWriteAccess =
+      user &&
+      (user.scope.includes('drafts:write') ||
+        user.scope.includes('drafts:set_to_publish'));
+
+    if (!hasWriteAccess) {
+      res
+        .status(FORBIDDEN)
+        .json({ status: FORBIDDEN, text: 'No access allowed' });
+    } else {
+      try {
+        const managementToken = await getToken(
+          `https://${config.auth0Domain}/api/v2/`,
+        );
+        const editors = await getEditors(managementToken);
+        res.status(OK).json(editors);
       } catch (err) {
         res.status(INTERNAL_SERVER_ERROR).send(err.message);
       }

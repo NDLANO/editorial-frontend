@@ -18,6 +18,11 @@ export const DraftStatusShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
+export const UserShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
 export const SubjectShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

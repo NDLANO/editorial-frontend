@@ -13,7 +13,7 @@ const shouldCopyTableOrList = (type, editor) => {
     const nativeSelection = window.getSelection();
     const range = findRange(nativeSelection, editor);
     const nodesInRange = editor.value.document.getLeafBlocksAtRange(range);
-    if (nodesInRange.size > 1) return true;
+    return nodesInRange.size > 1;
   }
   return false;
 };

@@ -62,7 +62,6 @@ class FormikWorkflow extends Component {
         });
       }
       await updateArticleStatus(values.id, status);
-      //updateStatusDraft({ id: values.id, status });
     } catch (error) {
       if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));

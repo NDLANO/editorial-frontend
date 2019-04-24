@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
+import isEmpty from 'lodash/fp/isEmpty';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
@@ -35,6 +36,7 @@ import LearningResourceMetadata from './LearningResourceMetadata';
 import LearningResourceContent from './LearningResourceContent';
 import {
   FormWorkflow,
+  FormAddNotes,
   FormCopyright,
   FormHeader,
   FormActionButton,
@@ -52,7 +54,7 @@ import {
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
-import { articleConverter } from '../../../modules/draft/draft';
+import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
 
@@ -68,7 +70,9 @@ export const getInitialModel = (article = {}, language) => {
     creators: parseCopyrightContributors(article, 'creators'),
     processors: parseCopyrightContributors(article, 'processors'),
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
-    updated: article.updated || new Date(),
+    updated: article.updated,
+    published: article.published,
+    updatePublished: false,
     origin:
       article.copyright && article.copyright.origin
         ? article.copyright.origin
@@ -95,7 +99,7 @@ class LearningResourceForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getArticleFromModel = this.getArticleFromModel.bind(this);
     this.onReset = this.onReset.bind(this);
-
+    this.getPublishedDate = this.getPublishedDate.bind(this);
     this.state = {
       showResetModal: false,
     };
@@ -106,7 +110,6 @@ class LearningResourceForm extends Component {
     const { initialModel, setModel, setModelField, taxonomy } = this.props;
     const hasTaxonomyChanged =
       taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
-
     if (hasTaxonomyChanged) {
       const fields = ['resourceTypes', 'filter', 'topics'];
       fields.map(field => setModelField(field, initialModel[field]));
@@ -132,7 +135,7 @@ class LearningResourceForm extends Component {
         this.setState({ error: undefined });
       }
       const articleFromProd = await getArticle(articleId);
-      const convertedArticle = articleConverter(
+      const convertedArticle = transformArticleFromApiVersion(
         articleFromProd,
         selectedLanguage,
       );
@@ -152,7 +155,23 @@ class LearningResourceForm extends Component {
     }
   }
 
-  getArticleFromModel() {
+  getPublishedDate(preview = false) {
+    const { initialModel, model } = this.props;
+    if (isEmpty(model.published)) {
+      return undefined;
+    }
+    if (preview) {
+      return model.published;
+    }
+
+    const hasPublishedDateChanged = initialModel.published !== model.published;
+    if (hasPublishedDateChanged || model.updatePublished) {
+      return model.published;
+    }
+    return undefined;
+  }
+
+  getArticleFromModel(preview = false) {
     const { model, licenses } = this.props;
     const content = learningResourceContentToHTML(model.content);
     const emptyContent = model.id ? '' : undefined;
@@ -177,7 +196,7 @@ class LearningResourceForm extends Component {
       },
       notes: model.notes || [],
       language: model.language,
-      updated: model.updated,
+      published: this.getPublishedDate(preview),
       supportedLanguages: model.supportedLanguages,
     };
 
@@ -224,7 +243,6 @@ class LearningResourceForm extends Component {
     onUpdate({
       ...this.getArticleFromModel(),
       revision,
-      updated: undefined,
     });
     onModelSavedToServer();
     setModelField('notes', []);
@@ -249,6 +267,8 @@ class LearningResourceForm extends Component {
       article,
       validationErrors,
       savedToServer,
+      initialModel,
+      setModelField,
     } = this.props;
 
     const { error } = this.state;
@@ -268,6 +288,8 @@ class LearningResourceForm extends Component {
           <LearningResourceContent
             userAccess={userAccess}
             model={model}
+            setModelField={setModelField}
+            initialModel={initialModel}
             commonFieldProps={commonFieldProps}
           />
         ),
@@ -316,15 +338,23 @@ class LearningResourceForm extends Component {
         ),
         component: () => (
           <FormWorkflow
-            article={article}
-            commonFieldProps={commonFieldProps}
             articleStatus={articleStatus}
             model={model}
             getArticle={this.getArticleFromModel}
             createMessage={createMessage}
             revision={revision}
-            formIsDirty={formIsDirty}
-          />
+            formIsDirty={formIsDirty}>
+            <FormAddNotes
+              showError={submitted}
+              name="notes"
+              labelHeading={t('form.notes.heading')}
+              labelAddNote={t('form.notes.add')}
+              article={article}
+              labelRemoveNote={t('form.notes.remove')}
+              labelWarningNote={t('form.notes.warning')}
+              {...commonFieldProps.bindInput('notes')}
+            />
+          </FormWorkflow>
         ),
       },
     ];

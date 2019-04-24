@@ -29,7 +29,13 @@ const DisplayEmbedTag = ({
         />
       );
     case 'brightcove':
-      return <DisplayBrightcoveTag embedTag={embedTag} className={className} />;
+      return (
+        <DisplayBrightcoveTag
+          embedTag={embedTag}
+          className={className}
+          onRemoveClick={onRemoveClick}
+        />
+      );
     case 'external':
       return (
         <DisplayExternal

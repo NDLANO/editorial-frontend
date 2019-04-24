@@ -15,13 +15,17 @@ import { injectT } from '@ndla/i18n';
 import { getSaving } from '../../modules/audio/audio';
 import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
+import CreateImage from './CreateImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const ImageUploaderPage = ({ match, t, ...rest }) => (
   <OneColumn>
     <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
     <Switch>
-      <Route path={`${match.url}/new`} render={() => <EditImage {...rest} />} />
+      <Route
+        path={`${match.url}/new`}
+        render={() => <CreateImage {...rest} />}
+      />
       <Route
         path={`${match.url}/:imageId/edit/:imageLanguage`}
         render={props => (

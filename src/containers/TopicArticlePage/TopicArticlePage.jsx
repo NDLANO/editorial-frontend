@@ -10,8 +10,7 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-
-import { getSaving } from '../../modules/draft/draft';
+import * as messageActions from '../Messages/messagesActions';
 import { getLocale } from '../../modules/locale/locale';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
@@ -60,7 +59,6 @@ TopicArticlePage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -68,15 +66,18 @@ TopicArticlePage.propTypes = {
     }),
   ).isRequired,
   fetchLicenses: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
+  createMessage: (message = {}) => messageActions.addMessage(message),
+  applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
-  isSaving: getSaving(state),
   licenses: getAllLicenses(state),
 });
 

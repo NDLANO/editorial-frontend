@@ -13,7 +13,6 @@ import DisplayEmbedTag from '../../components/DisplayEmbedTag/DisplayEmbedTag';
 import MetaInformation from '../../components/MetaInformation';
 import { getVisualElementInformation } from '../../util/visualElementHelper';
 import * as api from './visualElementApi';
-import { Field } from '../../components/Fields';
 import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
 
 class VisualElementPreview extends Component {
@@ -61,17 +60,15 @@ class VisualElementPreview extends Component {
     );
 
     return (
-      <Field>
-        <div {...visualElementClasses('preview')}>
-          <DisplayEmbedTag
-            embedTag={value}
-            changeVisualElement={changeVisualElement}
-            onRemoveClick={this.removeVisualElement}
-            {...visualElementClasses(value.resource)}
-          />
-          <MetaInformation {...element} translations={metaTranslations} />
-        </div>
-      </Field>
+      <div {...visualElementClasses('preview')}>
+        <DisplayEmbedTag
+          embedTag={value}
+          changeVisualElement={changeVisualElement}
+          onRemoveClick={this.removeVisualElement}
+          {...visualElementClasses(value.resource)}
+        />
+        <MetaInformation {...element} translations={metaTranslations} />
+      </div>
     );
   }
 }
@@ -80,10 +77,6 @@ VisualElementPreview.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  schema: PropTypes.shape({
-    fields: PropTypes.object.isRequired,
-  }),
-  submitted: PropTypes.bool.isRequired,
   value: PropTypes.shape({
     resource: PropTypes.string,
     metaData: PropTypes.object,

@@ -9,32 +9,31 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import BEMHelper from 'react-bem-helper';
+import { spacing } from '@ndla/core';
+import { FieldHeader } from '@ndla/forms';
+import { css } from '@emotion/core';
+import { connect } from 'formik';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import { TextField } from '../../../components/Fields';
-import LearningResourceIngress from '../../LearningResourcePage/components/LearningResourceIngress';
-import { RichTextField } from '../../../components/RichTextField';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { schema } from '../../../components/SlateEditor/editorSchema';
+import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../components/lastUpdatedLine';
 import {
   renderNode,
   renderMark,
 } from '../../../components/SlateEditor/renderNode';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import {
   editListPlugin,
   listTypes,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import { CommonFieldPropsShape } from '../../../shapes';
-import { TYPE as link } from '../../../components/SlateEditor/plugins/link';
-
-const classes = new BEMHelper({
-  name: 'topic-article-content',
-  prefix: 'c-',
-});
+import createLinkPlugin, {
+  TYPE as link,
+} from '../../../components/SlateEditor/plugins/link';
+import FormikField from '../../../components/FormikField';
+import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
+import { FormikIngress, FormikDatePicker } from '../../FormikForm';
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
@@ -44,7 +43,6 @@ const supportedToolbarElements = {
 
 const plugins = [
   createNoEmbedsPlugin(),
-  createLinkPlugin(),
   headingPlugin(),
 
   // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
@@ -52,57 +50,103 @@ const plugins = [
   // unwrapping (jumping out of block) will not work.
   blockquotePlugin,
   editListPlugin,
+  createLinkPlugin(),
   paragraphPlugin(),
 ];
 
-const TopicArticleContent = ({
-  t,
-  commonFieldProps,
-  model: { creators, updated, visualElement },
-}) => (
-  <Fragment>
-    <TextField
-      label={t('form.title.label')}
-      name="title"
-      title
-      noBorder
-      placeholder={t('form.title.label')}
-      {...commonFieldProps}
-    />
-    {/* TODO: Change to c-article-byline */}
-    <div {...classes('info')}>
-      {creators.map(creator => creator.name).join(',')}
-      {updated
-        ? ` - ${t('topicArticleForm.info.lastUpdated', { updated })}`
-        : ''}
-    </div>
-    <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
-    <TopicArticleVisualElement
-      visualElement={visualElement}
-      commonFieldProps={commonFieldProps}
-      bindInput={commonFieldProps.bindInput}
-    />
-    <RichTextField
-      noBorder
-      label={t('form.content.label')}
-      placeholder={t('form.content.placeholder')}
-      name="content"
-      slateSchema={schema}
-      renderNode={renderNode}
-      renderMark={renderMark}
-      plugins={plugins}
-      supportedToolbarElements={supportedToolbarElements}
-      commonFieldProps={commonFieldProps}
-    />
-  </Fragment>
-);
+const TopicArticleContent = props => {
+  const {
+    t,
+    formik: {
+      values: { creators, published, visualElement, updatePublished = false },
+      initialValues,
+    },
+  } = props;
+  const hasPublishedDateChanged = initialValues.published !== published;
+  return (
+    <Fragment>
+      <FormikField
+        label={t('form.title.label')}
+        name="title"
+        title
+        noBorder
+        placeholder={t('form.title.label')}
+      />
+      {/* TODO: Change to c-article-byline */}
+      <LastUpdatedLine creators={creators} published={published} />
+      <FormikIngress />
+      {!hasPublishedDateChanged && (
+        <FormikField name="updatePublished">
+          {({ field }) => (
+            <Fragment>
+              <input
+                css={css`
+                  display: inline-block;
+                  width: auto;
+                  appearance: checkbox !important;
+                  margin-right: ${spacing.small};
+                `}
+                type="checkbox"
+                {...field}
+              />
+              <span>{t('form.updatePublished')}</span>
+            </Fragment>
+          )}
+        </FormikField>
+      )}
+      {updatePublished && (
+        <FormikField name="published">
+          {({ field, form }) => (
+            <FormikDatePicker
+              enableTime
+              onReset={() =>
+                form.setFieldValue(field.name, initialValues.published || '')
+              }
+              dateFormat="d/m/Y - H:i"
+              {...field}
+            />
+          )}
+        </FormikField>
+      )}
 
-TopicArticleContent.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }),
-  commonFieldProps: CommonFieldPropsShape.isRequired,
+      <TopicArticleVisualElement visualElement={visualElement} />
+      <FormikField name="content" label={t('form.content.label')} noBorder>
+        {({ field, form: { isSubmitting } }) => (
+          <Fragment>
+            <FieldHeader title={t('form.content.label')} />
+            <RichTextEditor
+              placeholder={t('form.content.placeholder')}
+              id={field.name}
+              {...field}
+              submitted={isSubmitting}
+              renderNode={renderNode}
+              renderMark={renderMark}
+              plugins={plugins}
+              supportedToolbarElements={supportedToolbarElements}
+              schema={slateSchema}
+            />
+          </Fragment>
+        )}
+      </FormikField>
+    </Fragment>
+  );
 };
 
-export default injectT(TopicArticleContent);
+TopicArticleContent.propTypes = {
+  formik: PropTypes.shape({
+    values: PropTypes.shape({
+      id: PropTypes.number,
+      published: PropTypes.string,
+      title: PropTypes.string,
+      updatePublished: PropTypes.bool,
+    }),
+    initialValues: PropTypes.shape({
+      id: PropTypes.number,
+      published: PropTypes.string,
+      title: PropTypes.string,
+      updatePublished: PropTypes.bool,
+    }),
+  }),
+};
+
+export default connect(injectT(TopicArticleContent));

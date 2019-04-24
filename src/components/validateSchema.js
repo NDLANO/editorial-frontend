@@ -32,7 +32,6 @@ export const getValidationErrors = (schema, model, fields, t) =>
       const rules = schema[key];
       const field = get(key, fields);
       const dirty = field ? field.dirty : false;
-
       if (rules.required && isEmpty(value)) {
         errors.push(label => t('validation.isRequired', { label }));
       }

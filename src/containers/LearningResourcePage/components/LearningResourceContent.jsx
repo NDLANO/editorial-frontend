@@ -11,13 +11,15 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { FieldHeader } from '@ndla/forms';
-
+import { spacing } from '@ndla/core';
+import { css } from '@emotion/core';
 import { getLocale } from '../../../modules/locale/locale';
 import { TextField } from '../../../components/Fields';
 import RichBlockTextField from '../../../components/RichBlockTextField';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LearningResourceIngress from './LearningResourceIngress';
 import { schema } from '../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../components/lastUpdatedLine';
 import {
   renderNode,
   renderMark,
@@ -39,13 +41,14 @@ import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
+import dndPlugin from '../../../components/SlateEditor/plugins/DND';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 import {
   editListPlugin,
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
-
+import { FormDatePicker } from '../../Form';
 import { CommonFieldPropsShape } from '../../../shapes';
 import { EditMarkupLink } from './EditMarkupLink';
 
@@ -88,6 +91,7 @@ class LearningResourceContent extends Component {
       mathmlPlugin(),
       blockPickerPlugin(this.addSection),
       pasteHandler(),
+      dndPlugin,
     ];
   }
 
@@ -107,8 +111,17 @@ class LearningResourceContent extends Component {
   }
 
   render() {
-    const { t, commonFieldProps, userAccess, model } = this.props;
+    const {
+      t,
+      commonFieldProps,
+      userAccess,
+      model,
+      initialModel,
+      setModelField,
+    } = this.props;
     const { value } = commonFieldProps.bindInput('content');
+    const { published, creators } = model;
+    const hasPublishedDateChanged = initialModel.published !== published;
     return (
       <Fragment>
         <TextField
@@ -120,7 +133,36 @@ class LearningResourceContent extends Component {
           data-cy="learning-resource-title"
           {...commonFieldProps}
         />
+        <LastUpdatedLine creators={creators} published={published} />
         <LearningResourceIngress t={t} commonFieldProps={commonFieldProps} />
+        {!hasPublishedDateChanged && (
+          <Fragment>
+            <label>
+              <input
+                css={css`
+                  display: inline-block;
+                  width: auto;
+                  appearance: checkbox !important;
+                  margin-right: ${spacing.small};
+                `}
+                type="checkbox"
+                {...commonFieldProps.bindInput('updatePublished')}
+              />
+              <span>{t('form.updatePublished')}</span>
+            </label>
+          </Fragment>
+        )}
+        {model.updatePublished && (
+          <FormDatePicker
+            enableTime
+            onReset={() =>
+              setModelField('published', initialModel.published || '')
+            }
+            dateFormat="d/m/Y - H:i"
+            {...commonFieldProps.bindInput('published')}
+          />
+        )}
+
         {model.id && userAccess.includes('drafts:admin') && (
           <FieldHeader title={t('form.content.label')}>
             <EditMarkupLink
@@ -152,7 +194,12 @@ LearningResourceContent.propTypes = {
   model: PropTypes.shape({
     id: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
+    published: PropTypes.string,
   }),
+  initialModel: PropTypes.shape({
+    published: PropTypes.string,
+  }),
+  setModelField: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

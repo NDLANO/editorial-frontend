@@ -26,27 +26,29 @@ import { ImageShape } from '../../shapes';
 class EditImage extends Component {
   componentDidMount() {
     const {
-      imageId: id,
+      imageId,
       fetchImage,
       imageLanguage,
       fetchTags,
       fetchLicenses,
       locale,
     } = this.props;
-    if (id) fetchImage({ id, language: imageLanguage });
+    if (imageId) {
+      fetchImage({ id: imageId, language: imageLanguage });
+    }
     fetchTags({ language: locale });
     fetchLicenses();
   }
 
-  componentDidUpdate({ imageId: prevId }) {
-    const { imageId: id, fetchImage, imageLanguage, image } = this.props;
+  componentDidUpdate({ imageId: prevImageId }) {
+    const { imageId, fetchImage, imageLanguage, image } = this.props;
 
     if (
-      id &&
+      imageId &&
       imageLanguage &&
-      ((image && image.language !== imageLanguage) || id !== prevId)
+      ((image && image.language !== imageLanguage) || imageId !== prevImageId)
     ) {
-      fetchImage({ id, language: imageLanguage });
+      fetchImage({ id: imageId, language: imageLanguage });
     }
   }
 

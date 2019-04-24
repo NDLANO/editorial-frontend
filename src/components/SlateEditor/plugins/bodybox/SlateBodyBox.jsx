@@ -45,8 +45,9 @@ const SlateBodyBox = props => {
   const onMoveContent = () => {
     editor.unwrapBlockByKey(node.key, node.type);
   };
+
   return (
-    <StyledBodyBox className="c-bodybox" {...attributes}>
+    <StyledBodyBox draggable className="c-bodybox" {...attributes}>
       {children}
       <DeleteButton stripped onMouseDown={onRemoveClick} />
       <Button

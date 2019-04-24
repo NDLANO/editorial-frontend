@@ -9,62 +9,54 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  PlainTextField,
-  MultiSelectField,
-  RemainingCharacters,
-} from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
-import { FormMetaImageSearch } from '../../Form';
+import FormikField from '../../../components/FormikField';
+import MultiSelect from '../../../components/MultiSelect';
+import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
+import { FormikMetaImageSearch } from '../../FormikForm';
 
-const TopicArticleMetadata = ({ t, commonFieldProps, tags, model }) => {
-  const { bindInput, ...handlers } = commonFieldProps;
-  return (
-    <Fragment>
-      <MultiSelectField
-        obligatory
-        name="tags"
-        data={tags}
-        label={t('form.tags.label')}
-        description={t('form.tags.description')}
-        messages={{
-          createOption: t('form.tags.createOption'),
-          emptyFilter: t('form.tags.emptyFilter'),
-          emptyList: t('form.tags.emptyList'),
-        }}
-        {...commonFieldProps}
-      />
-      <PlainTextField
-        label={t('form.metaDescription.label')}
-        placeholder={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}
-        name="metaDescription"
-        maxLength={155}
-        {...bindInput('metaDescription')}
-        {...handlers}>
-        <RemainingCharacters
-          maxLength={155}
-          getRemainingLabel={(maxLength, remaining) =>
-            t('form.remainingCharacters', { maxLength, remaining })
-          }
-          value={bindInput('metaDescription').value.document.text}
+const TopicArticleMetadata = ({ t, tags }) => (
+  <Fragment>
+    <FormikField
+      name="tags"
+      label={t('form.tags.label')}
+      description={t('form.tags.description')}
+      obligatory>
+      {({ field }) => (
+        <MultiSelect
+          data={tags}
+          messages={{
+            createOption: t('form.tags.createOption'),
+            emptyFilter: t('form.tags.emptyFilter'),
+            emptyList: t('form.tags.emptyList'),
+          }}
+          {...field}
         />
-      </PlainTextField>
-      <FormMetaImageSearch
-        metaImageId={model.metaImageId}
-        commonFieldProps={commonFieldProps}
-        {...bindInput('metaImageId')}
-      />
-    </Fragment>
-  );
-};
+      )}
+    </FormikField>
+    <FormikField
+      name="metaDescription"
+      maxLength={155}
+      showMaxLength
+      label={t('form.metaDescription.label')}
+      description={t('form.metaDescription.description')}>
+      {({ field }) => (
+        <PlainTextEditor
+          id={field.name}
+          placeholder={t('form.metaDescription.label')}
+          {...field}
+        />
+      )}
+    </FormikField>
+    <FormikField name="metaImageId">
+      {({ field }) => (
+        <FormikMetaImageSearch metaImageId={field.value} {...field} />
+      )}
+    </FormikField>
+  </Fragment>
+);
+
 TopicArticleMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
-  model: PropTypes.shape({
-    metaImageId: PropTypes.string,
-    metaImageAlt: PropTypes.string,
-  }),
 };
 
 export default injectT(TopicArticleMetadata);

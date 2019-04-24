@@ -4,16 +4,29 @@ import Flatpickr from 'flatpickr';
 import { Calendar } from '@ndla/icons/editor';
 import { Norwegian } from 'flatpickr/dist/l10n/no';
 import { english } from 'flatpickr/dist/l10n/default';
-
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import NyNorsk from './NyNorsk';
 
-const FORMAT_PATTERN = 'Y-m-d';
+const FORMAT_PATTERN = 'd/m/Y';
 
 const locales = {
   nb: Norwegian,
   en: english,
   nn: NyNorsk,
 };
+
+const StyledCalendarIcon = styled(Calendar)`
+  margin-left: -1.5rem;
+  margin-top: -2px;
+  height: 25px;
+  width: 25px;
+  fill: ${colors.brand.tertiary};
+`;
+
+const StyledDateTimeInput = styled.div`
+  width: 100%;
+`;
 
 class DateTimeInput extends React.Component {
   constructor() {
@@ -36,20 +49,32 @@ class DateTimeInput extends React.Component {
   }
 
   onChange(selectedDates) {
-    const value = selectedDates[0] || null;
-    if (value && value !== this.props.value) {
-      value.setHours(12);
-      this.props.onChange(value);
+    const { value, onChange, name } = this.props;
+    const selectedDateValue = selectedDates[0] || null;
+    if (selectedDateValue && selectedDateValue !== value) {
+      selectedDateValue.setHours(12);
+      onChange({
+        target: {
+          name,
+          value:
+            selectedDateValue
+              .toISOString()
+              .split('.')
+              .shift() + 'Z',
+          type: 'DateTime',
+        },
+      });
     }
   }
 
   getOptions() {
+    const { time_24hr, enableTime, dateFormat, locale } = this.props;
+
     const options = {
-      time_24hr: true,
-      enableTime: false,
-      dateFormat: FORMAT_PATTERN,
-      altInput: true,
-      locale: locales[this.props.locale],
+      time_24hr,
+      enableTime,
+      dateFormat,
+      locale: locales[locale],
     };
     options.onChange = [this.onChange];
     return options;
@@ -58,23 +83,26 @@ class DateTimeInput extends React.Component {
   setValue() {
     const { value } = this.props;
     if (value) {
-      this.flatpickr.setDate(value, false);
+      this.flatpickr.setDate(new Date(value), false);
     }
   }
 
   render() {
-    const { className, value, onChange, ...rest } = this.props;
+    const { className, value, onChange, name, placeholder } = this.props;
     return (
-      <span>
+      <StyledDateTimeInput>
         <input
           className={className || ''}
-          {...rest}
+          onChange={onChange}
+          value={value}
+          name={name}
+          placeholder={placeholder}
           ref={node => {
             this.node = node;
           }}
         />
-        <Calendar />
-      </span>
+        <StyledCalendarIcon />
+      </StyledDateTimeInput>
     );
   }
 }
@@ -82,9 +110,19 @@ class DateTimeInput extends React.Component {
 DateTimeInput.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.instanceOf(Date),
+  value: PropTypes.string,
   locale: PropTypes.string.isRequired,
   className: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  time_24hr: PropTypes.bool,
+  enableTime: PropTypes.bool,
+  dateFormat: PropTypes.string,
+};
+
+DateTimeInput.defaultProps = {
+  time_24hr: true,
+  enableTime: false,
+  dateFormat: FORMAT_PATTERN,
 };
 
 export default DateTimeInput;

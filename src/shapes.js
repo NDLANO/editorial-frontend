@@ -18,6 +18,11 @@ export const DraftStatusShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
+export const UserShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
 export const SubjectShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
@@ -103,8 +108,8 @@ export const NoteShape = PropTypes.shape({
 });
 
 export const ArticleShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  title: PropTypes.string,
   notes: PropTypes.arrayOf(NoteShape),
 });
 
@@ -281,4 +286,9 @@ export const SupportedToolbarElementsShape = PropTypes.shape({
   mark: PropTypes.arrayOf(PropTypes.string),
   block: PropTypes.arrayOf(PropTypes.string),
   inline: PropTypes.arrayOf(PropTypes.string),
+});
+
+export const FormikShape = PropTypes.shape({
+  values: PropTypes.shape({}), //Can be arbitrary values
+  handleBlur: PropTypes.func,
 });

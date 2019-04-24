@@ -29,6 +29,15 @@ const getIframeProps = ({ account, videoid, player = 'default' }, sources) => {
   };
 };
 
+const videoStyle = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  right: '0px',
+};
+
 class SlateVideo extends React.PureComponent {
   constructor() {
     super();
@@ -82,14 +91,15 @@ class SlateVideo extends React.PureComponent {
           <>
             <Figure
               draggable
-              style={{ paddingTop: '56.25%' }}
+              style={{ paddingTop: '57%' }}
               {...figureClass}
               resizeIframe>
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
-                {...iframeData}
+                src={iframeData.src}
                 allowFullScreen
+                css={videoStyle}
               />
             </Figure>
             <Button

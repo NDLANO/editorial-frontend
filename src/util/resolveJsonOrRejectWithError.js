@@ -1,7 +1,7 @@
 import defined from 'defined';
 
-export function createErrorPayload(status, message, json) {
-  return Object.assign(new Error(message), { status, json });
+export function createErrorPayload(status, messages, json) {
+  throw Object.assign(new Error(''), { status, json, messages }); // TODO: should be fixed in future
 }
 
 export function resolveJsonOrRejectWithError(res, taxonomy = false) {
@@ -20,17 +20,19 @@ export function resolveJsonOrRejectWithError(res, taxonomy = false) {
       }
       return resolve(res.json());
     }
-    return res
+
+    res
       .json()
-      .then(json =>
+      .then(json => {
+        // console.log(json);
         reject(
           createErrorPayload(
             res.status,
-            defined(json.message, res.statusText),
+            defined(json.messages, res.statusText),
             json,
           ),
-        ),
-      )
+        );
+      })
       .catch(reject);
   });
 }

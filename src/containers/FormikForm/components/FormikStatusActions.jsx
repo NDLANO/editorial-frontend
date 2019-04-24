@@ -11,11 +11,11 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
+import { css } from '@emotion/core';
+import { spacing } from '@ndla/core';
 import { formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import { css } from '@emotion/core';
-import { spacing } from '@ndla/core';
 import Spinner from '../../../components/Spinner';
 import { FormActionButton } from '../../Form';
 

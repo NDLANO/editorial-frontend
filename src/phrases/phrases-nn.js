@@ -14,11 +14,16 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
-    searchPage: `Søk ${titleTemplate}`,
+    searchContentPage: `Søk innhald ${titleTemplate}`,
+    searchMediaPage: `Søk media ${titleTemplate}`,
+    searchConceptPage: `Søk forklaringar ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
+    notionPage: `Forklaring ${titleTemplate}`,
+    loginPage: `Logg inn ${titleTemplate}`,
+    logoutPage: `Logg ut ${titleTemplate}`,
   },
   meta: {
     description:

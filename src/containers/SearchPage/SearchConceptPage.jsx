@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { css } from '@emotion/core';
+import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import config from '../../config';
 
-const SearchConceptPage = props => {
+const SearchConceptPage = ({ t, ...props }) => {
   const accessToken = localStorage.getItem('access_token');
   return (
-    <div>
+    <Fragment>
+      <HelmetWithTracker title={`${t('htmlTitles.searchConceptPage')}`} />
       <iframe
         src={`${
           config.explanationFrontendDomain
@@ -15,7 +18,7 @@ const SearchConceptPage = props => {
         height="100vh"
         css={iframeStyle}
       />
-    </div>
+    </Fragment>
   );
 };
 
@@ -24,4 +27,4 @@ const iframeStyle = css`
   border: none;
 `;
 
-export default SearchConceptPage;
+export default injectT(SearchConceptPage);

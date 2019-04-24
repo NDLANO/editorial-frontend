@@ -8,19 +8,52 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Helmet from 'react-helmet';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
+import { Figure } from '@ndla/ui';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
-import EditVideo from './EditVideo';
 import FigureButtons from './FigureButtons';
+import EditVideo from './EditVideo';
+import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
+
+const getIframeProps = ({ account, videoid, player = 'default' }, sources) => {
+  const sortedSources = sources
+    .filter(s => s.width && s.height)
+    .sort((a, b) => a.height < b.height);
+  const source = sortedSources.length > 0 ? sortedSources[0] : {};
+  return {
+    src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
+    height: source.height || '480',
+    width: source.width || '640',
+  };
+};
+
+const videoStyle = {
+  width: '100%',
+  height: '100%',
+  position: 'absolute',
+  top: '0px',
+  left: '0px',
+  right: '0px',
+};
 
 class SlateVideo extends React.PureComponent {
   constructor() {
     super();
-    this.state = { editMode: false };
+    this.state = { editMode: false, iframeData: {} };
     this.toggleEditModus = this.toggleEditModus.bind(this);
+  }
+
+  async componentDidMount() {
+    const { embed } = this.props;
+    const sources = await visualElementApi.fetchVideoSources(
+      embed.videoid,
+      config.brightCoveAccountId,
+    );
+
+    const iframeData = getIframeProps(embed, sources);
+    this.setState({ iframeData });
   }
 
   toggleEditModus() {
@@ -36,23 +69,18 @@ class SlateVideo extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const src = `//players.brightcove.net/${config.brightCoveAccountId}/${
-      config.brightcovePlayerId
-    }_default/index.min.js`;
+    const { iframeData, editMode } = this.state;
+
     return (
       <div className="c-figure" {...attributes}>
         <FigureButtons
           tooltip={t('form.video.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          t={t}
           figureType="video"
+          t={t}
         />
-        <Helmet>
-          <script src={src} type="text/javascript" />
-        </Helmet>
-
-        {this.state.editMode ? (
+        {editMode ? (
           <EditVideo
             embed={embed}
             toggleEditModus={this.toggleEditModus}
@@ -61,25 +89,19 @@ class SlateVideo extends React.PureComponent {
           />
         ) : (
           <>
-            <figure draggable style={{ paddingTop: '56.25%' }} {...figureClass}>
-              <video
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
-                  top: '0px',
-                  left: '0px',
-                  right: '0px',
-                }}
-                data-video-id={embed.videoid}
-                data-account={embed.account}
-                data-player={embed.player}
-                data-embed="default"
-                className="video-js"
-                controls>
-                <track kind="captions" label={embed.caption} />
-              </video>
-            </figure>
+            <Figure
+              draggable
+              style={{ paddingTop: '57%' }}
+              {...figureClass}
+              resizeIframe>
+              <iframe
+                title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
+                frameBorder="0"
+                src={iframeData.src}
+                allowFullScreen
+                css={videoStyle}
+              />
+            </Figure>
             <Button
               stripped
               style={{ width: '100%' }}

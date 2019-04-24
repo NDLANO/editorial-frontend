@@ -27,9 +27,7 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -88,7 +86,7 @@
     "@ndla/pager": "^0.4.0",
     "@ndla/tabs": "^0.11.0",
     "@ndla/tracker": "^0.3.1",
-    "@ndla/ui": "^0.22.2",
+    "@ndla/ui": "^0.22.4",
     "@ndla/util": "^0.3.1",
     "@ndla/video-search": "^0.8.0",
     "auth0-js": "^9.8.0",

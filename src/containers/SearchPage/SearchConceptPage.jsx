@@ -8,7 +8,7 @@ const SearchConceptPage = ({ t, ...props }) => {
   const accessToken = localStorage.getItem('access_token');
   return (
     <Fragment>
-      <HelmetWithTracker title={`${t('htmlTitles.searchConceptPage')}`} />
+      <HelmetWithTracker title={t('htmlTitles.searchConceptPage')} />
       <iframe
         src={`${
           config.explanationFrontendDomain

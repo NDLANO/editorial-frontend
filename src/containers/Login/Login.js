@@ -18,7 +18,7 @@ import Footer from '../App/components/Footer';
 
 export const Login = ({ t, match }) => (
   <Fragment>
-    <HelmetWithTracker title={`${t('htmlTitles.loginPage')}`} />
+    <HelmetWithTracker title={t('htmlTitles.loginPage')} />
     <OneColumn cssModifier="clear">
       <div className="u-2/3@desktop u-push-1/3@desktop">
         <Switch>

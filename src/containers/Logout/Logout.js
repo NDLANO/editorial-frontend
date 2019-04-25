@@ -18,7 +18,7 @@ import Footer from '../App/components/Footer';
 
 const Logout = ({ t, match }) => (
   <Fragment>
-    <HelmetWithTracker title={`${t('htmlTitles.logoutPage')}`} />
+    <HelmetWithTracker title={t('htmlTitles.logoutPage')} />
     <OneColumn cssModifier="clear">
       <div className="u-2/3@desktop u-push-1/3@desktop">
         <Switch>

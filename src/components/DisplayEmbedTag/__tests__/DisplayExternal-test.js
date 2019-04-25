@@ -71,7 +71,7 @@ test('DisplayExternal renders iframe correctly', () => {
   };
 
   const component = TestRenderer.create(
-    <DisplayExternal embed={embed} t={() => ''} />,
+    <DisplayExternal onRemoveClick={() => ''} embed={embed} t={() => ''} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

@@ -104,7 +104,7 @@ class TopicArticleForm extends Component {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(articleId);
+      const articleFromProd = await getArticle(articleId, selectedLanguage);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
         language: selectedLanguage,

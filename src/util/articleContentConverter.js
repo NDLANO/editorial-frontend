@@ -163,6 +163,7 @@ function countUndoLength(value) {
 }
 
 export function isEditorValueDirty(value) {
+  console.log('value', value);
   if (value.data) {
     return countUndoLength(value) > 0;
   }

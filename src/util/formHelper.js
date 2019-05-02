@@ -22,7 +22,12 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-export const isFormDirty = ({ fields, model, showSaved = false }) => {
+export const isFormDirty = ({
+  fields,
+  initialModel,
+  model,
+  showSaved = false,
+}) => {
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];
   const dirtyFields = [];
@@ -31,6 +36,12 @@ export const isFormDirty = ({ fields, model, showSaved = false }) => {
     .forEach(dirtyField => {
       if (slateFields.includes(dirtyField)) {
         if (isEditorValueDirty(model[dirtyField])) {
+          dirtyFields.push(dirtyField);
+        } else if (
+          Array.isArray(model[dirtyField]) &&
+          Array.isArray(initialModel[dirtyField]) &&
+          model[dirtyField].length !== initialModel[dirtyField].length
+        ) {
           dirtyFields.push(dirtyField);
         }
       } else {

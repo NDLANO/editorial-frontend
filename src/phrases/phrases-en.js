@@ -426,6 +426,7 @@ const phrases = {
       content: 'Content',
       notes: 'Notes',
       metaDescription: 'Meta description',
+      metaImageAlt: 'Alt-text',
       visualElement: {
         caption: 'Caption',
         alt: 'Alt text',
@@ -739,7 +740,7 @@ const phrases = {
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
-        noText: 'WCAG requires alt-tekst.',
+        noText: 'WCAG requires alt-text.',
       },
       dragdrop: {
         main: 'Drag and drop',

@@ -18,9 +18,7 @@ import {
 } from '../../modules/tag/tag';
 import { LicensesArrayOf } from '../../shapes';
 import { actions as draftActions } from '../../modules/draft/draft';
-import LearningResourceForm, {
-  getInitialModel,
-} from './components/LearningResourceForm';
+import LearningResourceForm from './components/LearningResourceForm';
 
 class CreateLearningResource extends PureComponent {
   constructor(props) {
@@ -43,9 +41,8 @@ class CreateLearningResource extends PureComponent {
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
-
         <LearningResourceForm
-          initialModel={getInitialModel({ language: locale })}
+          article={{ language: locale }}
           {...rest}
           onUpdate={this.updateDraft}
         />

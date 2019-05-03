@@ -17,62 +17,70 @@ import {
 } from '../../../components/Fields';
 import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { FormMetaImageSearch } from '../../Form';
+import { FormikMetaImageSearch } from '../../FormikForm';
+import FormikField from '../../../components/FormikField';
+import MultiSelect from '../../../components/MultiSelect';
+import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
+const LearningResourceMetadata = ({ t, tags }) => (
   <Fragment>
-    <MultiSelectField
-      obligatory
+    <FormikField
       name="tags"
-      data={tags}
-      howToId="MetaKeyword"
-      howToTooltip={t('form.tags.helpLabel')}
       label={t('form.tags.label')}
       description={t('form.tags.description')}
-      messages={{
-        createOption: t('form.tags.createOption'),
-        emptyFilter: t('form.tags.emptyFilter'),
-        emptyList: t('form.tags.emptyList'),
-      }}
-      {...commonFieldProps}
-    />
-    <FieldHeader title={t('form.metaDescription.label')}>
-      <HowToHelper
-        pageId="MetaDescription"
-        tooltip={t('form.metaDescription.helpLabel')}
-      />
-    </FieldHeader>
-    <PlainTextField
-      placeholder={t('form.metaDescription.label')}
-      description={t('form.metaDescription.description')}
+      obligatory>
+      {({ field }) => (
+        <Fragment>
+          <FieldHeader title={t('form.tags.label')}>
+            <HowToHelper
+              pageId="MetaKeyword"
+              tooltip={t('form.tags.helpLabel')}
+            />
+          </FieldHeader>
+          <MultiSelect
+            data={tags}
+            messages={{
+              createOption: t('form.tags.createOption'),
+              emptyFilter: t('form.tags.emptyFilter'),
+              emptyList: t('form.tags.emptyList'),
+            }}
+            {...field}
+          />
+        </Fragment>
+      )}
+    </FormikField>
+    <FormikField
       name="metaDescription"
       maxLength={155}
-      {...commonFieldProps.bindInput('metaDescription')}
-      {...commonFieldProps}>
-      <RemainingCharacters
-        maxLength={155}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={
-          commonFieldProps.bindInput('metaDescription').value.document.text
-        }
-      />
-    </PlainTextField>
-    <FormMetaImageSearch
-      metaImageId={model.metaImageId}
-      commonFieldProps={commonFieldProps}
-      {...commonFieldProps.bindInput('metaImageId')}
-    />
+      showMaxLength
+      label={t('form.metaDescription.label')}
+      description={t('form.metaDescription.description')}>
+      {({ field }) => (
+        <Fragment>
+          <FieldHeader title={t('form.metaDescription.label')}>
+            <HowToHelper
+              pageId="MetaDescription"
+              tooltip={t('form.metaDescription.helpLabel')}
+            />
+          </FieldHeader>
+          <PlainTextEditor
+            id={field.name}
+            placeholder={t('form.metaDescription.label')}
+            {...field}
+          />
+        </Fragment>
+      )}
+    </FormikField>
+    <FormikField name="metaImageId">
+      {({ field }) => (
+        <FormikMetaImageSearch metaImageId={field.value} {...field} />
+      )}
+    </FormikField>
   </Fragment>
 );
 
 LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
-  model: PropTypes.shape({
-    metaImage: MetaImageShape,
-  }),
 };
 
 export default injectT(LearningResourceMetadata);

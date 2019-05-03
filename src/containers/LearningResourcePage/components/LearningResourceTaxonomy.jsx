@@ -35,7 +35,7 @@ import handleError from '../../../util/handleError';
 import TopicConnections from './taxonomy/TopicConnections';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
-import { FormActionButton } from '../../Form';
+import { FormikActionButton } from '../../FormikForm';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const resourceTypesToOptionList = availableResourceTypes =>
@@ -463,12 +463,12 @@ class LearningResourceTaxonomy extends Component {
           />
         )}
         <Field right>
-          <FormActionButton
+          <FormikActionButton
             outline
             onClick={closePanel}
             disabled={saveStatus === 'loading'}>
             {t('form.abort')}
-          </FormActionButton>
+          </FormikActionButton>
           <SaveButton
             isSaving={saveStatus === 'loading'}
             showSaved={saveStatus === 'success'}

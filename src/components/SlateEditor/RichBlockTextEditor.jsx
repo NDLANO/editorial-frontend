@@ -24,47 +24,26 @@ class RichBlockTextEditor extends PureComponent {
   }
 
   onChange(evt, index) {
-    const { onChange, value, name } = this.props;
+    const { onChange, value } = this.props;
     const newValue = [].concat(value);
     newValue[index] = { value: evt.target.value, index };
-    const changedValue = {
-      target: {
-        value: newValue,
-        name,
-      },
-    };
-    onChange(changedValue);
+    onChange(newValue);
   }
 
   removeSection(index) {
-    const { name, onChange, value } = this.props;
+    const { onChange, value } = this.props;
     if (value.length > 1) {
       const newValue = [].concat(value);
       newValue.splice(index, 1);
-      const changedValue = {
-        target: {
-          value: newValue,
-          name,
-          type: 'SlateEditorValue',
-        },
-      };
-      onChange(changedValue);
+      onChange(newValue);
     }
   }
 
   render() {
-    const {
-      schema,
-      children,
-      className,
-      value,
-      name,
-      onChange,
-      ...rest
-    } = this.props;
+    const { schema, children, value, name } = this.props;
     return (
       <article>
-        {value.map((val, index) => (
+        {value.map((blockValue, index) => (
           <StyledFormContainer
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
           >
@@ -82,8 +61,7 @@ class RichBlockTextEditor extends PureComponent {
               name={name}
               schema={schema}
               onChange={this.onChange}
-              value={val.value}
-              {...rest}
+              value={blockValue.value}
               index={index}
               removeSection={this.removeSection}
             />

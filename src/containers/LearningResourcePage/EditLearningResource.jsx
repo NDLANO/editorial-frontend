@@ -14,9 +14,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import * as messageActions from '../Messages/messagesActions';
 import { actions, getDraft } from '../../modules/draft/draft';
-import LearningResourceForm, {
-  getInitialModel,
-} from './components/LearningResourceForm';
+import LearningResourceForm from './components/LearningResourceForm';
 import { ArticleShape, LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import {
@@ -86,13 +84,12 @@ class EditLearningResource extends PureComponent {
           title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
         />
         <LearningResourceForm
-          initialModel={getInitialModel(article, language)}
+          article={{ ...article, language }}
           selectedLanguage={selectedLanguage}
           revision={article.revision}
           articleStatus={article.status}
           onUpdate={this.updateLearningResource}
           createMessage={this.createMessage}
-          article={article}
           {...rest}
         />
       </Fragment>

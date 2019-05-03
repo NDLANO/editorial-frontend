@@ -439,6 +439,7 @@ const phrases = {
       content: 'Innhold',
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
+      metaImageAlt: 'Alt-tekst',
       visualElement: {
         caption: 'Figur tekst',
         alt: 'Alt tekst',

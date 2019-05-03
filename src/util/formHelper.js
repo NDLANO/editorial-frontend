@@ -8,6 +8,8 @@
 import isEqual from 'lodash/fp/isEqual';
 import { isEditorValueDirty } from './articleContentConverter';
 import { getField } from '../components/Fields';
+import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
+import { findNodesByType } from './slateHelpers';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -95,6 +97,32 @@ const formikCommonArticleRules = {
         return 'validation.noEmptyNote';
       }
       return undefined;
+    },
+  },
+};
+
+export const learningResourceRules = {
+  ...formikCommonArticleRules,
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: values => !!values.metaImageId,
+  },
+  content: {
+    required: true,
+    test: value => {
+      const embedsHasErrors = value.find(block => {
+        const embeds = findNodesByType(block.value.document, 'embed').map(
+          node => node.get('data').toJS(),
+        );
+        const notValidEmbeds = embeds.filter(
+          embed => !isUserProvidedEmbedDataValid(embed),
+        );
+        return notValidEmbeds.length > 0;
+      });
+
+      return embedsHasErrors
+        ? 'learningResourceForm.validation.missingEmbedData'
+        : undefined;
     },
   },
 };

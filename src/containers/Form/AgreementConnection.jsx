@@ -33,17 +33,11 @@ class AgreementConnection extends Component {
     this.fetchAgreement(model.agreementId);
   }
 
-  static getDerivedStateFromProps({ model }, { agreement }) {
-    if (!model.agreementId && agreement) {
-      return { agreement: undefined };
-    }
-    return null;
-  }
-
   async fetchAgreement(id) {
     if (id) {
       const agreement = await draftApi.fetchAgreement(id);
       this.setState({ agreement });
+      return agreement;
     }
   }
 
@@ -51,8 +45,7 @@ class AgreementConnection extends Component {
     const { commonFieldProps } = this.props;
     const { onChange } = commonFieldProps.bindInput('agreementId');
     if (agreement && agreement.id) {
-      const fetchedAgreement = await draftApi.fetchAgreement(agreement.id);
-      this.setState({ agreement: fetchedAgreement });
+      const fetchedAgreement = await this.fetchAgreement(agreement.id);
       const onChangeFields = [
         { name: 'agreementId', value: fetchedAgreement.id },
         { name: 'license', value: fetchedAgreement.copyright.license.license },
@@ -85,10 +78,6 @@ class AgreementConnection extends Component {
         helpLabel={t('form.agreement.helpLabel')}
         apiAction={AgreementConnection.searchAgreements}
         {...commonFieldProps}
-        messages={{
-          emptyFilter: t('form.agreement.emptyFilter'),
-          emptyList: t('form.agreement.emptyList'),
-        }}
         onChange={this.handleChange}
         width={width}
       />,

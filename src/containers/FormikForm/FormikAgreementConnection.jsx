@@ -102,10 +102,6 @@ class FormikAgreementConnection extends Component {
                 selectedItem={agreement}
                 textField="title"
                 placeholder={t('form.agreement.placeholder')}
-                messages={{
-                  emptyFilter: t('form.agreement.emptyFilter'),
-                  emptyList: t('form.agreement.emptyList'),
-                }}
               />
             )}
           </FormikField>

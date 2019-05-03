@@ -502,7 +502,6 @@ DateField.defaultProps = {
 };
 
 export const AsyncDropdownField = ({
-  bindInput,
   name,
   label,
   helpLabel,
@@ -512,7 +511,6 @@ export const AsyncDropdownField = ({
   width,
   ...rest
 }) => {
-  const { onChange } = bindInput(name);
   return (
     <Fragment>
       <FieldHeader title={label} width={width}>
@@ -520,12 +518,7 @@ export const AsyncDropdownField = ({
       </FieldHeader>
       <FieldSection>
         <div>
-          <AsyncDropdown
-            onChange={val =>
-              onChange({ target: { name, value: val ? val.id : undefined } })
-            }
-            {...rest}
-          />
+          <AsyncDropdown {...rest} />
           <FieldErrorMessages
             label={label}
             field={getField(name, schema)}

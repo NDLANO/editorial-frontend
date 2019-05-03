@@ -94,7 +94,7 @@ const explanationFrontendDomain = () => {
     case 'prod':
       return 'https://explanations-frontend.api.ndla.no';
     default:
-    return `https://explanations-frontend.${ndlaEnvironment}.api.ndla.no`;
+      return `https://explanations-frontend.${ndlaEnvironment}.api.ndla.no`;
   }
 };
 

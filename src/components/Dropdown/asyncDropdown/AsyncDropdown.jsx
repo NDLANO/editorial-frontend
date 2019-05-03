@@ -49,17 +49,24 @@ class AsyncDropDown extends React.Component {
 
   async handleInputChange(evt) {
     const { value } = evt.target;
-    this.handleSearch(value);
+    const { currentDebounce } = this.state;
+
+    if (currentDebounce) {
+      currentDebounce.cancel();
+    }
+    const debounced = debounce(() => this.handleSearch(value), 500);
+    debounced();
+    this.setState({
+      inputValue: value,
+      isOpen: true,
+      currentDebounce: debounced,
+    });
   }
 
-  handleSearch(query = '') {
+  async handleSearch(query = '') {
     const { apiAction } = this.props;
-
-    this.setState({ inputValue: query, isOpen: true });
-    debounce(async () => {
-      const items = await apiAction(query);
-      this.setState({ items });
-    }, 500)();
+    const items = await apiAction(query);
+    this.setState({ items });
   }
 
   handleChange(selectedItem) {

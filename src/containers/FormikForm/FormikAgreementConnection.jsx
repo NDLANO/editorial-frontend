@@ -36,25 +36,18 @@ class FormikAgreementConnection extends Component {
     this.fetchAgreement(values.agreementId);
   }
 
-  static getDerivedStateFromProps({ values }, { agreement }) {
-    if (!values.agreementId && agreement) {
-      return { agreement: undefined };
-    }
-    return null;
-  }
-
   async fetchAgreement(id) {
     if (id) {
       const agreement = await draftApi.fetchAgreement(id);
       this.setState({ agreement });
+      return agreement;
     }
   }
 
   async handleChange(agreement) {
     const onChange = () => {};
     if (agreement && agreement.id) {
-      const fetchedAgreement = await draftApi.fetchAgreement(agreement.id);
-      this.setState({ agreement: fetchedAgreement });
+      const fetchedAgreement = this.fetchAgreement(agreement.id);
       const onChangeFields = [
         { name: 'agreementId', value: fetchedAgreement.id },
         { name: 'license', value: fetchedAgreement.copyright.license.license },

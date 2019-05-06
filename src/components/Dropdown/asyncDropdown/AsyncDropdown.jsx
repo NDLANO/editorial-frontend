@@ -13,11 +13,6 @@ import { DropdownMenu, Input } from '@ndla/forms';
 import { Search } from '@ndla/icons/common';
 import { Spinner } from '@ndla/editor';
 import { injectT } from '@ndla/i18n';
-import {
-  DropdownInput,
-  DropdownSearchAction,
-  dropDownClasses,
-} from '../common';
 import { itemToString } from '../../../util/downShiftHelpers';
 
 class AsyncDropDown extends React.Component {
@@ -118,7 +113,7 @@ class AsyncDropDown extends React.Component {
       ...rest
     } = this.props;
 
-    const { items, loading } = this.state;
+    const { items, loading, isOpen } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
@@ -132,7 +127,7 @@ class AsyncDropDown extends React.Component {
         itemToString={item => itemToString(item, textField)}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
-        isOpen={this.state.isOpen}
+        isOpen={isOpen}
         selectedItem={this.state.selectedItem}>
         {({ getInputProps, ...downshiftProps }) => {
           return (
@@ -144,14 +139,7 @@ class AsyncDropDown extends React.Component {
                   loading ? <Spinner size="normal" margin="0" /> : <Search />
                 }
               />
-              <DropdownMenu
-                {...downshiftProps}
-                items={items}
-                textField={textField}
-                valueField={valueField}
-                asyncSelect
-                resourceMenu
-              />
+              <DropdownMenu {...downshiftProps} items={items} />
             </div>
           );
         }}

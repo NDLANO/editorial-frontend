@@ -15,11 +15,10 @@ import { Done } from '@ndla/icons/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Cross } from '@ndla/icons/action';
+import { DropdownMenu, DropdownInput } from '@ndla/forms';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';
 import {
-  DropdownMenu,
-  DropdownInput,
   DropdownActionButton,
   dropDownClasses,
 } from '../../../../components/Dropdown/common';
@@ -127,10 +126,6 @@ class MenuItemDropdown extends PureComponent {
                   valueField="id"
                   fuzzy
                   dontShowOnEmptyFilter
-                  messages={{
-                    emptyFilter: t('taxonomy.emptyFilter'),
-                    emptyList: t('taxonomy.emptyFilter'),
-                  }}
                 />
                 {selected && (
                   <DropdownActionButton

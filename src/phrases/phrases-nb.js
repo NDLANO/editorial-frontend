@@ -653,12 +653,13 @@ const phrases = {
       label: 'Emne',
       searchPlaceholder: 'Søk etter emne',
       placeholder: 'Legg til emne',
-    filter: {
-      label: 'Filter',
-      placeholder: 'Legg til filter',
-      core: 'Kjernestoff',
-      supplementary: 'Tilleggsstoff',
-      setRelevance: 'Velg relevans',
+      filter: {
+        label: 'Filter',
+        placeholder: 'Legg til filter',
+        core: 'Kjernestoff',
+        supplementary: 'Tilleggsstoff',
+        setRelevance: 'Velg relevans',
+      },
     },
     topics: {
       label: 'Emnetilknytning',

@@ -24,23 +24,46 @@ class RichBlockTextEditor extends PureComponent {
   }
 
   onChange(evt, index) {
-    const { onChange, value } = this.props;
+    const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
     newValue[index] = { value: evt.target.value, index };
-    onChange(newValue);
+    onChange({
+      target: {
+        value: newValue,
+        name,
+        type: 'SlateBlockValue',
+      },
+    });
   }
 
   removeSection(index) {
-    const { onChange, value } = this.props;
+    const { onChange, name, value } = this.props;
     if (value.length > 1) {
       const newValue = [].concat(value);
       newValue.splice(index, 1);
-      onChange(newValue);
+      onChange({
+        target: {
+          value: newValue,
+          name,
+          type: 'SlateBlockValue',
+        },
+      });
     }
   }
 
   render() {
-    const { schema, children, value, name } = this.props;
+    const {
+      schema,
+      children,
+      value,
+      name,
+      placeholder,
+      plugins,
+      renderMark,
+      renderNode,
+      slateSchema,
+      submitted,
+    } = this.props;
     return (
       <article>
         {value.map((blockValue, index) => (
@@ -59,10 +82,17 @@ class RichBlockTextEditor extends PureComponent {
             ) : null}
             <RichTextEditor
               name={name}
+              index={index}
+              data-cy={this.props['data-cy']}
+              placeholder={placeholder}
+              plugins={plugins}
+              renderMark={renderMark}
+              renderNode={renderNode}
+              slateSchema={slateSchema}
+              submitted={submitted}
               schema={schema}
               onChange={this.onChange}
               value={blockValue.value}
-              index={index}
               removeSection={this.removeSection}
             />
             {children}
@@ -81,6 +111,12 @@ RichBlockTextEditor.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  placeholder: PropTypes.string.isRequired,
+  renderMark: PropTypes.func.isRequired,
+  renderNode: PropTypes.func.isRequired,
+  slateSchema: PropTypes.shape({}),
+  submitted: PropTypes.bool.isRequired,
+  'data-cy': PropTypes.string.isRequired,
 };
 
 export default RichBlockTextEditor;

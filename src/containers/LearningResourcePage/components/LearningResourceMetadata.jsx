@@ -10,12 +10,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import {
-  PlainTextField,
-  MultiSelectField,
-  RemainingCharacters,
-} from '../../../components/Fields';
-import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { FormikMetaImageSearch } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';

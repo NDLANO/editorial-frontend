@@ -168,7 +168,7 @@ class LearningResourceContent extends Component {
           </FormikField>
         )}
 
-        {id && userAccess.includes('drafts:admin') && (
+        {id && userAccess && userAccess.includes('drafts:admin') && (
           <FieldHeader title={t('form.content.label')}>
             <EditMarkupLink
               to={`/edit-markup/${id}/${language}`}
@@ -206,7 +206,7 @@ class LearningResourceContent extends Component {
 
 LearningResourceContent.propTypes = {
   locale: PropTypes.string.isRequired,
-  userAccess: PropTypes.string.isRequired,
+  userAccess: PropTypes.string,
   formik: PropTypes.shape({
     values: PropTypes.shape({
       id: PropTypes.number,

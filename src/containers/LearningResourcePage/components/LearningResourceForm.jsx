@@ -93,23 +93,6 @@ class LearningResourceForm extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    /*const { taxonomy: prevTaxonomy, initialModel: prevModel } = prevProps;
-    const { initialModel, setModel, setModelField, taxonomy } = this.props;
-    const hasTaxonomyChanged =
-      taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
-    if (hasTaxonomyChanged) {
-      const fields = ['resourceTypes', 'filter', 'topics'];
-      fields.map(field => setModelField(field, initialModel[field]));
-    } else if (
-      initialModel.id !== prevModel.id ||
-      initialModel.revision !== prevModel.revision ||
-      initialModel.language !== prevModel.language
-    ) {
-      setModel(initialModel);
-    }*/
-  }
-
   async onReset({ setValues }) {
     const { articleId, selectedLanguage, t } = this.props;
     try {
@@ -188,17 +171,10 @@ class LearningResourceForm extends Component {
   async handleSubmit(values, actions) {
     actions.setSubmitting(true);
     const {
-      model: { id },
-      //validationErrors,
       revision,
-      //setSubmitted,
       createMessage,
       articleStatus,
-      //setModelField,
       onUpdate,
-      //fields,
-      //model,
-      //onModelSavedToServer,
       applicationError,
     } = this.props;
 
@@ -206,7 +182,7 @@ class LearningResourceForm extends Component {
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
-        await validateDraft(id, {
+        await validateDraft(values.id, {
           ...this.getArticle(values),
           revision,
         });
@@ -232,8 +208,8 @@ class LearningResourceForm extends Component {
   }
 
   render() {
-    const { t, isSaving, history, article, ...rest } = this.props;
-
+    const { t, history, article, ...rest } = this.props;
+    console.log(this.props);
     const { error, savedToServer } = this.state;
     const initVal = getInitialValues(article, false);
     return (
@@ -252,7 +228,7 @@ class LearningResourceForm extends Component {
           errors,
           touched,
         }) => (
-          <Form onSubmit={this.handleSubmit} {...formClasses()}>
+          <Form {...formClasses()}>
             <FormikHeader
               values={values}
               type={values.articleType}
@@ -295,7 +271,7 @@ class LearningResourceForm extends Component {
               <FormikActionButton
                 outline
                 onClick={history.goBack}
-                disabled={isSaving}>
+                disabled={isSubmitting}>
                 {t('form.abort')}
               </FormikActionButton>
               <SaveButton
@@ -327,34 +303,17 @@ class LearningResourceForm extends Component {
 }
 
 LearningResourceForm.propTypes = {
-  /*model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    language: PropTypes.string,
-  }).isRequired,*/
-  /*initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.arrayOf(PropTypes.object),
-    language: PropTypes.string,
-  }),*/
   articleId: PropTypes.string,
-  //setModel: PropTypes.func.isRequired,
-  //setModelField: PropTypes.func.isRequired,
-  //fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  //validationErrors: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  //submitted: PropTypes.bool.isRequired,
-  //bindInput: PropTypes.func.isRequired,
   revision: PropTypes.number,
-  //setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  updateArticleStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
     filter: PropTypes.array,
@@ -367,13 +326,9 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
-  //savedToServer: PropTypes.bool,
-  //setInputFlags: PropTypes.func,
 };
 
 export default compose(
   injectT,
   withRouter,
-  //reformed,
-  //validateSchema(learningResourceSchema),
 )(LearningResourceForm);

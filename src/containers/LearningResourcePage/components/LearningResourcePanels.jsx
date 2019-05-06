@@ -21,6 +21,18 @@ const panels = [
     component: props => <LearningResourceContent {...props} />,
   },
   {
+    id: 'learning-resource-taxonomy',
+    title: 'form.taxonomytSection',
+    errorFields: [],
+    showPanel: (values, userAccess) =>
+      values.id &&
+      ((userAccess &&
+        userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`)) ||
+        userAccess.includes('taxonomy:write')),
+    className: 'u-6/6',
+    component: props => <LearningResourceTaxonomy {...props} />,
+  },
+  {
     id: 'learning-resource-copyright',
     title: 'form.copyrightSection',
     className: 'u-6/6',
@@ -50,63 +62,44 @@ const LearningResourcePanels = ({
   errors,
   touched,
   ...rest
-}) => {
-  if (
-    values.id &&
-    (userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`) ||
-      userAccess.includes('taxonomy:write'))
-  ) {
-    panels.splice(1, 0, {
-      id: 'learning-resource-taxonomy',
-      title: t('form.taxonomytSection'),
-      className: 'u-6/6',
-      component: closePanel => (
-        <LearningResourceTaxonomy
-          language={values.language}
-          title={values.title}
-          articleId={values.id}
-          closePanel={closePanel}
-        />
-      ),
-    });
-  }
-
-  return (
-    <Accordion openIndexes={['topic-article-content']}>
-      {({ openIndexes, handleItemClick }) => (
-        <AccordionWrapper>
-          {panels.map(panel => {
-            const hasError = panel.errorFields.some(
-              field => !!errors[field] && touched[field],
-            );
-            return (
-              <Fragment key={panel.id}>
-                <AccordionBar
-                  panelId={panel.id}
-                  ariaLabel={t(panel.title)}
-                  onClick={() => handleItemClick(panel.id)}
-                  hasError={hasError}
+}) => (
+  <Accordion openIndexes={['topic-article-content']}>
+    {({ openIndexes, handleItemClick }) => (
+      <AccordionWrapper>
+        {panels.map(panel => {
+          if (panel.showPanel && !panel.showPanel(values, userAccess)) {
+            return null;
+          }
+          const hasError = panel.errorFields.some(
+            field => !!errors[field] && touched[field],
+          );
+          return (
+            <Fragment key={panel.id}>
+              <AccordionBar
+                panelId={panel.id}
+                ariaLabel={t(panel.title)}
+                onClick={() => handleItemClick(panel.id)}
+                hasError={hasError}
+                isOpen={openIndexes.includes(panel.id)}>
+                {t(panel.title)}
+              </AccordionBar>
+              {openIndexes.includes(panel.id) && (
+                <AccordionPanel
+                  id={panel.id}
+                  hasError={panel.hasError}
                   isOpen={openIndexes.includes(panel.id)}>
-                  {t(panel.title)}
-                </AccordionBar>
-                {openIndexes.includes(panel.id) && (
-                  <AccordionPanel
-                    id={panel.id}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    <div className={panel.className}>
-                      {panel.component({ hasError, ...rest })}
-                    </div>
-                  </AccordionPanel>
-                )}
-              </Fragment>
-            );
-          })}
-        </AccordionWrapper>
-      )}
-    </Accordion>
-  );
-};
+                  <div className={panel.className}>
+                    {panel.component({ hasError, values, ...rest })}
+                  </div>
+                </AccordionPanel>
+              )}
+            </Fragment>
+          );
+        })}
+      </AccordionWrapper>
+    )}
+  </Accordion>
+);
 
 LearningResourcePanels.propTypes = {
   values: PropTypes.shape({

@@ -7,77 +7,49 @@
 
 /* global history */
 
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
-import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
 import { LicensesArrayOf } from '../../shapes';
-import { actions as draftActions } from '../../modules/draft/draft';
 import LearningResourceForm from './components/LearningResourceForm';
+import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
+import { toEditArticle } from '../../util/routeHelpers';
 
-class CreateLearningResource extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.updateDraft = this.updateDraft.bind(this);
-  }
+const CreateLearningResource = ({ locale, t, history, ...rest }) => {
+  const { tags, createArticle } = useFetchArticleData(undefined, locale);
 
-  componentDidMount() {
-    const { locale, fetchTags } = this.props;
-    fetchTags({ language: locale });
-  }
-
-  updateDraft(article) {
-    const { updateDraft } = this.props;
-    updateDraft({ draft: article, history: this.props.history });
-  }
-
-  render() {
-    const { locale, t, ...rest } = this.props;
-    return (
-      <Fragment>
-        <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
-        <LearningResourceForm
-          article={{ language: locale }}
-          {...rest}
-          onUpdate={this.updateDraft}
-        />
-      </Fragment>
+  const createArticleAndPushRoute = async createdArticle => {
+    console.log(createdArticle);
+    const savedArticle = await createArticle(createdArticle);
+    history.push(
+      toEditArticle(
+        savedArticle.id,
+        savedArticle.articleType,
+        createdArticle.language,
+      ),
     );
-  }
-}
+  };
+
+  return (
+    <Fragment>
+      <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
+      <LearningResourceForm
+        article={{ language: locale }}
+        tags={tags}
+        onUpdate={createArticleAndPushRoute}
+        {...rest}
+      />
+    </Fragment>
+  );
+};
 
 CreateLearningResource.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: LicensesArrayOf,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  updateDraft: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  fetchTags: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = {
-  updateDraft: draftActions.updateDraft,
-  fetchTags: tagActions.fetchTags,
-};
-
-const mapStateToProps = (state, props) => {
-  const getAllTagsSelector = getAllTagsByLanguage(props.locale);
-  return {
-    tags: getAllTagsSelector(state),
-  };
-};
-
-export default injectT(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(CreateLearningResource),
-);
+export default injectT(CreateLearningResource);

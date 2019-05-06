@@ -168,6 +168,7 @@ const phrases = {
     searchContent: 'Search content',
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
+    film: 'Go to film',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',

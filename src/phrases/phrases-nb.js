@@ -166,6 +166,7 @@ const phrases = {
     searchContent: 'Søk innhold',
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
+    film: 'Gå til film',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',

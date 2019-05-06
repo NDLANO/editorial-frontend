@@ -19,7 +19,6 @@ export const fetchFilmFrontpage = () =>
   );
 
 export const updateFilmFrontpage = filmfrontpage => {
-  console.log('new filmfrontpage to be saved:', filmfrontpage);
   fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),

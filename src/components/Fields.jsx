@@ -12,13 +12,13 @@ import { uuid } from '@ndla/util';
 import { FieldHeader, FieldSection } from '@ndla/forms';
 import BEMHelper from 'react-bem-helper';
 import get from 'lodash/fp/get';
-import MultiSelect from './MultiSelect';
 import { isEmpty } from './validators';
 import PlainTextEditor from './SlateEditor/PlainTextEditor';
 import DateTimeInput from './DateTime/DateTimeInput';
 import ObjectSelector from './ObjectSelector';
 import { AsyncDropdown } from './Dropdown';
 import HowToHelper from './HowTo/HowToHelper';
+import MultiSelectDropdown from './Dropdown/MultiSelectDropdown';
 
 export const classes = new BEMHelper({
   name: 'field',
@@ -378,7 +378,7 @@ export const MultiSelectField = ({
     {description && (
       <FieldDescription obligatory={obligatory}>{description}</FieldDescription>
     )}
-    <MultiSelect {...bindInput(name)} {...rest} />
+    <MultiSelectDropdown {...bindInput(name)} {...rest} />
     <FieldErrorMessages
       label={label}
       field={getField(name, schema)}

@@ -160,10 +160,6 @@ class AddResourceModal extends Component {
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
               apiAction={this.onInputSearch}
-              messages={{
-                emptyFilter: '',
-                emptyList: t('taxonomy.noResources'),
-              }}
               onChange={this.onSelect}
               alwaysOpen
             />

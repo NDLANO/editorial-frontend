@@ -27,11 +27,6 @@ const ImageMetaData = props => {
         data={tags}
         label={t('form.tags.label')}
         description={t('form.tags.description')}
-        messages={{
-          createOption: t('form.tags.createOption'),
-          emptyFilter: t('form.tags.emptyFilter'),
-          emptyList: t('form.tags.emptyList'),
-        }}
         {...commonFieldProps}
       />
       <FormLicense

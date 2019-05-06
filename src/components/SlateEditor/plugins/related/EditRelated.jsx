@@ -159,10 +159,6 @@ class EditRelated extends React.PureComponent {
                   label="label"
                   apiAction={this.searchForArticles}
                   onClick={e => e.stopPropagation()}
-                  messages={{
-                    emptyFilter: t('form.content.relatedArticle.emptyFilter'),
-                    emptyList: t('form.content.relatedArticle.emptyList'),
-                  }}
                   onChange={selected => selected && onInsertBlock(selected.id)}
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>

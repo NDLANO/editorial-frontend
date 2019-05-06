@@ -15,8 +15,8 @@ import { css } from '@emotion/core';
 import { Field, FieldErrorMessages, getField } from '../../../Fields';
 import validateSchema from '../../../validateSchema';
 import { SchemaShape, FootnoteShape } from '../../../../shapes';
-import MultiSelect from '../../../MultiSelect';
 import reformed from '../../../reformed';
+import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
@@ -82,14 +82,7 @@ class FootnoteForm extends Component {
           <label htmlFor="authors">
             {t('form.content.footnote.authors.label')}
           </label>
-          <MultiSelect
-            {...bindInput('authors')}
-            messages={{
-              createOption: t('form.content.footnote.authors.createOption'),
-              emptyFilter: t('form.content.footnote.authors.emptyFilter'),
-              emptyList: t('form.content.footnote.authors.emptyList'),
-            }}
-          />
+          <MultiSelectDropdown {...bindInput('authors')} />
           <FieldErrorMessages
             label={t('form.content.footnote.authors.label')}
             field={getField('authors', validationErrors)}

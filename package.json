@@ -27,7 +27,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -137,14 +139,12 @@
     "react-dom": "^16.8.0",
     "react-helmet": "^5.2.0",
     "react-image-crop": "^2.1.1",
-    "react-input-autosize": "^2.2.1",
     "react-prop-types": "^0.4.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-tabs": "^2.3.0",
     "react-transition-group": "^2.5.0",
-    "react-widgets": "^4.4.5",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.1",
     "redux-saga": "^0.16.0",

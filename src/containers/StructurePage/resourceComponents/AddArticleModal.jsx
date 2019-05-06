@@ -58,10 +58,6 @@ class AddArticleModal extends Component {
           placeholder={t('form.content.relatedArticle.placeholder')}
           label="label"
           apiAction={this.onArticleSearch}
-          messages={{
-            emptyFilter: '',
-            emptyList: t('taxonomy.noResources'),
-          }}
           onChange={this.onSelect}
           alwaysOpen
         />

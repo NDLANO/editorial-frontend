@@ -29,11 +29,6 @@ const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
       howToTooltip={t('form.tags.helpLabel')}
       label={t('form.tags.label')}
       description={t('form.tags.description')}
-      messages={{
-        createOption: t('form.tags.createOption'),
-        emptyFilter: t('form.tags.emptyFilter'),
-        emptyList: t('form.tags.emptyList'),
-      }}
       {...commonFieldProps}
     />
     <FieldHeader title={t('form.metaDescription.label')}>

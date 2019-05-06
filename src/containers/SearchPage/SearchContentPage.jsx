@@ -6,9 +6,11 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import * as actions from '../../modules/search/search';
 import {
   getResults,
@@ -18,8 +20,11 @@ import {
 
 import SearchContainer from './SearchContainer';
 
-const SearchContentPage = props => (
-  <SearchContainer type="content" {...props} />
+const SearchContentPage = ({ t, ...props }) => (
+  <Fragment>
+    <HelmetWithTracker title={t('htmlTitles.searchContentPage')} />
+    <SearchContainer type="content" {...props} />
+  </Fragment>
 );
 
 const mapStateToProps = (state, ownProps) => ({
@@ -36,4 +41,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SearchContentPage);
+)(injectT(SearchContentPage));

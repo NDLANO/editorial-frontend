@@ -16,7 +16,16 @@ import { getLocale } from '../../../modules/locale/locale';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const FormLicense = props => {
-  const { t, onChange, onBlur, name, licenses, disabled, locale } = props;
+  const {
+    t,
+    onChange,
+    onBlur,
+    name,
+    value,
+    licenses,
+    disabled,
+    locale,
+  } = props;
   const licensesWithTranslations = licenses.map(license => ({
     ...license,
     ...getLicenseByAbbreviation(license.license, locale),
@@ -33,7 +42,7 @@ const FormLicense = props => {
         <div>
           <Select
             disabled={disabled}
-            value=""
+            value={value}
             onChange={onChange}
             onBlur={onBlur}
             name={name}>
@@ -61,6 +70,7 @@ FormLicense.propTypes = {
   locale: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
+  value: PropTypes.string,
 };
 
 FormLicense.defaultProps = {

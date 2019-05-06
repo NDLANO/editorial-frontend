@@ -88,7 +88,14 @@ const explanationFrontendDomain = () => {
   if (process.env.LOCAL_NOTION) {
     return 'http://localhost:3100';
   }
-  return `https://explanations-frontend.${ndlaEnvironment}.api.ndla.no`;
+  switch (ndlaEnvironment) {
+    case 'local':
+      return 'http://localhost:3100';
+    case 'prod':
+      return 'https://explanations-frontend.api.ndla.no';
+    default:
+      return `https://explanations-frontend.${ndlaEnvironment}.api.ndla.no`;
+  }
 };
 
 const config = {

@@ -16,6 +16,7 @@ import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import { TYPE as mathml } from '../mathml';
+import { TYPE as concept } from '../concept';
 import { listTypes } from '../externalPlugins';
 import { SupportedToolbarElementsShape } from '../../../../shapes';
 
@@ -149,13 +150,13 @@ class SlateToolbar extends Component {
     const defaultSupportedToolbarElements = supportedToolbarElements || {
       mark: ['bold', 'italic', 'underlined'],
       block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-      inline: [link, footnote, mathml],
+      inline: [link, footnote, mathml, concept],
     };
 
     const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
       mark: ['bold', 'italic', 'underlined'],
       block: ['quote', ...listTypes, 'heading-one'],
-      inline: [link, footnote, mathml],
+      inline: [link, footnote, mathml, concept],
     };
 
     const toolbarElements = checkSelectionForType(

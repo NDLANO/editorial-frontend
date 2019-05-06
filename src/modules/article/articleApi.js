@@ -31,8 +31,10 @@ export const searchRelatedArticles = async (input, locale, contentType) => {
   return response.results;
 };
 
-export const getArticle = id =>
-  fetchAuthorized(`${articleUrl}/${id}`).then(resolveJsonOrRejectWithError);
+export const getArticle = (id, locale = 'nb') =>
+  fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 const articleConverterUrl = config.localConverter
   ? 'http://localhost:3100/article-converter'

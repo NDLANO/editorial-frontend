@@ -89,9 +89,13 @@ export function* watchUpdateDraft() {
 
 export function* updateStatusDraft(id, newStatus) {
   try {
-    const { status, notes } = yield call(api.updateStatusDraft, id, newStatus);
+    const { status, notes, revision } = yield call(
+      api.updateStatusDraft,
+      id,
+      newStatus,
+    );
     const currentDraft = yield select(getDraft(id));
-    yield put(actions.setDraft({ ...currentDraft, status, notes }));
+    yield put(actions.setDraft({ ...currentDraft, status, notes, revision }));
     yield put(actions.updateDraftSuccess());
   } catch (error) {
     yield put(actions.updateDraftError());

@@ -84,8 +84,7 @@ class AsyncDropDown extends React.Component {
   }
 
   handleToggleMenu() {
-    if (!this.props.alwaysOpen)
-      this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
+    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
   }
 
   handleStateChange(changes) {
@@ -105,9 +104,7 @@ class AsyncDropDown extends React.Component {
       placeholder,
       textField,
       valueField,
-      messages,
       onClick,
-      alwaysOpen,
       t,
       testid,
       ...rest
@@ -155,11 +152,7 @@ AsyncDropDown.propTypes = {
   textField: PropTypes.string,
   valueField: PropTypes.string,
   onClick: PropTypes.func,
-  messages: PropTypes.shape({
-    emptyFilter: PropTypes.string.isRequired,
-    emptyList: PropTypes.string.isRequired,
-  }),
-  alwaysOpen: PropTypes.bool,
+  testid: PropTypes.string,
 };
 
 AsyncDropDown.defaultPropTypes = {

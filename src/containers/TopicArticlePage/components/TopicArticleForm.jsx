@@ -175,12 +175,13 @@ class TopicArticleForm extends Component {
 
   async handleSubmit(values, actions) {
     const {
-      revision,
       createMessage,
       articleStatus,
       onUpdate,
+      article,
       applicationError,
     } = this.props;
+    const { revision } = article;
     const status = articleStatus ? articleStatus.current : undefined;
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {

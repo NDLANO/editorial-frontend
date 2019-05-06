@@ -933,6 +933,43 @@ const phrases = {
     menu: 'Meny',
     closeMenu: 'Lukk',
   },
+  ndlaFilm: {
+    editor: {
+      slideshowHeader: 'Slideshow:',
+      slideshowTitle: 'Filmer i slideshow',
+      slideshowSubTitle: 'på forsiden',
+      movieGroupHeader: 'Film grupperinger:',
+      addMovieToSlideshow: 'Legg til film i slideshow',
+      addMovieToGroup: 'Legg til film i "{name}"',
+      editMovieGroupName: 'Endre navnene til filmgruppen',
+      deleteMovieGroup: 'Slett "{name}"',
+      moveMovieGroupUp: 'Flytt opp',
+      moveMovieGroupDown: 'Flytt ned',
+      changeOrder: 'Endre rekkefølge',
+      removeMovieFromGroup: 'Ta vekk film fra gruppe',
+      removeMovieFromSlideshow: 'Ta vekk film fra slideshow',
+      createThemeGroup: 'Opprett gruppe',
+      saveNameChanges: 'Lagre endringer',
+      cancel: 'Avbryt',
+      groupNamePlaceholder: 'Skriv navn på {lang}',
+      editGroupTitle: 'Endre navn(ene) på filmgruppen:',
+      newGroupTitle: 'Hva skal gruppen hete?',
+    },
+  },
+  modal: {
+    closeModal: 'Lukk',
+  },
+  languages: {
+    nb: 'Bokmål',
+    nn: 'Nynorsk',
+    en: 'Engelsk',
+    fr: 'Fransk',
+    de: 'Tysk',
+    se: 'Samisk',
+    es: 'Spansk',
+    zh: 'Kinesisk',
+    unknown: 'Ukjent',
+  },
 };
 
 export default phrases;

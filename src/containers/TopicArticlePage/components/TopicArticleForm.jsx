@@ -257,7 +257,6 @@ class TopicArticleForm extends Component {
                 formIsDirty={formIsDirty}
                 {...rest}
               />
-
               <Field right>
                 {error && <span className="c-errorMessage">{error}</span>}
                 {values.id && (

@@ -149,28 +149,27 @@ class NdlaFilmEditor extends React.Component {
     const { slideShow } = filmFrontpage;
 
     const newSlideShow = [...slideShow, this.getUrnFromId(id)];
+
+    this.newSlideShow(newSlideShow);
+  };
+
+  saveSlideshow = async slideShow => {
+    const ids = slideShow.map(movie => this.getUrnFromId(movie.id));
+    this.newSlideShow(ids);
+  };
+
+  newSlideShow = newSlideShow => {
+    const { filmFrontpage } = this.state;
     const newFilmFrontpage = {
       ...filmFrontpage,
       slideShow: newSlideShow,
     };
-
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+    this.saveFilmFrontpage(newFilmFrontpage);
   };
 
-  saveSlideshow = async slideShow => {
-    const { filmFrontpage } = this.state;
-    const ids = slideShow.map(movie => this.getUrnFromId(movie.id));
-
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      slideShow: ids,
-    };
+  saveFilmFrontpage = newFilmFrontpage => {
     updateFilmFrontpage(newFilmFrontpage);
-
-    this.setState({
-      slideshow: slideShow,
-    });
+    this.refreshProps(newFilmFrontpage);
   };
 
   onSaveThemeName = (newNames, index) => {
@@ -217,8 +216,7 @@ class NdlaFilmEditor extends React.Component {
         return theme;
       }),
     };
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+    this.saveFilmFrontpage(newFilmFrontpage);
   };
 
   updateMovieTheme = (updatedTheme, index) => {
@@ -238,8 +236,7 @@ class NdlaFilmEditor extends React.Component {
         return theme;
       }),
     };
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+    this.saveFilmFrontpage(newFilmFrontpage);
   };
 
   addMovieToTheme = (id, index) => {
@@ -258,8 +255,7 @@ class NdlaFilmEditor extends React.Component {
         return theme;
       }),
     };
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+    this.saveFilmFrontpage(newFilmFrontpage);
   };
 
   onMoveTheme = (index, direction) => {
@@ -284,8 +280,7 @@ class NdlaFilmEditor extends React.Component {
         ...filmFrontpage,
         movieThemes: newMovieThemes,
       };
-      updateFilmFrontpage(newFilmFrontpage);
-      this.refreshProps(newFilmFrontpage);
+      this.saveFilmFrontpage(newFilmFrontpage);
     }
   };
 
@@ -295,9 +290,7 @@ class NdlaFilmEditor extends React.Component {
       ...filmFrontpage,
       movieThemes: filmFrontpage.movieThemes.filter((theme, i) => i !== index),
     };
-
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+    this.saveFilmFrontpage(newFilmFrontpage);
   };
 
   onAddTheme = theme => {
@@ -325,9 +318,7 @@ class NdlaFilmEditor extends React.Component {
         { name: newThemeNames, movies: [] },
       ],
     };
-
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+    this.saveFilmFrontpage(newFilmFrontpage);
   };
 
   renderAddMovieOptions = addedMovies => {

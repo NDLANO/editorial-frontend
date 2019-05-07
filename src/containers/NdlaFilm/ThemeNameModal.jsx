@@ -70,9 +70,9 @@ class ThemeNameModal extends React.Component {
 }
 ThemeNameModal.propTypes = {
   onSaveTheme: PropTypes.func,
-  startState: PropTypes.shape,
+  startState: PropTypes.any,
   activateButton: PropTypes.node,
-  messages: PropTypes.node,
+  messages: PropTypes.any,
 };
 
 export default injectT(ThemeNameModal);

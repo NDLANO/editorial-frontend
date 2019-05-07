@@ -49,22 +49,29 @@ class FormikWorkflow extends Component {
       getArticle,
       createMessage,
       revision,
+      formIsDirty,
     } = this.props;
-
-    try {
-      if (
-        status === articleStatuses.PUBLISHED ||
-        status === articleStatuses.QUEUED_FOR_PUBLISHING
-      ) {
-        await draftApi.validateDraft(values.id, {
-          ...getArticle(),
-          revision,
-        });
-      }
-      await updateArticleStatus(values.id, status);
-    } catch (error) {
-      if (error && error.json && error.json.messages) {
-        createMessage(formatErrorMessage(error));
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      try {
+        if (
+          status === articleStatuses.PUBLISHED ||
+          status === articleStatuses.QUEUED_FOR_PUBLISHING
+        ) {
+          await draftApi.validateDraft(values.id, {
+            ...getArticle(),
+            revision,
+          });
+        }
+        await updateArticleStatus(values.id, status);
+      } catch (error) {
+        if (error && error.json && error.json.messages) {
+          createMessage(formatErrorMessage(error));
+        }
       }
     }
   }
@@ -140,6 +147,7 @@ FormikWorkflow.propTypes = {
   createMessage: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
   article: ArticleShape,
+  formIsDirty: PropTypes.bool,
 };
 
 FormikWorkflow.defaultProps = {

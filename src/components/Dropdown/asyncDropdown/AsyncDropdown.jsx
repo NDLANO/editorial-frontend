@@ -145,7 +145,7 @@ class AsyncDropDown extends React.Component {
               })}>
               <Input
                 {...getInputProps(inputProps)}
-                data-testid={testid}
+                data-testid={'dropdownInput'}
                 iconRight={
                   loading ? <Spinner size="normal" margin="0" /> : <Search />
                 }
@@ -171,6 +171,7 @@ AsyncDropDown.propTypes = {
   valueField: PropTypes.string,
   onClick: PropTypes.func,
   testid: PropTypes.string,
+  positionAbsolute: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {

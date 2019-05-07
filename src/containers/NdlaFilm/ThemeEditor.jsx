@@ -8,9 +8,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { NdlaFilmThemeEditorModal, Spinner } from '@ndla/editor';
+import Button from '@ndla/button';
+import { Spinner } from '@ndla/editor';
 import { FieldHeader, Select, FieldHeaderIconStyle } from '@ndla/forms';
-import Modal from '@ndla/modal';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
@@ -18,10 +18,34 @@ import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import MovieList from './MovieList';
-import AddThemeModal from './AddThemeModal';
+import ThemeNameModal from './ThemeNameModal';
 
 class ThemeEditor extends React.Component {
+  findName = (themeNames, language) => {
+    const nbName = themeNames.filter(name => name.language === language);
+    if (nbName.length > 0) {
+      return nbName.map(n => n.name).join();
+    } else {
+      return '';
+    }
+  };
+
   render() {
+    const blankTheme = {
+      newTheme: {
+        name: {
+          nb: '',
+          nn: '',
+          en: '',
+        },
+        warnings: {
+          nb: false,
+          nn: false,
+          en: false,
+        },
+      },
+    };
+
     const StyledThemeWrapper = styled('div')`
       margin-bottom: ${spacing.large};
     `;
@@ -35,6 +59,7 @@ class ThemeEditor extends React.Component {
       onAddTheme,
       onMoveTheme,
       onDeleteTheme,
+      onSaveThemeName,
     } = this.props;
 
     if (!themes) {
@@ -43,56 +68,55 @@ class ThemeEditor extends React.Component {
 
     return (
       <>
-        <AddThemeModal onAddTheme={onAddTheme} />
+        <ThemeNameModal
+          onSaveTheme={onAddTheme}
+          startState={blankTheme}
+          activateButton={<Button>Lag ny gruppe</Button>}
+          messages={{
+            save: t('ndlaFilm.editor.createThemeGroup'),
+            cancel: t('ndlaFilm.editor.cancel'),
+            title: t('ndlaFilm.editor.newGroupTitle'),
+          }}
+        />
         {themes.map((theme, index) => (
-          <StyledThemeWrapper key={theme.id}>
+          <StyledThemeWrapper key={this.findName(theme.name, 'nb')}>
             <FieldHeader
-              title={theme.name.find(name => name.language === 'nb').name}
+              title={this.findName(theme.name, 'nb')}
               subTitle={theme.name
                 .filter(name => name.language !== 'nb')
                 .map(name => ` | ${name.name}`)}>
-              <Modal
-                narrow
-                onClick={() => {
-                  this.setState({
-                    newTheme: {
-                      name: {
-                        nb: '',
-                        nn: '',
-                        en: '',
-                      },
-                      warnings: {
-                        nb: undefined,
-                        nn: undefined,
-                        en: undefined,
-                      },
+              <ThemeNameModal
+                onSaveTheme={names => onSaveThemeName(names, index)}
+                startState={{
+                  newTheme: {
+                    name: {
+                      nb: this.findName(theme.name, 'nb'),
+                      nn: this.findName(theme.name, 'nn'),
+                      en: this.findName(theme.name, 'en'),
                     },
-                  });
+                    warnings: {
+                      nb: false,
+                      nn: false,
+                      en: false,
+                    },
+                  },
                 }}
+                activateButton={
+                  <button css={FieldHeaderIconStyle} tabIndex={-1}>
+                    <Pencil />
+                  </button>
+                }
                 wrapperFunctionForButton={activateButton => (
                   <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
                     {activateButton}
                   </Tooltip>
                 )}
-                activateButton={
-                  <button css={FieldHeaderIconStyle} tabIndex={-1}>
-                    <Pencil />
-                  </button>
-                }>
-                {onClose => (
-                  <NdlaFilmThemeEditorModal
-                    onClose={onClose}
-                    onEditName={() => {}}
-                    onSave={() => {}}
-                    theme={this.state.newTheme}
-                    messages={{
-                      save: t('ndlaFilm.editor.saveNameChanges'),
-                      cancel: t('ndlaFilm.editor.cancel'),
-                      title: t('ndlaFilm.editor.editGroupTitle'),
-                    }}
-                  />
-                )}
-              </Modal>
+                messages={{
+                  save: t('ndlaFilm.editor.saveNameChanges'),
+                  cancel: t('ndlaFilm.editor.cancel'),
+                  title: t('ndlaFilm.editor.editGroupTitle'),
+                }}
+              />
               <Tooltip
                 tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
                   name: theme.name.find(name => name.language === 'nb').name,
@@ -155,6 +179,8 @@ ThemeEditor.propTypes = {
   onAddTheme: PropTypes.func,
   onMoveTheme: PropTypes.func,
   onDeleteTheme: PropTypes.func,
+  updateThemeName: PropTypes.func,
+  onSaveThemeName: PropTypes.func,
 };
 
 export default injectT(ThemeEditor);

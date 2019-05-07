@@ -10,9 +10,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';
-import Button from '@ndla/button';
 
-class AddThemeModal extends React.Component {
+class ThemeNameModal extends React.Component {
   state = {
     newTheme: {
       name: {
@@ -28,6 +27,10 @@ class AddThemeModal extends React.Component {
     },
   };
 
+  onClick = state => {
+    this.setState(state);
+  };
+
   onEditName = event => {
     this.setState(prevState => ({
       newTheme: {
@@ -41,51 +44,35 @@ class AddThemeModal extends React.Component {
   };
 
   onSave = () => {
-    const { onAddTheme } = this.props;
-    onAddTheme(this.state.newTheme);
+    const { onSaveTheme } = this.props;
+    onSaveTheme(this.state.newTheme);
   };
 
   render() {
-    const { t } = this.props;
+    const { startState, activateButton, messages } = this.props;
     return (
       <Modal
         narrow
-        onClick={() => {
-          this.setState({
-            newTheme: {
-              name: {
-                nb: '',
-                nn: '',
-                en: '',
-              },
-              warnings: {
-                nb: undefined,
-                nn: undefined,
-                en: undefined,
-              },
-            },
-          });
-        }}
-        activateButton={<Button>Lag ny gruppe</Button>}>
+        onClick={() => this.onClick(startState)}
+        activateButton={activateButton}>
         {onCloseModal => (
           <NdlaFilmThemeEditorModal
             onClose={onCloseModal}
             onEditName={this.onEditName}
             onSave={this.onSave}
             theme={this.state.newTheme}
-            messages={{
-              save: t('ndlaFilm.editor.createThemeGroup'),
-              cancel: t('ndlaFilm.editor.cancel'),
-              title: t('ndlaFilm.editor.newGroupTitle'),
-            }}
+            messages={messages}
           />
         )}
       </Modal>
     );
   }
 }
-AddThemeModal.propTypes = {
-  onAddTheme: PropTypes.func,
+ThemeNameModal.propTypes = {
+  onSaveTheme: PropTypes.func,
+  startState: PropTypes.shape,
+  activateButton: PropTypes.node,
+  messages: PropTypes.node,
 };
 
-export default injectT(AddThemeModal);
+export default injectT(ThemeNameModal);

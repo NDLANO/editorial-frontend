@@ -29,7 +29,7 @@ class NdlaFilmEditor extends React.Component {
   }
   state = {
     slideshow: null,
-    themes: [],
+    themes: null,
     filmFrontpage: null,
     allMovies: null,
   };
@@ -173,6 +173,54 @@ class NdlaFilmEditor extends React.Component {
     });
   };
 
+  onSaveThemeName = (newNames, index) => {
+    const { themes } = this.state;
+    const oldTheme = themes[index];
+    const newThemeNames = [
+      {
+        name: newNames.name.nb,
+        language: 'nb',
+      },
+      {
+        name: newNames.name.nn,
+        language: 'nn',
+      },
+      {
+        name: newNames.name.en,
+        language: 'en',
+      },
+    ];
+
+    const newTheme = {
+      ...oldTheme,
+      name: newThemeNames,
+    };
+    this.updateThemeName(newTheme, index);
+  };
+
+  updateThemeName = (updatedTheme, index) => {
+    const movieIds = updatedTheme.movies.map(movie =>
+      this.getUrnFromId(movie.id),
+    );
+    const { filmFrontpage } = this.state;
+    const { movieThemes } = filmFrontpage;
+
+    const newFilmFrontpage = {
+      ...filmFrontpage,
+      movieThemes: movieThemes.map((theme, i) => {
+        if (i === index) {
+          return {
+            ...updatedTheme,
+            movies: movieIds,
+          };
+        }
+        return theme;
+      }),
+    };
+    updateFilmFrontpage(newFilmFrontpage);
+    this.refreshProps(newFilmFrontpage);
+  };
+
   updateMovieTheme = (updatedTheme, index) => {
     const movieIds = updatedTheme.map(movie => this.getUrnFromId(movie.id));
     const { filmFrontpage } = this.state;
@@ -225,10 +273,8 @@ class NdlaFilmEditor extends React.Component {
 
       const newMovieThemes = movieThemes.map((movieTheme, i) => {
         if (i === index) {
-          console.log('theme to be moved', movieTheme);
           return movieThemes[desiredNewIndex];
         } else if (i === desiredNewIndex) {
-          console.log('theme to be switched', movieTheme);
           return movieThemes[index];
         }
         return movieTheme;
@@ -334,6 +380,8 @@ class NdlaFilmEditor extends React.Component {
             onMoveTheme={this.onMoveTheme}
             onDeleteTheme={this.onDeleteTheme}
             onAddTheme={this.onAddTheme}
+            updateThemeName={this.updateThemeName}
+            onSaveThemeName={this.onSaveThemeName}
           />
         </StyledSection>
       </OneColumn>

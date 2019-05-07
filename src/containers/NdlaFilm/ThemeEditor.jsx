@@ -85,7 +85,7 @@ class ThemeEditor extends React.Component {
               subTitle={theme.name
                 .filter(name => name.language !== 'nb')
                 .map(name => ` | ${name.name}`)
-                .join()}>
+                .join('')}>
               <ThemeNameModal
                 onSaveTheme={names => onSaveThemeName(names, index)}
                 startState={{

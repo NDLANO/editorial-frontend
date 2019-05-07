@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Search } from '@ndla/icons/lib/common';
@@ -30,6 +31,10 @@ const menuItemStyle = css`
 const dropdownInputStyle = css`
   margin-right: 6.5px;
   max-height: 26px;
+`;
+
+const DropdownWrapper = styled.div`
+  position: relative;
 `;
 
 class MenuItemDropdown extends PureComponent {
@@ -95,8 +100,8 @@ class MenuItemDropdown extends PureComponent {
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
             onChange={this.handleSubmit}>
-            {({ getInputProps, ...downshiftProps }) => (
-              <div>
+            {({ getInputProps, getRootProps, ...downshiftProps }) => (
+              <DropdownWrapper {...getRootProps()}>
                 <Input
                   {...getInputProps({ placeholder })}
                   data-testid="inlineDropdownInput"
@@ -118,12 +123,9 @@ class MenuItemDropdown extends PureComponent {
                       : []
                   }
                   {...downshiftProps}
-                  textField="name"
-                  valueField="id"
-                  fuzzy
-                  dontShowOnEmptyFilter
+                  positionAbsolute
                 />
-              </div>
+              </DropdownWrapper>
             )}
           </Downshift>
         </div>

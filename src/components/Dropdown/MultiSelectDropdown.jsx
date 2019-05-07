@@ -102,10 +102,11 @@ class MultiSelectDropdown extends Component {
           getInputProps,
           getMenuProps,
           getItemProps,
+          getRootProps,
           inputValue,
           isOpen,
         }) => (
-          <div>
+          <div {...getRootProps({ css: { position: 'relative' } })}>
             <DropdownInput
               multiSelect
               {...getInputProps({
@@ -126,6 +127,7 @@ class MultiSelectDropdown extends Component {
                 id,
               }))}
               onCreate={this.addNewTag}
+              positionAbsolute
             />
           </div>
         )}

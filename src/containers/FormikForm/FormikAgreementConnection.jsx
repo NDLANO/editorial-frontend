@@ -91,6 +91,7 @@ class FormikAgreementConnection extends Component {
                 }
                 apiAction={FormikAgreementConnection.searchAgreements}
                 valueField="id"
+                positionAbsolute
                 name="agreementId"
                 selectedItem={agreement}
                 textField="title"

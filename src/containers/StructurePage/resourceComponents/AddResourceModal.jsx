@@ -92,10 +92,7 @@ class AddResourceModal extends Component {
     try {
       const res = await groupSearch(input, this.props.type);
       const result = res.length > 0 ? res.pop().results : [];
-      return result.map(current => ({
-        ...current,
-        title: current.title ? current.title.title : '',
-      }));
+      return result;
     } catch (e) {
       handleError(e);
       this.setState({ error: e.message });

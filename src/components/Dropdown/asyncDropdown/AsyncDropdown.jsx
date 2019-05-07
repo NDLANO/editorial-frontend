@@ -14,6 +14,7 @@ import { Search } from '@ndla/icons/common';
 import { Spinner } from '@ndla/editor';
 import { injectT } from '@ndla/i18n';
 import { itemToString } from '../../../util/downShiftHelpers';
+import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 
 class AsyncDropDown extends React.Component {
   constructor() {
@@ -63,7 +64,16 @@ class AsyncDropDown extends React.Component {
     const { apiAction } = this.props;
     this.setState({ loading: true });
     const items = await apiAction(query);
-    this.setState({ items, loading: false });
+    this.setState({
+      items: items.map(item => ({
+        ...item,
+        title: convertFieldWithFallback(item, 'title', ''),
+        description: convertFieldWithFallback(item, 'metaDescription', ''),
+        image: item.metaImage && item.metaImage.url,
+        alt: item.metaImage && item.metaImage.alt,
+      })),
+      loading: false,
+    });
   }
 
   handleChange(selectedItem) {
@@ -107,6 +117,7 @@ class AsyncDropDown extends React.Component {
       onClick,
       t,
       testid,
+      positionAbsolute,
       ...rest
     } = this.props;
 
@@ -126,9 +137,12 @@ class AsyncDropDown extends React.Component {
         onChange={this.handleChange}
         isOpen={isOpen}
         selectedItem={this.state.selectedItem}>
-        {({ getInputProps, ...downshiftProps }) => {
+        {({ getInputProps, getRootProps, ...downshiftProps }) => {
           return (
-            <div>
+            <div
+              {...getRootProps({
+                css: positionAbsolute ? { position: 'relative' } : undefined,
+              })}>
               <Input
                 {...getInputProps(inputProps)}
                 data-testid={testid}
@@ -136,7 +150,11 @@ class AsyncDropDown extends React.Component {
                   loading ? <Spinner size="normal" margin="0" /> : <Search />
                 }
               />
-              <DropdownMenu {...downshiftProps} items={items} />
+              <DropdownMenu
+                {...downshiftProps}
+                items={items}
+                positionAbsolute={positionAbsolute}
+              />
             </div>
           );
         }}

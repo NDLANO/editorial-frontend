@@ -80,6 +80,7 @@ class AgreementConnection extends Component {
         {...commonFieldProps}
         onChange={this.handleChange}
         width={width}
+        positionAbsolute
       />,
       agreement && agreement.id ? (
         <Link

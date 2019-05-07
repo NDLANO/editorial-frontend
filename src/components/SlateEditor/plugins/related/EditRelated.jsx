@@ -101,12 +101,7 @@ class EditRelated extends React.PureComponent {
 
   async searchForArticles(inp) {
     const articles = await searchRelatedArticles(inp, this.props.locale);
-    return articles
-      .map(article => ({
-        id: article.id,
-        title: article.title ? article.title.title : '',
-      }))
-      .filter(article => !!article.id);
+    return articles.filter(article => !!article.id);
   }
 
   render() {
@@ -160,6 +155,7 @@ class EditRelated extends React.PureComponent {
                   apiAction={this.searchForArticles}
                   onClick={e => e.stopPropagation()}
                   onChange={selected => selected && onInsertBlock(selected.id)}
+                  positionAbsolute
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>
                 <Button

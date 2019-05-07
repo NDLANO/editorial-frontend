@@ -175,20 +175,7 @@ class NdlaFilmEditor extends React.Component {
   onSaveThemeName = (newNames, index) => {
     const { themes } = this.state;
     const oldTheme = themes[index];
-    const newThemeNames = [
-      {
-        name: newNames.name.nb,
-        language: 'nb',
-      },
-      {
-        name: newNames.name.nn,
-        language: 'nn',
-      },
-      {
-        name: newNames.name.en,
-        language: 'en',
-      },
-    ];
+    const newThemeNames = this.convertThemeNames(newNames);
 
     const newTheme = {
       ...oldTheme,
@@ -293,23 +280,27 @@ class NdlaFilmEditor extends React.Component {
     this.saveFilmFrontpage(newFilmFrontpage);
   };
 
-  onAddTheme = theme => {
-    const { filmFrontpage } = this.state;
-
-    const newThemeNames = [
+  convertThemeNames = names => {
+    return [
       {
-        name: theme.name.nb,
+        name: names.name.nb,
         language: 'nb',
       },
       {
-        name: theme.name.nn,
+        name: names.name.nn,
         language: 'nn',
       },
       {
-        name: theme.name.en,
+        name: names.name.en,
         language: 'en',
       },
     ];
+  };
+
+  onAddTheme = theme => {
+    const { filmFrontpage } = this.state;
+
+    const newThemeNames = this.convertThemeNames(theme);
 
     const newFilmFrontpage = {
       ...filmFrontpage,

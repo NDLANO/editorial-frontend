@@ -13,34 +13,31 @@ import FormLicense from './components/FormLicense';
 import { CommonFieldPropsShape } from '../../shapes';
 import Contributors from '../../components/Contributors';
 import { AgreementConnection } from '.';
+import { getErrorMessages } from '../../util/formHelper';
+
+const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
   const disabled = !!model.agreementId;
   return (
     <Fragment>
-      <Contributors
-        name="creators"
-        label={t('form.creators.label')}
-        labelRemove={t('form.creators.labelRemove')}
-        placeholder={t('form.creators.placeholder')}
-        disabled={disabled}
-        {...commonFieldProps}
-      />
-      <Contributors
-        name="rightsholders"
-        label={t('form.rightsholders.label')}
-        labelRemove={t('form.rightsholders.labelRemove')}
-        placeholder={t('form.rightsholders.placeholder')}
-        disabled={disabled}
-        {...commonFieldProps}
-      />
-      <Contributors
-        name="processors"
-        label={t('form.processors.label')}
-        labelRemove={t('form.processors.labelRemove')}
-        placeholder={t('form.processors.placeholder')}
-        {...commonFieldProps}
-      />
+      {contributorTypes.map(contributorType => {
+        const label = t(`form.${contributorType}.label`);
+        return (
+          <Contributors
+            name={contributorType}
+            label={label}
+            showError={commonFieldProps.submitted}
+            errorMessages={getErrorMessages(
+              label,
+              contributorType,
+              commonFieldProps.schema,
+            )}
+            {...commonFieldProps.bindInput(contributorType)}
+          />
+        );
+      })}
+
       <AgreementConnection
         commonFieldProps={commonFieldProps}
         model={model}
@@ -49,7 +46,7 @@ const FormCopyright = ({ t, commonFieldProps, licenses, model }) => {
       <FormLicense
         disabled={disabled}
         licenses={licenses}
-        commonFieldProps={commonFieldProps}
+        {...commonFieldProps.bindInput('license')}
       />
     </Fragment>
   );

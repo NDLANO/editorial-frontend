@@ -5,89 +5,78 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import AudioForm, { getInitialModel } from './components/AudioForm';
-import { actions, getAudio } from '../../modules/audio/audio';
-import { AudioShape } from '../../shapes';
+import AudioForm from './components/AudioForm';
+import * as audioApi from '../../modules/audio/audioApi';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { createFormData } from '../../util/formDataHelper';
 
-class EditAudio extends Component {
-  componentDidMount() {
-    const { audioId: id, fetchAudio, audioLanguage } = this.props;
-    if (id) fetchAudio({ id, language: audioLanguage });
-  }
+const transformAudio = audio => {
+  const audioLanguage =
+    audio &&
+    audio.supportedLanguages &&
+    audio.supportedLanguages.includes(audio.language)
+      ? audio.language
+      : undefined;
 
-  componentDidUpdate({ audioId: prevId }) {
-    const { audioId: id, fetchAudio, audioLanguage, audio } = this.props;
+  return audio
+    ? {
+        ...audio,
+        title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
+        tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
+      }
+    : undefined;
+};
 
-    if (
-      id &&
-      audioLanguage &&
-      ((audio && audio.language !== audioLanguage) || id !== prevId)
-    ) {
-      fetchAudio({ id, language: audioLanguage });
+const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
+  const [audio, setAudio] = useState({});
+
+  const fetchAudio = async () => {
+    if (audioId) {
+      const article = await audioApi.fetchAudio(audioId, locale);
+      setAudio(transformAudio(article));
     }
+  };
+
+  const onUpdate = async (newAudio, file) => {
+    const formData = await createFormData(file, newAudio);
+    const updatedAudio = await audioApi.updateAudio(newAudio.id, formData);
+    const transformedAudio = transformAudio(updatedAudio);
+    setAudio(transformedAudio);
+  };
+
+  useEffect(() => {
+    fetchAudio();
+  }, [audioId, audioLanguage]);
+
+  if (audioId && !audio.id) {
+    return null;
   }
 
-  render() {
-    const {
-      history,
-      audio: audioData,
-      updateAudio,
-      locale,
-      ...rest
-    } = this.props;
-
-    return (
-      <AudioForm
-        initialModel={getInitialModel(audioData || { language: locale })}
-        revision={audioData && audioData.revision}
-        audioInfo={audioData && audioData.audioFile}
-        onUpdate={(audio, file) => updateAudio({ audio, file, history })}
-        {...rest}
-      />
-    );
-  }
-}
+  const language = audioLanguage || locale;
+  return (
+    <AudioForm
+      audio={{ ...audio, language }}
+      revision={audio && audio.revision}
+      onUpdate={onUpdate}
+      audioLanguage={audioLanguage}
+      {...rest}
+    />
+  );
+};
 
 EditAudio.propTypes = {
-  audioId: PropTypes.string,
+  audioId: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fetchAudio: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
-  audio: AudioShape,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
   locale: PropTypes.string.isRequired,
-  updateAudio: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  audioLanguage: PropTypes.string,
+  audioLanguage: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = {
-  fetchAudio: actions.fetchAudio,
-  updateAudio: actions.updateAudio,
-};
-
-const mapStateToProps = (state, props) => {
-  const { audioId } = props;
-  const getAudioSelector = getAudio(audioId, true);
-  return {
-    audio: getAudioSelector(state),
-  };
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditAudio),
-);
+export default EditAudio;

@@ -1,7 +1,15 @@
-import { css } from '@emotion/core';
-import { colors, spacing, fonts, shadows } from '@ndla/core';
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-export const menuItemCss = css`
+import styled from '@emotion/styled';
+import { colors, spacing, fonts } from '@ndla/core';
+
+const StyledListButton = styled.button`
   display: flex;
   width: 100%;
   padding: ${spacing.small};
@@ -19,10 +27,4 @@ export const menuItemCss = css`
   }
 `;
 
-export const dropDownContainerCSS = css`
-  position: absolute;
-  z-index: 9999;
-  background: #fff;
-  padding: ${spacing.normal};
-  box-shadow: ${shadows.levitate1};
-`;
+export default StyledListButton;

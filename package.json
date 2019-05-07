@@ -22,13 +22,12 @@
     "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node scripts/bin/check-articles",
     "cy": "cypress open",
     "pree2e-ci": "cross-env NODE_ENV=production node build/server &",
-    "e2e-ci": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
+    "e2e-ci": "cross-env cypress run",
+    "e2e-ci-record": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": [
-      "./src/__tests__/_initTestEnv.js"
-    ]
+    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -54,7 +53,7 @@
     "mkdirp": "^0.5.1",
     "nock": "^9.4.3",
     "prettier": "^1.16.1",
-    "react-test-renderer": "^16.5.2",
+    "react-test-renderer": "^16.8.6",
     "react-testing-library": "^4.1.5",
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^3.7.0",
@@ -83,10 +82,11 @@
     "@ndla/image-search": "^0.8.0",
     "@ndla/licenses": "^0.6.0",
     "@ndla/modal": "^0.3.1",
+    "@ndla/notion": "^0.2.2",
     "@ndla/pager": "^0.4.0",
     "@ndla/tabs": "^0.11.0",
     "@ndla/tracker": "^0.3.1",
-    "@ndla/ui": "^0.22.2",
+    "@ndla/ui": "^0.22.4",
     "@ndla/util": "^0.3.1",
     "@ndla/video-search": "^0.8.0",
     "auth0-js": "^9.8.0",
@@ -103,6 +103,7 @@
     "express-http-proxy": "^1.5.1",
     "express-jwt": "^5.3.1",
     "flatpickr": "^4.5.2",
+    "formik": "^1.5.0",
     "focus-trap-react": "^6.0.0",
     "fuse.js": "^3.2.1",
     "he": "^1.2.0",

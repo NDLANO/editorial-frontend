@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing, fonts, misc } from '@ndla/core';
@@ -21,7 +29,7 @@ const StyledFilledButton = styled.button`
     height: 16px;
     margin: 0 3px 0 -3px;
     ${props =>
-      props.deleteable &&
+      props.deletable &&
       css`
         color: ${colors.support.red};
       `}
@@ -31,7 +39,7 @@ const StyledFilledButton = styled.button`
     color: #fff;
     background: ${colors.brand.primary};
     ${props =>
-      props.deleteable &&
+      props.deletable &&
       css`
         background: ${colors.support.red};
       `}

@@ -8,7 +8,7 @@
 
 import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { transformArticleFromApiVersion } from '../../util/articleUtil';
 
 export const fetchDraft = createAction('FETCH_DRAFT');
 export const setDraft = createAction('SET_DRAFT');
@@ -80,22 +80,8 @@ export const getSaving = createSelector(
   drafts => drafts.isSaving,
 );
 
-export const articleConverter = article => ({
-  ...article,
-  title: convertFieldWithFallback(article, 'title', ''),
-  introduction: convertFieldWithFallback(article, 'introduction', ''),
-  visualElement: convertFieldWithFallback(article, 'visualElement', {}),
-  content: convertFieldWithFallback(article, 'content', ''),
-  footnotes:
-    article.content && article.content.footNotes
-      ? article.content.footNotes
-      : undefined,
-  metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
-  tags: convertFieldWithFallback(article, 'tags', []),
-});
-
 export const getDraft = articleId =>
   createSelector(
     [getDraftById(articleId)],
-    article => (article ? articleConverter(article) : undefined),
+    article => (article ? transformArticleFromApiVersion(article) : undefined),
   );

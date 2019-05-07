@@ -16,22 +16,11 @@ import { hasNodeOfType, checkSelectionForType } from '../../utils';
 import { TYPE as footnote } from '../footnote';
 import { TYPE as link } from '../link';
 import { TYPE as mathml } from '../mathml';
+import { TYPE as concept } from '../concept';
 import { listTypes } from '../externalPlugins';
 import { SupportedToolbarElementsShape } from '../../../../shapes';
 
 const DEFAULT_NODE = 'paragraph';
-
-const defaultSupportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link, footnote, mathml],
-};
-
-const defaultSupportedToolbarElementsAside = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-one'],
-  inline: [link, footnote, mathml],
-};
 
 export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
@@ -46,7 +35,6 @@ class SlateToolbar extends Component {
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = this.portalRef.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
     this.updateMenu = this.updateMenu.bind(this);
   }
 
@@ -88,7 +76,6 @@ class SlateToolbar extends Component {
     } else {
       editor.setBlocks(isActive ? DEFAULT_NODE : type);
     }
-    this.handleValueChange(editor);
   }
 
   onClickMark(e, type) {
@@ -112,7 +99,6 @@ class SlateToolbar extends Component {
         editor.wrapInline(type);
       });
     }
-    this.handleValueChange(editor);
   }
 
   onButtonClick(e, kind, type) {
@@ -127,12 +113,6 @@ class SlateToolbar extends Component {
     this.menu = findDOMNode(menu);
   }
 
-  handleValueChange(value) {
-    const { onChange } = this.props;
-    onChange(value);
-    this.updateMenu();
-  }
-
   updateMenu() {
     const { menu } = this;
     const {
@@ -140,7 +120,9 @@ class SlateToolbar extends Component {
         value: { selection, fragment },
       },
     } = this.props;
-    if (!menu) return;
+    if (!menu) {
+      return;
+    }
     if (selection.isBlurred || selection.isCollapsed || fragment.text === '') {
       menu.removeAttribute('style');
       return;
@@ -164,13 +146,27 @@ class SlateToolbar extends Component {
       supportedToolbarElementsAside,
     } = this.props;
     const { value } = editor;
+
+    const defaultSupportedToolbarElements = supportedToolbarElements || {
+      mark: ['bold', 'italic', 'underlined'],
+      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+      inline: [link, footnote, mathml, concept],
+    };
+
+    const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
+      mark: ['bold', 'italic', 'underlined'],
+      block: ['quote', ...listTypes, 'heading-one'],
+      inline: [link, footnote, mathml, concept],
+    };
+
     const toolbarElements = checkSelectionForType(
       'aside',
       value,
       value.selection.start.key,
     )
-      ? supportedToolbarElementsAside
-      : supportedToolbarElements;
+      ? defaultSupportedToolbarElementsAside
+      : defaultSupportedToolbarElements;
+
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton
@@ -190,11 +186,6 @@ class SlateToolbar extends Component {
     );
   }
 }
-
-SlateToolbar.defaultProps = {
-  supportedToolbarElements: defaultSupportedToolbarElements,
-  supportedToolbarElementsAside: defaultSupportedToolbarElementsAside,
-};
 
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,

@@ -63,7 +63,7 @@ const wrapper = props =>
 
 test('Can select a resource from the list and it adds it to topic', async () => {
   nock('http://ndla-api')
-    .get(`/article-api/v2/articles/356`)
+    .get(`/article-api/v2/articles/356?language=nb&fallback=true`)
     .reply(200, articleMock);
   nock('http://ndla-api')
     .post(
@@ -89,7 +89,7 @@ test('Can select a resource from the list and it adds it to topic', async () => 
 
 test('Can paste a valid url and add it to topic', async () => {
   nock('http://ndla-api')
-    .get(`/article-api/v2/articles/24`)
+    .get(`/article-api/v2/articles/24?language=nb&fallback=true`)
     .reply(200, articleMock);
   nock('http://ndla-api')
     .get(`/taxonomy/v1/resources/urn:resource:1:168388?language=undefined`)

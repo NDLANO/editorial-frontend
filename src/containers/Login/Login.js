@@ -9,13 +9,16 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
 import Footer from '../App/components/Footer';
 
-export const Login = ({ match }) => (
+export const Login = ({ t, match }) => (
   <Fragment>
+    <HelmetWithTracker title={t('htmlTitles.loginPage')} />
     <OneColumn cssModifier="clear">
       <div className="u-2/3@desktop u-push-1/3@desktop">
         <Switch>
@@ -35,4 +38,4 @@ Login.propTypes = {
   }).isRequired,
 };
 
-export default Login;
+export default injectT(Login);

@@ -38,7 +38,7 @@ export function* watchFetchDraft() {
 export function* updateDraft(draft) {
   try {
     const updatedDraft = yield call(api.updateDraft, draft);
-    yield put(actions.setDraft(updatedDraft));
+    yield put(actions.setDraft({ ...updatedDraft, language: draft.language }));
     yield put(actions.updateDraftSuccess());
     yield put(messageActions.showSaved());
   } catch (error) {
@@ -61,7 +61,7 @@ export function* updateDraft(draft) {
 export function* createDraft(draft, history) {
   try {
     const createdDraft = yield call(api.createDraft, draft);
-    yield put(actions.setDraft(createdDraft));
+    yield put(actions.setDraft({ ...createdDraft, language: draft.language }));
     yield put(actions.updateDraftSuccess());
     yield put(messageActions.showSaved());
     history.push(
@@ -87,12 +87,15 @@ export function* watchUpdateDraft() {
   }
 }
 
-export function* updateStatusDraft(id, status) {
+export function* updateStatusDraft(id, newStatus) {
   try {
-    const statusChangedDraft = yield call(api.updateStatusDraft, id, status);
+    const { status, notes, revision } = yield call(
+      api.updateStatusDraft,
+      id,
+      newStatus,
+    );
     const currentDraft = yield select(getDraft(id));
-
-    yield put(actions.setDraft({ ...currentDraft, ...statusChangedDraft })); // Quick hack to set draft language on updated draft. Maybe language should not be on model?
+    yield put(actions.setDraft({ ...currentDraft, status, notes, revision }));
     yield put(actions.updateDraftSuccess());
   } catch (error) {
     yield put(actions.updateDraftError());

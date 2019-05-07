@@ -13,6 +13,9 @@ import { MultiSelectField, TextField } from '../../../components/Fields';
 import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors';
 import FormLicense from '../../Form/components/FormLicense';
+import { getErrorMessages } from '../../../util/formHelper';
+
+const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const ImageMetaData = props => {
   const { t, commonFieldProps, tags, licenses } = props;
@@ -31,27 +34,32 @@ const ImageMetaData = props => {
         }}
         {...commonFieldProps}
       />
-      <FormLicense licenses={licenses} commonFieldProps={commonFieldProps} />
+      <FormLicense
+        licenses={licenses}
+        {...commonFieldProps.bindInput('license')}
+      />
       <TextField
         label={t('form.origin.label')}
         name="origin"
         {...commonFieldProps}
       />
-      <Contributors
-        name="creators"
-        label={t('form.creators.label')}
-        {...commonFieldProps}
-      />
-      <Contributors
-        name="rightsholders"
-        label={t('form.rightsholders.label')}
-        {...commonFieldProps}
-      />
-      <Contributors
-        name="processors"
-        label={t('form.processors.label')}
-        {...commonFieldProps}
-      />
+      {contributorTypes.map(contributorType => {
+        const label = t(`form.${contributorType}.label`);
+        return (
+          <Contributors
+            key={contributorType}
+            name={contributorType}
+            label={label}
+            showError={commonFieldProps.submitted}
+            errorMessages={getErrorMessages(
+              label,
+              contributorType,
+              commonFieldProps.schema,
+            )}
+            {...commonFieldProps.bindInput(contributorType)}
+          />
+        );
+      })}
     </Fragment>
   );
 };

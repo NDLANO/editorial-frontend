@@ -18,7 +18,7 @@ import {
 
 const Contributor = ({
   labelRemove,
-  submitted,
+  showError,
   placeholder,
   disabled,
   contributor,
@@ -33,7 +33,7 @@ const Contributor = ({
       <FieldSplitter>
         <Input
           warningText={
-            submitted && (contributor.name === '' || contributor.type === '')
+            showError && (contributor.name === '' || contributor.type === '')
               ? errorMessages[0]
               : null
           }
@@ -73,10 +73,10 @@ Contributor.defaultProps = {
 };
 
 Contributor.propTypes = {
-  submitted: PropTypes.bool.isRequired,
+  showError: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
-  labelRemove: PropTypes.string.isRequired,
+  labelRemove: PropTypes.string,
   contributor: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,

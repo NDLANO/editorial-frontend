@@ -75,7 +75,7 @@ class FormDeleteLanguageVersion extends React.Component {
       <StyledWrapper>
         <StyledFilledButton
           type="button"
-          deleteable
+          deletable
           onClick={this.toggleShowDeleteWarning}>
           <DeleteForever />
           {t('form.workflow.deleteLanguageVersion.button', {

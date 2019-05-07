@@ -19,7 +19,7 @@ import styled from '@emotion/styled';
 import MastheadButton from './MastheadButton';
 import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
-import OpenMenu from './OpenMenu';
+import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
 
 export const classes = new BEMHelper({
@@ -113,7 +113,7 @@ export class Navigation extends Component {
                 </div>
               </div>
             </StyledHeaderItems>
-            {open && <OpenMenu close={this.closeMenu} />}
+            {open && <NavigationMenu close={this.closeMenu} />}
           </StyledNavigationWrapper>
         </FocusTrapReact>
         {open && <Overlay modifiers={'lighter'} />}

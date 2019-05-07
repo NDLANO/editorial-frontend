@@ -6,6 +6,7 @@ import FormikWorkflow from './FormikWorkflow';
 import FormikAddNotes from './FormikAddNotes';
 import FormikLicense from './components/FormikLicense.jsx';
 import FormikHeader from './FormikHeader';
+import FormikLanguage from './FormikLanguage';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
 import FormikActionButton from './components/FormikActionButton';
 import FormikMetaImageSearch from './FormikMetaImageSearch';
@@ -26,6 +27,7 @@ export {
   FormikAddNotes,
   FormikLicense,
   FormikHeader,
+  FormikLanguage,
   FormikActionButton,
   FormikMetaImageSearch,
   formClasses,

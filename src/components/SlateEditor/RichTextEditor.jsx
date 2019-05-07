@@ -65,18 +65,21 @@ const RichTextEditor = class extends React.PureComponent {
     } else if (isUnderlinedHotkey(e)) {
       mark = 'underlined';
     } else if (e.key === 'Backspace') {
-      const { selection } = value;
-      const numberOfNodesInSection = value.document.nodes.first().nodes.size;
-      if (
-        numberOfNodesInSection === 1 &&
-        value.document.text.length === 0 &&
-        selection.isCollapsed &&
-        selection.anchor.isAtStartOfNode(value.document)
-      ) {
-        this.props.removeSection(this.props.index);
-        return;
+      const { removeSection, index } = this.props;
+      if (removeSection) {
+        const { selection } = value;
+        const numberOfNodesInSection = value.document.nodes.first().nodes.size;
+        if (
+          numberOfNodesInSection === 1 &&
+          value.document.text.length === 0 &&
+          selection.isCollapsed &&
+          selection.anchor.isAtStartOfNode(value.document)
+        ) {
+          removeSection(index);
+          return;
+        }
+        next();
       }
-      next();
     }
 
     if (mark) {
@@ -109,8 +112,20 @@ const RichTextEditor = class extends React.PureComponent {
             onKeyDown={this.onKeyDown}
             ref={this.editorRef}
             value={value}
+            name={name}
             schema={schema}
-            onChange={change => onChange(change, index)}
+            onChange={change =>
+              onChange(
+                {
+                  target: {
+                    name,
+                    value: change.value,
+                    type: 'SlateEditorValue',
+                  },
+                },
+                index,
+              )
+            }
             slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}
@@ -120,7 +135,18 @@ const RichTextEditor = class extends React.PureComponent {
         {this.editorRef.current && (
           <SlateToolbar
             editor={this.editorRef.current}
-            onChange={change => onChange(change, index)}
+            onChange={change =>
+              onChange(
+                {
+                  target: {
+                    name,
+                    value: change.value,
+                    type: 'SlateEditorValue',
+                  },
+                },
+                index,
+              )
+            }
             name={name}
             supportedToolbarElements={supportedToolbarElements}
             supportedToolbarElementsAside={supportedToolbarElementsAside}

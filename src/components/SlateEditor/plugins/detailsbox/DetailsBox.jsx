@@ -61,7 +61,7 @@ const DetailsBox = props => {
   };
 
   return (
-    <div css={detailsWrapper} {...props.attributes}>
+    <div css={detailsWrapper} draggable={!showEditModal} {...props.attributes}>
       <StyledRow>
         <summary css={summaryStyle(open)} onClick={toggleOpen}>
           {summaryNode}

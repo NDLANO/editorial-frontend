@@ -37,7 +37,7 @@
     font-size: 0.75rem;
 
     &--error {
-      color: var(--mark-color);
+      color: red;
     }
 
     &--right {
@@ -103,13 +103,6 @@
       margin: 0;
       outline: none;
     }
-  }
-
-  &__date-picker + svg {
-    margin-left: -1.5rem;
-    margin-top: -2px;
-    height: 25px;
-    width: 25px;
   }
 
   &__add-contributor {

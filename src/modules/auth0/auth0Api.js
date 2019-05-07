@@ -15,3 +15,6 @@ export const fetchAuth0Users = uniqueUserIds =>
   fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchAuth0Editors = () =>
+  fetchAuthorized('/get_editors').then(resolveJsonOrRejectWithError);

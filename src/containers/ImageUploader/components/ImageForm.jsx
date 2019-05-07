@@ -30,11 +30,11 @@ import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { SchemaShape } from '../../../shapes';
 import {
-  FormHeader,
   FormActionButton,
   formClasses as classes,
   AlertModalWrapper,
 } from '../../Form';
+import { FormikHeader } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 
 export const getInitialModel = (image = {}) => ({
@@ -101,6 +101,7 @@ class ImageForm extends Component {
       setSubmitted,
       onUpdate,
       revision,
+      onModelSavedToServer,
     } = this.props;
 
     if (!validationErrors.isValid) {
@@ -125,6 +126,7 @@ class ImageForm extends Component {
       },
     };
     onUpdate(imageMetaData, model.imageFile);
+    onModelSavedToServer();
   }
 
   render() {
@@ -186,7 +188,7 @@ class ImageForm extends Component {
 
     return (
       <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
-        <FormHeader
+        <FormikHeader
           noStatus
           model={model}
           type="image"
@@ -289,6 +291,7 @@ ImageForm.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
+  onModelSavedToServer: PropTypes.func.isRequired,
 };
 
 export default compose(

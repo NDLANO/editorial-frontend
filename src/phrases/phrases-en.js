@@ -14,11 +14,16 @@ const phrases = {
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
-    searchPage: `Search ${titleTemplate}`,
+    searchContentPage: `Search content ${titleTemplate}`,
+    searchMediaPage: `Search media ${titleTemplate}`,
+    searchConceptPage: `Search concepts ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
     imageUploaderPage: `Image ${titleTemplate}`,
+    notionPage: `Concept ${titleTemplate}`,
+    loginPage: `Login ${titleTemplate}`,
+    logoutPage: `Logout ${titleTemplate}`,
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
@@ -163,6 +168,7 @@ const phrases = {
     concept: 'Go to concept',
     searchContent: 'Search content',
     searchMedia: 'Search media',
+    searchConcepts: 'Search concepts',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -193,6 +199,7 @@ const phrases = {
       contentQuery: 'Search for content',
       mediaQuery: 'Search for media',
       language: 'Select language',
+      users: 'Select editor',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       draftStatus: 'Select status',
@@ -201,6 +208,7 @@ const phrases = {
       query: 'Query',
       subjects: 'Subject',
       language: 'Language',
+      users: 'Editor',
       resourceTypes: 'Resource type',
       draftStatus: 'Status',
     },
@@ -372,6 +380,7 @@ const phrases = {
     headingThree: 'Heading 3',
     footnote: 'Footnote',
     mathml: 'Math',
+    concept: 'Concept',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -406,6 +415,24 @@ const phrases = {
     saveAsCopySuccess: 'New article saved',
     preview: {
       button: 'Preview',
+    },
+    name: {
+      title: 'Title',
+      introduction: 'Introduction',
+      creators: 'Creators',
+      rightsholders: 'Rightsholders',
+      processors: 'Processors',
+      tags: 'Tags',
+      license: 'License',
+      origin: 'Origin',
+      audioFile: 'Audio file',
+      content: 'Content',
+      notes: 'Notes',
+      metaDescription: 'Meta description',
+      visualElement: {
+        caption: 'Caption',
+        alt: 'Alt text',
+      },
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -450,6 +477,14 @@ const phrases = {
         empty: 'No notes',
       },
     },
+    updated: {
+      label: 'Updated date',
+    },
+    published: {
+      label: 'Published date',
+      reset: 'Reset date',
+    },
+    updatePublished: 'Update published date',
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
@@ -484,6 +519,12 @@ const phrases = {
       image: 'Image search',
       imageUpload: 'Upload image',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Create concept',
+      addText: 'Choose a concept and press "connect to topic", or',
+      edit: 'Edit concept',
+      addConcept: 'Add existing concept',
     },
     workflow: {
       title: 'Status',
@@ -866,6 +907,10 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+  },
+  notions: {
+    edit: 'Edit notions',
+    closeNotion: 'Close notion dialog',
   },
   contextTypes: {
     topic: 'Topic',

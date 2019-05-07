@@ -1,6 +1,3 @@
-import {
-  menuItemCss,
-  dropDownContainerCSS,
-} from './styled_components/menuItem';
+import { menuItemCss, dropDownContainerCSS } from './menuItem';
 
 export { menuItemCss, dropDownContainerCSS };

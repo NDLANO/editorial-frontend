@@ -14,11 +14,16 @@ const phrases = {
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
-    searchPage: `Søk ${titleTemplate}`,
+    searchContentPage: `Søk innhald ${titleTemplate}`,
+    searchMediaPage: `Søk media ${titleTemplate}`,
+    searchConceptPage: `Søk forklaringar ${titleTemplate}`,
     welcomePage: `Forside ${titleTemplate}`,
     structurePage: `Struktur ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
+    notionPage: `Forklaring ${titleTemplate}`,
+    loginPage: `Logg inn ${titleTemplate}`,
+    logoutPage: `Logg ut ${titleTemplate}`,
   },
   meta: {
     description:
@@ -162,6 +167,7 @@ const phrases = {
     concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
+    searchConcepts: 'Søk begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -192,6 +198,7 @@ const phrases = {
       contentQuery: 'Søk på Innhald',
       mediaQuery: 'Søk på Media',
       language: 'Velg Språk',
+      users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       draftStatus: 'Velg status',
@@ -200,6 +207,7 @@ const phrases = {
       query: 'Innhald',
       subjects: 'Fag',
       language: 'Språk',
+      users: 'Bruker',
       resourceTypes: 'Innhaldstype',
       draftStatus: 'Status',
     },
@@ -426,6 +434,24 @@ const phrases = {
     preview: {
       button: 'Forhandsvis',
     },
+    name: {
+      title: 'Tittel',
+      introduction: 'Introduksjon',
+      creators: 'Opphavsperson',
+      rightsholders: 'Rettighetshaver',
+      processors: 'Bearbeider',
+      tags: 'Nøkkelord',
+      license: 'Lisens',
+      origin: 'Opphav',
+      audioFile: 'Lydfil',
+      content: 'Innhald',
+      notes: 'Merknader',
+      metaDescription: 'Metabeskrivelse',
+      visualElement: {
+        caption: 'Figur tekst',
+        alt: 'Alt tekst',
+      },
+    },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
       article: 'Artikkel',
@@ -469,6 +495,14 @@ const phrases = {
         empty: 'Ingen merknader',
       },
     },
+    updated: {
+      label: 'Oppdatert dato',
+    },
+    published: {
+      label: 'Publisert dato',
+      reset: 'Resett dato',
+    },
+    updatePublished: 'Endre publisert dato',
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
@@ -503,6 +537,12 @@ const phrases = {
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',
       h5p: 'H5P',
+    },
+    concept: {
+      create: 'Opprett nytt begrep',
+      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger begrep',
+      addConcept: 'Legg til eksisterende begrep',
     },
     workflow: {
       title: 'Status',
@@ -740,6 +780,8 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
+      editExternal: 'Rediger eksternt element',
+      remove: 'Fjern video',
     },
     audio: {
       file: 'Lydfil',
@@ -887,6 +929,10 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+  },
+  notions: {
+    edit: 'Rediger begrep',
+    closeNotion: 'Lukk begrepsmodal',
   },
   contextTypes: {
     topic: 'Emne',

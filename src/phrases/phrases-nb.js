@@ -763,7 +763,6 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
-      editExternal: 'Rediger eksternt element',
       remove: 'Fjern video',
     },
     audio: {
@@ -779,6 +778,10 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+    },
+    external: {
+      edit: 'Rediger eksternt element',
+      remove: 'Fjern eksternt element',
     },
     related: {
       title: 'Relaterte artikler',

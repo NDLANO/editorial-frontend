@@ -156,7 +156,7 @@ export class DisplayExternal extends Component {
     return (
       <div className="c-figure">
         <FigureButtons
-          tooltip={t('form.video.remove')}
+          tooltip={t('form.external.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
           t={t}

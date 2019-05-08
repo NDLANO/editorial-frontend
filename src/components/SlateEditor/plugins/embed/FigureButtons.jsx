@@ -92,7 +92,7 @@ const FigureButtons = ({
         </Tooltip>
       )}
       {figureType === 'external' && onEdit && (
-        <Tooltip tooltip={t('form.video.editExternal')} align="right">
+        <Tooltip tooltip={t('form.external.edit')} align="right">
           <IconButton color="green" tabIndex={-1} onClick={onEdit}>
             <Pencil />
           </IconButton>

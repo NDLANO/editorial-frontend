@@ -39,9 +39,9 @@ const DisplayEmbedTag = ({
     case 'external':
       return (
         <DisplayExternal
+          embed={embedTag}
           changeVisualElement={changeVisualElement}
           onRemoveClick={onRemoveClick}
-          url={embedTag.url}
         />
       );
     default:

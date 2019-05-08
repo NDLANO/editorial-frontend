@@ -13,7 +13,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
-import LinkForm from './LinkForm';
+import LinkForm, { getInitialModel } from './LinkForm';
 import config from '../../../../config';
 
 const newTabAttributes = {
@@ -61,7 +61,6 @@ class EditLink extends React.Component {
   }
 
   handleSave(model) {
-    console.log('model', model);
     const { editor, node } = this.props;
     const { href, text, checkbox } = model;
     const isNDLAUrl = config.isNdlaProdEnvironment
@@ -75,9 +74,10 @@ class EditLink extends React.Component {
             : { 'open-in': 'current-context' },
         )
       : createLinkData(href, checkbox ? newTabAttributes : {});
-    console.log('node', node, data);
+
     if (node.key) {
       // update/change
+      console.log('data,', data);
       this.handleChangeAndClose(
         editor
           .moveToRangeOfNode(node)
@@ -95,7 +95,7 @@ class EditLink extends React.Component {
 
   handleChangeAndClose(editor) {
     const { closeEditMode } = this.props;
-    console.log('editor', editor);
+
     editor.focus(); // Always return focus to editor
 
     closeEditMode();
@@ -112,8 +112,8 @@ class EditLink extends React.Component {
             {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
           </h2>
           <LinkForm
-            link={model}
             onClose={this.onClose}
+            link={model}
             isEdit={isEdit}
             onRemove={this.handleRemove}
             onSave={this.handleSave}

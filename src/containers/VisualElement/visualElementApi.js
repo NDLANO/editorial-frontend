@@ -101,7 +101,7 @@ export const fetchVisualElement = embedTag => {
     case 'brightcove':
       return fetchBrightcoveVideo(embedTag.videoid);
     case 'external':
-      return fetchExternalOembed(embedTag.url)
+      return fetchExternalOembed(embedTag.url);
     default:
       return new Promise((resolve, reject) => {
         reject(

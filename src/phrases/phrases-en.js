@@ -752,7 +752,7 @@ const phrases = {
         label: 'Video caption',
         placeholder: 'Video caption',
       },
-      remove: 'Remove video'
+      remove: 'Remove video',
     },
     audio: {
       file: 'Audio file',

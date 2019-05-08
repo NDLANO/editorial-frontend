@@ -343,6 +343,10 @@ const phrases = {
       },
     },
   },
+  linkForm: {
+    href: 'Lenke',
+    text: 'Tekst',
+  },
   audioForm: {
     title: 'Lyd | {title} ({key})',
   },

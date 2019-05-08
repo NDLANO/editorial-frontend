@@ -17,7 +17,6 @@ export const RichBlockTextField = ({
   label,
   submitted,
   schema,
-  slateSchema,
   bindInput,
   ...rest
 }) => {
@@ -30,7 +29,7 @@ export const RichBlockTextField = ({
         name={name}
         value={value}
         onChange={onChange}
-        schema={slateSchema}
+        schema={schema}
         submitted={submitted}
         {...rest}
       />

@@ -18,11 +18,13 @@ import {
   validDateRange,
 } from './validators';
 
-const validateFormik = (values, rules, t) => {
+const validateFormik = (values, rules, t, formType = undefined) => {
   const errors = {};
   Object.keys(rules).forEach(ruleKey => {
     const value = get(ruleKey, values);
-    const label = t(`form.name.${ruleKey}`);
+    const label = formType
+      ? t(`${formType}.${ruleKey}`)
+      : t(`form.name.${ruleKey}`);
 
     if (rules[ruleKey].numeric && !isNumeric(value)) {
       errors[ruleKey] = t('validation.isNumeric', { label });

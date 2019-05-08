@@ -63,7 +63,7 @@ const LearningResourcePanels = ({
   touched,
   ...rest
 }) => (
-  <Accordion openIndexes={['topic-article-content']}>
+  <Accordion openIndexes={['learning-resource-content']}>
     {({ openIndexes, handleItemClick }) => (
       <AccordionWrapper>
         {panels.map(panel => {

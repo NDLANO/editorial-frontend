@@ -27,6 +27,7 @@ class RichBlockTextEditor extends PureComponent {
     const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
     newValue[index] = { value: evt.target.value, index };
+    console.log('newval', newValue);
     onChange({
       target: {
         value: newValue,
@@ -61,7 +62,6 @@ class RichBlockTextEditor extends PureComponent {
       plugins,
       renderMark,
       renderNode,
-      slateSchema,
       submitted,
     } = this.props;
     return (
@@ -81,6 +81,7 @@ class RichBlockTextEditor extends PureComponent {
               </Tooltip>
             ) : null}
             <RichTextEditor
+              id={name}
               name={name}
               index={index}
               data-cy={this.props['data-cy']}
@@ -88,7 +89,6 @@ class RichBlockTextEditor extends PureComponent {
               plugins={plugins}
               renderMark={renderMark}
               renderNode={renderNode}
-              slateSchema={slateSchema}
               submitted={submitted}
               schema={schema}
               onChange={this.onChange}
@@ -114,7 +114,6 @@ RichBlockTextEditor.propTypes = {
   placeholder: PropTypes.string.isRequired,
   renderMark: PropTypes.func.isRequired,
   renderNode: PropTypes.func.isRequired,
-  slateSchema: PropTypes.shape({}),
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
 };

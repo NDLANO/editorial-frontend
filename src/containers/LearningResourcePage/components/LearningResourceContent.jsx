@@ -13,8 +13,6 @@ import { compose } from 'redux';
 import { connect as reduxConnect } from 'react-redux';
 import { connect as formikConnect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
-import { spacing } from '@ndla/core';
-import { css } from '@emotion/core';
 import { getLocale } from '../../../modules/locale/locale';
 import FormikField from '../../../components/FormikField';
 import RichBlockTextEditor from '../../../components/SlateEditor/RichBlockTextEditor';
@@ -50,7 +48,11 @@ import {
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
-import { FormikIngress, FormikDatePicker } from '../../FormikForm';
+import {
+  FormikIngress,
+  FormikDatePicker,
+  FormikCheckbox,
+} from '../../FormikForm';
 
 const findFootnotes = content =>
   content
@@ -111,15 +113,11 @@ class LearningResourceContent extends Component {
   render() {
     const {
       t,
-      //commonFieldProps,
       userAccess,
       formik: {
         values: { id, language, creators, published, updatePublished = false },
         initialValues,
       },
-      //model,
-      //initialModel,
-      //setModelField,
     } = this.props;
     const hasPublishedDateChanged = initialValues.published !== published;
     return (
@@ -135,23 +133,9 @@ class LearningResourceContent extends Component {
         <LastUpdatedLine creators={creators} published={published} />
         <FormikIngress />
         {!hasPublishedDateChanged && (
-          <FormikField name="updatePublished">
-            {({ field }) => (
-              <Fragment>
-                <input
-                  css={css`
-                    display: inline-block;
-                    width: auto;
-                    appearance: checkbox !important;
-                    margin-right: ${spacing.small};
-                  `}
-                  type="checkbox"
-                  {...field}
-                />
-                <span>{t('form.updatePublished')}</span>
-              </Fragment>
-            )}
-          </FormikField>
+          <FormikCheckbox name="updatePublished" display="inline-block">
+            <span>{t('form.updatePublished')}</span>
+          </FormikCheckbox>
         )}
         {updatePublished && (
           <FormikField name="published">
@@ -182,7 +166,7 @@ class LearningResourceContent extends Component {
             <Fragment>
               <FieldHeader title={t('form.content.label')} />
               <RichBlockTextEditor
-                slateSchema={schema}
+                schema={schema}
                 renderNode={renderNode}
                 submitted={isSubmitting}
                 renderMark={renderMark}

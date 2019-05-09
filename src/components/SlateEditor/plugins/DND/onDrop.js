@@ -1,5 +1,4 @@
 import { findNode } from 'slate-react';
-import { findDOMNode } from 'slate-react';
 import { getTopNode } from './utils';
 
 function onDrop(event, editor, next) {
@@ -29,8 +28,9 @@ function onDrop(event, editor, next) {
         .unwrapNodeByKey(topLevelSourceKey);
     });
   } else {
-    const { height, top } = findDOMNode(target).getBoundingClientRect();
+    const { height, top } = event.target.getBoundingClientRect();
     const goUp = top + height / 2 > event.clientY;
+
     editor.withoutNormalizing(() => {
       editor
         .moveNodeByKey(

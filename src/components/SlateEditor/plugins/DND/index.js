@@ -1,22 +1,16 @@
-import { findNode, findRange } from 'slate-react';
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { findNode } from 'slate-react';
 import { Text } from 'slate';
 import onDrop from './onDrop';
-import { getTopNode } from './utils';
-
-function onDragOver(event, editor, next) {
-  event.stopPropagation();
-  event.preventDefault();
-}
-
-const shouldCopyTableOrList = (type, editor) => {
-  if (type === 'table' || type.includes('list')) {
-    const nativeSelection = window.getSelection();
-    const range = findRange(nativeSelection, editor);
-    const nodesInRange = editor.value.document.getLeafBlocksAtRange(range);
-    return nodesInRange.size > 1;
-  }
-  return false;
-};
+import { getTopNode, shouldCopyTableOrList } from './utils';
+import renderNode from './renderNode';
 
 function onDragStart(event, editor, next) {
   const dragSource = findNode(event.target, editor);
@@ -25,7 +19,13 @@ function onDragStart(event, editor, next) {
     // just copy the text natively
     return next();
   }
+
   event.dataTransfer.setData('text/nodeKey', dragSource.key);
 }
 
-export default { onDragStart, onDragOver, onDrop, schema: {} };
+export default {
+  onDragStart,
+  onDrop,
+  schema: {},
+  renderNode,
+};

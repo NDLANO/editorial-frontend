@@ -946,7 +946,7 @@ const phrases = {
       slideshowHeader: 'Slideshow:',
       slideshowTitle: 'Filmer i slideshow',
       slideshowSubTitle: 'på forsiden',
-      movieGroupHeader: 'Film grupperinger:',
+      movieGroupHeader: 'Filmgrupperinger:',
       addMovieToSlideshow: 'Legg til film i slideshow',
       addMovieToGroup: 'Legg til film i "{name}"',
       editMovieGroupName: 'Endre navnene til filmgruppen',

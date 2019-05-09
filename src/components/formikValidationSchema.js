@@ -90,9 +90,9 @@ const validateFormik = (values, rules, t, formType = undefined) => {
       errors[ruleKey] = t('validation.url', { label });
     }
     if (rules[ruleKey].test) {
-      const errorTranslationKey = rules[ruleKey].test(value);
-      if (errorTranslationKey) {
-        errors[ruleKey] = t(`${errorTranslationKey}`);
+      const testError = rules[ruleKey].test(value, values, label);
+      if (testError) {
+        errors[ruleKey] = t(`${testError.translationKey}`, testError.variables);
       }
     }
     if (

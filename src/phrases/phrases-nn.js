@@ -344,6 +344,10 @@ const phrases = {
       },
     },
   },
+  linkForm: {
+    href: 'Lenke',
+    text: 'Tekst',
+  },
   audioForm: {
     title: 'Lyd | {title} ({key})',
   },
@@ -442,6 +446,9 @@ const phrases = {
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
       metaImageAlt: 'Alt-tekst',
+      alttext: 'Alt-tekst',
+      caption: 'Bildetekst',
+      imageFile: 'Bildefil',
       visualElement: {
         caption: 'Figur tekst',
         alt: 'Alt tekst',

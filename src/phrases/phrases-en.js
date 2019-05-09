@@ -329,6 +329,10 @@ const phrases = {
       },
     },
   },
+  linkForm: {
+    href: 'Link',
+    text: 'Text',
+  },
   audioForm: {
     title: {
       create: 'You are now creating a audio file',
@@ -427,9 +431,12 @@ const phrases = {
       notes: 'Notes',
       metaDescription: 'Meta description',
       metaImageAlt: 'Alt-text',
+      alttext: 'Alt-text',
+      caption: 'Caption',
+      imageFile: 'Imagefile',
       visualElement: {
         caption: 'Caption',
-        alt: 'Alt text',
+        alt: 'Alt-text',
       },
     },
     previewProductionArticle: {

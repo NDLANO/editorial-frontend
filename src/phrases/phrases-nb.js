@@ -444,9 +444,12 @@ const phrases = {
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
       metaImageAlt: 'Alt-tekst',
+      alttext: 'Alt-tekst',
+      caption: 'Bildetekst',
+      imageFile: 'Bildefil',
       visualElement: {
         caption: 'Figur tekst',
-        alt: 'Alt tekst',
+        alt: 'Alt-tekst',
       },
     },
     previewProductionArticle: {

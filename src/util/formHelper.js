@@ -94,7 +94,7 @@ const formikCommonArticleRules = {
     test: value => {
       const emptyNote = value.find(note => note.length === 0);
       if (emptyNote !== undefined) {
-        return 'validation.noEmptyNote';
+        return { translationKey: 'validation.noEmptyNote' };
       }
       return undefined;
     },
@@ -121,7 +121,7 @@ export const learningResourceRules = {
       });
 
       return embedsHasErrors
-        ? 'learningResourceForm.validation.missingEmbedData'
+        ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
         : undefined;
     },
   },

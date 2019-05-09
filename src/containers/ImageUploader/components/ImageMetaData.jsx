@@ -9,55 +9,67 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { MultiSelectField, TextField } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors';
-import FormLicense from '../../Form/components/FormLicense';
-import { getErrorMessages } from '../../../util/formHelper';
+import FormikField from '../../../components/FormikField';
+import MultiSelect from '../../../components/MultiSelect';
+import { FormikLicense } from '../../FormikForm';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const ImageMetaData = props => {
-  const { t, commonFieldProps, tags, licenses } = props;
+  const { t, tags, licenses } = props;
   return (
     <Fragment>
-      <MultiSelectField
-        obligatory
+      <FormikField
         name="tags"
-        data={tags}
         label={t('form.tags.label')}
-        description={t('form.tags.description')}
-        messages={{
-          createOption: t('form.tags.createOption'),
-          emptyFilter: t('form.tags.emptyFilter'),
-          emptyList: t('form.tags.emptyList'),
-        }}
-        {...commonFieldProps}
-      />
-      <FormLicense
-        licenses={licenses}
-        {...commonFieldProps.bindInput('license')}
-      />
-      <TextField
-        label={t('form.origin.label')}
-        name="origin"
-        {...commonFieldProps}
-      />
+        obligatory
+        description={t('form.tags.description')}>
+        {({ field }) => (
+          <MultiSelect
+            data={tags}
+            {...field}
+            messages={{
+              createOption: t('form.tags.createOption'),
+              emptyFilter: t('form.tags.emptyFilter'),
+              emptyList: t('form.tags.emptyList'),
+            }}
+          />
+        )}
+      </FormikField>
+
+      <FormikField name="license">
+        {({ field }) => <FormikLicense licenses={licenses} {...field} />}
+      </FormikField>
+
+      <FormikField label={t('form.origin.label')} name="origin" />
+
       {contributorTypes.map(contributorType => {
         const label = t(`form.${contributorType}.label`);
         return (
-          <Contributors
-            key={contributorType}
-            name={contributorType}
-            label={label}
-            showError={commonFieldProps.submitted}
-            errorMessages={getErrorMessages(
-              label,
-              contributorType,
-              commonFieldProps.schema,
-            )}
-            {...commonFieldProps.bindInput(contributorType)}
-          />
+          <FormikField
+            showError={false}
+            key={`formik_contributor_${contributorType}`}
+            name={contributorType}>
+            {({ field, form }) => {
+              const { errors, touched } = form;
+              const error =
+                touched[field.name] && errors[field.name]
+                  ? errors[field.name]
+                  : '';
+              return (
+                <Contributors
+                  label={label}
+                  labelRemove={t(`form.${contributorType}.labelRemove`)}
+                  showError={!!errors[field.name]}
+                  errorMessages={
+                    touched[field.name] && errors[field.name] ? [error] : []
+                  }
+                  {...field}
+                />
+              );
+            }}
+          </FormikField>
         );
       })}
     </Fragment>
@@ -65,7 +77,6 @@ const ImageMetaData = props => {
 };
 ImageMetaData.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

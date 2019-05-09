@@ -20,7 +20,6 @@ const CreateLearningResource = ({ locale, t, history, ...rest }) => {
   const { tags, createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async createdArticle => {
-    console.log(createdArticle);
     const savedArticle = await createArticle(createdArticle);
     history.push(
       toEditArticle(

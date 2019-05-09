@@ -13,7 +13,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
-import LinkForm, { getInitialModel } from './LinkForm';
+import LinkForm from './LinkForm';
 import config from '../../../../config';
 
 const newTabAttributes = {
@@ -77,7 +77,6 @@ class EditLink extends React.Component {
 
     if (node.key) {
       // update/change
-      console.log('data,', data);
       this.handleChangeAndClose(
         editor
           .moveToRangeOfNode(node)

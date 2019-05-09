@@ -27,7 +27,6 @@ class RichBlockTextEditor extends PureComponent {
     const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
     newValue[index] = { value: evt.target.value, index };
-    console.log('newval', newValue);
     onChange({
       target: {
         value: newValue,

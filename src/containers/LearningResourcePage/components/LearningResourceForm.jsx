@@ -209,7 +209,6 @@ class LearningResourceForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-    console.log(this.props);
     const { error, savedToServer } = this.state;
     const initVal = getInitialValues(article, false);
     return (

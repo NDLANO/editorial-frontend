@@ -126,8 +126,19 @@ const ImageContent = ({
 
 ImageContent.propTypes = {
   formik: PropTypes.shape({
-    errors: PropTypes.arrayOf(PropTypes.string),
-    touched: PropTypes.arrayOf(PropTypes.string),
+    values: PropTypes.shape({
+      alttext: PropTypes.string,
+      caption: PropTypes.string,
+    }),
+    errors: PropTypes.shape({
+      alttext: PropTypes.string.isRequired,
+      caption: PropTypes.string.isRequired,
+    }),
+    touched: PropTypes.shape({
+      alttext: PropTypes.bool.isRequired,
+      caption: PropTypes.bool.isRequired,
+    }),
+    setFieldValue: PropTypes.func.isRequired,
   }),
 };
 

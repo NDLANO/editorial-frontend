@@ -19,53 +19,56 @@ import { MetaImageShape, CommonFieldPropsShape } from '../../../shapes';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { FormMetaImageSearch } from '../../Form';
 
-const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => (
-  <Fragment>
-    <MultiSelectField
-      obligatory
-      name="tags"
-      data={tags}
-      howToId="MetaKeyword"
-      howToTooltip={t('form.tags.helpLabel')}
-      label={t('form.tags.label')}
-      description={t('form.tags.description')}
-      messages={{
-        createOption: t('form.tags.createOption'),
-        emptyFilter: t('form.tags.emptyFilter'),
-        emptyList: t('form.tags.emptyList'),
-      }}
-      {...commonFieldProps}
-    />
-    <FieldHeader title={t('form.metaDescription.label')}>
-      <HowToHelper
-        pageId="MetaDescription"
-        tooltip={t('form.metaDescription.helpLabel')}
+const LearningResourceMetadata = ({ t, commonFieldProps, tags, model }) => {
+  console.log(commonFieldProps.bindInput('tags'));
+  return (
+    <Fragment>
+      <MultiSelectField
+        obligatory
+        name="tags"
+        data={tags}
+        howToId="MetaKeyword"
+        howToTooltip={t('form.tags.helpLabel')}
+        label={t('form.tags.label')}
+        description={t('form.tags.description')}
+        messages={{
+          createOption: t('form.tags.createOption'),
+          emptyFilter: t('form.tags.emptyFilter'),
+          emptyList: t('form.tags.emptyList'),
+        }}
+        {...commonFieldProps}
       />
-    </FieldHeader>
-    <PlainTextField
-      placeholder={t('form.metaDescription.label')}
-      description={t('form.metaDescription.description')}
-      name="metaDescription"
-      maxLength={155}
-      {...commonFieldProps.bindInput('metaDescription')}
-      {...commonFieldProps}>
-      <RemainingCharacters
+      <FieldHeader title={t('form.metaDescription.label')}>
+        <HowToHelper
+          pageId="MetaDescription"
+          tooltip={t('form.metaDescription.helpLabel')}
+        />
+      </FieldHeader>
+      <PlainTextField
+        placeholder={t('form.metaDescription.label')}
+        description={t('form.metaDescription.description')}
+        name="metaDescription"
         maxLength={155}
-        getRemainingLabel={(maxLength, remaining) =>
-          t('form.remainingCharacters', { maxLength, remaining })
-        }
-        value={
-          commonFieldProps.bindInput('metaDescription').value.document.text
-        }
+        {...commonFieldProps.bindInput('metaDescription')}
+        {...commonFieldProps}>
+        <RemainingCharacters
+          maxLength={155}
+          getRemainingLabel={(maxLength, remaining) =>
+            t('form.remainingCharacters', { maxLength, remaining })
+          }
+          value={
+            commonFieldProps.bindInput('metaDescription').value.document.text
+          }
+        />
+      </PlainTextField>
+      <FormMetaImageSearch
+        metaImageId={model.metaImageId}
+        commonFieldProps={commonFieldProps}
+        {...commonFieldProps.bindInput('metaImageId')}
       />
-    </PlainTextField>
-    <FormMetaImageSearch
-      metaImageId={model.metaImageId}
-      commonFieldProps={commonFieldProps}
-      {...commonFieldProps.bindInput('metaImageId')}
-    />
-  </Fragment>
-);
+    </Fragment>
+  );
+};
 
 LearningResourceMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

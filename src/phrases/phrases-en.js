@@ -752,6 +752,7 @@ const phrases = {
         label: 'Video caption',
         placeholder: 'Video caption',
       },
+      remove: 'Remove video',
     },
     audio: {
       file: 'Audio file',
@@ -766,6 +767,10 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+    },
+    external: {
+      edit: 'Edit external element',
+      remove: 'Remove external element',
     },
     related: {
       title: 'Related articles',

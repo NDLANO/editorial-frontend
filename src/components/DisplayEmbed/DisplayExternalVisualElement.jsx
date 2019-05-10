@@ -8,20 +8,24 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import './helpers/h5pResizer';
+import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
+import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
+import Overlay from '../Overlay';
 
-export class DisplayExternal extends Component {
+export class DisplayExternalVisualElement extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { editModus: false };
     this.handleChangeVisualElement = this.handleChangeVisualElement.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
@@ -78,8 +82,17 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, t } = this.props;
-    const { title, src, height, type, provider, domain, error } = this.state;
+    const { onRemoveClick, embed, onFigureInputChange, t } = this.props;
+    const {
+      title,
+      src,
+      height,
+      type,
+      provider,
+      domain,
+      error,
+      editModus,
+    } = this.state;
 
     if (error) {
       return error;
@@ -99,32 +112,63 @@ export class DisplayExternal extends Component {
           : whitelistProvider.name === providerName,
     );
 
+    const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
+
     return (
-      <div className="c-figure">
-        <FigureButtons
-          tooltip={t('form.external.remove')}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          t={t}
-          figureType="external"
-        />
-        <iframe
-          ref={iframe => {
-            this.iframe = iframe;
-          }}
-          src={src}
-          height={allowedProvider.height || height}
-          title={title}
-          scrolling={type === 'iframe' ? 'no' : undefined}
-          allowFullScreen={allowedProvider.fullscreen || true}
-          frameBorder="0"
-        />
-      </div>
+      <>
+        {editModus && (
+          <Overlay onExit={() => this.setState({ editModus: false })} />
+        )}
+        <div className="c-figure">
+          <FigureButtons
+            tooltip={t(`form.${youtubeOrH5p}.remove`)}
+            onRemoveClick={onRemoveClick}
+            embed={embed}
+            t={t}
+            figureType="external"
+          />
+          <iframe
+            ref={iframe => {
+              this.iframe = iframe;
+            }}
+            src={src}
+            height={allowedProvider.height || height}
+            title={title}
+            scrolling={type === 'iframe' ? 'no' : undefined}
+            allowFullScreen={allowedProvider.fullscreen || true}
+            frameBorder="0"
+          />
+          {youtubeOrH5p === 'video' && editModus ? (
+            <StyledInputWrapper>
+              <Input
+                name="caption"
+                label={t(`form.${youtubeOrH5p}.caption.label`)}
+                value={embed.caption}
+                onChange={onFigureInputChange}
+                container="div"
+                type="text"
+                autoExpand
+                placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
+                white
+              />
+            </StyledInputWrapper>
+          ) : (
+            <Button
+              stripped
+              style={{ width: '100%' }}
+              onClick={() => this.setState({ editModus: true })}>
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
+              </figcaption>
+            </Button>
+          )}
+        </div>
+      </>
     );
   }
 }
 
-DisplayExternal.propTypes = {
+DisplayExternalVisualElement.propTypes = {
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
@@ -135,6 +179,7 @@ DisplayExternal.propTypes = {
     heigth: PropTypes.string,
     url: PropTypes.string,
   }),
+  onFigureInputChange: PropTypes.func,
 };
 
-export default injectT(DisplayExternal);
+export default injectT(DisplayExternalVisualElement);

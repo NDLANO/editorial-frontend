@@ -20,6 +20,7 @@ import { Field } from '../../../components/Fields';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
+  isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -113,7 +114,7 @@ FormWrapper.propTypes = {
 class ImageForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       savedToServer: false,
@@ -141,12 +142,8 @@ class ImageForm extends Component {
     };
 
     await onUpdate(imageMetaData, values.imageFile);
+    this.setState({ savedToServer: true });
     actions.setSubmitting(false);
-  }
-
-  handleSubmit(event, values, actions) {
-    event.preventDefault();
-    this.onSubmit(values, actions);
   }
 
   render() {
@@ -155,11 +152,11 @@ class ImageForm extends Component {
       tags,
       image,
       licenses,
-      showSaved,
       inModal,
       closeModal,
       history,
     } = this.props;
+    const { savedToServer } = this.state;
 
     const panels = [
       {
@@ -181,14 +178,14 @@ class ImageForm extends Component {
         component: <ImageMetaData tags={tags} licenses={licenses} />,
       },
     ];
-
+    const initialValues = getInitialValues(image);
     return (
       <Formik
-        initialValues={getInitialValues(image)}
+        initialValues={initialValues}
         onSubmit={this.onSubmit}
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
-        {({ values, errors, touched, isSubmitting, ...rest }) => (
+        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => (
           <FormWrapper inModal={inModal}>
             <FormikHeader
               values={values}
@@ -243,11 +240,19 @@ class ImageForm extends Component {
               )}
               <SaveButton
                 isSaving={isSubmitting}
-                showSaved={showSaved}
+                showSaved={
+                  savedToServer &&
+                  !isFormikFormDirty({
+                    values,
+                    initialValues,
+                    dirty,
+                  })
+                }
                 submit={!inModal}
-                onClick={e => {
+                onClick={evt => {
                   if (inModal) {
-                    this.handleSubmit(e, values, rest);
+                    evt.preventDefault();
+                    submitForm();
                   }
                 }}>
                 {t('form.save')} - {inModal}

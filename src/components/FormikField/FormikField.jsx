@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Field, connect } from 'formik';
 import { Value } from 'slate';
+import styled from '@emotion/styled';
 import get from 'lodash/fp/get';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
@@ -18,6 +19,10 @@ import FormikFieldDescription from './FormikFieldDescription';
 import { classes } from './';
 import FormikFieldHelp from './FormikFieldHelp';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
+
+const StyledErrorPreLine = styled.span`
+  white-space: pre-line;
+`;
 
 const FormikField = ({
   children,
@@ -86,7 +91,9 @@ const FormikField = ({
         />
       )}
       {showError && get(name, errors) && get(name, touched) && (
-        <FormikFieldHelp error>{get(name, errors)}</FormikFieldHelp>
+        <FormikFieldHelp error>
+          <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
+        </FormikFieldHelp>
       )}
     </div>
   );

@@ -40,13 +40,11 @@ class LinkForm extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
-  async handleSave(evt, { values, isValid }) {
-    evt.stopPropagation();
+  async handleSave(values, actions) {
     const { onSave } = this.props;
-    if (!isValid) {
-      return;
-    }
+    actions.setSubmitting(true);
     onSave(values);
+    actions.setSubmitting(false);
   }
 
   render() {
@@ -58,7 +56,7 @@ class LinkForm extends Component {
         validate={values =>
           validateFormik(values, linkValidationRules, t, 'linkForm')
         }>
-        {formikProps => (
+        {({ submitForm }) => (
           <Form data-cy="link_form">
             <FormikField
               name="text"
@@ -81,9 +79,7 @@ class LinkForm extends Component {
               <Button css={marginLeftStyle} outline onClick={onClose}>
                 {t('form.abort')}
               </Button>
-              <Button
-                css={marginLeftStyle}
-                onClick={evt => this.handleSave(evt, formikProps)}>
+              <Button css={marginLeftStyle} onClick={submitForm}>
                 {isEdit
                   ? t('form.content.link.update')
                   : t('form.content.link.insert')}

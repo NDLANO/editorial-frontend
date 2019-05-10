@@ -329,6 +329,11 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Title',
+    year: 'Year',
+    authors: 'Author',
+  },
   linkForm: {
     href: 'Link',
     text: 'Text',

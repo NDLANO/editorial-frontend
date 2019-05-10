@@ -344,6 +344,11 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Tittel',
+    year: 'År',
+    authors: 'Forfatter',
+  },
   linkForm: {
     href: 'Lenke',
     text: 'Tekst',

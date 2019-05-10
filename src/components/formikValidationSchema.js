@@ -18,6 +18,9 @@ import {
   validDateRange,
 } from './validators';
 
+const appendError = (error, newError) =>
+  error ? `${error} \n ${newError}` : newError;
+
 const validateFormik = (values, rules, t, formType = undefined) => {
   const errors = {};
   Object.keys(rules).forEach(ruleKey => {
@@ -26,17 +29,20 @@ const validateFormik = (values, rules, t, formType = undefined) => {
       ? t(`${formType}.${ruleKey}`)
       : t(`form.name.${ruleKey}`);
 
-    if (rules[ruleKey].numeric && !isNumeric(value)) {
-      errors[ruleKey] = t('validation.isNumeric', { label });
-    }
     if (rules[ruleKey].required && isEmpty(value)) {
-      errors[ruleKey] = t('validation.isRequired', { label });
+      errors[ruleKey] = appendError(
+        errors[ruleKey],
+        t('validation.isRequired', { label }),
+      );
     }
     if (rules[ruleKey].allObjectFieldsRequired) {
       if (value.filter(v => !objectHasBothField(v)).length > 0) {
-        errors[ruleKey] = t('validation.bothFields', {
-          labelLowerCase: label.toLowerCase(),
-        });
+        errors[ruleKey] = appendError(
+          errors[ruleKey],
+          t('validation.bothFields', {
+            labelLowerCase: label.toLowerCase(),
+          }),
+        );
       }
     }
     if (rules[ruleKey].dateBefore) {
@@ -44,10 +50,13 @@ const validateFormik = (values, rules, t, formType = undefined) => {
       const afterKey = rules[ruleKey].afterKey;
       const afterDate = get(afterKey, values);
       if (!validDateRange(beforeDate, afterDate)) {
-        errors[ruleKey] = t('validation.dateBeforeInvalid', {
-          label,
-          afterLabel: t('form.validDate.to.label').toLowerCase(),
-        });
+        errors[ruleKey] = appendError(
+          errors[ruleKey],
+          t('validation.dateBeforeInvalid', {
+            label,
+            afterLabel: t('form.validDate.to.label').toLowerCase(),
+          }),
+        );
       }
     }
     if (rules[ruleKey].dateAfter) {
@@ -55,44 +64,68 @@ const validateFormik = (values, rules, t, formType = undefined) => {
       const beforeDate = get(beforeKey, values);
       const afterDate = value;
       if (!validDateRange(beforeDate, afterDate)) {
-        errors[ruleKey] = t('validation.dateAfterInvalid', {
-          label,
-          beforeLabel: t('form.validDate.from.label').toLowerCase(),
-        });
+        errors[ruleKey] = appendError(
+          errors[ruleKey],
+          t('validation.dateAfterInvalid', {
+            label,
+            beforeLabel: t('form.validDate.from.label').toLowerCase(),
+          }),
+        );
       }
     }
     if (
       rules[ruleKey].minLength &&
       minLength(value, rules[ruleKey].minLength)
     ) {
-      errors[ruleKey] = t('validation.minLength', {
-        label,
-        minLength: rules[ruleKey].minLength,
-      });
+      errors[ruleKey] = appendError(
+        errors[ruleKey],
+        t('validation.minLength', {
+          label,
+          minLength: rules[ruleKey].minLength,
+        }),
+      );
     }
     if (
       rules[ruleKey].maxLength &&
       maxLength(value, rules[ruleKey].maxLength)
     ) {
-      errors[ruleKey] = t('validation.maxLength', {
-        label,
-        maxLength: rules[ruleKey].maxLength,
-      });
+      errors[ruleKey] = appendError(
+        errors[ruleKey],
+        t('validation.maxLength', {
+          label,
+          maxLength: rules[ruleKey].maxLength,
+        }),
+      );
     }
     if (rules[ruleKey].minItems && minItems(value, rules[ruleKey].minItems)) {
-      errors[ruleKey] = t('validation.minItems', {
-        label,
-        labelLowerCase: label.toLowerCase(),
-        minItems: rules[ruleKey].minItems,
-      });
+      errors[ruleKey] = appendError(
+        errors[ruleKey],
+        t('validation.minItems', {
+          label,
+          labelLowerCase: label.toLowerCase(),
+          minItems: rules[ruleKey].minItems,
+        }),
+      );
+    }
+    if (rules[ruleKey].numeric && !isNumeric(value)) {
+      errors[ruleKey] = appendError(
+        errors[ruleKey],
+        t('validation.isNumeric', { label }),
+      );
     }
     if (rules[ruleKey].url && !isUrl(value)) {
-      errors[ruleKey] = t('validation.url', { label });
+      errors[ruleKey] = appendError(
+        errors[ruleKey],
+        t('validation.url', { label }),
+      );
     }
     if (rules[ruleKey].test) {
       const testError = rules[ruleKey].test(value, values, label);
       if (testError) {
-        errors[ruleKey] = t(`${testError.translationKey}`, testError.variables);
+        errors[ruleKey] = appendError(
+          errors[ruleKey],
+          t(`${testError.translationKey}`, testError.variables),
+        );
       }
     }
     if (

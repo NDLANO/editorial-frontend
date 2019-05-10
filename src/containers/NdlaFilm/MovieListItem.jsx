@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
+import { MovieShape } from '../../shapes';
 
 const MOVIE_HEIGHT = 69;
 const MOVIE_MARGIN = 4;
@@ -35,33 +36,33 @@ const MovieListItem = ({
       <div>
         {showDragTooptil ? (
           <Tooltip tooltip={dragFilm}>
-            <ButtonIcons
+            <StyledButtonIcons
               draggable
               tabIndex={-1}
               type="button"
               onMouseDown={e => onDragStart(e, index)}
               onMouseUp={onDragEnd}>
               <DragHorizontal />
-            </ButtonIcons>
+            </StyledButtonIcons>
           </Tooltip>
         ) : (
-          <ButtonIcons
+          <StyledButtonIcons
             draggable
             tabIndex={-1}
             type="button"
             onMouseDown={e => onDragStart(e, index)}
             onMouseUp={onDragEnd}>
             <DragHorizontal />
-          </ButtonIcons>
+          </StyledButtonIcons>
         )}
         <Tooltip tooltip={removeFilm}>
-          <ButtonIcons
+          <StyledButtonIcons
             tabIndex={-1}
             type="button"
             onClick={() => deleteFile(index)}
             delete>
             <DeleteForever />
-          </ButtonIcons>
+          </StyledButtonIcons>
         </Tooltip>
       </div>
     </StyledMovieItem>
@@ -108,7 +109,7 @@ const StyledMovieImage = styled.img`
   margin-right: ${spacing.small};
 `;
 
-const ButtonIcons = styled.button`
+const StyledButtonIcons = styled.button`
   border: 0;
   background: none;
   color: ${colors.brand.primary};
@@ -142,10 +143,7 @@ const ButtonIcons = styled.button`
 `;
 
 MovieListItem.propTypes = {
-  movie: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }),
+  movie: MovieShape,
   deleteIndex: PropTypes.number,
   removeFilm: PropTypes.string,
   dragFilm: PropTypes.string,
@@ -155,7 +153,10 @@ MovieListItem.propTypes = {
   onDragEnd: PropTypes.func,
   onDragStart: PropTypes.func,
   deleteFile: PropTypes.func,
-  messages: PropTypes.func,
+  messages: PropTypes.shape({
+    removeFilm: PropTypes.string.isRequired,
+    dragFilm: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default MovieListItem;

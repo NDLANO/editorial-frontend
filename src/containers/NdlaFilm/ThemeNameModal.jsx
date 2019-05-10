@@ -69,10 +69,27 @@ class ThemeNameModal extends React.Component {
   }
 }
 ThemeNameModal.propTypes = {
-  onSaveTheme: PropTypes.func,
-  startState: PropTypes.any,
-  activateButton: PropTypes.node,
-  messages: PropTypes.any,
+  onSaveTheme: PropTypes.func.isRequired,
+  startState: PropTypes.shape({
+    newTheme: PropTypes.shape({
+      name: PropTypes.shape({
+        nb: PropTypes.string,
+        nn: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      warnings: PropTypes.shape({
+        nb: PropTypes.bool,
+        nn: PropTypes.bool,
+        en: PropTypes.bool,
+      }),
+    }),
+  }),
+  activateButton: PropTypes.node.isRequired,
+  messages: PropTypes.shape({
+    save: PropTypes.string,
+    cancel: PropTypes.string,
+    title: PropTypes.string,
+  }),
 };
 
 export default injectT(ThemeNameModal);

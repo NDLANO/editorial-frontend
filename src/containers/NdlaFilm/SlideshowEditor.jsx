@@ -11,15 +11,17 @@ import { injectT } from '@ndla/i18n';
 import { FieldHeader, Select } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import MovieList from './MovieList';
+import AddMovieOptions from './AddMovieOptions';
+import { ContentResultShape } from '../../shapes';
 
 class SlideshowEditor extends React.Component {
   render() {
     const {
       t,
       slideshowmovies,
+      allMovies,
       saveSlideshow,
       onAddMovieToSlideshow,
-      renderAddMovieOptions,
     } = this.props;
 
     if (!slideshowmovies) {
@@ -45,7 +47,10 @@ class SlideshowEditor extends React.Component {
         />
         <Select value="" onChange={e => onAddMovieToSlideshow(e.target.value)}>
           <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
-          {renderAddMovieOptions(slideshowmovies)}
+          <AddMovieOptions
+            addedMovies={slideshowmovies}
+            allMovies={allMovies}
+          />
         </Select>
       </>
     );
@@ -53,10 +58,10 @@ class SlideshowEditor extends React.Component {
 }
 
 SlideshowEditor.propTypes = {
-  slideshowmovies: PropTypes.arrayOf(PropTypes.shape),
-  saveSlideshow: PropTypes.func,
-  onAddMovieToSlideshow: PropTypes.func,
-  renderAddMovieOptions: PropTypes.func,
+  slideshowmovies: PropTypes.arrayOf(ContentResultShape),
+  allMovies: PropTypes.arrayOf(ContentResultShape),
+  saveSlideshow: PropTypes.func.isRequired,
+  onAddMovieToSlideshow: PropTypes.func.isRequired,
 };
 
 export default injectT(SlideshowEditor);

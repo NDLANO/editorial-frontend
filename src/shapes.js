@@ -292,3 +292,34 @@ export const FormikShape = PropTypes.shape({
   values: PropTypes.shape({}), //Can be arbitrary values
   handleBlur: PropTypes.func,
 });
+
+export const MovieShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string,
+    language: PropTypes.string,
+  }).isRequired,
+  metaDescription: PropTypes.shape({
+    metaDescription: PropTypes.string,
+    language: PropTypes.string,
+  }),
+  metaImage: PropTypes.shape({
+    alt: PropTypes.string,
+    url: PropTypes.string,
+    language: PropTypes.string,
+  }),
+  supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+  contexts: PropTypes.arrayOf(
+    PropTypes.shape({
+      breadcrumbs: PropTypes.arrayOf(PropTypes.string),
+      filters: PropTypes.arrayOf(PropTypes.object),
+      id: PropTypes.string,
+      language: PropTypes.string,
+      path: PropTypes.string,
+      subject: PropTypes.string,
+      learningResourceType: PropTypes.string,
+      resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
+    }),
+  ),
+  url: PropTypes.string,
+});

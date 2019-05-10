@@ -19,169 +19,169 @@ import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
+import AddMovieOptions from './AddMovieOptions';
+import { MovieShape } from '../../shapes';
 
-class ThemeEditor extends React.Component {
-  findName = (themeNames, language) => {
-    const nbName = themeNames.filter(name => name.language === language);
-    if (nbName.length > 0) {
-      return nbName.map(n => n.name).join();
-    } else {
-      return '';
-    }
-  };
-
-  render() {
-    const blankTheme = {
-      newTheme: {
-        name: {
-          nb: '',
-          nn: '',
-          en: '',
-        },
-        warnings: {
-          nb: false,
-          nn: false,
-          en: false,
-        },
-      },
-    };
-
-    const StyledThemeWrapper = styled('div')`
-      margin-bottom: ${spacing.large};
-    `;
-
-    const {
-      t,
-      renderAddMovieOptions,
-      updateMovieTheme,
-      themes,
-      addMovieToTheme,
-      onAddTheme,
-      onMoveTheme,
-      onDeleteTheme,
-      onSaveThemeName,
-    } = this.props;
-
-    if (!themes) {
-      return <Spinner />;
-    }
-
-    return (
-      <>
-        <ThemeNameModal
-          onSaveTheme={onAddTheme}
-          startState={blankTheme}
-          activateButton={<Button>Lag ny gruppe</Button>}
-          messages={{
-            save: t('ndlaFilm.editor.createThemeGroup'),
-            cancel: t('ndlaFilm.editor.cancel'),
-            title: t('ndlaFilm.editor.newGroupTitle'),
-          }}
-        />
-        {themes.map((theme, index) => (
-          <StyledThemeWrapper key={this.findName(theme.name, 'nb')}>
-            <FieldHeader
-              title={this.findName(theme.name, 'nb')}
-              subTitle={theme.name
-                .filter(name => name.language !== 'nb')
-                .map(name => ` | ${name.name}`)
-                .join('')}>
-              <ThemeNameModal
-                onSaveTheme={names => onSaveThemeName(names, index)}
-                startState={{
-                  newTheme: {
-                    name: {
-                      nb: this.findName(theme.name, 'nb'),
-                      nn: this.findName(theme.name, 'nn'),
-                      en: this.findName(theme.name, 'en'),
-                    },
-                    warnings: {
-                      nb: false,
-                      nn: false,
-                      en: false,
-                    },
-                  },
-                }}
-                activateButton={
-                  <button css={FieldHeaderIconStyle} tabIndex={-1}>
-                    <Pencil />
-                  </button>
-                }
-                wrapperFunctionForButton={activateButton => (
-                  <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
-                    {activateButton}
-                  </Tooltip>
-                )}
-                messages={{
-                  save: t('ndlaFilm.editor.saveNameChanges'),
-                  cancel: t('ndlaFilm.editor.cancel'),
-                  title: t('ndlaFilm.editor.editGroupTitle'),
-                }}
-              />
-              <Tooltip
-                tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
-                  name: theme.name.find(name => name.language === 'nb').name,
-                })}>
-                <button
-                  css={FieldHeaderIconStyle}
-                  tabIndex={-1}
-                  onClick={() => onDeleteTheme(index)}>
-                  <DeleteForever />
-                </button>
-              </Tooltip>
-              <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupUp')}>
-                <button
-                  css={FieldHeaderIconStyle}
-                  tabIndex={-1}
-                  onClick={() => onMoveTheme(index, -1)}>
-                  <ChevronUp />
-                </button>
-              </Tooltip>
-              <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupDown')}>
-                <button
-                  css={FieldHeaderIconStyle}
-                  tabIndex={-1}
-                  onClick={() => onMoveTheme(index, 1)}>
-                  <ChevronDown />
-                </button>
-              </Tooltip>
-            </FieldHeader>
-            <MovieList
-              movies={theme.movies}
-              messages={{
-                dragFilm: t('ndlaFilm.editor.changeOrder'),
-                removeFilm: t('ndlaFilm.editor.removeMovieFromGroup'),
-              }}
-              id={theme.id}
-              onUpdateMovies={updates => updateMovieTheme(updates, index)}
-            />
-            <Select
-              value=""
-              onChange={e => addMovieToTheme(e.target.value, index)}>
-              <option value="">
-                {t('ndlaFilm.editor.addMovieToGroup', {
-                  name: theme.name.find(name => name.language === 'nb').name,
-                })}
-              </option>
-              {renderAddMovieOptions(theme.movies)}
-            </Select>
-          </StyledThemeWrapper>
-        ))}
-      </>
-    );
+const ThemeEditor = ({
+  t,
+  allMovies,
+  updateMovieTheme,
+  themes,
+  addMovieToTheme,
+  onAddTheme,
+  onMoveTheme,
+  onDeleteTheme,
+  onSaveThemeName,
+  findName,
+}) => {
+  if (!themes) {
+    return <Spinner />;
   }
-}
+
+  return (
+    <>
+      <ThemeNameModal
+        onSaveTheme={onAddTheme}
+        startState={blankTheme}
+        activateButton={<Button>Lag ny gruppe</Button>}
+        messages={{
+          save: t('ndlaFilm.editor.createThemeGroup'),
+          cancel: t('ndlaFilm.editor.cancel'),
+          title: t('ndlaFilm.editor.newGroupTitle'),
+        }}
+      />
+      {themes.map((theme, index) => (
+        <StyledThemeWrapper key={findName(theme.name, 'nb')}>
+          <FieldHeader
+            title={findName(theme.name, 'nb')}
+            subTitle={theme.name
+              .filter(name => name.language !== 'nb')
+              .map(name => ` | ${name.name}`)
+              .join('')}>
+            <ThemeNameModal
+              onSaveTheme={names => onSaveThemeName(names, index)}
+              startState={{
+                newTheme: {
+                  name: {
+                    nb: findName(theme.name, 'nb'),
+                    nn: findName(theme.name, 'nn'),
+                    en: findName(theme.name, 'en'),
+                  },
+                  warnings: {
+                    nb: false,
+                    nn: false,
+                    en: false,
+                  },
+                },
+              }}
+              activateButton={
+                <button css={FieldHeaderIconStyle} tabIndex={-1}>
+                  <Pencil />
+                </button>
+              }
+              wrapperFunctionForButton={activateButton => (
+                <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
+                  {activateButton}
+                </Tooltip>
+              )}
+              messages={{
+                save: t('ndlaFilm.editor.saveNameChanges'),
+                cancel: t('ndlaFilm.editor.cancel'),
+                title: t('ndlaFilm.editor.editGroupTitle'),
+              }}
+            />
+            <Tooltip
+              tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
+                name: theme.name.find(name => name.language === 'nb').name,
+              })}>
+              <button
+                css={FieldHeaderIconStyle}
+                tabIndex={-1}
+                onClick={() => onDeleteTheme(index)}>
+                <DeleteForever />
+              </button>
+            </Tooltip>
+            <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupUp')}>
+              <button
+                css={FieldHeaderIconStyle}
+                tabIndex={-1}
+                onClick={() => onMoveTheme(index, -1)}>
+                <ChevronUp />
+              </button>
+            </Tooltip>
+            <Tooltip tooltip={t('ndlaFilm.editor.moveMovieGroupDown')}>
+              <button
+                css={FieldHeaderIconStyle}
+                tabIndex={-1}
+                onClick={() => onMoveTheme(index, 1)}>
+                <ChevronDown />
+              </button>
+            </Tooltip>
+          </FieldHeader>
+          <MovieList
+            movies={theme.movies}
+            messages={{
+              dragFilm: t('ndlaFilm.editor.changeOrder'),
+              removeFilm: t('ndlaFilm.editor.removeMovieFromGroup'),
+            }}
+            onUpdateMovies={updates => updateMovieTheme(updates, index)}
+          />
+          <Select
+            value=""
+            onChange={e => addMovieToTheme(e.target.value, index)}>
+            <option value="">
+              {t('ndlaFilm.editor.addMovieToGroup', {
+                name: theme.name.find(name => name.language === 'nb').name,
+              })}
+            </option>
+            <AddMovieOptions addedMovies={theme.movies} allMovies={allMovies} />
+          </Select>
+        </StyledThemeWrapper>
+      ))}
+    </>
+  );
+};
+
+const blankTheme = {
+  newTheme: {
+    name: {
+      nb: '',
+      nn: '',
+      en: '',
+    },
+    warnings: {
+      nb: false,
+      nn: false,
+      en: false,
+    },
+  },
+};
+
+const StyledThemeWrapper = styled('div')`
+  margin-bottom: ${spacing.large};
+`;
 
 ThemeEditor.propTypes = {
-  themes: PropTypes.arrayOf(PropTypes.shape),
-  renderAddMovieOptions: PropTypes.func,
-  updateMovieTheme: PropTypes.func,
-  addMovieToTheme: PropTypes.func,
-  onAddTheme: PropTypes.func,
-  onMoveTheme: PropTypes.func,
-  onDeleteTheme: PropTypes.func,
-  updateThemeName: PropTypes.func,
-  onSaveThemeName: PropTypes.func,
+  themes: PropTypes.arrayOf(
+    PropTypes.shape({
+      movies: PropTypes.arrayOf(MovieShape),
+      name: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          language: PropTypes.string,
+        }),
+      ),
+    }),
+  ),
+  allMovies: PropTypes.arrayOf(MovieShape),
+  updateMovieTheme: PropTypes.func.isRequired,
+  addMovieToTheme: PropTypes.func.isRequired,
+  onAddTheme: PropTypes.func.isRequired,
+  onMoveTheme: PropTypes.func.isRequired,
+  onDeleteTheme: PropTypes.func.isRequired,
+  updateThemeName: PropTypes.func.isRequired,
+  onSaveThemeName: PropTypes.func.isRequired,
+  findName: PropTypes.func.isRequired,
 };
 
 export default injectT(ThemeEditor);

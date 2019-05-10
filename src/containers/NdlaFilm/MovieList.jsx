@@ -10,16 +10,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, shadows } from '@ndla/core';
+import { MovieShape } from '../../shapes';
 
 import MovieListItem from './MovieListItem';
 
 const MOVIE_HEIGHT = 69;
 
-const Wrapper = styled.div`
+const StyledWrapper = styled.div`
   margin: ${spacing.normal} 0;
 `;
 
-const ListWrapper = styled.ul`
+const StyledList = styled.ul`
   overflow: visible;
   margin: 0 0
     ${props =>
@@ -53,13 +54,13 @@ class MovieList extends Component {
   }
 
   executeDeleteFile() {
-    const { movies, id } = this.props;
+    const { movies, id, onUpdateMovies } = this.props;
     movies.splice(this.state.deleteIndex, 1);
     this.setState(
       {
         deleteIndex: -1,
       },
-      () => this.props.onUpdateMovies(movies, id),
+      () => onUpdateMovies(movies, id),
     );
   }
 
@@ -162,14 +163,15 @@ class MovieList extends Component {
 
   render() {
     const { movies, messages } = this.props;
-    const { draggingIndex } = this.state;
+    const { draggingIndex, deleteIndex } = this.state;
 
     return (
-      <Wrapper>
-        <ListWrapper ref={this.wrapperRef} draggingIndex={draggingIndex}>
+      <StyledWrapper>
+        <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
           {movies.map((movie, index) => (
             <MovieListItem
               movie={movie}
+              deleteIndex={deleteIndex}
               messages={messages}
               index={index}
               executeDeleteFile={this.executeDeleteFile}
@@ -177,17 +179,16 @@ class MovieList extends Component {
               onDragEnd={this.onDragEnd}
               onDragStart={this.onDragStart}
               deleteFile={this.deleteFile}
-              {...this.state}
             />
           ))}
-        </ListWrapper>
-      </Wrapper>
+        </StyledList>
+      </StyledWrapper>
     );
   }
 }
 
 MovieList.propTypes = {
-  movies: PropTypes.arrayOf(PropTypes.shape),
+  movies: PropTypes.arrayOf(MovieShape),
   id: PropTypes.string.isRequired,
   messages: PropTypes.shape({
     removeFilm: PropTypes.string.isRequired,

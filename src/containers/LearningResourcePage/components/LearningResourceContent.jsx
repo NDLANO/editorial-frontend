@@ -14,7 +14,9 @@ import { connect as reduxConnect } from 'react-redux';
 import { connect as formikConnect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
-import FormikField from '../../../components/FormikField';
+import FormikField, {
+  classes as formikFieldClasses,
+} from '../../../components/FormikField';
 import RichBlockTextEditor from '../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { schema } from '../../../components/SlateEditor/editorSchema';
@@ -161,7 +163,11 @@ class LearningResourceContent extends Component {
           </FieldHeader>
         )}
 
-        <FormikField name="content" label={t('form.content.label')} noBorder>
+        <FormikField
+          name="content"
+          label={t('form.content.label')}
+          noBorder
+          className={formikFieldClasses('', 'position-static').className}>
           {({ field, form: { isSubmitting } }) => (
             <Fragment>
               <FieldHeader title={t('form.content.label')} />

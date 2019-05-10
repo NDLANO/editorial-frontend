@@ -105,6 +105,9 @@ EditVisualElementImage.propTypes = {
   submitted: PropTypes.bool.isRequired,
   node: Types.node.isRequired,
   editor: EditorShape,
+  formik: PropTypes.shape({
+    handleChange: PropTypes.func,
+  }).isRequired,
 };
 
 export default injectT(connect(EditVisualElementImage));

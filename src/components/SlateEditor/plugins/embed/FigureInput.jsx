@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
+import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
 import { isEmpty } from '../../../validators';
-import { Input, StyledButtonWrapper } from '@ndla/forms';
 
 export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};

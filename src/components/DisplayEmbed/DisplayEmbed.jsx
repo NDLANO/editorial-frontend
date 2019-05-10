@@ -8,17 +8,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import DisplayBrightcoveTag from './DisplayBrightcoveTag';
-import DisplayExternal from './DisplayExternal';
 import { EmbedShape } from '../../shapes';
 import SlateImage from '../SlateEditor/plugins/embed/SlateImage';
 import EditVisualElementImage from './EditVisualElementImage';
+import DisplayExternalVisualElement from './DisplayExternalVisualElement';
+import SlateVideo from '../SlateEditor/plugins/embed/SlateVideo';
 
 const DisplayEmbed = ({
   embed,
   changeVisualElement,
   onRemoveClick,
   className,
+  onChange,
 }) => {
   switch (embed.resource) {
     case 'image':
@@ -33,15 +34,21 @@ const DisplayEmbed = ({
       );
     case 'brightcove':
       return (
-        <DisplayBrightcoveTag
+        <SlateVideo
           embed={embed}
           className={className}
           onRemoveClick={onRemoveClick}
+          figureClass={{ className: 'c-editor__figure' }}
+          onFigureInputChange={e =>
+            onChange({
+              target: { name: 'visualElement.caption', value: e.target.value },
+            })
+          }
         />
       );
     case 'external':
       return (
-        <DisplayExternal
+        <DisplayExternalVisualElement
           embed={embed}
           changeVisualElement={changeVisualElement}
           onRemoveClick={onRemoveClick}

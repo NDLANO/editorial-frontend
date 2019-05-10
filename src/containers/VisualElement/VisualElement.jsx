@@ -24,17 +24,17 @@ class VisualElement extends Component {
   }
 
   render() {
-    const { value: visualElement, changeVisualElement } = this.props;
+    const { value: visualElement, changeVisualElement, ...rest } = this.props;
     if (!visualElement.resource) {
       return null;
     }
-
     return (
       <DisplayEmbed
         embed={visualElement}
         changeVisualElement={changeVisualElement}
         onRemoveClick={this.removeVisualElement}
         {...visualElementClasses(visualElement.resource)}
+        {...rest}
       />
     );
   }

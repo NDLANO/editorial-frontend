@@ -8,30 +8,33 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import DisplayImageTag from './DisplayImageTag';
 import DisplayBrightcoveTag from './DisplayBrightcoveTag';
 import DisplayExternal from './DisplayExternal';
 import { EmbedShape } from '../../shapes';
+import SlateImage from '../SlateEditor/plugins/embed/SlateImage';
+import EditVisualElementImage from './EditVisualElementImage';
 
-const DisplayEmbedTag = ({
-  embedTag,
+const DisplayEmbed = ({
+  embed,
   changeVisualElement,
   onRemoveClick,
   className,
 }) => {
-  switch (embedTag.resource) {
+  switch (embed.resource) {
     case 'image':
       return (
-        <DisplayImageTag
-          embedTag={embedTag}
+        <SlateImage
+          embed={embed}
           className={className}
           onRemoveClick={onRemoveClick}
+          renderEditComponent={props => <EditVisualElementImage {...props} />}
+          visualElement
         />
       );
     case 'brightcove':
       return (
         <DisplayBrightcoveTag
-          embedTag={embedTag}
+          embed={embed}
           className={className}
           onRemoveClick={onRemoveClick}
         />
@@ -39,24 +42,24 @@ const DisplayEmbedTag = ({
     case 'external':
       return (
         <DisplayExternal
-          embed={embedTag}
+          embed={embed}
           changeVisualElement={changeVisualElement}
           onRemoveClick={onRemoveClick}
         />
       );
     default:
-      return <p>{`Mediatype ${embedTag.resource} is not supported yet.`}</p>;
+      return <p>{`Mediatype ${embed.resource} is not supported yet.`}</p>;
   }
 };
 
-DisplayEmbedTag.propTypes = {
-  embedTag: EmbedShape.isRequired,
+DisplayEmbed.propTypes = {
+  embed: EmbedShape.isRequired,
   className: PropTypes.string,
   changeVisualElement: PropTypes.func,
 };
 
-DisplayEmbedTag.defaultProps = {
+DisplayEmbed.defaultProps = {
   className: '',
 };
 
-export default DisplayEmbedTag;
+export default DisplayEmbed;

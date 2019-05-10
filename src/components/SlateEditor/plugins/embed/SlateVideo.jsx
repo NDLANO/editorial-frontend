@@ -93,6 +93,7 @@ class SlateVideo extends React.PureComponent {
               draggable
               style={{ paddingTop: '57%' }}
               {...figureClass}
+              id={embed.videoid}
               resizeIframe>
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import Button from '@ndla/button';
+import { isEmpty } from '../../../validators';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 
 export const StyledInputWrapper = styled.div`
@@ -17,9 +18,8 @@ function FigureInput({
   caption,
   alt,
   submitted,
-  isEmpty,
   madeChanges,
-  onEdit,
+  onChange,
   onAbort,
   onSave,
 }) {
@@ -29,7 +29,7 @@ function FigureInput({
         name="caption"
         label={`${t('form.image.caption.label')}:`}
         value={caption}
-        onChange={e => onEdit('caption', e.target.value)}
+        onChange={onChange}
         container="div"
         type="text"
         autoExpand
@@ -40,7 +40,7 @@ function FigureInput({
         name="alt"
         label={`${t('form.image.alt.label')}:`}
         value={alt}
-        onChange={e => onEdit('alt', e.target.value)}
+        onChange={onChange}
         container="div"
         type="text"
         autoExpand
@@ -68,7 +68,7 @@ FigureInput.propTypes = {
   submitted: PropTypes.bool,
   isEmpty: PropTypes.func,
   madeChanges: PropTypes.bool,
-  onEdit: PropTypes.func,
+  onChange: PropTypes.func,
   onAbort: PropTypes.func,
   onSave: PropTypes.func,
 };

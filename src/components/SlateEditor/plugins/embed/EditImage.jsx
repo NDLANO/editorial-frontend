@@ -6,11 +6,9 @@ import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
 import { spacing, shadows } from '@ndla/core';
 import FigureInput from './FigureInput';
-import { isEmpty } from '../../../validators';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import { EmbedShape, EditorShape } from '../../../../shapes';
-import { getSchemaEmbed } from '../../editorSchema';
 import Overlay from '../../../Overlay';
 
 const editorContentCSS = css`
@@ -44,7 +42,7 @@ class EditImage extends Component {
     };
     this.onUpdatedImageSettings = this.onUpdatedImageSettings.bind(this);
     this.onSave = this.onSave.bind(this);
-    this.onEdit = this.onEdit.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.onAbort = this.onAbort.bind(this);
   }
 
@@ -78,29 +76,16 @@ class EditImage extends Component {
   }
 
   onSave() {
-    const {
-      node,
-      editor,
-      onFigureInputMultipleUpdates,
-      setEditModus,
-    } = this.props;
+    const { saveEmbedUpdates, setEditModus } = this.props;
     const { caption, alt, imageUpdates } = this.state;
 
-    onFigureInputMultipleUpdates({
-      caption: caption,
-      alt: alt,
-    });
-
-    const data = {
-      ...getSchemaEmbed(node),
+    saveEmbedUpdates({
       ...imageUpdates.transformData,
       align: imageUpdates.align,
       size: imageUpdates.size,
       caption,
       alt,
-    };
-
-    editor.setNodeByKey(node.key, { data });
+    });
 
     setEditModus(false);
   }
@@ -112,9 +97,9 @@ class EditImage extends Component {
     this.props.setEditModus(false);
   }
 
-  onEdit(key, value) {
+  onChange(e) {
     this.setState({
-      [key]: value,
+      [e.target.name]: e.target.value,
       madeChanges: true,
     });
   }
@@ -155,9 +140,8 @@ class EditImage extends Component {
                 caption={caption}
                 alt={alt}
                 submitted={submitted}
-                isEmpty={isEmpty}
                 madeChanges={madeChanges}
-                onEdit={this.onEdit}
+                onChange={this.onChange}
                 onAbort={this.onAbort}
                 onSave={this.onSave}
               />
@@ -172,7 +156,7 @@ class EditImage extends Component {
 EditImage.propTypes = {
   setEditModus: PropTypes.func,
   embed: EmbedShape.isRequired,
-  onFigureInputMultipleUpdates: PropTypes.func.isRequired,
+  saveEmbedUpdates: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   node: Types.node.isRequired,
   editor: EditorShape,

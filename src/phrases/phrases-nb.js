@@ -524,7 +524,7 @@ const phrases = {
       add: 'Velg metabilde',
     },
     visualElement: {
-      title: 'Legg til visuelt element',
+      title: 'Visuelt element',
       label: 'Visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',

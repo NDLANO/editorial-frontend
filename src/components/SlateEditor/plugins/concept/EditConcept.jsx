@@ -114,7 +114,7 @@ class EditConcept extends React.PureComponent {
           {concept.id ? (
             <Notion
               id={concept.id}
-              title={concept.title ? concept.title.title : ''}
+              title={concept.title}
               ariaLabel={t('notions.edit')}>
               {linkText}
             </Notion>

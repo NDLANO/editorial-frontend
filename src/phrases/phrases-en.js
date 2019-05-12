@@ -443,6 +443,8 @@ const phrases = {
         caption: 'Caption',
         alt: 'Alt-text',
       },
+      validFrom: 'Valid from',
+      validTo: 'Valid to',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',

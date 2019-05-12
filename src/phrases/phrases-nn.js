@@ -458,6 +458,8 @@ const phrases = {
         caption: 'Figur tekst',
         alt: 'Alt tekst',
       },
+      validFrom: 'Gylidg fra',
+      validTo: 'Gyldig til',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

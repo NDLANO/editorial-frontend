@@ -16,10 +16,10 @@ import { getLocale } from '../../../modules/locale/locale';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import { Field } from '../../../components/Fields';
 
-const FormikDatePicker = ({ t, name, onReset, ...rest }) => {
+const FormikDatePicker = ({ t, name, onReset, label, ...rest }) => {
   return (
     <Field>
-      <FieldHeader title={t(`form.${name}.label`)} />
+      <FieldHeader title={label || t(`form.${name}.label`)} />
       <FieldSection>
         <DateTimeInput name={name} {...rest} />
         {onReset && (
@@ -44,6 +44,7 @@ FormikDatePicker.propTypes = {
   locale: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
+  label: PropTypes.string,
 };
 
 FormikDatePicker.defaultProps = {

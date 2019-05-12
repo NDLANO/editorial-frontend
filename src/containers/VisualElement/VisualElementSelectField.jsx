@@ -35,7 +35,7 @@ class VisualElementSelectField extends Component {
   }
 
   render() {
-    const { value, selectedResource } = this.props;
+    const { selectedResource } = this.props;
     if (!selectedResource) {
       return null;
     }
@@ -46,7 +46,6 @@ class VisualElementSelectField extends Component {
         onClose={this.onImageLightboxClose}>
         <VisualElementSearch
           selectedResource={selectedResource}
-          embedTag={value}
           handleVisualElementChange={this.handleVisualElementChange}
           closeModal={this.onImageLightboxClose}
         />

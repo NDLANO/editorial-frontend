@@ -7,13 +7,17 @@
  */
 
 export function convertFieldWithFallback(element, field, fallback, language) {
+  if (element[field] == null) return fallback;
+
   if (language) {
-    return element[field] && element[field].language === language
+    return element[field].language === language
       ? element[field][field]
       : fallback;
   }
 
-  return typeof element[field] === 'object' && element[field] !== null
-    ? element[field][field]
-    : fallback;
+  if (typeof element[field] === 'object') {
+    return element[field][field];
+  }
+
+  return element[field];
 }

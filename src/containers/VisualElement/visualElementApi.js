@@ -17,6 +17,7 @@ import {
   fetchAuthorized,
   fetchWithBrightCoveToken,
   resolveJsonOrRejectWithError,
+  fetchExternalOembed,
 } from '../../util/apiHelpers';
 
 const baseImageNdlaUrl = apiResourceUrl('/image-api/v2/images');
@@ -99,6 +100,8 @@ export const fetchVisualElement = embedTag => {
       return fetchImage(embedTag.resource_id);
     case 'brightcove':
       return fetchBrightcoveVideo(embedTag.videoid);
+    case 'external':
+      return fetchExternalOembed(embedTag.url);
     default:
       return new Promise((resolve, reject) => {
         reject(

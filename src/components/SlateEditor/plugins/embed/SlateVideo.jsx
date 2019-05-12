@@ -93,6 +93,7 @@ class SlateVideo extends React.PureComponent {
               draggable
               style={{ paddingTop: '57%' }}
               {...figureClass}
+              id={embed.videoid}
               resizeIframe>
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
@@ -123,9 +124,8 @@ SlateVideo.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  submitted: PropTypes.bool.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
-  figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
+  figureClass: PropTypes.shape({ className: PropTypes.string }),
 };
 
 export default injectT(SlateVideo);

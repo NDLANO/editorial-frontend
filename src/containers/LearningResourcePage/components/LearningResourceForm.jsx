@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import AlertModal from '../../../components/AlertModal';
 import {
@@ -31,7 +31,6 @@ import {
 } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
-import { formatErrorMessage } from '../../Form/FormWorkflow';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -44,6 +43,7 @@ import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { formatErrorMessage } from '../../../util/apiHelpers';
 
 export const getInitialValues = (article = {}, language) => {
   const metaImageId = parseImageUrl(article.metaImage);

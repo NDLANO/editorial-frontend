@@ -13,7 +13,7 @@ import { Formik, Form } from 'formik';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
-import { Field } from '../../../Fields';
+import Field from '../../../Field';
 import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';

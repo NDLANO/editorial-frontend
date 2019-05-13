@@ -16,7 +16,7 @@ import Accordion, {
 } from '@ndla/accordion';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,

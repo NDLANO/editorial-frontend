@@ -12,7 +12,7 @@ import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,

@@ -7,7 +7,6 @@
 
 import isEqual from 'lodash/fp/isEqual';
 import { isEditorValueDirty } from './articleContentConverter';
-import { getField } from '../components/Fields';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 
@@ -22,24 +21,6 @@ export const parseCopyrightContributors = (obj, contributorType) => {
     return [];
   }
   return obj.copyright[contributorType] || [];
-};
-
-export const isFormDirty = ({ fields, model, showSaved = false }) => {
-  // Checking specific slate object fields if they really have changed
-  const slateFields = ['introduction', 'metaDescription', 'content'];
-  const dirtyFields = [];
-  Object.keys(fields)
-    .filter(field => fields[field].dirty)
-    .forEach(dirtyField => {
-      if (slateFields.includes(dirtyField)) {
-        if (isEditorValueDirty(model[dirtyField])) {
-          dirtyFields.push(dirtyField);
-        }
-      } else {
-        dirtyFields.push(dirtyField);
-      }
-    });
-  return dirtyFields.length > 0 && !showSaved;
 };
 
 export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
@@ -60,9 +41,6 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   });
   return dirtyFields.length > 0;
 };
-
-export const getErrorMessages = (label, name, schema) =>
-  getField(name, schema).errors.map(error => error(label));
 
 const formikCommonArticleRules = {
   title: {

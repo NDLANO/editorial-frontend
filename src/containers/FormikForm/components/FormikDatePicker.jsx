@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { FieldHeader, FieldRemoveButton, FieldSection } from '@ndla/forms';
 import { getLocale } from '../../../modules/locale/locale';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 
 const FormikDatePicker = ({ t, name, onReset, label, ...rest }) => {
   return (

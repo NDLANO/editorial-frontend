@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
-import { Field } from '../../../Fields';
+import Field from '../../../Field';
 import { FootnoteShape } from '../../../../shapes';
 import MultiSelect from '../../../MultiSelect';
 import FormikField from '../../../FormikField';

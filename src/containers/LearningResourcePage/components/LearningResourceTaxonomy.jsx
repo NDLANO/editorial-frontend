@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { FieldHeader, Select } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import {
   fetchResourceTypes,
   fetchFilters,

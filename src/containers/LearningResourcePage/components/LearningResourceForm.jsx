@@ -217,6 +217,7 @@ class LearningResourceForm extends Component {
       onUpdate,
       fields,
       model,
+      initialModel,
       onModelSavedToServer,
     } = this.props;
 
@@ -225,7 +226,7 @@ class LearningResourceForm extends Component {
       setSubmitted(true);
       return;
     }
-    if (!isFormDirty({ fields, model })) {
+    if (!isFormDirty({ fields, model, initialModel })) {
       return;
     }
 
@@ -273,7 +274,7 @@ class LearningResourceForm extends Component {
 
     const { error } = this.state;
     const commonFieldProps = { bindInput, schema: validationErrors, submitted };
-    const formIsDirty = isFormDirty({ model, fields });
+    const formIsDirty = isFormDirty({ model, fields, initialModel });
     const panels = [
       {
         id: 'learning-resource-content',

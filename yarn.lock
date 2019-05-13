@@ -8305,10 +8305,10 @@ ndla-slate-edit-list@^0.13.2:
   resolved "https://registry.yarnpkg.com/ndla-slate-edit-list/-/ndla-slate-edit-list-0.13.2.tgz#f8d42eaf8ab5387c689ea71ffd73c5b723286f6e"
   integrity sha512-FMSzPK9i7FUe9If/Pb1yeY1Xg3b6l5a56WP4oDNJ3fwGl0By794Zt0TrHVeiEvr/XOj8JAyZOQRcnrqzimhiyA==
 
-ndla-slate-edit-table@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.4.tgz#5804f5dd99888a06bdecbffdfce2b519471932fe"
-  integrity sha512-wzD8ORjLdNukUZdUwGjyWJ4vHESY0AJ8vPM6p1+50uij7aGrnGyUsN5I6Yx1y3UxjOWY7tvXVGzlDCfehJpF5A==
+ndla-slate-edit-table@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/ndla-slate-edit-table/-/ndla-slate-edit-table-0.1.5.tgz#d045b535d61bc9f8adf821ccfe4724bbfb53224b"
+  integrity sha512-iZIa1e2yqia0ABCrwEFYGoFWYB44ZAVswAQ2ZT52gOnaRYAB7HBKy5Pn1r1HcMzsn6k9QF6OXGyF3utF+4aaWw==
   dependencies:
     babel-cli "^6.26.0"
 

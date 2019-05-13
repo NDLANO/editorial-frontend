@@ -20,7 +20,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
 import AddMovieOptions from './AddMovieOptions';
-import { ContentResultShape } from '../../shapes';
+import { ContentResultShape } from '../../../shapes';
 
 const ThemeEditor = ({
   t,

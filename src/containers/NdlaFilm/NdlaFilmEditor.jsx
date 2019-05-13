@@ -16,8 +16,8 @@ import {
 } from '../../modules/frontpage/frontpageApi';
 import { searchNormal } from '../../modules/search/searchApi';
 import handleError from '../../util/handleError';
-import ThemeEditor from './ThemeEditor';
-import SlideshowEditor from './SlideshowEditor';
+import ThemeEditor from './components/ThemeEditor';
+import SlideshowEditor from './components/SlideshowEditor';
 
 class NdlaFilmEditor extends React.Component {
   state = {

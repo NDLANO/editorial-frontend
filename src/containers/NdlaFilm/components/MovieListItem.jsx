@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
@@ -5,7 +13,7 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { ContentResultShape } from '../../shapes';
+import { ContentResultShape } from '../../../shapes';
 
 const MOVIE_HEIGHT = 69;
 const MOVIE_MARGIN = 4;

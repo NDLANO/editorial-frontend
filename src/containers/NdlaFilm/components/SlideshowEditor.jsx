@@ -12,7 +12,7 @@ import { FieldHeader, Select } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import MovieList from './MovieList';
 import AddMovieOptions from './AddMovieOptions';
-import { ContentResultShape } from '../../shapes';
+import { ContentResultShape } from '../../../shapes';
 
 const SlideshowEditor = ({
   t,

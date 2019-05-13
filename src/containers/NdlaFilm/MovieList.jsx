@@ -51,12 +51,8 @@ class MovieList extends Component {
   executeDeleteFile = () => {
     const { movies, onUpdateMovies } = this.props;
     movies.splice(this.state.deleteIndex, 1);
-    this.setState(
-      {
-        deleteIndex: -1,
-      },
-      () => onUpdateMovies(movies),
-    );
+    this.deleteFile(-1);
+    onUpdateMovies(movies);
   };
 
   updateTransforms = dragIndex => {
@@ -119,9 +115,7 @@ class MovieList extends Component {
     movies.splice(toIndex, 0, moveFile);
     onUpdateMovies(movies);
 
-    this.setState({
-      draggingIndex: -1,
-    });
+    this.deleteFile(-1);
 
     Array.from(this.wrapperRef.current.childNodes.values()).forEach(
       (node, index) => {
@@ -166,6 +160,7 @@ class MovieList extends Component {
         <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
           {movies.map((movie, index) => (
             <MovieListItem
+              key={movie.id}
               movie={movie}
               deleteIndex={deleteIndex}
               messages={messages}

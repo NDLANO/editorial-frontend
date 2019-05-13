@@ -115,13 +115,13 @@ class MovieList extends Component {
   onDragEnd() {
     window.removeEventListener('mousemove', this.onDragging);
     window.removeEventListener('mouseup', this.onDragEnd);
-    const { movies, id } = this.props;
+    const { movies, id, onUpdateMovies } = this.props;
     // Rearrange movies
     const toIndex = this.state.draggingIndex;
     const moveFile = movies[this.initialPosition];
     movies.splice(this.initialPosition, 1);
     movies.splice(toIndex, 0, moveFile);
-    this.props.onUpdateMovies(movies, id);
+    onUpdateMovies(movies, id);
 
     this.setState({
       draggingIndex: -1,

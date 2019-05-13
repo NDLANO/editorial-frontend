@@ -35,7 +35,6 @@ class SlideshowEditor extends React.Component {
           subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
         />
         <MovieList
-          id="slideshowId"
           movies={slideshowmovies}
           messages={{
             dragFilm: t('ndlaFilm.editor.changeOrder'),

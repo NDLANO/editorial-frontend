@@ -270,20 +270,10 @@ class NdlaFilmEditor extends React.Component {
   };
 
   convertThemeNames = names => {
-    return [
-      {
-        name: names.name.nb,
-        language: 'nb',
-      },
-      {
-        name: names.name.nn,
-        language: 'nn',
-      },
-      {
-        name: names.name.en,
-        language: 'en',
-      },
-    ];
+    return ['nb', 'nn', 'en'].map(lang => ({
+      language: lang,
+      name: names.name[lang],
+    }));
   };
 
   onAddTheme = theme => {

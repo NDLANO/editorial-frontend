@@ -42,7 +42,6 @@ const ThemeEditor = ({
     <>
       <ThemeNameModal
         onSaveTheme={onAddTheme}
-        startState={blankTheme}
         activateButton={<Button>Lag ny gruppe</Button>}
         messages={{
           save: t('ndlaFilm.editor.createThemeGroup'),
@@ -60,18 +59,11 @@ const ThemeEditor = ({
               .join('')}>
             <ThemeNameModal
               onSaveTheme={names => onSaveThemeName(names, index)}
-              startState={{
-                newTheme: {
-                  name: {
-                    nb: findName(theme.name, 'nb'),
-                    nn: findName(theme.name, 'nn'),
-                    en: findName(theme.name, 'en'),
-                  },
-                  warnings: {
-                    nb: false,
-                    nn: false,
-                    en: false,
-                  },
+              initialTheme={{
+                name: {
+                  nb: findName(theme.name, 'nb'),
+                  nn: findName(theme.name, 'nn'),
+                  en: findName(theme.name, 'en'),
                 },
               }}
               activateButton={
@@ -140,21 +132,6 @@ const ThemeEditor = ({
       ))}
     </>
   );
-};
-
-const blankTheme = {
-  newTheme: {
-    name: {
-      nb: '',
-      nn: '',
-      en: '',
-    },
-    warnings: {
-      nb: false,
-      nn: false,
-      en: false,
-    },
-  },
 };
 
 const StyledThemeWrapper = styled('div')`

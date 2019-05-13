@@ -20,7 +20,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
 import AddMovieOptions from './AddMovieOptions';
-import { MovieShape } from '../../shapes';
+import { ContentResultShape } from '../../shapes';
 
 const ThemeEditor = ({
   t,
@@ -141,7 +141,7 @@ const StyledThemeWrapper = styled('div')`
 ThemeEditor.propTypes = {
   themes: PropTypes.arrayOf(
     PropTypes.shape({
-      movies: PropTypes.arrayOf(MovieShape),
+      movies: PropTypes.arrayOf(ContentResultShape),
       name: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string,
@@ -150,7 +150,7 @@ ThemeEditor.propTypes = {
       ),
     }),
   ),
-  allMovies: PropTypes.arrayOf(MovieShape),
+  allMovies: PropTypes.arrayOf(ContentResultShape),
   updateMovieTheme: PropTypes.func.isRequired,
   addMovieToTheme: PropTypes.func.isRequired,
   onAddTheme: PropTypes.func.isRequired,

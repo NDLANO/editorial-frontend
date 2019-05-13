@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, shadows } from '@ndla/core';
-import { MovieShape } from '../../shapes';
+import { ContentResultShape } from '../../shapes';
 
 import MovieListItem from './MovieListItem';
 
@@ -40,31 +40,26 @@ class MovieList extends Component {
       deleteIndex: -1,
     };
     this.wrapperRef = React.createRef();
-    this.onDragStart = this.onDragStart.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
-    this.onDragging = this.onDragging.bind(this);
-    this.deleteFile = this.deleteFile.bind(this);
-    this.executeDeleteFile = this.executeDeleteFile.bind(this);
   }
 
-  deleteFile(deleteIndex) {
+  deleteFile = deleteIndex => {
     this.setState({
       deleteIndex,
     });
-  }
+  };
 
-  executeDeleteFile() {
-    const { movies, id, onUpdateMovies } = this.props;
+  executeDeleteFile = () => {
+    const { movies, onUpdateMovies } = this.props;
     movies.splice(this.state.deleteIndex, 1);
     this.setState(
       {
         deleteIndex: -1,
       },
-      () => onUpdateMovies(movies, id),
+      () => onUpdateMovies(movies),
     );
-  }
+  };
 
-  updateTransforms(dragIndex) {
+  updateTransforms = dragIndex => {
     Array.from(this.wrapperRef.current.childNodes.values()).forEach(
       (node, index) => {
         if (index !== this.initialPosition) {
@@ -73,9 +68,10 @@ class MovieList extends Component {
         }
       },
     );
-  }
+  };
 
-  onDragStart(e, dragIndex) {
+  onDragStart = (e, dragIndex) => {
+    console.log(e, dragIndex, 'onDragStart');
     e.preventDefault();
     this.mouseMovement = -MOVIE_HEIGHT + dragIndex * MOVIE_HEIGHT;
     this.initialPosition = dragIndex;
@@ -110,18 +106,18 @@ class MovieList extends Component {
 
     window.addEventListener('mousemove', this.onDragging);
     window.addEventListener('mouseup', this.onDragEnd);
-  }
+  };
 
-  onDragEnd() {
+  onDragEnd = () => {
     window.removeEventListener('mousemove', this.onDragging);
     window.removeEventListener('mouseup', this.onDragEnd);
-    const { movies, id, onUpdateMovies } = this.props;
+    const { movies, onUpdateMovies } = this.props;
     // Rearrange movies
     const toIndex = this.state.draggingIndex;
     const moveFile = movies[this.initialPosition];
     movies.splice(this.initialPosition, 1);
     movies.splice(toIndex, 0, moveFile);
-    onUpdateMovies(movies, id);
+    onUpdateMovies(movies);
 
     this.setState({
       draggingIndex: -1,
@@ -138,9 +134,9 @@ class MovieList extends Component {
     this.DraggingFile.style.position = 'static';
     this.DraggingFile.style.zIndex = 0;
     this.DraggingFile.style.boxShadow = 'none';
-  }
+  };
 
-  onDragging(e) {
+  onDragging = e => {
     this.mouseMovement += e.movementY;
     const currentPosition = Math.max(
       Math.ceil((this.mouseMovement + MOVIE_HEIGHT / 2) / MOVIE_HEIGHT),
@@ -159,7 +155,7 @@ class MovieList extends Component {
         draggingIndex: dragIndex,
       });
     }
-  }
+  };
 
   render() {
     const { movies, messages } = this.props;
@@ -188,8 +184,7 @@ class MovieList extends Component {
 }
 
 MovieList.propTypes = {
-  movies: PropTypes.arrayOf(MovieShape),
-  id: PropTypes.string.isRequired,
+  movies: PropTypes.arrayOf(ContentResultShape),
   messages: PropTypes.shape({
     removeFilm: PropTypes.string.isRequired,
     dragFilm: PropTypes.string.isRequired,

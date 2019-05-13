@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { spacing, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { MovieShape } from '../../shapes';
+import { ContentResultShape } from '../../shapes';
 
 const MOVIE_HEIGHT = 69;
 const MOVIE_MARGIN = 4;
@@ -143,7 +143,7 @@ const StyledButtonIcons = styled.button`
 `;
 
 MovieListItem.propTypes = {
-  movie: MovieShape,
+  movie: ContentResultShape,
   deleteIndex: PropTypes.number,
   removeFilm: PropTypes.string,
   dragFilm: PropTypes.string,

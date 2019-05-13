@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLocale } from '../../../modules/locale/locale';
-import { CommonFieldPropsShape } from '../../../shapes';
 import Contributors from '../../../components/Contributors';
 import { FormikLicense, FormikDatePicker } from '../../FormikForm';
 import FormikField, {
@@ -89,7 +88,6 @@ const AgreementFields = props => {
 };
 
 AgreementFields.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

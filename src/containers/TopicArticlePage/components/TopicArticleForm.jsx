@@ -22,7 +22,7 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
+import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -309,7 +309,6 @@ class TopicArticleForm extends Component {
 }
 
 TopicArticleForm.propTypes = {
-  validationErrors: SchemaShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,

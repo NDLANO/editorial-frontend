@@ -14,47 +14,40 @@ import MovieList from './MovieList';
 import AddMovieOptions from './AddMovieOptions';
 import { ContentResultShape } from '../../shapes';
 
-class SlideshowEditor extends React.Component {
-  render() {
-    const {
-      t,
-      slideshowmovies,
-      allMovies,
-      saveSlideshow,
-      onAddMovieToSlideshow,
-    } = this.props;
-
-    if (!slideshowmovies) {
-      return <Spinner />;
-    }
-
-    return (
-      <>
-        <FieldHeader
-          title={t('ndlaFilm.editor.slideshowTitle')}
-          subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
-        />
-        <MovieList
-          movies={slideshowmovies}
-          messages={{
-            dragFilm: t('ndlaFilm.editor.changeOrder'),
-            removeFilm: t('ndlaFilm.editor.removeMovieFromSlideshow'),
-          }}
-          onUpdateMovies={updates => {
-            saveSlideshow(updates);
-          }}
-        />
-        <Select value="" onChange={e => onAddMovieToSlideshow(e.target.value)}>
-          <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
-          <AddMovieOptions
-            addedMovies={slideshowmovies}
-            allMovies={allMovies}
-          />
-        </Select>
-      </>
-    );
+const SlideshowEditor = ({
+  t,
+  slideshowmovies,
+  allMovies,
+  saveSlideshow,
+  onAddMovieToSlideshow,
+}) => {
+  if (!slideshowmovies) {
+    return <Spinner />;
   }
-}
+
+  return (
+    <>
+      <FieldHeader
+        title={t('ndlaFilm.editor.slideshowTitle')}
+        subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
+      />
+      <MovieList
+        movies={slideshowmovies}
+        messages={{
+          dragFilm: t('ndlaFilm.editor.changeOrder'),
+          removeFilm: t('ndlaFilm.editor.removeMovieFromSlideshow'),
+        }}
+        onUpdateMovies={updates => {
+          saveSlideshow(updates);
+        }}
+      />
+      <Select value="" onChange={e => onAddMovieToSlideshow(e.target.value)}>
+        <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
+        <AddMovieOptions addedMovies={slideshowmovies} allMovies={allMovies} />
+      </Select>
+    </>
+  );
+};
 
 SlideshowEditor.propTypes = {
   slideshowmovies: PropTypes.arrayOf(ContentResultShape),

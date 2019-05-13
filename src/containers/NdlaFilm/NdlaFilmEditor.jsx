@@ -60,14 +60,14 @@ class NdlaFilmEditor extends React.Component {
     }
   };
 
-  restructureFilmFrontpage(filmFrontpage) {
+  restructureFilmFrontpage = filmFrontpage => {
     const newAbout = filmFrontpage.about.map(about =>
       this.convertVisualElement(about),
     );
     return { ...filmFrontpage, about: newAbout };
-  }
+  };
 
-  convertVisualElement(about) {
+  convertVisualElement = about => {
     const { visualElement } = about;
     const splittedUrl = visualElement.url.split('/');
     const lastElement = splittedUrl.pop();
@@ -78,7 +78,7 @@ class NdlaFilmEditor extends React.Component {
     };
 
     return { ...about, visualElement: newVisualElement };
-  }
+  };
 
   restructureTheme = async movieTheme => {
     const movieThemeIds = movieTheme.movies.map(this.getIdFromUrn);
@@ -92,7 +92,7 @@ class NdlaFilmEditor extends React.Component {
     return movieTheme;
   };
 
-  async fetchAllMovies() {
+  fetchAllMovies = async () => {
     const query = {
       page: 1,
       subjects: 'urn:subject:20',
@@ -102,9 +102,9 @@ class NdlaFilmEditor extends React.Component {
     };
     const response = await searchNormal(query);
     return response.results;
-  }
+  };
 
-  async queryArticles(ids) {
+  queryArticles = async ids => {
     const query = {
       ids: ids,
       page: 1,
@@ -114,7 +114,7 @@ class NdlaFilmEditor extends React.Component {
     };
     const response = await searchNormal(query);
     return response.results;
-  }
+  };
 
   getIdFromUrn = urnId => {
     return urnId.replace('urn:article:', '');

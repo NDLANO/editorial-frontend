@@ -24,7 +24,6 @@ import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
-import config from '../../../config';
 import Spinner from '../../../components/Spinner';
 
 class ResourceItems extends React.PureComponent {
@@ -58,13 +57,15 @@ class ResourceItems extends React.PureComponent {
   async onDragEnd({ destination, source }) {
     if (!destination) return;
     try {
-      this.setState({ loading: true });
       const {
         connectionId,
         isPrimary,
         rank: currentRank,
       } = this.props.resources[source.index];
       const { rank } = this.props.resources[destination.index];
+      if (currentRank === rank) return;
+
+      this.setState({ loading: true });
       await updateTopicResource(connectionId, {
         rank: currentRank > rank ? rank : rank + 1,
         primary: isPrimary,
@@ -174,7 +175,10 @@ class ResourceItems extends React.PureComponent {
 
     return (
       <ul {...classes('list')}>
-        <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!!filterPickerId}>
+        <MakeDndList
+          onDragEnd={this.onDragEnd}
+          disableDnd={!!filterPickerId}
+          dragHandle>
           {resources.map(resource => (
             <Resource
               key={resource.id}

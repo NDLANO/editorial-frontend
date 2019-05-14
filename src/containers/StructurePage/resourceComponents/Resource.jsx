@@ -36,6 +36,7 @@ const Resource = ({
   onDelete,
   id,
   connectionId,
+  dragHandleProps,
   t,
 }) => {
   return (
@@ -43,7 +44,7 @@ const Resource = ({
       data-testid={`resource-type-${contentType}`}
       {...classes('text o-flag o-flag--top')}>
       {contentType && (
-        <div key="img" {...classes('icon o-flag__img')}>
+        <div key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
           <ContentTypeBadge background type={contentType} />
         </div>
       )}
@@ -88,6 +89,7 @@ const Resource = ({
 
 Resource.defaultProps = {
   activeFilters: [],
+  dragHandleProps: {},
 };
 
 Resource.propTypes = {
@@ -109,6 +111,7 @@ Resource.propTypes = {
   id: PropTypes.string,
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
+  dragHandleProps: PropTypes.object,
 };
 
 export default injectT(Resource);

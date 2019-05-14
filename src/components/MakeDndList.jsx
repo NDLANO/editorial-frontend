@@ -8,10 +8,11 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const MakeDndList = ({ disableDnd, children, onDragEnd }) =>
-  disableDnd ? (
-    <React.Fragment>{children}</React.Fragment>
-  ) : (
+const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }) => {
+  if (disableDnd) {
+    return <React.Fragment>{children}</React.Fragment>;
+  }
+  return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
@@ -21,8 +22,9 @@ const MakeDndList = ({ disableDnd, children, onDragEnd }) =>
               'drop-zone',
               snapshot.isDraggingOver ? 'dragging' : '',
             )}>
-            {React.Children.map(children, (child, index) =>
-              child ? (
+            {React.Children.map(children, (child, index) => {
+              if (!child) return null;
+              return (
                 <Draggable
                   key={child.props.id}
                   draggableId={child.props.id}
@@ -31,26 +33,29 @@ const MakeDndList = ({ disableDnd, children, onDragEnd }) =>
                     <div
                       ref={providedInner.innerRef}
                       {...providedInner.draggableProps}
-                      {...providedInner.dragHandleProps}
+                      {...(dragHandle ? {} : providedInner.dragHandleProps)}
                       {...classes('drag-item')}>
                       {React.cloneElement(child, {
                         isDragging: snapshotInner.isDragging,
+                        dragHandleProps: providedInner.dragHandleProps,
                       })}
                     </div>
                   )}
                 </Draggable>
-              ) : null,
-            )}
+              );
+            })}
             {provided.placeholder}
           </div>
         )}
       </Droppable>
     </DragDropContext>
   );
+};
 
 MakeDndList.propTypes = {
   disableDnd: PropTypes.bool,
   onDragEnd: PropTypes.func,
+  dragHandle: PropTypes.bool,
 };
 
 export default MakeDndList;

@@ -57,10 +57,14 @@ class ResourceItems extends React.PureComponent {
   async onDragEnd({ destination, source }) {
     if (!destination) return;
     try {
-      const { connectionId, isPrimary } = this.props.resources[source.index];
+      const {
+        connectionId,
+        isPrimary,
+        rank: currentRank,
+      } = this.props.resources[source.index];
       const { rank } = this.props.resources[destination.index];
       await updateTopicResource(connectionId, {
-        rank,
+        rank: currentRank > rank ? rank : rank + 1,
         primary: isPrimary,
       });
       this.props.refreshResources();

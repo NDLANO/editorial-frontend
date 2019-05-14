@@ -458,7 +458,7 @@ const phrases = {
         caption: 'Figur tekst',
         alt: 'Alt tekst',
       },
-      validFrom: 'Gylidg fra',
+      validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
     },
     previewProductionArticle: {

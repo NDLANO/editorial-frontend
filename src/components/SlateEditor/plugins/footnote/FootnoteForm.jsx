@@ -100,12 +100,10 @@ class FootnoteForm extends Component {
               label={t('form.content.footnote.publisher')}
             />
             <Field right>
-              {isEdit ? (
+              {isEdit && (
                 <Button onClick={onRemove}>
                   {t('form.content.footnote.removeFootnote')}
                 </Button>
-              ) : (
-                ''
               )}
               <Button css={marginLeftStyle} outline onClick={onClose}>
                 {t('form.abort')}

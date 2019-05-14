@@ -174,9 +174,7 @@ class ResourceItems extends React.PureComponent {
 
     return (
       <ul {...classes('list')}>
-        <MakeDndList
-          onDragEnd={this.onDragEnd}
-          disableDnd={!config.enableFullTaxonomy || !!filterPickerId}>
+        <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!!filterPickerId}>
           {resources.map(resource => (
             <Resource
               key={resource.id}

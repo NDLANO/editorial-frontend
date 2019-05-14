@@ -25,6 +25,7 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import config from '../../../config';
+import Spinner from '../../../components/Spinner';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -57,6 +58,7 @@ class ResourceItems extends React.PureComponent {
   async onDragEnd({ destination, source }) {
     if (!destination) return;
     try {
+      this.setState({ loading: true });
       const {
         connectionId,
         isPrimary,
@@ -67,7 +69,8 @@ class ResourceItems extends React.PureComponent {
         rank: currentRank > rank ? rank : rank + 1,
         primary: isPrimary,
       });
-      this.props.refreshResources();
+      await this.props.refreshResources();
+      this.setState({ loading: false });
     } catch (e) {
       handleError(e.message);
     }
@@ -159,7 +162,15 @@ class ResourceItems extends React.PureComponent {
       currentSubject,
     } = this.props;
 
-    const { deleteId, error, filterPickerId, activeFilters } = this.state;
+    const {
+      deleteId,
+      error,
+      filterPickerId,
+      activeFilters,
+      loading,
+    } = this.state;
+
+    if (loading) return <Spinner />;
 
     return (
       <ul {...classes('list')}>

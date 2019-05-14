@@ -161,6 +161,7 @@ class ResourceItems extends React.PureComponent {
       t,
       currentTopic,
       currentSubject,
+      locale,
     } = this.props;
 
     const {
@@ -188,12 +189,11 @@ class ResourceItems extends React.PureComponent {
               onFilterChange={this.updateFilter}
               onFilterSubmit={this.onFilterSubmit}
               toggleFilterPicker={this.toggleFilterPicker}
-              name={resource.name}
-              id={resource.id}
               onDelete={this.toggleDelete}
-              connectionId={resource.connectionId}
               currentTopic={currentTopic}
               activeFilters={activeFilters[resource.id]}
+              {...resource}
+              locale={locale}
             />
           ))}
         </MakeDndList>

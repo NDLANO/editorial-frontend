@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
@@ -17,6 +18,7 @@ import Button from '@ndla/button';
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
+import { toEditArticle } from '../../../util/routeHelpers';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -37,8 +39,12 @@ const Resource = ({
   id,
   connectionId,
   dragHandleProps,
+  contentUri,
+  locale,
   t,
 }) => {
+  const linkTo =
+    contentType !== 'subject' && contentUri && contentUri.split(':').pop();
   return (
     <div
       data-testid={`resource-type-${contentType}`}
@@ -49,7 +55,13 @@ const Resource = ({
         </div>
       )}
       <div key="body" {...classes('body o-flag__body')}>
-        <h1 {...classes('title')}>{name}</h1>
+        {linkTo ? (
+          <Link to={toEditArticle(linkTo, contentType, locale)}>
+            <h1 {...classes('title')}>{name}</h1>
+          </Link>
+        ) : (
+          <h1 {...classes('title')}>{name}</h1>
+        )}
       </div>
       {contentType !== 'subject' && (
         <Button
@@ -112,6 +124,8 @@ Resource.propTypes = {
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
+  contentUri: PropTypes.string,
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(Resource);

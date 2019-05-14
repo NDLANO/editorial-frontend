@@ -726,8 +726,9 @@ const phrases = {
         center: 'Large centered',
       },
       sizes: {
-        xsmall: 'Size: Small',
-        small: 'Size: Medium',
+        xsmall: 'Size: Tiny',
+        small: 'Size: Small',
+        medium: 'Size: Medium',
         fullwidth: 'Size: Large',
       },
       crop: 'Crop image',

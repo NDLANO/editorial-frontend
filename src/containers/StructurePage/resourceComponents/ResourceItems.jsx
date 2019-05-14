@@ -237,6 +237,7 @@ ResourceItems.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  locale: PropTypes.string,
 };
 
 export default injectT(ResourceItems);

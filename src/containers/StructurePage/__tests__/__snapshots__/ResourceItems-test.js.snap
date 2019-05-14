@@ -87,19 +87,19 @@ exports[`matches snapshot 1`] = `
     class="c-dnd-list__drop-zone"
   >
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
         data-testid="resource-type-subject"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -185,19 +185,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
         data-testid="resource-type-subject"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -283,19 +283,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
         data-testid="resource-type-subject"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -381,19 +381,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
         data-testid="resource-type-subject"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -479,19 +479,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
         data-testid="resource-type-subject"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -577,19 +577,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
         data-testid="resource-type-subject"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"

@@ -10,7 +10,6 @@ import { findNode } from 'slate-react';
 import { Text } from 'slate';
 import onDrop from './onDrop';
 import { getTopNode, shouldCopyTableOrList } from './utils';
-import renderNode from './renderNode';
 
 function onDragStart(event, editor, next) {
   const dragSource = findNode(event.target, editor);
@@ -27,5 +26,4 @@ export default {
   onDragStart,
   onDrop,
   schema: {},
-  renderNode,
 };

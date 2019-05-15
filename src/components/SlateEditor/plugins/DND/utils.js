@@ -1,6 +1,9 @@
 import { findRange } from 'slate-react';
 
 export const getTopNode = (node, editor) => {
+  if (node.type === 'section') {
+    return node;
+  }
   const parent = editor.value.document.getParent(node.key);
   if (!parent) {
     return null;

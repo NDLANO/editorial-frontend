@@ -22,7 +22,7 @@
     "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node scripts/bin/check-articles",
     "cy": "cypress open",
     "pree2e-ci": "cross-env NODE_ENV=production node build/server &",
-    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record",
+    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
     "e2e-ci-record": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"

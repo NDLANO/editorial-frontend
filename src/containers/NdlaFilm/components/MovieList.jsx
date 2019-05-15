@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, shadows } from '@ndla/core';
-import { ContentResultShape } from '../../shapes';
+import { ContentResultShape } from '../../../shapes';
 
 import MovieListItem from './MovieListItem';
 

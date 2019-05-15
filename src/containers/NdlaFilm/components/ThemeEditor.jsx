@@ -42,7 +42,9 @@ const ThemeEditor = ({
     <>
       <ThemeNameModal
         onSaveTheme={onAddTheme}
-        activateButton={<Button>Lag ny gruppe</Button>}
+        activateButton={
+          <Button data-cy="add-theme-modal">Lag ny gruppe</Button>
+        }
         messages={{
           save: t('ndlaFilm.editor.createThemeGroup'),
           cancel: t('ndlaFilm.editor.cancel'),

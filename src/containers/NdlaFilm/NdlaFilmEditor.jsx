@@ -18,6 +18,11 @@ import { searchNormal } from '../../modules/search/searchApi';
 import handleError from '../../util/handleError';
 import ThemeEditor from './components/ThemeEditor';
 import SlideshowEditor from './components/SlideshowEditor';
+import {
+  restructureFilmFrontpage,
+  getIdFromUrn,
+  getUrnFromId,
+} from '../../util/ndlaFilmHelpers';
 
 class NdlaFilmEditor extends React.Component {
   state = {
@@ -30,7 +35,7 @@ class NdlaFilmEditor extends React.Component {
   async componentDidMount() {
     try {
       const filmFrontpage = await fetchFilmFrontpage();
-      const newFilmFrontpage = this.restructureFilmFrontpage(filmFrontpage);
+      const newFilmFrontpage = restructureFilmFrontpage(filmFrontpage);
       this.setState({ filmFrontpage: newFilmFrontpage });
 
       const allMovies = await this.fetchAllMovies();
@@ -45,7 +50,7 @@ class NdlaFilmEditor extends React.Component {
   }
 
   getSlideshow = async slideShowUrnIds => {
-    const slideshowIds = slideShowUrnIds.map(this.getIdFromUrn);
+    const slideshowIds = slideShowUrnIds.map(getIdFromUrn);
     const slideshowResult = await this.queryArticles(slideshowIds.join());
     const correctOrderSlideshow = slideshowIds.map(id =>
       slideshowResult.find(slidehow => slidehow.id.toString() === id),
@@ -60,28 +65,8 @@ class NdlaFilmEditor extends React.Component {
     }
   };
 
-  restructureFilmFrontpage = filmFrontpage => {
-    const newAbout = filmFrontpage.about.map(about =>
-      this.convertVisualElement(about),
-    );
-    return { ...filmFrontpage, about: newAbout };
-  };
-
-  convertVisualElement = about => {
-    const { visualElement } = about;
-    const splittedUrl = visualElement.url.split('/');
-    const lastElement = splittedUrl.pop();
-    const newVisualElement = {
-      alt: visualElement.alt,
-      type: visualElement.type,
-      id: lastElement,
-    };
-
-    return { ...about, visualElement: newVisualElement };
-  };
-
   restructureTheme = async movieTheme => {
-    const movieThemeIds = movieTheme.movies.map(this.getIdFromUrn);
+    const movieThemeIds = movieTheme.movies.map(getIdFromUrn);
     if (movieThemeIds.length > 0) {
       const fetchedMovies = await this.queryArticles(movieThemeIds.join());
       const sortedMovies = movieThemeIds.map(id =>
@@ -106,22 +91,14 @@ class NdlaFilmEditor extends React.Component {
 
   queryArticles = async ids => {
     const query = {
-      ids: ids,
       page: 1,
       'context-types': 'topic-article',
       sort: '-relevance',
       'page-size': 10,
+      ids: ids,
     };
     const response = await searchNormal(query);
     return response.results;
-  };
-
-  getIdFromUrn = urnId => {
-    return urnId.replace('urn:article:', '');
-  };
-
-  getUrnFromId = id => {
-    return `urn:article:${id}`;
   };
 
   refreshProps = newFilmFrontpage => {
@@ -137,13 +114,13 @@ class NdlaFilmEditor extends React.Component {
     const { filmFrontpage } = this.state;
     const { slideShow } = filmFrontpage;
 
-    const newSlideShow = [...slideShow, this.getUrnFromId(id)];
+    const newSlideShow = [...slideShow, getUrnFromId(id)];
 
     this.newSlideShow(newSlideShow);
   };
 
   saveSlideshow = slideShow => {
-    const ids = slideShow.map(movie => this.getUrnFromId(movie.id));
+    const ids = slideShow.map(movie => getUrnFromId(movie.id));
     this.newSlideShow(ids);
   };
 
@@ -174,9 +151,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   updateThemeName = (updatedTheme, index) => {
-    const movieIds = updatedTheme.movies.map(movie =>
-      this.getUrnFromId(movie.id),
-    );
+    const movieIds = updatedTheme.movies.map(movie => getUrnFromId(movie.id));
     const { filmFrontpage } = this.state;
     const { movieThemes } = filmFrontpage;
 
@@ -196,7 +171,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   updateMovieTheme = (updatedTheme, index) => {
-    const movieIds = updatedTheme.map(movie => this.getUrnFromId(movie.id));
+    const movieIds = updatedTheme.map(movie => getUrnFromId(movie.id));
     const { filmFrontpage } = this.state;
     const { movieThemes } = filmFrontpage;
 
@@ -217,7 +192,7 @@ class NdlaFilmEditor extends React.Component {
 
   addMovieToTheme = (id, index) => {
     const { filmFrontpage } = this.state;
-    const urnId = this.getUrnFromId(id);
+    const urnId = getUrnFromId(id);
 
     const newFilmFrontpage = {
       ...filmFrontpage,
@@ -304,7 +279,7 @@ class NdlaFilmEditor extends React.Component {
 
     return (
       <OneColumn>
-        <StyledSection>
+        <StyledSection data-cy="slideshow-section">
           <h1>{t('ndlaFilm.editor.slideshowHeader')}</h1>
           <SlideshowEditor
             slideshowmovies={slideshow}

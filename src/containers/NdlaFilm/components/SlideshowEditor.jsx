@@ -33,6 +33,7 @@ const SlideshowEditor = ({
       />
       <MovieList
         movies={slideshowmovies}
+        data-cy="slideshow-movie-list"
         messages={{
           dragFilm: t('ndlaFilm.editor.changeOrder'),
           removeFilm: t('ndlaFilm.editor.removeMovieFromSlideshow'),
@@ -41,7 +42,10 @@ const SlideshowEditor = ({
           saveSlideshow(updates);
         }}
       />
-      <Select value="" onChange={e => onAddMovieToSlideshow(e.target.value)}>
+      <Select
+        data-cy="add-slideshow-movie"
+        value=""
+        onChange={e => onAddMovieToSlideshow(e.target.value)}>
         <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
         <AddMovieOptions addedMovies={slideshowmovies} allMovies={allMovies} />
       </Select>

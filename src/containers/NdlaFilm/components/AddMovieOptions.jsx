@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ContentResultShape } from '../../shapes';
+import { ContentResultShape } from '../../../shapes';
 
 const AddMovieOptions = ({ addedMovies, allMovies }) => {
   const options =

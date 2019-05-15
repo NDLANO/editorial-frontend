@@ -24,8 +24,10 @@ import { LicensesArrayOf } from '../../shapes';
 
 class LearningResourcePage extends PureComponent {
   componentDidMount() {
-    const { fetchLicenses } = this.props;
-    fetchLicenses();
+    const { fetchLicenses, licenses } = this.props;
+    if (!licenses.length) {
+      fetchLicenses();
+    }
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }

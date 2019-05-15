@@ -13,6 +13,7 @@ import config from '../config';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
 import * as messageActions from '../containers/Messages/messagesActions';
+
 const client =
   process.env.NODE_ENV !== 'unittest'
     ? require('../client.jsx')
@@ -121,6 +122,31 @@ export const isAccessTokenValid = () =>
 export const fetchSystemAccessToken = () =>
   fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);
 
+export const renewAuth = async () => {
+  if (localStorage.getItem('access_token_personal') === 'true') {
+    return renewPersonalAuth();
+  }
+  return renewSystemAuth();
+};
+
+let tokenRenewalTimeout;
+
+const scheduleRenewal = async () => {
+  const expiresAt = getAccessTokenExpiresAt();
+
+  const timeout = expiresAt - Date.now();
+
+  if (timeout > 0) {
+    tokenRenewalTimeout = setTimeout(() => {
+      renewAuth();
+    }, timeout);
+  } else {
+    await renewAuth();
+  }
+};
+
+scheduleRenewal();
+
 export const renewSystemAuth = () =>
   fetchSystemAccessToken().then(res => {
     setAccessTokenInLocalStorage(res.access_token, false);
@@ -137,12 +163,15 @@ export const renewPersonalAuth = () =>
     auth.checkSession({ scope: 'openid profile email' }, (err, authResult) => {
       if (authResult && authResult.accessToken) {
         setAccessTokenInLocalStorage(authResult.accessToken, true);
+        scheduleRenewal();
         resolve(authResult.accessToken);
       } else {
         client.store.dispatch(
           messageActions.addAuth0Message({
             translationKey: 'errorMessage.auth0',
-            translationObject: { message: err.errorDescription },
+            translationObject: {
+              message: err.errorDescription || err.error_description,
+            },
             timeToLive: 0,
           }),
         );
@@ -151,14 +180,9 @@ export const renewPersonalAuth = () =>
     });
   });
 
-export const renewAuth = async () => {
-  if (localStorage.getItem('access_token_personal') === 'true') {
-    return renewPersonalAuth();
-  }
-  return renewSystemAuth();
-};
-
 export const personalAuthLogout = (federated, returnToLogin) => {
+  clearTimeout(tokenRenewalTimeout);
+
   const options = {
     returnTo: returnToLogin ? `${locationOrigin}/login` : `${locationOrigin}`,
     clientID: ndlaPersonalClientId,

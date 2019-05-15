@@ -23,7 +23,9 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }) => {
               snapshot.isDraggingOver ? 'dragging' : '',
             )}>
             {React.Children.map(children, (child, index) => {
-              if (!child) return null;
+              if (!child) {
+                return null;
+              }
               return (
                 <Draggable
                   key={child.props.id}

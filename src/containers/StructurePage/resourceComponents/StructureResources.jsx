@@ -153,7 +153,9 @@ export class StructureResources extends React.PureComponent {
       topicResources,
       loading,
     } = this.state;
-    if (loading) return <Spinner />;
+    if (loading) {
+      return <Spinner />;
+    }
     return (
       <Fragment>
         <TopicDescription

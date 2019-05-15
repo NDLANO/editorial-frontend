@@ -55,22 +55,25 @@ class ResourceItems extends React.PureComponent {
   }
 
   async onDragEnd({ destination, source }) {
-    if (!destination) return;
+    if (!destination) {
+      return;
+    }
     try {
-      const {
-        connectionId,
-        isPrimary,
-        rank: currentRank,
-      } = this.props.resources[source.index];
-      const { rank } = this.props.resources[destination.index];
-      if (currentRank === rank) return;
+      const { resources, refreshResources } = this.props;
+      const { connectionId, isPrimary, rank: currentRank } = resources[
+        source.index
+      ];
+      const { rank } = resources[destination.index];
+      if (currentRank === rank) {
+        return;
+      }
 
       this.setState({ loading: true });
       await updateTopicResource(connectionId, {
         rank: currentRank > rank ? rank : rank + 1,
         primary: isPrimary,
       });
-      await this.props.refreshResources();
+      await refreshResources();
       this.setState({ loading: false });
     } catch (e) {
       handleError(e.message);
@@ -172,8 +175,9 @@ class ResourceItems extends React.PureComponent {
       loading,
     } = this.state;
 
-    if (loading) return <Spinner />;
-
+    if (loading) {
+      return <Spinner />;
+    }
     return (
       <ul {...classes('list')}>
         <MakeDndList

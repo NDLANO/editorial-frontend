@@ -34,9 +34,9 @@ export class DisplayExternalVisualElement extends Component {
     this.getPropsFromEmbed();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate({ embed: prevEmbed }) {
     const { embed } = this.props;
-    if (prevProps.embed.url !== embed.url) {
+    if (prevEmbed.url !== embed.url) {
       this.getPropsFromEmbed();
     }
   }

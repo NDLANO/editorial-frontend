@@ -77,8 +77,8 @@ export class DisplayExternal extends Component {
         } else {
           this.setState({ error: true });
         }
-      } catch (e) {
-        handleError(e);
+      } catch (err) {
+        handleError(err);
         this.setState({ error: true });
       }
     } else {
@@ -98,7 +98,8 @@ export class DisplayExternal extends Component {
     }
   }
 
-  openEditEmbed(providerName) {
+  openEditEmbed(evt, providerName) {
+    evt.preventDefault();
     this.handleChangeVisualElement(providerName);
     this.setState({ isEditMode: true });
   }
@@ -163,7 +164,8 @@ export class DisplayExternal extends Component {
           figureType="external"
           onEdit={
             allowedProvider.name
-              ? () => this.openEditEmbed(allowedProvider.name.toLowerCase())
+              ? evt =>
+                  this.openEditEmbed(evt, allowedProvider.name.toLowerCase())
               : undefined
           }
         />

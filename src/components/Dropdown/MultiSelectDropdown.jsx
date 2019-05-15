@@ -55,11 +55,11 @@ class MultiSelectDropdown extends Component {
     if (value.length >= 2) {
       this.setState({
         isOpen: true,
-        inputValue: e.target.value,
+        inputValue: value,
         data: data.filter(string => string.indexOf(value) !== -1),
       });
     } else if (value.length < 2) {
-      this.setState({ inputValue: e.target.value, isOpen: false });
+      this.setState({ inputValue: value, isOpen: false });
     }
   }
 
@@ -68,7 +68,7 @@ class MultiSelectDropdown extends Component {
     onChange({
       target: {
         name: 'tags',
-        value: [...value.filter(val => val !== id)],
+        value: value.filter(val => val !== id),
       },
     });
   }
@@ -86,26 +86,19 @@ class MultiSelectDropdown extends Component {
   }
 
   render() {
-    const { value, placeholder, textField, ...props } = this.props;
+    const { value, placeholder, textField, ...rest } = this.props;
 
     const { data, isOpen, inputValue } = this.state;
 
     return (
       <Downshift
-        {...props}
+        {...rest}
         onChange={this.onValueChange}
         isOpen={isOpen}
         inputValue={inputValue}
         onStateChange={this.handleStateChange}
         itemToString={item => itemToString(item, textField)}>
-        {({
-          getInputProps,
-          getMenuProps,
-          getItemProps,
-          getRootProps,
-          inputValue,
-          isOpen,
-        }) => (
+        {({ getInputProps, getMenuProps, getItemProps, getRootProps }) => (
           <div {...getRootProps({ css: { position: 'relative' } })}>
             <DropdownInput
               multiSelect

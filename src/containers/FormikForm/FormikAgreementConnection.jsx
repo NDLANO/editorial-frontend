@@ -47,7 +47,7 @@ class FormikAgreementConnection extends Component {
   async handleChange(agreement) {
     const onChange = () => {};
     if (agreement && agreement.id) {
-      const fetchedAgreement = this.fetchAgreement(agreement.id);
+      const fetchedAgreement = await this.fetchAgreement(agreement.id);
       const onChangeFields = [
         { name: 'agreementId', value: fetchedAgreement.id },
         { name: 'license', value: fetchedAgreement.copyright.license.license },

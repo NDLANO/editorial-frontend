@@ -62,7 +62,7 @@ class EditImage extends Component {
       closeModal,
       ...rest
     } = this.props;
-    console.log(imageData);
+
     return (
       <ImageForm
         image={imageData || { language: locale }}

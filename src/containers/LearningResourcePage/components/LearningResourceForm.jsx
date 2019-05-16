@@ -93,6 +93,13 @@ class LearningResourceForm extends Component {
     };
   }
 
+  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
+    const { selectedLanguage } = this.props;
+    if (selectedLanguage !== prevSelectedLanguage) {
+      this.setState({ savedToServer: false });
+    }
+  }
+
   async onReset({ setValues }) {
     const { articleId, selectedLanguage, t } = this.props;
     try {
@@ -193,7 +200,7 @@ class LearningResourceForm extends Component {
       }
     }
     try {
-      onUpdate({
+      await onUpdate({
         ...this.getArticle(values),
         revision,
       });

@@ -30,7 +30,7 @@ const EditLearningResource = ({
     updateArticleStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
 
-  if (!article) {
+  if (!article || !article.id) {
     return null;
   }
   if (article.articleType !== 'standard') {

@@ -11,7 +11,12 @@ import { Text } from 'slate';
 import onDrop from './onDrop';
 import { getTopNode, shouldCopyTableOrList } from './utils';
 
+function onDragOver(event, editor, next) {
+  event.preventDefault();
+}
+
 function onDragStart(event, editor, next) {
+  event.dataTransfer.effectAllowed = 'copy';
   const dragSource = findNode(event.target, editor);
   const { type } = getTopNode(dragSource, editor);
   if (Text.isText(dragSource) && !shouldCopyTableOrList(type, editor)) {
@@ -24,6 +29,7 @@ function onDragStart(event, editor, next) {
 
 export default {
   onDragStart,
+  onDragOver,
   onDrop,
   schema: {},
 };

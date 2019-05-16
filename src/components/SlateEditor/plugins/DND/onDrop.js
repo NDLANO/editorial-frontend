@@ -2,6 +2,7 @@ import { findNode } from 'slate-react';
 import { getTopNode } from './utils';
 
 function onDrop(event, editor, next) {
+  event.preventDefault();
   const target = findNode(event.target, editor);
   const topLevelTarget = getTopNode(target, editor);
   const nodeKey = event.dataTransfer.getData('text/nodeKey');

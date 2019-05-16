@@ -72,7 +72,7 @@ class SlateVideo extends React.PureComponent {
     const { iframeData, editMode } = this.state;
 
     return (
-      <div className="c-figure" {...attributes}>
+      <div className="c-figure" draggable="true" {...attributes}>
         <FigureButtons
           tooltip={t('form.video.remove')}
           onRemoveClick={onRemoveClick}

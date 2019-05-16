@@ -22,7 +22,7 @@ import {
   transformArticle,
   transformArticleToApiVersion,
 } from '../../util/articleUtil';
-import { FormActionButton } from '../../containers/Form';
+import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 
 const twoArticlesCloseButtonStyle = css`
@@ -170,10 +170,13 @@ class PreviewDraftLightbox extends React.Component {
 
     if (!showPreview) {
       return (
-        <FormActionButton outline onClick={this.openPreview} disabled={loading}>
+        <FormikActionButton
+          outline
+          onClick={this.openPreview}
+          disabled={loading}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
-        </FormActionButton>
+        </FormikActionButton>
       );
     }
 

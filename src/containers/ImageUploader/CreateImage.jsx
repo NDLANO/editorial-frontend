@@ -18,7 +18,7 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
-import ImageForm, { getInitialModel } from './components/ImageForm';
+import ImageForm from './components/ImageForm';
 import { actions } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
 
@@ -41,7 +41,7 @@ class CreateImage extends Component {
 
     return (
       <ImageForm
-        initialModel={getInitialModel({ language: locale })}
+        image={{ language: locale }}
         onUpdate={(image, file) => {
           updateImage({ image, file, history, editingArticle });
         }}

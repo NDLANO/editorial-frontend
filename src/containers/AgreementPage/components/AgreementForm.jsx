@@ -8,22 +8,20 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
+import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
-import BEMHelper from 'react-bem-helper';
-import reformed from '../../../components/reformed';
-import validateSchema from '../../../components/validateSchema';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-import { SchemaShape } from '../../../shapes';
 import AgreementFields from './AgreementFields';
-import { FormActionButton } from '../../Form';
+import { formClasses, FormikActionButton } from '../../FormikForm';
+import validateFormik from '../../../components/formikValidationSchema';
 
-export const getInitialModel = (agreement = {}) => ({
+const getInitialValues = (agreement = {}) => ({
   id: agreement.id,
   title: agreement.title || '',
   content: agreement.content || '',
@@ -48,113 +46,117 @@ export const getInitialModel = (agreement = {}) => ({
       : undefined,
 });
 
-const classes = new BEMHelper({
-  name: 'form',
-  prefix: 'c-',
-});
+const rules = {
+  title: {
+    required: true,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  content: {
+    required: true,
+  },
+  validFrom: {
+    required: true,
+
+    dateBefore: true,
+    afterKey: 'validTo',
+  },
+  validTo: {
+    required: true,
+    dateAfter: true,
+    beforeKey: 'validFrom',
+  },
+};
 
 class AgreementForm extends Component {
-  handleSubmit(event) {
-    event.preventDefault();
-
-    const {
-      model,
-      validationErrors,
-      licenses,
-      setSubmitted,
-      onUpdate,
-    } = this.props;
-
-    if (!validationErrors.isValid) {
-      setSubmitted(true);
-      return;
-    }
+  handleSubmit = async (values, actions) => {
+    const { licenses, onUpdate } = this.props;
+    actions.setSubmitting(true);
 
     const agreementMetaData = {
-      id: model.id,
-      title: model.title,
-      content: model.content,
+      id: values.id,
+      title: values.title,
+      content: values.content,
       copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
-        validFrom: model.validFrom,
-        validTo: model.validTo,
+        license: licenses.find(license => license.license === values.license),
+        origin: values.origin,
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
+        validFrom: values.validFrom,
+        validTo: values.validTo,
       },
     };
-    onUpdate(agreementMetaData);
-  }
+    await onUpdate(agreementMetaData);
+    actions.setSubmitting(false);
+  };
 
   render() {
-    const {
-      t,
-      bindInput,
-      validationErrors,
-      model,
-      submitted,
-      licenses,
-      isSaving,
-      history,
-    } = this.props;
-    const commonFieldProps = { bindInput, schema: validationErrors, submitted };
+    const { t, agreement, licenses, history } = this.props;
 
+    const initVal = getInitialValues(agreement);
     return (
-      <form
-        onSubmit={event => this.handleSubmit(event)}
-        {...classes('', 'gray-background')}>
-        <div {...classes('header', 'other')}>
-          <div className="u-4/6@desktop">
-            <Agreement />
-            <span>
-              {model.id
-                ? t('agreementForm.title.update')
-                : t('agreementForm.title.create')}
-            </span>
-          </div>
-        </div>
-        <div {...classes('content', '', 'u-4/6@desktop u-push-1/6@desktop')}>
-          <AgreementFields
-            classes={classes}
-            commonFieldProps={commonFieldProps}
-            licenses={licenses}
-            bindInput={bindInput}
-          />
-        </div>
-        <Field right>
-          <FormActionButton
-            outline
-            onClick={history.goBack}
-            disabled={isSaving}>
-            {t('form.abort')}
-          </FormActionButton>
-          <FormActionButton submit disabled={false}>
-            {t('form.save')}
-          </FormActionButton>
-        </Field>
-      </form>
+      <Formik
+        initialValues={initVal}
+        validateOnBlur={false}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
+        validate={values => validateFormik(values, rules, t)}>
+        {({ values, isSubmitting }) => (
+          <Form {...formClasses('', 'gray-background')}>
+            <div {...formClasses('header', 'other')}>
+              <div className="u-4/6@desktop">
+                <Agreement />
+                <span>
+                  {values.id
+                    ? t('agreementForm.title.update')
+                    : t('agreementForm.title.create')}
+                </span>
+              </div>
+            </div>
+            <div
+              {...formClasses(
+                'content',
+                '',
+                'u-4/6@desktop u-push-1/6@desktop',
+              )}>
+              <AgreementFields licenses={licenses} />
+            </div>
+            <Field right>
+              <FormikActionButton
+                outline
+                onClick={history.goBack}
+                disabled={isSubmitting}>
+                {t('form.abort')}
+              </FormikActionButton>
+              <FormikActionButton submit>{t('form.save')}</FormikActionButton>
+            </Field>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
 
 AgreementForm.propTypes = {
-  model: PropTypes.shape({
+  agreement: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
   }),
-  validationErrors: SchemaShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
-  submitted: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  setSubmitted: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
@@ -163,30 +165,4 @@ AgreementForm.propTypes = {
 export default compose(
   injectT,
   withRouter,
-  reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    creators: {
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    content: {
-      required: true,
-    },
-    validFrom: {
-      dateBefore: true,
-      afterKey: 'validTo',
-    },
-    validTo: {
-      dateAfter: true,
-      beforeKey: 'validFrom',
-    },
-  }),
 )(AgreementForm);

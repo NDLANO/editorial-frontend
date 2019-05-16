@@ -9,20 +9,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
-import { compose } from 'redux';
 import { css } from '@emotion/core';
-import { Field, FieldErrorMessages, getField } from '../../../Fields';
-import validateSchema from '../../../validateSchema';
-import { SchemaShape, FootnoteShape } from '../../../../shapes';
+import Field from '../../../Field';
+import { FootnoteShape } from '../../../../shapes';
 import MultiSelect from '../../../MultiSelect';
-import reformed from '../../../reformed';
+import FormikField from '../../../FormikField';
+import validateFormik from '../../../formikValidationSchema';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
 `;
 
-export const getInitialModel = (footnote = {}) => ({
+const rules = {
+  title: { required: true },
+  year: { required: true, minLength: 4, maxLength: 4, numeric: true },
+  authors: { minItems: 1 },
+};
+
+const getInitialValues = (footnote = {}) => ({
   title: footnote.title || '',
   year: footnote.year || '',
   resource: footnote.resource || 'footnote',
@@ -38,116 +44,91 @@ class FootnoteForm extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
-  handleSave(evt) {
-    evt.preventDefault();
-    const { onSave, model, validationErrors, setSubmitted } = this.props;
-    if (!validationErrors.isValid) {
-      setSubmitted(true);
-      return;
-    }
-    onSave(model);
+  async handleSave(values, actions) {
+    const { setSubmitting } = actions;
+    const { onSave } = this.props;
+    setSubmitting(true);
+    onSave(values);
+    setSubmitting(false);
   }
 
   render() {
-    const {
-      t,
-      validationErrors,
-      submitted,
-      bindInput,
-      isEdit,
-      onRemove,
-      onClose,
-    } = this.props;
+    const { t, isEdit, footnote, onRemove, onClose } = this.props;
     return (
-      <form>
-        <Field>
-          <label htmlFor="title">{t('form.content.footnote.title')}</label>
-          <input type="text" {...bindInput('title')} />
-          <FieldErrorMessages
-            label={t('form.content.footnote.title')}
-            field={getField('title', validationErrors)}
-            submitted={submitted}
-          />
-        </Field>
-        <Field>
-          <label htmlFor="year">{t('form.content.footnote.year')}</label>
-          <input type="text" {...bindInput('year')} />
-          <FieldErrorMessages
-            label={t('form.content.footnote.year')}
-            field={getField('year', validationErrors)}
-            submitted={submitted}
-          />
-        </Field>
-        <Field>
-          <label htmlFor="authors">
-            {t('form.content.footnote.authors.label')}
-          </label>
-          <MultiSelect
-            {...bindInput('authors')}
-            messages={{
-              createOption: t('form.content.footnote.authors.createOption'),
-              emptyFilter: t('form.content.footnote.authors.emptyFilter'),
-              emptyList: t('form.content.footnote.authors.emptyList'),
-            }}
-          />
-          <FieldErrorMessages
-            label={t('form.content.footnote.authors.label')}
-            field={getField('authors', validationErrors)}
-            submitted={submitted}
-          />
-        </Field>
-        <Field>
-          <label htmlFor="edition">{t('form.content.footnote.edition')}</label>
-          <input {...bindInput('edition')} type="text" />
-        </Field>
-        <Field>
-          <label htmlFor="publisher">
-            {t('form.content.footnote.publisher')}
-          </label>
-          <input type="text" {...bindInput('publisher')} />
-        </Field>
-        <Field right>
-          {isEdit ? (
-            <Button onClick={onRemove}>
-              {t('form.content.footnote.removeFootnote')}
-            </Button>
-          ) : (
-            ''
-          )}
-          <Button css={marginLeftStyle} outline onClick={onClose}>
-            {t('form.abort')}
-          </Button>
-          <Button
-            css={marginLeftStyle}
-            data-cy="save_footnote"
-            type="button"
-            onClick={this.handleSave}>
-            {t('form.save')}
-          </Button>
-        </Field>
-      </form>
+      <Formik
+        initialValues={getInitialValues(footnote)}
+        onSubmit={this.handleSave}
+        validate={values => validateFormik(values, rules, t, 'footnoteForm')}>
+        {({ submitForm }) => (
+          <Form>
+            <FormikField
+              name="title"
+              type="text"
+              label={t('form.content.footnote.title')}
+            />
+            <FormikField
+              name="year"
+              type="text"
+              label={t('form.content.footnote.year')}
+            />
+            <FormikField
+              name="authors"
+              label={t('form.content.footnote.authors.label')}
+              obligatory>
+              {({ field }) => (
+                <MultiSelect
+                  messages={{
+                    createOption: t(
+                      'form.content.footnote.authors.createOption',
+                    ),
+                    emptyFilter: t('form.content.footnote.authors.emptyFilter'),
+                    emptyList: t('form.content.footnote.authors.emptyList'),
+                  }}
+                  {...field}
+                />
+              )}
+            </FormikField>
+            <FormikField
+              name="edition"
+              type="text"
+              label={t('form.content.footnote.edition')}
+            />
+
+            <FormikField
+              name="publisher"
+              type="text"
+              label={t('form.content.footnote.publisher')}
+            />
+            <Field right>
+              {isEdit && (
+                <Button onClick={onRemove}>
+                  {t('form.content.footnote.removeFootnote')}
+                </Button>
+              )}
+              <Button css={marginLeftStyle} outline onClick={onClose}>
+                {t('form.abort')}
+              </Button>
+              <Button
+                css={marginLeftStyle}
+                data-cy="save_footnote"
+                type="button"
+                onClick={submitForm}>
+                {t('form.save')}
+              </Button>
+            </Field>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
 
 FootnoteForm.propTypes = {
-  model: FootnoteShape.isRequired,
-  validationErrors: SchemaShape,
-  setSubmitted: PropTypes.func.isRequired,
-  submitted: PropTypes.bool.isRequired,
+  footnote: FootnoteShape.isRequired,
   isEdit: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
 };
 
-export default compose(
-  injectT,
-  reformed,
-  validateSchema({
-    title: { required: true },
-    year: { required: true, minLength: 4, maxLength: 4, numeric: true },
-    authors: { minItems: 1 },
-  }),
-)(FootnoteForm);
+export default injectT(FootnoteForm);

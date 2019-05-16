@@ -135,9 +135,13 @@ class NdlaFilmEditor extends React.Component {
     this.saveFilmFrontpage(newFilmFrontpage);
   };
 
-  saveFilmFrontpage = newFilmFrontpage => {
-    updateFilmFrontpage(newFilmFrontpage);
-    this.refreshProps(newFilmFrontpage);
+  saveFilmFrontpage = async newFilmFrontpage => {
+    try {
+      await updateFilmFrontpage(newFilmFrontpage);
+      this.refreshProps(newFilmFrontpage);
+    } catch (err) {
+      handleError(err);
+    }
   };
 
   onSaveThemeName = (newNames, index) => {

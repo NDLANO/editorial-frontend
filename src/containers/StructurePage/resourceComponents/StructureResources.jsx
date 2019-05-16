@@ -144,7 +144,7 @@ export class StructureResources extends React.PureComponent {
       locale,
       refreshTopics,
       currentTopic,
-      refFunc,
+      resourceRef,
       currentSubject,
     } = this.props;
     const {
@@ -161,7 +161,7 @@ export class StructureResources extends React.PureComponent {
         <TopicDescription
           topicDescription={topicDescription}
           locale={locale}
-          refFunc={refFunc}
+          resourceRef={resourceRef}
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
         />
@@ -200,7 +200,7 @@ StructureResources.propTypes = {
   }).isRequired,
   refreshTopics: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
-  refFunc: PropTypes.func,
+  resourceRef: PropTypes.object,
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

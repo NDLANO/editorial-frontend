@@ -43,15 +43,18 @@ const Resource = ({
   locale,
   t,
 }) => {
-  const linkTo =
-    contentType !== 'subject' && contentUri && contentUri.split(':').pop();
+  const linkTo = contentUri && contentUri.split(':').pop();
+
+  // because topic-article icon is wrongly named "subject" in frontend-packages:
+  const iconType = contentType === 'topic-article' ? 'subject' : contentType;
+
   return (
     <div
       data-testid={`resource-type-${contentType}`}
       {...classes('text o-flag o-flag--top')}>
       {contentType && (
         <div key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
-          <ContentTypeBadge background type={contentType} />
+          <ContentTypeBadge background type={iconType} />
         </div>
       )}
       <div key="body" {...classes('body o-flag__body')}>
@@ -63,7 +66,7 @@ const Resource = ({
           <h1 {...classes('title')}>{name}</h1>
         )}
       </div>
-      {contentType !== 'subject' && (
+      {contentType !== 'topic-article' && (
         <Button
           stripped
           onClick={() => toggleFilterPicker(id)}

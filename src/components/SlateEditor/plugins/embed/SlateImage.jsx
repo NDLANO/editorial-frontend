@@ -69,7 +69,7 @@ class SlateImage extends React.Component {
       'isSelectedForCopy'}`;
 
     return (
-      <div {...attributes} className={figureClassNames}>
+      <div {...attributes} draggable="true" className={figureClassNames}>
         <FigureButtons
           tooltip={t('form.image.removeImage')}
           onRemoveClick={onRemoveClick}

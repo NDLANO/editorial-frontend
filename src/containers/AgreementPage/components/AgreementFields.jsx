@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLocale } from '../../../modules/locale/locale';
-import Contributors from '../../../components/Contributors';
-import { FormikLicense, FormikDatePicker } from '../../FormikForm';
+import {
+  FormikLicense,
+  FormikDatePicker,
+  FormikContributors,
+} from '../../FormikForm';
 import FormikField, {
   classes as fieldsClasses,
 } from '../../../components/FormikField';
@@ -21,34 +24,7 @@ const AgreementFields = props => {
         maxLength={300}
         placeholder={t('agreementForm.fields.title.placeholder')}
       />
-      {contributorTypes.map(contributorType => {
-        const label = t(`form.${contributorType}.label`);
-        return (
-          <FormikField
-            showError={false}
-            key={`formik_contributor_${contributorType}`}
-            name={contributorType}>
-            {({ field, form }) => {
-              const { errors, touched } = form;
-              const error =
-                touched[field.name] && errors[field.name]
-                  ? errors[field.name]
-                  : '';
-              return (
-                <Contributors
-                  label={label}
-                  labelRemove={t(`form.${contributorType}.labelRemove`)}
-                  showError={!!errors[field.name]}
-                  errorMessages={
-                    touched[field.name] && errors[field.name] ? [error] : []
-                  }
-                  {...field}
-                />
-              );
-            }}
-          </FormikField>
-        );
-      })}
+      <FormikContributors contributorTypes={contributorTypes} />
       <FormikLicense licenses={licenses} />
       <FormikField
         label={t('agreementForm.fields.content.label')}

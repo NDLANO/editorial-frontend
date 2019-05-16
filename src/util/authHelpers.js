@@ -13,6 +13,7 @@ import config from '../config';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
 import * as messageActions from '../containers/Messages/messagesActions';
+
 const client =
   process.env.NODE_ENV !== 'unittest'
     ? require('../client.jsx')
@@ -126,12 +127,6 @@ export const renewSystemAuth = () =>
     setAccessTokenInLocalStorage(res.access_token, false);
   });
 
-export function loginPersonalAccessToken(type) {
-  auth.authorize({
-    connection: type,
-  });
-}
-
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
     auth.checkSession({ scope: 'openid profile email' }, (err, authResult) => {
@@ -142,7 +137,9 @@ export const renewPersonalAuth = () =>
         client.store.dispatch(
           messageActions.addAuth0Message({
             translationKey: 'errorMessage.auth0',
-            translationObject: { message: err.errorDescription },
+            translationObject: {
+              message: err.errorDescription || err.error_description,
+            },
             timeToLive: 0,
           }),
         );
@@ -158,7 +155,35 @@ export const renewAuth = async () => {
   return renewSystemAuth();
 };
 
+let tokenRenewalTimeout;
+
+const scheduleRenewal = async () => {
+  const expiresAt = getAccessTokenExpiresAt();
+
+  const timeout = expiresAt - Date.now();
+
+  if (timeout > 0) {
+    tokenRenewalTimeout = setTimeout(async () => {
+      await renewAuth();
+      scheduleRenewal();
+    }, timeout);
+  } else {
+    await renewAuth();
+    scheduleRenewal();
+  }
+};
+
+scheduleRenewal();
+
+export function loginPersonalAccessToken(type) {
+  auth.authorize({
+    connection: type,
+  });
+}
+
 export const personalAuthLogout = (federated, returnToLogin) => {
+  clearTimeout(tokenRenewalTimeout);
+
   const options = {
     returnTo: returnToLogin ? `${locationOrigin}/login` : `${locationOrigin}`,
     clientID: ndlaPersonalClientId,

@@ -34,6 +34,12 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
     if (slateFields.includes(dirtyValue)) {
       if (isEditorValueDirty(values[dirtyValue])) {
         dirtyFields.push(dirtyValue);
+      } else if (
+        Array.isArray(values[dirtyValue]) &&
+        Array.isArray(initialValues[dirtyValue]) &&
+        values[dirtyValue].length !== initialValues[dirtyValue].length
+      ) {
+        dirtyFields.push(dirtyValue);
       }
     } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
       dirtyFields.push(dirtyValue);

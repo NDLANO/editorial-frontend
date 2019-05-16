@@ -27,7 +27,9 @@
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
-    "setupFiles": ["./src/__tests__/_initTestEnv.js"]
+    "setupFiles": [
+      "./src/__tests__/_initTestEnv.js"
+    ]
   },
   "engines": {
     "node": ">=8.4.0",
@@ -103,8 +105,8 @@
     "express-http-proxy": "^1.5.1",
     "express-jwt": "^5.3.1",
     "flatpickr": "^4.5.2",
-    "formik": "^1.5.0",
     "focus-trap-react": "^6.0.0",
+    "formik": "^1.5.0",
     "fuse.js": "^3.2.1",
     "he": "^1.2.0",
     "helmet": "^3.13.0",
@@ -120,7 +122,7 @@
     "lodash": "^4.17.11",
     "monaco-editor": "^0.15.6",
     "ndla-slate-edit-list": "^0.13.2",
-    "ndla-slate-edit-table": "^0.1.4",
+    "ndla-slate-edit-table": "^0.1.5",
     "polished": "^2.2.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-focus": "^3.0.0",

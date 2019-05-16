@@ -22,8 +22,10 @@ import {
 
 class TopicArticlePage extends React.Component {
   componentDidMount() {
-    const { fetchLicenses } = this.props;
-    fetchLicenses();
+    const { fetchLicenses, licenses } = this.props;
+    if (!licenses.length) {
+      fetchLicenses();
+    }
   }
 
   render() {

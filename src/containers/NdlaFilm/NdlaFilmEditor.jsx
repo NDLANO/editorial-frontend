@@ -36,10 +36,11 @@ class NdlaFilmEditor extends React.Component {
     try {
       const filmFrontpage = await fetchFilmFrontpage();
       const newFilmFrontpage = restructureFilmFrontpage(filmFrontpage);
-      this.setState({ filmFrontpage: newFilmFrontpage });
-
       const allMovies = await this.fetchAllMovies();
-      this.setState({ allMovies: allMovies });
+      this.setState({
+        allMovies: allMovies,
+        filmFrontpage: newFilmFrontpage,
+      });
 
       const { slideShow, movieThemes } = filmFrontpage;
       this.getSlideshow(slideShow);
@@ -61,7 +62,8 @@ class NdlaFilmEditor extends React.Component {
   getThemes = async movieThemes => {
     if (movieThemes) {
       const fetchThemes = movieThemes.map(this.restructureTheme);
-      Promise.all(fetchThemes).then(themes => this.setState({ themes }));
+      const themes = await Promise.all(fetchThemes);
+      this.setState({ themes });
     }
   };
 

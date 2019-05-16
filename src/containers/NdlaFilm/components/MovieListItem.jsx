@@ -28,32 +28,21 @@ const MovieListItem = ({
   onDragEnd,
   onDragStart,
   deleteFile,
-}) => {
-  return (
-    <StyledMovieItem
-      key={movie.id}
-      delete={deleteIndex === index}
-      onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
-      <div>
-        <StyledMovieImage
-          src={movie.metaImage ? movie.metaImage.url : ''}
-          alt={movie.metaImage ? movie.metaImage.alt : ''}
-        />
-        {movie.title.title}
-      </div>
-      <div>
-        {showDragTooptil ? (
-          <Tooltip tooltip={dragFilm}>
-            <StyledButtonIcons
-              draggable
-              tabIndex={-1}
-              type="button"
-              onMouseDown={e => onDragStart(e, index)}
-              onMouseUp={onDragEnd}>
-              <DragHorizontal />
-            </StyledButtonIcons>
-          </Tooltip>
-        ) : (
+}) => (
+  <StyledMovieItem
+    key={movie.id}
+    delete={deleteIndex === index}
+    onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
+    <div>
+      <StyledMovieImage
+        src={movie.metaImage ? movie.metaImage.url : ''}
+        alt={movie.metaImage ? movie.metaImage.alt : ''}
+      />
+      {movie.title.title}
+    </div>
+    <div>
+      {showDragTooptil ? (
+        <Tooltip tooltip={dragFilm}>
           <StyledButtonIcons
             draggable
             tabIndex={-1}
@@ -62,20 +51,29 @@ const MovieListItem = ({
             onMouseUp={onDragEnd}>
             <DragHorizontal />
           </StyledButtonIcons>
-        )}
-        <Tooltip tooltip={removeFilm}>
-          <StyledButtonIcons
-            tabIndex={-1}
-            type="button"
-            onClick={() => deleteFile(index)}
-            delete>
-            <DeleteForever />
-          </StyledButtonIcons>
         </Tooltip>
-      </div>
-    </StyledMovieItem>
-  );
-};
+      ) : (
+        <StyledButtonIcons
+          draggable
+          tabIndex={-1}
+          type="button"
+          onMouseDown={e => onDragStart(e, index)}
+          onMouseUp={onDragEnd}>
+          <DragHorizontal />
+        </StyledButtonIcons>
+      )}
+      <Tooltip tooltip={removeFilm}>
+        <StyledButtonIcons
+          tabIndex={-1}
+          type="button"
+          onClick={() => deleteFile(index)}
+          delete>
+          <DeleteForever />
+        </StyledButtonIcons>
+      </Tooltip>
+    </div>
+  </StyledMovieItem>
+);
 
 const StyledMovieItem = styled.li`
   margin: ${MOVIE_MARGIN}px 0 0;
@@ -151,16 +149,16 @@ const StyledButtonIcons = styled.button`
 `;
 
 MovieListItem.propTypes = {
-  movie: ContentResultShape,
+  movie: ContentResultShape.isRequired,
   deleteIndex: PropTypes.number,
   removeFilm: PropTypes.string,
   dragFilm: PropTypes.string,
   index: PropTypes.number,
   showDragTooptil: PropTypes.bool,
-  executeDeleteFile: PropTypes.func,
-  onDragEnd: PropTypes.func,
-  onDragStart: PropTypes.func,
-  deleteFile: PropTypes.func,
+  executeDeleteFile: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  deleteFile: PropTypes.func.isRequired,
   messages: PropTypes.shape({
     removeFilm: PropTypes.string.isRequired,
     dragFilm: PropTypes.string.isRequired,

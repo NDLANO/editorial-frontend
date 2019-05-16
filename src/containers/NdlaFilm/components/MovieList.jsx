@@ -67,7 +67,6 @@ class MovieList extends Component {
   };
 
   onDragStart = (e, dragIndex) => {
-    console.log(e, dragIndex, 'onDragStart');
     e.preventDefault();
     this.mouseMovement = -MOVIE_HEIGHT + dragIndex * MOVIE_HEIGHT;
     this.initialPosition = dragIndex;
@@ -184,7 +183,7 @@ MovieList.propTypes = {
     removeFilm: PropTypes.string.isRequired,
     dragFilm: PropTypes.string.isRequired,
   }).isRequired,
-  onUpdateMovies: PropTypes.func,
+  onUpdateMovies: PropTypes.func.isRequired,
 };
 
 MovieList.defaultProps = {

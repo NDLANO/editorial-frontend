@@ -10,6 +10,7 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
+      .wait(500)
       .type('This is test content{leftarrow}{leftarrow}{selectall}');
 
     cy.get('[data-testid=toolbar-button-bold]').click({ force: true });
@@ -44,6 +45,7 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
+      .wait(500)
       .then($el => {
         cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}');
         cy.wrap($el).type('{selectall}');
@@ -70,6 +72,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .focus()
           .type('First item in list');
+        cy.wait(500);
         cy.wrap($el)
           .focus()
           .type('{selectall}');
@@ -79,16 +82,19 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
+          .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
         cy.get('ul > li').should('have.length', 4); // N.B {selectall} selects empty paragraphs so item increases by 2
         cy.wrap($el)
           .focus()
+          .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
         cy.get('ol > li').should('have.length', 6);
         cy.wrap($el)
           .focus()
+          .wait(500)
           .type('{selectall}');
       });
   });
@@ -97,10 +103,12 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
+      .wait(500)
       .type('footnote');
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
+      .wait(500)
       .type('{selectall}');
     cy.get('[data-testid=toolbar-button-footnote]').click({ force: true });
     cy.get('input[name=title]')

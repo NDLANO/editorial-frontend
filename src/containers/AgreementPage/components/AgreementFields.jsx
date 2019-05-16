@@ -4,83 +4,66 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { getLocale } from '../../../modules/locale/locale';
 import {
+  FormikLicense,
+  FormikDatePicker,
+  FormikContributors,
+} from '../../FormikForm';
+import FormikField, {
   classes as fieldsClasses,
-  TextField,
-  TextAreaField,
-  DateField,
-} from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
-import Contributors from '../../../components/Contributors';
-import FormLicense from '../../Form/components/FormLicense';
-import { getErrorMessages } from '../../../util/formHelper.js';
+} from '../../../components/FormikField';
 
 const contributorTypes = ['rightsholders', 'creators'];
 const AgreementFields = props => {
-  const { t, commonFieldProps, licenses, locale } = props;
+  const { t, licenses, locale } = props;
 
   return (
     <div>
-      <TextField
+      <FormikField
         label={t('agreementForm.fields.title.label')}
         name="title"
         maxLength={300}
         placeholder={t('agreementForm.fields.title.placeholder')}
-        {...commonFieldProps}
       />
-      {contributorTypes.map(contributorType => {
-        const label = t(`form.${contributorType}.label`);
-        return (
-          <Contributors
-            name={contributorType}
-            label={label}
-            showError={commonFieldProps.submitted}
-            errorMessages={getErrorMessages(
-              label,
-              contributorType,
-              commonFieldProps.schema,
-            )}
-            {...commonFieldProps.bindInput(contributorType)}
-          />
-        );
-      })}
-      <FormLicense
-        licenses={licenses}
-        {...commonFieldProps.bindInput('license')}
-      />
-      <TextAreaField
+      <FormikContributors contributorTypes={contributorTypes} />
+      <FormikLicense licenses={licenses} />
+      <FormikField
         label={t('agreementForm.fields.content.label')}
-        name="content"
-        placeholder={t('agreementForm.fields.content.placeholder')}
-        rows="15"
-        {...commonFieldProps}
-      />
-      <div {...fieldsClasses()}>
-        <label htmlFor="validFrom and validTo">
-          {t('form.validDate.label')}
-        </label>
-      </div>
+        name="content">
+        {({ field }) => (
+          <textarea
+            placeholder={t('agreementForm.fields.content.placeholder')}
+            rows="15"
+            {...field}
+          />
+        )}
+      </FormikField>
       <div {...fieldsClasses('two-column')}>
-        <DateField
-          name="validFrom"
-          locale={locale}
-          label={t('form.validDate.from.label')}
-          placeholder={t('form.validDate.from.placeholder')}
-          {...commonFieldProps}
-        />
-        <DateField
-          name="validTo"
-          locale={locale}
-          label={t('form.validDate.to.label')}
-          placeholder={t('form.validDate.to.placeholder')}
-          {...commonFieldProps}
-        />
+        <FormikField name="validFrom">
+          {({ field, form }) => (
+            <FormikDatePicker
+              label={t('form.validDate.from.label')}
+              placeholder={t('form.validDate.from.placeholder')}
+              locale={locale}
+              {...field}
+            />
+          )}
+        </FormikField>
+        <FormikField name="validTo">
+          {({ field, form }) => (
+            <FormikDatePicker
+              placeholder={t('form.validDate.to.placeholder')}
+              label={t('form.validDate.to.label')}
+              locale={locale}
+              {...field}
+            />
+          )}
+        </FormikField>
       </div>
     </div>
   );
 };
 
 AgreementFields.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

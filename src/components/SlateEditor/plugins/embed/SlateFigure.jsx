@@ -15,9 +15,10 @@ import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
-import DisplayExternal from '../../../DisplayEmbedTag/DisplayExternal';
+import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
+import EditImage from './EditImage';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -32,9 +33,7 @@ class SlateFigure extends React.Component {
     };
     this.isSelected = this.isSelected.bind(this);
     this.onFigureInputChange = this.onFigureInputChange.bind(this);
-    this.onFigureInputMultipleUpdates = this.onFigureInputMultipleUpdates.bind(
-      this,
-    );
+    this.saveEmbedUpdates = this.saveEmbedUpdates.bind(this);
     this.onSubmittedChange = this.onSubmittedChange.bind(this);
     this.onRemoveClick = this.onRemoveClick.bind(this);
   }
@@ -66,15 +65,10 @@ class SlateFigure extends React.Component {
   onFigureInputChange(e) {
     e.preventDefault();
     const { value, name } = e.target;
-    const { node, editor } = this.props;
-
-    const properties = {
-      data: { ...getSchemaEmbed(node), [name]: value },
-    };
-    editor.setNodeByKey(node.key, properties);
+    this.saveEmbedUpdates({ [name]: value });
   }
 
-  onFigureInputMultipleUpdates(updates) {
+  saveEmbedUpdates(updates) {
     const { node, editor } = this.props;
     const properties = {
       data: { ...getSchemaEmbed(node), ...updates },
@@ -110,7 +104,7 @@ class SlateFigure extends React.Component {
     const props = {
       embed,
       onFigureInputChange: this.onFigureInputChange,
-      onFigureInputMultipleUpdates: this.onFigureInputMultipleUpdates,
+      saveEmbedUpdates: this.saveEmbedUpdates,
       figureClass,
       attributes,
       submitted: this.state.submitted,
@@ -125,6 +119,7 @@ class SlateFigure extends React.Component {
             node={node}
             editor={editor}
             onRemoveClick={this.onRemoveClick}
+            renderEditComponent={props => <EditImage {...props} />}
             {...props}
           />
         );

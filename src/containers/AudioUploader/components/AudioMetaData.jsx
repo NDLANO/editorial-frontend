@@ -10,8 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import MultiSelect from '../../../components/MultiSelect';
-import Contributors from '../../../components/Contributors';
-import { FormikLicense } from '../../FormikForm';
+import { FormikLicense, FormikContributors } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
@@ -41,34 +40,7 @@ const AudioMetaData = props => {
         {({ field }) => <FormikLicense licenses={licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
-      {contributorTypes.map(contributorType => {
-        const label = t(`form.${contributorType}.label`);
-        return (
-          <FormikField
-            showError={false}
-            key={`formik_contributor_${contributorType}`}
-            name={contributorType}>
-            {({ field, form }) => {
-              const { errors, touched } = form;
-              const error =
-                touched[field.name] && errors[field.name]
-                  ? errors[field.name]
-                  : '';
-              return (
-                <Contributors
-                  label={label}
-                  labelRemove={t(`form.${contributorType}.labelRemove`)}
-                  showError={!!errors[field.name]}
-                  errorMessages={
-                    touched[field.name] && errors[field.name] ? [error] : []
-                  }
-                  {...field}
-                />
-              );
-            }}
-          </FormikField>
-        );
-      })}
+      <FormikContributors contributorTypes={contributorTypes} />
     </Fragment>
   );
 };

@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
@@ -22,7 +22,7 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
+import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -36,7 +36,7 @@ import {
   FormikActionButton,
   FormikHeader,
 } from '../../FormikForm';
-import { formatErrorMessage } from '../../Form/FormWorkflow';
+import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
@@ -307,7 +307,6 @@ class TopicArticleForm extends Component {
 }
 
 TopicArticleForm.propTypes = {
-  validationErrors: SchemaShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,

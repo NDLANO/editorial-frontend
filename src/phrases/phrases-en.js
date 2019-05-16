@@ -330,6 +330,15 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Title',
+    year: 'Year',
+    authors: 'Author',
+  },
+  linkForm: {
+    href: 'Link',
+    text: 'Text',
+  },
   audioForm: {
     title: 'audio file',
   },
@@ -429,10 +438,16 @@ const phrases = {
       content: 'Content',
       notes: 'Notes',
       metaDescription: 'Meta description',
+      metaImageAlt: 'Alt-text',
+      alttext: 'Alt-text',
+      caption: 'Caption',
+      imageFile: 'Imagefile',
       visualElement: {
         caption: 'Caption',
-        alt: 'Alt text',
+        alt: 'Alt-text',
       },
+      validFrom: 'Valid from',
+      validTo: 'Valid to',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -746,7 +761,7 @@ const phrases = {
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
-        noText: 'WCAG requires alt-tekst.',
+        noText: 'WCAG requires alt-text.',
       },
       dragdrop: {
         main: 'Drag and drop',
@@ -759,6 +774,7 @@ const phrases = {
         label: 'Video caption',
         placeholder: 'Video caption',
       },
+      remove: 'Remove video',
     },
     audio: {
       file: 'Audio file',
@@ -773,6 +789,10 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+    },
+    external: {
+      edit: 'Edit external element',
+      remove: 'Remove external element',
     },
     related: {
       title: 'Related articles',

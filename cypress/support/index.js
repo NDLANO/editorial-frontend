@@ -28,7 +28,7 @@ export const visitOptions = {
 export const setToken = () => {
   const options = {
     method: 'POST',
-    url: 'https://ndla.eu.auth0.com/oauth/token',
+    url: 'https://ndla-test.eu.auth0.com/oauth/token',
     body: {
       client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
       client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),

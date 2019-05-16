@@ -12,17 +12,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/fp/isEmpty';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
-import reformed from '../../../components/reformed';
-import validateSchema, {
-  checkTouchedInvalidField,
-} from '../../../components/validateSchema';
-import { learningResourceSchema } from '../../../articleSchema';
-import { Field } from '../../../components/Fields';
+import { Formik, Form } from 'formik';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import AlertModal from '../../../components/AlertModal';
 import {
@@ -31,34 +22,30 @@ import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
-import LearningResourceMetadata from './LearningResourceMetadata';
-import LearningResourceContent from './LearningResourceContent';
+import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
-  FormWorkflow,
-  FormAddNotes,
-  FormCopyright,
-  FormActionButton,
+  FormikAlertModalWrapper,
+  FormikHeader,
+  FormikActionButton,
   formClasses,
-  AlertModalWrapper,
-} from '../../Form';
-import { FormikHeader } from '../../FormikForm';
-import { formatErrorMessage } from '../../Form/FormWorkflow';
-import LearningResourceTaxonomy from './LearningResourceTaxonomy';
+} from '../../FormikForm';
+import validateFormik from '../../../components/formikValidationSchema';
+import LearningResourcePanels from './LearningResourcePanels';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
-  isFormDirty,
+  isFormikFormDirty,
   parseImageUrl,
+  learningResourceRules,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import config from '../../../config';
+import { formatErrorMessage } from '../../../util/apiHelpers';
 
-export const getInitialModel = (article = {}, language) => {
+export const getInitialValues = (article = {}, language) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
@@ -97,39 +84,24 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getArticleFromModel = this.getArticleFromModel.bind(this);
+    this.getArticle = this.getArticle.bind(this);
     this.onReset = this.onReset.bind(this);
     this.getPublishedDate = this.getPublishedDate.bind(this);
     this.state = {
       showResetModal: false,
+      savedToServer: false,
     };
   }
 
-  componentDidUpdate(prevProps) {
-    const { taxonomy: prevTaxonomy, initialModel: prevModel } = prevProps;
-    const { initialModel, setModel, setModelField, taxonomy } = this.props;
-    const hasTaxonomyChanged =
-      taxonomy && prevTaxonomy && taxonomy.loading !== prevTaxonomy.loading;
-    if (hasTaxonomyChanged) {
-      const fields = ['resourceTypes', 'filter', 'topics'];
-      fields.map(field => setModelField(field, initialModel[field]));
-    } else if (
-      initialModel.id !== prevModel.id ||
-      initialModel.revision !== prevModel.revision ||
-      initialModel.language !== prevModel.language
-    ) {
-      setModel(initialModel);
+  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
+    const { selectedLanguage } = this.props;
+    if (selectedLanguage !== prevSelectedLanguage) {
+      this.setState({ savedToServer: false });
     }
   }
 
-  async onReset() {
-    const {
-      articleId,
-      setModel,
-      selectedLanguage,
-      setInputFlags,
-      t,
-    } = this.props;
+  async onReset({ setValues }) {
+    const { articleId, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
@@ -139,12 +111,12 @@ class LearningResourceForm extends Component {
         articleFromProd,
         selectedLanguage,
       );
-      const initialModel = getInitialModel(convertedArticle, selectedLanguage);
-      Object.keys(initialModel).forEach(key =>
-        setInputFlags(key, { dirty: true }),
+      const initialValues = getInitialValues(
+        convertedArticle,
+        selectedLanguage,
       );
-      setModel(initialModel);
-      this.setState({ showResetModal: false });
+
+      this.setState({ showResetModal: false }, () => setValues(initialValues));
     } catch (err) {
       if (err.status === 404) {
         this.setState({
@@ -155,344 +127,201 @@ class LearningResourceForm extends Component {
     }
   }
 
-  getPublishedDate(preview = false) {
-    const { initialModel, model } = this.props;
-    if (isEmpty(model.published)) {
+  getPublishedDate(values, preview = false) {
+    const { article } = this.props;
+    if (isEmpty(values.published)) {
       return undefined;
     }
     if (preview) {
-      return model.published;
+      return values.published;
     }
 
-    const hasPublishedDateChanged = initialModel.published !== model.published;
-    if (hasPublishedDateChanged || model.updatePublished) {
-      return model.published;
+    const hasPublishedDateChanged = article.published !== values.published;
+    if (hasPublishedDateChanged || values.updatePublished) {
+      return values.published;
     }
     return undefined;
   }
 
-  getArticleFromModel(preview = false) {
-    const { model, licenses } = this.props;
-    const content = learningResourceContentToHTML(model.content);
-    const emptyContent = model.id ? '' : undefined;
+  getArticle(values, preview = false) {
+    const { licenses } = this.props;
+    const content = learningResourceContentToHTML(values.content);
+    const emptyContent = values.id ? '' : undefined;
     const article = {
-      id: model.id,
-      title: model.title,
-      introduction: editorValueToPlainText(model.introduction),
-      tags: model.tags,
+      id: values.id,
+      title: values.title,
+      introduction: editorValueToPlainText(values.introduction),
+      tags: values.tags,
       content: content && content.length > 0 ? content : emptyContent,
       metaImage: {
-        id: model.metaImageId,
-        alt: model.metaImageAlt,
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
       },
-      metaDescription: editorValueToPlainText(model.metaDescription),
+      metaDescription: editorValueToPlainText(values.metaDescription),
       articleType: 'standard',
       copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
+        license: licenses.find(license => license.license === values.license),
+        origin: values.origin,
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
       },
-      notes: model.notes || [],
-      language: model.language,
-      published: this.getPublishedDate(preview),
-      supportedLanguages: model.supportedLanguages,
+      notes: values.notes || [],
+      language: values.language,
+      published: this.getPublishedDate(values, preview),
+      supportedLanguages: values.supportedLanguages,
     };
 
     return article;
   }
 
-  async handleSubmit(evt) {
-    evt.preventDefault();
-
+  async handleSubmit(values, actions) {
+    actions.setSubmitting(true);
     const {
-      model: { id },
-      validationErrors,
       revision,
-      setSubmitted,
       createMessage,
       articleStatus,
-      setModelField,
       onUpdate,
-      fields,
-      model,
-      onModelSavedToServer,
+      applicationError,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
-    if (!validationErrors.isValid) {
-      setSubmitted(true);
-      return;
-    }
-    if (!isFormDirty({ fields, model })) {
-      return;
-    }
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
-        await validateDraft(id, {
-          ...this.getArticleFromModel(),
+        await validateDraft(values.id, {
+          ...this.getArticle(values),
           revision,
         });
       } catch (error) {
+        actions.setSubmitting(false);
         createMessage(formatErrorMessage(error));
         return;
       }
     }
-    onUpdate({
-      ...this.getArticleFromModel(),
-      revision,
-    });
-    onModelSavedToServer();
-    setModelField('notes', []);
+    try {
+      await onUpdate({
+        ...this.getArticle(values),
+        revision,
+      });
+      actions.setSubmitting(false);
+      actions.setFieldValue('notes', [], false);
+      this.setState({ savedToServer: true });
+    } catch (err) {
+      applicationError(err);
+      actions.setSubmitting(false);
+      this.setState({ savedToServer: false });
+    }
   }
 
   render() {
-    const {
-      t,
-      bindInput,
-      model,
-      submitted,
-      tags,
-      licenses,
-      isSaving,
-      articleStatus,
-      fields,
-      history,
-      articleId,
-      userAccess = '',
-      createMessage,
-      revision,
-      article,
-      validationErrors,
-      savedToServer,
-      initialModel,
-      setModelField,
-    } = this.props;
-
-    const { error } = this.state;
-    const commonFieldProps = { bindInput, schema: validationErrors, submitted };
-    const formIsDirty = isFormDirty({ model, fields });
-    const panels = [
-      {
-        id: 'learning-resource-content',
-        title: t('form.contentSection'),
-        className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: [
-          validationErrors.fields.title,
-          validationErrors.fields.introduction,
-          validationErrors.fields.content,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: () => (
-          <LearningResourceContent
-            userAccess={userAccess}
-            model={model}
-            setModelField={setModelField}
-            initialModel={initialModel}
-            commonFieldProps={commonFieldProps}
-          />
-        ),
-      },
-      {
-        id: 'learning-resource-copyright',
-        title: t('form.copyrightSection'),
-        className: 'u-6/6',
-        hasError: [
-          validationErrors.fields.creators,
-          validationErrors.fields.rightsholders,
-          validationErrors.fields.processors,
-          validationErrors.fields.license,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: () => (
-          <FormCopyright
-            model={model}
-            commonFieldProps={commonFieldProps}
-            licenses={licenses}
-          />
-        ),
-      },
-      {
-        id: 'learning-resource-metadata',
-        title: t('form.metadataSection'),
-        className: 'u-6/6',
-        hasError: [
-          validationErrors.fields.metaDescription,
-          validationErrors.fields.tags,
-          validationErrors.fields.metaImageAlt,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: () => (
-          <LearningResourceMetadata
-            commonFieldProps={commonFieldProps}
-            tags={tags}
-            model={model}
-          />
-        ),
-      },
-      {
-        id: 'learning-resource-workflow',
-        title: t('form.workflowSection'),
-        className: 'u-6/6',
-        hasError: [validationErrors.fields.notes].some(field =>
-          checkTouchedInvalidField(field, submitted),
-        ),
-        component: () => (
-          <FormWorkflow
-            articleStatus={articleStatus}
-            model={model}
-            getArticle={this.getArticleFromModel}
-            createMessage={createMessage}
-            revision={revision}
-            formIsDirty={formIsDirty}>
-            <FormAddNotes
-              showError={submitted}
-              name="notes"
-              labelHeading={t('form.notes.heading')}
-              labelAddNote={t('form.notes.add')}
-              article={article}
-              labelRemoveNote={t('form.notes.remove')}
-              labelWarningNote={t('form.notes.warning')}
-              {...commonFieldProps.bindInput('notes')}
-            />
-          </FormWorkflow>
-        ),
-      },
-    ];
-
-    if (
-      model.id &&
-      (userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`) ||
-        userAccess.includes('taxonomy:write'))
-    ) {
-      panels.splice(1, 0, {
-        id: 'learning-resource-taxonomy',
-        title: t('form.taxonomytSection'),
-        className: 'u-6/6',
-        component: closePanel => (
-          <LearningResourceTaxonomy
-            language={model.language}
-            title={model.title}
-            articleId={articleId}
-            closePanel={closePanel}
-          />
-        ),
-      });
-    }
-
+    const { t, history, article, ...rest } = this.props;
+    const { error, savedToServer } = this.state;
+    const initVal = getInitialValues(article, false);
     return (
-      <form onSubmit={this.handleSubmit} {...formClasses()}>
-        <FormikHeader
-          statusText={model.status.current}
-          model={model}
-          type={model.articleType}
-          editUrl={lang => toEditArticle(model.id, model.articleType, lang)}
-          getArticle={this.getArticleFromModel}
-        />
-        <Accordion openIndexes={['learning-resource-content']}>
-          {({ openIndexes, handleItemClick }) => (
-            <AccordionWrapper>
-              {panels.map(panel => (
-                <React.Fragment key={panel.id}>
-                  <AccordionBar
-                    panelId={panel.id}
-                    ariaLabel={panel.title}
-                    onClick={() => handleItemClick(panel.id)}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    {panel.title}
-                  </AccordionBar>
-                  {openIndexes.includes(panel.id) && (
-                    <AccordionPanel
-                      id={panel.id}
-                      hasError={panel.hasError}
-                      isOpen={openIndexes.includes(panel.id)}>
-                      <div className={panel.className}>
-                        {panel.component(() => handleItemClick(panel.id))}
-                      </div>
-                    </AccordionPanel>
-                  )}
-                </React.Fragment>
-              ))}
-            </AccordionWrapper>
-          )}
-        </Accordion>
-        <Field right>
-          {error && <span className="c-errorMessage">{error}</span>}
-          {model.id && (
-            <FormActionButton
-              onClick={() => this.setState({ showResetModal: true })}>
-              {t('form.resetToProd.button')}
-            </FormActionButton>
-          )}
+      <Formik
+        initialValues={initVal}
+        validateOnBlur={false}
+        onSubmit={this.handleSubmit}
+        enableReinitialize
+        validate={values => validateFormik(values, learningResourceRules, t)}>
+        {({
+          values,
+          initialValues,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+        }) => (
+          <Form {...formClasses()}>
+            <FormikHeader
+              statusText={values.status.current}
+              values={values}
+              type={values.articleType}
+              editUrl={lang =>
+                toEditArticle(values.id, values.articleType, lang)
+              }
+              getArticle={() => this.getArticle(values)}
+            />
+            <LearningResourcePanels
+              values={values}
+              errors={errors}
+              article={article}
+              touched={touched}
+              getArticle={() => this.getArticle(values)}
+              {...rest}
+            />
+            <Field right>
+              {error && <span className="c-errorMessage">{error}</span>}
+              {values.id && (
+                <FormikActionButton
+                  onClick={() => this.setState({ showResetModal: true })}>
+                  {t('form.resetToProd.button')}
+                </FormikActionButton>
+              )}
 
-          <AlertModal
-            show={this.state.showResetModal}
-            text={t('form.resetToProd.modal')}
-            actions={[
-              {
-                text: t('form.abort'),
-                onClick: () => this.setState({ showResetModal: false }),
-              },
-              {
-                text: 'Reset',
-                onClick: this.onReset,
-              },
-            ]}
-            onCancel={() => this.setState({ showResetModal: false })}
-          />
-          <FormActionButton
-            outline
-            onClick={history.goBack}
-            disabled={isSaving}>
-            {t('form.abort')}
-          </FormActionButton>
-          <SaveButton
-            data-testid="saveLearningResourceButton"
-            isSaving={isSaving}
-            showSaved={savedToServer && !formIsDirty}
-            defaultText="saveDraft"
-          />
-        </Field>
-        <AlertModalWrapper
-          fields={fields}
-          severity="danger"
-          model={model}
-          text={t('alertModal.notSaved')}
-        />
-      </form>
+              <AlertModal
+                show={this.state.showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: this.onReset,
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
+              />
+              <FormikActionButton
+                outline
+                onClick={history.goBack}
+                disabled={isSubmitting}>
+                {t('form.abort')}
+              </FormikActionButton>
+              <SaveButton
+                data-testid="saveLearningResourceButton"
+                {...formClasses}
+                isSaving={isSubmitting}
+                defaultText="saveDraft"
+                showSaved={
+                  savedToServer &&
+                  !isFormikFormDirty({
+                    values,
+                    initialValues,
+                    dirty,
+                  })
+                }>
+                {t('form.save')}
+              </SaveButton>
+            </Field>
+            <FormikAlertModalWrapper
+              isSubmitting={isSubmitting}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
 
 LearningResourceForm.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    language: PropTypes.string,
-  }).isRequired,
-  initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.arrayOf(PropTypes.object),
-    language: PropTypes.string,
-  }),
   articleId: PropTypes.string,
-  setModel: PropTypes.func.isRequired,
-  setModelField: PropTypes.func.isRequired,
-  fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  validationErrors: SchemaShape,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  submitted: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
   revision: PropTypes.number,
-  setSubmitted: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  updateArticleStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
     filter: PropTypes.array,
@@ -505,13 +334,9 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
-  savedToServer: PropTypes.bool,
-  setInputFlags: PropTypes.func,
 };
 
 export default compose(
   injectT,
   withRouter,
-  reformed,
-  validateSchema(learningResourceSchema),
 )(LearningResourceForm);

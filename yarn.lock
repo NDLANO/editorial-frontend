@@ -1027,10 +1027,10 @@
     "@ndla/util" "^0.3.3"
     lodash "^4.17.11"
 
-"@ndla/howto@^0.1.15":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.15.tgz#f5f80ce8a64de43b596cacec3b9722230524f05d"
-  integrity sha512-w7SVvaK3tuWYLpk7mspcMMSCC8OjmZja3Aq20rbf7ew856pC198i9GvpD0VOfNuEilKyX0AMnVakdWy+awhSyw==
+"@ndla/howto@^0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.16.tgz#460abcdfb5301aed9cd206741ffe7bb398923e88"
+  integrity sha512-46O+qh4VpIUoZJPpcWJVcjE5zQrDtqlFdmurlMRh+yJ1FijRmel+yWfng3p7bOFrCg3hhUAIairiWMMHaUZNMw==
   dependencies:
     "@ndla/button" "^0.3.5"
     "@ndla/core" "^0.6.5"
@@ -1038,7 +1038,7 @@
     "@ndla/licenses" "^0.6.5"
     "@ndla/modal" "^0.3.6"
     "@ndla/tooltip" "^0.2.5"
-    "@ndla/ui" "^0.22.15"
+    "@ndla/ui" "^0.22.16"
 
 "@ndla/i18n@^0.4.2":
   version "0.4.2"
@@ -1131,34 +1131,6 @@
 "@ndla/tracker@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.1.tgz#c639fbacf412857750ece984f29ee23b11fd743f"
-
-"@ndla/ui@^0.22.15":
-  version "0.22.15"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.15.tgz#50fbf73d8b6f9ddbf7804f72fbd7f88ea7d087fd"
-  integrity sha512-Ug81s+gq9ZZu01ZcdJB4/jQku08UwTreK4rh7RIxCnt3zFpYlwOLw8xWGaMyzl218whN6o0O6fpc90tjz6nFcA==
-  dependencies:
-    "@ndla/button" "^0.3.5"
-    "@ndla/carousel" "^0.3.3"
-    "@ndla/core" "^0.6.5"
-    "@ndla/hooks" "^0.1.1"
-    "@ndla/i18n" "^0.4.2"
-    "@ndla/icons" "^0.6.11"
-    "@ndla/licenses" "^0.6.5"
-    "@ndla/modal" "^0.3.6"
-    "@ndla/tabs" "^0.11.5"
-    "@ndla/tooltip" "^0.2.5"
-    "@ndla/util" "^0.3.3"
-    classnames "2.2.6"
-    focus-trap "^4.0.2"
-    focus-trap-react "^6.0.0"
-    jump.js "^1.0.2"
-    lodash "^4.17.5"
-    react-bem-helper "1.4.1"
-    react-device-detect "^1.6.2"
-    react-facebook "^6.0.15"
-    react-prop-types "0.4.0"
-    react-swipeable "^5.0.1"
-    react-transition-group "^2.5.3"
 
 "@ndla/ui@^0.22.16":
   version "0.22.16"

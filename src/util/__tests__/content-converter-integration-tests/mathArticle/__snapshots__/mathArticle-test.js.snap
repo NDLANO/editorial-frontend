@@ -199,7 +199,7 @@ exports[`serializing article with mathml tags 1`] = `
 </section>
 <section>
   <div data-type=\\"related-content\\">
-    <embed data-size=\\"2\\" data-__altered=\\"false\\" />
+    <embed data-article-id=\\"1387\\" data-resource=\\"related-content\\" />
   </div>
 </section>
 "

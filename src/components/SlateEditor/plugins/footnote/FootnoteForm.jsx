@@ -75,7 +75,9 @@ class FootnoteForm extends Component {
               name="authors"
               label={t('form.content.footnote.authors.label')}
               obligatory>
-              {({ field }) => <MultiSelectDropdown {...field} />}
+              {({ field }) => (
+                <MultiSelectDropdown {...field} valueField="authors" />
+              )}
             </FormikField>
             <FormikField
               name="edition"

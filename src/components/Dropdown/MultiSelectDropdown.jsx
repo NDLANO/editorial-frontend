@@ -27,10 +27,10 @@ class MultiSelectDropdown extends Component {
   }
 
   onValueChange(newValue) {
-    const { onChange, value, textField } = this.props;
+    const { onChange, value, textField, valueField } = this.props;
     onChange({
       target: {
-        name: 'tags',
+        name: valueField,
         value: [...value, itemToString(newValue, textField)],
       },
     });
@@ -136,11 +136,13 @@ MultiSelectDropdown.propTypes = {
   disableCreate: PropTypes.bool,
   placeholder: PropTypes.string,
   textField: PropTypes.string,
+  valueField: PropTypes.string,
 };
 
 MultiSelectDropdown.defaultProps = {
   data: [],
   textField: 'title',
+  valueField: 'tags',
 };
 
 export default MultiSelectDropdown;

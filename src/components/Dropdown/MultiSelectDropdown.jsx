@@ -41,10 +41,9 @@ class MultiSelectDropdown extends Component {
     e.preventDefault();
     const { value } = this.props;
     const { inputValue } = this.state;
-    if (value.includes(inputValue)) {
-      return;
+    if (!value.includes(inputValue)) {
+      this.onValueChange({ title: inputValue });
     }
-    this.onValueChange({ title: inputValue });
   }
 
   onInputChange(e) {

@@ -334,6 +334,7 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
+  applicationError: PropTypes.func.isRequired,
 };
 
 export default compose(

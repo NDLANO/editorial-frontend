@@ -130,7 +130,6 @@ class AddResourceModal extends Component {
   render() {
     const { onClose, t, allowPaste } = this.props;
     const { selected, article, loading, pastedUrl, error } = this.state;
-
     return (
       <TaxonomyLightbox
         title={t('taxonomy.searchResource')}
@@ -179,6 +178,8 @@ AddResourceModal.propTypes = {
   onClose: PropTypes.func,
   type: PropTypes.string,
   allowPaste: PropTypes.bool,
+  topicId: PropTypes.string.isRequired,
+  refreshResources: PropTypes.func.isRequired,
 };
 
 export default injectT(AddResourceModal);

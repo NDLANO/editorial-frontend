@@ -215,7 +215,6 @@ class TopicArticleForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-
     const { error, showResetModal, savedToServer } = this.state;
     const initVal = getInitialValues(article);
     return (
@@ -244,6 +243,7 @@ class TopicArticleForm extends Component {
               <FormikHeader
                 values={values}
                 type={values.articleType}
+                getArticle={() => this.getArticle(values)}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
@@ -323,6 +323,7 @@ TopicArticleForm.propTypes = {
   }).isRequired,
   article: ArticleShape,
   selectedLanguage: PropTypes.string.isRequired,
+  articleId: PropTypes.string,
 };
 
 export default compose(

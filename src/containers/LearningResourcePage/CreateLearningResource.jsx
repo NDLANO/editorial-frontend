@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-/* global history */
-
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';

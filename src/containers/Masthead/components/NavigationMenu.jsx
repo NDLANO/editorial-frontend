@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
@@ -13,7 +14,8 @@ import {
 } from '../../../util/routeHelpers';
 
 const OpenMenu = ({ t, close }) => {
-  const StyledLink = StyledListButton.withComponent('a');
+  const StyledLink = StyledListButton.withComponent(Link);
+  const StyledHrefLink = StyledListButton.withComponent('a');
   return (
     <StyledMenuContainer>
       <div>
@@ -36,13 +38,13 @@ const OpenMenu = ({ t, close }) => {
             </StyledLink>
           </div>
           <div>
-            <StyledLink
+            <StyledHrefLink
               href={config.learningpathFrontendDomain}
               target="_blank"
               rel="noopener noreferrer"
               onClick={close}>
               <span>{t('subNavigation.learningPathLink')}</span>
-            </StyledLink>
+            </StyledHrefLink>
             <StyledLink to={'/notions'} onClick={close}>
               <span>{t('subNavigation.concept')}</span>
             </StyledLink>

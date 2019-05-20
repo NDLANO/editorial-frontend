@@ -40,7 +40,7 @@ class FormDeleteLanguageVersion extends React.Component {
 
   async deleteLanguageVersion() {
     const {
-      model: { id, supportedLanguages, language, articleType },
+      values: { id, supportedLanguages, language, articleType },
       history,
     } = this.props;
     if (
@@ -59,7 +59,7 @@ class FormDeleteLanguageVersion extends React.Component {
 
   render() {
     const {
-      model: { id, supportedLanguages, language },
+      values: { id, supportedLanguages, language },
       t,
     } = this.props;
     const { showDeleteWarning } = this.state;
@@ -105,7 +105,7 @@ class FormDeleteLanguageVersion extends React.Component {
 }
 
 FormDeleteLanguageVersion.propTypes = {
-  model: PropTypes.shape({
+  values: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),

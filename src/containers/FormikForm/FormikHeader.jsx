@@ -181,7 +181,7 @@ HeaderPart.propTypes = {
 
 const FormikHeader = ({
   t,
-  model,
+  values,
   type,
   editUrl,
   getArticle,
@@ -200,13 +200,13 @@ const FormikHeader = ({
 
   const emptyLanguages = languages.filter(
     lang =>
-      lang.key !== model.language &&
-      !model.supportedLanguages.includes(lang.key) &&
+      lang.key !== values.language &&
+      !values.supportedLanguages.includes(lang.key) &&
       lang.include,
   );
 
   const newLanguage =
-    model.id && !model.supportedLanguages.includes(model.language);
+    values.id && !values.supportedLanguages.includes(values.language);
 
   const StyledLanguagePillsLink = StyledLanguagePills.withComponent(Link);
 
@@ -220,10 +220,10 @@ const FormikHeader = ({
         t={t}
       />
       <StyledLanguageWrapper>
-        {model.id ? (
+        {values.id ? (
           <Fragment>
-            {model.supportedLanguages.map(lang =>
-              model.language === lang ? (
+            {values.supportedLanguages.map(lang =>
+              values.language === lang ? (
                 <StyledLanguagePills current key={`types_${lang}`}>
                   <Check />
                   {t(`language.${lang}`)}
@@ -241,9 +241,9 @@ const FormikHeader = ({
               ),
             )}
             {newLanguage && (
-              <StyledLanguagePills current key={`types_${model.language}`}>
+              <StyledLanguagePills current key={`types_${values.language}`}>
                 <Check />
-                {t(`language.${model.language}`)}
+                {t(`language.${values.language}`)}
               </StyledLanguagePills>
             )}
             <StyledSplitter />
@@ -264,14 +264,14 @@ const FormikHeader = ({
               </>
             )}
             <FormikLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
-            {!noStatus && <FormikDeleteLanguageVersion model={model} />}
+            {!noStatus && <FormikDeleteLanguageVersion values={values} />}
           </Fragment>
         ) : (
           <>
             <div>
               <StyledLanguagePills current>
                 <Check />
-                {t(`language.${model.language}`)}
+                {t(`language.${values.language}`)}
               </StyledLanguagePills>
             </div>
             <div />
@@ -285,7 +285,7 @@ const FormikHeader = ({
 FormikHeader.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
-  model: PropTypes.shape({
+  values: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),

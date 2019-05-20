@@ -183,93 +183,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   background-color: white;
 }
 
-.emotion-14 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-14:hover,
-.emotion-14:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-14:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
-}
-
-.emotion-14[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
-}
-
-.emotion-14:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-14:hover,
-.emotion-14:active,
-.emotion-14:disabled,
-.emotion-14:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
-  border: none;
-}
-
-.emotion-14:focus {
-  outline-width: medium;
-}
-
-.emotion-14,
-.emotion-14:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
 .emotion-10 {
   margin-top: 6.5px;
 }
@@ -367,6 +280,93 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 .emotion-7 .c-icon {
   width: 24px;
   height: 24px;
+}
+
+.emotion-14 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-14:hover,
+.emotion-14:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-14:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-14[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-14:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-14:hover,
+.emotion-14:active,
+.emotion-14:disabled,
+.emotion-14:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-14:focus {
+  outline-width: medium;
+}
+
+.emotion-14,
+.emotion-14:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
 }
 
 <div
@@ -667,105 +667,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   background-color: white;
 }
 
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.emotion-87 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-87:hover,
-.emotion-87:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-87:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
-}
-
-.emotion-87[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
-}
-
-.emotion-87:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-87:hover,
-.emotion-87:active,
-.emotion-87:disabled,
-.emotion-87:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
-  border: none;
-}
-
-.emotion-87:focus {
-  outline-width: medium;
-}
-
-.emotion-87,
-.emotion-87:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
 .emotion-10 {
   margin-top: 6.5px;
 }
@@ -865,6 +766,18 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   height: 24px;
 }
 
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
 .emotion-83 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   background: #fff;
@@ -892,6 +805,93 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   color: #757575;
   padding: 13px;
   border-top: 1px solid #f8f8f8;
+}
+
+.emotion-87 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-87:hover,
+.emotion-87:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-87:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-87[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-87:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-87:hover,
+.emotion-87:active,
+.emotion-87:disabled,
+.emotion-87:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-87:focus {
+  outline-width: medium;
+}
+
+.emotion-87,
+.emotion-87:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
 }
 
 .emotion-23 {
@@ -1267,7 +1267,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
             <div
               class="emotion-81 emotion-82"
             >
-              dropdown.numberHits
+              Søket gav 10 treff
             </div>
           </div>
         </div>
@@ -1467,105 +1467,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   background-color: white;
 }
 
-.emotion-12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.emotion-21 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-21:hover,
-.emotion-21:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-21:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
-}
-
-.emotion-21[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
-}
-
-.emotion-21:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-21:hover,
-.emotion-21:active,
-.emotion-21:disabled,
-.emotion-21:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
-  border: none;
-}
-
-.emotion-21:focus {
-  outline-width: medium;
-}
-
-.emotion-21,
-.emotion-21:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
 .emotion-10 {
   margin-top: 6.5px;
 }
@@ -1663,6 +1564,105 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
 .emotion-7 .c-icon {
   width: 24px;
   height: 24px;
+}
+
+.emotion-12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.emotion-21 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-21:hover,
+.emotion-21:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-21:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-21[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-21:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-21:hover,
+.emotion-21:active,
+.emotion-21:disabled,
+.emotion-21:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-21:focus {
+  outline-width: medium;
+}
+
+.emotion-21,
+.emotion-21:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
 }
 
 <div

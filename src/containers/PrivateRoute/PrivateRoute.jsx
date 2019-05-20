@@ -9,10 +9,11 @@ const okPaths = ['/login', '/logout', '', '/'];
 const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
   if (
     !authenticated &&
+    window.location.pathname &&
     !okPaths.find(okPath => window.location.pathname.includes(okPath))
   ) {
     let lastPath = window.location.pathname;
-    if(window.location.search){
+    if (window.location.search) {
       lastPath += window.location.search;
     }
     localStorage.setItem('lastPath', lastPath);

@@ -48,9 +48,9 @@ class FormikWorkflow extends Component {
       updateArticleStatus,
       getArticle,
       createMessage,
-      revision,
       formIsDirty,
     } = this.props;
+    const { revision } = values;
     if (formIsDirty) {
       createMessage({
         translationKey: 'form.mustSaveFirst',
@@ -78,10 +78,9 @@ class FormikWorkflow extends Component {
 
   async onValidateClick() {
     const {
-      values: { id },
+      values: { id, revision },
       createMessage,
       getArticle,
-      revision,
     } = this.props;
 
     try {

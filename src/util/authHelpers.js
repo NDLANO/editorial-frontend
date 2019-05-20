@@ -132,42 +132,10 @@ export const isAccessTokenValid = () =>
 export const fetchSystemAccessToken = () =>
   fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);
 
-export const renewAuth = async () => {
-  if (localStorage.getItem('access_token_personal') === 'true') {
-    return renewPersonalAuth();
-  }
-  return renewSystemAuth();
-};
-
-let tokenRenewalTimeout;
-
-const scheduleRenewal = async () => {
-  const expiresAt = getAccessTokenExpiresAt();
-
-  const timeout = expiresAt - Date.now();
-
-  if (timeout > 0) {
-    tokenRenewalTimeout = setTimeout(() => {
-      renewAuth();
-    }, timeout);
-  } else {
-    await renewAuth();
-  }
-};
-
-scheduleRenewal();
-
 export const renewSystemAuth = () =>
   fetchSystemAccessToken().then(res => {
     setAccessTokenInLocalStorage(res.access_token, false);
   });
-
-export function loginPersonalAccessToken(type) {
-  auth.authorize({
-    connection: type,
-    state: localStorage.getItem('lastPath'),
-  });
-}
 
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
@@ -178,7 +146,6 @@ export const renewPersonalAuth = () =>
       (err, authResult) => {
         if (authResult && authResult.accessToken) {
           setAccessTokenInLocalStorage(authResult.accessToken, true);
-          scheduleRenewal();
           resolve(authResult.accessToken);
         } else {
           client.store.dispatch(
@@ -195,6 +162,40 @@ export const renewPersonalAuth = () =>
       },
     );
   });
+
+export const renewAuth = async () => {
+  if (localStorage.getItem('access_token_personal') === 'true') {
+    return renewPersonalAuth();
+  }
+  return renewSystemAuth();
+};
+
+let tokenRenewalTimeout;
+
+const scheduleRenewal = async () => {
+  const expiresAt = getAccessTokenExpiresAt();
+
+  const timeout = expiresAt - Date.now();
+
+  if (timeout > 0) {
+    tokenRenewalTimeout = setTimeout(async () => {
+      await renewAuth();
+      scheduleRenewal();
+    }, timeout);
+  } else {
+    await renewAuth();
+    scheduleRenewal();
+  }
+};
+
+scheduleRenewal();
+
+export function loginPersonalAccessToken(type) {
+  auth.authorize({
+    connection: type,
+    state: localStorage.getItem('lastPath'),
+  });
+}
 
 export const personalAuthLogout = (federated, returnToLogin) => {
   clearTimeout(tokenRenewalTimeout);

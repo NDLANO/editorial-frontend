@@ -19,7 +19,7 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
-import ImageForm, { getInitialModel } from './components/ImageForm';
+import ImageForm from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
 
@@ -65,7 +65,7 @@ class EditImage extends Component {
 
     return (
       <ImageForm
-        initialModel={getInitialModel(imageData || { language: locale })}
+        image={imageData || { language: locale }}
         revision={imageData && imageData.revision}
         imageInfo={imageData && imageData.imageFile}
         onUpdate={(image, file) => {

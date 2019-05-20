@@ -6,7 +6,7 @@
  */
 
 import { Value } from 'slate';
-import { parseCopyrightContributors, isFormDirty } from '../formHelper';
+import { parseCopyrightContributors, isFormikFormDirty } from '../formHelper';
 import {
   valueWithTwoImageEmbeds,
   valueWithInlineFootnotesAndContentLinks,
@@ -19,48 +19,43 @@ const creators = [
   { name: 'test2', type: 'writer' },
 ];
 
-test('util/formHelper isFormDirty is true', () => {
-  const fields = {
-    someRandomField: { dirty: true, touched: false },
+test('util/formHelper isFormikFormDirty is true', () => {
+  const initialValues = {
+    someRandomField: '',
   };
-  const initialModel = {};
-  const model = {};
-  expect(isFormDirty({ fields, model, initialModel })).toBe(true);
+  const values = {
+    someRandomField: 'This is a test',
+  };
+  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(true);
 });
 
 test('util/formHelper isFormDirty is false', () => {
-  const fields = {
-    content: { dirty: true, touched: false },
-  };
-  const initialModel = {
+  const initialValues = {
     content: [
       Value.fromJSON(valueWithTwoImageEmbeds),
       Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
     ],
   };
-  const model = {
+  const values = {
     content: [
       Value.fromJSON(valueWithTwoImageEmbeds),
       Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
     ],
   };
-  expect(isFormDirty({ fields, model, initialModel })).toBe(false);
+  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(false);
 });
 
-test('util/formHelper isFormDirty content sections is removed', () => {
-  const fields = {
-    content: { dirty: true, touched: false },
-  };
-  const initialModel = {
+test('util/formHelper isFormikFormDirty content sections is removed', () => {
+  const initialValues = {
     content: [
       Value.fromJSON(valueWithTwoImageEmbeds),
       Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
     ],
   };
-  const model = {
+  const values = {
     content: [Value.fromJSON(valueWithTwoImageEmbeds)],
   };
-  expect(isFormDirty({ fields, model, initialModel })).toBe(true);
+  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(true);
 });
 
 test('util/formHelper parseCopyrightContributors', () => {

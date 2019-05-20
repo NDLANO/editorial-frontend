@@ -15,7 +15,7 @@ import {
   Input,
   FieldRemoveButton,
 } from '@ndla/forms';
-import { Field } from '../../components/Fields';
+import Field from '../../components/Field';
 import FormikNotes from './components/FormikNotes';
 import { NewArticleShape } from '../../shapes';
 

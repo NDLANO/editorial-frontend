@@ -17,7 +17,6 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
     console.log({
       authenticated,
       path: window.location.pathname,
-      isLogin: /$\/login/.test(window.location.pathname),
     });
     return loginPersonalAccessToken('google-oauth2');
   }

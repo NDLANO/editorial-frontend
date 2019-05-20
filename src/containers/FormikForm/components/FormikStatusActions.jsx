@@ -13,11 +13,10 @@ import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
-import { formClasses } from '..';
+import { FormikActionButton, formClasses } from '..';
 import { PossibleStatusShape } from '../../../shapes';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import Spinner from '../../../components/Spinner';
-import { FormActionButton } from '../../Form';
 
 const isAdminStatus = status =>
   status === articleStatuses.PUBLISHED ||
@@ -43,7 +42,7 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
               setTimeout(() => setValue(false), 7000);
             };
             return (
-              <FormActionButton
+              <FormikActionButton
                 key={`status_action_${status}`}
                 onClick={() => clickAction()}
                 disabled={isLoading}>
@@ -51,7 +50,7 @@ function AdminActions({ possibleStatuses, articleStatus, onUpdateStatus, t }) {
                   <Spinner appearance="small" css={customSpinnerStyle} />
                 )}
                 {t(`form.status.actions.${status}`)}
-              </FormActionButton>
+              </FormikActionButton>
             );
           }
           return null;

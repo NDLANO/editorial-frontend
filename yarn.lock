@@ -1036,13 +1036,23 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.4.0.tgz#78692bbdb4453b925766fc8827e590ad865b389d"
-  integrity sha512-z/iW/joQ0FAGBTBkOrejGgfxeA2783YR8Q8AvmjiE0AB2HeuvJ/H9Pbm6yEsfXKHklRaq95m6JHZ9LVc8eBHXw==
+"@ndla/core@^0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.5.tgz#480a350e3c47adb01546708100b00159135db646"
+  integrity sha512-Y3L8Tb/wJ+w7tvhWpRLOo7k3UttkJLj+/Y0uBYeGlv2U9P06KKBldLhK0P77z8Kri+ZEUTSpCQUmgtmvilyD9g==
   dependencies:
-    "@ndla/core" "^0.6.0"
-    "@ndla/icons" "^0.6.9"
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/editor@^0.4.6":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.4.6.tgz#9943b07f1871d38a88aa671e8a8c0e6117d42e8e"
+  integrity sha512-dzGLQP+8fQBKnhPtp3fnY7JyU9yGNi6mktPmEyn1xloDbfWaVJGBppWl+iITSJxSfxqZnkXW4XrrnZk3d70VFg==
+  dependencies:
+    "@ndla/core" "^0.6.5"
+    "@ndla/icons" "^0.6.11"
 
 "@ndla/error-reporter@^0.4.1":
   version "0.4.1"
@@ -1102,6 +1112,11 @@
   version "0.6.10"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.10.tgz#eb1a4e87daeac63e8761485d48bcc61c1831596e"
   integrity sha512-pMGuEMULZdpxyl8ZdL39aDDPd91b9qxxd2K1cpqE70ZuLbRg5cXEUTYJ8jeDvG+QvJ8ol5R/AGPQFY27JVfxOQ==
+
+"@ndla/icons@^0.6.11":
+  version "0.6.11"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.11.tgz#fe12c1fe800409bcae9317ff31d575f1cd93e3cd"
+  integrity sha512-UKKUKgHWqybk3BtrNNzmQMrr+Lb6Hm6V7APn2FeI++J2ieT1KlUBXp+UvTHimY2WkjGJP6+P8yqiYbim5m8oQA==
 
 "@ndla/icons@^0.6.9":
   version "0.6.9"

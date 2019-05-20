@@ -16,6 +16,43 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   margin-bottom: 6.5px;
 }
 
+.emotion-6 {
+  position: relative;
+}
+
+.emotion-1 {
+  opacity: 0;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0ms;
+  animation-delay: 0ms;
+  -webkit-animation-duration: 300ms;
+  animation-duration: 300ms;
+}
+
+.emotion-0 {
+  display: block;
+  color: #fff;
+  position: absolute;
+  z-index: 9999;
+  background: #20588f;
+  border-radius: 2px;
+  padding: 6.5px 13px;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.2 font-weight:400;
+  color: $white;
+  text-align: center;
+  white-space: nowrap;
+  max-width: calc(100vw - #{26px});
+  pointer-events: none;
+}
+
+.emotion-5 {
+  display: inline-block;
+}
+
 .emotion-3 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -138,43 +175,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   -ms-transform: scale(1.25);
   transform: scale(1.25);
   opacity: 1;
-}
-
-.emotion-6 {
-  position: relative;
-}
-
-.emotion-1 {
-  opacity: 0;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-delay: 0ms;
-  animation-delay: 0ms;
-  -webkit-animation-duration: 300ms;
-  animation-duration: 300ms;
-}
-
-.emotion-0 {
-  display: block;
-  color: #fff;
-  position: absolute;
-  z-index: 9999;
-  background: #20588f;
-  border-radius: 2px;
-  padding: 6.5px 13px;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1.2 font-weight:400;
-  color: $white;
-  text-align: center;
-  white-space: nowrap;
-  max-width: calc(100vw - #{26px});
-  pointer-events: none;
-}
-
-.emotion-5 {
-  display: inline-block;
 }
 
 <div

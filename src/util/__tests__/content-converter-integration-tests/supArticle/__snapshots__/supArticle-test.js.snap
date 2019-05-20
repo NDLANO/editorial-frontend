@@ -133,9 +133,9 @@ exports[`serializing article with sup tag 1`] = `
 </section>
 <section>
   <div data-type=\\"related-content\\">
-    <embed data-article-id=\\"490\\" data-resource=\\"related-content\\" /><embed
-      data-article-id=\\"496\\"
-      data-resource=\\"related-content\\"
+    <embed data-size=\\"2\\" data-__altered=\\"false\\" /><embed
+      data-size=\\"2\\"
+      data-__altered=\\"false\\"
     />
   </div>
 </section>

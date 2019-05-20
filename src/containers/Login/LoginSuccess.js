@@ -22,7 +22,6 @@ export class LoginSuccess extends React.Component {
 
     const authResult = await parseHash(hash);
     if (authResult && authResult.accessToken) {
-      console.log('redirecting to: ', authResult.state);
       if (authResult.state) {
         window.location.href = authResult.state;
       }

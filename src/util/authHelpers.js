@@ -17,7 +17,11 @@ import * as messageActions from '../containers/Messages/messagesActions';
 const client =
   process.env.NODE_ENV !== 'unittest'
     ? require('../client.jsx')
-    : { store: { dispatch: () => {} } };
+    : {
+        store: {
+          dispatch: () => {},
+        },
+      };
 
 const NDLA_API_URL = config.ndlaApiUrl;
 const AUTH0_DOMAIN = config.auth0Domain;
@@ -81,13 +85,19 @@ const auth = new auth0.WebAuth({
 
 export function parseHash(hash) {
   return new Promise((resolve, reject) => {
-    auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
-      if (!err) {
-        resolve(authResult);
-      } else {
-        reject(err);
-      }
-    });
+    auth.parseHash(
+      {
+        hash,
+        _idTokenVerification: false,
+      },
+      (err, authResult) => {
+        if (!err) {
+          resolve(authResult);
+        } else {
+          reject(err);
+        }
+      },
+    );
   });
 }
 
@@ -155,29 +165,35 @@ export const renewSystemAuth = () =>
 export function loginPersonalAccessToken(type) {
   auth.authorize({
     connection: type,
+    state: localStorage.getItem('lastPath'),
   });
 }
 
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
-    auth.checkSession({ scope: 'openid profile email' }, (err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        setAccessTokenInLocalStorage(authResult.accessToken, true);
-        scheduleRenewal();
-        resolve(authResult.accessToken);
-      } else {
-        client.store.dispatch(
-          messageActions.addAuth0Message({
-            translationKey: 'errorMessage.auth0',
-            translationObject: {
-              message: err.errorDescription || err.error_description,
-            },
-            timeToLive: 0,
-          }),
-        );
-        reject();
-      }
-    });
+    auth.checkSession(
+      {
+        scope: 'openid profile email',
+      },
+      (err, authResult) => {
+        if (authResult && authResult.accessToken) {
+          setAccessTokenInLocalStorage(authResult.accessToken, true);
+          scheduleRenewal();
+          resolve(authResult.accessToken);
+        } else {
+          client.store.dispatch(
+            messageActions.addAuth0Message({
+              translationKey: 'errorMessage.auth0',
+              translationObject: {
+                message: err.errorDescription || err.error_description,
+              },
+              timeToLive: 0,
+            }),
+          );
+          reject();
+        }
+      },
+    );
   });
 
 export const personalAuthLogout = (federated, returnToLogin) => {

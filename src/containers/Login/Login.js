@@ -18,7 +18,7 @@ import LoginProviders from './LoginProviders';
 import Footer from '../App/components/Footer';
 
 export const Login = ({ t, match, authenticated, location }) => {
-  if (authenticated && location.hash === '' && location.pathname === '/login') {
+  if (authenticated && location.hash === '' && match.url === '/login') {
     window.location.href = '/';
     return <div />;
   }

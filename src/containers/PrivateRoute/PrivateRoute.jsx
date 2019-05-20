@@ -12,7 +12,8 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
     !okPaths.find(okPath => window.location.pathname.includes(okPath))
   ) {
     localStorage.setItem('lastPath', window.location.pathname);
-    return loginPersonalAccessToken('google-oauth2');
+    loginPersonalAccessToken('google-oauth2');
+    return <div />;
   }
 
   return (

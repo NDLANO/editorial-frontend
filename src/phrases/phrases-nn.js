@@ -344,6 +344,15 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Tittel',
+    year: 'År',
+    authors: 'Forfatter',
+  },
+  linkForm: {
+    href: 'Lenke',
+    text: 'Tekst',
+  },
   audioForm: {
     title: 'Lyd | {title} ({key})',
   },
@@ -441,10 +450,16 @@ const phrases = {
       content: 'Innhald',
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
+      metaImageAlt: 'Alt-tekst',
+      alttext: 'Alt-tekst',
+      caption: 'Bildetekst',
+      imageFile: 'Bildefil',
       visualElement: {
         caption: 'Figur tekst',
         alt: 'Alt tekst',
       },
+      validFrom: 'Gyldig fra',
+      validTo: 'Gyldig til',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -748,7 +763,6 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
-      editExternal: 'Rediger eksternt element',
       remove: 'Fjern video',
     },
     audio: {
@@ -764,6 +778,10 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+    },
+    external: {
+      edit: 'Rediger eksternt element',
+      remove: 'Fjern eksternt element',
     },
     related: {
       title: 'Relaterte artikler',

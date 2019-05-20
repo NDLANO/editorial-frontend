@@ -8,47 +8,17 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import FormikLicense from './components/FormikLicense';
-import Contributors from '../../components/Contributors';
-import { FormikAgreementConnection } from '.';
+import { FormikAgreementConnection, FormikContributors } from '.';
 import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const FormikCopyright = ({ t, licenses, values }) => {
+const FormikCopyright = ({ licenses, values }) => {
   const disabled = !!values.agreementId;
   return (
     <Fragment>
-      {contributorTypes.map(contributorType => {
-        const label = t(`form.${contributorType}.label`);
-        return (
-          <FormikField
-            showError={false}
-            key={`formik_contributor_${contributorType}`}
-            name={contributorType}>
-            {({ field, form }) => {
-              const { errors, touched } = form;
-              const error =
-                touched[field.name] && errors[field.name]
-                  ? errors[field.name]
-                  : '';
-              return (
-                <Contributors
-                  label={label}
-                  labelRemove={t(`form.${contributorType}.labelRemove`)}
-                  showError={!!errors[field.name]}
-                  errorMessages={
-                    touched[field.name] && errors[field.name] ? [error] : []
-                  }
-                  {...field}
-                />
-              );
-            }}
-          </FormikField>
-        );
-      })}
-
+      <FormikContributors contributorTypes={contributorTypes} />
       <FormikAgreementConnection values={values} width={3 / 4} />
       <FormikField name="license">
         {({ field }) => (
@@ -71,4 +41,4 @@ FormikCopyright.propTypes = {
   }),
 };
 
-export default injectT(FormikCopyright);
+export default FormikCopyright;

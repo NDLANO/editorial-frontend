@@ -8,7 +8,6 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import FocusLabel from './FocusLabel';
 
 const FormikFieldLabel = ({ label, noBorder, name, hasFocus }) => {
   if (!label) {
@@ -22,9 +21,6 @@ const FormikFieldLabel = ({ label, noBorder, name, hasFocus }) => {
       <label className="u-hidden" htmlFor={name}>
         {label}
       </label>
-      <FocusLabel name={name} hasFocus={hasFocus}>
-        {label}
-      </FocusLabel>
     </Fragment>
   );
 };

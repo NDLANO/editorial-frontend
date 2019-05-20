@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 
 class AudioPlayer extends React.PureComponent {
   componentDidUpdate(props) {

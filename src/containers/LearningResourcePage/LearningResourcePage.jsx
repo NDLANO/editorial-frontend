@@ -10,22 +10,23 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-
 import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
-import { getSaving } from '../../modules/draft/draft';
 import { getLocale } from '../../modules/locale/locale';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../shapes';
+import * as messageActions from '../Messages/messagesActions';
 
 class LearningResourcePage extends PureComponent {
   componentDidMount() {
-    const { fetchLicenses } = this.props;
-    fetchLicenses();
+    const { fetchLicenses, licenses } = this.props;
+    if (!licenses.length) {
+      fetchLicenses();
+    }
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
@@ -79,16 +80,19 @@ LearningResourcePage.propTypes = {
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
   userAccess: PropTypes.string,
+  createMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
+  createMessage: (message = {}) => messageActions.addMessage(message),
+  applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
   licenses: getAllLicenses(state),
-  isSaving: getSaving(state),
   userAccess: state.session.user.scope,
 });
 

@@ -9,15 +9,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Field, connect } from 'formik';
+import { Field, connect, ErrorMessage } from 'formik';
 import { Value } from 'slate';
-import get from 'lodash/fp/get';
+import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
 import { classes } from './';
 import FormikFieldHelp from './FormikFieldHelp';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
+
+const StyledErrorPreLine = styled.span`
+  white-space: pre-line;
+`;
 
 const FormikField = ({
   children,
@@ -85,8 +89,14 @@ const FormikField = ({
           value={isSlateValue ? values[name].document.text : values[name]}
         />
       )}
-      {showError && get(name, errors) && get(name, touched) && (
-        <FormikFieldHelp error>{get(name, errors)}</FormikFieldHelp>
+      {showError && (
+        <ErrorMessage name={name}>
+          {error => (
+            <FormikFieldHelp error>
+              <StyledErrorPreLine>{error}</StyledErrorPreLine>
+            </FormikFieldHelp>
+          )}
+        </ErrorMessage>
       )}
     </div>
   );

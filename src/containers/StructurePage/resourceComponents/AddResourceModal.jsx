@@ -173,6 +173,7 @@ class AddResourceModal extends Component {
                 label="label"
                 apiAction={this.onInputSearch}
                 onChange={this.onSelect}
+                startOpen
               />
             </React.Fragment>
           )}

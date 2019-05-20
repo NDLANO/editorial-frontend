@@ -17,11 +17,11 @@ import { itemToString } from '../../../util/downShiftHelpers';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 
 class AsyncDropDown extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       items: [],
-      isOpen: false,
+      isOpen: props.startOpen,
       inputValue: '',
       selectedItem: null,
     };
@@ -172,10 +172,12 @@ AsyncDropDown.propTypes = {
   onClick: PropTypes.func,
   testid: PropTypes.string,
   positionAbsolute: PropTypes.bool,
+  startOpen: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {
   placeholder: '',
+  startOpen: false,
 };
 
 export default injectT(AsyncDropDown);

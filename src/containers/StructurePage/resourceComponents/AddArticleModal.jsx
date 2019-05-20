@@ -72,6 +72,7 @@ class AddArticleModal extends Component {
             label="label"
             apiAction={this.onArticleSearch}
             onChange={this.onSelect}
+            startOpen
           />
         </StyledContent>
       </TaxonomyLightbox>

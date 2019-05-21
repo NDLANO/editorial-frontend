@@ -16,13 +16,7 @@ import { LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 
-const EditLearningResource = ({
-  selectedLanguage,
-  articleId,
-  createMessage,
-  t,
-  ...rest
-}) => {
+const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
   const {
     article,
     tags,
@@ -65,7 +59,6 @@ EditLearningResource.propTypes = {
   licenses: LicensesArrayOf,
   locale: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
-  createMessage: PropTypes.func.isRequired,
 };
 
 export default injectT(withRouter(EditLearningResource));

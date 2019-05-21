@@ -24,7 +24,7 @@ const StyledWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-class FormDeleteLanguageVersion extends React.Component {
+class FormikDeleteLanguageVersion extends React.Component {
   constructor() {
     super();
     this.state = { showDeleteWarning: false };
@@ -104,7 +104,7 @@ class FormDeleteLanguageVersion extends React.Component {
   }
 }
 
-FormDeleteLanguageVersion.propTypes = {
+FormikDeleteLanguageVersion.propTypes = {
   values: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
@@ -114,4 +114,4 @@ FormDeleteLanguageVersion.propTypes = {
   history: HistoryShape,
 };
 
-export default withRouter(injectT(FormDeleteLanguageVersion));
+export default withRouter(injectT(FormikDeleteLanguageVersion));

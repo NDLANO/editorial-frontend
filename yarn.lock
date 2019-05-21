@@ -1040,12 +1040,12 @@
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.11":
+"@ndla/icons@^0.6.11", "@ndla/icons@^0.6.9":
   version "0.6.11"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.11.tgz#fe12c1fe800409bcae9317ff31d575f1cd93e3cd"
   integrity sha512-UKKUKgHWqybk3BtrNNzmQMrr+Lb6Hm6V7APn2FeI++J2ieT1KlUBXp+UvTHimY2WkjGJP6+P8yqiYbim5m8oQA==
 
-"@ndla/image-search@^0.8.6":
+"@ndla/image-search@^0.8.0":
   version "0.8.6"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.6.tgz#ddfac1b41bd61b0ef6262f9babd21e0cb84f22b1"
   integrity sha512-e6aqOu2MI2c5t1tsFAkQ4rNnsT3h6rSRYMbbQZDwuR+PLgHGnGXRAvMdx+x5iUuDnn3v+L7NBTBeWIYF+sMpuw==
@@ -1152,7 +1152,7 @@
     react-swipeable "^5.0.1"
     react-transition-group "^2.5.3"
 
-"@ndla/util@^0.3.3":
+"@ndla/util@^0.3.1", "@ndla/util@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.3.tgz#fa8dde706d36c67990f46a3d16f4585e4418c8da"
   integrity sha512-tYfHSJPP6qYRALFGZ5DLfCoJw0RMN8LoNXko/EoHCP6m/nQN0c0A8D7DvyR7V9EXXZDiHX7FqANlALQLyUsS9g==
@@ -11315,6 +11315,11 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
+  integrity sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
 
 regenerator-runtime@^0.13.2:
   version "0.13.2"

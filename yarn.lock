@@ -959,6 +959,13 @@
   dependencies:
     "@ndla/core" "^0.6.5"
 
+"@ndla/button@^0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.6.tgz#1369c5d5c3b2bebb9a6b72c6a7e1bbcb382c0232"
+  integrity sha512-1iA/zJNq2zM8QnjvrtKoPwwQPr1/tKRobnVHs29aHmPV/eddQkIRF6LTReUKp+0FdS7cLVKg+NRx/vyeiZbmEA==
+  dependencies:
+    "@ndla/core" "^0.6.6"
+
 "@ndla/carousel@^0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.2.tgz#3917db8ec96c0cde65328952e41b2cb558530ff2"
@@ -971,6 +978,16 @@
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.5.tgz#480a350e3c47adb01546708100b00159135db646"
   integrity sha512-Y3L8Tb/wJ+w7tvhWpRLOo7k3UttkJLj+/Y0uBYeGlv2U9P06KKBldLhK0P77z8Kri+ZEUTSpCQUmgtmvilyD9g==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.6.tgz#a7a4a1038cca67a5286c53f7f39d3f3101703ff7"
+  integrity sha512-uN4ofEvyKOSN+EZHKCul4zXCeiHWEEN0DSCEOrPWkcbR0pjTHv1t6LJulgEzI8Dr82oMYNvwai77+V5rwu5U4g==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -1001,13 +1018,13 @@
     "@ndla/core" "^0.6.5"
     "@ndla/icons" "^0.6.11"
 
-"@ndla/forms@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.6.tgz#350e7ce4379083a6a6ebc759bbe9e11790e579d8"
-  integrity sha512-Sz39FBoq37XpUeRX6qxx1VAFr9osqFtlpkj0QXB5LJMiwKUd4uApSbTSE1n1BkDWMPAMUruuF0j+FkcsjnfAzA==
+"@ndla/forms@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.7.tgz#bf32c77affdbd5f09d5d839fef3bbdc4ed7116aa"
+  integrity sha512-TUkb0AFO+9b+pCkLWEeLGsqeVYVioVADDFPi8kL8ksWT5D9+HXaOHf0LIKrXMr/jVSR/8zULVGXYVQJQLZOgkA==
   dependencies:
-    "@ndla/core" "^0.6.5"
-    "@ndla/icons" "^0.6.11"
+    "@ndla/core" "^0.6.6"
+    "@ndla/icons" "^0.6.12"
 
 "@ndla/hooks@^0.1.1":
   version "0.1.1"
@@ -1040,20 +1057,25 @@
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.11", "@ndla/icons@^0.6.9":
+"@ndla/icons@^0.6.11":
   version "0.6.11"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.11.tgz#fe12c1fe800409bcae9317ff31d575f1cd93e3cd"
   integrity sha512-UKKUKgHWqybk3BtrNNzmQMrr+Lb6Hm6V7APn2FeI++J2ieT1KlUBXp+UvTHimY2WkjGJP6+P8yqiYbim5m8oQA==
 
-"@ndla/image-search@^0.8.0":
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.6.tgz#ddfac1b41bd61b0ef6262f9babd21e0cb84f22b1"
-  integrity sha512-e6aqOu2MI2c5t1tsFAkQ4rNnsT3h6rSRYMbbQZDwuR+PLgHGnGXRAvMdx+x5iUuDnn3v+L7NBTBeWIYF+sMpuw==
+"@ndla/icons@^0.6.12":
+  version "0.6.12"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.12.tgz#0fc12f5ca00a594f16aeff87931067af03a45795"
+  integrity sha512-0NSRPxcCfSK79b78/3SAV7S4t07AJvJz0qp2VWoEmalcI6GS2UN9bHrZVE6jjpUIfQySq+OZPGwJcsbWwMjdAg==
+
+"@ndla/image-search@^0.8.6":
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.7.tgz#4db3bd85428918fa36abdb1eb96439f326709a33"
+  integrity sha512-Rqfu3794FRof23bK8DUEO/h9XDXSsYKViRZfu9jgBWJcqkeUZpgN0MIRpGIYTUui/5t8X+Gf4XyULbRBFn0faA==
   dependencies:
-    "@ndla/button" "^0.3.5"
-    "@ndla/core" "^0.6.5"
-    "@ndla/forms" "^0.3.6"
-    "@ndla/licenses" "^0.6.5"
+    "@ndla/button" "^0.3.6"
+    "@ndla/core" "^0.6.6"
+    "@ndla/forms" "^0.3.7"
+    "@ndla/licenses" "^0.6.6"
     "@ndla/util" "^0.3.3"
 
 "@ndla/licenses@^0.6.0", "@ndla/licenses@^0.6.5":
@@ -1062,6 +1084,15 @@
   integrity sha512-6LJ4aCad8uyk15sPyjI9saIIsSLNnx4EVeAVN3T+KO+nu8uLId1kNhnYXYrbCEf7mGbyTD8WhRJqwXnNi91wNA==
   dependencies:
     "@ndla/core" "^0.6.5"
+    defined "1.0.0"
+    react-bem-helper "1.4.1"
+
+"@ndla/licenses@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-0.6.6.tgz#60a1450d45bf00c2db8b75a61cd375d878462127"
+  integrity sha512-o0TRpxY7mfdEiBnAmYQsOWYIWFndtNgSj+6Lg9fLCDja3x8hvTHL1UrZtgYqZef78twf8JieRCfdVrpj9HbSmQ==
+  dependencies:
+    "@ndla/core" "^0.6.6"
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
@@ -1152,7 +1183,7 @@
     react-swipeable "^5.0.1"
     react-transition-group "^2.5.3"
 
-"@ndla/util@^0.3.1", "@ndla/util@^0.3.3":
+"@ndla/util@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.3.tgz#fa8dde706d36c67990f46a3d16f4585e4418c8da"
   integrity sha512-tYfHSJPP6qYRALFGZ5DLfCoJw0RMN8LoNXko/EoHCP6m/nQN0c0A8D7DvyR7V9EXXZDiHX7FqANlALQLyUsS9g==

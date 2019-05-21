@@ -974,6 +974,14 @@
     "@ndla/core" "^0.6.5"
     react-swipeable "^5.0.1"
 
+"@ndla/carousel@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.4.tgz#aaebafe381ef34366a81698bc375309de644fec1"
+  integrity sha512-e44uS/kn597o6TdIS+ivyGdoUFBXWBUf4FhU0qUtp6ObI5BEEExD/FtVKjKps18HaYlw7vatZnyGwzpqJycwAw==
+  dependencies:
+    "@ndla/core" "^0.6.6"
+    react-swipeable "^5.0.1"
+
 "@ndla/core@^0.6.0", "@ndla/core@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.5.tgz#480a350e3c47adb01546708100b00159135db646"
@@ -1067,7 +1075,7 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.12.tgz#0fc12f5ca00a594f16aeff87931067af03a45795"
   integrity sha512-0NSRPxcCfSK79b78/3SAV7S4t07AJvJz0qp2VWoEmalcI6GS2UN9bHrZVE6jjpUIfQySq+OZPGwJcsbWwMjdAg==
 
-"@ndla/image-search@^0.8.6":
+"@ndla/image-search@^0.8.7":
   version "0.8.7"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.7.tgz#4db3bd85428918fa36abdb1eb96439f326709a33"
   integrity sha512-Rqfu3794FRof23bK8DUEO/h9XDXSsYKViRZfu9jgBWJcqkeUZpgN0MIRpGIYTUui/5t8X+Gf4XyULbRBFn0faA==
@@ -1103,6 +1111,16 @@
   dependencies:
     "@ndla/button" "^0.3.5"
     "@ndla/core" "^0.6.5"
+    "@ndla/util" "^0.3.3"
+    focus-trap-react "^6.0.0"
+
+"@ndla/modal@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.7.tgz#f726e5b5674c5569233364fea4129a40242ab339"
+  integrity sha512-0m5AuIDM18e2YCHJbp/NNIoHrKtTDfvMiZvHwXNxzfF/HUdH9MSGKqe991WRQj/vfWVWt/oGgNPKDY0SmL9OaA==
+  dependencies:
+    "@ndla/button" "^0.3.6"
+    "@ndla/core" "^0.6.6"
     "@ndla/util" "^0.3.3"
     focus-trap-react "^6.0.0"
 
@@ -1143,6 +1161,15 @@
     "@ndla/util" "^0.3.3"
     react-tabs "^3.0.0"
 
+"@ndla/tabs@^0.11.6":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.11.6.tgz#31cc97379305a36c74e171af506f37fffc6b3f3d"
+  integrity sha512-8pd9NNR3rG30roW6rJQleYuI/RGTheijZ7Sejx8fcB5AL6leW4YJ103rBxXfD5EH1I1fV7O/Gtw4MrxpRZBQlg==
+  dependencies:
+    "@ndla/core" "^0.6.6"
+    "@ndla/util" "^0.3.3"
+    react-tabs "^3.0.0"
+
 "@ndla/tooltip@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.5.tgz#48e483aff9eac4591ccac4cc1b931d48f644088e"
@@ -1150,12 +1177,19 @@
   dependencies:
     "@ndla/core" "^0.6.5"
 
+"@ndla/tooltip@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.6.tgz#3e704bf133eebfff0965295e38d7f67b2db432d3"
+  integrity sha512-jlyxL6qos0Lh+Fg0kjJqFMveVr4JwKQnbxHKejhsTJvYktrO1w2YUdK4IupLC1hSCnXoAr61hiIbQ1ppV4WvjQ==
+  dependencies:
+    "@ndla/core" "^0.6.6"
+
 "@ndla/tracker@^0.3.1":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.3.2.tgz#ec42921ed7372029f580106566a0ae331ceb854c"
   integrity sha512-zsS34DFsCOGALk5TYTb2JklA9sfcvXZzce+TbTF//t+NkeU1UXPxhgBc9QKbjNt0RkZUAZUJQytRVZzt/bFyUw==
 
-"@ndla/ui@^0.22.14", "@ndla/ui@^0.22.4":
+"@ndla/ui@^0.22.14":
   version "0.22.14"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.14.tgz#24df9f3fe68f8ad63ab2ce8fd22fd48013a24b34"
   integrity sha512-2F6+2ZZYKK0v0NQ/WVMDdYMA7HxG4sABRv6EMJyDf+/kWcFStvG8Oojy/y00CvxILP2zRKtDMd+Vg6dMT55Ecg==
@@ -1170,6 +1204,34 @@
     "@ndla/modal" "^0.3.6"
     "@ndla/tabs" "^0.11.5"
     "@ndla/tooltip" "^0.2.5"
+    "@ndla/util" "^0.3.3"
+    classnames "2.2.6"
+    focus-trap "^4.0.2"
+    focus-trap-react "^6.0.0"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.6.2"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-swipeable "^5.0.1"
+    react-transition-group "^2.5.3"
+
+"@ndla/ui@^0.22.17":
+  version "0.22.17"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.17.tgz#3365fbef7d0a81ecb7ad8b6d61f181756e72d7a0"
+  integrity sha512-tPC0lHCYqKtl8Lk/LtAZNDBa2gEH6jWpmgjWyPNF25HuBpzQdSSEPOA967CMB59bI//vXKhDRGaaZTk0CijC1Q==
+  dependencies:
+    "@ndla/button" "^0.3.6"
+    "@ndla/carousel" "^0.3.4"
+    "@ndla/core" "^0.6.6"
+    "@ndla/hooks" "^0.1.1"
+    "@ndla/i18n" "^0.4.2"
+    "@ndla/icons" "^0.6.12"
+    "@ndla/licenses" "^0.6.6"
+    "@ndla/modal" "^0.3.7"
+    "@ndla/tabs" "^0.11.6"
+    "@ndla/tooltip" "^0.2.6"
     "@ndla/util" "^0.3.3"
     classnames "2.2.6"
     focus-trap "^4.0.2"

@@ -28,6 +28,7 @@ function onDrop(event, editor, next) {
         .unwrapNodeByKey(topLevelSourceKey);
     });
   } else if (topLevelTarget.type === 'section') {
+    // We need to manually calculate the correct posistion to move the node
     const children = event.target.children;
     let prevElementTop = 0;
     let insertAtNode;
@@ -46,12 +47,16 @@ function onDrop(event, editor, next) {
       prevElementTop = children[i].top;
     }
     const insertBeforeNode = findNode(insertAtNode, editor);
+    if (insertBeforeNode.key === sourceNode.key) {
+      return next();
+    }
     editor.withoutNormalizing(() => {
       editor
         .moveNodeByKey(topLevelSourceKey, insertBeforeNode.key, 0)
         .unwrapNodeByKey(topLevelSourceKey);
     });
   } else {
+    // it is dropped over another element, move it to either before or after it
     const { height, top } = event.target.getBoundingClientRect();
     const goUp = top + height / 2 > event.clientY;
 

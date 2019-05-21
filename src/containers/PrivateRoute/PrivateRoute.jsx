@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { toLogin } from '../../util/routeHelpers';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
-const okPaths = ['/login', '/logout', '', '/'];
+const okPaths = ['/login', '/logout'];
 
 const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
   if (
@@ -12,10 +12,9 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
     window.location.pathname &&
     !okPaths.find(okPath => window.location.pathname.includes(okPath))
   ) {
-    let lastPath = window.location.pathname;
-    if (window.location.search) {
-      lastPath += window.location.search;
-    }
+    const lastPath = `${window.location.pathname}${
+      window.location.search ? window.location.search : ''
+    }`;
     localStorage.setItem('lastPath', lastPath);
     loginPersonalAccessToken('google-oauth2');
     return <div />;

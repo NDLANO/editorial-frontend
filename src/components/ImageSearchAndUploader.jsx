@@ -15,7 +15,6 @@ import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import EditImage from '../containers/ImageUploader/EditImage';
-import { convertFieldWithFallback } from '../util/convertFieldWithFallback';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -66,7 +65,6 @@ const ImageSearchAndUploader = props => {
                 </Fragment>
               }
               onError={onError}
-              convertFieldWithFallback={convertFieldWithFallback}
             />
           ),
         },

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
+import { MemoryRouter } from 'react-router-dom';
 import ResourceItems from '../resourceComponents/ResourceItems';
 import {
   supplementaryResourcesMock,
@@ -19,14 +20,16 @@ afterEach(cleanup);
 
 const wrapper = () =>
   render(
-    <IntlWrapper>
-      <ResourceItems
-        resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
-        contentType="subject"
-        activeFilter="filter"
-        refreshResources={() => {}}
-      />
-    </IntlWrapper>,
+    <MemoryRouter>
+      <IntlWrapper>
+        <ResourceItems
+          resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
+          contentType="topic-article"
+          activeFilter="filter"
+          refreshResources={() => {}}
+        />
+      </IntlWrapper>
+    </MemoryRouter>,
   );
 
 test('matches snapshot', () => {

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { string, bool, arrayOf, shape, func, instanceOf } from 'prop-types';
+import { string, bool, arrayOf, shape, func } from 'prop-types';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
@@ -45,7 +45,7 @@ const FolderItem = ({
   toggleFilter,
   setPrimary,
   deleteTopicLink,
-  resourceSection,
+  jumpToResources,
   filters,
   t,
   ...rest
@@ -89,7 +89,7 @@ const FolderItem = ({
           outline
           css={resourceButtonStyle}
           type="button"
-          onClick={() => resourceSection && resourceSection.scrollIntoView()}>
+          onClick={jumpToResources}>
           {t('taxonomy.jumpToResources')}
         </Button>
       )}
@@ -118,7 +118,7 @@ FolderItem.propTypes = {
   }),
   id: string.isRequired,
   refFunc: func,
-  resourceSection: instanceOf(Element),
+  jumpToResources: func,
   showLink: func,
   linkViewOpen: bool,
   activeFilters: arrayOf(string),

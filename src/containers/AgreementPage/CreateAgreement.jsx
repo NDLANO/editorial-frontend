@@ -7,14 +7,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import AgreementForm, { getInitialModel } from './components/AgreementForm';
+import AgreementForm from './components/AgreementForm';
 
 const CreateAgreement = ({ upsertAgreement, ...rest }) => (
-  <AgreementForm
-    initialModel={getInitialModel()}
-    onUpdate={agreement => upsertAgreement(agreement)}
-    {...rest}
-  />
+  <AgreementForm agreement={{}} onUpdate={upsertAgreement} {...rest} />
 );
 
 CreateAgreement.propTypes = {

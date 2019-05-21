@@ -13,7 +13,7 @@ import Types from 'slate-prop-types';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
-import LinkForm, { getInitialModel } from './LinkForm';
+import LinkForm from './LinkForm';
 import config from '../../../../config';
 
 const newTabAttributes = {
@@ -111,8 +111,8 @@ class EditLink extends React.Component {
             {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
           </h2>
           <LinkForm
-            initialModel={getInitialModel(model)}
             onClose={this.onClose}
+            link={model}
             isEdit={isEdit}
             onRemove={this.handleRemove}
             onSave={this.handleSave}

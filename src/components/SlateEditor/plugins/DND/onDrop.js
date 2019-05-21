@@ -3,6 +3,7 @@ import { getTopNode } from './utils';
 
 function onDrop(event, editor, next) {
   event.preventDefault();
+  event.stopPropagation();
   const target = findNode(event.target, editor);
   const topLevelTarget = getTopNode(target, editor);
   const nodeKey = event.dataTransfer.getData('text/nodeKey');

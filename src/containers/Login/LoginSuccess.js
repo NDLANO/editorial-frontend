@@ -22,7 +22,13 @@ export class LoginSuccess extends React.Component {
 
     const authResult = await parseHash(hash);
     if (authResult && authResult.accessToken) {
-      loginSuccess({ accessToken: authResult.accessToken, history });
+      if (authResult.state) {
+        window.location.href = authResult.state;
+      }
+      loginSuccess({
+        accessToken: authResult.accessToken,
+        history,
+      });
     }
   }
 
@@ -36,7 +42,9 @@ LoginSuccess.propTypes = {
     replace: PropTypes.func.isRequired,
   }).isRequired,
   loginSuccess: PropTypes.func.isRequired,
-  location: PropTypes.shape({ hash: PropTypes.string }),
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+  }),
 };
 
 const mapDispatchToProps = {

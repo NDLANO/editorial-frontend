@@ -97,8 +97,8 @@ class MultiSelectDropdown extends Component {
         inputValue={inputValue}
         onStateChange={this.handleStateChange}
         itemToString={item => itemToString(item, textField)}>
-        {({ getInputProps, getMenuProps, getItemProps, getRootProps }) => (
-          <div {...getRootProps({ css: { position: 'relative' } })}>
+        {({ getInputProps, getMenuProps, getItemProps }) => (
+          <div style={{ position: 'relative' }}>
             <DropdownInput
               multiSelect
               {...getInputProps({
@@ -107,6 +107,7 @@ class MultiSelectDropdown extends Component {
               })}
               values={value}
               removeItem={this.removeItem}
+              testid="multiselect"
             />
             <DropdownMenu
               multiSelect

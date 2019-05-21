@@ -137,12 +137,10 @@ class AsyncDropDown extends React.Component {
         onChange={this.handleChange}
         isOpen={isOpen}
         selectedItem={this.state.selectedItem}>
-        {({ getInputProps, getRootProps, ...downshiftProps }) => {
+        {({ getInputProps, ...downshiftProps }) => {
           return (
             <div
-              {...getRootProps({
-                css: positionAbsolute ? { position: 'relative' } : undefined,
-              })}>
+              style={positionAbsolute ? { position: 'relative' } : undefined}>
               <Input
                 {...getInputProps(inputProps)}
                 data-testid={'dropdownInput'}

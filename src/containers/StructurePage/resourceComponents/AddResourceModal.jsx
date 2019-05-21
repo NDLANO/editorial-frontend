@@ -10,10 +10,12 @@ import {
   createTopicResource,
   fetchResource,
   fetchResourceResourceType,
+  updateTopic,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 
 import { getArticle } from '../../../modules/article/articleApi';
+import { learningpathSearch } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 
 const StyledOrDivider = styled.span`
@@ -28,16 +30,12 @@ class AddResourceModal extends Component {
       article: {},
       pastedUrl: '',
     };
-    this.onSelect = this.onSelect.bind(this);
-    this.addSelected = this.addSelected.bind(this);
-    this.onPaste = this.onPaste.bind(this);
-    this.articleToState = this.articleToState.bind(this);
-    this.onInputSearch = this.onInputSearch.bind(this);
   }
 
-  onSelect(selected) {
+  onSelect = selected => {
+    console.log(selected);
     if (selected) {
-      if (!selected.url.includes('learningpaths')) {
+      if (selected.url && !selected.url.includes('learningpaths')) {
         const articleId = selected.url.split('/').pop();
         this.articleToState(articleId);
       }
@@ -45,9 +43,9 @@ class AddResourceModal extends Component {
     } else {
       this.setState({ selected: {}, article: {} });
     }
-  }
+  };
 
-  async onPaste(e) {
+  onPaste = async e => {
     const val = e.target.value;
     const { type, t } = this.props;
     const resourceId = getResourceIdFromPath(val);
@@ -72,12 +70,14 @@ class AddResourceModal extends Component {
     } else {
       this.setState({ error: t('errorMessage.invalidUrl'), pastedUrl: val });
     }
-  }
+  };
 
   onInputSearch = async input => {
     try {
-      const res = await groupSearch(input, this.props.type);
-      const result = res.length > 0 ? res.pop().results : [];
+      const result =
+        this.props.type === 'urn:resourcetype:learningPath'
+          ? await this.searchLearningpath(input)
+          : await this.groupSearch(input);
       return result.map(current => ({
         ...current,
         title: current.title ? current.title.title : '',
@@ -89,7 +89,23 @@ class AddResourceModal extends Component {
     }
   };
 
-  async articleToState(articleId) {
+  searchLearningpath = async input => {
+    const query = {
+      query: input,
+      pageSize: 10,
+      language: 'nb',
+      fallback: true,
+    };
+    const res = await learningpathSearch(query);
+    return res.results ? res.results : [];
+  };
+
+  groupSearch = async input => {
+    const res = await groupSearch(input, this.props.type);
+    return res.length > 0 ? res.pop().results : [];
+  };
+
+  articleToState = async articleId => {
     const {
       id,
       metaDescription = {},
@@ -104,14 +120,20 @@ class AddResourceModal extends Component {
         imageUrl: metaImage.url,
       },
     });
-  }
+  };
 
-  async addSelected() {
+  addSelected = async () => {
     const { topicId, refreshResources, onClose } = this.props;
     const { selected } = this.state;
     if (selected.id) {
       try {
         this.setState({ loading: true });
+        console.log(selected);
+        await updateTopic({
+          id: selected.id,
+          name: selected.title,
+          contentUri: `urn:learningpath:${selected.id}`,
+        });
         await createTopicResource({
           resourceId: getResourceIdFromPath(selected.paths[0]),
           topicid: topicId,
@@ -125,7 +147,7 @@ class AddResourceModal extends Component {
         this.setState({ loading: false, error: e.message });
       }
     }
-  }
+  };
 
   render() {
     const { onClose, t, allowPaste } = this.props;

@@ -24,7 +24,7 @@ import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
-import config from '../../../config';
+import Spinner from '../../../components/Spinner';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -55,15 +55,26 @@ class ResourceItems extends React.PureComponent {
   }
 
   async onDragEnd({ destination, source }) {
-    if (!destination) return;
+    if (!destination) {
+      return;
+    }
     try {
-      const { connectionId, isPrimary } = this.props.resources[source.index];
-      const { rank } = this.props.resources[destination.index];
+      const { resources, refreshResources } = this.props;
+      const { connectionId, isPrimary, rank: currentRank } = resources[
+        source.index
+      ];
+      const { rank } = resources[destination.index];
+      if (currentRank === rank) {
+        return;
+      }
+
+      this.setState({ loading: true });
       await updateTopicResource(connectionId, {
-        rank,
+        rank: currentRank > rank ? rank : rank + 1,
         primary: isPrimary,
       });
-      this.props.refreshResources();
+      await refreshResources();
+      this.setState({ loading: false });
     } catch (e) {
       handleError(e.message);
     }
@@ -153,15 +164,26 @@ class ResourceItems extends React.PureComponent {
       t,
       currentTopic,
       currentSubject,
+      locale,
     } = this.props;
 
-    const { deleteId, error, filterPickerId, activeFilters } = this.state;
+    const {
+      deleteId,
+      error,
+      filterPickerId,
+      activeFilters,
+      loading,
+    } = this.state;
 
+    if (loading) {
+      return <Spinner />;
+    }
     return (
       <ul {...classes('list')}>
         <MakeDndList
           onDragEnd={this.onDragEnd}
-          disableDnd={!config.enableFullTaxonomy || !!filterPickerId}>
+          disableDnd={!!filterPickerId}
+          dragHandle>
           {resources.map(resource => (
             <Resource
               key={resource.id}
@@ -171,12 +193,11 @@ class ResourceItems extends React.PureComponent {
               onFilterChange={this.updateFilter}
               onFilterSubmit={this.onFilterSubmit}
               toggleFilterPicker={this.toggleFilterPicker}
-              name={resource.name}
-              id={resource.id}
               onDelete={this.toggleDelete}
-              connectionId={resource.connectionId}
               currentTopic={currentTopic}
               activeFilters={activeFilters[resource.id]}
+              {...resource}
+              locale={locale}
             />
           ))}
         </MakeDndList>
@@ -220,7 +241,7 @@ ResourceItems.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  locale: PropTypes.string.isRequired,
+  locale: PropTypes.string,
 };
 
 export default injectT(ResourceItems);

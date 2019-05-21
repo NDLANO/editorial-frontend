@@ -54,6 +54,7 @@ export class StructureContainer extends React.PureComponent {
       activeConnections: [],
     };
     this.starButton = React.createRef();
+    this.resourceSection = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -343,7 +344,10 @@ export class StructureContainer extends React.PureComponent {
                     setPrimary={this.setPrimary}
                     toggleFilter={this.toggleFilter}
                     deleteTopicLink={this.deleteTopicLink}
-                    resourceSection={this.resourceSection}
+                    jumpToResources={() =>
+                      this.resourceSection &&
+                      this.resourceSection.current.scrollIntoView()
+                    }
                     locale={locale}
                   />
                 )}
@@ -357,7 +361,7 @@ export class StructureContainer extends React.PureComponent {
             <StructureResources
               locale={locale}
               params={params}
-              refFunc={this.refFunc}
+              resourceRef={this.resourceSection}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               currentSubject={currentSubject}

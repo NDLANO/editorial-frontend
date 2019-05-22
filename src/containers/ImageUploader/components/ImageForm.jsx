@@ -188,6 +188,7 @@ class ImageForm extends Component {
         {({ values, dirty, errors, touched, isSubmitting, submitForm }) => (
           <FormWrapper inModal={inModal}>
             <FormikHeader
+              noStatus
               values={values}
               type="image"
               editUrl={lang => toEditImage(values.id, lang)}

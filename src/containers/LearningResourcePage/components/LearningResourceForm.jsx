@@ -218,6 +218,7 @@ class LearningResourceForm extends Component {
     const { t, history, article, ...rest } = this.props;
     const { error, savedToServer } = this.state;
     const initVal = getInitialValues(article, false);
+
     return (
       <Formik
         initialValues={initVal}
@@ -236,11 +237,13 @@ class LearningResourceForm extends Component {
         }) => (
           <Form {...formClasses()}>
             <FormikHeader
+              statusText={values.status.current}
               values={values}
               type={values.articleType}
               editUrl={lang =>
                 toEditArticle(values.id, values.articleType, lang)
               }
+              getArticle={() => this.getArticle(values)}
             />
             <LearningResourcePanels
               values={values}
@@ -332,6 +335,7 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
+  applicationError: PropTypes.func.isRequired,
 };
 
 export default compose(

@@ -70,6 +70,7 @@ EditAgreement.propTypes = {
   upsertAgreement: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  applicationError: PropTypes.func.isRequired,
 };
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,

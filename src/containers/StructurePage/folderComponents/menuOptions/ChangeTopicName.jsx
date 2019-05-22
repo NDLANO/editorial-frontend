@@ -31,8 +31,8 @@ class ChangeTopicName extends React.PureComponent {
         contentUri,
       });
       refreshTopics();
-    } catch (e) {
-      throw new Error(e);
+    } catch (err) {
+      throw new Error(err);
     }
   }
 
@@ -42,15 +42,18 @@ class ChangeTopicName extends React.PureComponent {
 
   render() {
     const { name, t, onClose, editMode } = this.props;
-    return editMode === 'changeTopicName' ? (
-      <MenuItemEditField
-        currentVal={name}
-        messages={{ errorMessage: t('taxonomy.errorMessage') }}
-        onSubmit={this.onChangeTopicName}
-        onClose={onClose}
-        icon={<Pencil />}
-      />
-    ) : (
+    if (editMode === 'changeTopicName') {
+      return (
+        <MenuItemEditField
+          currentVal={name}
+          messages={{ errorMessage: t('taxonomy.errorMessage') }}
+          onSubmit={this.onChangeTopicName}
+          onClose={onClose}
+          icon={<Pencil />}
+        />
+      );
+    }
+    return (
       <MenuItemButton
         stripped
         data-cy="change-topic-name"
@@ -67,6 +70,9 @@ ChangeTopicName.propTypes = {
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  contentUri: PropTypes.string.isRequired,
+  refreshTopics: PropTypes.func.isRequired,
 };
 
 export default injectT(ChangeTopicName);

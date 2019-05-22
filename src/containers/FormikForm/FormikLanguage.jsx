@@ -8,43 +8,53 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@ndla/button';
-import BEMHelper from 'react-bem-helper';
-import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
-import Overlay from '../../components/Overlay';
+import FocusTrapReact from 'focus-trap-react';
+import { injectT } from '@ndla/i18n';
+import { Plus } from '@ndla/icons/action';
+import StyledFilledButton from '../../components/StyledFilledButton';
+import StyledListButton from '../../components/StyledListButton';
+import {
+  StyledOverlayBackground,
+  StyledOverlay,
+} from '../../components/StyledOverlay';
 
-const classes = new BEMHelper({
-  name: 'dropdown-menu',
-  prefix: 'c-',
-});
+const StyledLink = StyledListButton.withComponent(Link);
 
 const FormikLanguage = ({ emptyLanguages, editUrl, t }) => {
   const [display, setDisplay] = useState(false);
   return (
-    <div {...classes()}>
-      <Button stripped onClick={() => setDisplay(true)}>
-        {t('form.variant.create')}
-      </Button>
-      {display && (
-        <Overlay onExit={() => setDisplay(false)} modifiers={['zIndex']} />
+    <div>
+      {emptyLanguages.length > 0 && (
+        <StyledFilledButton onClick={() => setDisplay(true)}>
+          <Plus /> {t('form.variant.create')}
+        </StyledFilledButton>
       )}
-      <ul {...classes('items', display ? 'show' : '')}>
-        {emptyLanguages.length > 0 ? (
-          emptyLanguages.map(language => (
-            <li key={language.key} {...classes('item')}>
-              <Link
-                to={editUrl(language.key)}
-                {...classes('link')}
-                onClick={() => setDisplay(false)}>
-                {`${language.title}(${language.key})`}
-              </Link>
-            </li>
-          ))
-        ) : (
-          <li {...classes('item')}>{t('language.empty')}</li>
-        )}
-      </ul>
+      {display && (
+        <>
+          <FocusTrapReact
+            active
+            focusTrapOptions={{
+              onDeactivate: () => {
+                setDisplay(false);
+              },
+              clickOutsideDeactivates: true,
+              escapeDeactivates: true,
+            }}>
+            <StyledOverlay withArrow>
+              {emptyLanguages.map(language => (
+                <StyledLink
+                  key={language.key}
+                  to={editUrl(language.key)}
+                  onClick={() => setDisplay(false)}>
+                  {language.title}
+                </StyledLink>
+              ))}
+            </StyledOverlay>
+          </FocusTrapReact>
+          <StyledOverlayBackground />
+        </>
+      )}
     </div>
   );
 };

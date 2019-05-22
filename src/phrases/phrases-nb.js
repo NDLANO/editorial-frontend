@@ -129,6 +129,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -307,7 +308,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
-    title: 'Emnebeskrivelse | {title} ({key})',
+    title: 'Emne',
     fields: {
       caption: {
         label: {
@@ -353,7 +354,7 @@ const phrases = {
     text: 'Tekst',
   },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     editImage: 'Rediger bildet',
@@ -363,10 +364,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde',
   },
   learningResourceForm: {
-    title: 'Fagstoff | {title} ({key})',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+    },
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
@@ -465,7 +471,7 @@ const phrases = {
       draft: 'Utkast',
     },
     previewLanguageArticle: {
-      button: 'Sammenlign forskjellige språkversjoner',
+      button: 'Sammenlign språkversjoner',
       title: 'Utkast på {language}',
     },
     previewNewWindow: 'Forhåndsvis i nytt vindu',
@@ -519,7 +525,7 @@ const phrases = {
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
     },
     variant: {
-      create: '+ Nytt språk',
+      create: 'Legg til språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
@@ -552,12 +558,16 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
-        button: 'Slett språkversjon',
+        button: 'Slett {languageVersion} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Opprettet',
       imported: 'Fra spoling',
       draft: 'Kladd',
@@ -794,6 +804,11 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp lydfil',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
     },
     external: {
       edit: 'Rediger eksternt element',

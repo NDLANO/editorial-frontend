@@ -18,6 +18,7 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
+import { FilterShape } from '../../../../shapes';
 
 class AddExistingSubjectTopic extends React.PureComponent {
   constructor() {
@@ -52,15 +53,18 @@ class AddExistingSubjectTopic extends React.PureComponent {
 
   render() {
     const { onClose, t, editMode } = this.props;
-    return editMode === 'addExistingSubjectTopic' ? (
-      <MenuItemDropdown
-        fetchItems={this.fetchTopicsLocale}
-        placeholder={t('taxonomy.existingTopic')}
-        onClose={onClose}
-        onSubmit={this.onAddExistingTopic}
-        icon={<Plus />}
-      />
-    ) : (
+    if (editMode === 'addExistingSubjectTopic') {
+      return (
+        <MenuItemDropdown
+          fetchItems={this.fetchTopicsLocale}
+          placeholder={t('taxonomy.existingTopic')}
+          onClose={onClose}
+          onSubmit={this.onAddExistingTopic}
+          icon={<Plus />}
+        />
+      );
+    }
+    return (
       <MenuItemButton
         stripped
         data-testid="addExistingSubjectTopicButton"
@@ -79,6 +83,9 @@ AddExistingSubjectTopic.propTypes = {
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
   locale: PropTypes.string,
+  subjectFilters: PropTypes.arrayOf(FilterShape),
+  id: PropTypes.string.isRequired,
+  refreshTopics: PropTypes.func.isRequired,
 };
 
 export default injectT(AddExistingSubjectTopic);

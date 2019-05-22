@@ -68,6 +68,8 @@ DisplayEmbed.propTypes = {
   embed: EmbedShape.isRequired,
   className: PropTypes.string,
   changeVisualElement: PropTypes.func,
+  onRemoveClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 DisplayEmbed.defaultProps = {

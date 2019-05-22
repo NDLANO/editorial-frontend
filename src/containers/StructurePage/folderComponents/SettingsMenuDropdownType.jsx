@@ -61,6 +61,7 @@ SettingsMenuDropdownType.propTypes = {
   name: PropTypes.string,
   type: PropTypes.string,
   settingsMenuType: PropTypes.oneOf(['topic', 'subject']),
+  showAllOptions: PropTypes.bool,
 };
 
 export default SettingsMenuDropdownType;

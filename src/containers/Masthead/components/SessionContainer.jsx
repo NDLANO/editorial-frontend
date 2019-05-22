@@ -15,11 +15,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { colors, spacing, animations, shadows } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';
-import {
-  toLogoutFederated,
-  toLogoutSession,
-  toLogin,
-} from '../../../util/routeHelpers';
+import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
 import { StyledMenuItem } from './StyledMenuItem';
 
@@ -48,9 +44,6 @@ const AuthSiteNavItem = ({ t, onClick }) => (
     <div css={[dropDownContainerCSS, animateDownCss]}>
       <StyledMenuItem to={toLogoutSession()} onClick={onClick}>
         {t('logoutProviders.localLogout')}
-      </StyledMenuItem>
-      <StyledMenuItem to={toLogoutFederated()} onClick={onClick}>
-        {t('logoutProviders.federatedLogout')}
       </StyledMenuItem>
     </div>
   </div>

@@ -1121,7 +1121,7 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.10.tgz#eb1a4e87daeac63e8761485d48bcc61c1831596e"
   integrity sha512-pMGuEMULZdpxyl8ZdL39aDDPd91b9qxxd2K1cpqE70ZuLbRg5cXEUTYJ8jeDvG+QvJ8ol5R/AGPQFY27JVfxOQ==
 
-"@ndla/icons@^0.6.12":
+"@ndla/icons@^0.6.11", "@ndla/icons@^0.6.12":
   version "0.6.12"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.12.tgz#0fc12f5ca00a594f16aeff87931067af03a45795"
   integrity sha512-0NSRPxcCfSK79b78/3SAV7S4t07AJvJz0qp2VWoEmalcI6GS2UN9bHrZVE6jjpUIfQySq+OZPGwJcsbWwMjdAg==

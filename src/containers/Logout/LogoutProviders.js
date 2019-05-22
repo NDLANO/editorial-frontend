@@ -9,19 +9,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
-import { toLogoutFederated, toLogoutSession } from '../../util/routeHelpers';
+import { toLogoutSession } from '../../util/routeHelpers';
 
 const LogoutProvidersContainer = styled('div')`
   margin-top: 3em;
   max-width: 400px;
-
   & p {
     margin: 1.44em 0;
   }
-`;
-const LogoutProvidersOrParagraph = styled('p')`
-  text-align: center;
-  font-weight: 600;
 `;
 
 const LogoutProviders = ({ t }) => (
@@ -29,13 +24,6 @@ const LogoutProviders = ({ t }) => (
     <Link to={toLogoutSession()} className="c-button c-button--outline">
       {t('logoutProviders.localLogout')}
     </Link>
-    <LogoutProvidersOrParagraph>
-      {t('logoutProviders.or')}
-    </LogoutProvidersOrParagraph>
-    <Link to={toLogoutFederated()} className="c-button c-button--outline">
-      {t('logoutProviders.federatedLogout')}
-    </Link>
-    <p>{t('logoutProviders.description')}</p>
   </LogoutProvidersContainer>
 );
 

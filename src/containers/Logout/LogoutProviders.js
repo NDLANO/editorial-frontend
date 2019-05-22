@@ -5,12 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import { useEffect } from 'react';
 import { toLogoutSession } from '../../util/routeHelpers';
 
-const LogoutProviders = () => {
-  document.location.href = toLogoutSession();
-  return <div />;
+const LogoutProviders = ({ history }) => {
+  useEffect(() => {
+    history.push(toLogoutSession());
+  });
+  return null;
 };
 
 export default LogoutProviders;

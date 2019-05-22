@@ -121,7 +121,9 @@ class LearningResourceContent extends Component {
         initialValues,
       },
     } = this.props;
+
     const hasPublishedDateChanged = initialValues.published !== published;
+
     return (
       <Fragment>
         <FormikField
@@ -154,15 +156,6 @@ class LearningResourceContent extends Component {
           </FormikField>
         )}
 
-        {id && userAccess && userAccess.includes('drafts:admin') && (
-          <FieldHeader title={t('form.content.label')}>
-            <EditMarkupLink
-              to={`/edit-markup/${id}/${language}`}
-              title={t('editMarkup.linkTitle')}
-            />
-          </FieldHeader>
-        )}
-
         <FormikField
           name="content"
           label={t('form.content.label')}
@@ -170,7 +163,14 @@ class LearningResourceContent extends Component {
           className={formikFieldClasses('', 'position-static').className}>
           {({ field, form: { isSubmitting } }) => (
             <Fragment>
-              <FieldHeader title={t('form.content.label')} />
+              {id && userAccess && userAccess.includes('drafts:admin') && (
+                <FieldHeader title={t('form.content.label')}>
+                  <EditMarkupLink
+                    to={`/edit-markup/${id}/${language}`}
+                    title={t('editMarkup.linkTitle')}
+                  />
+                </FieldHeader>
+              )}{' '}
               <RichBlockTextEditor
                 schema={schema}
                 renderNode={renderNode}

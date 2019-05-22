@@ -18,6 +18,7 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
+import { FilterShape } from '../../../../shapes';
 
 class AddExistingTopic extends React.PureComponent {
   constructor() {
@@ -79,6 +80,10 @@ AddExistingTopic.propTypes = {
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
   locale: PropTypes.string,
+  id: PropTypes.string,
+  refreshTopics: PropTypes.func.isRequired,
+  topicFilters: PropTypes.arrayOf(FilterShape).isRequired,
+  numberOfSubtopics: PropTypes.number,
 };
 
 export default injectT(AddExistingTopic);

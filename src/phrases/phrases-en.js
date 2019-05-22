@@ -131,6 +131,7 @@ const phrases = {
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
+    change: 'Change to {language} version',
   },
   welcomePage: {
     lastUsed: 'Last used',
@@ -339,10 +340,7 @@ const phrases = {
     text: 'Text',
   },
   audioForm: {
-    title: {
-      create: 'You are now creating a audio file',
-      update: 'You are now editing a audio file',
-    },
+    title: 'audio file',
   },
   imageEditor: {
     remove: {
@@ -351,10 +349,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Image | {title} ({key})',
+    title: 'Image',
   },
   learningResourceForm: {
-    title: 'Learning resource | {title} ({key})',
+    metaImage: {
+      title: 'Image title',
+      copyright: 'Copyright',
+      change: 'Change meta image',
+    },
+    title: 'Learning resource',
     validation: {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
@@ -452,7 +455,7 @@ const phrases = {
       draft: 'Draft',
     },
     previewLanguageArticle: {
-      button: 'Compare different language versions',
+      button: 'Compare language versions',
       title: 'Draft on {language}',
     },
     previewNewWindow: 'Preview in a new window',
@@ -548,8 +551,12 @@ const phrases = {
         title: 'Delete language version',
         modal: 'Are you sure that you want to delete this language version?',
       },
+      statusInfoTooltip: 'Whats the difference between statuses?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'New - unsaved',
+      new_language: 'New language - unsaved',
       created: 'Created',
       imported: 'Imported',
       draft: 'Draft',
@@ -721,8 +728,9 @@ const phrases = {
         center: 'Large centered',
       },
       sizes: {
-        xsmall: 'Size: Small',
-        small: 'Size: Medium',
+        xsmall: 'Size: Tiny',
+        small: 'Size: Small',
+        medium: 'Size: Medium',
         fullwidth: 'Size: Large',
       },
       crop: 'Crop image',

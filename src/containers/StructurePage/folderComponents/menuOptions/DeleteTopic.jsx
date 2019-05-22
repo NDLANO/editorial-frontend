@@ -49,12 +49,12 @@ class DeleteTopic extends PureComponent {
       }
       refreshTopics();
       this.setState({ loading: false });
-    } catch (e) {
+    } catch (err) {
       this.setState({
         loading: false,
-        error: `${t('taxonomy.errorMessage')}: ${e.message}`,
+        error: `${t('taxonomy.errorMessage')}: ${err.message}`,
       });
-      handleError(e);
+      handleError(err);
     }
   }
 
@@ -106,6 +106,9 @@ class DeleteTopic extends PureComponent {
 DeleteTopic.propTypes = {
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
+  parent: PropTypes.string,
+  connectionId: PropTypes.string,
+  refreshTopics: PropTypes.func.isRequired,
 };
 
 export default injectT(DeleteTopic);

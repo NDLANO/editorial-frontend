@@ -147,6 +147,7 @@ MenuItemDropdown.propTypes = {
   onClose: PropTypes.func,
   fetchItems: PropTypes.func,
   placeholder: PropTypes.string,
+  filter: PropTypes.string,
 };
 
 export default injectT(MenuItemDropdown);

@@ -129,6 +129,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -354,7 +355,7 @@ const phrases = {
     text: 'Tekst',
   },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     remove: {
@@ -363,10 +364,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde ',
   },
   learningResourceForm: {
-    title: 'Fagstoff | {title} ({key})',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+    },
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'Ein eller fleire inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
@@ -471,7 +477,7 @@ const phrases = {
       placeholder: 'Kort sammendrag',
     },
     previewLanguageArticle: {
-      button: 'Samanlikn forskjellige språkversjoner',
+      button: 'Samanlikn språkversjonar',
       title: 'Utkast på {language}',
     },
     previewNewWindow: 'Forhåndsvis i nytt vindu',
@@ -520,7 +526,7 @@ const phrases = {
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
     },
     variant: {
-      create: '+ Nytt språk',
+      create: 'Legg til språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
@@ -563,8 +569,12 @@ const phrases = {
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Oppretta',
       imported: 'Fra spoling',
       draft: 'Kladd',
@@ -737,8 +747,9 @@ const phrases = {
         center: 'Justering: Stort i midten',
       },
       sizes: {
-        xsmall: 'Størrelse: Lite',
-        small: 'Størrelse: Middels',
+        xsmall: 'Størrelse: Frimerke',
+        small: 'Størrelse: Lite',
+        medium: 'Størrelse: Middels',
         fullwidth: 'Størrelse: Stort',
       },
       crop: 'Lag utsnitt av bildet',

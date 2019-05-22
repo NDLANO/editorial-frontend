@@ -139,7 +139,7 @@ const types = {
   },
 };
 
-const HeaderPart = ({ type, noStatus, statusText, newLanguage, t }) => (
+const HeaderPart = injectT(({ type, noStatus, statusText, newLanguage, t }) => (
   <StyledHeader>
     <StyledTitleHeaderWrapper>
       {types[type].icon}
@@ -168,7 +168,7 @@ const HeaderPart = ({ type, noStatus, statusText, newLanguage, t }) => (
       )
     )}
   </StyledHeader>
-);
+));
 
 HeaderPart.propTypes = {
   noStatus: PropTypes.bool,
@@ -217,7 +217,6 @@ const FormikHeader = ({
         noStatus={noStatus}
         statusText={statusText}
         newLanguage={newLanguage}
-        t={t}
       />
       <StyledLanguageWrapper>
         {values.id ? (

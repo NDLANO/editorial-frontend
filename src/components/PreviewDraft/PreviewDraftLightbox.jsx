@@ -166,14 +166,14 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguage,
       loading,
     } = this.state;
-    const { label, typeOfPreview, t } = this.props;
+    const { label, typeOfPreview, children, t } = this.props;
 
     if (!showPreview) {
+      if (children) {
+        return children(this.openPreview);
+      }
       return (
-        <FormikActionButton
-          outline
-          onClick={this.openPreview}
-          disabled={loading}>
+        <FormikActionButton onClick={this.openPreview} disabled={loading}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
         </FormikActionButton>
@@ -213,6 +213,7 @@ class PreviewDraftLightbox extends React.Component {
 export default injectT(PreviewDraftLightbox);
 
 PreviewDraftLightbox.propTypes = {
+  children: PropTypes.func,
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   typeOfPreview: PropTypes.oneOf([

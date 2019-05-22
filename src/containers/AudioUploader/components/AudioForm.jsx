@@ -175,6 +175,7 @@ class AudioForm extends Component {
           return (
             <Form {...formClasses()}>
               <FormikHeader
+                noStatus
                 values={values}
                 type="audio"
                 editUrl={lang => toEditAudio(values.id, lang)}

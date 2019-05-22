@@ -89,7 +89,7 @@ const LearningResourcePanels = ({
                   hasError={panel.hasError}
                   isOpen={openIndexes.includes(panel.id)}>
                   <div className={panel.className}>
-                    {panel.component({ hasError, values, ...rest })}
+                    {panel.component({ hasError, userAccess, values, ...rest })}
                   </div>
                 </AccordionPanel>
               )}

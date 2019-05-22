@@ -1014,10 +1014,10 @@
     "@ndla/core" "^0.6.6"
     react-swipeable "^5.0.1"
 
-"@ndla/core@^0.6.0", "@ndla/core@^0.6.5":
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.5.tgz#480a350e3c47adb01546708100b00159135db646"
-  integrity sha512-Y3L8Tb/wJ+w7tvhWpRLOo7k3UttkJLj+/Y0uBYeGlv2U9P06KKBldLhK0P77z8Kri+ZEUTSpCQUmgtmvilyD9g==
+"@ndla/core@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.0.tgz#e7b6b5e8a6f4c66d33205e3d65edd0fa4dec190d"
+  integrity sha512-af/d0wQTY5YMH13j6NOaDmBeHAhXDvhJFzEw2B0rK2LOXJrPu0nceJHMj/1r17Z2zwUxDofC2QvY2jfiSm5SDA==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -1028,6 +1028,16 @@
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.1.tgz#ae0d7701fff56f99e7c3b06f67efd32222ff109e"
   integrity sha512-ffXC1q5eUyyaLV3S/DO2b0fo7NQcb19V9bXxWE4PM3LiB7Hr9w1fE6o90FkHmnHrkJxiabdrejyUW2m7e84ZQg==
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.5.tgz#480a350e3c47adb01546708100b00159135db646"
+  integrity sha512-Y3L8Tb/wJ+w7tvhWpRLOo7k3UttkJLj+/Y0uBYeGlv2U9P06KKBldLhK0P77z8Kri+ZEUTSpCQUmgtmvilyD9g==
   dependencies:
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
@@ -1114,12 +1124,7 @@
     intl-messageformat "^2.2.0"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.11":
-  version "0.6.11"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.11.tgz#fe12c1fe800409bcae9317ff31d575f1cd93e3cd"
-  integrity sha512-UKKUKgHWqybk3BtrNNzmQMrr+Lb6Hm6V7APn2FeI++J2ieT1KlUBXp+UvTHimY2WkjGJP6+P8yqiYbim5m8oQA==
-
-"@ndla/icons@^0.6.12":
+"@ndla/icons@^0.6.11", "@ndla/icons@^0.6.12":
   version "0.6.12"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.12.tgz#0fc12f5ca00a594f16aeff87931067af03a45795"
   integrity sha512-0NSRPxcCfSK79b78/3SAV7S4t07AJvJz0qp2VWoEmalcI6GS2UN9bHrZVE6jjpUIfQySq+OZPGwJcsbWwMjdAg==

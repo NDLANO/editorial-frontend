@@ -45,7 +45,7 @@ test('articleContentConverter convert learningresource content', () => {
     contentHTML,
     fragment,
   );
-  expect(editorValue[0].value.toJSON()).toMatchSnapshot();
+  expect(editorValue[0].toJSON()).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {

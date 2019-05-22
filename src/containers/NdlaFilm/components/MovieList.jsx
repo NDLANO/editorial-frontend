@@ -50,9 +50,9 @@ class MovieList extends Component {
 
   executeDeleteFile = () => {
     const { movies, onUpdateMovies } = this.props;
-    movies.splice(this.state.deleteIndex, 1);
     this.deleteFile(-1);
-    onUpdateMovies(movies);
+    const newMovies = movies.filter((movie, i) => i !== this.state.deleteIndex);
+    onUpdateMovies(newMovies);
   };
 
   updateTransforms = dragIndex => {
@@ -108,11 +108,19 @@ class MovieList extends Component {
     window.removeEventListener('mouseup', this.onDragEnd);
     const { movies, onUpdateMovies } = this.props;
     // Rearrange movies
+    const movedMovie = movies[this.initialPosition];
     const toIndex = this.state.draggingIndex;
-    const moveFile = movies[this.initialPosition];
-    movies.splice(this.initialPosition, 1);
-    movies.splice(toIndex, 0, moveFile);
-    onUpdateMovies(movies);
+
+    const newMovieOrder = movies.map((movie, i) => {
+      if (i === toIndex) {
+        return movedMovie;
+      } else if (i > toIndex) {
+        return movies[i - 1];
+      } else {
+        return movie;
+      }
+    });
+    onUpdateMovies(newMovieOrder);
 
     this.deleteFile(-1);
 

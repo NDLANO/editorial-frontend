@@ -16,12 +16,12 @@ import { ContentResultShape } from '../../../shapes';
 
 const SlideshowEditor = ({
   t,
-  slideshowmovies,
+  slideshowMovies,
   allMovies,
   saveSlideshow,
   onAddMovieToSlideshow,
 }) => {
-  if (!slideshowmovies) {
+  if (!slideshowMovies) {
     return <Spinner />;
   }
 
@@ -32,29 +32,27 @@ const SlideshowEditor = ({
         subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
       />
       <MovieList
-        movies={slideshowmovies}
+        movies={slideshowMovies}
         data-cy="slideshow-movie-list"
         messages={{
           dragFilm: t('ndlaFilm.editor.changeOrder'),
           removeFilm: t('ndlaFilm.editor.removeMovieFromSlideshow'),
         }}
-        onUpdateMovies={updates => {
-          saveSlideshow(updates);
-        }}
+        onUpdateMovies={saveSlideshow}
       />
       <Select
         data-cy="add-slideshow-movie"
         value=""
         onChange={e => onAddMovieToSlideshow(e.target.value)}>
         <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
-        <AddMovieOptions addedMovies={slideshowmovies} allMovies={allMovies} />
+        <AddMovieOptions addedMovies={slideshowMovies} allMovies={allMovies} />
       </Select>
     </>
   );
 };
 
 SlideshowEditor.propTypes = {
-  slideshowmovies: PropTypes.arrayOf(ContentResultShape),
+  slideshowMovies: PropTypes.arrayOf(ContentResultShape),
   allMovies: PropTypes.arrayOf(ContentResultShape),
   saveSlideshow: PropTypes.func.isRequired,
   onAddMovieToSlideshow: PropTypes.func.isRequired,

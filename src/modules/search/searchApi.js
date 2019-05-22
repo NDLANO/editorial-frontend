@@ -24,7 +24,7 @@ export const search = async query => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchNormal = async query => {
+export const searchResources = async query => {
   const response = await fetchAuthorized(
     `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
   );

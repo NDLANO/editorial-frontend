@@ -129,6 +129,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -308,7 +309,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
-    title: 'Emnebeskrivelse | {title} ({key})',
+    title: 'Emne',
     fields: {
       caption: {
         label: {
@@ -344,8 +345,17 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Tittel',
+    year: 'År',
+    authors: 'Forfatter',
+  },
+  linkForm: {
+    href: 'Lenke',
+    text: 'Tekst',
+  },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     editImage: 'Rediger bildet',
@@ -355,10 +365,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde',
   },
   learningResourceForm: {
-    title: 'Fagstoff | {title} ({key})',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+    },
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
@@ -440,10 +455,16 @@ const phrases = {
       content: 'Innhold',
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
+      metaImageAlt: 'Alt-tekst',
+      alttext: 'Alt-tekst',
+      caption: 'Bildetekst',
+      imageFile: 'Bildefil',
       visualElement: {
         caption: 'Figur tekst',
-        alt: 'Alt tekst',
+        alt: 'Alt-tekst',
       },
+      validFrom: 'Gyldig fra',
+      validTo: 'Gyldig til',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -451,7 +472,7 @@ const phrases = {
       draft: 'Utkast',
     },
     previewLanguageArticle: {
-      button: 'Sammenlign forskjellige språkversjoner',
+      button: 'Sammenlign språkversjoner',
       title: 'Utkast på {language}',
     },
     previewNewWindow: 'Forhåndsvis i nytt vindu',
@@ -505,7 +526,7 @@ const phrases = {
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
     },
     variant: {
-      create: '+ Nytt språk',
+      create: 'Legg til språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
@@ -525,7 +546,7 @@ const phrases = {
       add: 'Velg metabilde',
     },
     visualElement: {
-      title: 'Legg til visuelt element',
+      title: 'Visuelt element',
       label: 'Visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
@@ -538,12 +559,16 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
-        button: 'Slett språkversjon',
+        button: 'Slett {languageVersion} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Opprettet',
       imported: 'Fra spoling',
       draft: 'Kladd',
@@ -738,8 +763,9 @@ const phrases = {
         center: 'Justering: Stort i midten',
       },
       sizes: {
-        xsmall: 'Størrelse: Lite',
-        small: 'Størrelse: Middels',
+        xsmall: 'Størrelse: Frimerke',
+        small: 'Størrelse: Lite',
+        medium: 'Størrelse: Middels',
         fullwidth: 'Størrelse: Stort',
       },
       crop: 'Lag utsnitt av bildet',
@@ -764,7 +790,6 @@ const phrases = {
         label: 'Videotekst',
         placeholder: 'Videotekst',
       },
-      editExternal: 'Rediger eksternt element',
       remove: 'Fjern video',
     },
     audio: {
@@ -780,6 +805,15 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp lydfil',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
+    },
+    external: {
+      edit: 'Rediger eksternt element',
+      remove: 'Fjern eksternt element',
     },
     related: {
       title: 'Relaterte artikler',

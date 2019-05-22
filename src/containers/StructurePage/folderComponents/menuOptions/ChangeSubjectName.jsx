@@ -35,15 +35,18 @@ class ChangeSubjectName extends Component {
 
   render() {
     const { editMode, t, name, onClose } = this.props;
-    return editMode === 'changeSubjectName' ? (
-      <MenuItemEditField
-        currentVal={name}
-        messages={{ errorMessage: t('taxonomy.errorMessage') }}
-        onSubmit={this.onChangeSubjectName}
-        onClose={onClose}
-        icon={<Pencil />}
-      />
-    ) : (
+    if (editMode === 'changeSubjectName') {
+      return (
+        <MenuItemEditField
+          currentVal={name}
+          messages={{ errorMessage: t('taxonomy.errorMessage') }}
+          onSubmit={this.onChangeSubjectName}
+          onClose={onClose}
+          icon={<Pencil />}
+        />
+      );
+    }
+    return (
       <MenuItemButton
         stripped
         data-testid="changeSubjectNameButton"
@@ -60,6 +63,8 @@ ChangeSubjectName.propTypes = {
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  getAllSubjects: PropTypes.func.isRequired,
 };
 
 export default injectT(ChangeSubjectName);

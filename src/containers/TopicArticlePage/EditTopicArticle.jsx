@@ -39,7 +39,6 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
       />
       <TopicArticleForm
         selectedLanguage={language}
-        revision={article.revision}
         articleStatus={article.status}
         onUpdate={updateArticle}
         updateArticleStatus={updateArticleStatus}

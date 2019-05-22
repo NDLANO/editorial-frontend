@@ -87,19 +87,19 @@ exports[`matches snapshot 1`] = `
     class="c-dnd-list__drop-zone"
   >
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        data-testid="resource-type-topic-article"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -185,19 +185,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        data-testid="resource-type-topic-article"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -245,11 +245,15 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <h1
-            class="c-topic-resource__title"
+          <a
+            href="/subject-matter/topic-article/89/edit/undefined"
           >
-            Hvorfor bruker vi mediene?
-          </h1>
+            <h1
+              class="c-topic-resource__title"
+            >
+              Hvorfor bruker vi mediene?
+            </h1>
+          </a>
         </div>
         <button
           class="emotion-0 emotion-1"
@@ -283,19 +287,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        data-testid="resource-type-topic-article"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -343,11 +347,15 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <h1
-            class="c-topic-resource__title"
+          <a
+            href="/subject-matter/topic-article/78/edit/undefined"
           >
-            Medieundersøkelser og mediebruk
-          </h1>
+            <h1
+              class="c-topic-resource__title"
+            >
+              Medieundersøkelser og mediebruk
+            </h1>
+          </a>
         </div>
         <button
           class="emotion-0 emotion-1"
@@ -381,19 +389,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        data-testid="resource-type-topic-article"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -441,11 +449,15 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <h1
-            class="c-topic-resource__title"
+          <a
+            href="/subject-matter/topic-article/813/edit/undefined"
           >
-            Mediebruk og statistikk
-          </h1>
+            <h1
+              class="c-topic-resource__title"
+            >
+              Mediebruk og statistikk
+            </h1>
+          </a>
         </div>
         <button
           class="emotion-0 emotion-1"
@@ -479,19 +491,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        data-testid="resource-type-topic-article"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -539,11 +551,15 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <h1
-            class="c-topic-resource__title"
+          <a
+            href="/subject-matter/topic-article/508/edit/undefined"
           >
-            Identitet og mediebruk
-          </h1>
+            <h1
+              class="c-topic-resource__title"
+            >
+              Identitet og mediebruk
+            </h1>
+          </a>
         </div>
         <button
           class="emotion-0 emotion-1"
@@ -577,19 +593,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      aria-roledescription="Draggable item. Press space bar to lift"
       class="c-dnd-list__drag-item"
-      data-react-beautiful-dnd-drag-handle="0"
       data-react-beautiful-dnd-draggable="0"
-      draggable="false"
-      tabindex="0"
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-subject"
+        data-testid="resource-type-topic-article"
       >
         <div
+          aria-roledescription="Draggable item. Press space bar to lift"
           class="c-topic-resource__icon o-flag__img"
+          data-react-beautiful-dnd-drag-handle="0"
+          draggable="false"
+          tabindex="0"
         >
           <div
             class="c-content-type-badge c-content-type-badge--subject c-content-type-badge--small c-content-type-badge--background"
@@ -637,11 +653,15 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <h1
-            class="c-topic-resource__title"
+          <a
+            href="/subject-matter/topic-article/401/edit/undefined"
           >
-            Mediepåvirkning
-          </h1>
+            <h1
+              class="c-topic-resource__title"
+            >
+              Mediepåvirkning
+            </h1>
+          </a>
         </div>
         <button
           class="emotion-0 emotion-1"

@@ -33,6 +33,7 @@ export function useFetchArticleData(articleId, locale) {
       ...article,
       notes: statusChangedDraft.notes,
       status: statusChangedDraft.status,
+      revision: statusChangedDraft.revision,
     });
   };
 

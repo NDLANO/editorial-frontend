@@ -9,14 +9,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import { css } from '@emotion/core';
 import { connect } from 'formik';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
+import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/lastUpdatedLine';
 import {
   renderNode,
@@ -33,7 +31,11 @@ import createLinkPlugin, {
 } from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
-import { FormikIngress, FormikDatePicker } from '../../FormikForm';
+import {
+  FormikIngress,
+  FormikDatePicker,
+  FormikCheckbox,
+} from '../../FormikForm';
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
@@ -76,23 +78,9 @@ const TopicArticleContent = props => {
       <LastUpdatedLine creators={creators} published={published} />
       <FormikIngress />
       {!hasPublishedDateChanged && (
-        <FormikField name="updatePublished">
-          {({ field }) => (
-            <Fragment>
-              <input
-                css={css`
-                  display: inline-block;
-                  width: auto;
-                  appearance: checkbox !important;
-                  margin-right: ${spacing.small};
-                `}
-                type="checkbox"
-                {...field}
-              />
-              <span>{t('form.updatePublished')}</span>
-            </Fragment>
-          )}
-        </FormikField>
+        <FormikCheckbox name="updatePublished" display="inline-block">
+          <span>{t('form.updatePublished')}</span>
+        </FormikCheckbox>
       )}
       {updatePublished && (
         <FormikField name="published">
@@ -117,13 +105,13 @@ const TopicArticleContent = props => {
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
               id={field.name}
-              {...field}
               submitted={isSubmitting}
               renderNode={renderNode}
               renderMark={renderMark}
               plugins={plugins}
               supportedToolbarElements={supportedToolbarElements}
-              schema={slateSchema}
+              schema={schema}
+              {...field}
             />
           </Fragment>
         )}

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
-import { StyledMenuItem } from './StyledMenuItem';
+import StyledListButton from '../../../components/StyledListButton';
 import config from '../../../config';
 import {
   toCreateLearningResource,
@@ -13,42 +14,43 @@ import {
 } from '../../../util/routeHelpers';
 
 const OpenMenu = ({ t, close }) => {
-  const StyledNormalLink = StyledMenuItem.withComponent('a');
+  const StyledLink = StyledListButton.withComponent(Link);
+  const StyledHrefLink = StyledListButton.withComponent('a');
   return (
     <StyledMenuContainer>
       <div>
         <nav>
           <div>
-            <StyledMenuItem to={toCreateLearningResource()} onClick={close}>
+            <StyledLink to={toCreateLearningResource()} onClick={close}>
               <span>{t('subNavigation.subjectMatter')}</span>
-            </StyledMenuItem>
-            <StyledMenuItem to={toCreateTopicArticle()} onClick={close}>
+            </StyledLink>
+            <StyledLink to={toCreateTopicArticle()} onClick={close}>
               <span>{t('subNavigation.topicArticle')}</span>
-            </StyledMenuItem>
-            <StyledMenuItem to={toCreateImage()} onClick={close}>
+            </StyledLink>
+            <StyledLink to={toCreateImage()} onClick={close}>
               <span>{t('subNavigation.image')}</span>
-            </StyledMenuItem>
-            <StyledMenuItem to={toCreateAudioFile()} onClick={close}>
+            </StyledLink>
+            <StyledLink to={toCreateAudioFile()} onClick={close}>
               <span>{t('subNavigation.audio')}</span>
-            </StyledMenuItem>
-            <StyledMenuItem to="/agreement/new" onClick={close}>
+            </StyledLink>
+            <StyledLink to="/agreement/new" onClick={close}>
               <span>{t('subNavigation.agreement')}</span>
-            </StyledMenuItem>
+            </StyledLink>
           </div>
           <div>
-            <StyledNormalLink
+            <StyledHrefLink
               href={config.learningpathFrontendDomain}
               target="_blank"
               rel="noopener noreferrer"
               onClick={close}>
               <span>{t('subNavigation.learningPathLink')}</span>
-            </StyledNormalLink>
-            <StyledMenuItem to={'/notions'} onClick={close}>
+            </StyledHrefLink>
+            <StyledLink to={'/notions'} onClick={close}>
               <span>{t('subNavigation.concept')}</span>
-            </StyledMenuItem>
-            <StyledMenuItem to="/structure" onClick={close}>
+            </StyledLink>
+            <StyledLink to="/structure" onClick={close}>
               <span>{t('subNavigation.structure')}</span>
-            </StyledMenuItem>
+            </StyledLink>
             <StyledMenuItem to="/film" onClick={close}>
               <span>{t('subNavigation.film')}</span>
             </StyledMenuItem>

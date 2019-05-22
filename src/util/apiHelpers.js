@@ -20,6 +20,14 @@ import {
   createErrorPayload,
 } from './resolveJsonOrRejectWithError';
 
+export const formatErrorMessage = error => ({
+  message: error.json.messages
+    .map(message => `${message.field}: ${message.message}`)
+    .join(', '),
+  severity: 'danger',
+  timeToLive: 0,
+});
+
 export function apiResourceUrl(path) {
   return apiBaseUrl + path;
 }

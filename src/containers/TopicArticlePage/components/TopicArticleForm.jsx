@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
@@ -22,7 +22,7 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
+import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -36,7 +36,7 @@ import {
   FormikActionButton,
   FormikHeader,
 } from '../../FormikForm';
-import { formatErrorMessage } from '../../Form/FormWorkflow';
+import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
@@ -175,12 +175,13 @@ class TopicArticleForm extends Component {
 
   async handleSubmit(values, actions) {
     const {
-      revision,
       createMessage,
       articleStatus,
       onUpdate,
+      article,
       applicationError,
     } = this.props;
+    const { revision } = article;
     const status = articleStatus ? articleStatus.current : undefined;
 
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
@@ -214,7 +215,6 @@ class TopicArticleForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-
     const { error, showResetModal, savedToServer } = this.state;
     const initVal = getInitialValues(article);
     return (
@@ -232,82 +232,81 @@ class TopicArticleForm extends Component {
           setValues,
           errors,
           touched,
-        }) => (
-          <Form {...formClasses()}>
-            <FormikHeader
-              values={values}
-              type={values.articleType}
-              editUrl={lang =>
-                toEditArticle(values.id, values.articleType, lang)
-              }
-            />
-
-            <TopicArticleAccordionPanels
-              values={values}
-              errors={errors}
-              article={article}
-              touched={touched}
-              getArticle={() => this.getArticle(values)}
-              {...rest}
-            />
-
-            <Field right>
-              {error && <span className="c-errorMessage">{error}</span>}
-              {values.id && (
-                <FormikActionButton
-                  onClick={() => this.setState({ showResetModal: true })}>
-                  {t('form.resetToProd.button')}
-                </FormikActionButton>
-              )}
-              <AlertModal
-                show={showResetModal}
-                text={t('form.resetToProd.modal')}
-                actions={[
-                  {
-                    text: t('form.abort'),
-                    onClick: () => this.setState({ showResetModal: false }),
-                  },
-                  {
-                    text: 'Reset',
-                    onClick: () => this.onResetFormToProd({ setValues }),
-                  },
-                ]}
-                onCancel={() => this.setState({ showResetModal: false })}
+        }) => {
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
+          return (
+            <Form {...formClasses()}>
+              <FormikHeader
+                values={values}
+                type={values.articleType}
+                getArticle={() => this.getArticle(values)}
+                editUrl={lang =>
+                  toEditArticle(values.id, values.articleType, lang)
+                }
               />
-              <FormikActionButton
-                outline
-                onClick={history.goBack}
-                disabled={isSubmitting}>
-                {t('form.abort')}
-              </FormikActionButton>
-              <SaveButton
-                {...formClasses}
-                isSaving={isSubmitting}
-                showSaved={
-                  savedToServer &&
-                  !isFormikFormDirty({
-                    values,
-                    initialValues,
-                    dirty,
-                  })
-                }>
-                {t('form.save')}
-              </SaveButton>
-            </Field>
-            <FormikAlertModalWrapper
-              isSubmitting={isSubmitting}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </Form>
-        )}
+              <TopicArticleAccordionPanels
+                values={values}
+                errors={errors}
+                article={article}
+                touched={touched}
+                getArticle={() => this.getArticle(values)}
+                formIsDirty={formIsDirty}
+                {...rest}
+              />
+              <Field right>
+                {error && <span className="c-errorMessage">{error}</span>}
+                {values.id && (
+                  <FormikActionButton
+                    onClick={() => this.setState({ showResetModal: true })}>
+                    {t('form.resetToProd.button')}
+                  </FormikActionButton>
+                )}
+                <AlertModal
+                  show={showResetModal}
+                  text={t('form.resetToProd.modal')}
+                  actions={[
+                    {
+                      text: t('form.abort'),
+                      onClick: () => this.setState({ showResetModal: false }),
+                    },
+                    {
+                      text: 'Reset',
+                      onClick: () => this.onResetFormToProd({ setValues }),
+                    },
+                  ]}
+                  onCancel={() => this.setState({ showResetModal: false })}
+                />
+                <FormikActionButton
+                  outline
+                  onClick={history.goBack}
+                  disabled={isSubmitting}>
+                  {t('form.abort')}
+                </FormikActionButton>
+                <SaveButton
+                  {...formClasses}
+                  isSaving={isSubmitting}
+                  showSaved={savedToServer && !formIsDirty}>
+                  {t('form.save')}
+                </SaveButton>
+              </Field>
+              <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+              />
+            </Form>
+          );
+        }}
       </Formik>
     );
   }
 }
 
 TopicArticleForm.propTypes = {
-  validationErrors: SchemaShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,
@@ -324,6 +323,7 @@ TopicArticleForm.propTypes = {
   }).isRequired,
   article: ArticleShape,
   selectedLanguage: PropTypes.string.isRequired,
+  articleId: PropTypes.string,
 };
 
 export default compose(

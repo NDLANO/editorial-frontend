@@ -19,22 +19,29 @@ describe('Table plugin', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus();
+    cy.wait(500);
     cy.get('[data-cy=slate-block-picker]')
       .last()
       .click({ force: true });
+    cy.wait(500);
+
     cy.get('[data-cy=create-table]')
       .last()
       .click({ force: true });
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
+      .wait(500)
       .then($el => {
         cy.wrap($el).type('{downarrow}TEST{rightarrow}TEST2{downarrow}TEST3', {
           force: true,
         });
         cy.get('[data-cy=column-add]').click({ force: true });
+        cy.wait(500);
         cy.wrap($el).type('Test new column');
+        cy.wait(500);
         cy.get('[data-cy=row-add]').click({ force: true });
+        cy.wait(500);
         cy.wrap($el).type('Test new row');
       });
 

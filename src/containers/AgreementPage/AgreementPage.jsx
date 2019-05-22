@@ -113,6 +113,8 @@ AgreementPage.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
+  addMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

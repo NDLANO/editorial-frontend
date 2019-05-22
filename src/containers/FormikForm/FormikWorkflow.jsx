@@ -13,7 +13,6 @@ import * as draftApi from '../../modules/draft/draftApi';
 import FormikStatusActions from './components/FormikStatusActions';
 import FormikStatusColumns from './components/FormikStatusColumns';
 import FormikQualityAssurance from './components/FormikQualityAssurance';
-import FormikDeleteLanguageVersion from './components/FormikDeleteLanguageVersion';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
@@ -48,33 +47,39 @@ class FormikWorkflow extends Component {
       updateArticleStatus,
       getArticle,
       createMessage,
-      revision,
+      formIsDirty,
     } = this.props;
-
-    try {
-      if (
-        status === articleStatuses.PUBLISHED ||
-        status === articleStatuses.QUEUED_FOR_PUBLISHING
-      ) {
-        await draftApi.validateDraft(values.id, {
-          ...getArticle(),
-          revision,
-        });
-      }
-      await updateArticleStatus(values.id, status);
-    } catch (error) {
-      if (error && error.json && error.json.messages) {
-        createMessage(formatErrorMessage(error));
+    const { revision } = values;
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      try {
+        if (
+          status === articleStatuses.PUBLISHED ||
+          status === articleStatuses.QUEUED_FOR_PUBLISHING
+        ) {
+          await draftApi.validateDraft(values.id, {
+            ...getArticle(),
+            revision,
+          });
+        }
+        await updateArticleStatus(values.id, status);
+      } catch (error) {
+        if (error && error.json && error.json.messages) {
+          createMessage(formatErrorMessage(error));
+        }
       }
     }
   }
 
   async onValidateClick() {
     const {
-      values: { id },
+      values: { id, revision },
       createMessage,
       getArticle,
-      revision,
     } = this.props;
 
     try {
@@ -117,7 +122,6 @@ class FormikWorkflow extends Component {
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
         />
-        <FormikDeleteLanguageVersion values={values} />
         <FormikQualityAssurance
           getArticle={getArticle}
           values={values}
@@ -140,6 +144,7 @@ FormikWorkflow.propTypes = {
   createMessage: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
   article: ArticleShape,
+  formIsDirty: PropTypes.bool,
 };
 
 FormikWorkflow.defaultProps = {

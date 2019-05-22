@@ -4,12 +4,15 @@ import FormikCopyright from './FormikCopyright';
 import FormikIngress from './FormikIngress';
 import FormikWorkflow from './FormikWorkflow';
 import FormikAddNotes from './FormikAddNotes';
-import FormikLicense from './components/FormikLicense.jsx';
 import FormikHeader from './FormikHeader';
+import FormikLanguage from './FormikLanguage';
+import FormikLicense from './components/FormikLicense';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
 import FormikActionButton from './components/FormikActionButton';
 import FormikMetaImageSearch from './FormikMetaImageSearch';
 import FormikDatePicker from './components/FormikDatePicker';
+import FormikCheckbox from './components/FormikCheckbox';
+import FormikContributors from './components/FormikContributors';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -28,5 +31,8 @@ export {
   FormikHeader,
   FormikActionButton,
   FormikMetaImageSearch,
+  FormikCheckbox,
+  FormikContributors,
   formClasses,
+  FormikLanguage,
 };

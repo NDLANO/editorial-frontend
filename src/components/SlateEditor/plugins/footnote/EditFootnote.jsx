@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
-import FootnoteForm, { getInitialModel } from './FootnoteForm';
+import FootnoteForm from './FootnoteForm';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { FootnoteShape } from '../../../../shapes';
@@ -59,7 +59,7 @@ class EditFootnote extends Component {
             {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
           </h2>
           <FootnoteForm
-            initialModel={getInitialModel(model)}
+            footnote={model}
             onClose={this.onClose}
             isEdit={isEdit}
             onRemove={this.handleRemove}

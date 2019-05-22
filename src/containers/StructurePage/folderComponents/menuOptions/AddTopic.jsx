@@ -18,6 +18,7 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
+import { FilterShape } from '../../../../shapes';
 
 class AddTopic extends React.PureComponent {
   constructor() {
@@ -29,7 +30,10 @@ class AddTopic extends React.PureComponent {
   async onAddSubTopic(name) {
     const { id, numberOfSubtopics, refreshTopics, topicFilters } = this.props;
     const newPath = await addTopic({ name });
-    if (!newPath) throw Error('Invalid topic path returned');
+    if (!newPath) {
+      throw Error('Invalid topic path returned');
+    }
+
     const newId = newPath.replace('/v1/topics/', '');
     await Promise.all([
       addTopicToTopic({
@@ -53,16 +57,19 @@ class AddTopic extends React.PureComponent {
 
   render() {
     const { onClose, t, editMode } = this.props;
-    return editMode === 'addTopic' ? (
-      <MenuItemEditField
-        placeholder={t('taxonomy.newTopic')}
-        currentVal=""
-        messages={{ errorMessage: t('taxonomy.errorMessage') }}
-        onClose={onClose}
-        onSubmit={this.onAddSubTopic}
-        icon={<Plus />}
-      />
-    ) : (
+    if (editMode === 'addTopic') {
+      return (
+        <MenuItemEditField
+          placeholder={t('taxonomy.newTopic')}
+          currentVal=""
+          messages={{ errorMessage: t('taxonomy.errorMessage') }}
+          onClose={onClose}
+          onSubmit={this.onAddSubTopic}
+          icon={<Plus />}
+        />
+      );
+    }
+    return (
       <MenuItemButton stripped onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Plus />} />
         {t('taxonomy.addTopic')}
@@ -75,6 +82,10 @@ AddTopic.propTypes = {
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
+  id: PropTypes.string,
+  refreshTopics: PropTypes.func.isRequired,
+  topicFilters: PropTypes.arrayOf(FilterShape).isRequired,
+  numberOfSubtopics: PropTypes.number,
 };
 
 export default injectT(AddTopic);

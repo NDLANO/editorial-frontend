@@ -20,41 +20,44 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage = ({ t }) => (
-  <Fragment>
-    <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-    <OneColumn>
-      <div {...classes('header')}>
-        <a href="#guidelines" {...classes('header-link')}>
-          {t('welcomePage.guidelines')}
-          <RightArrow className="c-icon--large" />
-        </a>
-        <img
-          {...classes('header-image')}
-          src="/welcome-image.jpg"
-          alt="illustration"
-        />
-      </div>
-      <div {...classes('two-column')}>
-        <div>
-          <div {...classes('column-header')}>
-            <LastUsed className="c-icon--medium" />
-            <span>{t('welcomePage.lastUsed')}</span>
-          </div>
-          <span>{t('welcomePage.emptyLastUsed')}</span>
+export const WelcomePage = ({ t }) => {
+  localStorage.setItem('lastPath', '');
+  return (
+    <Fragment>
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+      <OneColumn>
+        <div {...classes('header')}>
+          <a href="#guidelines" {...classes('header-link')}>
+            {t('welcomePage.guidelines')}
+            <RightArrow className="c-icon--large" />
+          </a>
+          <img
+            {...classes('header-image')}
+            src="/welcome-image.jpg"
+            alt="illustration"
+          />
         </div>
-        <div>
-          <div {...classes('column-header')}>
-            <SearchFolder className="c-icon--medium" />
-            <span>{t('welcomePage.savedSearch')}</span>
+        <div {...classes('two-column')}>
+          <div>
+            <div {...classes('column-header')}>
+              <LastUsed className="c-icon--medium" />
+              <span>{t('welcomePage.lastUsed')}</span>
+            </div>
+            <span>{t('welcomePage.emptyLastUsed')}</span>
           </div>
-          <span>{t('welcomePage.emptySavedSearch')}</span>
+          <div>
+            <div {...classes('column-header')}>
+              <SearchFolder className="c-icon--medium" />
+              <span>{t('welcomePage.savedSearch')}</span>
+            </div>
+            <span>{t('welcomePage.emptySavedSearch')}</span>
+          </div>
         </div>
-      </div>
-    </OneColumn>
-    <Footer />
-  </Fragment>
-);
+      </OneColumn>
+      <Footer />
+    </Fragment>
+  );
+};
 
 WelcomePage.propTypes = {};
 

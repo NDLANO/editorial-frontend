@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
-import { Pencil } from '@ndla/icons/action';
+import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link } from 'react-router-dom';
 import { EmbedShape } from '../../../../shapes';
@@ -33,6 +33,8 @@ const leftAdjustedStyle = css`
 const StyledFigureButtons = styled('div')`
   position: absolute;
   top: 0;
+  z-index: 1;
+
   ${p => p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
   ${p => p.align === 'left' && leftAdjustedStyle}
   ${p => p.align === 'right' && rightAdjustedStyle}
@@ -85,16 +87,15 @@ const FigureButtons = ({
             to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
             target="_blank"
             title={url[figureType].editTitle}
-            color="green"
             tabIndex={-1}>
-            <Pencil />
+            <LinkIcon />
           </IconButton>
         </Tooltip>
       )}
       {figureType === 'external' && onEdit && (
-        <Tooltip tooltip={t('form.video.editExternal')} align="right">
-          <IconButton color="green" tabIndex={-1} onClick={onEdit}>
-            <Pencil />
+        <Tooltip tooltip={t('form.external.edit')} align="right">
+          <IconButton tabIndex={-1} onClick={onEdit}>
+            <LinkIcon />
           </IconButton>
         </Tooltip>
       )}

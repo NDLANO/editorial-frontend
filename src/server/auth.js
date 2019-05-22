@@ -72,17 +72,30 @@ export const getUsers = (managementToken, userIds) => {
   ).then(res => res.json());
 };
 
-export const getEditors = managementToken => {
+async function fetchEditors(token, query, page) {
   return fetch(
     `https://${
       getUniversalConfig().auth0Domain
-    }/api/v2/users?q=app_metadata.roles:"drafts:write"`,
+    }/api/v2/users?${query}&page=${page}`,
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${managementToken.access_token}`,
+        Authorization: `Bearer ${token}`,
       },
       json: true,
     },
   ).then(res => res.json());
+}
+
+export const getEditors = async managementToken => {
+  const query = 'include_totals=true&q=app_metadata.roles:"drafts:write"';
+
+  const firstPage = await fetchEditors(managementToken.access_token, query, 0);
+  const numberOfPages = Math.ceil(firstPage.total / firstPage.length);
+  const requests = [firstPage];
+  for (let i = 1; i < numberOfPages; i += 1) {
+    requests.push(fetchEditors(managementToken.access_token, query, i));
+  }
+  const results = await Promise.all(requests);
+  return results.reduce((acc, res) => [...acc, ...res.users], []);
 };

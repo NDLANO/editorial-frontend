@@ -24,7 +24,6 @@ export function resolveJsonOrRejectWithError(res, taxonomy = false) {
     res
       .json()
       .then(json => {
-        // console.log(json);
         reject(
           createErrorPayload(
             res.status,

@@ -22,12 +22,12 @@ class FormikAlertModalWrapper extends PureComponent {
   }
 
   componentDidMount() {
-    const { history, isSubmitting } = this.props;
+    const { history, isSubmitting, formIsDirty } = this.props;
     this.unblock = history.block(nextLocation => {
+      console.log(formIsDirty);
       const canNavigate =
-        isSubmitting ||
-        !isFormikFormDirty(this.props) ||
-        this.state.discardChanges;
+        isSubmitting || !formIsDirty || this.state.discardChanges;
+      console.log(canNavigate);
       if (!canNavigate) {
         this.setState({
           openModal: true,
@@ -92,12 +92,6 @@ class FormikAlertModalWrapper extends PureComponent {
 }
 
 FormikAlertModalWrapper.propTypes = {
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    articleType: PropTypes.string,
-    language: PropTypes.string,
-  }),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,
@@ -106,7 +100,7 @@ FormikAlertModalWrapper.propTypes = {
   severity: PropTypes.string,
   isFormik: PropTypes.bool,
   isSubmitting: PropTypes.bool,
-  initialValues: PropTypes.object,
+  formIsDirty: PropTypes.bool,
 };
 
 export default withRouter(injectT(FormikAlertModalWrapper));

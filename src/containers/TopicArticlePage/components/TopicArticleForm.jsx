@@ -217,23 +217,15 @@ class TopicArticleForm extends Component {
     const { t, history, article, ...rest } = this.props;
 
     const { error, showResetModal, savedToServer } = this.state;
-    const initVal = getInitialValues(article);
+    const initialValues = getInitialValues(article);
     return (
       <Formik
-        initialValues={initVal}
+        initialValues={initialValues}
         validateOnBlur={false}
         onSubmit={this.handleSubmit}
         enableReinitialize
         validate={values => validateFormik(values, topicArticleRules, t)}>
-        {({
-          values,
-          initialValues,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -297,6 +289,7 @@ class TopicArticleForm extends Component {
               </Field>
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />

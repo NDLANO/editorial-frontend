@@ -84,7 +84,7 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getArticle = this.getArticle.bind(this);
+    this.getArticleFromSlate = this.getArticleFromSlate.bind(this);
     this.onReset = this.onReset.bind(this);
     this.getPublishedDate = this.getPublishedDate.bind(this);
     this.state = {
@@ -143,7 +143,7 @@ class LearningResourceForm extends Component {
     return undefined;
   }
 
-  getArticle(values, preview = false) {
+  getArticleFromSlate(values, preview = false) {
     const { licenses } = this.props;
     const content = learningResourceContentToHTML(values.content);
     const emptyContent = values.id ? '' : undefined;
@@ -190,7 +190,7 @@ class LearningResourceForm extends Component {
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(values.id, {
-          ...this.getArticle(values),
+          ...this.getArticleFromSlate(values),
           revision,
         });
       } catch (error) {
@@ -201,7 +201,7 @@ class LearningResourceForm extends Component {
     }
     try {
       await onUpdate({
-        ...this.getArticle(values),
+        ...this.getArticleFromSlate(values),
         revision,
       });
       actions.setSubmitting(false);
@@ -217,30 +217,20 @@ class LearningResourceForm extends Component {
   render() {
     const { t, history, article, ...rest } = this.props;
     const { error, savedToServer } = this.state;
-    const initVal = getInitialValues(article, false);
-
+    const initialValues = getInitialValues(article, false);
     return (
       <Formik
-        initialValues={initVal}
+        initialValues={initialValues}
         validateOnBlur={false}
         onSubmit={this.handleSubmit}
-        enableReinitialize
         validate={values => validateFormik(values, learningResourceRules, t)}>
-        {({
-          values,
-          initialValues,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
             dirty,
+            type: 'learningResource',
           });
-
           return (
             <Form {...formClasses()}>
               <FormikHeader
@@ -255,7 +245,7 @@ class LearningResourceForm extends Component {
                 errors={errors}
                 article={article}
                 touched={touched}
-                getArticle={() => this.getArticle(values)}
+                getArticle={() => this.getArticleFromSlate(values)}
                 formIsDirty={formIsDirty}
                 {...rest}
               />
@@ -300,6 +290,7 @@ class LearningResourceForm extends Component {
               </Field>
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />

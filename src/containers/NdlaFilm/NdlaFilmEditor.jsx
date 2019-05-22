@@ -30,6 +30,8 @@ class NdlaFilmEditor extends React.Component {
     themes: null,
     filmFrontpage: null,
     allMovies: null,
+    loadingThemes: true,
+    loadingSlideshow: true,
   };
 
   async componentDidMount() {
@@ -45,6 +47,8 @@ class NdlaFilmEditor extends React.Component {
         filmFrontpage,
         slideshowMovies,
         themes,
+        loadingThemes: false,
+        loadingSlideshow: false,
       });
     } catch (err) {
       handleError(err);
@@ -112,6 +116,8 @@ class NdlaFilmEditor extends React.Component {
       filmFrontpage: newFilmFrontpage,
       themes,
       slideshowMovies,
+      loadingThemes: false,
+      loadingSlideshow: false,
     });
   };
 
@@ -130,6 +136,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   newSlideShow = newSlideShow => {
+    this.setState({ loadingSlideshow: true });
     const { filmFrontpage } = this.state;
     const newFilmFrontpage = {
       ...filmFrontpage,
@@ -148,11 +155,13 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onSaveThemeName = (newNames, index) => {
+    this.setState({ loadingThemes: true });
     const newThemeNames = this.convertThemeNames(newNames);
     this.updateThemeName(newThemeNames, index);
   };
 
   updateThemeName = (newThemeNames, index) => {
+    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     const { movieThemes } = filmFrontpage;
 
@@ -173,6 +182,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   updateMovieTheme = (updatedTheme, index) => {
+    this.setState({ loadingThemes: true });
     const movieIds = updatedTheme.map(movie => getUrnFromId(movie.id));
     const { filmFrontpage } = this.state;
     const { movieThemes } = filmFrontpage;
@@ -193,6 +203,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   addMovieToTheme = (id, index) => {
+    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     const urnId = getUrnFromId(id);
 
@@ -212,6 +223,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onMoveTheme = (index, direction) => {
+    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     if (
       index + direction >= 0 &&
@@ -238,6 +250,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onDeleteTheme = index => {
+    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     const newFilmFrontpage = {
       ...filmFrontpage,
@@ -254,6 +267,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onAddTheme = theme => {
+    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
 
     const newThemeNames = this.convertThemeNames(theme);
@@ -277,7 +291,13 @@ class NdlaFilmEditor extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { slideshowMovies, themes, allMovies } = this.state;
+    const {
+      slideshowMovies,
+      themes,
+      allMovies,
+      loadingThemes,
+      loadingSlideshow,
+    } = this.state;
 
     return (
       <OneColumn>
@@ -288,6 +308,7 @@ class NdlaFilmEditor extends React.Component {
             allMovies={allMovies}
             saveSlideshow={this.saveSlideshow}
             onAddMovieToSlideshow={this.onAddMovieToSlideshow}
+            loading={loadingSlideshow}
           />
         </StyledSection>
         <StyledSection>
@@ -303,6 +324,7 @@ class NdlaFilmEditor extends React.Component {
             updateThemeName={this.updateThemeName}
             onSaveThemeName={this.onSaveThemeName}
             findName={this.findName}
+            loading={loadingThemes}
           />
         </StyledSection>
       </OneColumn>

@@ -20,8 +20,9 @@ const SlideshowEditor = ({
   allMovies,
   saveSlideshow,
   onAddMovieToSlideshow,
+  loading,
 }) => {
-  if (!slideshowMovies) {
+  if (loading) {
     return <Spinner />;
   }
 

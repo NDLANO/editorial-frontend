@@ -33,8 +33,9 @@ const ThemeEditor = ({
   onDeleteTheme,
   onSaveThemeName,
   findName,
+  loading,
 }) => {
-  if (!themes) {
+  if (loading) {
     return <Spinner />;
   }
 

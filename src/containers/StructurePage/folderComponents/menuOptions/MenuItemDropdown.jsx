@@ -11,21 +11,15 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
-import { Done } from '@ndla/icons/editor';
+import styled from '@emotion/styled';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
-import { Cross } from '@ndla/icons/action';
+import { Search } from '@ndla/icons/lib/common';
+import { DropdownMenu, Input } from '@ndla/forms';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';
-import {
-  DropdownMenu,
-  DropdownInput,
-  DropdownActionButton,
-  dropDownClasses,
-} from '../../../../components/Dropdown/common';
 import RoundIcon from '../../../../components/RoundIcon';
 import Spinner from '../../../../components/Spinner';
-import MenuItemSaveButton from './MenuItemSaveButton';
 import { StyledErrorMessage } from './MenuItemEditField';
 
 const menuItemStyle = css`
@@ -39,6 +33,10 @@ const dropdownInputStyle = css`
   max-height: 26px;
 `;
 
+const DropdownWrapper = styled.div`
+  position: relative;
+`;
+
 class MenuItemDropdown extends PureComponent {
   constructor() {
     super();
@@ -46,7 +44,6 @@ class MenuItemDropdown extends PureComponent {
       status: 'initial',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.setResultItems = this.setResultItems.bind(this);
   }
 
@@ -56,6 +53,7 @@ class MenuItemDropdown extends PureComponent {
 
   async setResultItems() {
     const { fetchItems, filter } = this.props;
+    this.setState({ status: 'loading' });
     const res = await fetchItems();
     const options = {
       shouldSort: true,
@@ -72,11 +70,11 @@ class MenuItemDropdown extends PureComponent {
         filter ? res.filter(it => it.path && !it.path.includes(filter)) : res,
         options,
       ),
+      status: 'initial',
     });
   }
 
-  async handleSubmit() {
-    const { selected } = this.state;
+  async handleSubmit(selected) {
     if (selected) {
       const { onSubmit, onClose } = this.props;
       this.setState({ status: 'loading' });
@@ -91,14 +89,6 @@ class MenuItemDropdown extends PureComponent {
     }
   }
 
-  handleKeyPress(e) {
-    if (e.key === 'Escape') {
-      this.setState({ status: 'initial' });
-    } else if (e.key === 'Enter') {
-      this.handleSubmit();
-    }
-  }
-
   render() {
     const { icon, t, placeholder } = this.props;
     const { selected, items, status } = this.state;
@@ -109,48 +99,35 @@ class MenuItemDropdown extends PureComponent {
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
-            onChange={selectedItem =>
-              this.setState({ selected: selectedItem })
-            }>
-            {downshiftProps => (
-              <div {...dropDownClasses()}>
-                <DropdownInput
+            onChange={this.handleSubmit}>
+            {({ getInputProps, getRootProps, ...downshiftProps }) => (
+              <DropdownWrapper {...getRootProps()}>
+                <Input
+                  {...getInputProps({ placeholder })}
+                  data-testid="inlineDropdownInput"
                   css={dropdownInputStyle}
-                  testid="inlineDropdownInput"
-                  {...downshiftProps}
-                  inputProps={{ placeholder }}
+                  iconRight={
+                    status === 'loading' ? (
+                      <Spinner size="normal" margin="0" />
+                    ) : (
+                      <Search />
+                    )
+                  }
                 />
                 <DropdownMenu
-                  items={items ? items.search(downshiftProps.inputValue) : []}
+                  items={
+                    items
+                      ? items
+                          .search(downshiftProps.inputValue)
+                          .map(item => ({ title: item.name, ...item }))
+                      : []
+                  }
                   {...downshiftProps}
-                  textField="name"
-                  valueField="id"
-                  fuzzy
-                  dontShowOnEmptyFilter
-                  messages={{
-                    emptyFilter: t('taxonomy.emptyFilter'),
-                    emptyList: t('taxonomy.emptyFilter'),
-                  }}
+                  positionAbsolute
                 />
-                {selected && (
-                  <DropdownActionButton
-                    onClick={downshiftProps.clearSelection}
-                    stripped>
-                    <Cross className="c-icon--medium" />
-                  </DropdownActionButton>
-                )}
-              </div>
+              </DropdownWrapper>
             )}
           </Downshift>
-          <MenuItemSaveButton
-            data-testid="inlineEditSaveButton"
-            onClick={this.handleSubmit}>
-            {status === 'loading' ? (
-              <Spinner appearance="small" />
-            ) : (
-              <Done className="c-icon--small" />
-            )}
-          </MenuItemSaveButton>
         </div>
         {status === 'error' && (
           <StyledErrorMessage data-testid="inlineEditErrorMessage">

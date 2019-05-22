@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -16,9 +17,22 @@ import { getResourceIdFromPath } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 
-const StyledOrDivider = styled.span`
-  color: white;
-  align-self: center;
+const StyledOrDivider = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+`;
+
+const StyledContent = styled.div`
+  width: 100%;
+
+  > * {
+    width: 100%;
+  }
+
+  & form {
+    background-color: white;
+  }
 `;
 class AddResourceModal extends Component {
   constructor() {
@@ -78,10 +92,7 @@ class AddResourceModal extends Component {
     try {
       const res = await groupSearch(input, this.props.type);
       const result = res.length > 0 ? res.pop().results : [];
-      return result.map(current => ({
-        ...current,
-        title: current.title ? current.title.title : '',
-      }));
+      return result;
     } catch (e) {
       handleError(e);
       this.setState({ error: e.message });
@@ -136,39 +147,37 @@ class AddResourceModal extends Component {
         onSelect={this.addSelected}
         loading={loading}
         onClose={onClose}>
-        {allowPaste && (
-          <input
-            type="text"
-            data-testid="addResourceUrlInput"
-            value={pastedUrl}
-            onChange={this.onPaste}
-            placeholder={t('taxonomy.urlPlaceholder')}
-          />
-        )}
-        {error && <span className="c-errorMessage">{error}</span>}
-
-        {!pastedUrl && (
-          <React.Fragment>
-            {allowPaste && (
-              <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
-            )}
-            <AsyncDropdown
-              valueField="id"
-              name="resourceSearch"
-              textField="title"
-              placeholder={t('form.content.relatedArticle.placeholder')}
-              label="label"
-              apiAction={this.onInputSearch}
-              messages={{
-                emptyFilter: '',
-                emptyList: t('taxonomy.noResources'),
-              }}
-              onChange={this.onSelect}
-              alwaysOpen
+        <StyledContent>
+          {allowPaste && (
+            <Input
+              type="text"
+              data-testid="addResourceUrlInput"
+              value={pastedUrl}
+              onChange={this.onPaste}
+              placeholder={t('taxonomy.urlPlaceholder')}
             />
-          </React.Fragment>
-        )}
-        {selected.id && article.id && <ArticlePreview article={article} />}
+          )}
+          {error && <span className="c-errorMessage">{error}</span>}
+
+          {!pastedUrl && (
+            <React.Fragment>
+              {allowPaste && (
+                <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
+              )}
+              <AsyncDropdown
+                valueField="id"
+                name="resourceSearch"
+                textField="title"
+                placeholder={t('form.content.relatedArticle.placeholder')}
+                label="label"
+                apiAction={this.onInputSearch}
+                onChange={this.onSelect}
+                startOpen
+              />
+            </React.Fragment>
+          )}
+          {selected.id && article.id && <ArticlePreview article={article} />}
+        </StyledContent>
       </TaxonomyLightbox>
     );
   }

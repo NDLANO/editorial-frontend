@@ -17,11 +17,12 @@ import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProviders';
 import Footer from '../App/components/Footer';
 
-export const Login = ({ t, match, authenticated, location }) => {
+export const Login = ({ t, match, authenticated, location, history }) => {
   if (authenticated && location.hash === '' && match.url === '/login') {
-    window.location.href = '/';
-    return <div />;
+    history.push('/');
+    return null;
   }
+
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.loginPage')} />
@@ -45,6 +46,7 @@ Login.propTypes = {
   }).isRequired,
   authenticated: PropTypes.bool.isRequired,
   location: PropTypes.shape({}),
+  history: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({

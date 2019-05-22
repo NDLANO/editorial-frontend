@@ -119,7 +119,7 @@ class FormikNotes extends React.PureComponent {
 
   render() {
     const { notes, t } = this.props;
-
+    console.log(notes);
     return (
       <Fragment>
         <FieldHeader title={t('form.notes.history.heading')} />

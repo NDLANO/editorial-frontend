@@ -59,9 +59,9 @@ import {
 const findFootnotes = content =>
   content
     .reduce(
-      (all, item) => [
+      (all, value) => [
         ...all,
-        ...findNodesByType(item.value.document, footnoteType),
+        ...findNodesByType(value.document, footnoteType),
       ],
       [],
     )
@@ -106,10 +106,7 @@ class LearningResourceContent extends Component {
         setFieldValue,
       },
     } = this.props;
-    setFieldValue('content', [
-      ...content,
-      { value: createEmptyValue(), index: content.length },
-    ]);
+    setFieldValue('content', [...content, createEmptyValue()]);
   }
 
   render() {

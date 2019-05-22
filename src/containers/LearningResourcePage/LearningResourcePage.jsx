@@ -78,7 +78,6 @@ LearningResourcePage.propTypes = {
   licenses: LicensesArrayOf,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   userAccess: PropTypes.string,
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,

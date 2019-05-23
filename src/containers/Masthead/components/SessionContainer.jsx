@@ -15,11 +15,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { colors, spacing } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';
-import {
-  toLogoutFederated,
-  toLogoutSession,
-  toLogin,
-} from '../../../util/routeHelpers';
+import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
 import StyledListButton from '../../../components/StyledListButton';
 import {
@@ -38,9 +34,6 @@ const AuthSiteNavItem = ({ t, onClick }) => (
   <StyledOverlay withArrow>
     <StyledLink to={toLogoutSession()} onClick={onClick}>
       {t('logoutProviders.localLogout')}
-    </StyledLink>
-    <StyledLink to={toLogoutFederated()} onClick={onClick}>
-      {t('logoutProviders.federatedLogout')}
     </StyledLink>
   </StyledOverlay>
 );

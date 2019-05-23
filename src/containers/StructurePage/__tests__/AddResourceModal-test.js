@@ -55,6 +55,7 @@ const wrapper = props =>
           type={resourceType}
           onClose={() => {}}
           refreshResources={() => {}}
+          startOpen
           {...props}
         />
       </MemoryRouter>

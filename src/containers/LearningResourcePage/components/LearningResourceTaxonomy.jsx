@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { FieldHeader, Select } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import {
   fetchResourceTypes,
   fetchFilters,
@@ -35,7 +35,7 @@ import handleError from '../../../util/handleError';
 import TopicConnections from './taxonomy/TopicConnections';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
-import { FormActionButton } from '../../Form';
+import { FormikActionButton } from '../../FormikForm';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const resourceTypesToOptionList = availableResourceTypes =>
@@ -463,12 +463,12 @@ class LearningResourceTaxonomy extends Component {
           />
         )}
         <Field right>
-          <FormActionButton
+          <FormikActionButton
             outline
             onClick={closePanel}
             disabled={saveStatus === 'loading'}>
             {t('form.abort')}
-          </FormActionButton>
+          </FormikActionButton>
           <SaveButton
             isSaving={saveStatus === 'loading'}
             showSaved={saveStatus === 'success'}
@@ -485,6 +485,7 @@ LearningResourceTaxonomy.propTypes = {
   language: PropTypes.string,
   articleId: PropTypes.string,
   closePanel: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default injectT(LearningResourceTaxonomy);

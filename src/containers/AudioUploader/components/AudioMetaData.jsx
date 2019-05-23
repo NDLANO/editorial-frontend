@@ -9,10 +9,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import MultiSelect from '../../../components/MultiSelect';
-import Contributors from '../../../components/Contributors';
-import { FormikLicense } from '../../FormikForm';
+import { FormikLicense, FormikContributors } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
+import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -25,50 +24,13 @@ const AudioMetaData = props => {
         label={t('form.tags.label')}
         obligatory
         description={t('form.tags.description')}>
-        {({ field }) => (
-          <MultiSelect
-            data={tags}
-            {...field}
-            messages={{
-              createOption: t('form.tags.createOption'),
-              emptyFilter: t('form.tags.emptyFilter'),
-              emptyList: t('form.tags.emptyList'),
-            }}
-          />
-        )}
+        {({ field }) => <MultiSelectDropdown data={tags} {...field} />}
       </FormikField>
       <FormikField name="license">
         {({ field }) => <FormikLicense licenses={licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
-      {contributorTypes.map(contributorType => {
-        const label = t(`form.${contributorType}.label`);
-        return (
-          <FormikField
-            showError={false}
-            key={`formik_contributor_${contributorType}`}
-            name={contributorType}>
-            {({ field, form }) => {
-              const { errors, touched } = form;
-              const error =
-                touched[field.name] && errors[field.name]
-                  ? errors[field.name]
-                  : '';
-              return (
-                <Contributors
-                  label={label}
-                  labelRemove={t(`form.${contributorType}.labelRemove`)}
-                  showError={!!errors[field.name]}
-                  errorMessages={
-                    touched[field.name] && errors[field.name] ? [error] : []
-                  }
-                  {...field}
-                />
-              );
-            }}
-          </FormikField>
-        );
-      })}
+      <FormikContributors contributorTypes={contributorTypes} />
     </Fragment>
   );
 };

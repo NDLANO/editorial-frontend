@@ -13,7 +13,6 @@ import * as draftApi from '../../modules/draft/draftApi';
 import FormikStatusActions from './components/FormikStatusActions';
 import FormikStatusColumns from './components/FormikStatusColumns';
 import FormikQualityAssurance from './components/FormikQualityAssurance';
-import FormikDeleteLanguageVersion from './components/FormikDeleteLanguageVersion';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
@@ -48,9 +47,9 @@ class FormikWorkflow extends Component {
       updateArticleStatus,
       getArticle,
       createMessage,
-      revision,
       formIsDirty,
     } = this.props;
+    const { revision } = values;
     if (formIsDirty) {
       createMessage({
         translationKey: 'form.mustSaveFirst',
@@ -78,10 +77,9 @@ class FormikWorkflow extends Component {
 
   async onValidateClick() {
     const {
-      values: { id },
+      values: { id, revision },
       createMessage,
       getArticle,
-      revision,
     } = this.props;
 
     try {
@@ -124,7 +122,6 @@ class FormikWorkflow extends Component {
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
         />
-        <FormikDeleteLanguageVersion values={values} />
         <FormikQualityAssurance
           getArticle={getArticle}
           values={values}

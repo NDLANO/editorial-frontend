@@ -88,7 +88,7 @@ const StyledContentWrapper = styled.div`
   width: 600px;
   border-radius: 5px;
   position: absolute;
-  top: 20%;
+  top: 5%;
   z-index: 2;
   max-height: 90vh;
   overflow: auto;

@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import styled from '@emotion/styled';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
+import { TopicShape } from '../../../shapes';
 
+const StyledContent = styled.div`
+  width: 100%;
+
+  > * {
+    width: 100%;
+  }
+
+  & form {
+    background-color: white;
+  }
+`;
 class AddArticleModal extends Component {
   constructor() {
     super();
@@ -22,8 +35,8 @@ class AddArticleModal extends Component {
         'topic-article',
       );
       return results;
-    } catch (e) {
-      handleError(e);
+    } catch (err) {
+      handleError(err);
     }
     return [];
   }
@@ -31,17 +44,17 @@ class AddArticleModal extends Component {
   async onSelect(article) {
     try {
       const { currentTopic, refreshTopics, toggleAddModal } = this.props;
-      const ok = await updateTopic({
+      const topicUpdated = await updateTopic({
         id: currentTopic.id,
         name: currentTopic.name,
         contentUri: `urn:article:${article.id}`,
       });
-      if (ok) {
+      if (topicUpdated) {
         refreshTopics();
         toggleAddModal();
       }
-    } catch (e) {
-      handleError(e);
+    } catch (err) {
+      handleError(err);
     }
   }
 
@@ -51,20 +64,18 @@ class AddArticleModal extends Component {
       <TaxonomyLightbox
         title={t('taxonomy.searchArticle')}
         onClose={toggleAddModal}>
-        <AsyncDropdown
-          valueField="id"
-          name="resourceSearch"
-          textField="title.title"
-          placeholder={t('form.content.relatedArticle.placeholder')}
-          label="label"
-          apiAction={this.onArticleSearch}
-          messages={{
-            emptyFilter: '',
-            emptyList: t('taxonomy.noResources'),
-          }}
-          onChange={this.onSelect}
-          alwaysOpen
-        />
+        <StyledContent>
+          <AsyncDropdown
+            valueField="id"
+            name="resourceSearch"
+            textField="title.title"
+            placeholder={t('form.content.relatedArticle.placeholder')}
+            label="label"
+            apiAction={this.onArticleSearch}
+            onChange={this.onSelect}
+            startOpen
+          />
+        </StyledContent>
       </TaxonomyLightbox>
     );
   }
@@ -73,6 +84,8 @@ class AddArticleModal extends Component {
 AddArticleModal.propTypes = {
   locale: PropTypes.string,
   toggleAddModal: PropTypes.func,
+  refreshTopics: PropTypes.func.isRequired,
+  currentTopic: TopicShape,
 };
 
 export default injectT(AddArticleModal);

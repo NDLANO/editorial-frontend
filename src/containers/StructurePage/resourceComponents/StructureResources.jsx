@@ -23,6 +23,7 @@ import handleError from '../../../util/handleError';
 import { getArticle } from '../../../modules/article/articleApi';
 
 import TopicDescription from './TopicDescription';
+import Spinner from '../../../components/Spinner';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -39,6 +40,7 @@ export class StructureResources extends React.PureComponent {
   async componentDidMount() {
     try {
       const { currentTopic } = this.props;
+      this.setState({ loading: true });
       await this.getAllResourceTypes();
 
       this.getTopicResources();
@@ -102,6 +104,7 @@ export class StructureResources extends React.PureComponent {
     const { resourceTypes } = this.state;
     if (topicId) {
       try {
+        this.setState({ loading: true });
         const [
           coreTopicResources = [],
           supplementaryTopicResources = [],
@@ -125,12 +128,13 @@ export class StructureResources extends React.PureComponent {
           coreTopicResources,
           supplementaryTopicResources,
         );
-        this.setState({ topicResources });
+        this.setState({ topicResources, loading: false });
       } catch (error) {
         handleError(error);
+        this.setState({ loading: false });
       }
     } else {
-      this.setState({ topicResources: [] });
+      this.setState({ topicResources: [], loading: false });
     }
   }
 
@@ -140,17 +144,24 @@ export class StructureResources extends React.PureComponent {
       locale,
       refreshTopics,
       currentTopic,
-      refFunc,
+      resourceRef,
       currentSubject,
     } = this.props;
-    const { topicDescription, resourceTypes, topicResources } = this.state;
-
+    const {
+      topicDescription,
+      resourceTypes,
+      topicResources,
+      loading,
+    } = this.state;
+    if (loading) {
+      return <Spinner />;
+    }
     return (
       <Fragment>
         <TopicDescription
           topicDescription={topicDescription}
           locale={locale}
-          refFunc={refFunc}
+          resourceRef={resourceRef}
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
         />
@@ -189,7 +200,7 @@ StructureResources.propTypes = {
   }).isRequired,
   refreshTopics: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
-  refFunc: PropTypes.func,
+  resourceRef: PropTypes.object,
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

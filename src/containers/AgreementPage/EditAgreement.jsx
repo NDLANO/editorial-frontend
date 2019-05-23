@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AgreementForm, { getInitialModel } from './components/AgreementForm';
+import AgreementForm from './components/AgreementForm';
 import * as api from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
 
@@ -51,7 +51,7 @@ class EditAgreement extends Component {
     }
     return (
       <AgreementForm
-        initialModel={getInitialModel(agreement)}
+        agreement={agreement}
         onUpdate={upsertAgreement}
         {...rest}
       />
@@ -70,6 +70,7 @@ EditAgreement.propTypes = {
   upsertAgreement: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,
+  applicationError: PropTypes.func.isRequired,
 };
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,

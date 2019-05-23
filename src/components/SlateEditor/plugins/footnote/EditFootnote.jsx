@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
-import FootnoteForm, { getInitialModel } from './FootnoteForm';
+import FootnoteForm from './FootnoteForm';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { FootnoteShape } from '../../../../shapes';
@@ -24,8 +24,8 @@ class EditFootnote extends Component {
   }
 
   onClose() {
-    const { model, closeDialog } = this.props;
-    if (!model.title) {
+    const { existingFootnote, closeDialog } = this.props;
+    if (!existingFootnote.title) {
       this.handleRemove();
     } else {
       closeDialog();
@@ -49,8 +49,8 @@ class EditFootnote extends Component {
   }
 
   render() {
-    const { t, model } = this.props;
-    const isEdit = model.title !== undefined;
+    const { t, existingFootnote } = this.props;
+    const isEdit = existingFootnote.title !== undefined;
 
     return (
       <Portal isOpened>
@@ -59,7 +59,7 @@ class EditFootnote extends Component {
             {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
           </h2>
           <FootnoteForm
-            initialModel={getInitialModel(model)}
+            footnote={existingFootnote}
             onClose={this.onClose}
             isEdit={isEdit}
             onRemove={this.handleRemove}
@@ -75,7 +75,7 @@ EditFootnote.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   editor: PropTypes.object.isRequired,
-  model: FootnoteShape,
+  existingFootnote: FootnoteShape,
   node: PropTypes.oneOfType([
     Types.node,
     PropTypes.shape({ type: PropTypes.string.isRequired }),

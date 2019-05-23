@@ -242,6 +242,7 @@ SearchContentForm.propTypes = {
     'draft-status': PropTypes.string,
     users: PropTypes.string,
   }),
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(SearchContentForm);

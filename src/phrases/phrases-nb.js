@@ -129,6 +129,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -307,7 +308,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: {updated}',
     },
-    title: 'Emnebeskrivelse | {title} ({key})',
+    title: 'Emne',
     fields: {
       caption: {
         label: {
@@ -343,8 +344,17 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Tittel',
+    year: 'År',
+    authors: 'Forfatter',
+  },
+  linkForm: {
+    href: 'Lenke',
+    text: 'Tekst',
+  },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     editImage: 'Rediger bildet',
@@ -354,10 +364,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde',
   },
   learningResourceForm: {
-    title: 'Fagstoff | {title} ({key})',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+    },
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'En eller flere inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
@@ -439,10 +454,16 @@ const phrases = {
       content: 'Innhold',
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
+      metaImageAlt: 'Alt-tekst',
+      alttext: 'Alt-tekst',
+      caption: 'Bildetekst',
+      imageFile: 'Bildefil',
       visualElement: {
         caption: 'Figur tekst',
-        alt: 'Alt tekst',
+        alt: 'Alt-tekst',
       },
+      validFrom: 'Gyldig fra',
+      validTo: 'Gyldig til',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -450,7 +471,7 @@ const phrases = {
       draft: 'Utkast',
     },
     previewLanguageArticle: {
-      button: 'Sammenlign forskjellige språkversjoner',
+      button: 'Sammenlign språkversjoner',
       title: 'Utkast på {language}',
     },
     previewNewWindow: 'Forhåndsvis i nytt vindu',
@@ -504,7 +525,7 @@ const phrases = {
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
     },
     variant: {
-      create: '+ Nytt språk',
+      create: 'Legg til språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
@@ -537,12 +558,16 @@ const phrases = {
       qualityAssurance: 'Kvalitetssikring',
       saveAsNew: 'Lagre kopi som ny artikkel',
       deleteLanguageVersion: {
-        button: 'Slett språkversjon',
+        button: 'Slett {languageVersion} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Opprettet',
       imported: 'Fra spoling',
       draft: 'Kladd',
@@ -595,8 +620,6 @@ const phrases = {
         urlPlaceholder: 'http://www.example.com',
         urlLocation: 'Nettside hos {domain}',
         titlePlaceholder: 'Tittel',
-        emptyFilter: 'Ingen relaterte artikler funnet',
-        emptyList: 'Det er ingen relaterte artikler i denne listen',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
@@ -626,8 +649,6 @@ const phrases = {
           label: 'Forfatter',
           description: 'Obligatorisk med minst 1 forfatter.',
           createOption: 'Opprett ny forfatter',
-          emptyFilter: ' ',
-          emptyList: ' ',
         },
         edition: 'Utgave',
         publisher: 'Utgiver',
@@ -648,36 +669,26 @@ const phrases = {
       helpLabel: 'Hva er nøkkelord?',
       description: 'Obligatorisk med 3 nøkkelord.',
       createOption: 'Opprett nytt nøkkelord',
-      emptyFilter: 'Fant ingen passende nøkkelord',
-      emptyList: 'Det er ingen tagger i denne listen',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
       placeholder: 'Legg til egenskap',
-      emptyFilter: 'Ingen egenskaper funnet',
-      emptyList: 'Det er ingen egenskaper i denne listen',
     },
     subjects: {
       label: 'Emne',
       searchPlaceholder: 'Søk etter emne',
       placeholder: 'Legg til emne',
-      emptyFilter: 'Ingen emner funnet',
-      emptyList: 'Det er ingen emner i denne listen',
-    },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Legg til filter',
-      emptyFilter: 'Fant ingen passende filter',
-      emptyList: 'Det er ingen filter i denne listen',
-      core: 'Kjernestoff',
-      supplementary: 'Tilleggsstoff',
-      setRelevance: 'Velg relevans',
+      filter: {
+        label: 'Filter',
+        placeholder: 'Legg til filter',
+        core: 'Kjernestoff',
+        supplementary: 'Tilleggsstoff',
+        setRelevance: 'Velg relevans',
+      },
     },
     topics: {
       label: 'Emnetilknytning',
       placeholder: 'Legg til emnetilknytning',
-      emptyFilter: 'Fant ingen passende emnetilknytninger',
-      emptyList: 'Det er ingen emnetilknytning i denne listen',
       primaryTopic: 'Primærkobling',
       sharedTopic: 'Delt emne',
       setPrimaryTopic: 'Velg som primærkoblet emne',
@@ -691,24 +702,18 @@ const phrases = {
       label: 'Koble til avtale',
       helpLabel: 'Hva er en avtale?',
       placeholder: 'Søk etter avtale',
-      emptyFilter: 'Fant ingen passende avtaler',
-      emptyList: 'Det er ingen avtaler i denne listen',
     },
     rightsholders: {
       label: 'Rettighetshaver',
       labelRemove: 'Ta bort',
       placeholder: 'Skriv navn til rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     processors: {
       label: 'Bearbeider',
       labelRemove: 'Ta bort',
       placeholder: 'Skriv navn til bearbeider',
       createOption: 'Opprett ny bearbeider',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     creators: {
       label: 'Opphavsperson',
@@ -716,8 +721,6 @@ const phrases = {
       placeholder: 'Skriv navn til opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     license: {
       label: 'Lisens',
@@ -737,8 +740,9 @@ const phrases = {
         center: 'Justering: Stort i midten',
       },
       sizes: {
-        xsmall: 'Størrelse: Lite',
-        small: 'Størrelse: Middels',
+        xsmall: 'Størrelse: Frimerke',
+        small: 'Størrelse: Lite',
+        medium: 'Størrelse: Middels',
         fullwidth: 'Størrelse: Stort',
       },
       crop: 'Lag utsnitt av bildet',
@@ -778,6 +782,11 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp lydfil',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
     },
     external: {
       edit: 'Rediger eksternt element',

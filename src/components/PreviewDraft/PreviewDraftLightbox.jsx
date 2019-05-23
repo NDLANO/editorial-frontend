@@ -22,7 +22,7 @@ import {
   transformArticle,
   transformArticleToApiVersion,
 } from '../../util/articleUtil';
-import { FormActionButton } from '../../containers/Form';
+import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 
 const twoArticlesCloseButtonStyle = css`
@@ -166,14 +166,17 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguage,
       loading,
     } = this.state;
-    const { label, typeOfPreview, t } = this.props;
+    const { label, typeOfPreview, children, t } = this.props;
 
     if (!showPreview) {
+      if (children) {
+        return children(this.openPreview);
+      }
       return (
-        <FormActionButton outline onClick={this.openPreview} disabled={loading}>
+        <FormikActionButton onClick={this.openPreview} disabled={loading}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
-        </FormActionButton>
+        </FormikActionButton>
       );
     }
 
@@ -210,6 +213,7 @@ class PreviewDraftLightbox extends React.Component {
 export default injectT(PreviewDraftLightbox);
 
 PreviewDraftLightbox.propTypes = {
+  children: PropTypes.func,
   getArticle: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   typeOfPreview: PropTypes.oneOf([

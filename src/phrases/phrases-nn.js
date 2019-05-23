@@ -129,6 +129,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen flere språk',
+    change: 'Bytt til {language} versjon',
   },
   welcomePage: {
     lastUsed: 'Sist brukt',
@@ -344,8 +345,17 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Tittel',
+    year: 'År',
+    authors: 'Forfatter',
+  },
+  linkForm: {
+    href: 'Lenke',
+    text: 'Tekst',
+  },
   audioForm: {
-    title: 'Lyd | {title} ({key})',
+    title: 'Lyd',
   },
   imageEditor: {
     remove: {
@@ -354,10 +364,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Bilde | {title} ({key})',
+    title: 'Bilde ',
   },
   learningResourceForm: {
-    title: 'Fagstoff | {title} ({key})',
+    metaImage: {
+      title: 'Bildetittel',
+      copyright: 'Opphav',
+      change: 'Bytt metabilde',
+    },
+    title: 'Læringsressurs',
     validation: {
       missingEmbedData:
         'Ein eller fleire inkluderte lyd-, bilde-, eller videoelementer mangler beskrivende tekst eller alternativ tekst.',
@@ -441,10 +456,16 @@ const phrases = {
       content: 'Innhald',
       notes: 'Merknader',
       metaDescription: 'Metabeskrivelse',
+      metaImageAlt: 'Alt-tekst',
+      alttext: 'Alt-tekst',
+      caption: 'Bildetekst',
+      imageFile: 'Bildefil',
       visualElement: {
         caption: 'Figur tekst',
         alt: 'Alt tekst',
       },
+      validFrom: 'Gyldig fra',
+      validTo: 'Gyldig til',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -456,7 +477,7 @@ const phrases = {
       placeholder: 'Kort sammendrag',
     },
     previewLanguageArticle: {
-      button: 'Samanlikn forskjellige språkversjoner',
+      button: 'Samanlikn språkversjonar',
       title: 'Utkast på {language}',
     },
     previewNewWindow: 'Forhåndsvis i nytt vindu',
@@ -505,7 +526,7 @@ const phrases = {
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
     },
     variant: {
-      create: '+ Nytt språk',
+      create: 'Legg til språk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
@@ -548,8 +569,12 @@ const phrases = {
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
+      statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'Ny - Ikke lagret',
+      new_language: 'Nytt språk - ikke lagret',
       created: 'Oppretta',
       imported: 'Fra spoling',
       draft: 'Kladd',
@@ -602,8 +627,6 @@ const phrases = {
         urlPlaceholder: 'http://www.example.com',
         urlLocation: 'Nettside hos {domain}',
         titlePlaceholder: 'Tittel',
-        emptyFilter: 'Ingen relaterte artikler funnet',
-        emptyList: 'Det er ingen relaterte artikler i denne lista',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
@@ -633,8 +656,6 @@ const phrases = {
           label: 'Forfatter',
           description: 'Obligatorisk med minst 1 forfatter.',
           createOption: 'Opprett ny forfatter',
-          emptyFilter: ' ',
-          emptyList: ' ',
         },
         edition: 'Utgåve',
         publisher: 'Utgjevar',
@@ -655,27 +676,19 @@ const phrases = {
       helpLabel: 'Kva er nøkkelord?',
       description: 'Obligatorisk med 3 nøkkelord.',
       createOption: 'Opprett nytt nøkkelord',
-      emptyFilter: 'Fant ingen passende nøkkelord',
-      emptyList: 'Det er ingen tagger i denne lista',
     },
     resourceTypes: {
       label: 'Innhaldstype og egenskaper',
       placeholder: 'Legg til egenskap',
-      emptyFilter: 'Ingen egenskaper funnet',
-      emptyList: 'Det er ingen egenskaper i denne lista',
     },
     subjects: {
       label: 'Emne',
       searchPlaceholder: 'Søk etter emne',
       placeholder: 'Legg til emne',
-      emptyFilter: 'Ingen emner funnet',
-      emptyList: 'Det er ingen emner i denne lista',
     },
     filter: {
       label: 'Filter',
       placeholder: 'Legg til filter',
-      emptyFilter: 'Fant ingen passende filter',
-      emptyList: 'Det er ingen filter i denne lista',
       core: 'Kjernestoff',
       supplementary: 'Tilleggsstoff',
       setRelevance: 'Velg relevans',
@@ -683,8 +696,6 @@ const phrases = {
     topics: {
       label: 'Emnetilknytning',
       placeholder: 'Legg til emnetilknytning',
-      emptyFilter: 'Fant ingen passende emnetilknytninger',
-      emptyList: 'Det er ingen emnetilknytning i denne lista',
       primaryTopic: 'Primærkobling',
       sharedTopic: 'Delt emne',
       setPrimaryTopic: 'Velg som primærkoblet emne',
@@ -698,24 +709,18 @@ const phrases = {
       label: 'Koble til avtale',
       helpLabel: 'Kva er ei avtale?',
       placeholder: 'Søk etter avtale',
-      emptyFilter: 'Fant ingen passende avtaler',
-      emptyList: 'Det er ingen avtaler i denne lista',
     },
     rightsholders: {
       label: 'Rettighetshaver',
       labelRemove: 'Ta bort',
       placeholder: 'Skriv namn til rettighetshaver',
       createOption: 'Opprett ny rettighetshaver',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     processors: {
       label: 'Bearbeider',
       labelRemove: 'Ta bort',
       placeholder: 'Skriv namn til bearbeider',
       createOption: 'Opprett ny bearbeider',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     creators: {
       label: 'Opphavsperson',
@@ -723,8 +728,6 @@ const phrases = {
       placeholder: 'Skriv namn til opphavsperson',
       createOption: 'Opprett ny opphavsperson',
       description: 'Obligatorisk med minst 1 opphavsperson.',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     license: {
       label: 'Lisens',
@@ -744,8 +747,9 @@ const phrases = {
         center: 'Justering: Stort i midten',
       },
       sizes: {
-        xsmall: 'Størrelse: Lite',
-        small: 'Størrelse: Middels',
+        xsmall: 'Størrelse: Frimerke',
+        small: 'Størrelse: Lite',
+        medium: 'Størrelse: Middels',
         fullwidth: 'Størrelse: Stort',
       },
       crop: 'Lag utsnitt av bildet',

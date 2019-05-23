@@ -17,7 +17,11 @@ import * as messageActions from '../containers/Messages/messagesActions';
 const client =
   process.env.NODE_ENV !== 'unittest'
     ? require('../client.jsx')
-    : { store: { dispatch: () => {} } };
+    : {
+        store: {
+          dispatch: () => {},
+        },
+      };
 
 const NDLA_API_URL = config.ndlaApiUrl;
 const AUTH0_DOMAIN = config.auth0Domain;
@@ -81,13 +85,19 @@ const auth = new auth0.WebAuth({
 
 export function parseHash(hash) {
   return new Promise((resolve, reject) => {
-    auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
-      if (!err) {
-        resolve(authResult);
-      } else {
-        reject(err);
-      }
-    });
+    auth.parseHash(
+      {
+        hash,
+        _idTokenVerification: false,
+      },
+      (err, authResult) => {
+        if (!err) {
+          resolve(authResult);
+        } else {
+          reject(err);
+        }
+      },
+    );
   });
 }
 
@@ -122,6 +132,37 @@ export const isAccessTokenValid = () =>
 export const fetchSystemAccessToken = () =>
   fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);
 
+export const renewSystemAuth = () =>
+  fetchSystemAccessToken().then(res => {
+    setAccessTokenInLocalStorage(res.access_token, false);
+  });
+
+export const renewPersonalAuth = () =>
+  new Promise((resolve, reject) => {
+    auth.checkSession(
+      {
+        scope: 'openid profile email',
+      },
+      (err, authResult) => {
+        if (authResult && authResult.accessToken) {
+          setAccessTokenInLocalStorage(authResult.accessToken, true);
+          resolve(authResult.accessToken);
+        } else {
+          client.store.dispatch(
+            messageActions.addAuth0Message({
+              translationKey: 'errorMessage.auth0',
+              translationObject: {
+                message: err.errorDescription || err.error_description,
+              },
+              timeToLive: 0,
+            }),
+          );
+          reject();
+        }
+      },
+    );
+  });
+
 export const renewAuth = async () => {
   if (localStorage.getItem('access_token_personal') === 'true') {
     return renewPersonalAuth();
@@ -137,48 +178,24 @@ const scheduleRenewal = async () => {
   const timeout = expiresAt - Date.now();
 
   if (timeout > 0) {
-    tokenRenewalTimeout = setTimeout(() => {
-      renewAuth();
+    tokenRenewalTimeout = setTimeout(async () => {
+      await renewAuth();
+      scheduleRenewal();
     }, timeout);
   } else {
     await renewAuth();
+    scheduleRenewal();
   }
 };
 
 scheduleRenewal();
 
-export const renewSystemAuth = () =>
-  fetchSystemAccessToken().then(res => {
-    setAccessTokenInLocalStorage(res.access_token, false);
-  });
-
 export function loginPersonalAccessToken(type) {
   auth.authorize({
     connection: type,
+    state: localStorage.getItem('lastPath'),
   });
 }
-
-export const renewPersonalAuth = () =>
-  new Promise((resolve, reject) => {
-    auth.checkSession({ scope: 'openid profile email' }, (err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        setAccessTokenInLocalStorage(authResult.accessToken, true);
-        scheduleRenewal();
-        resolve(authResult.accessToken);
-      } else {
-        client.store.dispatch(
-          messageActions.addAuth0Message({
-            translationKey: 'errorMessage.auth0',
-            translationObject: {
-              message: err.errorDescription || err.error_description,
-            },
-            timeToLive: 0,
-          }),
-        );
-        reject();
-      }
-    });
-  });
 
 export const personalAuthLogout = (federated, returnToLogin) => {
   clearTimeout(tokenRenewalTimeout);

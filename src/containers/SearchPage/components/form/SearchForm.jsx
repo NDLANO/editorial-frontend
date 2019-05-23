@@ -30,6 +30,13 @@ const SearchForm = ({ type, searchObject, ...rest }) => {
 
 SearchForm.propTypes = {
   type: PropTypes.string.isRequired,
+  searchObject: PropTypes.shape({
+    query: PropTypes.string,
+    subjects: PropTypes.string,
+    'resource-types': PropTypes.string,
+    'draft-status': PropTypes.string,
+    users: PropTypes.string,
+  }),
 };
 
 export default SearchForm;

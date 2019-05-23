@@ -17,7 +17,7 @@ import Accordion, {
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
@@ -175,6 +175,7 @@ class AudioForm extends Component {
           return (
             <Form {...formClasses()}>
               <FormikHeader
+                noStatus
                 values={values}
                 type="audio"
                 editUrl={lang => toEditAudio(values.id, lang)}

@@ -1,26 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
+import { css } from '@emotion/core';
+import { colors } from '@ndla/core';
+import { Pencil } from '@ndla/icons/action';
+import Button from '@ndla/button';
+import DateTimeWrapper from './DateTime/DateTimeWrapper';
 import formatDate from '../util/formatDate';
 
-const classes = new BEMHelper({
-  name: 'topic-article-content',
-  prefix: 'c-',
-});
+const dateTimeCss = css``;
 
-function LastUpdatedLine({ creators, published, t }) {
-  return (
-    <div {...classes('info')}>
-      {creators.map(creator => creator.name).join(',')}
-      {published
-        ? ` - ${t('topicArticleForm.info.lastUpdated', {
-            updated: formatDate(published),
-          })}`
-        : ''}
-    </div>
-  );
-}
+const iconCss = css`
+  margin-left: 0.2em;
+`;
+
+const infoCss = css`
+  color: ${colors.text.light};
+  line-height: 1.4rem;
+`;
+
+const buttonCss = css`
+  display: inline-flex;
+  align-items: center;
+`;
+
+const LastUpdatedLine = ({ creators, published, t, ...rest }) => (
+  <div css={infoCss}>
+    {creators.map(creator => creator.name).join(',')}
+    {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
+    {published && (
+      <DateTimeWrapper css={dateTimeCss} {...rest} publishTime={published}>
+        <Button link css={buttonCss}>
+          {formatDate(published)} <Pencil css={iconCss} />
+        </Button>
+      </DateTimeWrapper>
+    )}
+  </div>
+);
 
 LastUpdatedLine.propTypes = {
   creators: PropTypes.arrayOf(

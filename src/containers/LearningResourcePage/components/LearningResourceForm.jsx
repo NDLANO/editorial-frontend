@@ -283,6 +283,7 @@ class LearningResourceForm extends Component {
                   {...formClasses}
                   isSaving={isSubmitting}
                   defaultText="saveDraft"
+                  formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}>
                   {t('form.save')}
                 </SaveButton>

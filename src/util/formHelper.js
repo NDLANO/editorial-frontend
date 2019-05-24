@@ -76,7 +76,6 @@ export const isFormikFormDirty = ({
         dirtyFields.push(dirtyValue);
       }
     });
-  console.log(dirtyFields);
   return dirtyFields.length > 0;
 };
 

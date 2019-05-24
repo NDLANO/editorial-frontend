@@ -8,9 +8,9 @@
 
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { animations, spacing, shadows, misc } from '@ndla/core';
+import { spacing, shadows, misc } from '@ndla/core';
 
-export const StyledOverlay = styled.div`
+export const StyledDropdownOverlay = styled.div`
   position: absolute;
   z-index: 9999;
   background: #fff;
@@ -58,16 +58,4 @@ export const StyledOverlay = styled.div`
             }
           }
         `}
-`;
-
-export const StyledOverlayBackground = styled.div`
-  display: block;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 9998;
-  ${animations.fadeIn()}
 `;

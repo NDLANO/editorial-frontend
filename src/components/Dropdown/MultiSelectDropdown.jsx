@@ -12,7 +12,7 @@ import Downshift from 'downshift';
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { itemToString } from '../../util/downShiftHelpers';
 
-class MultiSelectDropdown extends Component {
+export class MultiSelectDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {

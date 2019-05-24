@@ -13,7 +13,7 @@ import { FieldHeader } from '@ndla/forms';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { FormikMetaImageSearch } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
-import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
+import { MultiSelectDropdown } from '../../../components/Dropdown';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 const LearningResourceMetadata = ({ t, tags }) => (

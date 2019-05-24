@@ -222,6 +222,7 @@ class LearningResourceForm extends Component {
       <Formik
         initialValues={initialValues}
         validateOnBlur={false}
+        enableReinitialize
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
         {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
@@ -235,10 +236,10 @@ class LearningResourceForm extends Component {
             <Form {...formClasses()}>
               <FormikHeader
                 values={values}
-                type={values.articleType}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
+                getArticle={() => this.getArticle(values)}
               />
               <LearningResourcePanels
                 values={values}
@@ -325,6 +326,7 @@ LearningResourceForm.propTypes = {
   }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
+  applicationError: PropTypes.func.isRequired,
 };
 
 export default compose(

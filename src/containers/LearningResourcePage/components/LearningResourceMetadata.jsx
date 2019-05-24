@@ -13,7 +13,7 @@ import { FieldHeader } from '@ndla/forms';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { FormikMetaImageSearch } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
-import MultiSelect from '../../../components/MultiSelect';
+import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 const LearningResourceMetadata = ({ t, tags }) => (
@@ -31,15 +31,7 @@ const LearningResourceMetadata = ({ t, tags }) => (
               tooltip={t('form.tags.helpLabel')}
             />
           </FieldHeader>
-          <MultiSelect
-            data={tags}
-            messages={{
-              createOption: t('form.tags.createOption'),
-              emptyFilter: t('form.tags.emptyFilter'),
-              emptyList: t('form.tags.emptyList'),
-            }}
-            {...field}
-          />
+          <MultiSelectDropdown data={tags} {...field} />
         </Fragment>
       )}
     </FormikField>

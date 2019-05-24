@@ -8,28 +8,20 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
-import { css } from '@emotion/core';
-import darken from 'polished/lib/color/darken';
-import { colors } from '@ndla/core';
 import { withRouter } from 'react-router-dom';
-import Button from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
+import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
 import { HistoryShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
 import AlertModal from '../../../components/AlertModal';
+import StyledFilledButton from '../../../components/StyledFilledButton';
 
-const deleteButtonStyle = css`
-  background-color: ${colors.support.red};
-  border-color: ${colors.support.red};
-  color: white;
-  &:hover,
-  &:focus {
-    background-color: ${darken(0.2, colors.support.red)};
-    border-color: ${darken(0.2, colors.support.red)};
-    color: white;
-  }
+const StyledWrapper = styled.div`
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 class FormikDeleteLanguageVersion extends React.Component {
@@ -48,7 +40,7 @@ class FormikDeleteLanguageVersion extends React.Component {
 
   async deleteLanguageVersion() {
     const {
-      model: { id, supportedLanguages, language, articleType },
+      values: { id, supportedLanguages, language, articleType },
       history,
     } = this.props;
     if (
@@ -78,12 +70,18 @@ class FormikDeleteLanguageVersion extends React.Component {
     ) {
       return null;
     }
+
     return (
-      <div>
-        <FieldHeader title={t('form.workflow.deleteLanguageVersion.title')} />
-        <Button css={deleteButtonStyle} onClick={this.toggleShowDeleteWarning}>
-          {t('form.workflow.deleteLanguageVersion.button')}
-        </Button>
+      <StyledWrapper>
+        <StyledFilledButton
+          type="button"
+          deletable
+          onClick={this.toggleShowDeleteWarning}>
+          <DeleteForever />
+          {t('form.workflow.deleteLanguageVersion.button', {
+            languageVersion: t(`language.${language}`).toLowerCase(),
+          })}
+        </StyledFilledButton>
         <AlertModal
           show={showDeleteWarning}
           text={t('form.workflow.deleteLanguageVersion.modal')}
@@ -93,13 +91,15 @@ class FormikDeleteLanguageVersion extends React.Component {
               onClick: this.toggleShowDeleteWarning,
             },
             {
-              text: t('form.workflow.deleteLanguageVersion.button'),
+              text: t('form.workflow.deleteLanguageVersion.button', {
+                languageVersion: t(`language.${language}`).toLowerCase(),
+              }),
               onClick: this.deleteLanguageVersion,
             },
           ]}
           onCancel={this.toggleShowDeleteWarning}
         />
-      </div>
+      </StyledWrapper>
     );
   }
 }

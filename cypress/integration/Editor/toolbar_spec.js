@@ -3,6 +3,12 @@ import { visitOptions, setToken } from '../../support';
 describe('Selecting text and using the toolbar', () => {
   beforeEach(() => {
     setToken();
+    cy.server({ force404: true });
+    cy.route(
+      'GET',
+      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
+      'fixture:tags.json',
+    );
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
   });
 
@@ -99,7 +105,7 @@ describe('Selecting text and using the toolbar', () => {
       });
   });
 
-  it('Creates footnote', () => {
+  it.only('Creates footnote', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
@@ -115,9 +121,9 @@ describe('Selecting text and using the toolbar', () => {
       .last()
       .type('Testnavn');
     cy.get('input[name=year]').type('1984');
-    cy.get('[data-testid=multiselect-authors] input').type('Navn navnesen');
-    cy.get('li')
-      .contains('Opprett ny forfatter')
+    cy.get('[data-testid=multiselect]').type('Navn navnesen');
+    cy.get('button')
+      .contains('Opprett ny')
       .click({ force: true });
     cy.get('[data-cy=save_footnote]').click({ force: true });
     cy.get('a > sup').click({ force: true });

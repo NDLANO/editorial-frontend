@@ -124,7 +124,6 @@ describe('Topic editing', () => {
     cy.get('[data-testid=dropdown-items]')
       .contains('Filmanalyse')
       .click();
-    cy.get('[data-testid=inlineEditSaveButton]').click();
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')

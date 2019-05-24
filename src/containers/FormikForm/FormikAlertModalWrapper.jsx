@@ -17,18 +17,20 @@ class FormikAlertModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
+    this.canNavigate = this.canNavigate.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onContinue = this.onContinue.bind(this);
+  }
+
+  canNavigate() {
+    const { isSubmitting, formIsDirty } = this.props;
+    return isSubmitting || !formIsDirty || this.state.discardChanges;
   }
 
   componentDidMount() {
     const { history, isSubmitting, formIsDirty } = this.props;
     this.unblock = history.block(nextLocation => {
-      console.log(formIsDirty);
-      const canNavigate =
-        isSubmitting || !formIsDirty || this.state.discardChanges;
-      console.log(canNavigate);
-      if (!canNavigate) {
+      if (!this.canNavigate()) {
         this.setState({
           openModal: true,
           nextLocation,
@@ -39,7 +41,7 @@ class FormikAlertModalWrapper extends PureComponent {
           discardChanges: false,
         });
       }
-      return canNavigate;
+      return this.canNavigate();
     });
 
     if (config.isNdlaProdEnvironment) {

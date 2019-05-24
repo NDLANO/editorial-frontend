@@ -45,6 +45,10 @@ const getActions = (message, dispatch, t) => {
         text: t('alertModal.loginAgain'),
         onClick: async evt => {
           evt.preventDefault();
+          const lastPath = `${window.location.pathname}${
+            window.location.search ? window.location.search : ''
+          }`;
+          localStorage.setItem('lastPath', lastPath);
           await createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
           window.location.reload();
         },

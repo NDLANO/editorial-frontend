@@ -71,8 +71,8 @@ export class StructureContainer extends React.PureComponent {
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
   }
 
-  componentDidMount() {
-    this.getAllSubjects();
+  async componentDidMount() {
+    await this.getAllSubjects();
     const { subject } = this.props.match.params;
     if (subject) {
       this.getSubjectTopics(subject);

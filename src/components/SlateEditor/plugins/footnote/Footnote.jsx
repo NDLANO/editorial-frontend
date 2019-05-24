@@ -47,7 +47,7 @@ class Footnote extends Component {
           <EditFootnote
             editor={editor}
             node={node}
-            model={existingFootnote}
+            existingFootnote={existingFootnote}
             blur={editor.blur}
             closeDialog={this.toggleEditMode}
             onChange={editor.onChange}

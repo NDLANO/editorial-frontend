@@ -222,7 +222,6 @@ class LearningResourceForm extends Component {
       <Formik
         initialValues={initialValues}
         validateOnBlur={false}
-        enableReinitialize
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
         {({ values, dirty, isSubmitting, setValues, errors, touched }) => {

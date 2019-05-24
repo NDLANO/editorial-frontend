@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import config from '../../config';
 import AlertModal from '../../components/AlertModal';
-import { isFormikFormDirty } from '../../util/formHelper';
 
 class FormikAlertModalWrapper extends PureComponent {
   constructor(props) {
@@ -28,7 +27,7 @@ class FormikAlertModalWrapper extends PureComponent {
   }
 
   componentDidMount() {
-    const { history, isSubmitting, formIsDirty } = this.props;
+    const { history } = this.props;
     this.unblock = history.block(nextLocation => {
       if (!this.canNavigate()) {
         this.setState({
@@ -45,10 +44,7 @@ class FormikAlertModalWrapper extends PureComponent {
     });
 
     if (config.isNdlaProdEnvironment) {
-      window.onbeforeunload = () =>
-        isSubmitting ||
-        !isFormikFormDirty(this.props) ||
-        this.state.discardChanges;
+      window.onbeforeunload = () => this.canNavigate();
     }
   }
 
@@ -100,7 +96,6 @@ FormikAlertModalWrapper.propTypes = {
   }).isRequired,
   text: PropTypes.string,
   severity: PropTypes.string,
-  isFormik: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   formIsDirty: PropTypes.bool,
 };

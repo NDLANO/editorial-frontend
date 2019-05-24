@@ -752,8 +752,9 @@ const phrases = {
         center: 'Justering: Stort i midten',
       },
       sizes: {
-        xsmall: 'Størrelse: Lite',
-        small: 'Størrelse: Middels',
+        xsmall: 'Størrelse: Frimerke',
+        small: 'Størrelse: Lite',
+        medium: 'Størrelse: Middels',
         fullwidth: 'Størrelse: Stort',
       },
       crop: 'Lag utsnitt av bildet',

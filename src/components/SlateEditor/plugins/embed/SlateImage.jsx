@@ -24,12 +24,36 @@ class SlateImage extends React.Component {
       editModus: false,
     };
     this.setEditModus = this.setEditModus.bind(this);
+    this.constructFigureClassName = this.constructFigureClassName.bind(this);
   }
 
   setEditModus(editModus) {
     this.setState({
       editModus,
     });
+  }
+
+  constructFigureClassName() {
+    const { embed, isSelectedForCopy, active } = this.props;
+    const { editModus } = this.state;
+    const isFullWidth = embed.size === 'fullwidth';
+
+    const size = ['small', 'xsmall'].includes(embed.size)
+      ? `-${embed.size}`
+      : '';
+
+    const align = ['left', 'right'].includes(embed.align)
+      ? `-${embed.align}`
+      : '';
+
+    const copyString =
+      isSelectedForCopy && (!editModus || !active) ? 'isSelectedForCopy' : '';
+
+    const figureClassNames = `c-figure ${
+      !isFullWidth ? `u-float${size}${align}` : ''
+    } ${copyString}`;
+
+    return figureClassNames;
   }
 
   render() {
@@ -59,16 +83,7 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const figureClassNames = `c-figure ${['left', 'right'].includes(
-      embed.align,
-    ) &&
-      ['small', 'xsmall'].includes(embed.size) &&
-      `u-float-${embed.size}-${embed.align}`} ${['left', 'right'].includes(
-      embed.align,
-    ) &&
-      isSelectedForCopy &&
-      (!editModus || !active) &&
-      'isSelectedForCopy'}`;
+    const figureClassNames = this.constructFigureClassName();
 
     return (
       <div {...attributes} className={figureClassNames}>

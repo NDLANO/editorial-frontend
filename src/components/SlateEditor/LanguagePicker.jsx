@@ -19,7 +19,7 @@ import { StyledDropdownOverlay } from '../../components/Dropdown';
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const FormikLanguage = ({ emptyLanguages, editUrl, t }) => {
+const LanguagePicker = ({ emptyLanguages, editUrl, t }) => {
   const [display, setDisplay] = useState(false);
   return (
     <div>
@@ -57,7 +57,7 @@ const FormikLanguage = ({ emptyLanguages, editUrl, t }) => {
   );
 };
 
-FormikLanguage.propTypes = {
+LanguagePicker.propTypes = {
   emptyLanguages: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -67,4 +67,4 @@ FormikLanguage.propTypes = {
   editUrl: PropTypes.func.isRequired,
 };
 
-export default injectT(FormikLanguage);
+export default injectT(LanguagePicker);

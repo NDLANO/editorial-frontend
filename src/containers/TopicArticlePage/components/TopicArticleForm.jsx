@@ -34,7 +34,6 @@ import {
   FormikAlertModalWrapper,
   formClasses,
   FormikActionButton,
-  FormikHeader,
 } from '../../FormikForm';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -45,6 +44,7 @@ import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
+import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -232,7 +232,7 @@ class TopicArticleForm extends Component {
           });
           return (
             <Form {...formClasses()}>
-              <FormikHeader
+              <HeaderWithLanguage
                 values={values}
                 type={values.articleType}
                 getArticle={() => this.getArticle(values)}

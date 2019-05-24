@@ -11,50 +11,33 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, SquareAudio, Check } from '@ndla/icons/editor';
+import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
-import { ContentTypeBadge, constants } from '@ndla/ui';
 import { Link } from 'react-router-dom';
-import FormikDeleteLanguageVersion from './components/FormikDeleteLanguageVersion';
-import FormikLanguage from './FormikLanguage';
-import HowToHelper from '../../components/HowTo/HowToHelper';
 import StyledFilledButton from '../../components/StyledFilledButton';
 import PreviewDraftLightbox from '../../components/PreviewDraft/PreviewDraftLightbox';
-
-const StyledSplitter = styled.div`
-  width: 1px;
-  background: ${colors.brand.lighter};
-  height: ${spacing.normal};
-  margin: 0 ${spacing.xsmall};
-`;
-
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.small} 0 ${spacing.xsmall};
-  margin: ${spacing.normal} 0 ${spacing.small};
-  border-bottom: 2px solid ${colors.brand.light};
-`;
-
-const StyledTitleHeaderWrapper = styled.div`
-  padding-left: ${spacing.small};
-  display: flex;
-  align-items: center;
-  h1 {
-    ${fonts.sizes(26, 1.1)};
-    font-weight: ${fonts.weight.semibold};
-    margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
-    color: ${colors.text.primary};
-  }
-`;
+import { EditorHeader, StyledSplitter } from './EditorHeader';
+import LanguagePicker from './LanguagePicker';
+import FormikDeleteLanguageVersion from '../../containers/FormikForm/components/FormikDeleteLanguageVersion';
 
 const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
   margin: 0 0 ${spacing.normal};
   display: flex;
   align-items: center;
+`;
+
+const currentStyle = css`
+  color: #${colors.brand.primary};
+  background: transparent;
+  &:focus,
+  &:hover {
+    color: #fff;
+    background: ${colors.brand.primary};
+    transform: translate(1px, 1px);
+  }
 `;
 
 const StyledLanguagePills = styled.span`
@@ -69,117 +52,15 @@ const StyledLanguagePills = styled.span`
   transition: all 200ms ease;
   display: flex;
   align-items: center;
+
   .c-icon {
     margin-right: ${spacing.xsmall};
   }
-  ${props =>
-    !props.current &&
-    css`
-      &:focus,
-      &:hover {
-        color: #fff;
-        background: ${colors.brand.primary};
-        transform: translate(1px, 1px);
-      }
-    `}
-  ${props =>
-    !props.current &&
-    css`
-      color: #${colors.brand.primary};
-      background: transparent;
-    `}
+
+  ${props => !props.current && currentStyle}
 `;
 
-const StyledStatusWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StyledStatus = styled.p`
-  ${fonts.sizes(18, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  text-transform: uppercase;
-  margin: 0 ${spacing.small};
-`;
-
-const StyledSmallText = styled.small`
-  color: ${colors.text.light};
-  padding-right: ${spacing.xsmall};
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.light};
-  text-transform: uppercase;
-`;
-
-const { contentTypes } = constants;
-
-const types = {
-  standard: {
-    form: 'learningResourceForm',
-    cssModifier: 'article',
-    icon: (
-      <ContentTypeBadge
-        type={contentTypes.SUBJECT_MATERIAL}
-        background
-        size="small"
-      />
-    ),
-  },
-  'topic-article': {
-    form: 'topicArticleForm',
-    cssModifier: 'article',
-    icon: (
-      <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />
-    ),
-  },
-  image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
-  audio: {
-    form: 'audioForm',
-    cssModifier: 'multimedia',
-    icon: <SquareAudio />,
-  },
-};
-
-const HeaderPart = injectT(({ type, noStatus, statusText, newLanguage, t }) => (
-  <StyledHeader>
-    <StyledTitleHeaderWrapper>
-      {types[type].icon}
-      <h1>{t(`${types[type].form}.title`)}</h1>
-    </StyledTitleHeaderWrapper>
-    {!noStatus ? (
-      <StyledStatusWrapper>
-        <StyledSplitter />
-        <StyledStatus>
-          <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
-          {newLanguage
-            ? t('form.status.new_language')
-            : statusText || t('form.status.new')}
-        </StyledStatus>
-        <HowToHelper
-          pageId="status"
-          tooltip={t('form.workflow.statusInfoTooltip')}
-        />
-      </StyledStatusWrapper>
-    ) : (
-      newLanguage && (
-        <StyledStatusWrapper>
-          <StyledSplitter />
-          <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-        </StyledStatusWrapper>
-      )
-    )}
-  </StyledHeader>
-));
-
-HeaderPart.propTypes = {
-  noStatus: PropTypes.bool,
-  statusText: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  editUrl: PropTypes.func,
-  getArticle: PropTypes.func,
-  newLanguage: PropTypes.bool,
-};
-
-const FormikHeader = ({ t, values, editUrl, getArticle, noStatus }) => {
+const HeaderWithLanguage = ({ t, values, editUrl, getArticle, noStatus }) => {
   const { id, language, supportedLanguages, status, articleType } = values;
 
   const languages = [
@@ -207,7 +88,7 @@ const FormikHeader = ({ t, values, editUrl, getArticle, noStatus }) => {
 
   return (
     <header>
-      <HeaderPart
+      <EditorHeader
         type={articleType}
         noStatus={noStatus}
         statusText={statusText}
@@ -257,7 +138,7 @@ const FormikHeader = ({ t, values, editUrl, getArticle, noStatus }) => {
                 <StyledSplitter />
               </>
             )}
-            <FormikLanguage emptyLanguages={emptyLanguages} editUrl={editUrl} />
+            <LanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
             {!noStatus && <FormikDeleteLanguageVersion values={values} />}
           </Fragment>
         ) : (
@@ -276,7 +157,7 @@ const FormikHeader = ({ t, values, editUrl, getArticle, noStatus }) => {
   );
 };
 
-FormikHeader.propTypes = {
+HeaderWithLanguage.propTypes = {
   noStatus: PropTypes.bool,
   values: PropTypes.shape({
     id: PropTypes.number,
@@ -287,4 +168,4 @@ FormikHeader.propTypes = {
   getArticle: PropTypes.func,
 };
 
-export default injectT(FormikHeader);
+export default injectT(HeaderWithLanguage);

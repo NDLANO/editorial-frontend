@@ -25,7 +25,6 @@ import {
 import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   FormikAlertModalWrapper,
-  FormikHeader,
   FormikActionButton,
   formClasses,
 } from '../../FormikForm';
@@ -44,6 +43,7 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../../util/apiHelpers';
+import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
 
 export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -232,7 +232,7 @@ class LearningResourceForm extends Component {
           });
           return (
             <Form {...formClasses()}>
-              <FormikHeader
+              <HeaderWithLanguage
                 values={values}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)

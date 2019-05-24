@@ -45,7 +45,7 @@ import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 
-export const getInitialValues = (article = {}, language) => {
+export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
@@ -73,7 +73,7 @@ export const getInitialValues = (article = {}, language) => {
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    language: language || article.language,
+    language: article.language,
     articleType: 'standard',
     status: article.status || [],
     notes: [],
@@ -90,33 +90,32 @@ class LearningResourceForm extends Component {
     this.state = {
       showResetModal: false,
       savedToServer: false,
+      initialValues: getInitialValues(props.article),
     };
   }
 
-  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
-    const { selectedLanguage } = this.props;
-    if (selectedLanguage !== prevSelectedLanguage) {
-      this.setState({ savedToServer: false });
+  componentDidUpdate({ article: prevArticle }) {
+    const { article } = this.props;
+    const { language, id } = article;
+    if (language !== prevArticle.language || id !== prevArticle.id) {
+      this.setState({
+        savedToServer: false,
+        initialValues: getInitialValues(article),
+      });
     }
   }
 
-  async onReset(setValues) {
+  async onReset() {
     const { article, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
       const articleFromProd = await getArticle(article.id, selectedLanguage);
-      const convertedArticle = transformArticleFromApiVersion(
-        articleFromProd,
-        selectedLanguage,
-      );
-      const initialValues = getInitialValues(
-        convertedArticle,
-        selectedLanguage,
-      );
+      const convertedArticle = transformArticleFromApiVersion(articleFromProd);
+      const initialValues = getInitialValues(convertedArticle);
 
-      this.setState({ showResetModal: false }, () => setValues(initialValues));
+      this.setState({ showResetModal: false, initialValues });
     } catch (err) {
       if (err.status === 404) {
         this.setState({
@@ -204,7 +203,7 @@ class LearningResourceForm extends Component {
         ...this.getArticleFromSlate(values),
         revision,
       });
-      actions.setSubmitting(false);
+      actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -216,12 +215,12 @@ class LearningResourceForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-    const { error, savedToServer } = this.state;
-    const initialValues = getInitialValues(article, false);
+    const { error, savedToServer, initialValues } = this.state;
     return (
       <Formik
         initialValues={initialValues}
         validateOnBlur={false}
+        enableReinitialize
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
         {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
@@ -319,7 +318,6 @@ LearningResourceForm.propTypes = {
     topics: PropTypes.array,
     loading: PropTypes.bool,
   }),
-  selectedLanguage: PropTypes.string,
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,

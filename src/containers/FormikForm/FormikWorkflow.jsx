@@ -81,7 +81,14 @@ class FormikWorkflow extends Component {
   }
 
   async onSaveAsNew() {
-    const { article, history, formIsDirty, createMessage, t } = this.props;
+    const {
+      article,
+      getArticle,
+      history,
+      formIsDirty,
+      createMessage,
+      t,
+    } = this.props;
     if (formIsDirty) {
       createMessage({
         translationKey: 'form.mustSaveFirst',
@@ -89,7 +96,7 @@ class FormikWorkflow extends Component {
       });
     } else {
       const newArticle = await draftApi.createDraft({
-        ...article,
+        ...getArticle(),
         title: `${article.title} (${t('form.copy')})`,
       });
       createMessage({

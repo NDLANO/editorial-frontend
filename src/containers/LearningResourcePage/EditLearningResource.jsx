@@ -42,7 +42,6 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
       />
       <LearningResourceForm
         article={{ ...article, language }}
-        selectedLanguage={selectedLanguage}
         revision={article.revision}
         tags={tags}
         articleStatus={article.status}

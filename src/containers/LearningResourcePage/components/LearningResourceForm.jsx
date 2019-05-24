@@ -100,13 +100,13 @@ class LearningResourceForm extends Component {
     }
   }
 
-  async onReset({ setValues }) {
-    const { articleId, selectedLanguage, t } = this.props;
+  async onReset(setValues) {
+    const { article, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(articleId, selectedLanguage);
+      const articleFromProd = await getArticle(article.id, selectedLanguage);
       const convertedArticle = transformArticleFromApiVersion(
         articleFromProd,
         selectedLanguage,
@@ -268,7 +268,7 @@ class LearningResourceForm extends Component {
                     },
                     {
                       text: 'Reset',
-                      onClick: this.onReset,
+                      onClick: () => this.onReset(setValues),
                     },
                   ]}
                   onCancel={() => this.setState({ showResetModal: false })}
@@ -303,7 +303,6 @@ class LearningResourceForm extends Component {
 }
 
 LearningResourceForm.propTypes = {
-  articleId: PropTypes.string,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,

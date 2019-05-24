@@ -31,5 +31,4 @@ export {
   FormikCheckbox,
   FormikContributors,
   formClasses,
-  FormikLanguage,
 };

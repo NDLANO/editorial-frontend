@@ -8,8 +8,6 @@ import Button from '@ndla/button';
 import DateTimeWrapper from './DateTime/DateTimeWrapper';
 import formatDate from '../util/formatDate';
 
-const dateTimeCss = css``;
-
 const iconCss = css`
   margin-left: 0.2em;
 `;
@@ -29,7 +27,7 @@ const LastUpdatedLine = ({ creators, published, t, ...rest }) => (
     {creators.map(creator => creator.name).join(',')}
     {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
     {published && (
-      <DateTimeWrapper css={dateTimeCss} {...rest} publishTime={published}>
+      <DateTimeWrapper {...rest} publishTime={published}>
         <Button link css={buttonCss}>
           {formatDate(published)} <Pencil css={iconCss} />
         </Button>

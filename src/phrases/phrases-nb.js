@@ -306,7 +306,7 @@ const phrases = {
     visualElementCopyright: 'Opphav',
     removeVisualElement: 'Fjern element',
     info: {
-      lastUpdated: 'Sist oppdatert: {updated}',
+      lastUpdated: 'Sist oppdatert: ',
     },
     title: 'Emne',
     fields: {

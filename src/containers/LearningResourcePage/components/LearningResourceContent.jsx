@@ -9,6 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { css } from '@emotion/core';
 import { compose } from 'redux';
 import { connect as reduxConnect } from 'react-redux';
 import { connect as formikConnect } from 'formik';
@@ -20,7 +21,7 @@ import FormikField, {
 import RichBlockTextEditor from '../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { schema } from '../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from './../../../components/lastUpdatedLine';
+import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
   renderNode,
   renderMark,
@@ -50,11 +51,12 @@ import {
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
-import {
-  FormikIngress,
-  FormikDatePicker,
-  FormikCheckbox,
-} from '../../FormikForm';
+import { FormikIngress } from '../../FormikForm';
+
+const byLineStyle = css`
+  display: flex;
+  margin-top: 0;
+`;
 
 const findFootnotes = content =>
   content
@@ -117,12 +119,9 @@ class LearningResourceContent extends Component {
       t,
       userAccess,
       formik: {
-        values: { id, language, creators, published, updatePublished = false },
-        initialValues,
+        values: { id, language, creators, published },
       },
     } = this.props;
-
-    const hasPublishedDateChanged = initialValues.published !== published;
 
     return (
       <Fragment>
@@ -134,27 +133,19 @@ class LearningResourceContent extends Component {
           noBorder
           placeholder={t('form.title.label')}
         />
-        <LastUpdatedLine creators={creators} published={published} />
+        <FormikField name="published" css={byLineStyle}>
+          {({ field, form }) => (
+            <LastUpdatedLine
+              name={field.name}
+              creators={creators}
+              published={published}
+              onChange={date => {
+                form.setFieldValue(field.name, date);
+              }}
+            />
+          )}
+        </FormikField>
         <FormikIngress />
-        {!hasPublishedDateChanged && (
-          <FormikCheckbox name="updatePublished" display="inline-block">
-            <span>{t('form.updatePublished')}</span>
-          </FormikCheckbox>
-        )}
-        {updatePublished && (
-          <FormikField name="published">
-            {({ field, form }) => (
-              <FormikDatePicker
-                enableTime
-                onReset={() =>
-                  form.setFieldValue(field.name, initialValues.published || '')
-                }
-                dateFormat="d/m/Y - H:i"
-                {...field}
-              />
-            )}
-          </FormikField>
-        )}
 
         <FormikField
           name="content"

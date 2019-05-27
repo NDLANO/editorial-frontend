@@ -60,7 +60,14 @@ const StyledLanguagePills = styled.span`
   ${props => !props.current && currentStyle}
 `;
 
-const HeaderWithLanguage = ({ t, values, editUrl, getArticle, noStatus }) => {
+const HeaderWithLanguage = ({
+  t,
+  values,
+  type,
+  editUrl,
+  getArticle,
+  noStatus,
+}) => {
   const { id, language, supportedLanguages, status, articleType } = values;
 
   const languages = [
@@ -89,7 +96,7 @@ const HeaderWithLanguage = ({ t, values, editUrl, getArticle, noStatus }) => {
   return (
     <header>
       <EditorHeader
-        type={articleType}
+        type={articleType || type}
         noStatus={noStatus}
         statusText={statusText}
         newLanguage={newLanguage}

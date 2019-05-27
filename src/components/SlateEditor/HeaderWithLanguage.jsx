@@ -173,6 +173,7 @@ HeaderWithLanguage.propTypes = {
   }),
   editUrl: PropTypes.func,
   getArticle: PropTypes.func,
+  type: PropTypes.oneOf(['image', 'audio']),
 };
 
 export default injectT(HeaderWithLanguage);

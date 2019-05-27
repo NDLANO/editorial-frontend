@@ -82,7 +82,10 @@ const HeaderWithLanguage = ({ t, values, editUrl, getArticle, noStatus }) => {
 
   const newLanguage = id && !supportedLanguages.includes(language);
 
-  const statusText = status && status.current;
+  const statusText =
+    status && status.current
+      ? t(`form.status.${status.current.toLowerCase()}`)
+      : '';
 
   const StyledLanguagePillsLink = StyledLanguagePills.withComponent(Link);
 

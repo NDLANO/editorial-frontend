@@ -116,27 +116,29 @@ class NdlaFilmEditor extends React.Component {
       filmFrontpage: newFilmFrontpage,
       themes,
       slideshowMovies,
-      loadingThemes: false,
-      loadingSlideshow: false,
     });
   };
 
   onAddMovieToSlideshow = id => {
-    const { filmFrontpage } = this.state;
-    const { slideShow } = filmFrontpage;
+    const { filmFrontpage, allMovies } = this.state;
+    const newMovie = allMovies.find(movie => movie.id.toString() === id);
+    this.setState(prevState => ({
+      slideshowMovies: [...prevState.slideshowMovies, newMovie],
+    }));
 
+    const { slideShow } = filmFrontpage;
     const newSlideShow = [...slideShow, getUrnFromId(id)];
 
     this.newSlideShow(newSlideShow);
   };
 
-  saveSlideshow = slideShow => {
-    const ids = slideShow.map(movie => getUrnFromId(movie.id));
+  saveSlideshow = slideshowMovies => {
+    this.setState({ slideshowMovies });
+    const ids = slideshowMovies.map(movie => getUrnFromId(movie.id));
     this.newSlideShow(ids);
   };
 
   newSlideShow = newSlideShow => {
-    this.setState({ loadingSlideshow: true });
     const { filmFrontpage } = this.state;
     const newFilmFrontpage = {
       ...filmFrontpage,
@@ -155,13 +157,11 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onSaveThemeName = (newNames, index) => {
-    this.setState({ loadingThemes: true });
     const newThemeNames = this.convertThemeNames(newNames);
     this.updateThemeName(newThemeNames, index);
   };
 
   updateThemeName = (newThemeNames, index) => {
-    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     const { movieThemes } = filmFrontpage;
 
@@ -182,7 +182,6 @@ class NdlaFilmEditor extends React.Component {
   };
 
   updateMovieTheme = (updatedTheme, index) => {
-    this.setState({ loadingThemes: true });
     const movieIds = updatedTheme.map(movie => getUrnFromId(movie.id));
     const { filmFrontpage } = this.state;
     const { movieThemes } = filmFrontpage;
@@ -203,7 +202,6 @@ class NdlaFilmEditor extends React.Component {
   };
 
   addMovieToTheme = (id, index) => {
-    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     const urnId = getUrnFromId(id);
 
@@ -223,7 +221,6 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onMoveTheme = (index, direction) => {
-    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     if (
       index + direction >= 0 &&
@@ -250,7 +247,6 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onDeleteTheme = index => {
-    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
     const newFilmFrontpage = {
       ...filmFrontpage,
@@ -267,7 +263,6 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onAddTheme = theme => {
-    this.setState({ loadingThemes: true });
     const { filmFrontpage } = this.state;
 
     const newThemeNames = this.convertThemeNames(theme);

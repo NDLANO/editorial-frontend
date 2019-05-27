@@ -104,12 +104,20 @@ class AddResourceModal extends Component {
   };
 
   searchLearningpath = async input => {
-    const query = {
-      query: input,
-      pageSize: 10,
-      language: 'nb',
-      fallback: true,
-    };
+    const query = input
+      ? {
+          query: input,
+          pageSize: 10,
+          language: 'nb',
+          fallback: true,
+          verificationStatus: 'CREATED_BY_NDLA',
+        }
+      : {
+          pageSize: 10,
+          language: 'nb',
+          fallback: true,
+          verificationStatus: 'CREATED_BY_NDLA',
+        };
     const res = await learningpathSearch(query);
     return res.results ? res.results : [];
   };

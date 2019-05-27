@@ -108,17 +108,6 @@ class NdlaFilmEditor extends React.Component {
     return response.results;
   };
 
-  refreshProps = async newFilmFrontpage => {
-    const { slideShow, movieThemes } = newFilmFrontpage;
-    const themes = await this.getThemes(movieThemes);
-    const slideshowMovies = await this.getSlideshow(slideShow);
-    this.setState({
-      filmFrontpage: newFilmFrontpage,
-      themes,
-      slideshowMovies,
-    });
-  };
-
   onAddMovieToSlideshow = id => {
     const { filmFrontpage, allMovies } = this.state;
     const newMovie = allMovies.find(movie => movie.id.toString() === id);
@@ -232,21 +221,33 @@ class NdlaFilmEditor extends React.Component {
       const desiredNewIndex = index + direction;
       const { movieThemes } = filmFrontpage;
 
-      const newMovieThemes = movieThemes.map((movieTheme, i) => {
-        if (i === index) {
-          return movieThemes[desiredNewIndex];
-        } else if (i === desiredNewIndex) {
-          return movieThemes[index];
-        }
-        return movieTheme;
-      });
+      const newMovieThemes = this.rearrangeTheme(
+        movieThemes,
+        index,
+        desiredNewIndex,
+      );
 
       const newFilmFrontpage = {
         ...filmFrontpage,
         movieThemes: newMovieThemes,
       };
       this.saveFilmFrontpage(newFilmFrontpage);
+
+      this.setState(prevState => ({
+        themes: this.rearrangeTheme(prevState.themes, index, desiredNewIndex),
+      }));
     }
+  };
+
+  rearrangeTheme = (themes, index, desiredNewIndex) => {
+    return themes.map((theme, i) => {
+      if (i === index) {
+        return themes[desiredNewIndex];
+      } else if (i === desiredNewIndex) {
+        return themes[index];
+      }
+      return theme;
+    });
   };
 
   onDeleteTheme = index => {

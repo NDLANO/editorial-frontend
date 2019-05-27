@@ -25,7 +25,6 @@ import {
 import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   FormikAlertModalWrapper,
-  FormikHeader,
   FormikActionButton,
   formClasses,
 } from '../../FormikForm';
@@ -44,8 +43,9 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../../util/apiHelpers';
+import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
 
-export const getInitialValues = (article = {}, language) => {
+export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     id: article.id,
@@ -73,7 +73,7 @@ export const getInitialValues = (article = {}, language) => {
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     supportedLanguages: article.supportedLanguages || [],
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    language: language || article.language,
+    language: article.language,
     articleType: 'standard',
     status: article.status || [],
     notes: [],
@@ -84,39 +84,38 @@ class LearningResourceForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getArticle = this.getArticle.bind(this);
+    this.getArticleFromSlate = this.getArticleFromSlate.bind(this);
     this.onReset = this.onReset.bind(this);
     this.getPublishedDate = this.getPublishedDate.bind(this);
     this.state = {
       showResetModal: false,
       savedToServer: false,
+      initialValues: getInitialValues(props.article),
     };
   }
 
-  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
-    const { selectedLanguage } = this.props;
-    if (selectedLanguage !== prevSelectedLanguage) {
-      this.setState({ savedToServer: false });
+  componentDidUpdate({ article: prevArticle }) {
+    const { article } = this.props;
+    const { language, id } = article;
+    if (language !== prevArticle.language || id !== prevArticle.id) {
+      this.setState({
+        savedToServer: false,
+        initialValues: getInitialValues(article),
+      });
     }
   }
 
-  async onReset({ setValues }) {
-    const { articleId, selectedLanguage, t } = this.props;
+  async onReset() {
+    const { article, selectedLanguage, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(articleId, selectedLanguage);
-      const convertedArticle = transformArticleFromApiVersion(
-        articleFromProd,
-        selectedLanguage,
-      );
-      const initialValues = getInitialValues(
-        convertedArticle,
-        selectedLanguage,
-      );
+      const articleFromProd = await getArticle(article.id, selectedLanguage);
+      const convertedArticle = transformArticleFromApiVersion(articleFromProd);
+      const initialValues = getInitialValues(convertedArticle);
 
-      this.setState({ showResetModal: false }, () => setValues(initialValues));
+      this.setState({ showResetModal: false, initialValues });
     } catch (err) {
       if (err.status === 404) {
         this.setState({
@@ -143,7 +142,7 @@ class LearningResourceForm extends Component {
     return undefined;
   }
 
-  getArticle(values, preview = false) {
+  getArticleFromSlate(values, preview = false) {
     const { licenses } = this.props;
     const content = learningResourceContentToHTML(values.content);
     const emptyContent = values.id ? '' : undefined;
@@ -190,7 +189,7 @@ class LearningResourceForm extends Component {
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(values.id, {
-          ...this.getArticle(values),
+          ...this.getArticleFromSlate(values),
           revision,
         });
       } catch (error) {
@@ -201,10 +200,10 @@ class LearningResourceForm extends Component {
     }
     try {
       await onUpdate({
-        ...this.getArticle(values),
+        ...this.getArticleFromSlate(values),
         revision,
       });
-      actions.setSubmitting(false);
+      actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -216,103 +215,94 @@ class LearningResourceForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-    const { error, savedToServer } = this.state;
-    const initVal = getInitialValues(article, false);
-
+    const { error, savedToServer, initialValues } = this.state;
     return (
       <Formik
-        initialValues={initVal}
+        initialValues={initialValues}
         validateOnBlur={false}
-        onSubmit={this.handleSubmit}
         enableReinitialize
+        onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
-        {({
-          values,
-          initialValues,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-        }) => (
-          <Form {...formClasses()}>
-            <FormikHeader
-              statusText={values.status.current}
-              values={values}
-              type={values.articleType}
-              editUrl={lang =>
-                toEditArticle(values.id, values.articleType, lang)
-              }
-              getArticle={() => this.getArticle(values)}
-            />
-            <LearningResourcePanels
-              values={values}
-              errors={errors}
-              article={article}
-              touched={touched}
-              getArticle={() => this.getArticle(values)}
-              {...rest}
-            />
-            <Field right>
-              {error && <span className="c-errorMessage">{error}</span>}
-              {values.id && (
-                <FormikActionButton
-                  onClick={() => this.setState({ showResetModal: true })}>
-                  {t('form.resetToProd.button')}
-                </FormikActionButton>
-              )}
-
-              <AlertModal
-                show={this.state.showResetModal}
-                text={t('form.resetToProd.modal')}
-                actions={[
-                  {
-                    text: t('form.abort'),
-                    onClick: () => this.setState({ showResetModal: false }),
-                  },
-                  {
-                    text: 'Reset',
-                    onClick: this.onReset,
-                  },
-                ]}
-                onCancel={() => this.setState({ showResetModal: false })}
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+            type: 'learningResource',
+          });
+          return (
+            <Form {...formClasses()}>
+              <HeaderWithLanguage
+                values={values}
+                editUrl={lang =>
+                  toEditArticle(values.id, values.articleType, lang)
+                }
+                getArticle={() => this.getArticle(values)}
               />
-              <FormikActionButton
-                outline
-                onClick={history.goBack}
-                disabled={isSubmitting}>
-                {t('form.abort')}
-              </FormikActionButton>
-              <SaveButton
-                data-testid="saveLearningResourceButton"
-                {...formClasses}
-                isSaving={isSubmitting}
-                defaultText="saveDraft"
-                showSaved={
-                  savedToServer &&
-                  !isFormikFormDirty({
-                    values,
-                    initialValues,
-                    dirty,
-                  })
-                }>
-                {t('form.save')}
-              </SaveButton>
-            </Field>
-            <FormikAlertModalWrapper
-              isSubmitting={isSubmitting}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </Form>
-        )}
+              <LearningResourcePanels
+                values={values}
+                errors={errors}
+                article={article}
+                touched={touched}
+                getArticle={() => this.getArticleFromSlate(values)}
+                formIsDirty={formIsDirty}
+                {...rest}
+              />
+              <Field right>
+                {error && <span className="c-errorMessage">{error}</span>}
+                {values.id && (
+                  <FormikActionButton
+                    onClick={() => this.setState({ showResetModal: true })}>
+                    {t('form.resetToProd.button')}
+                  </FormikActionButton>
+                )}
+
+                <AlertModal
+                  show={this.state.showResetModal}
+                  text={t('form.resetToProd.modal')}
+                  actions={[
+                    {
+                      text: t('form.abort'),
+                      onClick: () => this.setState({ showResetModal: false }),
+                    },
+                    {
+                      text: 'Reset',
+                      onClick: () => this.onReset(setValues),
+                    },
+                  ]}
+                  onCancel={() => this.setState({ showResetModal: false })}
+                />
+                <FormikActionButton
+                  outline
+                  onClick={history.goBack}
+                  disabled={isSubmitting}>
+                  {t('form.abort')}
+                </FormikActionButton>
+                <SaveButton
+                  data-testid="saveLearningResourceButton"
+                  {...formClasses}
+                  isSaving={isSubmitting}
+                  defaultText="saveDraft"
+                  formIsDirty={formIsDirty}
+                  showSaved={savedToServer && !formIsDirty}>
+                  {t('form.save')}
+                </SaveButton>
+              </Field>
+              <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+              />
+            </Form>
+          );
+        }}
       </Formik>
     );
   }
 }
 
 LearningResourceForm.propTypes = {
-  articleId: PropTypes.string,
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
@@ -329,7 +319,6 @@ LearningResourceForm.propTypes = {
     topics: PropTypes.array,
     loading: PropTypes.bool,
   }),
-  selectedLanguage: PropTypes.string,
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,

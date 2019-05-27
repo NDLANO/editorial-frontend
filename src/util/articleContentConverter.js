@@ -56,12 +56,7 @@ export function learningResourceContentToEditorValue(
   fragment = undefined,
 ) {
   if (!html) {
-    return [
-      {
-        value: createEmptyValue(),
-        index: 0,
-      },
-    ];
+    return [createEmptyValue()];
   }
 
   const serializer = new Html({
@@ -87,21 +82,18 @@ export function learningResourceContentToEditorValue(
 
     const value = convertFromHTML(json);
 
-    return {
-      value,
-      index,
-    };
+    return value;
   });
 }
 
-export function learningResourceContentToHTML(contentValue) {
+export function learningResourceContentToHTML(contentValues) {
   // Use footnoteCounter hack until we have a better footnote api
   const serializer = new Html({
     rules: learningResourceRules,
   });
 
-  return contentValue
-    .map(section => serializer.serialize(section.value))
+  return contentValues
+    .map(value => serializer.serialize(value))
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
@@ -166,8 +158,8 @@ export function isEditorValueDirty(value) {
   if (value.data) {
     return countUndoLength(value) > 0;
   }
-  const undoSizes = value.map(val => {
-    return countUndoLength(val.value);
+  const undoSizes = value.map((val, i) => {
+    return countUndoLength(val);
   });
 
   return undoSizes.some(size => size > 0);

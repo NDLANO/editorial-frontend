@@ -42,7 +42,6 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
       />
       <LearningResourceForm
         article={{ ...article, language }}
-        selectedLanguage={selectedLanguage}
         revision={article.revision}
         tags={tags}
         articleStatus={article.status}
@@ -59,7 +58,6 @@ EditLearningResource.propTypes = {
   licenses: LicensesArrayOf,
   locale: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
-  createMessage: PropTypes.func.isRequired,
 };
 
 export default injectT(withRouter(EditLearningResource));

@@ -40,17 +40,23 @@ const checkStyle = css`
   height: 1.45rem;
 `;
 
-const SaveButton = ({ isSaving, showSaved, t, defaultText, ...rest }) => {
+const SaveButton = ({
+  isSaving,
+  showSaved,
+  t,
+  defaultText,
+  formIsDirty,
+  ...rest
+}) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
-
   const modifier = getModifier();
   return (
     <Button
-      disabled={isSaving || showSaved}
+      disabled={isSaving || !formIsDirty}
       submit
       css={appereances[modifier]}
       {...rest}>
@@ -66,6 +72,7 @@ SaveButton.propTypes = {
   isSaving: bool,
   showSaved: bool,
   defaultText: string,
+  formIsDirty: bool,
 };
 
 export default injectT(SaveButton);

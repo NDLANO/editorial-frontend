@@ -34,7 +34,6 @@ import {
   FormikAlertModalWrapper,
   formClasses,
   FormikActionButton,
-  FormikHeader,
 } from '../../FormikForm';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -45,6 +44,7 @@ import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
+import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -216,23 +216,15 @@ class TopicArticleForm extends Component {
   render() {
     const { t, history, article, ...rest } = this.props;
     const { error, showResetModal, savedToServer } = this.state;
-    const initVal = getInitialValues(article);
+    const initialValues = getInitialValues(article);
     return (
       <Formik
-        initialValues={initVal}
+        initialValues={initialValues}
         validateOnBlur={false}
         onSubmit={this.handleSubmit}
         enableReinitialize
         validate={values => validateFormik(values, topicArticleRules, t)}>
-        {({
-          values,
-          initialValues,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -240,7 +232,7 @@ class TopicArticleForm extends Component {
           });
           return (
             <Form {...formClasses()}>
-              <FormikHeader
+              <HeaderWithLanguage
                 values={values}
                 type={values.articleType}
                 getArticle={() => this.getArticle(values)}
@@ -295,6 +287,7 @@ class TopicArticleForm extends Component {
               </Field>
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />

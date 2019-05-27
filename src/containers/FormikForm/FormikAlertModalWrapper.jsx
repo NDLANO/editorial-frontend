@@ -11,24 +11,25 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import config from '../../config';
 import AlertModal from '../../components/AlertModal';
-import { isFormikFormDirty } from '../../util/formHelper';
 
 class FormikAlertModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
+    this.canNavigate = this.canNavigate.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onContinue = this.onContinue.bind(this);
   }
 
+  canNavigate() {
+    const { isSubmitting, formIsDirty } = this.props;
+    return isSubmitting || !formIsDirty || this.state.discardChanges;
+  }
+
   componentDidMount() {
-    const { history, isSubmitting } = this.props;
+    const { history } = this.props;
     this.unblock = history.block(nextLocation => {
-      const canNavigate =
-        isSubmitting ||
-        !isFormikFormDirty(this.props) ||
-        this.state.discardChanges;
-      if (!canNavigate) {
+      if (!this.canNavigate()) {
         this.setState({
           openModal: true,
           nextLocation,
@@ -39,14 +40,11 @@ class FormikAlertModalWrapper extends PureComponent {
           discardChanges: false,
         });
       }
-      return canNavigate;
+      return this.canNavigate();
     });
 
     if (config.isNdlaProdEnvironment) {
-      window.onbeforeunload = () =>
-        isSubmitting ||
-        !isFormikFormDirty(this.props) ||
-        this.state.discardChanges;
+      window.onbeforeunload = () => this.canNavigate();
     }
   }
 
@@ -92,21 +90,14 @@ class FormikAlertModalWrapper extends PureComponent {
 }
 
 FormikAlertModalWrapper.propTypes = {
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    articleType: PropTypes.string,
-    language: PropTypes.string,
-  }),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,
   }).isRequired,
   text: PropTypes.string,
   severity: PropTypes.string,
-  isFormik: PropTypes.bool,
   isSubmitting: PropTypes.bool,
-  initialValues: PropTypes.object,
+  formIsDirty: PropTypes.bool,
 };
 
 export default withRouter(injectT(FormikAlertModalWrapper));

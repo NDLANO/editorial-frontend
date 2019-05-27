@@ -28,12 +28,12 @@ import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { ImageShape } from '../../../shapes';
 import {
-  FormikHeader,
   FormikActionButton,
   formClasses as classes,
   FormikAlertModalWrapper,
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
+import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
 
 const imageRules = {
   title: {
@@ -187,7 +187,7 @@ class ImageForm extends Component {
         validate={values => validateFormik(values, imageRules, t)}>
         {({ values, dirty, errors, touched, isSubmitting, submitForm }) => (
           <FormWrapper inModal={inModal}>
-            <FormikHeader
+            <HeaderWithLanguage
               noStatus
               values={values}
               type="image"

@@ -14,7 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Field from '../../../Field';
 import { FootnoteShape } from '../../../../shapes';
-import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
+import { MultiSelectDropdown } from '../../../Dropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 

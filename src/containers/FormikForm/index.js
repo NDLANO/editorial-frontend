@@ -4,8 +4,6 @@ import FormikCopyright from './FormikCopyright';
 import FormikIngress from './FormikIngress';
 import FormikWorkflow from './FormikWorkflow';
 import FormikAddNotes from './FormikAddNotes';
-import FormikHeader from './FormikHeader';
-import FormikLanguage from './FormikLanguage';
 import FormikLicense from './components/FormikLicense';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
 import FormikActionButton from './components/FormikActionButton';
@@ -28,11 +26,9 @@ export {
   FormikWorkflow,
   FormikAddNotes,
   FormikLicense,
-  FormikHeader,
   FormikActionButton,
   FormikMetaImageSearch,
   FormikCheckbox,
   FormikContributors,
   formClasses,
-  FormikLanguage,
 };

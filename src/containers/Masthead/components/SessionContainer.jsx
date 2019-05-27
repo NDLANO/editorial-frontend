@@ -18,10 +18,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
 import StyledListButton from '../../../components/StyledListButton';
-import {
-  StyledOverlayBackground,
-  StyledOverlay,
-} from '../../../components/StyledOverlay';
+import Overlay from '../../../components/Overlay';
+import { StyledDropdownOverlay } from '../../../components/Dropdown';
 
 const userIconCss = css`
   color: ${colors.brand.grey};
@@ -31,11 +29,11 @@ const userIconCss = css`
 const StyledLink = StyledListButton.withComponent(Link);
 
 const AuthSiteNavItem = ({ t, onClick }) => (
-  <StyledOverlay withArrow>
+  <StyledDropdownOverlay withArrow>
     <StyledLink to={toLogoutSession()} onClick={onClick}>
       {t('logoutProviders.localLogout')}
     </StyledLink>
-  </StyledOverlay>
+  </StyledDropdownOverlay>
 );
 
 AuthSiteNavItem.propTypes = {
@@ -99,7 +97,7 @@ export class SessionContainer extends Component {
                 />
               </div>
             </FocusTrapReact>
-            <StyledOverlayBackground />
+            <Overlay />
           </>
         )}
       </div>

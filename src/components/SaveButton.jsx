@@ -75,4 +75,8 @@ SaveButton.propTypes = {
   formIsDirty: bool,
 };
 
+SaveButton.defaultProps = {
+  formIsDirty: true,
+};
+
 export default injectT(SaveButton);

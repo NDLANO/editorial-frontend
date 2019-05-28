@@ -34,14 +34,13 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
       />
     );
   }
-  const language = article.language || selectedLanguage;
   return (
     <Fragment>
       <HelmetWithTracker
         title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
       />
       <LearningResourceForm
-        article={{ ...article, language }}
+        article={article}
         revision={article.revision}
         tags={tags}
         articleStatus={article.status}

@@ -89,25 +89,35 @@ class TopicArticleForm extends Component {
       showResetModal: false,
       savedToServer: false,
     };
+    this.formik = React.createRef();
   }
 
-  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
-    const { selectedLanguage } = this.props;
-    if (selectedLanguage !== prevSelectedLanguage) {
+  componentDidUpdate({ article: prevArticle }) {
+    const { article } = this.props;
+    if (
+      article.language !== prevArticle.language ||
+      article.id !== prevArticle.id
+    ) {
       this.setState({ savedToServer: false });
+      if (this.formik.current) {
+        this.formik.current.resetForm();
+      }
     }
   }
 
   async onResetFormToProd({ setValues }) {
-    const { articleId, selectedLanguage, t } = this.props;
+    const {
+      article: { language, id },
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(articleId, selectedLanguage);
+      const articleFromProd = await getArticle(id, language);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
-        language: selectedLanguage,
+        language,
       });
       const initialValues = getInitialValues(convertedArticle);
       this.setState({ showResetModal: false }, () => setValues(initialValues));
@@ -150,7 +160,7 @@ class TopicArticleForm extends Component {
       introduction: editorValueToPlainText(values.introduction),
       tags: values.tags,
       content: content || emptyField,
-      visualElement: visualElement || emptyField,
+      visualElement: visualElement,
       metaDescription: editorValueToPlainText(values.metaDescription),
       articleType: 'topic-article',
       copyright: {
@@ -203,7 +213,7 @@ class TopicArticleForm extends Component {
         ...this.getArticle(values),
         revision,
       });
-      actions.setSubmitting(false);
+      actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -221,8 +231,8 @@ class TopicArticleForm extends Component {
       <Formik
         initialValues={initialValues}
         validateOnBlur={false}
+        ref={this.formik}
         onSubmit={this.handleSubmit}
-        enableReinitialize
         validate={values => validateFormik(values, topicArticleRules, t)}>
         {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
@@ -281,6 +291,7 @@ class TopicArticleForm extends Component {
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
+                  formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}>
                   {t('form.save')}
                 </SaveButton>
@@ -315,8 +326,6 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
-  selectedLanguage: PropTypes.string.isRequired,
-  articleId: PropTypes.string,
 };
 
 export default compose(

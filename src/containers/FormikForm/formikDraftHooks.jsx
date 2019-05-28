@@ -17,13 +17,13 @@ export function useFetchArticleData(articleId, locale) {
   const fetchArticle = async () => {
     if (articleId) {
       const article = await draftApi.fetchDraft(articleId, locale);
-      setArticle(transformArticleFromApiVersion(article));
+      setArticle(transformArticleFromApiVersion(article, locale));
     }
   };
 
   const updateArticle = async updatedArticle => {
     const savedArticle = await draftApi.updateDraft(updatedArticle);
-    setArticle(transformArticleFromApiVersion(savedArticle));
+    setArticle(transformArticleFromApiVersion(savedArticle, locale));
     return savedArticle;
   };
 
@@ -39,7 +39,7 @@ export function useFetchArticleData(articleId, locale) {
 
   const createArticle = async createdArticle => {
     const savedArticle = await draftApi.createDraft(createdArticle);
-    setArticle(transformArticleFromApiVersion(savedArticle));
+    setArticle(transformArticleFromApiVersion(savedArticle, locale));
     return savedArticle;
   };
 

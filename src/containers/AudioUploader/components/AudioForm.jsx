@@ -172,6 +172,11 @@ class AudioForm extends Component {
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting } = formikProps;
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
@@ -218,18 +223,13 @@ class AudioForm extends Component {
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
-                  showSaved={
-                    savedToServer &&
-                    !isFormikFormDirty({
-                      values,
-                      initialValues,
-                      dirty,
-                    })
-                  }
+                  formIsDirty={formIsDirty}
+                  showSaved={savedToServer && !formIsDirty}
                 />
               </Field>
               <FormikAlertModalWrapper
                 {...formikProps}
+                formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />

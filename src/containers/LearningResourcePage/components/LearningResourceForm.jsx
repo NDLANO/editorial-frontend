@@ -90,32 +90,35 @@ class LearningResourceForm extends Component {
     this.state = {
       showResetModal: false,
       savedToServer: false,
-      initialValues: getInitialValues(props.article),
     };
+    this.formik = React.createRef();
   }
 
   componentDidUpdate({ article: prevArticle }) {
     const { article } = this.props;
     const { language, id } = article;
     if (language !== prevArticle.language || id !== prevArticle.id) {
+      if (this.formik.current) {
+        // Since we removed enableReinitialize we need to manually reset the form for these cases
+        this.formik.current.resetForm();
+      }
       this.setState({
         savedToServer: false,
-        initialValues: getInitialValues(article),
       });
     }
   }
 
-  async onReset() {
-    const { article, selectedLanguage, t } = this.props;
+  async onReset(setvalues) {
+    const { article, t } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(article.id, selectedLanguage);
+      const articleFromProd = await getArticle(article.id, article.language);
       const convertedArticle = transformArticleFromApiVersion(articleFromProd);
       const initialValues = getInitialValues(convertedArticle);
-
-      this.setState({ showResetModal: false, initialValues });
+      setvalues(initialValues);
+      this.setState({ showResetModal: false });
     } catch (err) {
       if (err.status === 404) {
         this.setState({
@@ -215,12 +218,13 @@ class LearningResourceForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-    const { error, savedToServer, initialValues } = this.state;
+    const { error, savedToServer } = this.state;
+    const initialValues = getInitialValues(article);
     return (
       <Formik
         initialValues={initialValues}
         validateOnBlur={false}
-        enableReinitialize
+        ref={this.formik}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
         {({ values, dirty, isSubmitting, setValues, errors, touched }) => {

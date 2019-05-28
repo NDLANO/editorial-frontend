@@ -11,7 +11,7 @@ import {
   createTopicResource,
   fetchResource,
   fetchResourceResourceType,
-  updateTopic,
+  queryLearningPathResource,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 
@@ -47,12 +47,7 @@ class AddResourceModal extends Component {
   }
 
   onSelect = selected => {
-    console.log(selected);
     if (selected) {
-      if (selected.url && !selected.url.includes('learningpaths')) {
-        const articleId = selected.url.split('/').pop();
-        this.articleToState(articleId);
-      }
       this.setState({ selected });
     } else {
       this.setState({ selected: {}, article: {} });
@@ -150,14 +145,12 @@ class AddResourceModal extends Component {
     if (selected.id) {
       try {
         this.setState({ loading: true });
-        console.log(selected);
-        await updateTopic({
-          id: selected.id,
-          name: selected.title,
-          contentUri: `urn:learningpath:${selected.id}`,
-        });
+        const resourceId =
+          this.props.type === 'urn:resourcetype:learningPath'
+            ? await this.findResourceIdLearningPath(selected.id)
+            : getResourceIdFromPath(selected.paths[0]);
         await createTopicResource({
-          resourceId: getResourceIdFromPath(selected.paths[0]),
+          resourceId: resourceId,
           topicid: topicId,
         });
         refreshResources();
@@ -169,6 +162,11 @@ class AddResourceModal extends Component {
         this.setState({ loading: false, error: e.message });
       }
     }
+  };
+
+  findResourceIdLearningPath = async id => {
+    const resource = await queryLearningPathResource(id);
+    return resource[0].id;
   };
 
   render() {

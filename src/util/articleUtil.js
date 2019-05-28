@@ -44,7 +44,7 @@ export const transformArticleFromApiVersion = (article, locale) => ({
       : undefined,
   metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
   tags: convertFieldWithFallback(article, 'tags', []),
-  language: locale,
+  ...(locale ? { language: locale } : {}),
 });
 
 export const transformArticle = article => {

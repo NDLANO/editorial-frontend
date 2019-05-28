@@ -9,6 +9,11 @@
 import defined from 'defined';
 import formatDate from './formatDate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
+import * as articleStatuses from './constants/ArticleStatus';
+
+export const isDraftPublished = (status = {}) =>
+  (status.other && status.other.includes(articleStatuses.PUBLISHED)) ||
+  status.current === articleStatuses.PUBLISHED;
 
 export const transformArticleToApiVersion = article => ({
   ...article,

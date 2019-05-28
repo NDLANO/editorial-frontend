@@ -134,7 +134,6 @@ class FormikWorkflow extends Component {
   render() {
     const { values, articleStatus, getArticle, article, t } = this.props;
     const { possibleStatuses } = this.state;
-    console.log(values, article);
     return (
       <Fragment>
         <FormikField name="notes" showError={false}>

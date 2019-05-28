@@ -13,6 +13,7 @@ import {
   fetchResourceResourceType,
   queryLearningPathResource,
   createResource,
+  createResourceResourceType,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 
@@ -176,6 +177,11 @@ class AddResourceModal extends Component {
           name: learningpath.title,
         });
         const resource = await queryLearningPathResource(learningpath.id);
+        const resourceId = resource[0].id;
+        await createResourceResourceType({
+          resourceId: resourceId,
+          resourceTypeId: 'urn:resourcetype:learningPath',
+        });
         return resource[0].id;
       } catch (e) {
         handleError(e);

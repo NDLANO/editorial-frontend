@@ -133,6 +133,7 @@ class NdlaFilmEditor extends React.Component {
       ...filmFrontpage,
       slideShow: newSlideShow,
     };
+    this.setState({ filmFrontpage: newFilmFrontpage });
     this.saveFilmFrontpage(newFilmFrontpage);
   };
 
@@ -200,23 +201,29 @@ class NdlaFilmEditor extends React.Component {
 
   addMovieToTheme = (id, index) => {
     const { filmFrontpage, allMovies } = this.state;
-    const urnId = getUrnFromId(id);
 
     const newFilmFrontpage = {
       ...filmFrontpage,
-      movieThemes: filmFrontpage.movieThemes.map((theme, i) =>
-        i === index ? { ...theme, movies: [...theme.movies, urnId] } : theme,
+      movieThemes: this.helperAddMovieToTheme(
+        filmFrontpage.movieThemes,
+        index,
+        getUrnFromId(id),
       ),
     };
 
     const newMovie = allMovies.find(movie => movie.id.toString() === id);
     this.setState(prevState => ({
-      themes: prevState.themes.map((theme, i) =>
-        i === index ? { ...theme, movies: [...theme.movies, newMovie] } : theme,
-      ),
+      themes: this.helperAddMovieToTheme(prevState.themes, index, newMovie),
+      filmFrontpage: newFilmFrontpage,
     }));
 
     this.saveFilmFrontpage(newFilmFrontpage);
+  };
+
+  helperAddMovieToTheme = (themes, index, newMovie) => {
+    return themes.map((theme, i) =>
+      i === index ? { ...theme, movies: [...theme.movies, newMovie] } : theme,
+    );
   };
 
   onMoveTheme = (index, direction) => {
@@ -242,6 +249,7 @@ class NdlaFilmEditor extends React.Component {
 
       this.setState(prevState => ({
         themes: this.rearrangeTheme(prevState.themes, index, desiredNewIndex),
+        filmFrontpage: newFilmFrontpage,
       }));
     }
   };
@@ -259,14 +267,15 @@ class NdlaFilmEditor extends React.Component {
 
   onDeleteTheme = index => {
     const { filmFrontpage } = this.state;
-    this.setState(prevState => ({
-      themes: prevState.themes.filter((theme, i) => i !== index),
-    }));
     const newFilmFrontpage = {
       ...filmFrontpage,
       movieThemes: filmFrontpage.movieThemes.filter((theme, i) => i !== index),
     };
     this.saveFilmFrontpage(newFilmFrontpage);
+    this.setState(prevState => ({
+      themes: prevState.themes.filter((theme, i) => i !== index),
+      filmFrontpage: newFilmFrontpage,
+    }));
   };
 
   convertThemeNames = names => {
@@ -288,6 +297,7 @@ class NdlaFilmEditor extends React.Component {
 
     this.setState(prevState => ({
       themes: [...prevState.themes, newTheme],
+      filmFrontpage: newFilmFrontpage,
     }));
   };
 

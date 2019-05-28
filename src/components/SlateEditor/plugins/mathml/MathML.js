@@ -27,7 +27,6 @@ class MathML extends Component {
         window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
         this.setState({ reRender: false });
       }, 10);
-      
     }
   }
 

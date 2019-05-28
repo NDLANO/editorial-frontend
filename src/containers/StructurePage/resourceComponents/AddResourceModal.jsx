@@ -12,6 +12,7 @@ import {
   fetchResource,
   fetchResourceResourceType,
   queryLearningPathResource,
+  createResource,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 
@@ -147,7 +148,7 @@ class AddResourceModal extends Component {
         this.setState({ loading: true });
         const resourceId =
           this.props.type === 'urn:resourcetype:learningPath'
-            ? await this.findResourceIdLearningPath(selected.id)
+            ? await this.findResourceIdLearningPath(selected)
             : getResourceIdFromPath(selected.paths[0]);
         await createTopicResource({
           resourceId: resourceId,
@@ -164,9 +165,23 @@ class AddResourceModal extends Component {
     }
   };
 
-  findResourceIdLearningPath = async id => {
-    const resource = await queryLearningPathResource(id);
-    return resource[0].id;
+  findResourceIdLearningPath = async learningpath => {
+    const resource = await queryLearningPathResource(learningpath.id);
+    if (resource.length > 0) {
+      return resource[0].id;
+    } else {
+      try {
+        await createResource({
+          contentUri: `urn:learningpath:${learningpath.id}`,
+          name: learningpath.title,
+        });
+        const resource = await queryLearningPathResource(learningpath.id);
+        return resource[0].id;
+      } catch (e) {
+        handleError(e);
+        this.setState({ loading: false, error: e.message });
+      }
+    }
   };
 
   render() {

@@ -134,7 +134,6 @@ class FormikWorkflow extends Component {
   render() {
     const { values, articleStatus, getArticle, article, t } = this.props;
     const { possibleStatuses } = this.state;
-
     return (
       <Fragment>
         <FormikField name="notes" showError={false}>
@@ -165,6 +164,7 @@ class FormikWorkflow extends Component {
         <FormikQualityAssurance
           getArticle={getArticle}
           values={values}
+          articleStatus={articleStatus}
           onValidateClick={this.onValidateClick}
         />
       </Fragment>

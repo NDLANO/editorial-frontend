@@ -154,41 +154,48 @@ class NdlaFilmEditor extends React.Component {
     const { movieThemes } = filmFrontpage;
     const newFilmFrontpage = {
       ...filmFrontpage,
-      movieThemes: movieThemes.map((theme, i) =>
-        i === index ? { ...theme, name: newThemeNames } : theme,
-      ),
+      movieThemes: this.helperThemeName(movieThemes, newThemeNames, index),
     };
 
     this.saveFilmFrontpage(newFilmFrontpage);
 
     this.setState(prevState => ({
-      themes: prevState.themes.map((theme, i) =>
-        i === index ? { ...theme, name: newThemeNames } : theme,
+      themes: this.helperThemeName(prevState.themes, newThemeNames, index),
+      filmFrontpage: newFilmFrontpage,
+    }));
+  };
+
+  helperThemeName = (themes, names, index) => {
+    return themes.map((theme, i) =>
+      i === index ? { ...theme, name: names } : theme,
+    );
+  };
+
+  updateMovieTheme = (updatedThemeMovies, index) => {
+    const movieIds = updatedThemeMovies.map(movie => getUrnFromId(movie.id));
+    const { filmFrontpage } = this.state;
+    const { movieThemes } = filmFrontpage;
+
+    const newFilmFrontpage = {
+      ...filmFrontpage,
+      movieThemes: this.helperUpdateMovieTheme(movieThemes, index, movieIds),
+    };
+    this.saveFilmFrontpage(newFilmFrontpage);
+
+    this.setState(prevState => ({
+      themes: this.helperUpdateMovieTheme(
+        prevState.themes,
+        index,
+        updatedThemeMovies,
       ),
       filmFrontpage: newFilmFrontpage,
     }));
   };
 
-  updateMovieTheme = (updatedThemeMovies, index) => {
-    const movieIds = updatedThemeMovies.map(movie => getUrnFromId(movie.id));
-    const { filmFrontpage, themes } = this.state;
-    const { movieThemes } = filmFrontpage;
-
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      movieThemes: movieThemes.map((theme, i) =>
-        i === index ? { ...theme, movies: movieIds } : theme,
-      ),
-    };
-    this.saveFilmFrontpage(newFilmFrontpage);
-
-    const updatedTheme = { ...themes[index], movies: updatedThemeMovies };
-
-    this.setState(prevState => ({
-      themes: prevState.themes.map((theme, i) =>
-        i === index ? updatedTheme : theme,
-      ),
-    }));
+  helperUpdateMovieTheme = (themes, index, movies) => {
+    return themes.map((theme, i) =>
+      i === index ? { ...theme, movies } : theme,
+    );
   };
 
   addMovieToTheme = (id, index) => {

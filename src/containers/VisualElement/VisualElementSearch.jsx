@@ -20,7 +20,6 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
-import { getSaving as getSavingAudio } from '../../modules/audio/audio';
 import {
   getImage,
   getUploadedImage,
@@ -277,7 +276,6 @@ const mapStateToProps = state => {
     locale,
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
-    isSavingAudio: getSavingAudio(state),
     isSavingImage: getSavingImage(state),
     showSaved: getShowSaved(state),
     uploadedImage: getUploadedImage(state),

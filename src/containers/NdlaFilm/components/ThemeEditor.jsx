@@ -21,6 +21,7 @@ import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
 import AddMovieOptions from './AddMovieOptions';
 import { ContentResultShape } from '../../../shapes';
+import { findName } from '../../util/ndlaFilmHelpers';
 
 const ThemeEditor = ({
   t,
@@ -32,7 +33,6 @@ const ThemeEditor = ({
   onMoveTheme,
   onDeleteTheme,
   onSaveThemeName,
-  findName,
   loading,
 }) => {
   if (loading) {
@@ -161,7 +161,6 @@ ThemeEditor.propTypes = {
   onDeleteTheme: PropTypes.func.isRequired,
   updateThemeName: PropTypes.func.isRequired,
   onSaveThemeName: PropTypes.func.isRequired,
-  findName: PropTypes.func.isRequired,
 };
 
 export default injectT(ThemeEditor);

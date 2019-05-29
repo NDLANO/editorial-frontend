@@ -25,6 +25,7 @@ import {
   changeThemeNames,
   changeMoviesInTheme,
   addMovieToTheme,
+  convertThemeNames,
 } from '../../util/ndlaFilmHelpers';
 
 class NdlaFilmEditor extends React.Component {
@@ -149,7 +150,7 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onSaveThemeName = (newNames, index) => {
-    const newThemeNames = this.convertThemeNames(newNames);
+    const newThemeNames = convertThemeNames(newNames);
     this.updateThemeName(newThemeNames, index);
   };
 
@@ -259,16 +260,9 @@ class NdlaFilmEditor extends React.Component {
     }));
   };
 
-  convertThemeNames = names => {
-    return ['nb', 'nn', 'en'].map(lang => ({
-      language: lang,
-      name: names.name[lang],
-    }));
-  };
-
   onAddTheme = theme => {
     const { filmFrontpage } = this.state;
-    const newTheme = { name: this.convertThemeNames(theme), movies: [] };
+    const newTheme = { name: convertThemeNames(theme), movies: [] };
 
     const newFilmFrontpage = {
       ...filmFrontpage,
@@ -280,13 +274,6 @@ class NdlaFilmEditor extends React.Component {
       themes: [...prevState.themes, newTheme],
       filmFrontpage: newFilmFrontpage,
     }));
-  };
-
-  findName = (themeNames, language) => {
-    const filteredName = themeNames.filter(name => name.language === language);
-    return filteredName.length > 0
-      ? filteredName.map(name => name.name).join()
-      : '';
   };
 
   render() {
@@ -323,7 +310,6 @@ class NdlaFilmEditor extends React.Component {
             onAddTheme={this.onAddTheme}
             updateThemeName={this.updateThemeName}
             onSaveThemeName={this.onSaveThemeName}
-            findName={this.findName}
             loading={loadingThemes}
           />
         </StyledSection>

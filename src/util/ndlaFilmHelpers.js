@@ -49,3 +49,17 @@ export const changeThemeNames = (themes, names, index) => {
     i === index ? { ...theme, name: names } : theme,
   );
 };
+
+export const findName = (themeNames, language) => {
+  const filteredName = themeNames.filter(name => name.language === language);
+  return filteredName.length > 0
+    ? filteredName.map(name => name.name).join()
+    : '';
+};
+
+export const convertThemeNames = names => {
+  return ['nb', 'nn', 'en'].map(lang => ({
+    language: lang,
+    name: names.name[lang],
+  }));
+};

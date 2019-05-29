@@ -241,7 +241,7 @@ class LearningResourceForm extends Component {
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
-                getArticle={() => this.getArticle(values)}
+                getArticle={() => this.getArticleFromSlate(values)}
               />
               <LearningResourcePanels
                 values={values}

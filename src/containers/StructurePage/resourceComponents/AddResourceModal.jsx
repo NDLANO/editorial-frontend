@@ -14,6 +14,7 @@ import {
   queryLearningPathResource,
   createResource,
   createResourceResourceType,
+  createResourceFilter,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 
@@ -142,7 +143,7 @@ class AddResourceModal extends Component {
   };
 
   addSelected = async () => {
-    const { topicId, refreshResources, onClose } = this.props;
+    const { topicId, refreshResources, onClose, topicFilters } = this.props;
     const { selected } = this.state;
     if (selected.id) {
       try {
@@ -155,6 +156,13 @@ class AddResourceModal extends Component {
           resourceId: resourceId,
           topicid: topicId,
         });
+        if (topicFilters.length > 0) {
+          await createResourceFilter({
+            filterId: topicFilters[0].id,
+            relevanceId: topicFilters[0].relevanceId,
+            resourceId: resourceId,
+          });
+        }
         refreshResources();
         this.setState({ loading: false });
 
@@ -240,6 +248,7 @@ AddResourceModal.propTypes = {
   type: PropTypes.string,
   allowPaste: PropTypes.bool,
   topicId: PropTypes.string.isRequired,
+  topicFilters: PropTypes.array,
   refreshResources: PropTypes.func.isRequired,
 };
 

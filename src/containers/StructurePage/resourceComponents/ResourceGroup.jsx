@@ -81,6 +81,7 @@ class ResourceGroup extends PureComponent {
         </Accordion>
         {this.state.showAddModal && (
           <AddResourceModal
+            topicFilters={currentTopic.filters}
             type={resource.id}
             allowPaste={resource.id !== 'urn:resourcetype:learningPath'}
             topicId={params.topic3 || params.topic2 || params.topic1}
@@ -109,7 +110,7 @@ ResourceGroup.propTypes = {
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
   currentTopic: PropTypes.shape({
-    filter: PropTypes.array,
+    filters: PropTypes.array,
   }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,

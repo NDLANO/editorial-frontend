@@ -51,6 +51,13 @@ class AddResourceModal extends Component {
 
   onSelect = selected => {
     if (selected) {
+      if (selected.url && !selected.url.includes('learningpaths')) {
+        const articleId = selected.url.split('/').pop();
+        this.articleToState(articleId);
+      }
+      if (selected.metaUrl && selected.metaUrl.includes('learningpaths')) {
+        this.learningpathToState(selected);
+      }
       this.setState({ selected });
     } else {
       this.setState({ selected: {}, article: {} });
@@ -138,6 +145,17 @@ class AddResourceModal extends Component {
         metaDescription: metaDescription.metaDescription,
         title: title.title,
         imageUrl: metaImage.url,
+      },
+    });
+  };
+
+  learningpathToState = learningpath => {
+    this.setState({
+      article: {
+        id: learningpath.id,
+        metaDescription: learningpath.description,
+        title: learningpath.title,
+        imageUrl: learningpath.coverPhotoUrl,
       },
     });
   };

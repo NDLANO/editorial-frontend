@@ -74,6 +74,7 @@ class NdlaFilmEditor extends React.Component {
       const themes = await Promise.all(fetchThemes);
       return themes;
     }
+    return undefined;
   };
 
   fetchThemeMetaData = async movieTheme => {
@@ -131,11 +132,11 @@ class NdlaFilmEditor extends React.Component {
     this.newSlideShow(ids);
   };
 
-  newSlideShow = newSlideShow => {
+  newSlideShow = newSlideShowIds => {
     const { filmFrontpage } = this.state;
     const newFilmFrontpage = {
       ...filmFrontpage,
-      slideShow: newSlideShow,
+      slideShow: newSlideShowIds,
     };
     this.setState({ filmFrontpage: newFilmFrontpage });
     this.saveFilmFrontpage(newFilmFrontpage);

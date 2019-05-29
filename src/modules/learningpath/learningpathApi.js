@@ -14,7 +14,7 @@ import {
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
-export const learningpathSearch = async query =>
+export const learningpathSearch = query =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),

@@ -15,6 +15,8 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
+import { FilterShape } from '../../../shapes';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -83,7 +85,7 @@ class ResourceGroup extends PureComponent {
           <AddResourceModal
             topicFilters={currentTopic.filters}
             type={resource.id}
-            allowPaste={resource.id !== 'urn:resourcetype:learningPath'}
+            allowPaste={resource.id !== RESOURCE_TYPE_LEARNING_PATH}
             topicId={params.topic3 || params.topic2 || params.topic1}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
@@ -110,7 +112,7 @@ ResourceGroup.propTypes = {
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
   currentTopic: PropTypes.shape({
-    filters: PropTypes.array,
+    filters: PropTypes.arrayOf(FilterShape),
   }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,

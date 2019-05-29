@@ -17,10 +17,11 @@ import {
   createResourceFilter,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
-
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { getArticle } from '../../../modules/article/articleApi';
 import { learningpathSearch } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
+import { FilterShape } from '../../../shapes';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -64,8 +65,8 @@ class AddResourceModal extends Component {
     }
   };
 
-  onPaste = async e => {
-    const val = e.target.value;
+  onPaste = async evt => {
+    const val = evt.target.value;
     const { type, t } = this.props;
     const resourceId = getResourceIdFromPath(val);
 
@@ -94,16 +95,16 @@ class AddResourceModal extends Component {
   onInputSearch = async input => {
     try {
       const result =
-        this.props.type === 'urn:resourcetype:learningPath'
+        this.props.type === RESOURCE_TYPE_LEARNING_PATH
           ? await this.searchLearningpath(input)
           : await this.groupSearch(input);
       return result.map(current => ({
         ...current,
         title: current.title ? current.title.title : '',
       }));
-    } catch (e) {
-      handleError(e);
-      this.setState({ error: e.message });
+    } catch (err) {
+      handleError(err);
+      this.setState({ error: err.message });
       return [];
     }
   };
@@ -124,7 +125,7 @@ class AddResourceModal extends Component {
           verificationStatus: 'CREATED_BY_NDLA',
         };
     const res = await learningpathSearch(query);
-    return res.results ? res.results : [];
+    return res.results || [];
   };
 
   groupSearch = async input => {
@@ -167,18 +168,18 @@ class AddResourceModal extends Component {
       try {
         this.setState({ loading: true });
         const resourceId =
-          this.props.type === 'urn:resourcetype:learningPath'
+          this.props.type === RESOURCE_TYPE_LEARNING_PATH
             ? await this.findResourceIdLearningPath(selected)
             : getResourceIdFromPath(selected.paths[0]);
         await createTopicResource({
-          resourceId: resourceId,
+          resourceId,
           topicid: topicId,
         });
         if (topicFilters.length > 0) {
           await createResourceFilter({
             filterId: topicFilters[0].id,
             relevanceId: topicFilters[0].relevanceId,
-            resourceId: resourceId,
+            resourceId,
           });
         }
         refreshResources();
@@ -205,13 +206,13 @@ class AddResourceModal extends Component {
         const resource = await queryLearningPathResource(learningpath.id);
         const resourceId = resource[0].id;
         await createResourceResourceType({
-          resourceId: resourceId,
-          resourceTypeId: 'urn:resourcetype:learningPath',
+          resourceId,
+          resourceTypeId: RESOURCE_TYPE_LEARNING_PATH,
         });
         return resource[0].id;
-      } catch (e) {
-        handleError(e);
-        this.setState({ loading: false, error: e.message });
+      } catch (err) {
+        handleError(err);
+        this.setState({ loading: false, error: err.message });
       }
     }
   };
@@ -266,7 +267,7 @@ AddResourceModal.propTypes = {
   type: PropTypes.string,
   allowPaste: PropTypes.bool,
   topicId: PropTypes.string.isRequired,
-  topicFilters: PropTypes.array,
+  topicFilters: PropTypes.arrayOf(FilterShape),
   refreshResources: PropTypes.func.isRequired,
 };
 

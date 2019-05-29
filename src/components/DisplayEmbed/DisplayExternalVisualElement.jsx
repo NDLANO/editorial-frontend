@@ -60,8 +60,8 @@ export class DisplayExternalVisualElement extends Component {
         } else {
           this.setState({ error: true });
         }
-      } catch (e) {
-        handleError(e);
+      } catch (err) {
+        handleError(err);
         this.setState({ error: true });
       }
     } else {
@@ -121,7 +121,7 @@ export class DisplayExternalVisualElement extends Component {
         )}
         <div className="c-figure">
           <FigureButtons
-            tooltip={t(`form.${youtubeOrH5p}.remove`)}
+            tooltip={t(`form.${youtubeOrH5p}.remove`, { type: providerName })}
             onRemoveClick={onRemoveClick}
             embed={embed}
             t={t}

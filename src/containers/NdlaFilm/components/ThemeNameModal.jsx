@@ -32,14 +32,20 @@ const initialState = (initialTheme = {}) => {
 };
 
 const ThemeNameModal = props => {
-  const { initialTheme, activateButton, messages, onSaveTheme } = props;
+  const {
+    initialTheme,
+    activateButton,
+    messages,
+    onSaveTheme,
+    createTheme,
+  } = props;
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
   return (
     <Modal narrow activateButton={activateButton}>
       {onCloseModal => (
         <NdlaFilmThemeEditorModal
           onClose={() => {
-            setNewTheme(blankTheme);
+            if (createTheme) setNewTheme(blankTheme);
             onCloseModal();
           }}
           onEditName={evt => {
@@ -53,6 +59,7 @@ const ThemeNameModal = props => {
           }}
           onSave={() => {
             onSaveTheme(newTheme);
+            if (createTheme) setNewTheme(blankTheme);
             onCloseModal();
           }}
           theme={newTheme}
@@ -82,6 +89,7 @@ ThemeNameModal.propTypes = {
     cancel: PropTypes.string,
     title: PropTypes.string,
   }),
+  createTheme: PropTypes.bool,
 };
 
 export default injectT(ThemeNameModal);

@@ -43,6 +43,7 @@ const ThemeEditor = ({
     <>
       <ThemeNameModal
         onSaveTheme={onAddTheme}
+        createTheme={true}
         activateButton={
           <Button data-cy="add-theme-modal">Lag ny gruppe</Button>
         }

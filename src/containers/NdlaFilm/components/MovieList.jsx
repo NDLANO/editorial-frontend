@@ -119,12 +119,10 @@ class MovieList extends Component {
 
     this.deleteFile(-1);
 
-    Array.from(this.wrapperRef.current.childNodes.values()).forEach(
-      (node, index) => {
-        node.style.transition = 'none';
-        node.style.transform = 'none';
-      },
-    );
+    Array.from(this.wrapperRef.current.childNodes.values()).forEach(node => {
+      node.style.transition = 'none';
+      node.style.transform = 'none';
+    });
 
     this.DraggingFile.style.width = 'auto';
     this.DraggingFile.style.position = 'static';

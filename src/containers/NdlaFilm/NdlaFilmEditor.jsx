@@ -30,10 +30,10 @@ import {
 
 class NdlaFilmEditor extends React.Component {
   state = {
-    slideshowMovies: null,
-    themes: null,
-    filmFrontpage: null,
-    allMovies: null,
+    slideshowMovies: undefined,
+    themes: undefined,
+    filmFrontpage: undefined,
+    allMovies: undefined,
     loadingThemes: true,
     loadingSlideshow: true,
   };

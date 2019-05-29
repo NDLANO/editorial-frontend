@@ -33,3 +33,19 @@ export const getIdFromUrn = urnId => {
 export const getUrnFromId = id => {
   return `urn:article:${id}`;
 };
+
+export const addMovieToTheme = (themes, index, newMovie) => {
+  return themes.map((theme, i) =>
+    i === index ? { ...theme, movies: [...theme.movies, newMovie] } : theme,
+  );
+};
+
+export const changeMoviesInTheme = (themes, index, movies) => {
+  return themes.map((theme, i) => (i === index ? { ...theme, movies } : theme));
+};
+
+export const changeThemeNames = (themes, names, index) => {
+  return themes.map((theme, i) =>
+    i === index ? { ...theme, name: names } : theme,
+  );
+};

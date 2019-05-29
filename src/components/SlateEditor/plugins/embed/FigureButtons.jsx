@@ -56,6 +56,7 @@ const FigureButtons = ({
   figureType,
   onRemoveClick,
   withMargin,
+  providerName,
   onEdit,
 }) => {
   const url = {
@@ -93,7 +94,11 @@ const FigureButtons = ({
         </Tooltip>
       )}
       {figureType === 'external' && onEdit && (
-        <Tooltip tooltip={t('form.external.edit')} align="right">
+        <Tooltip
+          tooltip={t('form.external.edit', {
+            type: providerName || t('form.external.title'),
+          })}
+          align="right">
           <IconButton tabIndex={-1} onClick={onEdit}>
             <LinkIcon />
           </IconButton>
@@ -111,6 +116,7 @@ FigureButtons.propTypes = {
   locale: PropTypes.string,
   withMargin: PropTypes.bool,
   onEdit: PropTypes.func,
+  providerName: PropTypes.string,
 };
 
 export default FigureButtons;

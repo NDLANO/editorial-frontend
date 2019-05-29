@@ -789,8 +789,9 @@ const phrases = {
       },
     },
     external: {
-      edit: 'Rediger eksternt element',
-      remove: 'Fjern eksternt element',
+      title: 'eksternt',
+      edit: 'Rediger {type} element',
+      remove: 'Fjern {type} element',
     },
     related: {
       title: 'Relaterte artikler',

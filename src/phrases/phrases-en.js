@@ -28,6 +28,12 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  dropdown: {
+    numberHits: `Search returned {hits} hits`,
+    searching: 'Searching...',
+    create: 'Create new',
+    isSelectedItem: 'Added',
+  },
   article: {
     author: 'Author',
     published: 'Published',

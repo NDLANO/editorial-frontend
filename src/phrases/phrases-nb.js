@@ -25,6 +25,12 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
   },
+  dropdown: {
+    numberHits: `Søket gav {hits} treff`,
+    searching: 'Søker...',
+    create: 'Opprett nytt',
+    isSelectedItem: 'Lagt til',
+  },
   meta: {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',

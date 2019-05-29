@@ -32,7 +32,7 @@ class TopicConnections extends Component {
     super(props);
     this.state = {
       openedPaths: [],
-      fileStructureFilters: [],
+      activeFilters: [],
     };
     this.renderListItems = this.renderListItems.bind(this);
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
@@ -40,14 +40,14 @@ class TopicConnections extends Component {
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
-  handleOpenToggle({ path, level, id }) {
+  handleOpenToggle({ path, isSubject, id }) {
     const { allowMultipleSubjectsOpen, getSubjectTopics } = this.props;
     this.setState(prevState => {
       let { openedPaths } = prevState;
       const index = openedPaths.indexOf(path);
       if (index === -1) {
         // Has other subjects open and !allowMultipleSubjectsOpen?
-        if (level === 0) {
+        if (isSubject) {
           getSubjectTopics(id);
           if (!allowMultipleSubjectsOpen) {
             openedPaths = [];
@@ -86,25 +86,25 @@ class TopicConnections extends Component {
   }
 
   toggleFilter(id) {
-    this.setState(({ fileStructureFilters }) => ({
-      fileStructureFilters: fileStructureFilters.includes(id)
-        ? fileStructureFilters.filter(activeFilter => activeFilter !== id)
-        : [...fileStructureFilters, id],
+    this.setState(({ activeFilters }) => ({
+      activeFilters: activeFilters.includes(id)
+        ? activeFilters.filter(activeFilter => activeFilter !== id)
+        : [...activeFilters, id],
     }));
   }
 
-  renderListItems({ paths, level, isOpen, id, closeModal }) {
+  renderListItems({ isSubject, subjectId, isOpen, id, closeModal }) {
     const { t, activeTopics, availableFilters } = this.props;
-    const { fileStructureFilters } = this.state;
+    const { activeFilters } = this.state;
 
-    if (level === 0) {
-      if (!availableFilters[paths[0]] || !isOpen) {
+    if (isSubject) {
+      if (!availableFilters[subjectId] || !isOpen) {
         return null;
       }
       return (
         <FilterView
-          subjectFilters={availableFilters[paths[0]]}
-          activeFilters={fileStructureFilters}
+          subjectFilters={availableFilters[subjectId]}
+          activeFilters={activeFilters}
           toggleFilter={this.toggleFilter}
         />
       );
@@ -137,7 +137,7 @@ class TopicConnections extends Component {
 
   render() {
     const { t, structure, availableFilters, ...rest } = this.props;
-    const { fileStructureFilters, openedPaths } = this.state;
+    const { activeFilters, openedPaths } = this.state;
 
     return (
       <Fragment>
@@ -180,7 +180,7 @@ class TopicConnections extends Component {
                   renderListItems={props =>
                     this.renderListItems({ ...props, closeModal })
                   }
-                  fileStructureFilters={fileStructureFilters}
+                  activeFilters={activeFilters}
                   filters={availableFilters}
                 />
               </ModalBody>
@@ -195,7 +195,7 @@ class TopicConnections extends Component {
 TopicConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf(StructureShape),
-  fileStructureFilters: PropTypes.arrayOf(PropTypes.string),
+  activeFilters: PropTypes.arrayOf(PropTypes.string),
   activeTopics: PropTypes.arrayOf(TopicShape),
   taxonomyTopics: PropTypes.arrayOf(
     PropTypes.shape({

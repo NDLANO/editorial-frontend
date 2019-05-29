@@ -9,6 +9,8 @@ import Accordion, {
 import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
 import { FormikCopyright, FormikWorkflow } from '../../FormikForm';
+import config from '../../../config';
+import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 
 const panels = [
   {
@@ -24,6 +26,18 @@ const panels = [
       'visualElement.caption',
     ],
     component: props => <TopicArticleContent {...props} />,
+  },
+  {
+    id: 'topic-article-taxonomy',
+    title: 'form.taxonomytSection',
+    errorFields: [],
+    showPanel: (values, userAccess) =>
+      values.id &&
+      ((userAccess &&
+        userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`)) ||
+        userAccess.includes('taxonomy:write')),
+    className: 'u-6/6',
+    component: props => <TopicArticleTaxonomy {...props} />,
   },
   {
     id: 'topic-article-copyright',

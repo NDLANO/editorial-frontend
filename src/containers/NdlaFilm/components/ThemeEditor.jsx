@@ -21,7 +21,7 @@ import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
 import AddMovieOptions from './AddMovieOptions';
 import { ContentResultShape } from '../../../shapes';
-import { findName } from '../../util/ndlaFilmHelpers';
+import { findName } from '../../../util/ndlaFilmHelpers';
 
 const ThemeEditor = ({
   t,

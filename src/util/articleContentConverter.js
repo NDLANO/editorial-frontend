@@ -56,12 +56,7 @@ export function learningResourceContentToEditorValue(
   fragment = undefined,
 ) {
   if (!html) {
-    return [
-      {
-        value: createEmptyValue(),
-        index: 0,
-      },
-    ];
+    return [createEmptyValue()];
   }
 
   const serializer = new Html({
@@ -87,21 +82,18 @@ export function learningResourceContentToEditorValue(
 
     const value = convertFromHTML(json);
 
-    return {
-      value,
-      index,
-    };
+    return value;
   });
 }
 
-export function learningResourceContentToHTML(contentValue) {
+export function learningResourceContentToHTML(contentValues) {
   // Use footnoteCounter hack until we have a better footnote api
   const serializer = new Html({
     rules: learningResourceRules,
   });
 
-  return contentValue
-    .map(section => serializer.serialize(section.value))
+  return contentValues
+    .map(value => serializer.serialize(value))
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
@@ -135,43 +127,4 @@ export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
 
 export function editorValueToPlainText(editorValue) {
   return editorValue ? Plain.serialize(editorValue) : '';
-}
-
-function filterNonUserInputUndos(undoArray) {
-  return undoArray.filter(undoList => {
-    const selection = undoList.every(
-      operation => operation.type === 'set_selection',
-    );
-    const emptyTextOrMerge = undoList.every(
-      operation =>
-        operation.type === 'merge_node' ||
-        (operation.type === 'insert_node' &&
-          operation.node.leaves &&
-          operation.node.leaves[0].text === ''),
-    );
-
-    return !selection && !emptyTextOrMerge;
-  });
-}
-
-function countUndoLength(value) {
-  if (!value || !value.data || !value.data.get('undos')) {
-    return 0;
-  }
-  const undoArray = value.data.get('undos').toJS();
-  return filterNonUserInputUndos(undoArray).length;
-}
-
-export function isEditorValueDirty(value) {
-  if (value.data) {
-    return countUndoLength(value) > 0;
-  }
-  const undoSizes = value.map(val => {
-    return countUndoLength(val.value);
-  });
-
-  return undoSizes.some(size => size > 0);
-
-  // Since last update slate saves selection on startup so undo size is always at least one
-  // this PR is supposed to fix it again: https://github.com/ianstormtaylor/slate/pull/2347
 }

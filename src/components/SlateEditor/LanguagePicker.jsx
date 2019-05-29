@@ -14,19 +14,17 @@ import { injectT } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
 import StyledFilledButton from '../../components/StyledFilledButton';
 import StyledListButton from '../../components/StyledListButton';
-import {
-  StyledOverlayBackground,
-  StyledOverlay,
-} from '../../components/StyledOverlay';
+import Overlay from '../../components/Overlay';
+import { StyledDropdownOverlay } from '../../components/Dropdown';
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const FormikLanguage = ({ emptyLanguages, editUrl, t }) => {
+const LanguagePicker = ({ emptyLanguages, editUrl, t }) => {
   const [display, setDisplay] = useState(false);
   return (
     <div>
       {emptyLanguages.length > 0 && (
-        <StyledFilledButton onClick={() => setDisplay(true)}>
+        <StyledFilledButton type="button" onClick={() => setDisplay(true)}>
           <Plus /> {t('form.variant.create')}
         </StyledFilledButton>
       )}
@@ -41,7 +39,7 @@ const FormikLanguage = ({ emptyLanguages, editUrl, t }) => {
               clickOutsideDeactivates: true,
               escapeDeactivates: true,
             }}>
-            <StyledOverlay withArrow>
+            <StyledDropdownOverlay withArrow>
               {emptyLanguages.map(language => (
                 <StyledLink
                   key={language.key}
@@ -50,16 +48,16 @@ const FormikLanguage = ({ emptyLanguages, editUrl, t }) => {
                   {language.title}
                 </StyledLink>
               ))}
-            </StyledOverlay>
+            </StyledDropdownOverlay>
           </FocusTrapReact>
-          <StyledOverlayBackground />
+          <Overlay modifiers="zIndex" />
         </>
       )}
     </div>
   );
 };
 
-FormikLanguage.propTypes = {
+LanguagePicker.propTypes = {
   emptyLanguages: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -69,4 +67,4 @@ FormikLanguage.propTypes = {
   editUrl: PropTypes.func.isRequired,
 };
 
-export default injectT(FormikLanguage);
+export default injectT(LanguagePicker);

@@ -13,11 +13,9 @@ import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
   sectionSplitter,
-  isEditorValueDirty,
 } from '../articleContentConverter';
 
 const contentHTML = `<section><h2>Lorem ipsum</h2></section>`;
-const otherContentHTML = `<section><p>Lorem ipsum</p></section>`;
 
 const contentHTMLWithSections = `<section><h2>Section 1</h2></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
 const mustBeWrappedHtml = `<section><h2>Section 1</h2><aside>Some text that slate wants to delete <div><em>blabla</em></div></aside></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>`;
@@ -45,7 +43,7 @@ test('articleContentConverter convert learningresource content', () => {
     contentHTML,
     fragment,
   );
-  expect(editorValue[0].value.toJSON()).toMatchSnapshot();
+  expect(editorValue[0].toJSON()).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {
@@ -69,33 +67,6 @@ test('util/sectionSplitter splits doubleNestedSections into array', () => {
 
 test('util/domOperations trippleNestedSections into array', () => {
   expect(sectionSplitter(trippleNestedSections)).toMatchSnapshot();
-});
-
-test('articleContentConverter convert learningresource contents that are equal/not equal with isEqualEditorValue', () => {
-  const editorValue1 = learningResourceContentToEditorValue(
-    contentHTML,
-    fragment,
-  );
-
-  const editorValue2 = learningResourceContentToEditorValue(
-    contentHTMLWithSections,
-    fragment,
-  );
-
-  expect(isEditorValueDirty(editorValue1)).toBe(false);
-  expect(isEditorValueDirty(editorValue2)).toBe(false);
-});
-
-test('articleContentConverter convert topic article contents that are equal/not equal with isEqualEditorValue', async () => {
-  const editorValue1 = topicArticleContentToEditorValue(contentHTML, fragment);
-
-  const editorValue2 = topicArticleContentToEditorValue(
-    otherContentHTML,
-    fragment,
-  );
-
-  expect(isEditorValueDirty(editorValue1)).toBe(false);
-  expect(isEditorValueDirty(editorValue2)).toBe(false);
 });
 
 test('articleContentConverter convert article that is a mix of inline and block object by wrapping the inline', () => {

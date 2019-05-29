@@ -68,9 +68,9 @@ export function updateResourceRelevance(resourceFilterId, relevance) {
 }
  */
 
-export async function getResourceId({ articleId, language }) {
+export async function getResourceId({ id, language }) {
   let resourceId = '';
-  const resource = await queryResources(articleId, language);
+  const resource = await queryResources(id, language);
   if (resource.length > 0) {
     if (resource.length > 1)
       throw new Error(

@@ -32,7 +32,7 @@ describe('Learning resource editing', () => {
       });
     });
 
-    cy.get('[data-testid=saveLearningResourceButton]').click(); // checking that saving is disabled
+    cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
     });

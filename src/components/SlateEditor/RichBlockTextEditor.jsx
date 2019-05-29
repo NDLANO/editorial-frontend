@@ -26,7 +26,7 @@ class RichBlockTextEditor extends PureComponent {
   onChange(evt, index) {
     const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { value: evt.target.value, index };
+    newValue[index] = evt.target.value;
     onChange({
       target: {
         value: newValue,
@@ -91,7 +91,7 @@ class RichBlockTextEditor extends PureComponent {
               submitted={submitted}
               schema={schema}
               onChange={this.onChange}
-              value={blockValue.value}
+              value={blockValue}
               removeSection={this.removeSection}
             />
             {children}

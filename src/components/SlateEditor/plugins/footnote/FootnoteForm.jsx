@@ -14,7 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Field from '../../../Field';
 import { FootnoteShape } from '../../../../shapes';
-import MultiSelect from '../../../MultiSelect';
+import { MultiSelectDropdown } from '../../../Dropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 
@@ -76,16 +76,7 @@ class FootnoteForm extends Component {
               label={t('form.content.footnote.authors.label')}
               obligatory>
               {({ field }) => (
-                <MultiSelect
-                  messages={{
-                    createOption: t(
-                      'form.content.footnote.authors.createOption',
-                    ),
-                    emptyFilter: t('form.content.footnote.authors.emptyFilter'),
-                    emptyList: t('form.content.footnote.authors.emptyList'),
-                  }}
-                  {...field}
-                />
+                <MultiSelectDropdown {...field} valueField="authors" />
               )}
             </FormikField>
             <FormikField

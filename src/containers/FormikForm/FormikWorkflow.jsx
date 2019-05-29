@@ -9,6 +9,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
+import { FieldHeader } from '@ndla/forms';
+import { withRouter } from 'react-router-dom';
 import * as draftApi from '../../modules/draft/draftApi';
 import FormikStatusActions from './components/FormikStatusActions';
 import FormikStatusColumns from './components/FormikStatusColumns';
@@ -17,6 +20,7 @@ import * as articleStatuses from '../../util/constants/ArticleStatus';
 import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
 import { ArticleShape } from '../../shapes';
+import { toEditArticle } from '../../util/routeHelpers';
 
 export const formatErrorMessage = error => ({
   message: error.json.messages
@@ -34,6 +38,7 @@ class FormikWorkflow extends Component {
     };
     this.onValidateClick = this.onValidateClick.bind(this);
     this.onUpdateStatus = this.onUpdateStatus.bind(this);
+    this.onSaveAsNew = this.onSaveAsNew.bind(this);
   }
 
   async componentDidMount() {
@@ -75,6 +80,35 @@ class FormikWorkflow extends Component {
     }
   }
 
+  async onSaveAsNew() {
+    const {
+      article,
+      getArticle,
+      history,
+      formIsDirty,
+      createMessage,
+      t,
+    } = this.props;
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      const newArticle = await draftApi.createDraft({
+        ...getArticle(),
+        title: `${article.title} (${t('form.copy')})`,
+      });
+      createMessage({
+        translationKey: t('form.saveAsCopySuccess'),
+        severity: 'success',
+      });
+      history.push(
+        toEditArticle(newArticle.id, newArticle.articleType, article.language),
+      );
+    }
+  }
+
   async onValidateClick() {
     const {
       values: { id, revision },
@@ -100,7 +134,6 @@ class FormikWorkflow extends Component {
   render() {
     const { values, articleStatus, getArticle, article, t } = this.props;
     const { possibleStatuses } = this.state;
-
     return (
       <Fragment>
         <FormikField name="notes" showError={false}>
@@ -122,9 +155,16 @@ class FormikWorkflow extends Component {
           possibleStatuses={possibleStatuses}
           onUpdateStatus={this.onUpdateStatus}
         />
+        <div>
+          <FieldHeader title={t('form.workflow.saveAsNew')} />
+          <Button onClick={this.onSaveAsNew}>
+            {t('form.workflow.saveAsNew')}
+          </Button>
+        </div>
         <FormikQualityAssurance
           getArticle={getArticle}
           values={values}
+          articleStatus={articleStatus}
           onValidateClick={this.onValidateClick}
         />
       </Fragment>
@@ -155,4 +195,4 @@ FormikWorkflow.defaultProps = {
   article: {},
 };
 
-export default injectT(FormikWorkflow);
+export default withRouter(injectT(FormikWorkflow));

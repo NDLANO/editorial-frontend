@@ -6,9 +6,12 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { isEditorValueDirty } from './articleContentConverter';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
+import {
+  learningResourceContentToHTML,
+  topicArticleContentToHTML,
+} from './articleContentConverter';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -23,28 +26,56 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
+const checkIfContentHasChanged = (newContent, initialContent, type) => {
+  const toHTMLFunction =
+    type === 'learningResource'
+      ? learningResourceContentToHTML
+      : topicArticleContentToHTML;
+  if (Array.isArray(newContent)) {
+    if (newContent.length !== initialContent.length) {
+      return true;
+    }
+  }
+  if (!isEqual(toHTMLFunction(newContent), toHTMLFunction(initialContent))) {
+    return true;
+  }
+  return false;
+};
+
+export const isFormikFormDirty = ({
+  values,
+  initialValues,
+  dirty = false,
+  type,
+}) => {
   if (!dirty) {
     return false;
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];
+  // and skipping fields that only changes on the server
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
   const dirtyFields = [];
-  Object.keys(values).forEach(dirtyValue => {
-    if (slateFields.includes(dirtyValue)) {
-      if (isEditorValueDirty(values[dirtyValue])) {
-        dirtyFields.push(dirtyValue);
-      } else if (
-        Array.isArray(values[dirtyValue]) &&
-        Array.isArray(initialValues[dirtyValue]) &&
-        values[dirtyValue].length !== initialValues[dirtyValue].length
-      ) {
+  Object.keys(values)
+    .filter(field => !skipFields.includes(field))
+    .forEach(dirtyValue => {
+      const currentValue = values[dirtyValue];
+      if (slateFields.includes(dirtyValue)) {
+        if (dirtyValue === 'content') {
+          if (
+            checkIfContentHasChanged(currentValue, initialValues.content, type)
+          ) {
+            dirtyFields.push(dirtyValue);
+          }
+        } else if (
+          !isEqual(currentValue.toJSON(), initialValues[dirtyValue].toJSON())
+        ) {
+          dirtyFields.push(dirtyValue);
+        }
+      } else if (!isEqual(currentValue, initialValues[dirtyValue])) {
         dirtyFields.push(dirtyValue);
       }
-    } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
-      dirtyFields.push(dirtyValue);
-    }
-  });
+    });
   return dirtyFields.length > 0;
 };
 

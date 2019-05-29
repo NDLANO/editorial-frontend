@@ -28,12 +28,12 @@ import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import { ImageShape } from '../../../shapes';
 import {
-  FormikHeader,
   FormikActionButton,
   formClasses as classes,
   FormikAlertModalWrapper,
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
+import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
 
 const imageRules = {
   title: {
@@ -179,93 +179,96 @@ class ImageForm extends Component {
       },
     ];
     const initialValues = getInitialValues(image);
+
     return (
       <Formik
         initialValues={initialValues}
         onSubmit={this.onSubmit}
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
-        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => (
-          <FormWrapper inModal={inModal}>
-            <FormikHeader
-              noStatus
-              values={values}
-              type="image"
-              editUrl={lang => toEditImage(values.id, lang)}
-            />
-            <Accordion openIndexes={['image-upload-content']}>
-              {({ openIndexes, handleItemClick }) => (
-                <AccordionWrapper>
-                  {panels.map(panel => {
-                    const hasError = panel.errorFields.some(
-                      field => !!errors[field] && touched[field],
-                    );
-                    return (
-                      <React.Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          hasError={hasError}
-                          isOpen={openIndexes.includes(panel.id)}>
-                          {panel.title}
-                        </AccordionBar>
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
+        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
+          return (
+            <FormWrapper inModal={inModal}>
+              <HeaderWithLanguage
+                noStatus
+                values={values}
+                type="image"
+                editUrl={lang => toEditImage(values.id, lang)}
+              />
+              <Accordion openIndexes={['image-upload-content']}>
+                {({ openIndexes, handleItemClick }) => (
+                  <AccordionWrapper>
+                    {panels.map(panel => {
+                      const hasError = panel.errorFields.some(
+                        field => !!errors[field] && touched[field],
+                      );
+                      return (
+                        <React.Fragment key={panel.id}>
+                          <AccordionBar
+                            panelId={panel.id}
+                            ariaLabel={panel.title}
+                            onClick={() => handleItemClick(panel.id)}
                             hasError={hasError}
                             isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </AccordionWrapper>
-              )}
-            </Accordion>
-            <Field right>
-              {inModal ? (
-                <FormikActionButton outline onClick={closeModal}>
-                  {t('form.abort')}
-                </FormikActionButton>
-              ) : (
-                <FormikActionButton
-                  onClick={history.goBack}
-                  outline
-                  disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikActionButton>
-              )}
-              <SaveButton
-                isSaving={isSubmitting}
-                showSaved={
-                  savedToServer &&
-                  !isFormikFormDirty({
-                    values,
-                    initialValues,
-                    dirty,
-                  })
-                }
-                submit={!inModal}
-                onClick={evt => {
-                  if (inModal) {
-                    evt.preventDefault();
-                    submitForm();
-                  }
-                }}>
-                {t('form.save')} - {inModal}
-              </SaveButton>
-            </Field>
-            <FormikAlertModalWrapper
-              isSubmitting={isSubmitting}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </FormWrapper>
-        )}
+                            {panel.title}
+                          </AccordionBar>
+                          {openIndexes.includes(panel.id) && (
+                            <AccordionPanel
+                              id={panel.id}
+                              hasError={hasError}
+                              isOpen={openIndexes.includes(panel.id)}>
+                              <div className="u-4/6@desktop u-push-1/6@desktop">
+                                {panel.component}
+                              </div>
+                            </AccordionPanel>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </AccordionWrapper>
+                )}
+              </Accordion>
+              <Field right>
+                {inModal ? (
+                  <FormikActionButton outline onClick={closeModal}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                ) : (
+                  <FormikActionButton
+                    onClick={history.goBack}
+                    outline
+                    disabled={isSubmitting}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                )}
+                <SaveButton
+                  isSaving={isSubmitting}
+                  showSaved={savedToServer && !formIsDirty}
+                  formIsDirty={formIsDirty}
+                  submit={!inModal}
+                  onClick={evt => {
+                    if (inModal) {
+                      evt.preventDefault();
+                      submitForm();
+                    }
+                  }}>
+                  {t('form.save')} - {inModal}
+                </SaveButton>
+              </Field>
+              <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                severity="danger"
+                formIsDirty={formIsDirty}
+                text={t('alertModal.notSaved')}
+              />
+            </FormWrapper>
+          );
+        }}
       </Formik>
     );
   }

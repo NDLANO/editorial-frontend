@@ -156,12 +156,14 @@ class LearningResourceTaxonomy extends Component {
   }
 
   async fetchTaxonomy() {
-    const { language, articleId } = this.props;
+    const {
+      article: { language, id },
+    } = this.props;
     try {
       let { resourceId } = this.state;
       this.setState({ status: 'loading' });
       if (!resourceId) {
-        resourceId = await getResourceId({ articleId, language });
+        resourceId = await getResourceId({ id, language });
       }
       if (resourceId) {
         const { resourceTypes, filters, topics } = await getFullResource(
@@ -206,7 +208,9 @@ class LearningResourceTaxonomy extends Component {
   }
 
   async fetchTaxonomyChoices() {
-    const { language } = this.props;
+    const {
+      article: { language },
+    } = this.props;
     try {
       this.setState({ status: 'loading' });
       const [
@@ -259,15 +263,17 @@ class LearningResourceTaxonomy extends Component {
     e.preventDefault();
     const { resourceTaxonomy, taxonomyChanges } = this.state;
     let { resourceId } = this.state;
-    const { language, articleId, title } = this.props;
+    const {
+      article: { language, id, title },
+    } = this.props;
     this.setState({ saveStatus: 'loading', status: 'loading' });
     try {
       if (!resourceId) {
         await createResource({
-          contentUri: `urn:article:${articleId}`,
+          contentUri: `urn:article:${id}`,
           name: title,
         });
-        resourceId = await getResourceId({ articleId, language });
+        resourceId = await getResourceId({ id, language });
         this.setState({
           resourceId,
         });
@@ -483,9 +489,12 @@ class LearningResourceTaxonomy extends Component {
 
 LearningResourceTaxonomy.propTypes = {
   language: PropTypes.string,
-  articleId: PropTypes.string,
   closePanel: PropTypes.func,
-  title: PropTypes.string,
+  article: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.number,
+    language: PropTypes.string,
+  }),
 };
 
 export default injectT(LearningResourceTaxonomy);

@@ -42,7 +42,14 @@ test('util/formHelper isFormDirty is false', () => {
       Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
     ],
   };
-  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(false);
+  expect(
+    isFormikFormDirty({
+      dirty: true,
+      values,
+      initialValues,
+      type: 'learningResource',
+    }),
+  ).toBe(false);
 });
 
 test('util/formHelper isFormikFormDirty content sections is removed', () => {

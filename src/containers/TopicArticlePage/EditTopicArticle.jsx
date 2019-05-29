@@ -26,10 +26,11 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
     return null;
   }
 
-  const language = article.language || selectedLanguage;
   if (article.articleType !== 'topic-article') {
     return (
-      <Redirect to={toEditArticle(article.id, article.articleType, language)} />
+      <Redirect
+        to={toEditArticle(article.id, article.articleType, article.language)}
+      />
     );
   }
   return (
@@ -38,13 +39,11 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
         title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
       />
       <TopicArticleForm
-        selectedLanguage={language}
         articleStatus={article.status}
         onUpdate={updateArticle}
         updateArticleStatus={updateArticleStatus}
         tags={tags}
-        article={{ ...article, language }}
-        articleId={articleId}
+        article={article}
         {...rest}
       />
     </Fragment>

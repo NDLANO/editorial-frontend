@@ -30,10 +30,10 @@ import {
 
 class NdlaFilmEditor extends React.Component {
   state = {
-    slideshowMovies: null,
-    themes: null,
-    filmFrontpage: null,
-    allMovies: null,
+    slideshowMovies: undefined,
+    themes: undefined,
+    filmFrontpage: undefined,
+    allMovies: undefined,
     loadingThemes: true,
     loadingSlideshow: true,
   };
@@ -113,38 +113,42 @@ class NdlaFilmEditor extends React.Component {
     return response.results;
   };
 
-  onAddMovieToSlideshow = id => {
-    const { filmFrontpage, allMovies } = this.state;
-    const newMovie = allMovies.find(movie => movie.id.toString() === id);
-    this.setState(prevState => ({
-      slideshowMovies: [...prevState.slideshowMovies, newMovie],
-    }));
-
-    const { slideShow } = filmFrontpage;
-    const newSlideShow = [...slideShow, getUrnFromId(id)];
-
-    this.newSlideShow(newSlideShow);
+  onAddMovieToSlideshow = movieId => {
+    this.setState(
+      prevState => ({
+        slideshowMovies: [
+          ...prevState.slideshowMovies,
+          prevState.allMovies.find(movie => movie.id.toString() === movieId),
+        ],
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          slideShow: [
+            ...prevState.filmFrontpage.slideShow,
+            getUrnFromId(movieId),
+          ],
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
   saveSlideshow = slideshowMovies => {
-    this.setState({ slideshowMovies });
-    const ids = slideshowMovies.map(movie => getUrnFromId(movie.id));
-    this.newSlideShow(ids);
+    this.setState(
+      prevState => ({
+        slideshowMovies,
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          slideShow: slideshowMovies.map(movie => getUrnFromId(movie.id)),
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
-  newSlideShow = newSlideShowIds => {
-    const { filmFrontpage } = this.state;
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      slideShow: newSlideShowIds,
-    };
-    this.setState({ filmFrontpage: newFilmFrontpage });
-    this.saveFilmFrontpage(newFilmFrontpage);
-  };
-
-  saveFilmFrontpage = async newFilmFrontpage => {
+  saveFilmFrontpage = async () => {
     try {
-      await updateFilmFrontpage(newFilmFrontpage);
+      const { filmFrontpage } = this.state;
+      await updateFilmFrontpage(filmFrontpage);
     } catch (err) {
       handleError(err);
     }
@@ -156,85 +160,92 @@ class NdlaFilmEditor extends React.Component {
   };
 
   updateThemeName = (newThemeNames, index) => {
-    const { filmFrontpage } = this.state;
-    const { movieThemes } = filmFrontpage;
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      movieThemes: changeThemeNames(movieThemes, newThemeNames, index),
-    };
-
-    this.saveFilmFrontpage(newFilmFrontpage);
-
-    this.setState(prevState => ({
-      themes: changeThemeNames(prevState.themes, newThemeNames, index),
-      filmFrontpage: newFilmFrontpage,
-    }));
+    this.setState(
+      prevState => ({
+        themes: changeThemeNames(prevState.themes, newThemeNames, index),
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          movieThemes: changeThemeNames(
+            prevState.filmFrontpage.movieThemes,
+            newThemeNames,
+            index,
+          ),
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
   updateMovieTheme = (updatedThemeMovies, index) => {
     const movieIds = updatedThemeMovies.map(movie => getUrnFromId(movie.id));
-    const { filmFrontpage } = this.state;
-    const { movieThemes } = filmFrontpage;
-
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      movieThemes: changeMoviesInTheme(movieThemes, index, movieIds),
-    };
-    this.saveFilmFrontpage(newFilmFrontpage);
-
-    this.setState(prevState => ({
-      themes: changeMoviesInTheme(prevState.themes, index, updatedThemeMovies),
-      filmFrontpage: newFilmFrontpage,
-    }));
+    this.setState(
+      prevState => ({
+        themes: changeMoviesInTheme(
+          prevState.themes,
+          index,
+          updatedThemeMovies,
+        ),
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          movieThemes: changeMoviesInTheme(
+            prevState.filmFrontpage.movieThemes,
+            index,
+            movieIds,
+          ),
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
   addMovieToTheme = (id, index) => {
-    const { filmFrontpage, allMovies } = this.state;
-
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      movieThemes: addMovieToTheme(
-        filmFrontpage.movieThemes,
-        index,
-        getUrnFromId(id),
-      ),
-    };
-
-    const newMovie = allMovies.find(movie => movie.id.toString() === id);
-    this.setState(prevState => ({
-      themes: addMovieToTheme(prevState.themes, index, newMovie),
-      filmFrontpage: newFilmFrontpage,
-    }));
-
-    this.saveFilmFrontpage(newFilmFrontpage);
+    this.setState(
+      prevState => ({
+        themes: addMovieToTheme(
+          prevState.themes,
+          index,
+          prevState.allMovies.find(movie => movie.id.toString() === id),
+        ),
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          movieThemes: addMovieToTheme(
+            prevState.filmFrontpage.movieThemes,
+            index,
+            getUrnFromId(id),
+          ),
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
   onMoveTheme = (index, direction) => {
-    const { filmFrontpage } = this.state;
-    if (
-      index + direction >= 0 &&
-      filmFrontpage.movieThemes.length > index + direction
-    ) {
-      const desiredNewIndex = index + direction;
-      const { movieThemes } = filmFrontpage;
+    this.setState(prevState => {
+      const { filmFrontpage } = prevState;
+      if (
+        index + direction >= 0 &&
+        filmFrontpage.movieThemes.length > index + direction
+      ) {
+        const desiredNewIndex = index + direction;
+        const { movieThemes } = filmFrontpage;
 
-      const newMovieThemes = this.rearrangeTheme(
-        movieThemes,
-        index,
-        desiredNewIndex,
-      );
+        const newMovieThemes = this.rearrangeTheme(
+          movieThemes,
+          index,
+          desiredNewIndex,
+        );
 
-      const newFilmFrontpage = {
-        ...filmFrontpage,
-        movieThemes: newMovieThemes,
-      };
-      this.saveFilmFrontpage(newFilmFrontpage);
-
-      this.setState(prevState => ({
-        themes: this.rearrangeTheme(prevState.themes, index, desiredNewIndex),
-        filmFrontpage: newFilmFrontpage,
-      }));
-    }
+        const newFilmFrontpage = {
+          ...filmFrontpage,
+          movieThemes: newMovieThemes,
+        };
+        return {
+          themes: this.rearrangeTheme(prevState.themes, index, desiredNewIndex),
+          filmFrontpage: newFilmFrontpage,
+        };
+      }
+      return prevState;
+    }, this.saveFilmFrontpage);
   };
 
   rearrangeTheme = (themes, index, desiredNewIndex) => {
@@ -249,32 +260,33 @@ class NdlaFilmEditor extends React.Component {
   };
 
   onDeleteTheme = index => {
-    const { filmFrontpage } = this.state;
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      movieThemes: filmFrontpage.movieThemes.filter((theme, i) => i !== index),
-    };
-    this.saveFilmFrontpage(newFilmFrontpage);
-    this.setState(prevState => ({
-      themes: prevState.themes.filter((theme, i) => i !== index),
-      filmFrontpage: newFilmFrontpage,
-    }));
+    this.setState(
+      prevState => ({
+        themes: prevState.themes.filter((theme, i) => i !== index),
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          movieThemes: prevState.filmFrontpage.movieThemes.filter(
+            (theme, i) => i !== index,
+          ),
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
   onAddTheme = theme => {
-    const { filmFrontpage } = this.state;
     const newTheme = { name: convertThemeNames(theme), movies: [] };
 
-    const newFilmFrontpage = {
-      ...filmFrontpage,
-      movieThemes: [...filmFrontpage.movieThemes, newTheme],
-    };
-    this.saveFilmFrontpage(newFilmFrontpage);
-
-    this.setState(prevState => ({
-      themes: [...prevState.themes, newTheme],
-      filmFrontpage: newFilmFrontpage,
-    }));
+    this.setState(
+      prevState => ({
+        themes: [...prevState.themes, newTheme],
+        filmFrontpage: {
+          ...prevState.filmFrontpage,
+          movieThemes: [...prevState.filmFrontpage.movieThemes, newTheme],
+        },
+      }),
+      this.saveFilmFrontpage,
+    );
   };
 
   render() {

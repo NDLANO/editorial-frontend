@@ -24,9 +24,9 @@ const StyledList = styled.ul`
   overflow: visible;
   margin: 0 0
     ${props =>
-      props.draggingIndex > -1
-        ? `${MOVIE_HEIGHT + spacing.spacingUnit * 0.75}px`
-        : '0'};
+      props.draggingIndex === -1
+        ? 0
+        : `${MOVIE_HEIGHT + spacing.spacingUnit * 0.75}px`};
   padding: 0;
   position: relative;
   list-style: none;
@@ -66,8 +66,8 @@ class MovieList extends Component {
     );
   };
 
-  onDragStart = (e, dragIndex) => {
-    e.preventDefault();
+  onDragStart = (evt, dragIndex) => {
+    evt.preventDefault();
     this.mouseMovement = -MOVIE_HEIGHT + dragIndex * MOVIE_HEIGHT;
     this.initialPosition = dragIndex;
 
@@ -114,7 +114,7 @@ class MovieList extends Component {
     const newMovies = [...movies];
     newMovies.splice(this.initialPosition, 1);
     newMovies.splice(toIndex, 0, movieToMove);
-
+    this.setState({ draggingIndex: -1 });
     onUpdateMovies(newMovies);
 
     this.deleteFile(-1);
@@ -132,8 +132,8 @@ class MovieList extends Component {
     this.DraggingFile.style.boxShadow = 'none';
   };
 
-  onDragging = e => {
-    this.mouseMovement += e.movementY;
+  onDragging = evt => {
+    this.mouseMovement += evt.movementY;
     const currentPosition = Math.max(
       Math.ceil((this.mouseMovement + MOVIE_HEIGHT / 2) / MOVIE_HEIGHT),
       0,
@@ -146,17 +146,18 @@ class MovieList extends Component {
     this.DraggingFile.style.transform = `translateY(${this.mouseMovement +
       MOVIE_HEIGHT}px)`;
     this.updateTransforms(dragIndex + addToPosition);
-    if (this.state.draggingIndex !== dragIndex) {
-      this.setState({
-        draggingIndex: dragIndex,
-      });
-    }
+    this.setState(prevState => {
+      if (prevState.draggingIndex !== dragIndex) {
+        return {
+          draggingIndex: dragIndex,
+        };
+      }
+    });
   };
 
   render() {
     const { movies, messages } = this.props;
     const { draggingIndex, deleteIndex } = this.state;
-
     return (
       <StyledWrapper>
         <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>

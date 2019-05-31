@@ -28,6 +28,12 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  dropdown: {
+    numberHits: `Search returned {hits} hits`,
+    searching: 'Searching...',
+    create: 'Create new',
+    isSelectedItem: 'Added',
+  },
   article: {
     author: 'Author',
     published: 'Published',
@@ -169,6 +175,7 @@ const phrases = {
     searchContent: 'Search content',
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
+    film: 'Go to film',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -920,6 +927,43 @@ const phrases = {
   masthead: {
     menu: 'Menu',
     closeMenu: 'Close',
+  },
+  ndlaFilm: {
+    editor: {
+      slideshowHeader: 'Slideshow:',
+      slideshowTitle: 'Movies on slideshow',
+      slideshowSubTitle: 'on frontpage',
+      movieGroupHeader: 'Movies themes:',
+      addMovieToSlideshow: 'Add movie to slideshow',
+      addMovieToGroup: 'Add a movie to "{name}"',
+      editMovieGroupName: 'Change the names on this movie group',
+      deleteMovieGroup: 'Delete "{name}"',
+      moveMovieGroupUp: 'Move up',
+      moveMovieGroupDown: 'Move down',
+      changeOrder: 'Change order',
+      removeMovieFromGroup: 'Remove movie from group',
+      removeMovieFromSlideshow: 'Remove movie from slideshow',
+      createThemeGroup: 'Create new movie group',
+      saveNameChanges: 'Save changes',
+      cancel: 'Cancel',
+      groupNamePlaceholder: 'Write name in {lang}',
+      editGroupTitle: 'Change the name(s) in this movie group:',
+      newGroupTitle: 'What shall we call the new movie group?',
+    },
+  },
+  modal: {
+    closeModal: 'Close',
+  },
+  languages: {
+    nb: 'Norwegian Bokmål',
+    nn: 'Norwegian Nynorsk',
+    en: 'English',
+    fr: 'French',
+    de: 'German',
+    se: 'Sami',
+    es: 'Spanish',
+    zh: 'Chinese',
+    unknown: 'Unknown',
   },
 };
 

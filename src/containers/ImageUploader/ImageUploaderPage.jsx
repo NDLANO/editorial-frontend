@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
-import { getSaving } from '../../modules/audio/audio';
+import { getSaving } from '../../modules/image/image';
 import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
 import CreateImage from './CreateImage';

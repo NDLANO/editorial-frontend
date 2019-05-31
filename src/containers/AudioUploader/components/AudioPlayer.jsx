@@ -20,6 +20,7 @@ class AudioPlayer extends React.PureComponent {
 
   render() {
     const { audio, noBorder, filepath } = this.props;
+    console.log(this.props);
     return (
       <Field noBorder={noBorder}>
         {

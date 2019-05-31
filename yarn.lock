@@ -1064,10 +1064,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.12.tgz#0fc12f5ca00a594f16aeff87931067af03a45795"
   integrity sha512-0NSRPxcCfSK79b78/3SAV7S4t07AJvJz0qp2VWoEmalcI6GS2UN9bHrZVE6jjpUIfQySq+OZPGwJcsbWwMjdAg==
 
-"@ndla/image-search@^0.8.7":
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.7.tgz#4db3bd85428918fa36abdb1eb96439f326709a33"
-  integrity sha512-Rqfu3794FRof23bK8DUEO/h9XDXSsYKViRZfu9jgBWJcqkeUZpgN0MIRpGIYTUui/5t8X+Gf4XyULbRBFn0faA==
+"@ndla/image-search@^0.8.8":
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.8.tgz#1451480a293de8ea99c27ab7899709b0926d69e5"
+  integrity sha512-RAYzZcHsFMSeTO/nVgbercwRd5eOlAzNYd2oJ/TsFJ0hCqihxBJdtJ17ikQK2l7oNvJKLg2bX/cJNE4WoVdFMA==
   dependencies:
     "@ndla/button" "^0.3.6"
     "@ndla/core" "^0.6.6"

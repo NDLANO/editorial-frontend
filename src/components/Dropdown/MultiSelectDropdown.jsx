@@ -18,7 +18,7 @@ export class MultiSelectDropdown extends Component {
     this.state = {
       data: [],
       isOpen: false,
-      inputValue : ''
+      inputValue: '',
     };
     this.addNewTag = this.addNewTag.bind(this);
     this.onInputChange = this.onInputChange.bind(this);

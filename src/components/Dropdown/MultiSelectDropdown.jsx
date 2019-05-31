@@ -18,6 +18,7 @@ export class MultiSelectDropdown extends Component {
     this.state = {
       data: [],
       isOpen: false,
+      inputValue : ''
     };
     this.addNewTag = this.addNewTag.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -86,13 +87,13 @@ export class MultiSelectDropdown extends Component {
 
   render() {
     const { value, placeholder, textField, ...rest } = this.props;
-    const { data, isOpen, inputValue = '' } = this.state;
+    const { data, isOpen, inputValue } = this.state;
     return (
       <Downshift
         {...rest}
         onChange={this.onValueChange}
         isOpen={isOpen}
-        inputValue={`${inputValue}`}
+        inputValue={inputValue}
         onStateChange={this.handleStateChange}
         itemToString={item => itemToString(item, textField)}>
         {({ getInputProps, getMenuProps, getItemProps }) => (

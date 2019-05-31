@@ -58,7 +58,7 @@ class EditAudio extends Component {
       },
       submitted,
     } = this.props;
-    console.log(mimeType, url, speech, title);
+
     return (
       <Fragment>
         <Overlay onExit={onExit} key="audioOverlay" />

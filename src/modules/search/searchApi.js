@@ -24,6 +24,13 @@ export const search = async query => {
   return resolveJsonOrRejectWithError(response);
 };
 
+export const searchResources = async query => {
+  const response = await fetchAuthorized(
+    `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};
+
 export const searchDraft = async query => {
   let response;
   if (query) {

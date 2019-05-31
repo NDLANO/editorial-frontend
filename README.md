@@ -47,9 +47,29 @@ Test framework: Jest with enzyme.
 $ yarn test
 ```
 
+### e2e tests
+
+[Cypress](https://www.cypress.io/) is used for end to end testing.
+
+```
+$ yarn cy
+```
+
+To circumvent api call flakiness all request are mocked when the tests are run on ci. Use the following command to record new mocks when api-calls change:
+
+```
+$ yarn e2e-record-fixtures
+```
+
+To run the e2e tests with recorded/mocked api-calls run
+
+```
+$ yarn e2e-use-fixtures
+```
+
 ### Code style
 
-_tl;dr_: Use eslint! 
+_tl;dr_: Use eslint!
 
 Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
 Beside linting with globally installed eslint, eslint can be invoked with `npm`:

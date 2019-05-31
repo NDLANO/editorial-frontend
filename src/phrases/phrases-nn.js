@@ -168,6 +168,7 @@ const phrases = {
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
+    film: 'Gå til film',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -937,6 +938,43 @@ const phrases = {
   masthead: {
     menu: 'Meny',
     closeMenu: 'Lukk',
+  },
+  ndlaFilm: {
+    editor: {
+      slideshowHeader: 'Slideshow:',
+      slideshowTitle: 'Filmer i slideshow',
+      slideshowSubTitle: 'på forsida',
+      movieGroupHeader: 'Filmgrupperinger:',
+      addMovieToSlideshow: 'Legg til film i slideshow',
+      addMovieToGroup: 'Legg til film i "{name}"',
+      editMovieGroupName: 'Endre navna til filmgruppa',
+      deleteMovieGroup: 'Slett "{name}"',
+      moveMovieGroupUp: 'Flytt opp',
+      moveMovieGroupDown: 'Flytt ned',
+      changeOrder: 'Endre rekkjefølgje',
+      removeMovieFromGroup: 'Ta vekk film fra gruppe',
+      removeMovieFromSlideshow: 'Ta vekk film fra slideshow',
+      createThemeGroup: 'Opprett gruppe',
+      saveNameChanges: 'Lagre endringer',
+      cancel: 'Avbryt',
+      groupNamePlaceholder: 'Skriv navn på {lang}',
+      editGroupTitle: 'Endre navn(a) på filmgruppa:',
+      newGroupTitle: 'Kva skal gruppa heite?',
+    },
+  },
+  modal: {
+    closeModal: 'Lukk',
+  },
+  languages: {
+    nb: 'Bokmål',
+    nn: 'Nynorsk',
+    en: 'Engelsk',
+    fr: 'Fransk',
+    de: 'Tysk',
+    se: 'Samisk',
+    es: 'Spansk',
+    zh: 'Kinesisk',
+    unknown: 'Ukjent',
   },
 };
 

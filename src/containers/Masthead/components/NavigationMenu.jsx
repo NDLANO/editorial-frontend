@@ -51,6 +51,9 @@ const OpenMenu = ({ t, close }) => {
             <StyledLink to="/structure" onClick={close}>
               <span>{t('subNavigation.structure')}</span>
             </StyledLink>
+            <StyledLink to="/film" onClick={close}>
+              <span>{t('subNavigation.film')}</span>
+            </StyledLink>
           </div>
         </nav>
       </div>

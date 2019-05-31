@@ -64,7 +64,8 @@
     "slate-hyperscript": "^0.11",
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
-    "yargs": "^12.0.2"
+    "yargs": "^12.0.2",
+    "webpack-bundle-analyzer": "^3.2.0"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.9",
@@ -156,8 +157,7 @@
     "slate-plain-serializer": "0.6.33",
     "slate-prop-types": "^0.5.24",
     "slate-react": "^0.21.15",
-    "source-map-support": "^0.5.9",
-    "webpack-bundle-analyzer": "^3.2.0"
+    "source-map-support": "^0.5.9"
   },
   "repository": {
     "type": "git",

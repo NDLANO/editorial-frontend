@@ -779,8 +779,9 @@ const phrases = {
       speech: 'Speech',
     },
     external: {
-      edit: 'Edit external element',
-      remove: 'Remove external element',
+      title: 'external',
+      edit: 'Edit {type} element',
+      remove: 'Remove {type} element',
     },
     related: {
       title: 'Related articles',

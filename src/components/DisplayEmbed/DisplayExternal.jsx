@@ -153,13 +153,15 @@ export class DisplayExternal extends Component {
         </Fragment>
       );
     }
-
     return (
       <div className="c-figure">
         <FigureButtons
-          tooltip={t('form.external.remove')}
+          tooltip={t('form.external.remove', {
+            type: providerName || t('form.external.title'),
+          })}
           onRemoveClick={onRemoveClick}
           embed={embed}
+          providerName={providerName}
           t={t}
           figureType="external"
           onEdit={

@@ -71,6 +71,7 @@ const StructureButtons = ({
   activeFilters,
   toggleFilter,
   addToTopic,
+  addTopic,
   t,
 }) => {
   if (isSubject) {
@@ -79,6 +80,13 @@ const StructureButtons = ({
     }
     return (
       <StyledButtonWrapper>
+        <Button
+          outline
+          css={buttonAdditionStyle}
+          type="button"
+          onClick={addTopic}>
+          {t('taxonomy.topics.addNewTopic')}
+        </Button>
         <FilterView
           subjectFilters={availableFilters[subjectId]}
           activeFilters={activeFilters}
@@ -92,13 +100,20 @@ const StructureButtons = ({
 
   return (
     <StyledButtonWrapper>
+      <Button
+        outline
+        css={buttonAdditionStyle}
+        type="button"
+        onClick={addTopic}>
+        {t('taxonomy.topics.addNewTopic')}
+      </Button>
       {currentIndex === -1 ? (
         <Button
           outline
           css={buttonAdditionStyle}
           type="button"
           onClick={addToTopic}>
-          {t('taxonomy.topics.filestructureButton')}
+          {t('taxonomy.topics.addExistingTopic')}
         </Button>
       ) : (
         <StyledChecked>
@@ -122,6 +137,7 @@ StructureButtons.propTypes = {
   availableFilters: PropTypes.array,
   activeFilters: PropTypes.array,
   toggleFilter: PropTypes.func,
+  addToTopic: PropTypes.func,
   addTopic: PropTypes.func,
 };
 

@@ -926,6 +926,8 @@ const phrases = {
       filestructureButton: 'Opprett emnetilknytning',
       filestructureHeading: 'Velg emnetilknytning',
       filestructureClose: 'Lukk',
+      addNewTopic: 'Legg til nytt underemne',
+      addExistingTopic: 'Legg til på eksisterende emne',
       addedTopic: 'Lagt til',
       filterTopic: 'Filtrer emner',
       disconnectedTaxonomyWarning: 'Ugyldig tilknytning',

@@ -899,6 +899,8 @@ const phrases = {
       filestructureButton: 'Create a topic connection',
       filestructureHeading: 'Select a topic connection',
       filestructureClose: 'Close',
+      addNewTopic: 'Add new sub topic',
+      addExistingTopic: 'Add to existing topic',
       addedTopic: 'Added to taxonomy',
       filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',

@@ -248,7 +248,7 @@ export const TopicConnectionShape = PropTypes.shape({
 });
 
 export const TopicShape = PropTypes.shape({
-  connectionId: PropTypes.string.isRequired,
+  connectionId: PropTypes.string,
   contentUri: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,

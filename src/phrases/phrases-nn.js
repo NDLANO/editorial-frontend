@@ -916,6 +916,8 @@ const phrases = {
       subTitleTopic: 'Hvor i taksonomien skal emnebeskrivelsen ligge?',
       filestructureButton: 'Opprett emnetilknytning',
       filestructureHeading: 'Velg emnetilknytning',
+      addNewTopic: 'Legg til nytt underemne',
+      addExistingTopic: 'Legg til på eksisterende emne',
       filestructureClose: 'Lukk',
       addedTopic: 'Lagt til',
       filterTopic: 'Filtrer emner',

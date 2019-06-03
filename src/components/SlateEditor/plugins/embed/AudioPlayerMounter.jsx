@@ -24,6 +24,7 @@ class AudioPlayerMounter extends Component {
         },
       },
       t,
+      speech,
     } = this.props;
     const locale = 'nb';
     const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
@@ -39,13 +40,8 @@ class AudioPlayerMounter extends Component {
 
     return (
       <div>
-        <AudioPlayer
-          type={mimeType}
-          src={url}
-          title={title}
-          speech={this.props.speech}
-        />
-        {!this.props.speech && (
+        <AudioPlayer type={mimeType} src={url} title={title} speech={speech} />
+        {!speech && (
           <Fragment>
             <FigureCaption
               id={figureLicenseDialogId}

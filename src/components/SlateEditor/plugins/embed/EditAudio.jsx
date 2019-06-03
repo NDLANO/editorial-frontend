@@ -10,6 +10,7 @@ import { css } from '@emotion/core';
 import React, { Component, Fragment } from 'react';
 import { bool, func, string, shape, object } from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { initAudioPlayers } from '@ndla/article-scripts';
 import { Input } from '@ndla/forms';
 import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
@@ -37,6 +38,7 @@ class EditAudio extends Component {
     embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedEl.style.left = `${placeholderRect.left}px`;
     embedEl.style.width = `${placeholderRect.width}px`;
+    initAudioPlayers();
   }
 
   render() {
@@ -56,6 +58,7 @@ class EditAudio extends Component {
       },
       submitted,
     } = this.props;
+
     return (
       <Fragment>
         <Overlay onExit={onExit} key="audioOverlay" />
@@ -76,7 +79,7 @@ class EditAudio extends Component {
               this.embedEl = embedEl;
             }}>
             <ObjectSelector
-              onClick={e => e.stopPropagation()}
+              onClick={evt => evt.stopPropagation()}
               onChange={onChange}
               onBlur={onChange}
               key="audioType"

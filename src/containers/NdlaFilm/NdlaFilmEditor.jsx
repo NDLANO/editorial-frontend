@@ -60,6 +60,7 @@ class NdlaFilmEditor extends React.Component {
   }
 
   getSlideshow = async slideShowUrnIds => {
+    if (slideShowUrnIds.length === 0) return [];
     const slideshowIds = slideShowUrnIds.map(getIdFromUrn);
     const slideshowResult = await this.queryArticles(slideshowIds.join());
     const correctOrderSlideshow = slideshowIds.map(id =>

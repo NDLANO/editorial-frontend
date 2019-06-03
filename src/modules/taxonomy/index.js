@@ -17,6 +17,7 @@ export {
   fetchResource,
   createResource,
   queryResources,
+  queryTopics,
   fetchResourceResourceType,
   fetchResourceFilter,
   fetchFullResource,

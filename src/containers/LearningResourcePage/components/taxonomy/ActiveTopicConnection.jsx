@@ -26,6 +26,7 @@ const ActiveTopicConnection = ({
   removeConnection,
   setPrimaryConnection,
   t,
+  type,
   topic,
 }) => {
   const breadCrumbs = retriveBreadCrumbs(topic.path);
@@ -50,12 +51,14 @@ const ActiveTopicConnection = ({
   return (
     <Fragment>
       <StyledConnections>
-        <StyledPrimaryConnectionButton
-          primary={topic.primary}
-          type="button"
-          onClick={() => setPrimaryConnection(topic.id)}>
-          {t('form.topics.primaryTopic')}
-        </StyledPrimaryConnectionButton>
+        {type !== 'topic-article' && (
+          <StyledPrimaryConnectionButton
+            primary={topic.primary}
+            type="button"
+            onClick={() => setPrimaryConnection(topic.id)}>
+            {t('form.topics.primaryTopic')}
+          </StyledPrimaryConnectionButton>
+        )}
         <StyledBreadCrumb>
           {breadCrumbs.map(path => (
             <Fragment key={`${topic.id}${path.id}`}>
@@ -70,10 +73,12 @@ const ActiveTopicConnection = ({
           <Cross />
         </StyledRemoveConnectionButton>
       </StyledConnections>
-      <SharedTopicConnections
-        topic={topic}
-        retriveBreadCrumbs={retriveBreadCrumbs}
-      />
+      {type !== 'topic-article' && (
+        <SharedTopicConnections
+          topic={topic}
+          retriveBreadCrumbs={retriveBreadCrumbs}
+        />
+      )}
     </Fragment>
   );
 };
@@ -83,6 +88,7 @@ ActiveTopicConnection.propTypes = {
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   topic: TopicShape,
+  type: PropTypes.string,
 };
 
 export default injectT(ActiveTopicConnection);

@@ -913,6 +913,7 @@ const phrases = {
     topics: {
       title: 'Emnetilknytninger',
       subTitle: 'Kvar i taksonomien skal ressursen ligge?',
+      subTitleTopic: 'Hvor i taksonomien skal emnebeskrivelsen ligge?',
       filestructureButton: 'Opprett emnetilknytning',
       filestructureHeading: 'Velg emnetilknytning',
       filestructureClose: 'Lukk',

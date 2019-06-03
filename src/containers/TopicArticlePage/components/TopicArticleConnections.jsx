@@ -15,17 +15,16 @@ import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { fetchTopicConnections } from '../../../../modules/taxonomy';
-import ActiveTopicConnections from './ActiveTopicConnections';
-import { StructureShape, TopicShape } from '../../../../shapes';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import StructureButtons from './StructureButtons';
+import ActiveTopicConnections from '../../LearningResourcePage/components/taxonomy/ActiveTopicConnections';
+import { HowToHelper } from '../../../components/HowTo';
+import { StructureShape, TopicShape } from '../../../shapes';
+import StructureFunctionButtons from './StructureFunctionButtons';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
 `;
 
-class TopicConnections extends Component {
+class TopicArticleConnections extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +32,7 @@ class TopicConnections extends Component {
       activeFilters: [],
     };
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
-    this.addTopic = this.addTopic.bind(this);
+    this.addToTopic = this.addToTopic.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
@@ -61,24 +60,8 @@ class TopicConnections extends Component {
     });
   }
 
-  async addTopic(id, closeModal) {
-    const { activeTopics, taxonomyTopics, stageTaxonomyChanges } = this.props;
-    const addTopic = taxonomyTopics.find(
-      taxonomyTopic => taxonomyTopic.id === id,
-    );
-
-    const topicConnections = await fetchTopicConnections(addTopic.id);
-    addTopic.topicConnections = topicConnections;
-
-    stageTaxonomyChanges({
-      topics: [
-        ...activeTopics,
-        {
-          ...addTopic,
-          primary: activeTopics.length === 0,
-        },
-      ],
-    });
+  async addToTopic(id, closeModal) {
+    this.props.stageTaxonomyChanges({ addTopicId: id });
     closeModal();
   }
 
@@ -104,13 +87,17 @@ class TopicConnections extends Component {
       <Fragment>
         <FieldHeader
           title={t('taxonomy.topics.title')}
-          subTitle={t('taxonomy.topics.subTitle')}>
+          subTitle={t('taxonomy.topics.subTitleTopic')}>
           <HowToHelper
-            pageId="TaxonomySubjectConnections"
+            pageId="TaxonomyTopicConnections"
             tooltip={t('taxonomy.topics.helpLabel')}
           />
         </FieldHeader>
-        <ActiveTopicConnections activeTopics={activeTopics} {...rest} />
+        <ActiveTopicConnections
+          activeTopics={activeTopics}
+          type="topic-article"
+          {...rest}
+        />
         <Modal
           backgroundColor="white"
           animation="subtle"
@@ -138,14 +125,13 @@ class TopicConnections extends Component {
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
                   renderListItems={props => (
-                    <StructureButtons
+                    <StructureFunctionButtons
                       {...props}
-                      closeModal={closeModal}
                       activeTopics={activeTopics}
                       availableFilters={availableFilters}
                       activeFilters={activeFilters}
                       toggleFilter={this.toggleFilter}
-                      addTopic={this.addTopic}
+                      addToTopic={() => this.addToTopic(props.id, closeModal)}
                     />
                   )}
                   activeFilters={activeFilters}
@@ -160,7 +146,7 @@ class TopicConnections extends Component {
   }
 }
 
-TopicConnections.propTypes = {
+TopicArticleConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf(StructureShape),
   activeFilters: PropTypes.arrayOf(PropTypes.string),
@@ -187,4 +173,4 @@ TopicConnections.propTypes = {
   getSubjectTopics: PropTypes.func,
 };
 
-export default injectT(TopicConnections);
+export default injectT(TopicArticleConnections);

@@ -95,7 +95,6 @@ const HeaderWithLanguage = ({
       : '';
 
   const StyledLanguagePillsLink = StyledLanguagePills.withComponent(Link);
-
   return (
     <header>
       <EditorHeader
@@ -176,7 +175,7 @@ HeaderWithLanguage.propTypes = {
   }),
   editUrl: PropTypes.func,
   getArticle: PropTypes.func,
-  type: PropTypes.oneOf(['image', 'audio']),
+  type: PropTypes.oneOf(['image', 'audio', 'iframe']),
 };
 
 export default injectT(HeaderWithLanguage);

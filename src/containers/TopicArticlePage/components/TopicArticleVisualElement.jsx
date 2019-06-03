@@ -27,17 +27,15 @@ class TopicArticleVisualElement extends Component {
     this.state = {
       selectedResource: undefined,
     };
-    this.handleSelectResource = this.handleSelectResource.bind(this);
-    this.resetSelectedResource = this.resetSelectedResource.bind(this);
   }
 
-  resetSelectedResource() {
+  resetSelectedResource = () => {
     this.setState({ selectedResource: undefined });
-  }
+  };
 
-  handleSelectResource(selectedResource) {
+  handleSelectResource = selectedResource => {
     this.setState({ selectedResource });
-  }
+  };
 
   render() {
     const { t } = this.props;

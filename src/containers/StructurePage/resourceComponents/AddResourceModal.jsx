@@ -11,11 +11,17 @@ import {
   createTopicResource,
   fetchResource,
   fetchResourceResourceType,
+  queryLearningPathResource,
+  createResource,
+  createResourceResourceType,
+  createResourceFilter,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
-
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { getArticle } from '../../../modules/article/articleApi';
+import { learningpathSearch } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
+import { FilterShape } from '../../../shapes';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -42,27 +48,25 @@ class AddResourceModal extends Component {
       article: {},
       pastedUrl: '',
     };
-    this.onSelect = this.onSelect.bind(this);
-    this.addSelected = this.addSelected.bind(this);
-    this.onPaste = this.onPaste.bind(this);
-    this.articleToState = this.articleToState.bind(this);
-    this.onInputSearch = this.onInputSearch.bind(this);
   }
 
-  onSelect(selected) {
+  onSelect = selected => {
     if (selected) {
-      if (!selected.url.includes('learningpaths')) {
+      if (selected.url && !selected.url.includes('learningpaths')) {
         const articleId = selected.url.split('/').pop();
         this.articleToState(articleId);
+      }
+      if (selected.metaUrl && selected.metaUrl.includes('learningpaths')) {
+        this.learningpathToState(selected);
       }
       this.setState({ selected });
     } else {
       this.setState({ selected: {}, article: {} });
     }
-  }
+  };
 
-  async onPaste(e) {
-    const val = e.target.value;
+  onPaste = async evt => {
+    const val = evt.target.value;
     const { type, t } = this.props;
     const resourceId = getResourceIdFromPath(val);
 
@@ -86,21 +90,50 @@ class AddResourceModal extends Component {
     } else {
       this.setState({ error: t('errorMessage.invalidUrl'), pastedUrl: val });
     }
-  }
+  };
 
   onInputSearch = async input => {
     try {
-      const res = await groupSearch(input, this.props.type);
-      const result = res.length > 0 ? res.pop().results : [];
-      return result;
-    } catch (e) {
-      handleError(e);
-      this.setState({ error: e.message });
+      const result =
+        this.props.type === RESOURCE_TYPE_LEARNING_PATH
+          ? await this.searchLearningpath(input)
+          : await this.groupSearch(input);
+      return result.map(current => ({
+        ...current,
+        title: current.title ? current.title.title : '',
+      }));
+    } catch (err) {
+      handleError(err);
+      this.setState({ error: err.message });
       return [];
     }
   };
 
-  async articleToState(articleId) {
+  searchLearningpath = async input => {
+    const query = input
+      ? {
+          query: input,
+          pageSize: 10,
+          language: 'nb',
+          fallback: true,
+          verificationStatus: 'CREATED_BY_NDLA',
+        }
+      : {
+          pageSize: 10,
+          language: 'nb',
+          fallback: true,
+          verificationStatus: 'CREATED_BY_NDLA',
+        };
+    const res = await learningpathSearch(query);
+    return res.results || [];
+  };
+
+  groupSearch = async input => {
+    const res = await groupSearch(input, this.props.type);
+    return res.length > 0 ? res.pop().results : [];
+  };
+
+  articleToState = async articleId => {
     const {
       id,
       metaDescription = {},
@@ -115,18 +148,40 @@ class AddResourceModal extends Component {
         imageUrl: metaImage.url,
       },
     });
-  }
+  };
 
-  async addSelected() {
-    const { topicId, refreshResources, onClose } = this.props;
+  learningpathToState = learningpath => {
+    this.setState({
+      article: {
+        id: learningpath.id,
+        metaDescription: learningpath.description,
+        title: learningpath.title,
+        imageUrl: learningpath.coverPhotoUrl,
+      },
+    });
+  };
+
+  addSelected = async () => {
+    const { topicId, refreshResources, onClose, topicFilters } = this.props;
     const { selected } = this.state;
     if (selected.id) {
       try {
         this.setState({ loading: true });
+        const resourceId =
+          this.props.type === RESOURCE_TYPE_LEARNING_PATH
+            ? await this.findResourceIdLearningPath(selected)
+            : getResourceIdFromPath(selected.paths[0]);
         await createTopicResource({
-          resourceId: getResourceIdFromPath(selected.paths[0]),
+          resourceId,
           topicid: topicId,
         });
+        if (topicFilters.length > 0) {
+          await createResourceFilter({
+            filterId: topicFilters[0].id,
+            relevanceId: topicFilters[0].relevanceId,
+            resourceId,
+          });
+        }
         refreshResources();
         this.setState({ loading: false });
 
@@ -136,7 +191,31 @@ class AddResourceModal extends Component {
         this.setState({ loading: false, error: e.message });
       }
     }
-  }
+  };
+
+  findResourceIdLearningPath = async learningpath => {
+    const resource = await queryLearningPathResource(learningpath.id);
+    if (resource.length > 0) {
+      return resource[0].id;
+    } else {
+      try {
+        await createResource({
+          contentUri: `urn:learningpath:${learningpath.id}`,
+          name: learningpath.title,
+        });
+        const resource = await queryLearningPathResource(learningpath.id);
+        const resourceId = resource[0].id;
+        await createResourceResourceType({
+          resourceId,
+          resourceTypeId: RESOURCE_TYPE_LEARNING_PATH,
+        });
+        return resource[0].id;
+      } catch (err) {
+        handleError(err);
+        this.setState({ loading: false, error: err.message });
+      }
+    }
+  };
 
   render() {
     const { onClose, t, allowPaste } = this.props;
@@ -188,6 +267,7 @@ AddResourceModal.propTypes = {
   type: PropTypes.string,
   allowPaste: PropTypes.bool,
   topicId: PropTypes.string.isRequired,
+  topicFilters: PropTypes.arrayOf(FilterShape),
   refreshResources: PropTypes.func.isRequired,
 };
 

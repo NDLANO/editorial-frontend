@@ -112,3 +112,11 @@ export function queryResources(articleId, language) {
     )}&?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
+
+export function queryLearningPathResource(learningpathId) {
+  return fetchAuthorized(
+    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+      `urn:learningpath:${learningpathId}`,
+    )}`,
+  ).then(resolveJsonOrRejectWithError);
+}

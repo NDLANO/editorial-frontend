@@ -25,6 +25,12 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
   },
+  dropdown: {
+    numberHits: `Søket gav {hits} treff`,
+    searching: 'Søker...',
+    create: 'Opprett nytt',
+    isSelectedItem: 'Lagt til',
+  },
   meta: {
     description:
       'Kvalitetssikra fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
@@ -792,8 +798,9 @@ const phrases = {
       speech: 'Tale',
     },
     external: {
-      edit: 'Rediger eksternt element',
-      remove: 'Fjern eksternt element',
+      title: 'eksternt',
+      edit: 'Rediger {type} element',
+      remove: 'Fjern {type} element',
     },
     related: {
       title: 'Relaterte artikler',

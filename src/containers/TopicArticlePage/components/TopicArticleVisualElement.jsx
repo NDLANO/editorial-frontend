@@ -34,7 +34,6 @@ class TopicArticleVisualElement extends Component {
   };
 
   handleSelectResource = selectedResource => {
-    console.log(selectedResource, 'sele');
     this.setState({ selectedResource });
   };
 

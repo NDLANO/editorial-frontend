@@ -101,7 +101,7 @@ class EditRelated extends React.PureComponent {
 
   async searchForArticles(inp) {
     const articles = await searchRelatedArticles(inp, this.props.locale);
-    return articles.filter(article => !!article.id);
+    return articles ? articles.filter(article => !!article.id) : [];
   }
 
   render() {

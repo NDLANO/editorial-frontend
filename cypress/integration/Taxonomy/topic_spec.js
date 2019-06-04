@@ -16,37 +16,33 @@ describe('Topic editing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/subjects/?language=nb',
-      'fixture:allSubjects.json',
-    );
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
-      'fixture:allSubjectTopics.json',
+      'allSubjectTopics',
     ).as('subjectTopics');
-    cy.route(
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/filters`,
-      'fixture:allSubjectFilters.json',
+      'allSubjectFilters',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
-      'fixture:resourceTypes.json',
+      'resourceTypes',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
-      'fixture:coreResources.json',
+      'coreResources',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
-      'fixture:supplementaryResources.json',
+      'supplementaryResources',
     );
-    cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
+    cy.apiroute('GET', '/article-api/v2/articles/8497', 'article');
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/topics/${selectTopic}`,
@@ -77,13 +73,8 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json').as(
-      'allTopics',
-    );
-    cy.route(
-      `/taxonomy/v1/topics/${selectTopic}/filters`,
-      'fixture:topicFilters.json',
-    );
+    cy.apiroute('/taxonomy/v1/topics/?language=nb', 'allTopics');
+    cy.apiroute(`/taxonomy/v1/topics/${selectTopic}/filters`, 'topicFilters');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topic-filters',

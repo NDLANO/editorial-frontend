@@ -14,20 +14,16 @@ describe('Subject editing', () => {
     cy.server({
       force404: true,
     });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/subjects/?language=nb',
-      'fixture:allSubjects.json',
-    ).as('allSubjects');
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
-      'fixture:allSubjectTopics.json',
+      'allSubjectTopics',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/filters',
-      'fixture:allSubjectFilters.json',
+      'allSubjectFilters',
     );
     cy.route({
       method: 'POST',
@@ -68,11 +64,7 @@ describe('Subject editing', () => {
       '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
       '',
     );
-    cy.route(
-      'GET',
-      '/taxonomy/v1/topics/?language=nb',
-      'fixture:allTopics.json',
-    ).as('allTopics');
+    cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topic-filters',

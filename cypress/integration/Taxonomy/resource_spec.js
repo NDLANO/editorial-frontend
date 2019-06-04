@@ -7,49 +7,47 @@
  */
 
 import { visitOptions, setToken } from '../../support';
-import coreResources from '../../fixtures/coreResources.json';
+import coreResources from '../../fixtures/coreResources';
 
 describe('Resource listing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/subjects/?language=nb',
-      'fixture:allSubjects.json',
-    );
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
-      'fixture:allSubjectTopics.json',
+      'allSubjectTopics',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/filters',
-      'fixture:allSubjectFilters.json',
+      'allSubjectFilters',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
-      'fixture:resourceTypes.json',
+      'resourceTypes',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/topics/urn:topic:1:183437/resources/?language=nb&relevance=urn:relevance:core&filter=',
-      'fixture:coreResources.json',
+      'coreResources',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/topics/urn:topic:1:183437/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
-      'fixture:suppResources.json',
+      'suppResources',
     );
-    cy.route('GET', '/article-api/v2/articles/8785', 'fixture:article.json');
-    cy.route(
+    cy.apiroute('GET', '/article-api/v2/articles/8785', ' article');
+    cy.apiroute(
       'GET',
       '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=&content-type=topic-article',
-      'fixture:getArticles.json',
-    ).as('getArticles');
-    cy.route('PUT', '/taxonomy/v1/topics/urn:topic:1:183437', '').as(
+      'getArticles',
+    );
+    cy.apiroute(
+      'PUT',
+      '/taxonomy/v1/topics/urn:topic:1:183437',
       'updateTopicDesc',
     );
     cy.visit('/structure/urn:subject:12', visitOptions);
@@ -71,13 +69,13 @@ describe('Resource listing', () => {
     cy.get('button[role=option]')
       .first()
       .click();
-    cy.wait('@updateTopicDesc');
+    cy.apiwait('@updateTopicDesc');
   });
   it('should open filter picker and have functioning buttons', () => {
     cy.route(
       'GET',
       '/taxonomy/v1/resources/urn:resource:1:167841/filters?language=nb',
-      'fixture:resourceFilters.json',
+      ' resourceFilters',
     );
 
     cy.get('button[id="urn:subject:12/urn:topic:1:183043"]').click();

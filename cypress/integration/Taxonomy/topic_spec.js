@@ -21,7 +21,7 @@ describe('Topic editing', () => {
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
       'allSubjectTopics',
-    ).as('subjectTopics');
+    );
     cy.apiroute(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/filters`,
@@ -40,9 +40,9 @@ describe('Topic editing', () => {
     cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
-      'supplementaryResources',
+      'suppResources',
     );
-    cy.apiroute('GET', '/article-api/v2/articles/8497', 'article');
+    cy.apiroute('GET', '/article-api/v2/articles/**', 'article');
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/topics/${selectTopic}`,
@@ -73,8 +73,12 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.apiroute('/taxonomy/v1/topics/?language=nb', 'allTopics');
-    cy.apiroute(`/taxonomy/v1/topics/${selectTopic}/filters`, 'topicFilters');
+    cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/topics/${selectTopic}/filters`,
+      'topicFilters',
+    );
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topic-filters',
@@ -90,7 +94,7 @@ describe('Topic editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.wait('@subjectTopics');
+    cy.wait('@allSubjectTopics');
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('[data-cy=change-topic-name]').click({ force: true });
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}', {
@@ -127,6 +131,13 @@ describe('Topic editing', () => {
     cy.get('[data-testid="submitConnectFilters"]').click();
 
     cy.wait('@addToFilter');
+    cy.route({
+      method: 'DELETE',
+      url:
+        '/taxonomy/v1/topic-filters/urn:topic-filter:e979cfb2-29de-402b-bd24-f8de5f14cfe1',
+      status: 204,
+      response: '',
+    });
     cy.get('button')
       .contains(phrases.alertModal.delete)
       .click();

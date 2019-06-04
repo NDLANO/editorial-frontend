@@ -55,13 +55,14 @@ describe('Subject editing', () => {
     cy.route('POST', '/taxonomy/v1/filters', '');
     cy.route({
       method: 'PUT',
-      url: '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      url:
+        '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
       status: 204,
       response: '',
     });
     cy.route(
       'DELETE',
-      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
       '',
     );
     cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');

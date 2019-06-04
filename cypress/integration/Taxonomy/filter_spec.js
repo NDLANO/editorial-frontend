@@ -28,7 +28,7 @@ describe('Test filter functionality', () => {
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');
   });
-  it('should have a settings menu where everything works', () => {
+  it('should filter subjects', () => {
     cy.get('[data-testid=filter-item]')
       .first()
       .click();

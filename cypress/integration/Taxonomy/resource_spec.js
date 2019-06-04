@@ -31,56 +31,49 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/urn:topic:1:183437/resources/?language=nb&relevance=urn:relevance:core&filter=',
+      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:core&filter=',
       'coreResources',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/urn:topic:1:183437/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
+      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
       'suppResources',
     );
-    cy.apiroute('GET', '/article-api/v2/articles/8785', ' article');
+    cy.apiroute('GET', '/article-api/v2/articles/**', 'article');
     cy.apiroute(
       'GET',
       '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=&content-type=topic-article',
       'getArticles',
     );
-    cy.apiroute(
-      'PUT',
-      '/taxonomy/v1/topics/urn:topic:1:183437',
-      'updateTopicDesc',
+    cy.route('PUT', '/taxonomy/v1/topics/urn:topic:1:183437', '');
+    cy.visit(
+      '/structure/urn:subject:12/urn:topic:1:183043/urn:topic:1:183437',
+      visitOptions,
     );
-    cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.apiwait('@allSubjects');
+    cy.apiwait('@allSubjectTopics');
+    cy.apiwait('@allSubjectFilters');
+    cy.apiwait('@coreResources');
+    cy.apiwait('@suppResources');
+    cy.apiwait('@article');
   });
+
   it('shows all the different resource types, and can add/delete them', () => {
-    cy.get('[data-testid=resource-type-subject]').should('have.length', 0);
-    cy.get('button[id="urn:subject:12/urn:topic:1:183043"]').click();
-    cy.get('button[id="urn:topic:1:183043/urn:topic:1:183437"]').click();
-    cy.get('[data-testid=resource-type-subject-material]').should(
-      'have.length',
-      14,
-    );
-    cy.get('[data-testid=resource-type-tasks-and-activities]').should(
-      'have.length',
-      3,
-    );
     cy.get('[data-testid=changeTopicDescription]').click();
-    cy.get('[data-testid=dropdownInput]').type('t');
+    cy.apiwait('@getArticles');
     cy.get('button[role=option]')
       .first()
       .click();
-    cy.apiwait('@updateTopicDesc');
   });
   it('should open filter picker and have functioning buttons', () => {
-    cy.route(
+    cy.apiroute(
       'GET',
-      '/taxonomy/v1/resources/urn:resource:1:167841/filters?language=nb',
-      ' resourceFilters',
+      '/taxonomy/v1/resources/urn:resource:1:167902/filters?language=nb',
+      'resourceFilters',
     );
 
-    cy.get('button[id="urn:subject:12/urn:topic:1:183043"]').click();
-    cy.get('button[id="urn:topic:1:183043/urn:topic:1:183437"]').click();
     cy.get(`[data-testid="openFilterPicker-${coreResources[0].id}"]`).click();
+    cy.apiwait('@resourceFilters');
     cy.get(
       '[data-testid="useFilterCheckbox-urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce"]',
     ).click();

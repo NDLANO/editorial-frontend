@@ -11,7 +11,7 @@ before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH="$HOME/.yarn/bin:$PATH"
 script:
-  - yarn $TEST_SUITE
+  - "yarn $TEST_SUITE"
   - yarn e2e-ci
 after_success:
   - travis_wait yarn ndla-scripts now-travis

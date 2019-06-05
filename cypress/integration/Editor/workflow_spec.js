@@ -69,8 +69,7 @@ describe('Workflow features', () => {
     cy.wait('@newStatus');
   });
 
-  it('Open previews', () => {
-    cy.wait(1000);
+  it.only('Open previews', () => {
     cy.get('button')
     .contains('Arbeidsflyt')
     .click();

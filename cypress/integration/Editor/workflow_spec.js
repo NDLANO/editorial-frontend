@@ -32,9 +32,7 @@ describe('Workflow features', () => {
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/status-state-machine/', 'statusMachine');
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
-    cy.apiwait('@tags');
-    cy.apiwait('@licenses');
-    cy.apiwait('@draft');
+    cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
   it('Can add notes, change status, save as new', () => {

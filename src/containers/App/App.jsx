@@ -36,6 +36,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
+import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
 
 export class App extends React.Component {
   getChildContext() {
@@ -73,6 +74,7 @@ export class App extends React.Component {
               />
               <PrivateRoute path="/media" component={MediaPage} />
               <PrivateRoute path="/agreement" component={AgreementPage} />
+              <PrivateRoute path="/film" component={NdlaFilmEditor} />
               <PrivateRoute
                 path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
                 component={StructurePage}

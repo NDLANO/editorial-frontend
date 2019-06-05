@@ -24,6 +24,7 @@ export {
   updateResourceRelevance,
   getFullResource,
   getResourceId, // fetchTopicResource,
+  queryLearningPathResource,
 } from './resources';
 export {
   fetchAllResourceTypes,

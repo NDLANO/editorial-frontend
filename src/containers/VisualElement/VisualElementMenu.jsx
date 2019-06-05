@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
-import { H5P, Camera, Video } from '@ndla/icons/editor';
+import { H5P, Camera, Video, Link } from '@ndla/icons/editor';
 import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
 
 const visualElementButtonStyle = css`
@@ -79,6 +79,12 @@ class VisualElementMenu extends Component {
             css={visualElementButtonStyle}
             onClick={() => this.handleSelect('h5p')}>
             <H5P />
+          </Button>
+          <Button
+            stripped
+            css={visualElementButtonStyle}
+            onClick={() => this.handleSelect('url')}>
+            <Link />
           </Button>
         </div>
       </div>

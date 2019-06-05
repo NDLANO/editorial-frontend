@@ -25,6 +25,12 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
   },
+  dropdown: {
+    numberHits: `Søket gav {hits} treff`,
+    searching: 'Søker...',
+    create: 'Opprett nytt',
+    isSelectedItem: 'Lagt til',
+  },
   meta: {
     description:
       'Kvalitetssikra fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
@@ -168,6 +174,7 @@ const phrases = {
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
+    film: 'Gå til film',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -791,8 +798,9 @@ const phrases = {
       speech: 'Tale',
     },
     external: {
-      edit: 'Rediger eksternt element',
-      remove: 'Fjern eksternt element',
+      title: 'eksternt',
+      edit: 'Rediger {type} element',
+      remove: 'Fjern {type} element',
     },
     related: {
       title: 'Relaterte artikler',
@@ -940,6 +948,43 @@ const phrases = {
   masthead: {
     menu: 'Meny',
     closeMenu: 'Lukk',
+  },
+  ndlaFilm: {
+    editor: {
+      slideshowHeader: 'Slideshow:',
+      slideshowTitle: 'Filmer i slideshow',
+      slideshowSubTitle: 'på forsida',
+      movieGroupHeader: 'Filmgrupperinger:',
+      addMovieToSlideshow: 'Legg til film i slideshow',
+      addMovieToGroup: 'Legg til film i "{name}"',
+      editMovieGroupName: 'Endre navna til filmgruppa',
+      deleteMovieGroup: 'Slett "{name}"',
+      moveMovieGroupUp: 'Flytt opp',
+      moveMovieGroupDown: 'Flytt ned',
+      changeOrder: 'Endre rekkjefølgje',
+      removeMovieFromGroup: 'Ta vekk film fra gruppe',
+      removeMovieFromSlideshow: 'Ta vekk film fra slideshow',
+      createThemeGroup: 'Opprett gruppe',
+      saveNameChanges: 'Lagre endringer',
+      cancel: 'Avbryt',
+      groupNamePlaceholder: 'Skriv navn på {lang}',
+      editGroupTitle: 'Endre navn(a) på filmgruppa:',
+      newGroupTitle: 'Kva skal gruppa heite?',
+    },
+  },
+  modal: {
+    closeModal: 'Lukk',
+  },
+  languages: {
+    nb: 'Bokmål',
+    nn: 'Nynorsk',
+    en: 'Engelsk',
+    fr: 'Fransk',
+    de: 'Tysk',
+    se: 'Samisk',
+    es: 'Spansk',
+    zh: 'Kinesisk',
+    unknown: 'Ukjent',
   },
 };
 

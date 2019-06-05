@@ -59,6 +59,19 @@ const DisplayEmbed = ({
           }
         />
       );
+    case 'iframe':
+      return (
+        <DisplayExternalVisualElement
+          embed={embed}
+          changeVisualElement={changeVisualElement}
+          onRemoveClick={onRemoveClick}
+          onFigureInputChange={e =>
+            onChange({
+              target: { name: 'visualElement.caption', value: e.target.value },
+            })
+          }
+        />
+      );
     default:
       return <p>{`Mediatype ${embed.resource} is not supported yet.`}</p>;
   }

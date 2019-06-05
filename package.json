@@ -21,6 +21,7 @@
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node scripts/bin/check-articles",
     "cy": "CYPRESS_USE_FIXTURES=true cypress open",
+    "cy-run": "CYPRESS_USE_FIXTURES=true cypress run",
     "cy-record": "CYPRESS_RECORD_FIXTURES=true cypress open",
     "pree2e-ci": "cross-env NODE_ENV=production node build/server &",
     "pree2e-ci-record": "cross-env NODE_ENV=production node build/server &",

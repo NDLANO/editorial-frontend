@@ -131,12 +131,12 @@ ImageContent.propTypes = {
       caption: PropTypes.string,
     }),
     errors: PropTypes.shape({
-      alttext: PropTypes.string.isRequired,
-      caption: PropTypes.string.isRequired,
+      alttext: PropTypes.string,
+      caption: PropTypes.string,
     }),
     touched: PropTypes.shape({
-      alttext: PropTypes.bool.isRequired,
-      caption: PropTypes.bool.isRequired,
+      alttext: PropTypes.bool,
+      caption: PropTypes.bool,
     }),
     setFieldValue: PropTypes.func.isRequired,
   }),

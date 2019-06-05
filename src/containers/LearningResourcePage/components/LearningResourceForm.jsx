@@ -238,6 +238,7 @@ class LearningResourceForm extends Component {
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
+                type="standard"
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }

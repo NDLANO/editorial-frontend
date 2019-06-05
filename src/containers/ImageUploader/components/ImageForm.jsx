@@ -179,7 +179,6 @@ class ImageForm extends Component {
       },
     ];
     const initialValues = getInitialValues(image);
-
     return (
       <Formik
         initialValues={initialValues}

@@ -74,9 +74,6 @@ const HeaderStatusInformation = ({
 HeaderStatusInformation.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func.isRequired,
   isNewLanguage: PropTypes.bool,
 };
 

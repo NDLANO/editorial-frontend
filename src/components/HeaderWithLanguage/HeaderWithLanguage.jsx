@@ -60,7 +60,7 @@ HeaderWithLanguage.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func.isRequired,
+  getArticle: PropTypes.func,
   type: PropTypes.oneOf([
     'image',
     'audio',

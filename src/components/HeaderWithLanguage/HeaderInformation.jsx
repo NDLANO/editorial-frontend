@@ -96,7 +96,7 @@ HeaderInformation.propTypes = {
   statusText: PropTypes.string,
   type: PropTypes.string.isRequired,
   editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func.isRequired,
+  getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
 };
 

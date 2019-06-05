@@ -105,7 +105,7 @@ HeaderActions.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func.isRequired,
+  getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
 };
 

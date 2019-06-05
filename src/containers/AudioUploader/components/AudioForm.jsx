@@ -35,7 +35,7 @@ import { toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
-import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
 export const getInitialValues = (audio = {}) => ({
   id: audio.id,

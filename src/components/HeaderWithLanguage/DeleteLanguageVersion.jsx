@@ -12,11 +12,11 @@ import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
-import { deleteLanguageVersion } from '../../../modules/draft/draftApi';
-import { HistoryShape } from '../../../shapes';
-import { toEditArticle } from '../../../util/routeHelpers';
-import AlertModal from '../../../components/AlertModal';
-import StyledFilledButton from '../../../components/StyledFilledButton';
+import { deleteLanguageVersion } from '../../modules/draft/draftApi';
+import { HistoryShape } from '../../shapes';
+import { toEditArticle } from '../../util/routeHelpers';
+import AlertModal from '../AlertModal';
+import StyledFilledButton from '../StyledFilledButton';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -24,7 +24,7 @@ const StyledWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-class FormikDeleteLanguageVersion extends React.Component {
+class DeleteLanguageVersion extends React.Component {
   constructor() {
     super();
     this.state = { showDeleteWarning: false };
@@ -60,16 +60,19 @@ class FormikDeleteLanguageVersion extends React.Component {
   render() {
     const {
       values: { id, supportedLanguages, language },
+      showDeleteButton,
       t,
     } = this.props;
-    const { showDeleteWarning } = this.state;
+
     if (
+      !showDeleteButton ||
       !id ||
       supportedLanguages.length < 2 ||
       !supportedLanguages.includes(language)
     ) {
       return null;
     }
+    const { showDeleteWarning } = this.state;
 
     return (
       <StyledWrapper>
@@ -104,14 +107,15 @@ class FormikDeleteLanguageVersion extends React.Component {
   }
 }
 
-FormikDeleteLanguageVersion.propTypes = {
+DeleteLanguageVersion.propTypes = {
   values: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     articleType: PropTypes.string,
   }),
+  showDeleteButton: PropTypes.bool.isRequired,
   history: HistoryShape,
 };
 
-export default withRouter(injectT(FormikDeleteLanguageVersion));
+export default withRouter(injectT(DeleteLanguageVersion));

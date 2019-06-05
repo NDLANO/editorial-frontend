@@ -8,7 +8,7 @@
 
 import { visitOptions, setToken } from '../../support';
 
-const ARTICLE_ID = 322;
+const ARTICLE_ID = 14872;
 
 describe('Workflow features', () => {
   beforeEach(() => {
@@ -25,8 +25,6 @@ describe('Workflow features', () => {
       'draft',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
-    cy.apiroute('GET', '/article-api/v2/articles/**', 'relatedArticle');
-    cy.apiroute('GET', '/taxonomy/v1/queries/resources/**', 'relatedTaxonomy');
     cy.route('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'fixture:draft.json').as(
       'updateDraft',
     );

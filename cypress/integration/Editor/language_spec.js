@@ -9,7 +9,7 @@
 import { setToken, visitOptions } from '../../support';
 import t from '../../../src/phrases/phrases-nb';
 
-const ARTICLE_ID = 322;
+const ARTICLE_ID = 14872;
 
 describe('Language handling', () => {
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('Language handling', () => {
     cy.server({ force404: true });
     cy.apiroute(
       'GET',
-      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
+      '/draft-api/v1/drafts/tags/**',
       'tags',
     );
     cy.apiroute(
@@ -31,12 +31,6 @@ describe('Language handling', () => {
       'draftNN',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
-    cy.apiroute('GET', '/article-api/v2/articles/**', 'relatedArticle');
-    cy.apiroute('GET', '/taxonomy/v1/queries/resources/**', 'relatedTaxonomy');
-    cy.route('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'fixture:draft.json').as(
-      'updateDraft',
-    );
-    cy.apiroute('GET', '/draft-api/v1/drafts/status-state-machine/', 'statusMachine');
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
     cy.apiwait(['@tags', '@licenses', '@draft']);
   });

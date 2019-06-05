@@ -124,7 +124,7 @@ app.get(
       query: { userIds },
     } = req;
     const hasWriteAccess =
-      user &&
+      user && user.scope &&
       (user.scope.includes('drafts:write') ||
         user.scope.includes('drafts:set_to_publish'));
 
@@ -160,7 +160,7 @@ app.get(
   async (req, res) => {
     const { user } = req;
     const hasWriteAccess =
-      user &&
+      user && user.scope &&
       (user.scope.includes('drafts:write') ||
         user.scope.includes('drafts:set_to_publish'));
 

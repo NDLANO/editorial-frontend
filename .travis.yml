@@ -22,6 +22,6 @@ notifications:
 env:
   matrix:
     - TEST_SUITE="yarn check-all"
-    - TEST_SUITE="yarn build && yarn e2e-ci"
+    - TEST_SUITE="yarn build && yarn e2e-ci-record"
   global:
     - secure: RxHXkX349upn7E1IKZBEN+r5/How1wiSRxkD8umbbG3Hzv4oXTmhO1x1Mz9inNLlh3z0E0w+xz0ELqxCeTz3jS5KHMHVRGE5G/KUKu2ENpF/BgcYpXjpwzwmGBX9h9KE2dWdtsDRE/BS//r+j4YpPJ1vMLMYxYBW/Lub7iRaAOGRpQefMAVCiaEilhxnV0OfuePaiupH2UaHGBMPLQBRsD7kOpNe8owUM7H+54lh0j0p4Px8SI4Xy5KgTnmVmGjzBW6VhIb1Y1P424XlMVcBOvbQkgvQL7ku9jqPTEIn60xGuQQsJSttbqZL4T8UFE4rpyGWNDF3Q5VryJOrbw/GFG/yFU6W6f3BnriJWacQ5LXrnXgiAYMbhgvEqE6zKshS9v+6WiO9haKqr6kUJDPZa0VqKtWsviZK0I4wVs9LUvpxLX4YPXmwyp3CNk3tND9YfxaKTqOti6YBK445W/xu4j7VepH+2h3II0VJTM6zAmOwYVNA6T3zMmB2bzQYpbRu7PmR5U9ejJJY3S5cpeQMjHv5pQn+iGJ7EUcX1QrV3CDywLzGG+2jrqd4tLnJ8KJgY1ZsJdv6USS44Gm2xHoBrQx4+2uheESYLWAghZ6HWU4BwQxsbN3e1+/LNJf1ZP7prSVKBerT0brn58Dgv90jF7UD51op06lPRr3sMq+ak4E=

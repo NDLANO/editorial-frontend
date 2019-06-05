@@ -3,7 +3,9 @@
 
 set -ev
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
+yarn build
 yarn e2e-ci
-else
+else 
+yarn build
 yarn e2e-ci-record
 fi

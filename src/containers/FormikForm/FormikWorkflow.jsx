@@ -157,7 +157,7 @@ class FormikWorkflow extends Component {
         />
         <div>
           <FieldHeader title={t('form.workflow.saveAsNew')} />
-          <Button onClick={this.onSaveAsNew}>
+          <Button onClick={this.onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}
           </Button>
         </div>

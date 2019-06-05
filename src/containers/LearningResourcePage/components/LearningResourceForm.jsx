@@ -256,6 +256,7 @@ class LearningResourceForm extends Component {
                 {error && <span className="c-errorMessage">{error}</span>}
                 {values.id && (
                   <FormikActionButton
+                    data-testid="resetToProd"
                     onClick={() => this.setState({ showResetModal: true })}>
                     {t('form.resetToProd.button')}
                   </FormikActionButton>

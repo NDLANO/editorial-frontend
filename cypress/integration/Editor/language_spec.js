@@ -41,7 +41,6 @@ describe('Language handling', () => {
     cy.apiwait('@tags');
     cy.apiwait('@licenses');
     cy.apiwait('@draft');
-    cy.apiwait('@relatedArticle');
   });
 
   it('Can change language and fetch the new article', () => {

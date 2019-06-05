@@ -35,7 +35,6 @@ describe('Workflow features', () => {
     cy.apiwait('@tags');
     cy.apiwait('@licenses');
     cy.apiwait('@draft');
-    cy.apiwait('@relatedArticle');
   });
 
   it('Can add notes, change status, save as new', () => {
@@ -71,6 +70,7 @@ describe('Workflow features', () => {
   });
 
   it('Open previews', () => {
+    cy.wait(1000);
     cy.get('button')
     .contains('Arbeidsflyt')
     .click();

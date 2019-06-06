@@ -20,17 +20,24 @@ describe('Search', () => {
     cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?page=1&page-size=10&query=&sort=-relevance',
+      '/search-api/v1/search/editorial/?page=1&page-size=10&sort=-relevance',
       'search',
     );
+    cy.apiroute('GET', '/get_editors', 'editors');
     cy.visit(
       '/search/content?page=1&page-size=10&sort=-relevance',
       visitOptions,
     );
-    cy.apiwait('@resourceTypes', '@search', '@allSubjects');
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@editors']);
   });
 
   it('Can use all dropdowns and text input', () => {
+    cy.apiroute(
+      'GET',
+      '/search-api/v1/search/editorial/?page=1&page-size=10&query=Test&sort=-relevance',
+      'search',
+    );
     cy.get('input[name="query"]').type('Test');
+    cy.apiwait('@search');
   });
 });

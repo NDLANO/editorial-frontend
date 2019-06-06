@@ -65,7 +65,7 @@ describe('Subject editing', () => {
         '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
       status: 204,
       response: '',
-    });
+    }).as('editFilter');
     cy.route({
       method: 'DELETE',
       url:
@@ -146,6 +146,7 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
+    cy.wait('@editFilter');
     cy.get('[data-testid=editFilterBox] > div')
       .first()
       .find('[data-testid=deleteFilter]')

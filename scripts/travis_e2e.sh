@@ -6,5 +6,5 @@ yarn build
 yarn e2e-ci
 else 
 yarn build
-yarn e2e-ci-record
+yarn e2e-ci
 fi

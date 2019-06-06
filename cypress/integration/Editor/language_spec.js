@@ -7,7 +7,6 @@
  */
 
 import { setToken, visitOptions } from '../../support';
-import t from '../../../src/phrases/phrases-nb';
 
 const ARTICLE_ID = 14872;
 

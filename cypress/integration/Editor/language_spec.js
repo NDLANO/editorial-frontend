@@ -14,11 +14,7 @@ describe('Language handling', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute(
-      'GET',
-      '/draft-api/v1/drafts/tags/**',
-      'tags',
-    );
+    cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
@@ -30,12 +26,17 @@ describe('Language handling', () => {
       'draftNN',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.visit(
+      `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
+      visitOptions,
+    );
     cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
   it('Can change language and fetch the new article', () => {
-      cy.get('header [role="button"]').contains('Nynorsk').click({force: true});
-      cy.apiwait('@draftNN');
+    cy.get('header [role="button"]')
+      .contains('Nynorsk')
+      .click({ force: true });
+    cy.apiwait('@draftNN');
   });
 });

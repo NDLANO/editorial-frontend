@@ -27,7 +27,7 @@ export const visitOptions = {
 
 let token = '';
 
-export const setToken = ({ refresh }) => {
+export const setToken = ({ refresh } = {}) => {
   if (!token || refresh) {
     const options = {
       method: 'POST',

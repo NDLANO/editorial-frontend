@@ -9,18 +9,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { EmbedShape } from '../../shapes';
-import SlateImage from '../SlateEditor/plugins/embed/SlateImage';
+import SlateImage from '../../components/SlateEditor/plugins/embed/SlateImage';
 import EditVisualElementImage from './EditVisualElementImage';
-import DisplayExternalVisualElement from './DisplayExternalVisualElement';
-import SlateVideo from '../SlateEditor/plugins/embed/SlateVideo';
+import DisplayExternalVisualElement from '../../components/DisplayEmbed/DisplayExternalVisualElement';
+import SlateVideo from '../../components/SlateEditor/plugins/embed/SlateVideo';
 
-const DisplayEmbed = ({
+const DisplayVisualElement = ({
   embed,
   changeVisualElement,
   onRemoveClick,
   className,
   onChange,
 }) => {
+  console.log(embed);
   switch (embed.resource) {
     case 'image':
       return (
@@ -41,7 +42,7 @@ const DisplayEmbed = ({
           figureClass={{ className: 'c-editor__figure' }}
           onFigureInputChange={e =>
             onChange({
-              target: { name: 'visualElement.caption', value: e.target.value },
+              target: { name: 'visualElementCaption', value: e.target.value },
             })
           }
         />
@@ -54,7 +55,7 @@ const DisplayEmbed = ({
           onRemoveClick={onRemoveClick}
           onFigureInputChange={e =>
             onChange({
-              target: { name: 'visualElement.caption', value: e.target.value },
+              target: { name: 'visualElementCaption', value: e.target.value },
             })
           }
         />
@@ -67,7 +68,7 @@ const DisplayEmbed = ({
           onRemoveClick={onRemoveClick}
           onFigureInputChange={e =>
             onChange({
-              target: { name: 'visualElement.caption', value: e.target.value },
+              target: { name: 'visualElementCaption', value: e.target.value },
             })
           }
         />
@@ -77,7 +78,7 @@ const DisplayEmbed = ({
   }
 };
 
-DisplayEmbed.propTypes = {
+DisplayVisualElement.propTypes = {
   embed: EmbedShape.isRequired,
   className: PropTypes.string,
   changeVisualElement: PropTypes.func,
@@ -85,8 +86,8 @@ DisplayEmbed.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-DisplayEmbed.defaultProps = {
+DisplayVisualElement.defaultProps = {
   className: '',
 };
 
-export default DisplayEmbed;
+export default DisplayVisualElement;

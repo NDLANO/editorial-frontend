@@ -76,12 +76,12 @@ export const topicArticleSchema = {
     required: true,
     onlyValidateIf: model => model.metaImageId,
   },
-  'visualElement.alt': {
+  visualElementAlt: {
     required: true,
     onlyValidateIf: model =>
       model.visualElement && model.visualElement.resource === 'image',
   },
-  'visualElement.caption': {
+  visualElementCaption: {
     required: true,
     onlyValidateIf: model =>
       model.visualElement &&

@@ -12,7 +12,7 @@ const ARTICLE_ID = 14872;
 
 describe('Language handling', () => {
   beforeEach(() => {
-    setToken({ refresh: true });
+    setToken();
     cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
     cy.apiroute(

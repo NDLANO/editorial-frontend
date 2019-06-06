@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:3000",
   "chromeWebSecurity": false,
   "fixturesFolder": "cypress/fixtures",
-  "video": false,
+  "video": true,
   "viewportWidth": 1820,
   "viewportHeight": 1280,
   "projectId": "snwitz",

@@ -44,7 +44,7 @@ import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
-import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -75,6 +75,7 @@ export const getInitialValues = (article = {}) => {
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
+    status: article.status || [],
   };
 };
 

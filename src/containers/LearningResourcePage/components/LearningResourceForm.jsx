@@ -43,7 +43,7 @@ import { validateDraft } from '../../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../../util/apiHelpers';
-import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
 export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -238,6 +238,7 @@ class LearningResourceForm extends Component {
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
+                type="standard"
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }

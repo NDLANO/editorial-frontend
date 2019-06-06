@@ -33,7 +33,7 @@ import {
   FormikAlertModalWrapper,
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
-import HeaderWithLanguage from '../../../components/SlateEditor/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
 const imageRules = {
   title: {
@@ -179,7 +179,6 @@ class ImageForm extends Component {
       },
     ];
     const initialValues = getInitialValues(image);
-
     return (
       <Formik
         initialValues={initialValues}

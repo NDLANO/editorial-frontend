@@ -25,18 +25,29 @@ describe('Workflow features', () => {
       'draft',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
-    cy.route('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'fixture:draft.json').as(
-      'updateDraft',
+    cy.route(
+      'PATCH',
+      `/draft-api/v1/drafts/${ARTICLE_ID}`,
+      'fixture:draft.json',
+    ).as('updateDraft');
+    cy.apiroute(
+      'GET',
+      '/draft-api/v1/drafts/status-state-machine/',
+      'statusMachine',
     );
-    cy.apiroute('GET', '/draft-api/v1/drafts/status-state-machine/', 'statusMachine');
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.visit(
+      `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
+      visitOptions,
+    );
     cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
   it('Can add notes, change status, save as new', () => {
-    cy.route('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'fixture:draft.json').as(
-      'updateDraft',
-    );
+    cy.route(
+      'PATCH',
+      `/draft-api/v1/drafts/${ARTICLE_ID}`,
+      'fixture:draft.json',
+    ).as('updateDraft');
     cy.get('button')
       .contains('Arbeidsflyt')
       .click();
@@ -65,11 +76,15 @@ describe('Workflow features', () => {
     cy.wait('@newStatus');
   });
 
-  it.only('Open previews', () => {
+  it('Open previews', () => {
     cy.get('button')
-    .contains('Arbeidsflyt')
-    .click();
-    cy.route('POST', '/article-converter/json/nb/transform-article', 'fixture:transformedArticle.json').as('transformedArticle');
+      .contains('Arbeidsflyt')
+      .click();
+    cy.route(
+      'POST',
+      '/article-converter/json/nb/transform-article',
+      'fixture:transformedArticle.json',
+    ).as('transformedArticle');
     cy.get('[data-testid=preview]').click();
     cy.wait('@transformedArticle');
   });

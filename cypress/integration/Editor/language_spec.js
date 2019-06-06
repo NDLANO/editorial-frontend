@@ -8,8 +8,9 @@
 
 import { setToken, visitOptions } from '../../support';
 
+const ARTICLE_ID = 14872;
+
 describe('Language handling', () => {
-  const ARTICLE_ID = 14872;
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });

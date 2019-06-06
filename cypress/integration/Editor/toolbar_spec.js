@@ -7,18 +7,29 @@
  */
 
 import { visitOptions, setToken } from '../../support';
-const tags = 'tags';
+
+const ARTICLE_ID = 14872;
+
 describe('Selecting text and using the toolbar', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute(
       'GET',
-      `/draft-api/v1/drafts/${tags}/?language=nb&size=7000`,
+      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
       'tags',
     );
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
-    cy.apiwait('@tags');
+    cy.apiroute(
+      'GET',
+      `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
+      'draft',
+    );
+    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+    cy.visit(
+      `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
+      visitOptions,
+    );
+    cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
   it('change the text styling', () => {
@@ -114,7 +125,7 @@ describe('Selecting text and using the toolbar', () => {
       });
   });
 
-  it.only('Creates footnote', () => {
+  it('Creates footnote', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()

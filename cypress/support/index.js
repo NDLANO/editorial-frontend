@@ -22,6 +22,7 @@ import { expiresIn } from '../../src/util/jwtHelper';
 export const visitOptions = {
   onBeforeLoad: win => {
     win.fetch = null; //eslint-disable-line
+    win.ReactDOM = window.ReactDOM;
   },
 };
 

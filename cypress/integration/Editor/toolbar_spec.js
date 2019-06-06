@@ -114,7 +114,7 @@ describe('Selecting text and using the toolbar', () => {
       });
   });
 
-  it.only('Creates footnote', () => {
+  it('Creates footnote', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()

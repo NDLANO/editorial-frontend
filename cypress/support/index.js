@@ -27,8 +27,8 @@ export const visitOptions = {
 
 let token = '';
 
-export const setToken = () => {
-  if (!token) {
+export const setToken = ({ refresh }) => {
+  if (!token || refresh) {
     const options = {
       method: 'POST',
       url: 'https://ndla-test.eu.auth0.com/oauth/token',

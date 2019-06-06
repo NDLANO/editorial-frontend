@@ -12,13 +12,14 @@ const ARTICLE_ID = 14872;
 
 describe('Language handling', () => {
   beforeEach(() => {
-    setToken();
+    setToken({ refresh: true });
     cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
-    cy.route(
+    cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
-    ).as('draft');
+      'draft',
+    );
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`,
@@ -29,7 +30,7 @@ describe('Language handling', () => {
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.wait(['@tags', '@licenses', '@draft']);
+    cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
   it('Can change language and fetch the new article', () => {

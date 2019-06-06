@@ -17,6 +17,8 @@ deploy:
   provider: script
   script: travis-wait yarn ndla-scripts now-travis
   skip_cleanup: true
+  on:
+    all_branches: true
 notifications:
   slack:
     on_success: change

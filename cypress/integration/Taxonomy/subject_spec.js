@@ -150,6 +150,7 @@ describe('Subject editing', () => {
       .first()
       .find('[data-testid=deleteFilter]')
       .click();
+    cy.wait(500);
     cy.get('[data-testid=warningModalConfirm]').click();
     cy.wait('@deleteFilter');
   });

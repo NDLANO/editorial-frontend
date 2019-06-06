@@ -33,7 +33,7 @@ describe('Language handling', () => {
     cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
-  it('Can change language and fetch the new article', () => {
+  it.skip('Can change language and fetch the new article', () => {
     cy.get('header [role="button"]')
       .contains('Nynorsk')
       .click({ force: true });

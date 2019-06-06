@@ -42,7 +42,7 @@ describe('Workflow features', () => {
     cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
-  it('Can add notes, change status, save as new', () => {
+  it.skip('Can add notes, change status, save as new', () => {
     cy.route(
       'PATCH',
       `/draft-api/v1/drafts/${ARTICLE_ID}`,
@@ -76,7 +76,7 @@ describe('Workflow features', () => {
     cy.wait('@newStatus');
   });
 
-  it('Open previews', () => {
+  it.skip('Open previews', () => {
     cy.get('button')
       .contains('Arbeidsflyt')
       .click();
@@ -89,7 +89,7 @@ describe('Workflow features', () => {
     cy.wait('@transformedArticle');
   });
 
-  it('Can reset to prod', () => {
+  it.skip('Can reset to prod', () => {
     cy.get('[data-testid=resetToProd]').click();
 
     cy.apiroute(

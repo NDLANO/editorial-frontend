@@ -7,14 +7,14 @@
  */
 
 import { visitOptions, setToken } from '../../support';
-
+const tags = 'tags';
 describe('Selecting text and using the toolbar', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute(
       'GET',
-      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
+      `/draft-api/v1/drafts/${tags}/?language=nb&size=7000`,
       'tags',
     );
     cy.visit('/subject-matter/learning-resource/new', visitOptions);

@@ -52,7 +52,13 @@ describe('Subject editing', () => {
         Location: 'newPath',
       },
     }).as('addNewTopic');
-    cy.route('POST', '/taxonomy/v1/filters', '');
+    cy.route({
+      method: 'POST',
+      url: '/taxonomy/v1/filters',
+      status: 201,
+      response: '',
+      headers: { Location: 'filterPath' },
+    }).as('addFilter');
     cy.route({
       method: 'PUT',
       url:
@@ -60,11 +66,13 @@ describe('Subject editing', () => {
       status: 204,
       response: '',
     });
-    cy.route(
-      'DELETE',
-      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
-      '',
-    );
+    cy.route({
+      method: 'DELETE',
+      url:
+        '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
+      response: '',
+      status: 204,
+    }).as('deleteFilter');
     cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
     cy.route({
       method: 'POST',
@@ -87,6 +95,7 @@ describe('Subject editing', () => {
       },
     }).as('addNewSubjectTopic');
     cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
   });
 
   it('should add a new subject', () => {
@@ -98,7 +107,6 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.wait('@allSubjects');
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
@@ -131,6 +139,8 @@ describe('Subject editing', () => {
     cy.get('[data-testid=editSubjectFiltersButton]').click();
     cy.get('[data-testid=addFilterButton]').click();
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
+    cy.wait('@addFilter');
+
     cy.get('[data-testid=editFilterBox] > div')
       .find('button')
       .first()
@@ -141,5 +151,6 @@ describe('Subject editing', () => {
       .find('[data-testid=deleteFilter]')
       .click();
     cy.get('[data-testid=warningModalConfirm]').click();
+    cy.wait('@deleteFilter');
   });
 });

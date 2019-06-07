@@ -63,6 +63,7 @@ class TopicArticleTaxonomy extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
     this.createAndPlaceTopic = this.createAndPlaceTopic.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   componentDidMount() {
@@ -292,6 +293,17 @@ class TopicArticleTaxonomy extends Component {
     this.stageTaxonomyChanges({ removeTopicId: id });
   }
 
+  onCancel() {
+    const { isDirty } = this.state;
+    const { closePanel } = this.props;
+    if (!isDirty) {
+      closePanel();
+    } else {
+      // TODO open warning
+      closePanel();
+    }
+  }
+
   render() {
     const {
       taxonomyChoices: { availableFilters, allTopics },
@@ -300,7 +312,7 @@ class TopicArticleTaxonomy extends Component {
       status,
       saveStatus,
     } = this.state;
-    const { t, closePanel } = this.props;
+    const { t } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -335,7 +347,7 @@ class TopicArticleTaxonomy extends Component {
         <Field right>
           <FormikActionButton
             outline
-            onClick={closePanel}
+            onClick={this.onCancel}
             disabled={saveStatus === 'loading'}>
             {t('form.abort')}
           </FormikActionButton>

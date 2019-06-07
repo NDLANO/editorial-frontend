@@ -1018,10 +1018,10 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.4.9":
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.4.9.tgz#115f70ba960f8d0a7a8ed42647e1d17b7c6334a9"
-  integrity sha512-5IOoduUUpJl12mDBSMtkdKA2HDfpU59DlP74EestvjsRY/HB4HzHH+dSzcHOpR6CkUHg3Rf3SlURbw1HmXKY3g==
+"@ndla/editor@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.4.10.tgz#b7b244e26225d07634683a715ca7e333b22eeb19"
+  integrity sha512-1PkAplxdbpfiqCALOXSmi7GD5Ng4xGfLECSOzb6forJ+4i4wMU3BYw3z/h1bXLsWdkl07wzoUY96F6gFbZnaJA==
   dependencies:
     "@ndla/core" "^0.6.7"
     "@ndla/icons" "^0.6.12"

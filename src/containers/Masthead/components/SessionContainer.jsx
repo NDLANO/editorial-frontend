@@ -13,47 +13,27 @@ import { css } from '@emotion/core';
 import { User } from '@ndla/icons/common';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import { colors, spacing, animations, shadows } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';
-import {
-  toLogoutFederated,
-  toLogoutSession,
-  toLogin,
-} from '../../../util/routeHelpers';
+import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
-import { StyledMenuItem } from './StyledMenuItem';
-
-const animateDownCss = css`
-  ${animations.fadeInBottom()}
-`;
+import StyledListButton from '../../../components/StyledListButton';
+import Overlay from '../../../components/Overlay';
+import { StyledDropdownOverlay } from '../../../components/Dropdown';
 
 const userIconCss = css`
   color: ${colors.brand.grey};
   margin-right: ${spacing.xsmall};
 `;
 
-const dropDownContainerCSS = css`
-  position: absolute;
-  z-index: 9999;
-  background: #fff;
-  padding: ${spacing.normal};
-  box-shadow: ${shadows.levitate1};
-`;
+const StyledLink = StyledListButton.withComponent(Link);
 
 const AuthSiteNavItem = ({ t, onClick }) => (
-  <div
-    css={css`
-      transform: translateY(${spacing.normal});
-    `}>
-    <div css={[dropDownContainerCSS, animateDownCss]}>
-      <StyledMenuItem to={toLogoutSession()} onClick={onClick}>
-        {t('logoutProviders.localLogout')}
-      </StyledMenuItem>
-      <StyledMenuItem to={toLogoutFederated()} onClick={onClick}>
-        {t('logoutProviders.federatedLogout')}
-      </StyledMenuItem>
-    </div>
-  </div>
+  <StyledDropdownOverlay withArrow>
+    <StyledLink to={toLogoutSession()} onClick={onClick}>
+      {t('logoutProviders.localLogout')}
+    </StyledLink>
+  </StyledDropdownOverlay>
 );
 
 AuthSiteNavItem.propTypes = {
@@ -99,23 +79,26 @@ export class SessionContainer extends Component {
           <Link to={toLogin()}>{t('siteNav.login')}</Link>
         )}
         {open && (
-          <FocusTrapReact
-            active
-            focusTrapOptions={{
-              onDeactivate: () => {
-                this.toggleOpen(false);
-              },
-              clickOutsideDeactivates: true,
-              escapeDeactivates: true,
-            }}>
-            <div>
-              <AuthSiteNavItem
-                t={t}
-                name={userName}
-                onClick={this.toggleOpen}
-              />
-            </div>
-          </FocusTrapReact>
+          <>
+            <FocusTrapReact
+              active
+              focusTrapOptions={{
+                onDeactivate: () => {
+                  this.toggleOpen(false);
+                },
+                clickOutsideDeactivates: true,
+                escapeDeactivates: true,
+              }}>
+              <div>
+                <AuthSiteNavItem
+                  t={t}
+                  name={userName}
+                  onClick={this.toggleOpen}
+                />
+              </div>
+            </FocusTrapReact>
+            <Overlay />
+          </>
         )}
       </div>
     );

@@ -6,8 +6,12 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
-import { isEditorValueDirty } from './articleContentConverter';
-import { getField } from '../components/Fields';
+import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
+import { findNodesByType } from './slateHelpers';
+import {
+  learningResourceContentToHTML,
+  topicArticleContentToHTML,
+} from './articleContentConverter';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -22,45 +26,58 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-export const isFormDirty = ({ fields, model, showSaved = false }) => {
-  // Checking specific slate object fields if they really have changed
-  const slateFields = ['introduction', 'metaDescription', 'content'];
-  const dirtyFields = [];
-  Object.keys(fields)
-    .filter(field => fields[field].dirty)
-    .forEach(dirtyField => {
-      if (slateFields.includes(dirtyField)) {
-        if (isEditorValueDirty(model[dirtyField])) {
-          dirtyFields.push(dirtyField);
-        }
-      } else {
-        dirtyFields.push(dirtyField);
-      }
-    });
-  return dirtyFields.length > 0 && !showSaved;
+const checkIfContentHasChanged = (newContent, initialContent, type) => {
+  const toHTMLFunction =
+    type === 'learningResource'
+      ? learningResourceContentToHTML
+      : topicArticleContentToHTML;
+  if (Array.isArray(newContent)) {
+    if (newContent.length !== initialContent.length) {
+      return true;
+    }
+  }
+  if (!isEqual(toHTMLFunction(newContent), toHTMLFunction(initialContent))) {
+    return true;
+  }
+  return false;
 };
 
-export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
+export const isFormikFormDirty = ({
+  values,
+  initialValues,
+  dirty = false,
+  type,
+}) => {
   if (!dirty) {
     return false;
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = ['introduction', 'metaDescription', 'content'];
+  // and skipping fields that only changes on the server
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
   const dirtyFields = [];
-  Object.keys(values).forEach(dirtyValue => {
-    if (slateFields.includes(dirtyValue)) {
-      if (isEditorValueDirty(values[dirtyValue])) {
+  Object.keys(values)
+    .filter(field => !skipFields.includes(field))
+    .forEach(dirtyValue => {
+      const currentValue = values[dirtyValue];
+      if (slateFields.includes(dirtyValue)) {
+        if (dirtyValue === 'content') {
+          if (
+            checkIfContentHasChanged(currentValue, initialValues.content, type)
+          ) {
+            dirtyFields.push(dirtyValue);
+          }
+        } else if (
+          !isEqual(currentValue.toJSON(), initialValues[dirtyValue].toJSON())
+        ) {
+          dirtyFields.push(dirtyValue);
+        }
+      } else if (!isEqual(currentValue, initialValues[dirtyValue])) {
         dirtyFields.push(dirtyValue);
       }
-    } else if (!isEqual(values[dirtyValue], initialValues[dirtyValue])) {
-      dirtyFields.push(dirtyValue);
-    }
-  });
+    });
   return dirtyFields.length > 0;
 };
-
-export const getErrorMessages = (label, name, schema) =>
-  getField(name, schema).errors.map(error => error(label));
 
 const formikCommonArticleRules = {
   title: {
@@ -92,9 +109,35 @@ const formikCommonArticleRules = {
     test: value => {
       const emptyNote = value.find(note => note.length === 0);
       if (emptyNote !== undefined) {
-        return 'validation.noEmptyNote';
+        return { translationKey: 'validation.noEmptyNote' };
       }
       return undefined;
+    },
+  },
+};
+
+export const learningResourceRules = {
+  ...formikCommonArticleRules,
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: values => !!values.metaImageId,
+  },
+  content: {
+    required: true,
+    test: value => {
+      const embedsHasErrors = value.find(block => {
+        const embeds = findNodesByType(block.value.document, 'embed').map(
+          node => node.get('data').toJS(),
+        );
+        const notValidEmbeds = embeds.filter(
+          embed => !isUserProvidedEmbedDataValid(embed),
+        );
+        return notValidEmbeds.length > 0;
+      });
+
+      return embedsHasErrors
+        ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
+        : undefined;
     },
   },
 };

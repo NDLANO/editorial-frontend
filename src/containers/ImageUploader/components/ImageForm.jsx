@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
+import { Formik, Form } from 'formik';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
@@ -15,29 +16,69 @@ import Accordion, {
 } from '@ndla/accordion';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import reformed from '../../../components/reformed';
-import validateSchema, {
-  checkTouchedInvalidField,
-} from '../../../components/validateSchema';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
+  isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-
+import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
-import { SchemaShape } from '../../../shapes';
+import { ImageShape } from '../../../shapes';
 import {
-  FormHeader,
-  FormActionButton,
+  FormikActionButton,
   formClasses as classes,
-  AlertModalWrapper,
-} from '../../Form';
+  FormikAlertModalWrapper,
+} from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
-export const getInitialModel = (image = {}) => ({
+const imageRules = {
+  title: {
+    required: true,
+  },
+  alttext: {
+    required: true,
+  },
+  caption: {
+    required: true,
+  },
+  tags: {
+    minItems: 3,
+  },
+  creators: {
+    test: (value, values, label) => {
+      if (value.length === 0 && values.rightsholders.length === 0) {
+        return {
+          translationKey: 'validation.minItems',
+          variables: {
+            minItems: 1,
+            label,
+            labelLowerCase: label.toLowerCase(),
+          },
+        };
+      }
+      return undefined;
+    },
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
+  imageFile: {
+    required: true,
+  },
+  license: {
+    required: true,
+  },
+};
+
+export const getInitialValues = (image = {}) => ({
   id: image.id,
   revision: image.revision,
   language: image.language,
@@ -58,218 +99,182 @@ export const getInitialModel = (image = {}) => ({
       : DEFAULT_LICENSE.license,
 });
 
-const FormWrapper = ({ inModal, children, onSubmit }) => {
+const FormWrapper = ({ inModal, children }) => {
   if (inModal) {
     return <div {...classes()}>{children}</div>;
   }
-  return (
-    <form onSubmit={onSubmit} {...classes()}>
-      {children}
-    </form>
-  );
+  return <Form>{children}</Form>;
 };
 
 FormWrapper.propTypes = {
   inModal: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  onSubmit: PropTypes.func,
 };
 
 class ImageForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      savedToServer: false,
+    };
   }
 
-  componentDidUpdate({ initialModel: prevModel }) {
-    const { initialModel, setModel } = this.props;
-
-    if (
-      initialModel.id !== prevModel.id ||
-      initialModel.language !== prevModel.language
-    ) {
-      setModel(initialModel);
-    }
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    const {
-      model,
-      validationErrors,
-      licenses,
-      setSubmitted,
-      onUpdate,
-      revision,
-      onModelSavedToServer,
-    } = this.props;
-
-    if (!validationErrors.isValid) {
-      setSubmitted(true);
-      return;
-    }
-
+  async onSubmit(values, actions) {
+    const { licenses, onUpdate, revision } = this.props;
+    actions.setSubmitting(true);
     const imageMetaData = {
-      id: model.id,
+      id: values.id,
       revision,
-      title: model.title,
-      alttext: model.alttext,
-      caption: model.caption,
-      language: model.language,
-      tags: model.tags,
+      title: values.title,
+      alttext: values.alttext,
+      caption: values.caption,
+      language: values.language,
+      tags: values.tags,
       copyright: {
-        license: licenses.find(license => license.license === model.license),
-        origin: model.origin,
-        creators: model.creators,
-        processors: model.processors,
-        rightsholders: model.rightsholders,
+        license: licenses.find(license => license.license === values.license),
+        origin: values.origin,
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
       },
     };
-    onUpdate(imageMetaData, model.imageFile);
-    onModelSavedToServer();
+
+    await onUpdate(imageMetaData, values.imageFile);
+    this.setState({ savedToServer: true });
+    actions.setSubmitting(false);
   }
 
   render() {
     const {
       t,
-      bindInput,
-      validationErrors: schema,
-      model,
-      initialModel,
-      submitted,
       tags,
+      image,
       licenses,
-      isSaving,
-      fields,
-      showSaved,
       inModal,
       closeModal,
       history,
     } = this.props;
-    const commonFieldProps = { bindInput, schema, submitted };
+    const { savedToServer } = this.state;
 
     const panels = [
       {
         id: 'image-upload-content',
         title: t('form.contentSection'),
-        hasError: [
-          schema.fields.title,
-          schema.fields.imageFile,
-          schema.fields.alttext,
-          schema.fields.caption,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
-          <ImageContent
-            commonFieldProps={commonFieldProps}
-            tags={tags}
-            model={model}
-          />
-        ),
+        errorFields: ['title', 'imageFile', 'caption', 'alttext'],
+        component: <ImageContent />,
       },
       {
         id: 'image-upload-metadataSection',
         title: t('form.metadataSection'),
-        hasError: [
-          schema.fields.tags,
-          schema.fields.creators,
-          schema.fields.rightsholders,
-          schema.fields.processors,
-          schema.fields.license,
-        ].some(field => checkTouchedInvalidField(field, submitted)),
-        component: (
-          <ImageMetaData
-            commonFieldProps={commonFieldProps}
-            tags={tags}
-            licenses={licenses}
-          />
-        ),
+        errorFields: [
+          'tags',
+          'rightsholders',
+          'creators',
+          'processors',
+          'license',
+        ],
+        component: <ImageMetaData tags={tags} licenses={licenses} />,
       },
     ];
-
+    const initialValues = getInitialValues(image);
     return (
-      <FormWrapper inModal={inModal} onSubmit={this.handleSubmit}>
-        <FormHeader
-          model={model}
-          type="image"
-          editUrl={lang => toEditImage(model.id, lang)}
-        />
-        <Accordion openIndexes={['image-upload-content']}>
-          {({ openIndexes, handleItemClick }) => (
-            <AccordionWrapper>
-              {panels.map(panel => (
-                <React.Fragment key={panel.id}>
-                  <AccordionBar
-                    panelId={panel.id}
-                    ariaLabel={panel.title}
-                    onClick={() => handleItemClick(panel.id)}
-                    hasError={panel.hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    {panel.title}
-                  </AccordionBar>
-                  {openIndexes.includes(panel.id) && (
-                    <AccordionPanel
-                      id={panel.id}
-                      hasError={panel.hasError}
-                      isOpen={openIndexes.includes(panel.id)}>
-                      <div className="u-4/6@desktop u-push-1/6@desktop">
-                        {panel.component}
-                      </div>
-                    </AccordionPanel>
-                  )}
-                </React.Fragment>
-              ))}
-            </AccordionWrapper>
-          )}
-        </Accordion>
-        <Field right>
-          {inModal ? (
-            <FormActionButton outline onClick={closeModal}>
-              {t('form.abort')}
-            </FormActionButton>
-          ) : (
-            <FormActionButton
-              onClick={history.goBack}
-              outline
-              disabled={isSaving}>
-              {t('form.abort')}
-            </FormActionButton>
-          )}
-          <SaveButton
-            isSaving={isSaving}
-            showSaved={showSaved}
-            submit={!inModal}
-            onClick={e => {
-              if (inModal) {
-                this.handleSubmit(e);
-              }
-            }}>
-            {t('form.save')} - {inModal}
-          </SaveButton>
-        </Field>
-        <AlertModalWrapper
-          model={model}
-          severity="danger"
-          initialModel={initialModel}
-          showSaved={showSaved}
-          fields={fields}
-          text={t('alertModal.notSaved')}
-        />
-      </FormWrapper>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={this.onSubmit}
+        enableReinitialize
+        validate={values => validateFormik(values, imageRules, t)}>
+        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
+          return (
+            <FormWrapper inModal={inModal}>
+              <HeaderWithLanguage
+                noStatus
+                values={values}
+                type="image"
+                editUrl={lang => toEditImage(values.id, lang)}
+              />
+              <Accordion openIndexes={['image-upload-content']}>
+                {({ openIndexes, handleItemClick }) => (
+                  <AccordionWrapper>
+                    {panels.map(panel => {
+                      const hasError = panel.errorFields.some(
+                        field => !!errors[field] && touched[field],
+                      );
+                      return (
+                        <React.Fragment key={panel.id}>
+                          <AccordionBar
+                            panelId={panel.id}
+                            ariaLabel={panel.title}
+                            onClick={() => handleItemClick(panel.id)}
+                            hasError={hasError}
+                            isOpen={openIndexes.includes(panel.id)}>
+                            {panel.title}
+                          </AccordionBar>
+                          {openIndexes.includes(panel.id) && (
+                            <AccordionPanel
+                              id={panel.id}
+                              hasError={hasError}
+                              isOpen={openIndexes.includes(panel.id)}>
+                              <div className="u-4/6@desktop u-push-1/6@desktop">
+                                {panel.component}
+                              </div>
+                            </AccordionPanel>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </AccordionWrapper>
+                )}
+              </Accordion>
+              <Field right>
+                {inModal ? (
+                  <FormikActionButton outline onClick={closeModal}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                ) : (
+                  <FormikActionButton
+                    onClick={history.goBack}
+                    outline
+                    disabled={isSubmitting}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                )}
+                <SaveButton
+                  isSaving={isSubmitting}
+                  showSaved={savedToServer && !formIsDirty}
+                  formIsDirty={formIsDirty}
+                  submit={!inModal}
+                  onClick={evt => {
+                    if (inModal) {
+                      evt.preventDefault();
+                      submitForm();
+                    }
+                  }}>
+                  {t('form.save')} - {inModal}
+                </SaveButton>
+              </Field>
+              <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                severity="danger"
+                formIsDirty={formIsDirty}
+                text={t('alertModal.notSaved')}
+              />
+            </FormWrapper>
+          );
+        }}
+      </Formik>
     );
   }
 }
 
 ImageForm.propTypes = {
-  model: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }),
-  initialModel: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-  }),
-  setModel: PropTypes.func.isRequired,
-  validationErrors: SchemaShape,
+  image: ImageShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -277,12 +282,7 @@ ImageForm.propTypes = {
     }),
   ).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  submitted: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  setSubmitted: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,
   inModal: PropTypes.bool,
@@ -290,45 +290,9 @@ ImageForm.propTypes = {
   history: PropTypes.shape({
     goBack: PropTypes.func,
   }).isRequired,
-  onModelSavedToServer: PropTypes.func.isRequired,
 };
 
 export default compose(
   injectT,
   withRouter,
-  reformed,
-  validateSchema({
-    title: {
-      required: true,
-    },
-    alttext: {
-      required: true,
-    },
-    caption: {
-      required: true,
-    },
-    tags: {
-      minItems: 3,
-    },
-    creators: {
-      test: (value, model, setError) => {
-        if (value.length === 0 && model.rightsholders.length === 0) {
-          setError('validation.minItems', { minItems: 1 });
-        }
-      },
-      allObjectFieldsRequired: true,
-    },
-    processors: {
-      allObjectFieldsRequired: true,
-    },
-    rightsholders: {
-      allObjectFieldsRequired: true,
-    },
-    imageFile: {
-      required: true,
-    },
-    license: {
-      required: true,
-    },
-  }),
 )(ImageForm);

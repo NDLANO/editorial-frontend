@@ -40,13 +40,13 @@ class TopicDescription extends Component {
       refreshTopics,
       currentTopic,
       t,
-      refFunc,
+      resourceRef,
     } = this.props;
 
     const { displayTopicDescription, showAddModal } = this.state;
 
     return (
-      <div ref={el => refFunc(el, 'resourceSection')}>
+      <div ref={resourceRef}>
         <Accordion
           appearance="resourceGroup"
           header={t('searchForm.articleType.topicArticle')}
@@ -64,7 +64,12 @@ class TopicDescription extends Component {
           }
           handleToggle={this.toggleDisplayTopicDescription}>
           {topicDescription && (
-            <Resource contentType="subject" name={topicDescription} />
+            <Resource
+              contentType="topic-article"
+              name={topicDescription}
+              locale={locale}
+              contentUri={currentTopic.contentUri}
+            />
           )}
         </Accordion>
         {showAddModal && (
@@ -88,7 +93,7 @@ TopicDescription.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
   }).isRequired,
-  refFunc: PropTypes.func,
+  resourceRef: PropTypes.object,
 };
 
 export default injectT(TopicDescription);

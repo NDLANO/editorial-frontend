@@ -9,6 +9,11 @@
 import defined from 'defined';
 import formatDate from './formatDate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
+import * as articleStatuses from './constants/ArticleStatus';
+
+export const isDraftPublished = (status = {}) =>
+  (status.other && status.other.includes(articleStatuses.PUBLISHED)) ||
+  status.current === articleStatuses.PUBLISHED;
 
 export const transformArticleToApiVersion = article => ({
   ...article,
@@ -27,7 +32,7 @@ export const transformArticleToApiVersion = article => ({
   },
 });
 
-export const transformArticleFromApiVersion = article => ({
+export const transformArticleFromApiVersion = (article, locale) => ({
   ...article,
   title: convertFieldWithFallback(article, 'title', ''),
   introduction: convertFieldWithFallback(article, 'introduction', ''),
@@ -39,6 +44,7 @@ export const transformArticleFromApiVersion = article => ({
       : undefined,
   metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
   tags: convertFieldWithFallback(article, 'tags', []),
+  ...(locale ? { language: locale } : {}),
 });
 
 export const transformArticle = article => {

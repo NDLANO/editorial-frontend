@@ -13,10 +13,15 @@ import config from '../config';
 import { expiresIn } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
 import * as messageActions from '../containers/Messages/messagesActions';
+
 const client =
   process.env.NODE_ENV !== 'unittest'
     ? require('../client.jsx')
-    : { store: { dispatch: () => {} } };
+    : {
+        store: {
+          dispatch: () => {},
+        },
+      };
 
 const NDLA_API_URL = config.ndlaApiUrl;
 const AUTH0_DOMAIN = config.auth0Domain;
@@ -80,13 +85,19 @@ const auth = new auth0.WebAuth({
 
 export function parseHash(hash) {
   return new Promise((resolve, reject) => {
-    auth.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
-      if (!err) {
-        resolve(authResult);
-      } else {
-        reject(err);
-      }
-    });
+    auth.parseHash(
+      {
+        hash,
+        _idTokenVerification: false,
+      },
+      (err, authResult) => {
+        if (!err) {
+          resolve(authResult);
+        } else {
+          reject(err);
+        }
+      },
+    );
   });
 }
 
@@ -126,29 +137,30 @@ export const renewSystemAuth = () =>
     setAccessTokenInLocalStorage(res.access_token, false);
   });
 
-export function loginPersonalAccessToken(type) {
-  auth.authorize({
-    connection: type,
-  });
-}
-
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
-    auth.checkSession({ scope: 'openid profile email' }, (err, authResult) => {
-      if (authResult && authResult.accessToken) {
-        setAccessTokenInLocalStorage(authResult.accessToken, true);
-        resolve(authResult.accessToken);
-      } else {
-        client.store.dispatch(
-          messageActions.addAuth0Message({
-            translationKey: 'errorMessage.auth0',
-            translationObject: { message: err.errorDescription },
-            timeToLive: 0,
-          }),
-        );
-        reject();
-      }
-    });
+    auth.checkSession(
+      {
+        scope: 'openid profile email',
+      },
+      (err, authResult) => {
+        if (authResult && authResult.accessToken) {
+          setAccessTokenInLocalStorage(authResult.accessToken, true);
+          resolve(authResult.accessToken);
+        } else {
+          client.store.dispatch(
+            messageActions.addAuth0Message({
+              translationKey: 'errorMessage.auth0',
+              translationObject: {
+                message: err.errorDescription || err.error_description,
+              },
+              timeToLive: 0,
+            }),
+          );
+          reject();
+        }
+      },
+    );
   });
 
 export const renewAuth = async () => {
@@ -158,7 +170,36 @@ export const renewAuth = async () => {
   return renewSystemAuth();
 };
 
+let tokenRenewalTimeout;
+
+const scheduleRenewal = async () => {
+  const expiresAt = getAccessTokenExpiresAt();
+
+  const timeout = expiresAt - Date.now();
+
+  if (timeout > 0) {
+    tokenRenewalTimeout = setTimeout(async () => {
+      await renewAuth();
+      scheduleRenewal();
+    }, timeout);
+  } else {
+    await renewAuth();
+    scheduleRenewal();
+  }
+};
+
+scheduleRenewal();
+
+export function loginPersonalAccessToken(type) {
+  auth.authorize({
+    connection: type,
+    state: localStorage.getItem('lastPath'),
+  });
+}
+
 export const personalAuthLogout = (federated, returnToLogin) => {
+  clearTimeout(tokenRenewalTimeout);
+
   const options = {
     returnTo: returnToLogin ? `${locationOrigin}/login` : `${locationOrigin}`,
     clientID: ndlaPersonalClientId,

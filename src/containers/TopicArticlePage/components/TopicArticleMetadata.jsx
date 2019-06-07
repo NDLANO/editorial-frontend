@@ -9,10 +9,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+
 import FormikField from '../../../components/FormikField';
-import MultiSelect from '../../../components/MultiSelect';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '../../FormikForm';
+import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 
 const TopicArticleMetadata = ({ t, tags }) => (
   <Fragment>
@@ -21,17 +22,7 @@ const TopicArticleMetadata = ({ t, tags }) => (
       label={t('form.tags.label')}
       description={t('form.tags.description')}
       obligatory>
-      {({ field }) => (
-        <MultiSelect
-          data={tags}
-          messages={{
-            createOption: t('form.tags.createOption'),
-            emptyFilter: t('form.tags.emptyFilter'),
-            emptyList: t('form.tags.emptyList'),
-          }}
-          {...field}
-        />
-      )}
+      {({ field }) => <MultiSelectDropdown {...field} data={tags} />}
     </FormikField>
     <FormikField
       name="metaDescription"

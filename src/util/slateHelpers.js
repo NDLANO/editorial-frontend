@@ -558,6 +558,7 @@ const RULES = [
     deserialize(el, next) {
       const mark = MARK_TAGS[el.tagName.toLowerCase()];
       if (!mark) return;
+      if (!el.childNodes[0] || el.childNodes[0].data === ' ') return;
       return {
         object: 'mark',
         type: mark,

@@ -28,6 +28,12 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  dropdown: {
+    numberHits: `Search returned {hits} hits`,
+    searching: 'Searching...',
+    create: 'Create new',
+    isSelectedItem: 'Added',
+  },
   article: {
     author: 'Author',
     published: 'Published',
@@ -131,6 +137,7 @@ const phrases = {
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
+    change: 'Change to {language} version',
   },
   welcomePage: {
     lastUsed: 'Last used',
@@ -168,6 +175,7 @@ const phrases = {
     searchContent: 'Search content',
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
+    film: 'Go to film',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -307,7 +315,7 @@ const phrases = {
     visualElementCopyright: 'Origin',
     removeVisualElement: 'Remove element',
     info: {
-      lastUpdated: 'Last updated: {updated}',
+      lastUpdated: 'Last updated: ',
     },
     title: 'Topic description | {title} ({key})',
     fields: {
@@ -329,11 +337,17 @@ const phrases = {
       },
     },
   },
+  footnoteForm: {
+    title: 'Title',
+    year: 'Year',
+    authors: 'Author',
+  },
+  linkForm: {
+    href: 'Link',
+    text: 'Text',
+  },
   audioForm: {
-    title: {
-      create: 'You are now creating a audio file',
-      update: 'You are now editing a audio file',
-    },
+    title: 'audio file',
   },
   imageEditor: {
     remove: {
@@ -342,10 +356,15 @@ const phrases = {
     },
   },
   imageForm: {
-    title: 'Image | {title} ({key})',
+    title: 'Image',
   },
   learningResourceForm: {
-    title: 'Learning resource | {title} ({key})',
+    metaImage: {
+      title: 'Image title',
+      copyright: 'Copyright',
+      change: 'Change meta image',
+    },
+    title: 'Learning resource',
     validation: {
       missingEmbedData:
         'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
@@ -426,10 +445,16 @@ const phrases = {
       content: 'Content',
       notes: 'Notes',
       metaDescription: 'Meta description',
+      metaImageAlt: 'Alt-text',
+      alttext: 'Alt-text',
+      caption: 'Caption',
+      imageFile: 'Imagefile',
       visualElement: {
         caption: 'Caption',
-        alt: 'Alt text',
+        alt: 'Alt-text',
       },
+      validFrom: 'Valid from',
+      validTo: 'Valid to',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -437,7 +462,7 @@ const phrases = {
       draft: 'Draft',
     },
     previewLanguageArticle: {
-      button: 'Compare different language versions',
+      button: 'Compare language versions',
       title: 'Draft on {language}',
     },
     previewNewWindow: 'Preview in a new window',
@@ -533,8 +558,12 @@ const phrases = {
         title: 'Delete language version',
         modal: 'Are you sure that you want to delete this language version?',
       },
+      statusInfoTooltip: 'Whats the difference between statuses?',
+      statusLabel: 'Status',
     },
     status: {
+      new: 'New - unsaved',
+      new_language: 'New language - unsaved',
       created: 'Created',
       imported: 'Imported',
       draft: 'Draft',
@@ -587,8 +616,6 @@ const phrases = {
         urlPlaceholder: 'Url',
         titlePlaceholder: 'Title',
         urlLocation: 'Webpage at {domain}',
-        emptyFilter: 'No related articles found',
-        emptyList: 'There are no related articles in this list',
         invalidArticle: 'Invalid article',
         addExternal: 'Add external article',
         searchExternal: 'Write the url and title of the external article',
@@ -618,8 +645,6 @@ const phrases = {
           label: 'Author',
           description: 'Required with at least one author.',
           createOption: 'Create new author',
-          emptyFilter: ' ',
-          emptyList: ' ',
         },
         edition: 'Edition',
         publisher: 'Publisher',
@@ -640,20 +665,14 @@ const phrases = {
       helpLabel: 'What is a tag?',
       description: '3 tags is required.',
       createOption: 'Create new tag',
-      emptyList: 'No tags available',
-      emptyFilter: 'No matching tags found',
     },
     resourceTypes: {
       label: 'Resource type and properties',
       placeholder: 'Add property',
-      emptyList: 'No properties available',
-      emptyFilter: 'No matching properties found',
     },
     filter: {
       label: 'Filter',
       placeholder: 'Add filter',
-      emptyList: 'No filters available',
-      emptyFilter: 'No matching filters found',
       core: 'Core',
       supplementary: 'Supplementary',
       setRelevance: 'Set relevance',
@@ -661,8 +680,6 @@ const phrases = {
     topics: {
       label: 'Topics',
       placeholder: 'Add topic',
-      emptyList: 'No topics available',
-      emptyFilter: 'No matching topics found',
       primaryTopic: 'Primary topic',
       sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
@@ -676,24 +693,18 @@ const phrases = {
       label: 'Connect to agreement',
       helpLabel: 'What is an agreement?',
       placeholder: 'Search for agreement',
-      emptyFilter: 'No matching agreement found',
-      emptyList: 'No agreements in the list',
     },
     rightsholders: {
       label: 'Rightsholder',
       labelRemove: 'Remove',
       placeholder: 'Type name of rightholder',
       createOption: 'Add new rightsholder',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     processors: {
       label: 'Processor',
       labelRemove: 'Remove',
       placeholder: 'Type name of processor',
       createOption: 'Add new processor',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     creators: {
       label: 'Creator',
@@ -701,8 +712,6 @@ const phrases = {
       placeholder: 'Type name of creator',
       createOption: 'Add new creator',
       description: 'Required with at least one creator.',
-      emptyFilter: ' ',
-      emptyList: ' ',
     },
     license: {
       label: 'License',
@@ -726,8 +735,9 @@ const phrases = {
         center: 'Large centered',
       },
       sizes: {
-        xsmall: 'Size: Small',
-        small: 'Size: Medium',
+        xsmall: 'Size: Tiny',
+        small: 'Size: Small',
+        medium: 'Size: Medium',
         fullwidth: 'Size: Large',
       },
       crop: 'Crop image',
@@ -739,7 +749,7 @@ const phrases = {
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
-        noText: 'WCAG requires alt-tekst.',
+        noText: 'WCAG requires alt-text.',
       },
       dragdrop: {
         main: 'Drag and drop',
@@ -752,6 +762,7 @@ const phrases = {
         label: 'Video caption',
         placeholder: 'Video caption',
       },
+      remove: 'Remove video',
     },
     audio: {
       file: 'Audio file',
@@ -766,6 +777,11 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+    },
+    external: {
+      title: 'external',
+      edit: 'Edit {type} element',
+      remove: 'Remove {type} element',
     },
     related: {
       title: 'Related articles',
@@ -911,6 +927,43 @@ const phrases = {
   masthead: {
     menu: 'Menu',
     closeMenu: 'Close',
+  },
+  ndlaFilm: {
+    editor: {
+      slideshowHeader: 'Slideshow:',
+      slideshowTitle: 'Movies on slideshow',
+      slideshowSubTitle: 'on frontpage',
+      movieGroupHeader: 'Movies themes:',
+      addMovieToSlideshow: 'Add movie to slideshow',
+      addMovieToGroup: 'Add a movie to "{name}"',
+      editMovieGroupName: 'Change the names on this movie group',
+      deleteMovieGroup: 'Delete "{name}"',
+      moveMovieGroupUp: 'Move up',
+      moveMovieGroupDown: 'Move down',
+      changeOrder: 'Change order',
+      removeMovieFromGroup: 'Remove movie from group',
+      removeMovieFromSlideshow: 'Remove movie from slideshow',
+      createThemeGroup: 'Create new movie group',
+      saveNameChanges: 'Save changes',
+      cancel: 'Cancel',
+      groupNamePlaceholder: 'Write name in {lang}',
+      editGroupTitle: 'Change the name(s) in this movie group:',
+      newGroupTitle: 'What shall we call the new movie group?',
+    },
+  },
+  modal: {
+    closeModal: 'Close',
+  },
+  languages: {
+    nb: 'Norwegian Bokmål',
+    nn: 'Norwegian Nynorsk',
+    en: 'English',
+    fr: 'French',
+    de: 'German',
+    se: 'Sami',
+    es: 'Spanish',
+    zh: 'Chinese',
+    unknown: 'Unknown',
   },
 };
 

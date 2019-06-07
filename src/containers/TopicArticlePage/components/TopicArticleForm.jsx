@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import { withRouter } from 'react-router-dom';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
@@ -22,7 +22,7 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../util/embedTagHelpers';
-import { SchemaShape, LicensesArrayOf, ArticleShape } from '../../../shapes';
+import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -34,9 +34,8 @@ import {
   FormikAlertModalWrapper,
   formClasses,
   FormikActionButton,
-  FormikHeader,
 } from '../../FormikForm';
-import { formatErrorMessage } from '../../Form/FormWorkflow';
+import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
 import { validateDraft } from '../../../modules/draft/draftApi';
@@ -45,6 +44,7 @@ import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -75,6 +75,7 @@ export const getInitialValues = (article = {}) => {
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
+    status: article.status || [],
   };
 };
 
@@ -89,25 +90,35 @@ class TopicArticleForm extends Component {
       showResetModal: false,
       savedToServer: false,
     };
+    this.formik = React.createRef();
   }
 
-  componentDidUpdate({ selectedLanguage: prevSelectedLanguage }) {
-    const { selectedLanguage } = this.props;
-    if (selectedLanguage !== prevSelectedLanguage) {
+  componentDidUpdate({ article: prevArticle }) {
+    const { article } = this.props;
+    if (
+      article.language !== prevArticle.language ||
+      article.id !== prevArticle.id
+    ) {
       this.setState({ savedToServer: false });
+      if (this.formik.current) {
+        this.formik.current.resetForm();
+      }
     }
   }
 
   async onResetFormToProd({ setValues }) {
-    const { articleId, selectedLanguage, t } = this.props;
+    const {
+      article: { language, id },
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(articleId, selectedLanguage);
+      const articleFromProd = await getArticle(id, language);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
-        language: selectedLanguage,
+        language,
       });
       const initialValues = getInitialValues(convertedArticle);
       this.setState({ showResetModal: false }, () => setValues(initialValues));
@@ -150,7 +161,7 @@ class TopicArticleForm extends Component {
       introduction: editorValueToPlainText(values.introduction),
       tags: values.tags,
       content: content || emptyField,
-      visualElement: visualElement || emptyField,
+      visualElement: visualElement,
       metaDescription: editorValueToPlainText(values.metaDescription),
       articleType: 'topic-article',
       copyright: {
@@ -203,7 +214,7 @@ class TopicArticleForm extends Component {
         ...this.getArticle(values),
         revision,
       });
-      actions.setSubmitting(false);
+      actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -215,25 +226,16 @@ class TopicArticleForm extends Component {
 
   render() {
     const { t, history, article, ...rest } = this.props;
-
     const { error, showResetModal, savedToServer } = this.state;
-    const initVal = getInitialValues(article);
+    const initialValues = getInitialValues(article);
     return (
       <Formik
-        initialValues={initVal}
+        initialValues={initialValues}
         validateOnBlur={false}
+        ref={this.formik}
         onSubmit={this.handleSubmit}
-        enableReinitialize
         validate={values => validateFormik(values, topicArticleRules, t)}>
-        {({
-          values,
-          initialValues,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -241,14 +243,14 @@ class TopicArticleForm extends Component {
           });
           return (
             <Form {...formClasses()}>
-              <FormikHeader
+              <HeaderWithLanguage
                 values={values}
                 type={values.articleType}
+                getArticle={() => this.getArticle(values)}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
               />
-
               <TopicArticleAccordionPanels
                 values={values}
                 errors={errors}
@@ -258,7 +260,6 @@ class TopicArticleForm extends Component {
                 formIsDirty={formIsDirty}
                 {...rest}
               />
-
               <Field right>
                 {error && <span className="c-errorMessage">{error}</span>}
                 {values.id && (
@@ -291,12 +292,14 @@ class TopicArticleForm extends Component {
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
+                  formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}>
                   {t('form.save')}
                 </SaveButton>
               </Field>
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />
@@ -309,7 +312,6 @@ class TopicArticleForm extends Component {
 }
 
 TopicArticleForm.propTypes = {
-  validationErrors: SchemaShape,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,
@@ -325,7 +327,6 @@ TopicArticleForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   article: ArticleShape,
-  selectedLanguage: PropTypes.string.isRequired,
 };
 
 export default compose(

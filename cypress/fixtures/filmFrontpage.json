@@ -1,0 +1,58 @@
+{
+  "name" : "Film",
+  "about" : [
+    {
+      "title" : "film",
+      "description" : "film fag",
+      "visualElement" : {
+        "type" : "image",
+        "url" : "https://test.api.ndla.no/image-api/raw/id/37",
+        "alt" : "Et bilde Foto."
+      },
+      "language" : "nb"
+    }
+  ],
+  "movieThemes" : [
+    {
+      "name" : [
+        {
+          "name" : "eksempel 1",
+          "language" : "nb"
+        }
+      ],
+      "movies" : [
+        "urn:article:288",
+        "urn:article:14191",
+        "urn:article:14320"
+      ]
+    },
+    {
+      "name" : [
+        {
+          "name" : "eksempel 2",
+          "language" : "nb"
+        },
+        {
+          "name" : "eksempel 2",
+          "language" : "nn"
+        },
+        {
+          "name" : "example 2",
+          "language" : "en"
+        }
+      ],
+      "movies" : [
+        "urn:article:14274",
+        "urn:article:14537",
+        "urn:article:591"
+      ]
+    }
+  ],
+  "slideShow" : [
+    "urn:article:14547",
+    "urn:article:14188",
+    "urn:article:14178",
+    "urn:article:14186",
+    "urn:article:14376"
+  ]
+}

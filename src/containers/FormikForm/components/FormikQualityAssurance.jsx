@@ -14,8 +14,15 @@ import { FieldHeader } from '@ndla/forms';
 import PreviewDraftLightbox from '../../../components/PreviewDraft/PreviewDraftLightbox';
 import { toPreviewDraft } from '../../../util/routeHelpers';
 import FormikActionButton from './FormikActionButton';
+import { isDraftPublished } from '../../../util/articleUtil';
 
-const FormikQualityAssurance = ({ getArticle, values, onValidateClick, t }) => (
+const FormikQualityAssurance = ({
+  getArticle,
+  values,
+  onValidateClick,
+  articleStatus,
+  t,
+}) => (
   <div>
     <FieldHeader title={t('form.workflow.qualityAssurance')} />
     {values.id && (
@@ -30,7 +37,7 @@ const FormikQualityAssurance = ({ getArticle, values, onValidateClick, t }) => (
       typeOfPreview="preview"
       getArticle={getArticle}
     />
-    {values.id && (
+    {values.id && isDraftPublished(articleStatus) && (
       <PreviewDraftLightbox
         label={t('subNavigation.learningResource')}
         typeOfPreview="previewProductionArticle"
@@ -58,6 +65,10 @@ FormikQualityAssurance.propTypes = {
     id: PropTypes.number,
   }),
   onValidateClick: PropTypes.func.isRequired,
+  articleStatus: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 export default injectT(FormikQualityAssurance);

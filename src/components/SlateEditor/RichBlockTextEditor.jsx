@@ -24,31 +24,30 @@ class RichBlockTextEditor extends PureComponent {
   }
 
   onChange(evt, index) {
-    const { onChange, value, name } = this.props;
+    const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = { value: evt.target.value, index };
-    const changedValue = {
+    newValue[index] = evt.target.value;
+    onChange({
       target: {
         value: newValue,
         name,
+        type: 'SlateBlockValue',
       },
-    };
-    onChange(changedValue);
+    });
   }
 
   removeSection(index) {
-    const { name, onChange, value } = this.props;
+    const { onChange, name, value } = this.props;
     if (value.length > 1) {
       const newValue = [].concat(value);
       newValue.splice(index, 1);
-      const changedValue = {
+      onChange({
         target: {
           value: newValue,
           name,
-          type: 'SlateEditorValue',
+          type: 'SlateBlockValue',
         },
-      };
-      onChange(changedValue);
+      });
     }
   }
 
@@ -56,15 +55,17 @@ class RichBlockTextEditor extends PureComponent {
     const {
       schema,
       children,
-      className,
       value,
       name,
-      onChange,
-      ...rest
+      placeholder,
+      plugins,
+      renderMark,
+      renderNode,
+      submitted,
     } = this.props;
     return (
       <article>
-        {value.map((val, index) => (
+        {value.map((blockValue, index) => (
           <StyledFormContainer
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
           >
@@ -79,12 +80,18 @@ class RichBlockTextEditor extends PureComponent {
               </Tooltip>
             ) : null}
             <RichTextEditor
+              id={name}
               name={name}
+              index={index}
+              data-cy={this.props['data-cy']}
+              placeholder={placeholder}
+              plugins={plugins}
+              renderMark={renderMark}
+              renderNode={renderNode}
+              submitted={submitted}
               schema={schema}
               onChange={this.onChange}
-              value={val.value}
-              {...rest}
-              index={index}
+              value={blockValue}
               removeSection={this.removeSection}
             />
             {children}
@@ -103,6 +110,11 @@ RichBlockTextEditor.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  placeholder: PropTypes.string.isRequired,
+  renderMark: PropTypes.func.isRequired,
+  renderNode: PropTypes.func.isRequired,
+  submitted: PropTypes.bool.isRequired,
+  'data-cy': PropTypes.string.isRequired,
 };
 
 export default RichBlockTextEditor;

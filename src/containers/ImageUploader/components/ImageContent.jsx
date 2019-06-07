@@ -8,15 +8,15 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'formik';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
 import { animations, spacing, colors } from '@ndla/core';
-import { TextField, getField } from '../../../components/Fields';
-import { CommonFieldPropsShape } from '../../../shapes';
 import IconButton from '../../../components/IconButton';
+import FormikField from '../../../components/FormikField';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -33,20 +33,20 @@ const StyledDeleteButtonContainer = styled.div`
   flex-direction: row;
 `;
 
-const ImageContent = ({ t, commonFieldProps, model }) => {
-  const { bindInput, schema, submitted } = { ...commonFieldProps };
+const ImageContent = ({
+  t,
+  formik: { values, touched, errors, setFieldValue },
+}) => {
   return (
     <Fragment>
-      <TextField
+      <FormikField
         label={t('form.title.label')}
         name="title"
         title
         noBorder
-        maxLength={300}
         placeholder={t('form.title.label')}
-        {...commonFieldProps}
       />
-      {!model.imageFile && (
+      {!values.imageFile && (
         <UploadDropZone
           name="imageFile"
           allowedFiles={[
@@ -56,27 +56,26 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
             'image/jpg',
             'image/svg+xml',
           ]}
-          onAddedFiles={(files, e) => {
-            const bindInputs = { ...bindInput('imageFile') };
-            bindInputs.onChange(e);
+          onAddedFiles={(files, evt) => {
+            setFieldValue(
+              'filepath',
+              evt.target && evt.target.files[0]
+                ? URL.createObjectURL(evt.target.files[0])
+                : undefined,
+            );
+            setFieldValue('imageFile', evt.target.files[0]);
           }}
           ariaLabel={t('form.image.dragdrop.ariaLabel')}>
-          <strong>{t('form.image.dragdrop.main')}</strong>{' '}
+          <strong>{t('form.image.dragdrop.main')}</strong>
           {t('form.image.dragdrop.sub')}
         </UploadDropZone>
       )}
-      {!model.id && model.imageFile && (
+      {!values.id && values.imageFile && (
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
             <IconButton
               onClick={() => {
-                const bindInputs = { ...bindInput('imageFile') };
-                bindInputs.onChange({
-                  target: {
-                    name: 'imageFile',
-                    type: 'file',
-                  },
-                });
+                setFieldValue('imageFile', undefined);
               }}
               tabIndex={-1}>
               <DeleteForever />
@@ -84,50 +83,63 @@ const ImageContent = ({ t, commonFieldProps, model }) => {
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}
-      {model.imageFile && (
-        <StyledImage src={model.filepath || model.imageFile} alt="" />
+      {values.imageFile && (
+        <StyledImage src={values.filepath || values.imageFile} alt="" />
       )}
-      <Input
-        name="caption"
-        placeholder={t(`form.image.caption.placeholder`)}
-        label={t(`form.image.caption.label`)}
-        container="div"
-        type="text"
-        autoExpand
-        warningText={
-          submitted
-            ? getField('caption', schema)
-                .errors.map(error => error('caption'))
-                .toString('. ')
-            : undefined
-        }
-        {...bindInput('caption')}
-      />
-      <Input
-        placeholder={t('form.image.alt.placeholder')}
-        label={t('form.image.alt.label')}
-        name="alttext"
-        container="div"
-        type="text"
-        autoExpand
-        warningText={
-          submitted
-            ? getField('alttext', schema)
-                .errors.map(error => error('alttext'))
-                .toString('. ')
-            : undefined
-        }
-        {...bindInput('alttext')}
-      />
+      <FormikField name="caption" showError={false}>
+        {({ field }) => (
+          <Input
+            placeholder={t('form.image.caption.placeholder')}
+            label={t('form.image.caption.label')}
+            container="div"
+            type="text"
+            autoExpand
+            warningText={
+              touched[field.name] && errors[field.name]
+                ? errors[field.name]
+                : undefined
+            }
+            {...field}
+          />
+        )}
+      </FormikField>
+      <FormikField name="alttext" showError={false}>
+        {({ field }) => (
+          <Input
+            placeholder={t('form.image.alt.placeholder')}
+            label={t('form.image.alt.label')}
+            container="div"
+            type="text"
+            autoExpand
+            warningText={
+              touched[field.name] && errors[field.name]
+                ? errors[field.name]
+                : undefined
+            }
+            {...field}
+          />
+        )}
+      </FormikField>
     </Fragment>
   );
 };
 
 ImageContent.propTypes = {
-  commonFieldProps: CommonFieldPropsShape.isRequired,
-  model: PropTypes.shape({
-    id: PropTypes.number,
+  formik: PropTypes.shape({
+    values: PropTypes.shape({
+      alttext: PropTypes.string,
+      caption: PropTypes.string,
+    }),
+    errors: PropTypes.shape({
+      alttext: PropTypes.string,
+      caption: PropTypes.string,
+    }),
+    touched: PropTypes.shape({
+      alttext: PropTypes.bool,
+      caption: PropTypes.bool,
+    }),
+    setFieldValue: PropTypes.func.isRequired,
   }),
 };
 
-export default injectT(ImageContent);
+export default injectT(connect(ImageContent));

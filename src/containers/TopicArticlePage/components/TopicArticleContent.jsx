@@ -9,15 +9,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
-import { css } from '@emotion/core';
 import { connect } from 'formik';
+import { css } from '@emotion/core';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
-import { schema as slateSchema } from '../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from './../../../components/lastUpdatedLine';
+import { schema } from '../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
   renderNode,
   renderMark,
@@ -33,13 +32,18 @@ import createLinkPlugin, {
 } from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
-import { FormikIngress, FormikDatePicker } from '../../FormikForm';
+import { FormikIngress } from '../../FormikForm';
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: [link],
 };
+
+const byLineStyle = css`
+  display: flex;
+  margin-top: 0;
+`;
 
 const plugins = [
   createNoEmbedsPlugin(),
@@ -58,11 +62,9 @@ const TopicArticleContent = props => {
   const {
     t,
     formik: {
-      values: { creators, published, visualElement, updatePublished = false },
-      initialValues,
+      values: { creators, published, visualElement },
     },
   } = props;
-  const hasPublishedDateChanged = initialValues.published !== published;
   return (
     <Fragment>
       <FormikField
@@ -72,43 +74,19 @@ const TopicArticleContent = props => {
         noBorder
         placeholder={t('form.title.label')}
       />
-      {/* TODO: Change to c-article-byline */}
-      <LastUpdatedLine creators={creators} published={published} />
+      <FormikField name="published" css={byLineStyle}>
+        {({ field, form }) => (
+          <LastUpdatedLine
+            name={field.name}
+            creators={creators}
+            published={published}
+            onChange={date => {
+              form.setFieldValue(field.name, date);
+            }}
+          />
+        )}
+      </FormikField>
       <FormikIngress />
-      {!hasPublishedDateChanged && (
-        <FormikField name="updatePublished">
-          {({ field }) => (
-            <Fragment>
-              <input
-                css={css`
-                  display: inline-block;
-                  width: auto;
-                  appearance: checkbox !important;
-                  margin-right: ${spacing.small};
-                `}
-                type="checkbox"
-                {...field}
-              />
-              <span>{t('form.updatePublished')}</span>
-            </Fragment>
-          )}
-        </FormikField>
-      )}
-      {updatePublished && (
-        <FormikField name="published">
-          {({ field, form }) => (
-            <FormikDatePicker
-              enableTime
-              onReset={() =>
-                form.setFieldValue(field.name, initialValues.published || '')
-              }
-              dateFormat="d/m/Y - H:i"
-              {...field}
-            />
-          )}
-        </FormikField>
-      )}
-
       <TopicArticleVisualElement visualElement={visualElement} />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
@@ -117,13 +95,13 @@ const TopicArticleContent = props => {
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
               id={field.name}
-              {...field}
               submitted={isSubmitting}
               renderNode={renderNode}
               renderMark={renderMark}
               plugins={plugins}
               supportedToolbarElements={supportedToolbarElements}
-              schema={slateSchema}
+              schema={schema}
+              {...field}
             />
           </Fragment>
         )}

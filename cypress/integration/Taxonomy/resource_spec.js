@@ -67,8 +67,8 @@ describe('Resource listing', () => {
       3,
     );
     cy.get('[data-testid=changeTopicDescription]').click();
-
-    cy.get('[data-testid="dropdown-items"] > div[role=option]')
+    cy.get('[data-testid=dropdownInput]').type('t');
+    cy.get('button[role=option]')
       .first()
       .click();
     cy.wait('@updateTopicDesc');

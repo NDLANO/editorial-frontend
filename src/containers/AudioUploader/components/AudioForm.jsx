@@ -17,7 +17,7 @@ import Accordion, {
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Field } from '../../../components/Fields';
+import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
@@ -25,7 +25,6 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import {
-  FormikHeader,
   FormikActionButton,
   formClasses,
   FormikAlertModalWrapper,
@@ -36,6 +35,7 @@ import { toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 
 export const getInitialValues = (audio = {}) => ({
   id: audio.id,
@@ -172,9 +172,15 @@ class AudioForm extends Component {
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting } = formikProps;
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
           return (
             <Form {...formClasses()}>
-              <FormikHeader
+              <HeaderWithLanguage
+                noStatus
                 values={values}
                 type="audio"
                 editUrl={lang => toEditAudio(values.id, lang)}
@@ -217,18 +223,13 @@ class AudioForm extends Component {
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
-                  showSaved={
-                    savedToServer &&
-                    !isFormikFormDirty({
-                      values,
-                      initialValues,
-                      dirty,
-                    })
-                  }
+                  formIsDirty={formIsDirty}
+                  showSaved={savedToServer && !formIsDirty}
                 />
               </Field>
               <FormikAlertModalWrapper
                 {...formikProps}
+                formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />

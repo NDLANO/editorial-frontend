@@ -11,8 +11,6 @@ import { combineReducers } from 'redux';
 import locale from './modules/locale/locale';
 import messages from './containers/Messages/messagesReducer';
 import search from './modules/search/search';
-import drafts from './modules/draft/draft';
-import audios from './modules/audio/audio';
 import images from './modules/image/image';
 import tags from './modules/tag/tag';
 import licenses from './modules/license/license';
@@ -22,8 +20,6 @@ const rootReducers = combineReducers({
   locale,
   messages,
   search,
-  drafts,
-  audios,
   images,
   tags,
   licenses,

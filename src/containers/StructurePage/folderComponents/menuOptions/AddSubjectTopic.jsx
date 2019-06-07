@@ -18,6 +18,7 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
+import { FilterShape } from '../../../../shapes';
 
 class AddSubjectTopic extends React.PureComponent {
   constructor() {
@@ -77,6 +78,9 @@ AddSubjectTopic.propTypes = {
   onClose: PropTypes.func,
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
+  id: PropTypes.string,
+  refreshTopics: PropTypes.func.isRequired,
+  subjectFilters: PropTypes.arrayOf(FilterShape).isRequired,
 };
 
 export default injectT(AddSubjectTopic);

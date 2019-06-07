@@ -6,15 +6,14 @@
  *
  */
 
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
-import { connect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
-import VisualElementPreview from '../../VisualElement/VisualElementPreview';
+import VisualElement from '../../VisualElement/VisualElement';
 import FormikField from '../../../components/FormikField';
 
 export const visualElementClasses = new BEMHelper({
@@ -28,36 +27,29 @@ class TopicArticleVisualElement extends Component {
     this.state = {
       selectedResource: undefined,
     };
-    this.handleSelectResource = this.handleSelectResource.bind(this);
-    this.resetSelectedResource = this.resetSelectedResource.bind(this);
   }
 
-  resetSelectedResource() {
+  resetSelectedResource = () => {
     this.setState({ selectedResource: undefined });
-  }
+  };
 
-  handleSelectResource(selectedResource) {
+  handleSelectResource = selectedResource => {
     this.setState({ selectedResource });
-  }
+  };
 
   render() {
-    const {
-      t,
-      formik: {
-        values: { visualElement },
-      },
-    } = this.props;
+    const { t } = this.props;
     const { selectedResource } = this.state;
     return (
-      <div>
-        <FieldHeader title={t('form.visualElement.title')} />
-        {!visualElement.resource ? (
-          <VisualElementMenu onSelect={this.handleSelectResource} />
-        ) : null}
-        <FormikField name="visualElement">
-          {({ field }) => (
-            <Fragment>
-              <VisualElementPreview
+      <FormikField name="visualElement">
+        {({ field }) => (
+          <div>
+            <FieldHeader title={t('form.visualElement.title')} />
+            {!field.value.resource && (
+              <VisualElementMenu onSelect={this.handleSelectResource} />
+            )}
+            <>
+              <VisualElement
                 label={t('form.visualElement.label')}
                 changeVisualElement={this.handleSelectResource}
                 resetSelectedResource={this.resetSelectedResource}
@@ -68,40 +60,10 @@ class TopicArticleVisualElement extends Component {
                 resetSelectedResource={this.resetSelectedResource}
                 {...field}
               />
-            </Fragment>
-          )}
-        </FormikField>
-        {visualElement.resource && visualElement.resource !== 'h5p' ? (
-          <div>
-            <FormikField
-              placeholder={t(
-                `topicArticleForm.fields.caption.placeholder.${
-                  visualElement.resource
-                }`,
-              )}
-              label={t(
-                `topicArticleForm.fields.caption.label.${
-                  visualElement.resource
-                }`,
-              )}
-              name="visualElement.caption"
-              noBorder
-              maxLength={300}
-            />
-            {visualElement.resource === 'image' && (
-              <FormikField
-                placeholder={t('topicArticleForm.fields.alt.placeholder')}
-                label={t('topicArticleForm.fields.alt.label')}
-                name="visualElement.alt"
-                noBorder
-                maxLength={300}
-              />
-            )}
+            </>
           </div>
-        ) : (
-          ''
         )}
-      </div>
+      </FormikField>
     );
   }
 }
@@ -119,4 +81,4 @@ TopicArticleVisualElement.propTypes = {
   }),
 };
 
-export default connect(injectT(TopicArticleVisualElement));
+export default injectT(TopicArticleVisualElement);

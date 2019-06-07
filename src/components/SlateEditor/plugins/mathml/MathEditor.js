@@ -13,7 +13,6 @@ import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import Types from 'slate-prop-types';
-
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
@@ -33,27 +32,28 @@ const StyledMenu = styled('span')`
   ${p => (p.top ? `top: ${p.top}px;` : '')};
 `;
 
-const buttonStyle = css(`
+const buttonStyle = css`
   color: ${colors.brand.primary};
   text-decoration: underline;
   margin: 0 ${spacing.xsmall};
-`);
+`;
 
-const getModelFromNode = node => {
+const getInfoFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
-
   return {
-    innerHTML: data.innerHTML,
-    xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
+    model: {
+      innerHTML: data.innerHTML || `<mn>${node.text}</mn>`,
+      xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
+    },
+    isFirstEdit: data.innerHTML === undefined,
   };
 };
 
 class MathEditor extends Component {
   constructor(props) {
     super(props);
-    const existingModel = getModelFromNode(props.node);
-
-    this.state = { editMode: !existingModel.innerHTML };
+    const { isFirstEdit } = getInfoFromNode(props.node);
+    this.state = { editMode: isFirstEdit, showMenu: false }; // turn off editMode and showMenu on start
     this.mathMLRef = createRef();
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -85,7 +85,6 @@ class MathEditor extends Component {
 
   handleSave(mathML) {
     const { node, editor } = this.props;
-
     const properties = {
       data: { ...getSchemaEmbed(node), innerHTML: mathML },
     };
@@ -101,8 +100,7 @@ class MathEditor extends Component {
   render() {
     const { t, node } = this.props;
     const { editMode, showMenu } = this.state;
-
-    const model = getModelFromNode(node);
+    const { model } = getInfoFromNode(node);
 
     const { top, left } = this.getMenuPosition();
 

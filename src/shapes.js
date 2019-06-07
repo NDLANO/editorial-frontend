@@ -120,8 +120,8 @@ export const NewArticleShape = PropTypes.shape({
 });
 
 export const ImageShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  title: PropTypes.string,
 });
 
 export const EmbedShape = PropTypes.shape({
@@ -161,17 +161,6 @@ export const LinkShape = PropTypes.shape({
   text: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
   checkbox: PropTypes.bool.isRequired,
-});
-
-export const SchemaShape = PropTypes.shape({
-  fields: PropTypes.object.isRequired,
-  isValid: PropTypes.bool.isRequired,
-});
-
-export const CommonFieldPropsShape = PropTypes.shape({
-  schema: SchemaShape,
-  submitted: PropTypes.bool.isRequired,
-  bindInput: PropTypes.func.isRequired,
 });
 
 export const PluginShape = PropTypes.shape({

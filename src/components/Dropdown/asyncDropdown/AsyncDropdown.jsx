@@ -9,20 +9,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import debounce from 'lodash/debounce';
-import {
-  DropdownMenu,
-  DropdownInput,
-  DropdownSearchAction,
-  dropDownClasses,
-} from '../common';
+import { DropdownMenu, Input } from '@ndla/forms';
+import { Search } from '@ndla/icons/common';
+import { Spinner } from '@ndla/editor';
+import { injectT } from '@ndla/i18n';
 import { itemToString } from '../../../util/downShiftHelpers';
+import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 
 class AsyncDropDown extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       items: [],
-      isOpen: false,
+      isOpen: props.startOpen,
       inputValue: '',
       selectedItem: null,
     };
@@ -36,10 +35,8 @@ class AsyncDropDown extends React.Component {
 
   async componentDidMount() {
     this.isMountedOrMounting = true;
-    const { apiAction } = this.props;
-    const items = await apiAction('');
     if (this.isMountedOrMounting) {
-      this.setState({ items });
+      this.handleSearch();
     }
   }
 
@@ -49,17 +46,34 @@ class AsyncDropDown extends React.Component {
 
   async handleInputChange(evt) {
     const { value } = evt.target;
-    this.handleSearch(value);
+    const { currentDebounce } = this.state;
+
+    if (currentDebounce) {
+      currentDebounce.cancel();
+    }
+    const debounced = debounce(() => this.handleSearch(value), 400);
+    debounced();
+    this.setState({
+      inputValue: value,
+      isOpen: true,
+      currentDebounce: debounced,
+    });
   }
 
-  handleSearch(query = '') {
+  async handleSearch(query = '') {
     const { apiAction } = this.props;
-
-    this.setState({ inputValue: query, isOpen: true });
-    debounce(async () => {
-      const items = await apiAction(query);
-      this.setState({ items });
-    }, 500)();
+    this.setState({ loading: true });
+    const items = await apiAction(query);
+    this.setState({
+      items: items.map(item => ({
+        ...item,
+        title: convertFieldWithFallback(item, 'title', ''),
+        description: convertFieldWithFallback(item, 'metaDescription', ''),
+        image: item.metaImage && item.metaImage.url,
+        alt: item.metaImage && item.metaImage.alt,
+      })),
+      loading: false,
+    });
   }
 
   handleChange(selectedItem) {
@@ -80,8 +94,7 @@ class AsyncDropDown extends React.Component {
   }
 
   handleToggleMenu() {
-    if (!this.props.alwaysOpen)
-      this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
+    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
   }
 
   handleStateChange(changes) {
@@ -101,13 +114,14 @@ class AsyncDropDown extends React.Component {
       placeholder,
       textField,
       valueField,
-      messages,
       onClick,
-      alwaysOpen,
+      t,
+      testid,
+      positionAbsolute,
       ...rest
     } = this.props;
 
-    const { items } = this.state;
+    const { items, loading, isOpen } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
@@ -121,36 +135,24 @@ class AsyncDropDown extends React.Component {
         itemToString={item => itemToString(item, textField)}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
-        isOpen={this.state.isOpen || alwaysOpen}
+        isOpen={isOpen}
         selectedItem={this.state.selectedItem}>
-        {downshiftProps => {
-          const DropdownSearch = (
-            <DropdownSearchAction
-              {...downshiftProps}
-              onToggleMenu={this.handleToggleMenu}
-            />
-          );
-          const { multiselect } = downshiftProps;
+        {({ getInputProps, ...downshiftProps }) => {
           return (
-            <div {...dropDownClasses()}>
-              <DropdownInput
-                {...downshiftProps}
-                inputProps={inputProps}
-                multiselect={multiselect}
-                iconRight={multiselect ? null : DropdownSearch}
-                onToggleMenu={this.handleToggleMenu}
+            <div
+              style={positionAbsolute ? { position: 'relative' } : undefined}>
+              <Input
+                {...getInputProps(inputProps)}
+                data-testid={'dropdownInput'}
+                iconRight={
+                  loading ? <Spinner size="normal" margin="0" /> : <Search />
+                }
               />
               <DropdownMenu
                 {...downshiftProps}
-                multiselect={multiselect}
                 items={items}
-                messages={messages}
-                textField={textField}
-                valueField={valueField}
-                asyncSelect
-                resourceMenu
+                positionAbsolute={positionAbsolute}
               />
-              {multiselect && DropdownSearch}
             </div>
           );
         }}
@@ -166,15 +168,14 @@ AsyncDropDown.propTypes = {
   textField: PropTypes.string,
   valueField: PropTypes.string,
   onClick: PropTypes.func,
-  messages: PropTypes.shape({
-    emptyFilter: PropTypes.string.isRequired,
-    emptyList: PropTypes.string.isRequired,
-  }),
-  alwaysOpen: PropTypes.bool,
+  testid: PropTypes.string,
+  positionAbsolute: PropTypes.bool,
+  startOpen: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {
   placeholder: '',
+  startOpen: false,
 };
 
-export default AsyncDropDown;
+export default injectT(AsyncDropDown);

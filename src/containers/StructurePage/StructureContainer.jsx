@@ -54,6 +54,7 @@ export class StructureContainer extends React.PureComponent {
       activeConnections: [],
     };
     this.starButton = React.createRef();
+    this.resourceSection = React.createRef();
     this.getAllSubjects = this.getAllSubjects.bind(this);
     this.getSubjectTopics = this.getSubjectTopics.bind(this);
     this.addSubject = this.addSubject.bind(this);
@@ -64,14 +65,15 @@ export class StructureContainer extends React.PureComponent {
     this.toggleFilter = this.toggleFilter.bind(this);
     this.setPrimary = this.setPrimary.bind(this);
     this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
+    this.saveSubjectItems = this.saveSubjectItems.bind(this);
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
     this.refreshTopics = this.refreshTopics.bind(this);
     this.toggleStructure = this.toggleStructure.bind(this);
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
   }
 
-  componentDidMount() {
-    this.getAllSubjects();
+  async componentDidMount() {
+    await this.getAllSubjects();
     const { subject } = this.props.match.params;
     if (subject) {
       this.getSubjectTopics(subject);
@@ -130,21 +132,26 @@ export class StructureContainer extends React.PureComponent {
 
   async getSubjectTopics(subjectid) {
     try {
+      this.saveSubjectItems(subjectid, { loading: true });
       const allTopics = await fetchSubjectTopics(subjectid);
-      const groupedTopics = groupTopics(allTopics);
-      this.setState(prevState => ({
-        subjects: prevState.subjects.map(subject => {
-          if (subject.id === subjectid)
-            return {
-              ...subject,
-              topics: groupedTopics,
-            };
-          return subject;
-        }),
-      }));
+      const topics = groupTopics(allTopics);
+      this.saveSubjectItems(subjectid, { topics, loading: false });
     } catch (e) {
       handleError(e);
     }
+  }
+
+  saveSubjectItems(subjectid, saveItems) {
+    this.setState(prevState => ({
+      subjects: prevState.subjects.map(subject => {
+        if (subject.id === subjectid)
+          return {
+            ...subject,
+            ...saveItems,
+          };
+        return subject;
+      }),
+    }));
   }
 
   async getFilters() {
@@ -343,7 +350,10 @@ export class StructureContainer extends React.PureComponent {
                     setPrimary={this.setPrimary}
                     toggleFilter={this.toggleFilter}
                     deleteTopicLink={this.deleteTopicLink}
-                    resourceSection={this.resourceSection}
+                    jumpToResources={() =>
+                      this.resourceSection &&
+                      this.resourceSection.current.scrollIntoView()
+                    }
                     locale={locale}
                   />
                 )}
@@ -357,7 +367,7 @@ export class StructureContainer extends React.PureComponent {
             <StructureResources
               locale={locale}
               params={params}
-              refFunc={this.refFunc}
+              resourceRef={this.resourceSection}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               currentSubject={currentSubject}

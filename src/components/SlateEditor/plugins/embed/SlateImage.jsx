@@ -9,13 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { connect } from 'react-redux';
 import Button from '@ndla/button';
-import SlateTypes from 'slate-prop-types';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
-import EditImage from './EditImage';
+import { getLocale } from '../../../../modules/locale/locale';
 
 class SlateImage extends React.Component {
   constructor() {
@@ -24,12 +24,36 @@ class SlateImage extends React.Component {
       editModus: false,
     };
     this.setEditModus = this.setEditModus.bind(this);
+    this.constructFigureClassName = this.constructFigureClassName.bind(this);
   }
 
   setEditModus(editModus) {
     this.setState({
       editModus,
     });
+  }
+
+  constructFigureClassName() {
+    const { embed, isSelectedForCopy, active } = this.props;
+    const { editModus } = this.state;
+    const isFullWidth = embed.size === 'fullwidth';
+
+    const size = ['small', 'xsmall'].includes(embed.size)
+      ? `-${embed.size}`
+      : '';
+
+    const align = ['left', 'right'].includes(embed.align)
+      ? `-${embed.align}`
+      : '';
+
+    const copyString =
+      isSelectedForCopy && (!editModus || !active) ? 'isSelectedForCopy' : '';
+
+    const figureClassNames = `c-figure ${
+      !isFullWidth ? `u-float${size}${align}` : ''
+    } ${copyString}`;
+
+    return figureClassNames;
   }
 
   render() {
@@ -41,6 +65,8 @@ class SlateImage extends React.Component {
       isSelectedForCopy,
       active,
       locale,
+      renderEditComponent,
+      visualElement,
       t,
       ...rest
     } = this.props;
@@ -57,16 +83,7 @@ class SlateImage extends React.Component {
       'lower-right-y': embed['lower-right-y'],
     };
 
-    const figureClassNames = `c-figure ${['left', 'right'].includes(
-      embed.align,
-    ) &&
-      ['small', 'xsmall'].includes(embed.size) &&
-      `u-float-${embed.size}-${embed.align}`} ${['left', 'right'].includes(
-      embed.align,
-    ) &&
-      isSelectedForCopy &&
-      (!editModus || !active) &&
-      'isSelectedForCopy'}`;
+    const figureClassNames = this.constructFigureClassName();
 
     return (
       <div {...attributes} draggable="true" className={figureClassNames}>
@@ -78,42 +95,50 @@ class SlateImage extends React.Component {
           figureType="image"
           locale={locale}
         />
-        {editModus && (
-          <EditImage embed={embed} setEditModus={this.setEditModus} {...rest} />
+        {editModus &&
+          renderEditComponent({
+            embed,
+            setEditModus: this.setEditModus,
+            ...rest,
+          })}
+        {!(visualElement && editModus) && (
+          <Button
+            stripped
+            data-label={t('imageEditor.editImage')}
+            onClick={() => this.setEditModus(true)}>
+            <figure {...figureClass}>
+              <img
+                src={src}
+                alt={embed.alt}
+                srcSet={getSrcSets(embed.resource_id, transformData)}
+              />
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
+              </figcaption>
+            </figure>
+          </Button>
         )}
-        <Button
-          stripped
-          data-label={t('imageEditor.editImage')}
-          onClick={() => this.setEditModus(true)}>
-          <figure {...figureClass}>
-            <img
-              src={src}
-              alt={embed.alt}
-              srcSet={getSrcSets(embed.resource_id, transformData)}
-            />
-            <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
-            </figcaption>
-          </figure>
-        </Button>
       </div>
     );
   }
 }
 
 SlateImage.propTypes = {
-  node: SlateTypes.node.isRequired,
   embed: EmbedShape.isRequired,
-  figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
-  onFigureInputChange: PropTypes.func.isRequired,
+  figureClass: PropTypes.shape({ className: PropTypes.string }),
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  submitted: PropTypes.bool.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
   isSelectedForCopy: PropTypes.bool,
   active: PropTypes.bool,
   locale: PropTypes.string.isRequired,
+  visualElement: PropTypes.bool,
+  renderEditComponent: PropTypes.func,
 };
 
-export default injectT(SlateImage);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default injectT(connect(mapStateToProps)(SlateImage));

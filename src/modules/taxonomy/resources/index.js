@@ -68,9 +68,9 @@ export function updateResourceRelevance(resourceFilterId, relevance) {
 }
  */
 
-export async function getResourceId({ articleId, language }) {
+export async function getResourceId({ id, language }) {
   let resourceId = '';
-  const resource = await queryResources(articleId, language);
+  const resource = await queryResources(id, language);
   if (resource.length > 0) {
     if (resource.length > 1)
       throw new Error(
@@ -110,5 +110,13 @@ export function queryResources(articleId, language) {
     `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
       `urn:article:${articleId}`,
     )}&?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+export function queryLearningPathResource(learningpathId) {
+  return fetchAuthorized(
+    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+      `urn:learningpath:${learningpathId}`,
+    )}`,
   ).then(resolveJsonOrRejectWithError);
 }

@@ -13,18 +13,16 @@ import { isEmpty } from '../validators';
 import { FormikShape } from '../../shapes';
 import { classes } from './';
 
-const FocusLabel = connect(
-  ({ name, hasFocus, children, formik: { values } }) => {
-    if (!hasFocus || isEmpty(values[name])) {
-      return null;
-    }
-    return (
-      <div {...classes('focus-label')}>
-        <span {...classes('focus-text')}>{children}</span>
-      </div>
-    );
-  },
-);
+const FocusLabel = ({ name, hasFocus, children, formik: { values } }) => {
+  if (!hasFocus || isEmpty(values[name])) {
+    return null;
+  }
+  return (
+    <div {...classes('focus-label')}>
+      <span {...classes('focus-text')}>{children}</span>
+    </div>
+  );
+};
 
 FocusLabel.propTypes = {
   name: PropTypes.string.isRequired,
@@ -32,4 +30,4 @@ FocusLabel.propTypes = {
   formik: FormikShape,
 };
 
-export default FocusLabel;
+export default connect(FocusLabel);

@@ -21,7 +21,6 @@ const DisplayVisualElement = ({
   className,
   onChange,
 }) => {
-  console.log(embed);
   switch (embed.resource) {
     case 'image':
       return (

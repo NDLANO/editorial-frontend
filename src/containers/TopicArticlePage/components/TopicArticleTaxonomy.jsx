@@ -46,10 +46,11 @@ class TopicArticleTaxonomy extends Component {
       structure: [],
       status: 'initial',
       saveStatus: 'initial',
+      isDirty: false,
       topics: [],
       stagedTopicChanges: [],
       taxonomyChoices: {
-        availableFilters: [],
+        availableFilters: {},
         allFilters: [],
         allTopics: [],
       },
@@ -133,6 +134,7 @@ class TopicArticleTaxonomy extends Component {
         path: `${path}/staged`,
       };
       this.setState(prevState => ({
+        isDirty: true,
         stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
       }));
     } else if (addTopicId) {
@@ -143,10 +145,12 @@ class TopicArticleTaxonomy extends Component {
         //refresh topics?
       }
       this.setState(prevState => ({
+        isDirty: true,
         stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
       }));
     } else {
       this.setState(prevState => ({
+        isDirty: true,
         stagedTopicChanges: [
           ...prevState.stagedTopicChanges.filter(
             topic => topic.id !== removeTopicId,
@@ -225,7 +229,7 @@ class TopicArticleTaxonomy extends Component {
       });
       this.fetchTaxonomy();
 
-      this.setState({ saveStatus: 'success' }, () =>
+      this.setState({ isDirty: false, saveStatus: 'success' }, () =>
         setTimeout(() => this.setState({ saveStatus: 'initial' }), 5000),
       );
     } catch (err) {

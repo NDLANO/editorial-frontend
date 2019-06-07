@@ -61,7 +61,7 @@ const StyledButtonWrapper = styled.div`
   }
 `;
 
-const StructureButtons = ({
+const StructureFunctionButtons = ({
   isSubject,
   subjectId,
   isOpen,
@@ -128,17 +128,17 @@ const StructureButtons = ({
   );
 };
 
-StructureButtons.propTypes = {
+StructureFunctionButtons.propTypes = {
   isSubject: PropTypes.bool,
   subjectId: PropTypes.string,
   isOpen: PropTypes.bool,
   id: PropTypes.string,
-  activeTopics: PropTypes.array,
-  availableFilters: PropTypes.array,
-  activeFilters: PropTypes.array,
-  toggleFilter: PropTypes.func,
-  addToTopic: PropTypes.func,
-  addTopic: PropTypes.func,
+  activeTopics: PropTypes.array.isRequired,
+  availableFilters: PropTypes.object.isRequired,
+  activeFilters: PropTypes.array.isRequired,
+  toggleFilter: PropTypes.func.isRequired,
+  addToTopic: PropTypes.func.isRequired,
+  addTopic: PropTypes.func.isRequired,
 };
 
-export default injectT(StructureButtons);
+export default injectT(StructureFunctionButtons);

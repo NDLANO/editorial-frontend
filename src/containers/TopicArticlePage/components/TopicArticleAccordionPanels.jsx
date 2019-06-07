@@ -86,7 +86,11 @@ const TopicArticleAccordionPanels = ({ t, errors, touched, ...rest }) => (
                   hasError={hasError}
                   isOpen={openIndexes.includes(panel.id)}>
                   <div className={panel.className}>
-                    {panel.component({ hasError, ...rest })}
+                    {panel.component({
+                      hasError,
+                      closePanel: () => handleItemClick(panel.id),
+                      ...rest,
+                    })}
                   </div>
                 </AccordionPanel>
               )}

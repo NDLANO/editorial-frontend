@@ -17,7 +17,7 @@ function onDrop(event, editor, next) {
     !topLevelTarget ||
     topLevelTarget.key === topLevelSource.key
   ) {
-    return next();
+    return;
   }
 
   const { key: topLevelSourceKey } = topLevelSource;
@@ -49,7 +49,7 @@ function onDrop(event, editor, next) {
     }
     const insertBeforeNode = findNode(insertAtNode, editor);
     if (insertBeforeNode.key === sourceNode.key) {
-      return next();
+      return;
     }
     editor.withoutNormalizing(() => {
       editor

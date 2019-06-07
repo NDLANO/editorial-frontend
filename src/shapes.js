@@ -120,8 +120,8 @@ export const NewArticleShape = PropTypes.shape({
 });
 
 export const ImageShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  title: PropTypes.string,
 });
 
 export const EmbedShape = PropTypes.shape({

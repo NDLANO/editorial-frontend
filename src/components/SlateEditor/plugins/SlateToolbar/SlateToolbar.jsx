@@ -101,10 +101,14 @@ class SlateToolbar extends Component {
     }
   }
 
-  onButtonClick(e, kind, type) {
-    if (kind === 'mark') this.onClickMark(e, type);
-    if (kind === 'block') this.onClickBlock(e, type);
-    if (kind === 'inline') this.onClickInline(e, type);
+  onButtonClick(evt, kind, type) {
+    if (kind === 'mark') {
+      this.onClickMark(evt, type);
+    } else if (kind === 'block') {
+      this.onClickBlock(evt, type);
+    } else if (kind === 'inline') {
+      this.onClickInline(evt, type);
+    }
   }
 
   portalRef(menu) {

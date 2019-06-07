@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio } from '@ndla/icons/editor';
-import HowToHelper from '../../components/HowTo/HowToHelper';
+import HeaderStatusInformation from './HeaderStatusInformation';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -40,26 +40,6 @@ const StyledTitleHeaderWrapper = styled.div`
     margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
     color: ${colors.text.primary};
   }
-`;
-
-const StyledStatusWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StyledStatus = styled.p`
-  ${fonts.sizes(18, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  text-transform: uppercase;
-  margin: 0 ${spacing.small};
-`;
-
-const StyledSmallText = styled.small`
-  color: ${colors.text.light};
-  padding-right: ${spacing.xsmall};
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.light};
-  text-transform: uppercase;
 `;
 
 const { contentTypes } = constants;
@@ -91,43 +71,33 @@ export const types = {
   },
 };
 
-export const EditorHeader = injectT(
-  ({ type, noStatus, statusText, newLanguage, t }) => (
-    <StyledHeader>
-      <StyledTitleHeaderWrapper>
-        {types[type].icon}
-        <h1>{t(`${types[type].form}.title`)}</h1>
-      </StyledTitleHeaderWrapper>
-      {!noStatus ? (
-        <StyledStatusWrapper>
-          <StyledSplitter />
-          <StyledStatus>
-            <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
-            {newLanguage
-              ? t('form.status.new_language')
-              : statusText || t('form.status.new')}
-          </StyledStatus>
-          <HowToHelper
-            pageId="status"
-            tooltip={t('form.workflow.statusInfoTooltip')}
-          />
-        </StyledStatusWrapper>
-      ) : (
-        newLanguage && (
-          <StyledStatusWrapper>
-            <StyledSplitter />
-            <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-          </StyledStatusWrapper>
-        )
-      )}
-    </StyledHeader>
-  ),
+const HeaderInformation = ({
+  type,
+  noStatus,
+  statusText,
+  isNewLanguage,
+  t,
+}) => (
+  <StyledHeader>
+    <StyledTitleHeaderWrapper>
+      {types[type].icon}
+      <h1>{t(`${types[type].form}.title`)}</h1>
+    </StyledTitleHeaderWrapper>
+    <HeaderStatusInformation
+      noStatus={noStatus}
+      statusText={statusText}
+      isNewLanguage={isNewLanguage}
+    />
+  </StyledHeader>
 );
-EditorHeader.propTypes = {
+
+HeaderInformation.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
   type: PropTypes.string.isRequired,
-  editUrl: PropTypes.func,
+  editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,
-  newLanguage: PropTypes.bool,
+  isNewLanguage: PropTypes.bool,
 };
+
+export default injectT(HeaderInformation);

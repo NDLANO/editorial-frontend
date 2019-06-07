@@ -38,18 +38,22 @@ const buttonStyle = css`
   margin: 0 ${spacing.xsmall};
 `;
 
-const getModelFromNode = node => {
+const getInfoFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
   return {
-    innerHTML: data.innerHTML || '',
-    xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
+    model: {
+      innerHTML: data.innerHTML || `<mn>${node.text}</mn>`,
+      xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
+    },
+    isFirstEdit: data.innerHTML === undefined,
   };
 };
 
 class MathEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = { editMode: false, showMenu: false }; // turn off editMode and showMenu on start
+    const { isFirstEdit } = getInfoFromNode(props.node);
+    this.state = { editMode: isFirstEdit, showMenu: false }; // turn off editMode and showMenu on start
     this.mathMLRef = createRef();
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -96,7 +100,8 @@ class MathEditor extends Component {
   render() {
     const { t, node } = this.props;
     const { editMode, showMenu } = this.state;
-    const model = getModelFromNode(node);
+    const { model } = getInfoFromNode(node);
+
     const { top, left } = this.getMenuPosition();
 
     return (

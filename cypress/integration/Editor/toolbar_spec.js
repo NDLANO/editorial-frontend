@@ -1,15 +1,24 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { visitOptions, setToken } from '../../support';
 
 describe('Selecting text and using the toolbar', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.route(
+    cy.apiroute(
       'GET',
       '/draft-api/v1/drafts/tags/?language=nb&size=7000',
-      'fixture:tags.json',
+      'tags',
     );
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.apiwait('@tags');
   });
 
   it('change the text styling', () => {
@@ -105,7 +114,7 @@ describe('Selecting text and using the toolbar', () => {
       });
   });
 
-  it.only('Creates footnote', () => {
+  it('Creates footnote', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()

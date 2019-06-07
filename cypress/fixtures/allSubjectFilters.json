@@ -1,14 +1,1 @@
-[
-  {
-    "id": "urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554",
-    "name": "Administrasjon og økonomi TEST"
-  },
-  {
-    "id": "urn:filter:e5ab97a3-a390-4508-8d92-53b0c26e47a4",
-    "name": "Sikkerhet og transport"
-  },
-  {
-    "id": "urn:filter:6d928a1c-f774-409a-9c04-26b0a107f525",
-    "name": "Markedsføring og salg"
-  }
-]
+[{"id":"urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce","name":"Administrasjon og økonomi"},{"id":"urn:filter:e5ab97a3-a390-4508-8d92-53b0c26e47a4","name":"Sikkerhet og transport"},{"id":"urn:filter:6d928a1c-f774-409a-9c04-26b0a107f525","name":"Markedsføring og salg"},{"id":"urn:filter:487b2693-e69b-41e2-97e2-ed5e99bd0e27","name":"Test admin2"}]

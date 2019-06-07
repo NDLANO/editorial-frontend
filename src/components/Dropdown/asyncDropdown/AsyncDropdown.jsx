@@ -65,13 +65,15 @@ class AsyncDropDown extends React.Component {
     this.setState({ loading: true });
     const items = await apiAction(query);
     this.setState({
-      items: items.map(item => ({
-        ...item,
-        title: convertFieldWithFallback(item, 'title', ''),
-        description: convertFieldWithFallback(item, 'metaDescription', ''),
-        image: item.metaImage && item.metaImage.url,
-        alt: item.metaImage && item.metaImage.alt,
-      })),
+      items: items
+        ? items.map(item => ({
+            ...item,
+            title: convertFieldWithFallback(item, 'title', ''),
+            description: convertFieldWithFallback(item, 'metaDescription', ''),
+            image: item.metaImage && item.metaImage.url,
+            alt: item.metaImage && item.metaImage.alt,
+          }))
+        : [],
       loading: false,
     });
   }

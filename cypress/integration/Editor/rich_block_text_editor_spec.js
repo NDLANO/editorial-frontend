@@ -12,25 +12,20 @@ import t from '../../../src/phrases/phrases-nb';
 describe('Learning resource editing', () => {
   beforeEach(() => {
     setToken();
+    cy.server({ force404: true });
+    cy.apiroute(
+      'GET',
+      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
+      'tags',
+    );
+    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.apiwait('@tags');
+    cy.apiwait('@licenses');
   });
 
   it('can enter title, ingress and content then save', () => {
-    cy.server({ force404: true });
-    cy.route({
-      method: 'GET',
-      url: '/draft-api/v1/drafts/9337?language=nb&fallback=true',
-      response: {},
-      status: 200,
-    });
-    cy.fixture('saveLearningResource.json').then(data => {
-      cy.route({
-        method: 'POST',
-        url: `/draft-api/v1/drafts/`,
-        status: 201,
-        response: data,
-      });
-    });
+    cy.apiroute('POST', '/draft-api/v1/drafts/', 'saveLearningResource');
 
     cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
@@ -48,8 +43,12 @@ describe('Learning resource editing', () => {
   });
 
   it('can enter all types of blocks', () => {
-    cy.server({ force404: true });
-    cy.route('GET', '/get_brightcove_token', '');
+    cy.apiroute(
+      'GET',
+      '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=',
+      'relatedArticles',
+    );
+    /* cy.route('GET', '/get_brightcove_token', ''); */
     /*     cy.route(
       'GET',
       'https://cms.api.brightcove.com/v1/accounts/4806596774001/videos/?limit=10&offset=0&q=',
@@ -115,12 +114,15 @@ describe('Learning resource editing', () => {
     cy.get('[data-cy=create-related]')
       .last()
       .click();
+    cy.apiwait('@relatedArticles');
   });
 
   it('Can add all contributors', () => {
+    cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
     cy.get('button > span')
       .contains('Lisens og bruker')
       .click();
+    cy.apiwait('@agreements');
     cy.get('button > span')
       .contains('Innhold')
       .click();

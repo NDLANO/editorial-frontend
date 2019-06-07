@@ -8,28 +8,27 @@
 
 import { visitOptions, setToken } from '../../support';
 
-describe('Subject editing', () => {
+describe('Test filter functionality', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/subjects/?language=nb',
-      'fixture:allSubjects.json',
-    );
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
-      'fixture:allSubjectTopics.json',
+      'allSubjectTopics',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/filters',
-      'fixture:allSubjectFilters.json',
+      'allSubjectFilters',
     );
     cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.apiwait('@allSubjects');
+    cy.apiwait('@allSubjectTopics');
+    cy.apiwait('@allSubjectFilters');
   });
-  it('should have a settings menu where everything works', () => {
+  it('should filter subjects', () => {
     cy.get('[data-testid=filter-item]')
       .first()
       .click();

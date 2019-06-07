@@ -20,12 +20,15 @@
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node scripts/bin/check-articles",
-    "cy": "cypress open",
+    "cy": "CYPRESS_USE_FIXTURES=true cypress open",
+    "cy-run": "CYPRESS_USE_FIXTURES=true cypress run",
+    "cy-record": "CYPRESS_RECORD_FIXTURES=true cypress open",
     "pree2e-ci": "cross-env NODE_ENV=production node build/server &",
+    "pree2e-ci-record": "cross-env NODE_ENV=production node build/server &",
     "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
-    "e2e-ci-record": "cross-env cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
+    "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx)$",
@@ -42,7 +45,7 @@
     "@ndla/scripts": "^0.7.3",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
-    "cypress": "^3.3.0",
+    "cypress": "^3.3.1",
     "diff-match-patch": "^1.0.4",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",

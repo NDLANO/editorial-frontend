@@ -28,7 +28,7 @@ const addButtonStyle = css`
 `;
 
 const AddTopicResourceButton = ({ children, ...rest }) => (
-  <Button css={addButtonStyle} {...rest}>
+  <Button type="button" css={addButtonStyle} {...rest}>
     {children}
   </Button>
 );

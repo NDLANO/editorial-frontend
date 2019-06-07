@@ -155,7 +155,6 @@ class TopicArticleConnections extends Component {
 TopicArticleConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf(StructureShape),
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
   activeTopics: PropTypes.arrayOf(TopicShape),
   taxonomyTopics: PropTypes.arrayOf(
     PropTypes.shape({

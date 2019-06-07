@@ -27,17 +27,12 @@ import {
   filterToSubjects,
   sortByName,
   groupTopics,
+  pathToUrnArray,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
-
-const pathToUrnArray = path =>
-  path
-    .split('/')
-    .splice(1)
-    .map(url => `urn:${url}`);
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -105,7 +100,7 @@ class TopicArticleTaxonomy extends Component {
         .filter(subject => subject.name)
         .sort(sortByName);
 
-      this.setState(prevState => ({
+      this.setState({
         status: 'success',
         topics,
         stagedTopicChanges: topics,
@@ -117,7 +112,7 @@ class TopicArticleTaxonomy extends Component {
           ),
           allFilters: allFilters.filter(filt => filt.name),
         },
-      }));
+      });
     } catch (e) {
       handleError(e);
       this.setState({ status: 'error' });
@@ -143,7 +138,7 @@ class TopicArticleTaxonomy extends Component {
         topic => topic.id === addTopicId,
       );
       if (!newTopic) {
-        //refresh topics?
+        // TODO refresh topics?
       }
       this.setState(prevState => ({
         isDirty: true,
@@ -167,14 +162,15 @@ class TopicArticleTaxonomy extends Component {
       contentUri: `urn:article:${articleId}`,
     });
     const paths = pathToUrnArray(topic.path);
-    console.log(paths);
     const newTopicId = newTopicPath.split('/').pop();
     if (paths.length > 2) {
+      // we are placing it under a topic
       addTopicToTopic({
         subtopicid: newTopicId,
         topicid: paths.slice(-2)[0],
       });
     } else {
+      // we are placing it under a subject
       addSubjectTopic({
         topicid: newTopicId,
         subjectid: paths[0],
@@ -243,8 +239,7 @@ class TopicArticleTaxonomy extends Component {
     this.setState(prevState => ({
       structure: prevState.structure.map(subject => {
         if (subject.id === subjectid) {
-          const updatedSubject = { ...subject, ...newSubject };
-          return updatedSubject;
+          return { ...subject, ...newSubject };
         }
         return subject;
       }),
@@ -260,12 +255,11 @@ class TopicArticleTaxonomy extends Component {
       article: { title },
     } = this.props;
     try {
-      let topicPaths = pathToUrnArray(topicPath);
+      const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
 
       const subject = structure.find(
-        structureSubject => structureSubject.id === topicPaths[0],
+        structureSubject => structureSubject.id === subjectPath,
       );
-      topicPaths = topicPaths.splice(1);
       const returnPaths = [];
       returnPaths.push({
         name: subject.name,

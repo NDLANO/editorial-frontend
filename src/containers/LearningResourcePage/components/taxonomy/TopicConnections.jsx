@@ -137,9 +137,9 @@ class TopicConnections extends Component {
                   openedPaths={openedPaths}
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
-                  renderListItems={props => (
+                  renderListItems={listProps => (
                     <StructureButtons
-                      {...props}
+                      {...listProps}
                       closeModal={closeModal}
                       activeTopics={activeTopics}
                       availableFilters={availableFilters}
@@ -163,7 +163,6 @@ class TopicConnections extends Component {
 TopicConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf(StructureShape),
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
   activeTopics: PropTypes.arrayOf(TopicShape),
   taxonomyTopics: PropTypes.arrayOf(
     PropTypes.shape({

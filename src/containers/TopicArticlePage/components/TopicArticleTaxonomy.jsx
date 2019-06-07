@@ -68,19 +68,19 @@ class TopicArticleTaxonomy extends Component {
     this.fetchTaxonomy();
   }
 
-  async getSubjectTopics(subjectid) {
+  async getSubjectTopics(subjectId) {
     if (
       this.state.structure.some(
-        subject => subject.id === subjectid && subject.topics,
+        subject => subject.id === subjectId && subject.topics,
       )
     ) {
       return;
     }
     try {
-      this.updateSubject(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid);
+      this.updateSubject(subjectId, { loading: true });
+      const allTopics = await fetchSubjectTopics(subjectId);
       const groupedTopics = groupTopics(allTopics);
-      this.updateSubject(subjectid, { loading: false, topics: groupedTopics });
+      this.updateSubject(subjectId, { loading: false, topics: groupedTopics });
     } catch (e) {
       handleError(e);
     }
@@ -349,12 +349,12 @@ class TopicArticleTaxonomy extends Component {
 
 TopicArticleTaxonomy.propTypes = {
   language: PropTypes.string,
-  closePanel: PropTypes.func,
+  closePanel: PropTypes.func.isRequired,
   article: PropTypes.shape({
     title: PropTypes.string,
     id: PropTypes.number,
     language: PropTypes.string,
-  }),
+  }).isRequired,
 };
 
 export default injectT(TopicArticleTaxonomy);

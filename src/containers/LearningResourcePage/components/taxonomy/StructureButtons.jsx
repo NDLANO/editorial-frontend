@@ -119,12 +119,12 @@ StructureButtons.propTypes = {
   subjectId: PropTypes.string,
   isOpen: PropTypes.bool,
   id: PropTypes.string,
-  closeModal: PropTypes.func,
-  activeTopics: PropTypes.array,
-  availableFilters: PropTypes.array,
-  activeFilters: PropTypes.array,
-  toggleFilter: PropTypes.func,
-  addTopic: PropTypes.func,
+  closeModal: PropTypes.func.isRequired,
+  activeTopics: PropTypes.array.isRequired,
+  availableFilters: PropTypes.array.isRequired,
+  activeFilters: PropTypes.array.isRequired,
+  toggleFilter: PropTypes.func.isRequired,
+  addTopic: PropTypes.func.isRequired,
 };
 
 export default injectT(StructureButtons);

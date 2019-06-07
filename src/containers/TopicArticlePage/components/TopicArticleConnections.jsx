@@ -65,16 +65,16 @@ class TopicArticleConnections extends Component {
     closeModal();
   }
 
-  async addTopic(id, path, closeModal) {
+  async addTopic(path, closeModal) {
     this.props.stageTaxonomyChanges({ path });
     closeModal();
   }
 
-  toggleFilter(id) {
+  toggleFilter(filterId) {
     this.setState(({ activeFilters }) => ({
-      activeFilters: activeFilters.includes(id)
-        ? activeFilters.filter(activeFilter => activeFilter !== id)
-        : [...activeFilters, id],
+      activeFilters: activeFilters.includes(filterId)
+        ? activeFilters.filter(activeFilter => activeFilter !== filterId)
+        : [...activeFilters, filterId],
     }));
   }
 
@@ -137,9 +137,7 @@ class TopicArticleConnections extends Component {
                       activeFilters={activeFilters}
                       toggleFilter={this.toggleFilter}
                       addToTopic={() => this.addToTopic(props.id, closeModal)}
-                      addTopic={() =>
-                        this.addTopic(props.id, props.path, closeModal)
-                      }
+                      addTopic={() => this.addTopic(props.path, closeModal)}
                     />
                   )}
                   activeFilters={activeFilters}

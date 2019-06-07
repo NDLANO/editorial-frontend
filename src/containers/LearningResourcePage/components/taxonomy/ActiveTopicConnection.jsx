@@ -84,10 +84,10 @@ const ActiveTopicConnection = ({
 };
 
 ActiveTopicConnection.propTypes = {
-  retriveBreadCrumbs: PropTypes.func,
-  removeConnection: PropTypes.func,
+  retriveBreadCrumbs: PropTypes.func.isRequired,
+  removeConnection: PropTypes.func.isRequired,
   setPrimaryConnection: PropTypes.func,
-  topic: TopicShape,
+  topic: TopicShape.isRequired,
   type: PropTypes.string,
 };
 

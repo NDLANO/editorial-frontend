@@ -8,8 +8,11 @@ import Accordion, {
 } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import LearningResourceMetadata from './LearningResourceMetadata';
-import { FormikCopyright, FormikWorkflow } from '../../FormikForm';
+import {
+  FormikCopyright,
+  FormikWorkflow,
+  FormikMetadata,
+} from '../../FormikForm';
 import config from '../../../config';
 
 const panels = [
@@ -44,7 +47,7 @@ const panels = [
     title: 'form.metadataSection',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'metaImageAlt', 'tags'],
-    component: props => <LearningResourceMetadata {...props} />,
+    component: props => <FormikMetadata {...props} />,
   },
   {
     id: 'learning-resource-workflow',

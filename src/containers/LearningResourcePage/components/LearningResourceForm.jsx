@@ -96,8 +96,12 @@ class LearningResourceForm extends Component {
 
   componentDidUpdate({ article: prevArticle }) {
     const { article } = this.props;
-    const { language, id } = article;
-    if (language !== prevArticle.language || id !== prevArticle.id) {
+    const { language, id, status } = article;
+    if (
+      language !== prevArticle.language ||
+      id !== prevArticle.id ||
+      status.current !== prevArticle.status.current
+    ) {
       if (this.formik.current) {
         // Since we removed enableReinitialize we need to manually reset the form for these cases
         this.formik.current.resetForm();

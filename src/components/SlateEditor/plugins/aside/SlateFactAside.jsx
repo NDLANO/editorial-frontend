@@ -62,8 +62,8 @@ class SlateFactAside extends React.Component {
     this.toggleExpanded = this.toggleExpanded.bind(this);
   }
 
-  toggleExpanded(e) {
-    e.preventDefault();
+  toggleExpanded(evt) {
+    evt.preventDefault();
     this.setState(prevState => ({
       expanded: !prevState.expanded,
     }));

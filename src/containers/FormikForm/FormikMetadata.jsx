@@ -10,12 +10,12 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
-import FormikField from '../../../components/FormikField';
-import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { FormikMetaImageSearch } from '../../FormikForm';
-import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
+import FormikField from '../../components/FormikField';
+import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
+import { FormikMetaImageSearch } from '.';
+import MultiSelectDropdown from '../../components/Dropdown/MultiSelectDropdown';
 
-const TopicArticleMetadata = ({ t, tags }) => (
+const FormikMetadata = ({ t, tags }) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -46,8 +46,8 @@ const TopicArticleMetadata = ({ t, tags }) => (
   </Fragment>
 );
 
-TopicArticleMetadata.propTypes = {
+FormikMetadata.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default injectT(TopicArticleMetadata);
+export default injectT(FormikMetadata);

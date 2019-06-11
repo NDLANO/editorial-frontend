@@ -6,9 +6,12 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import TopicArticleMetadata from './TopicArticleMetadata';
 import TopicArticleContent from './TopicArticleContent';
-import { FormikCopyright, FormikWorkflow } from '../../FormikForm';
+import {
+  FormikCopyright,
+  FormikWorkflow,
+  FormikMetadata,
+} from '../../FormikForm';
 
 const panels = [
   {
@@ -37,7 +40,7 @@ const panels = [
     title: 'form.metadataSection',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'tags'],
-    component: props => <TopicArticleMetadata {...props} />,
+    component: props => <FormikMetadata {...props} />,
   },
   {
     id: 'topic-article-workflow',

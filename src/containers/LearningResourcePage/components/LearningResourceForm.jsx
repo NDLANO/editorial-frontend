@@ -232,6 +232,7 @@ class LearningResourceForm extends Component {
             values,
             initialValues,
             dirty,
+            originalContent: article.content,
             type: 'learningResource',
           });
           return (

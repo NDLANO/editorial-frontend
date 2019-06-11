@@ -12,6 +12,7 @@ import {
   learningResourceContentToHTML,
   topicArticleContentToHTML,
 } from './articleContentConverter';
+const diffHTML = require('../../scripts/checkArticles/diffHTML');
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -26,17 +27,14 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-const checkIfContentHasChanged = (newContent, initialContent, type) => {
+const checkIfContentHasChanged = (newContent, originalContent, type) => {
   const toHTMLFunction =
     type === 'learningResource'
       ? learningResourceContentToHTML
       : topicArticleContentToHTML;
-  if (Array.isArray(newContent)) {
-    if (newContent.length !== initialContent.length) {
-      return true;
-    }
-  }
-  if (!isEqual(toHTMLFunction(newContent), toHTMLFunction(initialContent))) {
+
+  const diff = diffHTML(toHTMLFunction(newContent), originalContent);
+  if (diff.warn) {
     return true;
   }
   return false;
@@ -45,6 +43,7 @@ const checkIfContentHasChanged = (newContent, initialContent, type) => {
 export const isFormikFormDirty = ({
   values,
   initialValues,
+  originalContent,
   dirty = false,
   type,
 }) => {
@@ -62,9 +61,7 @@ export const isFormikFormDirty = ({
       const currentValue = values[dirtyValue];
       if (slateFields.includes(dirtyValue)) {
         if (dirtyValue === 'content') {
-          if (
-            checkIfContentHasChanged(currentValue, initialValues.content, type)
-          ) {
+          if (checkIfContentHasChanged(currentValue, originalContent, type)) {
             dirtyFields.push(dirtyValue);
           }
         } else if (

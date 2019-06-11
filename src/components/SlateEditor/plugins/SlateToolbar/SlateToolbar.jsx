@@ -159,7 +159,7 @@ class SlateToolbar extends Component {
 
     const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
       mark: ['bold', 'italic', 'underlined'],
-      block: ['quote', ...listTypes, 'heading-one'],
+      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
       inline: [link, footnote, mathml, concept],
     };
 

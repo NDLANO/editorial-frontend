@@ -144,13 +144,13 @@ export const learningResourceRules = {
 
 export const topicArticleRules = {
   ...formikCommonArticleRules,
-  'visualElement.alt': {
-    required: true,
+  visualElementAlt: {
+    required: false,
     onlyValidateIf: values =>
       values.visualElement && values.visualElement.resource === 'image',
   },
-  'visualElement.caption': {
-    required: true,
+  visualElementCaption: {
+    required: false,
     onlyValidateIf: values =>
       values.visualElement &&
       (values.visualElement.resource === 'image' ||

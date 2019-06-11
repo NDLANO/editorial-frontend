@@ -465,10 +465,8 @@ const phrases = {
       alttext: 'Alt-tekst',
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
-      visualElement: {
-        caption: 'Figur tekst',
-        alt: 'Alt-tekst',
-      },
+      visualElementCaption: 'Figur tekst',
+      visualElementAlt: 'Alt-tekst',
       validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
     },

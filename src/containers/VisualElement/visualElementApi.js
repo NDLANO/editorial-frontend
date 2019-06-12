@@ -27,6 +27,16 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
 );
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
+export const fetchNrkMedia = async mediaId => {
+  const baseUrl =
+    process.env.NODE_ENV === 'unittest'
+      ? 'http://nrk-api'
+      : 'https://mimir.nrk.no';
+
+  const nrkMediaJson = await fetch(`${baseUrl}/api/1.0/media/${mediaId}`);
+  return resolveJsonOrRejectWithError(nrkMediaJson);
+};
+
 export const searchImages = (query, page) =>
   fetchAuthorized(
     `${baseImageNdlaUrl}/?${queryString.stringify({

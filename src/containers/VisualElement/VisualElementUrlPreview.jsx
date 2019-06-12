@@ -9,6 +9,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import queryString from 'query-string';
 import Button from '@ndla/button';
 import {
   FieldHeader,
@@ -21,13 +22,18 @@ import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-import { fetchExternalOembed } from '../../util/apiHelpers';
+import {
+  fetchExternalOembed,
+  resolveJsonOrRejectWithError,
+} from '../../util/apiHelpers';
 import {
   isValidURL,
   urlDomain,
+  urlAsATag,
   getIframeSrcFromHtmlString,
 } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+import { fetchNrkMedia } from './visualElementApi';
 
 const filterWhiteListedURL = url => {
   const domain = urlDomain(url);
@@ -58,6 +64,30 @@ const StyledPreviewWrapper = styled('div')`
 const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
+
+export const transformUrlIfNeeded = async url => {
+  const aTag = urlAsATag(url);
+  const nrkDomains = ['nrk.no', 'www.nrk.no'];
+
+  if (!nrkDomains.includes(aTag.hostname)) {
+    return url;
+  }
+  const mediaId = queryString.parse(aTag.search).mediaId;
+  if (!mediaId) {
+    return url;
+  }
+  try {
+    const nrkMedia = await fetchNrkMedia(mediaId);
+    if (nrkMedia.psId) {
+      return `https://static.nrk.no/ludo/latest/video-embed.html#id=${
+        nrkMedia.psId
+      }`;
+    }
+    return url;
+  } catch {
+    return url;
+  }
+};
 
 class VisualElementUrlPreview extends Component {
   constructor(props) {
@@ -137,8 +167,8 @@ class VisualElementUrlPreview extends Component {
     }
   }
 
-  handleChange(evt) {
-    const url = evt.target.value;
+  async handleChange(evt) {
+    const url = await transformUrlIfNeeded(evt.target.value);
     const { selectedResourceUrl } = this.props;
     this.setState({
       url,

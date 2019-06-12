@@ -18,14 +18,7 @@ const panels = [
     id: 'topic-article-content',
     title: 'form.contentSection',
     className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: [
-      'title',
-      'introduction',
-      'content',
-      'visualElement',
-      'visualElement.alt',
-      'visualElement.caption',
-    ],
+    errorFields: ['title', 'introduction', 'content', 'visualElement'],
     component: props => <TopicArticleContent {...props} />,
   },
   {

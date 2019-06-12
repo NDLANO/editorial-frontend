@@ -280,4 +280,6 @@ export const SupportedToolbarElementsShape = PropTypes.shape({
 export const FormikShape = PropTypes.shape({
   values: PropTypes.shape({}), //Can be arbitrary values
   handleBlur: PropTypes.func,
+  errors: PropTypes.shape({}),
+  touched: PropTypes.shape({}),
 });

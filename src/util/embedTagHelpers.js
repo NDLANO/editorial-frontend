@@ -45,8 +45,7 @@ export const reduceChildElements = (el, type) => {
       if (node.dataset.url) {
         childs.push({
           resource: 'related-content',
-          title: node.dataset.title,
-          url: node.dataset.url,
+          ...node.dataset,
         });
       } else {
         childs.push({

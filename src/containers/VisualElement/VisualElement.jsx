@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DisplayEmbed from '../../components/DisplayEmbed/DisplayEmbed';
+import DisplayVisualElement from './DisplayVisualElement';
 import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
 
 class VisualElement extends Component {
@@ -29,7 +29,7 @@ class VisualElement extends Component {
       return null;
     }
     return (
-      <DisplayEmbed
+      <DisplayVisualElement
         embed={visualElement}
         changeVisualElement={changeVisualElement}
         onRemoveClick={this.removeVisualElement}

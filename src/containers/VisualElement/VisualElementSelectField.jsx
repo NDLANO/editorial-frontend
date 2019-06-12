@@ -24,7 +24,18 @@ class VisualElementSelectField extends Component {
 
   handleVisualElementChange(visualElement) {
     const { name, onChange, resetSelectedResource } = this.props;
-
+    onChange({
+      target: {
+        name: 'visualElementCaption',
+        value: visualElement.caption,
+      },
+    });
+    onChange({
+      target: {
+        name: 'visualElementAlt',
+        value: visualElement.alt,
+      },
+    });
     onChange({
       target: {
         name,

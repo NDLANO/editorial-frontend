@@ -27,19 +27,16 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-const checkIfContentHasChanged = ({
-  currentValue,
-  originalHtml,
-  type,
-  initialContent,
-}) => {
+const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   if (currentValue.length !== initialContent.length) return true;
   const toHTMLFunction =
     type === 'learningResource'
       ? learningResourceContentToHTML
       : topicArticleContentToHTML;
-  const originalContent = originalHtml || toHTMLFunction(initialContent);
-  const diff = diffHTML(toHTMLFunction(currentValue), originalContent);
+  const diff = diffHTML(
+    toHTMLFunction(currentValue),
+    toHTMLFunction(initialContent),
+  );
   if (diff.warn) {
     return true;
   }
@@ -49,7 +46,7 @@ const checkIfContentHasChanged = ({
 export const isFormikFormDirty = ({
   values,
   initialValues,
-  originalHtml,
+
   dirty = false,
   type,
 }) => {
@@ -70,7 +67,6 @@ export const isFormikFormDirty = ({
           if (
             checkIfContentHasChanged({
               currentValue,
-              originalHtml,
               initialContent: initialValues.content,
               type,
             })

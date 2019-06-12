@@ -247,7 +247,6 @@ class TopicArticleForm extends Component {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
-            originalHtml: article.content,
             dirty,
           });
           return (

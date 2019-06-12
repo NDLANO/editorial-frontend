@@ -109,13 +109,19 @@ class LearningResourceForm extends Component {
   }
 
   async onReset(setvalues) {
-    const { article, t } = this.props;
+    const {
+      article: { language, id },
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(article.id, article.language);
-      const convertedArticle = transformArticleFromApiVersion(articleFromProd);
+      const articleFromProd = await getArticle(id, language);
+      const convertedArticle = transformArticleFromApiVersion({
+        ...articleFromProd,
+        language,
+      });
       const initialValues = getInitialValues(convertedArticle);
       setvalues(initialValues);
       this.setState({ showResetModal: false });

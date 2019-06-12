@@ -31,23 +31,16 @@ class RichBlockTextEditor extends PureComponent {
       target: {
         value: newValue,
         name,
-        type: 'SlateBlockValue',
       },
     });
   }
 
   removeSection(index) {
-    const { onChange, name, value } = this.props;
+    const { setFieldValue, name, value } = this.props;
     if (value.length > 1) {
       const newValue = [].concat(value);
       newValue.splice(index, 1);
-      onChange({
-        target: {
-          value: newValue,
-          name,
-          type: 'SlateBlockValue',
-        },
-      });
+      setFieldValue(name, newValue);
     }
   }
 
@@ -115,6 +108,7 @@ RichBlockTextEditor.propTypes = {
   renderNode: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export default RichBlockTextEditor;

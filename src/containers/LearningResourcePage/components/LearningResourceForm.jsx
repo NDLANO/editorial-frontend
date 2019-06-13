@@ -94,10 +94,16 @@ class LearningResourceForm extends Component {
     this.formik = React.createRef();
   }
 
-  componentDidUpdate({ article: prevArticle }) {
+  componentDidUpdate({
+    article: { language: prevLanguage, id: prevId, status: prevStatus },
+  }) {
     const { article } = this.props;
-    const { language, id } = article;
-    if (language !== prevArticle.language || id !== prevArticle.id) {
+    const { language, id, status } = article;
+    if (
+      language !== prevLanguage ||
+      id !== prevId ||
+      (status && prevStatus && status.current !== prevStatus.current)
+    ) {
       if (this.formik.current) {
         // Since we removed enableReinitialize we need to manually reset the form for these cases
         this.formik.current.resetForm();

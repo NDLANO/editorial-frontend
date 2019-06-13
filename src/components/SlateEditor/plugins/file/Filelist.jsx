@@ -42,7 +42,8 @@ class Filelist extends React.Component {
   constructor(props) {
     super(props);
     const files = this.getFilesFromSlate();
-    this.state = { showFileUploader: false, files };
+    this.state = { showFileUploader: false, files, currentDebounce: false };
+    this.updateFilesToEditor();
 
     this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
     this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
@@ -56,10 +57,7 @@ class Filelist extends React.Component {
 
   onUpdateFileName(index, value) {
     const { node } = this.props;
-    const newNodes = node.data
-      .get('nodes')
-      .map((file, i) => (i === index ? { ...file, title: value } : file));
-    this.setState({ files: newNodes });
+
     const { currentDebounce } = this.state;
     if (currentDebounce) {
       currentDebounce.cancel();
@@ -67,7 +65,10 @@ class Filelist extends React.Component {
     // delay the save to editor until user have finished typing
     const debounced = debounce(() => this.updateFilesToEditor(), 500);
     debounced();
-    this.setState({ currentDebounce: debounced });
+    const newNodes = node.data
+      .get('nodes')
+      .map((file, i) => (i === index ? { ...file, title: value } : file));
+    this.setState({ currentDebounce: debounced, files: newNodes });
   }
 
   updateFilesToEditor() {
@@ -147,6 +148,7 @@ class Filelist extends React.Component {
 
   onOpenFileUploader() {
     this.setState({ showFileUploader: true });
+    this.updateFilesToEditor();
   }
 
   onCloseFileUploader() {
@@ -163,7 +165,7 @@ class Filelist extends React.Component {
   render() {
     const { t } = this.props;
     const { showFileUploader, files } = this.state;
-    if (!files.length === 0) {
+    if (files.length === 0) {
       return null;
     }
 

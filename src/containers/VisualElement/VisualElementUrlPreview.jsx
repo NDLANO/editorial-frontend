@@ -22,10 +22,7 @@ import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-import {
-  fetchExternalOembed,
-  resolveJsonOrRejectWithError,
-} from '../../util/apiHelpers';
+import { fetchExternalOembed } from '../../util/apiHelpers';
 import {
   isValidURL,
   urlDomain,

@@ -30,8 +30,8 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   id,
   title,
   type,
+  url,
   ...rest,
-  path: url,
   formats: [
     { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
   ],

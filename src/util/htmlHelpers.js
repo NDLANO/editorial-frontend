@@ -15,9 +15,14 @@ export const getIframeSrcFromHtmlString = html => {
   return iframe.getAttribute('src');
 };
 
-export const urlDomain = url => {
+export const urlAsATag = url => {
   const a = document.createElement('a');
   a.href = url;
+  return a;
+};
+
+export const urlDomain = url => {
+  const a = urlAsATag(url);
   return a.hostname;
 };
 

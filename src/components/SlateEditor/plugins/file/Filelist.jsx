@@ -62,7 +62,6 @@ class Filelist extends React.Component {
     this.setState({ files: newNodes });
     const { currentDebounce } = this.state;
     if (currentDebounce) {
-      console.log('Debounced');
       currentDebounce.cancel();
     }
     // delay the save to editor until user have finished typing
@@ -72,7 +71,6 @@ class Filelist extends React.Component {
   }
 
   updateFilesToEditor() {
-    console.log('Saved!');
     const { node, editor } = this.props;
     editor.setNodeByKey(node.key, {
       data: {

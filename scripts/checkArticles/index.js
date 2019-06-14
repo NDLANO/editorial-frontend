@@ -57,39 +57,39 @@ async function fetchSystemAccessToken() {
 }
 
 async function fetchArticles(url, query) {
-  const result = await fetch(`${url}?${queryString.stringify(query)}`, {
-    headers: {
-      Authorization: `Bearer ${token.access_token}`,
-    },
-  })
-    .then(resolveJsonOrRejectWithError)
-    .catch(err =>
-      console.log(
-        `${chalk.red(`Search with query page ${query.page} is failing.`)}`,
-        err,
-      ),
+  try {
+    const result = await fetch(`${url}?${queryString.stringify(query)}`, {
+      headers: {
+        Authorization: `Bearer ${token.access_token}`,
+      },
+    });
+    return result.json();
+  } catch (err) {
+    console.log(
+      `${chalk.red(`Search with query page ${query.page} is failing.`)}`,
+      err,
     );
-  return result;
+  }
 }
 
-async function fetchArticle(url, id) {
-  await sleep(100);
-  let result;
-  result = await fetch(`${url}${id}`, {
-    headers: {
-      Authorization: `Bearer ${token.access_token}`,
-    },
-  })
-    .then(resolveJsonOrRejectWithError)
-    .catch(async err => {
-      if (err.status === 401) {
-        await fetchSystemAccessToken();
-        result = await fetchArticle(id);
-      } else {
-        console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err);
-      }
+async function fetchArticle(url, id, i = 10) {
+  await sleep(10 * i);
+  try {
+    const result = await fetch(`${url}${id}`, {
+      headers: {
+        Authorization: `Bearer ${token.access_token}`,
+      },
     });
-  return result;
+    return result.json();
+  } catch (err) {
+    if (err.status === 401) {
+      await fetchSystemAccessToken();
+      return fetchArticle(url, id);
+    } else {
+      console.log(`${chalk.red(`Article with id ${id} is failing`)}`, err);
+      return err;
+    }
+  }
 }
 
 async function fetchAllArticles(url) {
@@ -99,10 +99,11 @@ async function fetchAllArticles(url) {
   };
   const firstResult = await fetchArticles(url, query);
 
-  const numberOfPages = Math.ceil(
-    firstResult.totalCount / firstResult.pageSize,
+  const numberOfPages = Math.min(
+    Math.ceil(firstResult.totalCount / firstResult.pageSize),
+    100,
   );
-  const requests = [];
+  const requestQueries = [];
   const estimatedTime = Math.ceil(
     (numberOfPages * query['page-size'] * 0.5) / 60,
   );
@@ -114,8 +115,7 @@ async function fetchAllArticles(url) {
   );
 
   for (let i = 1; i < numberOfPages + 1; i += 1) {
-    requests.push(fetchArticles(url, { ...query, page: i }));
-    await sleep(500);
+    requestQueries.push({ ...query, page: i });
 
     console.log(
       `${chalk.green(
@@ -125,18 +125,22 @@ async function fetchAllArticles(url) {
   }
 
   const articleIds = [];
-  const results = await Promise.all(requests);
+  const results = await Promise.all(
+    requestQueries.map(reqQuery => fetchArticles(url, reqQuery)),
+  );
   results.forEach(result => {
-    const articles = result ? result.results.map(article => article.id) : [];
+    const articles =
+      result && result.results ? result.results.map(article => article.id) : [];
     articleIds.push(...articles);
   });
+  console.log(`fetched ${articleIds.length} number of article IDS`);
   return articleIds;
 }
 
 function testArticle(article) {
-  if (!article) {
+  if (!article || !article.id) {
     console.log(`${chalk.yellow(`No article!`)}`);
-    return { hasError: true };
+    return { hasError: true, error: article };
   }
 
   try {
@@ -161,7 +165,7 @@ function testArticle(article) {
       console.log(
         `${chalk.yellow(`WARN Diff detected:\n`)} ${diffObject.diff}`,
       );
-      return { hasDiff: true };
+      return { hasDiff: true, diff: diffObject.diff };
     }
     return { hasDiff: false };
   } catch (err) {
@@ -187,6 +191,12 @@ function printResults(articles, results) {
       articles.length
     } total`,
   );
+  mkdirp.sync('./scripts/.cache');
+  fs.writeFileSync(
+    `./scripts/.cache/results.json`,
+    JSON.stringify({ ...diffs, ...errors }),
+    'utf8',
+  );
 }
 
 async function runCheck(argv) {
@@ -194,20 +204,28 @@ async function runCheck(argv) {
   const url = `${getNdlaApiUrl(argv.env)}/article-api/v2/articles/`;
 
   if (argv.single) {
+    /* SINGLE ARTICLE */
+
     const id = argv.single;
     const article = await fetchArticle(url, id);
     const result = testArticle(article);
     printResults([article], [result]);
   } else if (argv.write) {
+    /* FETCH ARTICLES */
+
     const articles = [];
-    const articleIds = (await fetchAllArticles(url)).slice(1, 100);
+    const articleIds = await fetchAllArticles(url);
     const results = await Promise.all(
-      articleIds.map(async id => {
-        const article = await fetchArticle(url, id);
-        articles.push(article);
-        return testArticle(article);
+      articleIds.map(async (id, i) => {
+        const article = await fetchArticle(url, id, i + 1);
+        if (article && article.id) {
+          articles.push(article);
+          return testArticle(article);
+        }
+        return article;
       }),
     );
+    console.log('fetched all articles');
     mkdirp.sync('./scripts/.cache');
     fs.writeFileSync(
       `./scripts/.cache/articles-${argv.env}.json`,
@@ -216,6 +234,8 @@ async function runCheck(argv) {
     );
     printResults(articles, results);
   } else {
+    /* USE CACHED ARTICLES */
+
     const path = `./scripts/.cache/articles-${argv.env}.json`;
     if (!fs.existsSync(path)) {
       console.log(
@@ -227,7 +247,7 @@ async function runCheck(argv) {
     }
     const contents = fs.readFileSync(path);
     const articles = JSON.parse(contents);
-
+    console.log(`${articles.length} articles cached, testing:`);
     const results = articles.map(testArticle);
     printResults(articles, results);
   }

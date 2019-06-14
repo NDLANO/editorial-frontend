@@ -15,13 +15,11 @@ Object {
         "data": Object {
           "nodes": Array [
             Object {
-              "resource": "related-content",
               "title": "Forsiden vg",
               "url": "www.vg.no",
             },
             Object {
               "article-id": "54",
-              "resource": "related-content",
             },
           ],
         },

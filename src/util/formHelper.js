@@ -12,6 +12,7 @@ import {
   learningResourceContentToHTML,
   topicArticleContentToHTML,
 } from './articleContentConverter';
+const diffHTML = require('../../scripts/checkArticles/diffHTML');
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -26,17 +27,17 @@ export const parseCopyrightContributors = (obj, contributorType) => {
   return obj.copyright[contributorType] || [];
 };
 
-const checkIfContentHasChanged = (newContent, initialContent, type) => {
+const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
+  if (currentValue.length !== initialContent.length) return true;
   const toHTMLFunction =
     type === 'learningResource'
       ? learningResourceContentToHTML
       : topicArticleContentToHTML;
-  if (Array.isArray(newContent)) {
-    if (newContent.length !== initialContent.length) {
-      return true;
-    }
-  }
-  if (!isEqual(toHTMLFunction(newContent), toHTMLFunction(initialContent))) {
+  const diff = diffHTML(
+    toHTMLFunction(currentValue),
+    toHTMLFunction(initialContent),
+  );
+  if (diff.warn) {
     return true;
   }
   return false;
@@ -45,6 +46,7 @@ const checkIfContentHasChanged = (newContent, initialContent, type) => {
 export const isFormikFormDirty = ({
   values,
   initialValues,
+
   dirty = false,
   type,
 }) => {
@@ -63,7 +65,11 @@ export const isFormikFormDirty = ({
       if (slateFields.includes(dirtyValue)) {
         if (dirtyValue === 'content') {
           if (
-            checkIfContentHasChanged(currentValue, initialValues.content, type)
+            checkIfContentHasChanged({
+              currentValue,
+              initialContent: initialValues.content,
+              type,
+            })
           ) {
             dirtyFields.push(dirtyValue);
           }
@@ -144,13 +150,13 @@ export const learningResourceRules = {
 
 export const topicArticleRules = {
   ...formikCommonArticleRules,
-  'visualElement.alt': {
-    required: true,
+  visualElementAlt: {
+    required: false,
     onlyValidateIf: values =>
       values.visualElement && values.visualElement.resource === 'image',
   },
-  'visualElement.caption': {
-    required: true,
+  visualElementCaption: {
+    required: false,
     onlyValidateIf: values =>
       values.visualElement &&
       (values.visualElement.resource === 'image' ||

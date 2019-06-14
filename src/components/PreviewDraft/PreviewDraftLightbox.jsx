@@ -173,7 +173,10 @@ class PreviewDraftLightbox extends React.Component {
         return children(this.openPreview);
       }
       return (
-        <FormikActionButton onClick={this.openPreview} disabled={loading}>
+        <FormikActionButton
+          onClick={this.openPreview}
+          disabled={loading}
+          data-testid={typeOfPreview}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
         </FormikActionButton>

@@ -16,37 +16,33 @@ describe('Topic editing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/subjects/?language=nb',
-      'fixture:allSubjects.json',
-    );
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
-      'fixture:allSubjectTopics.json',
-    ).as('subjectTopics');
-    cy.route(
+      'allSubjectTopics',
+    );
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/filters`,
-      'fixture:allSubjectFilters.json',
+      'allSubjectFilters',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
-      'fixture:resourceTypes.json',
+      'resourceTypes',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
-      'fixture:coreResources.json',
+      'coreResources',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
-      'fixture:supplementaryResources.json',
+      'suppResources',
     );
-    cy.route('GET', '/article-api/v2/articles/8497', 'fixture:article.json');
+    cy.apiroute('GET', '/article-api/v2/articles/**', 'article');
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/topics/${selectTopic}`,
@@ -77,12 +73,11 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.route('/taxonomy/v1/topics/?language=nb', 'fixture:allTopics.json').as(
-      'allTopics',
-    );
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
+    cy.apiroute(
+      'GET',
       `/taxonomy/v1/topics/${selectTopic}/filters`,
-      'fixture:topicFilters.json',
+      'topicFilters',
     );
     cy.route({
       method: 'POST',
@@ -99,7 +94,7 @@ describe('Topic editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.wait('@subjectTopics');
+    cy.wait('@allSubjectTopics');
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('[data-cy=change-topic-name]').click({ force: true });
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}', {
@@ -136,6 +131,13 @@ describe('Topic editing', () => {
     cy.get('[data-testid="submitConnectFilters"]').click();
 
     cy.wait('@addToFilter');
+    cy.route({
+      method: 'DELETE',
+      url:
+        '/taxonomy/v1/topic-filters/urn:topic-filter:e979cfb2-29de-402b-bd24-f8de5f14cfe1',
+      status: 204,
+      response: '',
+    });
     cy.get('button')
       .contains(phrases.alertModal.delete)
       .click();

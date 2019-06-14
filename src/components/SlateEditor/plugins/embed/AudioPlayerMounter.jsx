@@ -58,6 +58,7 @@ class AudioPlayerMounter extends Component {
               authors={[]}
               origin={origin}
               messages={messages}
+              locale={locale}
             />
           </Fragment>
         )}

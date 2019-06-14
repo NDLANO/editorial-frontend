@@ -94,10 +94,16 @@ class LearningResourceForm extends Component {
     this.formik = React.createRef();
   }
 
-  componentDidUpdate({ article: prevArticle }) {
+  componentDidUpdate({
+    article: { language: prevLanguage, id: prevId, status: prevStatus },
+  }) {
     const { article } = this.props;
-    const { language, id } = article;
-    if (language !== prevArticle.language || id !== prevArticle.id) {
+    const { language, id, status } = article;
+    if (
+      language !== prevLanguage ||
+      id !== prevId ||
+      (status && prevStatus && status.current !== prevStatus.current)
+    ) {
       if (this.formik.current) {
         // Since we removed enableReinitialize we need to manually reset the form for these cases
         this.formik.current.resetForm();
@@ -109,13 +115,19 @@ class LearningResourceForm extends Component {
   }
 
   async onReset(setvalues) {
-    const { article, t } = this.props;
+    const {
+      article: { language, id },
+      t,
+    } = this.props;
     try {
       if (this.state.error) {
         this.setState({ error: undefined });
       }
-      const articleFromProd = await getArticle(article.id, article.language);
-      const convertedArticle = transformArticleFromApiVersion(articleFromProd);
+      const articleFromProd = await getArticle(id, language);
+      const convertedArticle = transformArticleFromApiVersion({
+        ...articleFromProd,
+        language,
+      });
       const initialValues = getInitialValues(convertedArticle);
       setvalues(initialValues);
       this.setState({ showResetModal: false });
@@ -257,6 +269,7 @@ class LearningResourceForm extends Component {
                 {error && <span className="c-errorMessage">{error}</span>}
                 {values.id && (
                   <FormikActionButton
+                    data-testid="resetToProd"
                     onClick={() => this.setState({ showResetModal: true })}>
                     {t('form.resetToProd.button')}
                   </FormikActionButton>

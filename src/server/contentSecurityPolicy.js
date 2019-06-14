@@ -22,6 +22,7 @@ const connectSrc = (() => {
     'https://www.googleapis.com/customsearch/',
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
+    'https://mimir.nrk.no',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

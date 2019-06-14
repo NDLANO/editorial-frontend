@@ -71,6 +71,10 @@ export const getInitialValues = (article = {}) => {
     metaImageId,
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     notes: [],
+    visualElementAlt:
+      visualElement && visualElement.alt ? visualElement.alt : '',
+    visualElementCaption:
+      visualElement && visualElement.caption ? visualElement.caption : '',
     visualElement: visualElement || {},
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
@@ -153,7 +157,11 @@ class TopicArticleForm extends Component {
   getArticle(values, preview = false) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
-    const visualElement = createEmbedTag(values.visualElement);
+    const visualElement = createEmbedTag({
+      ...values.visualElement,
+      caption: values.visualElementCaption,
+      alt: values.visualElementAlt,
+    });
     const content = topicArticleContentToHTML(values.content);
     const article = {
       id: values.id,

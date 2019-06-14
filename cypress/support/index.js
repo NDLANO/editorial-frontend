@@ -25,24 +25,36 @@ export const visitOptions = {
   },
 };
 
+let token = '';
+
 export const setToken = () => {
-  const options = {
-    method: 'POST',
-    url: 'https://ndla-test.eu.auth0.com/oauth/token',
-    body: {
-      client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
-      client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),
-      grant_type: Cypress.env('NDLA_END_TO_END_TESTING_GRANT_TYPE'),
-      audience: Cypress.env('NDLA_END_TO_END_TESTING_AUDIENCE'),
-    },
-    json: true,
-  };
-  cy.request(options).then(res => {
-    localStorage.setItem('access_token', res.body.access_token);
+  if (!token) {
+    const options = {
+      method: 'POST',
+      url: 'https://ndla-test.eu.auth0.com/oauth/token',
+      body: {
+        client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
+        client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),
+        grant_type: Cypress.env('NDLA_END_TO_END_TESTING_GRANT_TYPE'),
+        audience: Cypress.env('NDLA_END_TO_END_TESTING_AUDIENCE'),
+      },
+      json: true,
+    };
+    cy.request(options).then(res => {
+      localStorage.setItem('access_token', res.body.access_token);
+      localStorage.setItem(
+        'access_token_expires_at',
+        expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
+      );
+      localStorage.setItem('access_token_personal', true);
+      token = res.body.access_token;
+    });
+  } else {
+    localStorage.setItem('access_token', token);
     localStorage.setItem(
       'access_token_expires_at',
-      expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
+      expiresIn(token) * 1000 + new Date().getTime(),
     );
     localStorage.setItem('access_token_personal', true);
-  });
+  }
 };

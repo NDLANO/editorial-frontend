@@ -6,79 +6,83 @@
  *
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useState } from 'react';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
+import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 import VisualElement from '../../VisualElement/VisualElement';
-import FormikField from '../../../components/FormikField';
+import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
+import { FormikShape } from '../../../shapes';
 
 export const visualElementClasses = new BEMHelper({
   name: 'visual-element',
   prefix: 'c-',
 });
 
-class TopicArticleVisualElement extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedResource: undefined,
-    };
-  }
+const StyledErrorPreLine = styled.span`
+  white-space: pre-line;
+`;
 
-  resetSelectedResource = () => {
-    this.setState({ selectedResource: undefined });
-  };
+const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-  handleSelectResource = selectedResource => {
-    this.setState({ selectedResource });
-  };
-
-  render() {
-    const { t } = this.props;
-    const { selectedResource } = this.state;
-    return (
+const TopicArticleVisualElement = ({
+  t,
+  formik: {
+    values: { visualElementCaption, visualElementAlt },
+  },
+}) => {
+  const [selectedResource, setSelectedResource] = useState(undefined);
+  return (
+    <Fragment>
       <FormikField name="visualElement">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')} />
             {!field.value.resource && (
-              <VisualElementMenu onSelect={this.handleSelectResource} />
+              <VisualElementMenu onSelect={setSelectedResource} />
             )}
-            <>
+            <Fragment>
               <VisualElement
                 label={t('form.visualElement.label')}
-                changeVisualElement={this.handleSelectResource}
-                resetSelectedResource={this.resetSelectedResource}
+                changeVisualElement={setSelectedResource}
+                resetSelectedResource={() => setSelectedResource(undefined)}
                 {...field}
+                value={{
+                  ...field.value,
+                  caption: visualElementCaption,
+                  alt: visualElementAlt,
+                }}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}
-                resetSelectedResource={this.resetSelectedResource}
+                resetSelectedResource={() => setSelectedResource(undefined)}
                 {...field}
               />
-            </>
+            </Fragment>
           </div>
         )}
       </FormikField>
-    );
-  }
-}
-
-TopicArticleVisualElement.propTypes = {
-  formik: PropTypes.shape({
-    values: PropTypes.shape({
-      visualElement: PropTypes.shape({
-        caption: PropTypes.string,
-        alt: PropTypes.string,
-        id: PropTypes.string,
-        resource: PropTypes.string,
-      }),
-    }),
-  }),
+      {extraErrorFields.map(extraErrorField => (
+        <ErrorMessage
+          key={`topic_article_visualelement_${extraErrorField}`}
+          name={extraErrorField}>
+          {error => (
+            <FormikFieldHelp error>
+              <StyledErrorPreLine>{error}</StyledErrorPreLine>
+            </FormikFieldHelp>
+          )}
+        </ErrorMessage>
+      ))}
+    </Fragment>
+  );
 };
 
-export default injectT(TopicArticleVisualElement);
+TopicArticleVisualElement.propTypes = {
+  formik: FormikShape,
+};
+
+export default injectT(connect(TopicArticleVisualElement));

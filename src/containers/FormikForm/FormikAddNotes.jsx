@@ -86,6 +86,7 @@ class FormikAddNotes extends Component {
                   focusOnMount
                   placeholder={placeholder}
                   value={note}
+                  data-testid="notesInput"
                   onChange={e => this.handleNoteChange(e, index)}
                 />
               </div>
@@ -96,7 +97,7 @@ class FormikAddNotes extends Component {
               </div>
             </FieldSection>
           ))}
-          <Button outline onClick={this.addNote}>
+          <Button outline onClick={this.addNote} data-testid="addNote">
             {labelAddNote}
           </Button>
         </Field>

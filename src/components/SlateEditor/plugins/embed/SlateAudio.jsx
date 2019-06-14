@@ -70,7 +70,7 @@ class SlateAudio extends React.Component {
     const speech = embed.audioType === 'speech';
 
     return (
-      <Figure id={`${audio.id}`} {...attributes}>
+      <Figure id={`${audio.id}`} draggable="true" {...attributes}>
         {this.state.editMode ? (
           <EditAudio
             onExit={this.toggleEdit}

@@ -11,6 +11,7 @@ import FormikMetaImageSearch from './FormikMetaImageSearch';
 import FormikDatePicker from './components/FormikDatePicker';
 import FormikCheckbox from './components/FormikCheckbox';
 import FormikContributors from './components/FormikContributors';
+import FormikMetadata from './FormikMetadata';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -31,4 +32,5 @@ export {
   FormikCheckbox,
   FormikContributors,
   formClasses,
+  FormikMetadata,
 };

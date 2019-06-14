@@ -14,20 +14,16 @@ describe('Subject editing', () => {
     cy.server({
       force404: true,
     });
-    cy.route(
-      'GET',
-      '/taxonomy/v1/subjects/?language=nb',
-      'fixture:allSubjects.json',
-    ).as('allSubjects');
-    cy.route(
+    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
-      'fixture:allSubjectTopics.json',
+      'allSubjectTopics',
     );
-    cy.route(
+    cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/filters',
-      'fixture:allSubjectFilters.json',
+      'allSubjectFilters',
     );
     cy.route({
       method: 'POST',
@@ -56,23 +52,28 @@ describe('Subject editing', () => {
         Location: 'newPath',
       },
     }).as('addNewTopic');
-    cy.route('POST', '/taxonomy/v1/filters', '');
+    cy.route({
+      method: 'POST',
+      url: '/taxonomy/v1/filters',
+      status: 201,
+      response: '',
+      headers: { Location: 'filterPath' },
+    }).as('addFilter');
     cy.route({
       method: 'PUT',
-      url: '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      url:
+        '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
       status: 204,
       response: '',
-    });
-    cy.route(
-      'DELETE',
-      '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
-      '',
-    );
-    cy.route(
-      'GET',
-      '/taxonomy/v1/topics/?language=nb',
-      'fixture:allTopics.json',
-    ).as('allTopics');
+    }).as('editFilter');
+    cy.route({
+      method: 'DELETE',
+      url:
+        '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
+      response: '',
+      status: 204,
+    }).as('deleteFilter');
+    cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topic-filters',
@@ -94,6 +95,7 @@ describe('Subject editing', () => {
       },
     }).as('addNewSubjectTopic');
     cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
   });
 
   it('should add a new subject', () => {
@@ -105,7 +107,6 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.wait('@allSubjects');
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
@@ -138,15 +139,20 @@ describe('Subject editing', () => {
     cy.get('[data-testid=editSubjectFiltersButton]').click();
     cy.get('[data-testid=addFilterButton]').click();
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
+    cy.wait('@addFilter');
+
     cy.get('[data-testid=editFilterBox] > div')
       .find('button')
       .first()
       .click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
+    cy.wait('@editFilter');
     cy.get('[data-testid=editFilterBox] > div')
       .first()
       .find('[data-testid=deleteFilter]')
       .click();
+    cy.wait(500);
     cy.get('[data-testid=warningModalConfirm]').click();
+    cy.wait('@deleteFilter');
   });
 });

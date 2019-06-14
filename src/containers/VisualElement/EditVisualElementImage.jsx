@@ -6,9 +6,9 @@ import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
 import { shadows } from '@ndla/core';
 import { connect } from 'formik';
-import Overlay from '../Overlay';
+import Overlay from '../../components/Overlay';
 import { EmbedShape, EditorShape } from '../../shapes';
-import FigureInput from '../SlateEditor/plugins/embed/FigureInput';
+import FigureInput from '../../components/SlateEditor/plugins/embed/FigureInput';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import config from '../../config';
 
@@ -41,8 +41,8 @@ class EditVisualElementImage extends Component {
     } = this.props;
     const { caption, alt } = this.state;
 
-    handleChange({ target: { name: 'visualElement.alt', value: alt } });
-    handleChange({ target: { name: 'visualElement.caption', value: caption } });
+    handleChange({ target: { name: 'visualElementAlt', value: alt } });
+    handleChange({ target: { name: 'visualElementCaption', value: caption } });
     setEditModus(false);
   }
 

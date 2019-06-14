@@ -62,7 +62,14 @@ test('util/formHelper isFormikFormDirty content sections is removed', () => {
   const values = {
     content: [Value.fromJSON(valueWithTwoImageEmbeds)],
   };
-  expect(isFormikFormDirty({ dirty: true, values, initialValues })).toBe(true);
+  expect(
+    isFormikFormDirty({
+      dirty: true,
+      values,
+      initialValues,
+      type: 'learningResource',
+    }),
+  ).toBe(true);
 });
 
 test('util/formHelper parseCopyrightContributors', () => {

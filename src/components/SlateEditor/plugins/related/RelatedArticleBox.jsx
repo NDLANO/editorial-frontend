@@ -97,8 +97,8 @@ export class RelatedArticleBox extends React.Component {
     });
   }
 
-  updateEmbedNode() {
-    this.setNodeKey();
+  updateEmbedNode(onMount) {
+    if (!onMount) this.setNodeKey();
   }
 
   async fetchRelated(id, onMount = false) {
@@ -109,12 +109,15 @@ export class RelatedArticleBox extends React.Component {
         searchArticles(id, locale),
         queryResources(id, locale),
       ]);
-      if (article)
-        this.setState(prevState => ({
-          items: [...prevState.items, mapRelatedArticle(article, resource)],
-          editMode: false,
-        }));
-      if (!onMount) this.updateEmbedNode();
+      if (article) {
+        this.setState(
+          prevState => ({
+            items: [...prevState.items, mapRelatedArticle(article, resource)],
+            editMode: false,
+          }),
+          () => this.updateEmbedNode(onMount),
+        );
+      }
     } catch (error) {
       handleError(error);
     }

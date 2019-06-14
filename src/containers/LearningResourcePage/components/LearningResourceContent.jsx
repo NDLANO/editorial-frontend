@@ -116,6 +116,7 @@ class LearningResourceContent extends Component {
       t,
       userAccess,
       formik: {
+        setFieldValue,
         values: { id, language, creators, published },
       },
     } = this.props;
@@ -168,6 +169,7 @@ class LearningResourceContent extends Component {
                 name="content"
                 data-cy="learning-resource-content"
                 plugins={this.plugins}
+                setFieldValue={setFieldValue}
                 {...field}
               />
               <LearningResourceFootnotes

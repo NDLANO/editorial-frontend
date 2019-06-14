@@ -9,7 +9,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FieldHeader, Select } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../components/Field';
@@ -29,29 +28,13 @@ import {
   filterToSubjects,
   sortByName,
   groupTopics,
-  selectedResourceTypeValue,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import TopicConnections from './taxonomy/TopicConnections';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
-
-const resourceTypesToOptionList = availableResourceTypes =>
-  availableResourceTypes.map(resourceType =>
-    resourceType.subtypes ? (
-      resourceType.subtypes.map(subtype => (
-        <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-          {resourceType.name} - {subtype.name}
-        </option>
-      ))
-    ) : (
-      <option key={resourceType.id} value={resourceType.id}>
-        {resourceType.name}
-      </option>
-    ),
-  );
+import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
 
 class LearningResourceTaxonomy extends Component {
   constructor() {
@@ -96,15 +79,15 @@ class LearningResourceTaxonomy extends Component {
     this.fetchTaxonomyChoices();
   }
 
-  onChangeSelectedResource(e) {
+  onChangeSelectedResource(evt) {
     const {
       taxonomyChoices: { availableResourceTypes },
     } = this.state;
-    const options = e.target.value.split(',');
+    const options = evt.target.value.split(',');
     const selectedResource = availableResourceTypes.find(
       resourceType => resourceType.id === options[0],
     );
-    const val = [
+    const resourceTypes = [
       {
         name: selectedResource.name,
         id: selectedResource.id,
@@ -114,7 +97,7 @@ class LearningResourceTaxonomy extends Component {
       const subType = selectedResource.subtypes.find(
         subtype => subtype.id === options[1],
       );
-      val.push({
+      resourceTypes.push({
         id: subType.id,
         name: subType.name,
         parentId: selectedResource.id,
@@ -122,7 +105,7 @@ class LearningResourceTaxonomy extends Component {
     }
 
     this.stageTaxonomyChanges({
-      resourceTypes: val,
+      resourceTypes,
     });
   }
 
@@ -139,8 +122,8 @@ class LearningResourceTaxonomy extends Component {
       const allTopics = await fetchSubjectTopics(subjectid);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectid, { loading: false, topics: groupedTopics });
-    } catch (e) {
-      handleError(e);
+    } catch (err) {
+      handleError(err);
     }
   }
 
@@ -259,8 +242,8 @@ class LearningResourceTaxonomy extends Component {
     }));
   }
 
-  async handleSubmit(e) {
-    e.preventDefault();
+  async handleSubmit(evt) {
+    evt.preventDefault();
     const { resourceTaxonomy, taxonomyChanges } = this.state;
     let { resourceId } = this.state;
     const {
@@ -434,20 +417,11 @@ class LearningResourceTaxonomy extends Component {
 
     return (
       <Fragment>
-        <FieldHeader
-          title={t('taxonomy.resourceTypes.title')}
-          subTitle={t('taxonomy.resourceTypes.subTitle')}>
-          <HowToHelper
-            pageId="TaxonomyContentTypes"
-            tooltip={t('taxonomy.resourceTypes.helpLabel')}
-          />
-        </FieldHeader>
-        <Select
-          value={selectedResourceTypeValue(resourceTypes)}
-          onChange={this.onChangeSelectedResource}>
-          <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-          {resourceTypesToOptionList(availableResourceTypes)}
-        </Select>
+        <ResourceTypeSelect
+          availableResourceTypes={availableResourceTypes}
+          resourceTypes={resourceTypes}
+          onChangeSelectedResource={this.onChangeSelectedResource}
+        />
         <TopicConnections
           availableFilters={availableFilters}
           structure={structure}

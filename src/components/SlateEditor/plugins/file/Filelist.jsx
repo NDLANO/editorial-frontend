@@ -43,7 +43,6 @@ class Filelist extends React.Component {
     super(props);
     const files = this.getFilesFromSlate();
     this.state = { showFileUploader: false, files, currentDebounce: false };
-    this.updateFilesToEditor();
 
     this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
     this.onCloseFileUploader = this.onCloseFileUploader.bind(this);

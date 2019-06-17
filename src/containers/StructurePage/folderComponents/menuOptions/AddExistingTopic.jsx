@@ -15,6 +15,7 @@ import {
   fetchTopics,
   addTopicToTopic,
   addFilterToTopic,
+  fetchSubjectTopics,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -23,9 +24,22 @@ import { FilterShape } from '../../../../shapes';
 class AddExistingTopic extends React.PureComponent {
   constructor() {
     super();
+    this.state = {
+      topics: [],
+    };
     this.onAddExistingSubTopic = this.onAddExistingSubTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.fetchTopicsLocale = this.fetchTopicsLocale.bind(this);
+  }
+
+  async componentDidMount() {
+    const { locale, subjectId } = this.props;
+    const topics = await fetchTopics(locale || 'nb');
+    const subjectTopics = await fetchSubjectTopics(subjectId);
+    this.setState({
+      topics: topics.filter(
+        topic => !subjectTopics.some(t => t.id === topic.id),
+      ),
+    });
   }
 
   async onAddExistingSubTopic(subTopicId) {
@@ -37,11 +51,12 @@ class AddExistingTopic extends React.PureComponent {
         primary: false,
         rank: numberOfSubtopics + 1,
       }),
-      addFilterToTopic({
-        filterId: topicFilters[0].id,
-        relevanceId: topicFilters[0].relevanceId,
-        topicId: subTopicId,
-      }),
+      topicFilters[0] &&
+        addFilterToTopic({
+          filterId: topicFilters[0].id,
+          relevanceId: topicFilters[0].relevanceId,
+          topicId: subTopicId,
+        }),
     ]);
     refreshTopics();
   }
@@ -50,16 +65,12 @@ class AddExistingTopic extends React.PureComponent {
     this.props.toggleEditMode('addExistingTopic');
   }
 
-  fetchTopicsLocale() {
-    return fetchTopics(this.props.locale || 'nb');
-  }
-
   render() {
     const { t, path, onClose, editMode } = this.props;
     return editMode === 'addExistingTopic' ? (
       <MenuItemDropdown
         placeholder={t('taxonomy.existingTopic')}
-        fetchItems={this.fetchTopicsLocale}
+        searchResult={this.state.topics}
         filter={path.split('/')[1]}
         onClose={onClose}
         onSubmit={this.onAddExistingSubTopic}

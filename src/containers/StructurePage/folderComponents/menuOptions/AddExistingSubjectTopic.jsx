@@ -15,6 +15,7 @@ import {
   addSubjectTopic,
   fetchTopics,
   addFilterToTopic,
+  fetchSubjectTopics,
 } from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -25,7 +26,17 @@ class AddExistingSubjectTopic extends React.PureComponent {
     super();
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.fetchTopicsLocale = this.fetchTopicsLocale.bind(this);
+  }
+
+  async componentDidMount() {
+    const { locale, subjectId } = this.props;
+    const topics = await fetchTopics(locale || 'nb');
+    const subjectTopics = await fetchSubjectTopics(subjectId);
+    this.setState({
+      topics: topics.filter(
+        topic => !subjectTopics.some(t => t.id === topic.id),
+      ),
+    });
   }
 
   async onAddExistingTopic(topicid) {
@@ -35,10 +46,11 @@ class AddExistingSubjectTopic extends React.PureComponent {
         subjectid: id,
         topicid,
       }),
-      addFilterToTopic({
-        filterId: subjectFilters[0].id,
-        topicId: topicid,
-      }),
+      subjectFilters[0] &&
+        addFilterToTopic({
+          filterId: subjectFilters[0].id,
+          topicId: topicid,
+        }),
     ]);
     refreshTopics();
   }
@@ -47,16 +59,12 @@ class AddExistingSubjectTopic extends React.PureComponent {
     this.props.toggleEditMode('addExistingSubjectTopic');
   }
 
-  fetchTopicsLocale() {
-    return fetchTopics(this.props.locale || 'nb');
-  }
-
   render() {
     const { onClose, t, editMode } = this.props;
     if (editMode === 'addExistingSubjectTopic') {
       return (
         <MenuItemDropdown
-          fetchItems={this.fetchTopicsLocale}
+          searchResult={this.state.topics}
           placeholder={t('taxonomy.existingTopic')}
           onClose={onClose}
           onSubmit={this.onAddExistingTopic}

@@ -52,9 +52,8 @@ class MenuItemDropdown extends PureComponent {
   }
 
   async setResultItems() {
-    const { fetchItems, filter } = this.props;
+    const { searchResult, filter } = this.props;
     this.setState({ status: 'loading' });
-    const res = await fetchItems();
     const options = {
       shouldSort: true,
       threshold: 0.2,
@@ -67,7 +66,9 @@ class MenuItemDropdown extends PureComponent {
     };
     this.setState({
       items: new Fuse(
-        filter ? res.filter(it => it.path && !it.path.includes(filter)) : res,
+        filter
+          ? searchResult.filter(it => it.path && !it.path.includes(filter))
+          : searchResult,
         options,
       ),
       status: 'initial',
@@ -145,7 +146,7 @@ MenuItemDropdown.propTypes = {
   currentVal: PropTypes.string,
   classes: PropTypes.func,
   onClose: PropTypes.func,
-  fetchItems: PropTypes.func,
+  searchResult: PropTypes.array,
   placeholder: PropTypes.string,
   filter: PropTypes.string,
 };

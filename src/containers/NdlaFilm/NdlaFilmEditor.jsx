@@ -119,7 +119,9 @@ class NdlaFilmEditor extends React.Component {
       prevState => ({
         slideshowMovies: [
           ...prevState.slideshowMovies,
-          prevState.allMovies.find(movie => movie.id.toString() === movieId),
+          prevState.allMovies.find(
+            movie => movie.id.toString() === movieId.toString(),
+          ),
         ],
         filmFrontpage: {
           ...prevState.filmFrontpage,

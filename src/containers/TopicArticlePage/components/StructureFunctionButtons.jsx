@@ -75,7 +75,7 @@ const StructureFunctionButtons = ({
   t,
 }) => {
   if (isSubject) {
-    if (!availableFilters[subjectId] || !isOpen) {
+    if (!isOpen) {
       return null;
     }
     return (

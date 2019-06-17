@@ -63,7 +63,7 @@ class Filelist extends React.Component {
   };
 
   setStateAndUpdate(obj) {
-    this.setState(obj, this.updateFilesToEditor());
+    this.setState(obj, this.updateFilesToEditor);
   }
 
   updateFilesToEditor() {
@@ -96,11 +96,11 @@ class Filelist extends React.Component {
   };
 
   onAddFileToList = files => {
-    const { t, node } = this.props;
+    const { t } = this.props;
     this.setState({
       showFileUploader: false,
     });
-    const existingFiles = node.data.get('nodes');
+    const existingFiles = this.state.files;
     const newFiles = files.map(file => {
       if (file.format) {
         return file;
@@ -131,12 +131,10 @@ class Filelist extends React.Component {
 
   onOpenFileUploader = () => {
     this.setState({ showFileUploader: true });
-    this.updateFilesToEditor();
   };
 
   onCloseFileUploader = () => {
-    const files = this.getFilesFromSlate();
-    this.setState({ showFileUploader: false, files });
+    this.setState({ showFileUploader: false });
   };
 
   getFilesFromSlate = () => {

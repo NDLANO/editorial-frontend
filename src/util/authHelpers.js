@@ -194,6 +194,7 @@ export function loginPersonalAccessToken(type) {
   auth.authorize({
     connection: type,
     state: localStorage.getItem('lastPath'),
+    prompt: 'login', // Tells auth0 to always show account selection screen on authorize.
   });
 }
 

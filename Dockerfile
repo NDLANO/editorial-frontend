@@ -15,7 +15,7 @@ RUN yarn --production
 COPY .babelrc razzle-add-entry-plugin.js razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
-COPY scripts/checkArticle $APP_PATH/scripts/checkArticle
+COPY scripts/checkArticles $APP_PATH/scripts/checkArticles
 COPY public $APP_PATH/public
 
 # Build client code

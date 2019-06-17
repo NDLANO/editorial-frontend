@@ -44,17 +44,11 @@ class MenuItemDropdown extends PureComponent {
       status: 'initial',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.setResultItems = this.setResultItems.bind(this);
+    this.getResultItems = this.getResultItems.bind(this);
   }
 
-  componentDidMount() {
-    this.setResultItems();
-  }
-
-  async setResultItems() {
-    const { fetchItems, filter } = this.props;
-    this.setState({ status: 'loading' });
-    const res = await fetchItems();
+  getResultItems() {
+    const { searchResult, filter } = this.props;
     const options = {
       shouldSort: true,
       threshold: 0.2,
@@ -65,13 +59,13 @@ class MenuItemDropdown extends PureComponent {
       minMatchCharLength: 1,
       keys: ['name'],
     };
-    this.setState({
-      items: new Fuse(
-        filter ? res.filter(it => it.path && !it.path.includes(filter)) : res,
-        options,
-      ),
-      status: 'initial',
-    });
+
+    return new Fuse(
+      filter
+        ? searchResult.filter(it => it.path && !it.path.includes(filter))
+        : searchResult,
+      options,
+    );
   }
 
   async handleSubmit(selected) {
@@ -91,7 +85,8 @@ class MenuItemDropdown extends PureComponent {
 
   render() {
     const { icon, t, placeholder } = this.props;
-    const { selected, items, status } = this.state;
+    const { selected, status } = this.state;
+    const items = this.getResultItems();
     return (
       <Fragment>
         <div css={menuItemStyle}>
@@ -145,7 +140,7 @@ MenuItemDropdown.propTypes = {
   currentVal: PropTypes.string,
   classes: PropTypes.func,
   onClose: PropTypes.func,
-  fetchItems: PropTypes.func,
+  searchResult: PropTypes.array,
   placeholder: PropTypes.string,
   filter: PropTypes.string,
 };

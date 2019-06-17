@@ -221,6 +221,12 @@ const selectedResourceTypeValue = resourceTypes => {
   return resourceTypes[0].id;
 };
 
+const pathToUrnArray = path =>
+  path
+    .split('/')
+    .splice(1)
+    .map(url => `urn:${url}`);
+
 export {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
@@ -233,4 +239,5 @@ export {
   filterToSubjects,
   sortByName,
   selectedResourceTypeValue,
+  pathToUrnArray,
 };

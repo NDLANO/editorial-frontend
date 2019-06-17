@@ -3,14 +3,6 @@ import { css } from '@emotion/core';
 import { colors, spacing, fonts, misc } from '@ndla/core';
 
 /* CSS */
-const buttonAdditionStyle = css`
-  opacity: 0;
-  height: auto;
-  padding: 0 ${spacing.small};
-  margin: 3px ${spacing.xsmall};
-  transition: background 200ms ease;
-  ${fonts.sizes(14, 1.1)};
-`;
 
 const checkboxItemStyle = css`
   border: 2px solid ${colors.brand.tertiary};
@@ -81,41 +73,12 @@ const flexButtonCenterAlignStyle = css`
   align-items: center;
 `;
 
-const listStyle = css`
-  > div {
-    > .filestructure {
-      display: flex;
-      margin-left: auto;
-    }
-  }
-
-  > div:hover {
-    > .filestructure {
-      > button {
-        opacity: 1;
-      }
-    }
-  }
-`;
-
 /* Styled components */
 
 const StyledBreadCrumb = styled('div')`
   flex-grow: 1;
   span:last-of-type {
     font-weight: ${fonts.weight.semibold};
-  }
-`;
-
-const StyledChecked = styled('div')`
-  ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
-  display: flex;
-  align-items: center;
-  span {
-    margin: 0 ${spacing.xsmall};
-  }
-  svg {
-    fill: ${colors.support.green};
   }
 `;
 
@@ -329,19 +292,12 @@ const StyledSubjectName = styled('div')`
     ${spacing.xsmall};
 `;
 
-const StyledTitleModal = styled('h1')`
-  color: ${colors.text.primary};
-`;
-
 export {
-  buttonAdditionStyle,
   flexButtonCenterAlignStyle,
-  listStyle,
   StyledBreadCrumb,
   StyledConnections,
   StyledConnectionsWrapper,
   StyledErrorLabel,
-  StyledChecked,
   StyledFilterButton,
   StyledRelevanceButton,
   StyledFilterCheckBox,
@@ -351,5 +307,4 @@ export {
   StyledRemoveConnectionButton,
   StyledDuplicateConnectionLabel,
   StyledSubjectName,
-  StyledTitleModal,
 };

@@ -39,7 +39,7 @@ describe('Resource listing', () => {
       '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
       'suppResources',
     );
-    cy.apiroute('GET', '/article-api/v2/articles/**', 'article');
+    cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
     cy.apiroute(
       'GET',
       '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=&content-type=topic-article',

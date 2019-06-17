@@ -113,6 +113,14 @@ export function queryResources(articleId, language) {
   ).then(resolveJsonOrRejectWithError);
 }
 
+export function queryTopics(articleId, language) {
+  return fetchAuthorized(
+    `${baseUrl}/queries/topics/?contentURI=${encodeURIComponent(
+      `urn:article:${articleId}`,
+    )}&?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 export function queryLearningPathResource(learningpathId) {
   return fetchAuthorized(
     `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(

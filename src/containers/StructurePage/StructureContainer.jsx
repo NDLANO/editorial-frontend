@@ -332,7 +332,7 @@ export class StructureContainer extends React.PureComponent {
                 structure={subjects}
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
-                fileStructureFilters={activeFilters}
+                activeFilters={activeFilters}
                 highlightMainActive
                 renderListItems={listProps => (
                   <FolderItem

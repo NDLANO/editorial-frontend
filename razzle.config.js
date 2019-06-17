@@ -14,6 +14,22 @@ module.exports = {
       name: 'html.worker',
       disableHMR: true,
     }),
+    {
+      name: 'typescript',
+      options: {
+        useBabel: true,
+        tsLoader: {
+          transpileOnly: true,
+          experimentalWatchApi: true,
+        },
+        forkTsChecker: {
+          tsconfig: './tsconfig.json',
+          tslint: './tslint.json',
+          watch: './src',
+          typeCheck: false,
+        },
+      },
+    },
   ],
   modify(config, { target, dev }) {
     const appConfig = config;

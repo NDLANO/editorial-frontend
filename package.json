@@ -31,7 +31,7 @@
     "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record --key 9dc87a7a-2d55-45ae-9d9b-45f9e01b7643"
   },
   "jest": {
-    "testRegex": "/__tests__/.*-test.(js|jsx)$",
+    "testRegex": "/__tests__/.*-test.(js|jsx|ts|tsx)$",
     "setupFiles": [
       "./src/__tests__/_initTestEnv.js"
     ]
@@ -43,6 +43,11 @@
   "devDependencies": {
     "@babel/register": "^7.0.0",
     "@ndla/scripts": "^0.7.3",
+    "@types/express": "^4.17.0",
+    "@types/jest": "^24.0.15",
+    "@types/react": "^16.8.20",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-router-dom": "^4.3.4",
     "chalk": "^2.4.1",
     "cross-env": "^5.2.0",
     "cypress": "^3.3.1",
@@ -60,6 +65,9 @@
     "mkdirp": "^0.5.1",
     "nock": "^9.4.3",
     "prettier": "^1.16.1",
+    "razzle": "3.0.0",
+    "razzle-config-utils": "^0.1.0",
+    "razzle-plugin-typescript": "^3.0.0",
     "react-test-renderer": "^16.8.6",
     "react-testing-library": "^4.1.5",
     "redux-mock-store": "^1.5.3",
@@ -69,6 +77,10 @@
     "slate-hyperscript": "^0.11",
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.2",
     "yargs": "^12.0.2"
   },
   "dependencies": {
@@ -137,8 +149,6 @@
     "prettier": "^1.16.1",
     "prop-types": "^15.6.2",
     "query-string": "^5.1.1",
-    "razzle": "3.0.0-alpha.2",
-    "razzle-config-utils": "^0.1.0",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.3",
     "react-bem-helper": "^1.4.1",

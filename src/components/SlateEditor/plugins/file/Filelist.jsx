@@ -70,6 +70,13 @@ class Filelist extends React.Component {
     this.setState({ currentDebounce: debounced, files: newNodes });
   }
 
+  setStateAndUpdate(obj) {
+    this.setState(obj, ()=>{
+      const debounced = debounce(() => this.updateFilesToEditor(), 300);
+      debounced();
+    });
+  }
+
   updateFilesToEditor() {
     const { node, editor } = this.props;
     editor.setNodeByKey(node.key, {
@@ -89,14 +96,13 @@ class Filelist extends React.Component {
     const { node, editor } = this.props;
     const files = this.state.files;
     if (files.length === 1) {
-      this.setState({ files: [] });
       editor.removeNodeByKey(node.key);
+      this.setStateAndUpdate({ files: [] });
     } else {
       const newNodes = node.data
         .get('nodes')
         .filter((_, i) => i !== indexToDelete);
-      this.setState({ files: newNodes });
-      this.updateFilesToEditor();
+      this.setStateAndUpdate({ files: newNodes });
     }
   }
 
@@ -124,13 +130,11 @@ class Filelist extends React.Component {
         resource: file.resource,
       })),
     );
-    this.setState({ files: newNodes });
-    this.updateFilesToEditor();
+    this.setStateAndUpdate({ files: newNodes });
   }
 
   onMovedFile(fromIndex, toIndex) {
-    const { node } = this.props;
-    const files = node.data.get('nodes');
+    const files = this.state.files;
     const newNodes = files.map((file, i) => {
       if (i === fromIndex) {
         return files[toIndex];
@@ -140,9 +144,7 @@ class Filelist extends React.Component {
       }
       return file;
     });
-
-    this.setState({ files: newNodes });
-    this.updateFilesToEditor();
+    this.setStateAndUpdate({ files: newNodes });
   }
 
   onOpenFileUploader() {

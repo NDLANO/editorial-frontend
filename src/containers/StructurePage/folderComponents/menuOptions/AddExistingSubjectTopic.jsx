@@ -24,6 +24,9 @@ import { FilterShape } from '../../../../shapes';
 class AddExistingSubjectTopic extends React.PureComponent {
   constructor() {
     super();
+    this.state = {
+      topics: [],
+    };
     this.onAddExistingTopic = this.onAddExistingTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
@@ -32,6 +35,7 @@ class AddExistingSubjectTopic extends React.PureComponent {
     const { locale, subjectId } = this.props;
     const topics = await fetchTopics(locale || 'nb');
     const subjectTopics = await fetchSubjectTopics(subjectId);
+
     this.setState({
       topics: topics.filter(
         topic => !subjectTopics.some(t => t.id === topic.id),

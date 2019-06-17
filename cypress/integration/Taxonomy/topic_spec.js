@@ -42,7 +42,7 @@ describe('Topic editing', () => {
       `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
       'suppResources',
     );
-    cy.apiroute('GET', '/article-api/v2/articles/**', 'article');
+    cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
     cy.route({
       method: 'PUT',
       url: `/taxonomy/v1/topics/${selectTopic}`,

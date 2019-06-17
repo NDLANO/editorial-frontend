@@ -22,6 +22,7 @@ import { EditorShape } from '../../../../shapes';
 import { getSchemaEmbed } from '../../editorSchema';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
+import { arrMove } from '../../../../util/arrayHelpers';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -43,18 +44,9 @@ class Filelist extends React.Component {
     super(props);
     const files = this.getFilesFromSlate();
     this.state = { showFileUploader: false, files, currentDebounce: false };
-
-    this.onOpenFileUploader = this.onOpenFileUploader.bind(this);
-    this.onCloseFileUploader = this.onCloseFileUploader.bind(this);
-    this.onRemoveFileList = this.onRemoveFileList.bind(this);
-    this.onAddFileToList = this.onAddFileToList.bind(this);
-    this.onUpdateFileName = this.onUpdateFileName.bind(this);
-    this.getFilesFromSlate = this.getFilesFromSlate.bind(this);
-    this.onDeleteFile = this.onDeleteFile.bind(this);
-    this.onMovedFile = this.onMovedFile.bind(this);
   }
 
-  onUpdateFileName(index, value) {
+  onUpdateFileName = (index, value) => {
     const { node } = this.props;
 
     const { currentDebounce } = this.state;
@@ -68,13 +60,10 @@ class Filelist extends React.Component {
       .get('nodes')
       .map((file, i) => (i === index ? { ...file, title: value } : file));
     this.setState({ currentDebounce: debounced, files: newNodes });
-  }
+  };
 
   setStateAndUpdate(obj) {
-    this.setState(obj, () => {
-      const debounced = debounce(() => this.updateFilesToEditor(), 300);
-      debounced();
-    });
+    this.setState(obj, this.updateFilesToEditor());
   }
 
   updateFilesToEditor() {
@@ -86,13 +75,13 @@ class Filelist extends React.Component {
     });
   }
 
-  onRemoveFileList(evt) {
+  onRemoveFileList = evt => {
     evt.stopPropagation();
     const { node, editor } = this.props;
     editor.removeNodeByKey(node.key);
-  }
+  };
 
-  onDeleteFile(indexToDelete) {
+  onDeleteFile = indexToDelete => {
     const { node, editor } = this.props;
     const files = this.state.files;
     if (files.length === 1) {
@@ -104,9 +93,9 @@ class Filelist extends React.Component {
         .filter((_, i) => i !== indexToDelete);
       this.setStateAndUpdate({ files: newNodes });
     }
-  }
+  };
 
-  onAddFileToList(files) {
+  onAddFileToList = files => {
     const { t, node } = this.props;
     this.setState({
       showFileUploader: false,
@@ -131,37 +120,30 @@ class Filelist extends React.Component {
       })),
     );
     this.setStateAndUpdate({ files: newNodes });
-  }
+  };
 
-  onMovedFile(fromIndex, toIndex) {
-    const files = this.state.files;
-    const newNodes = files.map((file, i) => {
-      if (i === fromIndex) {
-        return files[toIndex];
-      }
-      if (i === toIndex) {
-        return files[fromIndex];
-      }
-      return file;
-    });
-    this.setStateAndUpdate({ files: newNodes });
-  }
+  onMovedFile = (fromIndex, toIndex) => {
+    this.setState(
+      { files: arrMove(this.state.files, fromIndex, toIndex) },
+      this.updateFilesToEditor,
+    );
+  };
 
-  onOpenFileUploader() {
+  onOpenFileUploader = () => {
     this.setState({ showFileUploader: true });
     this.updateFilesToEditor();
-  }
+  };
 
-  onCloseFileUploader() {
+  onCloseFileUploader = () => {
     const files = this.getFilesFromSlate();
     this.setState({ showFileUploader: false, files });
-  }
+  };
 
-  getFilesFromSlate() {
+  getFilesFromSlate = () => {
     const { node, t } = this.props;
     const { nodes } = getSchemaEmbed(node);
     return nodes.map((file, id) => formatFile(file, id, t));
-  }
+  };
 
   render() {
     const { t } = this.props;
@@ -169,7 +151,6 @@ class Filelist extends React.Component {
     if (files.length === 0) {
       return null;
     }
-
     return (
       <Fragment>
         <StyledSection>

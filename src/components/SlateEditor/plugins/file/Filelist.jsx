@@ -71,7 +71,7 @@ class Filelist extends React.Component {
   }
 
   setStateAndUpdate(obj) {
-    this.setState(obj, ()=>{
+    this.setState(obj, () => {
       const debounced = debounce(() => this.updateFilesToEditor(), 300);
       debounced();
     });

@@ -8,10 +8,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FieldHeader, Select } from '@ndla/forms';
+import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import MovieList from './MovieList';
-import AddMovieOptions from './AddMovieOptions';
+import DropdownSearch from './DropdownSearch';
 import { ContentResultShape } from '../../../shapes';
 
 const SlideshowEditor = ({
@@ -41,13 +41,11 @@ const SlideshowEditor = ({
         }}
         onUpdateMovies={saveSlideshow}
       />
-      <Select
-        data-cy="add-slideshow-movie"
-        value=""
-        onChange={e => onAddMovieToSlideshow(e.target.value)}>
-        <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
-        <AddMovieOptions addedMovies={slideshowMovies} allMovies={allMovies} />
-      </Select>
+      <DropdownSearch
+        slideshowMovies={slideshowMovies}
+        allMovies={allMovies}
+        onAddMovieToSlideshow={onAddMovieToSlideshow}
+      />
     </>
   );
 };

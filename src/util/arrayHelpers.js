@@ -6,7 +6,6 @@
  *
  */
 
-// swapping array elements
 export function arrMove(array, fromIndex, toIndex) {
   const item = array[fromIndex];
   const length = array.length;

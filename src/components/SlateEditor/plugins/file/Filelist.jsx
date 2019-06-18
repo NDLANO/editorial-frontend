@@ -64,7 +64,7 @@ function compareArray(arr1, arr2) {
 
 let okToRevert = false;
 document.addEventListener('keydown', event => {
-  okToRevert = ((event.ctrlKey || event.metaKey) && event.key === 'z')
+  okToRevert = (event.ctrlKey || event.metaKey) && event.key === 'z';
 });
 
 class Filelist extends React.Component {

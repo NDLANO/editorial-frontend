@@ -109,6 +109,9 @@ class AsyncDropDown extends React.Component {
       testid,
       positionAbsolute,
       startOpen,
+      multiSelect,
+      selectedItems,
+      disableSelected,
       ...rest
     } = this.props;
 
@@ -140,6 +143,9 @@ class AsyncDropDown extends React.Component {
                 }
               />
               <DropdownMenu
+                multiSelect={multiSelect}
+                selectedItems={selectedItems}
+                disableSelected={disableSelected}
                 {...downshiftProps}
                 items={items}
                 positionAbsolute={positionAbsolute}
@@ -162,11 +168,17 @@ AsyncDropDown.propTypes = {
   testid: PropTypes.string,
   positionAbsolute: PropTypes.bool,
   startOpen: PropTypes.bool,
+  multiSelect: PropTypes.bool,
+  selectedItems: PropTypes.array,
+  disableSelected: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {
   placeholder: '',
   startOpen: false,
+  multiSelect: false,
+  selectedItems: [],
+  disableSelected: false,
 };
 
 export default injectT(AsyncDropDown);

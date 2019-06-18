@@ -14,28 +14,18 @@ import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
 
-const DropdownSearch = ({
-  t,
-  slideshowMovies,
-  allMovies,
-  onAddMovieToSlideshow,
-}) => {
+const DropdownSearch = ({ t, slideshowMovies, onAddMovieToSlideshow }) => {
   return (
     <>
-      {/* 
-      <Select
-        data-cy="add-slideshow-movie"
-        value=""
-        onChange={e => onAddMovieToSlideshow(e.target.value)}>
-        <option value="">{t('ndlaFilm.editor.addMovieToSlideshow')}</option>
-        <AddMovieOptions addedMovies={slideshowMovies} allMovies={allMovies} />
-      </Select>*/}
       <AsyncDropdown
         valueField="id"
         onChange={movie => onAddMovieToSlideshow(movie.id)}
         apiAction={input => queryThing(input)}
+        selectedItems={slideshowMovies.map(movie => movie.title.title)}
+        multiSelect
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
         textField="title.title"
+        disableSelected
       />
     </>
   );

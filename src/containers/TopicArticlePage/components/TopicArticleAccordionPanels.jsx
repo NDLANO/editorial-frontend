@@ -94,6 +94,8 @@ const TopicArticleAccordionPanels = ({
                   <div className={panel.className}>
                     {panel.component({
                       hasError,
+                      values,
+                      userAccess,
                       closePanel: () => handleItemClick(panel.id),
                       ...rest,
                     })}

@@ -276,7 +276,7 @@ class LearningResourceTaxonomy extends Component {
             id,
             revision,
             language,
-            notes: ['Oppdatert taksonomi'],
+            notes: ['Oppdatert taksonomi.'],
           });
           await new Promise(resolve => {
             setTimeout(() => {

@@ -244,7 +244,7 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, history, article, ...rest } = this.props;
+    const { t, history, article, onUpdate, ...rest } = this.props;
     const { error, showResetModal, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
@@ -273,6 +273,7 @@ class TopicArticleForm extends Component {
               <TopicArticleAccordionPanels
                 values={values}
                 errors={errors}
+                updateNotes={onUpdate}
                 article={article}
                 touched={touched}
                 getArticle={() => this.getArticle(values)}

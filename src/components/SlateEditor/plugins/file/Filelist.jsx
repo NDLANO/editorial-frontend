@@ -115,7 +115,6 @@ class Filelist extends React.Component {
         nodes: this.state.files,
       },
     });
-    console.log('saved');
   }
 
   onRemoveFileList = evt => {

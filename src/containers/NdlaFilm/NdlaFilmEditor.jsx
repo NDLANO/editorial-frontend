@@ -114,20 +114,18 @@ class NdlaFilmEditor extends React.Component {
     return response.results;
   };
 
-  onAddMovieToSlideshow = movieId => {
+  onAddMovieToSlideshow = newMovie => {
     this.setState(
       prevState => ({
         slideshowMovies: [
           ...prevState.slideshowMovies,
-          prevState.allMovies.find(
-            movie => movie.id.toString() === movieId.toString(),
-          ),
+          prevState.allMovies.find(movie => movie.id === newMovie.id),
         ],
         filmFrontpage: {
           ...prevState.filmFrontpage,
           slideShow: [
             ...prevState.filmFrontpage.slideShow,
-            getUrnFromId(movieId),
+            getUrnFromId(newMovie.id),
           ],
         },
       }),

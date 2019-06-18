@@ -8,20 +8,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-//import { Select } from '@ndla/forms';
-//import AddMovieOptions from './AddMovieOptions';
 import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
 
-const DropdownSearch = ({ t, slideshowMovies, onAddMovieToSlideshow }) => {
+const DropdownSearch = ({ t, selectedMovies, onChange }) => {
   return (
     <>
       <AsyncDropdown
         valueField="id"
-        onChange={movie => onAddMovieToSlideshow(movie.id)}
+        onChange={movie => onChange(movie)}
         apiAction={input => queryThing(input)}
-        selectedItems={slideshowMovies.map(movie => movie.title.title)}
+        selectedItems={selectedMovies.map(movie => movie.title.title)}
         multiSelect
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
         textField="title.title"
@@ -48,9 +46,8 @@ const queryThing = async input => {
 };
 
 DropdownSearch.propTypes = {
-  slideshowMovies: PropTypes.arrayOf(ContentResultShape),
-  allMovies: PropTypes.arrayOf(ContentResultShape),
-  onAddMovieToSlideshow: PropTypes.func.isRequired,
+  selectedMovies: PropTypes.arrayOf(ContentResultShape),
+  onChange: PropTypes.func.isRequired,
 };
 
 export default injectT(DropdownSearch);

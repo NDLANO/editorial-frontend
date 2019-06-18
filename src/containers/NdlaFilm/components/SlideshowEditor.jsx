@@ -42,9 +42,9 @@ const SlideshowEditor = ({
         onUpdateMovies={saveSlideshow}
       />
       <DropdownSearch
-        slideshowMovies={slideshowMovies}
+        selectedMovies={slideshowMovies}
         allMovies={allMovies}
-        onAddMovieToSlideshow={onAddMovieToSlideshow}
+        onChange={onAddMovieToSlideshow}
       />
     </>
   );

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
-import { FieldHeader, Select, FieldHeaderIconStyle } from '@ndla/forms';
+import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
@@ -19,13 +19,12 @@ import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
-import AddMovieOptions from './AddMovieOptions';
 import { ContentResultShape } from '../../../shapes';
 import { findName } from '../../../util/ndlaFilmHelpers';
+import DropdownSearch from './DropdownSearch';
 
 const ThemeEditor = ({
   t,
-  allMovies,
   updateMovieTheme,
   themes,
   addMovieToTheme,
@@ -122,16 +121,10 @@ const ThemeEditor = ({
             }}
             onUpdateMovies={updates => updateMovieTheme(updates, index)}
           />
-          <Select
-            value=""
-            onChange={e => addMovieToTheme(e.target.value, index)}>
-            <option value="">
-              {t('ndlaFilm.editor.addMovieToGroup', {
-                name: theme.name.find(name => name.language === 'nb').name,
-              })}
-            </option>
-            <AddMovieOptions addedMovies={theme.movies} allMovies={allMovies} />
-          </Select>
+          <DropdownSearch
+            selectedMovies={theme.movies}
+            onChange={e => addMovieToTheme(e, index)}
+          />
         </StyledThemeWrapper>
       ))}
     </>
@@ -154,7 +147,6 @@ ThemeEditor.propTypes = {
       ),
     }),
   ),
-  allMovies: PropTypes.arrayOf(ContentResultShape),
   updateMovieTheme: PropTypes.func.isRequired,
   addMovieToTheme: PropTypes.func.isRequired,
   onAddTheme: PropTypes.func.isRequired,

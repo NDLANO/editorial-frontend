@@ -199,20 +199,20 @@ class NdlaFilmEditor extends React.Component {
     );
   };
 
-  addMovieToTheme = (id, index) => {
+  addMovieToTheme = (newMovie, index) => {
     this.setState(
       prevState => ({
         themes: addMovieToTheme(
           prevState.themes,
           index,
-          prevState.allMovies.find(movie => movie.id.toString() === id),
+          prevState.allMovies.find(movie => movie.id === newMovie.id),
         ),
         filmFrontpage: {
           ...prevState.filmFrontpage,
           movieThemes: addMovieToTheme(
             prevState.filmFrontpage.movieThemes,
             index,
-            getUrnFromId(id),
+            getUrnFromId(newMovie.id),
           ),
         },
       }),

@@ -70,6 +70,7 @@ TopicArticlePage.propTypes = {
   fetchLicenses: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
+  userAccess: PropTypes.string,
 };
 
 const mapDispatchToProps = {
@@ -81,6 +82,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   locale: getLocale(state),
   licenses: getAllLicenses(state),
+  userAccess: state.session.user.scope,
 });
 
 export default connect(

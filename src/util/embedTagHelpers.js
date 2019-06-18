@@ -107,11 +107,5 @@ export const isUserProvidedEmbedDataValid = embed => {
   if (embed.resource === 'image') {
     return !isEmpty(embed.alt);
   }
-  if (embed.resource === 'brightcove') {
-    return true;
-  }
-  if (embed.resource === 'audio') {
-    return true;
-  }
   return true;
 };

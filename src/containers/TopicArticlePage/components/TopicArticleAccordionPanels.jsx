@@ -58,11 +58,21 @@ const panels = [
   },
 ];
 
-const TopicArticleAccordionPanels = ({ t, errors, touched, ...rest }) => (
+const TopicArticleAccordionPanels = ({
+  t,
+  errors,
+  values,
+  userAccess,
+  touched,
+  ...rest
+}) => (
   <Accordion openIndexes={['topic-article-content']}>
     {({ openIndexes, handleItemClick }) => (
       <AccordionWrapper>
         {panels.map(panel => {
+          if (panel.showPanel && !panel.showPanel(values, userAccess)) {
+            return null;
+          }
           const hasError = panel.errorFields.some(
             field => !!errors[field] && touched[field],
           );
@@ -105,6 +115,7 @@ TopicArticleAccordionPanels.propTypes = {
   }).isRequired,
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(TopicArticleAccordionPanels);

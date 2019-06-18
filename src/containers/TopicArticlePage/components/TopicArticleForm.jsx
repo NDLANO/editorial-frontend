@@ -157,11 +157,22 @@ class TopicArticleForm extends Component {
   getArticle(values, preview = false) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
-    const visualElement = createEmbedTag({
-      ...values.visualElement,
-      caption: values.visualElementCaption,
-      alt: values.visualElementAlt,
-    });
+    const visualElement = createEmbedTag(
+      isEmpty(values.visualElement)
+        ? {}
+        : {
+            ...values.visualElement,
+            caption:
+              values.visualElementCaption &&
+              values.visualElementCaption.length > 0
+                ? values.visualElementCaption
+                : undefined,
+            alt:
+              values.visualElementAlt && values.visualElementAlt.length > 0
+                ? values.visualElementAlt
+                : undefined,
+          },
+    );
     const content = topicArticleContentToHTML(values.content);
     const article = {
       id: values.id,

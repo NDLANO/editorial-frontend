@@ -39,11 +39,53 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   ],
 });
 
+function getFilesFromProps(props) {
+  const { node, t } = props;
+  const { nodes } = getSchemaEmbed(node);
+  return nodes.map((file, id) => formatFile(file, id, t));
+}
+
+function compareArray(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  const a1 = [...arr1];
+  const a2 = [...arr2];
+  return (
+    a1.filter((item, key) => {
+      if (!a2 || !a2[key]) {
+        return false;
+      }
+      const a2Item = a2[key];
+      return item.title === a2Item.title && item.path === a2Item.path;
+    }).length === a1.length
+  );
+}
+
+let okToRevert = false;
+document.addEventListener('keydown', event => {
+  okToRevert = ((event.ctrlKey || event.metaKey) && event.key === 'z')
+});
+
 class Filelist extends React.Component {
   constructor(props) {
     super(props);
     const files = this.getFilesFromSlate();
     this.state = { showFileUploader: false, files, currentDebounce: false };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (
+      props &&
+      state.files &&
+      !compareArray(getFilesFromProps(props), state.files) &&
+      okToRevert
+    ) {
+      okToRevert = false;
+      return { files: getFilesFromProps(props) };
+    }
+    okToRevert = false;
+    return null;
   }
 
   onUpdateFileName = (index, value) => {
@@ -73,6 +115,7 @@ class Filelist extends React.Component {
         nodes: this.state.files,
       },
     });
+    console.log('saved');
   }
 
   onRemoveFileList = evt => {

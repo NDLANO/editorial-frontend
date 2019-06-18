@@ -104,10 +104,6 @@ class Filelist extends React.Component {
     this.setState({ currentDebounce: debounced, files: newNodes });
   };
 
-  setStateAndUpdate(obj) {
-    this.setState(obj, this.updateFilesToEditor);
-  }
-
   updateFilesToEditor() {
     const { node, editor } = this.props;
     editor.setNodeByKey(node.key, {
@@ -128,12 +124,12 @@ class Filelist extends React.Component {
     const files = this.state.files;
     if (files.length === 1) {
       editor.removeNodeByKey(node.key);
-      this.setStateAndUpdate({ files: [] });
+      this.setState({ files: [] }, this.updateFilesToEditor);
     } else {
       const newNodes = node.data
         .get('nodes')
         .filter((_, i) => i !== indexToDelete);
-      this.setStateAndUpdate({ files: newNodes });
+      this.setState({ files: newNodes }, this.updateFilesToEditor);
     }
   };
 
@@ -161,7 +157,7 @@ class Filelist extends React.Component {
         resource: file.resource,
       })),
     );
-    this.setStateAndUpdate({ files: newNodes });
+    this.setState({ files: newNodes }, this.updateFilesToEditor);
   };
 
   onMovedFile = (fromIndex, toIndex) => {

@@ -138,7 +138,6 @@ class Filelist extends React.Component {
     this.setState({
       showFileUploader: false,
     });
-    const existingFiles = this.state.files;
     const newFiles = files.map(file => {
       if (file.format) {
         return file;
@@ -149,20 +148,24 @@ class Filelist extends React.Component {
         t,
       );
     });
-    const newNodes = existingFiles.concat(
-      newFiles.map(file => ({
-        path: file.path,
-        type: file.type,
-        title: file.title,
-        resource: file.resource,
-      })),
+    this.setState(
+      prevState => ({
+        files: prevState.files.concat(
+          newFiles.map(file => ({
+            path: file.path,
+            type: file.type,
+            title: file.title,
+            resource: file.resource,
+          })),
+        ),
+      }),
+      this.updateFilesToEditor,
     );
-    this.setState({ files: newNodes }, this.updateFilesToEditor);
   };
 
   onMovedFile = (fromIndex, toIndex) => {
     this.setState(
-      { files: arrMove(this.state.files, fromIndex, toIndex) },
+      prevState => ({ files: arrMove(prevState.files, fromIndex, toIndex) }),
       this.updateFilesToEditor,
     );
   };

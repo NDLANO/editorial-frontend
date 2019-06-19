@@ -178,11 +178,12 @@ class TopicArticleTaxonomy extends Component {
     }
   }
 
-  async handleSubmit(e) {
-    e.preventDefault();
+  async handleSubmit(evt) {
+    evt.preventDefault();
     const { stagedTopicChanges, topics } = this.state;
     const {
-      article: { id: articleId },
+      updateNotes,
+      article: { id: articleId, language, revision },
     } = this.props;
 
     const changes = stagedTopicChanges.filter(topic => {
@@ -217,7 +218,12 @@ class TopicArticleTaxonomy extends Component {
           }),
         ),
       ]);
-
+      updateNotes({
+        id: articleId,
+        revision,
+        language,
+        notes: ['Oppdatert taksonomi.'],
+      });
       // Wait a sec before fetching taxonomy again
       await new Promise(resolve => {
         setTimeout(() => {
@@ -365,6 +371,7 @@ TopicArticleTaxonomy.propTypes = {
     id: PropTypes.number,
     language: PropTypes.string,
   }).isRequired,
+  updateNotes: PropTypes.func.isRequired,
 };
 
 export default injectT(TopicArticleTaxonomy);

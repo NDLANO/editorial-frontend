@@ -25,6 +25,8 @@ describe('Slideshow editing', () => {
   });
 
   it('Can remove movie from slideshow', () => {
+    cy.get('[data-cy=add-slideshow-movie]').select('Bonki');
+
     cy.get('ul > li > div')
       .contains('Bonki')
       .parent()

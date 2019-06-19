@@ -229,7 +229,7 @@ class LearningResourceForm extends Component {
   }
 
   render() {
-    const { t, history, article, ...rest } = this.props;
+    const { t, history, article, onUpdate, ...rest } = this.props;
     const { error, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
@@ -261,6 +261,7 @@ class LearningResourceForm extends Component {
                 errors={errors}
                 article={article}
                 touched={touched}
+                updateNotes={onUpdate}
                 getArticle={() => this.getArticleFromSlate(values)}
                 formIsDirty={formIsDirty}
                 {...rest}

@@ -38,15 +38,16 @@ const SubjectFilters = ({
           </StyledSubjectName>
         </td>
       </tr>
-      {availableFilters[filterSubjectKey].map(currentFilter => (
-        <FilterItem
-          key={currentFilter.id}
-          currentFilter={currentFilter}
-          activeFilters={filter}
-          resourceId={resourceId}
-          updateFilter={updateFilter}
-        />
-      ))}
+      {availableFilters[filterSubjectKey] &&
+        availableFilters[filterSubjectKey].map(currentFilter => (
+          <FilterItem
+            key={currentFilter.id}
+            currentFilter={currentFilter}
+            activeFilters={filter}
+            resourceId={resourceId}
+            updateFilter={updateFilter}
+          />
+        ))}
     </Fragment>
   );
 };

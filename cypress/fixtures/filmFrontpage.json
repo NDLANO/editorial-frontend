@@ -21,8 +21,9 @@
         }
       ],
       "movies" : [
-        "urn:article:14376",
-        "urn:article:14194"
+        "urn:article:288",
+        "urn:article:14191",
+        "urn:article:14320"
       ]
     },
     {
@@ -41,13 +42,17 @@
         }
       ],
       "movies" : [
-        "urn:article:14547",
-        "urn:article:14178"
+        "urn:article:14274",
+        "urn:article:14537",
+        "urn:article:591",
+        "urn:article:13110"
       ]
     }
   ],
   "slideShow" : [
-    "urn:article:2240",
-    "urn:article:14188"
+    "urn:article:14547",
+    "urn:article:14188",
+    "urn:article:14178",
+    "urn:article:14186"
   ]
 }

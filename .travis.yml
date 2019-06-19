@@ -6,6 +6,7 @@ cache:
   npm: true
   directories:
     - '~/.cache'
+    - '~/.cache/Cypress'
     - '.eslintcache'
     - '~/.npm'
     - node_modules

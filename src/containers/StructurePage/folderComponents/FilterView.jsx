@@ -51,8 +51,8 @@ const FilterView = ({
 
 FilterView.propTypes = {
   subjectFilters: PropTypes.arrayOf(PropTypes.object),
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
-  toggleFilter: PropTypes.func,
+  activeFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
+  toggleFilter: PropTypes.func.isRequired,
 };
 
 export default injectT(FilterView);

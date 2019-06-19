@@ -12,6 +12,8 @@ import {
   FormikWorkflow,
   FormikMetadata,
 } from '../../FormikForm';
+import TopicArticleTaxonomy from './TopicArticleTaxonomy';
+import config from '../../../config';
 
 const panels = [
   {
@@ -20,6 +22,18 @@ const panels = [
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'introduction', 'content', 'visualElement'],
     component: props => <TopicArticleContent {...props} />,
+  },
+  {
+    id: 'topic-article-taxonomy',
+    title: 'form.taxonomytSection',
+    errorFields: [],
+    showPanel: (values, userAccess) =>
+      values.id &&
+      ((userAccess &&
+        userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`)) ||
+        userAccess.includes('taxonomy:write')),
+    className: 'u-6/6',
+    component: props => <TopicArticleTaxonomy {...props} />,
   },
   {
     id: 'topic-article-copyright',
@@ -68,7 +82,11 @@ const TopicArticleAccordionPanels = ({ t, errors, touched, ...rest }) => (
                   hasError={hasError}
                   isOpen={openIndexes.includes(panel.id)}>
                   <div className={panel.className}>
-                    {panel.component({ hasError, ...rest })}
+                    {panel.component({
+                      hasError,
+                      closePanel: () => handleItemClick(panel.id),
+                      ...rest,
+                    })}
                   </div>
                 </AccordionPanel>
               )}

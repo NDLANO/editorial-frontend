@@ -42,17 +42,19 @@ export const reduceChildElements = (el, type) => {
         url: node.dataset.url,
       });
     } else if (type === 'related-content') {
-      if (node.dataset.url) {
-        childs.push({
-          resource: 'related-content',
-          ...node.dataset,
-        });
-      } else {
-        childs.push({
-          'article-id': node.dataset.articleId,
-          resource: 'related-content',
-        });
-      }
+      const convertedDataset = Object.keys(node.dataset).reduce((acc, curr) => {
+        const currValue = node.dataset[curr];
+        if (curr === 'articleId')
+          return {
+            ...acc,
+            'article-id': currValue,
+          };
+        return {
+          ...acc,
+          [curr]: currValue,
+        };
+      }, {});
+      childs.push(convertedDataset);
     } else {
       childs.push(node.dataset);
     }
@@ -104,12 +106,6 @@ export const createEmbedTag = visualElement => {
 export const isUserProvidedEmbedDataValid = embed => {
   if (embed.resource === 'image') {
     return !isEmpty(embed.alt);
-  }
-  if (embed.resource === 'brightcove') {
-    return true;
-  }
-  if (embed.resource === 'audio') {
-    return true;
   }
   return true;
 };

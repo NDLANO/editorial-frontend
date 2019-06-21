@@ -11,6 +11,8 @@ const Differ = require('diff-match-patch');
 
 const differ = new Differ();
 
+const allowedConversions = [['&#x27;', "'"], ['&quot;', '"']];
+
 /**
  * Get current, next and previous diff values. Return undefined if one of them is undefiend
  */
@@ -45,7 +47,21 @@ function allowTHeadInsertion({ current, next, previous }) {
 
 // I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
 function allowQuotEntityReplacement({ current, next }) {
-  return current === '"' && next === '&quot;';
+  const result = allowedConversions.map(pair => {
+    if (current === pair[1] && next === pair[0]) {
+      return true;
+    }
+    if (
+      current.startsWith(pair[0]) &&
+      next.startsWith(pair[1]) &&
+      current.endsWith(pair[0]) &&
+      next.endsWith(pair[1])
+    ) {
+      return true;
+    }
+    return false;
+  });
+  return result.find(res => res);
 }
 
 // I.E "<h6>...</h6>" -> "<h3>...</h3>"
@@ -79,6 +95,11 @@ function allowStrongRemoval({ current, next, previous }) {
   return false;
 }
 
+// I.E. <br/> => <br>
+function allowSlashRemoval({ current, next }) {
+  return current === '/' && next.startsWith('>');
+}
+
 function isRemovalAllowed(index, diffs) {
   const values = getValues(index, diffs);
   if (values) {
@@ -89,6 +110,7 @@ function isRemovalAllowed(index, diffs) {
       allowQuotEntityReplacement,
       allowSpaceReplacement,
       allowStrongRemoval,
+      allowSlashRemoval,
     ].find(fn => fn(values) === true);
     return result !== undefined;
   }
@@ -108,14 +130,16 @@ function diffHTML(oldHtml, newHtml) {
     const [result, value] = diff;
     if (result === 1) {
       diffString += `${chalk.underline.green(value)}`;
+      // Some diffs are allowed
+      if (!isRemovalAllowed(index, diffs)) {
+        shouldWarn = true;
+      }
     } else if (result === -1) {
       diffString += `${chalk.underline.red(value)}`;
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
         shouldWarn = true;
       }
-    } else {
-      diffString += value;
     }
   });
   return { diff: diffString, warn: shouldWarn };

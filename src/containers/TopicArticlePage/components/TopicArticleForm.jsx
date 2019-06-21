@@ -157,11 +157,22 @@ class TopicArticleForm extends Component {
   getArticle(values, preview = false) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
-    const visualElement = createEmbedTag({
-      ...values.visualElement,
-      caption: values.visualElementCaption,
-      alt: values.visualElementAlt,
-    });
+    const visualElement = createEmbedTag(
+      isEmpty(values.visualElement)
+        ? {}
+        : {
+            ...values.visualElement,
+            caption:
+              values.visualElementCaption &&
+              values.visualElementCaption.length > 0
+                ? values.visualElementCaption
+                : undefined,
+            alt:
+              values.visualElementAlt && values.visualElementAlt.length > 0
+                ? values.visualElementAlt
+                : undefined,
+          },
+    );
     const content = topicArticleContentToHTML(values.content);
     const article = {
       id: values.id,
@@ -233,7 +244,7 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, history, article, ...rest } = this.props;
+    const { t, history, article, onUpdate, ...rest } = this.props;
     const { error, showResetModal, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
@@ -262,6 +273,7 @@ class TopicArticleForm extends Component {
               <TopicArticleAccordionPanels
                 values={values}
                 errors={errors}
+                updateNotes={onUpdate}
                 article={article}
                 touched={touched}
                 getArticle={() => this.getArticle(values)}

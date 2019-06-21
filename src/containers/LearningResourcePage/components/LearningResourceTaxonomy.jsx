@@ -244,32 +244,40 @@ class LearningResourceTaxonomy extends Component {
 
   async handleSubmit(evt) {
     evt.preventDefault();
-    const { resourceTaxonomy, taxonomyChanges } = this.state;
-    let { resourceId } = this.state;
+    const { resourceTaxonomy, taxonomyChanges, resourceId } = this.state;
+    let reassignedResourceId = resourceId;
     const {
+      revision,
+      updateNotes,
       article: { language, id, title },
     } = this.props;
     this.setState({ saveStatus: 'loading', status: 'loading' });
     try {
-      if (!resourceId) {
+      if (!reassignedResourceId) {
         await createResource({
           contentUri: `urn:article:${id}`,
           name: title,
         });
-        resourceId = await getResourceId({ id, language });
+        reassignedResourceId = await getResourceId({ id, language });
         this.setState({
-          resourceId,
+          resourceId: reassignedResourceId,
         });
       }
-      if (resourceId) {
+      if (reassignedResourceId) {
         const didUpdate = await updateTaxonomy(
-          resourceId,
+          reassignedResourceId,
           resourceTaxonomy,
           taxonomyChanges,
           language,
         );
         if (didUpdate) {
           // Wait a sec before fetching taxonomy again
+          updateNotes({
+            id,
+            revision,
+            language,
+            notes: ['Oppdatert taksonomi.'],
+          });
           await new Promise(resolve => {
             setTimeout(() => {
               resolve('resolved');
@@ -287,15 +295,11 @@ class LearningResourceTaxonomy extends Component {
     }
   }
 
-  updateSubject(subjectid, newSubject) {
+  updateSubject(subjectId, newSubject) {
     this.setState(prevState => ({
-      structure: prevState.structure.map(subject => {
-        if (subject.id === subjectid) {
-          const updatedSubject = { ...subject, ...newSubject };
-          return updatedSubject;
-        }
-        return subject;
-      }),
+      structure: prevState.structure.map(subject =>
+        subject.id === subjectId ? { ...subject, ...newSubject } : subject,
+      ),
     }));
   }
 
@@ -464,6 +468,7 @@ class LearningResourceTaxonomy extends Component {
 LearningResourceTaxonomy.propTypes = {
   language: PropTypes.string,
   closePanel: PropTypes.func,
+  revision: PropTypes.number,
   article: PropTypes.shape({
     title: PropTypes.string,
     id: PropTypes.number,

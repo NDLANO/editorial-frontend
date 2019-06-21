@@ -10,6 +10,7 @@ import {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
   getCurrentTopic,
+  pathToUrnArray,
 } from '../taxonomyHelpers';
 import {
   resourceTypesMock,
@@ -178,5 +179,12 @@ test('getCurrentTopic', () => {
 
   input.forEach((variables, i) => {
     expect(getCurrentTopic(variables)).toEqual(output[i]);
+  });
+});
+
+test('pathToUrnArray', () => {
+  const array = pathToUrnArray('/bla/blabla');
+  array.forEach(path => {
+    expect(path.startsWith('urn:')).toBe(true);
   });
 });

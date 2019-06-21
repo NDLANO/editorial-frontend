@@ -43,8 +43,8 @@ const SlideshowEditor = ({
       />
       <DropdownSearch
         selectedMovies={slideshowMovies}
-        allMovies={allMovies}
         onChange={onAddMovieToSlideshow}
+        placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
       />
     </>
   );

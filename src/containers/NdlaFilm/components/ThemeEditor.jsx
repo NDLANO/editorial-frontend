@@ -124,6 +124,9 @@ const ThemeEditor = ({
           <DropdownSearch
             selectedMovies={theme.movies}
             onChange={e => addMovieToTheme(e, index)}
+            placeholder={t('ndlaFilm.editor.addMovieToGroup', {
+              name: theme.name.find(name => name.language === 'nb').name,
+            })}
           />
         </StyledThemeWrapper>
       ))}

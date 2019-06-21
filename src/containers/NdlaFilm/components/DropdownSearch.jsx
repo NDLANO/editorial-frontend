@@ -12,7 +12,7 @@ import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
 
-const DropdownSearch = ({ t, selectedMovies, onChange }) => {
+const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => {
   return (
     <>
       <AsyncDropdown
@@ -21,7 +21,7 @@ const DropdownSearch = ({ t, selectedMovies, onChange }) => {
         apiAction={input => queryThing(input)}
         selectedItems={selectedMovies.map(movie => movie.title.title)}
         multiSelect
-        placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
+        placeholder={placeholder}
         textField="title.title"
         disableSelected
       />
@@ -48,6 +48,7 @@ const queryThing = async input => {
 DropdownSearch.propTypes = {
   selectedMovies: PropTypes.arrayOf(ContentResultShape),
   onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
 };
 
 export default injectT(DropdownSearch);

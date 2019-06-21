@@ -406,6 +406,7 @@ const phrases = {
       table: 'Table',
       bodybox: 'Text in frame',
       details: 'Expandable box',
+      blueprint: 'Blueprint box',
       image: 'Image',
       video: 'Video',
       audio: 'Audio',

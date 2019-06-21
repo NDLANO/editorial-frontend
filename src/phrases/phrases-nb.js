@@ -421,6 +421,7 @@ const phrases = {
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
       details: 'Ekspanderende boks',
+      blueprint: 'Fasitboks',
       image: 'Bilde',
       video: 'Video',
       audio: 'Lyd',

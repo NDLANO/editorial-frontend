@@ -1044,14 +1044,6 @@
     "@ndla/util" "^0.3.3"
     raven-js "^3.22.3"
 
-"@ndla/forms@^0.3.6":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.7.tgz#bf32c77affdbd5f09d5d839fef3bbdc4ed7116aa"
-  integrity sha512-TUkb0AFO+9b+pCkLWEeLGsqeVYVioVADDFPi8kL8ksWT5D9+HXaOHf0LIKrXMr/jVSR/8zULVGXYVQJQLZOgkA==
-  dependencies:
-    "@ndla/core" "^0.6.6"
-    "@ndla/icons" "^0.6.12"
-
 "@ndla/forms@^0.3.8":
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.8.tgz#dd973df9c96df4c881538cb71c7c0d6b25290832"

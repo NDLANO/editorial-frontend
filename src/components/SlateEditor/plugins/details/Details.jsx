@@ -28,7 +28,7 @@ const detailsStyle = css`
 `;
 
 const StyledContent = styled.div`
-  display: ${p => (p.open ? '' : 'none')};
+  display: ${p => (p.isOpen ? '' : 'none')};
   margin-top: calc(${spacing.small} * 1.5);
 `;
 
@@ -50,7 +50,7 @@ const StyledSummary = styled.summary`
     left: -1em;
     top: 0.4em;
     position: relative;
-    transform: ${p => p.open && 'rotate(90deg)'};
+    transform: ${p => p.isOpen && 'rotate(90deg)'};
   }
 `;
 
@@ -78,16 +78,17 @@ const Details = props => {
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
+  const [summaryNode, ...contentNodes] = children;
 
   return (
     <div css={detailsStyle} draggable {...attributes}>
       <StyledRow>
-        <StyledSummary open={isOpen} onClick={toggleOpen}>
-          Fasitboks
+        <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
+          {summaryNode}
         </StyledSummary>
         {isOpen && editSummaryButton}
       </StyledRow>
-      <StyledContent open={isOpen}>{children}</StyledContent>
+      <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
     </div>
   );

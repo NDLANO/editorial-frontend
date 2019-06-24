@@ -91,6 +91,7 @@ export default function createDetails() {
       case 'details':
         return <DetailsBox {...props} />;
       case 'blueprint':
+        return <DetailsBox {...props} />;
 
       case 'summary':
         return <span {...props.attributes}>{node.text}</span>;

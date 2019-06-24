@@ -12,69 +12,14 @@ import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
 import { Text } from 'slate';
 import { css } from '@emotion/core';
-import styled from '@emotion/styled';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { EditorShape } from '../../../../shapes';
-import DeleteButton from '../../../DeleteButton';
 import { Portal } from '../../../Portal';
 import Details from './Details';
-
-const detailsStyle = css`
-  position: relative;
-  margin: ${spacing.large} 0;
-  padding-left: ${spacing.normal};
-  min-height: 90px;
-  border: 1px solid ${colors.brand.greyLight};
-  overflow: hidden;
-
-  > *:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const StyledContent = styled.div`
-  display: ${p => (p.open ? '' : 'none')};
-  margin-top: calc(${spacing.small} * 1.5);
-`;
-
-const StyledSummary = styled.summary`
-  color: ${colors.brand.primary};
-  cursor: pointer;
-  font-size: 20px;
-  padding: ${spacing.normal};
-  display: flex;
-
-  &::before {
-    content: '';
-    border-color: transparent ${colors.brand.primary};
-    border-style: solid;
-    border-width: 0.35em 0 0.35em 0.45em;
-    display: block;
-    height: 0;
-    width: 0;
-    left: -1em;
-    top: 0.4em;
-    position: relative;
-    transform: ${p => p.open && 'rotate(90deg)'};
-  }
-`;
-
-const StyledRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  &:focus button,
-  :hover button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
 
 const editButtonStyle = css`
   height: 100%;
@@ -111,22 +56,13 @@ const editButtonStyle = css`
 const DetailsBox = props => {
   const { node, attributes, children, editor, t } = props;
 
-  const onRemoveClick = () => {
-    editor.removeNodeByKey(node.key);
-  };
-
   const summary = node.findDescendant(node => {
     if (node.type === 'summary') {
       return node;
     }
   });
 
-  const [isOpen, setOpen] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
-
-  const toggleOpen = () => {
-    setOpen(!isOpen);
-  };
 
   const summaryTextNode = summary.getLastText();
   const [inputValue, setInputvalue] = useState(summary.text);
@@ -139,35 +75,30 @@ const DetailsBox = props => {
     setShowEditModal(false);
   };
 
-  const [summaryNode, ...contentNodes] = children;
-
-  const close = evt => {
+  const toggleShowEditModdal = evt => {
     evt.preventDefault();
-    setShowEditModal(false);
+    setShowEditModal(!showEditModal);
   };
 
   const editSummaryButton = (
-    <Button
-      css={editButtonStyle}
-      onMouseDown={evt => {
-        evt.preventDefault();
-        setShowEditModal(true);
-      }}
-      stripped>
+    <Button css={editButtonStyle} onMouseDown={toggleShowEditModdal} stripped>
       <Pencil />
     </Button>
   );
 
   return (
     <div draggable={!showEditModal} {...attributes}>
-      <Details editSummaryButton={editSummaryButton} />
+      <Details editSummaryButton={editSummaryButton}>{children}</Details>
       <Portal isOpened>
         <Modal controllable isOpen={showEditModal}>
           {() => (
             <>
               <ModalHeader>
                 {' '}
-                <ModalCloseButton title={t('dialog.close')} onClick={close} />
+                <ModalCloseButton
+                  title={t('dialog.close')}
+                  onClick={toggleShowEditModdal}
+                />
               </ModalHeader>
               <ModalBody>
                 <Input
@@ -180,7 +111,7 @@ const DetailsBox = props => {
                   placeholder={t('detailBox.placeholder')}
                 />
                 <StyledButtonWrapper paddingLeft>
-                  <Button onClick={close} outline>
+                  <Button onClick={toggleShowEditModdal} outline>
                     {t('form.abort')}
                   </Button>
                   <Button onClick={onChangeSummary}>{t('form.save')}</Button>

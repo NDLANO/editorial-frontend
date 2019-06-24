@@ -12,7 +12,7 @@ import DetailsBox from './DetailsBox';
 import { defaultBlocks } from '../../utils';
 import onKeyDown from './onKeyDown';
 
-const detailsBlock = [
+const summaryBlock = [
   {
     type: 'summary',
     data: {},
@@ -24,7 +24,13 @@ const detailsBlock = [
 export const defaultDetailsBlock = () =>
   Block.create({
     type: 'details',
-    nodes: Block.createList(detailsBlock),
+    nodes: Block.createList(summaryBlock),
+  });
+
+export const defaultBlueprintBlock = () =>
+  Block.create({
+    type: 'blueprint',
+    nodes: Block.createList(summaryBlock),
   });
 
 export default function createDetails() {
@@ -84,6 +90,8 @@ export default function createDetails() {
     switch (node.type) {
       case 'details':
         return <DetailsBox {...props} />;
+      case 'blueprint':
+
       case 'summary':
         return <span {...props.attributes}>{node.text}</span>;
       default:

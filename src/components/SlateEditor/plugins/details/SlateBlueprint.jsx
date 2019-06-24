@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019-present, NDLA.
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 /**
  * Copyright (c) 2017-present, NDLA.
  *
@@ -22,8 +27,8 @@ import { EditorShape } from '../../../../shapes';
 import DeleteButton from '../../../DeleteButton';
 import { Portal } from '../../../Portal';
 
-const DetailsBox = props => {
-  const { node, editor, t } = props;
+const SlateBlueprint = props => {
+  const { node, attributes, children, editor, t } = props;
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
@@ -42,26 +47,10 @@ const DetailsBox = props => {
     setOpen(!open);
   };
 
-  const summaryTextNode = summary.getLastText();
-  const [inputValue, setInputvalue] = useState(summary.text);
-
-  const onChangeSummary = () => {
-    const newTextNode = Text.create({
-      text: inputValue,
-    });
-    editor.replaceNodeByKey(summaryTextNode.key, newTextNode);
-    setShowEditModal(false);
-  };
-
-  const [summaryNode, ...contentNodes] = props.children;
-
-  const close = e => {
-    e.preventDefault();
-    setShowEditModal(false);
-  };
+  const [summaryNode, ...contentNodes] = children;
 
   return (
-    <div css={detailsWrapper} draggable={!showEditModal} {...props.attributes}>
+    <div css={detailsWrapper} draggable={!showEditModal} {...attributes}>
       <StyledRow>
         <summary css={summaryStyle(open)} onClick={toggleOpen}>
           {summaryNode}
@@ -78,35 +67,7 @@ const DetailsBox = props => {
           </Button>
         )}
       </StyledRow>
-      <Portal isOpened>
-        <Modal controllable isOpen={showEditModal}>
-          {props => (
-            <>
-              <ModalHeader>
-                {' '}
-                <ModalCloseButton title={t('dialog.close')} onClick={close} />
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  name="caption"
-                  container="div"
-                  label={t('detailBox.label')}
-                  type="text"
-                  value={inputValue}
-                  onChange={e => setInputvalue(e.target.value)}
-                  placeholder={t('detailBox.placeholder')}
-                />
-                <StyledButtonWrapper paddingLeft>
-                  <Button onClick={close} outline>
-                    {t('form.abort')}
-                  </Button>
-                  <Button onClick={onChangeSummary}>{t('form.save')}</Button>
-                </StyledButtonWrapper>
-              </ModalBody>
-            </>
-          )}
-        </Modal>
-      </Portal>
+
       <div css={contentStyle(open)}>{contentNodes}</div>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
     </div>
@@ -198,7 +159,7 @@ const editButtonStyle = css`
   }
 `;
 
-DetailsBox.propTypes = {
+SlateBlueprint.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
@@ -206,4 +167,4 @@ DetailsBox.propTypes = {
   editor: EditorShape,
 };
 
-export default injectT(DetailsBox);
+export default injectT(SlateBlueprint);

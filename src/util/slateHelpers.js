@@ -28,7 +28,6 @@ const BLOCK_TAGS = {
   h5: 'heading-three',
   h6: 'heading-three',
   summary: 'summary',
-  details: 'details',
 };
 
 export const INLINE_TAGS = {
@@ -412,8 +411,6 @@ export const blockRules = {
         return <blockquote>{children}</blockquote>;
       case 'pre':
         return <pre>{children}</pre>;
-      case 'details':
-        return <details>{children}</details>;
       case 'summary':
         return <summary>{children}</summary>;
     }
@@ -443,6 +440,31 @@ export const inlineRules = {
     if (inline) {
       return <slateObject.type {...props}>{children}</slateObject.type>;
     }
+  },
+};
+
+const detailsRules = {
+  deserialize(el, next) {
+    if (el.className === 'c-details--solution-box') {
+      return {
+        object: 'block',
+        type: 'blueprint',
+        nodes: next(el.childNodes),
+      };
+    }
+    return {
+      object: 'block',
+      type: 'details',
+      nodes: next(el.childNodes),
+    };
+  },
+  serialize(object, children) {
+    if (object.type !== 'details' && object.type !== 'blueprint') {
+      return;
+    }
+    const className =
+      object.type === 'blueprint' ? 'c-details--solution-box' : undefined;
+    return <details className={className}>{children}</details>;
   },
 };
 
@@ -526,6 +548,7 @@ export const brRule = {
 
 const RULES = [
   divRule,
+  detailsRules,
   textRule,
   orderListRules,
   unorderListRules,

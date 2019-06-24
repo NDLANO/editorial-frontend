@@ -14,7 +14,7 @@ import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
-import { defaultDetailsBlock } from '../detailsbox';
+import { defaultDetailsBlock, defaultBlueprintBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
 
@@ -70,6 +70,10 @@ class SlateBlockPicker extends Component {
       }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
+        break;
+      }
+      case 'blueprint': {
+        this.onInsertBlock(defaultBlueprintBlock());
         break;
       }
       case 'details': {

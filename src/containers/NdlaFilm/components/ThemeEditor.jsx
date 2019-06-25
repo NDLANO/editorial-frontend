@@ -7,6 +7,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
@@ -17,6 +18,7 @@ import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
+import { getLocale } from '../../../modules/locale/locale';
 import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
 import { ContentResultShape } from '../../../shapes';
@@ -33,6 +35,7 @@ const ThemeEditor = ({
   onDeleteTheme,
   onSaveThemeName,
   loading,
+  locale,
 }) => {
   if (loading) {
     return <Spinner />;
@@ -123,9 +126,9 @@ const ThemeEditor = ({
           />
           <DropdownSearch
             selectedMovies={theme.movies}
-            onChange={e => addMovieToTheme(e, index)}
+            onChange={evt => addMovieToTheme(evt, index)}
             placeholder={t('ndlaFilm.editor.addMovieToGroup', {
-              name: theme.name.find(name => name.language === 'nb').name,
+              name: findName(theme.name, locale),
             })}
           />
         </StyledThemeWrapper>
@@ -157,6 +160,11 @@ ThemeEditor.propTypes = {
   onDeleteTheme: PropTypes.func.isRequired,
   updateThemeName: PropTypes.func.isRequired,
   onSaveThemeName: PropTypes.func.isRequired,
+  locale: PropTypes.string,
 };
 
-export default injectT(ThemeEditor);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default injectT(connect(mapStateToProps)(ThemeEditor));

@@ -12,24 +12,7 @@ import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
 
-const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => {
-  return (
-    <>
-      <AsyncDropdown
-        valueField="id"
-        onChange={movie => onChange(movie)}
-        apiAction={input => queryThing(input)}
-        selectedItems={selectedMovies.map(movie => movie.title.title)}
-        multiSelect
-        placeholder={placeholder}
-        textField="title.title"
-        disableSelected
-      />
-    </>
-  );
-};
-
-const queryThing = async input => {
+const queryResources = async input => {
   const query = {
     page: 1,
     subjects: 'urn:subject:20',
@@ -39,11 +22,24 @@ const queryThing = async input => {
     query: input,
   };
   const response = await searchResources(query);
-  return response.results.map(current => ({
-    ...current,
-    title: current.title ? current.title.title : '',
+  return response.results.map(resource => ({
+    ...resource,
+    title: resource.title ? resource.title.title : '',
   }));
 };
+
+const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => (
+  <AsyncDropdown
+    valueField="id"
+    onChange={movie => onChange(movie)}
+    apiAction={input => queryResources(input)}
+    selectedItems={selectedMovies.map(movie => movie.title.title)}
+    multiSelect
+    placeholder={placeholder}
+    textField="title.title"
+    disableSelected
+  />
+);
 
 DropdownSearch.propTypes = {
   selectedMovies: PropTypes.arrayOf(ContentResultShape),

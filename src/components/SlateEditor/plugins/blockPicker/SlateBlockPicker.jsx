@@ -62,7 +62,7 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(block) {
-    const { editor, addSection } = this.props;
+    const { editor, addSection, t } = this.props;
     switch (block.type) {
       case 'block': {
         addSection();
@@ -73,7 +73,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'blueprint': {
-        this.onInsertBlock(defaultBlueprintBlock());
+        this.onInsertBlock(defaultBlueprintBlock('Fasitboks'));
         break;
       }
       case 'details': {

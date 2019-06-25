@@ -24,7 +24,7 @@ module.exports = {
         },
         forkTsChecker: {
           tsconfig: './tsconfig.json',
-          tslint: './tslint.json',
+          tslint: undefined,
           watch: './src',
           typeCheck: false,
         },

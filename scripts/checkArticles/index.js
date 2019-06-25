@@ -20,7 +20,7 @@ const {
 const {
   resolveJsonOrRejectWithError,
 } = require('../../src/util/resolveJsonOrRejectWithError');
-const diffHTML = require('./diffHTML');
+const diffHTML = require('../../src/util/diffHTML');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 

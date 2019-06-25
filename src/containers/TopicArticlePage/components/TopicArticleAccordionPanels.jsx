@@ -12,6 +12,8 @@ import {
   FormikWorkflow,
   FormikMetadata,
 } from '../../FormikForm';
+import TopicArticleTaxonomy from './TopicArticleTaxonomy';
+import config from '../../../config';
 
 const panels = [
   {
@@ -20,6 +22,18 @@ const panels = [
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'introduction', 'content', 'visualElement'],
     component: props => <TopicArticleContent {...props} />,
+  },
+  {
+    id: 'topic-article-taxonomy',
+    title: 'form.taxonomytSection',
+    errorFields: [],
+    showPanel: (values, userAccess) =>
+      values.id &&
+      ((userAccess &&
+        userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`)) ||
+        userAccess.includes('taxonomy:write')),
+    className: 'u-6/6',
+    component: props => <TopicArticleTaxonomy {...props} />,
   },
   {
     id: 'topic-article-copyright',
@@ -44,11 +58,21 @@ const panels = [
   },
 ];
 
-const TopicArticleAccordionPanels = ({ t, errors, touched, ...rest }) => (
+const TopicArticleAccordionPanels = ({
+  t,
+  errors,
+  values,
+  userAccess,
+  touched,
+  ...rest
+}) => (
   <Accordion openIndexes={['topic-article-content']}>
     {({ openIndexes, handleItemClick }) => (
       <AccordionWrapper>
         {panels.map(panel => {
+          if (panel.showPanel && !panel.showPanel(values, userAccess)) {
+            return null;
+          }
           const hasError = panel.errorFields.some(
             field => !!errors[field] && touched[field],
           );
@@ -68,7 +92,13 @@ const TopicArticleAccordionPanels = ({ t, errors, touched, ...rest }) => (
                   hasError={hasError}
                   isOpen={openIndexes.includes(panel.id)}>
                   <div className={panel.className}>
-                    {panel.component({ hasError, ...rest })}
+                    {panel.component({
+                      hasError,
+                      values,
+                      userAccess,
+                      closePanel: () => handleItemClick(panel.id),
+                      ...rest,
+                    })}
                   </div>
                 </AccordionPanel>
               )}
@@ -87,6 +117,7 @@ TopicArticleAccordionPanels.propTypes = {
   }).isRequired,
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(TopicArticleAccordionPanels);

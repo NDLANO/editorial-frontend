@@ -100,3 +100,9 @@ export const uploadFile = formData =>
     headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);
+
+export const searchDrafts = query =>
+  fetchAuthorized(`${baseUrl}/search`, {
+    method: 'POST',
+    body: JSON.stringify(query),
+  }).then(resolveJsonOrRejectWithError);

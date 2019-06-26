@@ -8,10 +8,19 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+//@ts-ignore
 import { Article, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import { ArticleType, TranslateType } from '../../interfaces';
 
-class PreviewDraft extends Component {
+interface Props {
+  article: ArticleType;
+  t: TranslateType;
+  label: string;
+  contentType?: string;
+}
+
+class PreviewDraft extends Component<Props, {}> {
   componentDidMount() {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
@@ -54,16 +63,5 @@ class PreviewDraft extends Component {
     );
   }
 }
-
-PreviewDraft.propTypes = {
-  article: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-  }),
-  label: PropTypes.string.isRequired,
-  contentType: PropTypes.string,
-};
 
 export default injectT(PreviewDraft);

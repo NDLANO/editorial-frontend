@@ -6,18 +6,28 @@
  *
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, FC } from 'react';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
+import { ArticleType, TranslateType } from '../../interfaces';
 
 const StyledPreviewHeader = styled.div`
   min-height: 6rem;
 `;
 
-const PreviewLanguage = props => {
+interface Props {
+  label: string;
+  contentType: string;
+  firstArticle: ArticleType;
+  secondArticle: ArticleType;
+  previewLanguage: string;
+  onChangePreviewLanguage(language: string): void;
+  t: TranslateType;
+}
+
+const PreviewLanguage: FC<Props> = props => {
   const {
     firstArticle,
     secondArticle,
@@ -69,26 +79,6 @@ const PreviewLanguage = props => {
       </StyledPreviewTwoArticles>
     </Fragment>
   );
-};
-
-PreviewLanguage.propTypes = {
-  firstArticle: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-  }),
-  secondArticle: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-  }),
-  onChangePreviewLanguage: PropTypes.func.isRequired,
-  contentType: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  previewLanguage: PropTypes.string.isRequired,
 };
 
 export default injectT(PreviewLanguage);

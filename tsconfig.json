@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "jsx": "react",
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -14,7 +15,7 @@
       "*": ["node_modules/*", "src/types/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "custom-typings/*"],
   "exclude": ["**/*-test.ts"],
   "preset": "ts-jest"
 }

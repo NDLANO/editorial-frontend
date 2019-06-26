@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 const jsdom = require('jsdom');
 const chalk = require('chalk');
 const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
+const diffHTML = require('../../src/util/diffHTML');
 const { getNdlaApiUrl } = require('../../src/config');
 const {
   learningResourceContentToEditorValue,
@@ -20,7 +20,6 @@ const {
 const {
   resolveJsonOrRejectWithError,
 } = require('../../src/util/resolveJsonOrRejectWithError');
-const diffHTML = require('../../src/util/diffHTML');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 

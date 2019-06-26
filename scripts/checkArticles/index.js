@@ -11,7 +11,7 @@ const queryString = require('query-string');
 const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
-const diffHTML = require('../../src/util/diffHTML');
+const { diffHTML } = require('../../src/util/diffHTML');
 const { getNdlaApiUrl } = require('../../src/config');
 const {
   learningResourceContentToEditorValue,

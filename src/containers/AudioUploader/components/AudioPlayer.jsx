@@ -13,8 +13,8 @@ import Field from '../../../components/Field';
 const AudioPlayer = ({ audio, noBorder, filepath }) => {
   const audioPlayerRef = createRef();
   useEffect(() => {
-    audioPlayerRef.pause();
-    audioPlayerRef.load();
+    //audioPlayerRef.pause();
+    //audioPlayerRef.load();
   }, [filepath]);
   return (
     <Field noBorder={noBorder}>

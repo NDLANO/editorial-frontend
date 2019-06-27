@@ -6,16 +6,12 @@
  *
  */
 
-import React, { useEffect, createRef } from 'react';
+import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 
 const AudioPlayer = ({ audio, noBorder, filepath }) => {
   const audioPlayerRef = createRef();
-  useEffect(() => {
-    //audioPlayerRef.pause();
-    //audioPlayerRef.load();
-  }, [filepath]);
   return (
     <Field noBorder={noBorder}>
       {

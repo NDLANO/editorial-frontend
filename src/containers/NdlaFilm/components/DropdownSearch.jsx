@@ -30,9 +30,7 @@ const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => (
     valueField="id"
     onChange={movie => onChange(movie)}
     apiAction={input => queryResources(input)}
-    selectedItems={selectedMovies
-      .filter(movie => movie !== undefined)
-      .map(movie => movie.title.title)}
+    selectedItems={selectedMovies.map(movie => movie.title.title)}
     multiSelect
     placeholder={placeholder}
     textField="title.title"

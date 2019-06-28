@@ -63,8 +63,9 @@ class NdlaFilmEditor extends React.Component {
     if (slideShowUrnIds.length === 0) return [];
     const slideshowIds = slideShowUrnIds.map(getIdFromUrn);
     const slideshowResult = await this.queryArticles(slideshowIds.join());
-    const correctOrderSlideshow = slideshowIds.map(id =>
-      slideshowResult.find(slidehow => slidehow.id.toString() === id),
+    const correctOrderSlideshow = this.sortMoviesByIdList(
+      slideshowIds,
+      slideshowResult,
     );
     return correctOrderSlideshow;
   };
@@ -82,12 +83,25 @@ class NdlaFilmEditor extends React.Component {
     const movieThemeIds = movieTheme.movies.map(getIdFromUrn);
     if (movieThemeIds.length > 0) {
       const fetchedMovies = await this.queryArticles(movieThemeIds.join());
-      const sortedMovies = movieThemeIds.map(id =>
-        fetchedMovies.find(movie => movie.id.toString() === id),
+      const sortedMovies = this.sortMoviesByIdList(
+        movieThemeIds,
+        fetchedMovies,
       );
       return { ...movieTheme, movies: sortedMovies };
     }
     return movieTheme;
+  };
+
+  sortMoviesByIdList = (idList, movieList) => {
+    const { t } = this.props;
+    const notFoundMovie = { title: { title: t('ndlaFilm.editor.notFound') } };
+    return idList.map(
+      id =>
+        movieList.find(movie => movie.id.toString() === id) || {
+          ...notFoundMovie,
+          id: id,
+        },
+    );
   };
 
   fetchAllMovies = async () => {

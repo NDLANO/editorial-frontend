@@ -17,7 +17,6 @@ import { ContentResultShape } from '../../../shapes';
 const SlideshowEditor = ({
   t,
   slideshowMovies,
-  allMovies,
   saveSlideshow,
   onAddMovieToSlideshow,
   loading,

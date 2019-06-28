@@ -370,6 +370,7 @@ TopicArticleTaxonomy.propTypes = {
     title: PropTypes.string,
     id: PropTypes.number,
     language: PropTypes.string,
+    revision: PropTypes.number,
   }).isRequired,
   updateNotes: PropTypes.func.isRequired,
 };

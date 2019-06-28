@@ -474,6 +474,7 @@ LearningResourceTaxonomy.propTypes = {
     id: PropTypes.number,
     language: PropTypes.string,
   }),
+  updateNotes: PropTypes.func,
 };
 
 export default injectT(LearningResourceTaxonomy);

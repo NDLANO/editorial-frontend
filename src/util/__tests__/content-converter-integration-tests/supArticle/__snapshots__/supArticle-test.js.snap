@@ -131,13 +131,5 @@ exports[`serializing article with sup tag 1`] = `
     <p><strong>dECD = 405,6/(0,0981 · 3200) = 1,292 sg ≈ 1,30 sg</strong></p>
   </div>
 </section>
-<section>
-  <div data-type=\\"related-content\\">
-    <embed data-article-id=\\"490\\" data-resource=\\"related-content\\" /><embed
-      data-article-id=\\"496\\"
-      data-resource=\\"related-content\\"
-    />
-  </div>
-</section>
 "
 `;

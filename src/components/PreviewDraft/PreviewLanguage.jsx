@@ -78,6 +78,7 @@ PreviewLanguage.propTypes = {
     title: PropTypes.string,
     introduction: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+    language: PropTypes.string,
   }),
   secondArticle: PropTypes.shape({
     id: PropTypes.number,

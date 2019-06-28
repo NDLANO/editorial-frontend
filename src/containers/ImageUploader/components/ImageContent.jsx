@@ -129,6 +129,9 @@ ImageContent.propTypes = {
     values: PropTypes.shape({
       alttext: PropTypes.string,
       caption: PropTypes.string,
+      id: PropTypes.number,
+      imageFile: PropTypes.string,
+      filepath: PropTypes.string,
     }),
     errors: PropTypes.shape({
       alttext: PropTypes.string,

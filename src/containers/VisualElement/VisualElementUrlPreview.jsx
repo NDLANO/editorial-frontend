@@ -76,9 +76,7 @@ export const transformUrlIfNeeded = async url => {
   try {
     const nrkMedia = await fetchNrkMedia(mediaId);
     if (nrkMedia.psId) {
-      return `https://static.nrk.no/ludo/latest/video-embed.html#id=${
-        nrkMedia.psId
-      }`;
+      return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
     }
     return url;
   } catch {

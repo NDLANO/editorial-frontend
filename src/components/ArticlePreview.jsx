@@ -37,6 +37,7 @@ ArticlePreview.propTypes = {
     articleType: PropTypes.string,
     metaDescription: PropTypes.string,
     title: PropTypes.string,
+    imageUrl: PropTypes.string,
   }),
   locale: PropTypes.string,
 };

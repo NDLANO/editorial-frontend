@@ -116,7 +116,7 @@ Resource.propTypes = {
   onFilterChange: PropTypes.func,
   activeFilters: PropTypes.arrayOf(PropTypes.object),
   currentTopic: PropTypes.shape({
-    filter: PropTypes.array,
+    filters: PropTypes.array,
   }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,

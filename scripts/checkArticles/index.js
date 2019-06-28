@@ -156,9 +156,7 @@ function testArticle(article) {
 
     console.log(
       `${chalk.green(
-        `Article with id ${
-          article.id
-        } was sucessfully converted to slate and back to HTML.`,
+        `Article with id ${article.id} was sucessfully converted to slate and back to HTML.`,
       )}`,
     );
     if (diffObject.warn) {

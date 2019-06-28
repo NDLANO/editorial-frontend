@@ -95,6 +95,7 @@ AddExistingTopic.propTypes = {
   refreshTopics: PropTypes.func.isRequired,
   topicFilters: PropTypes.arrayOf(FilterShape).isRequired,
   numberOfSubtopics: PropTypes.number,
+  subjectId: PropTypes.string,
 };
 
 export default injectT(AddExistingTopic);

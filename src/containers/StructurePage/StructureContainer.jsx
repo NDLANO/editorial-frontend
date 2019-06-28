@@ -384,8 +384,12 @@ export class StructureContainer extends React.PureComponent {
 StructureContainer.propTypes = {
   locale: PropTypes.string,
   match: PropTypes.shape({
+    url: PropTypes.string,
     params: PropTypes.shape({
       subject: PropTypes.string,
+      topic1: PropTypes.string,
+      topic2: PropTypes.string,
+      topic3: PropTypes.string,
     }).isRequired,
   }).isRequired,
   location: PropTypes.shape({

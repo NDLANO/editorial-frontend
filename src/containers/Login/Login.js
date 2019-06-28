@@ -45,8 +45,10 @@ Login.propTypes = {
     url: PropTypes.string.isRequired,
   }).isRequired,
   authenticated: PropTypes.bool.isRequired,
-  location: PropTypes.shape({}),
-  history: PropTypes.shape({}),
+  location: PropTypes.shape({
+    hash: PropTypes.string,
+  }),
+  history: PropTypes.shape({ push: PropTypes.func }),
 };
 
 const mapStateToProps = state => ({

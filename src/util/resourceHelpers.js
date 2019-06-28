@@ -67,9 +67,7 @@ const isLearningPathResourceType = contentType =>
 export const resourceToLinkProps = (content, contentType, locale) => {
   if (isLearningPathResourceType(contentType)) {
     return {
-      href: `${config.learningpathFrontendDomain}/${locale}/learningpaths/${
-        content.id
-      }/first-step`,
+      href: `${config.learningpathFrontendDomain}/${locale}/learningpaths/${content.id}/first-step`,
       target: '_blank',
       rel: 'noopener noreferrer',
     };

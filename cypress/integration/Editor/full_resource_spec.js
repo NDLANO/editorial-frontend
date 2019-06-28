@@ -8,35 +8,47 @@
 
 import { setToken, visitOptions } from '../../support';
 
-const ARTICLE_ID = 14872;
+const ARTICLE_ID = 14989;
 
-describe('Language handling', () => {
+describe('Edit article with everything', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
     cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
-      'draft',
+      'draftFull',
     );
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`,
-      'draftNN',
+      'draft',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.visit(
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', '@draft']);
+    cy.apiwait(['@tags', '@licenses', '@draftFull']);
   });
 
   it('Can change language and fetch the new article', () => {
-    cy.get('header [role="button"]')
+    cy.get('header button')
+      .contains('Legg til språk')
+      .click({ force: true });
+    cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.apiwait('@draftNN');
+    cy.apiwait('@draft');
   });
 });

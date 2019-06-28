@@ -49,6 +49,7 @@ describe('Workflow features', () => {
       visitOptions,
     );
     cy.apiwait(['@tags', '@licenses', '@draft']);
+    cy.wait(500);
   });
 
   it('Can add notes, change status, save as new', () => {
@@ -65,7 +66,7 @@ describe('Workflow features', () => {
 
     // test that changing status and save as new don't work when note is added
     cy.get('button')
-      .contains('Kladd')
+      .contains('Utkast')
       .click();
     cy.get('div').contains('Du må lagre endringene dine');
     cy.get('[data-testid=saveAsNew]').click();
@@ -76,16 +77,16 @@ describe('Workflow features', () => {
 
     cy.route(
       'PUT',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/status/DRAFT`,
+      `/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
       'fixture:draft.json',
     ).as('newStatus');
     cy.get('button')
-      .contains('Kladd')
+      .contains('Utkast')
       .click();
     cy.wait('@newStatus');
   });
 
-  it.skip('Open previews', () => {
+  it('Open previews', () => {
     cy.get('button')
       .contains('Arbeidsflyt')
       .click();
@@ -98,7 +99,7 @@ describe('Workflow features', () => {
     cy.wait('@transformedArticle');
   });
 
-  it.skip('Can reset to prod', () => {
+  it('Can reset to prod', () => {
     cy.get('[data-testid=resetToProd]').click();
 
     cy.apiroute(

@@ -22,10 +22,7 @@ const queryResources = async input => {
     query: input,
   };
   const response = await searchResources(query);
-  return response.results.map(resource => ({
-    ...resource,
-    title: resource.title ? resource.title.title : '',
-  }));
+  return response.results;
 };
 
 const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => (
@@ -33,7 +30,9 @@ const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => (
     valueField="id"
     onChange={movie => onChange(movie)}
     apiAction={input => queryResources(input)}
-    selectedItems={selectedMovies.map(movie => movie.title.title)}
+    selectedItems={selectedMovies
+      .filter(movie => movie !== undefined)
+      .map(movie => movie.title.title)}
     multiSelect
     placeholder={placeholder}
     textField="title.title"

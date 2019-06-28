@@ -13,7 +13,16 @@ const ARTICLE_ID = 14872;
 describe('Workflow features', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
     cy.apiroute(
       'GET',
       '/draft-api/v1/drafts/tags/?language=nb&size=7000',
@@ -42,7 +51,7 @@ describe('Workflow features', () => {
     cy.apiwait(['@tags', '@licenses', '@draft']);
   });
 
-  it.skip('Can add notes, change status, save as new', () => {
+  it('Can add notes, change status, save as new', () => {
     cy.route(
       'PATCH',
       `/draft-api/v1/drafts/${ARTICLE_ID}`,

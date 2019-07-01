@@ -19,7 +19,7 @@ module.exports = {
       options: {
         useBabel: true,
         tsLoader: {
-          transpileOnly: true,
+          transpileOnly: false,
           experimentalWatchApi: true,
         },
         forkTsChecker: {

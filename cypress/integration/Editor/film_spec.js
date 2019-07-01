@@ -23,6 +23,7 @@ describe('Film editing', () => {
   it('Can add a movie to the slideshow', () => {
     cy.get(`input[placeholder="Legg til film i slideshow"]`)
       .click()
+      .type('Page One')
       .parent()
       .parent()
       .parent()
@@ -34,6 +35,7 @@ describe('Film editing', () => {
   it('Can remove movie from slideshow', () => {
     cy.get(`input[placeholder="Legg til film i slideshow"]`)
       .click()
+      .type('Page One')
       .parent()
       .parent()
       .parent()

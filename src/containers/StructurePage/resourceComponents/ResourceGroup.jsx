@@ -99,6 +99,7 @@ class ResourceGroup extends PureComponent {
 ResourceGroup.propTypes = {
   topicResource: PropTypes.shape({
     resources: PropTypes.array,
+    contentType: PropTypes.string,
   }),
   resource: PropTypes.shape({
     id: PropTypes.string,
@@ -107,6 +108,7 @@ ResourceGroup.propTypes = {
   params: PropTypes.shape({
     topic1: PropTypes.string,
     topic2: PropTypes.string,
+    topic3: PropTypes.string,
   }),
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,

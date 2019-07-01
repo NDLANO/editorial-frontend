@@ -13,7 +13,16 @@ const ARTICLE_ID = 14872;
 describe('Workflow features', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
     cy.apiroute(
       'GET',
       '/draft-api/v1/drafts/tags/?language=nb&size=7000',
@@ -40,9 +49,10 @@ describe('Workflow features', () => {
       visitOptions,
     );
     cy.apiwait(['@tags', '@licenses', '@draft']);
+    cy.wait(500);
   });
 
-  it.skip('Can add notes, change status, save as new', () => {
+  it('Can add notes, change status, save as new', () => {
     cy.route(
       'PATCH',
       `/draft-api/v1/drafts/${ARTICLE_ID}`,
@@ -56,7 +66,7 @@ describe('Workflow features', () => {
 
     // test that changing status and save as new don't work when note is added
     cy.get('button')
-      .contains('Kladd')
+      .contains('Utkast')
       .click();
     cy.get('div').contains('Du må lagre endringene dine');
     cy.get('[data-testid=saveAsNew]').click();
@@ -67,16 +77,16 @@ describe('Workflow features', () => {
 
     cy.route(
       'PUT',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/status/DRAFT`,
+      `/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
       'fixture:draft.json',
     ).as('newStatus');
     cy.get('button')
-      .contains('Kladd')
+      .contains('Utkast')
       .click();
     cy.wait('@newStatus');
   });
 
-  it.skip('Open previews', () => {
+  it('Open previews', () => {
     cy.get('button')
       .contains('Arbeidsflyt')
       .click();
@@ -89,7 +99,7 @@ describe('Workflow features', () => {
     cy.wait('@transformedArticle');
   });
 
-  it.skip('Can reset to prod', () => {
+  it('Can reset to prod', () => {
     cy.get('[data-testid=resetToProd]').click();
 
     cy.apiroute(

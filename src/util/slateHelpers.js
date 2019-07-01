@@ -185,6 +185,7 @@ export const divRule = {
             {slateObject.data.get('nodes') &&
               slateObject.data
                 .get('nodes')
+                .toJS()
                 .map(node => <embed {...createDataProps(node)} />)}
           </div>
         );
@@ -496,6 +497,7 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
+              .toJS()
               .map(node => <embed key={uuid()} {...createDataProps(node)} />)}
         </div>
       );

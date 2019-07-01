@@ -205,6 +205,8 @@ DisplayExternal.propTypes = {
     width: PropTypes.string,
     heigth: PropTypes.string,
     url: PropTypes.string,
+    height: PropTypes.number,
+    resource: PropTypes.string,
   }),
 };
 

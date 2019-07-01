@@ -178,6 +178,9 @@ DisplayExternalVisualElement.propTypes = {
     width: PropTypes.string,
     heigth: PropTypes.string,
     url: PropTypes.string,
+    resource: PropTypes.string,
+    height: PropTypes.number,
+    caption: PropTypes.string,
   }),
   onFigureInputChange: PropTypes.func,
 };

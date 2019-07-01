@@ -117,6 +117,8 @@ TopicArticleContent.propTypes = {
       published: PropTypes.string,
       title: PropTypes.string,
       updatePublished: PropTypes.bool,
+      creators: PropTypes.array,
+      visualElement: PropTypes.object,
     }),
     initialValues: PropTypes.shape({
       id: PropTypes.number,

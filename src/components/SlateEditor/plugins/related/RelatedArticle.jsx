@@ -46,6 +46,8 @@ RelatedArticle.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
+    description: PropTypes.string,
+    url: PropTypes.string,
   }),
   numberInList: PropTypes.number,
 };

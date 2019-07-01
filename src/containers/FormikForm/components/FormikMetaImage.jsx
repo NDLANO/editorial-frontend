@@ -60,7 +60,10 @@ const FormikMetaImage = ({ image, onImageSelectOpen, t }) => {
 };
 
 FormikMetaImage.propTypes = {
-  image: PropTypes.shape({}),
+  image: PropTypes.shape({
+    copyright: PropTypes.object,
+    imageUrl: PropTypes.string,
+  }),
   onImageSelectOpen: PropTypes.func.isRequired,
 };
 

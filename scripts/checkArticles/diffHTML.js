@@ -96,11 +96,8 @@ function allowStrongRemoval({ current, next, previous }) {
 }
 
 // I.E. <br/> => <br>
-function allowSlashRemoval({ current, next, previous }) {
-  if (current === '/' && next.startsWith('>')) {
-    return true;
-  }
-  return false;
+function allowSlashRemoval({ current, next }) {
+  return current === '/' && next.startsWith('>');
 }
 
 function isRemovalAllowed(index, diffs) {
@@ -117,7 +114,6 @@ function isRemovalAllowed(index, diffs) {
     ].find(fn => fn(values) === true);
     return result !== undefined;
   }
-
   return false;
 }
 
@@ -134,14 +130,16 @@ function diffHTML(oldHtml, newHtml) {
     const [result, value] = diff;
     if (result === 1) {
       diffString += `${chalk.underline.green(value)}`;
+      // Some diffs are allowed
+      if (!isRemovalAllowed(index, diffs)) {
+        shouldWarn = true;
+      }
     } else if (result === -1) {
       diffString += `${chalk.underline.red(value)}`;
       // Some diffs are allowed
       if (!isRemovalAllowed(index, diffs)) {
         shouldWarn = true;
       }
-    } else {
-      // diffString += value;
     }
   });
   return { diff: diffString, warn: shouldWarn };

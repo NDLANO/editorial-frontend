@@ -13,6 +13,13 @@ describe('Subject editing', () => {
     setToken();
     cy.server({
       force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
     });
     cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
     cy.apiroute(
@@ -118,10 +125,14 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=addSubjectTopicButon]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.wait('@addNewTopic');
-    cy.wait('@addNewSubjectTopic');
+    cy.wait([
+      '@addNewTopic',
+      '@addNewSubjectTopic',
+      '@allSubjectTopics',
+      '@allTopics',
+    ]);
 
-    cy.get('[data-cy=settings-button-subject] ')
+    cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
@@ -131,9 +142,9 @@ describe('Subject editing', () => {
     cy.get('[data-testid=dropdown-items]')
       .first()
       .click();
-    cy.wait('@addNewSubjectTopic');
+    cy.wait(['@addNewSubjectTopic', '@allSubjectTopics', '@allTopics']);
 
-    cy.get('[data-cy=settings-button-subject] ')
+    cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
     cy.get('[data-testid=editSubjectFiltersButton]').click();

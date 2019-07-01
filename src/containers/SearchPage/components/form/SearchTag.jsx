@@ -46,6 +46,7 @@ class SearchTag extends Component {
 SearchTag.propTypes = {
   tag: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    type: PropTypes.string,
   }),
   onRemoveItem: PropTypes.func,
 };

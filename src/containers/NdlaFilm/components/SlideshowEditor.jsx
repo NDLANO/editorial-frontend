@@ -57,6 +57,7 @@ SlideshowEditor.propTypes = {
   allMovies: PropTypes.arrayOf(ContentResultShape),
   saveSlideshow: PropTypes.func.isRequired,
   onAddMovieToSlideshow: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default injectT(SlideshowEditor);

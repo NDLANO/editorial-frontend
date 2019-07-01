@@ -24,11 +24,7 @@ const Footnote = ({ footnote, id, t }) => {
   return (
     <li {...classes('item')} id={`${id}_cite`}>
       <sup>{id}</sup>
-      <cite>{` ${footnote.title} (${
-        footnote.year
-      }), ${authors}, ${editonLabel}: ${footnote.edition}, ${publisherLabel}: ${
-        footnote.publisher
-      }`}</cite>
+      <cite>{` ${footnote.title} (${footnote.year}), ${authors}, ${editonLabel}: ${footnote.edition}, ${publisherLabel}: ${footnote.publisher}`}</cite>
     </li>
   );
 };

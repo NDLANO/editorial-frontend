@@ -63,6 +63,7 @@ FormikQualityAssurance.propTypes = {
   getArticle: PropTypes.func,
   values: PropTypes.shape({
     id: PropTypes.number,
+    language: PropTypes.string,
   }),
   onValidateClick: PropTypes.func.isRequired,
   articleStatus: PropTypes.shape({

@@ -51,6 +51,7 @@ AudioContent.propTypes = {
   classes: PropTypes.func.isRequired,
   values: PropTypes.shape({
     id: PropTypes.number,
+    filepath: PropTypes.string,
     audioFile: PropTypes.shape({
       fileSize: PropTypes.number,
       language: PropTypes.string,

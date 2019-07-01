@@ -35,19 +35,19 @@ export interface ArticleType {
       {
         name: string;
         type: string;
-      }
+      },
     ];
     origin: [
       {
         name: string;
         type: string;
-      }
+      },
     ];
     rightsholders: [
       {
         type: string;
         name: string;
-      }
+      },
     ];
   };
   metaImage: {
@@ -68,6 +68,6 @@ export interface ArticleType {
       mediaType: string;
       url: string;
       name: string;
-    }
+    },
   ];
 }

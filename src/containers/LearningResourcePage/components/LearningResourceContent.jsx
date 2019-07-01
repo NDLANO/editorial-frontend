@@ -193,6 +193,9 @@ LearningResourceContent.propTypes = {
       published: PropTypes.string,
       title: PropTypes.string,
       updatePublished: PropTypes.bool,
+      content: PropTypes.array,
+      language: PropTypes.string,
+      creators: PropTypes.array,
     }),
     initialValues: PropTypes.shape({
       id: PropTypes.number,

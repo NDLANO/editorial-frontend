@@ -175,6 +175,7 @@ class FormikWorkflow extends Component {
 FormikWorkflow.propTypes = {
   values: PropTypes.shape({
     id: PropTypes.number,
+    revision: PropTypes.number,
   }),
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
@@ -185,6 +186,7 @@ FormikWorkflow.propTypes = {
   getArticle: PropTypes.func.isRequired,
   article: ArticleShape,
   formIsDirty: PropTypes.bool,
+  history: PropTypes.object,
 };
 
 FormikWorkflow.defaultProps = {

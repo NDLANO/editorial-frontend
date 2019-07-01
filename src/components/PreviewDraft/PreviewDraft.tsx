@@ -7,7 +7,6 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 //@ts-ignore
 import { Article, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';

@@ -15,7 +15,16 @@ const selectTopic = 'urn:topic:1:183043';
 describe('Topic editing', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
     cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',

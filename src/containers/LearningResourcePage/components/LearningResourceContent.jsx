@@ -193,7 +193,7 @@ LearningResourceContent.propTypes = {
       published: PropTypes.string,
       title: PropTypes.string,
       updatePublished: PropTypes.bool,
-      content: PropTypes.string,
+      content: PropTypes.array,
       language: PropTypes.string,
       creators: PropTypes.array,
     }),

@@ -52,8 +52,10 @@ export class RelatedArticleBox extends React.Component {
     } = this.props;
     if (data && data.get('nodes')) {
       data.get('nodes').forEach(article => {
-        if (article['article-id'])
-          this.fetchRelated(article['article-id'], true);
+        const articleId = article.get('article-id');
+        if (articleId) {
+          this.fetchRelated(articleId, true);
+        }
         if (article.title) {
           this.fetchExternal(article.url, article.title, true);
         }
@@ -103,7 +105,6 @@ export class RelatedArticleBox extends React.Component {
 
   async fetchRelated(id, onMount = false) {
     const { locale } = this.props;
-
     try {
       const [article, resource] = await Promise.all([
         searchArticles(id, locale),

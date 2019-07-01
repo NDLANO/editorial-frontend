@@ -58,7 +58,7 @@ HeaderWithLanguage.propTypes = {
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    status: PropTypes.string,
+    status: PropTypes.object,
     articleType: PropTypes.string,
     current: PropTypes.object,
   }),

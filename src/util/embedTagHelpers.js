@@ -34,12 +34,7 @@ export const reduceChildElements = (el, type) => {
   el.childNodes.forEach(node => {
     if (type === 'file') {
       childs.push({
-        alt: node.dataset.alt,
-        path: node.dataset.path,
-        resource: 'file',
-        title: node.dataset.title,
-        type: node.dataset.type,
-        url: node.dataset.url,
+        ...node.dataset,
       });
     } else if (type === 'related-content') {
       const convertedDataset = Object.keys(node.dataset).reduce((acc, curr) => {

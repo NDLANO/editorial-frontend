@@ -136,7 +136,7 @@ class AsyncDropDown extends React.Component {
             <div
               style={positionAbsolute ? { position: 'relative' } : undefined}>
               <Input
-                {...getInputProps({ onFocus: openMenu, ...inputProps })}
+                {...getInputProps({ ...inputProps })}
                 data-testid={'dropdownInput'}
                 iconRight={
                   loading ? <Spinner size="normal" margin="0" /> : <Search />

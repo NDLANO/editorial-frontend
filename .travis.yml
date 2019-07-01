@@ -16,14 +16,14 @@ install:
 jobs:
   include:
     - stage: test
-    - script: yarn check-all
+      name: "Unit tests"
+      script: yarn check-all
     - script: ./scripts/travis_e2e.sh
-    - stage: deploy
-      script: skip
-      deploy:
-        provider: script
-        script: ./scripts/travis_now.sh
-        skip_cleanup: true
+      name: "Integration tests"
+deploy:
+  provider: script
+  script: ./scripts/travis_now.sh
+  skip_cleanup: true
 notifications:
   slack:
     on_success: change

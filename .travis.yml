@@ -20,10 +20,7 @@ jobs:
       script: yarn check-all
     - script: ./scripts/travis_e2e.sh
       name: "Integration tests"
-deploy:
-  provider: script
-  script: ./scripts/travis_now.sh
-  skip_cleanup: true
+      after_success: travis_wait yarn ndla-scripts now-travis
 notifications:
   slack:
     on_success: change

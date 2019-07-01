@@ -125,8 +125,7 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=addSubjectTopicButon]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.wait('@addNewTopic');
-    cy.wait('@addNewSubjectTopic');
+    cy.wait(['@addNewTopic', '@addNewSubjectTopic', '@allSubjectTopics']);
 
     cy.get('[data-cy=settings-button-subject] ')
       .first()
@@ -138,7 +137,7 @@ describe('Subject editing', () => {
     cy.get('[data-testid=dropdown-items]')
       .first()
       .click();
-    cy.wait('@addNewSubjectTopic');
+    cy.wait(['@addNewSubjectTopic', '@allSubjectTopics']);
 
     cy.get('[data-cy=settings-button-subject] ')
       .first()

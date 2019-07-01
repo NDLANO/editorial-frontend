@@ -125,9 +125,14 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=addSubjectTopicButon]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.wait(['@addNewTopic', '@addNewSubjectTopic', '@allSubjectTopics']);
+    cy.wait([
+      '@addNewTopic',
+      '@addNewSubjectTopic',
+      '@allSubjectTopics',
+      '@allTopics',
+    ]);
 
-    cy.get('[data-cy=settings-button-subject] ')
+    cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
@@ -137,9 +142,9 @@ describe('Subject editing', () => {
     cy.get('[data-testid=dropdown-items]')
       .first()
       .click();
-    cy.wait(['@addNewSubjectTopic', '@allSubjectTopics']);
+    cy.wait(['@addNewSubjectTopic', '@allSubjectTopics', '@allTopics']);
 
-    cy.get('[data-cy=settings-button-subject] ')
+    cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
     cy.get('[data-testid=editSubjectFiltersButton]').click();

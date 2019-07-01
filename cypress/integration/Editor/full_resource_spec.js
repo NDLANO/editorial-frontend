@@ -51,4 +51,16 @@ describe('Edit article with everything', () => {
       .click({ force: true });
     cy.apiwait('@draft');
   });
+
+  it('Can edit the published date', () => {
+    // check that article is not dirty
+    cy.get('[data-testid=saveLearningResourceButton]').should('be.disabled');
+    cy.get('span[name=published] > button').click();
+    cy.get('.flatpickr-day ')
+      .first()
+      .click();
+    cy.apiroute('PATCH', '/draft-api/v1/drafts/14989', 'saveLearningResource');
+    cy.get('[data-testid=saveLearningResourceButton]').click();
+    cy.apiwait('@saveLearningResource');
+  });
 });

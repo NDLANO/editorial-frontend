@@ -39,19 +39,6 @@ class ConceptPage extends PureComponent {
     return response.results;
   };*/
 
-  onAddConcept = (conceptTitle, conceptContent, language) => {
-    const newConcept = {
-      title: conceptTitle,
-      content: conceptContent,
-      language: language,
-    };
-
-    this.setState(prevState => ({
-      concepts: [...prevState.concepts, newConcept],
-    }));
-    conceptApi.addConcept(newConcept);
-  };
-
   /* fetchAllConcepts = async () => {
         const query = {
           page: 1,
@@ -71,9 +58,9 @@ class ConceptPage extends PureComponent {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <h1>Concept</h1>
         <p>{concept ? concept.title.language : ''}</p>
         <OneColumn>
+          <h1>Legg til nytt begrep</h1>
           <ConceptForm />
         </OneColumn>
       </div>

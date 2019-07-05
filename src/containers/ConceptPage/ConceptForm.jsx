@@ -4,11 +4,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import FormikActionButton from '../FormikForm/components/FormikActionButton.jsx';
 import { formClasses } from '../FormikForm';
 import validateFormik from '../../components/formikValidationSchema';
+import * as conceptApi from '../../../src/modules/concept/conceptApi';
+import PropTypes from 'prop-types';
 
 class ConceptForm extends Component {
   state = {
-    title: undefined,
-    content: undefined,
+    title: '',
+    content: '',
   };
 
   titleChanged = event => {
@@ -19,13 +21,50 @@ class ConceptForm extends Component {
     this.setState({ content: event.target.value });
   };
 
-  handleSubmit = event => {
-    console.log('Handle submit');
-
-    //this.props.onAddConcept(this.state.title, this.state.content, 'nb');
+  handleSubmit = (values, actions) => {
+    console.log('Inni handle submit', values.title, values.content);
+    const createConcept = {
+      title: values.title,
+      content: values.content,
+      language: 'nb',
+    };
+    onAddConcept(createConcept);
     //this.setState({ title: undefined, content: undefined });
     console.log(this.state.title);
-    event.preventDefault();
+  };
+
+  handleSubmit1 = async (values, actions) => {
+    const { licenses, onUpdate } = this.props;
+    actions.setSubmitting(true);
+    const agreementMetaData = {
+      id: values.id,
+      title: values.title,
+      content: values.content,
+      copyright: {
+        license: licenses.find(license => license.license === values.license),
+        origin: values.origin,
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
+        validFrom: values.validFrom,
+        validTo: values.validTo,
+      },
+    };
+    await onUpdate(agreementMetaData);
+    actions.setSubmitting(false);
+  };
+
+  onAddConcept = newConcept => {
+    const newConcept = {
+      title: conceptTitle,
+      content: conceptContent,
+      language: language,
+    };
+
+    this.setState(prevState => ({
+      concepts: [...prevState.concepts, newConcept],
+    }));
+    conceptApi.addConcept(newConcept);
   };
 
   render() {
@@ -43,12 +82,6 @@ class ConceptForm extends Component {
             errors.title = 'Invalid title';
           }
           return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
         }}>
         {({ isSubmitting }) => (
           <Form>

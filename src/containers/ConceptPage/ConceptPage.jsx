@@ -6,12 +6,12 @@ import { async } from 'q';
 import FieldHeader from '@ndla/forms/lib/FieldHeader';
 import { getTimeSinceLastZoomLevelChanged } from 'monaco-editor/esm/vs/base/browser/browser';
 import { Input } from '@ndla/forms';
+import { OneColumn } from '@ndla/ui';
+import ConceptForm from './ConceptForm';
 
 class ConceptPage extends PureComponent {
   state = {
-    concepts: [],
-    title: undefined,
-    content: undefined,
+    //concepts: [],
   };
 
   async componentDidMount() {
@@ -19,9 +19,9 @@ class ConceptPage extends PureComponent {
       const concept = await conceptApi.fetchConcept(3, 'nb');
       // const allConcepts = await this.fetchAllConcepts();
       //console.log(allConcepts);
-      this.setState({
-        concept,
-      });
+      //  this.setState({
+      //    concept,
+      //  });
     } catch (err) {
       handleError(err);
     }
@@ -52,22 +52,6 @@ class ConceptPage extends PureComponent {
     conceptApi.addConcept(newConcept);
   };
 
-  titleChanged = event => {
-    this.setState({ title: event.target.value });
-    //console.log(this.state.title);
-  };
-
-  contentChanged = event => {
-    this.setState({ content: event.target.value });
-    //console.log(event.target.value);
-  };
-
-  handleSubmit = event => {
-    this.onAddConcept(this.state.title, this.state.content, 'nb');
-    //this.setState({ title: undefined, content: undefined });
-    console.log(this.state.title);
-    event.preventDefault();
-  };
   /* fetchAllConcepts = async () => {
         const query = {
           page: 1,
@@ -88,12 +72,39 @@ class ConceptPage extends PureComponent {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <h1>Concept</h1>
-        <p>{concept ? concept.title.title : ''}</p>
+        <p>{concept ? concept.title.language : ''}</p>
+        <OneColumn>
+          <ConceptForm />
+        </OneColumn>
+      </div>
+    );
+  }
+}
 
-        <FieldHeader title={'Legg til nytt begrep'} width={0.5} />
-        <Input type="text" onChange={e => handleContributorChange(e)} />
+export default injectT(ConceptPage);
 
-        {/*
+/*state = {
+    title: undefined,
+    content: undefined,
+  };
+
+  titleChanged = event => {
+    this.setState({ title: event.target.value });
+  };
+
+  contentChanged = event => {
+    this.setState({ content: event.target.value });
+  };
+
+  handleSubmit = event => {
+    this.onAddConcept(this.state.title, this.state.content, 'nb');
+    //this.setState({ title: undefined, content: undefined });
+    console.log(this.state.title);
+    event.preventDefault();
+  };
+  
+  
+  /*
         <form onSubmit={this.handleSubmit}>
           <label>
             Begrep:
@@ -115,10 +126,4 @@ class ConceptPage extends PureComponent {
           </label>
           <input type="submit" value="Submit" />
         </form>
-*/}
-      </div>
-    );
-  }
-}
-
-export default injectT(ConceptPage);
+*/

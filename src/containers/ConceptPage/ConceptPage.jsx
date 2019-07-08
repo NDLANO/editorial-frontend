@@ -6,12 +6,12 @@ import { async } from 'q';
 import FieldHeader from '@ndla/forms/lib/FieldHeader';
 import { getTimeSinceLastZoomLevelChanged } from 'monaco-editor/esm/vs/base/browser/browser';
 import { Input } from '@ndla/forms';
+import { OneColumn } from '@ndla/ui';
+import ConceptForm from './ConceptForm';
 
 class ConceptPage extends PureComponent {
   state = {
-    concepts: [],
-    title: undefined,
-    content: undefined,
+    //concepts: [],
   };
 
   async componentDidMount() {
@@ -19,9 +19,9 @@ class ConceptPage extends PureComponent {
       const concept = await conceptApi.fetchConcept(3, 'nb');
       // const allConcepts = await this.fetchAllConcepts();
       //console.log(allConcepts);
-      this.setState({
-        concept,
-      });
+      //  this.setState({
+      //    concept,
+      //  });
     } catch (err) {
       handleError(err);
     }
@@ -39,35 +39,6 @@ class ConceptPage extends PureComponent {
     return response.results;
   };*/
 
-  onAddConcept = (conceptTitle, conceptContent, language) => {
-    const newConcept = {
-      title: conceptTitle,
-      content: conceptContent,
-      language: language,
-    };
-
-    this.setState(prevState => ({
-      concepts: [...prevState.concepts, newConcept],
-    }));
-    conceptApi.addConcept(newConcept);
-  };
-
-  titleChanged = event => {
-    this.setState({ title: event.target.value });
-    console.log("title changed");
-  };
-
-  contentChanged = event => {
-    this.setState({ content: event.target.value });
-    console.log("content changed");
-  };
-
-  handleSubmit = event => {
-    this.onAddConcept(this.state.title, this.state.content, 'nb');
-    //this.setState({ title: undefined, content: undefined });
-    console.log(this.state.title);
-    event.preventDefault();
-  };
   /* fetchAllConcepts = async () => {
         const query = {
           page: 1,
@@ -87,33 +58,11 @@ class ConceptPage extends PureComponent {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <h1>Concept</h1>
-        <p>{concept ? concept.title.title : ''}</p>
-
-        <FieldHeader title={'Legg til nytt begrep'} width={0.5} />
-      {/* <Input type="text" onChange={e => handleContributorChange(e)} /> */}
-
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Begrep:
-            <input
-              type="text"
-              name="title"
-              value={this.state.value}
-              onChange={this.titleChanged}
-            />
-          </label>
-          <label>
-            Forklaring:
-            <input
-              type="text"
-              name="content"
-              value={this.state.value}
-              onChange={this.contentChanged}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        <p>{concept ? concept.title.language : ''}</p>
+        <OneColumn>
+          <h1>Legg til nytt begrep</h1>
+          <ConceptForm />
+        </OneColumn>
       </div>
     );
   }

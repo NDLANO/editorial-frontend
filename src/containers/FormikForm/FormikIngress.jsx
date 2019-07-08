@@ -7,17 +7,18 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-const FormikIngress = ({ t }) => (
+const FormikIngress = ({ t, name }) => (
   <StyledFormContainer>
     <FormikField
       noBorder
       label={t('form.introduction.label')}
-      name="introduction"
+      name={name}
       showMaxLength
       maxLength={300}>
       {({ field }) => (
@@ -32,5 +33,13 @@ const FormikIngress = ({ t }) => (
     </FormikField>
   </StyledFormContainer>
 );
+
+FormikIngress.defaultProps = {
+  name: 'introduction',
+};
+
+FormikIngress.propTypes = {
+  name: PropTypes.string,
+};
 
 export default injectT(FormikIngress);

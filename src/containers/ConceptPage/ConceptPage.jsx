@@ -8,6 +8,7 @@ import { getTimeSinceLastZoomLevelChanged } from 'monaco-editor/esm/vs/base/brow
 import { Input } from '@ndla/forms';
 import { OneColumn } from '@ndla/ui';
 import ConceptForm from './ConceptForm';
+import { HelmetWithTracker } from '@ndla/tracker';
 
 class ConceptPage extends PureComponent {
   state = {
@@ -52,6 +53,7 @@ class ConceptPage extends PureComponent {
       };*/
 
   render() {
+    const { t } = this.props;
     const { concept } = this.state;
     //console.log(concept);
     //this.onAddConcept('tytyt', 'Beskrivelgggse av konsept ye', 'nb');
@@ -60,7 +62,8 @@ class ConceptPage extends PureComponent {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <p>{concept ? concept.title.language : ''}</p>
         <OneColumn>
-          <h1>Legg til nytt begrep</h1>
+          <h1 className="u-heading">Begrep</h1>
+          <HelmetWithTracker title={t('htmlTitles.ConceptPage')} />
           <ConceptForm />
         </OneColumn>
       </div>

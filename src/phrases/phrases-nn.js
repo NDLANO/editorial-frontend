@@ -984,6 +984,9 @@ const phrases = {
     zh: 'Kinesisk',
     unknown: 'Ukjent',
   },
+  conceptform: {
+    title: 'Nytt konsept',
+  },
 };
 
 export default phrases;

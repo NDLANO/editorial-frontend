@@ -966,6 +966,9 @@ const phrases = {
     zh: 'Chinese',
     unknown: 'Unknown',
   },
+  conceptform: {
+    title: 'New concept',
+  },
 };
 
 export default phrases;

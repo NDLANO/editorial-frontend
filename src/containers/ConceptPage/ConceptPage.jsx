@@ -54,12 +54,12 @@ class ConceptPage extends PureComponent {
 
   titleChanged = event => {
     this.setState({ title: event.target.value });
-    //console.log(this.state.title);
+    console.log("title changed");
   };
 
   contentChanged = event => {
     this.setState({ content: event.target.value });
-    //console.log(event.target.value);
+    console.log("content changed");
   };
 
   handleSubmit = event => {
@@ -91,9 +91,8 @@ class ConceptPage extends PureComponent {
         <p>{concept ? concept.title.title : ''}</p>
 
         <FieldHeader title={'Legg til nytt begrep'} width={0.5} />
-        <Input type="text" onChange={e => handleContributorChange(e)} />
+      {/* <Input type="text" onChange={e => handleContributorChange(e)} /> */}
 
-        {/*
         <form onSubmit={this.handleSubmit}>
           <label>
             Begrep:
@@ -115,7 +114,6 @@ class ConceptPage extends PureComponent {
           </label>
           <input type="submit" value="Submit" />
         </form>
-*/}
       </div>
     );
   }

@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, SquareAudio } from '@ndla/icons/editor';
+import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
 
 export const StyledSplitter = styled.div`
@@ -68,6 +68,11 @@ export const types = {
     form: 'audioForm',
     cssModifier: 'multimedia',
     icon: <SquareAudio />,
+  },
+  concept: {
+    form: 'conceptform',
+    cssModifier: 'multimedia',
+    icon: <Concept />,
   },
 };
 

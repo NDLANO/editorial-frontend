@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import * as conceptApi from '../../../src/modules/concept/conceptApi';
 import handleError from '../../util/handleError';
@@ -9,69 +10,64 @@ import { Input } from '@ndla/forms';
 import { OneColumn } from '@ndla/ui';
 import ConceptForm from './ConceptForm';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { connect } from 'react-redux';
+import {
+  actions as licenseActions,
+  getAllLicenses,
+} from '../../modules/license/license';
+import * as messageActions from '../Messages/messagesActions';
 
 class ConceptPage extends PureComponent {
-  state = {
-    //concepts: [],
-  };
-
-  async componentDidMount() {
-    try {
-      const concept = await conceptApi.fetchConcept(3, 'nb');
-      // const allConcepts = await this.fetchAllConcepts();
-      //console.log(allConcepts);
-      //  this.setState({
-      //    concept,
-      //  });
-    } catch (err) {
-      handleError(err);
+  componentDidMount() {
+    const { fetchLicenses, licenses } = this.props;
+    if (!licenses.length) {
+      fetchLicenses();
     }
   }
 
-  /*fetchAllConcepts = async () => {
-    const query = {
-      page: 1,
-      subjects: 'urn:subject:20',
-      'context-types': 'topic-article',
-      sort: '-relevance',
-      'page-size': 100,
-    };
-    const response = await searchResources(query);
-    return response.results;
-  };*/
-
-  /* fetchAllConcepts = async () => {
-        const query = {
-          page: 1,
-          subjects: 'urn:subject:20',
-          'context-types': 'topic-article',
-          sort: '-relevance',
-          'page-size': 100,
-        };
-        const response = await searchResources(query);
-        return response.results;
-      };*/
-
   render() {
     const { t } = this.props;
-    const { concept } = this.state;
+    //const { concept } = this.state;
     //console.log(concept);
     //this.onAddConcept('tytyt', 'Beskrivelgggse av konsept ye', 'nb');
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <p>{concept ? concept.title.language : ''}</p>
         <OneColumn>
-          <h1 className="u-heading">Begrep</h1>
-          <HelmetWithTracker title={t('htmlTitles.ConceptPage')} />
+          <HelmetWithTracker title={t(`conceptform.title`)} />
           <ConceptForm />
         </OneColumn>
       </div>
     );
   }
 }
+ConceptPage.propTypes = {
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
+  fetchLicenses: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
+  userAccess: PropTypes.string,
+};
 
-export default injectT(ConceptPage);
+const mapDispatchToProps = {
+  fetchLicenses: licenseActions.fetchLicenses,
+  createMessage: (message = {}) => messageActions.addMessage(message),
+  applicationError: messageActions.applicationError,
+};
+
+const mapStateToProps = state => ({
+  licenses: getAllLicenses(state),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConceptPage);
 
 /*state = {
     title: undefined,

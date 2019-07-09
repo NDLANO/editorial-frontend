@@ -967,7 +967,7 @@ const phrases = {
     unknown: 'Unknown',
   },
   conceptform: {
-    title: 'New concept',
+    title: 'Concept',
   },
 };
 

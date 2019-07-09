@@ -70,6 +70,7 @@ HeaderWithLanguage.propTypes = {
     'iframe',
     'topic-article',
     'standard',
+    'concept',
   ]).isRequired,
 };
 

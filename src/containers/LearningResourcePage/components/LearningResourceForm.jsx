@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -247,73 +247,75 @@ class LearningResourceForm extends Component {
             type: 'learningResource',
           });
           return (
-            <Form {...formClasses()}>
-              <HeaderWithLanguage
-                values={values}
-                type="standard"
-                editUrl={lang =>
-                  toEditArticle(values.id, values.articleType, lang)
-                }
-                getArticle={() => this.getArticleFromSlate(values)}
-              />
-              <LearningResourcePanels
-                values={values}
-                errors={errors}
-                article={article}
-                touched={touched}
-                updateNotes={onUpdate}
-                getArticle={() => this.getArticleFromSlate(values)}
-                formIsDirty={formIsDirty}
-                {...rest}
-              />
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                {values.id && (
-                  <FormikActionButton
-                    data-testid="resetToProd"
-                    onClick={() => this.setState({ showResetModal: true })}>
-                    {t('form.resetToProd.button')}
-                  </FormikActionButton>
-                )}
-
-                <AlertModal
-                  show={this.state.showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onReset(setValues),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
+            <Fragment>
+              <Form {...formClasses()}>
+                <HeaderWithLanguage
+                  values={values}
+                  type="standard"
+                  editUrl={lang =>
+                    toEditArticle(values.id, values.articleType, lang)
+                  }
+                  getArticle={() => this.getArticleFromSlate(values)}
                 />
-                <FormikActionButton
-                  outline
-                  onClick={history.goBack}
-                  disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikActionButton>
-                <SaveButton
-                  data-testid="saveLearningResourceButton"
-                  {...formClasses}
-                  isSaving={isSubmitting}
-                  defaultText="saveDraft"
+                <LearningResourcePanels
+                  values={values}
+                  errors={errors}
+                  article={article}
+                  touched={touched}
+                  updateNotes={onUpdate}
+                  getArticle={() => this.getArticleFromSlate(values)}
                   formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
-              <FormikAlertModalWrapper
-                isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                severity="danger"
-                text={t('alertModal.notSaved')}
-              />
-            </Form>
+                  {...rest}
+                />
+                <Field right>
+                  {error && <span className="c-errorMessage">{error}</span>}
+                  {values.id && (
+                    <FormikActionButton
+                      data-testid="resetToProd"
+                      onClick={() => this.setState({ showResetModal: true })}>
+                      {t('form.resetToProd.button')}
+                    </FormikActionButton>
+                  )}
+
+                  <AlertModal
+                    show={this.state.showResetModal}
+                    text={t('form.resetToProd.modal')}
+                    actions={[
+                      {
+                        text: t('form.abort'),
+                        onClick: () => this.setState({ showResetModal: false }),
+                      },
+                      {
+                        text: 'Reset',
+                        onClick: () => this.onReset(setValues),
+                      },
+                    ]}
+                    onCancel={() => this.setState({ showResetModal: false })}
+                  />
+                  <FormikActionButton
+                    outline
+                    onClick={history.goBack}
+                    disabled={isSubmitting}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                  <SaveButton
+                    data-testid="saveLearningResourceButton"
+                    {...formClasses}
+                    isSaving={isSubmitting}
+                    defaultText="saveDraft"
+                    formIsDirty={formIsDirty}
+                    showSaved={savedToServer && !formIsDirty}>
+                    {t('form.save')}
+                  </SaveButton>
+                </Field>
+                <FormikAlertModalWrapper
+                  isSubmitting={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  severity="danger"
+                  text={t('alertModal.notSaved')}
+                />
+              </Form>
+            </Fragment>
           );
         }}
       </Formik>

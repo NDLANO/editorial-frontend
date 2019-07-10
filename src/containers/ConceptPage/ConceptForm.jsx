@@ -18,11 +18,6 @@ import { Concept } from '@ndla/icons/editor';
 import FormikField from '../../components/FormikField/FormikField';
 import { FormikIngress } from '../FormikForm';
 import RichTextEditor from '../../components/SlateEditor/RichTextEditor';
-import {
-  renderNode,
-  renderMark,
-} from '../../components/SlateEditor/renderNode';
-import { editListPlugin } from '../../components/SlateEditor/plugins/externalPlugins';
 import { listTypes } from '../../components/SlateEditor/plugins/externalPlugins';
 import createNoEmbedsPlugin from '../../components/SlateEditor/plugins/noEmbed';
 import headingPlugin from '../../components/SlateEditor/plugins/heading';
@@ -53,6 +48,7 @@ import {
 } from '../../util/formHelper';
 import { formClasses as classes, FormikAlertModalWrapper } from '../FormikForm';
 import validateFormik from '../../components/formikValidationSchema';
+import { ConceptShape } from '../../shapes';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -83,6 +79,7 @@ const StyledTitleHeaderWrapper = styled.div`
 const getInitialValues = (concept = {}) => ({
   id: concept.id,
   title: concept.title || '',
+  language: 'nb',
   description: plainTextToEditorValue(concept.content || '', true),
   supportedLanguages: [],
   creators: parseCopyrightContributors(concept, 'creators'),
@@ -105,6 +102,15 @@ const rules = {
   description: {
     required: true,
   },
+};
+
+const FormWrapper = ({ children }) => {
+  return <Form>{children}</Form>;
+};
+
+FormWrapper.propTypes = {
+  inModal: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
 class ConceptForm extends Component {
@@ -136,7 +142,7 @@ class ConceptForm extends Component {
   };
 
   render() {
-    const { t, licenses, history } = this.props;
+    const { t, licenses, history, concept } = this.props;
     const panels = [
       {
         id: 'concept-upload-content',
@@ -159,11 +165,12 @@ class ConceptForm extends Component {
       },
     ];
 
-    const initialValues = getInitialValues();
+    const initialValues = getInitialValues(concept);
+
     return (
       <Formik
-        onSubmit={this.handleSubmit}
         initialValues={initialValues}
+        onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, rules, t)}>
         {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
           const formIsDirty = isFormikFormDirty({
@@ -172,10 +179,16 @@ class ConceptForm extends Component {
             dirty,
           });
 
-          console.log(formIsDirty, isSubmitting);
+          console.log(
+            'conceptFormLog',
+            'formisDirty: ',
+            formIsDirty,
+            'isSubmitting: ',
+            isSubmitting,
+          );
 
           return (
-            <Form>
+            <FormWrapper>
               <HeaderWithLanguage
                 noStatus
                 values={values}
@@ -213,7 +226,8 @@ class ConceptForm extends Component {
               </Accordion>
               <Field right>
                 <FormikActionButton
-                  onClick={history.goBack}
+                  //onClick={history.goBack}
+                  onClick={console.log('Going back!')}
                   outline
                   disabled={isSubmitting}>
                   {t('form.abort')}
@@ -229,7 +243,7 @@ class ConceptForm extends Component {
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />
-            </Form>
+            </FormWrapper>
           );
         }}
       </Formik>
@@ -238,6 +252,7 @@ class ConceptForm extends Component {
 }
 
 ConceptForm.propTypes = {
+  concept: ConceptShape,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

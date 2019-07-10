@@ -471,6 +471,7 @@ const phrases = {
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
+      description: 'Innhald',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

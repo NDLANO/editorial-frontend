@@ -453,6 +453,7 @@ const phrases = {
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
       validTo: 'Valid to',
+      description: 'Content',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',

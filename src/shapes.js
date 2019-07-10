@@ -119,6 +119,12 @@ export const NewArticleShape = PropTypes.shape({
   notes: PropTypes.arrayOf(NoteShape),
 });
 
+export const ConceptShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  content: PropTypes.string,
+});
+
 export const ImageShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,

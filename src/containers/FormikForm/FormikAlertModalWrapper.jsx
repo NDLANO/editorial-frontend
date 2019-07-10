@@ -23,6 +23,13 @@ class FormikAlertModalWrapper extends PureComponent {
 
   canNavigate() {
     const { isSubmitting, formIsDirty } = this.props;
+    console.log(
+      'inside canNavigate',
+      'formIsdirty: ',
+      formIsDirty,
+      'isSubmitting: ',
+      isSubmitting,
+    );
     return isSubmitting || !formIsDirty || this.state.discardChanges;
   }
 

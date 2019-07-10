@@ -21,7 +21,6 @@ class AsyncDropDown extends React.Component {
     super(props);
     this.state = {
       items: [],
-      isOpen: props.startOpen,
       inputValue: '',
       selectedItem: null,
     };
@@ -30,7 +29,6 @@ class AsyncDropDown extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
-    this.handleToggleMenu = this.handleToggleMenu.bind(this);
   }
 
   async componentDidMount() {
@@ -55,7 +53,6 @@ class AsyncDropDown extends React.Component {
     debounced();
     this.setState({
       inputValue: value,
-      isOpen: true,
       currentDebounce: debounced,
     });
   }
@@ -84,7 +81,6 @@ class AsyncDropDown extends React.Component {
       onChange(undefined);
       this.setState({ inputValue: '', selectedItem: null });
     } else {
-      this.handleToggleMenu();
       this.setState({
         selectedItem,
         inputValue: textField
@@ -95,16 +91,8 @@ class AsyncDropDown extends React.Component {
     }
   }
 
-  handleToggleMenu() {
-    this.setState(({ isOpen }) => ({ isOpen: !isOpen }));
-  }
-
   handleStateChange(changes) {
-    const { isOpen, type } = changes;
-
-    if (type === Downshift.stateChangeTypes.mouseUp) {
-      this.setState({ isOpen });
-    }
+    const { type } = changes;
 
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
       this.setState({ inputValue: '' });
@@ -120,10 +108,14 @@ class AsyncDropDown extends React.Component {
       t,
       testid,
       positionAbsolute,
+      startOpen,
+      multiSelect,
+      selectedItems,
+      disableSelected,
       ...rest
     } = this.props;
 
-    const { items, loading, isOpen } = this.state;
+    const { items, loading } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
@@ -137,20 +129,23 @@ class AsyncDropDown extends React.Component {
         itemToString={item => itemToString(item, textField)}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
-        isOpen={isOpen}
+        initialIsOpen={startOpen}
         selectedItem={this.state.selectedItem}>
-        {({ getInputProps, ...downshiftProps }) => {
+        {({ getInputProps, openMenu, ...downshiftProps }) => {
           return (
             <div
               style={positionAbsolute ? { position: 'relative' } : undefined}>
               <Input
-                {...getInputProps(inputProps)}
+                {...getInputProps({ ...inputProps })}
                 data-testid={'dropdownInput'}
                 iconRight={
                   loading ? <Spinner size="normal" margin="0" /> : <Search />
                 }
               />
               <DropdownMenu
+                multiSelect={multiSelect}
+                selectedItems={selectedItems}
+                disableSelected={disableSelected}
                 {...downshiftProps}
                 items={items}
                 positionAbsolute={positionAbsolute}
@@ -173,11 +168,17 @@ AsyncDropDown.propTypes = {
   testid: PropTypes.string,
   positionAbsolute: PropTypes.bool,
   startOpen: PropTypes.bool,
+  multiSelect: PropTypes.bool,
+  selectedItems: PropTypes.array,
+  disableSelected: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {
   placeholder: '',
   startOpen: false,
+  multiSelect: false,
+  selectedItems: [],
+  disableSelected: false,
 };
 
 export default injectT(AsyncDropDown);

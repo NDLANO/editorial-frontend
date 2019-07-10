@@ -41,6 +41,7 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
+  locale: PropTypes.string,
   authenticated: PropTypes.bool.isRequired,
   location: PropTypes.shape({}),
 };

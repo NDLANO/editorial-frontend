@@ -982,6 +982,7 @@ const phrases = {
       groupNamePlaceholder: 'Skriv navn på {lang}',
       editGroupTitle: 'Endre navn(ene) på filmgruppen:',
       newGroupTitle: 'Hva skal gruppen hete?',
+      notFound: 'Vi finner ikke metadata for denne filmen...',
     },
   },
   modal: {

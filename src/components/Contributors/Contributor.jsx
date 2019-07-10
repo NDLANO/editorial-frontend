@@ -80,6 +80,7 @@ Contributor.propTypes = {
   contributor: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
+    focusOnMount: PropTypes.bool,
   }).isRequired,
   handleContributorChange: PropTypes.func.isRequired,
   removeContributor: PropTypes.func.isRequired,

@@ -160,6 +160,7 @@ ThemeEditor.propTypes = {
   onDeleteTheme: PropTypes.func.isRequired,
   updateThemeName: PropTypes.func.isRequired,
   onSaveThemeName: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   locale: PropTypes.string,
 };
 

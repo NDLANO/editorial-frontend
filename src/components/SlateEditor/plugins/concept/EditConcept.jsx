@@ -139,6 +139,8 @@ class EditConcept extends React.PureComponent {
 EditConcept.propTypes = {
   node: PropTypes.shape({
     data: PropTypes.any,
+    key: PropTypes.number,
+    text: PropTypes.string,
   }),
   locale: PropTypes.string,
   editor: PropTypes.object,

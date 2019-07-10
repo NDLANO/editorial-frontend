@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Input } from '@ndla/forms';
 import { Formik, Form, ErrorMessage } from 'formik';
 import { FieldHeader } from '@ndla/forms';
@@ -49,6 +51,8 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../util/formHelper';
+import { formClasses as classes, FormikAlertModalWrapper } from '../FormikForm';
+import validateFormik from '../../components/formikValidationSchema';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -79,7 +83,7 @@ const StyledTitleHeaderWrapper = styled.div`
 const getInitialValues = (concept = {}) => ({
   id: concept.id,
   title: concept.title || '',
-  content: plainTextToEditorValue(concept.content || '', true),
+  description: plainTextToEditorValue(concept.content || '', true),
   supportedLanguages: [],
   creators: parseCopyrightContributors(concept, 'creators'),
   processors: parseCopyrightContributors(concept, 'processors'),
@@ -98,17 +102,17 @@ const rules = {
   title: {
     required: true,
   },
-  content: {
+  description: {
     required: true,
   },
 };
 
 class ConceptForm extends Component {
   handleSubmit = (values, actions) => {
-    console.log('Inni handleSubmit', values.title, values.content);
+    console.log('Inni handleSubmit', values.title, values.description);
     const createConcept = {
       title: values.title,
-      content: values.content,
+      content: values.description,
       language: 'nb',
     };
 
@@ -132,17 +136,17 @@ class ConceptForm extends Component {
   };
 
   render() {
-    const { t, licenses } = this.props;
+    const { t, licenses, history } = this.props;
     const panels = [
       {
-        id: '',
+        id: 'concept-upload-content',
         title: t('form.contentSection'),
         // content: 'innhold',
         errorFields: ['title', 'content'],
         component: <ConceptContent />,
       },
       {
-        id: '',
+        id: 'concept-upload-metadataSection',
         title: t('form.metadataSection'),
         errorFields: [
           'origin',
@@ -155,11 +159,104 @@ class ConceptForm extends Component {
       },
     ];
 
-    //const initVal = getInitialValues(concept);
+    const initialValues = getInitialValues();
     return (
       <Formik
         onSubmit={this.handleSubmit}
-        initialValues={getInitialValues()}
+        initialValues={initialValues}
+        validate={values => validateFormik(values, rules, t)}>
+        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
+
+          console.log(formIsDirty, isSubmitting);
+
+          return (
+            <Form>
+              <HeaderWithLanguage
+                noStatus
+                values={values}
+                type="concept"
+                editUrl={lang => console.log('hmm')}
+              />
+
+              <Accordion openIndexes={['image-upload-content']}>
+                {({ openIndexes, handleItemClick }) => (
+                  <AccordionWrapper>
+                    {panels.map(panel => {
+                      return (
+                        <React.Fragment key={panel.id}>
+                          <AccordionBar
+                            panelId={panel.id}
+                            ariaLabel={panel.title}
+                            onClick={() => handleItemClick(panel.id)}
+                            isOpen={openIndexes.includes(panel.id)}>
+                            {panel.title}
+                          </AccordionBar>
+                          {openIndexes.includes(panel.id) && (
+                            <AccordionPanel
+                              id={panel.id}
+                              isOpen={openIndexes.includes(panel.id)}>
+                              <div className="u-4/6@desktop u-push-1/6@desktop">
+                                {panel.component}
+                              </div>
+                            </AccordionPanel>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </AccordionWrapper>
+                )}
+              </Accordion>
+              <Field right>
+                <FormikActionButton
+                  onClick={history.goBack}
+                  outline
+                  disabled={isSubmitting}>
+                  {t('form.abort')}
+                </FormikActionButton>
+
+                <SaveButton isSaving={isSubmitting}>
+                  {t('form.save')}
+                </SaveButton>
+              </Field>
+              <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+              />
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  }
+}
+
+ConceptForm.propTypes = {
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+  }).isRequired,
+};
+
+export default compose(
+  injectT,
+  withRouter,
+)(ConceptForm);
+
+{
+  /*    {
+            /*
         validate={values => {
           let errors = {};
           if (!values.title) {
@@ -169,106 +266,5 @@ class ConceptForm extends Component {
           }
           return errors;
         }}>
-        {({ isSubmitting, values, submitForm }) => (
-          <>
-            <HeaderWithLanguage
-              noStatus
-              values={values}
-              type="concept"
-              editUrl={lang => console.log('hmm')}
-            />
-
-            <Accordion openIndexes={['image-upload-content']}>
-              {({ openIndexes, handleItemClick }) => (
-                <AccordionWrapper>
-                  {panels.map(panel => {
-                    return (
-                      <React.Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          isOpen={openIndexes.includes(panel.id)}>
-                          {panel.title}
-                        </AccordionBar>
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </AccordionWrapper>
-              )}
-            </Accordion>
-            <Field right>
-              <FormikActionButton
-                outline
-                //onClick={history.goBack}
-                disabled="legge til isSubmitting etterhvert">
-                {t('form.abort')}
-              </FormikActionButton>{' '}
-              <SaveButton
-                submit
-                onClick={evt => {
-                  if (true) {
-                    evt.preventDefault();
-                    console.log('clicked!');
-                    submitForm();
-                  }
-                }}>
-                {t('form.save')}
-              </SaveButton>
-            </Field>
-
-            {/*  <Accordion openIndexes={[0]}>
-              {({ getPanelProps, getBarProps }) => (
-                <AccordionWrapper>
-                  
-                  {['Innhold 1', 'Innhold 2'].map((item, index) => (
-                    <React.Fragment key={item}>
-                      <AccordionBar
-                        {...getBarProps(index)}
-                        ariaLabel={`Panel ${index + 1}`}>
-                        Panel {index + 1}
-                      </AccordionBar>
-                      <AccordionPanel {...getPanelProps(index)}>
-                        <div>
-                          <p>{item}</p>
-                          {panel.component}
-                        </div>
-                      </AccordionPanel>
-                    </React.Fragment>
-                  ))}
-                </AccordionWrapper>
-              )}
-            </Accordion> */}
-          </>
-        )}
-      </Formik>
-    );
-  }
+      {({ isSubmitting, values, submitForm }) => (*/
 }
-
-ConceptForm.propTypes = {
-  formik: PropTypes.shape({
-    values: PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      content: PropTypes.string,
-    }),
-  }),
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-};
-
-export default injectT(ConceptForm);

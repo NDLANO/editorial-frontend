@@ -15,7 +15,7 @@ import FormikActionButton from '../FormikForm/components/FormikActionButton.jsx'
 import { FormikIngress } from '../FormikForm';
 import Field from '../../../src/components/Field';
 
-const ConceptContent = ({ t, formik: { values } }) => {
+const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
   return (
     <Form>
       <FormikField
@@ -25,7 +25,7 @@ const ConceptContent = ({ t, formik: { values } }) => {
         noBorder
         placeholder={t('form.title.label')}
       />
-      <FormikIngress name="content" />
+      <FormikIngress name="description" />
     </Form>
   );
 };
@@ -37,11 +37,14 @@ ConceptContent.propTypes = {
       content: PropTypes.string,
       id: PropTypes.number,
     }),
-    //errors: PropTypes.shape({
-    // alttext: PropTypes.string,
-    //  caption: PropTypes.string,
-    //}),
-    //setFieldValue: PropTypes.func.isRequired,
+    errors: PropTypes.shape({
+      alttext: PropTypes.string,
+      caption: PropTypes.string,
+    }),
+    touched: PropTypes.shape({
+      alttext: PropTypes.bool,
+      caption: PropTypes.bool,
+    }),
   }),
 };
 

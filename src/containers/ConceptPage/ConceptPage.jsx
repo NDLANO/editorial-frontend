@@ -26,7 +26,7 @@ class ConceptPage extends PureComponent {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, licenses } = this.props;
     //const { concept } = this.state;
     //console.log(concept);
     //this.onAddConcept('tytyt', 'Beskrivelgggse av konsept ye', 'nb');
@@ -35,7 +35,7 @@ class ConceptPage extends PureComponent {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>
           <HelmetWithTracker title={t(`conceptform.title`)} />
-          <ConceptForm />
+          <ConceptForm licenses={licenses} />
         </OneColumn>
       </div>
     );
@@ -64,10 +64,12 @@ const mapStateToProps = state => ({
   licenses: getAllLicenses(state),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConceptPage);
+export default injectT(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ConceptPage),
+);
 
 /*state = {
     title: undefined,

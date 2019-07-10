@@ -51,7 +51,6 @@ class FormikAlertModalWrapper extends PureComponent {
   }
 
   componentWillUnmount() {
-    console.log('HEY?');
     this.unblock();
   }
 

@@ -36,6 +36,8 @@ class FormikAlertModalWrapper extends PureComponent {
   componentDidMount() {
     const { history } = this.props;
     console.log('cannavigatE2', this.canNavigate());
+    console.log(history, 'history');
+    console.log(history.block, 'history block are you here??');
     this.unblock = history.block(nextLocation => {
       console.log('cannavigatE', this.canNavigate());
       if (!this.canNavigate()) {

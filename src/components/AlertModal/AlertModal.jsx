@@ -40,8 +40,9 @@ const alertModalBodyIconStyle = css`
   margin-right: ${spacing.small};
 `;
 
-const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
-  show ? (
+const AlertModal = ({ text, onCancel, actions, component, show, severity }) => {
+  console.log(text, show, 'hey ther girl');
+  return show ? (
     <Lightbox
       display={show}
       onClose={onCancel}
@@ -56,6 +57,7 @@ const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
       </StyledAlertModal>
     </Lightbox>
   ) : null;
+};
 
 AlertModal.propTypes = {
   text: PropTypes.string.isRequired,

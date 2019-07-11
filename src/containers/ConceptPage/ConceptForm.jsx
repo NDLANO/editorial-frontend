@@ -2,42 +2,15 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Input } from '@ndla/forms';
-import { Formik, Form, ErrorMessage } from 'formik';
-import { FieldHeader } from '@ndla/forms';
-import FormikActionButton from '../FormikForm/components/FormikActionButton.jsx';
-import SaveButton from '../../components/SaveButton.jsx';
-import { formClasses } from '../FormikForm';
-import * as conceptApi from '../../../src/modules/concept/conceptApi';
-import HeaderWithLanguageConcept from '../../components/HeaderWithLanguage/HeaderWithLanguageConcept';
-import { injectT } from '@ndla/i18n';
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import Field from '../../../src/components/Field';
-import { Concept } from '@ndla/icons/editor';
-import FormikField from '../../components/FormikField/FormikField';
-import { FormikIngress } from '../FormikForm';
-import RichTextEditor from '../../components/SlateEditor/RichTextEditor';
-import { listTypes } from '../../components/SlateEditor/plugins/externalPlugins';
-import createNoEmbedsPlugin from '../../components/SlateEditor/plugins/noEmbed';
-import headingPlugin from '../../components/SlateEditor/plugins/heading';
-import createLinkPlugin, {
-  TYPE as link,
-} from '../../components/SlateEditor/plugins/link';
-import paragraphPlugin from '../../components/SlateEditor/plugins/paragraph';
-import blockquotePlugin from '../../components/SlateEditor/plugins/blockquotePlugin';
-import { schema } from '../../components/SlateEditor/editorSchema';
-import {
-  topicArticleContentToHTML,
-  topicArticleContentToEditorValue,
-  editorValueToPlainText,
-  plainTextToEditorValue,
-} from '../../util/articleContentConverter';
+import { Formik, Form } from 'formik';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
+import { injectT } from '@ndla/i18n';
+import Field from '../../../src/components/Field';
+import { plainTextToEditorValue } from '../../util/articleContentConverter';
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../components/HeaderWithLanguage';
@@ -46,35 +19,10 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../util/formHelper';
-import { formClasses as classes, FormikAlertModalWrapper } from '../FormikForm';
+import { FormikAlertModalWrapper, FormikActionButton } from '../FormikForm';
 import validateFormik from '../../components/formikValidationSchema';
 import { ConceptShape } from '../../shapes';
-
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: ${spacing.small} 0 ${spacing.xsmall};
-  margin: ${spacing.normal} 0 ${spacing.small};
-  border-bottom: 2px solid ${colors.brand.light};
-`;
-
-const supportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link],
-};
-
-const StyledTitleHeaderWrapper = styled.div`
-  padding-left: ${spacing.small};
-  display: flex;
-  align-items: center;
-  h1 {
-    ${fonts.sizes(26, 1.1)};
-    font-weight: ${fonts.weight.semibold};
-    margin: ${spacing.small} ${spacing.normal} ${spacing.small} ${spacing.small};
-    color: ${colors.text.primary};
-  }
-`;
+import SaveButton from '../../components/SaveButton';
 
 const getInitialValues = (concept = {}) => ({
   id: concept.id,
@@ -104,16 +52,12 @@ const rules = {
   },
 };
 
-const FormWrapper = ({ children }) => {
-  return <Form>{children}</Form>;
-};
-
-FormWrapper.propTypes = {
-  inModal: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-};
-
 class ConceptForm extends Component {
+  state = {
+    savedToServer: false,
+    showResetModal: false,
+  };
+
   handleSubmit = (values, actions) => {
     console.log('Inni handleSubmit', values.title, values.description);
     const createConcept = {
@@ -143,6 +87,7 @@ class ConceptForm extends Component {
 
   render() {
     const { t, licenses, history, concept } = this.props;
+    const savedToServer = this.state;
     const panels = [
       {
         id: 'concept-upload-content',
@@ -172,7 +117,15 @@ class ConceptForm extends Component {
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, rules, t)}>
-        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
+        {({
+          values,
+          dirty,
+          errors,
+          touched,
+          isSubmitting,
+          submitForm,
+          setValues,
+        }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -188,7 +141,7 @@ class ConceptForm extends Component {
           );
 
           return (
-            <FormWrapper>
+            <Form>
               <HeaderWithLanguage
                 noStatus
                 values={values}
@@ -196,35 +149,49 @@ class ConceptForm extends Component {
                 editUrl={lang => console.log('hmm')}
               />
 
-              <Accordion openIndexes={['image-upload-content']}>
+              <Accordion>
                 {({ openIndexes, handleItemClick }) => (
                   <AccordionWrapper>
-                    {panels.map(panel => {
-                      return (
-                        <React.Fragment key={panel.id}>
-                          <AccordionBar
-                            panelId={panel.id}
-                            ariaLabel={panel.title}
-                            onClick={() => handleItemClick(panel.id)}
+                    {panels.map(panel => (
+                      <Fragment key={panel.id}>
+                        <AccordionBar
+                          panelId={panel.id}
+                          ariaLabel={panel.title}
+                          onClick={() => handleItemClick(panel.id)}
+                          isOpen={openIndexes.includes(panel.id)}>
+                          {panel.title}
+                        </AccordionBar>
+                        {openIndexes.includes(panel.id) && (
+                          <AccordionPanel
+                            id={panel.id}
                             isOpen={openIndexes.includes(panel.id)}>
-                            {panel.title}
-                          </AccordionBar>
-                          {openIndexes.includes(panel.id) && (
-                            <AccordionPanel
-                              id={panel.id}
-                              isOpen={openIndexes.includes(panel.id)}>
-                              <div className="u-4/6@desktop u-push-1/6@desktop">
-                                {panel.component}
-                              </div>
-                            </AccordionPanel>
-                          )}
-                        </React.Fragment>
-                      );
-                    })}
+                            <div className="u-4/6@desktop u-push-1/6@desktop">
+                              {panel.component}
+                            </div>
+                          </AccordionPanel>
+                        )}
+                      </Fragment>
+                    ))}
                   </AccordionWrapper>
                 )}
               </Accordion>
               <Field right>
+                {/*<AlertModal
+                  show={this.state.showResetModal}
+                  text={t('form.resetToProd.modal')}
+                  actions={[
+                    {
+                      text: t('form.abort'),
+                      onClick: () => this.setState({ showResetModal: false }),
+                    },
+                    {
+                      text: 'Reset',
+                      onClick: () => this.onReset(setValues),
+                    },
+                  ]}
+                  onCancel={() => this.setState({ showResetModal: false })}
+                />*/}
+
                 <FormikActionButton
                   //onClick={history.goBack}
                   onClick={console.log('Going back!')}
@@ -233,17 +200,19 @@ class ConceptForm extends Component {
                   {t('form.abort')}
                 </FormikActionButton>
 
-                <SaveButton isSaving={isSubmitting}>
+                <SaveButton
+                  isSaving={isSubmitting}
+                  showSaved={savedToServer && !formIsDirty}>
                   {t('form.save')}
                 </SaveButton>
               </Field>
               <FormikAlertModalWrapper
-                isSubmitting={isSubmitting}
+                //isSubmitting={isSubmitting}
                 formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />
-            </FormWrapper>
+            </Form>
           );
         }}
       </Formik>
@@ -268,18 +237,3 @@ export default compose(
   injectT,
   withRouter,
 )(ConceptForm);
-
-{
-  /*    {
-            /*
-        validate={values => {
-          let errors = {};
-          if (!values.title) {
-            errors.title = 'Required';
-          } else if (!/^[A-Za-z0-9 ]+$/i.test(values.title)) {
-            errors.title = 'Invalid title';
-          }
-          return errors;
-        }}>
-      {({ isSubmitting, values, submitForm }) => (*/
-}

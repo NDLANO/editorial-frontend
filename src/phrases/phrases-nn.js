@@ -472,6 +472,7 @@ const phrases = {
       validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
       description: 'Innhald',
+      conceptDescription: 'Beskrivning',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -986,7 +987,7 @@ const phrases = {
     unknown: 'Ukjent',
   },
   conceptform: {
-    title: 'Konsept',
+    title: 'Begrep',
   },
 };
 

@@ -194,8 +194,7 @@ class ConceptForm extends Component {
                 />
 
                 <FormikActionButton
-                  //onClick={history.goBack}
-                  onClick={console.log('Going back!')}
+                  onClick={history.goBack}
                   outline
                   disabled={isSubmitting}>
                   {t('form.abort')}

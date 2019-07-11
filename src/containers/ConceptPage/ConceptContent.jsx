@@ -27,7 +27,7 @@ const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
         placeholder={t('form.title.label')}
       />
 
-      <FormikIngress name="description" />
+      <FormikIngress name="description" maxLength={800} type="concept" />
     </Form>
   );
 };

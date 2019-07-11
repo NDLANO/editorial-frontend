@@ -19,12 +19,14 @@ const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
   return (
     <Form>
       <FormikField
+        showError={false}
         label={t('form.title.label')}
         name="title"
         title
         noBorder
         placeholder={t('form.title.label')}
       />
+
       <FormikIngress name="description" />
     </Form>
   );

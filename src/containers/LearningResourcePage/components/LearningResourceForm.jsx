@@ -233,7 +233,6 @@ class LearningResourceForm extends Component {
     const { t, history, article, onUpdate, ...rest } = this.props;
     const { error, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
-    console.log('HEY', this.props);
     return (
       <Formik
         initialValues={initialValues}

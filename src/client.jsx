@@ -49,10 +49,6 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
-browserHistory.listen((location, ee) => {
-  console.log('HEY!', location, ee);
-});
-
 const renderApp = () =>
   render(
     <Provider store={store}>

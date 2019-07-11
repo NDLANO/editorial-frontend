@@ -6,7 +6,6 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form } from 'formik';
 import Accordion, {
@@ -15,7 +14,6 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -148,15 +146,7 @@ class ImageForm extends Component {
   }
 
   render() {
-    const {
-      t,
-      tags,
-      image,
-      licenses,
-      inModal,
-      closeModal,
-      history,
-    } = this.props;
+    const { t, tags, image, licenses, inModal, closeModal } = this.props;
     const { savedToServer } = this.state;
 
     const panels = [
@@ -285,12 +275,6 @@ ImageForm.propTypes = {
   revision: PropTypes.number,
   inModal: PropTypes.bool,
   closeModal: PropTypes.func,
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(ImageForm);
+export default injectT(ImageForm);

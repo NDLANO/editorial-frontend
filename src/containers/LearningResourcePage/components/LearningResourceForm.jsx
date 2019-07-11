@@ -7,10 +7,8 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import Field from '../../../components/Field';
@@ -230,7 +228,7 @@ class LearningResourceForm extends Component {
   }
 
   render() {
-    const { t, history, article, onUpdate, ...rest } = this.props;
+    const { t, article, onUpdate, ...rest } = this.props;
     const { error, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
@@ -292,10 +290,7 @@ class LearningResourceForm extends Component {
                   ]}
                   onCancel={() => this.setState({ showResetModal: false })}
                 />
-                <FormikAbortButton
-                  outline
-                  onClick={() => history.push('/')}
-                  disabled={isSubmitting}>
+                <FormikAbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}
                 </FormikAbortButton>
                 <SaveButton
@@ -339,15 +334,9 @@ LearningResourceForm.propTypes = {
     topics: PropTypes.array,
     loading: PropTypes.bool,
   }),
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(LearningResourceForm);
+export default injectT(LearningResourceForm);

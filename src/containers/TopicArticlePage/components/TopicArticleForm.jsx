@@ -7,12 +7,10 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-import { withRouter } from 'react-router-dom';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -245,7 +243,7 @@ class TopicArticleForm extends Component {
   }
 
   render() {
-    const { t, history, article, onUpdate, ...rest } = this.props;
+    const { t, article, onUpdate, ...rest } = this.props;
     const { error, showResetModal, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
@@ -341,13 +339,7 @@ TopicArticleForm.propTypes = {
   }),
   updateArticleStatus: PropTypes.func,
   licenses: LicensesArrayOf,
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
   article: ArticleShape,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(TopicArticleForm);
+export default injectT(TopicArticleForm);

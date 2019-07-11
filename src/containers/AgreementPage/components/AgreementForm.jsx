@@ -6,10 +6,8 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form } from 'formik';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
 import Field from '../../../components/Field';
@@ -103,7 +101,7 @@ class AgreementForm extends Component {
   };
 
   render() {
-    const { t, agreement, licenses, history } = this.props;
+    const { t, agreement, licenses } = this.props;
 
     const initVal = getInitialValues(agreement);
     return (
@@ -158,12 +156,6 @@ AgreementForm.propTypes = {
     }),
   ).isRequired,
   onUpdate: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(AgreementForm);
+export default injectT(AgreementForm);

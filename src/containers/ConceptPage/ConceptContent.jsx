@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../components/FormikField';
 import { FormikIngress } from '../FormikForm';
+import { Form } from 'formik';
 
-<<<<<<< HEAD
-const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
+const ConceptContent = ({ t, values }) => {
   return (
     <Form>
       <FormikField
@@ -20,19 +21,20 @@ const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
     </Form>
   );
 };
-=======
-const ConceptContent = ({ t }) => (
-  <>
-    <FormikField
-      label={t('form.title.label')}
-      name="title"
-      title
-      noBorder
-      placeholder={t('form.title.label')}
-    />
-    <FormikIngress name="description" />
-  </>
-);
->>>>>>> a49aa5eb5e06ddb60bb3868abaf85016c21633dd
+
+ConceptContent.propTypes = {
+  classes: PropTypes.func.isRequired,
+  values: PropTypes.shape({
+    id: PropTypes.number,
+    filepath: PropTypes.string,
+    audioFile: PropTypes.shape({
+      fileSize: PropTypes.number,
+      language: PropTypes.string,
+      mimeType: PropTypes.string,
+      url: PropTypes.string,
+    }),
+  }),
+  setFieldValue: PropTypes.func.isRequired,
+};
 
 export default injectT(ConceptContent);

@@ -15,9 +15,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Details from './Details';
 
-const SlateBlueprint = ({ attributes, children }) => (
+const SlateBlueprint = ({ attributes, children, ...rest }) => (
   <div draggable {...attributes}>
-    <Details>{children}</Details>
+    <Details {...rest}>{children}</Details>
   </div>
 );
 

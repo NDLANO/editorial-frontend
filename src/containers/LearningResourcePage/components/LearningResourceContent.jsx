@@ -52,6 +52,7 @@ import {
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
+import { ArticleShape } from '../../../shapes';
 
 const byLineStyle = css`
   display: flex;
@@ -73,7 +74,10 @@ const findFootnotes = content =>
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
-    const { locale } = props;
+    const {
+      locale,
+      article: { language },
+    } = props;
     this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),
@@ -95,10 +99,22 @@ class LearningResourceContent extends Component {
       relatedPlugin(),
       filePlugin(),
       mathmlPlugin(),
-      blockPickerPlugin(this.addSection),
+      blockPickerPlugin(this.addSection, { articleLanguage: language }),
       pasteHandler(),
       dndPlugin,
     ];
+  }
+
+  componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
+    const {
+      article: { id, language },
+    } = this.props;
+    if (prevLanguage !== language || prevId !== id) {
+      this.plugins = [
+        ...this.plugins,
+        blockPickerPlugin(this.addSection, { articleLanguage: language }),
+      ];
+    }
   }
 
   addSection() {
@@ -205,6 +221,7 @@ LearningResourceContent.propTypes = {
     }),
     setFieldValue: PropTypes.func.isRequired,
   }),
+  article: ArticleShape,
 };
 
 const mapStateToProps = state => ({

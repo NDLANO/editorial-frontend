@@ -23,9 +23,8 @@ import Details from './Details';
 
 const editButtonStyle = css`
   height: 100%;
-  display: none;
   width: 26px;
-
+  margin-left: ${spacing.normal};
   & > svg {
     width: 20px;
     height: 20px;
@@ -88,7 +87,12 @@ const DetailsBox = props => {
 
   return (
     <div draggable={!showEditModal} {...attributes}>
-      <Details editSummaryButton={editSummaryButton}>{children}</Details>
+      <Details
+        editSummaryButton={editSummaryButton}
+        editor={editor}
+        node={node}>
+        {children}
+      </Details>
       <Portal isOpened>
         <Modal controllable isOpen={showEditModal}>
           {() => (

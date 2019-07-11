@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import { findDOMNode } from 'slate-react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, formatNestedMessages } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
@@ -17,7 +17,7 @@ import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock, defaultBlueprintBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
-
+import { getLocaleObject } from '../../../../i18n';
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
 
 class SlateBlockPicker extends Component {
@@ -35,6 +35,7 @@ class SlateBlockPicker extends Component {
     this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onVisualElementClose = this.onVisualElementClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
+    this.getFactboxTitle = this.getFactboxTitle.bind(this);
     this.slateBlockRef = React.createRef();
     this.slateBlockButtonRef = React.createRef();
     this.zIndexTimeout = null;
@@ -62,7 +63,7 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(block) {
-    const { editor, addSection, t } = this.props;
+    const { editor, addSection } = this.props;
     switch (block.type) {
       case 'block': {
         addSection();
@@ -73,7 +74,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'blueprint': {
-        this.onInsertBlock(defaultBlueprintBlock('Fasitboks'));
+        this.onInsertBlock(defaultBlueprintBlock(this.getFactboxTitle()));
         break;
       }
       case 'details': {
@@ -116,6 +117,13 @@ class SlateBlockPicker extends Component {
 
   toggleIsOpen(isOpen) {
     this.setState({ isOpen });
+  }
+
+  getFactboxTitle() {
+    const { articleLanguage } = this.props;
+    const localeObject = getLocaleObject(articleLanguage);
+    const messages = formatNestedMessages(localeObject.messages);
+    return messages['editorBlockpicker.actions.blueprint'];
   }
 
   update(nodeEl) {
@@ -229,6 +237,7 @@ SlateBlockPicker.propTypes = {
   addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),
+  articleLanguage: PropTypes.string.isRequired,
 };
 
 export default injectT(SlateBlockPicker);

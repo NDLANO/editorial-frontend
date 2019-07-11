@@ -26,6 +26,10 @@ export function toCreateTopicArticle() {
   return '/subject-matter/topic-article/new';
 }
 
+export function toCreateConcept() {
+  return '/concept';
+}
+
 export function toLogin() {
   return '/login';
 }

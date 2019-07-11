@@ -1,16 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import * as conceptApi from '../../../src/modules/concept/conceptApi';
-import handleError from '../../util/handleError';
-import { async } from 'q';
-import FieldHeader from '@ndla/forms/lib/FieldHeader';
-import { getTimeSinceLastZoomLevelChanged } from 'monaco-editor/esm/vs/base/browser/browser';
-import { Input } from '@ndla/forms';
-import { OneColumn } from '@ndla/ui';
-import ConceptForm from './ConceptForm';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { connect } from 'react-redux';
+import { OneColumn } from '@ndla/ui';
+import ConceptForm from './ConceptForm';
 import {
   actions as licenseActions,
   getAllLicenses,
@@ -27,10 +21,6 @@ class ConceptPage extends PureComponent {
 
   render() {
     const { t, licenses } = this.props;
-    //const { concept } = this.state;
-    //console.log(concept);
-    //this.onAddConcept('tytyt', 'Beskrivelgggse av konsept ye', 'nb');
-
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>

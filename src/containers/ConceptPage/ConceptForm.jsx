@@ -19,7 +19,11 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../util/formHelper';
-import { FormikAlertModalWrapper, FormikActionButton } from '../FormikForm';
+import {
+  FormikAlertModalWrapper,
+  FormikActionButton,
+  formClasses,
+} from '../FormikForm';
 import validateFormik from '../../components/formikValidationSchema';
 import { ConceptShape } from '../../shapes';
 import SaveButton from '../../components/SaveButton';
@@ -55,7 +59,6 @@ const rules = {
 class ConceptForm extends Component {
   state = {
     savedToServer: false,
-    showResetModal: false,
   };
 
   handleSubmit = (values, actions) => {
@@ -68,13 +71,9 @@ class ConceptForm extends Component {
 
     try {
       console.log(createConcept);
-      //this.onAddConcept(createConcept);
       actions.resetForm();
-      //actions.setFieldValue('title', [], false);
-      //actions.setFieldValue('content', [], false);
       this.setState({ savedToServer: true });
     } catch (err) {
-      //applicationError(err);
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
@@ -87,13 +86,12 @@ class ConceptForm extends Component {
 
   render() {
     const { t, licenses, history, concept } = this.props;
-    const savedToServer = this.state;
+    const { savedToServer } = this.state;
     const panels = [
       {
         id: 'concept-upload-content',
         title: t('form.contentSection'),
-        // content: 'innhold',
-        errorFields: ['title', 'content'],
+        errorFields: ['title', 'description'],
         component: <ConceptContent />,
       },
       {
@@ -113,109 +111,86 @@ class ConceptForm extends Component {
     const initialValues = getInitialValues(concept);
 
     return (
-      <Formik
-        initialValues={initialValues}
-        onSubmit={this.handleSubmit}
-        validate={values => validateFormik(values, rules, t)}>
-        {({
-          values,
-          dirty,
-          errors,
-          touched,
-          isSubmitting,
-          submitForm,
-          setValues,
-        }) => {
-          const formIsDirty = isFormikFormDirty({
-            values,
-            initialValues,
-            dirty,
-          });
+      <Fragment>
+        <Formik
+          initialValues={initialValues}
+          validateOnBlur={false}
+          onSubmit={this.handleSubmit}
+          validate={values => validateFormik(values, rules, t)}>
+          {({ values, dirty, isSubmitting }) => {
+            const formIsDirty = isFormikFormDirty({
+              values,
+              initialValues,
+              dirty,
+            });
 
-          console.log(
-            'conceptFormLog',
-            'formisDirty: ',
-            formIsDirty,
-            'isSubmitting: ',
-            isSubmitting,
-          );
+            console.log(
+              'conceptFormLog',
+              'formisDirty: ',
+              formIsDirty,
+              'isSubmitting: ',
+              isSubmitting,
+            );
 
-          return (
-            <Form>
-              <HeaderWithLanguage
-                noStatus
-                values={values}
-                type="concept"
-                editUrl={lang => console.log('hmm')}
-              />
+            return (
+              <Form {...formClasses()}>
+                <HeaderWithLanguage
+                  noStatus
+                  values={values}
+                  type="concept"
+                  editUrl={lang => console.log('hmm')}
+                />
 
-              <Accordion>
-                {({ openIndexes, handleItemClick }) => (
-                  <AccordionWrapper>
-                    {panels.map(panel => (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          isOpen={openIndexes.includes(panel.id)}>
-                          {panel.title}
-                        </AccordionBar>
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
+                <Accordion>
+                  {({ openIndexes, handleItemClick }) => (
+                    <AccordionWrapper>
+                      {panels.map(panel => (
+                        <Fragment key={panel.id}>
+                          <AccordionBar
+                            panelId={panel.id}
+                            ariaLabel={panel.title}
+                            onClick={() => handleItemClick(panel.id)}
                             isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    ))}
-                  </AccordionWrapper>
-                )}
-              </Accordion>
-              <Field right>
-                {/*<AlertModal
-                  show={this.state.showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onReset(setValues),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />*/}
-
-                <FormikActionButton
-                  //onClick={history.goBack}
-                  onClick={console.log('Going back!')}
-                  outline
-                  disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikActionButton>
-
-                <SaveButton
-                  isSaving={isSubmitting}
-                  showSaved={savedToServer && !formIsDirty}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
-              <FormikAlertModalWrapper
-                //isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                severity="danger"
-                text={t('alertModal.notSaved')}
-              />
-            </Form>
-          );
-        }}
-      </Formik>
+                            {panel.title}
+                          </AccordionBar>
+                          {openIndexes.includes(panel.id) && (
+                            <AccordionPanel
+                              id={panel.id}
+                              isOpen={openIndexes.includes(panel.id)}>
+                              <div className="u-4/6@desktop u-push-1/6@desktop">
+                                {panel.component}
+                              </div>
+                            </AccordionPanel>
+                          )}
+                        </Fragment>
+                      ))}
+                    </AccordionWrapper>
+                  )}
+                </Accordion>
+                <Field right>
+                  <FormikActionButton
+                    onClick={history.goBack}
+                    outline
+                    disabled={isSubmitting}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                  <SaveButton
+                    isSaving={isSubmitting}
+                    showSaved={savedToServer && !formIsDirty}>
+                    {t('form.save')}
+                  </SaveButton>
+                </Field>
+                <FormikAlertModalWrapper
+                  isSubmitting={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  severity="danger"
+                  text={t('alertModal.notSaved')}
+                />
+              </Form>
+            );
+          }}
+        </Formik>
+      </Fragment>
     );
   }
 }

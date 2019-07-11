@@ -294,7 +294,10 @@ class LearningResourceForm extends Component {
                   />
                   <FormikActionButton
                     outline
-                    onClick={history.goBack}
+                    onClick={evt => {
+                      evt.stopPropagation();
+                      history.goBack();
+                    }}
                     disabled={isSubmitting}>
                     {t('form.abort')}
                   </FormikActionButton>

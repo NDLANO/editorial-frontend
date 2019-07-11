@@ -25,7 +25,7 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import {
-  FormikActionButton,
+  FormikAbortButton,
   formClasses,
   FormikAlertModalWrapper,
 } from '../../FormikForm';
@@ -214,12 +214,9 @@ class AudioForm extends Component {
                 )}
               </Accordion>
               <Field right>
-                <FormikActionButton
-                  outline
-                  disabled={isSubmitting}
-                  onClick={history.goBack}>
+                <FormikAbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}
-                </FormikActionButton>
+                </FormikAbortButton>
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}

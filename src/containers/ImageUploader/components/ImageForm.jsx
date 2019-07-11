@@ -29,6 +29,7 @@ import ImageContent from './ImageContent';
 import { ImageShape } from '../../../shapes';
 import {
   FormikActionButton,
+  FormikAbortButton,
   formClasses as classes,
   FormikAlertModalWrapper,
 } from '../../FormikForm';
@@ -238,12 +239,9 @@ class ImageForm extends Component {
                     {t('form.abort')}
                   </FormikActionButton>
                 ) : (
-                  <FormikActionButton
-                    onClick={history.goBack}
-                    outline
-                    disabled={isSubmitting}>
+                  <FormikAbortButton outline disabled={isSubmitting}>
                     {t('form.abort')}
-                  </FormikActionButton>
+                  </FormikAbortButton>
                 )}
                 <SaveButton
                   isSaving={isSubmitting}

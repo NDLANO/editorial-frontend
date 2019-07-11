@@ -18,7 +18,11 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
-import { formClasses, FormikActionButton } from '../../FormikForm';
+import {
+  formClasses,
+  FormikActionButton,
+  FormikAbortButton,
+} from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 
 const getInitialValues = (agreement = {}) => ({
@@ -130,12 +134,9 @@ class AgreementForm extends Component {
               <AgreementFields licenses={licenses} />
             </div>
             <Field right>
-              <FormikActionButton
-                outline
-                onClick={history.goBack}
-                disabled={isSubmitting}>
+              <FormikAbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}
-              </FormikActionButton>
+              </FormikAbortButton>
               <FormikActionButton submit>{t('form.save')}</FormikActionButton>
             </Field>
           </Form>

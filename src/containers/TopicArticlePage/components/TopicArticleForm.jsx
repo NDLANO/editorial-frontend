@@ -33,6 +33,7 @@ import {
 import {
   FormikAlertModalWrapper,
   formClasses,
+  FormikAbortButton,
   FormikActionButton,
 } from '../../FormikForm';
 import { formatErrorMessage } from '../../../util/apiHelpers';
@@ -303,12 +304,9 @@ class TopicArticleForm extends Component {
                   ]}
                   onCancel={() => this.setState({ showResetModal: false })}
                 />
-                <FormikActionButton
-                  outline
-                  onClick={history.goBack}
-                  disabled={isSubmitting}>
+                <FormikAbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}
-                </FormikActionButton>
+                </FormikAbortButton>
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}

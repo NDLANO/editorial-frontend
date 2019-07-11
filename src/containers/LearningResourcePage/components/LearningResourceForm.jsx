@@ -26,6 +26,7 @@ import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   FormikAlertModalWrapper,
   FormikActionButton,
+  FormikAbortButton,
   formClasses,
 } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -232,6 +233,7 @@ class LearningResourceForm extends Component {
     const { t, history, article, onUpdate, ...rest } = this.props;
     const { error, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
+    console.log('HEY', this.props);
     return (
       <Formik
         initialValues={initialValues}
@@ -291,12 +293,12 @@ class LearningResourceForm extends Component {
                   ]}
                   onCancel={() => this.setState({ showResetModal: false })}
                 />
-                <FormikActionButton
+                <FormikAbortButton
                   outline
-                  onClick={history.goBack}
+                  onClick={() => history.push('/')}
                   disabled={isSubmitting}>
                   {t('form.abort')}
-                </FormikActionButton>
+                </FormikAbortButton>
                 <SaveButton
                   data-testid="saveLearningResourceButton"
                   {...formClasses}

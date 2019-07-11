@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'formik';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
+import { UploadDropZone, Input } from '@ndla/forms';
+import Tooltip from '@ndla/tooltip';
+import { DeleteForever } from '@ndla/icons/editor';
+import { animations, spacing, colors } from '@ndla/core';
+import IconButton from '../../components/IconButton';
 import FormikField from '../../components/FormikField';
+import { Formik, Form, ErrorMessage } from 'formik';
+import { formClasses } from '../FormikForm';
+import FormikActionButton from '../FormikForm/components/FormikActionButton.jsx';
 import { FormikIngress } from '../FormikForm';
-import { Form } from 'formik';
+import Field from '../../../src/components/Field';
 
-const ConceptContent = ({ t, values }) => {
+const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
   return (
     <Form>
       <FormikField
@@ -23,18 +33,21 @@ const ConceptContent = ({ t, values }) => {
 };
 
 ConceptContent.propTypes = {
-  classes: PropTypes.func.isRequired,
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    filepath: PropTypes.string,
-    audioFile: PropTypes.shape({
-      fileSize: PropTypes.number,
-      language: PropTypes.string,
-      mimeType: PropTypes.string,
-      url: PropTypes.string,
+  formik: PropTypes.shape({
+    values: PropTypes.shape({
+      title: PropTypes.string,
+      content: PropTypes.string,
+      id: PropTypes.number,
+    }),
+    errors: PropTypes.shape({
+      alttext: PropTypes.string,
+      caption: PropTypes.string,
+    }),
+    touched: PropTypes.shape({
+      alttext: PropTypes.bool,
+      caption: PropTypes.bool,
     }),
   }),
-  setFieldValue: PropTypes.func.isRequired,
 };
 
-export default injectT(ConceptContent);
+export default injectT(connect(ConceptContent));

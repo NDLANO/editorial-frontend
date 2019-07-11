@@ -14,7 +14,7 @@ import AlertModal from '../../components/AlertModal';
 
 class FormikAlertModalWrapper extends PureComponent {
   constructor(props) {
-    super(props);
+    super();
     this.state = { openModal: false, discardChanges: false };
     this.canNavigate = this.canNavigate.bind(this);
     this.onCancel = this.onCancel.bind(this);
@@ -35,7 +35,7 @@ class FormikAlertModalWrapper extends PureComponent {
 
   componentDidMount() {
     const { history } = this.props;
-    console.log('cannavigatE2', this.canNavigate());
+    console.log('cannav', this.canNavigate());
     console.log(history, 'history');
     console.log(history.block, 'history block are you here??');
     this.unblock = history.block(nextLocation => {
@@ -57,9 +57,11 @@ class FormikAlertModalWrapper extends PureComponent {
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () => this.canNavigate();
     }
+    console.log(this.unblock);
   }
 
   componentWillUnmount() {
+    console.log('UNMOUNT?');
     this.unblock();
   }
 

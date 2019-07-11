@@ -58,7 +58,6 @@ const rules = {
 class ConceptForm extends Component {
   state = {
     savedToServer: false,
-    showResetModal: false,
   };
 
   handleSubmit = (values, actions, applicationError) => {
@@ -82,8 +81,6 @@ class ConceptForm extends Component {
       console.log(createConcept);
       this.onAddConcept(createConcept);
       actions.resetForm();
-      //actions.setFieldValue('title', [], false);
-      //actions.setFieldValue('content', [], false);
       this.setState({ savedToServer: true });
     } catch (err) {
       applicationError(err);
@@ -105,8 +102,10 @@ class ConceptForm extends Component {
         id: 'concept-upload-content',
         title: t('form.contentSection'),
         hasError: ['title', 'content'].some(
+          //description istedet for content????
           field => !!errors[field] && touched[field],
         ),
+
         component: <ConceptContent />,
       },
       {

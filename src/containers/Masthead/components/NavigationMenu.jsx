@@ -9,6 +9,7 @@ import config from '../../../config';
 import {
   toCreateLearningResource,
   toCreateTopicArticle,
+  toCreateConcept,
   toCreateImage,
   toCreateAudioFile,
 } from '../../../util/routeHelpers';
@@ -35,6 +36,9 @@ const OpenMenu = ({ t, close }) => {
             </StyledLink>
             <StyledLink to="/agreement/new" onClick={close}>
               <span>{t('subNavigation.agreement')}</span>
+            </StyledLink>
+            <StyledLink to={toCreateConcept()} onClick={close}>
+              <span>Begrep</span>
             </StyledLink>
           </div>
           <div>

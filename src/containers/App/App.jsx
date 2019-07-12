@@ -37,7 +37,6 @@ import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
-import ConceptPage from '../ConceptPage/ConceptPage';
 
 
 export class App extends React.Component {
@@ -75,7 +74,6 @@ export class App extends React.Component {
                 component={PreviewDraftPage}
               />
               <PrivateRoute path="/media" component={MediaPage} />
-              <PrivateRoute path="/concept" component={ConceptPage} />
               <PrivateRoute path="/agreement" component={AgreementPage} />
               <PrivateRoute path="/film" component={NdlaFilmEditor} />
               <PrivateRoute

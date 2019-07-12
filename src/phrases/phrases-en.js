@@ -150,6 +150,7 @@ const phrases = {
     header: {
       content: 'Search for content',
       media: 'Search for media',
+      concept: 'Search for concepts'
     },
     searchButton: 'Search',
     emptyButton: 'Empty',

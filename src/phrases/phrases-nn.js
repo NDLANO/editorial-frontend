@@ -148,6 +148,7 @@ const phrases = {
     header: {
       content: 'Søk etter innhald',
       media: 'Søk etter media',
+      concept: 'Søk etter forklaringar'
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',

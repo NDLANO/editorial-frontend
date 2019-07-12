@@ -16,6 +16,8 @@ import { transformQuery } from '../../util/searchHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
+
+// Midlertidig løsning, skal i praksis brukes search-api 
 const conceptBaseUrl = apiResourceUrl('/concept-api/v1/concepts');
 
 export const searchConcepts = async query => {

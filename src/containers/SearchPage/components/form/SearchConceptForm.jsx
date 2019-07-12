@@ -23,7 +23,6 @@ class SearchConceptForm extends Component {
 
     this.handleSearch = this.handleSearch.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
-    this.onFieldChange = this.onFieldChange.bind(this);
 
     this.state = {
       search: {
@@ -34,7 +33,7 @@ class SearchConceptForm extends Component {
     };
   }
 
-  onFieldChange(evt) {
+  onFieldChange = evt => {
     const { value, name } = evt.target;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),

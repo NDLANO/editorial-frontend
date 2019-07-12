@@ -38,10 +38,10 @@ class SearchContainer extends Component {
   }
 
   componentDidMount() {
-    const { location, search } = this.props;
+    const { location, search, type} = this.props;
     if (location.search) {
       const searchObject = queryString.parse(location.search);
-      search(searchObject);
+      search({query:searchObject, type});
     }
   }
 
@@ -58,7 +58,7 @@ class SearchContainer extends Component {
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-    search(searchQuery);
+    search({query: searchQuery, type});
     history.push(toSearch(searchQuery, type));
   }
 

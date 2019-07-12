@@ -148,12 +148,14 @@ const phrases = {
     header: {
       content: 'Søk etter innhold',
       media: 'Søk etter media',
+      concept: 'Søk etter begreper'
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
     contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {query}',
+    conceptNoHits: 'Ingen konsepter samsvarte med søket ditt på: {query}',
     mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
@@ -201,6 +203,7 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
+      conceptQuery: 'Søk på Begrep',
       contentQuery: 'Søk på Innhold',
       mediaQuery: 'Søk på Media',
       language: 'Velg Språk',

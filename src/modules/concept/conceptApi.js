@@ -6,6 +6,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import config from '../../config';
+import { transformQuery } from '../../util/searchHelpers';
 
 const conceptUrl = apiResourceUrl('/concept-api/v1/concepts');
 
@@ -58,13 +59,13 @@ export const searchResources = async query => {
     return resolveJsonOrRejectWithError(response);
   };*/
 
-export const fetchAllConcepts = async (locale) => {
+/*export const fetchAllConcepts = async (locale) => {
   const response = await fetchAuthorized(
     `${conceptUrl}?language=${locale}`,
   );
   const concept = await resolveJsonOrRejectWithError(response);
   return concept;
-};
+};*/
 
 export const fetchConcept = async (conceptId, locale) => {
   const response = await fetchAuthorized(

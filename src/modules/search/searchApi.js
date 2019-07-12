@@ -16,6 +16,14 @@ import { transformQuery } from '../../util/searchHelpers';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
+const conceptBaseUrl = apiResourceUrl('/concept-api/v1/concepts');
+
+export const searchConcepts = async query => {
+  const response = await fetchAuthorized(
+    `${conceptBaseUrl}?${queryString.stringify(transformQuery(query))}`
+  )
+  return resolveJsonOrRejectWithError(response);
+}
 
 export const search = async query => {
   const response = await fetchAuthorized(

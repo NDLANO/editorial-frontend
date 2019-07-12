@@ -23,23 +23,12 @@ class FormikAlertModalWrapper extends PureComponent {
 
   canNavigate() {
     const { isSubmitting, formIsDirty } = this.props;
-    console.log(
-      'inside canNavigate',
-      'formIsdirty: ',
-      formIsDirty,
-      'isSubmitting: ',
-      isSubmitting,
-    );
     return isSubmitting || !formIsDirty || this.state.discardChanges;
   }
 
   componentDidMount() {
     const { history } = this.props;
-    console.log('cannav', this.canNavigate());
-    console.log(history, 'history');
-    console.log(history.block, 'history block are you here??');
     this.unblock = history.block(nextLocation => {
-      console.log('cannavigatE', this.canNavigate());
       if (!this.canNavigate()) {
         this.setState({
           openModal: true,
@@ -57,11 +46,9 @@ class FormikAlertModalWrapper extends PureComponent {
     if (config.isNdlaProdEnvironment) {
       window.onbeforeunload = () => this.canNavigate();
     }
-    console.log(this.unblock);
   }
 
   componentWillUnmount() {
-    console.log('UNMOUNT?');
     this.unblock();
   }
 

@@ -18,6 +18,10 @@ export function toEditArticle(articleId, articleType, locale) {
   return `/subject-matter/${url}/${articleId}/edit/${locale}`;
 }
 
+export function toEditConcept(conceptId, locale) {
+  return `/subject-matter/${conceptId}/edit/${locale}`;
+}
+
 export function toCreateLearningResource() {
   return '/subject-matter/learning-resource/new';
 }

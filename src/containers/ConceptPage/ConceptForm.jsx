@@ -19,13 +19,20 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../util/formHelper';
-import { FormikAlertModalWrapper, FormikActionButton } from '../FormikForm';
+import {
+  FormikAlertModalWrapper,
+  FormikActionButton,
+  formClasses,
+} from '../FormikForm';
 import AlertModal from '../../components/AlertModal';
 import validateFormik from '../../components/formikValidationSchema';
 import { ConceptShape } from '../../shapes';
 import SaveButton from '../../components/SaveButton';
 import { addConcept } from '../../modules/concept/conceptApi.js';
 import * as messageActions from '../Messages/messagesActions';
+import { transformConceptFromApiVersion } from '../../../src/util/conceptUtil.js';
+import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
+import { toEditConcept } from '../../../src/util/routeHelpers.js';
 
 const getInitialValues = (concept = {}) => ({
   id: concept.id,
@@ -56,15 +63,30 @@ const rules = {
 };
 
 class ConceptForm extends Component {
-  state = {
-    savedToServer: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      savedToServer: false,
+    };
+  }
 
-  handleSubmit = (values, actions, applicationError) => {
-    //console.log('Inni handleSubmit', values.title, values.description);
-    //console.log('metadata', values.creator);
+  /*componentDidUpdate({ concept: prevConcept }) {
+    const { concept } = this.props;
+    if (
+      //article.language !== prevArticle.language ||
+      concept.id !== prevConcept.id
+    ) {
+      this.setState({ savedToServer: false });
+      if (this.formik.current) {
+        this.formik.current.resetForm();
+      }
+    }
+  }*/
+  getConcept(values) {
     const { licenses } = this.props;
-    const createConcept = {
+    const emptyField = values.id ? '' : undefined;
+
+    const concept = {
       title: values.title,
       content: values.description,
       language: 'nb',
@@ -76,10 +98,29 @@ class ConceptForm extends Component {
         rightsholders: values.rightsholders,
       },
     };
+    return concept;
+  }
 
+  onUpdate = async createdConcept => {
+    const { history } = this.props;
+    const savedConcept = await useFetchConceptData.createConcept(
+      createdConcept,
+    );
+    history.push(toEditConcept(savedConcept.id, createdConcept.language));
+  };
+
+  async handleSubmit(values, actions) {
+    const concept = await this.getConcept(values);
+    const { applicationError } = this.props;
+    const { revision } = concept;
+    //console.log('getConecpt', getConcept(values));
     try {
-      console.log(createConcept);
-      this.onAddConcept(createConcept);
+      await this.onUpdate({
+        ...this.getConcept(values),
+        revision,
+      });
+      console.log(concept);
+      this.onAddConcept(concept);
       actions.resetForm();
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -87,7 +128,7 @@ class ConceptForm extends Component {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
-  };
+  }
 
   onAddConcept = newConcept => {
     console.log('Inni addConcept:', newConcept);
@@ -101,7 +142,7 @@ class ConceptForm extends Component {
       {
         id: 'concept-upload-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'content'].some(
+        hasError: ['title', 'description'].some(
           //description istedet for content????
           field => !!errors[field] && touched[field],
         ),
@@ -137,6 +178,8 @@ class ConceptForm extends Component {
             initialValues,
             dirty,
           });
+          console.log('saved to server:', savedToServer);
+          console.log('formIsDirty', formIsDirty);
 
           return (
             <Form>
@@ -163,6 +206,7 @@ class ConceptForm extends Component {
                         {openIndexes.includes(panel.id) && (
                           <AccordionPanel
                             id={panel.id}
+                            updateNotes={this.onUpdate}
                             hasError={panel.hasError}
                             isOpen={openIndexes.includes(panel.id)}>
                             <div className="u-4/6@desktop u-push-1/6@desktop">
@@ -200,7 +244,11 @@ class ConceptForm extends Component {
                   {t('form.abort')}
                 </FormikActionButton>
 
-                <SaveButton isSaving={isSubmitting} showSaved={false}>
+                <SaveButton
+                  {...formClasses}
+                  isSaving={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  showSaved={savedToServer && !formIsDirty}>
                   {t('form.save')}
                 </SaveButton>
               </Field>
@@ -231,9 +279,10 @@ ConceptForm.propTypes = {
     }),
   ).isRequired,
   history: PropTypes.shape({
-    goBack: PropTypes.func,
+    push: PropTypes.func.isRequired,
   }).isRequired,
   applicationError: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default compose(

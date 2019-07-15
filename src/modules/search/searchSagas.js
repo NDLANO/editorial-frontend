@@ -49,7 +49,9 @@ export function* searchDraft(query) {
 
 export function* watchSearchDraft() {
   while (true) {
-    const { payload: {query} } = yield take(actions.searchDraft);
+    const {
+      payload: { query },
+    } = yield take(actions.searchDraft);
     yield call(searchDraft, query);
   }
 }

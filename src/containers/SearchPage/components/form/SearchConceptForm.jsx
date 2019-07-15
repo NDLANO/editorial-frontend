@@ -47,14 +47,14 @@ class SearchConceptForm extends Component {
     }
     const { search } = this.state;
     search({ ...this.state.search, page: 1 });
-  }
+  };
 
   emptySearch = evt => {
     this.setState(
       { search: { query: '', language: '', types: 'concept' } },
       () => this.handleSearch(evt),
     );
-  }
+  };
 
   render() {
     const { t } = this.props;

@@ -48,7 +48,7 @@ const actions = [
   {
     data: { type: 'blueprint', object: 'blueprint' },
     icon: <Keyhole />,
-    helpIcon: renderArticleInModal('BodyBox'),
+    helpIcon: renderArticleInModal('Blueprint'),
   },
   {
     data: { type: 'embed', object: 'image' },

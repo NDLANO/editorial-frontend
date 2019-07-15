@@ -14,14 +14,18 @@ import { spacing, colors } from '@ndla/core';
 import { EditorShape } from '../../../../shapes';
 import DeleteButton from '../../../DeleteButton';
 
-const detailsStyle = css`
+const bluePrintDetailsStyle = css`
+  background-color: ${colors.tableBg};
+  border: none;
+  width: 100%;
+`;
+
+const StyledDetailsDiv = styled.div`
   position: relative;
   margin: ${spacing.large} 0;
-  padding-left: ${spacing.normal};
-  min-height: 90px;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
-
+  ${p => p.isBlueprint && bluePrintDetailsStyle}
   > *:last-child {
     margin-bottom: 0;
   }
@@ -30,6 +34,12 @@ const detailsStyle = css`
 const StyledContent = styled.div`
   display: ${p => (p.isOpen ? '' : 'none')};
   margin-top: calc(${spacing.small} * 1.5);
+  padding-left: ${spacing.normal};
+`;
+
+const bluePrintSummaryStyle = css`
+  background-color: ${colors.brand.lightest};
+  width: 100%;
 `;
 
 const StyledSummary = styled.summary`
@@ -39,8 +49,11 @@ const StyledSummary = styled.summary`
   padding: ${spacing.normal};
   display: flex;
 
+  ${p => p.isBlueprint && bluePrintSummaryStyle}
+
   &::before {
     content: '';
+    margin-left: ${spacing.normal};
     border-color: transparent ${colors.brand.primary};
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
@@ -68,7 +81,7 @@ const StyledRow = styled.div`
 `;
 
 const Details = props => {
-  const { node, attributes, children, editor, editSummaryButton, t } = props;
+  const { node, isBlueprint, children, editor, editSummaryButton } = props;
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
@@ -81,16 +94,19 @@ const Details = props => {
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <div css={detailsStyle} draggable {...attributes}>
+    <StyledDetailsDiv isBlueprint={isBlueprint}>
       <StyledRow>
-        <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
+        <StyledSummary
+          isBlueprint={isBlueprint}
+          isOpen={isOpen}
+          onClick={toggleOpen}>
           {summaryNode}
         </StyledSummary>
         {isOpen && editSummaryButton}
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <DeleteButton stripped onMouseDown={onRemoveClick} />
-    </div>
+    </StyledDetailsDiv>
   );
 };
 
@@ -101,6 +117,7 @@ Details.propTypes = {
   node: Types.node.isRequired,
   editor: EditorShape,
   editSummaryButton: PropTypes.node,
+  isBlueprint: PropTypes.bool,
 };
 
 export default injectT(Details);

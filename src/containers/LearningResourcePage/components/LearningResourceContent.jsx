@@ -99,7 +99,12 @@ class LearningResourceContent extends Component {
       relatedPlugin(),
       filePlugin(),
       mathmlPlugin(),
-      blockPickerPlugin(this.addSection, { articleLanguage: language }),
+      blockPickerPlugin(this.addSection, {
+        articleLanguage: language,
+        actionsToShowInAreas: {
+          blueprint: ['table'],
+        },
+      }),
       pasteHandler(),
       dndPlugin,
     ];
@@ -112,7 +117,12 @@ class LearningResourceContent extends Component {
     if (prevLanguage !== language || prevId !== id) {
       this.plugins = [
         ...this.plugins,
-        blockPickerPlugin(this.addSection, { articleLanguage: language }),
+        blockPickerPlugin(this.addSection, {
+          articleLanguage: language,
+          actionsToShowInAreas: {
+            blueprint: ['table'],
+          },
+        }),
       ];
     }
   }

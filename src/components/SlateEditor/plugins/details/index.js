@@ -43,7 +43,6 @@ const normalizer = {
     { type: 'heading-three' },
   ],
   normalize: (editor, error) => {
-    console.log(error);
     switch (error.code) {
       case 'last_child_type_invalid': {
         const block = Block.create(defaultBlocks.defaultBlock);
@@ -98,12 +97,11 @@ export default function createDetails() {
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
     const { node } = props;
-    console.log(props);
     switch (node.type) {
-      case 'details':
-        return <DetailsBox {...props} editor={editor} />;
       case 'blueprint':
         return <SlateBlueprint {...props} editor={editor} />;
+      case 'details':
+        return <DetailsBox {...props} editor={editor} />;
       case 'summary':
         return <span {...props.attributes}>{node.text}</span>;
       default:

@@ -63,8 +63,12 @@ const DetailsBox = props => {
 
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const summaryTextNode = summary.getLastText();
-  const [inputValue, setInputvalue] = useState(summary.text);
+  const summaryTextNode = summary
+    ? summary.getLastText()
+    : Text.create({
+        text: '',
+      });
+  const [inputValue, setInputvalue] = useState(summary ? summary.text : '');
 
   const onChangeSummary = () => {
     const newTextNode = Text.create({

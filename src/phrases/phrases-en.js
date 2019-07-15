@@ -150,7 +150,7 @@ const phrases = {
     header: {
       content: 'Search for content',
       media: 'Search for media',
-      concept: 'Search for concepts'
+      concept: 'Search for concepts',
     },
     searchButton: 'Search',
     emptyButton: 'Empty',
@@ -301,6 +301,13 @@ const phrases = {
     useAudio: 'Chose audio',
     noResults: 'No audio files found',
     noTitle: 'No title',
+  },
+  conceptSearch: {
+    searchPlaceholder: 'Search in concepts',
+    searchButtonTitle: 'Search',
+    noResults: 'No concepts found',
+    noTitle: 'No title',
+    noContent: 'No content',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',

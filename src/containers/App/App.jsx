@@ -38,7 +38,6 @@ import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
 
-
 export class App extends React.Component {
   getChildContext() {
     return {

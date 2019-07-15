@@ -13,12 +13,11 @@ import * as api from './searchApi';
 
 export function* search(query, type) {
   try {
-    let searchResult
-    if(type === 'concept'){
-      searchResult = yield call(api.searchConcepts, query)
+    let searchResult;
+    if (type === 'concept') {
+      searchResult = yield call(api.searchConcepts, query);
     } else {
-      console.log("asdasdasdasdas", call(api.search, query))
-      searchResult = yield call(api.search, query)
+      searchResult = yield call(api.search, query);
     }
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
@@ -30,7 +29,9 @@ export function* search(query, type) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: {query, type }} = yield take(actions.search);
+    const {
+      payload: { query, type },
+    } = yield take(actions.search);
     yield call(search, query, type);
   }
 }

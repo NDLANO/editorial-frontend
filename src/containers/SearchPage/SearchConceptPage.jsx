@@ -28,10 +28,7 @@ const SearchConceptPage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getResults(
-    state,
-    queryString.parse(ownProps.location.search).types,
-  ),
+  results: getResults(state, queryString.parse(ownProps.location.search).types),
   totalCount: getTotalResultsCount(state),
   lastPage: getLastPage(state),
 });

@@ -148,7 +148,7 @@ const phrases = {
     header: {
       content: 'Søk etter innhald',
       media: 'Søk etter media',
-      concept: 'Søk etter forklaringar'
+      concept: 'Søk etter forklaringar',
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',
@@ -301,6 +301,13 @@ const phrases = {
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultat funnet',
     noTitle: 'Ingen tittel',
+  },
+  conceptSearch: {
+    searchPlaceholder: 'Søk i forklaringar',
+    searchButtonTitle: 'Søk',
+    noResults: 'Ingen resultat funnet',
+    noTitle: 'Ingen tittel',
+    noContent: 'Ingen innhald',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjerna ved lagring.',

@@ -24,7 +24,7 @@ const SearchResult = ({ result, locale, type, t }) => {
     case 'content':
       return <SearchContent content={result} locale={locale} />;
     case 'concept':
-      return <SearchConcept concept={result} locale={locale}/>
+      return <SearchConcept concept={result} locale={locale} />;
     case 'media':
       switch (result.type) {
         case 'images':

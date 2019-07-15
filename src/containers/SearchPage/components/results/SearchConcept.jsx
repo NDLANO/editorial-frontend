@@ -6,24 +6,32 @@
  *
  */
 
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { searchClasses } from '../../SearchContainer';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
-const SearchConcept = ({concept, t}) => {
-  const title = convertFieldWithFallback(concept, 'title', concept.title)
-  const content = convertFieldWithFallback(concept, 'content', concept.content)
+const SearchConcept = ({ concept, t }) => {
+  const title = convertFieldWithFallback(concept, 'title', concept.title);
+  const content = convertFieldWithFallback(concept, 'content', concept.content);
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('content')}>
         <h1 {...searchClasses('title')}>
           <u>{title || t('conceptSearch.noTitle')}</u>
         </h1>
-        <p>{content || t('conceptSearch.noTitle')}</p>
+        <p>{content || t('conceptSearch.noContent')}</p>
       </div>
     </div>
-  )
-}
+  );
+};
+
+SearchConcept.propTypes = {
+  concept: {
+    title: PropTypes.string,
+    content: PropTypes.string,
+  },
+};
 
 export default injectT(SearchConcept);

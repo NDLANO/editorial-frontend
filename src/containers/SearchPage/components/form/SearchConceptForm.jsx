@@ -39,7 +39,7 @@ class SearchConceptForm extends Component {
       prevState => ({ search: { ...prevState.search, [name]: value } }),
       this.handleSearch,
     );
-  }
+  };
 
   handleSearch(evt) {
     if (evt) {

@@ -41,15 +41,15 @@ class SearchConceptForm extends Component {
     );
   };
 
-  handleSearch(evt) {
+  handleSearch = evt => {
     if (evt) {
       evt.preventDefault();
     }
-    const { search } = this.props;
+    const { search } = this.state;
     search({ ...this.state.search, page: 1 });
   }
 
-  emptySearch(evt) {
+  emptySearch = evt => {
     this.setState(
       { search: { query: '', language: '', types: 'concept' } },
       () => this.handleSearch(evt),
@@ -58,6 +58,7 @@ class SearchConceptForm extends Component {
 
   render() {
     const { t } = this.props;
+    const { search } = this.state;
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -65,14 +66,14 @@ class SearchConceptForm extends Component {
           <input
             name="query"
             placeholder={t('searchForm.types.conceptQuery')}
-            value={this.state.search.query}
+            value={search.query}
             onChange={this.onFieldChange}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
           <ObjectSelector
             name="language"
-            value={this.state.search.language}
+            value={search.language}
             options={getResourceLanguages(t)}
             idKey="id"
             labelKey="name"

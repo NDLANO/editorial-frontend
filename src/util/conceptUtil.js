@@ -6,6 +6,5 @@ export const transformConceptFromApiVersion = (concept, locale) => ({
   ...concept,
   title: convertFieldWithFallback(concept, 'title', ''),
   content: convertFieldWithFallback(concept, 'content', ''),
-  metaDescription: convertFieldWithFallback(concept, 'metaDescription', ''),
   ...(locale ? { language: locale } : {}),
 });

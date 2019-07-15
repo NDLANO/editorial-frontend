@@ -9,8 +9,12 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import { injectT } from '@ndla/i18n';
+import isEmpty from 'lodash/fp/isEmpty';
 import Field from '../../../src/components/Field';
-import { plainTextToEditorValue } from '../../util/articleContentConverter';
+import {
+  plainTextToEditorValue,
+  editorValueToPlainText,
+} from '../../util/articleContentConverter';
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../components/HeaderWithLanguage';
@@ -26,18 +30,21 @@ import {
 } from '../FormikForm';
 import AlertModal from '../../components/AlertModal';
 import validateFormik from '../../components/formikValidationSchema';
-import { ConceptShape } from '../../shapes';
+import { ConceptShape, LicensesArrayOf } from '../../shapes';
 import SaveButton from '../../components/SaveButton';
 import { addConcept } from '../../modules/concept/conceptApi.js';
 import * as messageActions from '../Messages/messagesActions';
 import { transformConceptFromApiVersion } from '../../../src/util/conceptUtil.js';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
+import { validateConcept } from '../../modules/concept/conceptApi.js';
 
 const getInitialValues = (concept = {}) => ({
   id: concept.id,
   title: concept.title || '',
-  language: 'nb',
+  language: concept.language,
+  updated: concept.updated,
+  created: concept.published,
   description: plainTextToEditorValue(concept.content || '', true),
   supportedLanguages: [],
   creators: parseCopyrightContributors(concept, 'creators'),
@@ -65,12 +72,16 @@ const rules = {
 class ConceptForm extends Component {
   constructor(props) {
     super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getConcept = this.getConcept.bind(this);
     this.state = {
       savedToServer: false,
     };
+    //this.formik = React.createRef();
   }
+  //const createArticle  = useFetchArticleData(undefined, locale);
 
-  /*componentDidUpdate({ concept: prevConcept }) {
+  componentDidUpdate({ concept: prevConcept }) {
     const { concept } = this.props;
     if (
       //article.language !== prevArticle.language ||
@@ -81,46 +92,74 @@ class ConceptForm extends Component {
         this.formik.current.resetForm();
       }
     }
-  }*/
+  }
+
+  getCreatedDate(values, preview = false) {
+    if (isEmpty(values.created)) {
+      return undefined;
+    }
+    if (preview) {
+      return values.created;
+    }
+    const { concept } = this.props;
+    const initialValues = getInitialValues(concept);
+
+    const hasCreatedDateChanged = initialValues.created !== values.created;
+    if (hasCreatedDateChanged || values.updateCreated) {
+      return values.created;
+    }
+    return undefined;
+  }
+
   getConcept(values) {
     const { licenses } = this.props;
     const emptyField = values.id ? '' : undefined;
 
     const concept = {
+      id: values.id,
       title: values.title,
-      content: values.description,
+      content: editorValueToPlainText(values.description),
       language: 'nb',
+      supportedLanguages: [],
       copyright: {
         license: licenses.find(license => license.license === values.license),
-        origin: values.origin,
         creators: values.creators,
         processors: values.processors,
         rightsholders: values.rightsholders,
+        agreementId: values.agreementId,
       },
+      created: this.getCreatedDate(values),
     };
+    console.log('created', concept.created);
     return concept;
   }
 
-  onUpdate = async createdConcept => {
-    const { history } = this.props;
-    const savedConcept = await useFetchConceptData.createConcept(
-      createdConcept,
-    );
-    history.push(toEditConcept(savedConcept.id, createdConcept.language));
-  };
-
   async handleSubmit(values, actions) {
-    const concept = await this.getConcept(values);
-    const { applicationError } = this.props;
+    const { onUpdate, concept, applicationError } = this.props;
     const { revision } = concept;
-    //console.log('getConecpt', getConcept(values));
+
+    /*
+    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
+      try {
+        await validateDraft(values.id, {
+          ...this.getArticle(values),
+          revision,
+        });
+      } catch (error) {
+        if (error && error.json && error.json.messages) {
+          createMessage(formatErrorMessage(error));
+        }
+        return;
+      }
+    }
+    */
+
     try {
-      await this.onUpdate({
+      await onUpdate({
         ...this.getConcept(values),
         revision,
       });
-      console.log(concept);
-      this.onAddConcept(concept);
+      //this.onAddConcept(concept);
       actions.resetForm();
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -131,23 +170,23 @@ class ConceptForm extends Component {
   }
 
   onAddConcept = newConcept => {
-    console.log('Inni addConcept:', newConcept);
-    //addConcept(newConcept);
+    console.log('Inni addConcept:', newConcept.rightsholders);
+    addConcept(newConcept);
   };
 
   render() {
-    const { t, licenses, history, concept } = this.props;
+    const { t, licenses, history, concept, onUpdate, ...rest } = this.props;
     const savedToServer = this.state;
     const panels = ({ errors, touched }) => [
       {
         id: 'concept-upload-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'description'].some(
+        hasError: ['title', 'content'].some(
           //description istedet for content????
           field => !!errors[field] && touched[field],
         ),
 
-        component: <ConceptContent />,
+        component: props => <ConceptContent {...props} />,
       },
       {
         id: 'concept-upload-metadataSection',
@@ -160,11 +199,12 @@ class ConceptForm extends Component {
           'license',
         ].some(field => !!errors[field] && touched[field]),
 
-        component: <ConceptMetaData licenses={licenses} />,
+        component: props => <ConceptMetaData licenses={licenses} {...props} />,
       },
     ];
 
     const initialValues = getInitialValues(concept);
+    console.log('copyright rightholders', initialValues.rightsholders);
 
     return (
       <Formik
@@ -178,8 +218,7 @@ class ConceptForm extends Component {
             initialValues,
             dirty,
           });
-          console.log('saved to server:', savedToServer);
-          console.log('formIsDirty', formIsDirty);
+          console.log(values.title, values.content);
 
           return (
             <Form>
@@ -209,8 +248,14 @@ class ConceptForm extends Component {
                             updateNotes={this.onUpdate}
                             hasError={panel.hasError}
                             isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
+                            <div className={panel.className}>
+                              {panel.component({
+                                //hasError,
+                                values,
+                                //userAccess,
+                                closePanel: () => handleItemClick(panel.id),
+                                ...rest,
+                              })}
                             </div>
                           </AccordionPanel>
                         )}
@@ -272,17 +317,13 @@ const mapDispatchToProps = {
 
 ConceptForm.propTypes = {
   concept: ConceptShape,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+    goBack: PropTypes.func,
   }).isRequired,
-  applicationError: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
+  licenses: LicensesArrayOf,
 };
 
 export default compose(

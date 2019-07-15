@@ -19,7 +19,6 @@ const ConceptContent = ({ t, formik: { values, errors, touched } }) => {
   return (
     <Form>
       <FormikField
-        showError={false}
         label={t('form.title.label')}
         name="title"
         title
@@ -36,7 +35,7 @@ ConceptContent.propTypes = {
   formik: PropTypes.shape({
     values: PropTypes.shape({
       title: PropTypes.string,
-      content: PropTypes.string,
+      description: PropTypes.string,
       id: PropTypes.number,
     }),
     errors: PropTypes.shape({

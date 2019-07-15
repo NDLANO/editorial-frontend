@@ -19,7 +19,7 @@ export function toEditArticle(articleId, articleType, locale) {
 }
 
 export function toEditConcept(conceptId, locale) {
-  return `/subject-matter/${conceptId}/edit/${locale}`;
+  return `/concept/${conceptId}/edit/${locale}`;
 }
 
 export function toCreateLearningResource() {
@@ -31,7 +31,7 @@ export function toCreateTopicArticle() {
 }
 
 export function toCreateConcept() {
-  return '/concept';
+  return '/concept/new';
 }
 
 export function toLogin() {

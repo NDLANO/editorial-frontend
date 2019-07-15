@@ -5,18 +5,18 @@ import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 export function useFetchConceptData(conceptId, locale) {
   let [concept, setConcept] = useState(undefined);
 
-  const fetchArticle = async () => {
+  const fetchConcept = async () => {
     if (conceptId) {
-      const article = await conceptApi.fetchConcept(conceptId, locale);
-      setConcept(transformConceptFromApiVersion(article, locale));
+      const concept = await conceptApi.fetchConcept(conceptId, locale);
+      setConcept(transformConceptFromApiVersion(concept, locale));
     }
   };
 
-  /*const updateConcept = async updatedConcept => {
-    const savedConcept = await conceptApi.updateDraft(updatedConcept);
+  const updateConcept = async updatedConcept => {
+    const savedConcept = await conceptApi.updateConcept(updatedConcept);
     setConcept(transformConceptFromApiVersion(savedConcept, locale));
     return savedConcept;
-  };*/
+  };
 
   const createConcept = async createdConcept => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
@@ -25,8 +25,8 @@ export function useFetchConceptData(conceptId, locale) {
   };
 
   useEffect(() => {
-    fetchArticle();
+    fetchConcept();
   }, [conceptId, locale]);
 
-  return { concept, createConcept };
+  return { concept, createConcept, updateConcept };
 }

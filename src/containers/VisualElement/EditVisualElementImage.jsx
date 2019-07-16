@@ -74,9 +74,7 @@ class EditVisualElementImage extends Component {
           <div css={editorContentCSS}>
             <figure>
               <img
-                src={`${config.ndlaApiUrl}/image-api/raw/id/${
-                  embed.resource_id
-                }`}
+                src={`${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`}
                 alt={embed.alt}
                 srcSet={getSrcSets(embed.resource_id, {})}
               />

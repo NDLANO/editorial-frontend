@@ -1,0 +1,37 @@
+{
+  "id": 14989,
+  "revision": 2,
+  "status": { "current": "DRAFT", "other": [] },
+  "title": { "title": "Test med alt", "language": "nb" },
+  "content": {
+    "content": "<section><h2><strong>vanlig tekst</strong></h2><ul><li><p>liste</p></li><li><p><em>punkt 2</em></p></li><li><p>test</p></li></ul><table><thead><tr><th><p>test</p></th><th></th><th></th></tr></thead><tbody><tr><td></td><td><p>test</p></td><td></td></tr><tr><td></td><td></td><td><p>test</p></td></tr></tbody></table><div class=\"c-bodybox\"><p>test</p></div><details><summary>test</summary><p>test</p></details><embed data-resource=\"image\" data-resource_id=\"26813\" data-size=\"fullbredde\" data-align=\"\" data-alt=\"Bilde 4 av &quot;The Grandmaster&quot;\" data-caption=\"\" data-url=\"https://test.api.ndla.no/image-api/v2/images/26813\"><embed data-resource=\"external\" data-url=\"https://www.youtube.com/watch?v=kFzViYkZAz4\"><embed data-caption=\"\" data-resource=\"audio\" data-resource_id=\"531\" data-type=\"standard\" data-url=\"https://test.api.ndla.no/audio-api/v1/audio/531\"><embed data-resource=\"external\" data-url=\"https://h5p-test.ndla.no/resource/ac62c7b6-5571-48ea-8dc7-e8a3bde83c2d\"><div data-type=\"file\"><embed data-path=\"/files/resources/JL6MIIQsYaIxWkOy.pdf\" data-resource=\"file\" data-title=\"190612 presentasjon\" data-type=\"pdf\" data-url=\"https://test.api.ndla.no//files/resources/JL6MIIQsYaIxWkOy.pdf\"></div></section><section><div data-type=\"related-content\"><embed data-resource=\"related-content\" data-article-id=\"249\"></div></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "",
+    "creators": [],
+    "processors": [],
+    "rightsholders": []
+  },
+  "requiredLibraries": [],
+  "introduction": { "introduction": "ingress", "language": "nb" },
+  "created": "2019-06-28T13:18:42Z",
+  "updated": "2019-06-28T13:20:40Z",
+  "updatedBy": "F0JvFlqhEGwhcobd6uUAW26x",
+  "published": "2019-06-28T13:18:42Z",
+  "articleType": "standard",
+  "supportedLanguages": ["nb"],
+  "notes": [
+    {
+      "note": "Opprettet artikkel.",
+      "user": "F0JvFlqhEGwhcobd6uUAW26x",
+      "status": { "current": "DRAFT", "other": [] },
+      "timestamp": "2019-06-28T13:18:42Z"
+    }
+  ]
+}

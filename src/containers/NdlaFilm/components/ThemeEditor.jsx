@@ -7,25 +7,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
-import { FieldHeader, Select, FieldHeaderIconStyle } from '@ndla/forms';
+import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
+import { getLocale } from '../../../modules/locale/locale';
 import MovieList from './MovieList';
 import ThemeNameModal from './ThemeNameModal';
-import AddMovieOptions from './AddMovieOptions';
 import { ContentResultShape } from '../../../shapes';
 import { findName } from '../../../util/ndlaFilmHelpers';
+import DropdownSearch from './DropdownSearch';
 
 const ThemeEditor = ({
   t,
-  allMovies,
   updateMovieTheme,
   themes,
   addMovieToTheme,
@@ -34,6 +35,7 @@ const ThemeEditor = ({
   onDeleteTheme,
   onSaveThemeName,
   loading,
+  locale,
 }) => {
   if (loading) {
     return <Spinner />;
@@ -122,16 +124,13 @@ const ThemeEditor = ({
             }}
             onUpdateMovies={updates => updateMovieTheme(updates, index)}
           />
-          <Select
-            value=""
-            onChange={e => addMovieToTheme(e.target.value, index)}>
-            <option value="">
-              {t('ndlaFilm.editor.addMovieToGroup', {
-                name: theme.name.find(name => name.language === 'nb').name,
-              })}
-            </option>
-            <AddMovieOptions addedMovies={theme.movies} allMovies={allMovies} />
-          </Select>
+          <DropdownSearch
+            selectedMovies={theme.movies}
+            onChange={evt => addMovieToTheme(evt, index)}
+            placeholder={t('ndlaFilm.editor.addMovieToGroup', {
+              name: findName(theme.name, locale),
+            })}
+          />
         </StyledThemeWrapper>
       ))}
     </>
@@ -154,7 +153,6 @@ ThemeEditor.propTypes = {
       ),
     }),
   ),
-  allMovies: PropTypes.arrayOf(ContentResultShape),
   updateMovieTheme: PropTypes.func.isRequired,
   addMovieToTheme: PropTypes.func.isRequired,
   onAddTheme: PropTypes.func.isRequired,
@@ -162,6 +160,12 @@ ThemeEditor.propTypes = {
   onDeleteTheme: PropTypes.func.isRequired,
   updateThemeName: PropTypes.func.isRequired,
   onSaveThemeName: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  locale: PropTypes.string,
 };
 
-export default injectT(ThemeEditor);
+const mapStateToProps = state => ({
+  locale: getLocale(state),
+});
+
+export default injectT(connect(mapStateToProps)(ThemeEditor));

@@ -10,9 +10,7 @@ const SearchConceptPage = ({ t, ...props }) => {
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.searchConceptPage')} />
       <iframe
-        src={`${
-          config.explanationFrontendDomain
-        }/embedded?accessToken=${accessToken}`}
+        src={`${config.explanationFrontendDomain}/embedded?accessToken=${accessToken}`}
         title="concept"
         width="100%"
         height="100vh"

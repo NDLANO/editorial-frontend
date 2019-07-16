@@ -11,17 +11,8 @@ const CreateConcept = props => {
   const { createConcept } = useFetchConceptData(undefined, locale);
 
   const createConceptAndPushRoute = async createdConcept => {
-    console.log('inni createconceptandpushroute');
-    console.log('createdConcept', createdConcept.content);
     const savedConcept = await createConcept(createdConcept);
-    console.log(
-      'savedConcept',
-      'title',
-      savedConcept.title,
-      'content',
-      savedConcept.description,
-    );
-    history.push(toEditConcept(savedConcept.id, createdConcept.language));
+    history.push(toEditConcept(savedConcept.id, savedConcept.language));
   };
 
   return (

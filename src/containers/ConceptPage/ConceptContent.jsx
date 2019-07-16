@@ -45,7 +45,6 @@ const ConceptContent = props => {
             creators={creators}
             published={created}
             onChange={date => {
-              console.log('inni onChange,', date);
               form.setFieldValue(field.name, date);
             }}
           />

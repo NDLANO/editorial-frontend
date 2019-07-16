@@ -515,7 +515,7 @@ const phrases = {
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
     },
     variant: {
-      create: 'Create variant +',
+      create: 'Create variant',
     },
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',

@@ -47,7 +47,7 @@ const getInitialValues = (concept = {}) => ({
   updateCreated: false,
   created: concept.created,
   description: plainTextToEditorValue(concept.content || '', true),
-  supportedLanguages: [],
+  supportedLanguages: concept.supportedLanguages,
   creators: parseCopyrightContributors(concept, 'creators'),
   processors: parseCopyrightContributors(concept, 'processors'),
   rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
@@ -86,7 +86,7 @@ class ConceptForm extends Component {
   componentDidUpdate({ concept: prevConcept }) {
     const { concept } = this.props;
     if (
-      //article.language !== prevArticle.language ||
+      concept.language !== prevConcept.language ||
       concept.id !== prevConcept.id
     ) {
       this.setState({ savedToServer: false });
@@ -94,6 +94,7 @@ class ConceptForm extends Component {
         this.formik.current.resetForm();
       }
     }
+    this.formik = React.createRef();
   }
 
   getCreatedDate(values) {
@@ -115,14 +116,14 @@ class ConceptForm extends Component {
 
   getConcept(values) {
     const { licenses } = this.props;
-    const emptyField = values.id ? '' : undefined;
+    const emptyField = values.language ? '' : undefined;
 
     const concept = {
       id: values.id,
-      title: values.title,
-      content: editorValueToPlainText(values.description),
-      language: 'nb',
-      supportedLanguages: [],
+      title: values.title || emptyField,
+      content: editorValueToPlainText(values.description) || emptyField,
+      language: values.language,
+      supportedLanguages: values.supportedLanguages,
       copyright: {
         license: licenses.find(license => license.license === values.license),
         creators: values.creators,
@@ -132,7 +133,8 @@ class ConceptForm extends Component {
       },
       created: this.getCreatedDate(values),
     };
-    console.log('created ', concept.created);
+    console.log('language ', concept.language);
+    console.log('supportedLanguages ', concept.supportedLanguages);
 
     return concept;
   }
@@ -140,22 +142,6 @@ class ConceptForm extends Component {
   async handleSubmit(values, actions) {
     const { onUpdate, concept, applicationError } = this.props;
     const { revision } = concept;
-
-    /*
-    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
-      try {
-        await validateDraft(values.id, {
-          ...this.getArticle(values),
-          revision,
-        });
-      } catch (error) {
-        if (error && error.json && error.json.messages) {
-          createMessage(formatErrorMessage(error));
-        }
-        return;
-      }
-    }
-    */
 
     try {
       await onUpdate({
@@ -233,7 +219,7 @@ class ConceptForm extends Component {
                 values={values}
                 type="concept"
                 getConcept={() => this.getConcept(values)}
-                editUrl={lang => console.log('hmm')}
+                editUrl={lang => toEditConcept(values.id, lang)}
               />
 
               <Accordion>

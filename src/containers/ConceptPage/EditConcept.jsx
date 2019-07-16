@@ -16,14 +16,12 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
   if (!concept || !concept.id) {
     return null;
   }
-
-  /* if (concept.articleType !== 'topic-article') {
+  /* if (concept.selectedLanguage == null) {
     return (
-      <Redirect
-        to={toEditConcept(concept.id, concept.language)}
-      />
+      <Redirect to={toEditConcept(concept.id, concept.selectedLanguage)} />
     );
   }*/
+
   return (
     <Fragment>
       <HelmetWithTracker

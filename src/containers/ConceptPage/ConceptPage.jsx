@@ -12,6 +12,7 @@ import * as messageActions from '../Messages/messagesActions';
 import CreateConcept from './CreateConcept';
 import EditConcept from './EditConcept';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { getLocale } from '../../modules/locale/locale';
 
 class ConceptPage extends PureComponent {
   componentDidMount() {
@@ -72,15 +73,16 @@ ConceptPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
-  //  createMessage: (message = {}) => messageActions.addMessage(message),
   applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = state => ({
+  locale: getLocale(state),
   licenses: getAllLicenses(state),
 });
 

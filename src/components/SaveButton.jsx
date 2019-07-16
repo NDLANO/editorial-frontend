@@ -53,7 +53,7 @@ const SaveButton = ({
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
-  console.log(showSaved);
+
   const modifier = getModifier();
   return (
     <Button

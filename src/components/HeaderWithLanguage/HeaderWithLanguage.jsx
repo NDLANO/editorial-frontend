@@ -25,7 +25,7 @@ const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
   const { id, language, supportedLanguages, status, articleType } = values;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
-
+  console.log(isNewLanguage);
   const statusText =
     status && status.current
       ? t(`form.status.${status.current.toLowerCase()}`)

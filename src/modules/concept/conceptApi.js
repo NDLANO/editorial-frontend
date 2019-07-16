@@ -24,7 +24,7 @@ export const fetchAllConcepts = async locale => {
 
 export const fetchConcept = async (conceptId, locale) => {
   const response = await fetchAuthorized(
-    `${conceptUrl}/${conceptId}?language=${locale}`,
+    `${conceptUrl}/${conceptId}?language=${locale}&fallback=true`,
   );
   const concept = await resolveJsonOrRejectWithError(response);
   return concept;

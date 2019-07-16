@@ -155,6 +155,7 @@ const phrases = {
     title: 'Tittel',
     language: 'Språk',
     contentNoHits: 'Ingen innhald samsvarte med søket ditt på: {query}',
+    conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {query}',
     mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
@@ -203,6 +204,7 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
+      conceptQuery: 'Søk på Forklaringar',
       contentQuery: 'Søk på Innhald',
       mediaQuery: 'Søk på Media',
       language: 'Velg Språk',

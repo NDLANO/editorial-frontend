@@ -18,12 +18,7 @@ import { searchFormClasses } from './SearchForm';
 class SearchConceptForm extends Component {
   constructor(props) {
     super(props);
-
     const { searchObject } = props;
-
-    this.handleSearch = this.handleSearch.bind(this);
-    this.emptySearch = this.emptySearch.bind(this);
-
     this.state = {
       search: {
         query: searchObject.query || '',

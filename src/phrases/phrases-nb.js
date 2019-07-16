@@ -155,7 +155,7 @@ const phrases = {
     title: 'Tittel',
     language: 'Språk',
     contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {query}',
-    conceptNoHits: 'Ingen konsepter samsvarte med søket ditt på: {query}',
+    conceptNoHits: 'Ingen begreper samsvarte med søket ditt på: {query}',
     mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
@@ -304,7 +304,7 @@ const phrases = {
     noTitle: 'Ingen tittel',
   },
   conceptSearch: {
-    searchPlaceholder: 'Søk i konsepter',
+    searchPlaceholder: 'Søk i begreper',
     searchButtonTitle: 'Søk',
     noResults: 'Ingen resultater funnet',
     noTitle: 'Ingen tittel',

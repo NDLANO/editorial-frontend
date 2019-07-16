@@ -157,6 +157,7 @@ const phrases = {
     title: 'Title',
     language: 'Language',
     contentNoHits: 'Your search - {query} - did not match any content.',
+    conceptNoHits: 'Your search - {query} - did not match any concept.',
     mediaNoHits: 'Your search - {query} - did not match any media.',
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
@@ -204,6 +205,7 @@ const phrases = {
   searchForm: {
     placeholder: 'Search articles',
     types: {
+      conceptQuery: 'Search for concept',
       contentQuery: 'Search for content',
       mediaQuery: 'Search for media',
       language: 'Select language',

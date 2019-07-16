@@ -950,6 +950,7 @@ const phrases = {
       groupNamePlaceholder: 'Write name in {lang}',
       editGroupTitle: 'Change the name(s) in this movie group:',
       newGroupTitle: 'What shall we call the new movie group?',
+      notFound: 'We can not find metadata for this movie...',
     },
   },
   modal: {

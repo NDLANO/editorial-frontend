@@ -1221,13 +1221,14 @@
     "@ndla/util" "^0.3.3"
     raven-js "^3.22.3"
 
-"@ndla/forms@^0.3.6":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.7.tgz#bf32c77affdbd5f09d5d839fef3bbdc4ed7116aa"
-  integrity sha512-TUkb0AFO+9b+pCkLWEeLGsqeVYVioVADDFPi8kL8ksWT5D9+HXaOHf0LIKrXMr/jVSR/8zULVGXYVQJQLZOgkA==
+"@ndla/forms@^0.3.11":
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.11.tgz#2a54429a932e0ed395be3f6d720ded16e240c599"
+  integrity sha512-r1wPY5jXjpqnOe1Gr7nsZT1bkYqJwxZ25UGQr1cNqN7ynevWgoSj5gKczwCEj3VmsrV7oFttr4lJj7EnMjwiHQ==
   dependencies:
-    "@ndla/core" "^0.6.6"
+    "@ndla/core" "^0.6.8"
     "@ndla/icons" "^0.6.12"
+    "@ndla/ui" "^0.22.22"
 
 "@ndla/forms@^0.3.8":
   version "0.3.8"
@@ -1244,6 +1245,14 @@
   integrity sha512-LyKOW/fBEEU0qRvQW+ZSF3V3mmD7D0yNJO9SdIsvdcPf19dyGqiUDyGs6imrHXlcuGj0Wslv+27yyUOM98Nmcw==
   dependencies:
     "@ndla/util" "^0.3.3"
+    lodash "^4.17.11"
+
+"@ndla/hooks@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.2.tgz#b400947f39f1316398d76541c025934a8ca5c9e2"
+  integrity sha512-UnlGpFLj4vNbMcAxO4a+Gji/lG7PQbpcPBPTB1zpOuCpD2vAHve2ftbwk8kr+3rIKzq8GSuE7bkfNY0qtFrQOw==
+  dependencies:
+    "@ndla/util" "^0.3.4"
     lodash "^4.17.11"
 
 "@ndla/howto@^0.1.16":
@@ -1312,6 +1321,16 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
+"@ndla/modal@^0.3.10":
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.10.tgz#a7c2b16af63344e9c504c131769e38c20daa27f3"
+  integrity sha512-1/SpZYQCUxw7A6mq0TQGXL6aj789rfaHZvlVniWyH6uVx/I+DXxYIiw5XSWChurwpneJcSd8gSGhq5nI06uOSw==
+  dependencies:
+    "@ndla/button" "^0.3.8"
+    "@ndla/core" "^0.6.8"
+    "@ndla/util" "^0.3.4"
+    focus-trap-react "^6.0.0"
+
 "@ndla/modal@^0.3.6", "@ndla/modal@^0.3.7", "@ndla/modal@^0.3.8":
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.3.8.tgz#6b96e065bb403936668032ee19b6de5c859d177b"
@@ -1376,6 +1395,15 @@
   dependencies:
     "@ndla/core" "^0.6.8"
     "@ndla/util" "^0.3.3"
+    react-tabs "^3.0.0"
+
+"@ndla/tabs@^0.11.9":
+  version "0.11.9"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-0.11.9.tgz#ecff9e1cb8706e1c35891357017e1cc38f34a23c"
+  integrity sha512-Ck09jopwUPDodkuwVBqIL3fGfK29hTw3keeTo6DdakawXNcOd7AT5taKuvfFWO7ov/4dpotd7n8xifDf+PyWyA==
+  dependencies:
+    "@ndla/core" "^0.6.8"
+    "@ndla/util" "^0.3.4"
     react-tabs "^3.0.0"
 
 "@ndla/tooltip@^0.2.6":
@@ -1488,10 +1516,45 @@
     react-swipeable "^5.0.1"
     react-transition-group "^2.5.3"
 
+"@ndla/ui@^0.22.22":
+  version "0.22.22"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.22.22.tgz#e9f5fdf4eff674ab3b030425d8149332583f5bfb"
+  integrity sha512-XTQNvPvu44saB4wEkpxQQ+rBu87zHp7bcGVhA+v3NVMBqe8itnXpbjR42N/B36CjHH0A24elikWfw+EAWIEfeQ==
+  dependencies:
+    "@ndla/button" "^0.3.8"
+    "@ndla/carousel" "^0.3.6"
+    "@ndla/core" "^0.6.8"
+    "@ndla/hooks" "^0.1.2"
+    "@ndla/i18n" "^0.4.2"
+    "@ndla/icons" "^0.6.12"
+    "@ndla/licenses" "^0.6.8"
+    "@ndla/modal" "^0.3.10"
+    "@ndla/tabs" "^0.11.9"
+    "@ndla/tooltip" "^0.2.8"
+    "@ndla/util" "^0.3.4"
+    classnames "2.2.6"
+    focus-trap "^4.0.2"
+    focus-trap-react "^6.0.0"
+    jump.js "^1.0.2"
+    lodash "^4.17.5"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.6.2"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-swipeable "^5.0.1"
+    react-transition-group "^2.5.3"
+
 "@ndla/util@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.3.tgz#fa8dde706d36c67990f46a3d16f4585e4418c8da"
   integrity sha512-tYfHSJPP6qYRALFGZ5DLfCoJw0RMN8LoNXko/EoHCP6m/nQN0c0A8D7DvyR7V9EXXZDiHX7FqANlALQLyUsS9g==
+  dependencies:
+    defined "1.0.0"
+
+"@ndla/util@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@ndla/util/-/util-0.3.4.tgz#57546486a1114d34379a32a73c8f95ca61d5e6b4"
+  integrity sha512-Xy5mU7cb/anUhVjH/VEJOg/T3wvXibKASIAF8zLXl4Rle/y5F7PytN6GxhJp1ul3V2tTfNhf0GUnxHwwBTzHSw==
   dependencies:
     defined "1.0.0"
 
@@ -6302,6 +6365,11 @@ har-validator@~5.1.0:
     ajv "^6.5.5"
     har-schema "^2.0.0"
 
+harmony-reflect@^1.4.6:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/harmony-reflect/-/harmony-reflect-1.6.1.tgz#c108d4f2bb451efef7a37861fdbdae72c9bdefa9"
+  integrity sha512-WJTeyp0JzGtHcuMsi7rw2VwtkvLa+JyfEKJCFyfcS0+CDkjQ5lHPu7zEhFZP+PDSRrEgXa5Ah0l1MbgbE41XjA==
+
 has-ansi@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/has-ansi/-/has-ansi-2.0.0.tgz#34f5049ce1ecdf2b0649af3ef24e45ed35416d91"
@@ -6651,6 +6719,13 @@ icss-utils@^2.1.0:
   integrity sha1-g/Cg7DeL8yRheLbCrZE28TWxyWI=
   dependencies:
     postcss "^6.0.1"
+
+identity-obj-proxy@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/identity-obj-proxy/-/identity-obj-proxy-3.0.0.tgz#94d2bda96084453ef36fbc5aaec37e0f79f1fc14"
+  integrity sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=
+  dependencies:
+    harmony-reflect "^1.4.6"
 
 idtoken-verifier@^1.4.0:
   version "1.4.0"

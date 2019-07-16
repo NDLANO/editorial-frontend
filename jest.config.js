@@ -9,4 +9,7 @@ module.exports = {
     // Use ts-jest for typescript tests: https://kulshekhar.github.io/ts-jest/user/babel7-or-ts#no-type-checking
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
+  moduleNameMapper: {
+    '\\.css$': 'identity-obj-proxy',
+  },
 };

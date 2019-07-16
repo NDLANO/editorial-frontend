@@ -18,7 +18,7 @@ import {
   tableSlateValue,
   listValue,
   detailsBoxValue,
-  blueprintBoxValue,
+  solutionBoxValue,
   headingTwoValue,
   sectionValue,
   quoteValue,
@@ -295,17 +295,17 @@ test('deserializing details box with summary element', () => {
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
 
-test('searlizing blueprint box with summary element', () => {
+test('searlizing solution box with summary element', () => {
   const serializer = new Html({
     rules: [blockRules, detailsRules, paragraphRule],
     parseHtml: fragment,
   });
-  const value = Value.fromJSON(blueprintBoxValue);
+  const value = Value.fromJSON(solutionBoxValue);
   const serialized = serializer.serialize(value);
   expect(serialized).toMatchSnapshot();
 });
 
-test('deserializing blueprint box with summary element', () => {
+test('deserializing solution box with summary element', () => {
   const serializer = new Html({
     rules: [blockRules, paragraphRule, detailsRules],
     parseHtml: fragment,

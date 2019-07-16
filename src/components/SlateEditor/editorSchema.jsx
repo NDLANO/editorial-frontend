@@ -38,7 +38,7 @@ export const schema = {
             { type: 'letter-list' },
             { type: 'related' },
             { type: 'details' },
-            { type: 'blueprint' },
+            { type: 'solutionbox' },
             { type: 'bodybox' },
             { type: 'aside' },
             { type: 'quote' },

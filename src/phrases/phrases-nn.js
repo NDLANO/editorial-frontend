@@ -420,7 +420,7 @@ const phrases = {
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
       details: 'Ekspanderande boks',
-      blueprint: 'Fasitboks',
+      solutionbox: 'Fasitboks',
       image: 'Bilde',
       video: 'Video',
       audio: 'Lyd',

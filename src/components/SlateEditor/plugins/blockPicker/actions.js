@@ -46,7 +46,7 @@ const actions = [
     helpIcon: renderArticleInModal('Details'),
   },
   {
-    data: { type: 'blueprint', object: 'blueprint' },
+    data: { type: 'solutionbox', object: 'solutionbox' },
     icon: <Keyhole />,
     helpIcon: renderArticleInModal('Blueprint'),
   },

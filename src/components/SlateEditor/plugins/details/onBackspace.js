@@ -6,7 +6,7 @@ import { Point } from 'slate';
 import { findNodesByType } from '../../../../util/slateHelpers';
 
 /*
-   editor.value.document.getOffset(node.key) is the offset of the current node where the cursor is. Blocknode is either the details or blueprint block. 
+   editor.value.document.getOffset(node.key) is the offset of the current node where the cursor is. Blocknode is either the details or solution block. 
    We also have to add the summaray text length to see if we should jump out of the block or delete text.
   */
 function handleBackspaceAndCheckOffsetinDetailsblock(
@@ -44,7 +44,7 @@ function onBackspace(event, editor, next) {
   const blockNode = value.document.getParent(paragraphNode.key);
 
   if (
-    (blockNode.type !== 'details' && blockNode.type !== 'blueprint') ||
+    (blockNode.type !== 'details' && blockNode.type !== 'solutionbox') ||
     !isCollapsed
   ) {
     return next();
@@ -53,7 +53,7 @@ function onBackspace(event, editor, next) {
   const summaryTextLength =
     summaryNode && summaryNode[0] ? summaryNode[0].text.length : 0;
 
-  // Detail/blueprint block should be deleted if the text length (excluding summary) is 0 or there are no other elements in the block.
+  // Detail/solution block should be deleted if the text length (excluding summary) is 0 or there are no other elements in the block.
   if (
     blockNode.nodes.size > 0 &&
     blockNode.text.length - summaryTextLength > 0

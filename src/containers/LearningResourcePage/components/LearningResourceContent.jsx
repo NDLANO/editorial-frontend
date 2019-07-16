@@ -102,7 +102,7 @@ class LearningResourceContent extends Component {
       blockPickerPlugin(this.addSection, {
         articleLanguage: language,
         actionsToShowInAreas: {
-          blueprint: ['table'],
+          solutionbox: ['table'],
         },
       }),
       pasteHandler(),
@@ -120,7 +120,7 @@ class LearningResourceContent extends Component {
         blockPickerPlugin(this.addSection, {
           articleLanguage: language,
           actionsToShowInAreas: {
-            blueprint: ['table'],
+            solutionbox: ['table'],
           },
         }),
       ];

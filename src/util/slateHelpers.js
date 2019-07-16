@@ -450,7 +450,7 @@ export const detailsRules = {
     if (el.className === 'c-details--solution-box') {
       return {
         object: 'block',
-        type: 'blueprint',
+        type: 'solutionbox',
         nodes: next(el.childNodes),
       };
     }
@@ -461,11 +461,11 @@ export const detailsRules = {
     };
   },
   serialize(object, children) {
-    if (object.type !== 'details' && object.type !== 'blueprint') {
+    if (object.type !== 'details' && object.type !== 'solutionbox') {
       return;
     }
     const className =
-      object.type === 'blueprint' ? 'c-details--solution-box' : undefined;
+      object.type === 'solutionbox' ? 'c-details--solution-box' : undefined;
     return <details className={className}>{children}</details>;
   },
 };

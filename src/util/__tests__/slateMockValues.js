@@ -409,7 +409,7 @@ export const tableSlateValue = {
   object: 'value',
 };
 
-export const blueprintBoxValue = {
+export const solutionBoxValue = {
   document: {
     data: {},
     nodes: [
@@ -452,7 +452,7 @@ export const blueprintBoxValue = {
           },
         ],
         object: 'block',
-        type: 'blueprint',
+        type: 'solutionbox',
       },
     ],
     object: 'document',

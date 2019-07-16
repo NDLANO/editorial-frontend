@@ -14,7 +14,7 @@ import { spacing, colors } from '@ndla/core';
 import { EditorShape } from '../../../../shapes';
 import DeleteButton from '../../../DeleteButton';
 
-const bluePrintDetailsStyle = css`
+const solutionboxStyle = css`
   background-color: ${colors.tableBg};
   border: none;
   width: 100%;
@@ -25,7 +25,7 @@ const StyledDetailsDiv = styled.div`
   margin: ${spacing.large} 0;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
-  ${p => p.isBlueprint && bluePrintDetailsStyle}
+  ${p => p.isSolutionbox && solutionboxStyle}
   > *:last-child {
     margin-bottom: 0;
   }
@@ -37,7 +37,7 @@ const StyledContent = styled.div`
   padding-left: ${spacing.normal};
 `;
 
-const bluePrintSummaryStyle = css`
+const solutionboxSummaryStyle = css`
   background-color: ${colors.brand.lightest};
   width: 100%;
 `;
@@ -49,7 +49,7 @@ const StyledSummary = styled.summary`
   padding: ${spacing.normal};
   display: flex;
 
-  ${p => p.isBlueprint && bluePrintSummaryStyle}
+  ${p => p.isSolutionbox && solutionboxSummaryStyle}
 
   &::before {
     content: '';
@@ -81,7 +81,7 @@ const StyledRow = styled.div`
 `;
 
 const Details = props => {
-  const { node, isBlueprint, children, editor, editSummaryButton } = props;
+  const { node, isSolutionbox, children, editor, editSummaryButton } = props;
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
@@ -94,10 +94,10 @@ const Details = props => {
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv isBlueprint={isBlueprint}>
+    <StyledDetailsDiv isSolutionbox={isSolutionbox}>
       <StyledRow>
         <StyledSummary
-          isBlueprint={isBlueprint}
+          isSolutionbox={isSolutionbox}
           isOpen={isOpen}
           onClick={toggleOpen}>
           {summaryNode}
@@ -117,7 +117,7 @@ Details.propTypes = {
   node: Types.node.isRequired,
   editor: EditorShape,
   editSummaryButton: PropTypes.node,
-  isBlueprint: PropTypes.bool,
+  isSolutionbox: PropTypes.bool,
 };
 
 export default injectT(Details);

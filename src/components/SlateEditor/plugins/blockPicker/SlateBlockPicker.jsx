@@ -14,7 +14,7 @@ import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
-import { defaultDetailsBlock, defaultBlueprintBlock } from '../details';
+import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
 import { getLocaleObject } from '../../../../i18n';
@@ -91,8 +91,8 @@ class SlateBlockPicker extends Component {
         this.onInsertBlock(defaultBodyBoxBlock());
         break;
       }
-      case 'blueprint': {
-        this.onInsertBlock(defaultBlueprintBlock(this.getFactboxTitle()));
+      case 'solutionbox': {
+        this.onInsertBlock(defaultSolutionboxBlock(this.getFactboxTitle()));
         break;
       }
       case 'details': {
@@ -141,7 +141,7 @@ class SlateBlockPicker extends Component {
     const { articleLanguage } = this.props;
     const localeObject = getLocaleObject(articleLanguage);
     const messages = formatNestedMessages(localeObject.messages);
-    return messages['editorBlockpicker.actions.blueprint'];
+    return messages['editorBlockpicker.actions.solutionbox'];
   }
 
   update(nodeEl) {

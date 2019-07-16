@@ -11,7 +11,7 @@ import { Block } from 'slate';
 import DetailsBox from './DetailsBox';
 import { defaultBlocks } from '../../utils';
 import onKeyDown from './onKeyDown';
-import SlateBlueprint from './SlateBlueprint';
+import SlateSolutionBox from './SlateSolutionBox';
 
 const summaryBlock = (text = '') => [
   {
@@ -77,9 +77,9 @@ export const defaultDetailsBlock = () =>
     nodes: Block.createList(summaryBlock('')),
   });
 
-export const defaultBlueprintBlock = summaryText =>
+export const defaultSolutionboxBlock = summaryText =>
   Block.create({
-    type: 'blueprint',
+    type: 'solutionbox',
     nodes: Block.createList(summaryBlock(summaryText)),
   });
 
@@ -90,7 +90,7 @@ export default function createDetails() {
         isVoid: true,
       },
       details: normalizer,
-      blueprint: normalizer,
+      solutionbox: normalizer,
     },
   };
 
@@ -98,8 +98,8 @@ export default function createDetails() {
   const renderNode = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
-      case 'blueprint':
-        return <SlateBlueprint {...props} editor={editor} />;
+      case 'solutionbox':
+        return <SlateSolutionBox {...props} editor={editor} />;
       case 'details':
         return <DetailsBox {...props} editor={editor} />;
       case 'summary':

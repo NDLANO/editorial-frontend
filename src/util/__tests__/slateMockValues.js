@@ -409,6 +409,57 @@ export const tableSlateValue = {
   object: 'value',
 };
 
+export const solutionBoxValue = {
+  document: {
+    data: {},
+    nodes: [
+      {
+        data: {},
+        nodes: [
+          {
+            data: {},
+            nodes: [
+              {
+                leaves: [
+                  {
+                    marks: [],
+                    object: 'leaf',
+                    text: 'Summary text',
+                  },
+                ],
+                object: 'text',
+              },
+            ],
+            object: 'block',
+            type: 'summary',
+          },
+          {
+            data: {},
+            nodes: [
+              {
+                leaves: [
+                  {
+                    marks: [],
+                    object: 'leaf',
+                    text: 'Details text',
+                  },
+                ],
+                object: 'text',
+              },
+            ],
+            object: 'block',
+            type: 'paragraph',
+          },
+        ],
+        object: 'block',
+        type: 'solutionbox',
+      },
+    ],
+    object: 'document',
+  },
+  object: 'value',
+};
+
 export const detailsBoxValue = {
   document: {
     data: {},

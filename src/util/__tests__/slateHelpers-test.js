@@ -18,6 +18,7 @@ import {
   tableSlateValue,
   listValue,
   detailsBoxValue,
+  solutionBoxValue,
   headingTwoValue,
   sectionValue,
   quoteValue,
@@ -33,6 +34,7 @@ import {
   toJSON,
   blockRules,
   inlineRules,
+  detailsRules,
   orderListRules,
   unorderListRules,
   tableRules,
@@ -274,7 +276,7 @@ test('deserializing list with paragraph inside li elements', () => {
 
 test('serializing details box with summary element', () => {
   const serializer = new Html({
-    rules: [blockRules],
+    rules: [blockRules, detailsRules],
     parseHtml: fragment,
   });
   const value = Value.fromJSON(detailsBoxValue);
@@ -284,11 +286,32 @@ test('serializing details box with summary element', () => {
 
 test('deserializing details box with summary element', () => {
   const serializer = new Html({
-    rules: [blockRules, paragraphRule],
+    rules: [blockRules, paragraphRule, detailsRules],
     parseHtml: fragment,
   });
   const detailsWithSummary =
     '<details><summary>Summary text</summary><p>Details text</p></details>';
+  const deserialized = serializer.deserialize(detailsWithSummary);
+  expect(toJSON(deserialized)).toMatchSnapshot();
+});
+
+test('searlizing solution box with summary element', () => {
+  const serializer = new Html({
+    rules: [blockRules, detailsRules, paragraphRule],
+    parseHtml: fragment,
+  });
+  const value = Value.fromJSON(solutionBoxValue);
+  const serialized = serializer.serialize(value);
+  expect(serialized).toMatchSnapshot();
+});
+
+test('deserializing solution box with summary element', () => {
+  const serializer = new Html({
+    rules: [blockRules, paragraphRule, detailsRules],
+    parseHtml: fragment,
+  });
+  const detailsWithSummary =
+    '<details class="c-details--solution-box"><summary>Summary text</summary><p>Solution text</p></details>';
   const deserialized = serializer.deserialize(detailsWithSummary);
   expect(toJSON(deserialized)).toMatchSnapshot();
 });

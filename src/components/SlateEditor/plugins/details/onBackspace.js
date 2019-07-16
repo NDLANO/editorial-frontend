@@ -58,7 +58,7 @@ function onBackspace(event, editor, next) {
     blockNode.nodes.size > 0 &&
     blockNode.text.length - summaryTextLength > 0
   ) {
-    handleBackspaceAndCheckOffsetinDetailsblock(
+    return handleBackspaceAndCheckOffsetinDetailsblock(
       editor,
       next,
       start,

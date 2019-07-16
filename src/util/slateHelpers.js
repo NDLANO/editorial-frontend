@@ -444,7 +444,7 @@ export const inlineRules = {
   },
 };
 
-const detailsRules = {
+export const detailsRules = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'details') return;
     if (el.className === 'c-details--solution-box') {

@@ -716,6 +716,59 @@ Object {
 }
 `;
 
+exports[`deserializing blueprint box with summary element 1`] = `
+Object {
+  "document": Object {
+    "data": Object {},
+    "nodes": Array [
+      Object {
+        "data": Object {},
+        "nodes": Array [
+          Object {
+            "data": Object {},
+            "nodes": Array [
+              Object {
+                "leaves": Array [
+                  Object {
+                    "marks": Array [],
+                    "object": "leaf",
+                    "text": "Summary text",
+                  },
+                ],
+                "object": "text",
+              },
+            ],
+            "object": "block",
+            "type": "summary",
+          },
+          Object {
+            "data": Object {},
+            "nodes": Array [
+              Object {
+                "leaves": Array [
+                  Object {
+                    "marks": Array [],
+                    "object": "leaf",
+                    "text": "Solution text",
+                  },
+                ],
+                "object": "text",
+              },
+            ],
+            "object": "block",
+            "type": "paragraph",
+          },
+        ],
+        "object": "block",
+        "type": "blueprint",
+      },
+    ],
+    "object": "document",
+  },
+  "object": "value",
+}
+`;
+
 exports[`deserializing bullet list 1`] = `
 Object {
   "document": Object {
@@ -1114,6 +1167,8 @@ Object {
   "object": "value",
 }
 `;
+
+exports[`searlizing blueprint box with summary element 1`] = `"<details class=\\"c-details--solution-box\\"><summary>Summary text</summary><p>Details text</p></details>"`;
 
 exports[`serialize bodybox block 1`] = `
 <div

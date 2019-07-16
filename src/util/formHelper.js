@@ -12,7 +12,7 @@ import {
   learningResourceContentToHTML,
   topicArticleContentToHTML,
 } from './articleContentConverter';
-const diffHTML = require('../../scripts/checkArticles/diffHTML');
+import { diffHTML } from './diffHTML';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',

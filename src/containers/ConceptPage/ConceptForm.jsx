@@ -44,7 +44,8 @@ const getInitialValues = (concept = {}) => ({
   title: concept.title || '',
   language: concept.language,
   updated: concept.updated,
-  created: concept.published,
+  updateCreated: false,
+  created: concept.created,
   description: plainTextToEditorValue(concept.content || '', true),
   supportedLanguages: [],
   creators: parseCopyrightContributors(concept, 'creators'),
@@ -74,6 +75,7 @@ class ConceptForm extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getConcept = this.getConcept.bind(this);
+    this.getCreatedDate = this.getCreatedDate.bind(this);
     this.state = {
       savedToServer: false,
     };
@@ -94,13 +96,13 @@ class ConceptForm extends Component {
     }
   }
 
-  getCreatedDate(values, preview = false) {
+  getCreatedDate(values) {
     if (isEmpty(values.created)) {
       return undefined;
     }
-    if (preview) {
+    /* if (preview) {
       return values.created;
-    }
+    }*/
     const { concept } = this.props;
     const initialValues = getInitialValues(concept);
 
@@ -130,7 +132,8 @@ class ConceptForm extends Component {
       },
       created: this.getCreatedDate(values),
     };
-    console.log('created', concept.created);
+    console.log('created ', concept.created);
+
     return concept;
   }
 
@@ -170,13 +173,12 @@ class ConceptForm extends Component {
   }
 
   onAddConcept = newConcept => {
-    console.log('Inni addConcept:', newConcept.rightsholders);
     addConcept(newConcept);
   };
 
   render() {
     const { t, licenses, history, concept, onUpdate, ...rest } = this.props;
-    const savedToServer = this.state;
+    const { savedToServer } = this.state;
     const panels = ({ errors, touched }) => [
       {
         id: 'concept-upload-content',
@@ -186,7 +188,13 @@ class ConceptForm extends Component {
           field => !!errors[field] && touched[field],
         ),
 
-        component: props => <ConceptContent {...props} />,
+        component: props => (
+          <ConceptContent
+            creators={concept.creators}
+            created={concept.created}
+            {...props}
+          />
+        ),
       },
       {
         id: 'concept-upload-metadataSection',
@@ -204,7 +212,6 @@ class ConceptForm extends Component {
     ];
 
     const initialValues = getInitialValues(concept);
-    console.log('copyright rightholders', initialValues.rightsholders);
 
     return (
       <Formik
@@ -218,7 +225,6 @@ class ConceptForm extends Component {
             initialValues,
             dirty,
           });
-          console.log(values.title, values.content);
 
           return (
             <Form>
@@ -226,6 +232,7 @@ class ConceptForm extends Component {
                 noStatus
                 values={values}
                 type="concept"
+                getConcept={() => this.getConcept(values)}
                 editUrl={lang => console.log('hmm')}
               />
 
@@ -247,6 +254,7 @@ class ConceptForm extends Component {
                             id={panel.id}
                             updateNotes={this.onUpdate}
                             hasError={panel.hasError}
+                            getConcept={() => this.getConcept(values)}
                             isOpen={openIndexes.includes(panel.id)}>
                             <div className={panel.className}>
                               {panel.component({

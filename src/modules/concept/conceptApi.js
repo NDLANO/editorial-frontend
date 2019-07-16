@@ -36,9 +36,11 @@ export const addConcept = concept =>
     body: JSON.stringify(concept),
   }).then(resolveJsonOrRejectWithError);
 
-export const updateConcept = () => {
-  //TODO: implement code for updating concept
-};
+export const updateConcept = concept =>
+  fetchAuthorized(`${conceptUrl}/${concept.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(concept),
+  }).then(resolveJsonOrRejectWithError);
 
 export const validateConcept = (id, concept) =>
   fetchAuthorized(`${conceptUrl}/${id}/validate/`, {

@@ -12,7 +12,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
     conceptId,
     selectedLanguage,
   );
-  console.log(concept);
+
   if (!concept || !concept.id) {
     return null;
   }
@@ -26,7 +26,6 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
   }*/
   return (
     <Fragment>
-      <Redirect to={toEditConcept(concept.id, concept.language)} />
       <HelmetWithTracker
         title={`${concept.title} ${t('htmlTitles.titleTemplate')}`}
       />
@@ -38,7 +37,6 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
 EditConcept.propTypes = {
   conceptId: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
-  createMessage: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
-import ConceptForm from './ConceptForm';
 import {
   actions as licenseActions,
   getAllLicenses,

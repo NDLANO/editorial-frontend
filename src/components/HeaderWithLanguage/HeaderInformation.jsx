@@ -71,7 +71,7 @@ export const types = {
   },
   concept: {
     form: 'conceptform',
-    cssModifier: 'multimedia',
+    cssModifier: 'concept',
     icon: <Concept />,
   },
 };

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
@@ -43,4 +44,4 @@ CreateConcept.propTypes = {
   ),
 };
 
-export default injectT(CreateConcept);
+export default injectT(withRouter(CreateConcept));

@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../components/FormikField';
 import { FormikLicense, FormikContributors } from '../FormikForm';
+import { LicensesArrayOf } from '../../shapes';
+
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const ConceptMetaData = ({ t, licenses }) => (
@@ -16,12 +17,7 @@ const ConceptMetaData = ({ t, licenses }) => (
 );
 
 ConceptMetaData.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf.isRequired,
 };
 
 export default injectT(ConceptMetaData);

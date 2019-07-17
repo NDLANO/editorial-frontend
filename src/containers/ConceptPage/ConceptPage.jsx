@@ -13,6 +13,7 @@ import CreateConcept from './CreateConcept';
 import EditConcept from './EditConcept';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getLocale } from '../../modules/locale/locale';
+import { LicensesArrayOf } from '../../shapes';
 
 class ConceptPage extends PureComponent {
   componentDidMount() {
@@ -30,13 +31,7 @@ class ConceptPage extends PureComponent {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() => (
-                <CreateConcept
-                  licenses={licenses}
-                  history={history}
-                  {...rest}
-                />
-              )}
+              render={() => <CreateConcept licenses={licenses} {...rest} />}
             />
             <Route
               path={`${match.url}/:conceptId/edit/:selectedLanguage`}
@@ -60,12 +55,7 @@ ConceptPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
   userAccess: PropTypes.string,

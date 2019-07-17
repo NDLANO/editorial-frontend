@@ -114,7 +114,6 @@ DeleteLanguageVersion.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     articleType: PropTypes.string,
   }),
-  type: PropTypes.string,
   showDeleteButton: PropTypes.bool.isRequired,
   history: HistoryShape,
 };

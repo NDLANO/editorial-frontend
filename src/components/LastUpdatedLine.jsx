@@ -24,7 +24,6 @@ const buttonCss = css`
 
 const LastUpdatedLine = ({ creators, published, t, ...rest }) => (
   <div css={infoCss}>
-    {console.log(creators, 'published;', published)}
     {creators.map(creator => creator.name).join(',')}
     {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
     {published && (

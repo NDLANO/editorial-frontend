@@ -32,12 +32,6 @@ export const updateConcept = concept =>
     body: JSON.stringify(concept),
   }).then(resolveJsonOrRejectWithError);
 
-export const validateConcept = (id, concept) =>
-  fetchAuthorized(`${conceptUrl}/${id}/validate/`, {
-    method: 'PUT',
-    body: JSON.stringify(concept),
-  }).then(resolveJsonOrRejectWithError);
-
 export const deleteLanguageVersionConcept = concept =>
   fetchAuthorized(`${conceptUrl}/${concept.id}`, {
     method: 'PATCH',

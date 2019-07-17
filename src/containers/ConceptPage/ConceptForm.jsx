@@ -64,6 +64,16 @@ const rules = {
   description: {
     required: true,
   },
+  creators: {
+    minItems: 1,
+    allObjectFieldsRequired: true,
+  },
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
+  },
 };
 
 class ConceptForm extends Component {
@@ -109,7 +119,7 @@ class ConceptForm extends Component {
   getConcept(values) {
     const { licenses } = this.props;
 
-    const concept = {
+    return {
       id: values.id,
       title: values.title,
       content: editorValueToPlainText(values.description),
@@ -124,13 +134,12 @@ class ConceptForm extends Component {
       },
       created: this.getCreatedDate(values),
     };
-
-    return concept;
   }
 
   async handleSubmit(values, actions) {
     const { onUpdate, concept, applicationError } = this.props;
     const { revision } = concept;
+    actions.setSubmitting(true);
 
     try {
       await onUpdate({
@@ -138,6 +147,7 @@ class ConceptForm extends Component {
         revision,
       });
       actions.resetForm();
+      actions.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
       applicationError(err);
@@ -155,9 +165,9 @@ class ConceptForm extends Component {
     const { savedToServer } = this.state;
     const panels = ({ errors, touched }) => [
       {
-        id: 'concept-upload-content',
+        id: 'concept-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'content'].some(
+        hasError: ['title', 'description'].some(
           field => !!errors[field] && touched[field],
         ),
 
@@ -170,7 +180,7 @@ class ConceptForm extends Component {
         ),
       },
       {
-        id: 'concept-upload-metadataSection',
+        id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         hasError: [
           'tags',
@@ -210,7 +220,7 @@ class ConceptForm extends Component {
                 editUrl={lang => toEditConcept(values.id, lang)}
               />
 
-              <Accordion openIndexes={['concept-upload-content']}>
+              <Accordion openIndexes={['concept-content']}>
                 {({ openIndexes, handleItemClick }) => (
                   <AccordionWrapper>
                     {panels(formikProps).map(panel => (
@@ -232,9 +242,7 @@ class ConceptForm extends Component {
                             isOpen={openIndexes.includes(panel.id)}>
                             <div className={panel.className}>
                               {panel.component({
-                                //hasError,
                                 values,
-                                //userAccess,
                                 closePanel: () => handleItemClick(panel.id),
                                 ...rest,
                               })}

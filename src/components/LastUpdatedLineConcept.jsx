@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import formatDate from '../util/formatDate';
 
-const infoCss = css`
+const StyledInfo = styled.div`
   color: ${colors.text.light};
   line-height: 1.4rem;
 `;
 
 const LastUpdatedLineConcept = ({ creators, published, t, ...rest }) => (
-  <div css={infoCss}>
+  <StyledInfo>
     {creators.map(creator => creator.name).join(',')}
     {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
     {formatDate(published)}
-  </div>
+  </StyledInfo>
 );
 
 LastUpdatedLineConcept.propTypes = {

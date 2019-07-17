@@ -4,6 +4,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import ConceptForm from './ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
+import { LicensesArrayOf } from '../../shapes';
 
 const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
   const { concept, updateConcept } = useFetchConceptData(
@@ -28,12 +29,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
 EditConcept.propTypes = {
   conceptId: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf.isRequired,
 };
 
 export default injectT(EditConcept);

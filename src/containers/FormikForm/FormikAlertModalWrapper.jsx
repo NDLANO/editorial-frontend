@@ -14,7 +14,7 @@ import AlertModal from '../../components/AlertModal';
 
 class FormikAlertModalWrapper extends PureComponent {
   constructor(props) {
-    super();
+    super(props);
     this.state = { openModal: false, discardChanges: false };
     this.canNavigate = this.canNavigate.bind(this);
     this.onCancel = this.onCancel.bind(this);

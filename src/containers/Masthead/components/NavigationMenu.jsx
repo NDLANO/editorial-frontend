@@ -38,7 +38,7 @@ const OpenMenu = ({ t, close }) => {
               <span>{t('subNavigation.agreement')}</span>
             </StyledLink>
             <StyledLink to={toCreateConcept()} onClick={close}>
-              <span>Begrep</span>
+              <span>{t('subNavigation.newConcept')}</span>
             </StyledLink>
           </div>
           <div>

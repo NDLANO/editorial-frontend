@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../components/FormikField';
 import { FormikLicense, FormikContributors } from '../FormikForm';
-import MultiSelectDropdown from '../../components/Dropdown/MultiSelectDropdown';
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const ConceptMetaData = ({ t, licenses }) => (

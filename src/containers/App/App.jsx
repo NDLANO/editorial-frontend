@@ -38,8 +38,6 @@ import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
 import ConceptPage from '../ConceptPage/ConceptPage';
-import DisplayConcept from '../ConceptPage/DisplayConcept';
-
 
 export class App extends React.Component {
   getChildContext() {
@@ -77,7 +75,6 @@ export class App extends React.Component {
               />
               <PrivateRoute path="/media" component={MediaPage} />
               <PrivateRoute path="/concept" component={ConceptPage} />
-              <PrivateRoute path="/concept2" component={DisplayConcept} />
               <PrivateRoute path="/agreement" component={AgreementPage} />
               <PrivateRoute path="/film" component={NdlaFilmEditor} />
               <PrivateRoute

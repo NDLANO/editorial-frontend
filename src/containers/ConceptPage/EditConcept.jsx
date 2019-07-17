@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import ConceptForm from './ConceptForm';
-import { toEditConcept } from '../../util/routeHelpers';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 
 const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
@@ -16,11 +14,6 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
   if (!concept || !concept.id) {
     return null;
   }
-  /* if (concept.selectedLanguage == null) {
-    return (
-      <Redirect to={toEditConcept(concept.id, concept.selectedLanguage)} />
-    );
-  }*/
 
   return (
     <Fragment>

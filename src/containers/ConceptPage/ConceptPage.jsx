@@ -67,7 +67,6 @@ ConceptPage.propTypes = {
     }),
   ).isRequired,
   fetchLicenses: PropTypes.func.isRequired,
-  createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
   userAccess: PropTypes.string,
   history: PropTypes.shape({

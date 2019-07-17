@@ -1,21 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'formik';
-import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
-import { UploadDropZone, Input } from '@ndla/forms';
-import Tooltip from '@ndla/tooltip';
-import { DeleteForever } from '@ndla/icons/editor';
-import { animations, spacing, colors } from '@ndla/core';
-import IconButton from '../../components/IconButton';
-import FormikField from '../../components/FormikField';
-import { Formik, Form, ErrorMessage } from 'formik';
-import { formClasses } from '../FormikForm';
-import FormikActionButton from '../FormikForm/components/FormikActionButton.jsx';
-import { FormikIngress } from '../FormikForm';
-import Field from '../../../src/components/Field';
-import LastUpdatedLineConcept from '../../components/LastUpdatedLineConcept';
 import { css } from '@emotion/core';
+import { injectT } from '@ndla/i18n';
+import { Form } from 'formik';
+import FormikField from '../../components/FormikField';
+import { FormikIngress } from '../FormikForm';
+import LastUpdatedLineConcept from '../../components/LastUpdatedLineConcept';
 
 const byLineStyle = css`
   display: flex;

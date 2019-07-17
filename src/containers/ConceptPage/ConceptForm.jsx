@@ -34,10 +34,7 @@ import { ConceptShape, LicensesArrayOf } from '../../shapes';
 import SaveButton from '../../components/SaveButton';
 import { addConcept } from '../../modules/concept/conceptApi.js';
 import * as messageActions from '../Messages/messagesActions';
-import { transformConceptFromApiVersion } from '../../../src/util/conceptUtil.js';
-import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
-import { validateConcept } from '../../modules/concept/conceptApi.js';
 
 const getInitialValues = (concept = {}) => ({
   id: concept.id,
@@ -81,7 +78,6 @@ class ConceptForm extends Component {
     };
     this.formik = React.createRef();
   }
-  //const createArticle  = useFetchArticleData(undefined, locale);
 
   componentDidUpdate({ concept: prevConcept }) {
     const { concept } = this.props;
@@ -101,9 +97,6 @@ class ConceptForm extends Component {
     if (isEmpty(values.created)) {
       return undefined;
     }
-    /* if (preview) {
-      return values.created;
-    }*/
     const { concept } = this.props;
     const initialValues = getInitialValues(concept);
 
@@ -116,7 +109,6 @@ class ConceptForm extends Component {
 
   getConcept(values) {
     const { licenses } = this.props;
-    const emptyField = values.language ? '' : undefined;
 
     const concept = {
       id: values.id,
@@ -167,7 +159,6 @@ class ConceptForm extends Component {
         id: 'concept-upload-content',
         title: t('form.contentSection'),
         hasError: ['title', 'content'].some(
-          //description istedet for content????
           field => !!errors[field] && touched[field],
         ),
 
@@ -302,10 +293,6 @@ class ConceptForm extends Component {
     );
   }
 }
-
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-};
 
 ConceptForm.propTypes = {
   concept: ConceptShape,

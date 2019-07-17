@@ -1,5 +1,3 @@
-import defined from 'defined';
-import formatDate from './formatDate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 
 export const transformConceptFromApiVersion = (concept, locale) => ({

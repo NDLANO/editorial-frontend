@@ -40,7 +40,7 @@ class SearchConceptForm extends Component {
     if (evt) {
       evt.preventDefault();
     }
-    const { search } = this.state;
+    const { search } = this.props;
     search({ ...this.state.search, page: 1 });
   };
 

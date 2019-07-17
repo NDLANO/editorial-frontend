@@ -77,7 +77,6 @@ class SearchContainer extends Component {
       type,
       t,
     } = this.props;
-
     const searchObject = queryString.parse(location.search);
     return (
       <OneColumn>
@@ -109,6 +108,7 @@ class SearchContainer extends Component {
           results={results.results}
           searching={searching}
           type={type}
+          locale={locale}
         />
         <Pager
           page={searchObject.page ? parseInt(searchObject.page, 10) : 1}

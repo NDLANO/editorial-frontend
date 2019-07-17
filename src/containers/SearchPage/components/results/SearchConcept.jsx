@@ -9,19 +9,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { Link } from 'react-router-dom';
 import { searchClasses } from '../../SearchContainer';
+import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
-const SearchConcept = ({ concept, t }) => {
+const SearchConcept = ({ concept, locale, t }) => {
   const title = convertFieldWithFallback(concept, 'title', concept.title);
   const content = convertFieldWithFallback(concept, 'content', concept.content);
+
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('content')}>
-        <h1 {...searchClasses('title')}>
-          <u>{title || t('conceptSearch.noTitle')}</u>
-        </h1>
-        <p>{content || t('conceptSearch.noContent')}</p>
+        <div {...searchClasses('header')}>
+          <Link
+            {...searchClasses('link')}
+            to={`/concept/${concept.id}/edit/${locale}`}>
+            <h2 {...searchClasses('title')}>
+              {title || t('conceptSearch.noTitle')}
+            </h2>
+          </Link>
+          {concept.supportedLanguages.map(lang => (
+            <SearchContentLanguage
+              key={`${lang}_search_content`}
+              language={lang}
+              content={concept}
+            />
+          ))}
+        </div>
+        <p {...searchClasses('description')}>
+          {content || t('conceptSearch.noContent')}
+        </p>
       </div>
     </div>
   );
@@ -32,6 +50,7 @@ SearchConcept.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
   },
+  locale: PropTypes.string,
 };
 
 export default injectT(SearchConcept);

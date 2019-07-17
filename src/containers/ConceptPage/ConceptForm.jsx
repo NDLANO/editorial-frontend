@@ -33,7 +33,6 @@ import validateFormik from '../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf } from '../../shapes';
 import SaveButton from '../../components/SaveButton';
 import { addConcept } from '../../modules/concept/conceptApi.js';
-import * as messageActions from '../Messages/messagesActions';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
 
 const getInitialValues = (concept = {}) => ({
@@ -211,7 +210,7 @@ class ConceptForm extends Component {
                 editUrl={lang => toEditConcept(values.id, lang)}
               />
 
-              <Accordion>
+              <Accordion openIndexes={['concept-upload-content']}>
                 {({ openIndexes, handleItemClick }) => (
                   <AccordionWrapper>
                     {panels(formikProps).map(panel => (

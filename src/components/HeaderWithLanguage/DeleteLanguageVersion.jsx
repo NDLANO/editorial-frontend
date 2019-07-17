@@ -13,9 +13,8 @@ import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../modules/draft/draftApi';
-import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { HistoryShape } from '../../shapes';
-import { toEditArticle, toEditConcept } from '../../util/routeHelpers';
+import { toEditArticle } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
 
@@ -42,7 +41,6 @@ class DeleteLanguageVersion extends React.Component {
   async deleteLanguageVersion() {
     const {
       values: { id, supportedLanguages, language, articleType },
-      type,
       history,
     } = this.props;
     if (
@@ -50,25 +48,15 @@ class DeleteLanguageVersion extends React.Component {
       supportedLanguages.length > 1 &&
       supportedLanguages.includes(language)
     ) {
-      if (type === 'concept') {
-        // må hente ut riktig begrep med denne id'en og endre slik at språket som slettes fjernes fra det begrepet,
-        // derretter sende det oppdaterte begrepet inn i deleteLanguageVersion
-        /*await deleteLanguageVersionConcept(newConcept);
-        this.toggleShowDeleteWarning();*/
-        const otherSupportedLanguage = supportedLanguages.find(
-          lang => lang !== language,
-        );
-        history.push(toEditConcept(id, otherSupportedLanguage));
-      } else {
-        await deleteLanguageVersion(id, language);
-        this.toggleShowDeleteWarning();
-        const otherSupportedLanguage = supportedLanguages.find(
-          lang => lang !== language,
-        );
-        history.push(toEditArticle(id, articleType, otherSupportedLanguage));
-      }
+      await deleteLanguageVersion(id, language);
+      this.toggleShowDeleteWarning();
+      const otherSupportedLanguage = supportedLanguages.find(
+        lang => lang !== language,
+      );
+      history.push(toEditArticle(id, articleType, otherSupportedLanguage));
     }
   }
+
   render() {
     const {
       values: { id, supportedLanguages, language },

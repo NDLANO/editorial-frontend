@@ -47,7 +47,7 @@ const getInitialValues = (concept = {}) => ({
   updateCreated: false,
   created: concept.created,
   description: plainTextToEditorValue(concept.content || '', true),
-  supportedLanguages: concept.supportedLanguages,
+  supportedLanguages: concept.supportedLanguages || [],
   creators: parseCopyrightContributors(concept, 'creators'),
   processors: parseCopyrightContributors(concept, 'processors'),
   rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
@@ -79,7 +79,7 @@ class ConceptForm extends Component {
     this.state = {
       savedToServer: false,
     };
-    //this.formik = React.createRef();
+    this.formik = React.createRef();
   }
   //const createArticle  = useFetchArticleData(undefined, locale);
 
@@ -120,8 +120,8 @@ class ConceptForm extends Component {
 
     const concept = {
       id: values.id,
-      title: values.title || emptyField,
-      content: editorValueToPlainText(values.description) || emptyField,
+      title: values.title,
+      content: editorValueToPlainText(values.description),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
       copyright: {
@@ -133,8 +133,6 @@ class ConceptForm extends Component {
       },
       created: this.getCreatedDate(values),
     };
-    console.log('language ', concept.language);
-    console.log('supportedLanguages ', concept.supportedLanguages);
 
     return concept;
   }
@@ -148,7 +146,6 @@ class ConceptForm extends Component {
         ...this.getConcept(values),
         revision,
       });
-      //this.onAddConcept(concept);
       actions.resetForm();
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -203,6 +200,7 @@ class ConceptForm extends Component {
       <Formik
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
+        ref={this.formik}
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting, setValues, error } = formikProps;

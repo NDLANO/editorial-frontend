@@ -12,7 +12,7 @@ const CreateConcept = props => {
 
   const createConceptAndPushRoute = async createdConcept => {
     const savedConcept = await createConcept(createdConcept);
-    history.push(toEditConcept(savedConcept.id, savedConcept.language));
+    history.push(toEditConcept(savedConcept.id, createdConcept.language));
   };
 
   return (

@@ -8,7 +8,7 @@
 
 import { visitOptions, setToken } from '../../support';
 
-describe('Slideshow editing', () => {
+describe('Film editing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
@@ -21,14 +21,30 @@ describe('Slideshow editing', () => {
   });
 
   it('Can add a movie to the slideshow', () => {
-    cy.get('[data-cy=add-slideshow-movie]').select('Bawke');
+    cy.get(`input[placeholder="Legg til film i slideshow"]`)
+      .click()
+      .type('Page One')
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('Page One')
+      .click();
   });
 
   it('Can remove movie from slideshow', () => {
-    cy.get('[data-cy=add-slideshow-movie]').select('Bonki');
+    cy.get(`input[placeholder="Legg til film i slideshow"]`)
+      .click()
+      .type('Page One')
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .contains('Page One')
+      .click();
 
     cy.get('ul > li > div')
-      .contains('Bonki')
+      .contains('Page One')
       .parent()
       .find('button')
       .eq(-1)

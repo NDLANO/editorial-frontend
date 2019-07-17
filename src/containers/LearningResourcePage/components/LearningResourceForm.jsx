@@ -6,11 +6,9 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
-import { compose } from 'redux';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import Field from '../../../components/Field';
@@ -26,6 +24,7 @@ import { LicensesArrayOf, ArticleShape } from '../../../shapes';
 import {
   FormikAlertModalWrapper,
   FormikActionButton,
+  FormikAbortButton,
   formClasses,
 } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -229,7 +228,7 @@ class LearningResourceForm extends Component {
   }
 
   render() {
-    const { t, history, article, onUpdate, ...rest } = this.props;
+    const { t, article, onUpdate, ...rest } = this.props;
     const { error, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
@@ -247,78 +246,70 @@ class LearningResourceForm extends Component {
             type: 'learningResource',
           });
           return (
-            <Fragment>
-              <Form {...formClasses()}>
-                <HeaderWithLanguage
-                  values={values}
-                  type="standard"
-                  editUrl={lang =>
-                    toEditArticle(values.id, values.articleType, lang)
-                  }
-                  getArticle={() => this.getArticleFromSlate(values)}
-                />
-                <LearningResourcePanels
-                  values={values}
-                  errors={errors}
-                  article={article}
-                  touched={touched}
-                  updateNotes={onUpdate}
-                  getArticle={() => this.getArticleFromSlate(values)}
-                  formIsDirty={formIsDirty}
-                  {...rest}
-                />
-                <Field right>
-                  {error && <span className="c-errorMessage">{error}</span>}
-                  {values.id && (
-                    <FormikActionButton
-                      data-testid="resetToProd"
-                      onClick={() => this.setState({ showResetModal: true })}>
-                      {t('form.resetToProd.button')}
-                    </FormikActionButton>
-                  )}
-
-                  <AlertModal
-                    show={this.state.showResetModal}
-                    text={t('form.resetToProd.modal')}
-                    actions={[
-                      {
-                        text: t('form.abort'),
-                        onClick: () => this.setState({ showResetModal: false }),
-                      },
-                      {
-                        text: 'Reset',
-                        onClick: () => this.onReset(setValues),
-                      },
-                    ]}
-                    onCancel={() => this.setState({ showResetModal: false })}
-                  />
+            <Form {...formClasses()}>
+              <HeaderWithLanguage
+                values={values}
+                type="standard"
+                editUrl={lang =>
+                  toEditArticle(values.id, values.articleType, lang)
+                }
+                getArticle={() => this.getArticleFromSlate(values)}
+              />
+              <LearningResourcePanels
+                values={values}
+                errors={errors}
+                article={article}
+                touched={touched}
+                updateNotes={onUpdate}
+                getArticle={() => this.getArticleFromSlate(values)}
+                formIsDirty={formIsDirty}
+                {...rest}
+              />
+              <Field right>
+                {error && <span className="c-errorMessage">{error}</span>}
+                {values.id && (
                   <FormikActionButton
-                    outline
-                    onClick={evt => {
-                      evt.stopPropagation();
-                      history.goBack();
-                    }}
-                    disabled={isSubmitting}>
-                    {t('form.abort')}
+                    data-testid="resetToProd"
+                    onClick={() => this.setState({ showResetModal: true })}>
+                    {t('form.resetToProd.button')}
                   </FormikActionButton>
-                  <SaveButton
-                    data-testid="saveLearningResourceButton"
-                    {...formClasses}
-                    isSaving={isSubmitting}
-                    defaultText="saveDraft"
-                    formIsDirty={formIsDirty}
-                    showSaved={savedToServer && !formIsDirty}>
-                    {t('form.save')}
-                  </SaveButton>
-                </Field>
-                <FormikAlertModalWrapper
-                  isSubmitting={isSubmitting}
-                  formIsDirty={formIsDirty}
-                  severity="danger"
-                  text={t('alertModal.notSaved')}
+                )}
+
+                <AlertModal
+                  show={this.state.showResetModal}
+                  text={t('form.resetToProd.modal')}
+                  actions={[
+                    {
+                      text: t('form.abort'),
+                      onClick: () => this.setState({ showResetModal: false }),
+                    },
+                    {
+                      text: 'Reset',
+                      onClick: () => this.onReset(setValues),
+                    },
+                  ]}
+                  onCancel={() => this.setState({ showResetModal: false })}
                 />
-              </Form>
-            </Fragment>
+                <FormikAbortButton outline disabled={isSubmitting}>
+                  {t('form.abort')}
+                </FormikAbortButton>
+                <SaveButton
+                  data-testid="saveLearningResourceButton"
+                  {...formClasses}
+                  isSaving={isSubmitting}
+                  defaultText="saveDraft"
+                  formIsDirty={formIsDirty}
+                  showSaved={savedToServer && !formIsDirty}>
+                  {t('form.save')}
+                </SaveButton>
+              </Field>
+              <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+              />
+            </Form>
           );
         }}
       </Formik>
@@ -343,15 +334,9 @@ LearningResourceForm.propTypes = {
     topics: PropTypes.array,
     loading: PropTypes.bool,
   }),
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
   userAccess: PropTypes.string,
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(LearningResourceForm);
+export default injectT(LearningResourceForm);

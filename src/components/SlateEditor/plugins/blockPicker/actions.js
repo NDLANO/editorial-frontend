@@ -6,6 +6,7 @@ import {
   TableMaterial,
   ArrowExpand,
   Framed,
+  Keyhole,
   PlayBoxOutline,
   PresentationPlay,
   RelatedArticle,
@@ -43,6 +44,11 @@ const actions = [
     data: { type: 'details', object: 'details' },
     icon: <ArrowExpand />,
     helpIcon: renderArticleInModal('Details'),
+  },
+  {
+    data: { type: 'solutionbox', object: 'solutionbox' },
+    icon: <Keyhole />,
+    helpIcon: renderArticleInModal('Blueprint'),
   },
   {
     data: { type: 'embed', object: 'image' },

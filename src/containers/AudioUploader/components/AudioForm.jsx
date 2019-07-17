@@ -16,7 +16,6 @@ import Accordion, {
 } from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -25,7 +24,7 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import {
-  FormikActionButton,
+  FormikAbortButton,
   formClasses,
   FormikAlertModalWrapper,
 } from '../../FormikForm';
@@ -126,7 +125,7 @@ class AudioForm extends Component {
   }
 
   render() {
-    const { t, tags, licenses, history, audio } = this.props;
+    const { t, tags, licenses, audio } = this.props;
     const { savedToServer } = this.state;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -214,12 +213,9 @@ class AudioForm extends Component {
                 )}
               </Accordion>
               <Field right>
-                <FormikActionButton
-                  outline
-                  disabled={isSubmitting}
-                  onClick={history.goBack}>
+                <FormikAbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}
-                </FormikActionButton>
+                </FormikAbortButton>
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
@@ -255,9 +251,6 @@ AudioForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   onUpdate: PropTypes.func.isRequired,
   revision: PropTypes.number,
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
   audio: AudioShape,
   applicationError: PropTypes.func.isRequired,
   audioLanguage: PropTypes.string,
@@ -268,6 +261,5 @@ export default compose(
     undefined,
     mapDispatchToProps,
   ),
-  withRouter,
   injectT,
 )(AudioForm);

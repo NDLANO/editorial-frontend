@@ -6,19 +6,36 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { findDOMNode } from 'slate-react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, formatNestedMessages } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
-import { defaultDetailsBlock } from '../detailsbox';
+import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
+import { getLocaleObject } from '../../../../i18n';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
+
+const getSectionElementInEditor = nodeEl => {
+  const maxIterations = 8;
+  let iterations = 0;
+  let element = nodeEl;
+  while (maxIterations > iterations) {
+    element = element.parentNode;
+    if (!element || !element.parentNode) {
+      return undefined;
+    }
+    if (element.tagName.toLowerCase() === 'section') {
+      return element;
+    }
+    iterations = iterations + 1;
+  }
+};
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -35,6 +52,8 @@ class SlateBlockPicker extends Component {
     this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onVisualElementClose = this.onVisualElementClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
+    this.getFactboxTitle = this.getFactboxTitle.bind(this);
+    this.getActionsForArea = this.getActionsForArea.bind(this);
     this.slateBlockRef = React.createRef();
     this.slateBlockButtonRef = React.createRef();
     this.zIndexTimeout = null;
@@ -70,6 +89,10 @@ class SlateBlockPicker extends Component {
       }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
+        break;
+      }
+      case 'solutionbox': {
+        this.onInsertBlock(defaultSolutionboxBlock(this.getFactboxTitle()));
         break;
       }
       case 'details': {
@@ -114,12 +137,20 @@ class SlateBlockPicker extends Component {
     this.setState({ isOpen });
   }
 
+  getFactboxTitle() {
+    const { articleLanguage } = this.props;
+    const localeObject = getLocaleObject(articleLanguage);
+    const messages = formatNestedMessages(localeObject.messages);
+    return messages['editorBlockpicker.actions.solutionbox'];
+  }
+
   update(nodeEl) {
     const { current: slateBlockRef } = this.slateBlockRef;
     if (slateBlockRef) {
+      const sectionNode = getSectionElementInEditor(nodeEl);
       const rect = nodeEl.getBoundingClientRect();
       slateBlockRef.style.top = `${rect.top -
-        nodeEl.parentNode.getBoundingClientRect().top -
+        sectionNode.getBoundingClientRect().top -
         14}px`;
       slateBlockRef.style.left = '-78px';
       slateBlockRef.style.position = 'absolute';
@@ -186,11 +217,38 @@ class SlateBlockPicker extends Component {
     }
   }
 
+  getActionsForArea() {
+    const { actionsToShowInAreas, editor } = this.props;
+    let node = editor.value.document.getClosestBlock(
+      editor.value.selection.start.key,
+    );
+    if (!node || !actionsToShowInAreas) {
+      return actions;
+    }
+    while (true) {
+      const parent = editor.value.document.getParent(node.key);
+      if (
+        !parent ||
+        parent.get('type') === 'section' ||
+        parent.get('type') === 'document'
+      ) {
+        return actions;
+      }
+      const parentType = parent.get('type');
+      if (actionsToShowInAreas[parentType]) {
+        return actions.filter(action =>
+          actionsToShowInAreas[parentType].includes(action.data.object),
+        );
+      }
+      node = parent;
+    }
+  }
+
   render() {
     const { t } = this.props;
     const { isOpen, visualElementSelect } = this.state;
     return (
-      <Fragment>
+      <>
         <Portal isOpened={visualElementSelect.isOpen}>
           <SlateVisualElementPicker
             resource={visualElementSelect.visualElementType}
@@ -204,7 +262,7 @@ class SlateBlockPicker extends Component {
             cy="slate-block-picker"
             isOpen={isOpen}
             heading={t('editorBlockpicker.heading')}
-            actions={actions.map(action => ({
+            actions={this.getActionsForArea().map(action => ({
               ...action,
               label: t(`editorBlockpicker.actions.${action.data.object}`),
             }))}
@@ -214,7 +272,7 @@ class SlateBlockPicker extends Component {
             }}
           />
         </div>
-      </Fragment>
+      </>
     );
   }
 }
@@ -225,6 +283,8 @@ SlateBlockPicker.propTypes = {
   addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),
+  articleLanguage: PropTypes.string.isRequired,
+  actionsToShowInAreas: PropTypes.shape({}), //dynamic keys...,
 };
 
 export default injectT(SlateBlockPicker);

@@ -421,6 +421,7 @@ const phrases = {
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
       details: 'Ekspanderande boks',
+      solutionbox: 'Fasitboks',
       image: 'Bilde',
       video: 'Video',
       audio: 'Lyd',
@@ -971,6 +972,7 @@ const phrases = {
       groupNamePlaceholder: 'Skriv navn på {lang}',
       editGroupTitle: 'Endre navn(a) på filmgruppa:',
       newGroupTitle: 'Kva skal gruppa heite?',
+      notFound: 'Vi finn ikkje metadata for denne filmen...',
     },
   },
   modal: {

@@ -31,7 +31,7 @@ import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
-import createDetailsPlugin from '../../../components/SlateEditor/plugins/detailsbox';
+import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
@@ -52,6 +52,7 @@ import {
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
+import { ArticleShape } from '../../../shapes';
 
 const byLineStyle = css`
   display: flex;
@@ -73,7 +74,10 @@ const findFootnotes = content =>
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
-    const { locale } = props;
+    const {
+      locale,
+      article: { language },
+    } = props;
     this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),
@@ -95,10 +99,32 @@ class LearningResourceContent extends Component {
       relatedPlugin(),
       filePlugin(),
       mathmlPlugin(),
-      blockPickerPlugin(this.addSection),
+      blockPickerPlugin(this.addSection, {
+        articleLanguage: language,
+        actionsToShowInAreas: {
+          solutionbox: ['table'],
+        },
+      }),
       pasteHandler(),
       dndPlugin,
     ];
+  }
+
+  componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
+    const {
+      article: { id, language },
+    } = this.props;
+    if (prevLanguage !== language || prevId !== id) {
+      this.plugins = [
+        ...this.plugins,
+        blockPickerPlugin(this.addSection, {
+          articleLanguage: language,
+          actionsToShowInAreas: {
+            solutionbox: ['table'],
+          },
+        }),
+      ];
+    }
   }
 
   addSection() {
@@ -205,6 +231,7 @@ LearningResourceContent.propTypes = {
     }),
     setFieldValue: PropTypes.func.isRequired,
   }),
+  article: ArticleShape,
 };
 
 const mapStateToProps = state => ({

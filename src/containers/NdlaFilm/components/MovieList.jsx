@@ -159,20 +159,22 @@ class MovieList extends Component {
     return (
       <StyledWrapper>
         <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
-          {movies.map((movie, index) => (
-            <MovieListItem
-              key={movie.id}
-              movie={movie}
-              deleteIndex={deleteIndex}
-              messages={messages}
-              index={index}
-              executeDeleteFile={this.executeDeleteFile}
-              showDragTooltip={movies.length > 1 && draggingIndex === -1}
-              onDragEnd={this.onDragEnd}
-              onDragStart={this.onDragStart}
-              deleteFile={this.deleteFile}
-            />
-          ))}
+          {movies
+            .filter(movie => !!movie)
+            .map((movie, index) => (
+              <MovieListItem
+                key={movie.id}
+                movie={movie}
+                deleteIndex={deleteIndex}
+                messages={messages}
+                index={index}
+                executeDeleteFile={this.executeDeleteFile}
+                showDragTooltip={movies.length > 1 && draggingIndex === -1}
+                onDragEnd={this.onDragEnd}
+                onDragStart={this.onDragStart}
+                deleteFile={this.deleteFile}
+              />
+            ))}
         </StyledList>
       </StyledWrapper>
     );

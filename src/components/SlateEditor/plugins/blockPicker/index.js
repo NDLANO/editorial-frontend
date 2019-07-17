@@ -15,15 +15,16 @@ export default function blockPickerPlugin(addSection, opts = {}) {
   const renderEditor = (props, editor, next) => {
     const children = next();
     return (
-      <React.Fragment>
+      <>
         <SlateBlockPicker
           editor={editor}
           onChange={editor.onChange}
           addSection={addSection}
+          articleLanguage={opts.articleLanguage}
           {...options(opts)}
         />
         {children}
-      </React.Fragment>
+      </>
     );
   };
 

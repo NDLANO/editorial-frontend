@@ -72,11 +72,7 @@ const SearchContent = ({ content, locale }) => {
           ))}
         </div>
         <p {...searchClasses('description')}>
-          {convertFieldWithFallback(
-            content,
-            'metaDescription',
-            '',
-          )}
+          {convertFieldWithFallback(content, 'metaDescription', '')}
         </p>
         <div {...searchClasses('breadcrumbs')}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (

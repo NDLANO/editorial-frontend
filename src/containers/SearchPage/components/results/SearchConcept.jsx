@@ -15,8 +15,8 @@ import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
 const SearchConcept = ({ concept, locale, t }) => {
-  const title = convertFieldWithFallback(concept, 'title', concept.title);
-  const content = convertFieldWithFallback(concept, 'content', concept.content);
+  const title = convertFieldWithFallback(concept, 'title', t('conceptSearch.noTitle'));
+  const content = convertFieldWithFallback(concept, 'content', t('conceptSearch.noContent'));
 
   return (
     <div {...searchClasses('result')}>
@@ -26,7 +26,7 @@ const SearchConcept = ({ concept, locale, t }) => {
             {...searchClasses('link')}
             to={`/concept/${concept.id}/edit/${locale}`}>
             <h2 {...searchClasses('title')}>
-              {title || t('conceptSearch.noTitle')}
+              {title}
             </h2>
           </Link>
           {concept.supportedLanguages.map(lang => (
@@ -38,7 +38,7 @@ const SearchConcept = ({ concept, locale, t }) => {
           ))}
         </div>
         <p {...searchClasses('description')}>
-          {content || t('conceptSearch.noContent')}
+          {content}
         </p>
       </div>
     </div>

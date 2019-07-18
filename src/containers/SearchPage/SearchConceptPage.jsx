@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
@@ -21,10 +21,10 @@ import {
 import SearchContainer from './SearchContainer';
 
 const SearchConceptPage = ({ t, ...props }) => (
-  <Fragment>
+  <>
     <HelmetWithTracker title={t('htmlTitles.searchConceptPage')} />
     <SearchContainer type="concept" {...props} />
-  </Fragment>
+  </>
 );
 
 const mapStateToProps = (state, ownProps) => ({

@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
+import { Concept } from '@ndla/icons/editor';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -28,6 +29,9 @@ const SearchConcept = ({ concept, locale, t }) => {
 
   return (
     <div {...searchClasses('result')}>
+      <div {...searchClasses('image')}>
+        <Concept className="c-icon--large" />
+      </div>
       <div {...searchClasses('content')}>
         <div {...searchClasses('header')}>
           <Link

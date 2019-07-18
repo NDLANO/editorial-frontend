@@ -42,7 +42,11 @@ const ConceptContent = props => {
         )}
       </FormikField>
 
-      <FormikIngress name="description" maxLength={800} type="concept" />
+      <FormikIngress
+        name="conceptContent"
+        maxLength={800}
+        placeholder={t('form.name.conceptDescription')}
+      />
     </Form>
   );
 };

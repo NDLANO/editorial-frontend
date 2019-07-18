@@ -13,7 +13,7 @@ import StyledFormContainer from '../../components/SlateEditor/common/StyledFormC
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-const FormikIngress = ({ t, name, maxLength, type }) => (
+const FormikIngress = ({ t, name, maxLength, placeholder }) => (
   <StyledFormContainer>
     <FormikField
       noBorder
@@ -25,11 +25,7 @@ const FormikIngress = ({ t, name, maxLength, type }) => (
         <PlainTextEditor
           id={field.name}
           {...field}
-          placeholder={
-            type === 'concept'
-              ? t('form.name.conceptDescription')
-              : t('form.introduction.label')
-          }
+          placeholder={placeholder || t('form.introduction.label')}
           className="article_introduction"
           data-cy="learning-resource-ingress"
         />
@@ -48,6 +44,7 @@ FormikIngress.propTypes = {
   name: PropTypes.string,
   maxLength: PropTypes.number,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 export default injectT(FormikIngress);

@@ -6,6 +6,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
 import ConceptForm from './ConceptForm';
+import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {
   const { licenses, locale, t, history, ...rest } = props;
@@ -36,12 +37,7 @@ CreateConcept.propTypes = {
   }).isRequired,
   createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ),
+  licenses: LicensesArrayOf,
 };
 
 export default injectT(withRouter(CreateConcept));

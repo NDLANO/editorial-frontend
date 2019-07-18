@@ -42,7 +42,7 @@ const getInitialValues = (concept = {}) => ({
   updated: concept.updated,
   updateCreated: false,
   created: concept.created,
-  description: plainTextToEditorValue(concept.content || '', true),
+  conceptContent: plainTextToEditorValue(concept.content || '', true),
   supportedLanguages: concept.supportedLanguages || [],
   creators: parseCopyrightContributors(concept, 'creators'),
   processors: parseCopyrightContributors(concept, 'processors'),
@@ -61,7 +61,7 @@ const rules = {
   title: {
     required: true,
   },
-  description: {
+  conceptContent: {
     required: true,
   },
   creators: {
@@ -122,7 +122,7 @@ class ConceptForm extends Component {
     return {
       id: values.id,
       title: values.title,
-      content: editorValueToPlainText(values.description),
+      content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
       copyright: {
@@ -167,7 +167,7 @@ class ConceptForm extends Component {
       {
         id: 'concept-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'description'].some(
+        hasError: ['title', 'conceptContent'].some(
           field => !!errors[field] && touched[field],
         ),
 

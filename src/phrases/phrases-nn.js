@@ -474,7 +474,7 @@ const phrases = {
       validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
       description: 'Innhald',
-      conceptDescription: 'Beskrivning',
+      conceptContent: 'Beskrivning',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

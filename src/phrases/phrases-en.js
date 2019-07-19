@@ -456,7 +456,7 @@ const phrases = {
       validFrom: 'Valid from',
       validTo: 'Valid to',
       description: 'Content',
-      conceptDescription: 'Description',
+      conceptContent: 'Description',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',

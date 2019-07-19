@@ -29,7 +29,7 @@ const ConceptContent = props => {
         noBorder
         placeholder={t('form.title.label')}
       />
-      <FormikField name="created" css={byLineStyle}>
+      <FormikField noBorder name="created" css={byLineStyle}>
         {({ field, form }) => (
           <LastUpdatedLineConcept
             name={field.name}
@@ -45,7 +45,7 @@ const ConceptContent = props => {
       <FormikIngress
         name="conceptContent"
         maxLength={800}
-        placeholder={t('form.name.conceptDescription')}
+        placeholder={t('form.name.conceptContent')}
       />
     </Form>
   );

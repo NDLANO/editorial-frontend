@@ -14,6 +14,7 @@ import EditConcept from './EditConcept';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getLocale } from '../../modules/locale/locale';
 import { LicensesArrayOf } from '../../shapes';
+import Footer from '../App/components/Footer';
 
 class ConceptPage extends PureComponent {
   componentDidMount() {
@@ -46,6 +47,7 @@ class ConceptPage extends PureComponent {
             />
             <Route component={NotFoundPage} />
           </Switch>
+          <Footer showLocaleSelector={false} />
         </OneColumn>
       </div>
     );

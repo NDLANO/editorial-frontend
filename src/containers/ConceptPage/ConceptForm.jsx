@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Formik, Form } from 'formik';
 import Accordion, {
   AccordionWrapper,
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
+import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import Field from '../../../src/components/Field';
@@ -162,17 +162,19 @@ class ConceptForm extends Component {
 
   render() {
     const { t, licenses, history, concept, onUpdate, ...rest } = this.props;
-    const { savedToServer } = this.state;
+    const { savedToServer, showResetModal } = this.state;
     const panels = ({ errors, touched }) => [
       {
         id: 'concept-content',
         title: t('form.contentSection'),
+        className: 'u-4/6@desktop u-push-1/6@desktop',
         hasError: ['title', 'conceptContent'].some(
           field => !!errors[field] && touched[field],
         ),
 
         component: props => (
           <ConceptContent
+            classes={formClasses}
             creators={concept.creators}
             created={concept.created}
             {...props}
@@ -182,6 +184,7 @@ class ConceptForm extends Component {
       {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
+        className: 'u-6/6',
         hasError: [
           'tags',
           'creators',
@@ -190,7 +193,13 @@ class ConceptForm extends Component {
           'license',
         ].some(field => !!errors[field] && touched[field]),
 
-        component: props => <ConceptMetaData licenses={licenses} {...props} />,
+        component: props => (
+          <ConceptMetaData
+            classes={formClasses}
+            licenses={licenses}
+            {...props}
+          />
+        ),
       },
     ];
 
@@ -201,6 +210,7 @@ class ConceptForm extends Component {
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
         ref={this.formik}
+        enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting, setValues, error } = formikProps;
@@ -211,7 +221,7 @@ class ConceptForm extends Component {
           });
 
           return (
-            <Form>
+            <Form {...formClasses()}>
               <HeaderWithLanguage
                 noStatus
                 values={values}
@@ -257,7 +267,7 @@ class ConceptForm extends Component {
               <Field right>
                 {error && <span className="c-errorMessage">{error}</span>}
                 <AlertModal
-                  show={this.state.showResetModal}
+                  show={showResetModal}
                   text={t('form.resetToProd.modal')}
                   actions={[
                     {

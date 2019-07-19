@@ -39,16 +39,19 @@ const SearchConcept = ({ concept, locale, t }) => {
             <h2 {...searchClasses('title')}>{title}</h2>
           </Link>
           {concept.supportedLanguages.map(lang => {
-             return lang !== locale ? (
+            return lang !== locale ? (
               <span {...searchClasses('other-link')}>
-              <Link
-                {...searchClasses('link')}
-                key={`${lang}_search_content`}
-                to={`/concept/${concept.id}/edit/${lang}`}>
-                {t(`language.${lang}`)}
-              </Link>
-            </span>
-          ):('')})}
+                <Link
+                  {...searchClasses('link')}
+                  key={`${lang}_search_content`}
+                  to={`/concept/${concept.id}/edit/${lang}`}>
+                  {t(`language.${lang}`)}
+                </Link>
+              </span>
+            ) : (
+              ''
+            );
+          })}
         </div>
         <p {...searchClasses('description')}>{content}</p>
       </div>

@@ -12,7 +12,6 @@ import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
 import { Concept } from '@ndla/icons/editor';
 import { searchClasses } from '../../SearchContainer';
-import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
 const SearchConcept = ({ concept, locale, t }) => {
@@ -39,13 +38,17 @@ const SearchConcept = ({ concept, locale, t }) => {
             to={`/concept/${concept.id}/edit/${locale}`}>
             <h2 {...searchClasses('title')}>{title}</h2>
           </Link>
-          {concept.supportedLanguages.map(lang => (
-            <SearchContentLanguage
-              key={`${lang}_search_content`}
-              language={lang}
-              content={concept}
-            />
-          ))}
+          {concept.supportedLanguages.map(lang => {
+             return lang !== locale ? (
+              <span {...searchClasses('other-link')}>
+              <Link
+                {...searchClasses('link')}
+                key={`${lang}_search_content`}
+                to={`/concept/${concept.id}/edit/${lang}`}>
+                {t(`language.${lang}`)}
+              </Link>
+            </span>
+          ):('')})}
         </div>
         <p {...searchClasses('description')}>{content}</p>
       </div>

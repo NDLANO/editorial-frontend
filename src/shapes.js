@@ -121,6 +121,12 @@ export const NewArticleShape = PropTypes.shape({
   language: PropTypes.string,
 });
 
+export const ConceptShape = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  description: PropTypes.string,
+});
+
 export const ImageShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,

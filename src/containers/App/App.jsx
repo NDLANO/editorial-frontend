@@ -37,6 +37,7 @@ import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
+import ConceptPage from '../ConceptPage/ConceptPage';
 
 export const FirstLoadContext = React.createContext(true);
 
@@ -89,6 +90,8 @@ export class App extends React.Component {
                   path="/edit-markup/:draftId/:language"
                   component={EditMarkupPage}
                 />
+                <PrivateRoute path="/concept" component={ConceptPage} />
+
                 <Route
                   path="/preview/:draftId/:language"
                   component={PreviewDraftPage}

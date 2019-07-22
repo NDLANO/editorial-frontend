@@ -24,6 +24,7 @@ const HeaderActions = ({
   noStatus,
   values,
   t,
+  type,
 }) => {
   const { id, language, supportedLanguages } = values;
 
@@ -79,7 +80,11 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        <DeleteLanguageVersion values={values} showDeleteButton={!noStatus} />
+        <DeleteLanguageVersion
+          values={values}
+          type={type}
+          showDeleteButton={!noStatus || type === 'concept'}
+        />
       </Fragment>
     );
   }
@@ -107,6 +112,7 @@ HeaderActions.propTypes = {
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 export default injectT(HeaderActions);

@@ -175,6 +175,7 @@ const phrases = {
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
     film: 'Gå til film',
+    newConcept: 'Opprett begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -472,6 +473,8 @@ const phrases = {
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
+      description: 'Innhald',
+      conceptContent: 'Beskrivning',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -985,6 +988,9 @@ const phrases = {
     es: 'Spansk',
     zh: 'Kinesisk',
     unknown: 'Ukjent',
+  },
+  conceptform: {
+    title: 'Begrep',
   },
 };
 

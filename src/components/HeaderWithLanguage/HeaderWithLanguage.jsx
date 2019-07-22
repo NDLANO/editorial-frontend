@@ -25,7 +25,6 @@ const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
   const { id, language, supportedLanguages, status, articleType } = values;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
-
   const statusText =
     status && status.current
       ? t(`form.status.${status.current.toLowerCase()}`)
@@ -45,6 +44,7 @@ const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
           values={values}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
+          type={articleType || type}
           {...rest}
         />
       </StyledLanguageWrapper>
@@ -70,6 +70,7 @@ HeaderWithLanguage.propTypes = {
     'iframe',
     'topic-article',
     'standard',
+    'concept',
   ]).isRequired,
 };
 

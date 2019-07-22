@@ -46,7 +46,6 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
 export const isFormikFormDirty = ({
   values,
   initialValues,
-
   dirty = false,
   type,
 }) => {
@@ -54,7 +53,12 @@ export const isFormikFormDirty = ({
     return false;
   }
   // Checking specific slate object fields if they really have changed
-  const slateFields = ['introduction', 'metaDescription', 'content'];
+  const slateFields = [
+    'introduction',
+    'metaDescription',
+    'content',
+    'conceptContent',
+  ];
   // and skipping fields that only changes on the server
   const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
   const dirtyFields = [];

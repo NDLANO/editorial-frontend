@@ -15,7 +15,6 @@ import { searchClasses } from '../../SearchContainer';
 import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
-
 const SearchConcept = ({ concept, locale, t }) => {
   const title = convertFieldWithFallback(
     concept,

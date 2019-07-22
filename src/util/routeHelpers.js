@@ -18,12 +18,20 @@ export function toEditArticle(articleId, articleType, locale) {
   return `/subject-matter/${url}/${articleId}/edit/${locale}`;
 }
 
+export function toEditConcept(conceptId, locale) {
+  return `/concept/${conceptId}/edit/${locale}`;
+}
+
 export function toCreateLearningResource() {
   return '/subject-matter/learning-resource/new';
 }
 
 export function toCreateTopicArticle() {
   return '/subject-matter/topic-article/new';
+}
+
+export function toCreateConcept() {
+  return '/concept/new';
 }
 
 export function toLogin() {

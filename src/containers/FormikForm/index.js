@@ -12,6 +12,7 @@ import FormikDatePicker from './components/FormikDatePicker';
 import FormikCheckbox from './components/FormikCheckbox';
 import FormikContributors from './components/FormikContributors';
 import FormikMetadata from './FormikMetadata';
+import FormikAbortButton from './components/FormikAbortButton';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -33,4 +34,5 @@ export {
   FormikContributors,
   formClasses,
   FormikMetadata,
+  FormikAbortButton,
 };

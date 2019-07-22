@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "outDir": "build",
+    "jsx": "react",
+    // isolatedModules and declaration are not allowed together at
+    // the moment, We set isolatedModules to true here to prevent
+    // accidental export of types. We disable it when we build the
+    // type declarations (see: build.tsconfig.json).
+    //
+    // We may change this approach if: https://github.com/Microsoft/TypeScript/issues/29490
+    // is resolved.
+    "isolatedModules": false,
+    // "declaration": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "noLib": false,
+    "noEmit": false,
+    "sourceMap": true,
+    "lib": ["es2018", "esnext.asynciterable", "dom"],
+    "types": ["@emotion/core", "@emotion/styled", "jest"],
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    }
+  },
+  "include": ["src/**/*", "custom-typings/*"],
+  "exclude": ["**/*-test.*"]
+}

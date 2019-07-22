@@ -178,6 +178,7 @@ const phrases = {
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
     film: 'Go to film',
+    newConcept: 'Create new concept',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -416,6 +417,7 @@ const phrases = {
       table: 'Table',
       bodybox: 'Text in frame',
       details: 'Expandable box',
+      solutionbox: 'Solution box',
       image: 'Image',
       video: 'Video',
       audio: 'Audio',
@@ -463,6 +465,8 @@ const phrases = {
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
       validTo: 'Valid to',
+      description: 'Content',
+      conceptContent: 'Description',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -523,7 +527,7 @@ const phrases = {
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
     },
     variant: {
-      create: 'Create variant +',
+      create: 'Create variant',
     },
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',
@@ -960,6 +964,7 @@ const phrases = {
       groupNamePlaceholder: 'Write name in {lang}',
       editGroupTitle: 'Change the name(s) in this movie group:',
       newGroupTitle: 'What shall we call the new movie group?',
+      notFound: 'We can not find metadata for this movie...',
     },
   },
   modal: {
@@ -975,6 +980,9 @@ const phrases = {
     es: 'Spanish',
     zh: 'Chinese',
     unknown: 'Unknown',
+  },
+  conceptform: {
+    title: 'Concept',
   },
 };
 

@@ -117,7 +117,7 @@ function isRemovalAllowed(index, diffs) {
   return false;
 }
 
-function diffHTML(oldHtml, newHtml) {
+export function diffHTML(oldHtml, newHtml) {
   const diffs = differ.diff_main(oldHtml, newHtml);
   differ.diff_cleanupSemantic(diffs);
   let diffString = '';
@@ -144,5 +144,3 @@ function diffHTML(oldHtml, newHtml) {
   });
   return { diff: diffString, warn: shouldWarn };
 }
-
-module.exports = diffHTML;

@@ -176,6 +176,7 @@ const phrases = {
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
     film: 'Gå til film',
+    newConcept: 'Opprett begrep',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -431,6 +432,7 @@ const phrases = {
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
       details: 'Ekspanderende boks',
+      solutionbox: 'Fasitboks',
       image: 'Bilde',
       video: 'Video',
       audio: 'Lyd',
@@ -479,6 +481,8 @@ const phrases = {
       visualElementAlt: 'Alt-tekst',
       validFrom: 'Gyldig fra',
       validTo: 'Gyldig til',
+      description: 'Innhold',
+      conceptContent: 'Beskrivelse',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -992,6 +996,7 @@ const phrases = {
       groupNamePlaceholder: 'Skriv navn på {lang}',
       editGroupTitle: 'Endre navn(ene) på filmgruppen:',
       newGroupTitle: 'Hva skal gruppen hete?',
+      notFound: 'Vi finner ikke metadata for denne filmen...',
     },
   },
   modal: {
@@ -1007,6 +1012,9 @@ const phrases = {
     es: 'Spansk',
     zh: 'Kinesisk',
     unknown: 'Ukjent',
+  },
+  conceptform: {
+    title: 'Begrep',
   },
 };
 

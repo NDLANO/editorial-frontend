@@ -9,24 +9,24 @@
 
 const el = document.createElement('html');
 
-export const getIframeSrcFromHtmlString = html => {
+export const getIframeSrcFromHtmlString = (html: string) => {
   el.innerHTML = html;
   const iframe = el.getElementsByTagName('iframe')[0];
   return iframe.getAttribute('src');
 };
 
-export const urlAsATag = url => {
+export const urlAsATag = (url: string) => {
   const a = document.createElement('a');
   a.href = url;
   return a;
 };
 
-export const urlDomain = url => {
+export const urlDomain = (url: string) => {
   const a = urlAsATag(url);
   return a.hostname;
 };
 
-export const isValidURL = string =>
+export const isValidURL = (string: string) =>
   string.match(
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
   ) || false;

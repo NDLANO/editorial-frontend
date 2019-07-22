@@ -37,55 +37,80 @@ import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 import NotionPage from './components/NotionPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
+import ConceptPage from '../ConceptPage/ConceptPage';
+
+export const FirstLoadContext = React.createContext(true);
 
 export class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      firstLoad: true,
+    };
+  }
+
+  componentDidMount() {
+    this.listenForHistoryChanges();
+  }
+
   getChildContext() {
     return {
       locale: this.props.locale,
     };
   }
 
+  listenForHistoryChanges = () => {
+    const { history } = this.props;
+    history.listen(() => {
+      this.setState({ firstLoad: false });
+    });
+  };
+
   render() {
     const { dispatch, messages, authenticated, userName, t } = this.props;
     return (
       <ErrorBoundary>
-        <PageContainer background>
-          <Helmet
-            meta={[{ name: 'description', content: t('meta.description') }]}
-          />
-          <Content>
-            <Navigation authenticated={authenticated} userName={userName} />
-            <Switch>
-              <Route path="/" exact component={WelcomePage} />
-              <Route path="/login" component={Login} />
-              <Route path="/logout" component={Logout} />
-              <PrivateRoute path="/search" component={SearchPage} />
-              <PrivateRoute
-                path="/subject-matter"
-                component={SubjectMatterPage}
-              />
-              <PrivateRoute
-                path="/edit-markup/:draftId/:language"
-                component={EditMarkupPage}
-              />
-              <Route
-                path="/preview/:draftId/:language"
-                component={PreviewDraftPage}
-              />
-              <PrivateRoute path="/media" component={MediaPage} />
-              <PrivateRoute path="/agreement" component={AgreementPage} />
-              <PrivateRoute path="/film" component={NdlaFilmEditor} />
-              <PrivateRoute
-                path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
-                component={StructurePage}
-              />
-              <PrivateRoute path="/notions" component={NotionPage} />
-              <Route path="/forbidden" component={ForbiddenPage} />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </Content>
-          <Messages dispatch={dispatch} messages={messages} />
-        </PageContainer>
+        <FirstLoadContext.Provider value={this.state.firstLoad}>
+          <PageContainer background>
+            <Helmet
+              meta={[{ name: 'description', content: t('meta.description') }]}
+            />
+            <Content>
+              <Navigation authenticated={authenticated} userName={userName} />
+              <Switch>
+                <Route path="/" exact component={WelcomePage} />
+                <Route path="/login" component={Login} />
+                <Route path="/logout" component={Logout} />
+                <PrivateRoute path="/search" component={SearchPage} />
+                <PrivateRoute
+                  path="/subject-matter"
+                  component={SubjectMatterPage}
+                />
+                <PrivateRoute
+                  path="/edit-markup/:draftId/:language"
+                  component={EditMarkupPage}
+                />
+                <PrivateRoute path="/concept" component={ConceptPage} />
+
+                <Route
+                  path="/preview/:draftId/:language"
+                  component={PreviewDraftPage}
+                />
+                <PrivateRoute path="/media" component={MediaPage} />
+                <PrivateRoute path="/agreement" component={AgreementPage} />
+                <PrivateRoute path="/film" component={NdlaFilmEditor} />
+                <PrivateRoute
+                  path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
+                  component={StructurePage}
+                />
+                <PrivateRoute path="/notions" component={NotionPage} />
+                <Route path="/forbidden" component={ForbiddenPage} />
+                <Route component={NotFoundPage} />
+              </Switch>
+            </Content>
+            <Messages dispatch={dispatch} messages={messages} />
+          </PageContainer>
+        </FirstLoadContext.Provider>
       </ErrorBoundary>
     );
   }
@@ -103,6 +128,9 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string,
+  history: PropTypes.shape({
+    listen: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 App.childContextTypes = {

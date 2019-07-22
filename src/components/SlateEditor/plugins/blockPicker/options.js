@@ -11,14 +11,16 @@ const defaultOptions = {
     'numbered-list',
     'aside',
     'bodybox',
-    'details',
+    'summary',
     'table',
+    'details',
   ],
 };
 
 const options = opts => ({
   allowedPickAreas: opts.allowedPickAreas || defaultOptions.allowedPickAreas,
   illegalAreas: opts.illegalAreas || defaultOptions.illegalAreas,
+  actionsToShowInAreas: opts.actionsToShowInAreas || undefined,
 });
 
 export default options;

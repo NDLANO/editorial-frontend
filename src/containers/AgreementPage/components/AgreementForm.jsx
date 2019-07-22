@@ -6,10 +6,8 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form } from 'formik';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
 import Field from '../../../components/Field';
@@ -18,7 +16,11 @@ import {
   parseCopyrightContributors,
 } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
-import { formClasses, FormikActionButton } from '../../FormikForm';
+import {
+  formClasses,
+  FormikActionButton,
+  FormikAbortButton,
+} from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 
 const getInitialValues = (agreement = {}) => ({
@@ -99,7 +101,7 @@ class AgreementForm extends Component {
   };
 
   render() {
-    const { t, agreement, licenses, history } = this.props;
+    const { t, agreement, licenses } = this.props;
 
     const initVal = getInitialValues(agreement);
     return (
@@ -130,12 +132,9 @@ class AgreementForm extends Component {
               <AgreementFields licenses={licenses} />
             </div>
             <Field right>
-              <FormikActionButton
-                outline
-                onClick={history.goBack}
-                disabled={isSubmitting}>
+              <FormikAbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}
-              </FormikActionButton>
+              </FormikAbortButton>
               <FormikActionButton submit>{t('form.save')}</FormikActionButton>
             </Field>
           </Form>
@@ -157,12 +156,6 @@ AgreementForm.propTypes = {
     }),
   ).isRequired,
   onUpdate: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    goBack: PropTypes.func,
-  }).isRequired,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-)(AgreementForm);
+export default injectT(AgreementForm);

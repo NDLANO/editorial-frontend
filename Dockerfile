@@ -9,13 +9,13 @@ COPY yarn.lock package.json $APP_PATH/
 
 # Run yarn before src copy to enable better layer caching
 WORKDIR $APP_PATH
-RUN yarn --production
+RUN yarn
 
 # Copy necessary source files for server and client build
-COPY .babelrc razzle-add-entry-plugin.js razzle.config.js postcss.config.js $APP_PATH/
+COPY .babelrc tsconfig.json razzle-add-entry-plugin.js razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
-COPY scripts/checkArticles $APP_PATH/scripts/checkArticles
+COPY custom-typings $APP_PATH/custom-typings
 COPY public $APP_PATH/public
 
 # Build client code

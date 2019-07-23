@@ -75,7 +75,9 @@ export const resourceToLinkProps = (content, contentType, locale) => {
   return {
     to: toEditArticle(
       content.id,
-      content.contexts.length > 0 && content.contexts[0].learningResourceType
+      content.contexts &&
+        content.contexts.length > 0 &&
+        content.contexts[0].learningResourceType
         ? content.contexts[0].learningResourceType
         : 'standard',
       locale,

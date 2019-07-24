@@ -13,8 +13,9 @@ import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../modules/draft/draftApi';
+import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { HistoryShape } from '../../shapes';
-import { toEditArticle } from '../../util/routeHelpers';
+import { toEditArticle, toEditConcept } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
 
@@ -42,18 +43,28 @@ class DeleteLanguageVersion extends React.Component {
     const {
       values: { id, supportedLanguages, language, articleType },
       history,
+      type,
     } = this.props;
     if (
       id &&
       supportedLanguages.length > 1 &&
       supportedLanguages.includes(language)
     ) {
-      await deleteLanguageVersion(id, language);
-      this.toggleShowDeleteWarning();
-      const otherSupportedLanguage = supportedLanguages.find(
-        lang => lang !== language,
-      );
-      history.push(toEditArticle(id, articleType, otherSupportedLanguage));
+      if (type === 'concept') {
+        await deleteLanguageVersionConcept(id, language);
+        this.toggleShowDeleteWarning();
+        const otherSupportedLanguage = supportedLanguages.find(
+          lang => lang !== language,
+        );
+        history.push(toEditConcept(id, otherSupportedLanguage));
+      } else {
+        await deleteLanguageVersion(id, language);
+        this.toggleShowDeleteWarning();
+        const otherSupportedLanguage = supportedLanguages.find(
+          lang => lang !== language,
+        );
+        history.push(toEditArticle(id, articleType, otherSupportedLanguage));
+      }
     }
   }
 
@@ -116,6 +127,7 @@ DeleteLanguageVersion.propTypes = {
   }),
   showDeleteButton: PropTypes.bool.isRequired,
   history: HistoryShape,
+  type: PropTypes.string,
 };
 
 export default withRouter(injectT(DeleteLanguageVersion));

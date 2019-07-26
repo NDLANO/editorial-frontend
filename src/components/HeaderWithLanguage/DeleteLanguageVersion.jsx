@@ -50,19 +50,17 @@ class DeleteLanguageVersion extends React.Component {
       supportedLanguages.length > 1 &&
       supportedLanguages.includes(language)
     ) {
+      this.toggleShowDeleteWarning();
+      const otherSupportedLanguage = supportedLanguages.find(
+        lang => lang !== language,
+      );
       if (type === 'concept') {
         await deleteLanguageVersionConcept(id, language);
-        this.toggleShowDeleteWarning();
-        const otherSupportedLanguage = supportedLanguages.find(
-          lang => lang !== language,
-        );
+
         history.push(toEditConcept(id, otherSupportedLanguage));
       } else {
         await deleteLanguageVersion(id, language);
-        this.toggleShowDeleteWarning();
-        const otherSupportedLanguage = supportedLanguages.find(
-          lang => lang !== language,
-        );
+
         history.push(toEditArticle(id, articleType, otherSupportedLanguage));
       }
     }

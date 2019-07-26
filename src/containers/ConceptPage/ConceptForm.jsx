@@ -146,6 +146,10 @@ class ConceptForm extends Component {
         agreementId: values.agreementId,
       },
       created: this.getCreatedDate(values),
+      metaImage: {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      },
     };
   }
 

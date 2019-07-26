@@ -21,7 +21,9 @@ const contributorTypes = ['creators', 'rightsholders', 'processors'];
 const ConceptMetaData = ({ t, licenses }) => (
   <Fragment>
     <FormikField name="license">
-      {({ field }) => <FormikLicense licenses={licenses} {...field} />}
+      {({ field }) => (
+        <FormikLicense licenses={licenses} width={1} {...field} />
+      )}
     </FormikField>
     <FormikField label={t('form.origin.label')} name="origin" />
     <FormikContributors contributorTypes={contributorTypes} width={1} />

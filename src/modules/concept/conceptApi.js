@@ -39,3 +39,8 @@ export const updateConcept = concept =>
     method: 'PATCH',
     body: JSON.stringify(concept),
   }).then(resolveJsonOrRejectWithError);
+
+export const deleteLanguageVersionConcept = (conceptId, locale) =>
+  fetchAuthorized(`${conceptUrl}/${conceptId}?language=${locale}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);

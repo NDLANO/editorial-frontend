@@ -78,6 +78,7 @@ class LearningResourceContent extends Component {
       locale,
       article: { language },
     } = props;
+    console.log("LRC Locale: ", locale)
     this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),
@@ -86,7 +87,7 @@ class LearningResourceContent extends Component {
       createAsidePlugin(),
       createDetailsPlugin(),
       createLinkPlugin(),
-      conceptPlugin(),
+      conceptPlugin(locale),
       headingPlugin(),
       // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
       // Blockquote and editList actions need to be triggered before paragraph action, else

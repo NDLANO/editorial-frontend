@@ -71,3 +71,43 @@ export interface ArticleType {
     },
   ];
 }
+
+export interface ConceptType {
+  id: number;
+  title: {
+      title: string;
+      language: string;
+  }
+  content: {
+    content: string;
+    language: string;
+  }
+  copyright?: {
+    license: {
+      license: string;
+      description: string;
+      url: string;
+    };
+    processors: [
+      {
+        name: string;
+        type: string;
+      },
+    ];
+    origin: [
+      {
+        name: string;
+        type: string;
+      },
+    ];
+    rightsholders: [
+      {
+        type: string;
+        name: string;
+      },
+    ];
+  };
+  created?: string;
+  updatedBy?: string;
+  supportedLanguages: string[];
+}

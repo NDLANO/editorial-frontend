@@ -1,35 +1,18 @@
-/**
- * Copyright (c) 2019-present, NDLA.
- *
- * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import { connect } from 'react-redux';
 import Notion from '@ndla/notion';
-import { Portal } from '../../../Portal';
-import Lightbox from '../../../Lightbox';
-import config from '../../../../config';
-import { getSearching } from '../../../../modules/search/searchSelectors';
+import { connect } from 'react-redux';
+import { injectT } from '@ndla/i18n';
 import {
   getAccessToken,
   isAccessTokenValid,
   renewAuth,
 } from '../../../../util/authHelpers';
-import {
-  getResults,
-  getLastPage,
-  getTotalResultsCount,
-} from '../../../../modules/search/searchSelectors';
+import { getLocale } from '../../../../modules/locale/locale';
 import { fetchConcept } from '../../../../modules/article/articleApi';
-import handleError from '../../../../util/handleError';
 import ConceptModal from './ConceptModal';
-
-
+import handleError from '../../../../util/handleError';
+import config from '../../../../config';
 
 const setConceptDataAttributes = ({ conceptId, text }) => ({
   data: {
@@ -114,6 +97,7 @@ class EditConcept extends React.PureComponent {
       editor.removeNodeByKey(node.key).insertText(node.text);
     }
   }
+
   render() {
     const {
       concept,
@@ -122,10 +106,8 @@ class EditConcept extends React.PureComponent {
       accessToken,
       createConcept,
     } = this.state;
-    console.log("EDIT CONCEPT PROPS: ", this.props)
-    const { t, children, node, locale, searching, totalCount, lastPage } = this.props;
+    const { t, children, node } = this.props;
     const name = createConcept && node.text;
-
     return (
       <>
         <span {...this.props.attributes} onMouseDown={this.toggleConceptModal}>
@@ -147,11 +129,6 @@ class EditConcept extends React.PureComponent {
             onClose={this.toggleConceptModal}
             handleMessage={this.AddNewConcept}
             name={name}
-            locale={locale}
-            searching={searching}
-            totalCount={totalCount}
-            lastPage={lastPage}
-            type="concept"
           />
         )}
       </>
@@ -173,9 +150,7 @@ EditConcept.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  searching: getSearching(state),
-  totalCount: getTotalResultsCount(state),
-  lastPage: getLastPage(state),
+  locale: getLocale(state),
 });
 
 export default connect(mapStateToProps)(injectT(EditConcept));

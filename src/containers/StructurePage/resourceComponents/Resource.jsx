@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
@@ -18,7 +17,7 @@ import Button from '@ndla/button';
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
-import { toEditArticle } from '../../../util/routeHelpers';
+import ResourceItemLink from './ResourceItemLink';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -43,8 +42,6 @@ const Resource = ({
   locale,
   t,
 }) => {
-  const linkTo = contentUri && contentUri.split(':').pop();
-
   // because topic-article icon is wrongly named "subject" in frontend-packages:
   const iconType = contentType === 'topic-article' ? 'subject' : contentType;
 
@@ -58,13 +55,12 @@ const Resource = ({
         </div>
       )}
       <div key="body" {...classes('body o-flag__body')}>
-        {linkTo ? (
-          <Link to={toEditArticle(linkTo, contentType, locale)}>
-            <h1 {...classes('title')}>{name}</h1>
-          </Link>
-        ) : (
-          <h1 {...classes('title')}>{name}</h1>
-        )}
+        <ResourceItemLink
+          contentType={contentType}
+          contentUri={contentUri}
+          locale={locale}
+          name={name}
+        />
       </div>
       {contentType !== 'topic-article' && (
         <Button

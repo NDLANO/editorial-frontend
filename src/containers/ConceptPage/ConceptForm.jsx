@@ -220,7 +220,16 @@ class ConceptForm extends Component {
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting, setValues, error } = formikProps;
+          const {
+            values,
+            dirty,
+            isSubmitting,
+            setValues,
+            error,
+            errors,
+            touched,
+            submitCount,
+          } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -300,7 +309,10 @@ class ConceptForm extends Component {
                   {...formClasses}
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
+                  showSaved={savedToServer && !formIsDirty}
+                  errors={errors}
+                  touched={touched}
+                  submitCount={submitCount}>
                   {t('form.save')}
                 </SaveButton>
               </Field>

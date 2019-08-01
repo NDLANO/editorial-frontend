@@ -170,7 +170,14 @@ class AudioForm extends Component {
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting } = formikProps;
+          const {
+            values,
+            dirty,
+            isSubmitting,
+            errors,
+            touched,
+            submitCount,
+          } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -221,6 +228,9 @@ class AudioForm extends Component {
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}
+                  errors={errors}
+                  touched={touched}
+                  submitCount={submitCount}
                 />
               </Field>
               <FormikAlertModalWrapper

@@ -457,6 +457,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagra ',
+    error: 'Lagre',
     copy: 'kopi',
     saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {

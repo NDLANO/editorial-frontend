@@ -16,6 +16,7 @@ import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
 const SearchConcept = ({ concept, locale, t }) => {
+  const { url, alt } = concept.metaImage || {};
   const title = convertFieldWithFallback(
     concept,
     'title',
@@ -30,7 +31,11 @@ const SearchConcept = ({ concept, locale, t }) => {
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
-        <Concept className="c-icon--large" />
+        {url ? (
+          <img src={url} alt={alt} />
+        ) : (
+          <Concept className="c-icon--large" />
+        )}
       </div>
       <div {...searchClasses('content')}>
         <div {...searchClasses('header')}>

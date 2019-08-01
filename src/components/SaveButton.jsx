@@ -8,6 +8,7 @@ import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
+import _ from 'lodash';
 
 const appereances = {
   saved: css`
@@ -47,11 +48,7 @@ const StyledSpan = styled('span')`
   justify-content: space-evenly;
 `;
 
-const checkStyle = css`
-  width: 1.45rem;
-  height: 1.45rem;
-`;
-const crossStyle = css`
+const buttonIconStyle = css`
   width: 1.45rem;
   height: 1.45rem;
 `;
@@ -70,7 +67,7 @@ const SaveButton = ({
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
-    if (!isEmpty(errors) && touched && submitCount > 0) return 'error';
+    if (!_.isEmpty(errors) && touched && submitCount > 0) return 'error';
     return defaultText || 'save';
   };
 
@@ -78,26 +75,19 @@ const SaveButton = ({
   return (
     <Button
       disabled={
-        (isSaving || !formIsDirty || !isEmpty(errors)) && submitCount > 0
+        (isSaving || !formIsDirty || !_.isEmpty(errors)) && submitCount > 0
       }
       submit
       css={appereances[modifier]}
       {...rest}>
       <StyledSpan>
         {t(`form.${modifier}`)}
-        {showSaved && <Check css={checkStyle} />}
-        {!isEmpty(errors) && submitCount > 0 && <Cross css={crossStyle} />}
+        {showSaved && <Check css={buttonIconStyle} />}
+        {modifier === 'error' && <Cross css={buttonIconStyle} />}
       </StyledSpan>
     </Button>
   );
 };
-
-function isEmpty(obj) {
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key)) return false;
-  }
-  return true;
-}
 
 SaveButton.propTypes = {
   isSaving: bool,

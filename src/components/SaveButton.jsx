@@ -8,7 +8,7 @@ import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
-import _ from 'lodash';
+import isEmpty from 'lodash/fp/isEmpty';
 
 const appereances = {
   saved: css`
@@ -67,7 +67,7 @@ const SaveButton = ({
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
-    if (!_.isEmpty(errors) && touched && submitCount > 0) return 'error';
+    if (!isEmpty(errors) && touched && submitCount > 0) return 'error';
     return defaultText || 'save';
   };
 

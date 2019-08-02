@@ -122,7 +122,7 @@
     "express-jwt": "^5.3.1",
     "flatpickr": "^4.5.2",
     "focus-trap-react": "^6.0.0",
-    "formik": "^1.5.7",
+    "formik": "^1.5.8",
     "fuse.js": "^3.2.1",
     "he": "^1.2.0",
     "helmet": "^3.13.0",

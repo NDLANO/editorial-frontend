@@ -27,7 +27,7 @@ describe('Learning resource editing', () => {
   it('can enter title, ingress and content then save', () => {
     cy.apiroute('POST', '/draft-api/v1/drafts/', 'saveLearningResource');
 
-    cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
+    // cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
     });

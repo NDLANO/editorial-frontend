@@ -74,9 +74,7 @@ const SaveButton = ({
   const modifier = getModifier();
   return (
     <Button
-      disabled={
-        (isSaving || !formIsDirty || !_.isEmpty(errors)) && submitCount > 0
-      }
+      disabled={isSaving || !formIsDirty}
       submit
       css={appereances[modifier]}
       {...rest}>

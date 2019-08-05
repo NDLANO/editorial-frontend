@@ -38,6 +38,7 @@ const Contributors = props => {
     onChange,
     value,
     t,
+    width,
     ...rest
   } = props;
   const onContributorChange = newContributors => {
@@ -79,7 +80,7 @@ const Contributors = props => {
 
   return (
     <div>
-      <FieldHeader title={label} width={3 / 4} />
+      <FieldHeader title={label} width={width} />
       {value.map((contributor, index) => (
         <Contributor
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
@@ -122,10 +123,12 @@ Contributors.propTypes = {
       type: PropTypes.string,
     }),
   ),
+  width: PropTypes.number,
 };
 
 Contributors.defaultProps = {
   showError: false,
+  width: 3 / 4,
 };
 
 const mapStateToProps = state => ({

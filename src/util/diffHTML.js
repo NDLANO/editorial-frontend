@@ -89,7 +89,11 @@ function allowStrongRemoval({ current, next, previous }) {
     return true;
   }
   // I.E. <strong>one</strong><strong>two</strong> -> <strong>onetwo</strong>
-  if (current === '</strong><strong>') {
+  if (
+    current === '</strong><strong>' ||
+    current === '/strong><strong><' ||
+    current === '></strong><strong>'
+  ) {
     return true;
   }
   return false;

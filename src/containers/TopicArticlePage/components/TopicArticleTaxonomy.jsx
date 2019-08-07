@@ -165,17 +165,22 @@ class TopicArticleTaxonomy extends Component {
     const newTopicId = newTopicPath.split('/').pop();
     if (paths.length > 2) {
       // we are placing it under a topic
-      addTopicToTopic({
+      await addTopicToTopic({
         subtopicid: newTopicId,
         topicid: paths.slice(-2)[0],
       });
     } else {
       // we are placing it under a subject
-      addSubjectTopic({
+      await addSubjectTopic({
         topicid: newTopicId,
         subjectid: paths[0],
       });
     }
+    return {
+      name: topic.name,
+      id: newTopicId,
+      path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+    };
   }
 
   async handleSubmit(evt) {
@@ -185,22 +190,25 @@ class TopicArticleTaxonomy extends Component {
       updateNotes,
       article: { id: articleId, language, revision },
     } = this.props;
+    this.setState({ saveStatus: 'loading', status: 'loading' });
 
-    const changes = stagedTopicChanges.filter(topic => {
-      if (topic.id === 'staged') {
-        this.createAndPlaceTopic(topic, articleId);
-        return false;
-      }
-      return true;
-    });
-    const deletedTopics = topics.filter(
-      topic => !changes.some(stagedTopic => stagedTopic.id === topic.id),
+    const stagedNewTopics = stagedTopicChanges.filter(
+      topic => topic.id === 'staged',
     );
-    const addedTopics = changes.filter(
+    const changedTopics = stagedTopicChanges.filter(
+      topic => topic.id !== 'staged',
+    );
+    const newTopics = await Promise.all(
+      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId)),
+    );
+
+    const deletedTopics = topics.filter(
+      topic => !changedTopics.some(stagedTopic => stagedTopic.id === topic.id),
+    );
+    const addedTopics = changedTopics.filter(
       stagedTopic => !topics.some(topic => topic.id === stagedTopic.id),
     );
 
-    this.setState({ saveStatus: 'loading', status: 'loading' });
     try {
       await Promise.all([
         ...addedTopics.map(addedTopic =>
@@ -224,17 +232,16 @@ class TopicArticleTaxonomy extends Component {
         language,
         notes: ['Oppdatert taksonomi.'],
       });
-      // Wait a sec before fetching taxonomy again
-      await new Promise(resolve => {
-        setTimeout(() => {
-          resolve('resolved');
-        }, 2000);
-      });
-      this.fetchTaxonomy();
 
-      this.setState({ isDirty: false, saveStatus: 'success' }, () =>
-        setTimeout(() => this.setState({ saveStatus: 'initial' }), 5000),
-      );
+      const updatedTopics = [...changedTopics, ...newTopics];
+
+      this.setState({
+        isDirty: false,
+        topics: updatedTopics,
+        stagedTopicChanges: updatedTopics,
+        saveStatus: 'success',
+        status: 'success',
+      });
     } catch (err) {
       handleError(err);
       this.setState({ saveStatus: 'error' });
@@ -311,6 +318,7 @@ class TopicArticleTaxonomy extends Component {
       structure,
       status,
       saveStatus,
+      isDirty,
     } = this.state;
     const { t } = this.props;
 
@@ -353,7 +361,8 @@ class TopicArticleTaxonomy extends Component {
           </FormikActionButton>
           <SaveButton
             isSaving={saveStatus === 'loading'}
-            showSaved={saveStatus === 'success'}
+            showSaved={saveStatus === 'success' && !isDirty}
+            disabled={!isDirty}
             onClick={this.handleSubmit}
             defaultText="saveTax"
           />

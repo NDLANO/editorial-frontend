@@ -30,7 +30,7 @@ const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
   });
   const [licenses, setLicenses] = useState([]);
   const [results, setConcepts] = useState({
-    language: '',
+    language: locale,
     page: 1,
     pageSize: 10,
     results: [],
@@ -44,6 +44,12 @@ const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
   const getAllLicenses = async () => {
     const fetchdLicenses = await fetchLicenses();
     setLicenses(fetchdLicenses);
+  };
+
+  const calculateLastPage = () => {
+    const lastPageSize = Math.ceil(results.totalCount / results.pageSize);
+    setLastPage(lastPageSize);
+    setSearching(false);
   };
 
   useEffect(() => {
@@ -65,12 +71,6 @@ const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
   useEffect(() => {
     searchConcept(searchObject);
   }, []);
-
-  const calculateLastPage = () => {
-    const lastPageSize = Math.ceil(results.totalCount / results.pageSize);
-    setLastPage(lastPageSize);
-    setSearching(false);
-  };
 
   return (
     <Modal

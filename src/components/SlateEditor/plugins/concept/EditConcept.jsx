@@ -56,7 +56,7 @@ class EditConcept extends React.PureComponent {
     }
   };
 
-  AddNewConcept = ({ data }) => {
+  addNewConcept = ({ data }) => {
     const { conceptId } = data;
     const {
       node: { key, text },
@@ -101,7 +101,7 @@ class EditConcept extends React.PureComponent {
           <ConceptModal
             id={concept.id}
             onClose={this.toggleConceptModal}
-            handleMessage={this.AddNewConcept}
+            handleMessage={this.addNewConcept}
             locale={locale}
             type="concept"
             selectedText={node.text}

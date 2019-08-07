@@ -22,6 +22,7 @@ import {
   addTopic,
   addTopicToTopic,
   addSubjectTopic,
+  addFilterToTopic,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -165,10 +166,20 @@ class TopicArticleTaxonomy extends Component {
     const newTopicId = newTopicPath.split('/').pop();
     if (paths.length > 2) {
       // we are placing it under a topic
+      const parentTopicId = paths.slice(-2)[0];
       await addTopicToTopic({
         subtopicid: newTopicId,
-        topicid: paths.slice(-2)[0],
+        topicid: parentTopicId,
       });
+      const { structure } = this.state;
+      const topicFilters = structure
+        .find(subject => subject.id === paths[0])
+        .topics.find(topic => topic.id === parentTopicId).filters;
+      await Promise.all(
+        topicFilters.map(({ id, relevanceId }) =>
+          addFilterToTopic({ filterId: id, relevanceId, topicId: newTopicId }),
+        ),
+      );
     } else {
       // we are placing it under a subject
       await addSubjectTopic({

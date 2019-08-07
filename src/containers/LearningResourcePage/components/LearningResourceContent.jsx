@@ -170,7 +170,6 @@ class LearningResourceContent extends Component {
           )}
         </FormikField>
         <FormikIngress />
-
         <FormikField
           name="content"
           label={t('form.content.label')}

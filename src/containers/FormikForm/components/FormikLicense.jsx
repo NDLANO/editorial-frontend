@@ -26,6 +26,7 @@ const FormikLicense = props => {
     value,
     disabled,
     locale,
+    width,
   } = props;
   const licensesWithTranslations = licenses.map(license => ({
     ...license,
@@ -33,7 +34,7 @@ const FormikLicense = props => {
   }));
   return (
     <Fragment>
-      <FieldHeader title={t('form.license.label')} width={3 / 4}>
+      <FieldHeader title={t('form.license.label')} width={width}>
         <HowToHelper
           pageId="userLicense"
           tooltip={t('form.license.helpLabel')}
@@ -74,11 +75,13 @@ FormikLicense.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   onFocus: PropTypes.func,
+  width: PropTypes.number,
 };
 
 FormikLicense.defaultProps = {
   disabled: false,
   name: 'license',
+  width: 3 / 4,
 };
 
 const mapStateToProps = state => ({

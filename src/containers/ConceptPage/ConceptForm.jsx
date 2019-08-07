@@ -32,6 +32,7 @@ import {
   DEFAULT_LICENSE,
   isFormikFormDirty,
   parseCopyrightContributors,
+  parseImageUrl,
 } from '../../util/formHelper';
 import {
   FormikAlertModalWrapper,
@@ -45,27 +46,32 @@ import SaveButton from '../../components/SaveButton';
 import { addConcept } from '../../modules/concept/conceptApi.js';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
 
-const getInitialValues = (concept = {}) => ({
-  id: concept.id,
-  title: concept.title || '',
-  language: concept.language,
-  updated: concept.updated,
-  updateCreated: false,
-  created: concept.created,
-  conceptContent: plainTextToEditorValue(concept.content || '', true),
-  supportedLanguages: concept.supportedLanguages || [],
-  creators: parseCopyrightContributors(concept, 'creators'),
-  processors: parseCopyrightContributors(concept, 'processors'),
-  rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
-  origin:
-    concept.copyright && concept.copyright.origin
-      ? concept.copyright.origin
-      : '',
-  license:
-    concept.copyright && concept.copyright.license
-      ? concept.copyright.license.license
-      : DEFAULT_LICENSE.license,
-});
+const getInitialValues = (concept = {}) => {
+  const metaImageId = parseImageUrl(concept.metaImage);
+  return {
+    id: concept.id,
+    title: concept.title || '',
+    language: concept.language,
+    updated: concept.updated,
+    updateCreated: false,
+    created: concept.created,
+    conceptContent: plainTextToEditorValue(concept.content || '', true),
+    supportedLanguages: concept.supportedLanguages || [],
+    creators: parseCopyrightContributors(concept, 'creators'),
+    processors: parseCopyrightContributors(concept, 'processors'),
+    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
+    origin:
+      concept.copyright && concept.copyright.origin
+        ? concept.copyright.origin
+        : '',
+    license:
+      concept.copyright && concept.copyright.license
+        ? concept.copyright.license.license
+        : DEFAULT_LICENSE.license,
+    metaImageId,
+    metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
+  };
+};
 
 const rules = {
   title: {
@@ -151,6 +157,10 @@ class ConceptForm extends Component {
         agreementId: values.agreementId,
       },
       created: this.getCreatedDate(values),
+      metaImage: {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      },
     };
   };
 
@@ -218,6 +228,7 @@ class ConceptForm extends Component {
           'rightsholders',
           'processors',
           'license',
+          'metaImageAlt',
         ].some(field => !!errors[field] && touched[field]),
 
         component: props => (

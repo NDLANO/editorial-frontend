@@ -20,7 +20,6 @@ export default function linkPlugin(locale) {
   const renderNode = (props, editor, next) => {
     switch (props.node.type) {
       case TYPE:
-        console.log("PROPS INDEX: ", props)
         return <EditConcept {...props} locale={locale} />;
       default:
         return next();

@@ -9,27 +9,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { connect } from 'react-redux';
 import Notion from '@ndla/notion';
-import { Portal } from '../../../Portal';
-import Lightbox from '../../../Lightbox';
-import config from '../../../../config';
-import { getSearching } from '../../../../modules/search/searchSelectors';
-import {
-  getAccessToken,
-  isAccessTokenValid,
-  renewAuth,
-} from '../../../../util/authHelpers';
-import {
-  getResults,
-  getLastPage,
-  getTotalResultsCount,
-} from '../../../../modules/search/searchSelectors';
 import { fetchConcept } from '../../../../modules/article/articleApi';
 import handleError from '../../../../util/handleError';
 import ConceptModal from './ConceptModal';
-
-
 
 const setConceptDataAttributes = ({ conceptId, text }) => ({
   data: {
@@ -40,13 +23,9 @@ const setConceptDataAttributes = ({ conceptId, text }) => ({
 });
 
 class EditConcept extends React.PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { concept: {}, conceptModalOpen: false };
-    this.getConcept = this.getConcept.bind(this);
-    this.toggleConceptModal = this.toggleConceptModal.bind(this);
-    this.AddNewConcept = this.AddNewConcept.bind(this);
-    this.getToken = this.getToken.bind(this);
   }
 
   componentDidMount() {
@@ -54,15 +33,11 @@ class EditConcept extends React.PureComponent {
     if (conceptId) {
       this.getConcept(conceptId);
     } else {
-      this.setState({ conceptModalOpen: true, createConcept: true });
+      this.setState({ conceptModalOpen: true });
     }
-    this.getToken();
   }
 
   componentDidUpdate(prevProps) {
-    if (!isAccessTokenValid()) {
-      this.getToken();
-    }
     if (prevProps.node.data.get('content-id')) return;
     const conceptId = this.props.node.data.get('content-id');
     if (conceptId) {
@@ -71,16 +46,7 @@ class EditConcept extends React.PureComponent {
     }
   }
 
-  async getToken() {
-    if (!isAccessTokenValid()) {
-      await renewAuth();
-    }
-    this.setState({
-      accessToken: getAccessToken(),
-    });
-  }
-
-  async getConcept(conceptId) {
+  getConcept = async conceptId => {
     const { node, locale } = this.props;
     try {
       const { data: concept } = await fetchConcept(conceptId, locale);
@@ -88,12 +54,9 @@ class EditConcept extends React.PureComponent {
     } catch (err) {
       handleError(err);
     }
-  }
+  };
 
-  AddNewConcept({ data, origin }) {
-    if (origin !== config.explanationFrontendDomain || !data) {
-      return;
-    }
+  AddNewConcept = ({ data }) => {
     const { conceptId } = data;
     const {
       node: { key, text },
@@ -102,9 +65,9 @@ class EditConcept extends React.PureComponent {
     if (conceptId) {
       editor.setNodeByKey(key, setConceptDataAttributes({ conceptId, text }));
     }
-  }
+  };
 
-  toggleConceptModal(evt) {
+  toggleConceptModal = evt => {
     evt && evt.preventDefault();
     const { node, editor } = this.props;
     this.setState(prevState => ({
@@ -113,18 +76,12 @@ class EditConcept extends React.PureComponent {
     if (!node.data.get('content-id')) {
       editor.removeNodeByKey(node.key).insertText(node.text);
     }
-  }
+  };
+
   render() {
-    const {
-      concept,
-      linkText,
-      conceptModalOpen,
-      accessToken,
-      createConcept,
-    } = this.state;
-    console.log("EDIT CONCEPT PROPS: ", this.props)
-    const { t, children, node, locale, searching, totalCount, lastPage } = this.props;
-    const name = createConcept && node.text;
+    const { concept, linkText, conceptModalOpen } = this.state;
+
+    const { t, children, node, locale } = this.props;
 
     return (
       <>
@@ -143,15 +100,11 @@ class EditConcept extends React.PureComponent {
         {conceptModalOpen && (
           <ConceptModal
             id={concept.id}
-            accessToken={accessToken}
             onClose={this.toggleConceptModal}
             handleMessage={this.AddNewConcept}
-            name={name}
             locale={locale}
-            searching={searching}
-            totalCount={totalCount}
-            lastPage={lastPage}
             type="concept"
+            selectedText={node.text}
           />
         )}
       </>
@@ -172,10 +125,4 @@ EditConcept.propTypes = {
   }),
 };
 
-const mapStateToProps = state => ({
-  searching: getSearching(state),
-  totalCount: getTotalResultsCount(state),
-  lastPage: getLastPage(state),
-});
-
-export default connect(mapStateToProps)(injectT(EditConcept));
+export default injectT(EditConcept);

@@ -9,6 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
@@ -19,6 +20,7 @@ import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import Field from '../../../src/components/Field';
+import * as messageActions from '../Messages/messagesActions';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
@@ -83,12 +85,21 @@ const rules = {
   },
 };
 
+const FormWrapper = ({ inModal, children }) => {
+  if (inModal) {
+    return <div {...formClasses()}>{children}</div>;
+  }
+  return <Form>{children}</Form>;
+};
+
+FormWrapper.propTypes = {
+  inModal: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
+
 class ConceptForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getConcept = this.getConcept.bind(this);
-    this.getCreatedDate = this.getCreatedDate.bind(this);
     this.state = {
       savedToServer: false,
     };
@@ -109,7 +120,7 @@ class ConceptForm extends Component {
     this.formik = React.createRef();
   }
 
-  getCreatedDate(values) {
+  getCreatedDate = values => {
     if (isEmpty(values.created)) {
       return undefined;
     }
@@ -121,9 +132,9 @@ class ConceptForm extends Component {
       return values.created;
     }
     return undefined;
-  }
+  };
 
-  getConcept(values) {
+  getConcept = values => {
     const { licenses } = this.props;
 
     return {
@@ -141,9 +152,9 @@ class ConceptForm extends Component {
       },
       created: this.getCreatedDate(values),
     };
-  }
+  };
 
-  async handleSubmit(values, actions) {
+  handleSubmit = async (values, actions) => {
     const { onUpdate, concept, applicationError } = this.props;
     const { revision } = concept;
     actions.setSubmitting(true);
@@ -161,14 +172,23 @@ class ConceptForm extends Component {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
-  }
+  };
 
   onAddConcept = newConcept => {
     addConcept(newConcept);
   };
 
   render() {
-    const { t, licenses, history, concept, onUpdate, ...rest } = this.props;
+    const {
+      t,
+      licenses,
+      history,
+      concept,
+      onUpdate,
+      onClose,
+      inModal,
+      ...rest
+    } = this.props;
     const { savedToServer, showResetModal } = this.state;
     const panels = ({ errors, touched }) => [
       {
@@ -220,7 +240,14 @@ class ConceptForm extends Component {
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting, setValues, error } = formikProps;
+          const {
+            values,
+            dirty,
+            isSubmitting,
+            setValues,
+            error,
+            submitForm,
+          } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -228,7 +255,7 @@ class ConceptForm extends Component {
           });
 
           return (
-            <Form {...formClasses()}>
+            <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
                 noStatus
                 values={values}
@@ -289,18 +316,31 @@ class ConceptForm extends Component {
                   onCancel={() => this.setState({ showResetModal: false })}
                 />
 
-                <FormikActionButton
-                  onClick={history.goBack}
-                  outline
-                  disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikActionButton>
+                {inModal ? (
+                  <FormikActionButton outline onClick={onClose}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                ) : (
+                  <FormikActionButton
+                    onClick={history.goBack}
+                    outline
+                    disabled={isSubmitting}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                )}
 
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
+                  showSaved={savedToServer && !formIsDirty}
+                  submit={!inModal}
+                  onClick={evt => {
+                    if (inModal) {
+                      evt.preventDefault();
+                      submitForm();
+                    }
+                  }}>
                   {t('form.save')}
                 </SaveButton>
               </Field>
@@ -310,7 +350,7 @@ class ConceptForm extends Component {
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />
-            </Form>
+            </FormWrapper>
           );
         }}
       </Formik>
@@ -320,16 +360,26 @@ class ConceptForm extends Component {
 
 ConceptForm.propTypes = {
   concept: ConceptShape,
+  inModal: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     goBack: PropTypes.func,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
+};
+
+const mapDispatchToProps = {
+  applicationError: messageActions.applicationError,
 };
 
 export default compose(
   injectT,
   withRouter,
+  connect(
+    undefined,
+    mapDispatchToProps,
+  ),
 )(ConceptForm);

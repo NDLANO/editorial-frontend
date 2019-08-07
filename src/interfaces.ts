@@ -75,13 +75,13 @@ export interface ArticleType {
 export interface ConceptType {
   id: number;
   title: {
-      title: string;
-      language: string;
-  }
+    title: string;
+    language: string;
+  };
   content: {
     content: string;
     language: string;
-  }
+  };
   copyright?: {
     license: {
       license: string;

@@ -78,7 +78,6 @@ class LearningResourceContent extends Component {
       locale,
       article: { language },
     } = props;
-    console.log("LRC Locale: ", locale)
     this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),

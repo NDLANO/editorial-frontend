@@ -8,47 +8,69 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
-import Button from '@ndla/button';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody } from '@ndla/modal';
 import ModalCloseButton from '@ndla/modal/lib/ModalCloseButton';
 import { injectT } from '@ndla/i18n';
+import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
-//import { toConcept } from '../../../../util/routeHelpers';
-import { toSearch } from '../../../../util/routeHelpers';
+import { searchConcepts } from '../../../../modules/search/searchApi';
 import SearchList from '../../../../../src/containers/SearchPage/components/results/SearchList';
-import SearchListOptions from '../../../../../src/containers/SearchPage/components/results/SearchListOptions';
 import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
-import SearchSort from '../../../../../src/containers/SearchPage/components/sort/SearchSort';
+import CreateConcept from '../../../../containers/ConceptPage/CreateConcept';
+import { fetchLicenses } from '../../../../modules/draft/draftApi';
 
-const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage , locale, searching, totalCount, lastPage, type}) => {
-  useEffect(() => {
-    window.addEventListener('message', handleMessage);
-
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
+const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
+  const [searchObject, updateSearchObject] = useState({
+    page: 1,
+    sort: '-relevance',
+    'page-size': 10,
+    query: `${selectedText}`,
   });
+  const [licenses, setLicenses] = useState([]);
+  const [results, setConcepts] = useState({
+    language: '',
+    page: 1,
+    pageSize: 10,
+    results: [],
+    totalCount: 0,
+    query: { searchObject },
+  });
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [lastPage, setLastPage] = useState(0);
+  const [searching, setSearching] = useState(false);
 
-  const [mode, setMode] = useState(id ? 'edit' : 'search');
+  const getAllLicenses = async () => {
+    const fetchdLicenses = await fetchLicenses();
+    setLicenses(fetchdLicenses);
+  };
 
-  /*const {
-    searching,
-    results,
-    lastPage,
-    totalCount,
-    } = this.props;*/
+  useEffect(() => {
+    if (licenses.length === 0) {
+      getAllLicenses();
+    }
+  }, [id]);
 
-  //const type = 'concept'
-  //const locale = 'nb'
+  const searchConcept = async searchParam => {
+    if (!searching) {
+      setSearching(true);
+      const concepts = await searchConcepts(searchParam);
+      setConcepts(concepts);
+      updateSearchObject(searchParam);
+      calculateLastPage();
+    }
+  };
 
-  const searchObject = toSearch(
-    { page: '1', sort: '-relevance', 'page-size': 10, 'query': 'vi' },
-    'concept',
-  )
+  useEffect(() => {
+    searchConcept(searchObject);
+  }, []);
+
+  const calculateLastPage = () => {
+    const lastPageSize = Math.ceil(results.totalCount / results.pageSize);
+    setLastPage(lastPageSize);
+    setSearching(false);
+  };
 
   return (
     <Modal
@@ -58,61 +80,64 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage , local
       backgroundColor="white"
       minHeight="90vh">
       {() => (
-        <div css={modalStyles}>
+        <div>
           <ModalHeader>
-            <StyledHeader>
-              {t('form.concept.addConcept')}
-            </StyledHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>
           <ModalBody>
-            {mode === 'search' && (
-              <StyledModalButtons>
-                <span>{t('form.concept.addText')}</span>
-                <Button
-                  onClick={() => {
-                    setMode('create');
-                  }}>
-                  {t('form.concept.create')}
-                </Button>
-              </StyledModalButtons>
-            )}
-            
-            <h2>
-              <Search className="c-icon--medium" />
-              {t(`searchPage.header.${type}`)}
-            </h2>
-            <SearchForm
-              type={type}
-              //search={this.onQueryPush}
-              searchObject={searchObject}
-              locale={locale}
+            <Tabs
+              onSelect={setSelectedTabIndex}
+              selectedIndex={selectedTabIndex}
+              tabs={[
+                {
+                  title: t(`searchForm.types.conceptQuery`),
+                  content: (
+                    <div>
+                      <h2>
+                        <Search className="c-icon--medium" />
+                        {t(`searchPage.header.${type}`)}
+                      </h2>
+                      <SearchForm
+                        type={type}
+                        search={searchConcept}
+                        searchObject={searchObject}
+                        locale={locale}
+                      />
+                      <SearchList
+                        searchObject={searchObject}
+                        results={results.results}
+                        searching={searching}
+                        type={type}
+                        locale={locale}
+                      />
+                      <Pager
+                        query={searchObject}
+                        page={
+                          searchObject.page
+                            ? parseInt(searchObject.page, 10)
+                            : 1
+                        }
+                        pathname=""
+                        lastPage={lastPage}
+                        onClick={searchConcept}
+                        pageItemComponentClass="button"
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  title: t('form.concept.create'),
+                  content: (
+                    <CreateConcept
+                      licenses={licenses}
+                      inModal={true}
+                      onClose={onClose}
+                      locale={locale}
+                    />
+                  ),
+                },
+              ]}
             />
-            {/*type === 'content' && (
-              <SearchSort
-                onSortOrderChange={this.onSortOrderChange}
-              />
-            )*/}
-            <SearchListOptions
-              type={type}
-              searchObject={searchObject}
-              totalCount={totalCount}
-              //search={this.onQueryPush}
-            />
-            <SearchList
-              searchObject={searchObject}
-              results={[]}
-              searching={searching}
-              type={type}
-              locale={locale}
-            />
-            <Pager
-              page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
-              lastPage={lastPage}
-              query={searchObject}
-              //onClick={this.onQueryPush}
-            />
-
           </ModalBody>
         </div>
       )}
@@ -120,39 +145,12 @@ const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage , local
   );
 };
 
-
-const StyledModalButtons = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-
-  & > span {
-    margin: 0 20px;
-  }
-`;
-
-const StyledHeader = styled.h1`
-  align-self: flex-start;
-`;
-
-const modalStyles = css`
-  height: 90vh;
-
-  & > .modal-body {
-    height: 84vh;
-  }
-
-  & > .modal-header {
-    height: 6vh;
-  }
-`;
-
 ConceptModal.propTypes = {
-  accessToken: PropTypes.string,
   id: PropTypes.number,
   onClose: PropTypes.func,
-  handleMessage: PropTypes.func,
-  name: PropTypes.string,
+  locale: PropTypes.string,
+  type: PropTypes.string,
+  selectedText: PropTypes.string,
 };
 
 export default injectT(ConceptModal);

@@ -17,6 +17,7 @@ import {
 } from '../../../../util/resourceHelpers';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
+import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
 const SearchContent = ({ content, locale }) => {
   const { contexts, metaImage } = content;
@@ -71,10 +72,10 @@ const SearchContent = ({ content, locale }) => {
           ))}
         </div>
         <p {...searchClasses('description')}>
-          {content.metaDescription.metaDescription}
+          {convertFieldWithFallback(content, 'metaDescription', '')}
         </p>
         <div {...searchClasses('breadcrumbs')}>
-          {contexts.length > 0 && contexts[0].breadcrumbs ? (
+          {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map(breadcrumb => (
               <p key={breadcrumb} {...searchClasses('breadcrumb')}>
                 {breadcrumb}

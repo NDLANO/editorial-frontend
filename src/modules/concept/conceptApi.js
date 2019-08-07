@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -30,4 +38,9 @@ export const updateConcept = concept =>
   fetchAuthorized(`${conceptUrl}/${concept.id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
+  }).then(resolveJsonOrRejectWithError);
+
+export const deleteLanguageVersionConcept = (conceptId, locale) =>
+  fetchAuthorized(`${conceptUrl}/${conceptId}?language=${locale}`, {
+    method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);

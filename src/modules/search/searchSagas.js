@@ -11,9 +11,14 @@ import { take, call, put } from 'redux-saga/effects';
 import * as actions from './search';
 import * as api from './searchApi';
 
-export function* search(query) {
+export function* search(query, type) {
   try {
-    const searchResult = yield call(api.search, query);
+    let searchResult;
+    if (type === 'concept') {
+      searchResult = yield call(api.searchConcepts, query);
+    } else {
+      searchResult = yield call(api.search, query);
+    }
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
@@ -24,8 +29,10 @@ export function* search(query) {
 
 export function* watchSearch() {
   while (true) {
-    const { payload: query } = yield take(actions.search);
-    yield call(search, query);
+    const {
+      payload: { query, type },
+    } = yield take(actions.search);
+    yield call(search, query, type);
   }
 }
 
@@ -42,7 +49,9 @@ export function* searchDraft(query) {
 
 export function* watchSearchDraft() {
   while (true) {
-    const { payload: query } = yield take(actions.searchDraft);
+    const {
+      payload: { query },
+    } = yield take(actions.searchDraft);
     yield call(searchDraft, query);
   }
 }

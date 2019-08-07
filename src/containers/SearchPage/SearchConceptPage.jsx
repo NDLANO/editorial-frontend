@@ -1,28 +1,44 @@
-import React, { Fragment } from 'react';
-import { css } from '@emotion/core';
+/*
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import config from '../../config';
+import * as actions from '../../modules/search/search';
+import {
+  getResults,
+  getLastPage,
+  getTotalResultsCount,
+} from '../../modules/search/searchSelectors';
 
-const SearchConceptPage = ({ t, ...props }) => {
-  const accessToken = localStorage.getItem('access_token');
-  return (
-    <Fragment>
-      <HelmetWithTracker title={t('htmlTitles.searchConceptPage')} />
-      <iframe
-        src={`${config.explanationFrontendDomain}/embedded?accessToken=${accessToken}`}
-        title="concept"
-        width="100%"
-        height="100vh"
-        css={iframeStyle}
-      />
-    </Fragment>
-  );
+import SearchContainer from './SearchContainer';
+
+const SearchConceptPage = ({ t, ...props }) => (
+  <>
+    <HelmetWithTracker title={t('htmlTitles.searchConceptPage')} />
+    <SearchContainer type="concept" {...props} />
+  </>
+);
+
+const mapStateToProps = (state, ownProps) => ({
+  results: getResults(state, queryString.parse(ownProps.location.search).types),
+  totalCount: getTotalResultsCount(state),
+  lastPage: getLastPage(state),
+});
+
+const mapDispatchToProps = {
+  search: actions.search,
+  clearSearch: actions.clearSearchResult,
 };
 
-const iframeStyle = css`
-  height: 100vh;
-  border: none;
-`;
-
-export default injectT(SearchConceptPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(injectT(SearchConceptPage));

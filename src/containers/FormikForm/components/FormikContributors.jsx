@@ -4,7 +4,7 @@ import { injectT } from '@ndla/i18n';
 import Contributors from '../../../components/Contributors';
 import FormikField from '../../../components/FormikField';
 
-const FormikContributors = ({ t, contributorTypes }) => {
+const FormikContributors = ({ t, contributorTypes, width }) => {
   return contributorTypes.map(contributorType => {
     const label = t(`form.${contributorType}.label`);
     return (
@@ -24,6 +24,7 @@ const FormikContributors = ({ t, contributorTypes }) => {
               errorMessages={
                 touched[field.name] && errors[field.name] ? [error] : []
               }
+              width={width}
               {...field}
             />
           );
@@ -35,6 +36,7 @@ const FormikContributors = ({ t, contributorTypes }) => {
 
 FormikContributors.propTypes = {
   contributorTypes: PropTypes.arrayOf(PropTypes.string),
+  width: PropTypes.number,
 };
 
 export default injectT(FormikContributors);

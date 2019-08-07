@@ -23,11 +23,13 @@ test('searchSagas search', () => {
     .put(actions.setSearchResult({ results: [1, 2, 3] }))
     .dispatch(
       actions.search({
-        query: 'testing',
-        page: 3,
-        sort: '-relevance',
-        language: 'nb',
-        'page-size': 10,
+        query: {
+          query: 'testing',
+          page: 3,
+          sort: '-relevance',
+          language: 'nb',
+          'page-size': 10,
+        },
       }),
     )
     .run({ silenceTimeout: true });

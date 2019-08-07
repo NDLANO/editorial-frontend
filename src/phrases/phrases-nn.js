@@ -148,12 +148,14 @@ const phrases = {
     header: {
       content: 'Søk etter innhald',
       media: 'Søk etter media',
+      concept: 'Søk etter forklaringar',
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
     contentNoHits: 'Ingen innhald samsvarte med søket ditt på: {query}',
+    conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {query}',
     mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
@@ -203,6 +205,7 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
+      conceptQuery: 'Søk på Forklaringar',
       contentQuery: 'Søk på Innhald',
       mediaQuery: 'Søk på Media',
       language: 'Velg Språk',
@@ -301,6 +304,13 @@ const phrases = {
     useAudio: 'Velg lyd',
     noResults: 'Ingen resultat funnet',
     noTitle: 'Ingen tittel',
+  },
+  conceptSearch: {
+    searchPlaceholder: 'Søk i forklaringar',
+    searchButtonTitle: 'Søk',
+    noResults: 'Ingen resultat funnet',
+    noTitle: 'Ingen tittel',
+    noContent: 'Ingen innhald',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjerna ved lagring.',

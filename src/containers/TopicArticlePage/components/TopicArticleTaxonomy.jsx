@@ -40,8 +40,7 @@ class TopicArticleTaxonomy extends Component {
     super();
     this.state = {
       structure: [],
-      status: 'initial',
-      saveStatus: 'initial',
+      status: 'loading',
       isDirty: false,
       topics: [],
       stagedTopicChanges: [],
@@ -80,7 +79,6 @@ class TopicArticleTaxonomy extends Component {
       article: { language, id },
     } = this.props;
     try {
-      this.setState({ status: 'loading' });
       const [topics, allTopics, allFilters, subjects] = await Promise.all([
         queryTopics(id, language),
         fetchTopics(language),
@@ -93,7 +91,7 @@ class TopicArticleTaxonomy extends Component {
         .sort(sortByName);
 
       this.setState({
-        status: 'success',
+        status: 'initial',
         topics,
         stagedTopicChanges: topics,
         structure: sortedSubjects,
@@ -182,7 +180,7 @@ class TopicArticleTaxonomy extends Component {
       updateNotes,
       article: { id: articleId, language, revision },
     } = this.props;
-    this.setState({ saveStatus: 'loading', status: 'loading' });
+    this.setState({ status: 'loading' });
 
     const stagedNewTopics = stagedTopicChanges.filter(
       topic => topic.id === 'staged',
@@ -231,12 +229,11 @@ class TopicArticleTaxonomy extends Component {
         isDirty: false,
         topics: updatedTopics,
         stagedTopicChanges: updatedTopics,
-        saveStatus: 'success',
         status: 'success',
       });
     } catch (err) {
       handleError(err);
-      this.setState({ saveStatus: 'error' });
+      this.setState({ status: 'error' });
     }
   };
 
@@ -272,7 +269,6 @@ class TopicArticleTaxonomy extends Component {
       stagedTopicChanges,
       structure,
       status,
-      saveStatus,
       isDirty,
     } = this.state;
     const {
@@ -283,7 +279,7 @@ class TopicArticleTaxonomy extends Component {
     if (status === 'loading') {
       return <Spinner />;
     }
-    if (status === 'error' || saveStatus === 'error') {
+    if (status === 'error') {
       return (
         <ErrorMessage
           illustration={{
@@ -316,12 +312,12 @@ class TopicArticleTaxonomy extends Component {
           <FormikActionButton
             outline
             onClick={this.onCancel}
-            disabled={saveStatus === 'loading'}>
+            disabled={status === 'loading'}>
             {t('form.abort')}
           </FormikActionButton>
           <SaveButton
-            isSaving={saveStatus === 'loading'}
-            showSaved={saveStatus === 'success' && !isDirty}
+            isSaving={status === 'loading'}
+            showSaved={status === 'success' && !isDirty}
             disabled={!isDirty}
             onClick={this.handleSubmit}
             defaultText="saveTax"

@@ -361,7 +361,6 @@ class LearningResourceTaxonomy extends Component {
   onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
-    console.log(closePanel);
     if (!isDirty) {
       closePanel();
     } else {

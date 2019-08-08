@@ -62,12 +62,11 @@ class TopicConnections extends Component {
   }
 
   async addTopic(id, closeModal) {
-    const { activeTopics, taxonomyTopics, stageTaxonomyChanges } = this.props;
-    const addTopic = taxonomyTopics.find(
-      taxonomyTopic => taxonomyTopic.id === id,
-    );
+    const { activeTopics, allTopics, stageTaxonomyChanges } = this.props;
+    const addTopic = allTopics.find(taxonomyTopic => taxonomyTopic.id === id);
 
     const topicConnections = await fetchTopicConnections(addTopic.id);
+
     addTopic.topicConnections = topicConnections;
 
     stageTaxonomyChanges({
@@ -164,7 +163,7 @@ TopicConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf(StructureShape),
   activeTopics: PropTypes.arrayOf(TopicShape),
-  taxonomyTopics: PropTypes.arrayOf(
+  allTopics: PropTypes.arrayOf(
     PropTypes.shape({
       contentUri: PropTypes.string,
       id: PropTypes.string.isRequired,

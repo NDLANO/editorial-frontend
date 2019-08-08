@@ -30,6 +30,7 @@ import {
   groupTopics,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
+import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
 import TopicConnections from './taxonomy/TopicConnections';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
@@ -296,42 +297,6 @@ class LearningResourceTaxonomy extends Component {
     }));
   };
 
-  retriveBreadCrumbs = topicPath => {
-    const {
-      structure,
-      taxonomyChoices: { allTopics },
-    } = this.state;
-    try {
-      let topicPaths = topicPath
-        .split('/')
-        .splice(1)
-        .map(url => `urn:${url}`);
-
-      const subject = structure.find(
-        structureSubject => structureSubject.id === topicPaths[0],
-      );
-      topicPaths = topicPaths.splice(1);
-      const returnPaths = [];
-
-      returnPaths.push({
-        name: subject.name,
-        id: subject.id,
-      });
-      topicPaths.forEach(pathId => {
-        const topicPath = allTopics.find(subtopic => subtopic.id === pathId);
-        returnPaths.push({
-          name: topicPath.name,
-          id: topicPath.id,
-        });
-      });
-
-      return returnPaths;
-    } catch (err) {
-      handleError(err);
-      return false;
-    }
-  };
-
   removeConnection = id => {
     const { topics, filter } = this.state.taxonomyChanges;
     const currentConnection = topics.find(topic => topic.id === id);
@@ -396,6 +361,7 @@ class LearningResourceTaxonomy extends Component {
   onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
+    console.log(closePanel);
     if (!isDirty) {
       closePanel();
     } else {
@@ -445,7 +411,9 @@ class LearningResourceTaxonomy extends Component {
           structure={structure}
           allTopics={allTopics}
           activeTopics={topics}
-          retriveBreadCrumbs={this.retriveBreadCrumbs}
+          retriveBreadCrumbs={topicPath =>
+            retriveBreadCrumbs({ topicPath, allTopics, structure })
+          }
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
@@ -463,7 +431,7 @@ class LearningResourceTaxonomy extends Component {
         <Field right>
           <FormikActionButton
             outline
-            onClick={this.oncancel}
+            onClick={this.onCancel}
             disabled={status === 'loading'}>
             {t('form.abort')}
           </FormikActionButton>

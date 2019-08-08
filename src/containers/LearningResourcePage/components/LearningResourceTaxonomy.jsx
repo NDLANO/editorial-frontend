@@ -42,8 +42,7 @@ class LearningResourceTaxonomy extends Component {
     this.state = {
       resourceId: '',
       structure: [],
-      status: 'initial',
-      saveStatus: 'initial',
+      status: 'loading',
       isDirty: false,
       resourceTaxonomy: {
         resourceTypes: [],
@@ -134,7 +133,6 @@ class LearningResourceTaxonomy extends Component {
     } = this.props;
     try {
       let { resourceId } = this.state;
-      this.setState({ status: 'loading' });
       if (!resourceId) {
         resourceId = await getResourceId({ id, language });
       }
@@ -143,13 +141,13 @@ class LearningResourceTaxonomy extends Component {
 
         this.setState({
           resourceId,
-          status: 'success',
+          status: 'initial',
           resourceTaxonomy: fullResource,
           taxonomyChanges: fullResource,
         });
       } else {
         this.setState(prevState => ({
-          status: 'success',
+          status: 'error',
         }));
       }
     } catch (e) {
@@ -163,7 +161,6 @@ class LearningResourceTaxonomy extends Component {
       article: { language },
     } = this.props;
     try {
-      this.setState({ status: 'loading' });
       const [
         allResourceTypes,
         allFilters,
@@ -180,7 +177,7 @@ class LearningResourceTaxonomy extends Component {
         .filter(subject => subject.name)
         .sort(sortByName);
 
-      if (this.state.status !== 'error')
+      if (this.state.status !== 'error') {
         this.setState({
           taxonomyChoices: {
             availableResourceTypes: allResourceTypes.filter(
@@ -192,9 +189,9 @@ class LearningResourceTaxonomy extends Component {
             allFilters: allFilters.filter(filt => filt.name),
             allTopics: allTopics.filter(topic => topic.name),
           },
-          status: 'success',
           structure: sortedSubjects,
         });
+      }
     } catch (e) {
       handleError(e);
       this.setState({ status: 'error' });
@@ -220,7 +217,7 @@ class LearningResourceTaxonomy extends Component {
       updateNotes,
       article: { language, id, title },
     } = this.props;
-    this.setState({ saveStatus: 'loading', status: 'loading' });
+    this.setState({ status: 'loading' });
     try {
       if (!reassignedResourceId) {
         await createResource({
@@ -246,19 +243,18 @@ class LearningResourceTaxonomy extends Component {
           notes: ['Oppdatert taksonomi.'],
         });
         this.setState({
-          saveStatus: 'success',
           status: 'success',
           isDirty: false,
         });
-        this.silentlyRefetchResourceTopics();
+        this.silentlyRefetchResourceTaxonomy();
       }
     } catch (err) {
       handleError(err);
-      this.setState({ saveStatus: 'error' });
+      this.setState({ status: 'error' });
     }
   };
 
-  silentlyRefetchResourceTopics = async () => {
+  silentlyRefetchResourceTaxonomy = async () => {
     await new Promise(resolve => {
       setTimeout(resolve, 5000);
     });
@@ -414,7 +410,6 @@ class LearningResourceTaxonomy extends Component {
       taxonomyChanges: { resourceTypes, topics, filter },
       structure,
       status,
-      saveStatus,
       isDirty,
     } = this.state;
 
@@ -423,7 +418,7 @@ class LearningResourceTaxonomy extends Component {
     if (status === 'loading') {
       return <Spinner />;
     }
-    if (status === 'error' || saveStatus === 'error') {
+    if (status === 'error') {
       return (
         <ErrorMessage
           illustration={{
@@ -469,12 +464,12 @@ class LearningResourceTaxonomy extends Component {
           <FormikActionButton
             outline
             onClick={this.oncancel}
-            disabled={saveStatus === 'loading'}>
+            disabled={status === 'loading'}>
             {t('form.abort')}
           </FormikActionButton>
           <SaveButton
-            isSaving={saveStatus === 'loading'}
-            showSaved={saveStatus === 'success' && !isDirty}
+            isSaving={status === 'loading'}
+            showSaved={status === 'success' && !isDirty}
             disabled={!isDirty}
             onClick={this.handleSubmit}
             defaultText="saveTax"

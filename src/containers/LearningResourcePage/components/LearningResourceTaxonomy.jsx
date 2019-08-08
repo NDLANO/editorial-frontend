@@ -62,21 +62,6 @@ class LearningResourceTaxonomy extends Component {
         topics: [],
       },
     };
-    this.retriveBreadCrumbs = this.retriveBreadCrumbs.bind(this);
-    this.stageTaxonomyChanges = this.stageTaxonomyChanges.bind(this);
-    this.removeConnection = this.removeConnection.bind(this);
-    this.setPrimaryConnection = this.setPrimaryConnection.bind(this);
-    this.getSubjectTopics = this.getSubjectTopics.bind(this);
-    this.onChangeSelectedResource = this.onChangeSelectedResource.bind(this);
-    this.updateFilter = this.updateFilter.bind(this);
-    this.updateSubject = this.updateSubject.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
-    this.fetchTaxonomyChoices = this.fetchTaxonomyChoices.bind(this);
-    this.fetchFullResouce = this.fetchFullResouce.bind(this);
-    this.silentlyRefetchResourceTopics = this.silentlyRefetchResourceTopics.bind(
-      this,
-    );
   }
 
   componentDidMount() {
@@ -84,7 +69,7 @@ class LearningResourceTaxonomy extends Component {
     this.fetchTaxonomyChoices();
   }
 
-  onChangeSelectedResource(evt) {
+  onChangeSelectedResource = evt => {
     const {
       taxonomyChoices: { availableResourceTypes },
     } = this.state;
@@ -112,9 +97,9 @@ class LearningResourceTaxonomy extends Component {
     this.stageTaxonomyChanges({
       resourceTypes,
     });
-  }
+  };
 
-  async getSubjectTopics(subjectid) {
+  getSubjectTopics = async subjectid => {
     if (
       this.state.structure.some(
         subject => subject.id === subjectid && subject.topics,
@@ -130,9 +115,9 @@ class LearningResourceTaxonomy extends Component {
     } catch (err) {
       handleError(err);
     }
-  }
+  };
 
-  setPrimaryConnection(id) {
+  setPrimaryConnection = id => {
     const { topics } = this.state.taxonomyChanges;
 
     this.stageTaxonomyChanges({
@@ -141,9 +126,9 @@ class LearningResourceTaxonomy extends Component {
         primary: topic.id === id,
       })),
     });
-  }
+  };
 
-  async fetchTaxonomy() {
+  fetchTaxonomy = async () => {
     const {
       article: { language, id },
     } = this.props;
@@ -171,9 +156,9 @@ class LearningResourceTaxonomy extends Component {
       handleError(e);
       this.setState({ status: 'error' });
     }
-  }
+  };
 
-  async fetchTaxonomyChoices() {
+  fetchTaxonomyChoices = async () => {
     const {
       article: { language },
     } = this.props;
@@ -214,9 +199,9 @@ class LearningResourceTaxonomy extends Component {
       handleError(e);
       this.setState({ status: 'error' });
     }
-  }
+  };
 
-  stageTaxonomyChanges(properties) {
+  stageTaxonomyChanges = properties => {
     this.setState(prevState => ({
       isDirty: true,
       taxonomyChanges: {
@@ -224,9 +209,9 @@ class LearningResourceTaxonomy extends Component {
         ...properties,
       },
     }));
-  }
+  };
 
-  async handleSubmit(evt) {
+  handleSubmit = async evt => {
     evt.preventDefault();
     const { resourceTaxonomy, taxonomyChanges, resourceId } = this.state;
     let reassignedResourceId = resourceId;
@@ -271,9 +256,9 @@ class LearningResourceTaxonomy extends Component {
       handleError(err);
       this.setState({ saveStatus: 'error' });
     }
-  }
+  };
 
-  async silentlyRefetchResourceTopics() {
+  silentlyRefetchResourceTopics = async () => {
     await new Promise(resolve => {
       setTimeout(resolve, 5000);
     });
@@ -284,9 +269,9 @@ class LearningResourceTaxonomy extends Component {
     this.setState({
       resourceTaxonomy,
     });
-  }
+  };
 
-  async fetchFullResouce(resourceId, language) {
+  fetchFullResouce = async (resourceId, language) => {
     const { resourceTypes, filters, topics } = await getFullResource(
       resourceId,
       language,
@@ -305,17 +290,17 @@ class LearningResourceTaxonomy extends Component {
       filter: filters,
       topics: topicsWithConnections,
     };
-  }
+  };
 
-  updateSubject(subjectId, newSubject) {
+  updateSubject = (subjectId, newSubject) => {
     this.setState(prevState => ({
       structure: prevState.structure.map(subject =>
         subject.id === subjectId ? { ...subject, ...newSubject } : subject,
       ),
     }));
-  }
+  };
 
-  retriveBreadCrumbs(topicPath) {
+  retriveBreadCrumbs = topicPath => {
     const {
       structure,
       taxonomyChoices: { allTopics },
@@ -349,9 +334,9 @@ class LearningResourceTaxonomy extends Component {
       handleError(err);
       return false;
     }
-  }
+  };
 
-  removeConnection(id) {
+  removeConnection = id => {
     const { topics, filter } = this.state.taxonomyChanges;
     const currentConnection = topics.find(topic => topic.id === id);
     const updatedTopics = topics.filter(topic => topic.id !== id);
@@ -388,9 +373,9 @@ class LearningResourceTaxonomy extends Component {
     this.stageTaxonomyChanges({
       topics: updatedTopics,
     });
-  }
+  };
 
-  updateFilter(resourceId, filter, relevanceId, remove) {
+  updateFilter = (resourceId, filter, relevanceId, remove) => {
     let updatedFilter = filter;
     const updatedFilters = this.state.taxonomyChanges.filter.filter(
       modelFilter => {
@@ -410,9 +395,9 @@ class LearningResourceTaxonomy extends Component {
     this.stageTaxonomyChanges({
       filter: updatedFilters,
     });
-  }
+  };
 
-  onCancel() {
+  onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
     if (!isDirty) {
@@ -421,7 +406,7 @@ class LearningResourceTaxonomy extends Component {
       // TODO open warning
       closePanel();
     }
-  }
+  };
 
   render() {
     const {

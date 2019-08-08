@@ -67,7 +67,7 @@ const SaveButton = ({
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
-    if (!isEmpty(errors) && touched && submitCount > 0) return 'error';
+    if (!isEmpty(errors) && touched) return 'error';
     return defaultText || 'save';
   };
 

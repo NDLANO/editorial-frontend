@@ -17,7 +17,7 @@ import ConceptForm from './ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {
-  const { licenses, locale, t, history, ...rest } = props;
+  const { licenses, locale, t, history, initialConcept, ...rest } = props;
   const { createConcept } = useFetchConceptData(undefined, locale);
 
   const createConceptAndPushRoute = async createdConcept => {
@@ -29,7 +29,7 @@ const CreateConcept = props => {
     <Fragment>
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
-        concept={{ language: locale }}
+        concept={{ ...initialConcept, language: locale }}
         locale={locale}
         onUpdate={createConceptAndPushRoute}
         licenses={licenses}
@@ -43,6 +43,9 @@ CreateConcept.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  initialConcept: PropTypes.shape({
+    title: PropTypes.string
+  }),
   createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   licenses: LicensesArrayOf,

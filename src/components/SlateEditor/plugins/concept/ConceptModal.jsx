@@ -18,8 +18,8 @@ import Pager from '@ndla/pager';
 import { searchConcepts } from '../../../../modules/search/searchApi';
 import SearchList from '../../../../../src/containers/SearchPage/components/results/SearchList';
 import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
-import CreateConcept from '../../../../containers/ConceptPage/CreateConcept';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
+import CreateConcept from '../../../../containers/ConceptPage/CreateConcept';
 
 const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
   const [searchObject, updateSearchObject] = useState({
@@ -133,6 +133,7 @@ const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
                       inModal={true}
                       onClose={onClose}
                       locale={locale}
+                      initialConcept={{title: selectedText}}
                     />
                   ),
                 },

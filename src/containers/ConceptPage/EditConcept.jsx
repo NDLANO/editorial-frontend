@@ -20,7 +20,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
     selectedLanguage,
   );
 
-  if (!concept || !concept.id) {
+  if (!concept) {
     return null;
   }
 
@@ -35,7 +35,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
 };
 
 EditConcept.propTypes = {
-  conceptId: PropTypes.string.isRequired,
+  conceptId: PropTypes.string,
   selectedLanguage: PropTypes.string.isRequired,
   licenses: LicensesArrayOf.isRequired,
 };

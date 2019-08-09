@@ -33,7 +33,7 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
   parseImageUrl,
-  learningResourceRules
+  learningResourceRules,
 } from '../../util/formHelper';
 import {
   FormikAlertModalWrapper,
@@ -250,8 +250,11 @@ class ConceptForm extends Component {
         onSubmit={this.handleSubmit}
         ref={this.formik}
         enableReinitialize
-        validate={values => inModal? validateFormik(values, learningResourceRules, t): validateFormik(values, rules, t)}>
-
+        validate={values =>
+          inModal
+            ? validateFormik(values, learningResourceRules, t)
+            : validateFormik(values, rules, t)
+        }>
         {formikProps => {
           const {
             values,
@@ -261,7 +264,7 @@ class ConceptForm extends Component {
             error,
             submitForm,
           } = formikProps;
-         
+
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,

@@ -133,7 +133,7 @@ const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
                       inModal={true}
                       onClose={onClose}
                       locale={locale}
-                      initialConcept={{title: selectedText}}
+                      initialConcept={{ title: selectedText }}
                     />
                   ),
                 },

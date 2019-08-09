@@ -44,7 +44,7 @@ CreateConcept.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   initialConcept: PropTypes.shape({
-    title: PropTypes.string
+    title: PropTypes.string,
   }),
   createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,

@@ -111,7 +111,7 @@
     "body-parser": "^1.18.3",
     "btoa": "^1.2.1",
     "bunyan": "^1.8.12",
-    "compression": "^1.7.3",
+    "compression": "^1.7.4",
     "date-fns": "2.0.0-alpha.27",
     "defined": "1.0.0",
     "diff-match-patch": "^1.0.4",

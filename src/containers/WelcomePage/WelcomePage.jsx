@@ -59,6 +59,4 @@ export const WelcomePage = ({ t }) => {
   );
 };
 
-WelcomePage.propTypes = {};
-
 export default injectT(WelcomePage);

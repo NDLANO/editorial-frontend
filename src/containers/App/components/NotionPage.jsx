@@ -11,10 +11,8 @@ const StyledIframe = styled.iframe`
   border: none;
 `;
 
-const NotionPage = props => {
+const NotionPage = () => {
   return <StyledIframe src={config.explanationFrontendDomain} />;
 };
-
-NotionPage.propTypes = {};
 
 export default NotionPage;

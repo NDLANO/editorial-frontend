@@ -14,6 +14,7 @@ import { css } from '@emotion/core';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { searchFormClasses } from './SearchForm';
+import { LocationShape } from '../../../../shapes';
 
 class SearchConceptForm extends Component {
   constructor(props) {
@@ -103,9 +104,7 @@ class SearchConceptForm extends Component {
 
 SearchConceptForm.propTypes = {
   search: PropTypes.func.isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }),
+  location: LocationShape,
   searchObject: PropTypes.shape({
     query: PropTypes.string,
     language: PropTypes.string,

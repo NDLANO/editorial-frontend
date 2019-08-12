@@ -861,13 +861,6 @@ const phrases = {
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
   },
-  footer: {
-    aboutNDLA: 'Om NDLA',
-    selectLanguage: 'Velg språk (language): ',
-    footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
-    footerEditiorInChief: 'Ansvarlig redaktør: ',
-    footerManagingEditor: 'Utgaveansvarlig: ',
-  },
   errorMessage: {
     title: 'Oops, noe gikk galt',
     description: 'Vi beklager, men en feil oppsto.',
@@ -971,10 +964,6 @@ const phrases = {
   contextTypes: {
     topic: 'Emne',
   },
-  masthead: {
-    menu: 'Meny',
-    closeMenu: 'Lukk',
-  },
   ndlaFilm: {
     editor: {
       slideshowHeader: 'Slideshow:',
@@ -1001,17 +990,6 @@ const phrases = {
   },
   modal: {
     closeModal: 'Lukk',
-  },
-  languages: {
-    nb: 'Bokmål',
-    nn: 'Nynorsk',
-    en: 'Engelsk',
-    fr: 'Fransk',
-    de: 'Tysk',
-    se: 'Samisk',
-    es: 'Spansk',
-    zh: 'Kinesisk',
-    unknown: 'Ukjent',
   },
   conceptform: {
     title: 'Begrep',

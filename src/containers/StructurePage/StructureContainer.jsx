@@ -42,6 +42,7 @@ import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 import config from '../../config';
 import Footer from '../App/components/Footer';
+import { LocationShape, HistoryShape } from '../../shapes';
 
 export class StructureContainer extends React.PureComponent {
   constructor(props) {
@@ -392,13 +393,8 @@ StructureContainer.propTypes = {
       topic3: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-    search: PropTypes.string,
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
+  location: LocationShape,
+  history: HistoryShape,
 };
 
 const mapStateToProps = state => ({

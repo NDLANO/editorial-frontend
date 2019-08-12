@@ -22,6 +22,7 @@ import SearchTagGroup from './SearchTagGroup';
 import ArticleStatuses from '../../../../util/constants/index';
 import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { searchFormClasses } from './SearchForm';
+import { LocationShape } from '../../../../shapes';
 
 const emptySearchState = {
   query: '',
@@ -232,9 +233,7 @@ class SearchContentForm extends Component {
 
 SearchContentForm.propTypes = {
   search: PropTypes.func.isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }),
+  location: LocationShape,
   searchObject: PropTypes.shape({
     query: PropTypes.string,
     subjects: PropTypes.string,

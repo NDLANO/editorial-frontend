@@ -836,13 +836,6 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være en tom',
   },
-  footer: {
-    aboutNDLA: 'About NDLA',
-    selectLanguage: 'Choose language (språk): ',
-    footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
-    footerEditiorInChief: 'Editor in chief: ',
-    footerManagingEditor: 'Managing editor: ',
-  },
   errorMessage: {
     title: 'Oops, something went wrong',
     description: 'Sorry, an error occurd.',
@@ -939,10 +932,6 @@ const phrases = {
   contextTypes: {
     topic: 'Topic',
   },
-  masthead: {
-    menu: 'Menu',
-    closeMenu: 'Close',
-  },
   ndlaFilm: {
     editor: {
       slideshowHeader: 'Slideshow:',
@@ -969,17 +958,6 @@ const phrases = {
   },
   modal: {
     closeModal: 'Close',
-  },
-  languages: {
-    nb: 'Norwegian Bokmål',
-    nn: 'Norwegian Nynorsk',
-    en: 'English',
-    fr: 'French',
-    de: 'German',
-    se: 'Sami',
-    es: 'Spanish',
-    zh: 'Chinese',
-    unknown: 'Unknown',
   },
   conceptform: {
     title: 'Concept',

@@ -240,6 +240,12 @@ export const PossibleStatusShape = PropTypes.shape({
   QUEUED_FOR_PUBLISHING: PropTypes.arrayOf(PropTypes.string),
 });
 
+export const LocationShape = PropTypes.shape({
+  search: PropTypes.string,
+  pathname: PropTypes.string.isRequired,
+  hash: PropTypes.string,
+}).isRequired;
+
 export const HistoryShape = PropTypes.shape({
   push: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,

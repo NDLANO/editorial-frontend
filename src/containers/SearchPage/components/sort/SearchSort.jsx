@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import { searchClasses } from '../../SearchContainer';
+import { LocationShape } from '../../../../shapes';
 
 class SearchSort extends Component {
   constructor(props) {
@@ -88,9 +89,7 @@ class SearchSort extends Component {
 }
 
 SearchSort.propTypes = {
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }).isRequired,
+  location: LocationShape,
   sort: PropTypes.string,
   order: PropTypes.string,
   onSortOrderChange: PropTypes.func.isRequired,

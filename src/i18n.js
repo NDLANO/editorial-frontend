@@ -8,6 +8,7 @@
 
 import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import nb from './phrases/phrases-nb';
+import nn from './phrases/phrases-nn';
 import en from './phrases/phrases-en';
 
 function* entries(obj) {
@@ -46,7 +47,7 @@ const NB = {
 const NN = {
   name: 'Nynorsk',
   abbreviation: 'nn',
-  messages: formatNestedMessages({ messagesNN, ...nb }),
+  messages: formatNestedMessages({ ...messagesNN, ...nn }),
 };
 const EN = {
   name: 'English',
@@ -58,7 +59,9 @@ export const appLocales = [NB, NN, EN];
 export const preferdLocales = [NB, NN, EN];
 
 export const getLocaleObject = localeAbbreviation => {
-  const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
+  const locale = appLocales.find(
+    appLocale => appLocale.abbreviation === localeAbbreviation,
+  );
 
   return locale || NB; // defaults to NB
 };

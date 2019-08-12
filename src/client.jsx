@@ -13,7 +13,7 @@ import { Router } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import ErrorReporter from '@ndla/error-reporter';
 import { configureTracker } from '@ndla/tracker';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import config from './config';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';

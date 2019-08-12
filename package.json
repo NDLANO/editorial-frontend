@@ -59,8 +59,8 @@
     "eslint-config-ndla": "^1.2.1",
     "eslint-plugin-emotion": "^10.0.14",
     "esm": "^3.2.25",
-    "filter-console": "^0.1.0",
-    "flux-standard-action": "^2.0.3",
+    "filter-console": "^0.1.1",
+    "flux-standard-action": "^2.1.1",
     "identity-obj-proxy": "^3.0.0",
     "jest-emotion": "^10.0.14",
     "jsdom": "^15.1.1",
@@ -167,13 +167,13 @@
     "redux-actions": "^2.6.5",
     "redux-saga": "^0.16.0",
     "reselect": "^4.0.0",
-    "serialize-javascript": "^1.5.0",
+    "serialize-javascript": "^1.7.0",
     "slate": "^0.44.9",
     "slate-html-serializer": "0.7.33",
     "slate-plain-serializer": "0.6.33",
     "slate-prop-types": "^0.5.37",
     "slate-react": "^0.21.15",
-    "source-map-support": "^0.5.9"
+    "source-map-support": "^0.5.13"
   },
   "repository": {
     "type": "git",

@@ -4662,15 +4662,15 @@ dotenv@6.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
   integrity sha512-FlWbnhgjtwD+uNLUGHbMykMOYQaTivdHEmYwAKFjn6GKe/CqY0fNae93ZHTd20snh9ZLr8mTzIL9m0APQ1pjQg==
 
-downshift@^3.2.10:
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.2.10.tgz#00f8e50383199c3f07ce63b575a840e2918b7b9f"
-  integrity sha512-fEYNbV/qDLUHTxF9wALNe51Xe5zauUhy2sqgYG1CtmAfUFMI30UuSaisU8CD0DEsFSIsaEvsVgtabb6nTEhtaA==
+downshift@^3.2.12:
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.2.12.tgz#19dc3b38e2d070c814f25d67d3a430e1bd25cf74"
+  integrity sha512-JV8aw9gR324GX1xi85hsHf5bf5Is8n/uLGr8BVReuhDLobIvLVl2I2Oqi0Og5bUvyyHmN9EOGmk2FuXpY9XcNg==
   dependencies:
-    "@babel/runtime" "^7.1.2"
+    "@babel/runtime" "^7.4.5"
     compute-scroll-into-view "^1.0.9"
-    prop-types "^15.6.0"
-    react-is "^16.5.2"
+    prop-types "^15.7.2"
+    react-is "^16.8.6"
 
 dtrace-provider@~0.8:
   version "0.8.6"
@@ -11407,11 +11407,6 @@ react-immutable-proptypes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-immutable-proptypes/-/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
   integrity sha1-Aj1vObsVyXwHHp5g0A0TbqxfoLQ=
-
-react-is@^16.5.2:
-  version "16.8.0"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.0.tgz#518db476214f3fb0716af9f82dfd420225ae970f"
-  integrity sha512-LOy+3La39aduxaPfuj+lCXC5RQ8ukjVPAAsFJ3yQ+DIOLf4eR9OMKeWKF0IzjRyE95xMj5QELwiXGgfQsIJguA==
 
 react-is@^16.6.0, react-is@^16.8.1, react-is@^16.8.6:
   version "16.8.6"

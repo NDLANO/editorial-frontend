@@ -45,6 +45,8 @@ const wrapper = () =>
             }}
             location={{
               search: '',
+              pathname: 'test',
+              hash: '',
             }}
           />
         </IntlWrapper>

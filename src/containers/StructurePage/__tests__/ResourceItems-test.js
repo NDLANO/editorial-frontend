@@ -26,6 +26,7 @@ const wrapper = () =>
           resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
           contentType="topic-article"
           activeFilter="filter"
+          locale="nb"
           refreshResources={() => {}}
         />
       </IntlWrapper>

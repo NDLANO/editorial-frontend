@@ -15,11 +15,11 @@ import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { fetchTopicConnections } from '../../../../modules/taxonomy';
+import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
-import { StructureShape, TopicShape } from '../../../../shapes';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import StructureButtons from './StructureButtons';
+import { StructureShape, TopicShape } from '../../shapes';
+import HowToHelper from '../HowTo/HowToHelper';
+import StructureButtons from '../../containers/LearningResourcePage/components/taxonomy/StructureButtons';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};

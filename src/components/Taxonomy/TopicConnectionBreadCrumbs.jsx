@@ -9,8 +9,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ChevronRight } from '@ndla/icons/common';
-import { StyledBreadCrumb } from '../../../../style/LearningResourceTaxonomyStyles';
-import { TopicConnectionShape } from '../../../../shapes';
+import { StyledBreadCrumb } from '../../style/LearningResourceTaxonomyStyles';
+import { TopicConnectionShape } from '../../shapes';
 
 export const TopicConnectionBreadCrumbs = ({
   topicConnection,

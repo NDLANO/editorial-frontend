@@ -13,8 +13,8 @@ import TopicConnectionBreadCrumbs from './TopicConnectionBreadCrumbs';
 import {
   StyledConnections,
   StyledDuplicateConnectionLabel,
-} from '../../../../style/LearningResourceTaxonomyStyles';
-import { TopicShape } from '../../../../shapes';
+} from '../../style/LearningResourceTaxonomyStyles';
+import { TopicShape } from '../../shapes';
 
 export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
   if (topic.topicConnections.length === 0) {

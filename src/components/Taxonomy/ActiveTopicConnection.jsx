@@ -17,9 +17,9 @@ import {
   StyledErrorLabel,
   StyledRemoveConnectionButton,
   StyledPrimaryConnectionButton,
-} from '../../../../style/LearningResourceTaxonomyStyles';
+} from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
-import { TopicShape } from '../../../../shapes';
+import { TopicShape } from '../../shapes';
 
 const ActiveTopicConnection = ({
   retriveBreadCrumbs,

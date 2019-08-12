@@ -26,12 +26,16 @@ const buttonAdditionStyle = css`
 `;
 
 const StyledChecked = styled('div')`
-  ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes(16, 1.1)} 
+  
+  font-weight: ${fonts.weight.semibold};
   display: flex;
   align-items: center;
+  
   span {
     margin: 0 ${spacing.xsmall};
   }
+  
   svg {
     fill: ${colors.support.green};
   }
@@ -39,6 +43,7 @@ const StyledChecked = styled('div')`
 
 const StyledButtonWrapper = styled.div`
   display: flex;
+
   &:focus-within {
     > button {
       opacity: 1;
@@ -47,6 +52,7 @@ const StyledButtonWrapper = styled.div`
 
   div:hover > & {
     background: #f1f5f8;
+
     > button,
     > span {
       opacity: 1;
@@ -121,7 +127,7 @@ StructureButtons.propTypes = {
   id: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   activeTopics: PropTypes.array.isRequired,
-  availableFilters: PropTypes.array.isRequired,
+  availableFilters: PropTypes.objectOf(PropTypes.object).isRequired,
   activeFilters: PropTypes.array.isRequired,
   toggleFilter: PropTypes.func.isRequired,
   addTopic: PropTypes.func.isRequired,

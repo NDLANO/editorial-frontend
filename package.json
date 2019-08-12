@@ -139,7 +139,7 @@
     "monaco-editor": "^0.17.1",
     "ndla-slate-edit-list": "^0.13.2",
     "ndla-slate-edit-table": "^0.1.5",
-    "polished": "^2.2.0",
+    "polished": "^3.4.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-focus": "^4.0.0",
     "postcss-import": "^12.0.1",

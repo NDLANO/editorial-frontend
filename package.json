@@ -79,7 +79,7 @@
     "stylelint-config-standard": "^18.3.0",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.3",
-    "yargs": "^12.0.2"
+    "yargs": "^13.3.0"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.14",
@@ -106,7 +106,7 @@
     "@ndla/ui": "^0.22.20",
     "@ndla/util": "^0.3.3",
     "@ndla/video-search": "^0.8.5",
-    "auth0-js": "^9.8.0",
+    "auth0-js": "^9.11.3",
     "babel-plugin-emotion": "^10.0.14",
     "body-parser": "^1.18.3",
     "btoa": "^1.2.1",

@@ -12,6 +12,16 @@ import TestRenderer from 'react-test-renderer';
 import { DisplayExternal } from '../DisplayExternal';
 import { getIframeSrcFromHtmlString } from '../../../util/htmlHelpers';
 
+function createNodeMock(element) {
+  if (element.type === 'div') {
+    return {
+      querySelector: () => {},
+    };
+  }
+  return null;
+}
+const options = { createNodeMock };
+
 test('getIframeSrcFromHtmlString returns src attribute', () => {
   const src = getIframeSrcFromHtmlString(
     `<div>
@@ -58,6 +68,7 @@ test('DisplayExternal renders external correctly', () => {
 
   const component = TestRenderer.create(
     <DisplayExternal embed={embed} t={() => ''} />,
+    options,
   );
   expect(component.toJSON()).toMatchSnapshot();
 });
@@ -72,6 +83,7 @@ test('DisplayExternal renders iframe correctly', () => {
 
   const component = TestRenderer.create(
     <DisplayExternal onRemoveClick={() => ''} embed={embed} t={() => ''} />,
+    options,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -91,6 +103,7 @@ test('DisplayExternal display error on fetch fail', () => {
       embed={{ url: 'https://ndla.no/oembed' }}
       t={() => 'Error message'}
     />,
+    options,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

@@ -14,12 +14,12 @@ import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline } from '@ndla/icons/common';
 import { LocationState } from 'history';
 import { withRouter } from 'react-router-dom';
+import styled from '@emotion/styled';
 //@ts-ignore
 import { injectT } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { getLocale } from '../../../modules/locale/locale';
 import { TranslateType } from '../../../interfaces';
-import styled from '@emotion/styled';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
@@ -38,7 +38,7 @@ export const FooterWrapper: FC<Props> = ({
   showLocaleSelector,
   t,
 }) => {
-  const languageSelector = true ? (
+  const languageSelector = showLocaleSelector ? (
     <LanguageSelector
       center
       outline

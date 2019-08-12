@@ -28,7 +28,7 @@ const Logout = ({ t, match }) => (
         </Switch>
       </div>
     </OneColumn>
-    <Footer />
+    <Footer showLocaleSelector />
   </Fragment>
 );
 

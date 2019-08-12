@@ -36,7 +36,7 @@ export const Login = ({ t, match, authenticated, location, history }) => {
           </Switch>
         </div>
       </OneColumn>
-      <Footer />
+      <Footer showLocaleSelector />
     </Fragment>
   );
 };

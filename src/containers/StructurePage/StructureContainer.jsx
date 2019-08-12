@@ -376,7 +376,7 @@ export class StructureContainer extends React.PureComponent {
             />
           )}
         </OneColumn>
-        <Footer />
+        <Footer showLocaleSelector />
       </ErrorBoundary>
     );
   }

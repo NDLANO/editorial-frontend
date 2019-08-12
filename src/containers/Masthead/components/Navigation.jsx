@@ -60,7 +60,7 @@ const StyledHeaderItems = styled.div`
   }
 `;
 const StyledWrapper = styled.div`
-  margin-bottom: ${spacing.spacingUnit * 4}px;
+  margin-bottom: ${spacing.spacingUnit * 2}px;
 `;
 
 export class Navigation extends Component {

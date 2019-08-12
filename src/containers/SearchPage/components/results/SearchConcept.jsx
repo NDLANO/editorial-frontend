@@ -46,10 +46,11 @@ const SearchConcept = ({ concept, locale, t }) => {
           </Link>
           {concept.supportedLanguages.map(lang => {
             return lang !== locale ? (
-              <span {...searchClasses('other-link')}>
+              <span
+                key={`${lang}_search_content`}
+                {...searchClasses('other-link')}>
                 <Link
                   {...searchClasses('link')}
-                  key={`${lang}_search_content`}
                   to={toEditConcept(concept.id, lang)}>
                   {t(`language.${lang}`)}
                 </Link>
@@ -66,10 +67,20 @@ const SearchConcept = ({ concept, locale, t }) => {
 };
 
 SearchConcept.propTypes = {
-  concept: {
-    title: PropTypes.string,
-    content: PropTypes.string,
-  },
+  concept: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+    content: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+    metaImage: PropTypes.shape({
+      alt: PropTypes.string,
+      url: PropTypes.string,
+    }),
+  }),
   locale: PropTypes.string,
 };
 

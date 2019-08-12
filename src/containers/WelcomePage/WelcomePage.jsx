@@ -54,7 +54,7 @@ export const WelcomePage = ({ t }) => {
           </div>
         </div>
       </OneColumn>
-      <Footer />
+      <Footer showLocaleSelector />
     </Fragment>
   );
 };

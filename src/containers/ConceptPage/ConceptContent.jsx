@@ -29,7 +29,7 @@ const ConceptContent = props => {
     },
   } = props;
   return (
-    <Form>
+    <>
       <FormikField
         label={t('form.title.label')}
         name="title"
@@ -55,7 +55,7 @@ const ConceptContent = props => {
         maxLength={800}
         placeholder={t('form.name.conceptContent')}
       />
-    </Form>
+    </>
   );
 };
 

@@ -1341,6 +1341,11 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.13.tgz#d91f65aa970c66a01b918e8d3cec9ed7bcdfde30"
   integrity sha512-/u+CIOi9fxKQkJQGyILElE7vH/gWoo4X9W/zJrX2H5rDcbjUpQsuvnKtEBXKXZzDWbS+a0yqumGQ8DS51/6bNQ==
 
+"@ndla/icons@^0.6.16":
+  version "0.6.16"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.16.tgz#3623e89897b3d94136c944c12c4aaa79f44ded88"
+  integrity sha512-0wwsxwepKEaFoL/i0/5+QbcxPYbOb6E5kKMZ+MRCNiodYnVxne0+xpUlbdzhvSutBN+EX+R39jER6c8ADuvITQ==
+
 "@ndla/image-search@^0.8.10":
   version "0.8.10"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.10.tgz#ec27cef460bafe0b20953d4dd7927b033370fc6e"

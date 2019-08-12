@@ -949,6 +949,7 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    goTo: 'Åpne i stukturredigering',
   },
   notions: {
     edit: 'Rediger begrep',

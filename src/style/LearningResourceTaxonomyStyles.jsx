@@ -76,7 +76,6 @@ const flexButtonCenterAlignStyle = css`
 /* Styled components */
 
 const StyledBreadCrumb = styled('div')`
-  flex-grow: 1;
   span:last-of-type {
     font-weight: ${fonts.weight.semibold};
   }
@@ -84,6 +83,7 @@ const StyledBreadCrumb = styled('div')`
 
 const StyledConnections = styled('div')`
   ${flexButtonCenterAlignStyle};
+  justify-content: space-between;
   background: ${props =>
     props.error ? `${colors.support.red}11` : colors.brand.greyLightest};
   padding: ${spacing.xsmall};

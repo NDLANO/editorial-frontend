@@ -959,6 +959,7 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    goTo: 'Åpne i stukturredigering',
   },
   detailBox: {
     label: 'Endre overskrift',

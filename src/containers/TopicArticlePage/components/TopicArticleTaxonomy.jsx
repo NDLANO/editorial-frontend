@@ -23,6 +23,7 @@ import {
   addTopicToTopic,
   addSubjectTopic,
   addFilterToTopic,
+  fetchTopicConnections,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -91,10 +92,18 @@ class TopicArticleTaxonomy extends Component {
         .filter(subject => subject.name)
         .sort(sortByName);
 
+      const topicConnections = await Promise.all(
+        topics.map(topic => fetchTopicConnections(topic.id)),
+      );
+      const topicsWithConnections = topics.map((topic, index) => ({
+        topicConnections: topicConnections[index],
+        ...topic,
+      }));
+
       this.setState({
         status: 'initial',
-        topics,
-        stagedTopicChanges: topics,
+        topics: topicsWithConnections,
+        stagedTopicChanges: topicsWithConnections,
         structure: sortedSubjects,
         taxonomyChoices: {
           allTopics: allTopics.filter(topic => topic.name),

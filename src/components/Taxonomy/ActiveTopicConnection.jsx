@@ -22,6 +22,7 @@ import {
 } from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
 import { TopicShape } from '../../shapes';
+import styled from '@emotion/styled';
 
 const linkStyle = css`
   margin-right: 10px;
@@ -30,6 +31,10 @@ const linkStyle = css`
   > span {
     margin-right: 4px;
   }
+`;
+
+const StyledFlexWrapper = styled.div`
+  display: flex;
 `;
 
 const ActiveTopicConnection = ({
@@ -41,6 +46,7 @@ const ActiveTopicConnection = ({
   topic,
 }) => {
   const breadCrumbs = retriveBreadCrumbs(topic.path);
+  console.log(topic);
   if (!breadCrumbs) {
     return (
       <StyledConnections error>
@@ -71,7 +77,7 @@ const ActiveTopicConnection = ({
               </Fragment>
             ))}
           </StyledBreadCrumb>
-          <div css={{ display: 'flex' }}>
+          <StyledFlexWrapper>
             <Link
               target="_blank"
               css={linkStyle}
@@ -84,8 +90,12 @@ const ActiveTopicConnection = ({
               onClick={() => removeConnection(topic.id)}>
               <Cross />
             </StyledRemoveConnectionButton>
-          </div>
+          </StyledFlexWrapper>
         </StyledConnections>
+        <SharedTopicConnections
+          topic={topic}
+          retriveBreadCrumbs={retriveBreadCrumbs}
+        />
       </Fragment>
     );
   }
@@ -93,20 +103,22 @@ const ActiveTopicConnection = ({
   return (
     <Fragment>
       <StyledConnections>
-        <StyledPrimaryConnectionButton
-          primary={topic.primary}
-          type="button"
-          onClick={() => setPrimaryConnection(topic.id)}>
-          {t('form.topics.primaryTopic')}
-        </StyledPrimaryConnectionButton>
-        <StyledBreadCrumb>
-          {breadCrumbs.map(path => (
-            <Fragment key={`${topic.id}${path.id}`}>
-              <span>{path.name}</span>
-              <ChevronRight />
-            </Fragment>
-          ))}
-        </StyledBreadCrumb>
+        <StyledFlexWrapper>
+          <StyledPrimaryConnectionButton
+            primary={topic.primary}
+            type="button"
+            onClick={() => setPrimaryConnection(topic.id)}>
+            {t('form.topics.primaryTopic')}
+          </StyledPrimaryConnectionButton>
+          <StyledBreadCrumb>
+            {breadCrumbs.map(path => (
+              <Fragment key={`${topic.id}${path.id}`}>
+                <span>{path.name}</span>
+                <ChevronRight />
+              </Fragment>
+            ))}
+          </StyledBreadCrumb>
+        </StyledFlexWrapper>
         <StyledRemoveConnectionButton
           type="button"
           onClick={() => removeConnection(topic.id)}>

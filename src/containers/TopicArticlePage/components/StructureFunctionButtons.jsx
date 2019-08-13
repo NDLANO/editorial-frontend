@@ -105,17 +105,9 @@ const StructureFunctionButtons = ({
         css={buttonAdditionStyle}
         type="button"
         onClick={addTopic}>
-        {t('taxonomy.topics.addNewTopic')}
+        {t('taxonomy.topics.addNewSubTopic')}
       </Button>
-      {currentIndex === -1 ? (
-        <Button
-          outline
-          css={buttonAdditionStyle}
-          type="button"
-          onClick={addToTopic}>
-          {t('taxonomy.topics.addExistingTopic')}
-        </Button>
-      ) : (
+      {currentIndex !== -1 && (
         <StyledChecked>
           <Check
             className="c-icon--22"

@@ -52,16 +52,7 @@ describe('Topic editing', () => {
       'suppResources',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
-    cy.route({
-      method: 'PUT',
-      url: `/taxonomy/v1/topics/${selectTopic}`,
-      status: 204,
-      headers: {
-        Location: 'newPath',
-        'content-type': 'text/plain; charset=UTF-8',
-      },
-      response: '',
-    }).as('changeTopicName');
+
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topics',
@@ -102,22 +93,8 @@ describe('Topic editing', () => {
     cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
   });
 
-  it('should have a settings menu where everything works', () => {
+  it.only('should have a settings menu where everything works', () => {
     cy.wait('@allSubjectTopics');
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('[data-cy=change-topic-name]').click({ force: true });
-    cy.get('[data-testid=inlineEditInput]').type('TEST{enter}', {
-      force: true,
-    });
-    cy.wait('@changeTopicName');
-
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
-      .contains(phrases.taxonomy.addTopic)
-      .click();
-    cy.get(`input[placeholder="${phrases.taxonomy.newTopic}"]`).type(
-      'Nytt testemne{enter}',
-    );
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')

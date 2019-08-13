@@ -8,11 +8,10 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { ChevronRight, Launch } from '@ndla/icons/common';
+import { ChevronRight } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
-import { Link } from 'react-router-dom';
-import css from '@emotion/css';
+import styled from '@emotion/styled';
 import {
   StyledBreadCrumb,
   StyledConnections,
@@ -22,16 +21,6 @@ import {
 } from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
 import { TopicShape } from '../../shapes';
-import styled from '@emotion/styled';
-
-const linkStyle = css`
-  margin-right: 10px;
-  white-space: nowrap;
-
-  > span {
-    margin-right: 4px;
-  }
-`;
 
 const StyledFlexWrapper = styled.div`
   display: flex;
@@ -77,20 +66,11 @@ const ActiveTopicConnection = ({
               </Fragment>
             ))}
           </StyledBreadCrumb>
-          <StyledFlexWrapper>
-            <Link
-              target="_blank"
-              css={linkStyle}
-              to={`/structure/${breadCrumbs.map(b => b.id).join('/')}`}>
-              <span>{t('taxonomy.goTo')}</span>
-              <Launch />
-            </Link>
-            <StyledRemoveConnectionButton
-              type="button"
-              onClick={() => removeConnection(topic.id)}>
-              <Cross />
-            </StyledRemoveConnectionButton>
-          </StyledFlexWrapper>
+          <StyledRemoveConnectionButton
+            type="button"
+            onClick={() => removeConnection(topic.id)}>
+            <Cross />
+          </StyledRemoveConnectionButton>
         </StyledConnections>
         <SharedTopicConnections
           topic={topic}

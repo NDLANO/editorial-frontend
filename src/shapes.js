@@ -199,7 +199,7 @@ export const LicensesArrayOf = PropTypes.arrayOf(
     description: PropTypes.string,
     license: PropTypes.string,
   }),
-).isRequired;
+);
 
 export const AudioShape = PropTypes.shape({
   id: PropTypes.number,

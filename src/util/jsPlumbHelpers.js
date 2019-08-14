@@ -1,6 +1,6 @@
 import { jsPlumb } from 'jsplumb';
 
-export const connectLinkItems = (
+export const connectLinkItems = async (
   source,
   connectionArray,
   parent,
@@ -18,6 +18,9 @@ export const connectLinkItems = (
     }
     return conn;
   });
+  const { isPrimary } = connectionArray.find(
+    connection => connection.targetId === parent,
+  );
 
   const instance = jsPlumb.getInstance({
     Container: 'plumbContainer',
@@ -26,48 +29,46 @@ export const connectLinkItems = (
     PaintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
     Anchors: ['Left', 'Left'],
     deleteEndpointsOnDetach: false,
-    Overlays: [
-      [
-        'Custom',
-        {
-          create: component => {
-            if (!component.source) return container.starButton.current;
-            const { isPrimary } = connectionArray.find(
-              connection => connection.targetId === parent,
-            );
-            return isPrimary
-              ? container.starButton.current
-              : container[`linkButton-${subject}`];
-          },
-          location: 57,
-          id: 'sourceOverlay',
-        },
-      ],
-    ],
+    Overlays: isPrimary
+      ? [
+          [
+            'Custom',
+            {
+              create: component => {
+                return container.starButton.current;
+              },
+              location: 57,
+              id: 'sourceOverlay',
+            },
+          ],
+        ]
+      : [],
   });
+
+  if (!document.getElementById(source)) {
+    // Sometimes the menu item is not rendered when showLink is called
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
 
   return connectionTargets.map(({ targetId, isPrimary }) => {
     const connection = instance.connect({
       source,
       target: targetId,
-      overlays: [
-        [
-          'Custom',
-          {
-            create: component => {
-              if (!component.target) return container[`linkButton-${targetId}`];
-              return isPrimary
-                ? container.starButton.current
-                : container[`linkButton-${targetId}`];
-            },
-            location: -40,
-            id: `targetOverlay`,
-          },
-        ],
-      ],
+      overlays: isPrimary
+        ? [
+            [
+              'Custom',
+              {
+                create: component => {
+                  return container.starButton.current;
+                },
+                location: -40,
+                id: `targetOverlay`,
+              },
+            ],
+          ]
+        : [],
     });
-    connection.showOverlay('sourceOverlay');
-    connection.showOverlay(`targetOverlay`);
     return { instance, connection };
   });
 };

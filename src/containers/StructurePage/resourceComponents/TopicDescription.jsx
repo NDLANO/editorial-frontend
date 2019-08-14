@@ -51,17 +51,6 @@ class TopicDescription extends Component {
           appearance="resourceGroup"
           header={t('searchForm.articleType.topicArticle')}
           hidden={!displayTopicDescription}
-          addButton={
-            config.enableFullTaxonomy && (
-              <AddTopicResourceButton
-                stripped
-                data-testid="changeTopicDescription"
-                onClick={this.toggleAddModal}>
-                <Plus />
-                {t('taxonomy.addTopicDescription')}
-              </AddTopicResourceButton>
-            )
-          }
           handleToggle={this.toggleDisplayTopicDescription}>
           {topicDescription && (
             <Resource

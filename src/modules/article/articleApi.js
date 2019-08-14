@@ -14,7 +14,6 @@ import {
 import config from '../../config';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
-const conceptUrl = apiResourceUrl('/concepts/api/v1/concept');
 
 export const searchArticles = (id, locale, queryString = '') =>
   fetchAuthorized(
@@ -57,12 +56,4 @@ export const getPreviewArticle = async (article, locale) => {
     },
   );
   return resolveJsonOrRejectWithError(response);
-};
-
-export const fetchConcept = async (conceptId, language) => {
-  const response = await fetchAuthorized(
-    `${conceptUrl}/${conceptId}?language=${language}`,
-  );
-  const concept = await resolveJsonOrRejectWithError(response);
-  return concept;
 };

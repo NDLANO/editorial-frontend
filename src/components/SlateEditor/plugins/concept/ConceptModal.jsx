@@ -16,12 +16,26 @@ import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
 import { searchConcepts } from '../../../../modules/search/searchApi';
-import SearchList from '../../../../../src/containers/SearchPage/components/results/SearchList';
 import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import CreateConcept from '../../../../containers/ConceptPage/CreateConcept';
+import { Portal } from '../../../Portal';
+import SearchConceptResults from './SearchConceptResults';
+import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
 
-const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
+const type = 'concept';
+
+const ConceptModal = ({
+  id,
+  onClose,
+  t,
+  locale,
+  selectedText,
+  addConcept,
+  updateConcept,
+  createConcept,
+  concept,
+}) => {
   const [searchObject, updateSearchObject] = useState({
     page: 1,
     sort: '-relevance',
@@ -68,90 +82,104 @@ const ConceptModal = ({ id, onClose, t, locale, type, selectedText }) => {
     }
   };
 
+  const onConceptUpsert = async upsertedConcept => {
+    const savedConcept = !concept.id
+      ? await createConcept(upsertedConcept)
+      : await updateConcept(upsertedConcept);
+    addConcept(savedConcept);
+  };
+
   useEffect(() => {
     searchConcept(searchObject);
   }, []);
 
   return (
-    <Modal
-      controllable
-      isOpen={true}
-      size="large"
-      backgroundColor="white"
-      minHeight="90vh">
-      {() => (
-        <div>
-          <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <Tabs
-              onSelect={setSelectedTabIndex}
-              selectedIndex={selectedTabIndex}
-              tabs={[
-                {
-                  title: t(`searchForm.types.conceptQuery`),
-                  content: (
-                    <div>
-                      <h2>
-                        <Search className="c-icon--medium" />
-                        {t(`searchPage.header.${type}`)}
-                      </h2>
-                      <SearchForm
-                        type={type}
-                        search={searchConcept}
-                        searchObject={searchObject}
+    <Portal isOpened>
+      <Modal
+        controllable
+        isOpen={true}
+        size="large"
+        backgroundColor="white"
+        minHeight="90vh">
+        {() => (
+          <div>
+            <ModalHeader>
+              <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+            </ModalHeader>
+            <ModalBody>
+              <Tabs
+                onSelect={setSelectedTabIndex}
+                selectedIndex={selectedTabIndex}
+                tabs={[
+                  {
+                    title: t(`searchForm.types.conceptQuery`),
+                    content: (
+                      <div>
+                        <h2>
+                          <Search className="c-icon--medium" />
+                          {t(`searchPage.header.concept`)}
+                        </h2>
+                        <SearchForm
+                          type={type}
+                          search={searchConcept}
+                          searchObject={searchObject}
+                          locale={locale}
+                        />
+                        <SearchConceptResults
+                          searchObject={searchObject}
+                          results={results.results}
+                          searching={searching}
+                          type={type}
+                          addConcept={addConcept}
+                          locale={locale}
+                        />
+                        <Pager
+                          query={searchObject}
+                          page={
+                            searchObject.page
+                              ? parseInt(searchObject.page, 10)
+                              : 1
+                          }
+                          pathname=""
+                          lastPage={lastPage}
+                          onClick={searchConcept}
+                          pageItemComponentClass="button"
+                        />
+                      </div>
+                    ),
+                  },
+                  {
+                    title: t('form.concept.create'),
+                    content: (
+                      <ConceptForm
+                        inModal
+                        licenses={licenses}
+                        onUpdate={onConceptUpsert}
                         locale={locale}
-                      />
-                      <SearchList
-                        searchObject={searchObject}
-                        results={results.results}
-                        searching={searching}
-                        type={type}
-                        locale={locale}
-                      />
-                      <Pager
-                        query={searchObject}
-                        page={
-                          searchObject.page
-                            ? parseInt(searchObject.page, 10)
-                            : 1
+                        concept={
+                          concept && concept.id
+                            ? concept
+                            : { title: selectedText }
                         }
-                        pathname=""
-                        lastPage={lastPage}
-                        onClick={searchConcept}
-                        pageItemComponentClass="button"
                       />
-                    </div>
-                  ),
-                },
-                {
-                  title: t('form.concept.create'),
-                  content: (
-                    <CreateConcept
-                      licenses={licenses}
-                      inModal={true}
-                      onClose={onClose}
-                      locale={locale}
-                      initialConcept={{ title: selectedText }}
-                    />
-                  ),
-                },
-              ]}
-            />
-          </ModalBody>
-        </div>
-      )}
-    </Modal>
+                    ),
+                  },
+                ]}
+              />
+            </ModalBody>
+          </div>
+        )}
+      </Modal>
+    </Portal>
   );
 };
 
 ConceptModal.propTypes = {
   id: PropTypes.number,
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
   locale: PropTypes.string,
-  type: PropTypes.string,
   selectedText: PropTypes.string,
+  addConcept: PropTypes.func.isRequired,
 };
 
 export default injectT(ConceptModal);

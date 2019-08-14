@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import EditConcept from './EditConcept';
+import EditSlateConcept from './EditSlateConcept';
 
 export const TYPE = 'concept';
 
@@ -18,9 +18,10 @@ export default function linkPlugin(locale) {
 
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
+    console.log('hei', props.node);
     switch (props.node.type) {
       case TYPE:
-        return <EditConcept {...props} locale={locale} />;
+        return <EditSlateConcept {...props} locale={locale} />;
       default:
         return next();
     }

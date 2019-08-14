@@ -13,16 +13,29 @@ import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
-import ConceptForm from './ConceptForm';
+import ConceptForm from './components/ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {
-  const { licenses, locale, t, history, initialConcept, ...rest } = props;
+  const {
+    licenses,
+    locale,
+    t,
+    history,
+    initialConcept,
+    inModal,
+    addConceptInModal,
+    ...rest
+  } = props;
   const { createConcept } = useFetchConceptData(undefined, locale);
 
   const createConceptAndPushRoute = async createdConcept => {
     const savedConcept = await createConcept(createdConcept);
-    history.push(toEditConcept(savedConcept.id, createdConcept.language));
+    if (inModal && addConceptInModal) {
+      addConceptInModal(savedConcept);
+    } else {
+      history.push(toEditConcept(savedConcept.id, createdConcept.language));
+    }
   };
 
   return (
@@ -33,6 +46,7 @@ const CreateConcept = props => {
         locale={locale}
         onUpdate={createConceptAndPushRoute}
         licenses={licenses}
+        inModal={inModal}
         {...rest}
       />
     </Fragment>
@@ -49,6 +63,12 @@ CreateConcept.propTypes = {
   createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   licenses: LicensesArrayOf,
+  inModal: PropTypes.bool,
+  addConceptInModal: PropTypes.func,
+};
+
+CreateConcept.defaultProps = {
+  inModal: false,
 };
 
 export default injectT(withRouter(CreateConcept));

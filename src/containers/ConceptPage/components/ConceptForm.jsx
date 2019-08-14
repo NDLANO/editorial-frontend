@@ -19,33 +19,32 @@ import Accordion, {
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import Field from '../../../src/components/Field';
-import * as messageActions from '../Messages/messagesActions';
+import Field from '../../../components/Field';
+import * as messageActions from '../../Messages/messagesActions';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
-} from '../../util/articleContentConverter';
+} from '../../../util/articleContentConverter';
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
-import HeaderWithLanguage from '../../components/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import {
   DEFAULT_LICENSE,
   isFormikFormDirty,
   parseCopyrightContributors,
   parseImageUrl,
-  learningResourceRules,
-} from '../../util/formHelper';
+} from '../../../util/formHelper';
 import {
   FormikAlertModalWrapper,
   FormikActionButton,
   formClasses,
-} from '../FormikForm';
-import AlertModal from '../../components/AlertModal';
-import validateFormik from '../../components/formikValidationSchema';
-import { ConceptShape, LicensesArrayOf } from '../../shapes';
-import SaveButton from '../../components/SaveButton';
-import { addConcept } from '../../modules/concept/conceptApi.js';
-import { toEditConcept } from '../../../src/util/routeHelpers.js';
+} from '../../FormikForm';
+import AlertModal from '../../../components/AlertModal';
+import validateFormik from '../../../components/formikValidationSchema';
+import { ConceptShape, LicensesArrayOf } from '../../../shapes';
+import SaveButton from '../../../components/SaveButton';
+import { addConcept } from '../../../modules/concept/conceptApi.js';
+import { toEditConcept } from '../../../util/routeHelpers.js';
 
 const getInitialValues = (concept = {}) => {
   const metaImageId = parseImageUrl(concept.metaImage);
@@ -250,11 +249,7 @@ class ConceptForm extends Component {
         onSubmit={this.handleSubmit}
         ref={this.formik}
         enableReinitialize
-        validate={values =>
-          inModal
-            ? validateFormik(values, learningResourceRules, t)
-            : validateFormik(values, rules, t)
-        }>
+        validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const {
             values,

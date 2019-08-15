@@ -257,9 +257,10 @@ class TopicArticleTaxonomy extends Component {
   updateFilter = (resourceId, filter, relevanceId, remove) => {
     const { stagedTopicChanges, stagedFilterChanges } = this.state;
     const topic = stagedTopicChanges.find(topic =>
-      topic.path.includes(filter.subjectId.replace('urn:', '')),
+      topic.paths.some(path =>
+        path.includes(filter.subjectId.replace('urn:', '')),
+      ),
     );
-    console.log(topic);
     let updatedFilter = { ...filter, topicId: topic && topic.id };
     const updatedFilters = stagedFilterChanges.filter(activeFilter => {
       const foundFilter = activeFilter.id === filter.id;

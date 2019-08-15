@@ -31,6 +31,8 @@ import {
   groupTopics,
   pathToUrnArray,
   sortIntoCreateDeleteUpdate,
+  createAndPlaceTopic,
+  createDeleteUpdateTopicFilters,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
@@ -155,43 +157,6 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  createAndPlaceTopic = async (topic, articleId) => {
-    const newTopicPath = await addTopic({
-      name: topic.name,
-      contentUri: `urn:article:${articleId}`,
-    });
-    const paths = pathToUrnArray(topic.path);
-    const newTopicId = newTopicPath.split('/').pop();
-    if (paths.length > 2) {
-      // we are placing it under a topic
-      const parentTopicId = paths.slice(-2)[0];
-      await addTopicToTopic({
-        subtopicid: newTopicId,
-        topicid: parentTopicId,
-      });
-      const { structure } = this.state;
-      const topicFilters = structure
-        .find(subject => subject.id === paths[0])
-        .topics.find(topic => topic.id === parentTopicId).filters;
-      await Promise.all(
-        topicFilters.map(({ id, relevanceId }) =>
-          addFilterToTopic({ filterId: id, relevanceId, topicId: newTopicId }),
-        ),
-      );
-    } else {
-      // we are placing it under a subject
-      await addSubjectTopic({
-        topicid: newTopicId,
-        subjectid: paths[0],
-      });
-    }
-    return {
-      name: topic.name,
-      id: newTopicId,
-      path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
-    };
-  };
-
   handleSubmit = async evt => {
     evt.preventDefault();
     const {
@@ -199,6 +164,7 @@ class TopicArticleTaxonomy extends Component {
       deletedTopics,
       stagedFilterChanges,
       originalFilters,
+      structure,
     } = this.state;
     const {
       updateNotes,
@@ -223,14 +189,16 @@ class TopicArticleTaxonomy extends Component {
     try {
       const newTopics = await Promise.all(
         stagedNewTopics.map(topic =>
-          this.createAndPlaceTopic(topic, articleId),
+          createAndPlaceTopic(topic, articleId, structure),
         ),
       );
-      const newFilters = await Promise.all(
-        createFilter.map(filter =>
-          addFilterToTopic({ filterId: filter.id, topicId: filter.topicId }),
-        ),
+      const updatedFilters = await createDeleteUpdateTopicFilters(
+        createFilter,
+        deleteFilter,
+        updateFilter,
+        stagedFilterChanges,
       );
+
       await Promise.all([
         ...deletedTopics.map(deletedTopic => {
           if (deletedTopic.topicConnections.length < 2) {
@@ -242,12 +210,6 @@ class TopicArticleTaxonomy extends Component {
             contentUri: undefined,
           });
         }),
-        ...deleteFilter.map(({ connectionId }) =>
-          deleteTopicFilter({ connectionId }),
-        ),
-        ...updateFilter.map(({ connectionId, relevanceId }) =>
-          updateTopicFilter({ connectionId, relevanceId }),
-        ),
       ]);
 
       updateNotes({
@@ -257,14 +219,6 @@ class TopicArticleTaxonomy extends Component {
         notes: ['Oppdatert taksonomi.'],
       });
 
-      const newFiltersWithId = createFilter.map((f, i) => ({
-        ...f,
-        connectionId: newFilters[i].split('/').pop(),
-      }));
-      const updatedFilters = stagedFilterChanges.map(filter => {
-        const newFilter = newFiltersWithId.find(f => f.id === filter.id);
-        return newFilter || filter;
-      });
       this.setState({
         isDirty: false,
         stagedTopicChanges: newTopics.length ? newTopics : stagedTopicChanges,
@@ -305,6 +259,7 @@ class TopicArticleTaxonomy extends Component {
     const topic = stagedTopicChanges.find(topic =>
       topic.path.includes(filter.subjectId.replace('urn:', '')),
     );
+    console.log(topic);
     let updatedFilter = { ...filter, topicId: topic && topic.id };
     const updatedFilters = stagedFilterChanges.filter(activeFilter => {
       const foundFilter = activeFilter.id === filter.id;

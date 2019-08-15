@@ -12,6 +12,14 @@ import {
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../constants';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
+import {
+  addTopic,
+  addTopicToTopic,
+  addFilterToTopic,
+  addSubjectTopic,
+  deleteTopicFilter,
+  updateTopicFilter,
+} from '../modules/taxonomy';
 
 const sortByName = (a, b) => {
   if (a.name < b.name) return -1;
@@ -227,6 +235,75 @@ const pathToUrnArray = path =>
     .splice(1)
     .map(url => `urn:${url}`);
 
+const createAndPlaceTopic = async (topic, articleId, structure) => {
+  const newTopicPath = await addTopic({
+    name: topic.name,
+    contentUri: `urn:article:${articleId}`,
+  });
+  const paths = pathToUrnArray(topic.path);
+  const newTopicId = newTopicPath.split('/').pop();
+  if (paths.length > 2) {
+    // we are placing it under a topic
+    const parentTopicId = paths.slice(-2)[0];
+    await addTopicToTopic({
+      subtopicid: newTopicId,
+      topicid: parentTopicId,
+    });
+
+    // add filters from parent
+    const topicFilters = structure
+      .find(subject => subject.id === paths[0])
+      .topics.find(topic => topic.id === parentTopicId).filters;
+    await Promise.all(
+      topicFilters.map(({ id, relevanceId }) =>
+        addFilterToTopic({ filterId: id, relevanceId, topicId: newTopicId }),
+      ),
+    );
+  } else {
+    // we are placing it under a subject
+    await addSubjectTopic({
+      topicid: newTopicId,
+      subjectid: paths[0],
+    });
+  }
+  return {
+    name: topic.name,
+    id: newTopicId,
+    path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+  };
+};
+
+const createDeleteUpdateTopicFilters = async (
+  createFilter,
+  deleteFilter,
+  updateFilter,
+  stagedFilterChanges,
+) => {
+  const newFilters = await Promise.all(
+    createFilter.map(filter =>
+      addFilterToTopic({ filterId: filter.id, topicId: filter.topicId }),
+    ),
+  );
+  await Promise.all([
+    ...deleteFilter.map(({ connectionId }) =>
+      deleteTopicFilter({ connectionId }),
+    ),
+    ...updateFilter.map(({ connectionId, relevanceId }) =>
+      updateTopicFilter({ connectionId, relevanceId }),
+    ),
+  ]);
+
+  const newFiltersWithId = createFilter.map((f, i) => ({
+    ...f,
+    connectionId: newFilters[i].split('/').pop(),
+  }));
+  const updatedFilters = stagedFilterChanges.map(filter => {
+    const newFilter = newFiltersWithId.find(f => f.id === filter.id);
+    return newFilter || filter;
+  });
+  return updatedFilters;
+};
+
 export {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
@@ -240,4 +317,6 @@ export {
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,
+  createAndPlaceTopic,
+  createDeleteUpdateTopicFilters,
 };

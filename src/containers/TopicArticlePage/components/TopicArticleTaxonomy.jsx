@@ -30,12 +30,20 @@ import {
   sortByName,
   groupTopics,
   pathToUrnArray,
+  sortIntoCreateDeleteUpdate,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
+import {
+  deleteTopic,
+  fetchTopicFilters,
+  deleteTopicFilter,
+  updateTopicFilter,
+} from '../../../modules/taxonomy/topics';
+import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -44,8 +52,9 @@ class TopicArticleTaxonomy extends Component {
       structure: [],
       status: 'loading',
       isDirty: false,
-      topics: [],
       stagedTopicChanges: [],
+      deletedTopics: [],
+      stagedFilterChanges: [],
       taxonomyChoices: {
         availableFilters: {},
         allFilters: [],
@@ -95,6 +104,11 @@ class TopicArticleTaxonomy extends Component {
       const topicConnections = await Promise.all(
         topics.map(topic => fetchTopicConnections(topic.id)),
       );
+      const topicFilters = await Promise.all(
+        topics.map(topic => fetchTopicFilters(topic.id)),
+      );
+      const topicFiltersWithId = topicFilters.flatMap(curr => curr);
+
       const topicsWithConnections = topics.map((topic, index) => ({
         topicConnections: topicConnections[index],
         ...topic,
@@ -102,8 +116,9 @@ class TopicArticleTaxonomy extends Component {
 
       this.setState({
         status: 'initial',
-        topics: topicsWithConnections,
         stagedTopicChanges: topicsWithConnections,
+        stagedFilterChanges: topicFiltersWithId,
+        originalFilters: topicFiltersWithId,
         structure: sortedSubjects,
         taxonomyChoices: {
           allTopics: allTopics.filter(topic => topic.name),
@@ -119,7 +134,7 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  stageTaxonomyChanges = ({ addTopicId, removeTopicId, path }) => {
+  stageTaxonomyChanges = ({ path, filter }) => {
     const {
       article: { title },
     } = this.props;
@@ -131,28 +146,12 @@ class TopicArticleTaxonomy extends Component {
       };
       this.setState(prevState => ({
         isDirty: true,
-        stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
+        stagedTopicChanges: [newTopic],
+        deletedTopics: prevState.stagedTopicChanges,
       }));
-    } else if (addTopicId) {
-      let newTopic = this.state.taxonomyChoices.allTopics.find(
-        topic => topic.id === addTopicId,
-      );
-      if (!newTopic) {
-        // TODO refresh topics?
-      }
-      this.setState(prevState => ({
-        isDirty: true,
-        stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
-      }));
-    } else {
-      this.setState(prevState => ({
-        isDirty: true,
-        stagedTopicChanges: [
-          ...prevState.stagedTopicChanges.filter(
-            topic => topic.id !== removeTopicId,
-          ),
-        ],
-      }));
+    }
+    if (filter) {
+      this.setState({ isDirty: true, stagedFilterChanges: filter });
     }
   };
 
@@ -195,47 +194,63 @@ class TopicArticleTaxonomy extends Component {
 
   handleSubmit = async evt => {
     evt.preventDefault();
-    const { stagedTopicChanges, topics } = this.state;
+    const {
+      stagedTopicChanges,
+      deletedTopics,
+      stagedFilterChanges,
+      originalFilters,
+    } = this.state;
     const {
       updateNotes,
       article: { id: articleId, language, revision },
     } = this.props;
     this.setState({ status: 'loading' });
 
+    const [
+      createFilter,
+      deleteFilter,
+      updateFilter,
+    ] = sortIntoCreateDeleteUpdate({
+      changedItems: stagedFilterChanges,
+      originalItems: originalFilters,
+      updateProperty: 'relevanceId',
+    });
+    console.log(createFilter, deleteFilter, updateFilter);
+
     const stagedNewTopics = stagedTopicChanges.filter(
       topic => topic.id === 'staged',
     );
-    const changedTopics = stagedTopicChanges.filter(
-      topic => topic.id !== 'staged',
-    );
-    const newTopics = await Promise.all(
-      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId)),
-    );
-
-    const deletedTopics = topics.filter(
-      topic => !changedTopics.some(stagedTopic => stagedTopic.id === topic.id),
-    );
-    const addedTopics = changedTopics.filter(
-      stagedTopic => !topics.some(topic => topic.id === stagedTopic.id),
-    );
-
     try {
-      await Promise.all([
-        ...addedTopics.map(addedTopic =>
-          updateTopic({
-            id: addedTopic.id,
-            name: addedTopic.name,
-            contentUri: `urn:article:${articleId}`,
-          }),
+      const newTopics = await Promise.all(
+        stagedNewTopics.map(topic =>
+          this.createAndPlaceTopic(topic, articleId),
         ),
-        ...deletedTopics.map(deletedTopic =>
-          updateTopic({
+      );
+      const newFilters = await Promise.all(
+        createFilter.map(filter =>
+          addFilterToTopic({ filterId: filter.id, topicId: filter.topicId }),
+        ),
+      );
+      console.log(newFilters);
+      await Promise.all([
+        ...deletedTopics.map(deletedTopic => {
+          if (deletedTopic.topicConnections.length < 2) {
+            return deleteTopic(deletedTopic.id);
+          }
+          return updateTopic({
             id: deletedTopic.id,
             name: deletedTopic.name,
             contentUri: undefined,
-          }),
+          });
+        }),
+        ...deleteFilter.map(({ connectionId }) =>
+          deleteTopicFilter({ connectionId }),
+        ),
+        ...updateFilter.map(({ connectionId, relevanceId }) =>
+          updateTopicFilter({ connectionId, relevanceId }),
         ),
       ]);
+
       updateNotes({
         id: articleId,
         revision,
@@ -243,12 +258,19 @@ class TopicArticleTaxonomy extends Component {
         notes: ['Oppdatert taksonomi.'],
       });
 
-      const updatedTopics = [...changedTopics, ...newTopics];
-
+      const newFiltersWithId = createFilter.map((f, i) => ({
+        ...f,
+        connectionId: newFilters[i].split('/').pop(),
+      }));
+      const updatedFilters = stagedFilterChanges.map(filter => {
+        const newFilter = newFiltersWithId.find(f => f.id === filter.id);
+        return newFilter || filter;
+      });
       this.setState({
         isDirty: false,
-        topics: updatedTopics,
-        stagedTopicChanges: updatedTopics,
+        stagedTopicChanges: newTopics.length ? newTopics : stagedTopicChanges,
+        originalFilters: updatedFilters,
+        stagedFilterChanges: updatedFilters,
         status: 'success',
       });
     } catch (err) {
@@ -268,10 +290,6 @@ class TopicArticleTaxonomy extends Component {
     }));
   };
 
-  removeConnection = id => {
-    this.stageTaxonomyChanges({ removeTopicId: id });
-  };
-
   onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
@@ -283,10 +301,36 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
+  updateFilter = (resourceId, filter, relevanceId, remove) => {
+    const { stagedTopicChanges, stagedFilterChanges } = this.state;
+    const topic = stagedTopicChanges.find(topic =>
+      topic.path.includes(filter.subjectId.replace('urn:', '')),
+    );
+    let updatedFilter = { ...filter, topicId: topic && topic.id };
+    const updatedFilters = stagedFilterChanges.filter(activeFilter => {
+      const foundFilter = activeFilter.id === filter.id;
+      if (foundFilter) {
+        updatedFilter = {
+          ...filter,
+          ...activeFilter,
+        };
+      }
+      return !foundFilter;
+    });
+    if (!remove) {
+      updatedFilters.push({ ...updatedFilter, relevanceId });
+    }
+    console.log(updatedFilters);
+    this.stageTaxonomyChanges({
+      filter: updatedFilters,
+    });
+  };
+
   render() {
     const {
       taxonomyChoices: { availableFilters, allTopics },
       stagedTopicChanges,
+      stagedFilterChanges,
       structure,
       status,
       isDirty,
@@ -324,10 +368,18 @@ class TopicArticleTaxonomy extends Component {
           retriveBreadCrumbs={topicPath =>
             retriveBreadCrumbs({ topicPath, allTopics, structure, title })
           }
-          removeConnection={this.removeConnection}
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
         />
+        {stagedTopicChanges.length && (
+          <FilterConnections
+            topics={stagedTopicChanges}
+            activeFilters={stagedFilterChanges}
+            structure={structure}
+            availableFilters={availableFilters}
+            updateFilter={this.updateFilter}
+          />
+        )}
         <Field right>
           <FormikActionButton
             outline

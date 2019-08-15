@@ -35,7 +35,6 @@ const ActiveTopicConnection = ({
   topic,
 }) => {
   const breadCrumbs = retriveBreadCrumbs(topic.path);
-  console.log(topic);
   if (!breadCrumbs) {
     return (
       <StyledConnections error>
@@ -66,11 +65,6 @@ const ActiveTopicConnection = ({
               </Fragment>
             ))}
           </StyledBreadCrumb>
-          <StyledRemoveConnectionButton
-            type="button"
-            onClick={() => removeConnection(topic.id)}>
-            <Cross />
-          </StyledRemoveConnectionButton>
         </StyledConnections>
         <SharedTopicConnections
           topic={topic}
@@ -115,7 +109,7 @@ const ActiveTopicConnection = ({
 
 ActiveTopicConnection.propTypes = {
   retriveBreadCrumbs: PropTypes.func.isRequired,
-  removeConnection: PropTypes.func.isRequired,
+  removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   topic: TopicShape.isRequired,
   type: PropTypes.string,

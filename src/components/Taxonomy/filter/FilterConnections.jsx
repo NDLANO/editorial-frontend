@@ -18,7 +18,7 @@ import HowToHelper from '../../HowTo/HowToHelper';
 const FilterConnections = ({
   t,
   topics,
-  filter,
+  activeFilters,
   availableFilters,
   structure,
   updateFilter,
@@ -55,7 +55,7 @@ const FilterConnections = ({
               isFirstSubject={index === 0}
               filterSubjectKey={filterSubjectKey}
               availableFilters={availableFilters}
-              filter={filter}
+              activeFilters={activeFilters}
               structure={structure}
               updateFilter={updateFilter}
               resourceId={resourceId}
@@ -81,7 +81,7 @@ FilterConnections.propTypes = {
       }),
     ),
   ),
-  filter: PropTypes.arrayOf(FilterShape),
+  activeFilters: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,

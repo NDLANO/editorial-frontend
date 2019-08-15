@@ -70,7 +70,6 @@ const StructureFunctionButtons = ({
   availableFilters,
   activeFilters,
   toggleFilter,
-  addToTopic,
   addTopic,
   t,
 }) => {
@@ -129,7 +128,6 @@ StructureFunctionButtons.propTypes = {
   availableFilters: PropTypes.object.isRequired,
   activeFilters: PropTypes.array.isRequired,
   toggleFilter: PropTypes.func.isRequired,
-  addToTopic: PropTypes.func.isRequired,
   addTopic: PropTypes.func.isRequired,
 };
 

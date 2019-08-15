@@ -51,6 +51,13 @@ function updateTopic({ id, ...params }) {
   }).then(resolveTaxonomyResponse);
 }
 
+function deleteTopic(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+  }).then(resolveTaxonomyResponse);
+}
+
 function addTopicToTopic(body) {
   return fetchAuthorized(`${baseUrl}/topic-subtopics`, {
     method: 'POST',
@@ -115,6 +122,7 @@ export {
   fetchTopics,
   addTopic,
   updateTopic,
+  deleteTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,

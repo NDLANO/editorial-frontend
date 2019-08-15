@@ -421,7 +421,7 @@ class LearningResourceTaxonomy extends Component {
         {topics.length > 0 && (
           <FilterConnections
             topics={topics}
-            filter={filter}
+            activeFilters={filter}
             structure={structure}
             availableFilters={availableFilters}
             updateFilter={this.updateFilter}

@@ -17,7 +17,7 @@ import {
 import { TopicShape } from '../../shapes';
 
 export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
-  if (topic.topicConnections.length === 0) {
+  if (!topic.topicConnections || topic.topicConnections.length === 0) {
     return null;
   }
 

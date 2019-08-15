@@ -32,7 +32,7 @@ class TopicArticleConnections extends Component {
       activeFilters: [],
     };
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
-    this.addToTopic = this.addToTopic.bind(this);
+    this.addTopic = this.addTopic.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
@@ -58,11 +58,6 @@ class TopicArticleConnections extends Component {
         openedPaths,
       };
     });
-  }
-
-  async addToTopic(id, closeModal) {
-    this.props.stageTaxonomyChanges({ addTopicId: id });
-    closeModal();
   }
 
   async addTopic(path, closeModal) {
@@ -110,7 +105,15 @@ class TopicArticleConnections extends Component {
           narrow
           minHeight="85vh"
           activateButton={
-            <Button>{t('taxonomy.topics.filestructureButton')}</Button>
+            <Button>
+              {t(
+                `taxonomy.topics.${
+                  activeTopics.length !== 0
+                    ? 'changeTaxonomyPlacement'
+                    : 'chooseTaxonomyPlacement'
+                }`,
+              )}
+            </Button>
           }>
           {closeModal => (
             <Fragment>
@@ -136,7 +139,6 @@ class TopicArticleConnections extends Component {
                       availableFilters={availableFilters}
                       activeFilters={activeFilters}
                       toggleFilter={this.toggleFilter}
-                      addToTopic={() => this.addToTopic(props.id, closeModal)}
                       addTopic={() => this.addTopic(props.path, closeModal)}
                     />
                   )}
@@ -164,7 +166,6 @@ TopicArticleConnections.propTypes = {
       path: PropTypes.string,
     }),
   ),
-  removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   availableFilters: PropTypes.objectOf(
     PropTypes.arrayOf(

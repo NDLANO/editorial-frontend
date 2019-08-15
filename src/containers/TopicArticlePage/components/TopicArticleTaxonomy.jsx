@@ -231,7 +231,6 @@ class TopicArticleTaxonomy extends Component {
           addFilterToTopic({ filterId: filter.id, topicId: filter.topicId }),
         ),
       );
-      console.log(newFilters);
       await Promise.all([
         ...deletedTopics.map(deletedTopic => {
           if (deletedTopic.topicConnections.length < 2) {
@@ -320,7 +319,6 @@ class TopicArticleTaxonomy extends Component {
     if (!remove) {
       updatedFilters.push({ ...updatedFilter, relevanceId });
     }
-    console.log(updatedFilters);
     this.stageTaxonomyChanges({
       filter: updatedFilters,
     });
@@ -371,15 +369,16 @@ class TopicArticleTaxonomy extends Component {
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
         />
-        {stagedTopicChanges.length && (
-          <FilterConnections
-            topics={stagedTopicChanges}
-            activeFilters={stagedFilterChanges}
-            structure={structure}
-            availableFilters={availableFilters}
-            updateFilter={this.updateFilter}
-          />
-        )}
+        {stagedTopicChanges.length &&
+          !stagedTopicChanges.find(topic => topic.id === 'staged') && (
+            <FilterConnections
+              topics={stagedTopicChanges}
+              activeFilters={stagedFilterChanges}
+              structure={structure}
+              availableFilters={availableFilters}
+              updateFilter={this.updateFilter}
+            />
+          )}
         <Field right>
           <FormikActionButton
             outline

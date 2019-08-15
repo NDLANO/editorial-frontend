@@ -28,8 +28,11 @@ function fetchTopicFilters(id) {
 }
 
 function fetchTopicResources(topicId, locale, relevance, filters) {
+  const query = `${locale ? `language=${locale}` : ''}${
+    relevance ? `relevance=${relevance}` : ''
+  }${filters ? `filters=${filters}` : ''}`;
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}&filter=${filters}`,
+    `${baseUrl}/topics/${topicId}/resources/${query ? `?${query}` : ''}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

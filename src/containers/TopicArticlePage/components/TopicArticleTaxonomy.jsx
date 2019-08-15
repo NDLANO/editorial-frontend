@@ -37,6 +37,7 @@ import TopicArticleConnections from './TopicArticleConnections';
 import {
   deleteTopic,
   fetchTopicFilters,
+  fetchTopicResources,
 } from '../../../modules/taxonomy/topics';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 
@@ -191,20 +192,19 @@ class TopicArticleTaxonomy extends Component {
         updateFilter,
         stagedFilterChanges,
       );
-
-      await Promise.all([
-        ...deletedTopics.map(deletedTopic => {
-          if (deletedTopic.topicConnections.length < 2) {
-            return deleteTopic(deletedTopic.id);
-          }
-          return updateTopic({
-            id: deletedTopic.id,
-            name: deletedTopic.name,
-            contentUri: undefined,
-          });
-        }),
-      ]);
-
+      const topicResources = await Promise.all(
+        deletedTopics.map(topic => fetchTopicResources(topic.id)),
+      );
+      deletedTopics.forEach((deletedTopic, i) => {
+        if (
+          deletedTopic.topicConnections.length < 2 &&
+          topicResources[i].length === 0
+        ) {
+          // topic has no subtopics or resources, we can safely delete topic
+          deleteTopic(deletedTopic.id);
+        }
+        // If topic was not deleted, article will be in both topics, but will not be not a shared topic. Not really a valid state...
+      });
       updateNotes({
         id: articleId,
         revision,

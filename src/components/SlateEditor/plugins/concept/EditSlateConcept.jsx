@@ -27,16 +27,17 @@ const EditSlateConcept = props => {
   const { t, children, node, locale, editor, attributes } = props;
 
   const [isModalOpen, toggleIsModalOpen] = useState(false);
+  const toggleConceptModal = evt => {
+    if (evt) {
+      evt.preventDefault();
+    }
+    toggleIsModalOpen(!isModalOpen);
+  };
+
   const { concept, ...conceptHooks } = useFetchConceptData(
     node.data.get('content-id'),
     locale,
   );
-
-  useEffect(() => {
-    if (!node.data.get('content-id')) {
-      toggleIsModalOpen(true);
-    }
-  }, []);
 
   const conceptId = concept && concept.id ? concept.id : undefined;
 
@@ -57,12 +58,23 @@ const EditSlateConcept = props => {
     }
   };
 
-  const toggleConceptModal = evt => {
-    if (evt) {
-      evt.preventDefault();
-    }
-    toggleIsModalOpen(!isModalOpen);
+  const handleRemove = () => {
+    const nextValue = editor.removeNodeByKey(node.key).insertText(node.text);
+    handleChangeAndClose(nextValue);
   };
+  const onClose = () => {
+    if (!node.data.get('content-id')) {
+      handleRemove();
+    } else {
+      handleChangeAndClose(editor);
+    }
+  };
+
+  useEffect(() => {
+    if (!node.data.get('content-id')) {
+      toggleIsModalOpen(true);
+    }
+  }, []);
 
   return (
     <span>
@@ -71,6 +83,7 @@ const EditSlateConcept = props => {
           <Notion
             id={conceptId}
             title={concept.title}
+            content={concept.content}
             ariaLabel={t('notions.edit')}>
             {children}
           </Notion>
@@ -78,17 +91,17 @@ const EditSlateConcept = props => {
           children
         )}
       </span>
-      {isModalOpen && (
-        <ConceptModal
-          id={conceptId}
-          onClose={toggleConceptModal}
-          addConcept={addConcept}
-          locale={locale}
-          concept={concept}
-          selectedText={node.text}
-          {...conceptHooks}
-        />
-      )}
+      <ConceptModal
+        id={conceptId}
+        isOpen={isModalOpen}
+        onClose={onClose}
+        addConcept={addConcept}
+        locale={locale}
+        concept={concept}
+        handleRemove={handleRemove}
+        selectedText={node.text}
+        {...conceptHooks}
+      />
     </span>
   );
 };

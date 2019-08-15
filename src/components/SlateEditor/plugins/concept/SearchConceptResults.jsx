@@ -20,7 +20,7 @@ import { SearchResultShape } from '../../../../shapes';
 
 const StyledConceptResult = styled.div`
   display: grid;
-  grid-template-columns: 10% 80% 10%;
+  grid-template-columns: 10% 70% 20%;
   grid-template-rows: auto auto;
   padding: ${spacing.normal} 0;
   border-bottom: 1px solid ${colors.brand.greyLight};
@@ -89,7 +89,7 @@ const SearchConceptResults = ({
               evt.stopPropagation();
               addConcept(result);
             }}>
-            Velg denne
+            {t('form.content.concept.choose')}
           </StyledButton>
         </StyledConceptResult>
       ))}

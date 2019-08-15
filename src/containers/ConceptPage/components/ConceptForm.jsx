@@ -349,12 +349,14 @@ class ConceptForm extends Component {
                   {t('form.save')}
                 </SaveButton>
               </Field>
-              <FormikAlertModalWrapper
-                isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                severity="danger"
-                text={t('alertModal.notSaved')}
-              />
+              {!inModal && (
+                <FormikAlertModalWrapper
+                  isSubmitting={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  severity="danger"
+                  text={t('alertModal.notSaved')}
+                />
+              )}
             </FormWrapper>
           );
         }}
@@ -371,7 +373,7 @@ ConceptForm.propTypes = {
     goBack: PropTypes.func,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
 };

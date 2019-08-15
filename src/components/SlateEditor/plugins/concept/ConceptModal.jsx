@@ -22,14 +22,17 @@ import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
 import { ConceptShape } from '../../../../shapes';
+import { Button } from '@ndla/button/lib/Button';
 
 const type = 'concept';
 
 const ConceptModal = ({
   id,
   onClose,
+  isOpen,
   t,
   locale,
+  handleRemove,
   selectedText,
   addConcept,
   updateConcept,
@@ -54,6 +57,10 @@ const ConceptModal = ({
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [searching, setSearching] = useState(false);
 
+  const updateSelectedTabIndex = index => {
+    //Added function because of hooks second argument warning.
+    setSelectedTabIndex(index);
+  };
   const getAllLicenses = async () => {
     const fetchdLicenses = await fetchLicenses();
     setLicenses(fetchdLicenses);
@@ -62,6 +69,9 @@ const ConceptModal = ({
   useEffect(() => {
     if (licenses.length === 0) {
       getAllLicenses();
+    }
+    if (id) {
+      setSelectedTabIndex(1);
     }
   }, [id]);
 
@@ -85,12 +95,12 @@ const ConceptModal = ({
   useEffect(() => {
     searchConcept(searchObject);
   }, []);
-
   return (
     <Portal isOpened>
       <Modal
         controllable
-        isOpen={true}
+        isOpen={isOpen}
+        onClose={onClose}
         size="large"
         backgroundColor="white"
         minHeight="90vh">
@@ -100,8 +110,13 @@ const ConceptModal = ({
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
+              {id && (
+                <Button onClick={handleRemove}>
+                  {t('form.content.concept.remove')}
+                </Button>
+              )}
               <Tabs
-                onSelect={setSelectedTabIndex}
+                onSelect={updateSelectedTabIndex}
                 selectedIndex={selectedTabIndex}
                 tabs={[
                   {
@@ -150,6 +165,7 @@ const ConceptModal = ({
                     content: (
                       <ConceptForm
                         inModal
+                        onClose={onClose}
                         licenses={licenses}
                         onUpdate={onConceptUpsert}
                         locale={locale}
@@ -180,6 +196,8 @@ ConceptModal.propTypes = {
   concept: ConceptShape,
   updateConcept: PropTypes.func.isRequired,
   createConcept: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 };
 
 export default injectT(ConceptModal);

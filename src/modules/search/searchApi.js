@@ -19,10 +19,18 @@ const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
 // Temporary solution, search-api should be used instead
 const conceptBaseUrl = apiResourceUrl('/concept-api/v1/concepts');
+const agreementBaseUrl = apiResourceUrl('/draft-api/v1/agreements');
 
 export const searchConcepts = async query => {
   const response = await fetchAuthorized(
     `${conceptBaseUrl}?${queryString.stringify(transformQuery(query))}`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};
+
+export const searchAgreements = async query => {
+  const response = await fetchAuthorized(
+    `${agreementBaseUrl}?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };

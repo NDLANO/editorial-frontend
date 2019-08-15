@@ -16,6 +16,7 @@ import {
 } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
+import SearchAgreement from './SearchAgreement';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 
@@ -25,6 +26,8 @@ const SearchResult = ({ result, locale, type, t }) => {
       return <SearchContent content={result} locale={locale} />;
     case 'concept':
       return <SearchConcept concept={result} locale={locale} />;
+    case 'agreement':
+      return <SearchAgreement agreement={result} />;
     case 'media':
       switch (result.type) {
         case 'images':

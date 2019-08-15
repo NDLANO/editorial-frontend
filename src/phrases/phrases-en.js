@@ -17,6 +17,7 @@ const phrases = {
     searchContentPage: `Search content ${titleTemplate}`,
     searchMediaPage: `Search media ${titleTemplate}`,
     searchConceptPage: `Search concepts ${titleTemplate}`,
+    searchAgreementPage: `Search agreements ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
@@ -151,6 +152,7 @@ const phrases = {
       content: 'Search for content',
       media: 'Search for media',
       concept: 'Search for concepts',
+      agreement: 'Search for agreements',
     },
     searchButton: 'Search',
     emptyButton: 'Empty',
@@ -159,6 +161,7 @@ const phrases = {
     contentNoHits: 'Your search - {query} - did not match any content.',
     conceptNoHits: 'Your search - {query} - did not match any concept.',
     mediaNoHits: 'Your search - {query} - did not match any media.',
+    agreementNoHits: 'Your search - {query} - did not match any agreements.',
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
   },
@@ -177,6 +180,7 @@ const phrases = {
     searchContent: 'Search content',
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
+    searchAgreements: 'Search agreements',
     film: 'Go to film',
     newConcept: 'Create new concept',
   },
@@ -207,6 +211,7 @@ const phrases = {
     placeholder: 'Search articles',
     types: {
       conceptQuery: 'Search for concept',
+      agreementQuery: 'Search for concept',
       contentQuery: 'Search for content',
       mediaQuery: 'Search for media',
       language: 'Select language',
@@ -345,6 +350,22 @@ const phrases = {
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
+      },
+    },
+  },
+  agreementForm: {
+    title: {
+      create: 'Agreement',
+      update: 'Agreement',
+    },
+    fields: {
+      title: {
+        label: 'Agreement title',
+        placeholder: 'Agreement title',
+      },
+      content: {
+        label: 'Agreement content',
+        placeholder: 'Agreement content',
       },
     },
   },

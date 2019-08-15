@@ -8,16 +8,22 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { SearchMedia, SearchContent, Concept } from '@ndla/icons/editor';
+import {
+  SearchMedia,
+  SearchContent,
+  Concept,
+  Agreement,
+} from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import SearchContentPage from '../SearchPage/SearchContentPage';
 import SearchMediaPage from '../SearchPage/SearchMediaPage';
+import SearchConceptPage from '../SearchPage/SearchConceptPage';
+import SearchAgreementPage from '../SearchPage/SearchAgreementPage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
-import SearchConceptPage from '../SearchPage/SearchConceptPage';
 
 const SearchPage = ({ match, t }) => {
   const supportedTypes = [
@@ -53,6 +59,15 @@ const SearchPage = ({ match, t }) => {
       ),
       icon: <Concept className="c-icon--large" />,
     },
+    {
+      title: t('subNavigation.searchAgreements'),
+      type: 'agreement',
+      url: toSearch(
+        { page: '1', sort: '-relevance', 'page-size': 10 },
+        'agreement',
+      ),
+      icon: <Agreement className="c-icon--large" />,
+    },
   ];
 
   return (
@@ -67,6 +82,10 @@ const SearchPage = ({ match, t }) => {
         <PrivateRoute
           path={`${match.url}/concept`}
           component={SearchConceptPage}
+        />
+        <PrivateRoute
+          path={`${match.url}/agreement`}
+          component={SearchAgreementPage}
         />
         <Route component={NotFoundPage} />
       </Switch>

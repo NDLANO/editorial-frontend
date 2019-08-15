@@ -16,6 +16,8 @@ export function* search(query, type) {
     let searchResult;
     if (type === 'concept') {
       searchResult = yield call(api.searchConcepts, query);
+    } else if (type === 'agreement') {
+      searchResult = yield call(api.searchAgreements, query);
     } else {
       searchResult = yield call(api.search, query);
     }

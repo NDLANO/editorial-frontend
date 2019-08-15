@@ -12,6 +12,7 @@ import BEMHelper from 'react-bem-helper';
 import SearchContentForm from './SearchContentForm';
 import SearchMediaForm from './SearchMediaForm';
 import SearchConceptForm from './SearchConceptForm';
+import SearchAgreementForm from './SearchAgreementForm';
 
 export const searchFormClasses = new BEMHelper({
   name: 'search-form',
@@ -26,6 +27,8 @@ const SearchForm = ({ type, searchObject, ...rest }) => {
       return <SearchMediaForm searchObject={searchObject} {...rest} />;
     case 'concept':
       return <SearchConceptForm searchObject={searchObject} {...rest} />;
+    case 'agreement':
+      return <SearchAgreementForm searchObject={searchObject} {...rest} />;
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }

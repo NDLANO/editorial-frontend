@@ -209,14 +209,7 @@ class ConceptForm extends Component {
           field => !!errors[field] && touched[field],
         ),
 
-        component: props => (
-          <ConceptContent
-            classes={formClasses}
-            creators={concept.creators}
-            created={concept.created}
-            {...props}
-          />
-        ),
+        component: props => <ConceptContent classes={formClasses} {...props} />,
       },
       {
         id: 'concept-metadataSection',

@@ -14,11 +14,20 @@ export const TYPE = 'concept';
 export default function linkPlugin(locale) {
   const schema = {
     document: {},
+    inlines: {
+      concept: {
+        data: {},
+        nodes: [
+          {
+            match: { object: 'text' },
+          },
+        ],
+      },
+    },
   };
 
   /* eslint-disable react/prop-types */
   const renderNode = (props, editor, next) => {
-    console.log('hei', props.node);
     switch (props.node.type) {
       case TYPE:
         return <EditSlateConcept {...props} locale={locale} />;

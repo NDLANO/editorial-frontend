@@ -86,7 +86,6 @@ const SearchConceptResults = ({
           </StyledConceptContent>
           <StyledButton
             onClick={evt => {
-              console.log('fff', result);
               evt.stopPropagation();
               addConcept(result);
             }}>
@@ -105,6 +104,7 @@ SearchConceptResults.propTypes = {
     language: PropTypes.string,
   }),
   searching: PropTypes.bool,
+  addConcept: PropTypes.func.isRequired,
 };
 
 SearchConceptResults.defaultProps = {

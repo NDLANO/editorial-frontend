@@ -6,47 +6,13 @@
  *
  */
 
+import React, { useState, useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
 import Notion from '@ndla/notion';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
 import { TYPE } from '.';
 import ConceptModal from './ConceptModal';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
-
-/*componentDidMount() {
-  const conceptId = this.props.node.data.get('content-id');
-  console.log('id,', conceptId);
-  if (conceptId) {
-    this.getConcept(conceptId);
-  } else {
-    this.setState({ isModalOpen: true });
-  }
-}
-
-componentDidUpdate(prevProps) {
-  const conceptId = this.props.node.data.get('content-id');
-  if (prevProps.node.data.get('content-id') !== conceptId) {
-    this.getConcept(conceptId);
-    this.setState({ isModalOpen: false });
-  }
-}
-
-getConcept = async conceptId => {
-  const { locale } = this.props;
-  try {
-    const concept = await fetchConcept(conceptId, locale);
-    this.setState({
-      concept: {
-        ...concept,
-        title: concept.title ? concept.title.title : '',
-        content: concept.content ? concept.content.content : '',
-      },
-    });
-  } catch (err) {
-    handleError(err);
-  }
-};*/
 
 const getConceptDataAttributes = ({ id, title: { title } }) => ({
   type: TYPE,
@@ -58,25 +24,34 @@ const getConceptDataAttributes = ({ id, title: { title } }) => ({
 });
 
 const EditSlateConcept = props => {
-  const { t, children, node, locale, editor } = props;
+  const { t, children, node, locale, editor, attributes } = props;
+
   const [isModalOpen, toggleIsModalOpen] = useState(false);
   const { concept, ...conceptHooks } = useFetchConceptData(
     node.data.get('content-id'),
     locale,
   );
 
+  useEffect(() => {
+    if (!node.data.get('content-id')) {
+      toggleIsModalOpen(true);
+    }
+  }, []);
+
+  const conceptId = concept && concept.id ? concept.id : undefined;
+
   const handleChangeAndClose = editor => {
     editor.focus(); // Always return focus to editor
     toggleConceptModal();
   };
 
-  const addConcept = concept => {
-    const data = getConceptDataAttributes(concept);
+  const addConcept = addedConcept => {
+    const data = getConceptDataAttributes(addedConcept);
     if (node.key) {
       handleChangeAndClose(
         editor
           .moveToRangeOfNode(node)
-          .insertText(concept.title.title)
+          .insertText(addedConcept.title.title)
           .setInlines(data),
       );
     }
@@ -88,16 +63,16 @@ const EditSlateConcept = props => {
     }
     toggleIsModalOpen(!isModalOpen);
   };
-  console.log(concept);
+
   return (
-    <>
-      <span {...props.attributes} onMouseDown={toggleConceptModal}>
-        {concept && concept.id ? (
+    <span>
+      <span {...attributes} onMouseDown={toggleConceptModal}>
+        {conceptId ? (
           <Notion
-            id={concept.id}
+            id={conceptId}
             title={concept.title}
             ariaLabel={t('notions.edit')}>
-            {concept.title}
+            {children}
           </Notion>
         ) : (
           children
@@ -105,22 +80,23 @@ const EditSlateConcept = props => {
       </span>
       {isModalOpen && (
         <ConceptModal
-          id={concept.id}
+          id={conceptId}
           onClose={toggleConceptModal}
           addConcept={addConcept}
           locale={locale}
+          concept={concept}
           selectedText={node.text}
           {...conceptHooks}
         />
       )}
-    </>
+    </span>
   );
 };
 
 EditSlateConcept.propTypes = {
   node: PropTypes.shape({
     data: PropTypes.any,
-    key: PropTypes.number,
+    key: PropTypes.string,
     text: PropTypes.string,
   }),
   locale: PropTypes.string,

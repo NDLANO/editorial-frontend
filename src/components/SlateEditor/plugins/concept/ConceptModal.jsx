@@ -18,10 +18,10 @@ import Pager from '@ndla/pager';
 import { searchConcepts } from '../../../../modules/search/searchApi';
 import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
-import CreateConcept from '../../../../containers/ConceptPage/CreateConcept';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
+import { ConceptShape } from '../../../../shapes';
 
 const type = 'concept';
 
@@ -52,18 +52,11 @@ const ConceptModal = ({
     query: { searchObject },
   });
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [lastPage, setLastPage] = useState(0);
   const [searching, setSearching] = useState(false);
 
   const getAllLicenses = async () => {
     const fetchdLicenses = await fetchLicenses();
     setLicenses(fetchdLicenses);
-  };
-
-  const calculateLastPage = () => {
-    const lastPageSize = Math.ceil(results.totalCount / results.pageSize);
-    setLastPage(lastPageSize);
-    setSearching(false);
   };
 
   useEffect(() => {
@@ -77,13 +70,13 @@ const ConceptModal = ({
       setSearching(true);
       const concepts = await searchConcepts(searchParam);
       setConcepts(concepts);
+      setSearching(false);
       updateSearchObject(searchParam);
-      calculateLastPage();
     }
   };
 
   const onConceptUpsert = async upsertedConcept => {
-    const savedConcept = !concept.id
+    const savedConcept = !id
       ? await createConcept(upsertedConcept)
       : await updateConcept(upsertedConcept);
     addConcept(savedConcept);
@@ -141,7 +134,9 @@ const ConceptModal = ({
                               : 1
                           }
                           pathname=""
-                          lastPage={lastPage}
+                          lastPage={Math.ceil(
+                            results.totalCount / results.pageSize,
+                          )}
                           onClick={searchConcept}
                           pageItemComponentClass="button"
                         />
@@ -149,7 +144,9 @@ const ConceptModal = ({
                     ),
                   },
                   {
-                    title: t('form.concept.create'),
+                    title: id
+                      ? t('form.concept.edit')
+                      : t('form.concept.create'),
                     content: (
                       <ConceptForm
                         inModal
@@ -157,9 +154,9 @@ const ConceptModal = ({
                         onUpdate={onConceptUpsert}
                         locale={locale}
                         concept={
-                          concept && concept.id
-                            ? concept
-                            : { title: selectedText }
+                          id
+                            ? { ...concept, language: locale }
+                            : { title: selectedText, language: locale }
                         }
                       />
                     ),
@@ -180,6 +177,9 @@ ConceptModal.propTypes = {
   locale: PropTypes.string,
   selectedText: PropTypes.string,
   addConcept: PropTypes.func.isRequired,
+  concept: ConceptShape,
+  updateConcept: PropTypes.func.isRequired,
+  createConcept: PropTypes.func.isRequired,
 };
 
 export default injectT(ConceptModal);

@@ -9,31 +9,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import TopicConnectionBreadCrumbs from './TopicConnectionBreadCrumbs';
 import {
   StyledConnections,
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
 import { TopicShape } from '../../shapes';
+import Breadcrumb from './Breadcrumb';
 
-export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
-  if (!topic.topicConnections || topic.topicConnections.length === 0) {
+export const SharedTopicConnections = ({
+  topic,
+  retriveBreadCrumbs,
+  type,
+  t,
+}) => {
+  if (!topic.paths || topic.paths.length === 0) {
     return null;
   }
 
-  return topic.topicConnections
-    .filter(topicConnection => !topicConnection.isPrimary)
-    .map(topicConnection => {
+  return topic.paths
+    .filter(path => path !== topic.path)
+    .map(path => {
       return (
-        <StyledConnections shared key={topicConnection.paths[0]}>
+        <StyledConnections shared key={path}>
           <StyledDuplicateConnectionLabel>
             {t('form.topics.sharedTopic')}
           </StyledDuplicateConnectionLabel>
-          <TopicConnectionBreadCrumbs
-            topicConnection={topicConnection}
-            topic={topic}
-            retriveBreadCrumbs={retriveBreadCrumbs}
-          />
+          <Breadcrumb breadcrumb={retriveBreadCrumbs(path)} type={type} />
         </StyledConnections>
       );
     });
@@ -41,6 +42,7 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, t }) => {
 
 SharedTopicConnections.propTypes = {
   topic: TopicShape,
+  type: PropTypes.string,
   retriveBreadCrumbs: PropTypes.func.isRequired,
 };
 

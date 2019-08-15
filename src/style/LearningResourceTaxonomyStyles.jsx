@@ -75,13 +75,6 @@ const flexButtonCenterAlignStyle = css`
 
 /* Styled components */
 
-const StyledBreadCrumb = styled('div')`
-  flex-grow: 1;
-  span:last-of-type {
-    font-weight: ${fonts.weight.semibold};
-  }
-`;
-
 const StyledConnections = styled('div')`
   ${flexButtonCenterAlignStyle};
   background: ${props =>
@@ -294,7 +287,6 @@ const StyledSubjectName = styled('div')`
 
 export {
   flexButtonCenterAlignStyle,
-  StyledBreadCrumb,
   StyledConnections,
   StyledConnectionsWrapper,
   StyledErrorLabel,

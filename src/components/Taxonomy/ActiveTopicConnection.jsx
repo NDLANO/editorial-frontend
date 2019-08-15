@@ -8,12 +8,10 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { ChevronRight } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import {
-  StyledBreadCrumb,
   StyledConnections,
   StyledErrorLabel,
   StyledRemoveConnectionButton,
@@ -21,6 +19,7 @@ import {
 } from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
 import { TopicShape } from '../../shapes';
+import Breadcrumb from './Breadcrumb';
 
 const StyledFlexWrapper = styled.div`
   display: flex;
@@ -34,16 +33,14 @@ const ActiveTopicConnection = ({
   type,
   topic,
 }) => {
-  const breadCrumbs = retriveBreadCrumbs(topic.path);
-  if (!breadCrumbs) {
+  const breadcrumb = retriveBreadCrumbs(topic.path);
+  if (!breadcrumb) {
     return (
       <StyledConnections error>
         <StyledErrorLabel>
           {t('taxonomy.topics.disconnectedTaxonomyWarning')}
         </StyledErrorLabel>
-        <StyledBreadCrumb>
-          <span>{topic.path}</span>
-        </StyledBreadCrumb>
+        <Breadcrumb breadcrumb={[{ name: topic.path }]} />
         <StyledRemoveConnectionButton
           type="button"
           onClick={() => removeConnection(topic.id)}>
@@ -57,18 +54,12 @@ const ActiveTopicConnection = ({
     return (
       <Fragment>
         <StyledConnections>
-          <StyledBreadCrumb>
-            {breadCrumbs.map((path, i) => (
-              <Fragment key={`${topic.id}${path.id}`}>
-                <span css={{ 'white-space': 'nowrap' }}>{path.name}</span>
-                {i + 1 !== breadCrumbs.length && <ChevronRight />}
-              </Fragment>
-            ))}
-          </StyledBreadCrumb>
+          <Breadcrumb breadcrumb={breadcrumb} type={type} />
         </StyledConnections>
         <SharedTopicConnections
           topic={topic}
           retriveBreadCrumbs={retriveBreadCrumbs}
+          type={type}
         />
       </Fragment>
     );
@@ -84,14 +75,7 @@ const ActiveTopicConnection = ({
             onClick={() => setPrimaryConnection(topic.id)}>
             {t('form.topics.primaryTopic')}
           </StyledPrimaryConnectionButton>
-          <StyledBreadCrumb>
-            {breadCrumbs.map(path => (
-              <Fragment key={`${topic.id}${path.id}`}>
-                <span>{path.name}</span>
-                <ChevronRight />
-              </Fragment>
-            ))}
-          </StyledBreadCrumb>
+          <Breadcrumb breadcrumb={breadcrumb} />
         </StyledFlexWrapper>
         <StyledRemoveConnectionButton
           type="button"

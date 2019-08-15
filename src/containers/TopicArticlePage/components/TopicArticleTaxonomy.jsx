@@ -19,17 +19,12 @@ import {
   fetchSubjectTopics,
   queryTopics,
   updateTopic,
-  addTopic,
-  addTopicToTopic,
-  addSubjectTopic,
-  addFilterToTopic,
   fetchTopicConnections,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
   sortByName,
   groupTopics,
-  pathToUrnArray,
   sortIntoCreateDeleteUpdate,
   createAndPlaceTopic,
   createDeleteUpdateTopicFilters,
@@ -42,8 +37,6 @@ import TopicArticleConnections from './TopicArticleConnections';
 import {
   deleteTopic,
   fetchTopicFilters,
-  deleteTopicFilter,
-  updateTopicFilter,
 } from '../../../modules/taxonomy/topics';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 

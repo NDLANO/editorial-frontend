@@ -648,6 +648,10 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
+      concept: {
+        remove: 'Fjern begrep',
+        choose: 'Velg begrep',
+      },
       link: {
         goTo: 'Gå til',
         insert: 'Sett inn lenke',

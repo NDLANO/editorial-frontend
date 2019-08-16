@@ -57,14 +57,14 @@ SearchListOptions.propTypes = {
   totalCount: PropTypes.number,
   type: PropTypes.string.isRequired,
   searchObject: PropTypes.shape({
-    'page-size': PropTypes.number,
+    'page-size': PropTypes.string,
   }),
   search: PropTypes.func.isRequired,
 };
 
 SearchListOptions.defaultProps = {
   searchObject: {
-    'page-size': 10,
+    'page-size': '10',
   },
 };
 

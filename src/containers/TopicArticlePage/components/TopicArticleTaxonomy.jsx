@@ -30,6 +30,7 @@ import {
   pathToUrnArray,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
+import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
@@ -39,8 +40,7 @@ class TopicArticleTaxonomy extends Component {
     super();
     this.state = {
       structure: [],
-      status: 'initial',
-      saveStatus: 'initial',
+      status: 'loading',
       isDirty: false,
       topics: [],
       stagedTopicChanges: [],
@@ -50,22 +50,13 @@ class TopicArticleTaxonomy extends Component {
         allTopics: [],
       },
     };
-    this.retriveBreadCrumbs = this.retriveBreadCrumbs.bind(this);
-    this.stageTaxonomyChanges = this.stageTaxonomyChanges.bind(this);
-    this.removeConnection = this.removeConnection.bind(this);
-    this.getSubjectTopics = this.getSubjectTopics.bind(this);
-    this.updateSubject = this.updateSubject.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.fetchTaxonomy = this.fetchTaxonomy.bind(this);
-    this.createAndPlaceTopic = this.createAndPlaceTopic.bind(this);
-    this.onCancel = this.onCancel.bind(this);
   }
 
   componentDidMount() {
     this.fetchTaxonomy();
   }
 
-  async getSubjectTopics(subjectId) {
+  getSubjectTopics = async subjectId => {
     if (
       this.state.structure.some(
         subject => subject.id === subjectId && subject.topics,
@@ -81,14 +72,13 @@ class TopicArticleTaxonomy extends Component {
     } catch (e) {
       handleError(e);
     }
-  }
+  };
 
-  async fetchTaxonomy() {
+  fetchTaxonomy = async () => {
     const {
       article: { language, id },
     } = this.props;
     try {
-      this.setState({ status: 'loading' });
       const [topics, allTopics, allFilters, subjects] = await Promise.all([
         queryTopics(id, language),
         fetchTopics(language),
@@ -101,7 +91,7 @@ class TopicArticleTaxonomy extends Component {
         .sort(sortByName);
 
       this.setState({
-        status: 'success',
+        status: 'initial',
         topics,
         stagedTopicChanges: topics,
         structure: sortedSubjects,
@@ -117,9 +107,9 @@ class TopicArticleTaxonomy extends Component {
       handleError(e);
       this.setState({ status: 'error' });
     }
-  }
+  };
 
-  stageTaxonomyChanges({ addTopicId, removeTopicId, path }) {
+  stageTaxonomyChanges = ({ addTopicId, removeTopicId, path }) => {
     const {
       article: { title },
     } = this.props;
@@ -154,9 +144,9 @@ class TopicArticleTaxonomy extends Component {
         ],
       }));
     }
-  }
+  };
 
-  async createAndPlaceTopic(topic, articleId) {
+  createAndPlaceTopic = async (topic, articleId) => {
     const newTopicPath = await addTopic({
       name: topic.name,
       contentUri: `urn:article:${articleId}`,
@@ -165,42 +155,50 @@ class TopicArticleTaxonomy extends Component {
     const newTopicId = newTopicPath.split('/').pop();
     if (paths.length > 2) {
       // we are placing it under a topic
-      addTopicToTopic({
+      await addTopicToTopic({
         subtopicid: newTopicId,
         topicid: paths.slice(-2)[0],
       });
     } else {
       // we are placing it under a subject
-      addSubjectTopic({
+      await addSubjectTopic({
         topicid: newTopicId,
         subjectid: paths[0],
       });
     }
-  }
+    return {
+      name: topic.name,
+      id: newTopicId,
+      path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+    };
+  };
 
-  async handleSubmit(evt) {
+  handleSubmit = async evt => {
     evt.preventDefault();
     const { stagedTopicChanges, topics } = this.state;
     const {
       updateNotes,
       article: { id: articleId, language, revision },
     } = this.props;
+    this.setState({ status: 'loading' });
 
-    const changes = stagedTopicChanges.filter(topic => {
-      if (topic.id === 'staged') {
-        this.createAndPlaceTopic(topic, articleId);
-        return false;
-      }
-      return true;
-    });
-    const deletedTopics = topics.filter(
-      topic => !changes.some(stagedTopic => stagedTopic.id === topic.id),
+    const stagedNewTopics = stagedTopicChanges.filter(
+      topic => topic.id === 'staged',
     );
-    const addedTopics = changes.filter(
+    const changedTopics = stagedTopicChanges.filter(
+      topic => topic.id !== 'staged',
+    );
+    const newTopics = await Promise.all(
+      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId)),
+    );
+
+    const deletedTopics = topics.filter(
+      topic => !changedTopics.some(stagedTopic => stagedTopic.id === topic.id),
+    );
+    const addedTopics = changedTopics.filter(
       stagedTopic => !topics.some(topic => topic.id === stagedTopic.id),
     );
 
-    this.setState({ saveStatus: 'loading', status: 'loading' });
     try {
       await Promise.all([
         ...addedTopics.map(addedTopic =>
@@ -224,24 +222,22 @@ class TopicArticleTaxonomy extends Component {
         language,
         notes: ['Oppdatert taksonomi.'],
       });
-      // Wait a sec before fetching taxonomy again
-      await new Promise(resolve => {
-        setTimeout(() => {
-          resolve('resolved');
-        }, 2000);
-      });
-      this.fetchTaxonomy();
 
-      this.setState({ isDirty: false, saveStatus: 'success' }, () =>
-        setTimeout(() => this.setState({ saveStatus: 'initial' }), 5000),
-      );
+      const updatedTopics = [...changedTopics, ...newTopics];
+
+      this.setState({
+        isDirty: false,
+        topics: updatedTopics,
+        stagedTopicChanges: updatedTopics,
+        status: 'success',
+      });
     } catch (err) {
       handleError(err);
-      this.setState({ saveStatus: 'error' });
+      this.setState({ status: 'error' });
     }
-  }
+  };
 
-  updateSubject(subjectid, newSubject) {
+  updateSubject = (subjectid, newSubject) => {
     this.setState(prevState => ({
       structure: prevState.structure.map(subject => {
         if (subject.id === subjectid) {
@@ -250,50 +246,13 @@ class TopicArticleTaxonomy extends Component {
         return subject;
       }),
     }));
-  }
+  };
 
-  retriveBreadCrumbs(topicPath) {
-    const {
-      structure,
-      taxonomyChoices: { allTopics },
-    } = this.state;
-    const {
-      article: { title },
-    } = this.props;
-    try {
-      const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
-
-      const subject = structure.find(
-        structureSubject => structureSubject.id === subjectPath,
-      );
-      const returnPaths = [];
-      returnPaths.push({
-        name: subject.name,
-        id: subject.id,
-      });
-      topicPaths.forEach(pathId => {
-        const topicPath = allTopics.find(subtopic => subtopic.id === pathId);
-        if (topicPath) {
-          returnPaths.push({
-            name: topicPath.name,
-            id: topicPath.id,
-          });
-        } else {
-          returnPaths.push({ name: title, id: pathId });
-        }
-      });
-      return returnPaths;
-    } catch (err) {
-      handleError(err);
-      return false;
-    }
-  }
-
-  removeConnection(id) {
+  removeConnection = id => {
     this.stageTaxonomyChanges({ removeTopicId: id });
-  }
+  };
 
-  onCancel() {
+  onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
     if (!isDirty) {
@@ -302,7 +261,7 @@ class TopicArticleTaxonomy extends Component {
       // TODO open warning
       closePanel();
     }
-  }
+  };
 
   render() {
     const {
@@ -310,14 +269,17 @@ class TopicArticleTaxonomy extends Component {
       stagedTopicChanges,
       structure,
       status,
-      saveStatus,
+      isDirty,
     } = this.state;
-    const { t } = this.props;
+    const {
+      t,
+      article: { title },
+    } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
     }
-    if (status === 'error' || saveStatus === 'error') {
+    if (status === 'error') {
       return (
         <ErrorMessage
           illustration={{
@@ -339,7 +301,9 @@ class TopicArticleTaxonomy extends Component {
           structure={structure}
           taxonomyTopics={allTopics}
           activeTopics={stagedTopicChanges}
-          retriveBreadCrumbs={this.retriveBreadCrumbs}
+          retriveBreadCrumbs={topicPath =>
+            retriveBreadCrumbs({ topicPath, allTopics, structure, title })
+          }
           removeConnection={this.removeConnection}
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
@@ -348,12 +312,13 @@ class TopicArticleTaxonomy extends Component {
           <FormikActionButton
             outline
             onClick={this.onCancel}
-            disabled={saveStatus === 'loading'}>
+            disabled={status === 'loading'}>
             {t('form.abort')}
           </FormikActionButton>
           <SaveButton
-            isSaving={saveStatus === 'loading'}
-            showSaved={saveStatus === 'success'}
+            isSaving={status === 'loading'}
+            showSaved={status === 'success' && !isDirty}
+            disabled={!isDirty}
             onClick={this.handleSubmit}
             defaultText="saveTax"
           />

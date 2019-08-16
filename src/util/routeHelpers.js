@@ -1,5 +1,4 @@
 import queryString from 'query-string';
-import config from '../config';
 
 const articleTypes = {
   'topic-article': 'topic-article',

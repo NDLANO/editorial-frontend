@@ -549,109 +549,98 @@ export const brRule = {
   },
 };
 
-const RULES = [
-  divRule,
-  detailsRules,
-  textRule,
-  orderListRules,
-  unorderListRules,
-  tableRules,
-  paragraphRule,
-  listItemRule,
-  relatedRule,
-  mathRules,
-  {
-    // Aside handling
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() !== 'aside') return;
-      return {
-        object: 'block',
-        type: 'aside',
-        nodes: next(el.childNodes),
-        data: getAsideType(el),
-      };
-    },
-    serialize(slateObject, children) {
-      if (slateObject.object !== 'block') return;
-      if (slateObject.type !== 'aside') return;
-      return <aside {...setAsideTag(slateObject.data)}>{children}</aside>;
-    },
+const markRules = {
+  deserialize(el, next) {
+    const mark = MARK_TAGS[el.tagName.toLowerCase()];
+    if (!mark) return;
+    if (!el.childNodes[0] || el.childNodes[0].data === ' ') return;
+    return {
+      object: 'mark',
+      type: mark,
+      nodes: next(el.childNodes),
+    };
   },
-  blockRules,
-  inlineRules,
-  brRule,
-  {
-    deserialize(el, next) {
-      const mark = MARK_TAGS[el.tagName.toLowerCase()];
-      if (!mark) return;
-      if (!el.childNodes[0] || el.childNodes[0].data === ' ') return;
-      return {
-        object: 'mark',
-        type: mark,
-        nodes: next(el.childNodes),
-      };
-    },
-    serialize(slateObject, children) {
-      if (slateObject.object !== 'mark') return;
-      switch (slateObject.type) {
-        case 'bold':
-          return <strong>{children}</strong>;
-        case 'italic':
-          return <em>{children}</em>;
-        case 'underlined':
-          return <u>{children}</u>;
-        case 'superscripted':
-          return <sup>{children}</sup>;
-        case 'code':
-          return <code>{children}</code>;
-      }
-    },
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'mark') return;
+    if (children.type === 'br') {
+      return children;
+    }
+    switch (slateObject.type) {
+      case 'bold':
+        return <strong>{children}</strong>;
+      case 'italic':
+        return <em>{children}</em>;
+      case 'underlined':
+        return <u>{children}</u>;
+      case 'superscripted':
+        return <sup>{children}</sup>;
+      case 'code':
+        return <code>{children}</code>;
+    }
   },
-  footnoteRule,
-  {
-    deserialize(el, next) {
-      if (el.tagName.toLowerCase() !== 'a') return;
-      const nodes = next(el.childNodes);
-      return {
-        object: 'inline',
-        type: 'link',
-        data: {
-          href: el.href ? el.href : '#',
-          target: el.target !== '' ? el.target : undefined,
-          title: el.title !== '' ? el.title : undefined,
-          rel: el.rel !== '' ? el.rel : undefined,
-        },
-        nodes,
-      };
-    },
-    serialize(slateObject, children) {
-      if (slateObject.object !== 'inline') return;
-      if (slateObject.type !== 'link') return;
-      const data = slateObject.data.toJS();
+};
 
-      if (data.resource === 'content-link') {
-        return (
-          <embed
-            data-content-id={data['content-id']}
-            data-link-text={slateObject.text}
-            data-open-in={data['open-in']}
-            data-resource={data.resource}
-          />
-        );
-      }
+const linkRules = {
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'a') return;
+    const nodes = next(el.childNodes);
+    return {
+      object: 'inline',
+      type: 'link',
+      data: {
+        href: el.href ? el.href : '#',
+        target: el.target !== '' ? el.target : undefined,
+        title: el.title !== '' ? el.title : undefined,
+        rel: el.rel !== '' ? el.rel : undefined,
+      },
+      nodes,
+    };
+  },
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'inline') return;
+    if (slateObject.type !== 'link') return;
+    const data = slateObject.data.toJS();
 
+    if (data.resource === 'content-link') {
       return (
-        <a
-          href={data.href}
-          rel={data.rel}
-          target={data.target}
-          title={data.title}>
-          {children}
-        </a>
+        <embed
+          data-content-id={data['content-id']}
+          data-link-text={slateObject.text}
+          data-open-in={data['open-in']}
+          data-resource={data.resource}
+        />
       );
-    },
+    }
+
+    return (
+      <a
+        href={data.href}
+        rel={data.rel}
+        target={data.target}
+        title={data.title}>
+        {children}
+      </a>
+    );
   },
-];
+};
+
+const asideRules = {
+  // Aside handling
+  deserialize(el, next) {
+    if (el.tagName.toLowerCase() !== 'aside') return;
+    return {
+      object: 'block',
+      type: 'aside',
+      nodes: next(el.childNodes),
+      data: getAsideType(el),
+    };
+  },
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'aside') return;
+    return <aside {...setAsideTag(slateObject.data)}>{children}</aside>;
+  },
+};
 
 const topicArticeEmbedRule = [
   {
@@ -745,6 +734,26 @@ export const learningResourceEmbedRule = [
       }
     },
   },
+];
+
+const RULES = [
+  divRule,
+  detailsRules,
+  textRule,
+  orderListRules,
+  unorderListRules,
+  tableRules,
+  paragraphRule,
+  listItemRule,
+  relatedRule,
+  mathRules,
+  asideRules,
+  blockRules,
+  inlineRules,
+  brRule,
+  markRules,
+  footnoteRule,
+  linkRules,
 ];
 
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);

@@ -33,10 +33,9 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
     type === 'learningResource'
       ? learningResourceContentToHTML
       : topicArticleContentToHTML;
-  const diff = diffHTML(
-    toHTMLFunction(currentValue),
-    toHTMLFunction(initialContent),
-  );
+  const newHTML = toHTMLFunction(currentValue);
+  const oldHTML = toHTMLFunction(initialContent);
+  const diff = diffHTML(newHTML, oldHTML);
   if (diff.warn) {
     return true;
   }

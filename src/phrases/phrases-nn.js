@@ -932,6 +932,7 @@ const phrases = {
     },
     topics: {
       title: 'Emnetilknytninger',
+      topicPlacement: 'Emneplassering',
       subTitle: 'Kvar i taksonomien skal ressursen ligge?',
       subTitleTopic: 'Hvor i taksonomien skal emnebeskrivelsen ligge?',
       filestructureButton: 'Opprett en emnetilknytning',

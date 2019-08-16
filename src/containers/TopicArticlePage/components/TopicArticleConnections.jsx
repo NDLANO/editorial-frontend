@@ -86,7 +86,7 @@ class TopicArticleConnections extends Component {
     return (
       <Fragment>
         <FieldHeader
-          title={t('taxonomy.topics.title')}
+          title={t('taxonomy.topics.topicPlacement')}
           subTitle={t('taxonomy.topics.subTitleTopic')}>
           <HowToHelper
             pageId="TaxonomyTopicConnections"

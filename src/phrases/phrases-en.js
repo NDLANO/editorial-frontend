@@ -914,6 +914,7 @@ const phrases = {
     },
     topics: {
       title: 'Topic connections',
+      topicPlacement: 'Topcic placement',
       subTitle: 'Where in the taxonomy should this resource be?',
       subTitleTopic: 'Where in the taxonomy should the topic description be?',
       filestructureButton: 'Create a topic connection',

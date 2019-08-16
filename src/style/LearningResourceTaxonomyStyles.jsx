@@ -76,7 +76,8 @@ const flexButtonCenterAlignStyle = css`
 /* Styled components */
 
 const StyledConnections = styled('div')`
-  ${flexButtonCenterAlignStyle};
+  ${flexButtonCenterAlignStyle}
+  justify-content: space-between;
   background: ${props =>
     props.error ? `${colors.support.red}11` : colors.brand.greyLightest};
   padding: ${spacing.xsmall};

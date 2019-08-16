@@ -74,4 +74,5 @@ export {
   fetchTopicResources,
   fetchTopicConnections,
   updateTopicSubtopic,
+  deleteTopic,
 } from './topics';

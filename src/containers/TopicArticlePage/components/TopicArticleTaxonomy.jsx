@@ -18,16 +18,19 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   queryTopics,
-  updateTopic,
   fetchTopicConnections,
+  addTopicToTopic,
+  addFilterToTopic,
+  addSubjectTopic,
+  deleteTopicFilter,
+  updateTopicFilter,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
   sortByName,
   groupTopics,
   sortIntoCreateDeleteUpdate,
-  createAndPlaceTopic,
-  createDeleteUpdateTopicFilters,
+  pathToUrnArray,
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
@@ -183,10 +186,10 @@ class TopicArticleTaxonomy extends Component {
     try {
       const newTopics = await Promise.all(
         stagedNewTopics.map(topic =>
-          createAndPlaceTopic(topic, articleId, structure),
+          this.createAndPlaceTopic(topic, articleId, structure),
         ),
       );
-      const updatedFilters = await createDeleteUpdateTopicFilters(
+      const updatedFilters = await this.createDeleteUpdateTopicFilters(
         createFilter,
         deleteFilter,
         updateFilter,
@@ -271,6 +274,75 @@ class TopicArticleTaxonomy extends Component {
     this.stageTaxonomyChanges({
       filter: updatedFilters,
     });
+  };
+
+  createAndPlaceTopic = async (topic, articleId, structure) => {
+    const newTopicPath = await addTopicToTopic({
+      name: topic.name,
+      contentUri: `urn:article:${articleId}`,
+    });
+    const paths = pathToUrnArray(topic.path);
+    const newTopicId = newTopicPath.split('/').pop();
+    if (paths.length > 2) {
+      // we are placing it under a topic
+      const parentTopicId = paths.slice(-2)[0];
+      await addTopicToTopic({
+        subtopicid: newTopicId,
+        topicid: parentTopicId,
+      });
+
+      // add filters from parent
+      const topicFilters = structure
+        .find(subject => subject.id === paths[0])
+        .topics.find(topic => topic.id === parentTopicId).filters;
+      await Promise.all(
+        topicFilters.map(({ id, relevanceId }) =>
+          addFilterToTopic({ filterId: id, relevanceId, topicId: newTopicId }),
+        ),
+      );
+    } else {
+      // we are placing it under a subject
+      await addSubjectTopic({
+        topicid: newTopicId,
+        subjectid: paths[0],
+      });
+    }
+    return {
+      name: topic.name,
+      id: newTopicId,
+      path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+    };
+  };
+
+  createDeleteUpdateTopicFilters = async (
+    createFilter,
+    deleteFilter,
+    updateFilter,
+    stagedFilterChanges,
+  ) => {
+    const newFilters = await Promise.all(
+      createFilter.map(filter =>
+        addFilterToTopic({ filterId: filter.id, topicId: filter.topicId }),
+      ),
+    );
+    await Promise.all([
+      ...deleteFilter.map(({ connectionId }) =>
+        deleteTopicFilter({ connectionId }),
+      ),
+      ...updateFilter.map(({ connectionId, relevanceId }) =>
+        updateTopicFilter({ connectionId, relevanceId }),
+      ),
+    ]);
+
+    const newFiltersWithId = createFilter.map((f, i) => ({
+      ...f,
+      connectionId: newFilters[i].split('/').pop(),
+    }));
+    const updatedFilters = stagedFilterChanges.map(filter => {
+      const newFilter = newFiltersWithId.find(f => f.id === filter.id);
+      return newFilter || filter;
+    });
+    return updatedFilters;
   };
 
   render() {

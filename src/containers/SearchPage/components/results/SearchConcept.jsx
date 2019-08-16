@@ -66,10 +66,20 @@ const SearchConcept = ({ concept, locale, t }) => {
 };
 
 SearchConcept.propTypes = {
-  concept: {
-    title: PropTypes.string,
-    content: PropTypes.string,
-  },
+  concept: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+    content: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+    metaImage: PropTypes.shape({
+      alt: PropTypes.string,
+      url: PropTypes.string,
+    }),
+  }),
   locale: PropTypes.string,
 };
 

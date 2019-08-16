@@ -1,109 +1,202 @@
+/*
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
-import Button from '@ndla/button';
 import Modal from '@ndla/modal/lib/Modal';
-import { ModalHeader, ModalBody } from '@ndla/modal';
-import ModalCloseButton from '@ndla/modal/lib/ModalCloseButton';
+import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
-import { toConcept } from '../../../../util/routeHelpers';
+import Button from '@ndla/button';
+import Tabs from '@ndla/tabs';
+import { Search } from '@ndla/icons/common';
+import Pager from '@ndla/pager';
+import { searchConcepts } from '../../../../modules/search/searchApi';
+import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
+import { fetchLicenses } from '../../../../modules/draft/draftApi';
+import { Portal } from '../../../Portal';
+import SearchConceptResults from './SearchConceptResults';
+import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
+import { ConceptShape } from '../../../../shapes';
 
-const ConceptModal = ({ accessToken, id, onClose, t, name, handleMessage }) => {
+const type = 'concept';
+
+const ConceptModal = ({
+  id,
+  onClose,
+  isOpen,
+  t,
+  locale,
+  handleRemove,
+  selectedText,
+  addConcept,
+  updateConcept,
+  createConcept,
+  concept,
+}) => {
+  const [searchObject, updateSearchObject] = useState({
+    page: 1,
+    sort: '-relevance',
+    'page-size': 10,
+    query: `${selectedText}`,
+  });
+  const [licenses, setLicenses] = useState([]);
+  const [results, setConcepts] = useState({
+    language: locale,
+    page: 1,
+    pageSize: 10,
+    results: [],
+    totalCount: 0,
+    query: { searchObject },
+  });
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [searching, setSearching] = useState(false);
+
+  const updateSelectedTabIndex = index => {
+    //Added function because of hooks second argument warning.
+    setSelectedTabIndex(index);
+  };
+  const getAllLicenses = async () => {
+    const fetchdLicenses = await fetchLicenses();
+    setLicenses(fetchdLicenses);
+  };
+
   useEffect(() => {
-    window.addEventListener('message', handleMessage);
+    if (licenses.length === 0) {
+      getAllLicenses();
+    }
+    if (id) {
+      setSelectedTabIndex(1);
+    }
+  }, [id]);
 
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  });
+  const searchConcept = async searchParam => {
+    if (!searching) {
+      setSearching(true);
+      const concepts = await searchConcepts(searchParam);
+      setConcepts(concepts);
+      setSearching(false);
+      updateSearchObject(searchParam);
+    }
+  };
 
-  const [mode, setMode] = useState(id ? 'edit' : 'search');
-  const iframeSrc = toConcept({
-    id,
-    accessToken,
-    name,
-    create: mode === 'create',
-  });
+  const onConceptUpsert = async upsertedConcept => {
+    const savedConcept = !id
+      ? await createConcept(upsertedConcept)
+      : await updateConcept(upsertedConcept);
+    addConcept(savedConcept);
+  };
+
+  useEffect(() => {
+    searchConcept(searchObject);
+  }, []);
   return (
-    <Modal
-      controllable
-      isOpen={true}
-      size="large"
-      backgroundColor="white"
-      minHeight="90vh">
-      {() => (
-        <div css={modalStyles}>
-          <ModalHeader>
-            <StyledHeader>
-              {mode === 'search' && t('form.concept.addConcept')}
-              {mode === 'create' && t('form.concept.create')}
-              {mode === 'edit' && t('form.concept.edit')}
-            </StyledHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            {mode === 'search' && (
-              <StyledModalButtons>
-                <span>{t('form.concept.addText')}</span>
-                <Button
-                  onClick={() => {
-                    setMode('create');
-                  }}>
-                  {t('form.concept.create')}
+    <Portal isOpened>
+      <Modal
+        controllable
+        isOpen={isOpen}
+        onClose={onClose}
+        size="large"
+        backgroundColor="white"
+        minHeight="90vh">
+        {() => (
+          <div>
+            <ModalHeader>
+              <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+            </ModalHeader>
+            <ModalBody>
+              {id && (
+                <Button onClick={handleRemove}>
+                  {t('form.content.concept.remove')}
                 </Button>
-              </StyledModalButtons>
-            )}
-            <iframe
-              src={iframeSrc}
-              title="concept"
-              width="100%"
-              css={iframeStyle}
-            />
-          </ModalBody>
-        </div>
-      )}
-    </Modal>
+              )}
+              <Tabs
+                onSelect={updateSelectedTabIndex}
+                selectedIndex={selectedTabIndex}
+                tabs={[
+                  {
+                    title: t(`searchForm.types.conceptQuery`),
+                    content: (
+                      <div>
+                        <h2>
+                          <Search className="c-icon--medium" />
+                          {t(`searchPage.header.concept`)}
+                        </h2>
+                        <SearchForm
+                          type={type}
+                          search={searchConcept}
+                          searchObject={searchObject}
+                          locale={locale}
+                        />
+                        <SearchConceptResults
+                          searchObject={searchObject}
+                          results={results.results}
+                          searching={searching}
+                          type={type}
+                          addConcept={addConcept}
+                          locale={locale}
+                        />
+                        <Pager
+                          query={searchObject}
+                          page={
+                            searchObject.page
+                              ? parseInt(searchObject.page, 10)
+                              : 1
+                          }
+                          pathname=""
+                          lastPage={Math.ceil(
+                            results.totalCount / results.pageSize,
+                          )}
+                          onClick={searchConcept}
+                          pageItemComponentClass="button"
+                        />
+                      </div>
+                    ),
+                  },
+                  {
+                    title: id
+                      ? t('form.concept.edit')
+                      : t('form.concept.create'),
+                    content: (
+                      <ConceptForm
+                        inModal
+                        onClose={onClose}
+                        licenses={licenses}
+                        onUpdate={onConceptUpsert}
+                        locale={locale}
+                        concept={
+                          id
+                            ? { ...concept, language: locale }
+                            : { title: selectedText, language: locale }
+                        }
+                      />
+                    ),
+                  },
+                ]}
+              />
+            </ModalBody>
+          </div>
+        )}
+      </Modal>
+    </Portal>
   );
 };
 
-const iframeStyle = css`
-  height: 95%;
-  border: none;
-`;
-
-const StyledModalButtons = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-
-  & > span {
-    margin: 0 20px;
-  }
-`;
-
-const StyledHeader = styled.h1`
-  align-self: flex-start;
-`;
-
-const modalStyles = css`
-  height: 90vh;
-
-  & > .modal-body {
-    height: 84vh;
-  }
-
-  & > .modal-header {
-    height: 6vh;
-  }
-`;
-
 ConceptModal.propTypes = {
-  accessToken: PropTypes.string,
   id: PropTypes.number,
-  onClose: PropTypes.func,
-  handleMessage: PropTypes.func,
-  name: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  locale: PropTypes.string,
+  selectedText: PropTypes.string,
+  addConcept: PropTypes.func.isRequired,
+  concept: ConceptShape,
+  updateConcept: PropTypes.func.isRequired,
+  createConcept: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  handleRemove: PropTypes.func.isRequired,
 };
 
 export default injectT(ConceptModal);

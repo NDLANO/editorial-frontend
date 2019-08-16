@@ -632,6 +632,10 @@ const phrases = {
         addExternal: 'Add external article',
         searchExternal: 'Write the url and title of the external article',
       },
+      concept: {
+        remove: 'Remove concept',
+        choose: 'Choose concept',
+      },
       link: {
         goTo: 'Go to',
         insert: 'Insert link',

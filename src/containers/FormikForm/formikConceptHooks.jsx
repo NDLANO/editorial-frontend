@@ -4,7 +4,6 @@ import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 
 export function useFetchConceptData(conceptId, locale) {
   let [concept, setConcept] = useState(undefined);
-
   const fetchConcept = async () => {
     if (conceptId) {
       const concept = await conceptApi.fetchConcept(conceptId, locale);

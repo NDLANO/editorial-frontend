@@ -124,7 +124,7 @@ export const NewArticleShape = PropTypes.shape({
 export const ConceptShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
-  description: PropTypes.string,
+  content: PropTypes.string,
 });
 
 export const ImageShape = PropTypes.shape({
@@ -199,7 +199,7 @@ export const LicensesArrayOf = PropTypes.arrayOf(
     description: PropTypes.string,
     license: PropTypes.string,
   }),
-).isRequired;
+);
 
 export const AudioShape = PropTypes.shape({
   id: PropTypes.number,

@@ -43,12 +43,12 @@ describe('Topic editing', () => {
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core&filter=`,
+      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core`,
       'coreResources',
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary&filter=`,
+      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary`,
       'suppResources',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');

@@ -28,11 +28,14 @@ function fetchTopicFilters(id) {
 }
 
 function fetchTopicResources(topicId, locale, relevance, filters) {
-  const query = `${locale ? `language=${locale}` : ''}${
-    relevance ? `relevance=${relevance}` : ''
-  }${filters ? `filters=${filters}` : ''}`;
+  const query = [];
+  if (locale) query.push(`language=${locale}`);
+  if (relevance) query.push(`relevance=${relevance}`);
+  if (filters) query.push(`filters=${filters}`);
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/${query ? `?${query}` : ''}`,
+    `${baseUrl}/topics/${topicId}/resources/${
+      query.length ? `?${query.join('&')}` : ''
+    }`,
   ).then(resolveJsonOrRejectWithError);
 }
 

@@ -195,7 +195,7 @@ export class StructureContainer extends React.PureComponent {
 
   deleteConnections() {
     const { jsPlumbConnections } = this.state;
-    if (jsPlumbConnections.length) {
+    if (jsPlumbConnections.length > 0) {
       jsPlumbConnections[0].instance.deleteEveryConnection();
       this.setState({ jsPlumbConnections: [], activeConnections: [] });
     }

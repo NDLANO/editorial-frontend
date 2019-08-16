@@ -43,7 +43,7 @@ const ActiveTopicConnection = ({
         <Breadcrumb breadcrumb={[{ name: topic.path }]} />
         <StyledRemoveConnectionButton
           type="button"
-          onClick={() => removeConnection(topic.id)}>
+          onClick={() => removeConnection && removeConnection(topic.id)}>
           <Cross />
         </StyledRemoveConnectionButton>
       </StyledConnections>
@@ -79,7 +79,7 @@ const ActiveTopicConnection = ({
         </StyledFlexWrapper>
         <StyledRemoveConnectionButton
           type="button"
-          onClick={() => removeConnection(topic.id)}>
+          onClick={() => removeConnection && removeConnection(topic.id)}>
           <Cross />
         </StyledRemoveConnectionButton>
       </StyledConnections>

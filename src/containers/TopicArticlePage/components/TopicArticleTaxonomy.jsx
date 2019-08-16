@@ -24,6 +24,9 @@ import {
   addSubjectTopic,
   deleteTopicFilter,
   updateTopicFilter,
+  deleteTopic,
+  fetchTopicFilters,
+  fetchTopicResources,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -37,11 +40,7 @@ import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
-import {
-  deleteTopic,
-  fetchTopicFilters,
-  fetchTopicResources,
-} from '../../../modules/taxonomy/topics';
+
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 
 class TopicArticleTaxonomy extends Component {

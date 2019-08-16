@@ -9,9 +9,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
-import { ModalHeader, ModalBody } from '@ndla/modal';
-import ModalCloseButton from '@ndla/modal/lib/ModalCloseButton';
+import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
+import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
@@ -22,7 +22,6 @@ import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
 import { ConceptShape } from '../../../../shapes';
-import { Button } from '@ndla/button/lib/Button';
 
 const type = 'concept';
 

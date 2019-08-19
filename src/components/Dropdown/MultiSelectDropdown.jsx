@@ -21,7 +21,6 @@ export class MultiSelectDropdown extends Component {
 
   onValueChange = newValue => {
     const { onChange, value, name } = this.props;
-    console.log(newValue);
     onChange({
       target: {
         name,
@@ -62,7 +61,6 @@ export class MultiSelectDropdown extends Component {
   };
 
   removeItem = id => {
-    console.log(id);
     const { onChange, value, name, idField } = this.props;
     onChange({
       target: {

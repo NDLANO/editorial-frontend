@@ -54,13 +54,8 @@ const ListText = ({ children }) => children;
 const emptyNodes = [
   {
     object: 'text',
-    leaves: [
-      {
-        object: 'leaf',
-        marks: [],
-        text: '',
-      },
-    ],
+    text: '',
+    marks: [],
   },
 ];
 
@@ -184,7 +179,6 @@ export const divRule = {
             {slateObject.data.get('nodes') &&
               slateObject.data
                 .get('nodes')
-                .toJS()
                 .map(node => <embed {...createDataProps(node)} />)}
           </div>
         );
@@ -279,12 +273,8 @@ export const mathRules = {
       nodes: [
         {
           object: 'text',
-          leaves: [
-            {
-              object: 'leaf',
-              text: 'm',
-            },
-          ],
+          text: 'm',
+          marks: [],
         },
       ],
     };
@@ -350,13 +340,8 @@ export const footnoteRule = {
       nodes: [
         {
           object: 'text',
-          leaves: [
-            {
-              object: 'leaf',
-              text: '#',
-              marks: [],
-            },
-          ],
+          text: '#',
+          marks: [],
         },
       ],
       data: {
@@ -520,7 +505,6 @@ const relatedRule = {
           {object.data.get('nodes') &&
             object.data
               .get('nodes')
-              .toJS()
               .map(node => <embed key={uuid()} {...createDataProps(node)} />)}
         </div>
       );
@@ -679,15 +663,10 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               object: 'text',
-              leaves: [
-                {
-                  object: 'leaf',
-                  text: embed['link-text']
-                    ? embed['link-text']
-                    : 'Ukjent link tekst',
-                  marks: [],
-                },
-              ],
+              text: embed['link-text']
+                ? embed['link-text']
+                : 'Ukjent link tekst',
+              marks: [],
             },
           ],
         };
@@ -700,15 +679,10 @@ export const learningResourceEmbedRule = [
           nodes: [
             {
               object: 'text',
-              leaves: [
-                {
-                  object: 'leaf',
-                  text: embed['link-text']
-                    ? embed['link-text']
-                    : 'Ukjent begrepstekst',
-                  marks: [],
-                },
-              ],
+              text: embed['link-text']
+                ? embed['link-text']
+                : 'Ukjent begrepstekst',
+              marks: [],
             },
           ],
         };

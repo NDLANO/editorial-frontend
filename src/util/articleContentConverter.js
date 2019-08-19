@@ -37,11 +37,7 @@ export const createEmptyValue = () =>
               nodes: [
                 {
                   object: 'text',
-                  leaves: [
-                    {
-                      text: '',
-                    },
-                  ],
+                  text: '',
                 },
               ],
             },

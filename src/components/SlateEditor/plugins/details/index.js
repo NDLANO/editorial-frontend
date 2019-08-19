@@ -20,13 +20,8 @@ const summaryBlock = (text = '') => [
     nodes: [
       {
         object: 'text',
-        leaves: [
-          {
-            object: 'leaf',
-            text,
-            marks: [],
-          },
-        ],
+        text,
+        marks: [],
       },
     ],
   },

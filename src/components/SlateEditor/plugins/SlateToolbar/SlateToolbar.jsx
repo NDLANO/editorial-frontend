@@ -13,14 +13,16 @@ import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { hasNodeOfType, checkSelectionForType } from '../../utils';
-import { TYPE as footnote } from '../footnote';
-import { TYPE as link } from '../link';
-import { TYPE as mathml } from '../mathml';
-import { TYPE as concept } from '../concept';
 import { listTypes } from '../externalPlugins';
 import { SupportedToolbarElementsShape } from '../../../../shapes';
 
 const DEFAULT_NODE = 'paragraph';
+
+const defaultToolbarElelements = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  inline: ['link', 'footnote', 'mathml', 'concept'],
+};
 
 export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
@@ -146,29 +148,18 @@ class SlateToolbar extends Component {
   render() {
     const {
       editor,
-      supportedToolbarElements,
-      supportedToolbarElementsAside,
+      supportedToolbarElements = defaultToolbarElelements,
+      supportedToolbarElementsAside = defaultToolbarElelements,
     } = this.props;
     const { value } = editor;
 
-    const defaultSupportedToolbarElements = supportedToolbarElements || {
-      mark: ['bold', 'italic', 'underlined'],
-      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-      inline: [link, footnote, mathml, concept],
-    };
-
-    const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
-      mark: ['bold', 'italic', 'underlined'],
-      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-      inline: [link, footnote, mathml, concept],
-    };
     const toolbarElements = checkSelectionForType({
       type: 'aside',
       value,
     })
-      ? defaultSupportedToolbarElementsAside
-      : defaultSupportedToolbarElements;
-
+      ? supportedToolbarElementsAside
+      : supportedToolbarElements;
+    console.log(toolbarElements);
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton

@@ -17,10 +17,11 @@ export default function footnotePlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderBlock = (props, editor, next) => {
+  const renderInline = (props, editor, next) => {
     const { node } = props;
     const { value } = editor.props;
 
+    console.log(node.type);
     switch (node.type) {
       case TYPE:
         return <Footnote {...props} value={value} />;
@@ -31,6 +32,6 @@ export default function footnotePlugin() {
 
   return {
     schema,
-    renderBlock,
+    renderInline,
   };
 }

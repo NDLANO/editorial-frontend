@@ -177,7 +177,7 @@ class LearningResourceContent extends Component {
           className={formikFieldClasses('', 'position-static').className}>
           {({ field, form: { isSubmitting } }) => (
             <Fragment>
-              {id && userAccess && userAccess.includes('drafts:admin') && (
+              {id && userAccess && userAccess.includes('drafts:html') && (
                 <FieldHeader title={t('form.content.label')}>
                   <EditMarkupLink
                     to={`/edit-markup/${id}/${language}`}

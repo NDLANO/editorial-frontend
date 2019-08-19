@@ -127,7 +127,7 @@ app.get(
       user &&
       user.scope &&
       (user.scope.includes('drafts:write') ||
-        user.scope.includes('drafts:set_to_publish'));
+        user.scope.includes('drafts:publish'));
 
     if (!hasWriteAccess) {
       res
@@ -164,7 +164,7 @@ app.get(
       user &&
       user.scope &&
       (user.scope.includes('drafts:write') ||
-        user.scope.includes('drafts:set_to_publish'));
+        user.scope.includes('drafts:publish'));
 
     if (!hasWriteAccess) {
       res

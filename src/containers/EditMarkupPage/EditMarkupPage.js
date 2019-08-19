@@ -87,7 +87,7 @@ export class EditMarkupPage extends Component {
   async componentDidMount() {
     const session = getSessionStateFromLocalStorage();
 
-    if (!session.user.scope.includes('drafts:admin')) {
+    if (!session.user.scope.includes('drafts:html')) {
       this.setState({ status: 'access-error' });
       return;
     }

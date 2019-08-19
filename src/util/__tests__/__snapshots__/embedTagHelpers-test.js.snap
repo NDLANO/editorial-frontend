@@ -25,14 +25,9 @@ Object {
         },
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "",
           },
         ],
         "object": "block",

@@ -12,14 +12,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": " ",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": " ",
               },
               Object {
                 "data": Object {
@@ -29,28 +24,18 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "Yrker i mediebransjen",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "Yrker i mediebransjen",
                   },
                 ],
                 "object": "inline",
                 "type": "link",
               },
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": " ",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": " ",
               },
             ],
             "object": "block",
@@ -60,14 +45,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": " ",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": " ",
               },
               Object {
                 "data": Object {
@@ -78,28 +58,18 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "Yrker i NRK",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "Yrker i NRK",
                   },
                 ],
                 "object": "inline",
                 "type": "link",
               },
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": " ",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": " ",
               },
             ],
             "object": "block",
@@ -125,14 +95,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Eller du kan bruke nettsidene ",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Eller du kan bruke nettsidene ",
           },
           Object {
             "data": Object {
@@ -143,28 +108,18 @@ Object {
             },
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "nav.no",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "nav.no",
               },
             ],
             "object": "inline",
             "type": "link",
           },
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": " . Her finnes informasjon om de ulike tjenestene.",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": " . Her finnes informasjon om de ulike tjenestene.",
           },
         ],
         "object": "block",

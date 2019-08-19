@@ -183,7 +183,7 @@ export class EditMarkupPage extends Component {
                   margin: ${spacing.normal};
                 `}>
                 <PreviewDraftLightbox
-                  label={t('subNavigation.learningResource')}
+                  label={t('articleType.standard')}
                   typeOfPreview="preview"
                   getArticle={() => {
                     const content = standardizeContent(draft.content.content);

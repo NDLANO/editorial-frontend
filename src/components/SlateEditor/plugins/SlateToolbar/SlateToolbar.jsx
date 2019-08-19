@@ -162,12 +162,10 @@ class SlateToolbar extends Component {
       block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
       inline: [link, footnote, mathml, concept],
     };
-
-    const toolbarElements = checkSelectionForType(
-      'aside',
+    const toolbarElements = checkSelectionForType({
+      type: 'aside',
       value,
-      value.selection.start.key,
-    )
+    })
       ? defaultSupportedToolbarElementsAside
       : defaultSupportedToolbarElements;
 

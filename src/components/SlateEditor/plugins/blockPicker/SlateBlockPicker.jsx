@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { injectT, formatNestedMessages } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
-import { defaultBlocks } from '../../utils';
+import { defaultBlocks, checkSelectionForType } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
@@ -49,7 +49,6 @@ class SlateBlockPicker extends Component {
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
     this.onElementAdd = this.onElementAdd.bind(this);
     this.showPicker = this.showPicker.bind(this);
-    this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onVisualElementClose = this.onVisualElementClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.getFactboxTitle = this.getFactboxTitle.bind(this);
@@ -165,43 +164,30 @@ class SlateBlockPicker extends Component {
     }
   }
 
-  focusInsideIllegalArea() {
-    const { editor, illegalAreas } = this.props;
-    let node = editor.value.document.getClosestBlock(
-      editor.value.selection.start.key,
+  shouldShowMenuPicker = node => {
+    const { editor, illegalAreas, allowedPickAreas } = this.props;
+    const focusInsideIllegalArea = checkSelectionForType({
+      type: illegalAreas,
+      value: editor.value,
+    });
+    return (
+      this.state.isOpen ||
+      (node &&
+        node.text.length === 0 &&
+        !focusInsideIllegalArea &&
+        allowedPickAreas.includes(node.type) &&
+        editor.value.selection.isFocused)
     );
-    while (true) {
-      const parent = editor.value.document.getParent(node.key);
-      if (
-        !parent ||
-        parent.get('type') === 'section' ||
-        parent.get('type') === 'document'
-      ) {
-        return false;
-      }
-      if (illegalAreas.includes(parent.get('type'))) {
-        return true;
-      }
-      node = parent;
-    }
-  }
+  };
 
   showPicker() {
-    const { editor, allowedPickAreas } = this.props;
+    const { editor } = this.props;
 
     const node = editor.value.document.getClosestBlock(
       editor.value.selection.start.key,
     );
 
-    const show =
-      this.state.isOpen ||
-      (node &&
-        node.text.length === 0 &&
-        !this.focusInsideIllegalArea() &&
-        allowedPickAreas.includes(node.type) &&
-        editor.value.selection.isFocused);
-
-    if (show) {
+    if (this.shouldShowMenuPicker(node)) {
       const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
       this.update(nodeEl);
     } else {

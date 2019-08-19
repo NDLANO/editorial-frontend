@@ -39,11 +39,11 @@ export class MultiSelectDropdown extends Component {
     }
   };
 
-  onInputChange = e => {
+  onInputChange = evt => {
     const { data, labelField } = this.props;
     const {
       target: { value },
-    } = e;
+    } = evt;
 
     if (value.length >= 2) {
       this.setState({

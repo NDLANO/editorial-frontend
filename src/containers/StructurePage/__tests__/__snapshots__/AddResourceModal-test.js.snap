@@ -484,6 +484,492 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 </div>
 `;
 
+exports[`Can paste a valid url and add it to topic 2`] = `
+.emotion-20 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.emotion-0 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.emotion-18 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  width: 600px;
+  border-radius: 5px;
+  position: absolute;
+  top: 5%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-5 {
+  background: linear-gradient(180deg,#5d97a9,#508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-3:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-2 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-16 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-12 {
+  width: 100%;
+}
+
+.emotion-12 > * {
+  width: 100%;
+}
+
+.emotion-12 form {
+  background-color: white;
+}
+
+.emotion-14 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-14:hover,
+.emotion-14:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-14:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-14[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-14:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-14:hover,
+.emotion-14:active,
+.emotion-14:disabled,
+.emotion-14:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-14:focus {
+  outline-width: medium;
+}
+
+.emotion-14,
+.emotion-14:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
+.emotion-10 {
+  margin-top: 6.5px;
+}
+
+.emotion-10:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-8 label {
+  width: 104px;
+  max-width: 104px;
+  padding: 20px 13px 13px 0;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.1;
+}
+
+.emotion-7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-7 input,
+.emotion-7 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-7 input:focus,
+.emotion-7 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-7 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-7 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-7 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
+<div
+  class="emotion-20 emotion-21"
+>
+  <div
+    aria-hidden="true"
+    class="emotion-0 emotion-1"
+  />
+  <div
+    class="emotion-18 emotion-19"
+  >
+    <div
+      class="emotion-5 emotion-6"
+    >
+      Søk etter ressurs
+      <button
+        class="emotion-3 emotion-4"
+        type="button"
+      >
+        <svg
+          class="c-icon emotion-2"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Cross
+          </title>
+          <g>
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="emotion-16 emotion-17"
+    >
+      <div
+        class="emotion-12 emotion-13"
+      >
+        <div
+          class="emotion-10 emotion-11"
+        >
+          <div
+            class="emotion-8 emotion-9"
+          >
+            <form
+              class="emotion-7"
+            >
+              <input
+                data-testid="addResourceUrlInput"
+                placeholder="Lim inn lenke fra ndla.no"
+                type="text"
+                value="https://beta.ndla.no/subjects/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/"
+              />
+            </form>
+          </div>
+        </div>
+        <span
+          class="c-errorMessage"
+        >
+          Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
+        </span>
+        <div
+          class="c-article-preview"
+          data-testid="articlePreview"
+        >
+          <div
+            class="c-article-preview__image"
+          >
+            <img
+              alt=""
+              src="/placeholder.png"
+            />
+          </div>
+          <div
+            class="c-article-preview__content"
+          >
+            <a
+              href="/subject-matter/learning-resource/356/edit/undefined"
+            >
+              <h1
+                class="c-article-preview__title"
+              >
+                Hva kan du om geologiske prosesser?
+              </h1>
+            </a>
+            <p
+              class="c-article-preview__description"
+            />
+          </div>
+        </div>
+      </div>
+      <button
+        class="emotion-14 emotion-4"
+        data-testid="taxonomyLightboxButton"
+        type="button"
+      >
+        Velg
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Can paste a valid url and add it to topic 3`] = `null`;
+
 exports[`Can select a resource from the list and it adds it to topic 1`] = `
 .emotion-93 {
   position: fixed;

@@ -15,7 +15,7 @@ import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 
 const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
-  const { concept, updateConcept } = useFetchConceptData(
+  const { concept, updateConcept, subjects, tags } = useFetchConceptData(
     conceptId,
     selectedLanguage,
   );
@@ -29,7 +29,13 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
       <HelmetWithTracker
         title={`${concept.title} ${t('htmlTitles.titleTemplate')}`}
       />
-      <ConceptForm onUpdate={updateConcept} concept={concept} {...rest} />
+      <ConceptForm
+        onUpdate={updateConcept}
+        concept={concept}
+        subjects={subjects}
+        tags={tags}
+        {...rest}
+      />
     </Fragment>
   );
 };

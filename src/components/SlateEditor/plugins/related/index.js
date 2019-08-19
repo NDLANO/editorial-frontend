@@ -43,7 +43,7 @@ export default () => {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
 
     const onRemoveClick = e => {
@@ -61,6 +61,6 @@ export default () => {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
   };
 };

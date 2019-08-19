@@ -42,7 +42,7 @@ export default function createEmbedPlugin(locale) {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
     const onRemoveClick = e => {
       e.stopPropagation();
@@ -65,6 +65,6 @@ export default function createEmbedPlugin(locale) {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
   };
 }

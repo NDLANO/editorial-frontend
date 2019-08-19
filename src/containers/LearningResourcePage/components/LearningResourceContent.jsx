@@ -23,9 +23,9 @@ import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
-  renderNode,
+  renderBlock,
   renderMark,
-} from '../../../components/SlateEditor/renderNode';
+} from '../../../components/SlateEditor/slateRendering';
 import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
@@ -187,7 +187,7 @@ class LearningResourceContent extends Component {
               )}{' '}
               <RichBlockTextEditor
                 schema={schema}
-                renderNode={renderNode}
+                renderBlock={renderBlock}
                 submitted={isSubmitting}
                 renderMark={renderMark}
                 placeholder={t('form.content.placeholder')}

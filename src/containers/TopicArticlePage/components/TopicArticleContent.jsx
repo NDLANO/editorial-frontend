@@ -18,9 +18,9 @@ import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
-  renderNode,
+  renderBlock,
   renderMark,
-} from '../../../components/SlateEditor/renderNode';
+} from '../../../components/SlateEditor/slateRendering';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import {
   editListPlugin,
@@ -96,7 +96,7 @@ const TopicArticleContent = props => {
               placeholder={t('form.content.placeholder')}
               id={field.name}
               submitted={isSubmitting}
-              renderNode={renderNode}
+              renderBlock={renderBlock}
               renderMark={renderMark}
               plugins={plugins}
               supportedToolbarElements={supportedToolbarElements}

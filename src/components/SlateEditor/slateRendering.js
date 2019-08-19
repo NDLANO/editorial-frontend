@@ -9,7 +9,7 @@
 
 import React from 'react';
 
-export const renderNode = (props, editor, next) => {
+export const renderBlock = (props, editor, next) => {
   const { attributes, children, node } = props;
   switch (node.type) {
     case 'section':

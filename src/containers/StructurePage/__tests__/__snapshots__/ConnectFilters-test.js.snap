@@ -268,7 +268,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
         type="checkbox"
       />
-      blabla
+      blabla 1
     </label>
     <label
       class="emotion-10 emotion-11"
@@ -322,7 +322,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
         type="checkbox"
       />
-      blabla
+      blabla 2
     </label>
     <label
       class="emotion-10 emotion-11"
@@ -614,7 +614,7 @@ exports[`maps out filters 1`] = `
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
         type="checkbox"
       />
-      blabla
+      blabla 1
     </label>
     <label
       class="emotion-6 emotion-7"
@@ -668,7 +668,7 @@ exports[`maps out filters 1`] = `
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
         type="checkbox"
       />
-      blabla
+      blabla 2
     </label>
     <label
       class="emotion-6 emotion-7"

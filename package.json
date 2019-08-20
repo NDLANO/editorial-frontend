@@ -69,7 +69,7 @@
     "razzle": "3.0.0",
     "razzle-config-utils": "^0.1.0",
     "react-test-renderer": "^16.8.6",
-    "react-testing-library": "^5.9.0",
+    "react-testing-library": "^7.0.1",
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^3.7.0",
     "rimraf": "^3.0.0",

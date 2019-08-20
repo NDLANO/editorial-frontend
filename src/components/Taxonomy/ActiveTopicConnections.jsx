@@ -8,9 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyledConnectionsWrapper } from '../../../../style/LearningResourceTaxonomyStyles';
+import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { TopicShape } from '../../../../shapes';
+import { TopicShape } from '../../shapes';
 
 const ActiveTopicConnections = ({ activeTopics, ...rest }) => (
   <StyledConnectionsWrapper>

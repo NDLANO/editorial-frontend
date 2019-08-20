@@ -20,6 +20,7 @@ import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
   renderBlock,
   renderMark,
+  renderInline,
 } from '../../../components/SlateEditor/slateRendering';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import {
@@ -97,6 +98,7 @@ const TopicArticleContent = props => {
               id={field.name}
               submitted={isSubmitting}
               renderBlock={renderBlock}
+              renderInline={renderInline}
               renderMark={renderMark}
               plugins={plugins}
               supportedToolbarElements={supportedToolbarElements}

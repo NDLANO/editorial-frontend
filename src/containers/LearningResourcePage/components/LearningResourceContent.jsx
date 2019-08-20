@@ -25,6 +25,7 @@ import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
   renderBlock,
   renderMark,
+  renderInline,
 } from '../../../components/SlateEditor/slateRendering';
 import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
@@ -188,6 +189,7 @@ class LearningResourceContent extends Component {
               <RichBlockTextEditor
                 schema={schema}
                 renderBlock={renderBlock}
+                renderInline={renderInline}
                 submitted={isSubmitting}
                 renderMark={renderMark}
                 placeholder={t('form.content.placeholder')}

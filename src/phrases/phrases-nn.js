@@ -650,6 +650,10 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
+      concept: {
+        remove: 'Fjern begrep',
+        choose: 'Velg begrep',
+      },
       link: {
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
@@ -925,12 +929,15 @@ const phrases = {
     },
     topics: {
       title: 'Emnetilknytninger',
+      topicPlacement: 'Emneplassering',
       subTitle: 'Kvar i taksonomien skal ressursen ligge?',
       subTitleTopic: 'Hvor i taksonomien skal emnebeskrivelsen ligge?',
-      filestructureButton: 'Opprett emnetilknytning',
+      filestructureButton: 'Opprett en emnetilknytning',
+      chooseTaxonomyPlacement: 'Velg plassering i taksonomi',
+      changeTaxonomyPlacement: 'Endre plassering i taksonomi',
       filestructureHeading: 'Velg emnetilknytning',
-      addNewTopic: 'Legg til nytt underemne',
-      addExistingTopic: 'Legg til på eksisterende emne',
+      addNewTopic: 'Legg til nytt emne',
+      addNewSubTopic: 'Legg til nytt underemne',
       filestructureClose: 'Lukk',
       addedTopic: 'Lagt til',
       filterTopic: 'Filtrer emner',
@@ -942,6 +949,7 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    goTo: 'Åpne i stukturredigering',
   },
   notions: {
     edit: 'Rediger begrep',

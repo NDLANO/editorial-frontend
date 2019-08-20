@@ -28,8 +28,14 @@ function fetchTopicFilters(id) {
 }
 
 function fetchTopicResources(topicId, locale, relevance, filters) {
+  const query = [];
+  if (locale) query.push(`language=${locale}`);
+  if (relevance) query.push(`relevance=${relevance}`);
+  if (filters) query.push(`filters=${filters}`);
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/?language=${locale}&relevance=${relevance}&filter=${filters}`,
+    `${baseUrl}/topics/${topicId}/resources/${
+      query.length ? `?${query.join('&')}` : ''
+    }`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -48,6 +54,13 @@ function updateTopic({ id, ...params }) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ ...params }),
+  }).then(resolveTaxonomyResponse);
+}
+
+function deleteTopic(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
   }).then(resolveTaxonomyResponse);
 }
 
@@ -115,6 +128,7 @@ export {
   fetchTopics,
   addTopic,
   updateTopic,
+  deleteTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,

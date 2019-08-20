@@ -11,9 +11,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
-import FormikField from '../../components/FormikField';
-import { FormikIngress } from '../FormikForm';
-import LastUpdatedLineConcept from '../../components/LastUpdatedLineConcept';
+import FormikField from '../../../components/FormikField';
+import { FormikIngress } from '../../FormikForm';
+import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 
 const byLineStyle = css`
   display: flex;

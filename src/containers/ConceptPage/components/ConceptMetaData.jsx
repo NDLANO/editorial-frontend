@@ -8,13 +8,13 @@
 
 import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
-import FormikField from '../../components/FormikField';
+import FormikField from '../../../components/FormikField';
 import {
   FormikLicense,
   FormikContributors,
   FormikMetaImageSearch,
-} from '../FormikForm';
-import { LicensesArrayOf } from '../../shapes';
+} from '../../FormikForm';
+import { LicensesArrayOf } from '../../../shapes';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 

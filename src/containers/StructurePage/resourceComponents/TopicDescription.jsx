@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Plus } from '@ndla/icons/action';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
-import config from '../../../config';
-import AddTopicResourceButton from './AddTopicResourceButton';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -51,17 +48,6 @@ class TopicDescription extends Component {
           appearance="resourceGroup"
           header={t('searchForm.articleType.topicArticle')}
           hidden={!displayTopicDescription}
-          addButton={
-            config.enableFullTaxonomy && (
-              <AddTopicResourceButton
-                stripped
-                data-testid="changeTopicDescription"
-                onClick={this.toggleAddModal}>
-                <Plus />
-                {t('taxonomy.addTopicDescription')}
-              </AddTopicResourceButton>
-            )
-          }
           handleToggle={this.toggleDisplayTopicDescription}>
           {topicDescription && (
             <Resource

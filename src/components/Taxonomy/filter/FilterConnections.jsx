@@ -18,7 +18,7 @@ import HowToHelper from '../../HowTo/HowToHelper';
 const FilterConnections = ({
   t,
   topics,
-  filter,
+  activeFilters,
   availableFilters,
   structure,
   updateFilter,
@@ -26,11 +26,9 @@ const FilterConnections = ({
 }) => {
   const availableSubjects = {};
   topics.forEach(topic => {
-    if (topic.topicConnections) {
-      topic.topicConnections.forEach(topicConnection => {
-        availableSubjects[
-          `urn:${topicConnection.paths[0].split('/')[1]}`
-        ] = true;
+    if (topic.paths) {
+      topic.paths.forEach(path => {
+        availableSubjects[`urn:${path.split('/')[1]}`] = true;
       });
     } else {
       const parentSubject = topic.path.split('/')[1];
@@ -55,7 +53,7 @@ const FilterConnections = ({
               isFirstSubject={index === 0}
               filterSubjectKey={filterSubjectKey}
               availableFilters={availableFilters}
-              filter={filter}
+              activeFilters={activeFilters}
               structure={structure}
               updateFilter={updateFilter}
               resourceId={resourceId}
@@ -81,7 +79,7 @@ FilterConnections.propTypes = {
       }),
     ),
   ),
-  filter: PropTypes.arrayOf(FilterShape),
+  activeFilters: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,

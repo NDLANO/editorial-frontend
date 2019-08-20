@@ -632,6 +632,10 @@ const phrases = {
         addExternal: 'Add external article',
         searchExternal: 'Write the url and title of the external article',
       },
+      concept: {
+        remove: 'Remove concept',
+        choose: 'Choose concept',
+      },
       link: {
         goTo: 'Go to',
         insert: 'Insert link',
@@ -907,13 +911,14 @@ const phrases = {
     },
     topics: {
       title: 'Topic connections',
+      topicPlacement: 'Topcic placement',
       subTitle: 'Where in the taxonomy should this resource be?',
       subTitleTopic: 'Where in the taxonomy should the topic description be?',
       filestructureButton: 'Create a topic connection',
       filestructureHeading: 'Select a topic connection',
       filestructureClose: 'Close',
-      addNewTopic: 'Add new sub topic',
-      addExistingTopic: 'Add to existing topic',
+      addNewTopic: 'Add new topic',
+      addNewSubTopic: 'Add new sub topic',
       addedTopic: 'Added to taxonomy',
       filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',

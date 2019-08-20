@@ -92,7 +92,6 @@ const validateFormik = (values, rules, t, formType = undefined) => {
         rules[ruleKey].maxLength &&
         maxLength(value, rules[ruleKey].maxLength)
       ) {
-        console.log(value);
         errors[ruleKey] = appendError(
           errors[ruleKey],
           t('validation.maxLength', {

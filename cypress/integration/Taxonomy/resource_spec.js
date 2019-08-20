@@ -31,12 +31,12 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:core&filter=',
+      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:core',
       'coreResources',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:supplementary&filter=',
+      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:supplementary',
       'suppResources',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
@@ -58,13 +58,6 @@ describe('Resource listing', () => {
     cy.apiwait('@article');
   });
 
-  it('shows all the different resource types, and can add/delete them', () => {
-    cy.get('[data-testid=changeTopicDescription]').click();
-    cy.apiwait('@getArticles');
-    cy.get('button[role=option]')
-      .first()
-      .click();
-  });
   it('should open filter picker and have functioning buttons', () => {
     cy.apiroute(
       'GET',

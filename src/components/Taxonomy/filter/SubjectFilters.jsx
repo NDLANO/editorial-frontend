@@ -13,7 +13,7 @@ import FilterItem from './FilterItem';
 import { FilterShape, StructureShape } from '../../../shapes';
 
 const SubjectFilters = ({
-  filter,
+  activeFilters,
   availableFilters,
   structure,
   updateFilter,
@@ -43,7 +43,7 @@ const SubjectFilters = ({
           <FilterItem
             key={currentFilter.id}
             currentFilter={currentFilter}
-            activeFilters={filter}
+            activeFilters={activeFilters}
             resourceId={resourceId}
             updateFilter={updateFilter}
           />
@@ -67,7 +67,7 @@ SubjectFilters.propTypes = {
       }),
     ),
   ),
-  filter: PropTypes.arrayOf(FilterShape),
+  activeFilters: PropTypes.arrayOf(FilterShape),
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { render, fireEvent, wait, cleanup } from 'react-testing-library';
+import { render, fireEvent, wait, cleanup } from '@testing-library/react';
 import MenuItemEditField from '../folderComponents/menuOptions/MenuItemEditField';
 
 afterEach(cleanup);

@@ -23,6 +23,7 @@ import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../util/articleContentConverter';
+import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
@@ -87,7 +88,7 @@ export class EditMarkupPage extends Component {
   async componentDidMount() {
     const session = getSessionStateFromLocalStorage();
 
-    if (!session.user.scope.includes('drafts:html')) {
+    if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
       this.setState({ status: 'access-error' });
       return;
     }
@@ -183,7 +184,7 @@ export class EditMarkupPage extends Component {
                   margin: ${spacing.normal};
                 `}>
                 <PreviewDraftLightbox
-                  label={t('articleType.standard')}
+                  label={t('form.previewProductionArticle.article')}
                   typeOfPreview="preview"
                   getArticle={() => {
                     const content = standardizeContent(draft.content.content);

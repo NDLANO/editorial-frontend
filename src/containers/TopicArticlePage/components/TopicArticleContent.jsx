@@ -34,6 +34,8 @@ import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../LearningResourcePage/components/EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
+import { DRAFT_HTML_SCOPE } from '../../../constants';
+import { toEditMarkup } from '../../../util/routeHelpers';
 
 const supportedToolbarElements = {
   mark: ['bold', 'italic', 'underlined'],
@@ -93,14 +95,14 @@ const TopicArticleContent = props => {
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
           <Fragment>
-            {id && userAccess && userAccess.includes('drafts:html') && (
-              <FieldHeader title={t('form.content.label')}>
+            <FieldHeader title={t('form.content.label')}>
+              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink
-                  to={`/edit-markup/${id}/${language}`}
+                  to={toEditMarkup(id, language)}
                   title={t('editMarkup.linkTitle')}
                 />
-              </FieldHeader>
-            )}{' '}
+              )}
+            </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
               id={field.name}

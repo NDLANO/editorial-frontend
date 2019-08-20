@@ -30,6 +30,7 @@ import { getToken, getBrightcoveToken, getUsers, getEditors } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
+import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -126,8 +127,8 @@ app.get(
     const hasWriteAccess =
       user &&
       user.scope &&
-      (user.scope.includes('drafts:write') ||
-        user.scope.includes('drafts:publish'));
+      (user.scope.includes(DRAFT_WRITE_SCOPE) ||
+        user.scope.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
       res
@@ -163,8 +164,8 @@ app.get(
     const hasWriteAccess =
       user &&
       user.scope &&
-      (user.scope.includes('drafts:write') ||
-        user.scope.includes('drafts:publish'));
+      (user.scope.includes(DRAFT_WRITE_SCOPE) ||
+        user.scope.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
       res

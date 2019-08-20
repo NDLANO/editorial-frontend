@@ -22,6 +22,10 @@ export function toEditConcept(conceptId, locale) {
   return `/concept/${conceptId}/edit/${locale}`;
 }
 
+export function toEditMarkup(id, language) {
+  return `/edit-markup/${id}/${language}`;
+}
+
 export function toCreateLearningResource() {
   return '/subject-matter/learning-resource/new';
 }

@@ -62,8 +62,7 @@ it('calls add filter', async () => {
   fireEvent.click(getByTestId('addFilterButton'));
 
   const input = getByTestId('addFilterInput');
-  input.value = 'Nytt filter';
-  fireEvent.change(input);
+  fireEvent.change(input, { target: { value: 'Nytt filter' } });
   fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   await wait();
   await wait();

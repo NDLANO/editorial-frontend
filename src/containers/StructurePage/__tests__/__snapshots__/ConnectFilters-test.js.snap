@@ -1,13 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`calls add filter, update filter, and delete filter 1`] = `
-.emotion-42 {
+@keyframes animation-0 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.emotion-48 {
   background-color: white;
   padding: calc(13px / 2);
   position: relative;
 }
 
-.emotion-8 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -23,7 +37,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   font-size: 0.9rem;
 }
 
-.emotion-2 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -35,7 +49,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   align-items: center;
 }
 
-.emotion-0 {
+.emotion-4 {
   width: auto;
   margin-right: calc(13px / 2);
   -webkit-appearance: checkbox !important;
@@ -43,18 +57,18 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   padding: inital;
 }
 
-.emotion-6 {
+.emotion-10 {
   position: relative;
   display: inline-block;
   width: 37px;
   height: 22px;
 }
 
-.emotion-6 input {
+.emotion-10 input {
   display: none;
 }
 
-.emotion-6 > input:checked + .emotion-5::before {
+.emotion-10 > input:checked + .emotion-9::before {
   -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
@@ -64,7 +78,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   border: 0.91px solid #446b92;
 }
 
-.emotion-4 {
+.emotion-8 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -79,7 +93,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   border-radius: 10px;
 }
 
-.emotion-4::before {
+.emotion-8::before {
   position: absolute;
   content: 'T';
   left: -3px;
@@ -106,7 +120,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-40 {
+.emotion-44 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -138,8 +152,8 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   font-weight: 400;
 }
 
-.emotion-40:hover,
-.emotion-40:focus {
+.emotion-44:hover,
+.emotion-44:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -148,13 +162,13 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-40:active {
+.emotion-44:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-40[disabled] {
+.emotion-44[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -164,14 +178,14 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   transform: translateY(0) translateX(0);
 }
 
-.emotion-40:focus {
+.emotion-44:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-40:hover,
-.emotion-40:active,
-.emotion-40:disabled,
-.emotion-40:focus {
+.emotion-44:hover,
+.emotion-44:active,
+.emotion-44:disabled,
+.emotion-44:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -181,37 +195,83 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   border: none;
 }
 
-.emotion-40:focus {
+.emotion-44:focus {
   outline-width: medium;
 }
 
-.emotion-40,
-.emotion-40:hover,
-.emotion-40:focus {
+.emotion-44,
+.emotion-44:hover,
+.emotion-44:focus {
   border: 1px solid #777777;
   border-radius: 3px;
   width: 100px;
 }
 
+.emotion-0 {
+  border: 0.4em solid #e8e3e3;
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 3em;
+  height: 3em;
+  -webkit-animation: animation-0 0.7s linear infinite;
+  animation: animation-0 0.7s linear infinite;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  right: 50%;
+  z-index: 999;
+}
+
+.emotion-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.3);
+  -webkit-animation-duration: 400ms;
+  animation-duration: 400ms;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  background-color: white;
+  z-index: 1;
+}
+
+.emotion-46 {
+  color: #d1372e;
+  text-align: center;
+}
+
 <form
-  class="emotion-42"
+  class="emotion-48"
 >
   <div
-    class="emotion-8 emotion-9"
+    class="emotion-0 emotion-1"
+  />
+  <div
+    class="emotion-2 emotion-3"
+  />
+  <div
+    class="emotion-12 emotion-13"
     data-cy="connectFilterItem"
   >
     <label
-      class="emotion-2 emotion-3"
+      class="emotion-6 emotion-7"
     >
       <input
-        class="emotion-0 emotion-1"
+        class="emotion-4 emotion-5"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
         type="checkbox"
       />
       blabla
     </label>
     <label
-      class="emotion-6 emotion-7"
+      class="emotion-10 emotion-11"
     >
       <input
         checked=""
@@ -219,26 +279,26 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="emotion-4 emotion-5"
+        class="emotion-8 emotion-9"
       />
     </label>
   </div>
   <div
-    class="emotion-8 emotion-9"
+    class="emotion-12 emotion-13"
     data-cy="connectFilterItem"
   >
     <label
-      class="emotion-2 emotion-3"
+      class="emotion-6 emotion-7"
     >
       <input
-        class="emotion-0 emotion-1"
+        class="emotion-4 emotion-5"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
         type="checkbox"
       />
       blabla hei
     </label>
     <label
-      class="emotion-6 emotion-7"
+      class="emotion-10 emotion-11"
     >
       <input
         checked=""
@@ -246,26 +306,26 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="emotion-4 emotion-5"
+        class="emotion-8 emotion-9"
       />
     </label>
   </div>
   <div
-    class="emotion-8 emotion-9"
+    class="emotion-12 emotion-13"
     data-cy="connectFilterItem"
   >
     <label
-      class="emotion-2 emotion-3"
+      class="emotion-6 emotion-7"
     >
       <input
-        class="emotion-0 emotion-1"
+        class="emotion-4 emotion-5"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
         type="checkbox"
       />
       blabla
     </label>
     <label
-      class="emotion-6 emotion-7"
+      class="emotion-10 emotion-11"
     >
       <input
         checked=""
@@ -273,26 +333,26 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="emotion-4 emotion-5"
+        class="emotion-8 emotion-9"
       />
     </label>
   </div>
   <div
-    class="emotion-8 emotion-9"
+    class="emotion-12 emotion-13"
     data-cy="connectFilterItem"
   >
     <label
-      class="emotion-2 emotion-3"
+      class="emotion-6 emotion-7"
     >
       <input
-        class="emotion-0 emotion-1"
+        class="emotion-4 emotion-5"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
         type="checkbox"
       />
       Test test
     </label>
     <label
-      class="emotion-6 emotion-7"
+      class="emotion-10 emotion-11"
     >
       <input
         checked=""
@@ -300,18 +360,49 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
         type="checkbox"
       />
       <span
-        class="emotion-4 emotion-5"
+        class="emotion-8 emotion-9"
       />
     </label>
   </div>
   <button
-    class="emotion-40 emotion-41"
+    class="emotion-44 emotion-45"
     data-testid="submitConnectFilters"
     type="button"
   >
     Lagre
   </button>
-  
+  <div
+    class="emotion-46 emotion-47"
+  >
+    request to http://ndla-api/taxonomy/v1/topic-filters failed, reason: Nock: No match for request {
+  "method": "POST",
+  "url": "http://ndla-api/taxonomy/v1/topic-filters",
+  "headers": {
+    "content-type": [
+      "application/json; charset=utf-8"
+    ],
+    "authorization": [
+      "Bearer 123456789"
+    ],
+    "accept-encoding": [
+      "gzip,deflate"
+    ],
+    "user-agent": [
+      "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
+    ],
+    "connection": [
+      "close"
+    ],
+    "accept": [
+      "*/*"
+    ],
+    "content-length": [
+      117
+    ]
+  },
+  "body": "{\\"filterId\\":\\"urn:filter:f102710e-973e-4999-9daf-f1536d41188a\\",\\"relevanceId\\":\\"urn:relevance:core\\",\\"topicId\\":\\"topicId\\"}"
+}
+  </div>
 </form>
 `;
 

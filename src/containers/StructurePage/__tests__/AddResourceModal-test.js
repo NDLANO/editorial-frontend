@@ -111,8 +111,7 @@ test('Can paste a valid url and add it to topic', async () => {
     .reply(201);
   const { container, getByTestId } = wrapper();
   const input = getByTestId('addResourceUrlInput');
-  input.value = ndlaUrl;
-  fireEvent.change(input);
+  fireEvent.change(input, { target: { value: ndlaUrl } });
 
   await wait(() => getByTestId('articlePreview'));
   expect(container.firstChild).toMatchSnapshot();

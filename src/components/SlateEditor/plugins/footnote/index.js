@@ -21,7 +21,6 @@ export default function footnotePlugin() {
     const { node } = props;
     const { value } = editor.props;
 
-    console.log(node.type);
     switch (node.type) {
       case TYPE:
         return <Footnote {...props} value={value} />;

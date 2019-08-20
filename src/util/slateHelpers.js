@@ -559,7 +559,7 @@ const markRules = {
         return <u>{children}</u>;
       case 'sup':
         return <sup>{children}</sup>;
-        case 'sub':
+      case 'sub':
         return <sub>{children}</sub>;
       case 'code':
         return <code>{children}</code>;

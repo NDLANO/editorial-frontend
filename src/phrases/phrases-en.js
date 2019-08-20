@@ -176,6 +176,7 @@ const phrases = {
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
     film: 'Edit NDLA film',
+    h5p: 'Edit H5P',
     newConcept: 'Create new concept',
   },
   logo: {

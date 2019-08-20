@@ -32,16 +32,11 @@ const OpenMenu = ({ t, close }) => {
             <StyledLink to={toCreateConcept()} onClick={close}>
               <span>{t('subNavigation.newConcept')}</span>
             </StyledLink>
-          </div>
-          <div>
             <StyledLink to={toCreateImage()} onClick={close}>
               <span>{t('subNavigation.image')}</span>
             </StyledLink>
             <StyledLink to={toCreateAudioFile()} onClick={close}>
               <span>{t('subNavigation.audio')}</span>
-            </StyledLink>
-            <StyledLink to="/agreement/new" onClick={close}>
-              <span>{t('subNavigation.agreement')}</span>
             </StyledLink>
           </div>
           <div>
@@ -50,6 +45,9 @@ const OpenMenu = ({ t, close }) => {
             </StyledLink>
             <StyledLink to="/film" onClick={close}>
               <span>{t('subNavigation.film')}</span>
+            </StyledLink>
+            <StyledLink to="/h5p" onClick={close}>
+              <span>{t('subNavigation.h5p')}</span>
             </StyledLink>
             <StyledHrefLink
               href={config.learningpathFrontendDomain}

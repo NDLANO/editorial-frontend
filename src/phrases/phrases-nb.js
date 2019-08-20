@@ -174,6 +174,7 @@ const phrases = {
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
     film: 'Rediger NDLA film',
+    h5p: 'Rediger H5P',
     newConcept: 'Opprett begrep',
   },
   logo: {

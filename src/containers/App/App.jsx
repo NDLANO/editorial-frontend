@@ -37,6 +37,7 @@ import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
 import ConceptPage from '../ConceptPage/ConceptPage';
+import H5PPage from '../H5PPage/H5PPage';
 
 export const FirstLoadContext = React.createContext(true);
 
@@ -98,6 +99,7 @@ export class App extends React.Component {
                 <PrivateRoute path="/media" component={MediaPage} />
                 <PrivateRoute path="/agreement" component={AgreementPage} />
                 <PrivateRoute path="/film" component={NdlaFilmEditor} />
+                <PrivateRoute path="/h5p" component={H5PPage} />
                 <PrivateRoute
                   path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
                   component={StructurePage}

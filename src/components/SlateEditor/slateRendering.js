@@ -44,6 +44,14 @@ export const renderBlock = (props, editor, next) => {
       return <blockquote {...attributes}>{children}</blockquote>;
     case 'div':
       return <div {...attributes}>{children}</div>;
+    default:
+      return next();
+  }
+};
+
+export const renderInline = (props, editor, next) => {
+  const { attributes, children, node } = props;
+  switch (node.type) {
     case 'span':
       return <span {...attributes}>{children}</span>;
     default:
@@ -60,6 +68,10 @@ export const renderMark = (props, editor, next) => {
       return <em {...attributes}>{children}</em>;
     case 'underlined':
       return <u {...attributes}>{children}</u>;
+    case 'sup':
+      return <sup>{children}</sup>;
+    case 'sub':
+      return <sub>{children}</sub>;
     default:
       return next();
   }

@@ -46,7 +46,8 @@ export const MARK_TAGS = {
   em: 'italic',
   u: 'underlined',
   code: 'code',
-  sup: 'superscripted',
+  sup: 'sup',
+  sub: 'sub',
 };
 
 const ListText = ({ children }) => children;
@@ -556,8 +557,10 @@ const markRules = {
         return <em>{children}</em>;
       case 'underlined':
         return <u>{children}</u>;
-      case 'superscripted':
+      case 'sup':
         return <sup>{children}</sup>;
+        case 'sub':
+        return <sub>{children}</sub>;
       case 'code':
         return <code>{children}</code>;
     }

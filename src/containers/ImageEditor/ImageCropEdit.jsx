@@ -5,33 +5,43 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactCrop from 'react-image-crop';
 import config from '../../config';
 import { EmbedShape } from '../../shapes';
 
 const ImageCropEdit = ({ embed, onCropComplete, transformData }) => {
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
-
   const embedHasCrop =
     transformData['upper-left-x'] &&
     transformData['upper-left-y'] &&
     transformData['lower-right-x'] &&
     transformData['lower-right-y'];
-  const crop = embedHasCrop
-    ? {
-        x: parseInt(transformData['upper-left-x']),
-        y: parseInt(transformData['upper-left-y']),
-        width:
-          parseInt(transformData['lower-right-x']) -
-          parseInt(transformData['upper-left-x']),
-        height:
-          parseInt(transformData['lower-right-y']) -
-          parseInt(transformData['upper-left-y']),
-      }
-    : undefined;
-  return <ReactCrop src={src} onComplete={onCropComplete} crop={crop} />;
+
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+  const [crop, setCrop] = useState(
+    embedHasCrop
+      ? {
+          x: parseInt(transformData['upper-left-x']),
+          y: parseInt(transformData['upper-left-y']),
+          width:
+            parseInt(transformData['lower-right-x']) -
+            parseInt(transformData['upper-left-x']),
+          height:
+            parseInt(transformData['lower-right-y']) -
+            parseInt(transformData['upper-left-y']),
+        }
+      : undefined,
+  );
+
+  return (
+    <ReactCrop
+      src={src}
+      onComplete={onCropComplete}
+      crop={crop}
+      onChange={crop => setCrop(crop)}
+    />
+  );
 };
 
 ImageCropEdit.propTypes = {

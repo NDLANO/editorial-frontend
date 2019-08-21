@@ -156,7 +156,7 @@
     "react-bem-helper": "^1.4.1",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
-    "react-image-crop": "^3.0.0",
+    "react-image-crop": "^6.0.0",
     "react-prop-types": "^0.4.0",
     "react-redux": "^7.1.0",
     "react-router": "^5.0.1",

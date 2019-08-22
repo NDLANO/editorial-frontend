@@ -177,7 +177,6 @@ class TopicArticleTaxonomy extends Component {
       originalItems: originalFilters,
       updateProperty: 'relevanceId',
     });
-    console.log(createFilter, deleteFilter, updateFilter);
 
     const stagedNewTopics = stagedTopicChanges.filter(
       topic => topic.id === 'staged',

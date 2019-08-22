@@ -159,6 +159,10 @@ const phrases = {
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
   },
+  articleType: {
+    'topic-article': 'Emne',
+    standard: 'Læringsressurs',
+  },
   subNavigation: {
     learningPath: 'Læringssti',
     learningPathLink: 'Gå til læringssti',

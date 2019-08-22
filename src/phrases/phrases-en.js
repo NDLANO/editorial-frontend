@@ -161,6 +161,10 @@ const phrases = {
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
   },
+  articleType: {
+    'topic-article': 'Topic',
+    standard: 'Subject matter',
+  },
   subNavigation: {
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',

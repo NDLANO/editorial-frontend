@@ -87,7 +87,7 @@ const HeaderInformation = ({
   <StyledHeader>
     <StyledTitleHeaderWrapper>
       {types[type].icon}
-      <h1>{t(`${types[type].form}.title`) + ': ' + title}</h1>
+      <h1>{`${t(`${types[type].form}.title`)}: ${title}`}</h1>
     </StyledTitleHeaderWrapper>
     <HeaderStatusInformation
       noStatus={noStatus}

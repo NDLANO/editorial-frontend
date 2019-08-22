@@ -21,7 +21,6 @@ const phrases = {
     structurePage: `Struktur ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
-    notionPage: `Forklaring ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
   },
@@ -160,6 +159,10 @@ const phrases = {
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
   },
+  articleType: {
+    'topic-article': 'Emne',
+    standard: 'Læringsressurs',
+  },
   subNavigation: {
     learningPath: 'Læringssti',
     learningPathLink: 'Gå til læringssti',
@@ -171,11 +174,11 @@ const phrases = {
     audio: 'Ny lydfil',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
-    concept: 'Gå til forklaringstjenesten',
     searchContent: 'Søk innhold',
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
-    film: 'Gå til film',
+    film: 'Rediger NDLA film',
+    h5p: 'Rediger H5P',
     newConcept: 'Opprett begrep',
   },
   logo: {

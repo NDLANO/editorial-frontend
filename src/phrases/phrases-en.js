@@ -21,7 +21,6 @@ const phrases = {
     structurePage: `Structure ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
     imageUploaderPage: `Image ${titleTemplate}`,
-    notionPage: `Concept ${titleTemplate}`,
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
   },
@@ -162,6 +161,10 @@ const phrases = {
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
   },
+  articleType: {
+    'topic-article': 'Topic',
+    standard: 'Subject matter',
+  },
   subNavigation: {
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',
@@ -173,11 +176,11 @@ const phrases = {
     audio: 'New Audiofile',
     agreement: 'New Agreement',
     structure: 'Structure',
-    concept: 'Go to concept',
     searchContent: 'Search content',
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
-    film: 'Go to film',
+    film: 'Edit NDLA film',
+    h5p: 'Edit H5P',
     newConcept: 'Create new concept',
   },
   logo: {

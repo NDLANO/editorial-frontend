@@ -12,7 +12,7 @@ const StyledInfo = styled.div`
 
 const LastUpdatedLineConcept = ({ creators, published, t, ...rest }) => (
   <StyledInfo>
-    {creators.map(creator => creator.name).join(',')}
+    {creators.map(creator => creator.name).join(', ')}
     {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
     {formatDate(published)}
   </StyledInfo>

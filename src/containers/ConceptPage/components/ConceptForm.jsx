@@ -152,8 +152,6 @@ class ConceptForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === values.license),
         creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
         agreementId: values.agreementId,
       },
       created: this.getCreatedDate(values),
@@ -215,14 +213,9 @@ class ConceptForm extends Component {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: [
-          'tags',
-          'creators',
-          'rightsholders',
-          'processors',
-          'license',
-          'metaImageAlt',
-        ].some(field => !!errors[field] && touched[field]),
+        hasError: ['tags', 'creators', 'license', 'metaImageAlt'].some(
+          field => !!errors[field] && touched[field],
+        ),
 
         component: props => (
           <ConceptMetaData

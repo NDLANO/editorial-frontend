@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
+import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
 import StyledListButton from '../../../components/StyledListButton';
@@ -28,36 +29,36 @@ const OpenMenu = ({ t, close }) => {
             <StyledLink to={toCreateTopicArticle()} onClick={close}>
               <span>{t('subNavigation.topicArticle')}</span>
             </StyledLink>
+            <StyledLink to={toCreateConcept()} onClick={close}>
+              <span>{t('subNavigation.newConcept')}</span>
+            </StyledLink>
             <StyledLink to={toCreateImage()} onClick={close}>
               <span>{t('subNavigation.image')}</span>
             </StyledLink>
             <StyledLink to={toCreateAudioFile()} onClick={close}>
               <span>{t('subNavigation.audio')}</span>
             </StyledLink>
-            <StyledLink to="/agreement/new" onClick={close}>
-              <span>{t('subNavigation.agreement')}</span>
-            </StyledLink>
-            <StyledLink to={toCreateConcept()} onClick={close}>
-              <span>{t('subNavigation.newConcept')}</span>
-            </StyledLink>
           </div>
           <div>
-            <StyledHrefLink
-              href={config.learningpathFrontendDomain}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={close}>
-              <span>{t('subNavigation.learningPathLink')}</span>
-            </StyledHrefLink>
-            <StyledLink to={'/notions'} onClick={close}>
-              <span>{t('subNavigation.concept')}</span>
-            </StyledLink>
             <StyledLink to="/structure" onClick={close}>
               <span>{t('subNavigation.structure')}</span>
             </StyledLink>
             <StyledLink to="/film" onClick={close}>
               <span>{t('subNavigation.film')}</span>
             </StyledLink>
+            <StyledLink to="/h5p" onClick={close}>
+              <span>{t('subNavigation.h5p')}</span>
+            </StyledLink>
+            <StyledHrefLink
+              href={config.learningpathFrontendDomain}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}>
+              <span>
+                {t('subNavigation.learningPathLink')}
+                <LinkIcon />
+              </span>
+            </StyledHrefLink>
           </div>
         </nav>
       </div>

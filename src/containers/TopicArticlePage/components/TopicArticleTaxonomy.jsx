@@ -27,6 +27,7 @@ import {
   deleteTopic,
   fetchTopicFilters,
   fetchTopicResources,
+  addTopic,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -153,14 +154,49 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
+  changeTopicPlacement = async stagedNewTopics => {
+    const { stagedTopicChanges, deletedTopics, structure } = this.state;
+    const {
+      article: { id: articleId },
+    } = this.props;
+    const newTopics = await Promise.all(
+      stagedNewTopics.map(topic =>
+        this.createAndPlaceTopic(topic, articleId, structure),
+      ),
+    );
+    const topicResources = await Promise.all(
+      deletedTopics.map(topic => fetchTopicResources(topic.id)),
+    );
+
+    deletedTopics.forEach((deletedTopic, i) => {
+      if (
+        deletedTopic.topicConnections.length < 2 &&
+        topicResources[i].length === 0
+      ) {
+        // topic has no subtopics or resources, we can safely delete topic
+        deleteTopic(deletedTopic.id);
+      }
+      // If topic was not deleted, article will be in both topics, but will not be not a shared topic. Not really a valid state..
+    });
+    const topicFilters = await Promise.all(
+      newTopics.map(topic => fetchTopicFilters(topic.id)),
+    );
+    const topicFiltersWithId = topicFilters.flatMap(curr => curr);
+    this.setState({
+      isDirty: false,
+      stagedTopicChanges: newTopics.length ? newTopics : stagedTopicChanges,
+      originalFilters: topicFiltersWithId,
+      stagedFilterChanges: topicFiltersWithId,
+      status: 'success',
+    });
+  };
+
   handleSubmit = async evt => {
     evt.preventDefault();
     const {
       stagedTopicChanges,
-      deletedTopics,
       stagedFilterChanges,
       originalFilters,
-      structure,
     } = this.state;
     const {
       updateNotes,
@@ -168,58 +204,41 @@ class TopicArticleTaxonomy extends Component {
     } = this.props;
     this.setState({ status: 'loading' });
 
-    const [
-      createFilter,
-      deleteFilter,
-      updateFilter,
-    ] = sortIntoCreateDeleteUpdate({
-      changedItems: stagedFilterChanges,
-      originalItems: originalFilters,
-      updateProperty: 'relevanceId',
-    });
-    console.log(createFilter, deleteFilter, updateFilter);
-
     const stagedNewTopics = stagedTopicChanges.filter(
       topic => topic.id === 'staged',
     );
     try {
-      const newTopics = await Promise.all(
-        stagedNewTopics.map(topic =>
-          this.createAndPlaceTopic(topic, articleId, structure),
-        ),
-      );
-      const updatedFilters = await this.createDeleteUpdateTopicFilters(
-        createFilter,
-        deleteFilter,
-        updateFilter,
-        stagedFilterChanges,
-      );
-      const topicResources = await Promise.all(
-        deletedTopics.map(topic => fetchTopicResources(topic.id)),
-      );
-      deletedTopics.forEach((deletedTopic, i) => {
-        if (
-          deletedTopic.topicConnections.length < 2 &&
-          topicResources[i].length === 0
-        ) {
-          // topic has no subtopics or resources, we can safely delete topic
-          deleteTopic(deletedTopic.id);
-        }
-        // If topic was not deleted, article will be in both topics, but will not be not a shared topic. Not really a valid state...
-      });
+      // we either update topic placement or update filters, never both
+      if (stagedNewTopics.length > 0) {
+        await this.changeTopicPlacement(stagedNewTopics);
+      } else {
+        const [
+          createFilter,
+          deleteFilter,
+          updateFilter,
+        ] = sortIntoCreateDeleteUpdate({
+          changedItems: stagedFilterChanges,
+          originalItems: originalFilters,
+          updateProperty: 'relevanceId',
+        });
+        const updatedFilters = await this.createDeleteUpdateTopicFilters(
+          createFilter,
+          deleteFilter,
+          updateFilter,
+          stagedFilterChanges,
+        );
+        this.setState({
+          isDirty: false,
+          originalFilters: updatedFilters,
+          stagedFilterChanges: updatedFilters,
+          status: 'success',
+        });
+      }
       updateNotes({
         id: articleId,
         revision,
         language,
         notes: ['Oppdatert taksonomi.'],
-      });
-
-      this.setState({
-        isDirty: false,
-        stagedTopicChanges: newTopics.length ? newTopics : stagedTopicChanges,
-        originalFilters: updatedFilters,
-        stagedFilterChanges: updatedFilters,
-        status: 'success',
       });
     } catch (err) {
       handleError(err);
@@ -251,11 +270,14 @@ class TopicArticleTaxonomy extends Component {
 
   updateFilter = (resourceId, filter, relevanceId, remove) => {
     const { stagedTopicChanges, stagedFilterChanges } = this.state;
-    const topic = stagedTopicChanges.find(topic =>
-      topic.paths.some(path =>
+    let topic = stagedTopicChanges.find(topic =>
+      topic.paths?.some(path =>
         path.includes(filter.subjectId.replace('urn:', '')),
       ),
     );
+    if (!topic) {
+      topic = stagedTopicChanges[0];
+    }
     let updatedFilter = { ...filter, topicId: topic && topic.id };
     const updatedFilters = stagedFilterChanges.filter(activeFilter => {
       const foundFilter = activeFilter.id === filter.id;
@@ -276,7 +298,7 @@ class TopicArticleTaxonomy extends Component {
   };
 
   createAndPlaceTopic = async (topic, articleId, structure) => {
-    const newTopicPath = await addTopicToTopic({
+    const newTopicPath = await addTopic({
       name: topic.name,
       contentUri: `urn:article:${articleId}`,
     });
@@ -291,9 +313,10 @@ class TopicArticleTaxonomy extends Component {
       });
 
       // add filters from parent
-      const topicFilters = structure
-        .find(subject => subject.id === paths[0])
-        .topics.find(topic => topic.id === parentTopicId).filters;
+      const topicFilters =
+        structure
+          .find(subject => subject.id === paths[0])
+          ?.topics.find(topic => topic.id === parentTopicId)?.filters || [];
       await Promise.all(
         topicFilters.map(({ id, relevanceId }) =>
           addFilterToTopic({ filterId: id, relevanceId, topicId: newTopicId }),
@@ -389,7 +412,7 @@ class TopicArticleTaxonomy extends Component {
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
         />
-        {stagedTopicChanges.length &&
+        {stagedTopicChanges.length > 0 &&
           !stagedTopicChanges.find(topic => topic.id === 'staged') && (
             <FilterConnections
               topics={stagedTopicChanges}

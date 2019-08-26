@@ -79,6 +79,7 @@ export class StructureContainer extends React.PureComponent {
       this.getSubjectTopics(subject);
       this.getFilters();
     }
+    this.showLink();
   }
 
   componentDidUpdate({
@@ -87,26 +88,23 @@ export class StructureContainer extends React.PureComponent {
     },
     location: { pathname: prevPathname },
   }) {
-    const { subjects } = this.state;
+    const { subjects, filters } = this.state;
     const {
       location: { pathname },
       match: { params },
-      history,
     } = this.props;
     if (pathname !== prevPathname) {
       this.deleteConnections();
       const { subject } = params;
-      if (subject) {
+      if (subject !== prevSubject && !filters[subject]) {
         this.getFilters();
-      }
-      if (!subject || subject !== prevSubject) {
-        history.push({
-          search: '',
-        });
       }
       const currentSub = subjects.find(sub => sub.id === subject);
       if (currentSub && !currentSub.topics) {
         this.getSubjectTopics(subject);
+      }
+      if (pathname.includes('topic')) {
+        this.showLink();
       }
     }
   }
@@ -196,10 +194,11 @@ export class StructureContainer extends React.PureComponent {
   }
 
   deleteConnections() {
-    this.state.jsPlumbConnections.forEach(({ instance, connection }) => {
-      instance.deleteConnection(connection);
-    });
-    this.setState({ jsPlumbConnections: [], activeConnections: [] });
+    const { jsPlumbConnections } = this.state;
+    if (jsPlumbConnections.length > 0) {
+      jsPlumbConnections[0].instance.deleteEveryConnection();
+      this.setState({ jsPlumbConnections: [], activeConnections: [] });
+    }
   }
 
   async deleteTopicLink(subjectId) {
@@ -221,17 +220,22 @@ export class StructureContainer extends React.PureComponent {
     }
   }
 
-  async showLink(id, parent) {
-    if (this.state.jsPlumbConnections.length > 0) {
-      this.deleteConnections();
-    } else {
-      const connectionArray = await fetchTopicConnections(id);
+  async showLink() {
+    const paths = this.props.match.url.split('/');
 
-      const uniqueId = parent ? `${parent}/${id}` : id;
-      const connections = connectLinkItems(
+    if (paths.length < 2) return;
+    const topicId = paths.pop();
+    const parentId = paths.pop();
+    try {
+      const connectionArray = await fetchTopicConnections(topicId);
+      if (connectionArray.length < 2) {
+        return;
+      }
+      const uniqueId = parentId ? `${parentId}/${topicId}` : topicId;
+      const connections = await connectLinkItems(
         uniqueId,
         connectionArray,
-        parent,
+        parentId,
         this.props.match.params.subject,
         this,
       );
@@ -239,6 +243,8 @@ export class StructureContainer extends React.PureComponent {
         jsPlumbConnections: connections,
         activeConnections: connectionArray,
       });
+    } catch (e) {
+      handleError(e);
     }
   }
 
@@ -275,16 +281,17 @@ export class StructureContainer extends React.PureComponent {
     }));
   }
 
-  handleStructureToggle({ path }) {
+  handleStructureToggle({ id, path }) {
     const {
       location: { search },
       history,
-      match,
+      match: { url, params },
     } = this.props;
-    const currentPath = match.url.replace('/structure/', '');
+    const currentPath = url.replace('/structure/', '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
-    history.push(`/structure/${newPath.concat(search)}`);
+    const deleteSearch = !newPath.includes(params.subject);
+    history.push(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
   }
 
   render() {
@@ -336,11 +343,11 @@ export class StructureContainer extends React.PureComponent {
                 highlightMainActive
                 renderListItems={listProps => (
                   <FolderItem
-                    refFunc={this.refFunc}
                     {...listProps}
+                    key={listProps.id}
+                    refFunc={this.refFunc}
                     getAllSubjects={this.getAllSubjects}
                     onAddSubjectTopic={this.onAddSubjectTopic}
-                    showLink={this.showLink}
                     subjectFilters={filters[params.subject]}
                     onAddExistingTopic={this.onAddExistingTopic}
                     refreshTopics={this.refreshTopics}

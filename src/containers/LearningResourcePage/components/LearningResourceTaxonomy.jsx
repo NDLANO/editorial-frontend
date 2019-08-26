@@ -31,7 +31,7 @@ import {
 } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
-import TopicConnections from './taxonomy/TopicConnections';
+import TopicConnections from '../../../components/Taxonomy/TopicConnections';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
@@ -148,7 +148,7 @@ class LearningResourceTaxonomy extends Component {
         });
       } else {
         this.setState(prevState => ({
-          status: 'error',
+          status: 'initial',
         }));
       }
     } catch (e) {
@@ -421,7 +421,7 @@ class LearningResourceTaxonomy extends Component {
         {topics.length > 0 && (
           <FilterConnections
             topics={topics}
-            filter={filter}
+            activeFilters={filter}
             structure={structure}
             availableFilters={availableFilters}
             updateFilter={this.updateFilter}

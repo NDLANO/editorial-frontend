@@ -54,6 +54,8 @@ import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
+import { DRAFT_HTML_SCOPE } from '../../../constants';
+import { toEditMarkup } from '../../../util/routeHelpers';
 import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
@@ -180,14 +182,14 @@ class LearningResourceContent extends Component {
           className={formikFieldClasses('', 'position-static').className}>
           {({ field, form: { isSubmitting } }) => (
             <Fragment>
-              {id && userAccess && userAccess.includes('drafts:admin') && (
-                <FieldHeader title={t('form.content.label')}>
+              <FieldHeader title={t('form.content.label')}>
+                {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
                   <EditMarkupLink
-                    to={`/edit-markup/${id}/${language}`}
+                    to={toEditMarkup(id, language)}
                     title={t('editMarkup.linkTitle')}
                   />
-                </FieldHeader>
-              )}{' '}
+                )}
+              </FieldHeader>
               <RichBlockTextEditor
                 schema={schema}
                 renderBlock={renderBlock}

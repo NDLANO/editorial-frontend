@@ -13,11 +13,8 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { css } from '@emotion/core';
-import { Link as LinkIcon } from '@ndla/icons/editor';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
-import EditLinkButton from './EditLinkButton';
-import RoundIcon from '../../../components/RoundIcon';
 import FilterView from './FilterView';
 
 import config from '../../../config';
@@ -46,26 +43,18 @@ const FolderItem = ({
   setPrimary,
   deleteTopicLink,
   jumpToResources,
+  isMainActive,
   filters,
   t,
   ...rest
 }) => {
-  const { url } = match;
   const type = id.includes('subject') ? 'subject' : 'topic';
-  const isMainActive = pathToString === url.replace('/structure/', '');
 
-  const showLinkButton =
-    isOpen && type === 'topic' && config.enableFullTaxonomy && isMainActive;
   const showSubjectFilters = isOpen && type === 'subject';
   const showJumpToResources = isMainActive && type === 'topic';
 
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
-      {showLinkButton && (
-        <Button stripped onClick={() => showLink(id, rest.parent)}>
-          <RoundIcon open={linkViewOpen} icon={<LinkIcon />} />
-        </Button>
-      )}
       {isOpen && (
         <SettingsMenu
           id={id}
@@ -93,14 +82,6 @@ const FolderItem = ({
           {t('taxonomy.jumpToResources')}
         </Button>
       )}
-      {type === 'subject' && (
-        <EditLinkButton
-          refFunc={refFunc}
-          id={id}
-          setPrimary={setPrimary}
-          deleteTopicLink={deleteTopicLink}
-        />
-      )}
     </div>
   );
 };
@@ -116,6 +97,7 @@ FolderItem.propTypes = {
       subject: string,
     }),
   }),
+  isMainActive: bool,
   id: string.isRequired,
   refFunc: func,
   jumpToResources: func,

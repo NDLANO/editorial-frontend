@@ -16,7 +16,7 @@ import {
 } from '../../FormikForm';
 import { LicensesArrayOf } from '../../../shapes';
 
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+const contributorTypes = ['creators'];
 
 const ConceptMetaData = ({ t, licenses }) => (
   <Fragment>

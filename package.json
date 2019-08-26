@@ -41,6 +41,7 @@
     "npm": ">=5.3.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/register": "^7.5.5",
     "@ndla/scripts": "^0.7.4",
     "@testing-library/react": "^9.1.3",

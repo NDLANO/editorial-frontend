@@ -36,7 +36,7 @@ class SlateToolbar extends Component {
     this.onClickBlock = this.onClickBlock.bind(this);
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
-    this.portalRef = this.portalRef.bind(this);
+    this.portalRef = React.createRef();
     this.updateMenu = this.updateMenu.bind(this);
   }
 
@@ -113,14 +113,8 @@ class SlateToolbar extends Component {
     }
   }
 
-  portalRef(menu) {
-    // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
-    // eslint-disable-next-line react/no-find-dom-node
-    this.menu = findDOMNode(menu);
-  }
-
   updateMenu() {
-    const { menu } = this;
+    const menu = this.portalRef.current;
     const {
       editor: {
         value: { selection, fragment },
@@ -172,8 +166,10 @@ class SlateToolbar extends Component {
     );
 
     return (
-      <Portal isOpened ref={this.portalRef}>
-        <div {...toolbarClasses()}>{toolbarButtons}</div>
+      <Portal isOpened>
+        <div ref={this.portalRef} {...toolbarClasses()}>
+          {toolbarButtons}
+        </div>
       </Portal>
     );
   }

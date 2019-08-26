@@ -54,6 +54,7 @@ import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
+import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
   display: flex;
@@ -108,6 +109,7 @@ class LearningResourceContent extends Component {
       }),
       pasteHandler(),
       dndPlugin,
+      toolbarPlugin(),
     ];
   }
 

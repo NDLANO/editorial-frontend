@@ -7,18 +7,22 @@
  */
 
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { hasNodeOfType, checkSelectionForType } from '../../utils';
+import { hasNodeOfType } from '../../utils';
 import { listTypes } from '../externalPlugins';
-import { SupportedToolbarElementsShape } from '../../../../shapes';
+
+const topicArticleElements = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  inline: ['link'],
+};
 
 const DEFAULT_NODE = 'paragraph';
 
-const defaultToolbarElelements = {
+const learningResourceElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link', 'footnote', 'mathml', 'concept'],
@@ -140,19 +144,13 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const {
-      editor,
-      supportedToolbarElements = defaultToolbarElelements,
-      supportedToolbarElementsAside = defaultToolbarElelements,
-    } = this.props;
-    const { value } = editor;
+    const { editor } = this.props;
 
-    const toolbarElements = checkSelectionForType({
-      type: 'aside',
-      value,
-    })
-      ? supportedToolbarElementsAside
-      : supportedToolbarElements;
+    const toolbarElements = window.location.pathname.includes(
+      'learning-resource',
+    )
+      ? learningResourceElements
+      : topicArticleElements;
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton
@@ -182,8 +180,6 @@ SlateToolbar.propTypes = {
   slateStore: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
   }),
-  supportedToolbarElements: SupportedToolbarElementsShape,
-  supportedToolbarElementsAside: SupportedToolbarElementsShape,
 };
 
 export default SlateToolbar;

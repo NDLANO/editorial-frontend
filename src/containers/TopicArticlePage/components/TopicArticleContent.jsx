@@ -23,23 +23,13 @@ import {
   renderInline,
 } from '../../../components/SlateEditor/slateRendering';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import {
-  editListPlugin,
-  listTypes,
-} from '../../../components/SlateEditor/plugins/externalPlugins';
+import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import createLinkPlugin, {
-  TYPE as link,
-} from '../../../components/SlateEditor/plugins/link';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { FormikIngress } from '../../FormikForm';
-
-const supportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link],
-};
+import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
   display: flex;
@@ -57,6 +47,7 @@ const plugins = [
   editListPlugin,
   createLinkPlugin(),
   paragraphPlugin(),
+  toolbarPlugin(),
 ];
 
 const TopicArticleContent = props => {
@@ -101,7 +92,6 @@ const TopicArticleContent = props => {
               renderInline={renderInline}
               renderMark={renderMark}
               plugins={plugins}
-              supportedToolbarElements={supportedToolbarElements}
               schema={schema}
               {...field}
             />

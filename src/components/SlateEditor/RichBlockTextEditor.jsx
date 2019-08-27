@@ -53,7 +53,7 @@ class RichBlockTextEditor extends PureComponent {
       placeholder,
       plugins,
       renderMark,
-      renderNode,
+      renderBlock,
       submitted,
     } = this.props;
     return (
@@ -80,7 +80,7 @@ class RichBlockTextEditor extends PureComponent {
               placeholder={placeholder}
               plugins={plugins}
               renderMark={renderMark}
-              renderNode={renderNode}
+              renderBlock={renderBlock}
               submitted={submitted}
               schema={schema}
               onChange={this.onChange}
@@ -105,7 +105,7 @@ RichBlockTextEditor.propTypes = {
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
   placeholder: PropTypes.string.isRequired,
   renderMark: PropTypes.func.isRequired,
-  renderNode: PropTypes.func.isRequired,
+  renderBlock: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,

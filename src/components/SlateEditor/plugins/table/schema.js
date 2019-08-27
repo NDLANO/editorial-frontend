@@ -71,7 +71,7 @@ const schema = {
 };
 
 /* eslint-disable react/prop-types */
-const renderNode = (props, editor, next) => {
+const renderBlock = (props, editor, next) => {
   const { attributes, children, node } = props;
   switch (node.type) {
     case 'table':
@@ -91,4 +91,4 @@ const renderNode = (props, editor, next) => {
   }
 };
 
-export { schema, normalizeNode, renderNode };
+export { schema, normalizeNode, renderBlock };

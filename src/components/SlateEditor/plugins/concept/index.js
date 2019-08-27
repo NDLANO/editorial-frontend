@@ -27,7 +27,7 @@ export default function linkPlugin(locale) {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderInline = (props, editor, next) => {
     switch (props.node.type) {
       case TYPE:
         return <EditSlateConcept {...props} locale={locale} />;
@@ -38,6 +38,6 @@ export default function linkPlugin(locale) {
 
   return {
     schema,
-    renderNode,
+    renderInline,
   };
 }

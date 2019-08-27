@@ -18,7 +18,7 @@ export default function createAside() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'aside':
@@ -30,6 +30,6 @@ export default function createAside() {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
   };
 }

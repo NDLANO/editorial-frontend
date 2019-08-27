@@ -15,7 +15,7 @@ export default function createNoEmbedsPlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'embed':
@@ -27,6 +27,6 @@ export default function createNoEmbedsPlugin() {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
   };
 }

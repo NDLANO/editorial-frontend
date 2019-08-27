@@ -27,7 +27,7 @@ export default function createBodyBox() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'bodybox':
@@ -39,6 +39,6 @@ export default function createBodyBox() {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
   };
 }

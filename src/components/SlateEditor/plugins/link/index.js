@@ -28,7 +28,7 @@ export default function linkPlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderInline = (props, editor, next) => {
     const { node } = props;
 
     switch (node.type) {
@@ -41,6 +41,6 @@ export default function linkPlugin() {
 
   return {
     schema,
-    renderNode,
+    renderInline,
   };
 }

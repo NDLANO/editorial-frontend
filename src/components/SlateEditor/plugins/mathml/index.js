@@ -22,7 +22,7 @@ const schema = {
 };
 
 export default function mathmlPlugin() {
-  const renderNode = (props, editor, next) => {
+  const renderInline = (props, editor, next) => {
     const { node } = props;
 
     switch (node.type) {
@@ -35,6 +35,6 @@ export default function mathmlPlugin() {
 
   return {
     schema,
-    renderNode,
+    renderInline,
   };
 }

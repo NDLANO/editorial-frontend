@@ -23,9 +23,10 @@ import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
-  renderNode,
+  renderBlock,
   renderMark,
-} from '../../../components/SlateEditor/renderNode';
+  renderInline,
+} from '../../../components/SlateEditor/slateRendering';
 import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
@@ -55,6 +56,7 @@ import { FormikIngress } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
+import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
   display: flex;
@@ -109,6 +111,7 @@ class LearningResourceContent extends Component {
       }),
       pasteHandler(),
       dndPlugin,
+      toolbarPlugin(),
     ];
   }
 
@@ -189,7 +192,8 @@ class LearningResourceContent extends Component {
               </FieldHeader>
               <RichBlockTextEditor
                 schema={schema}
-                renderNode={renderNode}
+                renderBlock={renderBlock}
+                renderInline={renderInline}
                 submitted={isSubmitting}
                 renderMark={renderMark}
                 placeholder={t('form.content.placeholder')}

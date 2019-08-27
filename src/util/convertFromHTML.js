@@ -30,7 +30,7 @@ export function convertFromHTML(json) {
     let openWrapperBlock = null;
     for (const child of node.nodes) {
       // dont wrap whitespace
-      if (child.leaves && child.leaves[0].text === ' ') continue;
+      if (child.text === ' ') continue;
 
       if (child.object === 'block') {
         if (openWrapperBlock) {

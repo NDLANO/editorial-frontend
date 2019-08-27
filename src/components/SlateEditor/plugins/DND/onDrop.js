@@ -1,10 +1,9 @@
-import { findNode } from 'slate-react';
 import { getTopNode } from './utils';
 
 function onDrop(event, editor, next) {
   event.preventDefault();
   event.stopPropagation();
-  const target = findNode(event.target, editor);
+  const target = editor.findNode(event.target);
   const topLevelTarget = getTopNode(target, editor);
   const nodeKey = event.dataTransfer.getData('text/nodeKey');
   const sourceNode = editor.value.document.getNode(nodeKey);
@@ -47,7 +46,7 @@ function onDrop(event, editor, next) {
       }
       prevElementTop = children[i].top;
     }
-    const insertBeforeNode = findNode(insertAtNode, editor);
+    const insertBeforeNode = editor.findNode(insertAtNode, editor);
     if (insertBeforeNode.key === sourceNode.key) {
       return;
     }

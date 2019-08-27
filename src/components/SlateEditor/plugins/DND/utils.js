@@ -1,5 +1,3 @@
-import { findRange } from 'slate-react';
-
 export const getTopNode = (node, editor) => {
   if (node.type === 'section') {
     return node;
@@ -17,7 +15,7 @@ export const getTopNode = (node, editor) => {
 export const shouldCopyTableOrList = (type, editor) => {
   if (type === 'table' || type.includes('list')) {
     const nativeSelection = window.getSelection();
-    const range = findRange(nativeSelection, editor);
+    const range = editor.findRange(nativeSelection);
     const nodesInRange = editor.value.document.getLeafBlocksAtRange(range);
     return nodesInRange.size > 1;
   }

@@ -20,13 +20,8 @@ const summaryBlock = (text = '') => [
     nodes: [
       {
         object: 'text',
-        leaves: [
-          {
-            object: 'leaf',
-            text,
-            marks: [],
-          },
-        ],
+        text,
+        marks: [],
       },
     ],
   },
@@ -95,7 +90,7 @@ export default function createDetails() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'solutionbox':
@@ -111,7 +106,7 @@ export default function createDetails() {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
     onKeyDown,
   };
 }

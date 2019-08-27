@@ -43,7 +43,7 @@ export default () => {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {
       case 'file':
@@ -55,6 +55,6 @@ export default () => {
 
   return {
     schema,
-    renderNode,
+    renderBlock,
   };
 };

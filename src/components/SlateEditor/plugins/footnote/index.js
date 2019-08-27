@@ -17,7 +17,7 @@ export default function footnotePlugin() {
   };
 
   /* eslint-disable react/prop-types */
-  const renderNode = (props, editor, next) => {
+  const renderInline = (props, editor, next) => {
     const { node } = props;
     const { value } = editor.props;
 
@@ -31,6 +31,6 @@ export default function footnotePlugin() {
 
   return {
     schema,
-    renderNode,
+    renderInline,
   };
 }

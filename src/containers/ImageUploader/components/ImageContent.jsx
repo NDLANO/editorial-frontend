@@ -42,7 +42,6 @@ const ImageContent = ({
       <FormikField
         label={t('form.title.label')}
         name="title"
-        showError={false}
         title
         noBorder
         placeholder={t('form.title.label')}

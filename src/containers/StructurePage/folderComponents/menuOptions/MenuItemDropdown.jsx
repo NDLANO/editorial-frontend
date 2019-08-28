@@ -110,13 +110,9 @@ class MenuItemDropdown extends PureComponent {
                   }
                 />
                 <DropdownMenu
-                  items={
-                    items
-                      ? items
-                          .search(downshiftProps.inputValue)
-                          .map(item => ({ title: item.name, ...item }))
-                      : []
-                  }
+                  items={items ? items.search(downshiftProps.inputValue) : []}
+                  idField="id"
+                  labelField="name"
                   {...downshiftProps}
                   positionAbsolute
                 />

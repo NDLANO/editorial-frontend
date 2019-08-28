@@ -26,7 +26,7 @@ const HeaderActions = ({
   t,
   type,
 }) => {
-  const { id, language, supportedLanguages } = values;
+  const { id, language, supportedLanguages, articleType } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -63,7 +63,7 @@ const HeaderActions = ({
         {!noStatus && (
           <Fragment>
             <PreviewDraftLightbox
-              label={t('subNavigation.learningResource')}
+              label={t(`articleType.${articleType}`)}
               typeOfPreview="previewLanguageArticle"
               getArticle={getArticle}>
               {openPreview => (
@@ -107,6 +107,7 @@ HeaderActions.propTypes = {
   values: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
+    articleType: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   editUrl: PropTypes.func.isRequired,

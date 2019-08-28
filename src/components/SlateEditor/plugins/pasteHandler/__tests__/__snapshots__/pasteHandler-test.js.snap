@@ -5,14 +5,9 @@ Object {
   "data": Object {},
   "nodes": Array [
     Object {
-      "leaves": Array [
-        Object {
-          "marks": Array [],
-          "object": "leaf",
-          "text": "Text from PlaintextEditor",
-        },
-      ],
+      "marks": Array [],
       "object": "text",
+      "text": "Text from PlaintextEditor",
     },
   ],
   "object": "block",

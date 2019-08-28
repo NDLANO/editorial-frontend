@@ -18,6 +18,7 @@ import SearchMediaPage from '../SearchPage/SearchMediaPage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
+import { LocationShape, HistoryShape } from '../../shapes';
 
 const SearchPage = ({ match, t }) => {
   const supportedTypes = [
@@ -79,12 +80,8 @@ SearchPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape.isRequired,
 };
 
 export default injectT(withRouter(SearchPage));

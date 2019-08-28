@@ -6,13 +6,8 @@ export const defaultBlock = {
   nodes: [
     {
       object: 'text',
-      leaves: [
-        {
-          object: 'leaf',
-          marks: [],
-          text: '',
-        },
-      ],
+      text: '',
+      marks: [],
     },
   ],
 };
@@ -22,13 +17,8 @@ export const defaultBlockWithText = text => ({
   nodes: [
     {
       object: 'text',
-      leaves: [
-        {
-          object: 'leaf',
-          marks: [],
-          text,
-        },
-      ],
+      text,
+      marks: [],
     },
   ],
   type: 'paragraph',

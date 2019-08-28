@@ -18,7 +18,7 @@ import {
 import { LicensesArrayOf, SubjectShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+const contributorTypes = ['creators'];
 
 const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
   <Fragment>

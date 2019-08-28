@@ -46,10 +46,11 @@ const SearchConcept = ({ concept, locale, t }) => {
           </Link>
           {concept.supportedLanguages.map(lang => {
             return lang !== locale ? (
-              <span {...searchClasses('other-link')}>
+              <span
+                key={`${lang}_search_content`}
+                {...searchClasses('other-link')}>
                 <Link
                   {...searchClasses('link')}
-                  key={`${lang}_search_content`}
                   to={toEditConcept(concept.id, lang)}>
                   {t(`language.${lang}`)}
                 </Link>

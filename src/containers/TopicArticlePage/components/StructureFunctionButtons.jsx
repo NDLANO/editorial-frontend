@@ -70,7 +70,6 @@ const StructureFunctionButtons = ({
   availableFilters,
   activeFilters,
   toggleFilter,
-  addToTopic,
   addTopic,
   t,
 }) => {
@@ -105,17 +104,9 @@ const StructureFunctionButtons = ({
         css={buttonAdditionStyle}
         type="button"
         onClick={addTopic}>
-        {t('taxonomy.topics.addNewTopic')}
+        {t('taxonomy.topics.addNewSubTopic')}
       </Button>
-      {currentIndex === -1 ? (
-        <Button
-          outline
-          css={buttonAdditionStyle}
-          type="button"
-          onClick={addToTopic}>
-          {t('taxonomy.topics.addExistingTopic')}
-        </Button>
-      ) : (
+      {currentIndex !== -1 && (
         <StyledChecked>
           <Check
             className="c-icon--22"
@@ -137,7 +128,6 @@ StructureFunctionButtons.propTypes = {
   availableFilters: PropTypes.object.isRequired,
   activeFilters: PropTypes.array.isRequired,
   toggleFilter: PropTypes.func.isRequired,
-  addToTopic: PropTypes.func.isRequired,
   addTopic: PropTypes.func.isRequired,
 };
 

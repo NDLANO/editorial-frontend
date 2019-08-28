@@ -8,18 +8,22 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { ChevronRight } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
+import styled from '@emotion/styled';
 import {
-  StyledBreadCrumb,
   StyledConnections,
   StyledErrorLabel,
   StyledRemoveConnectionButton,
   StyledPrimaryConnectionButton,
-} from '../../../../style/LearningResourceTaxonomyStyles';
+} from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
-import { TopicShape } from '../../../../shapes';
+import { TopicShape } from '../../shapes';
+import Breadcrumb from './Breadcrumb';
+
+const StyledFlexWrapper = styled.div`
+  display: flex;
+`;
 
 const ActiveTopicConnection = ({
   retriveBreadCrumbs,
@@ -29,63 +33,67 @@ const ActiveTopicConnection = ({
   type,
   topic,
 }) => {
-  const breadCrumbs = retriveBreadCrumbs(topic.path);
-  if (!breadCrumbs) {
+  const breadcrumb = retriveBreadCrumbs(topic.path);
+  if (!breadcrumb) {
     return (
       <StyledConnections error>
         <StyledErrorLabel>
           {t('taxonomy.topics.disconnectedTaxonomyWarning')}
         </StyledErrorLabel>
-        <StyledBreadCrumb>
-          <span>{topic.path}</span>
-        </StyledBreadCrumb>
+        <Breadcrumb breadcrumb={[{ name: topic.path }]} />
         <StyledRemoveConnectionButton
           type="button"
-          onClick={() => removeConnection(topic.id)}>
+          onClick={() => removeConnection && removeConnection(topic.id)}>
           <Cross />
         </StyledRemoveConnectionButton>
       </StyledConnections>
     );
   }
 
+  if (type === 'topic-article') {
+    return (
+      <Fragment>
+        <StyledConnections>
+          <Breadcrumb breadcrumb={breadcrumb} type={type} />
+        </StyledConnections>
+        <SharedTopicConnections
+          topic={topic}
+          retriveBreadCrumbs={retriveBreadCrumbs}
+          type={type}
+        />
+      </Fragment>
+    );
+  }
+
   return (
     <Fragment>
       <StyledConnections>
-        {type !== 'topic-article' && (
+        <StyledFlexWrapper>
           <StyledPrimaryConnectionButton
             primary={topic.primary}
             type="button"
             onClick={() => setPrimaryConnection(topic.id)}>
             {t('form.topics.primaryTopic')}
           </StyledPrimaryConnectionButton>
-        )}
-        <StyledBreadCrumb>
-          {breadCrumbs.map(path => (
-            <Fragment key={`${topic.id}${path.id}`}>
-              <span>{path.name}</span>
-              <ChevronRight />
-            </Fragment>
-          ))}
-        </StyledBreadCrumb>
+          <Breadcrumb breadcrumb={breadcrumb} />
+        </StyledFlexWrapper>
         <StyledRemoveConnectionButton
           type="button"
-          onClick={() => removeConnection(topic.id)}>
+          onClick={() => removeConnection && removeConnection(topic.id)}>
           <Cross />
         </StyledRemoveConnectionButton>
       </StyledConnections>
-      {type !== 'topic-article' && (
-        <SharedTopicConnections
-          topic={topic}
-          retriveBreadCrumbs={retriveBreadCrumbs}
-        />
-      )}
+      <SharedTopicConnections
+        topic={topic}
+        retriveBreadCrumbs={retriveBreadCrumbs}
+      />
     </Fragment>
   );
 };
 
 ActiveTopicConnection.propTypes = {
   retriveBreadCrumbs: PropTypes.func.isRequired,
-  removeConnection: PropTypes.func.isRequired,
+  removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   topic: TopicShape.isRequired,
   type: PropTypes.string,

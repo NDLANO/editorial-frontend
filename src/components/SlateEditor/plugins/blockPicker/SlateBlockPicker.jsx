@@ -7,12 +7,11 @@
  */
 
 import React, { Component } from 'react';
-import { findDOMNode } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT, formatNestedMessages } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
-import { defaultBlocks } from '../../utils';
+import { defaultBlocks, checkSelectionForType } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
@@ -20,22 +19,6 @@ import actions from './actions';
 import { getLocaleObject } from '../../../../i18n';
 
 const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
-
-const getSectionElementInEditor = nodeEl => {
-  const maxIterations = 8;
-  let iterations = 0;
-  let element = nodeEl;
-  while (maxIterations > iterations) {
-    element = element.parentNode;
-    if (!element || !element.parentNode) {
-      return undefined;
-    }
-    if (element.tagName.toLowerCase() === 'section') {
-      return element;
-    }
-    iterations = iterations + 1;
-  }
-};
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -49,7 +32,6 @@ class SlateBlockPicker extends Component {
     this.toggleIsOpen = this.toggleIsOpen.bind(this);
     this.onElementAdd = this.onElementAdd.bind(this);
     this.showPicker = this.showPicker.bind(this);
-    this.focusInsideIllegalArea = this.focusInsideIllegalArea.bind(this);
     this.onVisualElementClose = this.onVisualElementClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.getFactboxTitle = this.getFactboxTitle.bind(this);
@@ -62,6 +44,7 @@ class SlateBlockPicker extends Component {
   componentDidMount() {
     this.slateBlockRef.current.style.transition = 'opacity 200ms ease';
     this.slateBlockRef.current.style.position = 'absolute';
+
     this.showPicker();
   }
 
@@ -144,17 +127,22 @@ class SlateBlockPicker extends Component {
     return messages['editorBlockpicker.actions.solutionbox'];
   }
 
-  update(nodeEl) {
+  async update() {
     const { current: slateBlockRef } = this.slateBlockRef;
     if (slateBlockRef) {
-      const sectionNode = getSectionElementInEditor(nodeEl);
-      const rect = nodeEl.getBoundingClientRect();
-      slateBlockRef.style.top = `${rect.top -
-        sectionNode.getBoundingClientRect().top -
-        14}px`;
-      slateBlockRef.style.left = '-78px';
+      await new Promise(resolve => setTimeout(resolve, 50));
+      const native = window.getSelection();
+      const range = native.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+
+      slateBlockRef.style.top = `${rect.top + window.scrollY - 14}px`;
+      slateBlockRef.style.left = `${rect.left +
+        window.scrollX -
+        78 -
+        rect.width / 2}px`;
       slateBlockRef.style.position = 'absolute';
       slateBlockRef.style.opacity = 1;
+
       this.slateBlockButtonRef.current.setAttribute('aria-hidden', false);
       this.slateBlockButtonRef.current.tabIndex = 0;
       this.slateBlockButtonRef.current.disabled = false;
@@ -165,45 +153,28 @@ class SlateBlockPicker extends Component {
     }
   }
 
-  focusInsideIllegalArea() {
-    const { editor, illegalAreas } = this.props;
-    let node = editor.value.document.getClosestBlock(
-      editor.value.selection.start.key,
-    );
-    while (true) {
-      const parent = editor.value.document.getParent(node.key);
-      if (
-        !parent ||
-        parent.get('type') === 'section' ||
-        parent.get('type') === 'document'
-      ) {
-        return false;
-      }
-      if (illegalAreas.includes(parent.get('type'))) {
-        return true;
-      }
-      node = parent;
-    }
-  }
-
-  showPicker() {
-    const { editor, allowedPickAreas } = this.props;
-
+  shouldShowMenuPicker = () => {
+    const { editor, illegalAreas, allowedPickAreas } = this.props;
     const node = editor.value.document.getClosestBlock(
       editor.value.selection.start.key,
     );
-
-    const show =
+    const focusInsideIllegalArea = checkSelectionForType({
+      type: illegalAreas,
+      value: editor.value,
+    });
+    return (
       this.state.isOpen ||
       (node &&
         node.text.length === 0 &&
-        !this.focusInsideIllegalArea() &&
+        !focusInsideIllegalArea &&
         allowedPickAreas.includes(node.type) &&
-        editor.value.selection.isFocused);
+        editor.value.selection.isFocused)
+    );
+  };
 
-    if (show) {
-      const nodeEl = findDOMNode(node); // eslint-disable-line react/no-find-dom-node
-      this.update(nodeEl);
+  showPicker() {
+    if (this.shouldShowMenuPicker()) {
+      this.update();
     } else {
       const { current: slateBlockRef } = this.slateBlockRef;
       slateBlockRef.style.opacity = 0;
@@ -256,22 +227,24 @@ class SlateBlockPicker extends Component {
             onInsertBlock={this.onInsertBlock}
           />
         </Portal>
-        <div ref={this.slateBlockRef}>
-          <SlateBlockMenu
-            ref={this.slateBlockButtonRef}
-            cy="slate-block-picker"
-            isOpen={isOpen}
-            heading={t('editorBlockpicker.heading')}
-            actions={this.getActionsForArea().map(action => ({
-              ...action,
-              label: t(`editorBlockpicker.actions.${action.data.object}`),
-            }))}
-            onToggleOpen={this.toggleIsOpen}
-            clickItem={data => {
-              this.onElementAdd(data);
-            }}
-          />
-        </div>
+        <Portal isOpened>
+          <div ref={this.slateBlockRef}>
+            <SlateBlockMenu
+              ref={this.slateBlockButtonRef}
+              cy="slate-block-picker"
+              isOpen={isOpen}
+              heading={t('editorBlockpicker.heading')}
+              actions={this.getActionsForArea().map(action => ({
+                ...action,
+                label: t(`editorBlockpicker.actions.${action.data.object}`),
+              }))}
+              onToggleOpen={this.toggleIsOpen}
+              clickItem={data => {
+                this.onElementAdd(data);
+              }}
+            />
+          </div>
+        </Portal>
       </>
     );
   }

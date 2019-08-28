@@ -13,6 +13,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
 import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
 import Footer from './components/Footer';
+import { LocationShape, HistoryShape } from '../../shapes';
 
 const SubjectMatterPage = ({ match }) => (
   <Fragment>
@@ -35,12 +36,8 @@ SubjectMatterPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape,
 };
 
 export default withRouter(SubjectMatterPage);

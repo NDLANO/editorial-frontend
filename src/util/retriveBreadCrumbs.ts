@@ -26,11 +26,12 @@ const retriveBreadCrumbs = ({
       structureSubject => structureSubject.id === subjectPath,
     );
     if (!subject) return [];
-    const returnPaths = [];
-    returnPaths.push({
-      name: subject.name,
-      id: subject.id,
-    });
+    const returnPaths = [
+      {
+        name: subject.name,
+        id: subject.id,
+      },
+    ];
     topicPaths.forEach((pathId: string) => {
       const path = allTopics.find(subtopic => subtopic.id === pathId);
       if (path) {

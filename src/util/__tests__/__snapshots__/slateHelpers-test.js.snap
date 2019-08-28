@@ -9,14 +9,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "test",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "test",
           },
         ],
         "object": "block",
@@ -38,20 +33,15 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
+            "marks": Array [
               Object {
-                "marks": Array [
-                  Object {
-                    "data": Object {},
-                    "object": "mark",
-                    "type": "italic",
-                  },
-                ],
-                "object": "leaf",
-                "text": "NDLA",
+                "data": Object {},
+                "object": "mark",
+                "type": "italic",
               },
             ],
             "object": "text",
+            "text": "NDLA",
           },
           Object {
             "data": Object {
@@ -67,28 +57,6 @@ Object {
             },
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [
-                      Object {
-                        "data": Object {},
-                        "object": "mark",
-                        "type": "italic",
-                      },
-                    ],
-                    "object": "leaf",
-                    "text": "#",
-                  },
-                ],
-                "object": "text",
-              },
-            ],
-            "object": "inline",
-            "type": "footnote",
-          },
-          Object {
-            "leaves": Array [
-              Object {
                 "marks": Array [
                   Object {
                     "data": Object {},
@@ -96,11 +64,23 @@ Object {
                     "type": "italic",
                   },
                 ],
-                "object": "leaf",
-                "text": " ",
+                "object": "text",
+                "text": "#",
+              },
+            ],
+            "object": "inline",
+            "type": "footnote",
+          },
+          Object {
+            "marks": Array [
+              Object {
+                "data": Object {},
+                "object": "mark",
+                "type": "italic",
               },
             ],
             "object": "text",
+            "text": " ",
           },
         ],
         "object": "block",
@@ -135,14 +115,9 @@ Object {
             },
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "#",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "#",
               },
             ],
             "object": "inline",
@@ -163,14 +138,9 @@ Object {
             },
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "#",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "#",
               },
             ],
             "object": "inline",
@@ -196,15 +166,10 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "
-",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "
+",
           },
         ],
         "object": "block",
@@ -229,14 +194,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "A paragraph",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "A paragraph",
               },
             ],
             "object": "block",
@@ -262,14 +222,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "This quote should be both smart and wise",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "This quote should be both smart and wise",
           },
         ],
         "object": "block",
@@ -294,14 +249,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Paragraph text",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Paragraph text",
               },
             ],
             "object": "block",
@@ -332,14 +282,9 @@ Object {
             },
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Hyper Text Markup Language",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Hyper Text Markup Language",
               },
             ],
             "object": "inline",
@@ -370,14 +315,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 1",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 1",
               },
             ],
             "object": "block",
@@ -387,14 +327,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 2",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 2",
               },
             ],
             "object": "block",
@@ -404,14 +339,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 3",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 3",
               },
             ],
             "object": "block",
@@ -437,14 +367,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "heading 1",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "heading 1",
           },
         ],
         "object": "block",
@@ -454,14 +379,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "heading 2",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "heading 2",
           },
         ],
         "object": "block",
@@ -471,14 +391,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "heading 3",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "heading 3",
           },
         ],
         "object": "block",
@@ -488,14 +403,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "heading 4",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "heading 4",
           },
         ],
         "object": "block",
@@ -505,14 +415,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "heading 5",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "heading 5",
           },
         ],
         "object": "block",
@@ -522,14 +427,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "heading 6",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "heading 6",
           },
         ],
         "object": "block",
@@ -551,14 +451,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Heading 1",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Heading 1",
           },
         ],
         "object": "block",
@@ -580,14 +475,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Heading 2",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Heading 2",
           },
         ],
         "object": "block",
@@ -609,14 +499,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Heading 3",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Heading 3",
           },
         ],
         "object": "block",
@@ -638,14 +523,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Heading 4",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Heading 4",
           },
         ],
         "object": "block",
@@ -667,14 +547,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Heading 5",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Heading 5",
           },
         ],
         "object": "block",
@@ -696,14 +571,9 @@ Object {
         "data": Object {},
         "nodes": Array [
           Object {
-            "leaves": Array [
-              Object {
-                "marks": Array [],
-                "object": "leaf",
-                "text": "Heading 6",
-              },
-            ],
+            "marks": Array [],
             "object": "text",
+            "text": "Heading 6",
           },
         ],
         "object": "block",
@@ -728,14 +598,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 1",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 1",
               },
             ],
             "object": "block",
@@ -745,14 +610,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 2",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 2",
               },
             ],
             "object": "block",
@@ -762,14 +622,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 3",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 3",
               },
             ],
             "object": "block",
@@ -798,14 +653,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Summary text",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Summary text",
               },
             ],
             "object": "block",
@@ -815,14 +665,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Details text",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Details text",
               },
             ],
             "object": "block",
@@ -854,14 +699,9 @@ Object {
                 "data": Object {},
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "paragraph 1",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "paragraph 1",
                   },
                 ],
                 "object": "block",
@@ -878,14 +718,9 @@ Object {
                 "data": Object {},
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "paragraph 2",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "paragraph 2",
                   },
                 ],
                 "object": "block",
@@ -902,14 +737,9 @@ Object {
                 "data": Object {},
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "bold paragraph 3",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "bold paragraph 3",
                   },
                 ],
                 "object": "block",
@@ -942,14 +772,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 1",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 1",
               },
             ],
             "object": "block",
@@ -959,14 +784,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 2",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 2",
               },
             ],
             "object": "block",
@@ -976,14 +796,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Rad 3",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Rad 3",
               },
             ],
             "object": "block",
@@ -1012,14 +827,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Summary text",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Summary text",
               },
             ],
             "object": "block",
@@ -1029,14 +839,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Solution text",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Solution text",
               },
             ],
             "object": "block",
@@ -1074,14 +879,9 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 1",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 1",
                   },
                 ],
                 "object": "block",
@@ -1093,14 +893,9 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 2",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 2",
                   },
                 ],
                 "object": "block",
@@ -1121,14 +916,9 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 1",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 1",
                   },
                 ],
                 "object": "block",
@@ -1140,14 +930,9 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 2",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 2",
                   },
                 ],
                 "object": "block",

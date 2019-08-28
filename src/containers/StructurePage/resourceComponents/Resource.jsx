@@ -79,7 +79,7 @@ const Resource = ({
           onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
             topics={[currentTopic]}
-            filter={activeFilters}
+            activeFilters={activeFilters}
             resourceId={id}
             structure={[currentSubject]}
             availableFilters={{ [currentSubject.id]: currentTopic.filters }}

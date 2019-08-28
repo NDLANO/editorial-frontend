@@ -15,13 +15,7 @@ class Portal extends Component {
     if (!this.props.isOpened) return null;
 
     return (
-      <PortalContainer
-        key="portal"
-        ref={el => {
-          this.portalRef = el;
-        }}>
-        {this.props.children}
-      </PortalContainer>
+      <PortalContainer key="portal">{this.props.children}</PortalContainer>
     );
   }
 }

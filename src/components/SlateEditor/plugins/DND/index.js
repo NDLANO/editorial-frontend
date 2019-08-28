@@ -6,7 +6,6 @@
  *
  */
 
-import { findNode } from 'slate-react';
 import { Text } from 'slate';
 import onDrop from './onDrop';
 import { getTopNode, shouldCopyTableOrList } from './utils';
@@ -17,7 +16,7 @@ function onDragOver(event, editor, next) {
 
 function onDragStart(event, editor, next) {
   event.dataTransfer.effectAllowed = 'copy';
-  const dragSource = findNode(event.target, editor);
+  const dragSource = editor.findNode(event.target);
   const { type } = getTopNode(dragSource, editor);
   if (Text.isText(dragSource) && !shouldCopyTableOrList(type, editor)) {
     // just copy the text natively

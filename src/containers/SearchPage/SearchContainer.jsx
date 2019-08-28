@@ -18,7 +18,7 @@ import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
 import { getLocale } from '../../modules/locale/locale';
 import { getSearching } from '../../modules/search/searchSelectors';
-import { SearchResultShape } from '../../shapes';
+import { SearchResultShape, HistoryShape, LocationShape } from '../../shapes';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm from './components/form/SearchForm';
@@ -122,12 +122,8 @@ class SearchContainer extends Component {
 }
 
 SearchContainer.propTypes = {
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape,
   locale: PropTypes.string.isRequired,
   lastPage: PropTypes.number.isRequired,
   results: SearchResultShape,

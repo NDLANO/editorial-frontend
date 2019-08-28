@@ -33,20 +33,20 @@ const FormikQualityAssurance = ({
       </FormikActionButton>
     )}
     <PreviewDraftLightbox
-      label={t('subNavigation.learningResource')}
+      label={t(`articleType.${values.articleType}`)}
       typeOfPreview="preview"
       getArticle={getArticle}
     />
     {values.id && isDraftPublished(articleStatus) && (
       <PreviewDraftLightbox
-        label={t('subNavigation.learningResource')}
+        label={t(`articleType.${values.articleType}`)}
         typeOfPreview="previewProductionArticle"
         getArticle={getArticle}
       />
     )}
     {values.id && (
       <PreviewDraftLightbox
-        label={t('subNavigation.learningResource')}
+        label={t(`articleType.${values.articleType}`)}
         typeOfPreview="previewLanguageArticle"
         getArticle={getArticle}
       />
@@ -63,6 +63,7 @@ FormikQualityAssurance.propTypes = {
   getArticle: PropTypes.func,
   values: PropTypes.shape({
     id: PropTypes.number,
+    articleType: PropTypes.string,
     language: PropTypes.string,
   }),
   onValidateClick: PropTypes.func.isRequired,

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, NavLink } from 'react-router-dom';
 import { classes } from './Navigation';
+import { LocationShape } from '../../../shapes';
 
 const colorType = {
   media: 'brand-color',
@@ -49,9 +50,7 @@ SubNavigation.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }),
+  location: LocationShape,
 };
 
 export default withRouter(SubNavigation);

@@ -7,20 +7,26 @@
  */
 
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { hasNodeOfType, checkSelectionForType } from '../../utils';
-import { TYPE as footnote } from '../footnote';
-import { TYPE as link } from '../link';
-import { TYPE as mathml } from '../mathml';
-import { TYPE as concept } from '../concept';
+import { hasNodeOfType } from '../../utils';
 import { listTypes } from '../externalPlugins';
-import { SupportedToolbarElementsShape } from '../../../../shapes';
+
+const topicArticleElements = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  inline: ['link'],
+};
 
 const DEFAULT_NODE = 'paragraph';
+
+const learningResourceElements = {
+  mark: ['bold', 'italic', 'underlined'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  inline: ['link', 'footnote', 'mathml', 'concept'],
+};
 
 export const toolbarClasses = new BEMHelper({
   name: 'toolbar',
@@ -34,7 +40,7 @@ class SlateToolbar extends Component {
     this.onClickBlock = this.onClickBlock.bind(this);
     this.onClickInline = this.onClickInline.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
-    this.portalRef = this.portalRef.bind(this);
+    this.portalRef = React.createRef();
     this.updateMenu = this.updateMenu.bind(this);
   }
 
@@ -111,14 +117,8 @@ class SlateToolbar extends Component {
     }
   }
 
-  portalRef(menu) {
-    // ReactDOM.createPortal callback ref only seems to return a ReactPortal node instance
-    // eslint-disable-next-line react/no-find-dom-node
-    this.menu = findDOMNode(menu);
-  }
-
   updateMenu() {
-    const { menu } = this;
+    const menu = this.portalRef.current;
     const {
       editor: {
         value: { selection, fragment },
@@ -144,33 +144,13 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const {
-      editor,
-      supportedToolbarElements,
-      supportedToolbarElementsAside,
-    } = this.props;
-    const { value } = editor;
+    const { editor } = this.props;
 
-    const defaultSupportedToolbarElements = supportedToolbarElements || {
-      mark: ['bold', 'italic', 'underlined'],
-      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-      inline: [link, footnote, mathml, concept],
-    };
-
-    const defaultSupportedToolbarElementsAside = supportedToolbarElementsAside || {
-      mark: ['bold', 'italic', 'underlined'],
-      block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-      inline: [link, footnote, mathml, concept],
-    };
-
-    const toolbarElements = checkSelectionForType(
-      'aside',
-      value,
-      value.selection.start.key,
+    const toolbarElements = window.location.pathname.includes(
+      'learning-resource',
     )
-      ? defaultSupportedToolbarElementsAside
-      : defaultSupportedToolbarElements;
-
+      ? learningResourceElements
+      : topicArticleElements;
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>
       toolbarElements[kind].map(type => (
         <ToolbarButton
@@ -184,8 +164,10 @@ class SlateToolbar extends Component {
     );
 
     return (
-      <Portal isOpened ref={this.portalRef}>
-        <div {...toolbarClasses()}>{toolbarButtons}</div>
+      <Portal isOpened>
+        <div ref={this.portalRef} {...toolbarClasses()}>
+          {toolbarButtons}
+        </div>
       </Portal>
     );
   }
@@ -198,8 +180,6 @@ SlateToolbar.propTypes = {
   slateStore: PropTypes.shape({
     dispatch: PropTypes.func.isRequired,
   }),
-  supportedToolbarElements: SupportedToolbarElementsShape,
-  supportedToolbarElementsAside: SupportedToolbarElementsShape,
 };
 
 export default SlateToolbar;

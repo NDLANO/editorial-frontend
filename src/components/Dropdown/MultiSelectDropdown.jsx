@@ -126,6 +126,7 @@ export class MultiSelectDropdown extends Component {
               items={data}
               onCreate={showCreateOption && this.onCreate}
               positionAbsolute
+              disableSelected
             />
           </div>
         )}

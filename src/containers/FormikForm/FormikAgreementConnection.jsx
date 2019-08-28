@@ -90,11 +90,11 @@ class FormikAgreementConnection extends Component {
                   })
                 }
                 apiAction={FormikAgreementConnection.searchAgreements}
-                valueField="id"
+                idField="id"
                 positionAbsolute
                 name="agreementId"
                 selectedItem={agreement}
-                textField="title"
+                labelField="title"
                 placeholder={t('form.agreement.placeholder')}
               />
             )}

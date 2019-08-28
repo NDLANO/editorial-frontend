@@ -27,13 +27,13 @@ const queryResources = async input => {
 
 const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => (
   <AsyncDropdown
-    valueField="id"
+    idField="id"
     onChange={movie => onChange(movie)}
     apiAction={input => queryResources(input)}
     selectedItems={selectedMovies.map(movie => movie.title.title)}
     multiSelect
     placeholder={placeholder}
-    textField="title.title"
+    labelField="title.title"
     disableSelected
   />
 );

@@ -66,9 +66,9 @@ class AddArticleModal extends Component {
         onClose={toggleAddModal}>
         <StyledContent>
           <AsyncDropdown
-            valueField="id"
+            idField="id"
             name="resourceSearch"
-            textField="title.title"
+            labelField="title.title"
             placeholder={t('form.content.relatedArticle.placeholder')}
             label="label"
             apiAction={this.onArticleSearch}

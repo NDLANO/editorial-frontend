@@ -22,7 +22,14 @@ const StyledLanguageWrapper = styled.div`
 `;
 
 const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
-  const { id, language, supportedLanguages, status, articleType } = values;
+  const {
+    id,
+    language,
+    supportedLanguages,
+    status,
+    articleType,
+    title,
+  } = values;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
   const statusText =
@@ -34,6 +41,7 @@ const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
     <header>
       <HeaderInformation
         type={articleType || type}
+        title={title}
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
@@ -61,6 +69,7 @@ HeaderWithLanguage.propTypes = {
     status: PropTypes.object,
     articleType: PropTypes.string,
     current: PropTypes.object,
+    title: PropTypes.string,
   }),
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,

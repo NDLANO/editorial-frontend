@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
-import * as draftApi from '../../modules/draft';
+import * as draftApi from '../../modules/draft/draftApi';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 
 export function useFetchConceptData(conceptId, locale) {

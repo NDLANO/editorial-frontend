@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
+import { LocationShape } from '../../shapes';
 
 export class LogoutSession extends React.Component {
   componentDidMount() {
@@ -26,9 +27,7 @@ export class LogoutSession extends React.Component {
 
 LogoutSession.propTypes = {
   logout: PropTypes.func.isRequired,
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }).isRequired,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {

@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
-import { render, wait, cleanup } from 'react-testing-library';
+import { render, wait, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { StructureContainer } from '../StructureContainer';
@@ -45,6 +45,8 @@ const wrapper = () =>
             }}
             location={{
               search: '',
+              pathname: 'test',
+              hash: '',
             }}
           />
         </IntlWrapper>

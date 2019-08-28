@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { render, fireEvent, wait, cleanup } from 'react-testing-library';
+import { render, fireEvent, wait, cleanup } from '@testing-library/react';
 import MenuItemEditField from '../folderComponents/menuOptions/MenuItemEditField';
 
 afterEach(cleanup);
@@ -25,8 +25,7 @@ it('Goes to edit mode, handles submit', async () => {
   expect(container.firstChild).toMatchSnapshot();
 
   const input = getByTestId('inlineEditInput');
-  input.value = 'Elefant';
-  fireEvent.change(input);
+  fireEvent.change(input, { target: { value: 'Elefant' } });
 
   fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
   await wait();
@@ -44,8 +43,7 @@ it('Goes to edit mode, handles submit and shows error', async () => {
   );
 
   const input = getByTestId('inlineEditInput');
-  input.value = 'Elefant';
-  fireEvent.change(input);
+  fireEvent.change(input, { target: { value: 'Elefant' } });
 
   fireEvent.click(getByTestId('inlineEditSaveButton'));
   await wait(() => getByTestId('inlineEditErrorMessage'));

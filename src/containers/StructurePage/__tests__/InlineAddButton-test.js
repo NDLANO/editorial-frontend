@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { render, fireEvent, cleanup } from 'react-testing-library';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { InlineAddButton } from '../../../components/InlineAddButton';
 
 afterEach(cleanup);
@@ -21,8 +21,7 @@ it('Goes to edit mode, handles input and calls action prop', async () => {
 
   fireEvent.click(getByTestId('AddSubjectButton'));
   const input = getByTestId('addSubjectInputField');
-  input.value = 'Elefant';
-  fireEvent.change(input);
+  fireEvent.change(input, { target: { value: 'Elefant' } });
   expect(container.firstChild).toMatchSnapshot();
 
   fireEvent.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });

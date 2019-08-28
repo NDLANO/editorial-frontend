@@ -52,12 +52,12 @@ const MastheadButton = ({ children, color, minWidth, open, onClick, t }) => (
     {open ? (
       <>
         <Cross css={crossCss} />
-        <span>{t('masthead.closeMenu')}</span>
+        <span>{t('masthead.menu.close')}</span>
       </>
     ) : (
       <>
         <Menu />
-        <span>{t('masthead.menu')}</span>
+        <span>{t('masthead.menu.title')}</span>
       </>
     )}
   </button>

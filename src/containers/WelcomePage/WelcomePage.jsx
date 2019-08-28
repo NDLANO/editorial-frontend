@@ -54,11 +54,9 @@ export const WelcomePage = ({ t }) => {
           </div>
         </div>
       </OneColumn>
-      <Footer />
+      <Footer showLocaleSelector />
     </Fragment>
   );
 };
-
-WelcomePage.propTypes = {};
 
 export default injectT(WelcomePage);

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
 import { parseHash } from '../../util/authHelpers';
+import { LocationShape } from '../../shapes';
 
 export class LoginSuccess extends React.Component {
   async componentDidMount() {
@@ -42,9 +43,7 @@ LoginSuccess.propTypes = {
     replace: PropTypes.func.isRequired,
   }).isRequired,
   loginSuccess: PropTypes.func.isRequired,
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-  }),
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {

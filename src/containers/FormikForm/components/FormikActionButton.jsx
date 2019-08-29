@@ -9,6 +9,7 @@
 import React from 'react';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
+import { fonts, spacing } from '@ndla/core';
 
 const buttonStyle = css`
   margin-right: 1rem;
@@ -19,9 +20,20 @@ const buttonStyle = css`
   }
 `;
 
+const linkStyle = css`
+  ${fonts.sizes(16, 1.25)};
+  height: ${spacing.large};
+  font-weight: ${fonts.weight.semibold};
+  box-shadow: none;
+  text-decoration: none:
+  &:hover, &:focus {
+    text-decoration: underline;
+  }
+`;
+
 const FormikActionButton = ({ children, ...rest }) => {
   return (
-    <Button css={buttonStyle} {...rest}>
+    <Button css={rest.link ? linkStyle : buttonStyle} {...rest}>
       {children}
     </Button>
   );

@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
+import handleError from '../../util/handleError';
 
 export function useFetchConceptData(conceptId, locale) {
   let [concept, setConcept] = useState(undefined);
   const fetchConcept = async () => {
-    if (conceptId) {
-      const concept = await conceptApi.fetchConcept(conceptId, locale);
-      setConcept(transformConceptFromApiVersion(concept, locale));
+    try {
+      if (conceptId) {
+        const concept = await conceptApi.fetchConcept(conceptId, locale);
+        setConcept(transformConceptFromApiVersion(concept, locale));
+      }
+    } catch (e) {
+      handleError(e);
     }
   };
 

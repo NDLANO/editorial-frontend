@@ -544,7 +544,7 @@ const phrases = {
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
-      button: 'Tilbakestill til prod',
+      button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
     },
     variant: {

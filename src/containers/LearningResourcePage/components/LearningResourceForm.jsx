@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-import Field from '../../../components/Field';
-import SaveButton from '../../../components/SaveButton';
+
 import AlertModal from '../../../components/AlertModal';
 import {
   learningResourceContentToHTML,
@@ -21,12 +20,7 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { LicensesArrayOf, ArticleShape } from '../../../shapes';
-import {
-  FormikAlertModalWrapper,
-  FormikActionButton,
-  FormikAbortButton,
-  formClasses,
-} from '../../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import {
@@ -43,6 +37,7 @@ import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 
 export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -266,49 +261,35 @@ class LearningResourceForm extends Component {
                 formIsDirty={formIsDirty}
                 {...rest}
               />
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                {values.id && (
-                  <FormikActionButton
-                    data-testid="resetToProd"
-                    onClick={() => this.setState({ showResetModal: true })}>
-                    {t('form.resetToProd.button')}
-                  </FormikActionButton>
-                )}
-
-                <AlertModal
-                  show={this.state.showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onReset(setValues),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />
-                <FormikAbortButton outline disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikAbortButton>
-                <SaveButton
-                  data-testid="saveLearningResourceButton"
-                  {...formClasses}
-                  isSaving={isSubmitting}
-                  defaultText="saveDraft"
-                  formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
+              <EditorFooter
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                savedToServer={savedToServer}
+                getArticle={getArticle}
+                showReset={() => this.setState({ showResetModal: true })}
+                error={error}
+                values={values}
+              />
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
                 formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
+              />
+              <AlertModal
+                show={this.state.showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: () => this.onReset(setValues),
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
               />
             </Form>
           );

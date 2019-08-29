@@ -176,6 +176,7 @@ class PreviewDraftLightbox extends React.Component {
         <FormikActionButton
           onClick={this.openPreview}
           disabled={loading}
+          link
           data-testid={typeOfPreview}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}

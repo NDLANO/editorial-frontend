@@ -15,20 +15,11 @@ import { withRouter } from 'react-router-dom';
 import * as draftApi from '../../modules/draft/draftApi';
 import FormikStatusActions from './components/FormikStatusActions';
 import FormikStatusColumns from './components/FormikStatusColumns';
-import FormikQualityAssurance from './components/FormikQualityAssurance';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
-
-export const formatErrorMessage = error => ({
-  message: error.json.messages
-    .map(message => `${message.field}: ${message.message}`)
-    .join(', '),
-  severity: 'danger',
-  timeToLive: 0,
-});
 
 class FormikWorkflow extends Component {
   constructor(props) {
@@ -36,7 +27,6 @@ class FormikWorkflow extends Component {
     this.state = {
       possibleStatuses: {},
     };
-    this.onValidateClick = this.onValidateClick.bind(this);
     this.onUpdateStatus = this.onUpdateStatus.bind(this);
     this.onSaveAsNew = this.onSaveAsNew.bind(this);
   }
@@ -109,30 +99,8 @@ class FormikWorkflow extends Component {
     }
   }
 
-  async onValidateClick() {
-    const {
-      values: { id, revision },
-      createMessage,
-      getArticle,
-    } = this.props;
-
-    try {
-      await draftApi.validateDraft(id, { ...getArticle(), revision });
-      createMessage({
-        translationKey: 'form.validationOk',
-        severity: 'success',
-      });
-    } catch (error) {
-      if (error && error.json && error.json.messages) {
-        createMessage(formatErrorMessage(error));
-      } else {
-        createMessage(error);
-      }
-    }
-  }
-
   render() {
-    const { values, articleStatus, getArticle, article, t } = this.props;
+    const { articleStatus, article, t } = this.props;
     const { possibleStatuses } = this.state;
     return (
       <Fragment>
@@ -161,12 +129,6 @@ class FormikWorkflow extends Component {
             {t('form.workflow.saveAsNew')}
           </Button>
         </div>
-        <FormikQualityAssurance
-          getArticle={getArticle}
-          values={values}
-          articleStatus={articleStatus}
-          onValidateClick={this.onValidateClick}
-        />
       </Fragment>
     );
   }

@@ -6,7 +6,6 @@ import {
   TableMaterial,
   ArrowExpand,
   Framed,
-  Keyhole,
   PlayBoxOutline,
   PresentationPlay,
   RelatedArticle,

@@ -46,11 +46,6 @@ const actions = [
     helpIcon: renderArticleInModal('Details'),
   },
   {
-    data: { type: 'solutionbox', object: 'solutionbox' },
-    icon: <Keyhole />,
-    helpIcon: renderArticleInModal('Blueprint'),
-  },
-  {
     data: { type: 'embed', object: 'image' },
     icon: <Camera />,
     helpIcon: renderArticleInModal('Images'),

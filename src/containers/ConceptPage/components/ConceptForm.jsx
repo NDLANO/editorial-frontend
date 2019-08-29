@@ -48,6 +48,7 @@ import { toEditConcept } from '../../../util/routeHelpers.js';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
+  console.log(concept.tags);
   return {
     id: concept.id,
     title: concept.title || '',
@@ -75,7 +76,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
         : DEFAULT_LICENSE.license,
     metaImageId,
     metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
-    tags: [],
+    tags: concept.tags || [],
   };
 };
 
@@ -160,6 +161,7 @@ class ConceptForm extends Component {
         agreementId: values.agreementId,
       },
       subjectIds: values.subjects.map(subject => subject.id),
+      tags: values.tags,
       created: this.getCreatedDate(values),
       metaImage: {
         id: values.metaImageId,

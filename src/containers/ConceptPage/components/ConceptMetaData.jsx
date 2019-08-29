@@ -22,15 +22,6 @@ const contributorTypes = ['creators'];
 
 const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
   <Fragment>
-    <FormikField
-      name="tags"
-      label={t('form.tags.label')}
-      description={t('form.tags.description')}
-      obligatory>
-      {({ field }) => (
-        <MultiSelectDropdown showCreateOption {...field} data={tags} />
-      )}
-    </FormikField>
     <FormikField name="license">
       {({ field }) => (
         <FormikLicense licenses={licenses} width={1} {...field} />
@@ -43,7 +34,7 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
         <FormikMetaImageSearch metaImageId={field.value} {...field} />
       )}
     </FormikField>
-    <FormikField name="subjects" label={t('form.subjects.label')} obligatory>
+    <FormikField name="subjects" label={t('form.subjects.label')}>
       {({ field }) => (
         <MultiSelectDropdown
           idField="id"
@@ -51,6 +42,14 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
           data={subjects}
           {...field}
         />
+      )}
+    </FormikField>
+    <FormikField
+      name="tags"
+      label={t('form.tags.label')}
+      description={t('form.tags.description')}>
+      {({ field }) => (
+        <MultiSelectDropdown showCreateOption {...field} data={tags} />
       )}
     </FormikField>
   </Fragment>

@@ -25,7 +25,7 @@ export const valueWithTwoImageEmbeds = {
             nodes: [
               {
                 object: 'text',
-                leaves: [{ object: 'leaf', text: ' ', marks: [] }],
+                text: ' ',
               },
             ],
           },
@@ -37,14 +37,8 @@ export const valueWithTwoImageEmbeds = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                    marks: [],
-                  },
-                ],
+                text:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
               },
             ],
           },
@@ -88,7 +82,7 @@ export const valueWithTwoImageEmbeds = {
             nodes: [
               {
                 object: 'text',
-                leaves: [{ object: 'leaf', text: ' ', marks: [] }],
+                text: ' ',
               },
             ],
           },
@@ -100,7 +94,7 @@ export const valueWithTwoImageEmbeds = {
             nodes: [
               {
                 object: 'text',
-                leaves: [{ object: 'leaf', text: '', marks: [] }],
+                text: '',
               },
             ],
           },
@@ -130,14 +124,8 @@ export const valueWithInlineFootnotesAndContentLinks = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
-                    marks: [],
-                  },
-                ],
+                text:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et ',
               },
               {
                 data: {
@@ -151,26 +139,14 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        text: 'dolore',
-                        marks: [],
-                      },
-                    ],
+                    text: 'dolore',
                   },
                 ],
               },
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text:
-                      ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                    marks: [],
-                  },
-                ],
+                text:
+                  ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
               },
               {
                 data: {
@@ -187,26 +163,14 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        text: '#',
-                        marks: [],
-                      },
-                    ],
+                    text: '#',
                   },
                 ],
               },
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text:
-                      ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
-                    marks: [],
-                  },
-                ],
+                text:
+                  ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est ',
               },
               {
                 data: {
@@ -220,25 +184,13 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        text: 'laborum',
-                        marks: [],
-                      },
-                    ],
+                    text: 'laborum',
                   },
                 ],
               },
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text: '.',
-                    marks: [],
-                  },
-                ],
+                text: '.',
               },
             ],
           },
@@ -250,14 +202,8 @@ export const valueWithInlineFootnotesAndContentLinks = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text:
-                      'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                    marks: [],
-                  },
-                ],
+                text:
+                  'Lorem ipsum dolor sit amet, consectetur a dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
               },
               {
                 data: {
@@ -274,25 +220,13 @@ export const valueWithInlineFootnotesAndContentLinks = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        text: '#',
-                        marks: [],
-                      },
-                    ],
+                    text: '#',
                   },
                 ],
               },
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    text: '',
-                    marks: [],
-                  },
-                ],
+                text: '',
               },
             ],
           },
@@ -325,13 +259,7 @@ export const tableSlateValue = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'column 1',
-                      },
-                    ],
+                    text: 'column 1',
                   },
                 ],
                 type: 'table-cell',
@@ -343,13 +271,7 @@ export const tableSlateValue = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'column 2',
-                      },
-                    ],
+                    text: 'column 2',
                   },
                 ],
                 type: 'table-cell',
@@ -369,13 +291,7 @@ export const tableSlateValue = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'column 1',
-                      },
-                    ],
+                    text: 'column 1',
                   },
                 ],
                 type: 'table-cell',
@@ -387,13 +303,7 @@ export const tableSlateValue = {
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'column 2',
-                      },
-                    ],
+                    text: 'column 2',
                   },
                 ],
                 type: 'table-cell',
@@ -420,13 +330,7 @@ export const solutionBoxValue = {
             data: {},
             nodes: [
               {
-                leaves: [
-                  {
-                    marks: [],
-                    object: 'leaf',
-                    text: 'Summary text',
-                  },
-                ],
+                text: 'Summary text',
                 object: 'text',
               },
             ],
@@ -437,13 +341,7 @@ export const solutionBoxValue = {
             data: {},
             nodes: [
               {
-                leaves: [
-                  {
-                    marks: [],
-                    object: 'leaf',
-                    text: 'Details text',
-                  },
-                ],
+                text: 'Details text',
                 object: 'text',
               },
             ],
@@ -477,26 +375,14 @@ export const detailsBoxValue = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'range',
-                    marks: [],
-                    text: 'Summary text',
-                  },
-                ],
+                text: 'Summary text',
               },
             ],
             type: 'summary',
           },
           {
             object: 'text',
-            leaves: [
-              {
-                object: 'range',
-                marks: [],
-                text: 'Details text',
-              },
-            ],
+            text: 'Details text',
           },
         ],
         type: 'details',
@@ -530,13 +416,7 @@ export const listValue = (type = 'numbered-list') => ({
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'Rad 1',
-                      },
-                    ],
+                    text: 'Rad 1',
                   },
                 ],
                 type: 'list-text',
@@ -556,13 +436,7 @@ export const listValue = (type = 'numbered-list') => ({
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'Rad 2',
-                      },
-                    ],
+                    text: 'Rad 2',
                   },
                 ],
                 type: 'list-text',
@@ -582,13 +456,7 @@ export const listValue = (type = 'numbered-list') => ({
                 nodes: [
                   {
                     object: 'text',
-                    leaves: [
-                      {
-                        object: 'leaf',
-                        marks: [],
-                        text: 'Rad 3',
-                      },
-                    ],
+                    text: 'Rad 3',
                   },
                 ],
                 type: 'list-text',
@@ -616,13 +484,7 @@ export const headingTwoValue = {
         nodes: [
           {
             object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                marks: [],
-                text: 'heading 2',
-              },
-            ],
+            text: 'heading 2',
           },
         ],
         type: 'heading-two',
@@ -649,13 +511,7 @@ export const sectionValue = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    marks: [],
-                    text: 'Paragraph text',
-                  },
-                ],
+                text: 'Paragraph text',
               },
             ],
             type: 'paragraph',
@@ -680,13 +536,7 @@ export const quoteValue = {
         nodes: [
           {
             object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                marks: [],
-                text: 'This quote should be both smart and wise',
-              },
-            ],
+            text: 'This quote should be both smart and wise',
           },
         ],
         type: 'quote',
@@ -713,13 +563,7 @@ export const normalDivValue = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    marks: [],
-                    text: 'A paragraph',
-                  },
-                ],
+                text: 'A paragraph',
               },
             ],
             type: 'paragraph',
@@ -745,13 +589,7 @@ export const brValue = {
         nodes: [
           {
             object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                marks: [],
-                text: '',
-              },
-            ],
+            text: '',
           },
         ],
       },
@@ -772,13 +610,7 @@ export const spanWithAttributesValue = {
         nodes: [
           {
             object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                marks: [],
-                text: '',
-              },
-            ],
+            text: '',
           },
           {
             data: {
@@ -789,26 +621,14 @@ export const spanWithAttributesValue = {
             nodes: [
               {
                 object: 'text',
-                leaves: [
-                  {
-                    object: 'leaf',
-                    marks: [],
-                    text: 'Hyper Text Markup Language',
-                  },
-                ],
+                text: 'Hyper Text Markup Language',
               },
             ],
             type: 'span',
           },
           {
             object: 'text',
-            leaves: [
-              {
-                object: 'leaf',
-                marks: [],
-                text: '',
-              },
-            ],
+            text: '',
           },
         ],
         type: 'paragraph',

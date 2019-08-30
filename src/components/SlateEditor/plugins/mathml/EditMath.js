@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import he from 'he';
 import EditMathModal from './EditMathModal';
 import { getLocale } from '../../../../modules/locale/locale';
 
@@ -25,10 +24,10 @@ class EditMath extends Component {
     this.state = {
       openDiscardModal: false,
       renderMathML: innerHTML
-        ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
+        ? `${mathOpenTag}${innerHTML}${mathCloseTag}`
         : emptyMathTag,
       initialMathML: innerHTML
-        ? `${mathOpenTag}${he.decode(innerHTML)}${mathCloseTag}`
+        ? `${mathOpenTag}${innerHTML}${mathCloseTag}`
         : emptyMathTag,
     };
     this.previewMath = this.previewMath.bind(this);
@@ -64,7 +63,7 @@ class EditMath extends Component {
 
   onHandleExit(closeModal) {
     const { initialMathML, hasSaved } = this.state;
-    const mathML = he.decode(mathEditor.getMathML());
+    const mathML = mathEditor.getMathML();
 
     if (!hasSaved && initialMathML !== mathML) {
       this.setState({ openDiscardModal: true });
@@ -76,7 +75,7 @@ class EditMath extends Component {
   onHandleExitSave(closeModal) {
     const { handleSave } = this.props;
 
-    let saveMathML = he.decode(mathEditor.getMathML());
+    let saveMathML = mathEditor.getMathML();
 
     /* Outer closing <math> tag needs to be stripped away as it is not
        to be saved as embed */

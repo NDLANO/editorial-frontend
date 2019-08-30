@@ -54,8 +54,8 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
 
 ConceptMetaData.propTypes = {
   licenses: LicensesArrayOf.isRequired,
-  subjects: PropTypes.arrayOf(SubjectShape),
-  tags: PropTypes.arrayOf(PropTypes.string),
+  subjects: PropTypes.arrayOf(SubjectShape).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default injectT(ConceptMetaData);

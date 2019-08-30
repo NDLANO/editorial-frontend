@@ -370,7 +370,7 @@ ConceptForm.propTypes = {
   onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string),
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),
 };
 

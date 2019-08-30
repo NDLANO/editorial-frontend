@@ -44,10 +44,7 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
         />
       )}
     </FormikField>
-    <FormikField
-      name="tags"
-      label={t('form.tags.label')}
-      description={t('form.tags.description')}>
+    <FormikField name="tags" label={t('form.tags.label')}>
       {({ field }) => (
         <MultiSelectDropdown showCreateOption {...field} data={tags} />
       )}

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import {
@@ -18,6 +18,11 @@ import {
 import { colors, spacing, fonts } from '@ndla/core';
 import SaveButton from '../../components/SaveButton';
 import QualityAssurance from './common/QualityAssurance';
+import ArticlePreviews from './common/ArticlePreviews';
+import { Article, PossibleStatuses, PreviewTypes } from './editorTypes';
+import * as draftApi from '../../modules/draft/draftApi';
+import * as articleStatuses from '../../util/constants/ArticleStatus';
+import { formatErrorMessage } from '../../util/apiHelpers';
 
 interface Props {
   t: any;
@@ -27,8 +32,10 @@ interface Props {
   values: any;
   showReset: boolean;
   error: string;
-  getArticle: VoidFunction;
-  articleStatus: string;
+  getArticle: () => Article;
+  articleStatus: { current: string };
+  createMessage: (o: { translationKey: string; severity: string }) => void;
+  updateArticleStatus: (v: string, i: string) => void;
 }
 
 const StyledLine = styled.hr`
@@ -41,6 +48,11 @@ const StyledLine = styled.hr`
   }
 `;
 
+const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
+  const possibleStatuses = await draftApi.fetchStatusStateMachine();
+  setStatuses(possibleStatuses);
+};
+
 const EditorFooter: React.FC<Props> = ({
   t,
   isSubmitting,
@@ -50,46 +62,89 @@ const EditorFooter: React.FC<Props> = ({
   showReset,
   error,
   getArticle,
+  createMessage,
   articleStatus,
+  updateArticleStatus,
 }) => {
-  const optionsFooterStatus = [
+  const [preview, showPreview] = useState<PreviewTypes>('');
+  const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+  useEffect(() => {
+    fetchStatuses(setStatuses);
+  }, []);
+
+  let statuses = [
     {
-      name: 'Kladd',
-      id: '#1',
-    },
-    {
-      name: 'Utkast',
-      id: '#2',
+      name: t(`form.status.actions.${articleStatus.current}`),
       active: true,
-    },
-    {
-      name: 'Tilbrukertest',
-      id: '#3',
-    },
-    {
-      name: 'Til kvalitetssikring',
-      id: '#4',
-    },
-    {
-      name: 'Kvalitetssikret',
-      id: '#5',
+      id: articleStatus.current,
     },
   ];
+  if (Array.isArray(possibleStatuses[articleStatus.current])) {
+    statuses = [
+      ...statuses,
+      ...possibleStatuses[articleStatus.current].map((status: string) => ({
+        name: t(`form.status.actions.${status}`),
+        id: status,
+      })),
+    ];
+  }
+
+  const updateStatus = async (comment: string, status: string) => {
+    const { revision } = values;
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      try {
+        if (
+          status === articleStatuses.PUBLISHED ||
+          status === articleStatuses.QUEUED_FOR_PUBLISHING
+        ) {
+          await draftApi.validateDraft(values.id, {
+            ...getArticle(),
+            revision,
+          });
+        }
+        await updateArticleStatus(values.id, status);
+      } catch (error) {
+        if (error && error.json && error.json.messages) {
+          createMessage(formatErrorMessage(error));
+        }
+      }
+    }
+  };
 
   return (
     <Footer>
       {error && <span className="c-errorMessage">{error}</span>}
+      {preview && (
+        <ArticlePreviews
+          typeOfPreview={preview}
+          getArticle={getArticle}
+          label={t(`articleType.${values.articleType}`)}
+          closePreview={() => showPreview('')}
+        />
+      )}
       <div>
         <FooterQualityInsurance
           messages={{
             buttonLabel: 'Kvalitetssikring',
             heading: 'Kvalitetssikring:',
           }}>
-          <QualityAssurance
-            getArticle={getArticle}
-            values={values}
-            articleStatus={articleStatus}
-          />
+          {(closePopup: VoidFunction) => (
+            <QualityAssurance
+              showPreview={(p: PreviewTypes) => {
+                showPreview(p);
+                closePopup();
+              }}
+              getArticle={getArticle}
+              values={values}
+              articleStatus={articleStatus}
+              createMessage={createMessage}
+            />
+          )}
         </FooterQualityInsurance>
         <StyledLine />
         {values.id && (
@@ -100,10 +155,8 @@ const EditorFooter: React.FC<Props> = ({
       </div>
       <div>
         <FooterStatus
-          onSave={(comment: string, statusId: string) =>
-            console.log(comment, statusId)
-          }
-          options={optionsFooterStatus}
+          onSave={updateStatus}
+          options={statuses}
           messages={{
             label: '',
             changeStatus: 'Endre status',

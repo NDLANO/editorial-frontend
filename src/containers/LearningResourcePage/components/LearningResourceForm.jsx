@@ -240,6 +240,8 @@ class LearningResourceForm extends Component {
             dirty,
             type: 'learningResource',
           });
+          const getArticle = preview =>
+            this.getArticleFromSlate(values, preview);
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
@@ -249,7 +251,7 @@ class LearningResourceForm extends Component {
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
-                getArticle={() => this.getArticleFromSlate(values)}
+                getArticle={getArticle}
               />
               <LearningResourcePanels
                 values={values}
@@ -257,7 +259,7 @@ class LearningResourceForm extends Component {
                 article={article}
                 touched={touched}
                 updateNotes={onUpdate}
-                getArticle={() => this.getArticleFromSlate(values)}
+                getArticle={getArticle}
                 formIsDirty={formIsDirty}
                 {...rest}
               />
@@ -269,6 +271,7 @@ class LearningResourceForm extends Component {
                 showReset={() => this.setState({ showResetModal: true })}
                 error={error}
                 values={values}
+                {...rest}
               />
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}

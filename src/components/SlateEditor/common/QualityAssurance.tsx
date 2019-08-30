@@ -4,18 +4,26 @@ import { FooterLinkButton } from '@ndla/editor';
 import PreviewDraftLightbox from '../../PreviewDraft/PreviewDraftLightbox';
 import { toPreviewDraft } from '../../../util/routeHelpers';
 import { isDraftPublished } from '../../../util/articleUtil';
-import * as draftApi from '../../modules/draft/draftApi';
+import * as draftApi from '../../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import { Values } from '../editorTypes';
 interface Props {
   values: Values;
+  createMessage: (o: { translationKey: string; severity: string }) => void;
+  getArticle: () => any;
+}
+
+interface AllProps extends Props {
+  articleStatus: string;
+  t: any;
+  showPreview: (s: string) => void;
 }
 
 const onValidateClick = async ({
   values: { id, revision },
   createMessage,
   getArticle,
-}) => {
+}: Props) => {
   try {
     await draftApi.validateDraft(id, { ...getArticle(), revision });
     createMessage({
@@ -31,8 +39,9 @@ const onValidateClick = async ({
   }
 };
 
-const QualityAssurance: React.FC<Props> = ({
+const QualityAssurance: React.FC<AllProps> = ({
   values,
+  showPreview,
   getArticle,
   articleStatus,
   t,
@@ -46,44 +55,27 @@ const QualityAssurance: React.FC<Props> = ({
         {t('form.previewNewWindow')}
       </FooterLinkButton>
     )}
-    <PreviewDraftLightbox
-      label={t(`articleType.${values.articleType}`)}
-      typeOfPreview="preview"
-      getArticle={getArticle}>
-      {(showPreview: VoidFunction) => (
-        <FooterLinkButton bold onClick={showPreview}>
-          {t(`form.preview.button`)}
-        </FooterLinkButton>
-      )}
-    </PreviewDraftLightbox>
+    <FooterLinkButton bold onClick={() => showPreview('preview')}>
+      {t(`form.preview.button`)}
+    </FooterLinkButton>
     {values.id && isDraftPublished(articleStatus) && (
-      <PreviewDraftLightbox
-        label={t(`articleType.${values.articleType}`)}
-        typeOfPreview="previewProductionArticle"
-        getArticle={getArticle}>
-        {(showPreview: VoidFunction) => (
-          <FooterLinkButton bold onClick={showPreview}>
-            {t(`form.previewProductionArticle.button`)}
-          </FooterLinkButton>
-        )}
-      </PreviewDraftLightbox>
-    )}
-    {values.id && (
-      <PreviewDraftLightbox
-        label={t(`articleType.${values.articleType}`)}
-        typeOfPreview="previewLanguageArticle"
-        getArticle={getArticle}>
-        {(showPreview: VoidFunction) => (
-          <FooterLinkButton bold onClick={showPreview}>
-            {t(`form.previewLanguageArticle.button`)}
-          </FooterLinkButton>
-        )}
-      </PreviewDraftLightbox>
+      <FooterLinkButton
+        bold
+        onClick={() => showPreview('previewProductionArticle')}>
+        {t(`form.previewProductionArticle.button`)}
+      </FooterLinkButton>
     )}
     {values.id && (
       <FooterLinkButton
         bold
-        onClick={() => onValidateClick(values, createMessage, getArticle)}>
+        onClick={() => showPreview('previewLanguageArticle')}>
+        {t(`form.previewLanguageArticle.button`)}
+      </FooterLinkButton>
+    )}
+    {values.id && (
+      <FooterLinkButton
+        bold
+        onClick={() => onValidateClick({ values, createMessage, getArticle })}>
         {t('form.validate')}
       </FooterLinkButton>
     )}

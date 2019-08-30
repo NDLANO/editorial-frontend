@@ -20,7 +20,7 @@ const SearchImage = ({ image, locale, t }) => (
       <img src={image.previewUrl} alt={image.altText} />
     </div>
     <div {...searchClasses('content')}>
-      <Link to={toEditImage(image.id, locale)}>
+      <Link to={toEditImage(image.id, image.title.language)}>
         <h1 {...searchClasses('title')}>
           {image.title.title || t('imageSearch.noTitle')}
         </h1>

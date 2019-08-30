@@ -238,15 +238,7 @@ class LearningResourceForm extends Component {
         ref={this.formik}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
-        {({
-          values,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-          submitCount,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -309,8 +301,7 @@ class LearningResourceForm extends Component {
                   formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}
                   errors={errors}
-                  touched={touched}
-                  submitCount={submitCount}>
+                  touched={touched}>
                   {t('form.save')}
                 </SaveButton>
               </Field>

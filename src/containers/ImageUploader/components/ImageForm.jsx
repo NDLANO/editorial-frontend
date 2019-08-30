@@ -176,15 +176,7 @@ class ImageForm extends Component {
         onSubmit={this.onSubmit}
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
-        {({
-          values,
-          dirty,
-          errors,
-          touched,
-          isSubmitting,
-          submitForm,
-          submitCount,
-        }) => {
+        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -253,8 +245,7 @@ class ImageForm extends Component {
                     }
                   }}
                   errors={errors}
-                  touched={touched}
-                  submitCount={submitCount}>
+                  touched={touched}>
                   {t('form.save')} - {inModal}
                 </SaveButton>
               </Field>

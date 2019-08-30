@@ -228,7 +228,6 @@ class ConceptForm extends Component {
             error,
             errors,
             touched,
-            submitCount,
           } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
@@ -311,8 +310,7 @@ class ConceptForm extends Component {
                   formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}
                   errors={errors}
-                  touched={touched}
-                  submitCount={submitCount}>
+                  touched={touched}>
                   {t('form.save')}
                 </SaveButton>
               </Field>

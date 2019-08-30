@@ -61,7 +61,6 @@ const SaveButton = ({
   defaultText,
   formIsDirty,
   touched,
-  submitCount,
   ...rest
 }) => {
   const getModifier = () => {
@@ -94,7 +93,6 @@ SaveButton.propTypes = {
   formIsDirty: bool,
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
-  submitCount: PropTypes.number,
 };
 
 SaveButton.defaultProps = {

@@ -21,7 +21,7 @@ import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
-import { ConceptShape } from '../../../../shapes';
+import { ConceptShape, SubjectShape } from '../../../../shapes';
 
 const type = 'concept';
 
@@ -29,6 +29,8 @@ const ConceptModal = ({
   id,
   onClose,
   isOpen,
+  tags,
+  subjects,
   t,
   locale,
   handleRemove,
@@ -165,6 +167,8 @@ const ConceptModal = ({
                       <ConceptForm
                         inModal
                         onClose={onClose}
+                        tags={tags}
+                        subjects={subjects}
                         licenses={licenses}
                         onUpdate={onConceptUpsert}
                         locale={locale}
@@ -197,6 +201,8 @@ ConceptModal.propTypes = {
   createConcept: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   handleRemove: PropTypes.func.isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default injectT(ConceptModal);

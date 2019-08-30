@@ -27,7 +27,7 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
         <FormikLicense licenses={licenses} width={1} {...field} />
       )}
     </FormikField>
-    <FormikField label={t('form.origin.label')} name="origin" />
+    <FormikField label={t('form.concept.source')} name="source" />
     <FormikContributors contributorTypes={contributorTypes} width={1} />
     <FormikField name="metaImageId">
       {({ field }) => (

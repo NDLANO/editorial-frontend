@@ -505,6 +505,7 @@ const phrases = {
       addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
       edit: 'Rediger begrep',
       addConcept: 'Legg til eksisterende begrep',
+      source: 'Kilde',
     },
     abort: 'Avbryt',
     edit: 'Rediger',

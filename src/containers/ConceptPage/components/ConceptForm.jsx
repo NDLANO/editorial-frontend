@@ -48,7 +48,6 @@ import { toEditConcept } from '../../../util/routeHelpers.js';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
-  console.log(concept.tags);
   return {
     id: concept.id,
     title: concept.title || '',

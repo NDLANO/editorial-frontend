@@ -34,7 +34,7 @@ const EditSlateConcept = props => {
     toggleIsModalOpen(!isModalOpen);
   };
 
-  const { concept, ...conceptHooks } = useFetchConceptData(
+  const { concept, subjects, tags, ...conceptHooks } = useFetchConceptData(
     node.data.get('content-id'),
     locale,
   );
@@ -98,6 +98,8 @@ const EditSlateConcept = props => {
         addConcept={addConcept}
         locale={locale}
         concept={concept}
+        subjects={subjects}
+        tags={tags}
         handleRemove={handleRemove}
         selectedText={node.text}
         {...conceptHooks}

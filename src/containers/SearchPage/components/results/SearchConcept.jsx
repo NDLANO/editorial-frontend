@@ -16,6 +16,7 @@ import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
 const SearchConcept = ({ concept, locale, t }) => {
+  const { url: metaImageSrc, alt: metaImageAlt } = concept.metaImage || {};
   const title = convertFieldWithFallback(
     concept,
     'title',
@@ -30,7 +31,11 @@ const SearchConcept = ({ concept, locale, t }) => {
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
-        <Concept className="c-icon--large" />
+        {metaImageSrc ? (
+          <img src={metaImageSrc} alt={metaImageAlt} />
+        ) : (
+          <Concept className="c-icon--large" />
+        )}
       </div>
       <div {...searchClasses('content')}>
         <div {...searchClasses('header')}>
@@ -41,10 +46,11 @@ const SearchConcept = ({ concept, locale, t }) => {
           </Link>
           {concept.supportedLanguages.map(lang => {
             return lang !== locale ? (
-              <span {...searchClasses('other-link')}>
+              <span
+                key={`${lang}_search_content`}
+                {...searchClasses('other-link')}>
                 <Link
                   {...searchClasses('link')}
-                  key={`${lang}_search_content`}
                   to={toEditConcept(concept.id, lang)}>
                   {t(`language.${lang}`)}
                 </Link>
@@ -61,10 +67,20 @@ const SearchConcept = ({ concept, locale, t }) => {
 };
 
 SearchConcept.propTypes = {
-  concept: {
-    title: PropTypes.string,
-    content: PropTypes.string,
-  },
+  concept: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+    content: PropTypes.shape({
+      content: PropTypes.string,
+    }),
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+    metaImage: PropTypes.shape({
+      alt: PropTypes.string,
+      url: PropTypes.string,
+    }),
+  }),
   locale: PropTypes.string,
 };
 

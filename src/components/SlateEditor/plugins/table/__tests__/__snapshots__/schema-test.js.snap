@@ -17,14 +17,9 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 1",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 1",
                   },
                 ],
                 "object": "block",
@@ -36,14 +31,9 @@ Object {
                 },
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 2",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 2",
                   },
                 ],
                 "object": "block",
@@ -60,14 +50,9 @@ Object {
                 "data": Object {},
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 1",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 1",
                   },
                 ],
                 "object": "block",
@@ -77,14 +62,9 @@ Object {
                 "data": Object {},
                 "nodes": Array [
                   Object {
-                    "leaves": Array [
-                      Object {
-                        "marks": Array [],
-                        "object": "leaf",
-                        "text": "column 2",
-                      },
-                    ],
+                    "marks": Array [],
                     "object": "text",
+                    "text": "column 2",
                   },
                 ],
                 "object": "block",

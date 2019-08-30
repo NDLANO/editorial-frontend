@@ -13,26 +13,45 @@ import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../../src/util/routeHelpers.js';
-import ConceptForm from './ConceptForm';
+import ConceptForm from './components/ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {
-  const { licenses, locale, t, history, ...rest } = props;
-  const { createConcept } = useFetchConceptData(undefined, locale);
+  const {
+    licenses,
+    locale,
+    t,
+    history,
+    initialConcept,
+    inModal,
+    addConceptInModal,
+    ...rest
+  } = props;
+  const { subjects, createConcept, tags } = useFetchConceptData(
+    undefined,
+    locale,
+  );
 
   const createConceptAndPushRoute = async createdConcept => {
     const savedConcept = await createConcept(createdConcept);
-    history.push(toEditConcept(savedConcept.id, createdConcept.language));
+    if (inModal && addConceptInModal) {
+      addConceptInModal(savedConcept);
+    } else {
+      history.push(toEditConcept(savedConcept.id, createdConcept.language));
+    }
   };
 
   return (
     <Fragment>
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
-        concept={{ language: locale }}
+        concept={{ ...initialConcept, language: locale }}
         locale={locale}
         onUpdate={createConceptAndPushRoute}
         licenses={licenses}
+        inModal={inModal}
+        subjects={subjects}
+        tags={tags}
         {...rest}
       />
     </Fragment>
@@ -43,9 +62,18 @@ CreateConcept.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  initialConcept: PropTypes.shape({
+    title: PropTypes.string,
+  }),
   createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   licenses: LicensesArrayOf,
+  inModal: PropTypes.bool,
+  addConceptInModal: PropTypes.func,
+};
+
+CreateConcept.defaultProps = {
+  inModal: false,
 };
 
 export default injectT(withRouter(CreateConcept));

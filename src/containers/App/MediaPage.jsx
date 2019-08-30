@@ -13,6 +13,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import Footer from './components/Footer';
+import { LocationShape, HistoryShape } from '../../shapes';
 
 const MediaPage = ({ match }) => (
   <Fragment>
@@ -35,12 +36,8 @@ MediaPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape.isRequired,
 };
 
 export default withRouter(MediaPage);

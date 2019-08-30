@@ -84,13 +84,14 @@ class ImageEditor extends Component {
   }
 
   onCropComplete(crop, size) {
+    const { onUpdatedImageSettings } = this.props;
     if (size.width === 0) {
       this.setState({
         editType: undefined,
       });
-      this.props.onUpdatedImageSettings({ transformData: defaultData.crop });
+      onUpdatedImageSettings({ transformData: defaultData.crop });
     } else {
-      this.props.onUpdatedImageSettings({
+      onUpdatedImageSettings({
         transformData: {
           'upper-left-x': crop.x.toString(),
           'upper-left-y': crop.y.toString(),

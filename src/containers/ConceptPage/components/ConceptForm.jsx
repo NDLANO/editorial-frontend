@@ -9,6 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Accordion, {
   AccordionWrapper,
@@ -18,52 +19,66 @@ import Accordion, {
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import Field from '../../../src/components/Field';
+import Field from '../../../components/Field';
+import * as messageActions from '../../Messages/messagesActions';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
-} from '../../util/articleContentConverter';
+} from '../../../util/articleContentConverter';
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
-import HeaderWithLanguage from '../../components/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import {
   DEFAULT_LICENSE,
   isFormikFormDirty,
   parseCopyrightContributors,
-} from '../../util/formHelper';
+  parseImageUrl,
+} from '../../../util/formHelper';
 import {
   FormikAlertModalWrapper,
   FormikActionButton,
   formClasses,
-} from '../FormikForm';
-import AlertModal from '../../components/AlertModal';
-import validateFormik from '../../components/formikValidationSchema';
-import { ConceptShape, LicensesArrayOf } from '../../shapes';
-import SaveButton from '../../components/SaveButton';
-import { addConcept } from '../../modules/concept/conceptApi.js';
-import { toEditConcept } from '../../../src/util/routeHelpers.js';
+} from '../../FormikForm';
+import AlertModal from '../../../components/AlertModal';
+import validateFormik from '../../../components/formikValidationSchema';
+import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
+import SaveButton from '../../../components/SaveButton';
+import { addConcept } from '../../../modules/concept/conceptApi.js';
+import { toEditConcept } from '../../../util/routeHelpers.js';
 
-const getInitialValues = (concept = {}) => ({
-  id: concept.id,
-  title: concept.title || '',
-  language: concept.language,
-  updated: concept.updated,
-  updateCreated: false,
-  created: concept.created,
-  conceptContent: plainTextToEditorValue(concept.content || '', true),
-  supportedLanguages: concept.supportedLanguages || [],
-  creators: parseCopyrightContributors(concept, 'creators'),
-  processors: parseCopyrightContributors(concept, 'processors'),
-  rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
-  origin:
-    concept.copyright && concept.copyright.origin
-      ? concept.copyright.origin
-      : '',
-  license:
-    concept.copyright && concept.copyright.license
-      ? concept.copyright.license.license
-      : DEFAULT_LICENSE.license,
-});
+const getInitialValues = (concept = {}, subjects = []) => {
+  const metaImageId = parseImageUrl(concept.metaImage);
+  console.log(concept.tags);
+  return {
+    id: concept.id,
+    title: concept.title || '',
+    language: concept.language,
+    updated: concept.updated,
+    updateCreated: false,
+    subjects: concept.subjectIds
+      ? concept.subjectIds.map(subjectId =>
+          subjects.find(subject => subject.id === subjectId),
+        )
+      : [],
+    created: concept.created,
+    conceptContent: plainTextToEditorValue(concept.content || '', true),
+    supportedLanguages: concept.supportedLanguages || [],
+    creators: parseCopyrightContributors(concept, 'creators'),
+    processors: parseCopyrightContributors(concept, 'processors'),
+    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
+    origin:
+      concept.copyright && concept.copyright.origin
+        ? concept.copyright.origin
+        : '',
+    license:
+      concept.copyright && concept.copyright.license
+        ? concept.copyright.license.license
+        : DEFAULT_LICENSE.license,
+    metaImageId,
+    metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
+    tags: concept.tags || [],
+  };
+};
 
 const rules = {
   title: {
@@ -83,12 +98,21 @@ const rules = {
   },
 };
 
+const FormWrapper = ({ inModal, children }) => {
+  if (inModal) {
+    return <div {...formClasses()}>{children}</div>;
+  }
+  return <Form>{children}</Form>;
+};
+
+FormWrapper.propTypes = {
+  inModal: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
+
 class ConceptForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getConcept = this.getConcept.bind(this);
-    this.getCreatedDate = this.getCreatedDate.bind(this);
     this.state = {
       savedToServer: false,
     };
@@ -109,21 +133,20 @@ class ConceptForm extends Component {
     this.formik = React.createRef();
   }
 
-  getCreatedDate(values) {
+  getCreatedDate = values => {
     if (isEmpty(values.created)) {
       return undefined;
     }
     const { concept } = this.props;
-    const initialValues = getInitialValues(concept);
 
-    const hasCreatedDateChanged = initialValues.created !== values.created;
-    if (hasCreatedDateChanged || values.updateCreated) {
+    const hasCreatedDateChanged = concept.created !== values.created;
+    if (hasCreatedDateChanged) {
       return values.created;
     }
     return undefined;
-  }
+  };
 
-  getConcept(values) {
+  getConcept = values => {
     const { licenses } = this.props;
 
     return {
@@ -135,15 +158,19 @@ class ConceptForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === values.license),
         creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
         agreementId: values.agreementId,
       },
+      subjectIds: values.subjects.map(subject => subject.id),
+      tags: values.tags,
       created: this.getCreatedDate(values),
+      metaImage: {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      },
     };
-  }
+  };
 
-  async handleSubmit(values, actions) {
+  handleSubmit = async (values, actions) => {
     const { onUpdate, concept, applicationError } = this.props;
     const { revision } = concept;
     actions.setSubmitting(true);
@@ -161,14 +188,25 @@ class ConceptForm extends Component {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
-  }
+  };
 
   onAddConcept = newConcept => {
     addConcept(newConcept);
   };
 
   render() {
-    const { t, licenses, history, concept, onUpdate, ...rest } = this.props;
+    const {
+      t,
+      licenses,
+      history,
+      concept,
+      onUpdate,
+      onClose,
+      inModal,
+      subjects,
+      tags,
+      ...rest
+    } = this.props;
     const { savedToServer, showResetModal } = this.state;
     const panels = ({ errors, touched }) => [
       {
@@ -179,26 +217,15 @@ class ConceptForm extends Component {
           field => !!errors[field] && touched[field],
         ),
 
-        component: props => (
-          <ConceptContent
-            classes={formClasses}
-            creators={concept.creators}
-            created={concept.created}
-            {...props}
-          />
-        ),
+        component: props => <ConceptContent classes={formClasses} {...props} />,
       },
       {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: [
-          'tags',
-          'creators',
-          'rightsholders',
-          'processors',
-          'license',
-        ].some(field => !!errors[field] && touched[field]),
+        hasError: ['tags', 'creators', 'license', 'metaImageAlt'].some(
+          field => !!errors[field] && touched[field],
+        ),
 
         component: props => (
           <ConceptMetaData
@@ -210,7 +237,7 @@ class ConceptForm extends Component {
       },
     ];
 
-    const initialValues = getInitialValues(concept);
+    const initialValues = getInitialValues(concept, subjects);
 
     return (
       <Formik
@@ -226,9 +253,9 @@ class ConceptForm extends Component {
             isSubmitting,
             setValues,
             error,
-            errors,
-            touched,
+            submitForm,
           } = formikProps;
+
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -236,7 +263,7 @@ class ConceptForm extends Component {
           });
 
           return (
-            <Form {...formClasses()}>
+            <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
                 noStatus
                 values={values}
@@ -268,6 +295,8 @@ class ConceptForm extends Component {
                             <div className={panel.className}>
                               {panel.component({
                                 values,
+                                subjects,
+                                tags,
                                 closePanel: () => handleItemClick(panel.id),
                                 ...rest,
                               })}
@@ -297,30 +326,43 @@ class ConceptForm extends Component {
                   onCancel={() => this.setState({ showResetModal: false })}
                 />
 
-                <FormikActionButton
-                  onClick={history.goBack}
-                  outline
-                  disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikActionButton>
+                {inModal ? (
+                  <FormikActionButton outline onClick={onClose}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                ) : (
+                  <FormikActionButton
+                    onClick={history.goBack}
+                    outline
+                    disabled={isSubmitting}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                )}
 
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}
-                  errors={errors}
-                  touched={touched}>
+                  submit={!inModal}
+                  onClick={evt => {
+                    if (inModal) {
+                      evt.preventDefault();
+                      submitForm();
+                    }
+                  }}>
                   {t('form.save')}
                 </SaveButton>
               </Field>
-              <FormikAlertModalWrapper
-                isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                severity="danger"
-                text={t('alertModal.notSaved')}
-              />
-            </Form>
+              {!inModal && (
+                <FormikAlertModalWrapper
+                  isSubmitting={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  severity="danger"
+                  text={t('alertModal.notSaved')}
+                />
+              )}
+            </FormWrapper>
           );
         }}
       </Formik>
@@ -330,16 +372,28 @@ class ConceptForm extends Component {
 
 ConceptForm.propTypes = {
   concept: ConceptShape,
+  inModal: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     goBack: PropTypes.func,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape),
+};
+
+const mapDispatchToProps = {
+  applicationError: messageActions.applicationError,
 };
 
 export default compose(
   injectT,
   withRouter,
+  connect(
+    undefined,
+    mapDispatchToProps,
+  ),
 )(ConceptForm);

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { toLogin } from '../../util/routeHelpers';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
+import { LocationShape } from '../../shapes';
 const okPaths = ['/login', '/logout'];
 
 const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
@@ -40,10 +41,10 @@ const PrivateRoute = ({ authenticated, component: Component, ...rest }) => {
 };
 
 PrivateRoute.propTypes = {
-  component: PropTypes.func.isRequired,
   locale: PropTypes.string,
   authenticated: PropTypes.bool.isRequired,
-  location: PropTypes.shape({}),
+  location: LocationShape,
+  ...Route.propTypes,
 };
 
 const mapStateToProps = state => ({

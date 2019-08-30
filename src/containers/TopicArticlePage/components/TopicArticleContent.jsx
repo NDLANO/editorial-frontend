@@ -18,27 +18,21 @@ import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import {
-  renderNode,
+  renderBlock,
   renderMark,
-} from '../../../components/SlateEditor/renderNode';
+  renderInline,
+} from '../../../components/SlateEditor/slateRendering';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import {
-  editListPlugin,
-  listTypes,
-} from '../../../components/SlateEditor/plugins/externalPlugins';
+import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import createLinkPlugin, {
-  TYPE as link,
-} from '../../../components/SlateEditor/plugins/link';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
+import { EditMarkupLink } from '../../LearningResourcePage/components/EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
-
-const supportedToolbarElements = {
-  mark: ['bold', 'italic', 'underlined'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [link],
-};
+import { DRAFT_HTML_SCOPE } from '../../../constants';
+import { toEditMarkup } from '../../../util/routeHelpers';
+import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
   display: flex;
@@ -56,13 +50,15 @@ const plugins = [
   editListPlugin,
   createLinkPlugin(),
   paragraphPlugin(),
+  toolbarPlugin(),
 ];
 
 const TopicArticleContent = props => {
   const {
     t,
+    userAccess,
     formik: {
-      values: { creators, published, visualElement },
+      values: { id, language, creators, published, visualElement },
     },
   } = props;
   return (
@@ -91,15 +87,22 @@ const TopicArticleContent = props => {
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
           <Fragment>
-            <FieldHeader title={t('form.content.label')} />
+            <FieldHeader title={t('form.content.label')}>
+              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+                <EditMarkupLink
+                  to={toEditMarkup(id, language)}
+                  title={t('editMarkup.linkTitle')}
+                />
+              )}
+            </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
               id={field.name}
               submitted={isSubmitting}
-              renderNode={renderNode}
+              renderBlock={renderBlock}
+              renderInline={renderInline}
               renderMark={renderMark}
               plugins={plugins}
-              supportedToolbarElements={supportedToolbarElements}
               schema={schema}
               {...field}
             />
@@ -111,9 +114,11 @@ const TopicArticleContent = props => {
 };
 
 TopicArticleContent.propTypes = {
+  userAccess: PropTypes.string,
   formik: PropTypes.shape({
     values: PropTypes.shape({
       id: PropTypes.number,
+      language: PropTypes.string,
       published: PropTypes.string,
       title: PropTypes.string,
       updatePublished: PropTypes.bool,

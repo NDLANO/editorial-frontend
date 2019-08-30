@@ -55,8 +55,8 @@ class ConceptPage extends PureComponent {
             />
             <Route component={NotFoundPage} />
           </Switch>
-          <Footer showLocaleSelector={false} />
         </OneColumn>
+        <Footer showLocaleSelector={false} />
       </div>
     );
   }

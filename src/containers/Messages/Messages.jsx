@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory as createHistory } from 'history';
 import { clearMessage } from './messagesActions';
 import { MessageShape } from '../../shapes';
 import AlertModal from '../../components/AlertModal';

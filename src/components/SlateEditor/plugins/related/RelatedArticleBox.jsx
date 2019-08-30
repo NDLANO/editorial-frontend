@@ -52,7 +52,7 @@ export class RelatedArticleBox extends React.Component {
     } = this.props;
     if (data && data.get('nodes')) {
       data.get('nodes').forEach(article => {
-        const articleId = article.get('article-id');
+        const articleId = article['article-id'];
         if (articleId) {
           this.fetchRelated(articleId, true);
         }

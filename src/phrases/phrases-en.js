@@ -21,7 +21,6 @@ const phrases = {
     structurePage: `Structure ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
     imageUploaderPage: `Image ${titleTemplate}`,
-    notionPage: `Concept ${titleTemplate}`,
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
   },
@@ -162,6 +161,10 @@ const phrases = {
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
   },
+  articleType: {
+    'topic-article': 'Topic',
+    standard: 'Subject matter',
+  },
   subNavigation: {
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',
@@ -173,11 +176,11 @@ const phrases = {
     audio: 'New Audiofile',
     agreement: 'New Agreement',
     structure: 'Structure',
-    concept: 'Go to concept',
     searchContent: 'Search content',
     searchMedia: 'Search media',
     searchConcepts: 'Search concepts',
-    film: 'Go to film',
+    film: 'Edit NDLA film',
+    h5p: 'Edit H5P',
     newConcept: 'Create new concept',
   },
   logo: {
@@ -633,6 +636,10 @@ const phrases = {
         addExternal: 'Add external article',
         searchExternal: 'Write the url and title of the external article',
       },
+      concept: {
+        remove: 'Remove concept',
+        choose: 'Choose concept',
+      },
       link: {
         goTo: 'Go to',
         insert: 'Insert link',
@@ -837,13 +844,6 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være en tom',
   },
-  footer: {
-    aboutNDLA: 'About NDLA',
-    selectLanguage: 'Choose language (språk): ',
-    footerInfo: 'This webapplication is developed by NDLA as Open Source code.',
-    footerEditiorInChief: 'Editor in chief: ',
-    footerManagingEditor: 'Managing editor: ',
-  },
   errorMessage: {
     title: 'Oops, something went wrong',
     description: 'Sorry, an error occurd.',
@@ -915,13 +915,14 @@ const phrases = {
     },
     topics: {
       title: 'Topic connections',
+      topicPlacement: 'Topcic placement',
       subTitle: 'Where in the taxonomy should this resource be?',
       subTitleTopic: 'Where in the taxonomy should the topic description be?',
       filestructureButton: 'Create a topic connection',
       filestructureHeading: 'Select a topic connection',
       filestructureClose: 'Close',
-      addNewTopic: 'Add new sub topic',
-      addExistingTopic: 'Add to existing topic',
+      addNewTopic: 'Add new topic',
+      addNewSubTopic: 'Add new sub topic',
       addedTopic: 'Added to taxonomy',
       filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',
@@ -939,10 +940,6 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Topic',
-  },
-  masthead: {
-    menu: 'Menu',
-    closeMenu: 'Close',
   },
   ndlaFilm: {
     editor: {
@@ -970,17 +967,6 @@ const phrases = {
   },
   modal: {
     closeModal: 'Close',
-  },
-  languages: {
-    nb: 'Norwegian Bokmål',
-    nn: 'Norwegian Nynorsk',
-    en: 'English',
-    fr: 'French',
-    de: 'German',
-    se: 'Sami',
-    es: 'Spanish',
-    zh: 'Chinese',
-    unknown: 'Unknown',
   },
   conceptform: {
     title: 'Concept',

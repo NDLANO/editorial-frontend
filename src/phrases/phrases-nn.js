@@ -21,7 +21,6 @@ const phrases = {
     structurePage: `Struktur ${titleTemplate}`,
     audioUploaderPage: `Lyd ${titleTemplate}`,
     imageUploaderPage: `Bilde ${titleTemplate}`,
-    notionPage: `Forklaring ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
   },
@@ -160,6 +159,10 @@ const phrases = {
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
   },
+  articleType: {
+    'topic-article': 'Emne',
+    standard: 'Læringsressurs',
+  },
   subNavigation: {
     media: 'Media',
     learningPath: 'Læringssti',
@@ -172,11 +175,11 @@ const phrases = {
     audio: 'Ny Lydfil',
     agreement: 'Ny Avtale',
     structure: 'Strukturredigering',
-    concept: 'Gå til forklaringtjenesta',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
     searchConcepts: 'Søk begrep',
-    film: 'Gå til film',
+    film: 'Rediger NDLA film',
+    h5p: 'Rediger H5P',
     newConcept: 'Opprett begrep',
   },
   logo: {
@@ -651,6 +654,10 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
+      concept: {
+        remove: 'Fjern begrep',
+        choose: 'Velg begrep',
+      },
       link: {
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
@@ -855,13 +862,6 @@ const phrases = {
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
   },
-  footer: {
-    aboutNDLA: 'Om NDLA',
-    selectLanguage: 'Velg språk (language): ',
-    footerInfo: 'Nettstedet er utarbeidet av NDLA som åpen kildekode.',
-    footerEditiorInChief: 'Ansvarlig redaktør: ',
-    footerManagingEditor: 'Utgåveansvarlig: ',
-  },
   errorMessage: {
     title: 'Oops, noko gjekk gale',
     description: 'Vi beklager, men ein feil oppsto.',
@@ -933,12 +933,15 @@ const phrases = {
     },
     topics: {
       title: 'Emnetilknytninger',
+      topicPlacement: 'Emneplassering',
       subTitle: 'Kvar i taksonomien skal ressursen ligge?',
       subTitleTopic: 'Hvor i taksonomien skal emnebeskrivelsen ligge?',
-      filestructureButton: 'Opprett emnetilknytning',
+      filestructureButton: 'Opprett en emnetilknytning',
+      chooseTaxonomyPlacement: 'Velg plassering i taksonomi',
+      changeTaxonomyPlacement: 'Endre plassering i taksonomi',
       filestructureHeading: 'Velg emnetilknytning',
-      addNewTopic: 'Legg til nytt underemne',
-      addExistingTopic: 'Legg til på eksisterende emne',
+      addNewTopic: 'Legg til nytt emne',
+      addNewSubTopic: 'Legg til nytt underemne',
       filestructureClose: 'Lukk',
       addedTopic: 'Lagt til',
       filterTopic: 'Filtrer emner',
@@ -950,6 +953,7 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    goTo: 'Åpne i stukturredigering',
   },
   notions: {
     edit: 'Rediger begrep',
@@ -957,10 +961,6 @@ const phrases = {
   },
   contextTypes: {
     topic: 'Emne',
-  },
-  masthead: {
-    menu: 'Meny',
-    closeMenu: 'Lukk',
   },
   ndlaFilm: {
     editor: {
@@ -988,17 +988,6 @@ const phrases = {
   },
   modal: {
     closeModal: 'Lukk',
-  },
-  languages: {
-    nb: 'Bokmål',
-    nn: 'Nynorsk',
-    en: 'Engelsk',
-    fr: 'Fransk',
-    de: 'Tysk',
-    se: 'Samisk',
-    es: 'Spansk',
-    zh: 'Kinesisk',
-    unknown: 'Ukjent',
   },
   conceptform: {
     title: 'Begrep',

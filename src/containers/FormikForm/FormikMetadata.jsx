@@ -22,7 +22,9 @@ const FormikMetadata = ({ t, tags }) => (
       label={t('form.tags.label')}
       description={t('form.tags.description')}
       obligatory>
-      {({ field }) => <MultiSelectDropdown {...field} data={tags} />}
+      {({ field }) => (
+        <MultiSelectDropdown showCreateOption {...field} data={tags} />
+      )}
     </FormikField>
     <FormikField
       name="metaDescription"

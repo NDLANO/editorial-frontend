@@ -8,7 +8,7 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, fireEvent, cleanup, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { RelatedArticleBox } from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 
@@ -39,10 +39,8 @@ test('it goes in and out of edit mode', async () => {
 
   const input = getByTestId('addExternalUrlInput');
   const inputTitle = getByTestId('addExternalTitleInput');
-  input.value = 'https://www.vg.no';
-  inputTitle.value = 'Verdens gang';
-  fireEvent.change(input);
-  fireEvent.change(inputTitle);
+  fireEvent.change(input, { target: { value: 'https://www.vg.no' } });
+  fireEvent.change(inputTitle, { target: { value: 'Verdens gang' } });
 
   fireEvent.click(getByTestId('taxonomyLightboxButton'));
   await wait();

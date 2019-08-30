@@ -44,6 +44,7 @@ import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import { queryTopics, updateTopic } from '../../../modules/taxonomy';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -213,10 +214,11 @@ class TopicArticleForm extends Component {
     const { revision } = article;
     const status = articleStatus ? articleStatus.current : undefined;
 
+    const newArticle = this.getArticle(values);
     if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
       try {
         await validateDraft(values.id, {
-          ...this.getArticle(values),
+          ...newArticle,
           revision,
         });
       } catch (error) {
@@ -229,9 +231,19 @@ class TopicArticleForm extends Component {
 
     try {
       await onUpdate({
-        ...this.getArticle(values),
+        ...newArticle,
         revision,
       });
+      if (article.title !== newArticle.title) {
+        // update topic name in taxonomy
+        const topics = await queryTopics(article.id, article.language);
+        topics.forEach(topic =>
+          updateTopic({
+            ...topic,
+            name: newArticle.title,
+          }),
+        );
+      }
       actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
@@ -264,6 +276,7 @@ class TopicArticleForm extends Component {
               <HeaderWithLanguage
                 values={values}
                 type={values.articleType}
+                title={article.title}
                 getArticle={() => this.getArticle(values)}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)

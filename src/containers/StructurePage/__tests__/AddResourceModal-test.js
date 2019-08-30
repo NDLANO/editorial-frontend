@@ -8,7 +8,7 @@
 
 import React from 'react';
 import nock from 'nock';
-import { render, fireEvent, cleanup, wait } from 'react-testing-library';
+import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AddResourceModal from '../resourceComponents/AddResourceModal';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
@@ -111,8 +111,7 @@ test('Can paste a valid url and add it to topic', async () => {
     .reply(201);
   const { container, getByTestId } = wrapper();
   const input = getByTestId('addResourceUrlInput');
-  input.value = ndlaUrl;
-  fireEvent.change(input);
+  fireEvent.change(input, { target: { value: ndlaUrl } });
 
   await wait(() => getByTestId('articlePreview'));
   expect(container.firstChild).toMatchSnapshot();

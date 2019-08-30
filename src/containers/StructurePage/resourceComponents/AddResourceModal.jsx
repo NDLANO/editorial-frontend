@@ -244,9 +244,9 @@ class AddResourceModal extends Component {
                 <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
               )}
               <AsyncDropdown
-                valueField="id"
+                idField="id"
                 name="resourceSearch"
-                textField="title"
+                labelField="title"
                 placeholder={t('form.content.relatedArticle.placeholder')}
                 label="label"
                 apiAction={this.onInputSearch}

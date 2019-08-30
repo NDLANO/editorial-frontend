@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ResourceItems from '../resourceComponents/ResourceItems';
 import {
@@ -26,6 +26,7 @@ const wrapper = () =>
           resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
           contentType="topic-article"
           activeFilter="filter"
+          locale="nb"
           refreshResources={() => {}}
         />
       </IntlWrapper>

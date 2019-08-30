@@ -155,13 +155,8 @@ test('serialize footnote', () => {
     nodes: [
       {
         object: 'text',
-        leaves: [
-          {
-            object: 'leaf',
-            marks: [],
-            text: '#',
-          },
-        ],
+        text: '#',
+        marks: [],
       },
     ],
     type: 'footnote',

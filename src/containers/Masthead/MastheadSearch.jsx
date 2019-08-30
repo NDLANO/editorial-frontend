@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { getSearching } from '../../modules/search/searchSelectors';
 import { toSearch } from '../../util/routeHelpers';
+import { HistoryShape, LocationShape } from '../../shapes';
 
 class MastheadSearch extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -57,13 +58,9 @@ class MastheadSearch extends Component {
 }
 
 MastheadSearch.propTypes = {
-  location: PropTypes.shape({
-    search: PropTypes.string,
-  }).isRequired,
+  location: LocationShape,
   searching: PropTypes.bool.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  history: HistoryShape,
   close: PropTypes.func,
 };
 

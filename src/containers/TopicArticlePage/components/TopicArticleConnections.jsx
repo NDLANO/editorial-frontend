@@ -15,10 +15,10 @@ import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import ActiveTopicConnections from '../../LearningResourcePage/components/taxonomy/ActiveTopicConnections';
 import { HowToHelper } from '../../../components/HowTo';
 import { StructureShape, TopicShape } from '../../../shapes';
 import StructureFunctionButtons from './StructureFunctionButtons';
+import ActiveTopicConnections from '../../../components/Taxonomy/ActiveTopicConnections';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -32,7 +32,7 @@ class TopicArticleConnections extends Component {
       activeFilters: [],
     };
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
-    this.addToTopic = this.addToTopic.bind(this);
+    this.addTopic = this.addTopic.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
@@ -58,11 +58,6 @@ class TopicArticleConnections extends Component {
         openedPaths,
       };
     });
-  }
-
-  async addToTopic(id, closeModal) {
-    this.props.stageTaxonomyChanges({ addTopicId: id });
-    closeModal();
   }
 
   async addTopic(path, closeModal) {
@@ -91,7 +86,7 @@ class TopicArticleConnections extends Component {
     return (
       <Fragment>
         <FieldHeader
-          title={t('taxonomy.topics.title')}
+          title={t('taxonomy.topics.topicPlacement')}
           subTitle={t('taxonomy.topics.subTitleTopic')}>
           <HowToHelper
             pageId="TaxonomyTopicConnections"
@@ -103,50 +98,53 @@ class TopicArticleConnections extends Component {
           type="topic-article"
           {...rest}
         />
-        <Modal
-          backgroundColor="white"
-          animation="subtle"
-          size="large"
-          narrow
-          minHeight="85vh"
-          activateButton={
-            <Button>{t('taxonomy.topics.filestructureButton')}</Button>
-          }>
-          {closeModal => (
-            <Fragment>
-              <ModalHeader>
-                <ModalCloseButton
-                  title={t('taxonomy.topics.filestructureClose')}
-                  onClick={closeModal}
-                />
-              </ModalHeader>
-              <ModalBody>
-                <StyledTitleModal>
-                  {t('taxonomy.topics.filestructureHeading')}:
-                </StyledTitleModal>
-                <hr />
-                <Structure
-                  openedPaths={openedPaths}
-                  structure={structure}
-                  toggleOpen={this.handleOpenToggle}
-                  renderListItems={props => (
-                    <StructureFunctionButtons
-                      {...props}
-                      activeTopics={activeTopics}
-                      availableFilters={availableFilters}
-                      activeFilters={activeFilters}
-                      toggleFilter={this.toggleFilter}
-                      addToTopic={() => this.addToTopic(props.id, closeModal)}
-                      addTopic={() => this.addTopic(props.path, closeModal)}
-                    />
-                  )}
-                  activeFilters={activeFilters}
-                  filters={availableFilters}
-                />
-              </ModalBody>
-            </Fragment>
-          )}
-        </Modal>
+        {activeTopics.length === 0 && (
+          <Modal
+            backgroundColor="white"
+            animation="subtle"
+            size="large"
+            narrow
+            minHeight="85vh"
+            activateButton={
+              <Button>
+                {t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}
+              </Button>
+            }>
+            {closeModal => (
+              <Fragment>
+                <ModalHeader>
+                  <ModalCloseButton
+                    title={t('taxonomy.topics.filestructureClose')}
+                    onClick={closeModal}
+                  />
+                </ModalHeader>
+                <ModalBody>
+                  <StyledTitleModal>
+                    {t('taxonomy.topics.filestructureHeading')}:
+                  </StyledTitleModal>
+                  <hr />
+                  <Structure
+                    openedPaths={openedPaths}
+                    structure={structure}
+                    toggleOpen={this.handleOpenToggle}
+                    renderListItems={props => (
+                      <StructureFunctionButtons
+                        {...props}
+                        activeTopics={activeTopics}
+                        availableFilters={availableFilters}
+                        activeFilters={activeFilters}
+                        toggleFilter={this.toggleFilter}
+                        addTopic={() => this.addTopic(props.path, closeModal)}
+                      />
+                    )}
+                    activeFilters={activeFilters}
+                    filters={availableFilters}
+                  />
+                </ModalBody>
+              </Fragment>
+            )}
+          </Modal>
+        )}
       </Fragment>
     );
   }
@@ -164,7 +162,6 @@ TopicArticleConnections.propTypes = {
       path: PropTypes.string,
     }),
   ),
-  removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   availableFilters: PropTypes.objectOf(
     PropTypes.arrayOf(

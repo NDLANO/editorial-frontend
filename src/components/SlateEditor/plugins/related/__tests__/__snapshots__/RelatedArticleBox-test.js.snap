@@ -110,7 +110,9 @@ exports[`it goes in and out of edit mode 2`] = `
               href="https://www.vg.no"
               rel="noopener noreferrer"
               target="_blank"
-            />
+            >
+              Verdens gang
+            </a>
           </span>
         </h1>
         <p

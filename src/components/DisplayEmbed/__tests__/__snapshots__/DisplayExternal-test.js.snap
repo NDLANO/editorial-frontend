@@ -5,23 +5,26 @@ exports[`DisplayExternal display error on fetch fail 1`] = `null`;
 exports[`DisplayExternal renders external correctly 1`] = `null`;
 
 exports[`DisplayExternal renders iframe correctly 1`] = `
-.emotion-16 {
+.emotion-14 {
   position: absolute;
   top: 0;
   z-index: 1;
   right: -6.5px;
 }
 
-.emotion-16 > * {
+.emotion-14 > * {
   margin-bottom: 6.5px;
 }
 
-.emotion-6 {
+.emotion-5 {
   position: relative;
 }
 
 .emotion-1 {
   opacity: 0;
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   -webkit-animation-delay: 0ms;
@@ -33,8 +36,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
 .emotion-0 {
   display: block;
   color: #fff;
-  position: absolute;
-  z-index: 9999;
   background: #20588f;
   border-radius: 2px;
   padding: 6.5px 13px;
@@ -46,11 +47,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   text-align: center;
   white-space: nowrap;
   max-width: calc(100vw - #{26px});
-  pointer-events: none;
-}
-
-.emotion-5 {
-  display: inline-block;
 }
 
 .emotion-3 {
@@ -115,7 +111,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
-.emotion-11 {
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -140,7 +136,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   height: 26px;
 }
 
-.emotion-11 svg {
+.emotion-10 svg {
   width: 22px;
   height: 22px;
   position: relative;
@@ -148,7 +144,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   pointer-events: none;
 }
 
-.emotion-11::before {
+.emotion-10::before {
   content: '';
   display: block;
   position: absolute;
@@ -164,13 +160,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   transition: all 200ms ease;
 }
 
-.emotion-11:hover,
-.emotion-11:focus {
+.emotion-10:hover,
+.emotion-10:focus {
   color: #20588f;
 }
 
-.emotion-11:hover::before,
-.emotion-11:focus::before {
+.emotion-10:hover::before,
+.emotion-10:focus::before {
   -webkit-transform: scale(1.25);
   -ms-transform: scale(1.25);
   transform: scale(1.25);
@@ -181,10 +177,10 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   className="c-figure"
 >
   <div
-    className="emotion-16 emotion-17"
+    className="emotion-14 emotion-15"
   >
     <div
-      className=" emotion-6 emotion-7"
+      className=" emotion-5 emotion-6"
     >
       <div
         className="emotion-1 emotion-2"
@@ -199,15 +195,9 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
       <div
         aria-label=""
-        className=" emotion-5"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onKeyPress={[Function]}
+        className=""
         onMouseEnter={[Function]}
-        onMouseMove={[Function]}
-        onMouseOut={[Function]}
-        role="button"
-        tabIndex={0}
+        onMouseLeave={[Function]}
       >
         <button
           className="emotion-3 emotion-4"
@@ -253,7 +243,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
     </div>
     <div
-      className=" emotion-6 emotion-7"
+      className=" emotion-5 emotion-6"
     >
       <div
         className="emotion-1 emotion-2"
@@ -268,18 +258,12 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
       <div
         aria-label=""
-        className=" emotion-5"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onKeyPress={[Function]}
+        className=""
         onMouseEnter={[Function]}
-        onMouseMove={[Function]}
-        onMouseOut={[Function]}
-        role="button"
-        tabIndex={0}
+        onMouseLeave={[Function]}
       >
         <button
-          className="emotion-11 emotion-4"
+          className="emotion-10 emotion-4"
           onClick={[Function]}
           tabIndex={-1}
         >

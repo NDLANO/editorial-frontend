@@ -5,14 +5,9 @@ const lineBlock = {
   data: {},
   nodes: [
     {
-      leaves: [
-        {
-          marks: [],
-          object: 'leaf',
-          text: 'Text from PlaintextEditor',
-        },
-      ],
+      text: 'Text from PlaintextEditor',
       object: 'text',
+      marks: [],
     },
   ],
   object: 'block',

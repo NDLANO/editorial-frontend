@@ -11,10 +11,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
-import { Form } from 'formik';
-import FormikField from '../../components/FormikField';
-import { FormikIngress } from '../FormikForm';
-import LastUpdatedLineConcept from '../../components/LastUpdatedLineConcept';
+import FormikField from '../../../components/FormikField';
+import { FormikIngress } from '../../FormikForm';
+import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 
 const byLineStyle = css`
   display: flex;
@@ -29,7 +28,7 @@ const ConceptContent = props => {
     },
   } = props;
   return (
-    <Form>
+    <>
       <FormikField
         label={t('form.title.label')}
         name="title"
@@ -55,7 +54,7 @@ const ConceptContent = props => {
         maxLength={800}
         placeholder={t('form.name.conceptContent')}
       />
-    </Form>
+    </>
   );
 };
 

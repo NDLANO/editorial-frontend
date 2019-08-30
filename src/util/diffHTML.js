@@ -12,6 +12,7 @@ const Differ = require('diff-match-patch');
 const differ = new Differ();
 
 const allowedConversions = [['&#x27;', "'"], ['&quot;', '"']];
+const brWrappers = ['strong', 'em', 'u'];
 
 /**
  * Get current, next and previous diff values. Return undefined if one of them is undefiend
@@ -89,7 +90,16 @@ function allowStrongRemoval({ current, next, previous }) {
     return true;
   }
   // I.E. <strong>one</strong><strong>two</strong> -> <strong>onetwo</strong>
-  if (current === '</strong><strong>') {
+  if (brWrappers.some(tag => current.includes(`${tag}></${tag}`))) {
+    return true;
+  }
+  return false;
+}
+function allowBrWrapping({ current, next }) {
+  if (
+    current === 'br/' ||
+    brWrappers.some(tag => current.includes(`${tag}><br/></${tag}`))
+  ) {
     return true;
   }
   return false;
@@ -111,6 +121,7 @@ function isRemovalAllowed(index, diffs) {
       allowSpaceReplacement,
       allowStrongRemoval,
       allowSlashRemoval,
+      allowBrWrapping,
     ].find(fn => fn(values) === true);
     return result !== undefined;
   }

@@ -84,4 +84,8 @@ a.c-button {
 
 .ReactCrop {
   margin-bottom: -6px;
+
+  &__image {
+    max-height: none;
+  }
 }

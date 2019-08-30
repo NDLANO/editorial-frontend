@@ -7,7 +7,7 @@
  *
  */
 
-import { schema, renderNode } from './schema';
+import { schema, renderBlock } from './schema';
 import { onEnter, onBackspace } from './actions';
 
 const KEY_ENTER = 'Enter';
@@ -54,6 +54,6 @@ export default function headingPlugin(opts = {}) {
     schema,
     onKeyDown,
     onKeyUp,
-    renderNode,
+    renderBlock,
   };
 }

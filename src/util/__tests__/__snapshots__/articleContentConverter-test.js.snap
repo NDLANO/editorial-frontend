@@ -14,14 +14,9 @@ Object {
             "data": Object {},
             "nodes": Array [
               Object {
-                "leaves": Array [
-                  Object {
-                    "marks": Array [],
-                    "object": "leaf",
-                    "text": "Lorem ipsum",
-                  },
-                ],
+                "marks": Array [],
                 "object": "text",
+                "text": "Lorem ipsum",
               },
             ],
             "object": "block",

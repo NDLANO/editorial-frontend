@@ -1,20 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`fetches and renders a list of subjects and topics based on pathname 1`] = `
-@keyframes animation-0 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
 .emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -299,23 +285,142 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   outline-width: medium;
 }
 
-.emotion-175 {
+.emotion-127 {
   margin: 0;
   padding: 0;
 }
 
-.emotion-483 {
-  border: 0.4em solid #e8e3e3;
-  border-bottom-color: #20588f;
-  border-radius: 50%;
-  margin: 0 auto;
-  width: 3em;
-  height: 3em;
-  -webkit-animation: animation-0 0.7s linear infinite;
-  animation: animation-0 0.7s linear infinite;
+.emotion-417 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.6rem 0;
 }
 
-.emotion-15 {
+.emotion-417,
+.emotion-417:hover {
+  padding: 0;
+  color: white;
+  height: 50px;
+  background: linear-gradient(180deg,white,#eff0f2);
+  border: 1px solid #eff0f2;
+}
+
+.emotion-409 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.6rem 0;
+}
+
+.emotion-409:hover,
+.emotion-409:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-409:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-409[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-409:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-409:hover,
+.emotion-409:active,
+.emotion-409:disabled,
+.emotion-409:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-409:focus {
+  outline-width: medium;
+}
+
+.emotion-409,
+.emotion-409:hover {
+  padding: 0;
+  color: white;
+  height: 50px;
+  background: linear-gradient(180deg,white,#eff0f2);
+  border: 1px solid #eff0f2;
+}
+
+.emotion-11 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -327,15 +432,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-15 > ul {
+.emotion-11 > ul {
   display: none;
 }
 
-.emotion-15 > div > button {
+.emotion-11 > div > button {
   color: rgb(32,88,143,0.5);
 }
 
-.emotion-13 {
+.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -349,7 +454,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-13:hover {
+.emotion-9:hover {
   background: #f1f5f8;
 }
 
@@ -394,7 +499,80 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( 0deg );
 }
 
-.emotion-11 {
+.emotion-219 {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-219 > ul {
+  display: none;
+}
+
+.emotion-219 > ul {
+  display: block;
+}
+
+.emotion-73 {
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1;
+  font-weight: 600;
+  border: 0;
+  background: 0;
+  color: #20588f;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.emotion-73:before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 9px solid #444;
+  margin-right: 6.5px;
+}
+
+.emotion-73:before {
+  -webkit-transition: -webkit-transform 200ms ease;
+  -webkit-transition: transform 200ms ease;
+  transition: transform 200ms ease;
+  -webkit-transform: rotate( 90deg );
+  -ms-transform: rotate( 90deg );
+  transform: rotate( 90deg );
+}
+
+.emotion-79 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-79 > button {
+  outline: none;
+}
+
+.emotion-77 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -426,8 +604,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   font-weight: 400;
 }
 
-.emotion-11:hover,
-.emotion-11:focus {
+.emotion-77:hover,
+.emotion-77:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -436,13 +614,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-11:active {
+.emotion-77:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-11[disabled] {
+.emotion-77[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -452,14 +630,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-11:focus {
+.emotion-77:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-11:hover,
-.emotion-11:active,
-.emotion-11:disabled,
-.emotion-11:focus {
+.emotion-77:hover,
+.emotion-77:active,
+.emotion-77:disabled,
+.emotion-77:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -469,116 +647,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-11:focus {
+.emotion-77:focus {
   outline-width: medium;
 }
 
-.emotion-9 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 28px;
-  width: 28px;
-  border-radius: 50%;
-  border: 1px solid;
-  line-height: normal;
-  background-color: white;
-}
-
-.emotion-9 > svg {
-  height: 20px;
-  width: 20px;
-}
-
-.emotion-9:hover,
-.emotion-9:focus {
-  background-color: #4d4d4d;
-  color: #f8f8f8;
-}
-
-.emotion-265 {
-  margin: 0;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-265 > ul {
-  display: none;
-}
-
-.emotion-265 > ul {
-  display: block;
-}
-
-.emotion-117 {
-  font-size: 16;
-  font-size: 0.8888888888888888rem;
-  line-height: 1;
-  font-weight: 600;
-  border: 0;
-  background: 0;
-  color: #20588f;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  text-align: left;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.emotion-117:before {
-  content: '';
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 9px solid #444;
-  margin-right: 6.5px;
-}
-
-.emotion-117:before {
-  -webkit-transition: -webkit-transform 200ms ease;
-  -webkit-transition: transform 200ms ease;
-  transition: transform 200ms ease;
-  -webkit-transform: rotate( 90deg );
-  -ms-transform: rotate( 90deg );
-  transform: rotate( 90deg );
-}
-
-.emotion-123 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-123 > button {
-  outline: none;
-}
-
-.emotion-119 {
+.emotion-75 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -600,18 +673,18 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin: 0 calc(13px / 2);
 }
 
-.emotion-119 > svg {
+.emotion-75 > svg {
   height: 20px;
   width: 20px;
 }
 
-.emotion-119:hover,
-.emotion-119:focus {
+.emotion-75:hover,
+.emotion-75:focus {
   background-color: #4d4d4d;
   color: #f8f8f8;
 }
 
-.emotion-127 {
+.emotion-83 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -619,7 +692,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: auto;
 }
 
-.emotion-125 {
+.emotion-81 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.2 font-weight:600;
@@ -638,7 +711,99 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   white-space: nowrap;
 }
 
-.emotion-139 {
+.emotion-413 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-413:hover,
+.emotion-413:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-413:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-413[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-413:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-413:hover,
+.emotion-413:active,
+.emotion-413:disabled,
+.emotion-413:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-413:focus {
+  outline-width: medium;
+}
+
+.emotion-413,
+.emotion-413:hover,
+.emotion-413:focus {
+  white-space: nowrap;
+  color: #777777;
+  font-size: 1.2rem;
+  border-left: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  background: linear-gradient(180deg,white,#e9eff2 50%,#e9eff2 100%);
+  padding: 0 13px;
+  height: 100%;
+}
+
+.emotion-91 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -650,11 +815,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-139 > ul {
+.emotion-91 > ul {
   display: none;
 }
 
-.emotion-137 {
+.emotion-89 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -668,11 +833,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-137:hover {
+.emotion-89:hover {
   background: #f1f5f8;
 }
 
-.emotion-135 {
+.emotion-87 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -693,7 +858,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-135:before {
+.emotion-87:before {
   content: '';
   display: block;
   width: 8px;
@@ -705,7 +870,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 7px;
 }
 
-.emotion-135:before {
+.emotion-87:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -714,7 +879,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( deg );
 }
 
-.emotion-147 {
+.emotion-99 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -728,11 +893,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-147:hover {
+.emotion-99:hover {
   background: #f1f5f8;
 }
 
-.emotion-255 {
+.emotion-209 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -744,16 +909,95 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-255 > ul {
+.emotion-209 > ul {
   display: none;
 }
 
-.emotion-255 > ul {
+.emotion-209 > ul {
   display: block;
 }
 
-.emotion-255 > div {
+.emotion-209 > div {
   background: #ceddea;
+}
+
+.emotion-205 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  color: #20588f;
+  background-color: transparent;
+  border: 2px solid #20588f;
+  font-weight: 700;
+  box-shadow: none;
+  margin: 3px 6.5px 3px auto;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.1;
+}
+
+.emotion-205:hover,
+.emotion-205:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-205:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-205[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-205:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-205:hover,
+.emotion-205:focus {
+  color: white;
+  background-color: #20588f;
+  border: 2px solid transparent;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-205:disabled {
+  border: 2px solid transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
 }
 
 <div
@@ -859,13 +1103,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="emotion-175 emotion-176"
+          class="emotion-127 emotion-128"
         >
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -877,48 +1121,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -930,48 +1140,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -983,48 +1159,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1036,48 +1178,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1089,48 +1197,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1142,48 +1216,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1195,48 +1235,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1248,48 +1254,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1301,48 +1273,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1354,48 +1292,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -1407,51 +1311,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-265 emotion-16"
+            class="emotion-219 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
-                class="emotion-117 emotion-8"
+                class="emotion-73 emotion-8"
                 id="urn:subject:1"
                 type="button"
               >
@@ -1462,15 +1332,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 data-cy="folderWrapper"
               >
                 <div
-                  class="emotion-123 emotion-124"
+                  class="emotion-79 emotion-80"
                 >
                   <button
-                    class="emotion-11 emotion-1"
+                    class="emotion-77 emotion-1"
                     data-cy="settings-button-subject"
                     type="button"
                   >
                     <div
-                      class="emotion-119 emotion-10"
+                      class="emotion-75 emotion-76"
                     >
                       <svg
                         class="c-icon"
@@ -1500,61 +1370,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </button>
                 </div>
                 <div
-                  class="emotion-127 emotion-128"
+                  class="emotion-83 emotion-84"
                 >
                   <span
-                    class="emotion-125 emotion-126"
+                    class="emotion-81 emotion-82"
                   >
                     Filtrer emner
                     :
                   </span>
                 </div>
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
               </div>
             </div>
             <ul
-              class="emotion-175 emotion-176"
+              class="emotion-127 emotion-128"
             >
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
-                    class="emotion-135 emotion-8"
+                    class="emotion-87 emotion-8"
                     id="urn:subject:1/urn:topic:1:186401"
                     type="button"
                   >
@@ -1567,10 +1404,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </div>
               </li>
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
                     class="emotion-7 emotion-8"
@@ -1585,16 +1422,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:172597"
                         type="button"
                       >
@@ -1607,13 +1444,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:186404"
                         type="button"
                       >
@@ -1626,13 +1463,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:172600"
                         type="button"
                       >
@@ -1645,13 +1482,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:186407"
                         type="button"
                       >
@@ -1664,13 +1501,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172416/urn:topic:1:184482"
                         type="button"
                       >
@@ -1685,10 +1522,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
                     class="emotion-7 emotion-8"
@@ -1703,16 +1540,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186464"
                         type="button"
                       >
@@ -1725,13 +1562,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:184483"
                         type="button"
                       >
@@ -1744,13 +1581,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:183085"
                         type="button"
                       >
@@ -1763,13 +1600,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186468"
                         type="button"
                       >
@@ -1782,13 +1619,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186471"
                         type="button"
                       >
@@ -1801,13 +1638,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:186474"
                         type="button"
                       >
@@ -1820,13 +1657,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186460/urn:topic:1:169379"
                         type="button"
                       >
@@ -1841,13 +1678,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="emotion-265 emotion-16"
+                class="emotion-219 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
-                    class="emotion-117 emotion-8"
+                    class="emotion-73 emotion-8"
                     id="urn:subject:1/urn:topic:1:186479"
                     type="button"
                   >
@@ -1858,15 +1695,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     data-cy="folderWrapper"
                   >
                     <div
-                      class="emotion-123 emotion-124"
+                      class="emotion-79 emotion-80"
                     >
                       <button
-                        class="emotion-11 emotion-1"
+                        class="emotion-77 emotion-1"
                         data-cy="settings-button-topic"
                         type="button"
                       >
                         <div
-                          class="emotion-119 emotion-10"
+                          class="emotion-75 emotion-76"
                         >
                           <svg
                             class="c-icon"
@@ -1898,16 +1735,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </div>
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186479/urn:topic:1:186487"
                         type="button"
                       >
@@ -1920,13 +1757,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-255 emotion-16"
+                    class="emotion-209 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186479/urn:topic:1:172650"
                         type="button"
                       >
@@ -1937,15 +1774,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         data-cy="folderWrapper"
                       >
                         <div
-                          class="emotion-123 emotion-124"
+                          class="emotion-79 emotion-80"
                         >
                           <button
-                            class="emotion-11 emotion-1"
+                            class="emotion-77 emotion-1"
                             data-cy="settings-button-topic"
                             type="button"
                           >
                             <div
-                              class="emotion-119 emotion-10"
+                              class="emotion-75 emotion-76"
                             >
                               <svg
                                 class="c-icon"
@@ -1974,17 +1811,23 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             </div>
                           </button>
                         </div>
+                        <button
+                          class="emotion-205 emotion-1"
+                          type="button"
+                        >
+                          Hopp til ressurser
+                        </button>
                       </div>
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:186479/urn:topic:1:185606"
                         type="button"
                       >
@@ -1999,10 +1842,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
                     class="emotion-7 emotion-8"
@@ -2017,16 +1860,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:165853"
                         type="button"
                       >
@@ -2039,13 +1882,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:165738"
                         type="button"
                       >
@@ -2058,13 +1901,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:166321"
                         type="button"
                       >
@@ -2077,13 +1920,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:166872"
                         type="button"
                       >
@@ -2096,13 +1939,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:171906/urn:topic:1:178849"
                         type="button"
                       >
@@ -2117,10 +1960,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
                     class="emotion-7 emotion-8"
@@ -2135,16 +1978,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172361/urn:topic:1:186069"
                         type="button"
                       >
@@ -2157,13 +2000,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172361/urn:topic:1:171903"
                         type="button"
                       >
@@ -2178,10 +2021,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
                     class="emotion-7 emotion-8"
@@ -2196,16 +2039,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:162756"
                         type="button"
                       >
@@ -2218,13 +2061,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:172615"
                         type="button"
                       >
@@ -2237,13 +2080,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:184484"
                         type="button"
                       >
@@ -2256,13 +2099,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:185588"
                         type="button"
                       >
@@ -2275,13 +2118,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172362/urn:topic:1:184485"
                         type="button"
                       >
@@ -2296,10 +2139,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </ul>
               </li>
               <li
-                class="emotion-139 emotion-16"
+                class="emotion-91 emotion-12"
               >
                 <div
-                  class="emotion-137 emotion-14"
+                  class="emotion-89 emotion-10"
                 >
                   <button
                     class="emotion-7 emotion-8"
@@ -2314,16 +2157,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   />
                 </div>
                 <ul
-                  class="emotion-175 emotion-176"
+                  class="emotion-127 emotion-128"
                 >
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:172789"
                         type="button"
                       >
@@ -2336,13 +2179,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:172790"
                         type="button"
                       >
@@ -2355,13 +2198,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:172791"
                         type="button"
                       >
@@ -2374,13 +2217,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:184496"
                         type="button"
                       >
@@ -2393,13 +2236,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:184504"
                         type="button"
                       >
@@ -2412,13 +2255,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                     </div>
                   </li>
                   <li
-                    class="emotion-139 emotion-16"
+                    class="emotion-91 emotion-12"
                   >
                     <div
-                      class="emotion-147 emotion-14"
+                      class="emotion-99 emotion-10"
                     >
                       <button
-                        class="emotion-135 emotion-8"
+                        class="emotion-87 emotion-8"
                         id="urn:topic:1:172568/urn:topic:1:184505"
                         type="button"
                       >
@@ -2435,10 +2278,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </ul>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2450,48 +2293,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2503,48 +2312,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2556,48 +2331,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2609,48 +2350,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2662,48 +2369,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2715,48 +2388,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
           <li
-            class="emotion-15 emotion-16"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-13 emotion-14"
+              class="emotion-9 emotion-10"
             >
               <button
                 class="emotion-7 emotion-8"
@@ -2768,41 +2407,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
               <div
                 class="c-folder__wrapper"
                 data-cy="folderWrapper"
-              >
-                <div
-                  style="display: none;"
-                >
-                  <button
-                    class="emotion-11 emotion-1"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-9 emotion-10"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Link
-                        </title>
-                        <g>
-                          <path
-                            d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              </div>
+              />
             </div>
           </li>
         </ul>
@@ -2810,8 +2415,576 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       </div>
     </div>
   </div>
+  <div>
+    <div
+      class="c-accordion c-accordion--resourceGroup"
+    >
+      <button
+        class="emotion-409 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Emnebeskrivelse
+        </span>
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandLess
+          </title>
+          <g>
+            <path
+              d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+            />
+          </g>
+        </svg>
+      </button>
+      <div
+        class="c-accordion__content c-accordion__content--visible c-accordion__content--resourceGroup"
+      />
+    </div>
+  </div>
   <div
-    class="emotion-483 emotion-484"
-  />
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Fagstoff
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Oppgaver og aktiviteter
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Vurderingsressurs
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Læringssti
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Kildemateriale
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Ekstern læringsressurs
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
+  <div
+    class="c-accordion c-accordion--resourceGroup"
+  >
+    <div
+      class="emotion-417"
+    >
+      <button
+        class="emotion-0 emotion-1"
+        type="button"
+      >
+        <span
+          class="c-accordion__title c-accordion__title--resourceGroup"
+        >
+          Begrep
+        </span>
+      </button>
+      <button
+        class="emotion-413 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            Plus
+          </title>
+          <g>
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+        Legg til ressurs
+      </button>
+      <button
+        class="emotion-4 emotion-1"
+        type="button"
+      >
+        <svg
+          class="c-icon c-accordion__arrow c-accordion__arrow--resourceGroup"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
+        >
+          <title>
+            ExpandMore
+          </title>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="c-accordion__content c-accordion__content--hidden c-accordion__content--resourceGroup"
+    />
+  </div>
 </div>
 `;

@@ -41,19 +41,25 @@ import {
 } from '../../FormikForm';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
-import { ConceptShape, LicensesArrayOf } from '../../../shapes';
+import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
 import { addConcept } from '../../../modules/concept/conceptApi.js';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 
-const getInitialValues = (concept = {}) => {
+const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
+  console.log(concept.tags);
   return {
     id: concept.id,
     title: concept.title || '',
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
+    subjects: concept.subjectIds
+      ? concept.subjectIds.map(subjectId =>
+          subjects.find(subject => subject.id === subjectId),
+        )
+      : [],
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
@@ -70,6 +76,7 @@ const getInitialValues = (concept = {}) => {
         : DEFAULT_LICENSE.license,
     metaImageId,
     metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
+    tags: concept.tags || [],
   };
 };
 
@@ -131,10 +138,9 @@ class ConceptForm extends Component {
       return undefined;
     }
     const { concept } = this.props;
-    const initialValues = getInitialValues(concept);
 
-    const hasCreatedDateChanged = initialValues.created !== values.created;
-    if (hasCreatedDateChanged || values.updateCreated) {
+    const hasCreatedDateChanged = concept.created !== values.created;
+    if (hasCreatedDateChanged) {
       return values.created;
     }
     return undefined;
@@ -154,6 +160,8 @@ class ConceptForm extends Component {
         creators: values.creators,
         agreementId: values.agreementId,
       },
+      subjectIds: values.subjects.map(subject => subject.id),
+      tags: values.tags,
       created: this.getCreatedDate(values),
       metaImage: {
         id: values.metaImageId,
@@ -195,6 +203,8 @@ class ConceptForm extends Component {
       onUpdate,
       onClose,
       inModal,
+      subjects,
+      tags,
       ...rest
     } = this.props;
     const { savedToServer, showResetModal } = this.state;
@@ -227,7 +237,7 @@ class ConceptForm extends Component {
       },
     ];
 
-    const initialValues = getInitialValues(concept);
+    const initialValues = getInitialValues(concept, subjects);
 
     return (
       <Formik
@@ -285,6 +295,8 @@ class ConceptForm extends Component {
                             <div className={panel.className}>
                               {panel.component({
                                 values,
+                                subjects,
+                                tags,
                                 closePanel: () => handleItemClick(panel.id),
                                 ...rest,
                               })}
@@ -369,6 +381,8 @@ ConceptForm.propTypes = {
   onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape),
 };
 
 const mapDispatchToProps = {

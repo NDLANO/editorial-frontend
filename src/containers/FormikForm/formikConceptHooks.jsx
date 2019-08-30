@@ -1,14 +1,23 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
+import * as taxonomyApi from '../../modules/taxonomy';
+import * as draftApi from '../../modules/draft/draftApi';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 
 export function useFetchConceptData(conceptId, locale) {
-  let [concept, setConcept] = useState(undefined);
+  const [concept, setConcept] = useState(undefined);
+  const [subjects, setSubjects] = useState([]);
+  const [tags, setTags] = useState([]);
   const fetchConcept = async () => {
     if (conceptId) {
       const concept = await conceptApi.fetchConcept(conceptId, locale);
       setConcept(transformConceptFromApiVersion(concept, locale));
     }
+  };
+
+  const fetchSubjects = async () => {
+    const fetchedSubjects = await taxonomyApi.fetchSubjects();
+    setSubjects(fetchedSubjects);
   };
 
   const updateConcept = async updatedConcept => {
@@ -23,9 +32,19 @@ export function useFetchConceptData(conceptId, locale) {
     return savedConcept;
   };
 
+  const fetchTags = async () => {
+    const newTags = await draftApi.fetchTags(locale);
+    setTags(newTags ? newTags.tags : []);
+  };
+
   useEffect(() => {
     fetchConcept();
+    fetchTags();
   }, [conceptId, locale]);
 
-  return { concept, createConcept, updateConcept };
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
+
+  return { concept, createConcept, updateConcept, tags, subjects };
 }

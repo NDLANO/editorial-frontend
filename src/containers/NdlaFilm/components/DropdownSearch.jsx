@@ -7,7 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
@@ -22,18 +21,24 @@ const queryResources = async input => {
     query: input,
   };
   const response = await searchResources(query);
-  return response.results;
+  return response.results.map(result => ({
+    ...result,
+    title: result.title ? result.title.title : '',
+  }));
 };
 
-const DropdownSearch = ({ t, selectedMovies, placeholder, onChange }) => (
+const DropdownSearch = ({ selectedMovies, placeholder, onChange }) => (
   <AsyncDropdown
-    valueField="id"
+    idField="id"
     onChange={movie => onChange(movie)}
     apiAction={input => queryResources(input)}
-    selectedItems={selectedMovies.map(movie => movie.title.title)}
+    selectedItems={selectedMovies.map(movie => ({
+      ...movie,
+      title: movie.title ? movie.title.title : '',
+    }))}
     multiSelect
     placeholder={placeholder}
-    textField="title.title"
+    labelField="title"
     disableSelected
   />
 );
@@ -44,4 +49,4 @@ DropdownSearch.propTypes = {
   placeholder: PropTypes.string.isRequired,
 };
 
-export default injectT(DropdownSearch);
+export default DropdownSearch;

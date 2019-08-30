@@ -24,7 +24,9 @@ const AudioMetaData = props => {
         label={t('form.tags.label')}
         obligatory
         description={t('form.tags.description')}>
-        {({ field }) => <MultiSelectDropdown data={tags} {...field} />}
+        {({ field }) => (
+          <MultiSelectDropdown showCreateOption data={tags} {...field} />
+        )}
       </FormikField>
       <FormikField name="license">
         {({ field }) => <FormikLicense licenses={licenses} {...field} />}

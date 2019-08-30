@@ -147,9 +147,9 @@ class EditRelated extends React.PureComponent {
               <StyledListWrapper>{relatedArticles}</StyledListWrapper>
               <StyledArticle>
                 <AsyncDropdown
-                  valueField="id"
+                  idField="id"
                   name="relatedArticleSearch"
-                  textField="title"
+                  labelField="title"
                   placeholder={t('form.content.relatedArticle.placeholder')}
                   label="label"
                   apiAction={this.searchForArticles}

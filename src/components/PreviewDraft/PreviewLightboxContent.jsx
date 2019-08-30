@@ -53,6 +53,7 @@ PreviewLightboxContent.propTypes = {
     title: PropTypes.string,
     introduction: PropTypes.string,
   }),
+  loading: PropTypes.bool,
   typeOfPreview: PropTypes.oneOf([
     'preview',
     'previewProductionArticle',

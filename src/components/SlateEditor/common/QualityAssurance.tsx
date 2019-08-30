@@ -1,7 +1,6 @@
 import React from 'react';
 import { injectT } from '@ndla/i18n';
 import { FooterLinkButton } from '@ndla/editor';
-import PreviewDraftLightbox from '../../PreviewDraft/PreviewDraftLightbox';
 import { toPreviewDraft } from '../../../util/routeHelpers';
 import { isDraftPublished } from '../../../util/articleUtil';
 import * as draftApi from '../../../modules/draft/draftApi';

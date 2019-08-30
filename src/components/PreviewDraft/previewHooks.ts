@@ -1,5 +1,5 @@
-import { Article, PreviewTypes } from './../SlateEditor/editorTypes';
 import isString from 'lodash/isString';
+import { Article, PreviewTypes } from './../SlateEditor/editorTypes';
 import {
   transformArticle,
   transformArticleToApiVersion,

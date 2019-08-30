@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import { TYPE } from '.';
 import ConceptModal from './ConceptModal';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
-import handleError from '../../../../util/handleError';
 
 const getConceptDataAttributes = ({ id, title: { title } }) => ({
   type: TYPE,

@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { injectT } from '@ndla/i18n';
-import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import isString from 'lodash/isString';
 import Lightbox, {
   closeLightboxButtonStyle,
   StyledCross,
 } from '../../Lightbox';
 import { Portal } from '../../Portal';
 import PreviewLightboxContent from '../../PreviewDraft/PreviewLightboxContent';
-import * as articleApi from '../../../modules/article/articleApi';
-import * as draftApi from '../../../modules/draft/draftApi';
 import { fetchPreviews } from '../../PreviewDraft/previewHooks';
 import { Article, PreviewTypes } from '../editorTypes';
 

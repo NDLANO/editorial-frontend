@@ -15,7 +15,7 @@ import {
   FooterStatus,
   FooterLinkButton,
 } from '@ndla/editor';
-import { colors, spacing, fonts } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import SaveButton from '../../components/SaveButton';
 import QualityAssurance from './common/QualityAssurance';
 import ArticlePreviews from './common/ArticlePreviews';

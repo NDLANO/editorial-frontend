@@ -562,6 +562,7 @@ const phrases = {
       addText: 'Choose a concept and press "connect to topic", or',
       edit: 'Edit concept',
       addConcept: 'Add existing concept',
+      source: 'Source',
     },
     workflow: {
       title: 'Status',

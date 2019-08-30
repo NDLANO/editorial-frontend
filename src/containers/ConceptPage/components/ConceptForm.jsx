@@ -64,12 +64,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
     creators: parseCopyrightContributors(concept, 'creators'),
-    processors: parseCopyrightContributors(concept, 'processors'),
-    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
-    origin:
-      concept.copyright && concept.copyright.origin
-        ? concept.copyright.origin
-        : '',
+    source: concept && concept.source ? concept.source : '',
     license:
       concept.copyright && concept.copyright.license
         ? concept.copyright.license.license
@@ -88,12 +83,6 @@ const rules = {
     required: true,
   },
   creators: {
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
     allObjectFieldsRequired: true,
   },
 };
@@ -160,6 +149,7 @@ class ConceptForm extends Component {
         creators: values.creators,
         agreementId: values.agreementId,
       },
+      source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
@@ -381,7 +371,7 @@ ConceptForm.propTypes = {
   onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string),
   subjects: PropTypes.arrayOf(SubjectShape),
 };
 

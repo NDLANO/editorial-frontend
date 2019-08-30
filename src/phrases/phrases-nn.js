@@ -425,6 +425,7 @@ const phrases = {
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
     mathml: 'Matte',
+    concept: 'Forklaring',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -577,9 +578,10 @@ const phrases = {
     },
     concept: {
       create: 'Opprett nytt begrep',
-      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
+      addText: 'Velg eit begrep under og trykk "koble til fagtekst", eller',
       edit: 'Rediger begrep',
-      addConcept: 'Legg til eksisterende begrep',
+      addConcept: 'Legg til eksisterande begrep',
+      source: 'Kjelde',
     },
     workflow: {
       title: 'Status',

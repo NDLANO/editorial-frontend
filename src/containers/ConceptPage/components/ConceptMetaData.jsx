@@ -27,7 +27,7 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
         <FormikLicense licenses={licenses} width={1} {...field} />
       )}
     </FormikField>
-    <FormikField label={t('form.origin.label')} name="origin" />
+    <FormikField label={t('form.concept.source')} name="source" />
     <FormikContributors contributorTypes={contributorTypes} width={1} />
     <FormikField name="metaImageId">
       {({ field }) => (
@@ -54,8 +54,8 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
 
 ConceptMetaData.propTypes = {
   licenses: LicensesArrayOf.isRequired,
-  subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape),
+  tags: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default injectT(ConceptMetaData);

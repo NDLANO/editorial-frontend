@@ -112,11 +112,9 @@ class LearningResourceForm extends Component {
     const {
       article: { language, id },
       t,
+      createMessage,
     } = this.props;
     try {
-      if (this.state.error) {
-        this.setState({ error: undefined });
-      }
       const articleFromProd = await getArticle(id, language);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
@@ -129,7 +127,10 @@ class LearningResourceForm extends Component {
       if (err.status === 404) {
         this.setState({
           showResetModal: false,
-          error: t('errorMessage.noArticleInProd'),
+        });
+        createMessage({
+          message: t('errorMessage.noArticleInProd'),
+          severity: 'danger',
         });
       }
     }
@@ -224,7 +225,7 @@ class LearningResourceForm extends Component {
 
   render() {
     const { t, article, onUpdate, ...rest } = this.props;
-    const { error, savedToServer } = this.state;
+    const { savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
       <Formik
@@ -233,7 +234,15 @@ class LearningResourceForm extends Component {
         ref={this.formik}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
-        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+        {({
+          values,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+          handleSubmit,
+        }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -269,8 +278,9 @@ class LearningResourceForm extends Component {
                 savedToServer={savedToServer}
                 getArticle={getArticle}
                 showReset={() => this.setState({ showResetModal: true })}
-                error={error}
+                errors={errors}
                 values={values}
+                handleSubmit={handleSubmit}
                 {...rest}
               />
               <FormikAlertModalWrapper

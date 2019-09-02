@@ -45,6 +45,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { queryTopics, updateTopic } from '../../../modules/taxonomy';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -114,11 +115,9 @@ class TopicArticleForm extends Component {
     const {
       article: { language, id },
       t,
+      createMessage,
     } = this.props;
     try {
-      if (this.state.error) {
-        this.setState({ error: undefined });
-      }
       const articleFromProd = await getArticle(id, language);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
@@ -130,7 +129,10 @@ class TopicArticleForm extends Component {
       if (err.status === 404) {
         this.setState({
           showResetModal: false,
-          error: t('errorMessage.noArticleInProd'),
+        });
+        createMessage({
+          message: t('errorMessage.noArticleInProd'),
+          severity: 'danger',
         });
       }
     }
@@ -256,7 +258,7 @@ class TopicArticleForm extends Component {
 
   render() {
     const { t, article, onUpdate, ...rest } = this.props;
-    const { error, showResetModal, savedToServer } = this.state;
+    const { showResetModal, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
       <Formik
@@ -265,19 +267,28 @@ class TopicArticleForm extends Component {
         ref={this.formik}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, topicArticleRules, t)}>
-        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+        {({
+          values,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+          handleSubmit,
+        }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
             dirty,
           });
+          const getArticle = () => this.getArticle(values);
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
                 type={values.articleType}
                 title={article.title}
-                getArticle={() => this.getArticle(values)}
+                getArticle={getArticle}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
@@ -288,44 +299,36 @@ class TopicArticleForm extends Component {
                 updateNotes={onUpdate}
                 article={article}
                 touched={touched}
-                getArticle={() => this.getArticle(values)}
+                getArticle={getArticle}
                 formIsDirty={formIsDirty}
                 {...rest}
               />
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                {values.id && (
-                  <FormikActionButton
-                    onClick={() => this.setState({ showResetModal: true })}>
-                    {t('form.resetToProd.button')}
-                  </FormikActionButton>
-                )}
-                <AlertModal
-                  show={showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onResetFormToProd({ setValues }),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />
-                <FormikAbortButton outline disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikAbortButton>
-                <SaveButton
-                  {...formClasses}
-                  isSaving={isSubmitting}
-                  formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
+              <EditorFooter
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                savedToServer={savedToServer}
+                getArticle={getArticle}
+                showReset={() => this.setState({ showResetModal: true })}
+                errors={errors}
+                values={values}
+                handleSubmit={handleSubmit}
+                {...rest}
+              />
+              <AlertModal
+                show={showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: () => this.onResetFormToProd({ setValues }),
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
+              />
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
                 formIsDirty={formIsDirty}

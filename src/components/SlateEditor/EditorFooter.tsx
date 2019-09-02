@@ -36,6 +36,7 @@ interface Props {
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
   updateArticleStatus: (v: string, i: string) => void;
+  handleSubmit: VoidFunction;
 }
 
 const StyledLine = styled.hr`
@@ -60,11 +61,11 @@ const EditorFooter: React.FC<Props> = ({
   savedToServer,
   values,
   showReset,
-  error,
   getArticle,
   createMessage,
   articleStatus,
   updateArticleStatus,
+  handleSubmit,
 }) => {
   const [preview, showPreview] = useState<PreviewTypes>('');
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
@@ -72,53 +73,31 @@ const EditorFooter: React.FC<Props> = ({
     fetchStatuses(setStatuses);
   }, []);
 
-  let statuses = [
-    {
-      name: t(`form.status.actions.${articleStatus.current}`),
-      active: true,
-      id: articleStatus.current,
-    },
-  ];
+  let statuses = [];
   if (Array.isArray(possibleStatuses[articleStatus.current])) {
     statuses = [
-      ...statuses,
       ...possibleStatuses[articleStatus.current].map((status: string) => ({
         name: t(`form.status.actions.${status}`),
         id: status,
+        active: status === articleStatus.current,
       })),
     ];
   }
 
   const updateStatus = async (comment: string, status: string) => {
     const { revision } = values;
-    if (formIsDirty) {
-      createMessage({
-        translationKey: 'form.mustSaveFirst',
-        severity: 'danger',
-      });
-    } else {
-      try {
-        if (
-          status === articleStatuses.PUBLISHED ||
-          status === articleStatuses.QUEUED_FOR_PUBLISHING
-        ) {
-          await draftApi.validateDraft(values.id, {
-            ...getArticle(),
-            revision,
-          });
-        }
-        await updateArticleStatus(values.id, status);
-      } catch (error) {
-        if (error && error.json && error.json.messages) {
-          createMessage(formatErrorMessage(error));
-        }
+    try {
+      await handleSubmit();
+      await updateArticleStatus(values.id, status);
+    } catch (error) {
+      if (error && error.json && error.json.messages) {
+        createMessage(formatErrorMessage(error));
       }
     }
   };
 
   return (
     <Footer>
-      {error && <span className="c-errorMessage">{error}</span>}
       {preview && (
         <ArticlePreviews
           typeOfPreview={preview}

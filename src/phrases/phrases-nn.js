@@ -425,6 +425,7 @@ const phrases = {
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
     mathml: 'Matte',
+    concept: 'Forklaring',
   },
   editorBlockpicker: {
     heading: 'Legg til',

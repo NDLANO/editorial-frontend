@@ -17,6 +17,10 @@ const mathCloseTag = '</math>';
 const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 let mathEditor;
 
+function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
 class EditMath extends Component {
   constructor(props) {
     super(props);
@@ -46,13 +50,15 @@ class EditMath extends Component {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
 
-    if (window.com.wiris) {
-      mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
-        language: locale,
-      });
-      mathEditor.setMathML(renderMathML);
-      mathEditor.insertInto(document.getElementById('mathEditorContainer'));
-    }
+    sleep(1000).then(() => {
+      if (window.com.wiris) {
+        mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
+          language: locale,
+        });
+        mathEditor.setMathML(renderMathML);
+        mathEditor.insertInto(document.getElementById('mathEditorContainer'));
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -63,17 +69,19 @@ class EditMath extends Component {
 
   onHandleExit(closeModal) {
     const { initialMathML, hasSaved } = this.state;
+    const { onExit } = this.props;
     const mathML = mathEditor.getMathML();
 
     if (!hasSaved && initialMathML !== mathML) {
       this.setState({ openDiscardModal: true });
     } else {
       closeModal();
+      onExit();
     }
   }
 
   onHandleExitSave(closeModal) {
-    const { handleSave } = this.props;
+    const { handleSave, onExit } = this.props;
 
     let saveMathML = mathEditor.getMathML();
 
@@ -84,6 +92,7 @@ class EditMath extends Component {
 
     handleSave(saveMathML);
     this.setState({ hasSaved: true }, closeModal);
+    onExit();
   }
 
   onHandleExitRemove(closeModal) {

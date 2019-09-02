@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../../components/FormikField';
 import {
@@ -14,22 +15,38 @@ import {
   FormikContributors,
   FormikMetaImageSearch,
 } from '../../FormikForm';
-import { LicensesArrayOf } from '../../../shapes';
+import { LicensesArrayOf, SubjectShape } from '../../../shapes';
+import { MultiSelectDropdown } from '../../../components/Dropdown';
 
 const contributorTypes = ['creators'];
 
-const ConceptMetaData = ({ t, licenses }) => (
+const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
   <Fragment>
     <FormikField name="license">
       {({ field }) => (
         <FormikLicense licenses={licenses} width={1} {...field} />
       )}
     </FormikField>
-    <FormikField label={t('form.origin.label')} name="origin" />
+    <FormikField label={t('form.concept.source')} name="source" />
     <FormikContributors contributorTypes={contributorTypes} width={1} />
     <FormikField name="metaImageId">
       {({ field }) => (
         <FormikMetaImageSearch metaImageId={field.value} {...field} />
+      )}
+    </FormikField>
+    <FormikField name="subjects" label={t('form.subjects.label')}>
+      {({ field }) => (
+        <MultiSelectDropdown
+          idField="id"
+          labelField="name"
+          data={subjects}
+          {...field}
+        />
+      )}
+    </FormikField>
+    <FormikField name="tags" label={t('form.tags.label')}>
+      {({ field }) => (
+        <MultiSelectDropdown showCreateOption {...field} data={tags} />
       )}
     </FormikField>
   </Fragment>
@@ -37,6 +54,8 @@ const ConceptMetaData = ({ t, licenses }) => (
 
 ConceptMetaData.propTypes = {
   licenses: LicensesArrayOf.isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default injectT(ConceptMetaData);

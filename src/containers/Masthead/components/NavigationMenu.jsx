@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
-import { Link as LinkIcon } from '@ndla/icons/common';
+import { Launch } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
 import StyledListButton from '../../../components/StyledListButton';
@@ -56,7 +56,7 @@ const OpenMenu = ({ t, close }) => {
               onClick={close}>
               <span>
                 {t('subNavigation.learningPathLink')}
-                <LinkIcon />
+                <Launch />
               </span>
             </StyledHrefLink>
           </div>

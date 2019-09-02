@@ -76,15 +76,15 @@ class AsyncDropDown extends React.Component {
   }
 
   handleChange(selectedItem) {
-    const { onChange, textField } = this.props;
+    const { onChange, labelField } = this.props;
     if (!selectedItem) {
       onChange(undefined);
       this.setState({ inputValue: '', selectedItem: null });
     } else {
       this.setState({
         selectedItem,
-        inputValue: textField
-          ? itemToString(selectedItem, textField)
+        inputValue: labelField
+          ? itemToString(selectedItem, labelField)
           : selectedItem.title,
       });
       onChange(selectedItem);
@@ -102,8 +102,8 @@ class AsyncDropDown extends React.Component {
   render() {
     const {
       placeholder,
-      textField,
-      valueField,
+      labelField,
+      idField,
       onClick,
       t,
       testid,
@@ -126,7 +126,7 @@ class AsyncDropDown extends React.Component {
     return (
       <Downshift
         {...rest}
-        itemToString={item => itemToString(item, textField)}
+        itemToString={item => itemToString(item, labelField)}
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         initialIsOpen={startOpen}
@@ -143,6 +143,8 @@ class AsyncDropDown extends React.Component {
                 }
               />
               <DropdownMenu
+                idField={idField}
+                labelField={labelField}
                 multiSelect={multiSelect}
                 selectedItems={selectedItems}
                 disableSelected={disableSelected}
@@ -162,8 +164,8 @@ AsyncDropDown.propTypes = {
   onChange: PropTypes.func.isRequired,
   apiAction: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  textField: PropTypes.string,
-  valueField: PropTypes.string,
+  labelField: PropTypes.string,
+  idField: PropTypes.string,
   onClick: PropTypes.func,
   testid: PropTypes.string,
   positionAbsolute: PropTypes.bool,

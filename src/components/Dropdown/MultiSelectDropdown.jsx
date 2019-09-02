@@ -13,67 +13,64 @@ import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { itemToString } from '../../util/downShiftHelpers';
 
 export class MultiSelectDropdown extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-      isOpen: false,
-      inputValue: '',
-    };
-    this.addNewTag = this.addNewTag.bind(this);
-    this.onInputChange = this.onInputChange.bind(this);
-    this.removeItem = this.removeItem.bind(this);
-    this.onValueChange = this.onValueChange.bind(this);
-    this.handleStateChange = this.handleStateChange.bind(this);
-  }
+  state = {
+    data: [],
+    isOpen: false,
+    inputValue: '',
+  };
 
-  onValueChange(newValue) {
-    const { onChange, value, textField, valueField } = this.props;
+  onValueChange = newValue => {
+    const { onChange, value, name } = this.props;
     onChange({
       target: {
-        name: valueField,
-        value: [...value, itemToString(newValue, textField)],
+        name,
+        value: [...value, newValue],
       },
     });
     this.setState({ inputValue: '', isOpen: false });
-  }
+  };
 
-  addNewTag(e) {
-    e.preventDefault();
+  onCreate = evt => {
+    evt.preventDefault();
     const { value } = this.props;
     const { inputValue } = this.state;
     if (!value.includes(inputValue)) {
-      this.onValueChange({ title: inputValue });
+      this.onValueChange(inputValue);
     }
-  }
+  };
 
-  onInputChange(e) {
-    const { data } = this.props;
+  onInputChange = evt => {
+    const { data, labelField } = this.props;
     const {
       target: { value },
-    } = e;
+    } = evt;
+
     if (value.length >= 2) {
       this.setState({
         isOpen: true,
         inputValue: value,
-        data: data.filter(string => string.indexOf(value) !== -1),
+        data: data.filter(string =>
+          labelField
+            ? string[labelField].indexOf(value) !== -1
+            : string.indexOf(value) !== -1,
+        ),
       });
     } else if (value.length < 2) {
       this.setState({ inputValue: value, isOpen: false });
     }
-  }
+  };
 
-  removeItem(id) {
-    const { onChange, value } = this.props;
+  removeItem = id => {
+    const { onChange, value, name, idField } = this.props;
     onChange({
       target: {
-        name: 'tags',
-        value: value.filter(val => val !== id),
+        name,
+        value: value.filter(val => (idField ? val[idField] : val) !== id),
       },
     });
-  }
+  };
 
-  handleStateChange(changes) {
+  handleStateChange = changes => {
     const { isOpen, type } = changes;
 
     if (type === Downshift.stateChangeTypes.mouseUp) {
@@ -83,11 +80,19 @@ export class MultiSelectDropdown extends Component {
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
       this.setState({ inputValue: '' });
     }
-  }
+  };
 
   render() {
-    const { value, placeholder, textField, ...rest } = this.props;
+    const {
+      value,
+      placeholder,
+      labelField,
+      idField,
+      showCreateOption,
+      ...rest
+    } = this.props;
     const { data, isOpen, inputValue } = this.state;
+
     return (
       <Downshift
         {...rest}
@@ -95,7 +100,7 @@ export class MultiSelectDropdown extends Component {
         isOpen={isOpen}
         inputValue={inputValue}
         onStateChange={this.handleStateChange}
-        itemToString={item => itemToString(item, textField)}>
+        itemToString={item => itemToString(item, labelField)}>
         {({ getInputProps, getMenuProps, getItemProps }) => (
           <div style={{ position: 'relative' }}>
             <DropdownInput
@@ -104,22 +109,24 @@ export class MultiSelectDropdown extends Component {
                 onChange: this.onInputChange,
                 value: inputValue,
               })}
+              idField={idField}
+              labelField={labelField}
               values={value}
               removeItem={this.removeItem}
               testid="multiselect"
             />
             <DropdownMenu
               multiSelect
+              idField={idField}
+              labelField={labelField}
               selectedItems={value}
               getMenuProps={getMenuProps}
               getItemProps={getItemProps}
               isOpen={isOpen}
-              items={data.map((item, id) => ({
-                title: item,
-                id,
-              }))}
-              onCreate={this.addNewTag}
+              items={data}
+              onCreate={showCreateOption && this.onCreate}
               positionAbsolute
+              disableSelected
             />
           </div>
         )}
@@ -129,20 +136,23 @@ export class MultiSelectDropdown extends Component {
 }
 
 MultiSelectDropdown.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  ),
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  value: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  ).isRequired,
   name: PropTypes.string.isRequired,
   disableCreate: PropTypes.bool,
   placeholder: PropTypes.string,
-  textField: PropTypes.string,
-  valueField: PropTypes.string,
+  labelField: PropTypes.string,
+  idField: PropTypes.string,
+  showCreateOption: PropTypes.bool,
 };
 
 MultiSelectDropdown.defaultProps = {
   data: [],
-  textField: 'title',
-  valueField: 'tags',
 };
 
 export default MultiSelectDropdown;

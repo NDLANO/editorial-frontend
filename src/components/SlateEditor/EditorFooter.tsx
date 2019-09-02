@@ -35,8 +35,7 @@ interface Props {
   getArticle: () => Article;
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
-  updateArticleStatus: (v: string, i: string) => void;
-  handleSubmit: VoidFunction;
+  handleSubmit: (status: string) => void;
 }
 
 const StyledLine = styled.hr`
@@ -64,7 +63,6 @@ const EditorFooter: React.FC<Props> = ({
   getArticle,
   createMessage,
   articleStatus,
-  updateArticleStatus,
   handleSubmit,
 }) => {
   const [preview, showPreview] = useState<PreviewTypes>('');
@@ -85,10 +83,8 @@ const EditorFooter: React.FC<Props> = ({
   }
 
   const updateStatus = async (comment: string, status: string) => {
-    const { revision } = values;
     try {
-      await handleSubmit();
-      await updateArticleStatus(values.id, status);
+      handleSubmit(status);
     } catch (error) {
       if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));

@@ -90,7 +90,6 @@ FormikWorkflow.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  updateArticleStatus: PropTypes.func,
   createMessage: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
   article: ArticleShape,

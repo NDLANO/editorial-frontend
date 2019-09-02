@@ -21,38 +21,31 @@ const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
-  const {
-    id,
-    language,
-    supportedLanguages,
-    status,
-    articleType,
-    title,
-  } = values;
+const HeaderWithLanguage = ({ t, values, noStatus, article, ...rest }) => {
+  const { supportedLanguages, articleType } = values;
+  const { id, title, status, language } = article;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
   const statusText =
     status && status.current
       ? t(`form.status.${status.current.toLowerCase()}`)
       : '';
-
   return (
     <header>
       <HeaderInformation
-        type={articleType || type}
-        title={title}
+        type={articleType}
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
-        {...rest}
+        title={title}
       />
       <StyledLanguageWrapper>
         <HeaderActions
           values={values}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
-          type={articleType || type}
+          type={articleType}
+          title={title}
           {...rest}
         />
       </StyledLanguageWrapper>
@@ -63,11 +56,13 @@ const HeaderWithLanguage = ({ t, values, type, noStatus, ...rest }) => {
 HeaderWithLanguage.propTypes = {
   noStatus: PropTypes.bool,
   values: PropTypes.shape({
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+    articleType: PropTypes.string,
+  }),
+  article: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.object,
-    articleType: PropTypes.string,
     current: PropTypes.object,
     title: PropTypes.string,
   }),

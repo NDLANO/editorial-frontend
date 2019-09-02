@@ -92,12 +92,8 @@ class LearningResourceForm extends Component {
     article: { language: prevLanguage, id: prevId, status: prevStatus },
   }) {
     const { article } = this.props;
-    const { language, id, status } = article;
-    if (
-      language !== prevLanguage ||
-      id !== prevId ||
-      (status && prevStatus && status.current !== prevStatus.current)
-    ) {
+    const { language, id } = article;
+    if (language !== prevLanguage || id !== prevId) {
       if (this.formik.current) {
         // Since we removed enableReinitialize we need to manually reset the form for these cases
         this.formik.current.resetForm();
@@ -184,7 +180,7 @@ class LearningResourceForm extends Component {
     return article;
   }
 
-  async handleSubmit(values, actions) {
+  async handleSubmit(values, actions, newStatus) {
     actions.setSubmitting(true);
     const {
       revision,
@@ -192,6 +188,7 @@ class LearningResourceForm extends Component {
       articleStatus,
       onUpdate,
       applicationError,
+      updateArticleAndStatus,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -209,10 +206,20 @@ class LearningResourceForm extends Component {
       }
     }
     try {
-      await onUpdate({
-        ...this.getArticleFromSlate(values),
-        revision,
-      });
+      if (newStatus) {
+        updateArticleAndStatus(
+          {
+            ...this.getArticleFromSlate(values),
+            revision,
+          },
+          newStatus,
+        );
+      } else {
+        await onUpdate({
+          ...this.getArticleFromSlate(values),
+          revision,
+        });
+      }
       actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
@@ -234,29 +241,24 @@ class LearningResourceForm extends Component {
         ref={this.formik}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, learningResourceRules, t)}>
-        {({
-          values,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-          handleSubmit,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
             dirty,
             type: 'learningResource',
           });
+          console.log('val, initialval');
+
+          console.log(values);
+          console.log(initialValues);
           const getArticle = preview =>
             this.getArticleFromSlate(values, preview);
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
-                type="standard"
-                title={article.title}
+                article={article}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
@@ -280,7 +282,9 @@ class LearningResourceForm extends Component {
                 showReset={() => this.setState({ showResetModal: true })}
                 errors={errors}
                 values={values}
-                handleSubmit={handleSubmit}
+                handleSubmit={status =>
+                  this.handleSubmit(values, this.formik.current, status)
+                }
                 {...rest}
               />
               <FormikAlertModalWrapper
@@ -322,7 +326,7 @@ LearningResourceForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  updateArticleStatus: PropTypes.func,
+  updateArticleAndStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
     filter: PropTypes.array,

@@ -205,13 +205,14 @@ class TopicArticleForm extends Component {
     return article;
   }
 
-  async handleSubmit(values, actions) {
+  async handleSubmit(values, actions, newStatus) {
     const {
       createMessage,
       articleStatus,
       onUpdate,
       article,
       applicationError,
+      updateArticleAndStatus,
     } = this.props;
     const { revision } = article;
     const status = articleStatus ? articleStatus.current : undefined;
@@ -232,10 +233,20 @@ class TopicArticleForm extends Component {
     }
 
     try {
-      await onUpdate({
-        ...newArticle,
-        revision,
-      });
+      if (newStatus) {
+        updateArticleAndStatus(
+          {
+            ...newArticle,
+            revision,
+          },
+          newStatus,
+        );
+      } else {
+        await onUpdate({
+          ...newArticle,
+          revision,
+        });
+      }
       if (article.title !== newArticle.title) {
         // update topic name in taxonomy
         const topics = await queryTopics(article.id, article.language);
@@ -260,6 +271,7 @@ class TopicArticleForm extends Component {
     const { t, article, onUpdate, ...rest } = this.props;
     const { showResetModal, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
+    console.log(initialValues);
     return (
       <Formik
         initialValues={initialValues}
@@ -267,15 +279,7 @@ class TopicArticleForm extends Component {
         ref={this.formik}
         onSubmit={this.handleSubmit}
         validate={values => validateFormik(values, topicArticleRules, t)}>
-        {({
-          values,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-          handleSubmit,
-        }) => {
+        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -286,8 +290,7 @@ class TopicArticleForm extends Component {
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
-                type={values.articleType}
-                title={article.title}
+                article={article}
                 getArticle={getArticle}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
@@ -311,7 +314,9 @@ class TopicArticleForm extends Component {
                 showReset={() => this.setState({ showResetModal: true })}
                 errors={errors}
                 values={values}
-                handleSubmit={handleSubmit}
+                handleSubmit={status =>
+                  this.handleSubmit(values, this.formik.current, status)
+                }
                 {...rest}
               />
               <AlertModal
@@ -353,7 +358,7 @@ TopicArticleForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  updateArticleStatus: PropTypes.func,
+  updateArticleAndStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   article: ArticleShape,
 };

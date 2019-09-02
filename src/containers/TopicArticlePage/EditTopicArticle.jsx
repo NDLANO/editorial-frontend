@@ -19,7 +19,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
     article,
     tags,
     updateArticle,
-    updateArticleStatus,
+    updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
 
   if (!article || !article.id) {
@@ -41,7 +41,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
       <TopicArticleForm
         articleStatus={article.status}
         onUpdate={updateArticle}
-        updateArticleStatus={updateArticleStatus}
+        updateArticleAndStatus={updateArticleAndStatus}
         tags={tags}
         article={article}
         {...rest}

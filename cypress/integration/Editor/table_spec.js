@@ -33,9 +33,12 @@ describe('Table plugin', () => {
       .focus()
       .wait(500)
       .then($el => {
-        cy.wrap($el).type('{downarrow}TEST{rightarrow}TEST2{downarrow}TEST3', {
-          force: true,
-        });
+        cy.wrap($el).type(
+          '{uparrow}{leftarrow}TEST{rightarrow}TEST2{downarrow}TEST3',
+          {
+            force: true,
+          },
+        );
         cy.get('[data-cy=column-add]').click({ force: true });
         cy.wait(500);
         cy.wrap($el).type('Test new column');

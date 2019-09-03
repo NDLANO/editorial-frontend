@@ -58,10 +58,12 @@ export const getBrightcoveToken = () => {
 export const getUsers = (managementToken, userIds) => {
   const query = userIds
     .split(',')
-    .map(userId => `app_metadata.ndla_id:"${userId}"`)
+    .map(userId => `"${userId}"`)
     .join(' OR ');
   return fetch(
-    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=${query}`,
+    `https://${
+      getUniversalConfig().auth0Domain
+    }/api/v2/users?q=app_metadata.ndla_id:(${query})`,
     {
       headers: {
         'Content-Type': 'application/json',

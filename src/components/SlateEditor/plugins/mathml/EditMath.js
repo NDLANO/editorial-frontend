@@ -17,10 +17,6 @@ const mathCloseTag = '</math>';
 const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 let mathEditor;
 
-function sleep(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
-
 class EditMath extends Component {
   constructor(props) {
     super(props);
@@ -35,11 +31,10 @@ class EditMath extends Component {
         : emptyMathTag,
     };
     this.previewMath = this.previewMath.bind(this);
-    this.onHandleExit = this.onHandleExit.bind(this);
-    this.onHandleExitSave = this.onHandleExitSave.bind(this);
-    this.onHandleExitRemove = this.onHandleExitRemove.bind(this);
-    this.onCancel = this.onCancel.bind(this);
-    this.onContinue = this.onContinue.bind(this);
+    this.handleExit = this.handleExit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleCancelDiscard = this.handleCancelDiscard.bind(this);
+    this.handleContinue = this.handleContinue.bind(this);
   }
 
   componentDidMount() {
@@ -50,15 +45,20 @@ class EditMath extends Component {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
 
-    sleep(1000).then(() => {
-      if (window.com.wiris) {
-        mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
-          language: locale,
-        });
-        mathEditor.setMathML(renderMathML);
-        mathEditor.insertInto(document.getElementById('mathEditorContainer'));
-      }
-    });
+    const script = document.createElement('script');
+    script.src = 'https://www.wiris.net/client/editor/editor';
+
+    const callback = function() {
+      mathEditor = window.com.wiris.jsEditor.JsEditor.newInstance({
+        language: locale,
+      });
+
+      mathEditor.setMathML(renderMathML);
+      mathEditor.insertInto(document.getElementById('mathEditorContainer'));
+    };
+    script.onload = callback;
+
+    document.head.appendChild(script);
   }
 
   componentDidUpdate() {
@@ -67,21 +67,19 @@ class EditMath extends Component {
     }
   }
 
-  onHandleExit(closeModal) {
-    const { initialMathML, hasSaved } = this.state;
+  handleExit() {
+    const { initialMathML } = this.state;
     const { onExit } = this.props;
     const mathML = mathEditor.getMathML();
-
-    if (!hasSaved && initialMathML !== mathML) {
+    if (initialMathML !== mathML) {
       this.setState({ openDiscardModal: true });
     } else {
-      closeModal();
       onExit();
     }
   }
 
-  onHandleExitSave(closeModal) {
-    const { handleSave, onExit } = this.props;
+  handleSave() {
+    const { handleSave } = this.props;
 
     let saveMathML = mathEditor.getMathML();
 
@@ -91,15 +89,6 @@ class EditMath extends Component {
     saveMathML = saveMathML.replace(mathCloseTag, '');
 
     handleSave(saveMathML);
-    this.setState({ hasSaved: true }, closeModal);
-    onExit();
-  }
-
-  onHandleExitRemove(closeModal) {
-    const { onRemoveClick } = this.props;
-
-    onRemoveClick();
-    closeModal();
   }
 
   previewMath() {
@@ -107,29 +96,27 @@ class EditMath extends Component {
     this.setState({ renderMathML });
   }
 
-  onCancel() {
+  handleCancelDiscard() {
     this.setState({ openDiscardModal: false });
   }
 
-  onContinue() {
+  handleContinue() {
     const { onExit } = this.props;
     onExit();
   }
 
   render() {
     const { renderMathML, openDiscardModal } = this.state;
-    const { onExit, isEditMode } = this.props;
+    const { handleRemove } = this.props;
 
     return (
       <EditMathModal
-        handleExit={this.onHandleExit}
-        handleSave={this.onHandleExitSave}
-        handleRemove={this.onHandleExitRemove}
-        handleCancel={this.onCancel}
-        handleContinue={this.onContinue}
-        onExit={onExit}
+        handleExit={this.handleExit}
+        handleSave={this.handleSave}
+        handleCancelDiscard={this.handleCancelDiscard}
+        handleContinue={this.handleContinue}
+        handleRemove={handleRemove}
         previewMath={this.previewMath}
-        isEditMode={isEditMode}
         openDiscardModal={openDiscardModal}
         renderMathML={renderMathML}
       />
@@ -141,7 +128,7 @@ EditMath.propTypes = {
   locale: PropTypes.string.isRequired,
   onExit: PropTypes.func,
   handleSave: PropTypes.func.isRequired,
-  onRemoveClick: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
   isEditMode: PropTypes.bool.isRequired,
   model: PropTypes.shape({
     innerHTML: PropTypes.string,

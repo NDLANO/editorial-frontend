@@ -53,7 +53,7 @@ class MathEditor extends Component {
   constructor(props) {
     super(props);
     const { isFirstEdit } = getInfoFromNode(props.node);
-    this.state = { editMode: isFirstEdit, showMenu: false }; // turn off editMode and showMenu on start
+    this.state = { isFirstEdit, editMode: isFirstEdit, showMenu: false }; // turn off editMode and showMenu on start
     this.mathMLRef = createRef();
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
@@ -83,17 +83,25 @@ class MathEditor extends Component {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
   }
 
+  onExit = () => {
+    this.setState(prevState => ({ editMode: false }));
+    if (this.state.isFirstEdit) {
+      this.handleRemove();
+    }
+  };
+
   handleSave(mathML) {
     const { node, editor } = this.props;
     const properties = {
       data: { ...getSchemaEmbed(node), innerHTML: mathML },
     };
     editor.setNodeByKey(node.key, properties);
+    this.setState({ isFirstEdit: false, editMode: false });
   }
 
   handleRemove() {
     const { editor, node } = this.props;
-    editor.removeNodeByKey(node.key);
+    editor.unwrapInlineByKey(node.key, 'mathml');
     editor.focus();
   }
 
@@ -132,11 +140,11 @@ class MathEditor extends Component {
         </span>
         {editMode && (
           <EditMath
-            onExit={this.toggleEdit}
+            onExit={this.onExit}
             model={model}
             handleSave={this.handleSave}
             isEditMode={editMode}
-            onRemoveClick={this.handleRemove}
+            handleRemove={this.handleRemove}
           />
         )}
       </Fragment>

@@ -114,13 +114,13 @@ class ImageForm extends Component {
   constructor(props) {
     super(props);
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       savedToServer: false,
     };
   }
 
-  async onSubmit(values, actions) {
+  async handleSubmit(values, actions) {
     const { licenses, onUpdate, revision } = this.props;
     actions.setSubmitting(true);
     const imageMetaData = {
@@ -142,7 +142,6 @@ class ImageForm extends Component {
 
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });
-    actions.setSubmitting(false);
   }
 
   render() {
@@ -173,7 +172,7 @@ class ImageForm extends Component {
     return (
       <Formik
         initialValues={initialValues}
-        onSubmit={this.onSubmit}
+        onSubmit={this.handleSubmit}
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
         {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {

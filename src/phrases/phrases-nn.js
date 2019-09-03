@@ -379,6 +379,7 @@ const phrases = {
     title: 'Lyd',
   },
   imageEditor: {
+    editImage: 'Rediger bildet',
     remove: {
       crop: 'Fjern utsnitt',
       focalPoint: 'Fjern fokuspunkt',

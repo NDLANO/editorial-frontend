@@ -13,6 +13,7 @@ import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import Types from 'slate-prop-types';
+import he from 'he';
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
@@ -42,7 +43,7 @@ const getInfoFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
   return {
     model: {
-      innerHTML: data.innerHTML || `<mn>${node.text}</mn>`,
+      innerHTML: data.innerHTML || `<mn>${he.encode(node.text)}</mn>`,
       xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
     },
     isFirstEdit: data.innerHTML === undefined,

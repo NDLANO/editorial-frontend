@@ -49,7 +49,12 @@ const imageRules = {
   },
   creators: {
     test: (value, values, label) => {
-      if (value.length === 0 && values.rightsholders.length === 0) {
+      if (
+        value.length === 0 &&
+        values &&
+        values.rightsholders &&
+        values.rightsholders.length === 0
+      ) {
         return {
           translationKey: 'validation.minItems',
           variables: {

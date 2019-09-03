@@ -116,16 +116,11 @@ FormWrapper.propTypes = {
 };
 
 class ImageForm extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    savedToServer: false,
+  };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      savedToServer: false,
-    };
-  }
-
-  async handleSubmit(values, actions) {
+  handleSubmit = async (values, actions) => {
     const { licenses, onUpdate, revision } = this.props;
     actions.setSubmitting(true);
     const imageMetaData = {
@@ -147,7 +142,7 @@ class ImageForm extends Component {
 
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });
-  }
+  };
 
   render() {
     const { t, tags, image, licenses, inModal, closeModal } = this.props;

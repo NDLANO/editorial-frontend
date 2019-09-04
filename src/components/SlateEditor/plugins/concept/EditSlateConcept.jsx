@@ -47,14 +47,12 @@ const EditSlateConcept = props => {
   };
 
   const addConcept = addedConcept => {
-    const data = getConceptDataAttributes(addedConcept);
+    const data = getConceptDataAttributes({
+      ...addedConcept,
+      title: { title: node.text },
+    });
     if (node.key) {
-      handleChangeAndClose(
-        editor
-          .moveToRangeOfNode(node)
-          .insertText(addedConcept.title.title)
-          .setInlines(data),
-      );
+      handleChangeAndClose(editor.moveToRangeOfNode(node).setInlines(data));
     }
   };
 
@@ -82,7 +80,7 @@ const EditSlateConcept = props => {
         {conceptId ? (
           <Notion
             id={conceptId}
-            title={concept.title}
+            title={node.text}
             content={concept.content}
             ariaLabel={t('notions.edit')}>
             {children}

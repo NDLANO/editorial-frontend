@@ -25,6 +25,7 @@ const getConceptDataAttributes = ({ id, title: { title } }) => ({
 
 const EditSlateConcept = props => {
   const { t, children, node, locale, editor, attributes } = props;
+  const nodeText = node.text.trim();
 
   const [isModalOpen, toggleIsModalOpen] = useState(false);
   const toggleConceptModal = evt => {
@@ -49,7 +50,7 @@ const EditSlateConcept = props => {
   const addConcept = addedConcept => {
     const data = getConceptDataAttributes({
       ...addedConcept,
-      title: { title: node.text },
+      title: { title: nodeText },
     });
     if (node.key) {
       handleChangeAndClose(editor.moveToRangeOfNode(node).setInlines(data));
@@ -57,7 +58,10 @@ const EditSlateConcept = props => {
   };
 
   const handleRemove = () => {
-    const nextValue = editor.removeNodeByKey(node.key).insertText(node.text);
+    const nextValue = editor
+      .moveToRangeOfNode(node)
+      .removeNodeByKey(node.key)
+      .insertText(node.text);
     handleChangeAndClose(nextValue);
   };
   const onClose = () => {
@@ -80,7 +84,7 @@ const EditSlateConcept = props => {
         {conceptId ? (
           <Notion
             id={conceptId}
-            title={node.text}
+            title={nodeText}
             content={concept.content}
             ariaLabel={t('notions.edit')}>
             {children}
@@ -99,7 +103,7 @@ const EditSlateConcept = props => {
         subjects={subjects}
         tags={tags}
         handleRemove={handleRemove}
-        selectedText={node.text}
+        selectedText={nodeText}
         {...conceptHooks}
       />
     </span>

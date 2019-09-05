@@ -711,9 +711,9 @@ const phrases = {
       placeholder: 'Legg til egenskap',
     },
     subjects: {
-      label: 'Emne',
-      searchPlaceholder: 'Søk etter emne',
-      placeholder: 'Legg til emne',
+      label: 'Fag',
+      searchPlaceholder: 'Søk etter fag',
+      placeholder: 'Legg til fag',
     },
     filter: {
       label: 'Filter',

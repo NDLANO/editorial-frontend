@@ -61,11 +61,12 @@ class Link extends Component {
       editMode: !(existingModel.href || existingModel['content-id']),
     };
     this.toggleEditMode = this.toggleEditMode.bind(this);
+    this.linkRef = React.createRef();
   }
 
   getMenuPosition() {
-    if (this.linkRef) {
-      const rect = this.linkRef.getBoundingClientRect();
+    if (this.linkRef.current) {
+      const rect = this.linkRef.current.getBoundingClientRect();
       return {
         top: window.scrollY + rect.top + rect.height,
         left: rect.left,
@@ -90,20 +91,15 @@ class Link extends Component {
     } = this.props;
 
     const isInline = isNodeInCurrentSelection(value, node);
+
     const { top, left } = this.getMenuPosition();
 
     const model = getModelFromNode(node, value);
     const { href } = model;
 
     return (
-      <span>
-        <a
-          {...classes('link')}
-          href={href}
-          ref={linkRef => {
-            this.linkRef = linkRef;
-          }}
-          {...attributes}>
+      <span {...attributes}>
+        <a {...classes('link')} href={href} ref={this.linkRef}>
           {this.props.children}
         </a>
         <Portal isOpened={isInline}>

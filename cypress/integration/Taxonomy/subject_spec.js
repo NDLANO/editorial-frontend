@@ -32,6 +32,11 @@ describe('Subject editing', () => {
       '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/topics/urn:subject:12/connections',
+      'allSubjectConnections',
+    );
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/subjects',
@@ -125,7 +130,7 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
-    cy.get('[data-testid=inlineDropdownInput]').type('F');
+    cy.get('[data-testid=inlineDropdownInput]').type('Fi');
     cy.wait('@allTopics');
 
     cy.get('[data-testid=dropdown-items]')

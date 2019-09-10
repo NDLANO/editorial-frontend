@@ -100,7 +100,7 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.taxonomy.addExistingTopic)
       .click();
-    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
+    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('Fi');
     cy.wait('@allTopics');
     cy.get('[data-testid=dropdown-items]')
       .contains('Filmanalyse')

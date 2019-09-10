@@ -121,12 +121,13 @@ class LearningResourceContent extends Component {
     } = this.props;
     if (prevLanguage !== language || prevId !== id) {
       this.plugins = [
-        ...this.plugins,
+        conceptPlugin(language),
         blockPickerPlugin(this.addSection, {
           articleLanguage: language,
           actionsToShowInAreas: {
             solutionbox: ['table'],
           },
+          ...this.plugins,
         }),
       ];
     }

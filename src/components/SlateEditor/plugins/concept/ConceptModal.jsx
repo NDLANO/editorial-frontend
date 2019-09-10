@@ -44,6 +44,7 @@ const ConceptModal = ({
     page: 1,
     sort: '-relevance',
     'page-size': 10,
+    language: locale,
     query: `${selectedText}`,
   });
   const [licenses, setLicenses] = useState([]);

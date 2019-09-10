@@ -64,6 +64,7 @@ const EditSlateConcept = props => {
       .insertText(node.text);
     handleChangeAndClose(nextValue);
   };
+
   const onClose = () => {
     if (!node.data.get('content-id')) {
       handleRemove();

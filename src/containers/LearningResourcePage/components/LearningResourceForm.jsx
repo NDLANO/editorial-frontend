@@ -74,7 +74,7 @@ export const getInitialValues = (article = {}) => {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     language: article.language,
     articleType: 'standard',
-    status: article.status || [],
+    status: article.status || {},
     notes: [],
   };
 };

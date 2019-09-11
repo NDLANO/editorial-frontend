@@ -69,6 +69,18 @@ class LearningResourceTaxonomy extends Component {
     this.fetchTaxonomyChoices();
   }
 
+  componentDidUpdate(
+    {
+      article: { id: prevId },
+    },
+    prevState,
+  ) {
+    // We need to refresh taxonomy for when an article URL has been pasted and a new article is showing
+    if (prevId !== this.props.article.id) {
+      this.fetchTaxonomy();
+    }
+  }
+
   onChangeSelectedResource = evt => {
     const {
       taxonomyChoices: { availableResourceTypes },
@@ -133,10 +145,8 @@ class LearningResourceTaxonomy extends Component {
       article: { language, id },
     } = this.props;
     try {
-      let { resourceId } = this.state;
-      if (!resourceId) {
-        resourceId = await getResourceId({ id, language });
-      }
+      const resourceId = await getResourceId({ id, language });
+
       if (resourceId) {
         const fullResource = await this.fetchFullResouce(resourceId, language);
 

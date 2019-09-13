@@ -90,7 +90,7 @@ class LearningResourceContent extends Component {
       createAsidePlugin(),
       createDetailsPlugin(),
       createLinkPlugin(),
-      conceptPlugin(locale),
+      conceptPlugin(language),
       headingPlugin(),
       // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
       // Blockquote and editList actions need to be triggered before paragraph action, else
@@ -121,12 +121,13 @@ class LearningResourceContent extends Component {
     } = this.props;
     if (prevLanguage !== language || prevId !== id) {
       this.plugins = [
-        ...this.plugins,
+        conceptPlugin(language),
         blockPickerPlugin(this.addSection, {
           articleLanguage: language,
           actionsToShowInAreas: {
             solutionbox: ['table'],
           },
+          ...this.plugins,
         }),
       ];
     }

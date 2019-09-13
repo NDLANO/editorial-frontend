@@ -13,7 +13,7 @@ import {
   FormikWorkflow,
   FormikMetadata,
 } from '../../FormikForm';
-import config from '../../../config';
+import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 
 const panels = [
   {
@@ -28,10 +28,7 @@ const panels = [
     title: 'form.taxonomytSection',
     errorFields: [],
     showPanel: (values, userAccess) =>
-      values.id &&
-      ((userAccess &&
-        userAccess.includes(`taxonomy-${config.ndlaEnvironment}:write`)) ||
-        userAccess.includes('taxonomy:write')),
+      values.id && (userAccess && userAccess.includes(TAXONOMY_WRITE_SCOPE)),
     className: 'u-6/6',
     component: props => <LearningResourceTaxonomy {...props} />,
   },

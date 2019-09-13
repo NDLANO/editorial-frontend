@@ -690,6 +690,11 @@ const phrases = {
       label: 'Resource type and properties',
       placeholder: 'Add property',
     },
+    subjects: {
+      label: 'Subjects',
+      searchPlaceholder: 'Search for subjects',
+      placeholder: 'Add subjects',
+    },
     filter: {
       label: 'Filter',
       placeholder: 'Add filter',

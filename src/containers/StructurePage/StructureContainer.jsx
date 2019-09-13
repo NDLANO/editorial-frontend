@@ -40,7 +40,7 @@ import {
 } from '../../modules/taxonomy';
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
-import config from '../../config';
+import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 
@@ -296,7 +296,7 @@ export class StructureContainer extends React.PureComponent {
   }
 
   render() {
-    const { match, t, locale } = this.props;
+    const { match, t, locale, userAccess } = this.props;
     const {
       filters,
       jsPlumbConnections,
@@ -326,7 +326,8 @@ export class StructureContainer extends React.PureComponent {
             }
             appearance="taxonomy"
             addButton={
-              config.enableFullTaxonomy && (
+              userAccess &&
+              userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (
                 <InlineAddButton
                   title={t('taxonomy.addSubject')}
                   action={this.addSubject}
@@ -363,6 +364,7 @@ export class StructureContainer extends React.PureComponent {
                       this.resourceSection.current.scrollIntoView()
                     }
                     locale={locale}
+                    userAccess={userAccess}
                   />
                 )}
               />
@@ -402,10 +404,12 @@ StructureContainer.propTypes = {
   }).isRequired,
   location: LocationShape,
   history: HistoryShape,
+  userAccess: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
+  userAccess: state.session.user.scope,
 });
 
 export default withRouter(

@@ -17,7 +17,7 @@ import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import FilterView from './FilterView';
 
-import config from '../../../config';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -46,6 +46,7 @@ const FolderItem = ({
   isMainActive,
   filters,
   t,
+  userAccess,
   ...rest
 }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
@@ -62,7 +63,9 @@ const FolderItem = ({
           type={type}
           path={pathToString}
           topicFilters={filters}
-          showAllOptions={config.enableFullTaxonomy}
+          showAllOptions={
+            userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE)
+          }
           {...rest}
         />
       )}
@@ -113,6 +116,7 @@ FolderItem.propTypes = {
       id: string,
     }),
   ),
+  userAccess: string,
 };
 
 export default withRouter(injectT(FolderItem));

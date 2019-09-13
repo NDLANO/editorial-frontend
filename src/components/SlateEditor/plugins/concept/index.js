@@ -11,7 +11,7 @@ import EditSlateConcept from './EditSlateConcept';
 
 export const TYPE = 'concept';
 
-export default function linkPlugin(locale) {
+export default function conceptPlugin(locale) {
   const schema = {
     document: {},
     inlines: {

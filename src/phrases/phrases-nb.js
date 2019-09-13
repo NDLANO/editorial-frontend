@@ -702,16 +702,16 @@ const phrases = {
       placeholder: 'Legg til egenskap',
     },
     subjects: {
-      label: 'Emne',
-      searchPlaceholder: 'Søk etter emne',
-      placeholder: 'Legg til emne',
-      filter: {
-        label: 'Filter',
-        placeholder: 'Legg til filter',
-        core: 'Kjernestoff',
-        supplementary: 'Tilleggsstoff',
-        setRelevance: 'Velg relevans',
-      },
+      label: 'Fag',
+      searchPlaceholder: 'Søk etter fag',
+      placeholder: 'Legg til fag',
+    },
+    filter: {
+      label: 'Filter',
+      placeholder: 'Legg til filter',
+      core: 'Kjernestoff',
+      supplementary: 'Tilleggsstoff',
+      setRelevance: 'Velg relevans',
     },
     topics: {
       label: 'Emnetilknytning',

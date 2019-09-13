@@ -127,6 +127,7 @@ describe('Subject editing', () => {
     cy.get('[data-testid=addExistingSubjectTopicButton]').click();
     cy.get('[data-testid=inlineDropdownInput]').type('F');
     cy.wait('@allSubjectTopics');
+    cy.wait(1000);
 
     cy.get('[data-testid=dropdown-items]')
       .first()

@@ -5,8 +5,7 @@ import { injectT } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { colors, spacing } from '@ndla/core';
-import { fonts } from '../../../frontend-packages/packages/core/lib';
+import { colors, spacing, fonts } from '@ndla/core';
 
 const appereances = {
   saved: css`

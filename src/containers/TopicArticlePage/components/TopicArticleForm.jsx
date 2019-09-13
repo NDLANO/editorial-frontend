@@ -300,6 +300,7 @@ class TopicArticleForm extends Component {
                 {...rest}
               />
               <EditorFooter
+                showSimpleFooter={!article.id}
                 isSubmitting={isSubmitting}
                 formIsDirty={formIsDirty}
                 savedToServer={savedToServer}

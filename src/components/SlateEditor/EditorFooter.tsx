@@ -35,6 +35,7 @@ interface Props {
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
   handleSubmit: (status: string) => void;
+  showSimpleFooter: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -63,23 +64,40 @@ const EditorFooter: React.FC<Props> = ({
   createMessage,
   articleStatus,
   handleSubmit,
+  showSimpleFooter,
 }) => {
+  const saveButton = (
+    <SaveButton
+      data-testid="saveLearningResourceButton"
+      isSaving={isSubmitting}
+      defaultText="saveDraft"
+      formIsDirty={formIsDirty}
+      large
+      showSaved={savedToServer && !formIsDirty}>
+      {t('form.save')}
+    </SaveButton>
+  );
+  if (showSimpleFooter) {
+    return (
+      <Footer>
+        <div>{saveButton}</div>
+      </Footer>
+    );
+  }
   const [preview, showPreview] = useState<PreviewTypes>('');
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   useEffect(() => {
     fetchStatuses(setStatuses);
   }, []);
 
-  let statuses = [];
-  if (Array.isArray(possibleStatuses[articleStatus.current])) {
-    statuses = [
-      ...possibleStatuses[articleStatus.current].map((status: string) => ({
-        name: t(`form.status.actions.${status}`),
-        id: status,
-        active: status === articleStatus.current,
-      })),
-    ];
-  }
+  const getStatuses = () =>
+    Array.isArray(possibleStatuses[articleStatus.current])
+      ? possibleStatuses[articleStatus.current].map((status: string) => ({
+          name: t(`form.status.actions.${status}`),
+          id: status,
+          active: status === articleStatus.current,
+        }))
+      : [];
 
   const updateStatus = async (comment: string, status: string) => {
     try {
@@ -130,7 +148,7 @@ const EditorFooter: React.FC<Props> = ({
       <div>
         <FooterStatus
           onSave={updateStatus}
-          options={statuses}
+          options={getStatuses()}
           messages={{
             label: '',
             changeStatus: 'Endre status',
@@ -144,15 +162,7 @@ const EditorFooter: React.FC<Props> = ({
             statusLabel: 'Status:',
           }}
         />
-        <SaveButton
-          data-testid="saveLearningResourceButton"
-          isSaving={isSubmitting}
-          defaultText="saveDraft"
-          formIsDirty={formIsDirty}
-          large
-          showSaved={savedToServer && !formIsDirty}>
-          {t('form.save')}
-        </SaveButton>
+        {saveButton}
       </div>
     </Footer>
   );

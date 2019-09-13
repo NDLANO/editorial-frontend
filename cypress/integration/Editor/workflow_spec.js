@@ -65,7 +65,8 @@ describe('Workflow features', () => {
     cy.get('[data-testid=notesInput]').type('Test merknad');
 
     // test that changing status and save as new don't work when note is added
-    cy.get('button')
+    // comment out this until new note flow is released
+    /*     cy.get('button')
       .contains('Utkast')
       .click();
     cy.get('div').contains('Du må lagre endringene dine');
@@ -83,19 +84,21 @@ describe('Workflow features', () => {
     cy.get('button')
       .contains('Utkast')
       .click();
-    cy.wait('@newStatus');
+    cy.wait('@newStatus'); */
   });
 
   it('Open previews', () => {
-    cy.get('button')
-      .contains('Arbeidsflyt')
-      .click();
     cy.route(
       'POST',
       '/article-converter/json/nb/transform-article',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
-    cy.get('[data-testid=preview]').click();
+    cy.get('button')
+      .contains('Kvalitetssikring')
+      .click();
+    cy.get('button')
+      .contains(/Forhåndsvis$/)
+      .click();
     cy.wait('@transformedArticle');
   });
 

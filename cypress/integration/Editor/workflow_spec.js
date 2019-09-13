@@ -98,7 +98,7 @@ describe('Workflow features', () => {
       .click();
     cy.get('button')
       .contains(/Forhåndsvis$/)
-      .click();
+      .click({ force: true });
     cy.wait('@transformedArticle');
   });
 

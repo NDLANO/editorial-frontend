@@ -49,7 +49,12 @@ const imageRules = {
   },
   creators: {
     test: (value, values, label) => {
-      if (value.length === 0 && values.rightsholders.length === 0) {
+      if (
+        value.length === 0 &&
+        values &&
+        values.rightsholders &&
+        values.rightsholders.length === 0
+      ) {
         return {
           translationKey: 'validation.minItems',
           variables: {
@@ -111,16 +116,11 @@ FormWrapper.propTypes = {
 };
 
 class ImageForm extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    savedToServer: false,
+  };
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.state = {
-      savedToServer: false,
-    };
-  }
-
-  async onSubmit(values, actions) {
+  handleSubmit = async (values, actions) => {
     const { licenses, onUpdate, revision } = this.props;
     actions.setSubmitting(true);
     const imageMetaData = {
@@ -142,8 +142,7 @@ class ImageForm extends Component {
 
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });
-    actions.setSubmitting(false);
-  }
+  };
 
   render() {
     const { t, tags, image, licenses, inModal, closeModal } = this.props;
@@ -173,7 +172,7 @@ class ImageForm extends Component {
     return (
       <Formik
         initialValues={initialValues}
-        onSubmit={this.onSubmit}
+        onSubmit={this.handleSubmit}
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
         {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {

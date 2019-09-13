@@ -80,7 +80,7 @@ export const getInitialValues = (article = {}) => {
     language: article.language,
     supportedLanguages: article.supportedLanguages || [],
     articleType: 'topic-article',
-    status: article.status || [],
+    status: article.status || {},
   };
 };
 

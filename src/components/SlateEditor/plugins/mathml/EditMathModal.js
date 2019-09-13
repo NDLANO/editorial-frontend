@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
@@ -41,55 +41,41 @@ const EditMathModal = ({
   handleExit,
   handleSave,
   handleRemove,
-  handleCancel,
+  handleCancelDiscard,
   handleContinue,
   openDiscardModal,
   renderMathML,
-  isEditMode,
-  onExit,
   previewMath,
   t,
 }) => (
   <Modal
     narrow
     controllable
-    isOpen={isEditMode}
+    isOpen
     size="large"
     backgroundColor="white"
-    onClose={() => handleExit(onExit)}
+    onClose={handleExit}
     minHeight="90vh">
     {onCloseModal => (
-      <Fragment>
+      <>
         <ModalHeader>
-          <ModalCloseButton
-            title={t('dialog.close')}
-            onClick={() => handleExit(onCloseModal)}
-          />
+          <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
         </ModalHeader>
         <ModalBody>
           <h1>{t('mathEditor.editMath')}</h1>
           <hr />
-          {isEditMode && <StyledMathEditorWrapper id="mathEditorContainer" />}
+          <StyledMathEditorWrapper id="mathEditorContainer" />
           <StyledButtonWrapper>
             <Button outline css={buttonStyle} onClick={previewMath}>
               {t('form.preview.button')}
             </Button>
-            <Button
-              outline
-              css={buttonStyle}
-              onClick={() => handleSave(onCloseModal)}>
+            <Button outline css={buttonStyle} onClick={handleSave}>
               {t('form.save')}
             </Button>
-            <Button
-              outline
-              css={buttonStyle}
-              onClick={() => handleExit(onCloseModal)}>
+            <Button outline css={buttonStyle} onClick={onCloseModal}>
               {t('form.abort')}
             </Button>
-            <Button
-              outline
-              css={buttonStyle}
-              onClick={() => handleRemove(onCloseModal)}>
+            <Button outline css={buttonStyle} onClick={handleRemove}>
               {t('form.remove')}
             </Button>
           </StyledButtonWrapper>
@@ -106,31 +92,29 @@ const EditMathModal = ({
             actions={[
               {
                 text: t('form.abort'),
-                onClick: handleCancel,
+                onClick: handleCancelDiscard,
               },
               {
                 text: t('alertModal.continue'),
                 onClick: handleContinue,
               },
             ]}
-            onCancel={handleCancel}
+            onCancel={handleCancelDiscard}
           />
         </ModalBody>
-      </Fragment>
+      </>
     )}
   </Modal>
 );
 
 EditMathModal.propTypes = {
-  onExit: PropTypes.func.isRequired,
   handleExit: PropTypes.func.isRequired,
   handleSave: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired,
+  handleCancelDiscard: PropTypes.func.isRequired,
   handleContinue: PropTypes.func.isRequired,
   openDiscardModal: PropTypes.bool.isRequired,
   previewMath: PropTypes.func.isRequired,
-  isEditMode: PropTypes.bool.isRequired,
   renderMathML: PropTypes.string,
 };
 

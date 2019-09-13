@@ -66,6 +66,11 @@ const EditorFooter: React.FC<Props> = ({
   handleSubmit,
   showSimpleFooter,
 }) => {
+  const [preview, showPreview] = useState<PreviewTypes>('');
+  const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+  useEffect(() => {
+    fetchStatuses(setStatuses);
+  }, []);
   const saveButton = (
     <SaveButton
       data-testid="saveLearningResourceButton"
@@ -84,11 +89,6 @@ const EditorFooter: React.FC<Props> = ({
       </Footer>
     );
   }
-  const [preview, showPreview] = useState<PreviewTypes>('');
-  const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
-  useEffect(() => {
-    fetchStatuses(setStatuses);
-  }, []);
 
   const getStatuses = () =>
     Array.isArray(possibleStatuses[articleStatus.current])

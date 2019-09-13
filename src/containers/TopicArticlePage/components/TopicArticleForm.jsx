@@ -11,8 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-import Field from '../../../components/Field';
-import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -28,12 +26,7 @@ import {
   topicArticleRules,
   parseImageUrl,
 } from '../../../util/formHelper';
-import {
-  FormikAlertModalWrapper,
-  formClasses,
-  FormikAbortButton,
-  FormikActionButton,
-} from '../../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';

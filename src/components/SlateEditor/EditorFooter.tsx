@@ -21,7 +21,6 @@ import QualityAssurance from './common/QualityAssurance';
 import ArticlePreviews from './common/ArticlePreviews';
 import { Article, PossibleStatuses, PreviewTypes } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
-import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
 interface Props {

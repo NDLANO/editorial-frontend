@@ -75,7 +75,7 @@ HeaderWithLanguage.propTypes = {
     'topic-article',
     'standard',
     'concept',
-  ]).isRequired,
+  ]),
 };
 
 export default injectT(HeaderWithLanguage);

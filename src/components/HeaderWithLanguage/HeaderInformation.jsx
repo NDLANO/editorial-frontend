@@ -105,7 +105,7 @@ HeaderInformation.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
   type: PropTypes.string.isRequired,
-  editUrl: PropTypes.func.isRequired,
+  editUrl: PropTypes.func,
   getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   title: PropTypes.string,

@@ -15,7 +15,7 @@ interface Props {
 interface AllProps extends Props {
   articleStatus: string;
   t: any;
-  showPreview: (s: string) => void;
+  showPreview: (previewType: string) => void;
 }
 
 const onValidateClick = async ({

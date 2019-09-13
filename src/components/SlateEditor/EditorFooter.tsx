@@ -110,8 +110,8 @@ const EditorFooter: React.FC<Props> = ({
           }}>
           {(closePopup: VoidFunction) => (
             <QualityAssurance
-              showPreview={(p: PreviewTypes) => {
-                showPreview(p);
+              showPreview={(previewType: PreviewTypes) => {
+                showPreview(previewType);
                 closePopup();
               }}
               getArticle={getArticle}

@@ -248,10 +248,6 @@ class LearningResourceForm extends Component {
             dirty,
             type: 'learningResource',
           });
-          console.log('val, initialval');
-
-          console.log(values);
-          console.log(initialValues);
           const getArticle = preview =>
             this.getArticleFromSlate(values, preview);
           return (

@@ -971,6 +971,19 @@ const phrases = {
   conceptform: {
     title: 'Concept',
   },
+  editorFooter: {
+    buttonLabel: 'Quality ensurance',
+    heading: 'Quality ensurance:',
+    changeStatus: 'Change status',
+    back: 'Go back',
+    inputHeader: 'Your note',
+    inputHelperText: 'Short note',
+    cancelLabel: 'Cancel',
+    saveLabel: 'Change status and save draft',
+    warningSavedWithoutComment: 'Note is missing',
+    newStatusPrefix: 'New status:',
+    statusLabel: 'Status:',
+  },
 };
 
 export default phrases;

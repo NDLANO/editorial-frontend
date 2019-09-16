@@ -122,8 +122,8 @@ const EditorFooter: React.FC<Props> = ({
       <div>
         <FooterQualityInsurance
           messages={{
-            buttonLabel: 'Kvalitetssikring',
-            heading: 'Kvalitetssikring:',
+            buttonLabel: t('editorFooter.buttonLabel'),
+            heading: t('editorFooter.heading'),
           }}>
           {(closePopup: VoidFunction) => (
             <QualityAssurance
@@ -151,15 +151,17 @@ const EditorFooter: React.FC<Props> = ({
           options={getStatuses()}
           messages={{
             label: '',
-            changeStatus: 'Endre status',
-            back: 'Gå tilbake',
-            inputHeader: 'Din merknad',
-            inputHelperText: 'Kort merknad påkrevd ved statusendring',
-            cancelLabel: 'Avbryt',
-            saveLabel: 'Endre status og large utkast',
-            warningSavedWithoutComment: 'Merknad mangler',
-            newStatusPrefix: 'Ny status:',
-            statusLabel: 'Status:',
+            changeStatus: t('editorFooter.changeStatus'),
+            back: t('editorFooter.back'),
+            inputHeader: t('editorFooter.inputHeader'),
+            inputHelperText: t('editorFooter.inputHelperText'),
+            cancelLabel: t('editorFooter.cancelLabel'),
+            saveLabel: t('editorFooter.saveLabel'),
+            warningSavedWithoutComment: t(
+              'editorFooter.warningSaveWithoutComment',
+            ),
+            newStatusPrefix: t('editorFooter.newStatusPrefix'),
+            statusLabel: t('editorFooter.statusLabel'),
           }}
         />
         {saveButton}

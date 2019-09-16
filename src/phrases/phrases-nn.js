@@ -994,6 +994,20 @@ const phrases = {
   conceptform: {
     title: 'Begrep',
   },
+  editorFooter: {
+    buttonLabel: 'Kvalitetssikring',
+    heading: 'Kvalitetssikring:',
+    label: '',
+    changeStatus: 'Endre status',
+    back: 'Gå tilbake',
+    inputHeader: 'Din merknad',
+    inputHelperText: 'Kort merknad påkrevd ved statusendring',
+    cancelLabel: 'Avbryt',
+    saveLabel: 'Endre status og lagre utkast',
+    warningSavedWithoutComment: 'Merknad mangler',
+    newStatusPrefix: 'Ny status:',
+    statusLabel: 'Status:',
+  },
 };
 
 export default phrases;

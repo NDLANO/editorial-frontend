@@ -21,7 +21,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
     article,
     tags,
     updateArticle,
-    updateArticleStatus,
+    updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
 
   if (!article || !article.id) {
@@ -45,7 +45,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
         tags={tags}
         articleStatus={article.status}
         onUpdate={updateArticle}
-        updateArticleStatus={updateArticleStatus}
+        updateArticleAndStatus={updateArticleAndStatus}
         {...rest}
       />
     </Fragment>

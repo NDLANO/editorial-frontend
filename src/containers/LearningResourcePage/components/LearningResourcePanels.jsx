@@ -86,7 +86,7 @@ const LearningResourcePanels = ({
               {openIndexes.includes(panel.id) && (
                 <AccordionPanel
                   id={panel.id}
-                  hasError={panel.hasError}
+                  hasError={hasError}
                   isOpen={openIndexes.includes(panel.id)}>
                   <div className={panel.className}>
                     {panel.component({

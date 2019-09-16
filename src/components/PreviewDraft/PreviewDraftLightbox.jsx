@@ -24,6 +24,7 @@ import {
 } from '../../util/articleUtil';
 import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
+import { Portal } from '../Portal';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -31,6 +32,7 @@ const twoArticlesCloseButtonStyle = css`
 `;
 
 const StyledPreviewDraft = styled('div')`
+  z-index: 1001;
   ${p => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
 `;
 
@@ -176,6 +178,7 @@ class PreviewDraftLightbox extends React.Component {
         <FormikActionButton
           onClick={this.openPreview}
           disabled={loading}
+          link
           data-testid={typeOfPreview}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
@@ -193,22 +196,24 @@ class PreviewDraftLightbox extends React.Component {
     );
 
     return (
-      <StyledPreviewDraft typeOfPreview={typeOfPreview}>
-        <Lightbox
-          display
-          onClose={this.onClosePreview}
-          closeButton={closeButton}
-          contentCss={lightboxContentStyle(typeOfPreview)}>
-          <PreviewLightboxContent
-            firstArticle={firstArticle}
-            secondArticle={secondArticle}
-            label={label}
-            typeOfPreview={typeOfPreview}
-            onChangePreviewLanguage={this.onChangePreviewLanguage}
-            previewLanguage={previewLanguage}
-          />
-        </Lightbox>
-      </StyledPreviewDraft>
+      <Portal isOpened>
+        <StyledPreviewDraft typeOfPreview={typeOfPreview}>
+          <Lightbox
+            display
+            onClose={this.onClosePreview}
+            closeButton={closeButton}
+            contentCss={lightboxContentStyle(typeOfPreview)}>
+            <PreviewLightboxContent
+              firstArticle={firstArticle}
+              secondArticle={secondArticle}
+              label={label}
+              typeOfPreview={typeOfPreview}
+              onChangePreviewLanguage={this.onChangePreviewLanguage}
+              previewLanguage={previewLanguage}
+            />
+          </Lightbox>
+        </StyledPreviewDraft>
+      </Portal>
     );
   }
 }

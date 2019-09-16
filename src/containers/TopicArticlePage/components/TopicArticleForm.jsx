@@ -11,8 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-import Field from '../../../components/Field';
-import SaveButton from '../../../components/SaveButton';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -28,12 +26,7 @@ import {
   topicArticleRules,
   parseImageUrl,
 } from '../../../util/formHelper';
-import {
-  FormikAlertModalWrapper,
-  formClasses,
-  FormikAbortButton,
-  FormikActionButton,
-} from '../../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { getArticle } from '../../../modules/article/articleApi';
@@ -45,6 +38,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { queryTopics, updateTopic } from '../../../modules/taxonomy';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -114,11 +108,9 @@ class TopicArticleForm extends Component {
     const {
       article: { language, id },
       t,
+      createMessage,
     } = this.props;
     try {
-      if (this.state.error) {
-        this.setState({ error: undefined });
-      }
       const articleFromProd = await getArticle(id, language);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
@@ -130,7 +122,10 @@ class TopicArticleForm extends Component {
       if (err.status === 404) {
         this.setState({
           showResetModal: false,
-          error: t('errorMessage.noArticleInProd'),
+        });
+        createMessage({
+          message: t('errorMessage.noArticleInProd'),
+          severity: 'danger',
         });
       }
     }
@@ -203,13 +198,14 @@ class TopicArticleForm extends Component {
     return article;
   }
 
-  async handleSubmit(values, actions) {
+  async handleSubmit(values, actions, newStatus) {
     const {
       createMessage,
       articleStatus,
       onUpdate,
       article,
       applicationError,
+      updateArticleAndStatus,
     } = this.props;
     const { revision } = article;
     const status = articleStatus ? articleStatus.current : undefined;
@@ -230,10 +226,20 @@ class TopicArticleForm extends Component {
     }
 
     try {
-      await onUpdate({
-        ...newArticle,
-        revision,
-      });
+      if (newStatus) {
+        updateArticleAndStatus(
+          {
+            ...newArticle,
+            revision,
+          },
+          newStatus,
+        );
+      } else {
+        await onUpdate({
+          ...newArticle,
+          revision,
+        });
+      }
       if (article.title !== newArticle.title) {
         // update topic name in taxonomy
         const topics = await queryTopics(article.id, article.language);
@@ -256,8 +262,9 @@ class TopicArticleForm extends Component {
 
   render() {
     const { t, article, onUpdate, ...rest } = this.props;
-    const { error, showResetModal, savedToServer } = this.state;
+    const { showResetModal, savedToServer } = this.state;
     const initialValues = getInitialValues(article);
+    console.log(initialValues);
     return (
       <Formik
         initialValues={initialValues}
@@ -271,13 +278,13 @@ class TopicArticleForm extends Component {
             initialValues,
             dirty,
           });
+          const getArticle = () => this.getArticle(values);
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
-                type={values.articleType}
-                title={article.title}
-                getArticle={() => this.getArticle(values)}
+                article={article}
+                getArticle={getArticle}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
@@ -288,44 +295,39 @@ class TopicArticleForm extends Component {
                 updateNotes={onUpdate}
                 article={article}
                 touched={touched}
-                getArticle={() => this.getArticle(values)}
+                getArticle={getArticle}
                 formIsDirty={formIsDirty}
                 {...rest}
               />
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                {values.id && (
-                  <FormikActionButton
-                    onClick={() => this.setState({ showResetModal: true })}>
-                    {t('form.resetToProd.button')}
-                  </FormikActionButton>
-                )}
-                <AlertModal
-                  show={showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onResetFormToProd({ setValues }),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />
-                <FormikAbortButton outline disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikAbortButton>
-                <SaveButton
-                  {...formClasses}
-                  isSaving={isSubmitting}
-                  formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
+              <EditorFooter
+                showSimpleFooter={!article.id}
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                savedToServer={savedToServer}
+                getArticle={getArticle}
+                showReset={() => this.setState({ showResetModal: true })}
+                errors={errors}
+                values={values}
+                handleSubmit={status =>
+                  this.handleSubmit(values, this.formik.current, status)
+                }
+                {...rest}
+              />
+              <AlertModal
+                show={showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: () => this.onResetFormToProd({ setValues }),
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
+              />
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
                 formIsDirty={formIsDirty}
@@ -350,7 +352,7 @@ TopicArticleForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  updateArticleStatus: PropTypes.func,
+  updateArticleAndStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   article: ArticleShape,
 };

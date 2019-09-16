@@ -5,7 +5,7 @@ import { injectT } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { colors } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 
 const appereances = {
   saved: css`
@@ -40,12 +40,19 @@ const checkStyle = css`
   height: 1.45rem;
 `;
 
+const largerButtonStyle = css`
+  height: ${spacing.large};
+  padding: 0 ${spacing.normal};
+  ${fonts.sizes(18, 1.25)};
+`;
+
 const SaveButton = ({
   isSaving,
   showSaved,
   t,
   defaultText,
   formIsDirty,
+  large,
   ...rest
 }) => {
   const getModifier = () => {
@@ -59,7 +66,10 @@ const SaveButton = ({
     <Button
       disabled={isSaving || !formIsDirty}
       submit
-      css={appereances[modifier]}
+      css={css`
+        ${large ? largerButtonStyle : ''}
+        ${appereances[modifier]}
+      `}
       {...rest}>
       <StyledSpan>
         {t(`form.${modifier}`)}
@@ -74,6 +84,7 @@ SaveButton.propTypes = {
   showSaved: bool,
   defaultText: string,
   formIsDirty: bool,
+  large: bool,
 };
 
 SaveButton.defaultProps = {

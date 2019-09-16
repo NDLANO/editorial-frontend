@@ -546,7 +546,7 @@ const phrases = {
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
     resetToProd: {
-      button: 'Tilbakestill til prod',
+      button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
     },
     variant: {
@@ -993,6 +993,20 @@ const phrases = {
   },
   conceptform: {
     title: 'Begrep',
+  },
+  editorFooter: {
+    buttonLabel: 'Kvalitetssikring',
+    heading: 'Kvalitetssikring:',
+    label: '',
+    changeStatus: 'Endre status',
+    back: 'Gå tilbake',
+    inputHeader: 'Din merknad',
+    inputHelperText: 'Kort merknad påkrevd ved statusendring',
+    cancelLabel: 'Avbryt',
+    saveLabel: 'Endre status og lagre utkast',
+    warningSavedWithoutComment: 'Merknad mangler',
+    newStatusPrefix: 'Ny status:',
+    statusLabel: 'Status:',
   },
 };
 

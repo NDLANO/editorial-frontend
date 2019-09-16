@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import PreviewDraft from './PreviewDraft';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
+import Spinner from '../Spinner';
 
 const StyledPreviewSingleArticle = styled('div')`
   & .c-article {
@@ -21,7 +22,8 @@ const StyledPreviewSingleArticle = styled('div')`
 `;
 
 const PreviewLightboxContent = props => {
-  const { firstArticle, label, typeOfPreview } = props;
+  const { firstArticle, label, typeOfPreview, loading } = props;
+  if (loading) return <Spinner />;
   switch (typeOfPreview) {
     case 'preview':
       return (
@@ -51,6 +53,7 @@ PreviewLightboxContent.propTypes = {
     title: PropTypes.string,
     introduction: PropTypes.string,
   }),
+  loading: PropTypes.bool,
   typeOfPreview: PropTypes.oneOf([
     'preview',
     'previewProductionArticle',

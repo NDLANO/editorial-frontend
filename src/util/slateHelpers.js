@@ -180,7 +180,7 @@ export const divRule = {
             {slateObject.data.get('nodes') &&
               slateObject.data
                 .get('nodes')
-                .map(node => <embed {...createDataProps(node)} />)}
+                .map((node, i) => <embed key={i} {...createDataProps(node)} />)}
           </div>
         );
       default:

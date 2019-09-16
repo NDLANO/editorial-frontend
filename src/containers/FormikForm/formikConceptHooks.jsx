@@ -3,15 +3,20 @@ import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import * as draftApi from '../../modules/draft/draftApi';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
+import handleError from '../../util/handleError';
 
 export function useFetchConceptData(conceptId, locale) {
   const [concept, setConcept] = useState(undefined);
   const [subjects, setSubjects] = useState([]);
   const [tags, setTags] = useState([]);
   const fetchConcept = async () => {
-    if (conceptId) {
-      const concept = await conceptApi.fetchConcept(conceptId, locale);
-      setConcept(transformConceptFromApiVersion(concept, locale));
+    try {
+      if (conceptId) {
+        const concept = await conceptApi.fetchConcept(conceptId, locale);
+        setConcept(transformConceptFromApiVersion(concept, locale));
+      }
+    } catch (e) {
+      handleError(e);
     }
   };
 

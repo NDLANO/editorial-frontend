@@ -13,71 +13,15 @@ import Button from '@ndla/button';
 import { FieldHeader } from '@ndla/forms';
 import { withRouter } from 'react-router-dom';
 import * as draftApi from '../../modules/draft/draftApi';
-import FormikStatusActions from './components/FormikStatusActions';
-import FormikStatusColumns from './components/FormikStatusColumns';
-import FormikQualityAssurance from './components/FormikQualityAssurance';
-import * as articleStatuses from '../../util/constants/ArticleStatus';
 import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
 import { ArticleShape } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 
-export const formatErrorMessage = error => ({
-  message: error.json.messages
-    .map(message => `${message.field}: ${message.message}`)
-    .join(', '),
-  severity: 'danger',
-  timeToLive: 0,
-});
-
 class FormikWorkflow extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      possibleStatuses: {},
-    };
-    this.onValidateClick = this.onValidateClick.bind(this);
-    this.onUpdateStatus = this.onUpdateStatus.bind(this);
     this.onSaveAsNew = this.onSaveAsNew.bind(this);
-  }
-
-  async componentDidMount() {
-    const possibleStatuses = await draftApi.fetchStatusStateMachine();
-    this.setState({ possibleStatuses });
-  }
-
-  async onUpdateStatus(status) {
-    const {
-      values,
-      updateArticleStatus,
-      getArticle,
-      createMessage,
-      formIsDirty,
-    } = this.props;
-    const { revision } = values;
-    if (formIsDirty) {
-      createMessage({
-        translationKey: 'form.mustSaveFirst',
-        severity: 'danger',
-      });
-    } else {
-      try {
-        if (
-          status === articleStatuses.PUBLISHED ||
-          status === articleStatuses.QUEUED_FOR_PUBLISHING
-        ) {
-          await draftApi.validateDraft(values.id, {
-            ...getArticle(),
-            revision,
-          });
-        }
-        await updateArticleStatus(values.id, status);
-      } catch (error) {
-        if (error && error.json && error.json.messages) {
-          createMessage(formatErrorMessage(error));
-        }
-      }
-    }
   }
 
   async onSaveAsNew() {
@@ -109,31 +53,8 @@ class FormikWorkflow extends Component {
     }
   }
 
-  async onValidateClick() {
-    const {
-      values: { id, revision },
-      createMessage,
-      getArticle,
-    } = this.props;
-
-    try {
-      await draftApi.validateDraft(id, { ...getArticle(), revision });
-      createMessage({
-        translationKey: 'form.validationOk',
-        severity: 'success',
-      });
-    } catch (error) {
-      if (error && error.json && error.json.messages) {
-        createMessage(formatErrorMessage(error));
-      } else {
-        createMessage(error);
-      }
-    }
-  }
-
   render() {
-    const { values, articleStatus, getArticle, article, t } = this.props;
-    const { possibleStatuses } = this.state;
+    const { article, t } = this.props;
     return (
       <Fragment>
         <FormikField name="notes" showError={false}>
@@ -149,24 +70,12 @@ class FormikWorkflow extends Component {
             />
           )}
         </FormikField>
-        <FormikStatusColumns articleStatus={articleStatus} />
-        <FormikStatusActions
-          articleStatus={articleStatus}
-          possibleStatuses={possibleStatuses}
-          onUpdateStatus={this.onUpdateStatus}
-        />
         <div>
           <FieldHeader title={t('form.workflow.saveAsNew')} />
           <Button onClick={this.onSaveAsNew} data-testid="saveAsNew">
             {t('form.workflow.saveAsNew')}
           </Button>
         </div>
-        <FormikQualityAssurance
-          getArticle={getArticle}
-          values={values}
-          articleStatus={articleStatus}
-          onValidateClick={this.onValidateClick}
-        />
       </Fragment>
     );
   }
@@ -181,7 +90,6 @@ FormikWorkflow.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  updateArticleStatus: PropTypes.func,
   createMessage: PropTypes.func.isRequired,
   getArticle: PropTypes.func.isRequired,
   article: ArticleShape,

@@ -9,6 +9,7 @@
 @import '../../node_modules/@ndla/ui/lib/all.css';
 @import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
+@import '../../node_modules/@reach/dialog/styles.css';
 @import './accordion.css';
 @import './alert.css';
 @import './article-form.css';

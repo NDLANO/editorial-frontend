@@ -39,7 +39,6 @@ const EditSlateConcept = props => {
     node.data.get('content-id'),
     locale,
   );
-
   const conceptId = concept && concept.id ? concept.id : undefined;
 
   const handleChangeAndClose = editor => {

@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-import Field from '../../../components/Field';
-import SaveButton from '../../../components/SaveButton';
+
 import AlertModal from '../../../components/AlertModal';
 import {
   learningResourceContentToHTML,
@@ -21,12 +20,7 @@ import {
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import { LicensesArrayOf, ArticleShape } from '../../../shapes';
-import {
-  FormikAlertModalWrapper,
-  FormikActionButton,
-  FormikAbortButton,
-  formClasses,
-} from '../../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import {
@@ -43,6 +37,7 @@ import { transformArticleFromApiVersion } from '../../../util/articleUtil';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 
 export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -97,12 +92,8 @@ class LearningResourceForm extends Component {
     article: { language: prevLanguage, id: prevId, status: prevStatus },
   }) {
     const { article } = this.props;
-    const { language, id, status } = article;
-    if (
-      language !== prevLanguage ||
-      id !== prevId ||
-      (status && prevStatus && status.current !== prevStatus.current)
-    ) {
+    const { language, id } = article;
+    if (language !== prevLanguage || id !== prevId) {
       if (this.formik.current) {
         // Since we removed enableReinitialize we need to manually reset the form for these cases
         this.formik.current.resetForm();
@@ -117,11 +108,9 @@ class LearningResourceForm extends Component {
     const {
       article: { language, id },
       t,
+      createMessage,
     } = this.props;
     try {
-      if (this.state.error) {
-        this.setState({ error: undefined });
-      }
       const articleFromProd = await getArticle(id, language);
       const convertedArticle = transformArticleFromApiVersion({
         ...articleFromProd,
@@ -134,7 +123,10 @@ class LearningResourceForm extends Component {
       if (err.status === 404) {
         this.setState({
           showResetModal: false,
-          error: t('errorMessage.noArticleInProd'),
+        });
+        createMessage({
+          message: t('errorMessage.noArticleInProd'),
+          severity: 'danger',
         });
       }
     }
@@ -188,7 +180,7 @@ class LearningResourceForm extends Component {
     return article;
   }
 
-  async handleSubmit(values, actions) {
+  async handleSubmit(values, actions, newStatus) {
     actions.setSubmitting(true);
     const {
       revision,
@@ -196,6 +188,7 @@ class LearningResourceForm extends Component {
       articleStatus,
       onUpdate,
       applicationError,
+      updateArticleAndStatus,
     } = this.props;
 
     const status = articleStatus ? articleStatus.current : undefined;
@@ -213,10 +206,20 @@ class LearningResourceForm extends Component {
       }
     }
     try {
-      await onUpdate({
-        ...this.getArticleFromSlate(values),
-        revision,
-      });
+      if (newStatus) {
+        updateArticleAndStatus(
+          {
+            ...this.getArticleFromSlate(values),
+            revision,
+          },
+          newStatus,
+        );
+      } else {
+        await onUpdate({
+          ...this.getArticleFromSlate(values),
+          revision,
+        });
+      }
       actions.resetForm();
       actions.setFieldValue('notes', [], false);
       this.setState({ savedToServer: true });
@@ -229,7 +232,7 @@ class LearningResourceForm extends Component {
 
   render() {
     const { t, article, onUpdate, ...rest } = this.props;
-    const { error, savedToServer } = this.state;
+    const { savedToServer } = this.state;
     const initialValues = getInitialValues(article);
     return (
       <Formik
@@ -245,16 +248,17 @@ class LearningResourceForm extends Component {
             dirty,
             type: 'learningResource',
           });
+          const getArticle = preview =>
+            this.getArticleFromSlate(values, preview);
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
-                type="standard"
-                title={article.title}
+                article={article}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
-                getArticle={() => this.getArticleFromSlate(values)}
+                getArticle={getArticle}
               />
               <LearningResourcePanels
                 values={values}
@@ -262,53 +266,44 @@ class LearningResourceForm extends Component {
                 article={article}
                 touched={touched}
                 updateNotes={onUpdate}
-                getArticle={() => this.getArticleFromSlate(values)}
+                getArticle={getArticle}
                 formIsDirty={formIsDirty}
                 {...rest}
               />
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                {values.id && (
-                  <FormikActionButton
-                    data-testid="resetToProd"
-                    onClick={() => this.setState({ showResetModal: true })}>
-                    {t('form.resetToProd.button')}
-                  </FormikActionButton>
-                )}
-
-                <AlertModal
-                  show={this.state.showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onReset(setValues),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />
-                <FormikAbortButton outline disabled={isSubmitting}>
-                  {t('form.abort')}
-                </FormikAbortButton>
-                <SaveButton
-                  data-testid="saveLearningResourceButton"
-                  {...formClasses}
-                  isSaving={isSubmitting}
-                  defaultText="saveDraft"
-                  formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
+              <EditorFooter
+                showSimpleFooter={!article.id}
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                savedToServer={savedToServer}
+                getArticle={getArticle}
+                showReset={() => this.setState({ showResetModal: true })}
+                errors={errors}
+                values={values}
+                handleSubmit={status =>
+                  this.handleSubmit(values, this.formik.current, status)
+                }
+                {...rest}
+              />
               <FormikAlertModalWrapper
                 isSubmitting={isSubmitting}
                 formIsDirty={formIsDirty}
                 severity="danger"
                 text={t('alertModal.notSaved')}
+              />
+              <AlertModal
+                show={this.state.showResetModal}
+                text={t('form.resetToProd.modal')}
+                actions={[
+                  {
+                    text: t('form.abort'),
+                    onClick: () => this.setState({ showResetModal: false }),
+                  },
+                  {
+                    text: 'Reset',
+                    onClick: () => this.onReset(setValues),
+                  },
+                ]}
+                onCancel={() => this.setState({ showResetModal: false })}
               />
             </Form>
           );
@@ -328,7 +323,7 @@ LearningResourceForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
-  updateArticleStatus: PropTypes.func,
+  updateArticleAndStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
     filter: PropTypes.array,

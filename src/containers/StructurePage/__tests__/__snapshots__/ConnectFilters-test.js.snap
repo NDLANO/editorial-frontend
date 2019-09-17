@@ -15,7 +15,7 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   }
 }
 
-.emotion-46 {
+.emotion-48 {
   background-color: white;
   padding: calc(13px / 2);
   position: relative;
@@ -242,8 +242,13 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   z-index: 1;
 }
 
+.emotion-46 {
+  color: #d1372e;
+  text-align: center;
+}
+
 <form
-  class="emotion-46"
+  class="emotion-48"
 >
   <div
     class="emotion-0 emotion-1"
@@ -366,7 +371,38 @@ exports[`calls add filter, update filter, and delete filter 1`] = `
   >
     Lagre
   </button>
-  
+  <div
+    class="emotion-46 emotion-47"
+  >
+    request to http://ndla-api/taxonomy/v1/topic-filters failed, reason: Nock: No match for request {
+  "method": "POST",
+  "url": "http://ndla-api/taxonomy/v1/topic-filters",
+  "headers": {
+    "content-type": [
+      "application/json; charset=utf-8"
+    ],
+    "authorization": [
+      "Bearer 123456789"
+    ],
+    "accept-encoding": [
+      "gzip,deflate"
+    ],
+    "user-agent": [
+      "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
+    ],
+    "connection": [
+      "close"
+    ],
+    "accept": [
+      "*/*"
+    ],
+    "content-length": [
+      117
+    ]
+  },
+  "body": "{\\"filterId\\":\\"urn:filter:f102710e-973e-4999-9daf-f1536d41188a\\",\\"relevanceId\\":\\"urn:relevance:core\\",\\"topicId\\":\\"topicId\\"}"
+}
+  </div>
 </form>
 `;
 

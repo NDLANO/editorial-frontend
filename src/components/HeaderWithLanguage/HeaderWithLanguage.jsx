@@ -21,9 +21,16 @@ const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-const HeaderWithLanguage = ({ t, values, noStatus, article, ...rest }) => {
+const HeaderWithLanguage = ({
+  t,
+  values,
+  noStatus,
+  content,
+  type,
+  ...rest
+}) => {
   const { supportedLanguages, articleType } = values;
-  const { id, title, status, language } = article;
+  const { id, title, status, language } = content;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
   const statusText =
@@ -33,7 +40,7 @@ const HeaderWithLanguage = ({ t, values, noStatus, article, ...rest }) => {
   return (
     <header>
       <HeaderInformation
-        type={articleType}
+        type={articleType ? articleType : type}
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
@@ -59,7 +66,7 @@ HeaderWithLanguage.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     articleType: PropTypes.string,
   }),
-  article: PropTypes.shape({
+  content: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
     status: PropTypes.object,

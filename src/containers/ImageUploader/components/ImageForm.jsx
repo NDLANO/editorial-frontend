@@ -187,6 +187,7 @@ class ImageForm extends Component {
                 noStatus
                 values={values}
                 type="image"
+                content={image}
                 editUrl={lang => toEditImage(values.id, lang)}
               />
               <Accordion openIndexes={['image-upload-content']}>

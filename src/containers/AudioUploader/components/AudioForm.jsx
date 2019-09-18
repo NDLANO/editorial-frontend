@@ -182,6 +182,7 @@ class AudioForm extends Component {
                 noStatus
                 values={values}
                 type="audio"
+                content={audio}
                 editUrl={lang => toEditAudio(values.id, lang)}
               />
               <Accordion openIndexes={['audio-upload-content']}>

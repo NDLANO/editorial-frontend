@@ -283,7 +283,7 @@ class TopicArticleForm extends Component {
             <Form {...formClasses()}>
               <HeaderWithLanguage
                 values={values}
-                article={article}
+                content={article}
                 getArticle={getArticle}
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)

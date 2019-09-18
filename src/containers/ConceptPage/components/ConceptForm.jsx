@@ -257,6 +257,7 @@ class ConceptForm extends Component {
                 noStatus
                 values={values}
                 type="concept"
+                content={concept}
                 getConcept={() => this.getConcept(values)}
                 editUrl={lang => toEditConcept(values.id, lang)}
               />

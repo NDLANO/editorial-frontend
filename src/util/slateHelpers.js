@@ -547,9 +547,7 @@ const markRules = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'mark') return;
-    if (children.type === 'br') {
-      return children;
-    }
+
     switch (slateObject.type) {
       case 'bold':
         return <strong>{children}</strong>;

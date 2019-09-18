@@ -69,7 +69,7 @@ matrix:
       env:
         - SSH_AUTH_SOCK=/tmp/mock_sock
       script:
-        - ndla release test editorial-frontend --update-chart
+        - ndla release editorial-frontend --update-chart
 
       before_cache: # Save docker image as cache
         - docker push $DEPLOY_DOCKER_REPO:$DEPLOY_VERSION

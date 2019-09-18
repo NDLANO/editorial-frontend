@@ -985,7 +985,7 @@ const phrases = {
     inputHelperText: 'Short note',
     cancelLabel: 'Cancel',
     saveLabel: 'Change status and save draft',
-    warningSavedWithoutComment: 'Note is missing',
+    warningSaveWithoutComment: 'Note is missing',
     newStatusPrefix: 'New status:',
     statusLabel: 'Status:',
   },

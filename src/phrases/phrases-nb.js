@@ -1016,7 +1016,7 @@ const phrases = {
     inputHelperText: 'Kort merknad påkrevd ved statusendring',
     cancelLabel: 'Avbryt',
     saveLabel: 'Endre status og lagre utkast',
-    warningSavedWithoutComment: 'Merknad mangler',
+    warningSaveWithoutComment: 'Merknad mangler',
     newStatusPrefix: 'Ny status:',
     statusLabel: 'Status:',
   },

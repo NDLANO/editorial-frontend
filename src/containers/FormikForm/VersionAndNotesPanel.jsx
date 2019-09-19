@@ -11,8 +11,6 @@ import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
-import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import Accordion, {
   AccordionWrapper,
@@ -25,7 +23,6 @@ import { VersionLogTag, VersionHistory } from '@ndla/editor';
 import FormikField from '../../components/FormikField';
 import * as draftApi from '../../modules/draft/draftApi';
 import { ArticleShape } from '../../shapes';
-import { toEditArticle } from '../../util/routeHelpers';
 import handleError from '../../util/handleError';
 import FormikAddNotes from './FormikAddNotes';
 import formatDate from '../../util/formatDate';

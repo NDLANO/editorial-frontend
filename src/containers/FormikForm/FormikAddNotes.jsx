@@ -6,15 +6,10 @@
  *
  */
 
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import {
-  FieldHeader,
-  FieldSection,
-  Input,
-  FieldRemoveButton,
-} from '@ndla/forms';
+import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
 import { NewArticleShape } from '../../shapes';
 

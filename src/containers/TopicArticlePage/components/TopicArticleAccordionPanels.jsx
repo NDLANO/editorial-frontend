@@ -9,7 +9,7 @@ import Accordion, {
 import TopicArticleContent from './TopicArticleContent';
 import {
   FormikCopyright,
-  FormikWorkflow,
+  VersionAndNotesPanel,
   FormikMetadata,
 } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
@@ -51,7 +51,7 @@ const panels = [
     title: 'form.workflowSection',
     className: 'u-6/6',
     errorFields: ['notes'],
-    component: props => <FormikWorkflow {...props} />,
+    component: props => <VersionAndNotesPanel {...props} />,
   },
 ];
 
@@ -79,10 +79,10 @@ const TopicArticleAccordionPanels = ({
                 panelId={panel.id}
                 ariaLabel={t(panel.title)}
                 onClick={() => handleItemClick(panel.id)}
+                title={t(panel.title)}
                 hasError={hasError}
-                isOpen={openIndexes.includes(panel.id)}>
-                {t(panel.title)}
-              </AccordionBar>
+                isOpen={openIndexes.includes(panel.id)}
+              />
               {openIndexes.includes(panel.id) && (
                 <AccordionPanel
                   id={panel.id}

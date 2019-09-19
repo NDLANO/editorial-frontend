@@ -453,7 +453,7 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
-    workflowSection: 'Arbeidsflyt',
+    workflowSection: 'Versjonslogg og merknader',
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
@@ -1007,6 +1007,8 @@ const phrases = {
     warningSaveWithoutComment: 'Merknad mangler',
     newStatusPrefix: 'Ny status:',
     statusLabel: 'Status:',
+    changeHeader: 'Endringer',
+    saveAsNew: 'Lagre som kopi',
   },
 };
 

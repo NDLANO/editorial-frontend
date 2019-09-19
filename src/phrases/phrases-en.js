@@ -433,7 +433,7 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
-    workflowSection: 'Workflow',
+    workflowSection: 'Version log and notes',
     taxonomytSection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
@@ -988,6 +988,8 @@ const phrases = {
     warningSaveWithoutComment: 'Note is missing',
     newStatusPrefix: 'New status:',
     statusLabel: 'Status:',
+    changeHeader: 'Changes',
+    saveAsNew: 'Save as copy',
   },
 };
 

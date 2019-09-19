@@ -21,6 +21,7 @@ import QualityAssurance from './common/QualityAssurance';
 import ArticlePreviews from './common/ArticlePreviews';
 import { Article, PossibleStatuses, PreviewTypes } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
+import { toEditArticle } from '../../util/routeHelpers';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
 interface Props {
@@ -36,6 +37,7 @@ interface Props {
   createMessage: (o: { translationKey: string; severity: string }) => void;
   handleSubmit: (status: string) => void;
   showSimpleFooter: boolean;
+  history: { push: (s: string) => void };
 }
 
 const StyledLine = styled.hr`
@@ -65,6 +67,7 @@ const EditorFooter: React.FC<Props> = ({
   articleStatus,
   handleSubmit,
   showSimpleFooter,
+  history,
 }) => {
   const [preview, showPreview] = useState<PreviewTypes>('');
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
@@ -89,6 +92,28 @@ const EditorFooter: React.FC<Props> = ({
       </Footer>
     );
   }
+
+  const onSaveAsNew = async () => {
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      const article = getArticle();
+      const newArticle = await draftApi.createDraft({
+        ...article,
+        title: `${article.title} (${t('form.copy')})`,
+      });
+      createMessage({
+        translationKey: t('form.saveAsCopySuccess'),
+        severity: 'success',
+      });
+      history.push(
+        toEditArticle(newArticle.id, newArticle.articleType, article.language),
+      );
+    }
+  };
 
   const getStatuses = () =>
     Array.isArray(possibleStatuses[articleStatus.current])
@@ -139,11 +164,24 @@ const EditorFooter: React.FC<Props> = ({
           )}
         </FooterQualityInsurance>
         <StyledLine />
-        {values.id && (
-          <FooterLinkButton data-testid="resetToProd" onClick={showReset}>
-            {t('form.resetToProd.button')}
-          </FooterLinkButton>
-        )}
+        <FooterQualityInsurance
+          messages={{
+            buttonLabel: t('editorFooter.changeHeader'),
+            heading: t('editorFooter.changeHeader'),
+          }}>
+          {(closePopup: VoidFunction) => (
+            <>
+              <FooterLinkButton onClick={onSaveAsNew}>
+                {t('editorFooter.saveAsNew')}
+              </FooterLinkButton>
+              {values.id && (
+                <FooterLinkButton data-testid="resetToProd" onClick={showReset}>
+                  {t('form.resetToProd.button')}
+                </FooterLinkButton>
+              )}
+            </>
+          )}
+        </FooterQualityInsurance>
       </div>
       <div>
         <FooterStatus

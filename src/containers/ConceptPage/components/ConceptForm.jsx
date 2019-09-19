@@ -271,10 +271,10 @@ class ConceptForm extends Component {
                           panelId={panel.id}
                           hasError={panel.hasError}
                           ariaLabel={panel.title}
+                          title={panel.title}
                           onClick={() => handleItemClick(panel.id)}
-                          isOpen={openIndexes.includes(panel.id)}>
-                          {panel.title}
-                        </AccordionBar>
+                          isOpen={openIndexes.includes(panel.id)}
+                        />
                         {openIndexes.includes(panel.id) && (
                           <AccordionPanel
                             id={panel.id}

@@ -8,7 +8,7 @@
 
 import { visitOptions, setToken } from '../../support';
 
-const ARTICLE_ID = 14872;
+const ARTICLE_ID = 533;
 
 describe('Workflow features', () => {
   beforeEach(() => {
@@ -53,38 +53,25 @@ describe('Workflow features', () => {
   });
 
   it('Can add notes, change status, save as new', () => {
+    cy.apiroute(
+      'GET',
+      `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
+      'articleHistory',
+    );
     cy.route(
       'PATCH',
       `/draft-api/v1/drafts/${ARTICLE_ID}`,
       'fixture:draft.json',
     ).as('updateDraft');
     cy.get('button')
-      .contains('Arbeidsflyt')
+      .contains('Versjonslogg og merknader')
       .click();
+    cy.apiwait('@articleHistory');
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
 
-    // test that changing status and save as new don't work when note is added
-    // comment out this until new note flow is released
-    /*     cy.get('button')
-      .contains('Utkast')
-      .click();
-    cy.get('div').contains('Du må lagre endringene dine');
-    cy.get('[data-testid=saveAsNew]').click();
-    cy.get('div').contains('Du må lagre endringene dine');
-
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.wait('@updateDraft');
-
-    cy.route(
-      'PUT',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
-      'fixture:draft.json',
-    ).as('newStatus');
-    cy.get('button')
-      .contains('Utkast')
-      .click();
-    cy.wait('@newStatus'); */
   });
 
   it('Open previews', () => {
@@ -103,6 +90,9 @@ describe('Workflow features', () => {
   });
 
   it('Can reset to prod', () => {
+    cy.get('footer button')
+      .contains('Endringer')
+      .click();
     cy.get('[data-testid=resetToProd]').click();
 
     cy.apiroute(

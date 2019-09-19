@@ -11,12 +11,10 @@ import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
-import Tooltip from '@ndla/tooltip';
 import Accordion, {
   AccordionWrapper,
   AccordionPanel,
   StyledAccordionsPanelItemsWrapper,
-  StyledAccordionsPanelIconButton,
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
@@ -102,28 +100,6 @@ const VersionAndNotesPanel = ({ t, article }) => {
                   <StyledAccordionsPanelItemsWrapper>
                     <div>{formatDate(updated)}</div>
                     <div>
-                      {!current && (
-                        <>
-                          <Tooltip tooltip="Se versjon">
-                            <StyledAccordionsPanelIconButton
-                              onClick={() => console.log('Preview version')} // eslint-disable-line no-console
-                            >
-                              {/* <Eye /> */}
-                            </StyledAccordionsPanelIconButton>
-                          </Tooltip>
-                          <Tooltip tooltip="Tilbakestill til versjon">
-                            <StyledAccordionsPanelIconButton
-                              onClick={() =>
-                                console.log(
-                                  'Are you sure? (modal to confirm revert?)',
-                                )
-                              } // eslint-disable-line no-console
-                            >
-                              {/* <Restore /> */}
-                            </StyledAccordionsPanelIconButton>
-                          </Tooltip>
-                        </>
-                      )}
                       {current && (
                         <VersionLogTag color="yellow" label="Du er her" />
                       )}

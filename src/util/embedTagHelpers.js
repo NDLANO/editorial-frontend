@@ -87,7 +87,7 @@ export const parseEmbedTag = embedTag => {
 
 export const createEmbedTag = visualElement => {
   if (Object.keys(visualElement).length === 0) {
-    return undefined;
+    return '';
   }
   const embed = document.createElement('embed');
   Object.keys(visualElement)

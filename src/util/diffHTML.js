@@ -98,7 +98,9 @@ function allowStrongRemoval({ current, next, previous }) {
 function allowBrWrapping({ current, next }) {
   if (
     current === 'br/' ||
-    (current.startsWith('br/>') && current.endsWith('<br/')) ||
+    next
+      .replace(/\<\/?(strong|em|u)?\>/gi, '')
+      .includes(current.replace(/^br\/>/gi, '').replace(/<br\/$/gi, '')) ||
     brWrappers.some(tag => current.includes(`${tag}><br/></${tag}`))
   ) {
     return true;

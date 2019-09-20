@@ -99,7 +99,7 @@ function allowBrWrapping({ current, next }) {
   if (
     current === 'br/' ||
     next
-      .replace(/\<\/?(strong|em|u)?\>/gi, '')
+      .replace(/<\/?(strong|em|u)?>/gi, '')
       .includes(current.replace(/^br\/>/gi, '').replace(/<br\/$/gi, '')) ||
     brWrappers.some(tag => current.includes(`${tag}><br/></${tag}`))
   ) {

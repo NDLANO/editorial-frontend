@@ -85,7 +85,7 @@ const VersionAndNotesPanel = ({ t, article }) => {
       ...note,
       author: getUser(note.user, users),
       date: formatDate(note.timestamp),
-      status: note.status.current,
+      status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
   return (

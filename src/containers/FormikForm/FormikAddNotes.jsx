@@ -77,6 +77,7 @@ class FormikAddNotes extends Component {
                 value={note}
                 data-testid="notesInput"
                 onChange={e => this.handleNoteChange(e, index)}
+                white
               />
             </div>
             <div>

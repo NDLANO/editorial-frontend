@@ -96,10 +96,7 @@ function allowStrongRemoval({ current, next, previous }) {
   return false;
 }
 function allowBrWrapping({ current, next }) {
-  if (
-    current === 'br/' ||
-    brWrappers.some(tag => current.includes(`${tag}><br/></${tag}`))
-  ) {
+  if (current === 'br/') {
     return true;
   }
   return false;
@@ -128,8 +125,20 @@ function isRemovalAllowed(index, diffs) {
   return false;
 }
 
+const cleanUpHtml = newHtml =>
+  brWrappers
+    .map(tag => new RegExp(`</${tag}><${tag}>`, 'g'))
+    .reduce(
+      (currString, currRegExp) => currString.replace(currRegExp, ''),
+      newHtml,
+    );
+
 export function diffHTML(oldHtml, newHtml) {
-  const diffs = differ.diff_main(oldHtml, newHtml);
+  // we remove some noise coming from Slate, ex </strong><strong>
+  // we run it twice to remove nested mark tags
+  const cleanHtml = cleanUpHtml(cleanUpHtml(newHtml));
+
+  const diffs = differ.diff_main(oldHtml, cleanHtml);
   differ.diff_cleanupSemantic(diffs);
   let diffString = '';
 

@@ -101,10 +101,16 @@ const VersionAndNotesPanel = ({ t, article }) => {
                     <div>{formatDate(updated)}</div>
                     <div>
                       {current && (
-                        <VersionLogTag color="yellow" label="Du er her" />
+                        <VersionLogTag
+                          color="yellow"
+                          label={t('form.notes.areHere')}
+                        />
                       )}
                       {published && (
-                        <VersionLogTag color="green" label="Publisert" />
+                        <VersionLogTag
+                          color="green"
+                          label={t('form.notes.published')}
+                        />
                       )}
                     </div>
                   </StyledAccordionsPanelItemsWrapper>

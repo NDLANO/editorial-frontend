@@ -505,6 +505,8 @@ const phrases = {
       add: 'Add new note',
       remove: 'Remove note',
       warning: 'A note must contain text',
+      areHere: 'You are here',
+      published: 'Published',
       history: {
         user: 'User',
         time: 'When',

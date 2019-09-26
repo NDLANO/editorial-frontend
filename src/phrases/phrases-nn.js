@@ -525,6 +525,8 @@ const phrases = {
       add: 'Legg til merknad',
       remove: 'Ta bort',
       warning: 'Ein merknad må ha tekst',
+      areHere: 'Du er her',
+      published: 'Publisert',
       history: {
         user: 'Bruker',
         time: 'Når',

@@ -16,8 +16,12 @@ import Accordion, {
   AccordionPanel,
   StyledAccordionsPanelItemsWrapper,
   AccordionBar,
+  StyledAccordionsPanelIconButton,
 } from '@ndla/accordion';
+import Tooltip from '@ndla/tooltip';
+import { Eye, Restore } from '@ndla/icons/editor';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
+
 import FormikField from '../../components/FormikField';
 import * as draftApi from '../../modules/draft/draftApi';
 import { ArticleShape } from '../../shapes';
@@ -25,6 +29,7 @@ import handleError from '../../util/handleError';
 import FormikAddNotes from './FormikAddNotes';
 import formatDate from '../../util/formatDate';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
+import { PreviewDraftLightbox } from '../../components';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -56,7 +61,7 @@ const getUsersFromNotes = async (notes, setUsers) => {
   );
 };
 
-const VersionAndNotesPanel = ({ t, article }) => {
+const VersionAndNotesPanel = ({ t, article, getInitialValues, setValues }) => {
   const [versions, setVersions] = useState([]);
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -92,7 +97,8 @@ const VersionAndNotesPanel = ({ t, article }) => {
     <Accordion openIndexes={[0]} tiny>
       {({ getPanelProps, getBarProps }) => (
         <AccordionWrapper>
-          {versions.map(({ revision, updated, published, notes }, index) => {
+          {versions.map((version, index) => {
+            const { revision, updated, published, notes } = version;
             const current = index === 0;
             return (
               <Fragment key={revision}>
@@ -100,13 +106,43 @@ const VersionAndNotesPanel = ({ t, article }) => {
                   <StyledAccordionsPanelItemsWrapper>
                     <div>{formatDate(updated)}</div>
                     <div>
+                      {!current && (
+                        <>
+                          <PreviewDraftLightbox
+                            label={t(`articleType`)}
+                            typeOfPreview="preview"
+                            getArticle={() => version}>
+                            {openPreview => (
+                              <Tooltip tooltip="Se versjon">
+                                <StyledAccordionsPanelIconButton
+                                  type="button"
+                                  onClick={openPreview}>
+                                  <Eye />
+                                </StyledAccordionsPanelIconButton>
+                              </Tooltip>
+                            )}
+                          </PreviewDraftLightbox>
+
+                          <Tooltip tooltip="Tilbakestill til versjon">
+                            <StyledAccordionsPanelIconButton
+                              type="button"
+                              onClick={() => {
+                                const newValues = getInitialValues(version);
+                                console.log(newValues);
+                                setValues(newValues);
+                              }}>
+                              <Restore />
+                            </StyledAccordionsPanelIconButton>
+                          </Tooltip>
+                        </>
+                      )}
                       {current && (
                         <VersionLogTag
                           color="yellow"
                           label={t('form.notes.areHere')}
                         />
                       )}
-                      {published && (
+                      {published && !current && (
                         <VersionLogTag
                           color="green"
                           label={t('form.notes.published')}

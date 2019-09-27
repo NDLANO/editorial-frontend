@@ -104,13 +104,21 @@ class PreviewDraftLightbox extends React.Component {
     });
   }
 
-  async openPreview() {
-    const { getArticle, typeOfPreview } = this.props;
+  async openPreview(version) {
+    const {
+      getArticle,
+      typeOfPreview = 'previewProductionArticle',
+    } = this.props;
+    let article;
+    if (version) {
+      article = version;
+    } else {
+      article = toApiVersion(getArticle(true));
+    }
 
-    const article = toApiVersion(getArticle(true));
-    const secondArticleLanguage = article.supportedLanguages.find(
-      l => l !== article.language,
-    );
+    const secondArticleLanguage =
+      article.supportedLanguages &&
+      article.supportedLanguages.find(l => l !== article.language);
 
     const types = {
       previewProductionArticle: this.previewProductionArticle,

@@ -268,6 +268,8 @@ class LearningResourceForm extends Component {
                 updateNotes={onUpdate}
                 getArticle={getArticle}
                 formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
                 {...rest}
               />
               <EditorFooter

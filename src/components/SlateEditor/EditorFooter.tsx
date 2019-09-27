@@ -9,15 +9,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
-import {
-  Footer,
-  FooterQualityInsurance,
-  FooterStatus,
-  FooterLinkButton,
-} from '@ndla/editor';
+import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
+import { Launch } from '@ndla/icons/common';
+import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveButton from '../../components/SaveButton';
-import QualityAssurance from './common/QualityAssurance';
 import ArticlePreviews from './common/ArticlePreviews';
 import { Article, PossibleStatuses, PreviewTypes } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -78,13 +74,30 @@ const EditorFooter: React.FC<Props> = ({
     <SaveButton
       data-testid="saveLearningResourceButton"
       isSaving={isSubmitting}
-      defaultText="saveDraft"
+      defaultText="save"
       formIsDirty={formIsDirty}
       large
-      showSaved={savedToServer && !formIsDirty}>
-      {t('form.save')}
-    </SaveButton>
+      showSaved={savedToServer && !formIsDirty}
+    />
   );
+
+  const onValidateClick = async () => {
+    const { id, revision } = values;
+    try {
+      await draftApi.validateDraft(id, { ...getArticle(), revision });
+      createMessage({
+        translationKey: 'form.validationOk',
+        severity: 'success',
+      });
+    } catch (error) {
+      if (error && error.json && error.json.messages) {
+        createMessage(formatErrorMessage(error));
+      } else {
+        createMessage(error);
+      }
+    }
+  };
+
   if (showSimpleFooter) {
     return (
       <Footer>
@@ -145,43 +158,22 @@ const EditorFooter: React.FC<Props> = ({
         />
       )}
       <div>
-        <FooterQualityInsurance
-          messages={{
-            buttonLabel: t('editorFooter.buttonLabel'),
-            heading: t('editorFooter.heading'),
-          }}>
-          {(closePopup: VoidFunction) => (
-            <QualityAssurance
-              showPreview={(previewType: PreviewTypes) => {
-                showPreview(previewType);
-                closePopup();
-              }}
-              getArticle={getArticle}
-              values={values}
-              articleStatus={articleStatus}
-              createMessage={createMessage}
-            />
-          )}
-        </FooterQualityInsurance>
+        {values.id && (
+          <FooterLinkButton
+            bold
+            onClick={() =>
+              window.open(toPreviewDraft(values.id, values.language))
+            }>
+            {t('form.preview.button')}
+            <Launch />
+          </FooterLinkButton>
+        )}
         <StyledLine />
-        <FooterQualityInsurance
-          messages={{
-            buttonLabel: t('editorFooter.changeHeader'),
-            heading: t('editorFooter.changeHeader'),
-          }}>
-          {(closePopup: VoidFunction) => (
-            <>
-              <FooterLinkButton onClick={onSaveAsNew}>
-                {t('editorFooter.saveAsNew')}
-              </FooterLinkButton>
-              {values.id && (
-                <FooterLinkButton data-testid="resetToProd" onClick={showReset}>
-                  {t('form.resetToProd.button')}
-                </FooterLinkButton>
-              )}
-            </>
-          )}
-        </FooterQualityInsurance>
+        {values.id && (
+          <FooterLinkButton bold onClick={() => onValidateClick()}>
+            {t('form.validate')}
+          </FooterLinkButton>
+        )}
       </div>
       <div>
         <FooterStatus
@@ -189,7 +181,9 @@ const EditorFooter: React.FC<Props> = ({
           options={getStatuses()}
           messages={{
             label: '',
-            changeStatus: t('editorFooter.changeStatus'),
+            changeStatus: t(
+              `form.status.${articleStatus.current.toLowerCase()}`,
+            ),
             back: t('editorFooter.back'),
             inputHeader: t('editorFooter.inputHeader'),
             inputHelperText: t('editorFooter.inputHelperText'),

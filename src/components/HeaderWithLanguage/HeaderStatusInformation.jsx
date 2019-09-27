@@ -30,14 +30,6 @@ const StyledStatus = styled.p`
   margin: 0 ${spacing.small};
 `;
 
-const StyledSmallText = styled.small`
-  color: ${colors.text.light};
-  padding-right: ${spacing.xsmall};
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.light};
-  text-transform: uppercase;
-`;
-
 const HeaderStatusInformation = ({
   noStatus,
   statusText,

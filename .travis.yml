@@ -11,13 +11,16 @@ env:
 
 language: node_js
 node_js: "10"
+addons:
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
 cache:
   yarn: true
-  npm: true
   directories:
     - "~/.cache"
     - ".eslintcache"
-    - "/home/travis/.cache/Cypress"
 
 matrix:
   fast_finish: true
@@ -28,17 +31,21 @@ matrix:
         - export PATH="$HOME/.yarn/bin:$PATH"
       install:
         - yarn install --frozen-lockfile
-      script: yarn check-all
+      script:
+        - yarn check-all
+        - yarn build
       after_success: travis_wait yarn ndla-scripts now-travis
 
     - name: "Integration tests"
-      dist: trusty
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH="$HOME/.yarn/bin:$PATH"
       install:
         - yarn install --frozen-lockfile
-      script: ./scripts/travis_e2e.sh
+      script:
+        - yarn start &
+        - sleep 25
+        - yarn e2e-ci
 
     - name: "Release"
       language: python

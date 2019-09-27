@@ -12,7 +12,7 @@ import FormikAddNotes from './FormikAddNotes';
 import FormikField from '../../components/FormikField';
 import { ArticleShape } from '../../shapes';
 
-const FormikWorkflow = ({article, t}) => (
+const FormikWorkflow = ({ article, t }) => (
   <FormikField name="notes" showError={false}>
     {({ field, form: { errors, touched } }) => (
       <FormikAddNotes

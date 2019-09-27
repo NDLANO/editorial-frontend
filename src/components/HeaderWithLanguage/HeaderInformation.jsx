@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {withRouter} from "react-router";
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
@@ -15,10 +15,10 @@ import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
-import Button from "@ndla/button";
-import * as draftApi from "../../modules/draft/draftApi";
-import {toEditArticle} from "../../util/routeHelpers";
-import {ArticleShape} from "../../shapes";
+import Button from '@ndla/button';
+import * as draftApi from '../../modules/draft/draftApi';
+import { toEditArticle } from '../../util/routeHelpers';
+import { ArticleShape } from '../../shapes';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -108,18 +108,24 @@ const HeaderInformation = ({
         severity: 'danger',
       });
     } else {
-      draftApi.createDraft({
-        ...getArticle(),
-        title: `${article.title} (${t('form.copy')})`,
-      }).then((newArticle) => {
-        createMessage({
-          translationKey: 'form.saveAsCopySuccess',
-          severity: 'success',
+      draftApi
+        .createDraft({
+          ...getArticle(),
+          title: `${article.title} (${t('form.copy')})`,
+        })
+        .then(newArticle => {
+          createMessage({
+            translationKey: 'form.saveAsCopySuccess',
+            severity: 'success',
+          });
+          history.push(
+            toEditArticle(
+              newArticle.id,
+              newArticle.articleType,
+              article.language,
+            ),
+          );
         });
-        history.push(
-          toEditArticle(newArticle.id, newArticle.articleType, article.language),
-        );
-      });
     }
   };
 
@@ -139,14 +145,14 @@ const HeaderInformation = ({
           statusText={statusText}
           isNewLanguage={isNewLanguage}
         />
-        <StyledSplitter/>
+        <StyledSplitter />
         <Button onClick={onSaveAsNew} data-testid="saveAsNew">
           {t('form.workflow.saveAsNew')}
         </Button>
       </StyledHeaderActions>
     </StyledHeader>
   );
-}
+};
 
 HeaderInformation.propTypes = {
   noStatus: PropTypes.bool,

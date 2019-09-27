@@ -45,6 +45,8 @@ const HeaderWithLanguage = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         title={title}
+        article={content}
+        {...rest}
       />
       <StyledLanguageWrapper>
         <HeaderActions

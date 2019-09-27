@@ -56,7 +56,6 @@ const HeaderStatusInformation = ({
       <StyledStatusWrapper>
         <StyledSplitter />
         <StyledStatus>
-          <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
           {isNewLanguage
             ? t('form.status.new_language')
             : statusText || t('form.status.new')}

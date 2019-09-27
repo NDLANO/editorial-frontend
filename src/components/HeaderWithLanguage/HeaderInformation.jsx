@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import {withRouter} from "react-router";
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
@@ -14,6 +15,10 @@ import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
+import Button from "@ndla/button";
+import * as draftApi from "../../modules/draft/draftApi";
+import {toEditArticle} from "../../util/routeHelpers";
+import {ArticleShape} from "../../shapes";
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -42,6 +47,13 @@ const StyledTitleHeaderWrapper = styled.div`
   }
 `;
 
+const StyledHeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  button {
+    white-space: nowrap;
+  }
+`;
 const { contentTypes } = constants;
 
 export const types = {
@@ -82,33 +94,72 @@ const HeaderInformation = ({
   statusText,
   isNewLanguage,
   title,
+  article,
+  getArticle,
+  history,
+  formIsDirty,
+  createMessage,
   t,
-}) => (
-  <StyledHeader>
-    <StyledTitleHeaderWrapper>
-      {types[type].icon}
-      <h1>
-        {title
-          ? `${t(`${types[type].form}.title`)}: ${title}`
-          : t(`${types[type].form}.title`)}
-      </h1>
-    </StyledTitleHeaderWrapper>
-    <HeaderStatusInformation
-      noStatus={noStatus}
-      statusText={statusText}
-      isNewLanguage={isNewLanguage}
-    />
-  </StyledHeader>
-);
+}) => {
+  const onSaveAsNew = () => {
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      draftApi.createDraft({
+        ...getArticle(),
+        title: `${article.title} (${t('form.copy')})`,
+      }).then((newArticle) => {
+        createMessage({
+          translationKey: 'form.saveAsCopySuccess',
+          severity: 'success',
+        });
+        history.push(
+          toEditArticle(newArticle.id, newArticle.articleType, article.language),
+        );
+      });
+    }
+  };
+
+  return (
+    <StyledHeader>
+      <StyledTitleHeaderWrapper>
+        {types[type].icon}
+        <h1>
+          {title
+            ? `${t(`${types[type].form}.title`)}: ${title}`
+            : t(`${types[type].form}.title`)}
+        </h1>
+      </StyledTitleHeaderWrapper>
+      <StyledHeaderActions>
+        <HeaderStatusInformation
+          noStatus={noStatus}
+          statusText={statusText}
+          isNewLanguage={isNewLanguage}
+        />
+        <StyledSplitter/>
+        <Button onClick={onSaveAsNew} data-testid="saveAsNew">
+          {t('form.workflow.saveAsNew')}
+        </Button>
+      </StyledHeaderActions>
+    </StyledHeader>
+  );
+}
 
 HeaderInformation.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
   type: PropTypes.string.isRequired,
   editUrl: PropTypes.func,
-  getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   title: PropTypes.string,
+  createMessage: PropTypes.func.isRequired,
+  getArticle: PropTypes.func.isRequired,
+  article: ArticleShape,
+  formIsDirty: PropTypes.bool,
+  history: PropTypes.object,
 };
 
-export default injectT(HeaderInformation);
+export default withRouter(injectT(HeaderInformation));

@@ -579,14 +579,13 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetssikring',
-      saveAsNew: 'Lagre kopi som ny artikkel',
+      saveAsNew: 'Kopier',
       deleteLanguageVersion: {
         button: 'Slett {languageVersion} versjon',
         title: 'Slett språkversjon',
         modal: 'Er du sikker på at du vil slette denne språkversjonen?',
       },
       statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
-      statusLabel: 'Status',
     },
     status: {
       new: 'Ny - Ikke lagret',

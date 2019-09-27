@@ -288,6 +288,8 @@ class TopicArticleForm extends Component {
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
+                formIsDirty={formIsDirty}
+                {...rest}
               />
               <TopicArticleAccordionPanels
                 values={values}

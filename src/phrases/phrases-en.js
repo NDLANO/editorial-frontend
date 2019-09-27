@@ -568,14 +568,13 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
-      saveAsNew: 'Save copy as new article',
+      saveAsNew: 'Copy',
       deleteLanguageVersion: {
         button: 'Delete language version',
         title: 'Delete language version',
         modal: 'Are you sure that you want to delete this language version?',
       },
       statusInfoTooltip: 'Whats the difference between statuses?',
-      statusLabel: 'Status',
     },
     status: {
       new: 'New - unsaved',

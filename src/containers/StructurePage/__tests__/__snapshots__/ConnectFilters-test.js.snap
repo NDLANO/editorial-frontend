@@ -604,13 +604,13 @@ exports[`maps out filters 1`] = `
 >
   <div
     class="emotion-8 emotion-9"
-    data-cy="connectFilterItem"
   >
     <label
       class="emotion-2 emotion-3"
     >
       <input
         class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
         type="checkbox"
       />
@@ -618,10 +618,10 @@ exports[`maps out filters 1`] = `
     </label>
     <label
       class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
     >
       <input
         checked=""
-        data-testid="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-relevance"
         type="checkbox"
       />
       <span
@@ -631,13 +631,13 @@ exports[`maps out filters 1`] = `
   </div>
   <div
     class="emotion-8 emotion-9"
-    data-cy="connectFilterItem"
   >
     <label
       class="emotion-2 emotion-3"
     >
       <input
         class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
         type="checkbox"
       />
@@ -645,10 +645,10 @@ exports[`maps out filters 1`] = `
     </label>
     <label
       class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
     >
       <input
         checked=""
-        data-testid="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-relevance"
         type="checkbox"
       />
       <span
@@ -658,13 +658,13 @@ exports[`maps out filters 1`] = `
   </div>
   <div
     class="emotion-8 emotion-9"
-    data-cy="connectFilterItem"
   >
     <label
       class="emotion-2 emotion-3"
     >
       <input
         class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
         type="checkbox"
       />
@@ -672,10 +672,10 @@ exports[`maps out filters 1`] = `
     </label>
     <label
       class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
     >
       <input
         checked=""
-        data-testid="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-relevance"
         type="checkbox"
       />
       <span
@@ -685,13 +685,13 @@ exports[`maps out filters 1`] = `
   </div>
   <div
     class="emotion-8 emotion-9"
-    data-cy="connectFilterItem"
   >
     <label
       class="emotion-2 emotion-3"
     >
       <input
         class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
         type="checkbox"
       />
@@ -699,10 +699,10 @@ exports[`maps out filters 1`] = `
     </label>
     <label
       class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
     >
       <input
         checked=""
-        data-testid="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-relevance"
         type="checkbox"
       />
       <span

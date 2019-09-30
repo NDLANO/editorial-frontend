@@ -98,16 +98,6 @@ describe('Topic editing', () => {
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
-      .contains(phrases.taxonomy.addExistingTopic)
-      .click();
-    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
-    cy.wait('@allTopics');
-    cy.get('[data-testid=dropdown-items]')
-      .contains('Filmanalyse')
-      .click();
-
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
     cy.get('[data-cy=connectFilterItem] > label').each($lbl => {

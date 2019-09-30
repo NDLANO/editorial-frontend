@@ -30,6 +30,7 @@ import FormikAddNotes from './FormikAddNotes';
 import formatDate from '../../util/formatDate';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 import { PreviewDraftLightbox } from '../../components';
+import { transformArticleFromApiVersion } from '../../util/articleUtil';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -61,7 +62,13 @@ const getUsersFromNotes = async (notes, setUsers) => {
   );
 };
 
-const VersionAndNotesPanel = ({ t, article, getInitialValues, setValues }) => {
+const VersionAndNotesPanel = ({
+  t,
+  article,
+  getInitialValues,
+  setValues,
+  createMessage,
+}) => {
   const [versions, setVersions] = useState([]);
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -109,11 +116,16 @@ const VersionAndNotesPanel = ({ t, article, getInitialValues, setValues }) => {
                       {!current && (
                         <>
                           <PreviewDraftLightbox
-                            label={t(`articleType`)}
+                            label={t(`articleType.${article.articleType}`)}
                             typeOfPreview="preview"
-                            getArticle={() => version}>
+                            getArticle={() =>
+                              transformArticleFromApiVersion(
+                                version,
+                                article.language,
+                              )
+                            }>
                             {openPreview => (
-                              <Tooltip tooltip="Se versjon">
+                              <Tooltip tooltip={t('form.previewVersion')}>
                                 <StyledAccordionsPanelIconButton
                                   type="button"
                                   onClick={openPreview}>
@@ -123,13 +135,27 @@ const VersionAndNotesPanel = ({ t, article, getInitialValues, setValues }) => {
                             )}
                           </PreviewDraftLightbox>
 
-                          <Tooltip tooltip="Tilbakestill til versjon">
+                          <Tooltip tooltip={t('form.resetToVersion')}>
                             <StyledAccordionsPanelIconButton
                               type="button"
                               onClick={() => {
-                                const newValues = getInitialValues(version);
-                                console.log(newValues);
-                                setValues(newValues);
+                                try {
+                                  console.log(version);
+                                  const newValues = getInitialValues(
+                                    transformArticleFromApiVersion(
+                                      version,
+                                      article.language,
+                                    ),
+                                  );
+                                  console.log(newValues);
+                                  setValues(newValues);
+                                  createMessage({
+                                    message: t('form.resetToProd.success'),
+                                    severity: 'success',
+                                  });
+                                } catch (e) {
+                                  handleError(e);
+                                }
                               }}>
                               <Restore />
                             </StyledAccordionsPanelIconButton>

@@ -548,7 +548,10 @@ const phrases = {
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
+      success: 'Innhold er tilbakestilt, trykk lagre for å lagre endringene',
     },
+    resetToVersion: 'Tilbakestill til versjon',
+    previewVersion: 'Se versjon',
     variant: {
       create: 'Legg til språk',
     },

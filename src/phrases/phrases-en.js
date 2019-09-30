@@ -530,7 +530,10 @@ const phrases = {
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
+      success: 'Content is reset, press save to save changes',
     },
+    resetToVersion: 'Reset to version',
+    previewVersion: 'See version',
     variant: {
       create: 'Create variant',
     },

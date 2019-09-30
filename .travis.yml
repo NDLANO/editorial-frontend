@@ -44,7 +44,7 @@ matrix:
         - yarn install --frozen-lockfile
       script:
         - yarn start &
-        - sleep 25
+        - sleep 40
         - yarn e2e-ci
 
     - name: "Release"

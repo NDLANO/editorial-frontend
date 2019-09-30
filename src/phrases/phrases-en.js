@@ -573,7 +573,7 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
-      saveAsNew: 'Save copy as new article',
+      saveAsNew: 'Make copy',
       deleteLanguageVersion: {
         button: 'Delete language version',
         title: 'Delete language version',

@@ -21,7 +21,6 @@ import PreviewLightboxContent from './PreviewLightboxContent';
 import {
   transformArticle,
   transformArticleToApiVersion,
-  transformArticleFromApiVersion,
 } from '../../util/articleUtil';
 import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';

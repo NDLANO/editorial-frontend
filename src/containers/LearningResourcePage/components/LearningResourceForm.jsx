@@ -259,6 +259,8 @@ class LearningResourceForm extends Component {
                   toEditArticle(values.id, values.articleType, lang)
                 }
                 getArticle={getArticle}
+                formIsDirty={formIsDirty}
+                {...rest}
               />
               <LearningResourcePanels
                 values={values}

@@ -14,10 +14,8 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveButton from '../../components/SaveButton';
-import ArticlePreviews from './common/ArticlePreviews';
-import { Article, PossibleStatuses, PreviewTypes } from './editorTypes';
+import { Article, PossibleStatuses } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
-import { toEditArticle } from '../../util/routeHelpers';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
 interface Props {
@@ -33,7 +31,6 @@ interface Props {
   createMessage: (o: { translationKey: string; severity: string }) => void;
   handleSubmit: (status: string) => void;
   showSimpleFooter: boolean;
-  history: { push: (s: string) => void };
 }
 
 const StyledLine = styled.hr`
@@ -57,13 +54,11 @@ const EditorFooter: React.FC<Props> = ({
   formIsDirty,
   savedToServer,
   values,
-  showReset,
   getArticle,
   createMessage,
   articleStatus,
   handleSubmit,
   showSimpleFooter,
-  history,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   useEffect(() => {
@@ -104,28 +99,6 @@ const EditorFooter: React.FC<Props> = ({
       </Footer>
     );
   }
-
-  const onSaveAsNew = async () => {
-    if (formIsDirty) {
-      createMessage({
-        translationKey: 'form.mustSaveFirst',
-        severity: 'danger',
-      });
-    } else {
-      const article = getArticle();
-      const newArticle = await draftApi.createDraft({
-        ...article,
-        title: `${article.title} (${t('form.copy')})`,
-      });
-      createMessage({
-        translationKey: t('form.saveAsCopySuccess'),
-        severity: 'success',
-      });
-      history.push(
-        toEditArticle(newArticle.id, newArticle.articleType, article.language),
-      );
-    }
-  };
 
   const getStatuses = () =>
     Array.isArray(possibleStatuses[articleStatus.current])

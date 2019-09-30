@@ -297,6 +297,8 @@ class TopicArticleForm extends Component {
                 touched={touched}
                 getArticle={getArticle}
                 formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
                 {...rest}
               />
               <EditorFooter

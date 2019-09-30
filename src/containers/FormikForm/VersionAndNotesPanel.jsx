@@ -100,6 +100,21 @@ const VersionAndNotesPanel = ({
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
+  const resetVersion = version => {
+    try {
+      const newValues = getInitialValues(
+        transformArticleFromApiVersion(version, article.language),
+      );
+      setValues(newValues);
+      createMessage({
+        message: t('form.resetToProd.success'),
+        severity: 'success',
+      });
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
   return (
     <Accordion openIndexes={[0]} tiny>
       {({ getPanelProps, getBarProps }) => (
@@ -138,25 +153,7 @@ const VersionAndNotesPanel = ({
                           <Tooltip tooltip={t('form.resetToVersion')}>
                             <StyledAccordionsPanelIconButton
                               type="button"
-                              onClick={() => {
-                                try {
-                                  console.log(version);
-                                  const newValues = getInitialValues(
-                                    transformArticleFromApiVersion(
-                                      version,
-                                      article.language,
-                                    ),
-                                  );
-                                  console.log(newValues);
-                                  setValues(newValues);
-                                  createMessage({
-                                    message: t('form.resetToProd.success'),
-                                    severity: 'success',
-                                  });
-                                } catch (e) {
-                                  handleError(e);
-                                }
-                              }}>
+                              onClick={() => resetVersion(version)}>
                               <Restore />
                             </StyledAccordionsPanelIconButton>
                           </Tooltip>
@@ -221,6 +218,8 @@ VersionAndNotesPanel.propTypes = {
   article: ArticleShape,
   formIsDirty: PropTypes.bool,
   history: PropTypes.object,
+  getInitialValues: PropTypes.func,
+  setValues: PropTypes.func,
 };
 
 VersionAndNotesPanel.defaultProps = {

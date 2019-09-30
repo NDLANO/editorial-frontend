@@ -63,15 +63,16 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.route({
+    cy.apirouteTaxonomy({
       method: 'POST',
       status: 201,
-      url: '/taxonomy/v1/topic-subtopics',
+      url: '/taxonomy/v1/topic-filters',
       headers: {
-        Location: 'newSubTopicPath',
+        Location: 'newFilterPath',
         'content-type': 'text/plain; charset=UTF-8',
       },
       response: '',
+      alias: 'addFilter',
     });
     cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
     cy.apiroute(
@@ -80,21 +81,20 @@ describe('Topic editing', () => {
       'topicFilters',
     );
 
-    cy.route({
+    cy.apirouteTaxonomy({
       method: 'PUT',
-      url:
-        '/taxonomy/v1/topic-filters/urn:topic-filter:42259c05-e000-4dfe-ae78-4b807034a772',
+      url: '/taxonomy/v1/topic-filters/**',
       headers: {
         Location: 'filterLocation',
         'content-type': 'text/plain; charset=UTF-8',
       },
       status: 201,
       response: '',
-    }).as('addToFilter');
+      alias: 'changeFilter',
+    });
     cy.route({
       method: 'DELETE',
-      url:
-        '/taxonomy/v1/topic-filters/urn:topic-filter:e979cfb2-29de-402b-bd24-f8de5f14cfe1',
+      url: '/taxonomy/v1/topic-filters/**',
       status: 204,
       response: '',
     }).as('deleteFilter');
@@ -109,16 +109,16 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
-    cy.get('[data-testid=connectFilterItem]')
-      .first()
-      .click();
-    cy.get('[data-testid=toggleRelevance]')
-      .last()
-      .click();
+    cy.get('[data-testid=toggleRelevance]').click({ multiple: true });
+
+    cy.get('[data-testid="submitConnectFilters"]').click();
+    cy.apiwait(['@changeFilter']);
+    cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
 
     cy.get('[data-testid="submitConnectFilters"]').click();
 
-    cy.wait('@addToFilter');
+    cy.apiwait(['@addFilter', '@deleteFilter']);
+
     cy.get('button')
       .contains(phrases.alertModal.delete)
       .click();

@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`maps out filters 1`] = `
+.emotion-42 {
+  background-color: white;
+  padding: calc(13px / 2);
+  position: relative;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: calc(13px / 2);
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0 {
+  width: auto;
+  margin-right: calc(13px / 2);
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  padding: inital;
+}
+
+.emotion-6 {
+  position: relative;
+  display: inline-block;
+  width: 37px;
+  height: 22px;
+}
+
+.emotion-6 input {
+  display: none;
+}
+
+.emotion-6 > input:checked + .emotion-5::before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+  background-color: #507aa4;
+  color: white;
+  content: 'K';
+  border: 0.91px solid #446b92;
+}
+
+.emotion-4 {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22px;
+  background-color: white;
+  border: 0.63px solid #a9a9a9;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.emotion-4::before {
+  position: absolute;
+  content: 'T';
+  left: -3px;
+  top: -0.63px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 22px;
+  width: 22px;
+  background-color: #777777;
+  color: black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.emotion-40 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-40:hover,
+.emotion-40:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-40:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-40[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-40:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-40:hover,
+.emotion-40:active,
+.emotion-40:disabled,
+.emotion-40:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-40:focus {
+  outline-width: medium;
+}
+
+.emotion-40,
+.emotion-40:hover,
+.emotion-40:focus {
+  border: 1px solid #777777;
+  border-radius: 3px;
+  width: 100px;
+}
+
+<form
+  class="emotion-42"
+>
+  <div
+    class="emotion-8 emotion-9"
+  >
+    <label
+      class="emotion-2 emotion-3"
+    >
+      <input
+        class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
+        name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
+        type="checkbox"
+      />
+      blabla 1
+    </label>
+    <label
+      class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
+    >
+      <input
+        checked=""
+        type="checkbox"
+      />
+      <span
+        class="emotion-4 emotion-5"
+      />
+    </label>
+  </div>
+  <div
+    class="emotion-8 emotion-9"
+  >
+    <label
+      class="emotion-2 emotion-3"
+    >
+      <input
+        class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
+        name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
+        type="checkbox"
+      />
+      blabla hei
+    </label>
+    <label
+      class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
+    >
+      <input
+        checked=""
+        type="checkbox"
+      />
+      <span
+        class="emotion-4 emotion-5"
+      />
+    </label>
+  </div>
+  <div
+    class="emotion-8 emotion-9"
+  >
+    <label
+      class="emotion-2 emotion-3"
+    >
+      <input
+        class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
+        name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
+        type="checkbox"
+      />
+      blabla 2
+    </label>
+    <label
+      class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
+    >
+      <input
+        checked=""
+        type="checkbox"
+      />
+      <span
+        class="emotion-4 emotion-5"
+      />
+    </label>
+  </div>
+  <div
+    class="emotion-8 emotion-9"
+  >
+    <label
+      class="emotion-2 emotion-3"
+    >
+      <input
+        class="emotion-0 emotion-1"
+        data-testid="connectFilterItem"
+        name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"
+        type="checkbox"
+      />
+      Test test
+    </label>
+    <label
+      class="emotion-6 emotion-7"
+      data-testid="toggleRelevance"
+    >
+      <input
+        checked=""
+        type="checkbox"
+      />
+      <span
+        class="emotion-4 emotion-5"
+      />
+    </label>
+  </div>
+  <button
+    class="emotion-40 emotion-41"
+    data-testid="submitConnectFilters"
+    type="button"
+  >
+    Lagre
+  </button>
+</form>
+`;

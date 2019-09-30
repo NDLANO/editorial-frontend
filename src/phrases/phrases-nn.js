@@ -493,7 +493,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
-      article: 'Artikkel',
+      article: 'Versjon',
       draft: 'Utkast',
     },
     detailBox: {

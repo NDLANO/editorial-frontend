@@ -68,6 +68,7 @@ const VersionAndNotesPanel = ({
   getInitialValues,
   setValues,
   createMessage,
+  getArticle,
 }) => {
   const [versions, setVersions] = useState([]);
   const [users, setUsers] = useState([]);
@@ -132,13 +133,9 @@ const VersionAndNotesPanel = ({
                         <>
                           <PreviewDraftLightbox
                             label={t(`articleType.${article.articleType}`)}
-                            typeOfPreview="preview"
-                            getArticle={() =>
-                              transformArticleFromApiVersion(
-                                version,
-                                article.language,
-                              )
-                            }>
+                            typeOfPreview="previewVersion"
+                            getArticle={getArticle}
+                            version={version}>
                             {openPreview => (
                               <Tooltip tooltip={t('form.previewVersion')}>
                                 <StyledAccordionsPanelIconButton

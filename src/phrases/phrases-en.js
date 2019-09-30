@@ -473,7 +473,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
-      article: 'Article',
+      article: 'Version',
       draft: 'Draft',
     },
     previewLanguageArticle: {

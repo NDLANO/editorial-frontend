@@ -65,7 +65,6 @@ const EditorFooter: React.FC<Props> = ({
   showSimpleFooter,
   history,
 }) => {
-  const [preview, showPreview] = useState<PreviewTypes>('');
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   useEffect(() => {
     fetchStatuses(setStatuses);
@@ -149,14 +148,6 @@ const EditorFooter: React.FC<Props> = ({
 
   return (
     <Footer>
-      {preview && (
-        <ArticlePreviews
-          typeOfPreview={preview}
-          getArticle={getArticle}
-          label={t(`articleType.${values.articleType}`)}
-          closePreview={() => showPreview('')}
-        />
-      )}
       <div>
         {values.id && (
           <FooterLinkButton

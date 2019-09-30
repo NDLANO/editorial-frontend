@@ -7,7 +7,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import TopicArticleForm from './components/TopicArticleForm';
@@ -56,4 +56,4 @@ EditTopicArticle.propTypes = {
   createMessage: PropTypes.func.isRequired,
 };
 
-export default injectT(EditTopicArticle);
+export default injectT(withRouter(EditTopicArticle));

@@ -79,9 +79,11 @@ describe('Topic editing', () => {
       `/taxonomy/v1/topics/${selectTopic}/filters`,
       'topicFilters',
     );
+
     cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/topic-filters',
+      method: 'PUT',
+      url:
+        '/taxonomy/v1/topic-filters/urn:topic-filter:42259c05-e000-4dfe-ae78-4b807034a772',
       headers: {
         Location: 'filterLocation',
         'content-type': 'text/plain; charset=UTF-8',
@@ -89,31 +91,34 @@ describe('Topic editing', () => {
       status: 201,
       response: '',
     }).as('addToFilter');
-
-    cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
-  });
-
-  it.only('should have a settings menu where everything works', () => {
-    cy.wait('@allSubjectTopics');
-
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
-      .click();
-    cy.get('[data-cy=connectFilterItem] > label').each($lbl => {
-      cy.wrap($lbl).click();
-    });
-
-    cy.get('[data-testid="submitConnectFilters"]').click();
-
-    cy.wait('@addToFilter');
     cy.route({
       method: 'DELETE',
       url:
         '/taxonomy/v1/topic-filters/urn:topic-filter:e979cfb2-29de-402b-bd24-f8de5f14cfe1',
       status: 204,
       response: '',
-    });
+    }).as('deleteFilter');
+
+    cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
+  });
+
+  it('should have a settings menu where everything works', () => {
+    cy.wait('@allSubjectTopics');
+
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('button')
+      .contains(phrases.taxonomy.connectFilters)
+      .click();
+    cy.get('[data-testid=connectFilterItem]')
+      .first()
+      .click();
+    cy.get('[data-testid=toggleRelevance]')
+      .last()
+      .click();
+
+    cy.get('[data-testid="submitConnectFilters"]').click();
+
+    cy.wait('@addToFilter');
     cy.get('button')
       .contains(phrases.alertModal.delete)
       .click();

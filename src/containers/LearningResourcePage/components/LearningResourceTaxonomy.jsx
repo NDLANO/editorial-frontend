@@ -37,6 +37,12 @@ import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
 
+const emptyTaxonomy = {
+  resourceTypes: [],
+  filter: [],
+  topics: [],
+};
+
 class LearningResourceTaxonomy extends Component {
   constructor() {
     super();
@@ -46,20 +52,16 @@ class LearningResourceTaxonomy extends Component {
       status: 'loading',
       isDirty: false,
       resourceTaxonomy: {
-        resourceTypes: [],
-        filter: [],
-        topics: [],
+        ...emptyTaxonomy,
+      },
+      taxonomyChanges: {
+        ...emptyTaxonomy,
       },
       taxonomyChoices: {
         allFilters: [],
         allTopics: [],
         availableFilters: {},
         availableResourceTypes: [],
-      },
-      taxonomyChanges: {
-        resourceTypes: [],
-        filter: [],
-        topics: [],
       },
     };
   }
@@ -157,8 +159,15 @@ class LearningResourceTaxonomy extends Component {
           taxonomyChanges: fullResource,
         });
       } else {
+        // resource does not exist in taxonomy
         this.setState(prevState => ({
           status: 'initial',
+          resourceTaxonomy: {
+            ...emptyTaxonomy,
+          },
+          taxonomyChanges: {
+            ...emptyTaxonomy,
+          },
         }));
       }
     } catch (e) {

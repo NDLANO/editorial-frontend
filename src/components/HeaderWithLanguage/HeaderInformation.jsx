@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import css from '@emotion/css';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
@@ -17,7 +18,6 @@ import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
-import css from '@emotion/css';
 
 export const StyledSplitter = styled.div`
   width: 1px;

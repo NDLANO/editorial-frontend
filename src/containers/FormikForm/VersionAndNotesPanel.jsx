@@ -143,6 +143,7 @@ const VersionAndNotesPanel = ({
                               <Tooltip tooltip={t('form.previewVersion')}>
                                 <StyledAccordionsPanelIconButton
                                   type="button"
+                                  data-testid="previewVersion"
                                   onClick={openPreview}>
                                   <Eye />
                                 </StyledAccordionsPanelIconButton>
@@ -153,6 +154,7 @@ const VersionAndNotesPanel = ({
                           <Tooltip tooltip={t('form.resetToVersion')}>
                             <StyledAccordionsPanelIconButton
                               type="button"
+                              data-testid="resetToVersion"
                               onClick={() => resetVersion(version)}>
                               <Restore />
                             </StyledAccordionsPanelIconButton>

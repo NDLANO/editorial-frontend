@@ -44,29 +44,30 @@ describe('Workflow features', () => {
       '/draft-api/v1/drafts/status-state-machine/',
       'statusMachine',
     );
+    cy.apiroute(
+      'GET',
+      `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
+      'articleHistory',
+    );
     cy.visit(
       `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
     cy.apiwait(['@tags', '@licenses', '@draft']);
     cy.wait(500);
+    cy.get('button')
+      .contains('Versjonslogg og merknader')
+      .click();
+    cy.apiwait('@articleHistory');
   });
 
   it('Can add notes, change status, save as new', () => {
-    cy.apiroute(
-      'GET',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
-      'articleHistory',
-    );
     cy.route(
       'PATCH',
       `/draft-api/v1/drafts/${ARTICLE_ID}`,
       'fixture:draft.json',
     ).as('updateDraft');
-    cy.get('button')
-      .contains('Versjonslogg og merknader')
-      .click();
-    cy.apiwait('@articleHistory');
+
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
 
@@ -80,30 +81,15 @@ describe('Workflow features', () => {
       '/article-converter/json/nb/transform-article',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
-    cy.get('button')
-      .contains('Kvalitetssikring')
+    cy.get('[data-testid=previewVersion]')
+      .first()
       .click();
-    cy.get('button')
-      .contains(/Forhåndsvis$/)
-      .click({ force: true });
     cy.wait('@transformedArticle');
   });
 
   it('Can reset to prod', () => {
-    cy.get('footer button')
-      .contains('Endringer')
-      .click();
-    cy.get('[data-testid=resetToProd]').click();
+    cy.get('[data-testid=resetToVersion]').click();
 
-    cy.apiroute(
-      'GET',
-      `/article-api/v2/articles/${ARTICLE_ID}?language=nb&fallback=true`,
-      'originalArticle',
-    );
-    cy.get('button')
-      .contains('Reset')
-      .click();
-    cy.apiwait('@originalArticle');
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.wait('@updateDraft');
   });

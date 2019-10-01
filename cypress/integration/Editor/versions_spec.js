@@ -25,11 +25,6 @@ describe('Workflow features', () => {
     });
     cy.apiroute(
       'GET',
-      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
-      'tags',
-    );
-    cy.apiroute(
-      'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
       'draft',
     );
@@ -53,7 +48,7 @@ describe('Workflow features', () => {
       `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', '@draft']);
+    cy.apiwait(['@licenses', '@draft']);
     cy.wait(500);
     cy.get('button')
       .contains('Versjonslogg og merknader')

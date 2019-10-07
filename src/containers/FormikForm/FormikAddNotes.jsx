@@ -6,17 +6,11 @@
  *
  */
 
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import {
-  FieldHeader,
-  FieldSection,
-  Input,
-  FieldRemoveButton,
-} from '@ndla/forms';
+import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
-import FormikNotes from './components/FormikNotes';
 import { NewArticleShape } from '../../shapes';
 
 class FormikAddNotes extends Component {
@@ -64,44 +58,39 @@ class FormikAddNotes extends Component {
       value,
       labelAddNote,
       labelRemoveNote,
-      labelHeading,
       labelWarningNote,
-      article,
       showError,
     } = this.props;
 
     return (
-      <Fragment>
-        <FormikNotes notes={article.notes} />
-        <Field>
-          <FieldHeader title={labelHeading} />
-          {value.map((note, index) => (
-            <FieldSection
-              key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
-              <div>
-                <Input
-                  warningText={showError && note === '' ? labelWarningNote : ''}
-                  container="div"
-                  type="text"
-                  focusOnMount
-                  placeholder={placeholder}
-                  value={note}
-                  data-testid="notesInput"
-                  onChange={e => this.handleNoteChange(e, index)}
-                />
-              </div>
-              <div>
-                <FieldRemoveButton onClick={evt => this.removeNote(evt, index)}>
-                  {labelRemoveNote}
-                </FieldRemoveButton>
-              </div>
-            </FieldSection>
-          ))}
-          <Button outline onClick={this.addNote} data-testid="addNote">
-            {labelAddNote}
-          </Button>
-        </Field>
-      </Fragment>
+      <Field>
+        {value.map((note, index) => (
+          <FieldSection
+            key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
+            <div>
+              <Input
+                warningText={showError && note === '' ? labelWarningNote : ''}
+                container="div"
+                type="text"
+                focusOnMount
+                placeholder={placeholder}
+                value={note}
+                data-testid="notesInput"
+                onChange={e => this.handleNoteChange(e, index)}
+                white
+              />
+            </div>
+            <div>
+              <FieldRemoveButton onClick={evt => this.removeNote(evt, index)}>
+                {labelRemoveNote}
+              </FieldRemoveButton>
+            </div>
+          </FieldSection>
+        ))}
+        <Button outline onClick={this.addNote} data-testid="addNote">
+          {labelAddNote}
+        </Button>
+      </Field>
     );
   }
 }
@@ -114,7 +103,6 @@ FormikAddNotes.defaultProps = {
 
 FormikAddNotes.propTypes = {
   name: PropTypes.string.isRequired,
-  labelHeading: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   labelRemoveNote: PropTypes.string.isRequired,
   labelAddNote: PropTypes.string.isRequired,

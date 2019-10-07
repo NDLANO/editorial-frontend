@@ -55,8 +55,7 @@ const OpenMenu = ({ t, close }) => {
               rel="noopener noreferrer"
               onClick={close}>
               <span>
-                {t('subNavigation.learningPathLink')}
-                <Launch />
+                {t('subNavigation.learningPathLink')} <Launch />
               </span>
             </StyledHrefLink>
           </div>

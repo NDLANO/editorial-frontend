@@ -10,7 +10,7 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import {
   FormikCopyright,
-  FormikWorkflow,
+  VersionAndNotesPanel,
   FormikMetadata,
 } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
@@ -51,7 +51,7 @@ const panels = [
     title: 'form.workflowSection',
     className: 'u-6/6',
     errorFields: ['notes'],
-    component: props => <FormikWorkflow {...props} />,
+    component: props => <VersionAndNotesPanel {...props} />,
   },
 ];
 
@@ -80,9 +80,9 @@ const LearningResourcePanels = ({
                 ariaLabel={t(panel.title)}
                 onClick={() => handleItemClick(panel.id)}
                 hasError={hasError}
-                isOpen={openIndexes.includes(panel.id)}>
-                {t(panel.title)}
-              </AccordionBar>
+                title={t(panel.title)}
+                isOpen={openIndexes.includes(panel.id)}
+              />
               {openIndexes.includes(panel.id) && (
                 <AccordionPanel
                   id={panel.id}

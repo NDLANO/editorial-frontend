@@ -8,12 +8,10 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import AddExistingTopic from './menuOptions/AddExistingTopic';
 import AddTopic from './menuOptions/AddTopic';
 import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
 import EditFilterOption from './menuOptions/EditFilterOption';
 
 const SettingsMenuDropdownType = ({
@@ -28,7 +26,6 @@ const SettingsMenuDropdownType = ({
           <ChangeSubjectName {...rest} />
           {showAllOptions && (
             <Fragment>
-              <AddExistingSubjectTopic {...rest} />
               <EditFilterOption {...rest} />
             </Fragment>
           )}
@@ -38,7 +35,6 @@ const SettingsMenuDropdownType = ({
       return (
         <Fragment>
           {false && <AddTopic {...rest} />}
-          {showAllOptions && <AddExistingTopic {...rest} />}
           <ConnectFilterOption {...rest} />
           {showAllOptions && <DeleteTopic {...rest} />}
         </Fragment>

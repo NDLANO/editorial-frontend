@@ -193,7 +193,12 @@ class LearningResourceForm extends Component {
 
     const status = articleStatus ? articleStatus.current : undefined;
 
-    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
+    if (
+      status === articleStatuses.QUEUED_FOR_PUBLISHING ||
+      newStatus === articleStatuses.QUEUED_FOR_PUBLISHING ||
+      newStatus === articleStatuses.QUALITY_ASSURED ||
+      newStatus === articleStatuses.PUBLISHED
+    ) {
       try {
         await validateDraft(values.id, {
           ...this.getArticleFromSlate(values),
@@ -259,6 +264,8 @@ class LearningResourceForm extends Component {
                   toEditArticle(values.id, values.articleType, lang)
                 }
                 getArticle={getArticle}
+                formIsDirty={formIsDirty}
+                {...rest}
               />
               <LearningResourcePanels
                 values={values}
@@ -268,6 +275,8 @@ class LearningResourceForm extends Component {
                 updateNotes={onUpdate}
                 getArticle={getArticle}
                 formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
                 {...rest}
               />
               <EditorFooter

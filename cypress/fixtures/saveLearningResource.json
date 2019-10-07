@@ -1,7 +1,7 @@
 {
   "id": 9337,
   "revision": 1,
-  "status": ["CREATED"],
+  "status": { "current": "DRAFT" },
   "title": { "title": "This is a test title.", "language": "nb" },
   "content": {
     "content": "<section><p>This is test content </p></section>",

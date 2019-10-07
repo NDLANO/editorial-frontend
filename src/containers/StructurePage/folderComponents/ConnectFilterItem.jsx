@@ -22,10 +22,11 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
       ? true
       : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
-    <StyledFilterItem data-cy="connectFilterItem">
+    <StyledFilterItem>
       <StyledLabel>
         <StyledCheckbox
           type="checkbox"
+          data-testid="connectFilterItem"
           name={`${id}-active`}
           checked={inputValues.active || false}
           onChange={() => onChange({ active: !inputValues.active })}
@@ -41,7 +42,7 @@ const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
           })
         }
         on={relevance}
-        testId={`${id}-relevance`}
+        testId="toggleRelevance"
       />
     </StyledFilterItem>
   );

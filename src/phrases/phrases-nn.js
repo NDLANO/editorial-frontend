@@ -453,7 +453,7 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
-    workflowSection: 'Arbeidsflyt',
+    workflowSection: 'Versjonslogg og merknader',
     taxonomytSection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
@@ -493,7 +493,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
-      article: 'Artikkel',
+      article: 'Versjon',
       draft: 'Utkast',
     },
     detailBox: {
@@ -525,6 +525,8 @@ const phrases = {
       add: 'Legg til merknad',
       remove: 'Ta bort',
       warning: 'Ein merknad må ha tekst',
+      areHere: 'Du er her',
+      published: 'Publisert',
       history: {
         user: 'Bruker',
         time: 'Når',
@@ -548,7 +550,10 @@ const phrases = {
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
+      success: 'Innhold er tilbakestilt, trykk lagre for å lagre endringene',
     },
+    resetToVersion: 'Tilbakestill til versjon',
+    previewVersion: 'Se versjon',
     variant: {
       create: 'Legg til språk',
     },
@@ -588,7 +593,7 @@ const phrases = {
       title: 'Status',
       change: 'Endre status',
       qualityAssurance: 'Kvalitetssikring',
-      saveAsNew: 'Lagre kopi som ny artikkel',
+      saveAsNew: 'Lag kopi',
       deleteLanguageVersion: {
         button: 'Slett språkversjon',
         title: 'Slett språkversjon',
@@ -1007,6 +1012,8 @@ const phrases = {
     warningSaveWithoutComment: 'Merknad mangler',
     newStatusPrefix: 'Ny status:',
     statusLabel: 'Status:',
+    changeHeader: 'Endringer',
+    saveAsNew: 'Lagre som kopi',
   },
 };
 

@@ -87,9 +87,9 @@ class PreviewDraftLightbox extends React.Component {
     this.state = defaultState;
     this.openPreview = this.openPreview.bind(this);
     this.onClosePreview = this.onClosePreview.bind(this);
-    this.previewLanguageArticle = this.previewLanguageArticle.bind(this);
-    this.previewProductionArticle = this.previewProductionArticle.bind(this);
     this.onChangePreviewLanguage = this.onChangePreviewLanguage.bind(this);
+    this.previewLanguageArticle = this.previewLanguageArticle.bind(this);
+    this.previewVersion = this.previewVersion.bind(this);
   }
 
   onClosePreview() {
@@ -108,14 +108,15 @@ class PreviewDraftLightbox extends React.Component {
     const { getArticle, typeOfPreview } = this.props;
 
     const article = toApiVersion(getArticle(true));
-    const secondArticleLanguage = article.supportedLanguages.find(
-      l => l !== article.language,
-    );
+
+    const secondArticleLanguage =
+      article.supportedLanguages &&
+      article.supportedLanguages.find(l => l !== article.language);
 
     const types = {
-      previewProductionArticle: this.previewProductionArticle,
       previewLanguageArticle: () =>
         this.previewLanguageArticle(secondArticleLanguage),
+      previewVersion: () => this.previewVersion(article.language),
     };
     this.setState({ loading: true });
     const firstArticle = await articleApi.getPreviewArticle(
@@ -136,13 +137,9 @@ class PreviewDraftLightbox extends React.Component {
     });
   }
 
-  async previewProductionArticle() {
-    const { getArticle } = this.props;
-    const { id, language } = getArticle(true);
-    const article = await articleApi.getArticleFromArticleConverter(
-      id,
-      language,
-    );
+  async previewVersion(language) {
+    const { version } = this.props;
+    const article = await articleApi.getPreviewArticle(version, language);
     return transformArticle(article);
   }
 
@@ -226,7 +223,8 @@ PreviewDraftLightbox.propTypes = {
   label: PropTypes.string.isRequired,
   typeOfPreview: PropTypes.oneOf([
     'preview',
-    'previewProductionArticle',
     'previewLanguageArticle',
+    'previewVersion',
   ]),
+  version: PropTypes.object,
 };

@@ -63,15 +63,16 @@ describe('Topic editing', () => {
       },
       response: '',
     });
-    cy.route({
+    cy.apirouteTaxonomy({
       method: 'POST',
       status: 201,
-      url: '/taxonomy/v1/topic-subtopics',
+      url: '/taxonomy/v1/topic-filters',
       headers: {
-        Location: 'newSubTopicPath',
+        Location: 'newFilterPath',
         'content-type': 'text/plain; charset=UTF-8',
       },
       response: '',
+      alias: 'addFilter',
     });
     cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
     cy.apiroute(
@@ -79,51 +80,45 @@ describe('Topic editing', () => {
       `/taxonomy/v1/topics/${selectTopic}/filters`,
       'topicFilters',
     );
-    cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/topic-filters',
+
+    cy.apirouteTaxonomy({
+      method: 'PUT',
+      url: '/taxonomy/v1/topic-filters/**',
       headers: {
         Location: 'filterLocation',
         'content-type': 'text/plain; charset=UTF-8',
       },
       status: 201,
       response: '',
-    }).as('addToFilter');
+      alias: 'changeFilter',
+    });
+    cy.route({
+      method: 'DELETE',
+      url: '/taxonomy/v1/topic-filters/**',
+      status: 204,
+      response: '',
+    }).as('deleteFilter');
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
   });
 
-  it.only('should have a settings menu where everything works', () => {
+  it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjectTopics');
-
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
-      .contains(phrases.taxonomy.addExistingTopic)
-      .click();
-    cy.get(`input[placeholder="${phrases.taxonomy.existingTopic}"]`).type('F');
-    cy.wait('@allTopics');
-    cy.get('[data-testid=dropdown-items]')
-      .contains('Filmanalyse')
-      .click();
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
-    cy.get('[data-cy=connectFilterItem] > label').each($lbl => {
-      cy.wrap($lbl).click();
-    });
+    cy.get('[data-testid=toggleRelevance]').click({ multiple: true });
+
+    cy.get('[data-testid="submitConnectFilters"]').click();
+    cy.apiwait(['@changeFilter']);
+    cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
 
     cy.get('[data-testid="submitConnectFilters"]').click();
 
-    cy.wait('@addToFilter');
-    cy.route({
-      method: 'DELETE',
-      url:
-        '/taxonomy/v1/topic-filters/urn:topic-filter:e979cfb2-29de-402b-bd24-f8de5f14cfe1',
-      status: 204,
-      response: '',
-    });
+    cy.apiwait(['@addFilter', '@deleteFilter']);
+
     cy.get('button')
       .contains(phrases.alertModal.delete)
       .click();

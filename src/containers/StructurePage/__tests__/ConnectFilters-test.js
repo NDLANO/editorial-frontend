@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import nock from 'nock';
-import { render, fireEvent, cleanup, wait } from '@testing-library/react';
+import { render, cleanup, wait } from '@testing-library/react';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import ConnectFilters from '../folderComponents/ConnectFilters';
 
@@ -54,46 +53,5 @@ it('maps out filters', async () => {
   const { container } = wrapper();
   await wait();
   await wait();
-  expect(container.firstChild).toMatchSnapshot();
-});
-
-it('calls add filter, update filter, and delete filter', async () => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/topics/topicId/filters')
-    .reply(200, topicFilterMock);
-  nock('http://ndla-api')
-    .post(
-      '/taxonomy/v1/topic-filters',
-      JSON.stringify({
-        topicId: 'topicId',
-        filterId: filterMock[0].id,
-        relevanceId: 'urn:relevance:core',
-      }),
-    )
-    .reply(201);
-  nock('http://ndla-api')
-    .put(
-      '/taxonomy/v1/topic-filters/topicId',
-      JSON.stringify({
-        relevanceId: 'urn:relevance:core',
-      }),
-    )
-    .reply(201);
-  nock('http://ndla-api')
-    .delete('/taxonomy/v1/topic-filters/topicId')
-    .reply(201);
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/topics/topicId/filters')
-    .reply(200, topicFilterMock);
-
-  const { getByTestId, getByLabelText, container } = wrapper();
-  await wait(() => getByLabelText(filterMock[0].name));
-  fireEvent.click(getByLabelText(filterMock[0].name));
-  fireEvent.click(getByLabelText(filterMock[1].name));
-  fireEvent.click(getByTestId(`${filterMock[3].id}-relevance`));
-  fireEvent.click(getByTestId('submitConnectFilters'));
-  await wait();
-  await wait();
-  expect(nock.isDone());
   expect(container.firstChild).toMatchSnapshot();
 });

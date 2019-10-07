@@ -39,10 +39,13 @@ class FormikWorkflow extends Component {
         severity: 'danger',
       });
     } else {
-      const newArticle = await draftApi.createDraft({
-        ...getArticle(),
-        title: `${article.title} (${t('form.copy')})`,
-      });
+      const newArticle = await draftApi.cloneDraft(
+        article.id,
+        article.language,
+      );
+
+      console.log(newArticle);
+
       createMessage({
         translationKey: t('form.saveAsCopySuccess'),
         severity: 'success',

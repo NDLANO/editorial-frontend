@@ -31,6 +31,13 @@ Cypress.Commands.add('apiroute', (method, url, alias) => {
   return cy.route(method, url).as(alias);
 });
 
+Cypress.Commands.add('apirouteTaxonomy', ({ alias, ...rest }) => {
+  if (Cypress.env('USE_FIXTURES')) {
+    return cy.route({ ...rest, fixture: `fixture:${alias}` }).as(alias);
+  }
+  return cy.route({ ...rest }).as(alias);
+});
+
 const readResponseBody = body => {
   const fr = new FileReader();
 

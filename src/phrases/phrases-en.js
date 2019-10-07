@@ -433,7 +433,7 @@ const phrases = {
   form: {
     metadataSection: 'Metadata',
     contentSection: 'Content',
-    workflowSection: 'Workflow',
+    workflowSection: 'Version log and notes',
     taxonomytSection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
@@ -473,7 +473,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
-      article: 'Article',
+      article: 'Version',
       draft: 'Draft',
     },
     previewLanguageArticle: {
@@ -505,6 +505,8 @@ const phrases = {
       add: 'Add new note',
       remove: 'Remove note',
       warning: 'A note must contain text',
+      areHere: 'You are here',
+      published: 'Published',
       history: {
         user: 'User',
         time: 'When',
@@ -528,7 +530,10 @@ const phrases = {
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
+      success: 'Content is reset, press save to save changes',
     },
+    resetToVersion: 'Reset to version',
+    previewVersion: 'See version',
     variant: {
       create: 'Create variant',
     },
@@ -568,7 +573,7 @@ const phrases = {
       title: 'Status',
       change: 'Change status',
       qualityAssurance: 'Quality assurance',
-      saveAsNew: 'Save copy as new article',
+      saveAsNew: 'Make copy',
       deleteLanguageVersion: {
         button: 'Delete language version',
         title: 'Delete language version',
@@ -988,6 +993,8 @@ const phrases = {
     warningSaveWithoutComment: 'Note is missing',
     newStatusPrefix: 'New status:',
     statusLabel: 'Status:',
+    changeHeader: 'Changes',
+    saveAsNew: 'Save as copy',
   },
 };
 

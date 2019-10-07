@@ -8,7 +8,7 @@
 
 import { visitOptions, setToken } from '../../support';
 
-const ARTICLE_ID = 14872;
+const ARTICLE_ID = 533;
 
 describe('Workflow features', () => {
   beforeEach(() => {
@@ -25,11 +25,6 @@ describe('Workflow features', () => {
     });
     cy.apiroute(
       'GET',
-      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
-      'tags',
-    );
-    cy.apiroute(
-      'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
       'draft',
     );
@@ -44,12 +39,21 @@ describe('Workflow features', () => {
       '/draft-api/v1/drafts/status-state-machine/',
       'statusMachine',
     );
+    cy.apiroute(
+      'GET',
+      `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
+      'articleHistory',
+    );
     cy.visit(
       `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', '@draft']);
+    cy.apiwait(['@licenses', '@draft']);
     cy.wait(500);
+    cy.get('button')
+      .contains('Versjonslogg og merknader')
+      .click();
+    cy.apiwait('@articleHistory');
   });
 
   it('Can add notes, change status, save as new', () => {
@@ -58,33 +62,12 @@ describe('Workflow features', () => {
       `/draft-api/v1/drafts/${ARTICLE_ID}`,
       'fixture:draft.json',
     ).as('updateDraft');
-    cy.get('button')
-      .contains('Arbeidsflyt')
-      .click();
+
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
 
-    // test that changing status and save as new don't work when note is added
-    // comment out this until new note flow is released
-    /*     cy.get('button')
-      .contains('Utkast')
-      .click();
-    cy.get('div').contains('Du må lagre endringene dine');
-    cy.get('[data-testid=saveAsNew]').click();
-    cy.get('div').contains('Du må lagre endringene dine');
-
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.wait('@updateDraft');
-
-    cy.route(
-      'PUT',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
-      'fixture:draft.json',
-    ).as('newStatus');
-    cy.get('button')
-      .contains('Utkast')
-      .click();
-    cy.wait('@newStatus'); */
   });
 
   it('Open previews', () => {
@@ -93,27 +76,15 @@ describe('Workflow features', () => {
       '/article-converter/json/nb/transform-article',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
-    cy.get('button')
-      .contains('Kvalitetssikring')
+    cy.get('[data-testid=previewVersion]')
+      .first()
       .click();
-    cy.get('button')
-      .contains(/Forhåndsvis$/)
-      .click({ force: true });
     cy.wait('@transformedArticle');
   });
 
   it('Can reset to prod', () => {
-    cy.get('[data-testid=resetToProd]').click();
+    cy.get('[data-testid=resetToVersion]').click();
 
-    cy.apiroute(
-      'GET',
-      `/article-api/v2/articles/${ARTICLE_ID}?language=nb&fallback=true`,
-      'originalArticle',
-    );
-    cy.get('button')
-      .contains('Reset')
-      .click();
-    cy.apiwait('@originalArticle');
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.wait('@updateDraft');
   });

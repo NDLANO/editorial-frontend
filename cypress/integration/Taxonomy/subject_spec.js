@@ -124,19 +124,6 @@ describe('Subject editing', () => {
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
-    cy.get('[data-testid=addExistingSubjectTopicButton]').click();
-    cy.get('[data-testid=inlineDropdownInput]').type('F');
-    cy.wait('@allSubjectTopics');
-    cy.wait(1000);
-
-    cy.get('[data-testid=dropdown-items]')
-      .first()
-      .click();
-    cy.wait(['@addNewSubjectTopic', '@allSubjectTopics']);
-
-    cy.get('[data-cy=settings-button-subject]')
-      .first()
-      .click();
     cy.get('[data-testid=editSubjectFiltersButton]').click();
     cy.get('[data-testid=addFilterButton]').click();
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');

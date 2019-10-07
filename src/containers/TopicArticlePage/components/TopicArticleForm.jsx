@@ -288,6 +288,10 @@ class TopicArticleForm extends Component {
                 editUrl={lang =>
                   toEditArticle(values.id, values.articleType, lang)
                 }
+                formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
+                {...rest}
               />
               <TopicArticleAccordionPanels
                 values={values}
@@ -297,6 +301,8 @@ class TopicArticleForm extends Component {
                 touched={touched}
                 getArticle={getArticle}
                 formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
                 {...rest}
               />
               <EditorFooter

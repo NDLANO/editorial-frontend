@@ -56,6 +56,14 @@ export const createDraft = draft =>
     body: JSON.stringify(draft),
   }).then(resolveJsonOrRejectWithError);
 
+export const fetchDraftHistory = (id, language) => {
+  const query = queryString.stringify({ language });
+  const url = language
+    ? `${baseUrl}/${id}/history?${query}&fallback=true`
+    : `${baseUrl}/${id}/history`;
+  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
+};
+
 export const deleteLanguageVersion = (id, language) =>
   fetchAuthorized(`${baseUrl}/${id}/language/${language}`, {
     method: 'DELETE',

@@ -204,9 +204,9 @@ class ImageForm extends Component {
                             ariaLabel={panel.title}
                             onClick={() => handleItemClick(panel.id)}
                             hasError={hasError}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            {panel.title}
-                          </AccordionBar>
+                            title={panel.title}
+                            isOpen={openIndexes.includes(panel.id)}
+                          />
                           {openIndexes.includes(panel.id) && (
                             <AccordionPanel
                               id={panel.id}

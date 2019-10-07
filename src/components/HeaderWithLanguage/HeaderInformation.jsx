@@ -9,11 +9,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import css from '@emotion/css';
+import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
+import { toEditArticle } from '../../util/routeHelpers';
+import * as draftApi from '../../modules/draft/draftApi';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -83,23 +87,60 @@ const HeaderInformation = ({
   isNewLanguage,
   title,
   t,
-}) => (
-  <StyledHeader>
-    <StyledTitleHeaderWrapper>
-      {types[type].icon}
-      <h1>
-        {title
-          ? `${t(`${types[type].form}.title`)}: ${title}`
-          : t(`${types[type].form}.title`)}
-      </h1>
-    </StyledTitleHeaderWrapper>
-    <HeaderStatusInformation
-      noStatus={noStatus}
-      statusText={statusText}
-      isNewLanguage={isNewLanguage}
-    />
-  </StyledHeader>
-);
+  formIsDirty,
+  createMessage,
+  getArticle,
+  history,
+}) => {
+  const onSaveAsNew = async () => {
+    if (formIsDirty) {
+      createMessage({
+        translationKey: 'form.mustSaveFirst',
+        severity: 'danger',
+      });
+    } else {
+      const article = getArticle();
+      const newArticle = await draftApi.cloneDraft(
+        article.id,
+        article.language,
+      );
+      createMessage({
+        translationKey: t('form.saveAsCopySuccess'),
+        severity: 'success',
+      });
+      history.push(
+        toEditArticle(newArticle.id, newArticle.articleType, article.language),
+      );
+    }
+  };
+
+  return (
+    <StyledHeader>
+      <StyledTitleHeaderWrapper>
+        {types[type].icon}
+        <h1>
+          {title
+            ? `${t(`${types[type].form}.title`)}: ${title}`
+            : t(`${types[type].form}.title`)}
+        </h1>
+        <Button
+          stripped
+          css={css`
+            white-space: nowrap;
+          `}
+          onClick={onSaveAsNew}
+          data-testid="saveAsNew">
+          {t('form.workflow.saveAsNew')}
+        </Button>
+      </StyledTitleHeaderWrapper>
+      <HeaderStatusInformation
+        noStatus={noStatus}
+        statusText={statusText}
+        isNewLanguage={isNewLanguage}
+      />
+    </StyledHeader>
+  );
+};
 
 HeaderInformation.propTypes = {
   noStatus: PropTypes.bool,
@@ -109,6 +150,9 @@ HeaderInformation.propTypes = {
   getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   title: PropTypes.string,
+  history: PropTypes.shape({ push: PropTypes.func }),
+  formIsDirty: PropTypes.bool,
+  createMessage: PropTypes.func,
 };
 
 export default injectT(HeaderInformation);

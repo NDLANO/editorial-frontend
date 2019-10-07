@@ -37,8 +37,6 @@ class FormikWorkflow extends Component {
         article.language,
       );
 
-      console.log(newArticle);
-
       createMessage({
         translationKey: t('form.saveAsCopySuccess'),
         severity: 'success',

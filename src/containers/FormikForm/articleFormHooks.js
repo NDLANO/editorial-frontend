@@ -7,11 +7,11 @@
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { transformArticleFromApiVersion } from '../../util/articleUtil';
-import { getArticle } from '../../modules/article/articleApi';
+
 import { validateDraft } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
+import * as articleStatuses from '../../util/constants/ArticleStatus';
 
 export function useArticleFormHooks({
   getInitialValues,
@@ -24,59 +24,43 @@ export function useArticleFormHooks({
   updateArticleAndStatus,
   licenses,
   getArticleFromSlate,
-  articleStatuses,
 }) {
-  const { id, status, revision, language } = article;
+  const { id, revision, language } = article;
   const formikRef = useRef(null);
   const [savedToServer, setSavedToServer] = useState(false);
-  const [showResetModal, setResetModal] = useState(false);
   const initialValues = useMemo(() => getInitialValues(article), [
     id,
-    status,
-    revision,
     language,
   ]);
 
   useEffect(() => {
     setSavedToServer(false);
     if (formikRef.current) {
+      // Instead of using enableReinitialize in Formik, we want to manually control when the
+      // form is reset. We do it here when language, id or status is changed
       formikRef.current.resetForm();
     }
   }, [language, id]);
 
-  const onResetFormToProd = async ({ setValues }) => {
-    try {
-      const articleFromProd = await getArticle(id, language);
-      const convertedArticle = transformArticleFromApiVersion({
-        ...articleFromProd,
-        language,
-      });
-      const initialValues = getInitialValues(convertedArticle);
-      setValues(initialValues);
-      setResetModal(false);
-    } catch (err) {
-      if (err.status === 404) {
-        setResetModal(false);
-        createMessage({
-          message: t('errorMessage.noArticleInProd'),
-          severity: 'danger',
-        });
-      }
-    }
-  };
-
-  const handleSubmit = async (values, newStatus) => {
-    const actions = formikRef.current;
+  const handleSubmit = async (values, actions, newStatus) => {
+    actions.setSubmitting(true);
     const status = articleStatus ? articleStatus.current : undefined;
 
     const newArticle = getArticleFromSlate({ values, initialValues, licenses });
-    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
+    if (
+      (!newStatus && status === articleStatuses.QUEUED_FOR_PUBLISHING) ||
+      (!newStatus && status === articleStatuses.QUALITY_ASSURED) ||
+      newStatus === articleStatuses.QUEUED_FOR_PUBLISHING ||
+      newStatus === articleStatuses.QUALITY_ASSURED ||
+      newStatus === articleStatuses.PUBLISHED
+    ) {
       try {
         await validateDraft(values.id, {
           ...newArticle,
           revision,
         });
       } catch (error) {
+        actions.setSubmitting(false);
         if (error && error.json && error.json.messages) {
           createMessage(formatErrorMessage(error));
         }
@@ -86,7 +70,7 @@ export function useArticleFormHooks({
 
     try {
       if (newStatus) {
-        updateArticleAndStatus(
+        await updateArticleAndStatus(
           {
             ...newArticle,
             revision,
@@ -99,7 +83,10 @@ export function useArticleFormHooks({
           revision,
         });
       }
-      if (article.title !== newArticle.title) {
+      if (
+        article.articleType === 'topic-article' &&
+        article.title !== newArticle.title
+      ) {
         // update topic name in taxonomy
         const topics = await queryTopics(article.id, article.language);
         topics.forEach(topic =>
@@ -109,9 +96,9 @@ export function useArticleFormHooks({
           }),
         );
       }
+      setSavedToServer(true);
       actions.resetForm();
       actions.setFieldValue('notes', [], false);
-      setSavedToServer(true);
     } catch (err) {
       applicationError(err);
       actions.setSubmitting(false);
@@ -123,9 +110,6 @@ export function useArticleFormHooks({
     savedToServer,
     formikRef,
     initialValues,
-    onResetFormToProd,
-    showResetModal,
-    setResetModal,
     handleSubmit,
   };
 }

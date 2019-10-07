@@ -145,8 +145,6 @@ const TopicArticleForm = props => {
     savedToServer,
     formikRef,
     initialValues,
-    onResetFormToProd,
-    showResetModal,
     setResetModal,
     handleSubmit,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
@@ -203,23 +201,10 @@ const TopicArticleForm = props => {
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
-              handleSubmit={status => handleSubmit(values, status)}
+              handleSubmit={status =>
+                handleSubmit(values, formikRef && formikRef.current, status)
+              }
               {...rest}
-            />
-            <AlertModal
-              show={showResetModal}
-              text={t('form.resetToProd.modal')}
-              actions={[
-                {
-                  text: t('form.abort'),
-                  onClick: () => setResetModal(false),
-                },
-                {
-                  text: 'Reset',
-                  onClick: () => onResetFormToProd({ setValues }),
-                },
-              ]}
-              onCancel={() => setResetModal(false)}
             />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}

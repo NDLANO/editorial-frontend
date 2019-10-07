@@ -24,7 +24,6 @@ interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
   values: any;
-  showReset: boolean;
   error: string;
   getArticle: () => Article;
   articleStatus: { current: string };

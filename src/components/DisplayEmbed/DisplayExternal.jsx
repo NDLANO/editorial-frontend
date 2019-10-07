@@ -203,9 +203,8 @@ DisplayExternal.propTypes = {
   isIframe: PropTypes.bool,
   embed: PropTypes.shape({
     width: PropTypes.string,
-    heigth: PropTypes.string,
     url: PropTypes.string,
-    height: PropTypes.number,
+    height: PropTypes.string,
     resource: PropTypes.string,
   }),
 };

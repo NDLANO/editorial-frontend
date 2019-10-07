@@ -34,6 +34,16 @@ export const fetchDraft = (id, language) => {
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
+export const cloneDraft = (id, language) => {
+  const query = queryString.stringify({ language });
+  const url = language
+    ? `${baseUrl}/clone/${id}?${query}&fallback=true`
+    : `${baseUrl}/clone/${id}`;
+  return fetchAuthorized(url, { method: 'POST' }).then(
+    resolveJsonOrRejectWithError,
+  );
+};
+
 export const updateDraft = draft =>
   fetchAuthorized(`${baseUrl}/${draft.id}`, {
     method: 'PATCH',

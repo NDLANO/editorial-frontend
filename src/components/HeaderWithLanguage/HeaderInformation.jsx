@@ -100,10 +100,10 @@ const HeaderInformation = ({
       });
     } else {
       const article = getArticle();
-      const newArticle = await draftApi.createDraft({
-        ...article,
-        title: `${article.title} (${t('form.copy')})`,
-      });
+      const newArticle = await draftApi.cloneDraft(
+        article.id,
+        article.language,
+      );
       createMessage({
         translationKey: t('form.saveAsCopySuccess'),
         severity: 'success',

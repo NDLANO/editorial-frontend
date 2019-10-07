@@ -194,7 +194,7 @@ class LearningResourceForm extends Component {
     const status = articleStatus ? articleStatus.current : undefined;
 
     if (
-      status === articleStatuses.QUEUED_FOR_PUBLISHING ||
+      (!newStatus && status === articleStatuses.QUEUED_FOR_PUBLISHING) ||
       newStatus === articleStatuses.QUEUED_FOR_PUBLISHING ||
       newStatus === articleStatuses.QUALITY_ASSURED ||
       newStatus === articleStatuses.PUBLISHED

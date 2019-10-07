@@ -25,14 +25,7 @@ class FormikWorkflow extends Component {
   }
 
   async onSaveAsNew() {
-    const {
-      article,
-      getArticle,
-      history,
-      formIsDirty,
-      createMessage,
-      t,
-    } = this.props;
+    const { article, history, formIsDirty, createMessage, t } = this.props;
     if (formIsDirty) {
       createMessage({
         translationKey: 'form.mustSaveFirst',
@@ -94,7 +87,6 @@ FormikWorkflow.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   createMessage: PropTypes.func.isRequired,
-  getArticle: PropTypes.func.isRequired,
   article: ArticleShape,
   formIsDirty: PropTypes.bool,
   history: PropTypes.object,

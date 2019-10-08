@@ -117,89 +117,86 @@ const VersionAndNotesPanel = ({
   };
 
   return (
-    <Accordion openIndexes={[0]} tiny>
-      {({ getPanelProps, getBarProps }) => (
-        <AccordionWrapper>
-          {versions.map((version, index) => {
-            const { revision, updated, published, notes } = version;
-            const current = index === 0;
-            return (
-              <Fragment key={revision}>
-                <AccordionBar {...getBarProps(index)} title={revision}>
-                  <StyledAccordionsPanelItemsWrapper>
-                    <div>{formatDate(updated)}</div>
-                    <div>
-                      {!current && (
-                        <>
-                          <PreviewDraftLightbox
-                            label={t(`articleType.${article.articleType}`)}
-                            typeOfPreview="previewVersion"
-                            getArticle={getArticle}
-                            version={version}>
-                            {openPreview => (
-                              <Tooltip tooltip={t('form.previewVersion')}>
-                                <StyledAccordionsPanelIconButton
-                                  type="button"
-                                  data-testid="previewVersion"
-                                  onClick={openPreview}>
-                                  <Eye />
-                                </StyledAccordionsPanelIconButton>
-                              </Tooltip>
-                            )}
-                          </PreviewDraftLightbox>
+    <>
+      <FormikField name="notes" showError={false}>
+        {({ field, form: { errors, touched } }) => (
+          <FormikAddNotes
+            showError={touched[field.name] && !!errors[field.name]}
+            labelAddNote={t('form.notes.add')}
+            labelRemoveNote={t('form.notes.remove')}
+            labelWarningNote={errors[field.name]}
+            {...field}
+          />
+        )}
+      </FormikField>
+      <Accordion openIndexes={[0]} tiny>
+        {({ getPanelProps, getBarProps }) => (
+          <AccordionWrapper>
+            {versions.map((version, index) => {
+              const { revision, updated, published, notes } = version;
+              const current = index === 0;
+              return (
+                <Fragment key={revision}>
+                  <AccordionBar {...getBarProps(index)} title={revision}>
+                    <StyledAccordionsPanelItemsWrapper>
+                      <div>{formatDate(updated)}</div>
+                      <div>
+                        {!current && (
+                          <>
+                            <PreviewDraftLightbox
+                              label={t(`articleType.${article.articleType}`)}
+                              typeOfPreview="previewVersion"
+                              getArticle={getArticle}
+                              version={version}>
+                              {openPreview => (
+                                <Tooltip tooltip={t('form.previewVersion')}>
+                                  <StyledAccordionsPanelIconButton
+                                    type="button"
+                                    data-testid="previewVersion"
+                                    onClick={openPreview}>
+                                    <Eye />
+                                  </StyledAccordionsPanelIconButton>
+                                </Tooltip>
+                              )}
+                            </PreviewDraftLightbox>
 
-                          <Tooltip tooltip={t('form.resetToVersion')}>
-                            <StyledAccordionsPanelIconButton
-                              type="button"
-                              data-testid="resetToVersion"
-                              onClick={() => resetVersion(version)}>
-                              <Restore />
-                            </StyledAccordionsPanelIconButton>
-                          </Tooltip>
-                        </>
-                      )}
-                      {current && (
-                        <VersionLogTag
-                          color="yellow"
-                          label={t('form.notes.areHere')}
-                        />
-                      )}
-                      {published && !current && (
-                        <VersionLogTag
-                          color="green"
-                          label={t('form.notes.published')}
-                        />
-                      )}
-                    </div>
-                  </StyledAccordionsPanelItemsWrapper>
-                </AccordionBar>
-                <AccordionPanel
-                  {...getPanelProps(index)}
-                  css={paddingPanelStyleInside}>
-                  <VersionHistory notes={cleanupNotes(notes)}>
-                    {current && (
-                      <FormikField name="notes" showError={false}>
-                        {({ field, form: { errors, touched } }) => (
-                          <FormikAddNotes
-                            showError={
-                              touched[field.name] && !!errors[field.name]
-                            }
-                            labelAddNote={t('form.notes.add')}
-                            labelRemoveNote={t('form.notes.remove')}
-                            labelWarningNote={errors[field.name]}
-                            {...field}
+                            <Tooltip tooltip={t('form.resetToVersion')}>
+                              <StyledAccordionsPanelIconButton
+                                type="button"
+                                data-testid="resetToVersion"
+                                onClick={() => resetVersion(version)}>
+                                <Restore />
+                              </StyledAccordionsPanelIconButton>
+                            </Tooltip>
+                          </>
+                        )}
+                        {current && (
+                          <VersionLogTag
+                            color="yellow"
+                            label={t('form.notes.areHere')}
                           />
                         )}
-                      </FormikField>
-                    )}
-                  </VersionHistory>
-                </AccordionPanel>
-              </Fragment>
-            );
-          })}
-        </AccordionWrapper>
-      )}
-    </Accordion>
+                        {published && !current && (
+                          <VersionLogTag
+                            color="green"
+                            label={t('form.notes.published')}
+                          />
+                        )}
+                      </div>
+                    </StyledAccordionsPanelItemsWrapper>
+                  </AccordionBar>
+                  <AccordionPanel
+                    {...getPanelProps(index)}
+                    css={paddingPanelStyleInside}>
+                    <VersionHistory notes={cleanupNotes(notes)} />
+                  </AccordionPanel>
+                </Fragment>
+              );
+            })}
+          </AccordionWrapper>
+        )}
+      </Accordion>
+    </>
   );
 };
 

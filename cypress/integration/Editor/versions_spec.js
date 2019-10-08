@@ -9,6 +9,7 @@
 import { visitOptions, setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
+// change article ID and run cy-record to add the new fixture data
 const ARTICLE_ID = 533;
 
 describe('Workflow features', () => {
@@ -39,7 +40,7 @@ describe('Workflow features', () => {
     cy.apiwait('@articleHistory');
   });
 
-  it.only('Can add notes and save', () => {
+  it('Can add notes and save', () => {
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
     cy.get('[data-testid=saveLearningResourceButton]').click();

@@ -44,18 +44,15 @@ export function useArticleFormHooks({
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status.current;
     const statusChange = initialStatus !== newStatus;
-    console.log(newStatus);
-    console.log(initialStatus);
-    console.log(statusChange);
+
     const newArticle = getArticleFromSlate({ values, initialValues, licenses });
-    console.log(newArticle);
     if (
       (!statusChange &&
         initialStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
       (!statusChange && initialStatus === articleStatuses.QUALITY_ASSURED) ||
-      newStatus === articleStatuses.QUEUED_FOR_PUBLISHING ||
-      newStatus === articleStatuses.QUALITY_ASSURED ||
-      newStatus === articleStatuses.PUBLISHED
+      (statusChange && newStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
+      (statusChange && newStatus === articleStatuses.QUALITY_ASSURED) ||
+      (statusChange && newStatus === articleStatuses.PUBLISHED)
     ) {
       try {
         await validateDraft(values.id, {

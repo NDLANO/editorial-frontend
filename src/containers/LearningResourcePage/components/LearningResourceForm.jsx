@@ -37,35 +37,35 @@ import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
 export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
-    id: article.id,
-    revision: article.revision,
-    title: article.title || '',
-    introduction: plainTextToEditorValue(article.introduction, true),
+    agreementId: article.copyright ? article.copyright.agreementId : undefined,
+    articleType: 'standard',
     content: learningResourceContentToEditorValue(article.content),
-    tags: article.tags || [],
     creators: parseCopyrightContributors(article, 'creators'),
-    processors: parseCopyrightContributors(article, 'processors'),
-    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
-    updated: article.updated,
-    published: article.published,
-    updatePublished: false,
-    origin:
-      article.copyright && article.copyright.origin
-        ? article.copyright.origin
-        : '',
+    id: article.id,
+    introduction: plainTextToEditorValue(article.introduction, true),
+    language: article.language,
     license:
       article.copyright && article.copyright.license
         ? article.copyright.license.license
         : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    metaImageId,
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
-    supportedLanguages: article.supportedLanguages || [],
-    agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    language: article.language,
-    articleType: 'standard',
-    status: article.status || {},
+    metaImageId,
     notes: [],
+    origin:
+      article.copyright && article.copyright.origin
+        ? article.copyright.origin
+        : '',
+    published: article.published,
+    revision: article.revision,
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    status: article.status || {},
+    supportedLanguages: article.supportedLanguages || [],
+    tags: article.tags || [],
+    title: article.title || '',
+    processors: parseCopyrightContributors(article, 'processors'),
+    updatePublished: false,
+    updated: article.updated,
   };
 };
 
@@ -132,7 +132,7 @@ const LearningResourceForm = props => {
   return (
     <Formik
       initialValues={initialValues}
-      validateOnBlur={false}
+      validateOnChange={false}
       ref={formikRef}
       onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>

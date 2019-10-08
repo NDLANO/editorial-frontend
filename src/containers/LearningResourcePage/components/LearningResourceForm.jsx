@@ -136,7 +136,15 @@ const LearningResourceForm = props => {
       ref={formikRef}
       onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>
-      {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+      {({
+        values,
+        dirty,
+        isSubmitting,
+        setValues,
+        errors,
+        touched,
+        ...formikProps
+      }) => {
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -163,11 +171,11 @@ const LearningResourceForm = props => {
               article={article}
               touched={touched}
               updateNotes={onUpdate}
-              getArticle={getArticle}
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
               setValues={setValues}
               licenses={licenses}
+              getArticle={getArticle}
               {...rest}
             />
             <EditorFooter
@@ -178,9 +186,7 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               errors={errors}
               values={values}
-              handleSubmit={status =>
-                handleSubmit(values, formikRef && formikRef.current, status)
-              }
+              {...formikProps}
               {...rest}
             />
             <FormikAlertModalWrapper

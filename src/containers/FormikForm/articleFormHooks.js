@@ -28,10 +28,7 @@ export function useArticleFormHooks({
   const { id, revision, language } = article;
   const formikRef = useRef(null);
   const [savedToServer, setSavedToServer] = useState(false);
-  const initialValues = useMemo(() => getInitialValues(article), [
-    id,
-    language,
-  ]);
+  const initialValues = getInitialValues(article);
 
   useEffect(() => {
     setSavedToServer(false);
@@ -42,14 +39,20 @@ export function useArticleFormHooks({
     }
   }, [language, id]);
 
-  const handleSubmit = async (values, actions, newStatus) => {
+  const handleSubmit = async (values, actions) => {
     actions.setSubmitting(true);
-    const status = articleStatus ? articleStatus.current : undefined;
-
+    const initialStatus = articleStatus ? articleStatus.current : undefined;
+    const newStatus = values.status.current;
+    const statusChange = initialStatus !== newStatus;
+    console.log(newStatus);
+    console.log(initialStatus);
+    console.log(statusChange);
     const newArticle = getArticleFromSlate({ values, initialValues, licenses });
+    console.log(newArticle);
     if (
-      (!newStatus && status === articleStatuses.QUEUED_FOR_PUBLISHING) ||
-      (!newStatus && status === articleStatuses.QUALITY_ASSURED) ||
+      (!statusChange &&
+        initialStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
+      (!statusChange && initialStatus === articleStatuses.QUALITY_ASSURED) ||
       newStatus === articleStatuses.QUEUED_FOR_PUBLISHING ||
       newStatus === articleStatuses.QUALITY_ASSURED ||
       newStatus === articleStatuses.PUBLISHED
@@ -69,7 +72,7 @@ export function useArticleFormHooks({
     }
 
     try {
-      if (newStatus) {
+      if (statusChange) {
         await updateArticleAndStatus(
           {
             ...newArticle,

@@ -58,6 +58,7 @@ PreviewLightboxContent.propTypes = {
     'preview',
     'previewProductionArticle',
     'previewLanguageArticle',
+    'previewVersion',
   ]),
   label: PropTypes.string.isRequired,
   onChangePreviewLanguage: PropTypes.func.isRequired,

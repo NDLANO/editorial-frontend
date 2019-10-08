@@ -28,8 +28,9 @@ interface Props {
   getArticle: () => Article;
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
-  handleSubmit: (status: string) => void;
+  submitForm: VoidFunction;
   showSimpleFooter: boolean;
+  setFieldValue: (name: string, value: { current: string }) => void;
 }
 
 const StyledLine = styled.hr`
@@ -56,8 +57,9 @@ const EditorFooter: React.FC<Props> = ({
   getArticle,
   createMessage,
   articleStatus,
-  handleSubmit,
+  submitForm,
   showSimpleFooter,
+  setFieldValue,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   useEffect(() => {
@@ -110,10 +112,13 @@ const EditorFooter: React.FC<Props> = ({
 
   const updateStatus = async (comment: string, status: string) => {
     try {
-      handleSubmit(status);
+      await setFieldValue('status', { current: status });
+      submitForm();
     } catch (error) {
       if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));
+      } else {
+        createMessage(error);
       }
     }
   };

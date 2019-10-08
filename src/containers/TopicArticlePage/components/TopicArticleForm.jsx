@@ -157,7 +157,15 @@ const TopicArticleForm = props => {
       ref={formikRef}
       onSubmit={handleSubmit}
       validate={values => validateFormik(values, topicArticleRules, t)}>
-      {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+      {({
+        values,
+        dirty,
+        isSubmitting,
+        setValues,
+        errors,
+        touched,
+        ...formikProps
+      }) => {
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -185,11 +193,11 @@ const TopicArticleForm = props => {
               updateNotes={onUpdate}
               article={article}
               touched={touched}
-              getArticle={getArticle}
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
               setValues={setValues}
               licenses={licenses}
+              getArticle={getArticle}
               {...rest}
             />
             <EditorFooter
@@ -201,9 +209,7 @@ const TopicArticleForm = props => {
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
-              handleSubmit={status =>
-                handleSubmit(values, formikRef && formikRef.current, status)
-              }
+              {...formikProps}
               {...rest}
             />
             <FormikAlertModalWrapper

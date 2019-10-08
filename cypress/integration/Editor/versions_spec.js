@@ -7,6 +7,7 @@
  */
 
 import { visitOptions, setToken } from '../../support';
+import editorRoutes from './editorRoutes';
 
 const ARTICLE_ID = 533;
 
@@ -23,27 +24,9 @@ describe('Workflow features', () => {
         );
       },
     });
-    cy.apiroute(
-      'GET',
-      `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
-      'draft',
-    );
-    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
-    cy.route(
-      'PATCH',
-      `/draft-api/v1/drafts/${ARTICLE_ID}`,
-      'fixture:draft.json',
-    ).as('updateDraft');
-    cy.apiroute(
-      'GET',
-      '/draft-api/v1/drafts/status-state-machine/',
-      'statusMachine',
-    );
-    cy.apiroute(
-      'GET',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
-      'articleHistory',
-    );
+
+    editorRoutes(ARTICLE_ID);
+
     cy.visit(
       `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
@@ -56,16 +39,9 @@ describe('Workflow features', () => {
     cy.apiwait('@articleHistory');
   });
 
-  it('Can add notes, change status, save as new', () => {
-    cy.route(
-      'PATCH',
-      `/draft-api/v1/drafts/${ARTICLE_ID}`,
-      'fixture:draft.json',
-    ).as('updateDraft');
-
+  it.only('Can add notes and save', () => {
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
-
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.wait('@updateDraft');
   });

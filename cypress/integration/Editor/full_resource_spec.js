@@ -7,6 +7,7 @@
  */
 
 import { setToken, visitOptions } from '../../support';
+import editorRoutes from './editorRoutes';
 
 const ARTICLE_ID = 14989;
 
@@ -23,7 +24,9 @@ describe('Edit article with everything', () => {
         );
       },
     });
-    cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
+
+    editorRoutes();
+
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
@@ -34,7 +37,6 @@ describe('Edit article with everything', () => {
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`,
       'draft',
     );
-    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.visit(
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,

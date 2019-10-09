@@ -64,6 +64,10 @@ export function useArticleFormHooks({
         if (error && error.json && error.json.messages) {
           createMessage(formatErrorMessage(error));
         }
+        if(statusChange) {
+            // if validation failed we need to set status back so it won't be saved as new status on next save 
+            actions.setFieldValue('status', {current: initialStatus});
+        }
         return;
       }
     }

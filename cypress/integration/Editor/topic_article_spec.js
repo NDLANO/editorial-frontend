@@ -14,7 +14,16 @@ const ARTICLE_ID = 12173;
 describe('Language handling', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
 
     editorRoutes(ARTICLE_ID);
 
@@ -22,7 +31,7 @@ describe('Language handling', () => {
       `/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', '@draft']);
+    cy.apiwait(['@tags', '@licenses', `@draft:${ARTICLE_ID}`]);
   });
 
   it('Can change language and fetch the new article', () => {

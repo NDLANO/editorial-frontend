@@ -35,7 +35,7 @@ describe('Edit article with everything', () => {
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`,
-      'draft',
+      'draftNN',
     );
     cy.visit(
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
@@ -51,7 +51,7 @@ describe('Edit article with everything', () => {
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.apiwait('@draft');
+    cy.apiwait('@draftNN');
   });
 
   it('Can edit the published date', () => {

@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { validateDraft } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';

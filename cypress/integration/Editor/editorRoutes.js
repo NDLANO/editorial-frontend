@@ -3,17 +3,17 @@ export default ARTICLE_ID => {
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
-      'draft',
+      `draft:${ARTICLE_ID}`,
     );
-    cy.route(
+    cy.apiroute(
       'PATCH',
       `/draft-api/v1/drafts/${ARTICLE_ID}`,
-      'fixture:draft.json',
-    ).as('updateDraft');
+      `updateDraft:${ARTICLE_ID}`,
+    );
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
-      'articleHistory',
+      `articleHistory:${ARTICLE_ID}`,
     );
   }
 

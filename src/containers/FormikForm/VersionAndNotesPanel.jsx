@@ -129,42 +129,40 @@ const VersionAndNotesPanel = ({
                   <StyledAccordionsPanelItemsWrapper>
                     <div>{formatDate(updated)}</div>
                     <div>
-                      {!current && (
-                        <>
-                          <PreviewDraftLightbox
-                            label={t(`articleType.${article.articleType}`)}
-                            typeOfPreview="previewVersion"
-                            getArticle={getArticle}
-                            version={version}>
-                            {openPreview => (
-                              <Tooltip tooltip={t('form.previewVersion')}>
-                                <StyledAccordionsPanelIconButton
-                                  type="button"
-                                  data-testid="previewVersion"
-                                  onClick={openPreview}>
-                                  <Eye />
-                                </StyledAccordionsPanelIconButton>
-                              </Tooltip>
-                            )}
-                          </PreviewDraftLightbox>
+                      <>
+                        <PreviewDraftLightbox
+                          label={t(`articleType.${article.articleType}`)}
+                          typeOfPreview="previewVersion"
+                          getArticle={getArticle}
+                          version={version}>
+                          {openPreview => (
+                            <Tooltip tooltip={t('form.previewVersion')}>
+                              <StyledAccordionsPanelIconButton
+                                type="button"
+                                data-testid="previewVersion"
+                                onClick={openPreview}>
+                                <Eye />
+                              </StyledAccordionsPanelIconButton>
+                            </Tooltip>
+                          )}
+                        </PreviewDraftLightbox>
 
-                          <Tooltip tooltip={t('form.resetToVersion')}>
-                            <StyledAccordionsPanelIconButton
-                              type="button"
-                              data-testid="resetToVersion"
-                              onClick={() => resetVersion(version)}>
-                              <Restore />
-                            </StyledAccordionsPanelIconButton>
-                          </Tooltip>
-                        </>
-                      )}
+                        <Tooltip tooltip={t('form.resetToVersion')}>
+                          <StyledAccordionsPanelIconButton
+                            type="button"
+                            data-testid="resetToVersion"
+                            onClick={() => resetVersion(version)}>
+                            <Restore />
+                          </StyledAccordionsPanelIconButton>
+                        </Tooltip>
+                      </>
                       {current && (
                         <VersionLogTag
                           color="yellow"
                           label={t('form.notes.areHere')}
                         />
                       )}
-                      {published && !current && (
+                      {published && (
                         <VersionLogTag
                           color="green"
                           label={t('form.notes.published')}

@@ -29,13 +29,8 @@ describe('Status changes', () => {
     editorRoutes(ARTICLE_ID);
     cy.apiroute(
       'PUT',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
+      `/draft-api/v1/drafts/${ARTICLE_ID}/status/**`,
       `statusChange`,
-    );
-    cy.apiroute(
-      'PUT',
-      `/draft-api/v1/drafts/${ARTICLE_ID}/validate/`,
-      'validateDraft',
     );
 
     cy.visit(
@@ -57,6 +52,7 @@ describe('Status changes', () => {
     cy.get('footer button')
       .contains('Endre status')
       .click();
+    cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
     cy.apiwait(`@statusChange`);
 
     // change from proposal to QUEUED_FOR_PUBLISHING triggers validation
@@ -65,20 +61,6 @@ describe('Status changes', () => {
       .click();
     cy.get('footer li > button')
       .contains('Til publisering')
-      .click();
-    cy.get('footer button')
-      .contains('Endre status')
-      .click();
-    cy.apiwait(`@validateDraft`);
-    cy.apiwait(`@statusChange`);
-
-    // making a change triggers first save then status change
-    cy.get('[data-cy=learning-resource-title]').type('TEST');
-    cy.get('footer button')
-      .contains('Til publisering')
-      .click();
-    cy.get('footer li > button')
-      .contains('Publiser')
       .click();
     cy.get('footer button')
       .contains('Endre status')

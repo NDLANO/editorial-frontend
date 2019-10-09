@@ -14,6 +14,11 @@ export default ARTICLE_ID => {
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
       `articleHistory:${ARTICLE_ID}`,
+    );    
+    cy.apiroute(
+      'PUT',
+      `/draft-api/v1/drafts/${ARTICLE_ID}/validate/`,
+      'validateDraft',
     );
   }
 

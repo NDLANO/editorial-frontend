@@ -37,6 +37,8 @@ describe('Edit article with everything', () => {
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`,
       'draftNN',
     );
+    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'saveLearningResource');
+
     cy.visit(
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
@@ -61,7 +63,7 @@ describe('Edit article with everything', () => {
     cy.get('.flatpickr-day ')
       .first()
       .click();
-    cy.apiroute('PATCH', '/draft-api/v1/drafts/14989', 'saveLearningResource');
+    
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.apiwait('@saveLearningResource');
   });

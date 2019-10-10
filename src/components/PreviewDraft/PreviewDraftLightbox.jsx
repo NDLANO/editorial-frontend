@@ -90,6 +90,7 @@ class PreviewDraftLightbox extends React.Component {
     this.onChangePreviewLanguage = this.onChangePreviewLanguage.bind(this);
     this.previewLanguageArticle = this.previewLanguageArticle.bind(this);
     this.previewVersion = this.previewVersion.bind(this);
+    this.previewProductionArticle = this.previewProductionArticle.bind(this);
   }
 
   onClosePreview() {
@@ -117,6 +118,7 @@ class PreviewDraftLightbox extends React.Component {
       previewLanguageArticle: () =>
         this.previewLanguageArticle(secondArticleLanguage),
       previewVersion: () => this.previewVersion(article.language),
+      previewProductionArticle: this.previewProductionArticle,
     };
     this.setState({ loading: true });
     const firstArticle = await articleApi.getPreviewArticle(
@@ -140,6 +142,16 @@ class PreviewDraftLightbox extends React.Component {
   async previewVersion(language) {
     const { version } = this.props;
     const article = await articleApi.getPreviewArticle(version, language);
+    return transformArticle(article);
+  }
+
+  async previewProductionArticle() {
+    const { getArticle } = this.props;
+    const { id, language } = getArticle(true);
+    const article = await articleApi.getArticleFromArticleConverter(
+      id,
+      language,
+    );
     return transformArticle(article);
   }
 

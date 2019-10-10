@@ -16,10 +16,7 @@ import Accordion, {
   AccordionPanel,
   StyledAccordionsPanelItemsWrapper,
   AccordionBar,
-  StyledAccordionsPanelIconButton,
 } from '@ndla/accordion';
-import Tooltip from '@ndla/tooltip';
-import { Eye, Restore } from '@ndla/icons/editor';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
 
 import FormikField from '../../components/FormikField';
@@ -29,8 +26,8 @@ import handleError from '../../util/handleError';
 import FormikAddNotes from './FormikAddNotes';
 import formatDate from '../../util/formatDate';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
-import { PreviewDraftLightbox } from '../../components';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
+import VersionActionbuttons from './VersionActionButtons';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -141,35 +138,16 @@ const VersionAndNotesPanel = ({
                     <StyledAccordionsPanelItemsWrapper>
                       <div>{formatDate(updated)}</div>
                       <div>
-                        {!current && (
-                          <>
-                            <PreviewDraftLightbox
-                              label={t(`articleType.${article.articleType}`)}
-                              typeOfPreview="previewVersion"
-                              getArticle={getArticle}
-                              version={version}>
-                              {openPreview => (
-                                <Tooltip tooltip={t('form.previewVersion')}>
-                                  <StyledAccordionsPanelIconButton
-                                    type="button"
-                                    data-testid="previewVersion"
-                                    onClick={openPreview}>
-                                    <Eye />
-                                  </StyledAccordionsPanelIconButton>
-                                </Tooltip>
-                              )}
-                            </PreviewDraftLightbox>
-
-                            <Tooltip tooltip={t('form.resetToVersion')}>
-                              <StyledAccordionsPanelIconButton
-                                type="button"
-                                data-testid="resetToVersion"
-                                onClick={() => resetVersion(version)}>
-                                <Restore />
-                              </StyledAccordionsPanelIconButton>
-                            </Tooltip>
-                          </>
-                        )}
+                        <VersionActionbuttons
+                          showFromArticleApi={
+                            versions.length === 1 && published
+                          }
+                          current={current}
+                          version={version}
+                          resetVersion={resetVersion}
+                          article={article}
+                          getArticle={getArticle}
+                        />
                         {current && (
                           <VersionLogTag
                             color="yellow"

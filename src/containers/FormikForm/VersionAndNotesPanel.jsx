@@ -154,7 +154,7 @@ const VersionAndNotesPanel = ({
                             label={t('form.notes.areHere')}
                           />
                         )}
-                        {published && !current && (
+                        {published && (!current || versions.length === 1) && (
                           <VersionLogTag
                             color="green"
                             label={t('form.notes.published')}

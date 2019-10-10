@@ -60,7 +60,9 @@ describe('Workflow features', () => {
   });
 
   it('Can reset to prod', () => {
-    cy.get('[data-testid=resetToVersion]').click();
+    cy.get('[data-testid=resetToVersion]')
+      .first()
+      .click();
 
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);

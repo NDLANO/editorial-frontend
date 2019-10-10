@@ -46,7 +46,7 @@ class MastheadSearch extends Component {
             toSearch({
               query: searchQuery,
               page: 1,
-              sort: '-relevance',
+              sort: '-lastUpdated',
               'page-size': 10,
             }),
           );

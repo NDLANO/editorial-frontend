@@ -38,36 +38,36 @@ export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
   const metaImageId = parseImageUrl(article.metaImage);
   return {
-    id: article.id,
-    revision: article.revision,
-    updated: article.updated,
-    published: article.published,
-    updatePublished: false,
-    title: article.title || '',
-    introduction: plainTextToEditorValue(article.introduction, true),
-    content: topicArticleContentToEditorValue(article.content),
-    tags: article.tags || [],
-    creators: parseCopyrightContributors(article, 'creators'),
-    processors: parseCopyrightContributors(article, 'processors'),
-    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
+    articleType: 'topic-article',
+    content: topicArticleContentToEditorValue(article.content),
+    creators: parseCopyrightContributors(article, 'creators'),
+    id: article.id,
+    introduction: plainTextToEditorValue(article.introduction, true),
+    language: article.language,
     license:
       article.copyright && article.copyright.license
         ? article.copyright.license.license
         : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    metaImageId,
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
+    metaImageId,
     notes: [],
+    processors: parseCopyrightContributors(article, 'processors'),
+    published: article.published,
+    revision: article.revision,
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    status: article.status || {},
+    supportedLanguages: article.supportedLanguages || [],
+    tags: article.tags || [],
+    title: article.title || '',
+    updated: article.updated,
+    updatePublished: false,
     visualElementAlt:
       visualElement && visualElement.alt ? visualElement.alt : '',
     visualElementCaption:
       visualElement && visualElement.caption ? visualElement.caption : '',
     visualElement: visualElement || {},
-    language: article.language,
-    supportedLanguages: article.supportedLanguages || [],
-    articleType: 'topic-article',
-    status: article.status || {},
   };
 };
 
@@ -112,14 +112,8 @@ const getArticleFromSlate = ({
   );
   const content = topicArticleContentToHTML(values.content);
   const article = {
-    id: values.id,
-    title: values.title,
-    introduction: editorValueToPlainText(values.introduction),
-    tags: values.tags,
-    content: content || emptyField,
-    visualElement: visualElement,
-    metaDescription: editorValueToPlainText(values.metaDescription),
     articleType: 'topic-article',
+    content: content || emptyField,
     copyright: {
       license: licenses.find(license => license.license === values.license),
       creators: values.creators,
@@ -127,14 +121,20 @@ const getArticleFromSlate = ({
       rightsholders: values.rightsholders,
       agreementId: values.agreementId,
     },
-    notes: values.notes || [],
+    id: values.id,
+    introduction: editorValueToPlainText(values.introduction),
+    metaDescription: editorValueToPlainText(values.metaDescription),
+    language: values.language,
     metaImage: {
       id: values.metaImageId,
       alt: values.metaImageAlt,
     },
-    language: values.language,
+    notes: values.notes || [],
     published: getPublishedDate(values, initialValues, preview),
     supportedLanguages: values.supportedLanguages,
+    tags: values.tags,
+    title: values.title,
+    visualElement: visualElement,
   };
 
   return article;

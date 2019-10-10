@@ -56,6 +56,7 @@ export const getInitialValues = (article = {}) => {
       article.copyright && article.copyright.origin
         ? article.copyright.origin
         : '',
+    processors: parseCopyrightContributors(article, 'processors'),
     published: article.published,
     revision: article.revision,
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
@@ -63,7 +64,6 @@ export const getInitialValues = (article = {}) => {
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
     title: article.title || '',
-    processors: parseCopyrightContributors(article, 'processors'),
     updatePublished: false,
     updated: article.updated,
   };
@@ -93,17 +93,8 @@ const getArticleFromSlate = ({
   const content = learningResourceContentToHTML(values.content);
   const emptyContent = values.id ? '' : undefined;
   const article = {
-    id: values.id,
-    title: values.title,
-    introduction: editorValueToPlainText(values.introduction),
-    tags: values.tags,
-    content: content && content.length > 0 ? content : emptyContent,
-    metaImage: {
-      id: values.metaImageId,
-      alt: values.metaImageAlt,
-    },
-    metaDescription: editorValueToPlainText(values.metaDescription),
     articleType: 'standard',
+    content: content && content.length > 0 ? content : emptyContent,
     copyright: {
       license: licenses.find(license => license.license === values.license),
       origin: values.origin,
@@ -111,10 +102,19 @@ const getArticleFromSlate = ({
       processors: values.processors,
       rightsholders: values.rightsholders,
     },
-    notes: values.notes || [],
+    id: values.id,
+    introduction: editorValueToPlainText(values.introduction),
     language: values.language,
+    metaImage: {
+      id: values.metaImageId,
+      alt: values.metaImageAlt,
+    },
+    metaDescription: editorValueToPlainText(values.metaDescription),
+    notes: values.notes || [],
     published: getPublishedDate(values, initialValues, preview),
     supportedLanguages: values.supportedLanguages,
+    tags: values.tags,
+    title: values.title,
   };
 
   return article;

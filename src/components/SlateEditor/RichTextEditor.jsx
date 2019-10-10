@@ -43,6 +43,7 @@ const RichTextEditor = class extends React.PureComponent {
     };
     this.editorRef = React.createRef();
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidUpdate() {
@@ -51,6 +52,20 @@ const RichTextEditor = class extends React.PureComponent {
     if (submitted !== slateStore.getState().submitted) {
       slateStore.dispatch(setSubmitted(submitted));
     }
+  }
+
+  onChange(change) {
+    const { onChange, name, index } = this.props;
+    onChange(
+      {
+        target: {
+          name,
+          value: change.value,
+          type: 'SlateEditorValue',
+        },
+      },
+      index,
+    );
   }
 
   onKeyDown(e, editor, next) {
@@ -111,18 +126,7 @@ const RichTextEditor = class extends React.PureComponent {
             value={value}
             name={name}
             schema={schema}
-            onChange={change =>
-              onChange(
-                {
-                  target: {
-                    name,
-                    value: change.value,
-                    type: 'SlateEditorValue',
-                  },
-                },
-                index,
-              )
-            }
+            onChange={this.onChange}
             slateStore={this.state.slateStore}
             plugins={plugins}
             {...rest}

@@ -32,6 +32,7 @@ const PreviewLightboxContent = props => {
         </StyledPreviewSingleArticle>
       );
     case 'previewVersion':
+    case 'previewProductionArticle':
       return <PreviewProduction {...props} />;
     case 'previewLanguageArticle':
       return <PreviewLanguage {...props} />;

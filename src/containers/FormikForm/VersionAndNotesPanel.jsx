@@ -29,6 +29,7 @@ import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
+import Spinner from '../../components/Spinner';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -69,17 +70,21 @@ const VersionAndNotesPanel = ({
   getArticle,
 }) => {
   const [versions, setVersions] = useState([]);
+  const [loading, setLoading] = useState([]);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const getVersions = async () => {
       try {
+        setLoading(true);
         const versions = await draftApi.fetchDraftHistory(
           article.id,
           article.language,
         );
         setVersions(versions);
+        setLoading(false);
       } catch (e) {
         handleError(e);
+        setLoading(false);
       }
     };
     getVersions();
@@ -118,6 +123,8 @@ const VersionAndNotesPanel = ({
       handleError(e);
     }
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <>

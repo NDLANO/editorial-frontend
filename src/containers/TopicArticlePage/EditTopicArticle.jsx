@@ -13,6 +13,7 @@ import { injectT } from '@ndla/i18n';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../util/routeHelpers';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
+import Spinner from '../../components/Spinner';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
   const {
@@ -23,7 +24,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
   } = useFetchArticleData(articleId, selectedLanguage);
 
   if (!article || !article.id) {
-    return null;
+    return <Spinner withWrapper />;
   }
 
   if (article.articleType !== 'topic-article') {

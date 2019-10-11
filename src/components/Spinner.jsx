@@ -44,6 +44,12 @@ const appeareances = {
   `,
 };
 
+const SpinnerWrapper = styled.div`
+  height: 600px;
+  display: flex;
+  align-items: center;
+`;
+
 const StyledSpinner = styled('div')`
   border: 0.4em solid ${colors.brand.greyLight};
   border-bottom-color: ${colors.brand.primary};
@@ -55,9 +61,11 @@ const StyledSpinner = styled('div')`
   ${p => appeareances[p.appearance]}
 `;
 
-const Spinner = ({ appearance, ...rest }) => (
-  <StyledSpinner appearance={appearance} {...rest} />
-);
+const Spinner = ({ appearance, withWrapper, ...rest }) => {
+  const spinner = <StyledSpinner appearance={appearance} {...rest} />;
+  if (withWrapper) return <SpinnerWrapper>{spinner}</SpinnerWrapper>;
+  return spinner;
+};
 
 Spinner.propTypes = {
   appearance: PropTypes.string,

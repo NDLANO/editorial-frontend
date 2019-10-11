@@ -28,6 +28,7 @@ import formatDate from '../../util/formatDate';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import VersionActionbuttons from './VersionActionButtons';
+import * as articleApi from '../../modules/article/articleApi';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -98,11 +99,16 @@ const VersionAndNotesPanel = ({
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = version => {
+  const resetVersion = async (version, showFromArticleApi) => {
     try {
+      let article = version;
+      if (showFromArticleApi) {
+        article = await articleApi.getArticle(article.id, article.language);
+      }
       const newValues = getInitialValues(
-        transformArticleFromApiVersion(version, article.language),
+        transformArticleFromApiVersion(article, article.language),
       );
+
       setValues(newValues);
       createMessage({
         message: t('form.resetToProd.success'),
@@ -132,6 +138,7 @@ const VersionAndNotesPanel = ({
             {versions.map((version, index) => {
               const { revision, updated, published, notes } = version;
               const current = index === 0;
+              const showFromArticleApi = versions.length === 1 && published;
               return (
                 <Fragment key={revision}>
                   <AccordionBar {...getBarProps(index)} title={revision}>
@@ -139,12 +146,12 @@ const VersionAndNotesPanel = ({
                       <div>{formatDate(updated)}</div>
                       <div>
                         <VersionActionbuttons
-                          showFromArticleApi={
-                            versions.length === 1 && published
-                          }
+                          showFromArticleApi={showFromArticleApi}
                           current={current}
                           version={version}
-                          resetVersion={resetVersion}
+                          resetVersion={version =>
+                            resetVersion(version, showFromArticleApi)
+                          }
                           article={article}
                           getArticle={getArticle}
                         />

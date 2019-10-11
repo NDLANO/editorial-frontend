@@ -32,7 +32,6 @@ const twoArticlesCloseButtonStyle = css`
 `;
 
 const StyledPreviewDraft = styled('div')`
-  z-index: 1001;
   ${p => (p.typeOfPreview === 'preview' ? 'text-align: left;' : '')};
 `;
 

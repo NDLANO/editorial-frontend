@@ -51,6 +51,7 @@ const panels = [
     title: 'form.workflowSection',
     className: 'u-6/6',
     errorFields: ['notes'],
+    showPanel: values => values.id,
     component: props => <VersionAndNotesPanel {...props} />,
   },
 ];

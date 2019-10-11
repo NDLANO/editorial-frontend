@@ -15,6 +15,7 @@ import LearningResourceForm from './components/LearningResourceForm';
 import { LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
+import Spinner from '../../components/Spinner';
 
 const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
   const {
@@ -25,7 +26,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
   } = useFetchArticleData(articleId, selectedLanguage);
 
   if (!article || !article.id) {
-    return null;
+    return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
     return (

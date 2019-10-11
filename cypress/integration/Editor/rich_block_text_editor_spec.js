@@ -7,26 +7,21 @@
  */
 
 import { setToken, visitOptions } from '../../support';
-import t from '../../../src/phrases/phrases-nb';
+import editorRoutes from './editorRoutes';
 
 describe('Learning resource editing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute(
-      'GET',
-      '/draft-api/v1/drafts/tags/?language=nb&size=7000',
-      'tags',
-    );
-    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+
+    editorRoutes();
+
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
     cy.apiwait('@tags');
     cy.apiwait('@licenses');
   });
 
   it('can enter title, ingress and content then save', () => {
-    cy.apiroute('POST', '/draft-api/v1/drafts/', 'saveLearningResource');
-
     cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
@@ -43,11 +38,6 @@ describe('Learning resource editing', () => {
   });
 
   it('can enter all types of blocks', () => {
-    cy.apiroute(
-      'GET',
-      '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=',
-      'relatedArticles',
-    );
     /* cy.route('GET', '/get_brightcove_token', ''); */
     /*     cy.route(
       'GET',
@@ -118,7 +108,6 @@ describe('Learning resource editing', () => {
   });
 
   it('Can add all contributors', () => {
-    cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
     cy.get('button > span')
       .contains('Lisens og bruker')
       .click();

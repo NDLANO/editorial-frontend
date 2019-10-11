@@ -15,29 +15,32 @@ import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-const SearchList = ({ results, searchObject, type, t, searching, locale }) => (
-  <div {...searchClasses('results')}>
-    {searching && <Spinner appearance="absolute" />}
-    {results.length === 0 ? (
+const SearchList = ({ results, searchObject, type, t, searching, locale }) => {
+  if (searching) return <Spinner />;
+  if (results.length === 0)
+    return (
       <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>
-    ) : null}
-    <TransitionGroup>
-      {results.map(result => (
-        <CSSTransition
-          key={`transition-${result.id}`}
-          classNames={searchClasses('transition').className}
-          timeout={{ enter: 500, exit: 0 }}>
-          <SearchResult
-            key={result.id}
-            result={result}
-            type={type}
-            locale={locale || result.title.language}
-          />
-        </CSSTransition>
-      ))}
-    </TransitionGroup>
-  </div>
-);
+    );
+  return (
+    <div {...searchClasses('results')}>
+      <TransitionGroup>
+        {results.map(result => (
+          <CSSTransition
+            key={`transition-${result.id}`}
+            classNames={searchClasses('transition').className}
+            timeout={{ enter: 500, exit: 0 }}>
+            <SearchResult
+              key={result.id}
+              result={result}
+              type={type}
+              locale={locale || result.title.language}
+            />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+    </div>
+  );
+};
 
 SearchList.propTypes = {
   results: PropTypes.arrayOf(SearchResultShape).isRequired,

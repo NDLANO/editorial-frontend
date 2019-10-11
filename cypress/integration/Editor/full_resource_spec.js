@@ -7,6 +7,7 @@
  */
 
 import { setToken, visitOptions } from '../../support';
+import editorRoutes from './editorRoutes';
 
 const ARTICLE_ID = 14989;
 
@@ -23,7 +24,9 @@ describe('Edit article with everything', () => {
         );
       },
     });
-    cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
+
+    editorRoutes();
+
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
@@ -32,9 +35,10 @@ describe('Edit article with everything', () => {
     cy.apiroute(
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`,
-      'draft',
+      'draftNN',
     );
-    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'saveLearningResource');
+
     cy.visit(
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
@@ -49,7 +53,7 @@ describe('Edit article with everything', () => {
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.apiwait('@draft');
+    cy.apiwait('@draftNN');
   });
 
   it('Can edit the published date', () => {
@@ -59,7 +63,7 @@ describe('Edit article with everything', () => {
     cy.get('.flatpickr-day ')
       .first()
       .click();
-    cy.apiroute('PATCH', '/draft-api/v1/drafts/14989', 'saveLearningResource');
+    
     cy.get('[data-testid=saveLearningResourceButton]').click();
     cy.apiwait('@saveLearningResource');
   });

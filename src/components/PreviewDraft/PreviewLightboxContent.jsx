@@ -32,6 +32,7 @@ const PreviewLightboxContent = props => {
         </StyledPreviewSingleArticle>
       );
     case 'previewVersion':
+    case 'previewProductionArticle':
       return <PreviewProduction {...props} />;
     case 'previewLanguageArticle':
       return <PreviewLanguage {...props} />;
@@ -58,6 +59,7 @@ PreviewLightboxContent.propTypes = {
     'preview',
     'previewProductionArticle',
     'previewLanguageArticle',
+    'previewVersion',
   ]),
   label: PropTypes.string.isRequired,
   onChangePreviewLanguage: PropTypes.func.isRequired,

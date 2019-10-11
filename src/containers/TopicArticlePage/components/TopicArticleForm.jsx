@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -27,326 +27,203 @@ import {
   parseImageUrl,
 } from '../../../util/formHelper';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
-import { formatErrorMessage } from '../../../util/apiHelpers';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { getArticle } from '../../../modules/article/articleApi';
-import { validateDraft } from '../../../modules/draft/draftApi';
-import { transformArticleFromApiVersion } from '../../../util/articleUtil';
-import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { queryTopics, updateTopic } from '../../../modules/taxonomy';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
+import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
   const metaImageId = parseImageUrl(article.metaImage);
   return {
-    id: article.id,
-    revision: article.revision,
-    updated: article.updated,
-    published: article.published,
-    updatePublished: false,
-    title: article.title || '',
-    introduction: plainTextToEditorValue(article.introduction, true),
-    content: topicArticleContentToEditorValue(article.content),
-    tags: article.tags || [],
-    creators: parseCopyrightContributors(article, 'creators'),
-    processors: parseCopyrightContributors(article, 'processors'),
-    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
+    articleType: 'topic-article',
+    content: topicArticleContentToEditorValue(article.content),
+    creators: parseCopyrightContributors(article, 'creators'),
+    id: article.id,
+    introduction: plainTextToEditorValue(article.introduction, true),
+    language: article.language,
     license:
       article.copyright && article.copyright.license
         ? article.copyright.license.license
         : DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    metaImageId,
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
+    metaImageId,
     notes: [],
+    processors: parseCopyrightContributors(article, 'processors'),
+    published: article.published,
+    revision: article.revision,
+    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    status: article.status || {},
+    supportedLanguages: article.supportedLanguages || [],
+    tags: article.tags || [],
+    title: article.title || '',
+    updated: article.updated,
+    updatePublished: false,
     visualElementAlt:
       visualElement && visualElement.alt ? visualElement.alt : '',
     visualElementCaption:
       visualElement && visualElement.caption ? visualElement.caption : '',
     visualElement: visualElement || {},
-    language: article.language,
-    supportedLanguages: article.supportedLanguages || [],
-    articleType: 'topic-article',
-    status: article.status || {},
   };
 };
 
-class TopicArticleForm extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onResetFormToProd = this.onResetFormToProd.bind(this);
-    this.getArticle = this.getArticle.bind(this);
-    this.getPublishedDate = this.getPublishedDate.bind(this);
-    this.state = {
-      showResetModal: false,
-      savedToServer: false,
-    };
-    this.formik = React.createRef();
-  }
-
-  componentDidUpdate({ article: prevArticle }) {
-    const { article } = this.props;
-    if (
-      article.language !== prevArticle.language ||
-      article.id !== prevArticle.id
-    ) {
-      this.setState({ savedToServer: false });
-      if (this.formik.current) {
-        this.formik.current.resetForm();
-      }
-    }
-  }
-
-  async onResetFormToProd({ setValues }) {
-    const {
-      article: { language, id },
-      t,
-      createMessage,
-    } = this.props;
-    try {
-      const articleFromProd = await getArticle(id, language);
-      const convertedArticle = transformArticleFromApiVersion({
-        ...articleFromProd,
-        language,
-      });
-      const initialValues = getInitialValues(convertedArticle);
-      this.setState({ showResetModal: false }, () => setValues(initialValues));
-    } catch (err) {
-      if (err.status === 404) {
-        this.setState({
-          showResetModal: false,
-        });
-        createMessage({
-          message: t('errorMessage.noArticleInProd'),
-          severity: 'danger',
-        });
-      }
-    }
-  }
-
-  getPublishedDate(values, preview = false) {
-    if (isEmpty(values.published)) {
-      return undefined;
-    }
-    if (preview) {
-      return values.published;
-    }
-    const { article } = this.props;
-    const initialValues = getInitialValues(article);
-
-    const hasPublishedDateChaned = initialValues.published !== values.published;
-    if (hasPublishedDateChaned || values.updatePublished) {
-      return values.published;
-    }
+const getPublishedDate = (values, initialValues, preview = false) => {
+  if (isEmpty(values.published)) {
     return undefined;
   }
-
-  // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
-  getArticle(values, preview = false) {
-    const { licenses } = this.props;
-    const emptyField = values.id ? '' : undefined;
-    const visualElement = createEmbedTag(
-      isEmpty(values.visualElement)
-        ? {}
-        : {
-            ...values.visualElement,
-            caption:
-              values.visualElementCaption &&
-              values.visualElementCaption.length > 0
-                ? values.visualElementCaption
-                : undefined,
-            alt:
-              values.visualElementAlt && values.visualElementAlt.length > 0
-                ? values.visualElementAlt
-                : undefined,
-          },
-    );
-    const content = topicArticleContentToHTML(values.content);
-    const article = {
-      id: values.id,
-      title: values.title,
-      introduction: editorValueToPlainText(values.introduction),
-      tags: values.tags,
-      content: content || emptyField,
-      visualElement: visualElement,
-      metaDescription: editorValueToPlainText(values.metaDescription),
-      articleType: 'topic-article',
-      copyright: {
-        license: licenses.find(license => license.license === values.license),
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-        agreementId: values.agreementId,
-      },
-      notes: values.notes || [],
-      metaImage: {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      },
-      language: values.language,
-      published: this.getPublishedDate(values, preview),
-      supportedLanguages: values.supportedLanguages,
-    };
-
-    return article;
+  if (preview) {
+    return values.published;
   }
 
-  async handleSubmit(values, actions, newStatus) {
-    const {
-      createMessage,
-      articleStatus,
-      onUpdate,
-      article,
-      applicationError,
-      updateArticleAndStatus,
-    } = this.props;
-    const { revision } = article;
-    const status = articleStatus ? articleStatus.current : undefined;
+  const hasPublishedDateChaned = initialValues.published !== values.published;
+  if (hasPublishedDateChaned || values.updatePublished) {
+    return values.published;
+  }
+  return undefined;
+};
 
-    const newArticle = this.getArticle(values);
-    if (status === articleStatuses.QUEUED_FOR_PUBLISHING) {
-      try {
-        await validateDraft(values.id, {
-          ...newArticle,
-          revision,
+// TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+const getArticleFromSlate = ({
+  values,
+  initialValues,
+  licenses,
+  preview = false,
+}) => {
+  const emptyField = values.id ? '' : undefined;
+  const visualElement = createEmbedTag(
+    isEmpty(values.visualElement)
+      ? {}
+      : {
+          ...values.visualElement,
+          caption:
+            values.visualElementCaption &&
+            values.visualElementCaption.length > 0
+              ? values.visualElementCaption
+              : undefined,
+          alt:
+            values.visualElementAlt && values.visualElementAlt.length > 0
+              ? values.visualElementAlt
+              : undefined,
+        },
+  );
+  const content = topicArticleContentToHTML(values.content);
+  const article = {
+    articleType: 'topic-article',
+    content: content || emptyField,
+    copyright: {
+      license: licenses.find(license => license.license === values.license),
+      creators: values.creators,
+      processors: values.processors,
+      rightsholders: values.rightsholders,
+      agreementId: values.agreementId,
+    },
+    id: values.id,
+    introduction: editorValueToPlainText(values.introduction),
+    metaDescription: editorValueToPlainText(values.metaDescription),
+    language: values.language,
+    metaImage: {
+      id: values.metaImageId,
+      alt: values.metaImageAlt,
+    },
+    notes: values.notes || [],
+    published: getPublishedDate(values, initialValues, preview),
+    supportedLanguages: values.supportedLanguages,
+    tags: values.tags,
+    title: values.title,
+    visualElement: visualElement,
+  };
+
+  return article;
+};
+
+const TopicArticleForm = props => {
+  const {
+    savedToServer,
+    formikRef,
+    initialValues,
+    setResetModal,
+    handleSubmit,
+  } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+
+  const { t, article, onUpdate, licenses, ...rest } = props;
+  return (
+    <Formik
+      initialValues={initialValues}
+      validateOnChange={false}
+      ref={formikRef}
+      onSubmit={handleSubmit}
+      validate={values => validateFormik(values, topicArticleRules, t)}>
+      {({
+        values,
+        dirty,
+        isSubmitting,
+        setValues,
+        errors,
+        touched,
+        ...formikProps
+      }) => {
+        const formIsDirty = isFormikFormDirty({
+          values,
+          initialValues,
+          dirty,
         });
-      } catch (error) {
-        if (error && error.json && error.json.messages) {
-          createMessage(formatErrorMessage(error));
-        }
-        return;
-      }
-    }
-
-    try {
-      if (newStatus) {
-        updateArticleAndStatus(
-          {
-            ...newArticle,
-            revision,
-          },
-          newStatus,
+        const getArticle = () =>
+          getArticleFromSlate({ values, initialValues, licenses });
+        return (
+          <Form {...formClasses()}>
+            <HeaderWithLanguage
+              values={values}
+              content={article}
+              getArticle={getArticle}
+              editUrl={lang =>
+                toEditArticle(values.id, values.articleType, lang)
+              }
+              formIsDirty={formIsDirty}
+              getInitialValues={getInitialValues}
+              setValues={setValues}
+              {...rest}
+            />
+            <TopicArticleAccordionPanels
+              values={values}
+              errors={errors}
+              updateNotes={onUpdate}
+              article={article}
+              touched={touched}
+              formIsDirty={formIsDirty}
+              getInitialValues={getInitialValues}
+              setValues={setValues}
+              licenses={licenses}
+              getArticle={getArticle}
+              {...rest}
+            />
+            <EditorFooter
+              showSimpleFooter={!article.id}
+              isSubmitting={isSubmitting}
+              formIsDirty={formIsDirty}
+              savedToServer={savedToServer}
+              getArticle={getArticle}
+              showReset={() => setResetModal(true)}
+              errors={errors}
+              values={values}
+              {...formikProps}
+              {...rest}
+            />
+            <FormikAlertModalWrapper
+              isSubmitting={isSubmitting}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
+          </Form>
         );
-      } else {
-        await onUpdate({
-          ...newArticle,
-          revision,
-        });
-      }
-      if (article.title !== newArticle.title) {
-        // update topic name in taxonomy
-        const topics = await queryTopics(article.id, article.language);
-        topics.forEach(topic =>
-          updateTopic({
-            ...topic,
-            name: newArticle.title,
-          }),
-        );
-      }
-      actions.resetForm();
-      actions.setFieldValue('notes', [], false);
-      this.setState({ savedToServer: true });
-    } catch (err) {
-      applicationError(err);
-      actions.setSubmitting(false);
-      this.setState({ savedToServer: false });
-    }
-  }
-
-  render() {
-    const { t, article, onUpdate, ...rest } = this.props;
-    const { showResetModal, savedToServer } = this.state;
-    const initialValues = getInitialValues(article);
-    console.log(initialValues);
-    return (
-      <Formik
-        initialValues={initialValues}
-        validateOnBlur={false}
-        ref={this.formik}
-        onSubmit={this.handleSubmit}
-        validate={values => validateFormik(values, topicArticleRules, t)}>
-        {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
-          const formIsDirty = isFormikFormDirty({
-            values,
-            initialValues,
-            dirty,
-          });
-          const getArticle = () => this.getArticle(values);
-          return (
-            <Form {...formClasses()}>
-              <HeaderWithLanguage
-                values={values}
-                content={article}
-                getArticle={getArticle}
-                editUrl={lang =>
-                  toEditArticle(values.id, values.articleType, lang)
-                }
-                formIsDirty={formIsDirty}
-                getInitialValues={getInitialValues}
-                setValues={setValues}
-                {...rest}
-              />
-              <TopicArticleAccordionPanels
-                values={values}
-                errors={errors}
-                updateNotes={onUpdate}
-                article={article}
-                touched={touched}
-                getArticle={getArticle}
-                formIsDirty={formIsDirty}
-                getInitialValues={getInitialValues}
-                setValues={setValues}
-                {...rest}
-              />
-              <EditorFooter
-                showSimpleFooter={!article.id}
-                isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                savedToServer={savedToServer}
-                getArticle={getArticle}
-                showReset={() => this.setState({ showResetModal: true })}
-                errors={errors}
-                values={values}
-                handleSubmit={status =>
-                  this.handleSubmit(values, this.formik.current, status)
-                }
-                {...rest}
-              />
-              <AlertModal
-                show={showResetModal}
-                text={t('form.resetToProd.modal')}
-                actions={[
-                  {
-                    text: t('form.abort'),
-                    onClick: () => this.setState({ showResetModal: false }),
-                  },
-                  {
-                    text: 'Reset',
-                    onClick: () => this.onResetFormToProd({ setValues }),
-                  },
-                ]}
-                onCancel={() => this.setState({ showResetModal: false })}
-              />
-              <FormikAlertModalWrapper
-                isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                severity="danger"
-                text={t('alertModal.notSaved')}
-              />
-            </Form>
-          );
-        }}
-      </Formik>
-    );
-  }
-}
+      }}
+    </Formik>
+  );
+};
 
 TopicArticleForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,

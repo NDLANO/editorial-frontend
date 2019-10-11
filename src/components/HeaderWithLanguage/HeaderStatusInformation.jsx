@@ -21,6 +21,7 @@ export const StyledSplitter = styled.div`
 const StyledStatusWrapper = styled.div`
   display: flex;
   align-items: center;
+  white-space: nowrap;
 `;
 
 const StyledStatus = styled.p`

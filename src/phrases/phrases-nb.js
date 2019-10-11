@@ -489,7 +489,7 @@ const phrases = {
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
-      article: 'Versjon',
+      article: 'Publisert versjon',
       draft: 'Utkast',
     },
     previewLanguageArticle: {

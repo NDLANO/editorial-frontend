@@ -136,8 +136,15 @@ const VersionAndNotesPanel = ({
         {({ getPanelProps, getBarProps }) => (
           <AccordionWrapper>
             {versions.map((version, index) => {
-              const { revision, updated, published, notes } = version;
-              const current = index === 0;
+              const {
+                revision,
+                updated,
+                status: { current, other },
+                notes,
+              } = version;
+              const isLatestVersion = index === 0;
+              const published =
+                current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
               const showFromArticleApi = versions.length === 1 && published;
               return (
                 <Fragment key={revision}>
@@ -147,7 +154,7 @@ const VersionAndNotesPanel = ({
                       <div>
                         <VersionActionbuttons
                           showFromArticleApi={showFromArticleApi}
-                          current={current}
+                          current={isLatestVersion}
                           version={version}
                           resetVersion={version =>
                             resetVersion(version, showFromArticleApi)
@@ -155,18 +162,19 @@ const VersionAndNotesPanel = ({
                           article={article}
                           getArticle={getArticle}
                         />
-                        {current && (
+                        {isLatestVersion && (
                           <VersionLogTag
                             color="yellow"
                             label={t('form.notes.areHere')}
                           />
                         )}
-                        {published && (!current || versions.length === 1) && (
-                          <VersionLogTag
-                            color="green"
-                            label={t('form.notes.published')}
-                          />
-                        )}
+                        {published &&
+                          (!isLatestVersion || versions.length === 1) && (
+                            <VersionLogTag
+                              color="green"
+                              label={t('form.notes.published')}
+                            />
+                          )}
                       </div>
                     </StyledAccordionsPanelItemsWrapper>
                   </AccordionBar>

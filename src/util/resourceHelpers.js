@@ -80,7 +80,9 @@ export const resourceToLinkProps = (content, contentType, locale) => {
         content.contexts[0].learningResourceType
         ? content.contexts[0].learningResourceType
         : 'standard',
-      locale,
+      content.supportedLanguages.includes(locale)
+        ? locale
+        : content.supportedLanguages[0],
     ),
   };
 };

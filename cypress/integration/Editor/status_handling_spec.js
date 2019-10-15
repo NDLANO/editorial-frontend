@@ -49,9 +49,9 @@ describe('Status changes', () => {
     cy.get('footer li > button')
       .contains('Utkast')
       .click();
-    cy.get('footer button')
+    /*     cy.get('footer button')
       .contains('Endre status')
-      .click();
+      .click(); */
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
     cy.apiwait(`@statusChange`);
 
@@ -62,9 +62,9 @@ describe('Status changes', () => {
     cy.get('footer li > button')
       .contains('Til publisering')
       .click();
-    cy.get('footer button')
+    /*     cy.get('footer button')
       .contains('Endre status')
-      .click();
+      .click(); */
     cy.apiwait(`@validateDraft`);
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
     cy.apiwait(`@statusChange`);
@@ -75,9 +75,9 @@ describe('Status changes', () => {
     cy.get('footer li > button')
       .contains('Publiser')
       .click();
-    cy.get('footer button')
+    /*     cy.get('footer button')
       .contains('Endre status')
-      .click();
+      .click(); */
     cy.apiwait(`@validateDraft`);
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
     cy.apiwait(`@statusChange`);

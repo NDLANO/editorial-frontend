@@ -236,6 +236,7 @@ PreviewDraftLightbox.propTypes = {
     'preview',
     'previewLanguageArticle',
     'previewVersion',
+    'previewProductionArticle',
   ]),
   version: PropTypes.object,
 };

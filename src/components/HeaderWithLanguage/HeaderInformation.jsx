@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import css from '@emotion/css';
@@ -18,6 +18,8 @@ import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
+import Spinner from '../Spinner';
+import handleError from '../../util/handleError';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -92,25 +94,33 @@ const HeaderInformation = ({
   getArticle,
   history,
 }) => {
+  const [loading, setLoading] = useState(false);
   const onSaveAsNew = async () => {
-    if (formIsDirty) {
-      createMessage({
-        translationKey: 'form.mustSaveFirst',
-        severity: 'danger',
-      });
-    } else {
-      const article = getArticle();
-      const newArticle = await draftApi.cloneDraft(
-        article.id,
-        article.language,
-      );
-      createMessage({
-        translationKey: t('form.saveAsCopySuccess'),
-        severity: 'success',
-      });
-      history.push(
-        toEditArticle(newArticle.id, newArticle.articleType, article.language),
-      );
+    try {
+      if (formIsDirty) {
+        createMessage({
+          translationKey: 'form.mustSaveFirst',
+          severity: 'danger',
+        });
+      } else {
+        setLoading(true);
+        const article = getArticle();
+        const newArticle = await draftApi.cloneDraft(
+          article.id,
+          article.language,
+        );
+        // we don't set loading to false as the redirect will unmount this component anyway
+        history.push(
+          toEditArticle(
+            newArticle.id,
+            newArticle.articleType,
+            article.language,
+          ),
+        );
+      }
+    } catch (e) {
+      handleError(e);
+      setLoading(false);
     }
   };
 
@@ -131,6 +141,7 @@ const HeaderInformation = ({
           onClick={onSaveAsNew}
           data-testid="saveAsNew">
           {t('form.workflow.saveAsNew')}
+          {loading && <Spinner appearance="absolute" />}
         </Button>
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation

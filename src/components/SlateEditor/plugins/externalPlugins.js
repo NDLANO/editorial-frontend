@@ -1,5 +1,5 @@
 import EditList from 'ndla-slate-edit-list';
-import EditTable from 'ndla-slate-edit-table';
+import DeepTable from 'slate-deep-table';
 
 export const listTypes = ['numbered-list', 'bulleted-list', 'letter-list'];
 
@@ -10,10 +10,8 @@ export const editListPlugin = EditList({
 });
 
 const tableOptions = {
-  typeTable: 'table',
   typeRow: 'table-row',
   typeCell: 'table-cell',
-  exitBlockType: 'paragraph',
 };
 
-export const editTablePlugin = EditTable(tableOptions);
+export const editTablePlugin = DeepTable(tableOptions);

@@ -21,9 +21,10 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
     tags,
     updateArticle,
     updateArticleAndStatus,
+    loading,
   } = useFetchArticleData(articleId, selectedLanguage);
 
-  if (!article || !article.id) {
+  if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
 

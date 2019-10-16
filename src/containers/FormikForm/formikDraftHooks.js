@@ -11,13 +11,16 @@ import * as draftApi from '../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 
 export function useFetchArticleData(articleId, locale) {
-  let [article, setArticle] = useState(undefined);
-  let [tags, setTags] = useState([]);
+  const [article, setArticle] = useState(undefined);
+  const [loading, setLoading] = useState(false);
+  const [tags, setTags] = useState([]);
 
   const fetchArticle = async () => {
     if (articleId) {
+      setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
       setArticle(transformArticleFromApiVersion(article, locale));
+      setLoading(false);
     }
   };
 
@@ -54,8 +57,11 @@ export function useFetchArticleData(articleId, locale) {
 
   useEffect(() => {
     fetchArticle();
-    fetchTags();
   }, [articleId, locale]);
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
 
   return {
     tags,
@@ -63,5 +69,6 @@ export function useFetchArticleData(articleId, locale) {
     updateArticle,
     createArticle,
     updateArticleAndStatus,
+    loading,
   };
 }

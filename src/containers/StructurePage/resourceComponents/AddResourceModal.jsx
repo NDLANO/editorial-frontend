@@ -175,7 +175,6 @@ class AddResourceModal extends Component {
           this.props.type === RESOURCE_TYPE_LEARNING_PATH
             ? await this.findResourceIdLearningPath(selected)
             : getResourceIdFromPath(selected.paths[0]);
-        console.log(resourceId);
         await createTopicResource({
           resourceId,
           topicid: topicId,

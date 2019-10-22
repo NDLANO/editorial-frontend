@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import css from '@emotion/css';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
@@ -25,7 +26,8 @@ const DisplayExternalModal = ({
       }
       backgroundColor="white"
       onClose={onClose}
-      minHeight="85vh">
+      minHeight="85vh"
+      css={modalStyle}>
       {onCloseModal => (
         <Fragment>
           <ModalHeader>
@@ -48,6 +50,10 @@ const DisplayExternalModal = ({
     </Modal>
   );
 };
+
+const modalStyle = css`
+  z-index: 1000;
+`;
 
 DisplayExternalModal.propTypes = {
   src: PropTypes.string.isRequired,

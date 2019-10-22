@@ -457,15 +457,11 @@ exports[`Can paste a valid url and add it to topic 1`] = `
           <div
             class="c-article-preview__content"
           >
-            <a
-              href="/subject-matter/learning-resource/356/edit/undefined"
+            <h1
+              class="c-article-preview__title"
             >
-              <h1
-                class="c-article-preview__title"
-              >
-                Hva kan du om geologiske prosesser?
-              </h1>
-            </a>
+              Hva kan du om geologiske prosesser?
+            </h1>
             <p
               class="c-article-preview__description"
             />
@@ -1801,15 +1797,11 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           <div
             class="c-article-preview__content"
           >
-            <a
-              href="/subject-matter/learning-resource/356/edit/undefined"
+            <h1
+              class="c-article-preview__title"
             >
-              <h1
-                class="c-article-preview__title"
-              >
-                Hva kan du om geologiske prosesser?
-              </h1>
-            </a>
+              Hva kan du om geologiske prosesser?
+            </h1>
             <p
               class="c-article-preview__description"
             />

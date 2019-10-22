@@ -23,9 +23,7 @@ const ArticlePreview = ({ article, locale }) => (
       <img src={article.imageUrl || '/placeholder.png'} alt="" />
     </div>
     <div {...classes('content')}>
-      <Link to={toEditArticle(article.id, article.articleType, locale)}>
-        <h1 {...classes('title')}>{article.title}</h1>
-      </Link>
+      <h1 {...classes('title')}>{article.title}</h1>
       <p {...classes('description')}>{article.metaDescription}</p>
     </div>
   </div>

@@ -80,7 +80,11 @@ class AddResourceModal extends Component {
         const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error =
           pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
-        this.setState({ selected: { id: val }, pastedUrl: val, error });
+        this.setState({
+          selected: { id: val, paths: [val] },
+          pastedUrl: val,
+          error,
+        });
       } catch (error) {
         handleError(error);
         this.setState({ error: error.message });
@@ -171,6 +175,7 @@ class AddResourceModal extends Component {
           this.props.type === RESOURCE_TYPE_LEARNING_PATH
             ? await this.findResourceIdLearningPath(selected)
             : getResourceIdFromPath(selected.paths[0]);
+        console.log(resourceId);
         await createTopicResource({
           resourceId,
           topicid: topicId,

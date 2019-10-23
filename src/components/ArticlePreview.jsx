@@ -8,9 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import BEMHelper from 'react-bem-helper';
-import { toEditArticle } from '../util/routeHelpers';
 
 const classes = new BEMHelper({
   name: 'article-preview',
@@ -23,9 +21,7 @@ const ArticlePreview = ({ article, locale }) => (
       <img src={article.imageUrl || '/placeholder.png'} alt="" />
     </div>
     <div {...classes('content')}>
-      <Link to={toEditArticle(article.id, article.articleType, locale)}>
-        <h1 {...classes('title')}>{article.title}</h1>
-      </Link>
+      <h1 {...classes('title')}>{article.title}</h1>
       <p {...classes('description')}>{article.metaDescription}</p>
     </div>
   </div>

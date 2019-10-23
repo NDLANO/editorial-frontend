@@ -104,14 +104,14 @@ const VersionAndNotesPanel = ({
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = async (version, showFromArticleApi) => {
+  const resetVersion = async (version, language, showFromArticleApi) => {
     try {
       let article = version;
       if (showFromArticleApi) {
         article = await articleApi.getArticle(article.id, article.language);
       }
       const newValues = getInitialValues(
-        transformArticleFromApiVersion(article, article.language),
+        transformArticleFromApiVersion(article, language),
       );
 
       setValues(newValues);
@@ -163,9 +163,7 @@ const VersionAndNotesPanel = ({
                           showFromArticleApi={showFromArticleApi}
                           current={isLatestVersion}
                           version={version}
-                          resetVersion={version =>
-                            resetVersion(version, showFromArticleApi)
-                          }
+                          resetVersion={resetVersion}
                           article={article}
                           getArticle={getArticle}
                         />

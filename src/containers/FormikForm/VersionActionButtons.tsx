@@ -11,7 +11,11 @@ interface Props {
   showFromArticleApi: boolean;
   article: ArticleType;
   getArticle: VoidFunction;
-  resetVersion: (version: ArticleType) => void;
+  resetVersion: (
+    version: ArticleType,
+    language: string,
+    showFromArticleApi: boolean,
+  ) => void;
   version: ArticleType;
   t: TranslateType;
   current: boolean;
@@ -54,7 +58,9 @@ const VersionActionButtons: React.FC<Props> = ({
         <StyledAccordionsPanelIconButton
           type="button"
           data-testid="resetToVersion"
-          onClick={() => resetVersion(version)}>
+          onClick={() =>
+            resetVersion(version, article.language, showFromArticleApi)
+          }>
           <Restore />
         </StyledAccordionsPanelIconButton>
       </Tooltip>

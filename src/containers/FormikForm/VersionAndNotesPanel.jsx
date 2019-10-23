@@ -111,7 +111,10 @@ const VersionAndNotesPanel = ({
         article = await articleApi.getArticle(article.id, article.language);
       }
       const newValues = getInitialValues(
-        transformArticleFromApiVersion(article, language),
+        transformArticleFromApiVersion(
+          { ...article, status: version.status },
+          language,
+        ),
       );
 
       setValues(newValues);

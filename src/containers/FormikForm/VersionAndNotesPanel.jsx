@@ -92,7 +92,8 @@ const VersionAndNotesPanel = ({
 
   useEffect(() => {
     if (versions.length) {
-      getUsersFromNotes(versions[0].notes, setUsers);
+      const notes = versions.reduce((acc, v) => [...acc, ...v.notes], []);
+      getUsersFromNotes(notes, setUsers);
     }
   }, [versions]);
 

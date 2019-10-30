@@ -15,7 +15,8 @@ export const restructureFilmFrontpage = filmFrontpage => {
 
 const convertVisualElement = about => {
   const { visualElement } = about;
-  const splittedUrl = visualElement.url.split('/');
+  const splitter = visualElement.type === 'brightcove' ? '=' : '/';
+  const splittedUrl = visualElement.url.split(splitter);
   const lastElement = splittedUrl.pop();
   const newVisualElement = {
     alt: visualElement.alt,

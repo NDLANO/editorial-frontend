@@ -12,6 +12,7 @@ import { validateDraft } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
+import { isFormikFormDirty } from '../../util/formHelper';
 
 export function useArticleFormHooks({
   getInitialValues,
@@ -19,7 +20,7 @@ export function useArticleFormHooks({
   t,
   createMessage,
   articleStatus,
-  onUpdate,
+  updateArticle,
   applicationError,
   updateArticleAndStatus,
   licenses,
@@ -44,8 +45,8 @@ export function useArticleFormHooks({
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status.current;
     const statusChange = initialStatus !== newStatus;
-
     const newArticle = getArticleFromSlate({ values, initialValues, licenses });
+
     if (
       (!statusChange &&
         initialStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
@@ -74,15 +75,25 @@ export function useArticleFormHooks({
 
     try {
       if (statusChange) {
-        await updateArticleAndStatus(
-          {
+        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
+        const skipSaving =
+          newStatus === articleStatuses.UNPUBLISHED ||
+          !isFormikFormDirty({
+            values,
+            initialValues,
+            dirty: true,
+            type: article.articleType,
+          });
+        await updateArticleAndStatus({
+          updatedArticle: {
             ...newArticle,
             revision,
           },
           newStatus,
-        );
+          dirty: !skipSaving,
+        });
       } else {
-        await onUpdate({
+        await updateArticle({
           ...newArticle,
           revision,
         });

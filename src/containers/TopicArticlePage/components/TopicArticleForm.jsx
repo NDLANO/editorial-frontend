@@ -149,7 +149,7 @@ const TopicArticleForm = props => {
     handleSubmit,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, onUpdate, licenses, ...rest } = props;
+  const { t, article, updateArticle, licenses, ...rest } = props;
   return (
     <Formik
       initialValues={initialValues}
@@ -190,7 +190,7 @@ const TopicArticleForm = props => {
             <TopicArticleAccordionPanels
               values={values}
               errors={errors}
-              updateNotes={onUpdate}
+              updateNotes={updateArticle}
               article={article}
               touched={touched}
               formIsDirty={formIsDirty}
@@ -228,7 +228,7 @@ const TopicArticleForm = props => {
 TopicArticleForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
-  onUpdate: PropTypes.func.isRequired,
+  updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
   articleStatus: PropTypes.shape({

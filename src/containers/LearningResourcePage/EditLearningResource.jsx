@@ -18,13 +18,10 @@ import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import Spinner from '../../components/Spinner';
 
 const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
-  const {
-    article,
-    tags,
-    updateArticle,
-    updateArticleAndStatus,
-    loading,
-  } = useFetchArticleData(articleId, selectedLanguage);
+  const { loading, article, ...articleHooks } = useFetchArticleData(
+    articleId,
+    selectedLanguage,
+  );
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
@@ -44,11 +41,9 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
       <LearningResourceForm
         article={article}
         revision={article.revision}
-        tags={tags}
         articleStatus={article.status}
-        onUpdate={updateArticle}
-        updateArticleAndStatus={updateArticleAndStatus}
         {...rest}
+        {...articleHooks}
       />
     </Fragment>
   );

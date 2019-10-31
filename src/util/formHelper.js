@@ -30,7 +30,7 @@ export const parseCopyrightContributors = (obj, contributorType) => {
 const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   if (currentValue.length !== initialContent.length) return true;
   const toHTMLFunction =
-    type === 'learningResource'
+    type === 'standard'
       ? learningResourceContentToHTML
       : topicArticleContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
@@ -59,14 +59,14 @@ export const isFormikFormDirty = ({
     'conceptContent',
   ];
   // and skipping fields that only changes on the server
-  const skipFields = ['revision', 'updated', 'updatePublished', 'id'];
+  const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
   const dirtyFields = [];
   Object.keys(values)
     .filter(field => !skipFields.includes(field))
-    .forEach(dirtyValue => {
-      const currentValue = values[dirtyValue];
-      if (slateFields.includes(dirtyValue)) {
-        if (dirtyValue === 'content') {
+    .forEach(value => {
+      const currentValue = values[value];
+      if (slateFields.includes(value)) {
+        if (value === 'content') {
           if (
             checkIfContentHasChanged({
               currentValue,
@@ -74,15 +74,15 @@ export const isFormikFormDirty = ({
               type,
             })
           ) {
-            dirtyFields.push(dirtyValue);
+            dirtyFields.push(value);
           }
         } else if (
-          !isEqual(currentValue.toJSON(), initialValues[dirtyValue].toJSON())
+          !isEqual(currentValue.toJSON(), initialValues[value].toJSON())
         ) {
-          dirtyFields.push(dirtyValue);
+          dirtyFields.push(value);
         }
-      } else if (!isEqual(currentValue, initialValues[dirtyValue])) {
-        dirtyFields.push(dirtyValue);
+      } else if (!isEqual(currentValue, initialValues[value])) {
+        dirtyFields.push(value);
       }
     });
   return dirtyFields.length > 0;

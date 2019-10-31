@@ -47,7 +47,7 @@ test('util/formHelper isFormDirty is false', () => {
       dirty: true,
       values,
       initialValues,
-      type: 'learningResource',
+      type: 'standard',
     }),
   ).toBe(false);
 });
@@ -67,7 +67,7 @@ test('util/formHelper isFormikFormDirty content sections is removed', () => {
       dirty: true,
       values,
       initialValues,
-      type: 'learningResource',
+      type: 'standard',
     }),
   ).toBe(true);
 });

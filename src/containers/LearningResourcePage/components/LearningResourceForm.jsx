@@ -128,7 +128,7 @@ const LearningResourceForm = props => {
     handleSubmit,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, onUpdate, licenses, ...rest } = props;
+  const { t, article, updateArticle, licenses, ...rest } = props;
   return (
     <Formik
       initialValues={initialValues}
@@ -149,7 +149,7 @@ const LearningResourceForm = props => {
           values,
           initialValues,
           dirty,
-          type: 'learningResource',
+          type: article.articleType,
         });
         const getArticle = preview =>
           getArticleFromSlate({ values, initialValues, licenses, preview });
@@ -170,7 +170,7 @@ const LearningResourceForm = props => {
               errors={errors}
               article={article}
               touched={touched}
-              updateNotes={onUpdate}
+              updateNotes={updateArticle}
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
               setValues={setValues}
@@ -206,7 +206,7 @@ LearningResourceForm.propTypes = {
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
-  onUpdate: PropTypes.func.isRequired,
+  updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,

@@ -35,7 +35,7 @@ const CreateTopicArticle = props => {
         article={{ language: locale }}
         staticArticle={{ notes: [] }}
         locale={locale}
-        onUpdate={createArticleAndPushRoute}
+        updateArticle={createArticleAndPushRoute}
         tags={tags}
         {...rest}
       />

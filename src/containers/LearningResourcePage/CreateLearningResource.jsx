@@ -34,7 +34,7 @@ const CreateLearningResource = ({ locale, t, history, ...rest }) => {
       <LearningResourceForm
         article={{ language: locale }}
         tags={tags}
-        onUpdate={createArticleAndPushRoute}
+        updateArticle={createArticleAndPushRoute}
         {...rest}
       />
     </Fragment>

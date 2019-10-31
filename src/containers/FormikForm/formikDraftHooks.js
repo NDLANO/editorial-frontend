@@ -30,14 +30,22 @@ export function useFetchArticleData(articleId, locale) {
     return savedArticle;
   };
 
-  const updateArticleAndStatus = async (updatedArticle, newStatus) => {
-    const savedArticle = await draftApi.updateDraft(updatedArticle);
+  const updateArticleAndStatus = async ({
+    updatedArticle,
+    newStatus,
+    dirty,
+  }) => {
+    let newArticle = updatedArticle;
+    if (dirty) {
+      const savedArticle = await draftApi.updateDraft(updatedArticle);
+      newArticle = transformArticleFromApiVersion(savedArticle, locale);
+    }
     const statusChangedDraft = await draftApi.updateStatusDraft(
       updatedArticle.id,
       newStatus,
     );
     setArticle({
-      ...transformArticleFromApiVersion(savedArticle, locale),
+      ...newArticle,
       notes: statusChangedDraft.notes,
       status: statusChangedDraft.status,
       revision: statusChangedDraft.revision,

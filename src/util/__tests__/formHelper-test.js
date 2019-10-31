@@ -67,7 +67,6 @@ test('util/formHelper isFormikFormDirty content sections is removed', () => {
       dirty: true,
       values,
       initialValues,
-      type: 'standard',
     }),
   ).toBe(true);
 });

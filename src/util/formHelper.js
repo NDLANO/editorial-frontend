@@ -42,12 +42,7 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   return false;
 };
 
-export const isFormikFormDirty = ({
-  values,
-  initialValues,
-  dirty = false,
-  type,
-}) => {
+export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   if (!dirty) {
     return false;
   }
@@ -71,7 +66,7 @@ export const isFormikFormDirty = ({
             checkIfContentHasChanged({
               currentValue,
               initialContent: initialValues.content,
-              type,
+              type: initialValues.articleType,
             })
           ) {
             dirtyFields.push(value);

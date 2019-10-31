@@ -149,7 +149,6 @@ const LearningResourceForm = props => {
           values,
           initialValues,
           dirty,
-          type: article.articleType,
         });
         const getArticle = preview =>
           getArticleFromSlate({ values, initialValues, licenses, preview });

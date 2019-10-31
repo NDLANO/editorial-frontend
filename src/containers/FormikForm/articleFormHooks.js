@@ -88,7 +88,6 @@ export function useArticleFormHooks({
             values,
             initialValues,
             dirty: true,
-            type: article.articleType,
           });
         await updateArticleAndStatus({
           updatedArticle: {

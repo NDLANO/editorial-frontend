@@ -12,6 +12,30 @@ import { validateDraft } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
+import { isFormikFormDirty } from '../../util/formHelper';
+
+const handleValidation = async ({
+  statusChange,
+  initialStatus,
+  newStatus,
+  values,
+  newArticle,
+  revision,
+}) => {
+  if (
+    (!statusChange &&
+      initialStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
+    (!statusChange && initialStatus === articleStatuses.QUALITY_ASSURED) ||
+    (statusChange && newStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
+    (statusChange && newStatus === articleStatuses.QUALITY_ASSURED) ||
+    (statusChange && newStatus === articleStatuses.PUBLISHED)
+  ) {
+    return validateDraft(values.id, {
+      ...newArticle,
+      revision,
+    });
+  }
+};
 
 export function useArticleFormHooks({
   getInitialValues,
@@ -19,7 +43,7 @@ export function useArticleFormHooks({
   t,
   createMessage,
   articleStatus,
-  onUpdate,
+  updateArticle,
   applicationError,
   updateArticleAndStatus,
   licenses,
@@ -44,49 +68,42 @@ export function useArticleFormHooks({
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status.current;
     const statusChange = initialStatus !== newStatus;
-
     const newArticle = getArticleFromSlate({ values, initialValues, licenses });
-    if (
-      (!statusChange &&
-        initialStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
-      (!statusChange && initialStatus === articleStatuses.QUALITY_ASSURED) ||
-      (statusChange && newStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
-      (statusChange && newStatus === articleStatuses.QUALITY_ASSURED) ||
-      (statusChange && newStatus === articleStatuses.PUBLISHED)
-    ) {
-      try {
-        await validateDraft(values.id, {
-          ...newArticle,
-          revision,
-        });
-      } catch (error) {
-        actions.setSubmitting(false);
-        if (error && error.json && error.json.messages) {
-          createMessage(formatErrorMessage(error));
-        }
-        if (statusChange) {
-          // if validation failed we need to set status back so it won't be saved as new status on next save
-          actions.setFieldValue('status', { current: initialStatus });
-        }
-        return;
-      }
-    }
 
     try {
+      await handleValidation({
+        statusChange,
+        initialStatus,
+        newStatus,
+        values,
+        newArticle,
+        revision,
+      });
+
       if (statusChange) {
-        await updateArticleAndStatus(
-          {
+        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
+        const skipSaving =
+          newStatus === articleStatuses.UNPUBLISHED ||
+          !isFormikFormDirty({
+            values,
+            initialValues,
+            dirty: true,
+          });
+        await updateArticleAndStatus({
+          updatedArticle: {
             ...newArticle,
             revision,
           },
           newStatus,
-        );
+          dirty: !skipSaving,
+        });
       } else {
-        await onUpdate({
+        await updateArticle({
           ...newArticle,
           revision,
         });
       }
+
       if (
         article.articleType === 'topic-article' &&
         article.title !== newArticle.title
@@ -100,12 +117,21 @@ export function useArticleFormHooks({
           }),
         );
       }
+
       setSavedToServer(true);
       actions.resetForm();
       actions.setFieldValue('notes', [], false);
     } catch (err) {
-      applicationError(err);
+      if (err && err.json && err.json.messages) {
+        createMessage(formatErrorMessage(err));
+      } else {
+        applicationError(err);
+      }
       actions.setSubmitting(false);
+      if (statusChange) {
+        // if validation failed we need to set status back so it won't be saved as new status on next save
+        actions.setFieldValue('status', { current: initialStatus });
+      }
       setSavedToServer(false);
     }
   };

@@ -31,6 +31,7 @@ test('util/formHelper isFormikFormDirty is true', () => {
 
 test('util/formHelper isFormDirty is false', () => {
   const initialValues = {
+    articleType: 'standard',
     content: [
       Value.fromJSON(valueWithTwoImageEmbeds),
       Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
@@ -47,13 +48,13 @@ test('util/formHelper isFormDirty is false', () => {
       dirty: true,
       values,
       initialValues,
-      type: 'learningResource',
     }),
   ).toBe(false);
 });
 
 test('util/formHelper isFormikFormDirty content sections is removed', () => {
   const initialValues = {
+    articleType: 'standard',
     content: [
       Value.fromJSON(valueWithTwoImageEmbeds),
       Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
@@ -67,7 +68,6 @@ test('util/formHelper isFormikFormDirty content sections is removed', () => {
       dirty: true,
       values,
       initialValues,
-      type: 'learningResource',
     }),
   ).toBe(true);
 });

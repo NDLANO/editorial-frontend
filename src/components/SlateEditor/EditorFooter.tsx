@@ -25,6 +25,7 @@ interface Props {
   savedToServer: boolean;
   values: any;
   error: string;
+  errors: any;
   getArticle: () => Article;
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
@@ -60,6 +61,7 @@ const EditorFooter: React.FC<Props> = ({
   submitForm,
   showSimpleFooter,
   setFieldValue,
+  errors,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   useEffect(() => {
@@ -73,6 +75,7 @@ const EditorFooter: React.FC<Props> = ({
       formIsDirty={formIsDirty}
       large
       showSaved={savedToServer && !formIsDirty}
+      disabled={Object.keys(errors).length > 0}
     />
   );
 

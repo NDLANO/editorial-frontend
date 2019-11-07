@@ -55,6 +55,7 @@ class RichBlockTextEditor extends PureComponent {
       renderMark,
       renderBlock,
       submitted,
+      onBlur,
     } = this.props;
     return (
       <article>
@@ -76,6 +77,7 @@ class RichBlockTextEditor extends PureComponent {
               id={name}
               name={name}
               index={index}
+              onBlur={onBlur}
               data-cy={this.props['data-cy']}
               placeholder={placeholder}
               plugins={plugins}
@@ -109,6 +111,7 @@ RichBlockTextEditor.propTypes = {
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
 };
 
 export default RichBlockTextEditor;

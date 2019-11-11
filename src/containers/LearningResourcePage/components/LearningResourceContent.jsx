@@ -201,7 +201,6 @@ class LearningResourceContent extends Component {
                 placeholder={t('form.content.placeholder')}
                 data-cy="learning-resource-content"
                 plugins={this.plugins}
-                i
                 setFieldValue={setFieldValue}
                 value={value}
                 name={name}

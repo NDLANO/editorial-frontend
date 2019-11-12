@@ -18,6 +18,7 @@ import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { searchArticles } from '../../../../modules/article/articleApi';
+import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
 import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
@@ -107,7 +108,7 @@ export class RelatedArticleBox extends React.Component {
     const { locale } = this.props;
     try {
       const [article, resource] = await Promise.all([
-        searchArticles(id, locale),
+        fetchDraft(id, locale),
         queryResources(id, locale),
       ]);
       if (article) {

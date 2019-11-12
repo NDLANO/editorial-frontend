@@ -46,7 +46,9 @@ const StyledNavigationWrapper = styled.div`
   left: 0;
   right: 0;
   padding: ${spacing.xsmall};
-  background: ${config.ndlaEnvironment === 'ff' ? colors.brand.accent : '#fff'};
+  background: ${config.ndlaEnvironment === 'test'
+    ? colors.brand.accent
+    : '#fff'};
 `;
 
 const StyledHeaderItems = styled.div`

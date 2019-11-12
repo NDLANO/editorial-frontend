@@ -120,7 +120,18 @@ export const uploadFile = formData =>
   }).then(resolveJsonOrRejectWithError);
 
 export const searchDrafts = query =>
-  fetchAuthorized(`${baseUrl}/search`, {
+  fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);
+
+export const searchRelatedDrafts = async (query, locale, contentType) => {
+  const params = {
+    query: query,
+    articleTypes: contentType,
+    language: locale,
+  };
+  const response = await searchDrafts(params);
+
+  return response.results;
+};

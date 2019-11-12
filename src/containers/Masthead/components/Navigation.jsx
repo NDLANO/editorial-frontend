@@ -21,6 +21,7 @@ import MastheadSearch from '../MastheadSearch';
 import SessionContainer from './SessionContainer';
 import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
+import config from '../../../config';
 
 export const classes = new BEMHelper({
   name: 'navigation',
@@ -45,7 +46,7 @@ const StyledNavigationWrapper = styled.div`
   left: 0;
   right: 0;
   padding: ${spacing.xsmall};
-  background: #fff;
+  background: ${config.ndlaEnvironment === 'ff' ? colors.brand.accent : '#fff'};
 `;
 
 const StyledHeaderItems = styled.div`

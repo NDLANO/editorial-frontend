@@ -143,16 +143,10 @@ function topicResourcesByTypeWithMetaData(resorceTypesByTopic) {
 
 function groupSortResourceTypesFromTopicResources(
   resourceTypes,
-  coreTopicResources,
-  supplementaryTopicResources,
+  topicResources,
 ) {
-  const groupedResourceTypes = groupRelevanceResourceTypes(
-    coreTopicResources,
-    supplementaryTopicResources,
-  );
-
   const sortedResourceTypes = getResourcesGroupedByResourceTypes(
-    groupedResourceTypes,
+    topicResources,
   );
 
   const resorceTypesByTopic = getTopicResourcesByType(

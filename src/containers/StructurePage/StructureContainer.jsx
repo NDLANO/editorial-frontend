@@ -71,6 +71,7 @@ export class StructureContainer extends React.PureComponent {
     this.refreshTopics = this.refreshTopics.bind(this);
     this.toggleStructure = this.toggleStructure.bind(this);
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   async componentDidMount() {
@@ -295,6 +296,37 @@ export class StructureContainer extends React.PureComponent {
     history.push(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
   }
 
+  async onDragEnd({ draggableId, source, destination }) {
+    if (!destination) {
+      return;
+    }
+    const {
+      match: { params },
+    } = this.props;
+    const currentSubject = this.state.subjects.find(
+      sub => sub.id === params.subject,
+    );
+    const currentTopic = getCurrentTopic({
+      params,
+      subject: currentSubject,
+    });
+    const topics = currentTopic.subtopics || currentSubject.topics;
+    const currentRank = topics[source.index].rank;
+    const destinationRank = topics[destination.index].rank;
+    const newRank =
+      currentRank > destinationRank ? destinationRank : destinationRank + 1;
+    if (draggableId.includes('topic-subtopic')) {
+      if (currentRank === destinationRank) return;
+      await updateTopicSubtopic(draggableId, {
+        rank: newRank,
+      });
+    } else {
+      if (currentRank === destinationRank) return;
+      await updateSubjectTopic(draggableId, { rank: newRank });
+    }
+    this.refreshTopics();
+  }
+
   render() {
     const { match, t, locale, userAccess } = this.props;
     const {
@@ -337,6 +369,8 @@ export class StructureContainer extends React.PureComponent {
             hidden={editStructureHidden}>
             <div id="plumbContainer">
               <Structure
+                DND
+                onDragEnd={this.onDragEnd}
                 openedPaths={getPathsFromUrl(match.url)}
                 structure={subjects}
                 filters={filters}

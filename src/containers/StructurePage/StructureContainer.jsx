@@ -306,6 +306,7 @@ export class StructureContainer extends React.PureComponent {
     const currentSubject = this.state.subjects.find(
       sub => sub.id === params.subject,
     );
+
     const currentTopic = getCurrentTopic({
       params,
       subject: currentSubject,
@@ -315,13 +316,14 @@ export class StructureContainer extends React.PureComponent {
     const destinationRank = topics[destination.index].rank;
     const newRank =
       currentRank > destinationRank ? destinationRank : destinationRank + 1;
+    if (currentRank === destinationRank) return;
+    this.saveSubjectItems(params.subject, { loading: true });
+
     if (draggableId.includes('topic-subtopic')) {
-      if (currentRank === destinationRank) return;
       await updateTopicSubtopic(draggableId, {
         rank: newRank,
       });
     } else {
-      if (currentRank === destinationRank) return;
       await updateSubjectTopic(draggableId, { rank: newRank });
     }
     this.refreshTopics();

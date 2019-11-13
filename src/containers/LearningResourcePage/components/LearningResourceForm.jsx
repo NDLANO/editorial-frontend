@@ -132,8 +132,8 @@ const LearningResourceForm = props => {
   return (
     <Formik
       initialValues={initialValues}
-      validateOnChange={false}
       ref={formikRef}
+      validateOnBlur={false}
       onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>
       {({

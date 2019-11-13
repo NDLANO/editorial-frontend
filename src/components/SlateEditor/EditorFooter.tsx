@@ -12,19 +12,22 @@ import { injectT } from '@ndla/i18n';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
+
 import { toPreviewDraft } from '../../util/routeHelpers';
 import SaveButton from '../../components/SaveButton';
-import { Article, PossibleStatuses } from './editorTypes';
+import { Article, PossibleStatuses, Values } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
+import { TranslateType } from '../../interfaces';
 
 interface Props {
-  t: any;
+  t: TranslateType;
   isSubmitting: boolean;
   formIsDirty: boolean;
   savedToServer: boolean;
-  values: any;
+  values: Values;
   error: string;
+  errors: Object;
   getArticle: () => Article;
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
@@ -60,6 +63,7 @@ const EditorFooter: React.FC<Props> = ({
   submitForm,
   showSimpleFooter,
   setFieldValue,
+  errors,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   useEffect(() => {
@@ -73,6 +77,7 @@ const EditorFooter: React.FC<Props> = ({
       formIsDirty={formIsDirty}
       large
       showSaved={savedToServer && !formIsDirty}
+      disabled={Object.keys(errors).length > 0}
     />
   );
 

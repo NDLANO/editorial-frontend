@@ -34,8 +34,7 @@ class SlateImage extends React.Component {
   }
 
   constructFigureClassName() {
-    const { embed, isSelectedForCopy, active } = this.props;
-    const { editModus } = this.state;
+    const { embed } = this.props;
     const isFullWidth = embed.size === 'fullwidth';
 
     const size = ['small', 'xsmall'].includes(embed.size)
@@ -46,12 +45,9 @@ class SlateImage extends React.Component {
       ? `-${embed.align}`
       : '';
 
-    const copyString =
-      isSelectedForCopy && (!editModus || !active) ? 'isSelectedForCopy' : '';
-
     const figureClassNames = `c-figure ${
       !isFullWidth ? `u-float${size}${align}` : ''
-    } ${copyString}`;
+    }`;
 
     return figureClassNames;
   }
@@ -85,8 +81,14 @@ class SlateImage extends React.Component {
 
     const figureClassNames = this.constructFigureClassName();
 
+    const showCopyOutline = isSelectedForCopy && (!editModus || !active);
+
     return (
-      <div {...attributes} draggable="true" className={figureClassNames}>
+      <div
+        {...attributes}
+        draggable={!visualElement && !editModus}
+        className={figureClassNames}
+        css={!embed.alt && { border: '2px solid rgba(209,55,46,0.3);' }}>
         <FigureButtons
           tooltip={t('form.image.removeImage')}
           onRemoveClick={onRemoveClick}
@@ -111,6 +113,11 @@ class SlateImage extends React.Component {
                 src={src}
                 alt={embed.alt}
                 srcSet={getSrcSets(embed.resource_id, transformData)}
+                css={
+                  showCopyOutline && {
+                    boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+                  }
+                }
               />
               <figcaption className="c-figure__caption">
                 <div className="c-figure__info">{embed.caption}</div>

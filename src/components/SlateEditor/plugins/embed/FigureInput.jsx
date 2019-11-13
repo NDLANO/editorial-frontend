@@ -54,7 +54,7 @@ function FigureInput({
         <Button onClick={onAbort} outline>
           {t('form.abort')}
         </Button>
-        <Button disabled={!madeChanges} onClick={onSave}>
+        <Button disabled={!madeChanges || isEmpty(alt)} onClick={onSave}>
           {t('form.image.save')}
         </Button>
       </StyledButtonWrapper>

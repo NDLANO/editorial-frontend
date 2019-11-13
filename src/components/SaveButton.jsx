@@ -53,6 +53,7 @@ const SaveButton = ({
   defaultText,
   formIsDirty,
   large,
+  disabled,
   ...rest
 }) => {
   const getModifier = () => {
@@ -64,7 +65,7 @@ const SaveButton = ({
   const modifier = getModifier();
   return (
     <Button
-      disabled={isSaving || !formIsDirty}
+      disabled={isSaving || !formIsDirty || disabled}
       submit
       css={css`
         ${large ? largerButtonStyle : ''}
@@ -85,6 +86,7 @@ SaveButton.propTypes = {
   defaultText: string,
   formIsDirty: bool,
   large: bool,
+  disabled: bool,
 };
 
 SaveButton.defaultProps = {

@@ -149,6 +149,7 @@ class LearningResourceContent extends Component {
       userAccess,
       formik: {
         setFieldValue,
+        handleBlur,
         values: { id, language, creators, published },
       },
     } = this.props;
@@ -181,7 +182,7 @@ class LearningResourceContent extends Component {
           label={t('form.content.label')}
           noBorder
           className={formikFieldClasses('', 'position-static').className}>
-          {({ field, form: { isSubmitting } }) => (
+          {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
             <Fragment>
               <FieldHeader title={t('form.content.label')}>
                 {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
@@ -198,15 +199,26 @@ class LearningResourceContent extends Component {
                 submitted={isSubmitting}
                 renderMark={renderMark}
                 placeholder={t('form.content.placeholder')}
-                name="content"
                 data-cy="learning-resource-content"
                 plugins={this.plugins}
                 setFieldValue={setFieldValue}
-                {...field}
+                value={value}
+                name={name}
+                onChange={onChange}
+                onBlur={(event, editor, next) => {
+                  next();
+                  // this is a hack since formik onBlur-handler interferes with slates
+                  // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                  // formik handleBlur needs to be called for validation to work (and touched to be set)
+                  setTimeout(
+                    () => handleBlur({ target: { name: 'content' } }),
+                    0,
+                  );
+                }}
               />
               <LearningResourceFootnotes
                 t={t}
-                footnotes={findFootnotes(field.value)}
+                footnotes={findFootnotes(value)}
               />
             </Fragment>
           )}
@@ -220,6 +232,8 @@ LearningResourceContent.propTypes = {
   locale: PropTypes.string.isRequired,
   userAccess: PropTypes.string,
   formik: PropTypes.shape({
+    validateField: PropTypes.func.isRequired,
+    handleBlur: PropTypes.func.isRequired,
     values: PropTypes.shape({
       id: PropTypes.number,
       published: PropTypes.string,

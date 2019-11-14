@@ -7,10 +7,7 @@
  */
 
 import defined from 'defined';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../constants';
+
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
 const sortByName = (a, b) => {
@@ -91,22 +88,6 @@ function sortIntoCreateDeleteUpdate({
   });
 
   return [createItems, deleteItems, updateItems];
-}
-
-function groupRelevanceResourceTypes(
-  coreResourceTypes,
-  supplementaryResourceTypes,
-) {
-  return [
-    ...coreResourceTypes.map(resource => ({
-      ...resource,
-      relevance: RESOURCE_FILTER_CORE,
-    })),
-    ...supplementaryResourceTypes.map(resource => ({
-      ...resource,
-      relevance: RESOURCE_FILTER_SUPPLEMENTARY,
-    })),
-  ];
 }
 
 // Same structuring used from ndla-frontend

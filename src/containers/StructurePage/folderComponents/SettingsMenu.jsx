@@ -59,7 +59,7 @@ class SettingsMenu extends React.Component {
         </Button>
         {open && (
           <Fragment>
-            <Overlay onExit={this.toggleOpenMenu} />
+            <Overlay modifiers={['zIndex']} onExit={this.toggleOpenMenu} />
             <SettingsMenuDropdown
               onClose={this.toggleOpenMenu}
               {...this.props}

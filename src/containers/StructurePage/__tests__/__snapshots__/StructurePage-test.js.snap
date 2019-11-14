@@ -104,12 +104,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-122 {
+.emotion-6 {
   margin: 0;
   padding: 0;
 }
 
-.emotion-412 {
+.emotion-146 {
+  -webkit-animation-duration: 200ms;
+  animation-duration: 200ms;
+  -webkit-animation-name: fadeInTop;
+  animation-name: fadeInTop;
+}
+
+.emotion-268 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -127,8 +134,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0.6rem 0;
 }
 
-.emotion-412,
-.emotion-412:hover {
+.emotion-268,
+.emotion-268:hover {
   padding: 0;
   color: white;
   height: 50px;
@@ -136,7 +143,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: 1px solid #eff0f2;
 }
 
-.emotion-404 {
+.emotion-260 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -183,8 +190,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0.6rem 0;
 }
 
-.emotion-404:hover,
-.emotion-404:focus {
+.emotion-260:hover,
+.emotion-260:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -193,13 +200,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-404:active {
+.emotion-260:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-404[disabled] {
+.emotion-260[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -209,14 +216,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-404:focus {
+.emotion-260:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-404:hover,
-.emotion-404:active,
-.emotion-404:disabled,
-.emotion-404:focus {
+.emotion-260:hover,
+.emotion-260:active,
+.emotion-260:disabled,
+.emotion-260:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -226,12 +233,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-404:focus {
+.emotion-260:focus {
   outline-width: medium;
 }
 
-.emotion-404,
-.emotion-404:hover {
+.emotion-260,
+.emotion-260:hover {
   padding: 0;
   color: white;
   height: 50px;
@@ -239,7 +246,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: 1px solid #eff0f2;
 }
 
-.emotion-6 {
+.emotion-8 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -251,11 +258,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-6 > ul {
-  display: none;
-}
-
-.emotion-6 > div > button {
+.emotion-8 > div > button {
   color: rgb(32,88,143,0.5);
 }
 
@@ -318,27 +321,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( 0deg );
 }
 
-.emotion-214 {
-  margin: 0;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-214 > ul {
-  display: none;
-}
-
-.emotion-214 > ul {
-  display: block;
-}
-
-.emotion-68 {
+.emotion-90 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -359,7 +342,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-68:before {
+.emotion-90:before {
   content: '';
   display: block;
   width: 0;
@@ -370,7 +353,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-68:before {
+.emotion-90:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -379,131 +362,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( 90deg );
 }
 
-.emotion-74 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-74 > button {
-  outline: none;
-}
-
-.emotion-72 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  box-shadow: none;
-  text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-}
-
-.emotion-72:hover,
-.emotion-72:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-72:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
-}
-
-.emotion-72[disabled] {
-  color: #777777;
-  background-color: #e6e6e6;
-  border-color: transparent;
-  cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
-}
-
-.emotion-72:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
-.emotion-72:hover,
-.emotion-72:active,
-.emotion-72:disabled,
-.emotion-72:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
-  border: none;
-}
-
-.emotion-72:focus {
-  outline-width: medium;
-}
-
-.emotion-70 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 28px;
-  width: 28px;
-  border-radius: 50%;
-  border: 1px solid;
-  line-height: normal;
-  background-color: white;
-  margin: 0 calc(13px / 2);
-}
-
-.emotion-70 > svg {
-  height: 20px;
-  width: 20px;
-}
-
-.emotion-70:hover,
-.emotion-70:focus {
-  background-color: #4d4d4d;
-  color: #f8f8f8;
-}
-
-.emotion-78 {
+.emotion-94 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -511,7 +370,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: auto;
 }
 
-.emotion-76 {
+.emotion-92 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.2 font-weight:600;
@@ -530,7 +389,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   white-space: nowrap;
 }
 
-.emotion-406 {
+.emotion-262 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -566,8 +425,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   text-align: left;
 }
 
-.emotion-406:hover,
-.emotion-406:focus {
+.emotion-262:hover,
+.emotion-262:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -576,13 +435,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-406:active {
+.emotion-262:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-406[disabled] {
+.emotion-262[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -592,14 +451,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-406:focus {
+.emotion-262:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-406:hover,
-.emotion-406:active,
-.emotion-406:disabled,
-.emotion-406:focus {
+.emotion-262:hover,
+.emotion-262:active,
+.emotion-262:disabled,
+.emotion-262:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -609,11 +468,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-406:focus {
+.emotion-262:focus {
   outline-width: medium;
 }
 
-.emotion-408 {
+.emotion-264 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -645,8 +504,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   font-weight: 400;
 }
 
-.emotion-408:hover,
-.emotion-408:focus {
+.emotion-264:hover,
+.emotion-264:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -655,13 +514,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-408:active {
+.emotion-264:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-408[disabled] {
+.emotion-264[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -671,14 +530,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-408:focus {
+.emotion-264:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-408:hover,
-.emotion-408:active,
-.emotion-408:disabled,
-.emotion-408:focus {
+.emotion-264:hover,
+.emotion-264:active,
+.emotion-264:disabled,
+.emotion-264:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -688,13 +547,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-408:focus {
+.emotion-264:focus {
   outline-width: medium;
 }
 
-.emotion-408,
-.emotion-408:hover,
-.emotion-408:focus {
+.emotion-264,
+.emotion-264:hover,
+.emotion-264:focus {
   white-space: nowrap;
   color: #777777;
   font-size: 1.2rem;
@@ -705,7 +564,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   height: 100%;
 }
 
-.emotion-410 {
+.emotion-266 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -743,8 +602,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   width: 50px;
 }
 
-.emotion-410:hover,
-.emotion-410:focus {
+.emotion-266:hover,
+.emotion-266:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -753,13 +612,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-410:active {
+.emotion-266:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-410[disabled] {
+.emotion-266[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -769,14 +628,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-410:focus {
+.emotion-266:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-410:hover,
-.emotion-410:active,
-.emotion-410:disabled,
-.emotion-410:focus {
+.emotion-266:hover,
+.emotion-266:active,
+.emotion-266:disabled,
+.emotion-266:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -786,27 +645,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-410:focus {
+.emotion-266:focus {
   outline-width: medium;
 }
 
-.emotion-86 {
-  margin: 0;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-86 > ul {
-  display: none;
-}
-
-.emotion-84 {
+.emotion-100 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -820,11 +663,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-84:hover {
+.emotion-100:hover {
   background: #f1f5f8;
 }
 
-.emotion-82 {
+.emotion-98 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -845,7 +688,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-82:before {
+.emotion-98:before {
   content: '';
   display: block;
   width: 8px;
@@ -857,7 +700,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 7px;
 }
 
-.emotion-82:before {
+.emotion-98:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -866,7 +709,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( deg );
 }
 
-.emotion-94 {
+.emotion-128 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -880,11 +723,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-94:hover {
+.emotion-128:hover {
   background: #f1f5f8;
 }
 
-.emotion-204 {
+.emotion-149 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -896,19 +739,150 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-204 > ul {
-  display: none;
-}
-
-.emotion-204 > ul {
-  display: block;
-}
-
-.emotion-204 > div {
+.emotion-144 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0 13px 0 calc(2 * 17px + 13px);
+  height: 40px;
+  border-bottom: 1px solid #eff0f2;
   background: #ceddea;
 }
 
-.emotion-200 {
+.emotion-144:hover {
+  background: #ceddea;
+}
+
+.emotion-140 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-140 > button {
+  outline: none;
+}
+
+.emotion-138 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-138:hover,
+.emotion-138:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid rgba(32,88,143,0);
+  -webkit-transform: translateY(1px) translateX(1px);
+  -ms-transform: translateY(1px) translateX(1px);
+  transform: translateY(1px) translateX(1px);
+}
+
+.emotion-138:active {
+  -webkit-transform: translateY(2px) translateX(2px);
+  -ms-transform: translateY(2px) translateX(2px);
+  transform: translateY(2px) translateX(2px);
+}
+
+.emotion-138[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+  -webkit-transform: translateY(0) translateX(0);
+  -ms-transform: translateY(0) translateX(0);
+  transform: translateY(0) translateX(0);
+}
+
+.emotion-138:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-138:hover,
+.emotion-138:active,
+.emotion-138:disabled,
+.emotion-138:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  border: none;
+}
+
+.emotion-138:focus {
+  outline-width: medium;
+}
+
+.emotion-136 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  border: 1px solid;
+  line-height: normal;
+  background-color: white;
+  margin: 0 calc(13px / 2);
+}
+
+.emotion-136 > svg {
+  height: 20px;
+  width: 20px;
+}
+
+.emotion-136:hover,
+.emotion-136:focus {
+  background-color: #4d4d4d;
+  color: #f8f8f8;
+}
+
+.emotion-142 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -939,8 +913,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   line-height: 1.1;
 }
 
-.emotion-200:hover,
-.emotion-200:focus {
+.emotion-142:hover,
+.emotion-142:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -949,13 +923,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-200:active {
+.emotion-142:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-200[disabled] {
+.emotion-142[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -965,12 +939,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-200:focus {
+.emotion-142:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-200:hover,
-.emotion-200:focus {
+.emotion-142:hover,
+.emotion-142:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
@@ -979,7 +953,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-200:disabled {
+.emotion-142:disabled {
   border: 2px solid transparent;
   cursor: not-allowed;
   -webkit-transform: translateY(0) translateX(0);
@@ -1050,649 +1024,363 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="emotion-122 emotion-123"
+          class="emotion-6 emotion-7"
         >
-          <li
-            class="emotion-6 emotion-7"
+          <div
+            class="emotion-146"
           >
-            <div
-              class="emotion-4 emotion-5"
+            <li
+              class="emotion-8 emotion-9"
             >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:6"
-                type="button"
-              >
-                Brønnteknikk
-              </button>
               <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:11"
-                type="button"
+                class="emotion-4 emotion-5"
               >
-                Bygg- og anleggsteknikk
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:16"
-                type="button"
-              >
-                Elektrofag vg1
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:17"
-                type="button"
-              >
-                Engelskspråklig litteratur og kultur
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:9"
-                type="button"
-              >
-                Historie vg2 og vg3
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:2"
-                type="button"
-              >
-                Kinesisk
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:18"
-                type="button"
-              >
-                Kommunikasjon og kultur 1, 2, 3
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:7"
-                type="button"
-              >
-                Markedsføring og ledelse 1
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:10"
-                type="button"
-              >
-                Matematikk fellesfag
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
-                type="button"
-              >
-                Matte 101
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:14"
-                type="button"
-              >
-                Medie- og informasjonskunnskap
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-214 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-68 emotion-3"
-                id="urn:subject:1"
-                type="button"
-              >
-                Medieuttrykk og mediesamfunnet
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              >
-                <div
-                  class="emotion-74 emotion-75"
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:6"
+                  type="button"
                 >
-                  <button
-                    class="emotion-72 emotion-1"
-                    data-cy="settings-button-subject"
-                    type="button"
-                  >
-                    <div
-                      class="emotion-70 emotion-71"
-                    >
-                      <svg
-                        class="c-icon"
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        height="1em"
-                        preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                      >
-                        <title>
-                          Settings
-                        </title>
-                        <g>
-                          <path
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          />
-                          <path
-                            d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                          />
-                        </g>
-                      </svg>
-                    </div>
-                  </button>
-                </div>
+                  Brønnteknikk
+                </button>
                 <div
-                  class="emotion-78 emotion-79"
-                >
-                  <span
-                    class="emotion-76 emotion-77"
-                  >
-                    Filtrer emner
-                    :
-                  </span>
-                </div>
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
               </div>
-            </div>
-            <ul
-              class="emotion-122 emotion-123"
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
             >
-              <li
-                class="emotion-86 emotion-7"
+              <div
+                class="emotion-4 emotion-5"
               >
-                <div
-                  class="emotion-84 emotion-5"
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:11"
+                  type="button"
                 >
-                  <button
-                    class="emotion-82 emotion-3"
-                    id="urn:subject:1/urn:topic:1:186401"
-                    type="button"
-                  >
-                    Brukertips og årsplaner
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
-                </div>
-              </li>
-              <li
-                class="emotion-86 emotion-7"
+                  Bygg- og anleggsteknikk
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
               >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:16"
+                  type="button"
+                >
+                  Elektrofag vg1
+                </button>
                 <div
-                  class="emotion-84 emotion-5"
-                >
-                  <button
-                    class="emotion-2 emotion-3"
-                    id="urn:subject:1/urn:topic:1:172416"
-                    type="button"
-                  >
-                    Idéskaping og mediedesign
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
-                </div>
-                <ul
-                  class="emotion-122 emotion-123"
-                >
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172416/urn:topic:1:172597"
-                        type="button"
-                      >
-                        Idéutvikling
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172416/urn:topic:1:186404"
-                        type="button"
-                      >
-                        Idéutvikling
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172416/urn:topic:1:172600"
-                        type="button"
-                      >
-                        Mediedesign
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172416/urn:topic:1:186407"
-                        type="button"
-                      >
-                        Mediedesign
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172416/urn:topic:1:184482"
-                        type="button"
-                      >
-                        Uttrykkshistorien, trender og stilarter
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </li>
-              <li
-                class="emotion-86 emotion-7"
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
               >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:17"
+                  type="button"
+                >
+                  Engelskspråklig litteratur og kultur
+                </button>
                 <div
-                  class="emotion-84 emotion-5"
-                >
-                  <button
-                    class="emotion-2 emotion-3"
-                    id="urn:subject:1/urn:topic:1:186460"
-                    type="button"
-                  >
-                    Medieproduksjon
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
-                </div>
-                <ul
-                  class="emotion-122 emotion-123"
-                >
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:186464"
-                        type="button"
-                      >
-                        HMS, produksjonsutstyr og tekniske formater
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:184483"
-                        type="button"
-                      >
-                        Produksjonsprosesser
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:183085"
-                        type="button"
-                      >
-                        Skriftlig tekstarbeid
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:186468"
-                        type="button"
-                      >
-                        Lydarbeid
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:186471"
-                        type="button"
-                      >
-                        Bilde
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:186474"
-                        type="button"
-                      >
-                        Levende bilder
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186460/urn:topic:1:169379"
-                        type="button"
-                      >
-                        Nettsider
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </li>
-              <li
-                class="emotion-214 emotion-7"
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
               >
-                <div
-                  class="emotion-84 emotion-5"
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:9"
+                  type="button"
                 >
-                  <button
-                    class="emotion-68 emotion-3"
-                    id="urn:subject:1/urn:topic:1:186479"
-                    type="button"
-                  >
-                    Mediekommunikasjon
-                  </button>
+                  Historie vg2 og vg3
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:2"
+                  type="button"
+                >
+                  Kinesisk
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:18"
+                  type="button"
+                >
+                  Kommunikasjon og kultur 1, 2, 3
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:7"
+                  type="button"
+                >
+                  Markedsføring og ledelse 1
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:10"
+                  type="button"
+                >
+                  Matematikk fellesfag
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
+                  type="button"
+                >
+                  Matte 101
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:14"
+                  type="button"
+                >
+                  Medie- og informasjonskunnskap
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-90 emotion-3"
+                  id="urn:subject:1"
+                  type="button"
+                >
+                  Medieuttrykk og mediesamfunnet
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                >
                   <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
+                    class="emotion-94 emotion-95"
                   >
-                    <div
-                      class="emotion-74 emotion-75"
+                    <span
+                      class="emotion-92 emotion-93"
                     >
-                      <button
-                        class="emotion-72 emotion-1"
-                        data-cy="settings-button-topic"
-                        type="button"
-                      >
-                        <div
-                          class="emotion-70 emotion-71"
-                        >
-                          <svg
-                            class="c-icon"
-                            data-license="Apache License 2.0"
-                            data-source="Material Design"
-                            fill="currentColor"
-                            height="1em"
-                            preserveAspectRatio="xMidYMid meet"
-                            style="vertical-align: middle;"
-                            viewBox="0 0 24 24"
-                            width="1em"
-                          >
-                            <title>
-                              Settings
-                            </title>
-                            <g>
-                              <path
-                                d="M0 0h24v24H0z"
-                                fill="none"
-                              />
-                              <path
-                                d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                              />
-                            </g>
-                          </svg>
-                        </div>
-                      </button>
-                    </div>
+                      Filtrer emner
+                      :
+                    </span>
                   </div>
                 </div>
-                <ul
-                  class="emotion-122 emotion-123"
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              >
+                <div
+                  class="emotion-146"
                 >
                   <li
-                    class="emotion-86 emotion-7"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-94 emotion-5"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186479/urn:topic:1:186487"
+                        class="emotion-98 emotion-3"
+                        id="urn:subject:1/urn:topic:1:186401"
+                        type="button"
+                      >
+                        Brukertips og årsplaner
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
+                  </li>
+                  <li
+                    class="emotion-8 emotion-9"
+                  >
+                    <div
+                      class="emotion-100 emotion-5"
+                    >
+                      <button
+                        class="emotion-2 emotion-3"
+                        id="urn:subject:1/urn:topic:1:172416"
+                        type="button"
+                      >
+                        Idéskaping og mediedesign
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
+                  </li>
+                  <li
+                    class="emotion-8 emotion-9"
+                  >
+                    <div
+                      class="emotion-100 emotion-5"
+                    >
+                      <button
+                        class="emotion-2 emotion-3"
+                        id="urn:subject:1/urn:topic:1:186460"
+                        type="button"
+                      >
+                        Medieproduksjon
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
+                  </li>
+                  <li
+                    class="emotion-8 emotion-9"
+                  >
+                    <div
+                      class="emotion-100 emotion-5"
+                    >
+                      <button
+                        class="emotion-90 emotion-3"
+                        id="urn:subject:1/urn:topic:1:186479"
                         type="button"
                       >
                         Mediekommunikasjon
@@ -1702,661 +1390,376 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         data-cy="folderWrapper"
                       />
                     </div>
-                  </li>
-                  <li
-                    class="emotion-204 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
+                    <ul
+                      class="emotion-6 emotion-7"
                     >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186479/urn:topic:1:172650"
-                        type="button"
-                      >
-                        Fortelleteknikker og virkemidler
-                      </button>
                       <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
+                        class="emotion-146"
                       >
-                        <div
-                          class="emotion-74 emotion-75"
+                        <li
+                          class="emotion-8 emotion-9"
                         >
-                          <button
-                            class="emotion-72 emotion-1"
-                            data-cy="settings-button-topic"
-                            type="button"
+                          <div
+                            class="emotion-128 emotion-5"
+                          >
+                            <button
+                              class="emotion-98 emotion-3"
+                              id="urn:topic:1:186479/urn:topic:1:186487"
+                              type="button"
+                            >
+                              Mediekommunikasjon
+                            </button>
+                            <div
+                              class="c-folder__wrapper"
+                              data-cy="folderWrapper"
+                            />
+                          </div>
+                          <ul
+                            class="emotion-6 emotion-7"
+                          />
+                        </li>
+                        <li
+                          class="emotion-149 emotion-9"
+                        >
+                          <div
+                            class="emotion-144 emotion-5"
+                          >
+                            <button
+                              class="emotion-98 emotion-3"
+                              id="urn:topic:1:186479/urn:topic:1:172650"
+                              type="button"
+                            >
+                              Fortelleteknikker og virkemidler
+                            </button>
+                            <div
+                              class="c-folder__wrapper"
+                              data-cy="folderWrapper"
+                            >
+                              <div
+                                class="emotion-140 emotion-141"
+                              >
+                                <button
+                                  class="emotion-138 emotion-1"
+                                  data-cy="settings-button-topic"
+                                  type="button"
+                                >
+                                  <div
+                                    class="emotion-136 emotion-137"
+                                  >
+                                    <svg
+                                      class="c-icon"
+                                      data-license="Apache License 2.0"
+                                      data-source="Material Design"
+                                      fill="currentColor"
+                                      height="1em"
+                                      preserveAspectRatio="xMidYMid meet"
+                                      style="vertical-align: middle;"
+                                      viewBox="0 0 24 24"
+                                      width="1em"
+                                    >
+                                      <title>
+                                        Settings
+                                      </title>
+                                      <g>
+                                        <path
+                                          d="M0 0h24v24H0z"
+                                          fill="none"
+                                        />
+                                        <path
+                                          d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                                        />
+                                      </g>
+                                    </svg>
+                                  </div>
+                                </button>
+                              </div>
+                              <button
+                                class="emotion-142 emotion-1"
+                                type="button"
+                              >
+                                Hopp til ressurser
+                              </button>
+                            </div>
+                          </div>
+                          <ul
+                            class="emotion-6 emotion-7"
                           >
                             <div
-                              class="emotion-70 emotion-71"
-                            >
-                              <svg
-                                class="c-icon"
-                                data-license="Apache License 2.0"
-                                data-source="Material Design"
-                                fill="currentColor"
-                                height="1em"
-                                preserveAspectRatio="xMidYMid meet"
-                                style="vertical-align: middle;"
-                                viewBox="0 0 24 24"
-                                width="1em"
-                              >
-                                <title>
-                                  Settings
-                                </title>
-                                <g>
-                                  <path
-                                    d="M0 0h24v24H0z"
-                                    fill="none"
-                                  />
-                                  <path
-                                    d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                                  />
-                                </g>
-                              </svg>
-                            </div>
-                          </button>
-                        </div>
-                        <button
-                          class="emotion-200 emotion-1"
-                          type="button"
+                              class="emotion-146"
+                            />
+                          </ul>
+                        </li>
+                        <li
+                          class="emotion-8 emotion-9"
                         >
-                          Hopp til ressurser
-                        </button>
+                          <div
+                            class="emotion-128 emotion-5"
+                          >
+                            <button
+                              class="emotion-98 emotion-3"
+                              id="urn:topic:1:186479/urn:topic:1:185606"
+                              type="button"
+                            >
+                              Medieanalyse
+                            </button>
+                            <div
+                              class="c-folder__wrapper"
+                              data-cy="folderWrapper"
+                            />
+                          </div>
+                          <ul
+                            class="emotion-6 emotion-7"
+                          />
+                        </li>
                       </div>
-                    </div>
+                    </ul>
                   </li>
                   <li
-                    class="emotion-86 emotion-7"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-94 emotion-5"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:186479/urn:topic:1:185606"
+                        class="emotion-2 emotion-3"
+                        id="urn:subject:1/urn:topic:1:171906"
                         type="button"
                       >
-                        Medieanalyse
+                        Mediebransjen – yrker, regelverk og retorikk
                       </button>
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
                       />
                     </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
                   </li>
-                </ul>
-              </li>
-              <li
-                class="emotion-86 emotion-7"
-              >
-                <div
-                  class="emotion-84 emotion-5"
-                >
-                  <button
-                    class="emotion-2 emotion-3"
-                    id="urn:subject:1/urn:topic:1:171906"
-                    type="button"
+                  <li
+                    class="emotion-8 emotion-9"
                   >
-                    Mediebransjen – yrker, regelverk og retorikk
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
+                    <div
+                      class="emotion-100 emotion-5"
+                    >
+                      <button
+                        class="emotion-2 emotion-3"
+                        id="urn:subject:1/urn:topic:1:172361"
+                        type="button"
+                      >
+                        Individet og mediene
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
+                  </li>
+                  <li
+                    class="emotion-8 emotion-9"
+                  >
+                    <div
+                      class="emotion-100 emotion-5"
+                    >
+                      <button
+                        class="emotion-2 emotion-3"
+                        id="urn:subject:1/urn:topic:1:172362"
+                        type="button"
+                      >
+                        Mediene i samfunnet
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
+                  </li>
+                  <li
+                    class="emotion-8 emotion-9"
+                  >
+                    <div
+                      class="emotion-100 emotion-5"
+                    >
+                      <button
+                        class="emotion-2 emotion-3"
+                        id="urn:subject:1/urn:topic:1:172568"
+                        type="button"
+                      >
+                        Tverrfaglige arbeidsoppdrag
+                      </button>
+                      <div
+                        class="c-folder__wrapper"
+                        data-cy="folderWrapper"
+                      />
+                    </div>
+                    <ul
+                      class="emotion-6 emotion-7"
+                    />
+                  </li>
                 </div>
-                <ul
-                  class="emotion-122 emotion-123"
-                >
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:171906/urn:topic:1:165853"
-                        type="button"
-                      >
-                        Medieyrker og elevproduksjon
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:171906/urn:topic:1:165738"
-                        type="button"
-                      >
-                        Journalistikk
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:171906/urn:topic:1:166321"
-                        type="button"
-                      >
-                        Kommunikasjonsvirksomhet
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:171906/urn:topic:1:166872"
-                        type="button"
-                      >
-                        Markedsføring
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:171906/urn:topic:1:178849"
-                        type="button"
-                      >
-                        Underholdningsbransjen
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </li>
-              <li
-                class="emotion-86 emotion-7"
+              </ul>
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
               >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:13"
+                  type="button"
+                >
+                  Naturbruk vg 1
+                </button>
                 <div
-                  class="emotion-84 emotion-5"
-                >
-                  <button
-                    class="emotion-2 emotion-3"
-                    id="urn:subject:1/urn:topic:1:172361"
-                    type="button"
-                  >
-                    Individet og mediene
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
-                </div>
-                <ul
-                  class="emotion-122 emotion-123"
-                >
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172361/urn:topic:1:186069"
-                        type="button"
-                      >
-                        Mediebruk og mediepåvirking
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172361/urn:topic:1:171903"
-                        type="button"
-                      >
-                        Kildebruk, opphavsrett og personvern
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </li>
-              <li
-                class="emotion-86 emotion-7"
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
               >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:3"
+                  type="button"
+                >
+                  Samfunnsfag
+                </button>
                 <div
-                  class="emotion-84 emotion-5"
-                >
-                  <button
-                    class="emotion-2 emotion-3"
-                    id="urn:subject:1/urn:topic:1:172362"
-                    type="button"
-                  >
-                    Mediene i samfunnet
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
-                </div>
-                <ul
-                  class="emotion-122 emotion-123"
-                >
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172362/urn:topic:1:162756"
-                        type="button"
-                      >
-                        Ytringsfrihet og demokrati
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172362/urn:topic:1:172615"
-                        type="button"
-                      >
-                        Mediestrukturen i Norge
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172362/urn:topic:1:184484"
-                        type="button"
-                      >
-                        Makt og medier
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172362/urn:topic:1:185588"
-                        type="button"
-                      >
-                        Mediehistorie
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172362/urn:topic:1:184485"
-                        type="button"
-                      >
-                        Medieuttrykk i samfunnet
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </li>
-              <li
-                class="emotion-86 emotion-7"
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
               >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:12"
+                  type="button"
+                >
+                  Service og samferdsel vg1
+                </button>
                 <div
-                  class="emotion-84 emotion-5"
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:15"
+                  type="button"
                 >
-                  <button
-                    class="emotion-2 emotion-3"
-                    id="urn:subject:1/urn:topic:1:172568"
-                    type="button"
-                  >
-                    Tverrfaglige arbeidsoppdrag
-                  </button>
-                  <div
-                    class="c-folder__wrapper"
-                    data-cy="folderWrapper"
-                  />
-                </div>
-                <ul
-                  class="emotion-122 emotion-123"
+                  Sørsamisk vg1 og vg2
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
+              />
+            </li>
+            <li
+              class="emotion-8 emotion-9"
+            >
+              <div
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:5"
+                  type="button"
                 >
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172568/urn:topic:1:172789"
-                        type="button"
-                      >
-                        Tverrfaglige arbeidsoppdrag nivå 1
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172568/urn:topic:1:172790"
-                        type="button"
-                      >
-                        Tverrfaglige arbeidsoppdrag nivå 2
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172568/urn:topic:1:172791"
-                        type="button"
-                      >
-                        Tverrfaglige arbeidsoppdrag nivå 3
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172568/urn:topic:1:184496"
-                        type="button"
-                      >
-                        Tverrfaglige arbeidsoppdrag nivå 4
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172568/urn:topic:1:184504"
-                        type="button"
-                      >
-                        Tverrfaglige arbeidsoppdrag nivå 5
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-86 emotion-7"
-                  >
-                    <div
-                      class="emotion-94 emotion-5"
-                    >
-                      <button
-                        class="emotion-82 emotion-3"
-                        id="urn:topic:1:172568/urn:topic:1:184505"
-                        type="button"
-                      >
-                        Tverrfaglige arbeidsoppdrag nivå 6
-                      </button>
-                      <div
-                        class="c-folder__wrapper"
-                        data-cy="folderWrapper"
-                      />
-                    </div>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:13"
-                type="button"
-              >
-                Naturbruk vg 1
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
+                  Testfag
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
               />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
+            </li>
+            <li
+              class="emotion-8 emotion-9"
             >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:3"
-                type="button"
-              >
-                Samfunnsfag
-              </button>
               <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
+                class="emotion-4 emotion-5"
+              >
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:8"
+                  type="button"
+                >
+                  Tysk
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
               />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
+            </li>
+            <li
+              class="emotion-8 emotion-9"
             >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:12"
-                type="button"
-              >
-                Service og samferdsel vg1
-              </button>
               <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:15"
-                type="button"
+                class="emotion-4 emotion-5"
               >
-                Sørsamisk vg1 og vg2
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
+                <button
+                  class="emotion-2 emotion-3"
+                  id="urn:subject:4"
+                  type="button"
+                >
+                  Vg 2 Helsearbeiderfag
+                </button>
+                <div
+                  class="c-folder__wrapper"
+                  data-cy="folderWrapper"
+                />
+              </div>
+              <ul
+                class="emotion-6 emotion-7"
               />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:5"
-                type="button"
-              >
-                Testfag
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:8"
-                type="button"
-              >
-                Tysk
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
-          <li
-            class="emotion-6 emotion-7"
-          >
-            <div
-              class="emotion-4 emotion-5"
-            >
-              <button
-                class="emotion-2 emotion-3"
-                id="urn:subject:4"
-                type="button"
-              >
-                Vg 2 Helsearbeiderfag
-              </button>
-              <div
-                class="c-folder__wrapper"
-                data-cy="folderWrapper"
-              />
-            </div>
-          </li>
+            </li>
+          </div>
         </ul>
         <div />
       </div>
@@ -2367,7 +1770,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       class="c-accordion c-accordion--resourceGroup"
     >
       <button
-        class="emotion-404 emotion-1"
+        class="emotion-260 emotion-1"
         type="button"
       >
         <span
@@ -2405,10 +1808,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2418,7 +1821,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2448,7 +1851,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg
@@ -2481,10 +1884,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2494,7 +1897,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2524,7 +1927,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg
@@ -2557,10 +1960,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2570,7 +1973,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2600,7 +2003,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg
@@ -2633,10 +2036,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2646,7 +2049,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2676,7 +2079,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg
@@ -2709,10 +2112,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2722,7 +2125,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2752,7 +2155,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg
@@ -2785,10 +2188,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2798,7 +2201,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2828,7 +2231,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg
@@ -2861,10 +2264,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     class="c-accordion c-accordion--resourceGroup"
   >
     <div
-      class="emotion-412"
+      class="emotion-268"
     >
       <button
-        class="emotion-406 emotion-1"
+        class="emotion-262 emotion-1"
         type="button"
       >
         <span
@@ -2874,7 +2277,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </span>
       </button>
       <button
-        class="emotion-408 emotion-1"
+        class="emotion-264 emotion-1"
         type="button"
       >
         <svg
@@ -2904,7 +2307,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Legg til ressurs
       </button>
       <button
-        class="emotion-410 emotion-1"
+        class="emotion-266 emotion-1"
         type="button"
       >
         <svg

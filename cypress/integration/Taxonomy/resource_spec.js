@@ -31,13 +31,8 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:core',
+      '/taxonomy/v1/topics/**/resources/?language=nb',
       'coreResources',
-    );
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb&relevance=urn:relevance:supplementary',
-      'suppResources',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
     cy.apiroute(
@@ -54,7 +49,6 @@ describe('Resource listing', () => {
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');
     cy.apiwait('@coreResources');
-    cy.apiwait('@suppResources');
     cy.apiwait('@article');
   });
 

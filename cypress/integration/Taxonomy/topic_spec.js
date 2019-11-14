@@ -112,13 +112,20 @@ describe('Topic editing', () => {
     cy.get('[data-testid=toggleRelevance]').click({ multiple: true });
 
     cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@changeFilter']);
+    cy.apiwait(['@changeFilter', '@allSubjectTopics']);
+
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('button')
+      .contains(phrases.taxonomy.connectFilters)
+      .click();
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
-
     cy.get('[data-testid="submitConnectFilters"]').click();
+    cy.apiwait(['@addFilter', '@deleteFilter', '@allSubjectTopics']);
 
-    cy.apiwait(['@addFilter', '@deleteFilter']);
-
+    cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('button')
+      .contains(phrases.taxonomy.connectFilters)
+      .click();
     cy.get('button')
       .contains(phrases.alertModal.delete)
       .click();

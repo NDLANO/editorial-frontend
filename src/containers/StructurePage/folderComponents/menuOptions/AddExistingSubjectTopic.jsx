@@ -20,6 +20,7 @@ import {
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import { FilterShape } from '../../../../shapes';
+import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
 class AddExistingSubjectTopic extends React.PureComponent {
   constructor() {
@@ -37,11 +38,25 @@ class AddExistingSubjectTopic extends React.PureComponent {
     const subjectTopics = await fetchSubjectTopics(subjectId);
 
     this.setState({
-      topics: topics.filter(
-        topic => !subjectTopics.some(t => t.id === topic.id),
-      ),
+      topics: topics
+        .filter(topic => !subjectTopics.some(t => t.id === topic.id))
+        .map(topic => ({
+          ...topic,
+          description: this.getTopicBreadcrumb(topic, topics),
+        })),
     });
   }
+
+  getTopicBreadcrumb = (topic, topics) => {
+    if (!topic.path) return undefined;
+    const bc = retriveBreadCrumbs({
+      topicPath: topic.path,
+      structure: this.props.structure,
+      allTopics: topics,
+      title: topic.name,
+    });
+    return bc.map(crumb => crumb.name).join(' > ');
+  };
 
   async onAddExistingTopic(topicid) {
     const { id, refreshTopics, subjectFilters } = this.props;
@@ -99,6 +114,7 @@ AddExistingSubjectTopic.propTypes = {
   id: PropTypes.string.isRequired,
   refreshTopics: PropTypes.func.isRequired,
   subjectId: PropTypes.string,
+  structure: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(AddExistingSubjectTopic);

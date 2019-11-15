@@ -13,6 +13,8 @@ import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
 import EditFilterOption from './menuOptions/EditFilterOption';
+import AddExistingTopic from './menuOptions/AddExistingTopic';
+import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -22,22 +24,28 @@ const SettingsMenuDropdownType = ({
   switch (settingsMenuType) {
     case 'subject':
       return (
-        <Fragment>
+        <>
           <ChangeSubjectName {...rest} />
           {showAllOptions && (
-            <Fragment>
+            <>
               <EditFilterOption {...rest} />
-            </Fragment>
+              <AddExistingSubjectTopic {...rest} />
+            </>
           )}
-        </Fragment>
+        </>
       );
     case 'topic':
       return (
-        <Fragment>
+        <>
           {false && <AddTopic {...rest} />}
           <ConnectFilterOption {...rest} />
-          {showAllOptions && <DeleteTopic {...rest} />}
-        </Fragment>
+          {showAllOptions && (
+            <>
+              <DeleteTopic {...rest} />
+              <AddExistingTopic {...rest} />
+            </>
+          )}
+        </>
       );
     default:
       return null;

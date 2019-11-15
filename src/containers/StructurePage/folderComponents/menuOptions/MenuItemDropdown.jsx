@@ -26,6 +26,7 @@ const menuItemStyle = css`
   display: flex;
   align-items: center;
   margin: calc(${spacing.small} / 2);
+  width: ;
 `;
 
 const dropdownInputStyle = css`
@@ -35,6 +36,7 @@ const dropdownInputStyle = css`
 
 const DropdownWrapper = styled.div`
   position: relative;
+  width: 90%;
 `;
 
 class MenuItemDropdown extends PureComponent {
@@ -100,6 +102,7 @@ class MenuItemDropdown extends PureComponent {
                 <Input
                   {...getInputProps({ placeholder })}
                   data-testid="inlineDropdownInput"
+                  white
                   css={dropdownInputStyle}
                   iconRight={
                     status === 'loading' ? (

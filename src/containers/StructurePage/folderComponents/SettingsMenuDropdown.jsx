@@ -53,7 +53,7 @@ export const StyledDivWrapper = styled('div')`
   z-index: 2;
   top: -1px;
   padding: calc(${spacing.small} / 2);
-  min-width: 350px;
+  width: 550px;
   background-color: ${colors.brand.greyLightest};
   box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
 

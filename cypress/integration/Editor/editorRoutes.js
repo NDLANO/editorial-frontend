@@ -33,8 +33,8 @@ export default ARTICLE_ID => {
   cy.apiroute('GET', '/draft-api/v1/drafts/tags/**', 'tags');
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
   cy.apiroute(
-    'GET',
-    '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=',
+    'POST',
+    '/draft-api/v1/drafts/search/',
     'relatedArticles',
   );
   cy.apiroute('POST', '/draft-api/v1/drafts/', 'saveLearningResource');

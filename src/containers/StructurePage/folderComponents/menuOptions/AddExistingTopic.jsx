@@ -16,10 +16,13 @@ import {
   addTopicToTopic,
   addFilterToTopic,
   fetchSubjectTopics,
+  fetchTopicConnections,
+  deleteSubTopicConnection,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
 import { FilterShape } from '../../../../shapes';
+import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
 class AddExistingTopic extends React.PureComponent {
   constructor() {
@@ -36,17 +39,38 @@ class AddExistingTopic extends React.PureComponent {
     const topics = await fetchTopics(locale || 'nb');
     const subjectTopics = await fetchSubjectTopics(subjectId);
     this.setState({
-      topics: topics.filter(
-        topic => !subjectTopics.some(t => t.id === topic.id),
-      ),
+      topics: topics
+        .filter(topic => !subjectTopics.some(t => t.id === topic.id))
+        .map(topic => ({
+          ...topic,
+          description: this.getTopicBreadcrumb(topic, topics),
+        })),
     });
   }
 
-  async onAddExistingSubTopic(subTopicId) {
+  getTopicBreadcrumb = (topic, topics) => {
+    if (!topic.path) return undefined;
+    const bc = retriveBreadCrumbs({
+      topicPath: topic.path,
+      structure: this.props.structure,
+      allTopics: topics,
+      title: topic.name,
+    });
+    return bc.map(crumb => crumb.name).join(' > ');
+  };
+
+  async onAddExistingSubTopic(topic) {
     const { id, numberOfSubtopics, refreshTopics, topicFilters } = this.props;
+    const [{ connectionId }] = await fetchTopicConnections(topic.id);
+
+    if (connectionId.includes('topic-subtopic')) {
+      await deleteSubTopicConnection(connectionId);
+    } else {
+      await deleteSubTopicConnection(connectionId);
+    }
     await Promise.all([
       addTopicToTopic({
-        subtopicid: subTopicId,
+        subtopicid: topic.id,
         topicid: id,
         primary: false,
         rank: numberOfSubtopics + 1,
@@ -55,7 +79,7 @@ class AddExistingTopic extends React.PureComponent {
         addFilterToTopic({
           filterId: topicFilters[0].id,
           relevanceId: topicFilters[0].relevanceId,
-          topicId: subTopicId,
+          topicId: topic.id,
         }),
     ]);
     refreshTopics();
@@ -96,6 +120,7 @@ AddExistingTopic.propTypes = {
   topicFilters: PropTypes.arrayOf(FilterShape).isRequired,
   numberOfSubtopics: PropTypes.number,
   subjectId: PropTypes.string,
+  structure: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default injectT(AddExistingTopic);

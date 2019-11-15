@@ -16,6 +16,9 @@ import {
   fetchTopics,
   addFilterToTopic,
   fetchSubjectTopics,
+  fetchTopicConnections,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
 } from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -58,17 +61,25 @@ class AddExistingSubjectTopic extends React.PureComponent {
     return bc.map(crumb => crumb.name).join(' > ');
   };
 
-  async onAddExistingTopic(topicid) {
+  async onAddExistingTopic(topic) {
     const { id, refreshTopics, subjectFilters } = this.props;
+    const [{ connectionId }] = await fetchTopicConnections(topic.id);
+
+    if (connectionId.includes('topic-subtopic')) {
+      await deleteSubTopicConnection(connectionId);
+    } else {
+      await deleteTopicConnection(connectionId);
+    }
+
     await Promise.all([
       addSubjectTopic({
         subjectid: id,
-        topicid,
+        topicid: topic.id,
       }),
       subjectFilters[0] &&
         addFilterToTopic({
           filterId: subjectFilters[0].id,
-          topicId: topicid,
+          topicId: topic.id,
         }),
     ]);
     refreshTopics();

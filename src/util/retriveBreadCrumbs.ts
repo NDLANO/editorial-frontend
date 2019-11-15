@@ -20,7 +20,6 @@ const retriveBreadCrumbs = ({
   title,
 }: Input): PathArray => {
   try {
-    console.log(topicPath);
     const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
 
     const subject = structure.find(

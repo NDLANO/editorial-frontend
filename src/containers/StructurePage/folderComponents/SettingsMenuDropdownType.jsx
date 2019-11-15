@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import AddTopic from './menuOptions/AddTopic';
 import ConnectFilterOption from './menuOptions/ConnectFilterOption';

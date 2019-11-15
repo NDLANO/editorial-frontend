@@ -75,7 +75,7 @@ class MenuItemDropdown extends PureComponent {
       const { onSubmit, onClose } = this.props;
       this.setState({ status: 'loading' });
       try {
-        await onSubmit(selected.id);
+        await onSubmit(selected);
         onClose();
         this.setState({ status: 'success' });
       } catch (error) {

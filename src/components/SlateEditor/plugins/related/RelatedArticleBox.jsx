@@ -17,7 +17,6 @@ import { css } from '@emotion/core';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
-import { searchArticles } from '../../../../modules/article/articleApi';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
 import { getLocale } from '../../../../modules/locale/locale';

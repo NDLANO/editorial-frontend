@@ -124,14 +124,3 @@ export const searchDrafts = query =>
     method: 'POST',
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);
-
-export const searchRelatedDrafts = async (query, locale, contentType) => {
-  const params = {
-    query: query,
-    articleTypes: contentType,
-    language: locale,
-  };
-  const response = await searchDrafts(params);
-
-  return response.results;
-};

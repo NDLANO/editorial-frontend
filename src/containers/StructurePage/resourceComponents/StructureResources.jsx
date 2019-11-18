@@ -10,10 +10,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import ResourceGroup from './ResourceGroup';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../../constants';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
 import {
   fetchAllResourceTypes,
@@ -104,28 +100,16 @@ export class StructureResources extends React.PureComponent {
     if (topicId) {
       try {
         this.setState({ loading: true });
-        const [
-          coreTopicResources = [],
-          supplementaryTopicResources = [],
-        ] = await Promise.all([
-          fetchTopicResources(
-            topicId,
-            locale,
-            RESOURCE_FILTER_CORE,
-            activeFilters.join(','),
-          ),
-          fetchTopicResources(
-            topicId,
-            locale,
-            RESOURCE_FILTER_SUPPLEMENTARY,
-            activeFilters.join(','),
-          ),
-        ]);
+        const allTopicResources = await fetchTopicResources(
+          topicId,
+          locale,
+          undefined,
+          activeFilters.join(','),
+        );
 
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,
-          coreTopicResources,
-          supplementaryTopicResources,
+          allTopicResources,
         );
         this.setState({ topicResources, loading: false });
       } catch (error) {

@@ -56,7 +56,7 @@ const FolderItem = ({
 
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
-      {isOpen && (
+      {isMainActive && (
         <SettingsMenu
           id={id}
           name={name}

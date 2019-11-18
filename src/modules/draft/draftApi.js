@@ -120,7 +120,7 @@ export const uploadFile = formData =>
   }).then(resolveJsonOrRejectWithError);
 
 export const searchDrafts = query =>
-  fetchAuthorized(`${baseUrl}/search`, {
+  fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);

@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { searchRelatedArticles } from '../../../../modules/article/articleApi';
+import { searchDrafts } from '../../../../modules/draft/draftApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
@@ -100,7 +100,10 @@ class EditRelated extends React.PureComponent {
   }
 
   async searchForArticles(inp) {
-    const articles = await searchRelatedArticles(inp, this.props.locale);
+    const articles = (await searchDrafts({
+      query: inp,
+      language: this.props.locale,
+    })).results;
     return articles ? articles.filter(article => !!article.id) : [];
   }
 

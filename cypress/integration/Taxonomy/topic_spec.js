@@ -114,10 +114,11 @@ describe('Topic editing', () => {
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@changeFilter', '@allSubjectTopics']);
 
-    cy.get('[data-cy=settings-button-topic]').click({ force: true });
+    cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
+    cy.wait('@allSubjectTopics');
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@addFilter', '@deleteFilter', '@allSubjectTopics']);

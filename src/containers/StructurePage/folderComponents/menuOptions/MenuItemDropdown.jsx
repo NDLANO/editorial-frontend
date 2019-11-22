@@ -26,7 +26,6 @@ const menuItemStyle = css`
   display: flex;
   align-items: center;
   margin: calc(${spacing.small} / 2);
-  width: ;
 `;
 
 const dropdownInputStyle = css`

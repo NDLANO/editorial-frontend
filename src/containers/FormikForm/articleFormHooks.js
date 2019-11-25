@@ -48,6 +48,7 @@ export function useArticleFormHooks({
   updateArticleAndStatus,
   licenses,
   getArticleFromSlate,
+  refetchArticle,
 }) {
   const { id, revision, language } = article;
   const formikRef = useRef(null);
@@ -79,6 +80,7 @@ export function useArticleFormHooks({
         newArticle,
         revision,
       });
+      let updatedArticle;
 
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -89,7 +91,7 @@ export function useArticleFormHooks({
             initialValues,
             dirty: true,
           });
-        await updateArticleAndStatus({
+        updatedArticle = await updateArticleAndStatus({
           updatedArticle: {
             ...newArticle,
             revision,
@@ -98,10 +100,15 @@ export function useArticleFormHooks({
           dirty: !skipSaving,
         });
       } else {
-        await updateArticle({
+        updatedArticle = await updateArticle({
           ...newArticle,
           revision,
         });
+      }
+
+      if (updatedArticle.revision === article.revision) {
+        // we need to refetch article since it is not properly updated
+        await refetchArticle();
       }
 
       if (

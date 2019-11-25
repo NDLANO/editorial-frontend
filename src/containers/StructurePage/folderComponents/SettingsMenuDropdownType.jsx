@@ -13,8 +13,8 @@ import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
 import EditFilterOption from './menuOptions/EditFilterOption';
-import AddExistingTopic from './menuOptions/AddExistingTopic';
-import AddExistingSubjectTopic from './menuOptions/AddExistingSubjectTopic';
+import AddExistingToTopic from './menuOptions/AddExistingToTopic';
+import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -29,7 +29,7 @@ const SettingsMenuDropdownType = ({
           {showAllOptions && (
             <>
               <EditFilterOption {...rest} />
-              <AddExistingSubjectTopic {...rest} />
+              <AddExistingToSubjectTopic {...rest} />
             </>
           )}
         </>
@@ -42,7 +42,7 @@ const SettingsMenuDropdownType = ({
           {showAllOptions && (
             <>
               <DeleteTopic {...rest} />
-              <AddExistingTopic {...rest} />
+              <AddExistingToTopic {...rest} />
             </>
           )}
         </>

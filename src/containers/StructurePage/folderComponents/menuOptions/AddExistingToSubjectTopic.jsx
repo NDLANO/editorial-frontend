@@ -25,7 +25,7 @@ import MenuItemButton from './MenuItemButton';
 import { FilterShape } from '../../../../shapes';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
-class AddExistingSubjectTopic extends React.PureComponent {
+class AddExistingToSubjectTopic extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -36,17 +36,14 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { locale, subjectId } = this.props;
+    const { locale } = this.props;
     const topics = await fetchTopics(locale || 'nb');
-    const subjectTopics = await fetchSubjectTopics(subjectId);
 
     this.setState({
-      topics: topics
-        .filter(topic => !subjectTopics.some(t => t.id === topic.id))
-        .map(topic => ({
-          ...topic,
-          description: this.getTopicBreadcrumb(topic, topics),
-        })),
+      topics: topics.map(topic => ({
+        ...topic,
+        description: this.getTopicBreadcrumb(topic, topics),
+      })),
     });
   }
 
@@ -62,7 +59,7 @@ class AddExistingSubjectTopic extends React.PureComponent {
   };
 
   async onAddExistingTopic(topic) {
-    const { id, refreshTopics, subjectFilters } = this.props;
+    const { id, refreshTopics } = this.props;
     const [{ connectionId }] = await fetchTopicConnections(topic.id);
 
     if (connectionId.includes('topic-subtopic')) {
@@ -76,11 +73,6 @@ class AddExistingSubjectTopic extends React.PureComponent {
         subjectid: id,
         topicid: topic.id,
       }),
-      subjectFilters[0] &&
-        addFilterToTopic({
-          filterId: subjectFilters[0].id,
-          topicId: topic.id,
-        }),
     ]);
     refreshTopics();
   }
@@ -114,7 +106,7 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 }
 
-AddExistingSubjectTopic.propTypes = {
+AddExistingToSubjectTopic.propTypes = {
   classes: PropTypes.func,
   path: PropTypes.string,
   onClose: PropTypes.func,
@@ -128,4 +120,4 @@ AddExistingSubjectTopic.propTypes = {
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default injectT(AddExistingSubjectTopic);
+export default injectT(AddExistingToSubjectTopic);

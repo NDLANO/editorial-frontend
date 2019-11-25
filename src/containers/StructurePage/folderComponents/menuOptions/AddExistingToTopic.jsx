@@ -18,13 +18,14 @@ import {
   fetchSubjectTopics,
   fetchTopicConnections,
   deleteSubTopicConnection,
+  deleteTopicConnection,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
 import { FilterShape } from '../../../../shapes';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
-class AddExistingTopic extends React.PureComponent {
+class AddExistingToTopic extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -66,7 +67,7 @@ class AddExistingTopic extends React.PureComponent {
     if (connectionId.includes('topic-subtopic')) {
       await deleteSubTopicConnection(connectionId);
     } else {
-      await deleteSubTopicConnection(connectionId);
+      await deleteTopicConnection(connectionId);
     }
     await Promise.all([
       addTopicToTopic({
@@ -109,7 +110,7 @@ class AddExistingTopic extends React.PureComponent {
   }
 }
 
-AddExistingTopic.propTypes = {
+AddExistingToTopic.propTypes = {
   path: PropTypes.string,
   onClose: PropTypes.func,
   editMode: PropTypes.string,
@@ -123,4 +124,4 @@ AddExistingTopic.propTypes = {
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default injectT(AddExistingTopic);
+export default injectT(AddExistingToTopic);

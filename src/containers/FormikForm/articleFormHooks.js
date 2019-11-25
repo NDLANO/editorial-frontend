@@ -48,7 +48,6 @@ export function useArticleFormHooks({
   updateArticleAndStatus,
   licenses,
   getArticleFromSlate,
-  refetchArticle,
 }) {
   const { id, revision, language } = article;
   const formikRef = useRef(null);
@@ -80,7 +79,6 @@ export function useArticleFormHooks({
         newArticle,
         revision,
       });
-      let updatedArticle;
 
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -91,7 +89,7 @@ export function useArticleFormHooks({
             initialValues,
             dirty: true,
           });
-        updatedArticle = await updateArticleAndStatus({
+        await updateArticleAndStatus({
           updatedArticle: {
             ...newArticle,
             revision,
@@ -100,15 +98,10 @@ export function useArticleFormHooks({
           dirty: !skipSaving,
         });
       } else {
-        updatedArticle = await updateArticle({
+        await updateArticle({
           ...newArticle,
           revision,
         });
-      }
-
-      if (updatedArticle.revision === article.revision) {
-        // we need to refetch article since it is not properly updated
-        await refetchArticle();
       }
 
       if (
@@ -129,7 +122,9 @@ export function useArticleFormHooks({
       actions.resetForm();
       actions.setFieldValue('notes', [], false);
     } catch (err) {
-      if (err && err.json && err.json.messages) {
+      if (err && err.status && err.status === 409) {
+        createMessage(t('alertModal.needToRefresh'));
+      } else if (err && err.json && err.json.messages) {
         createMessage(formatErrorMessage(err));
       } else {
         applicationError(err);

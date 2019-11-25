@@ -78,6 +78,5 @@ export function useFetchArticleData(articleId, locale) {
     createArticle,
     updateArticleAndStatus,
     loading,
-    refetchArticle: fetchArticle,
   };
 }

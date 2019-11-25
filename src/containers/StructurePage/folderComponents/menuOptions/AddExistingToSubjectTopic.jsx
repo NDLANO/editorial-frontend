@@ -14,8 +14,6 @@ import RoundIcon from '../../../../components/RoundIcon';
 import {
   addSubjectTopic,
   fetchTopics,
-  addFilterToTopic,
-  fetchSubjectTopics,
   fetchTopicConnections,
   deleteTopicConnection,
   deleteSubTopicConnection,

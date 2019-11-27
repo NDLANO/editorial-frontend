@@ -6,13 +6,15 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import AddTopic from './menuOptions/AddTopic';
 import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
 import EditFilterOption from './menuOptions/EditFilterOption';
+import AddExistingToTopic from './menuOptions/AddExistingToTopic';
+import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -22,22 +24,28 @@ const SettingsMenuDropdownType = ({
   switch (settingsMenuType) {
     case 'subject':
       return (
-        <Fragment>
+        <>
           <ChangeSubjectName {...rest} />
           {showAllOptions && (
-            <Fragment>
+            <>
               <EditFilterOption {...rest} />
-            </Fragment>
+              <AddExistingToSubjectTopic {...rest} />
+            </>
           )}
-        </Fragment>
+        </>
       );
     case 'topic':
       return (
-        <Fragment>
+        <>
           {false && <AddTopic {...rest} />}
           <ConnectFilterOption {...rest} />
-          {showAllOptions && <DeleteTopic {...rest} />}
-        </Fragment>
+          {showAllOptions && (
+            <>
+              <DeleteTopic {...rest} />
+              <AddExistingToTopic {...rest} />
+            </>
+          )}
+        </>
       );
     default:
       return null;

@@ -886,7 +886,7 @@ const phrases = {
   taxonomy: {
     editStructure: '  Edit structure',
     addSubject: 'Add new subject',
-    addExistingTopic: 'Add existing topic',
+    addExistingTopic: 'Move existing topic here',
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',

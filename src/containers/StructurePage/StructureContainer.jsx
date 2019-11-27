@@ -102,7 +102,7 @@ export class StructureContainer extends React.PureComponent {
         this.getFilters();
       }
       const currentSub = subjects.find(sub => sub.id === subject);
-      if (currentSub && !currentSub.topics) {
+      if (currentSub) {
         this.getSubjectTopics(subject);
       }
       if (pathname.includes('topic')) {
@@ -395,6 +395,7 @@ export class StructureContainer extends React.PureComponent {
                     setPrimary={this.setPrimary}
                     toggleFilter={this.toggleFilter}
                     deleteTopicLink={this.deleteTopicLink}
+                    structure={subjects}
                     jumpToResources={() =>
                       this.resourceSection &&
                       this.resourceSection.current.scrollIntoView()

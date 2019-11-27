@@ -109,6 +109,7 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
+    cy.wait('@allSubjectTopics');
     cy.get('[data-testid=toggleRelevance]').click({ multiple: true });
 
     cy.get('[data-testid="submitConnectFilters"]').click();
@@ -118,6 +119,7 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
+    cy.wait('@allSubjectTopics');
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@addFilter', '@deleteFilter', '@allSubjectTopics']);

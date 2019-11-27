@@ -14,14 +14,16 @@ import RoundIcon from '../../../../components/RoundIcon';
 import {
   addSubjectTopic,
   fetchTopics,
-  addFilterToTopic,
-  fetchSubjectTopics,
+  fetchTopicConnections,
+  deleteTopicConnection,
+  deleteSubTopicConnection,
 } from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import { FilterShape } from '../../../../shapes';
+import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
-class AddExistingSubjectTopic extends React.PureComponent {
+class AddExistingToSubjectTopic extends React.PureComponent {
   constructor() {
     super();
     this.state = {
@@ -32,29 +34,43 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { locale, subjectId } = this.props;
+    const { locale } = this.props;
     const topics = await fetchTopics(locale || 'nb');
-    const subjectTopics = await fetchSubjectTopics(subjectId);
 
     this.setState({
-      topics: topics.filter(
-        topic => !subjectTopics.some(t => t.id === topic.id),
-      ),
+      topics: topics.map(topic => ({
+        ...topic,
+        description: this.getTopicBreadcrumb(topic, topics),
+      })),
     });
   }
 
-  async onAddExistingTopic(topicid) {
-    const { id, refreshTopics, subjectFilters } = this.props;
+  getTopicBreadcrumb = (topic, topics) => {
+    if (!topic.path) return undefined;
+    const bc = retriveBreadCrumbs({
+      topicPath: topic.path,
+      structure: this.props.structure,
+      allTopics: topics,
+      title: topic.name,
+    });
+    return bc.map(crumb => crumb.name).join(' > ');
+  };
+
+  async onAddExistingTopic(topic) {
+    const { id, refreshTopics } = this.props;
+    const [{ connectionId }] = await fetchTopicConnections(topic.id);
+
+    if (connectionId.includes('topic-subtopic')) {
+      await deleteSubTopicConnection(connectionId);
+    } else {
+      await deleteTopicConnection(connectionId);
+    }
+
     await Promise.all([
       addSubjectTopic({
         subjectid: id,
-        topicid,
+        topicid: topic.id,
       }),
-      subjectFilters[0] &&
-        addFilterToTopic({
-          filterId: subjectFilters[0].id,
-          topicId: topicid,
-        }),
     ]);
     refreshTopics();
   }
@@ -88,7 +104,7 @@ class AddExistingSubjectTopic extends React.PureComponent {
   }
 }
 
-AddExistingSubjectTopic.propTypes = {
+AddExistingToSubjectTopic.propTypes = {
   classes: PropTypes.func,
   path: PropTypes.string,
   onClose: PropTypes.func,
@@ -99,6 +115,7 @@ AddExistingSubjectTopic.propTypes = {
   id: PropTypes.string.isRequired,
   refreshTopics: PropTypes.func.isRequired,
   subjectId: PropTypes.string,
+  structure: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default injectT(AddExistingSubjectTopic);
+export default injectT(AddExistingToSubjectTopic);

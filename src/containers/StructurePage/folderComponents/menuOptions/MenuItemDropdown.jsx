@@ -35,6 +35,7 @@ const dropdownInputStyle = css`
 
 const DropdownWrapper = styled.div`
   position: relative;
+  width: 90%;
 `;
 
 class MenuItemDropdown extends PureComponent {
@@ -73,7 +74,7 @@ class MenuItemDropdown extends PureComponent {
       const { onSubmit, onClose } = this.props;
       this.setState({ status: 'loading' });
       try {
-        await onSubmit(selected.id);
+        await onSubmit(selected);
         onClose();
         this.setState({ status: 'success' });
       } catch (error) {
@@ -100,6 +101,7 @@ class MenuItemDropdown extends PureComponent {
                 <Input
                   {...getInputProps({ placeholder })}
                   data-testid="inlineDropdownInput"
+                  white
                   css={dropdownInputStyle}
                   iconRight={
                     status === 'loading' ? (

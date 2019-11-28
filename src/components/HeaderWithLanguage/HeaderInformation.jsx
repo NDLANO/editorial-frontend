@@ -133,16 +133,18 @@ const HeaderInformation = ({
             ? `${t(`${types[type].form}.title`)}: ${title}`
             : t(`${types[type].form}.title`)}
         </h1>
-        <Button
-          stripped
-          css={css`
-            white-space: nowrap;
-          `}
-          onClick={onSaveAsNew}
-          data-testid="saveAsNew">
-          {t('form.workflow.saveAsNew')}
-          {loading && <Spinner appearance="absolute" />}
-        </Button>
+        {(type === 'standard' || type === 'topic-article') && (
+          <Button
+            stripped
+            css={css`
+              white-space: nowrap;
+            `}
+            onClick={onSaveAsNew}
+            data-testid="saveAsNew">
+            {t('form.workflow.saveAsNew')}
+            {loading && <Spinner appearance="absolute" />}
+          </Button>
+        )}
       </StyledTitleHeaderWrapper>
       <HeaderStatusInformation
         noStatus={noStatus}

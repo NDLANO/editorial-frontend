@@ -10,7 +10,7 @@ import React from 'react';
 import SlateFigure from './SlateFigure';
 import defaultBlocks from '../../utils/defaultBlocks';
 
-export default function createEmbedPlugin(locale) {
+export default function createEmbedPlugin(language) {
   const schema = {
     blocks: {
       embed: {
@@ -54,8 +54,8 @@ export default function createEmbedPlugin(locale) {
         return (
           <SlateFigure
             onRemoveClick={onRemoveClick}
+            language={language}
             {...props}
-            locale={locale}
           />
         );
       default:

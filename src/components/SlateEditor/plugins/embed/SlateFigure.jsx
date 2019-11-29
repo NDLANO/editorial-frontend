@@ -95,7 +95,7 @@ class SlateFigure extends React.Component {
       node,
       attributes,
       editor,
-      locale,
+      language,
       isSelected: isSelectedForCopy,
     } = this.props;
 
@@ -108,7 +108,7 @@ class SlateFigure extends React.Component {
       figureClass,
       attributes,
       submitted: this.state.submitted,
-      locale,
+      language,
       isSelectedForCopy,
       active,
     };
@@ -119,7 +119,10 @@ class SlateFigure extends React.Component {
             node={node}
             editor={editor}
             onRemoveClick={this.onRemoveClick}
-            renderEditComponent={props => <EditImage {...props} />}
+            language={language}
+            renderEditComponent={props => (
+              <EditImage imageLanguage={language} {...props} />
+            )}
             {...props}
           />
         );
@@ -165,7 +168,7 @@ SlateFigure.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
   isSelected: PropTypes.bool,
 };
 

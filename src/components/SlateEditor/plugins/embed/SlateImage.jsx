@@ -60,7 +60,7 @@ class SlateImage extends React.Component {
       onRemoveClick,
       isSelectedForCopy,
       active,
-      locale,
+      language,
       renderEditComponent,
       visualElement,
       t,
@@ -95,7 +95,7 @@ class SlateImage extends React.Component {
           embed={embed}
           t={t}
           figureType="image"
-          locale={locale}
+          language={language}
         />
         {editModus &&
           renderEditComponent({
@@ -140,6 +140,7 @@ SlateImage.propTypes = {
   isSelectedForCopy: PropTypes.bool,
   active: PropTypes.bool,
   locale: PropTypes.string.isRequired,
+  lanugage: PropTypes.string.isRequired,
   visualElement: PropTypes.bool,
   renderEditComponent: PropTypes.func,
 };

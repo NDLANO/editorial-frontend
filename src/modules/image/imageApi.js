@@ -6,10 +6,12 @@
  *
  */
 
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
+  createErrorPayload,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/image-api/v2/images');
@@ -31,3 +33,15 @@ export const updateImage = imageMetadata =>
     method: 'PATCH',
     body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);
+
+export const searchImages = (query, page) =>
+  fetchAuthorized(
+    `${baseUrl}/?${queryString.stringify({
+      query,
+      page,
+    })}&page-size=16`,
+  ).then(resolveJsonOrRejectWithError);
+
+export const onError = err => {
+  createErrorPayload(err.status, defined(err.message, err.statusText), err);
+};

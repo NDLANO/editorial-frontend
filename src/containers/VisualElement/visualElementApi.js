@@ -44,6 +44,7 @@ export const searchImages = (query, page) =>
       page,
     })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
+
 export const searchAudios = query =>
   fetchAuthorized(
     `${baseAudioNdlaUrl}/?${queryString.stringify({
@@ -52,13 +53,13 @@ export const searchAudios = query =>
     })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
 
-export const fetchAudio = audioId =>
-  fetchAuthorized(`${baseAudioNdlaUrl}/${audioId}`).then(
+export const fetchAudio = (id, language) =>
+  fetchAuthorized(`${baseAudioNdlaUrl}/${id}?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 
-export const fetchImage = imageId =>
-  fetchAuthorized(`${baseImageNdlaUrl}/${imageId}`).then(
+export const fetchImage = (id, language) =>
+  fetchAuthorized(`${baseImageNdlaUrl}/${id}?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 

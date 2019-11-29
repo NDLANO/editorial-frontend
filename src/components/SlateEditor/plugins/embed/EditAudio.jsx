@@ -143,6 +143,7 @@ EditAudio.propTypes = {
     title: string,
     audioFile: object,
   }),
+  language: string,
   locale: string,
 };
 

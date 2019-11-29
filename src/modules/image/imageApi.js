@@ -7,6 +7,7 @@
  */
 
 import queryString from 'query-string';
+import defined from 'defined';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

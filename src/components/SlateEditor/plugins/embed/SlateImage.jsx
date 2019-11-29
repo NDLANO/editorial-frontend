@@ -140,7 +140,7 @@ SlateImage.propTypes = {
   isSelectedForCopy: PropTypes.bool,
   active: PropTypes.bool,
   locale: PropTypes.string.isRequired,
-  lanugage: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
   visualElement: PropTypes.bool,
   renderEditComponent: PropTypes.func,
 };

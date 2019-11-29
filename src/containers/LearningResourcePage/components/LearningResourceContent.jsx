@@ -79,7 +79,6 @@ class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
     const {
-      locale,
       article: { language },
     } = props;
     this.addSection = this.addSection.bind(this);

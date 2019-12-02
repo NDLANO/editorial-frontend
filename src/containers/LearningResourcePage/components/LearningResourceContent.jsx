@@ -79,13 +79,12 @@ class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
     const {
-      locale,
       article: { language },
     } = props;
     this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),
-      createEmbedPlugin(locale),
+      createEmbedPlugin(language),
       createBodyBoxPlugin(),
       createAsidePlugin(),
       createDetailsPlugin(),
@@ -121,6 +120,7 @@ class LearningResourceContent extends Component {
     } = this.props;
     if (prevLanguage !== language || prevId !== id) {
       this.plugins = [
+        createEmbedPlugin(language),
         conceptPlugin(language),
         blockPickerPlugin(this.addSection, {
           articleLanguage: language,

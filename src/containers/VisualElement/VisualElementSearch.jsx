@@ -78,10 +78,11 @@ class VisualElementSearch extends Component {
       selectedResourceType,
       handleVisualElementChange,
       closeModal,
+      articleLanguage,
       locale,
       t,
     } = this.props;
-
+    const fetchImage = id => api.fetchImage(id, articleLanguage);
     const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
       provider => provider.name,
     ).filter(name => name === selectedResource);
@@ -93,7 +94,7 @@ class VisualElementSearch extends Component {
             locale={locale}
             isSavingImage={isSavingImage}
             closeModal={closeModal}
-            fetchImage={api.fetchImage}
+            fetchImage={fetchImage}
             searchImages={api.searchImages}
             onError={api.onError}
             onImageSelect={image => {
@@ -177,6 +178,7 @@ class VisualElementSearch extends Component {
           pageSize: 16,
           locale,
         };
+        const fetchAudio = id => api.fetchAudio(id, articleLanguage);
 
         const translations = {
           searchPlaceholder: t('audioSearch.searchPlaceholder'),
@@ -189,7 +191,7 @@ class VisualElementSearch extends Component {
           <AudioSearch
             translations={translations}
             locale={locale}
-            fetchAudio={api.fetchAudio}
+            fetchAudio={fetchAudio}
             searchAudios={api.searchAudios}
             onAudioSelect={audio =>
               handleVisualElementChange({
@@ -247,6 +249,7 @@ VisualElementSearch.propTypes = {
   selectedResourceUrl: PropTypes.string,
   selectedResourceType: PropTypes.string,
   handleVisualElementChange: PropTypes.func.isRequired,
+  articleLanguage: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   uploadedImage: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

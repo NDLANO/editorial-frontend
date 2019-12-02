@@ -50,7 +50,7 @@ class EditAudio extends Component {
       onRemoveClick,
       audioType,
       t,
-      locale,
+      language,
       speech,
       audio: {
         title,
@@ -120,7 +120,7 @@ class EditAudio extends Component {
               tooltip={t('form.audio.remove')}
               onRemoveClick={onRemoveClick}
               embed={embed}
-              locale={locale}
+              language={language}
               withMargin
             />
           </div>
@@ -143,6 +143,7 @@ EditAudio.propTypes = {
     title: string,
     audioFile: object,
   }),
+  language: string,
   locale: string,
 };
 

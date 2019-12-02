@@ -6,6 +6,7 @@ import VisualElementSearch from '../../../../containers/VisualElement/VisualElem
 import { defaultBlocks } from '../../utils';
 
 const SlateVisualElementPicker = ({
+  articleLanguage,
   resource,
   onVisualElementClose,
   onInsertBlock,
@@ -42,6 +43,7 @@ const SlateVisualElementPicker = ({
           </ModalHeader>
           <ModalBody>
             <VisualElementSearch
+              articleLanguage={articleLanguage}
               selectedResource={resource}
               handleVisualElementChange={onVisualElementAdd}
               closeModal={onVisualElementClose}
@@ -54,6 +56,7 @@ const SlateVisualElementPicker = ({
 };
 
 SlateVisualElementPicker.propTypes = {
+  articleLanguage: PropTypes.string.isRequired,
   resource: PropTypes.string.isRequired,
   onVisualElementClose: PropTypes.func.isRequired,
   onInsertBlock: PropTypes.func.isRequired,

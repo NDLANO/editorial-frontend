@@ -14,7 +14,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import { getLocale } from '../../modules/locale/locale';
-import * as api from '../VisualElement/visualElementApi';
+import * as api from '../../modules/image/imageApi';
 import FormikMetaImage from './components/FormikMetaImage';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
@@ -61,9 +61,9 @@ class FormikMetaImageSearch extends Component {
   }
 
   async onImageFetch() {
-    const { metaImageId } = this.props;
+    const { metaImageId, locale } = this.props;
     if (metaImageId) {
-      const image = await api.fetchImage(metaImageId);
+      const image = await api.fetchImage(metaImageId, locale);
       this.setState({ image });
     }
   }
@@ -94,6 +94,7 @@ class FormikMetaImageSearch extends Component {
   render() {
     const { t, locale, isSavingImage } = this.props;
     const { image, showImageSelect } = this.state;
+    const fetchImage = id => api.fetchImage(id, locale);
     return (
       <div>
         <FieldHeader title={t('form.metaImage.title')}>
@@ -123,7 +124,7 @@ class FormikMetaImageSearch extends Component {
                   locale={locale}
                   isSavingImage={isSavingImage}
                   closeModal={this.onImageSelectClose}
-                  fetchImage={api.fetchImage}
+                  fetchImage={fetchImage}
                   searchImages={api.searchImages}
                   onError={api.onError}
                 />

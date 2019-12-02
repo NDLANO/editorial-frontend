@@ -216,12 +216,13 @@ class SlateBlockPicker extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, articleLanguage } = this.props;
     const { isOpen, visualElementSelect } = this.state;
     return (
       <>
         <Portal isOpened={visualElementSelect.isOpen}>
           <SlateVisualElementPicker
+            articleLanguage={articleLanguage}
             resource={visualElementSelect.visualElementType}
             onVisualElementClose={this.onVisualElementClose}
             onInsertBlock={this.onInsertBlock}

@@ -123,7 +123,10 @@ export function useArticleFormHooks({
       actions.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {
-        createMessage(t('alertModal.needToRefresh'));
+        createMessage({
+          message: t('alertModal.needToRefresh'),
+          timeToLive: 4000,
+        });
       } else if (err && err.json && err.json.messages) {
         createMessage(formatErrorMessage(err));
       } else {

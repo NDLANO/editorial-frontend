@@ -25,9 +25,12 @@ class SlateAudio extends React.Component {
   }
 
   async componentDidMount() {
-    const { caption, resource_id: resourceId } = this.props.embed;
+    const {
+      language,
+      embed: { caption, resource_id: resourceId },
+    } = this.props;
     try {
-      const audio = await visualElementApi.fetchAudio(resourceId);
+      const audio = await visualElementApi.fetchAudio(resourceId, language);
       this.setState({
         audio: {
           ...audio,
@@ -64,7 +67,7 @@ class SlateAudio extends React.Component {
       submitted,
       embed,
       onRemoveClick,
-      locale,
+      language,
     } = this.props;
     const { audio } = this.state;
     const speech = embed.audioType === 'speech';
@@ -77,7 +80,7 @@ class SlateAudio extends React.Component {
             audioType={embed.audioType || 'sound'}
             onChange={onFigureInputChange}
             onAudioFigureInputChange={this.onAudioFigureInputChange}
-            locale={locale}
+            language={language}
             onRemoveClick={onRemoveClick}
             embed={embed}
             audio={audio}
@@ -108,7 +111,7 @@ SlateAudio.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
-  locale: PropTypes.string,
+  language: PropTypes.string,
 };
 
 export default SlateAudio;

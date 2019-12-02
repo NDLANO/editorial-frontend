@@ -51,7 +51,7 @@ const StyledFigureButtons = styled('div')`
 const FigureButtons = ({
   t,
   embed,
-  locale,
+  language,
   tooltip,
   figureType,
   onRemoveClick,
@@ -85,7 +85,7 @@ const FigureButtons = ({
         <Tooltip tooltip={url[figureType].editTitle} align="right">
           <IconButton
             as={Link}
-            to={`${url[figureType].path}/${embed.resource_id}/edit/${locale}`}
+            to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
             target="_blank"
             title={url[figureType].editTitle}
             tabIndex={-1}>
@@ -113,7 +113,7 @@ FigureButtons.propTypes = {
   embed: EmbedShape.isRequired,
   tooltip: PropTypes.string.isRequired,
   figureType: PropTypes.string.isRequired,
-  locale: PropTypes.string,
+  language: PropTypes.string,
   withMargin: PropTypes.bool,
   onEdit: PropTypes.func,
   providerName: PropTypes.string,

@@ -34,8 +34,8 @@ const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
 
   const fetchAudio = async () => {
     if (audioId) {
-      const audio = await audioApi.fetchAudio(audioId, audioLanguage);
-      setAudio(transformAudio(audio));
+      const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
+      setAudio(transformAudio(apiAudio));
     }
   };
 
@@ -76,6 +76,7 @@ EditAudio.propTypes = {
     }),
   ).isRequired,
   locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
   audioLanguage: PropTypes.string.isRequired,
 };
 

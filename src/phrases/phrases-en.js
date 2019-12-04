@@ -877,7 +877,7 @@ const phrases = {
   alertModal: {
     notSaved: 'Document is not saved, do you want to continue?',
     needToRefresh:
-      'Document was not saved. You need to copy your changes manually and refresh the page',
+      'Someone have saved the same article while you were editing. You need to copy your changes manually and refresh the page',
     continue: 'Continue',
     delete: 'Delete',
     confirm: 'Confirm',

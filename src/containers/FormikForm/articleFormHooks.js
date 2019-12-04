@@ -125,7 +125,7 @@ export function useArticleFormHooks({
       if (err && err.status && err.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),
-          timeToLive: 4000,
+          timeToLive: 0,
         });
       } else if (err && err.json && err.json.messages) {
         createMessage(formatErrorMessage(err));

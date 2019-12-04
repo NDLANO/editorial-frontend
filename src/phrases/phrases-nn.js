@@ -892,7 +892,7 @@ const phrases = {
   alertModal: {
     notSaved: 'Dokumentet er ikkje lagra, ønsker du å fortsette?',
     needToRefresh:
-      'Dokumentet ble ikkje lagra. For å ta vare på endringane dine må du kopiere dei manuelt og deretter oppdatere sida',
+      'Nokon har lagra samme artikkel medan du redigerte. For å ta vare på endringane dine må du kopiere dei manuelt og deretter oppdatere sida',
     continue: 'Fortsett',
     delete: 'Slett',
     confirm: 'Bekreft',

@@ -14,7 +14,11 @@ import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../modules/draft/draftApi';
 import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
+import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
+import { deleteLanguageVersionAudio } from '../../modules/audio/audioApi';
+import * as messageActions from '../../containers/Messages/messagesActions';
 import { HistoryShape } from '../../shapes';
+import { connect } from 'react-redux';
 import {
   toEditArticle,
   toEditAudio,
@@ -23,8 +27,7 @@ import {
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
-import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
-import { deleteLanguageVersionAudio } from '../../modules/audio/audioApi';
+import { formatErrorMessage } from '../../util/apiHelpers';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -51,6 +54,7 @@ class DeleteLanguageVersion extends React.Component {
       values: { id, supportedLanguages, language, articleType },
       history,
       type,
+      createMessage,
     } = this.props;
     if (
       id &&
@@ -62,23 +66,29 @@ class DeleteLanguageVersion extends React.Component {
         lang => lang !== language,
       );
 
-      switch (type) {
-        case 'audio':
-          await deleteLanguageVersionAudio(id, language);
-          history.push(toEditAudio(id, otherSupportedLanguage));
-          break;
-        case 'image':
-          await deleteLanguageVersionImage(id, language);
-          history.push(toEditImage(id, otherSupportedLanguage));
-          break;
-        case 'concept':
-          await deleteLanguageVersionConcept(id, language);
-          history.push(toEditConcept(id, otherSupportedLanguage));
-          break;
-        default:
-          await deleteLanguageVersion(id, language);
-          history.push(toEditArticle(id, articleType, otherSupportedLanguage));
-          break;
+      try {
+        switch (type) {
+          case 'audio':
+            await deleteLanguageVersionAudio(id, language);
+            history.push(toEditAudio(id, otherSupportedLanguage));
+            break;
+          case 'image':
+            await deleteLanguageVersionImage(id, language);
+            history.push(toEditImage(id, otherSupportedLanguage));
+            break;
+          case 'concept':
+            await deleteLanguageVersionConcept(id, language);
+            history.push(toEditConcept(id, otherSupportedLanguage));
+            break;
+          default:
+            await deleteLanguageVersion(id, language);
+            history.push(
+              toEditArticle(id, articleType, otherSupportedLanguage),
+            );
+            break;
+        }
+      } catch (error) {
+        createMessage(formatErrorMessage(error));
       }
     }
   }
@@ -143,6 +153,14 @@ DeleteLanguageVersion.propTypes = {
   showDeleteButton: PropTypes.bool.isRequired,
   history: HistoryShape,
   type: PropTypes.string,
+  createMessage: PropTypes.func,
 };
 
-export default withRouter(injectT(DeleteLanguageVersion));
+const mapDispatchToProps = {
+  createMessage: (message = {}) => messageActions.addMessage(message),
+};
+
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(withRouter(injectT(DeleteLanguageVersion)));

@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -18,7 +19,6 @@ import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
 import { deleteLanguageVersionAudio } from '../../modules/audio/audioApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { HistoryShape } from '../../shapes';
-import { connect } from 'react-redux';
 import {
   toEditArticle,
   toEditAudio,

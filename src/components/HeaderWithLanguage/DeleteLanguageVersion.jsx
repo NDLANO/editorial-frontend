@@ -20,6 +20,9 @@ import { deleteLanguageVersionAudio } from '../../modules/audio/audioApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { HistoryShape } from '../../shapes';
 import {
+  toCreateAudioFile,
+  toCreateConcept,
+  toCreateImage,
   toEditArticle,
   toEditAudio,
   toEditConcept,
@@ -34,6 +37,8 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+const nonDeletableTypes = ['standard', 'topic-article', 'concept'];
 
 class DeleteLanguageVersion extends React.Component {
   constructor() {
@@ -56,29 +61,39 @@ class DeleteLanguageVersion extends React.Component {
       type,
       createMessage,
     } = this.props;
-    if (
-      id &&
-      supportedLanguages.length > 1 &&
-      supportedLanguages.includes(language)
-    ) {
+    if (id && supportedLanguages.includes(language)) {
       this.toggleShowDeleteWarning();
       const otherSupportedLanguage = supportedLanguages.find(
         lang => lang !== language,
       );
 
+      const newAfterLanguageDeletion = supportedLanguages.length <= 1;
+
       try {
         switch (type) {
           case 'audio':
             await deleteLanguageVersionAudio(id, language);
-            history.push(toEditAudio(id, otherSupportedLanguage));
+            history.push(
+              newAfterLanguageDeletion
+                ? toCreateAudioFile()
+                : toEditAudio(id, otherSupportedLanguage),
+            );
             break;
           case 'image':
             await deleteLanguageVersionImage(id, language);
-            history.push(toEditImage(id, otherSupportedLanguage));
+            history.push(
+              newAfterLanguageDeletion
+                ? toCreateImage()
+                : toEditImage(id, otherSupportedLanguage),
+            );
             break;
           case 'concept':
             await deleteLanguageVersionConcept(id, language);
-            history.push(toEditConcept(id, otherSupportedLanguage));
+            history.push(
+              newAfterLanguageDeletion
+                ? toCreateConcept()
+                : toEditConcept(id, otherSupportedLanguage),
+            );
             break;
           default:
             await deleteLanguageVersion(id, language);
@@ -96,18 +111,18 @@ class DeleteLanguageVersion extends React.Component {
   render() {
     const {
       values: { id, supportedLanguages, language },
-      showDeleteButton,
+      type,
       t,
     } = this.props;
 
     if (
-      !showDeleteButton ||
       !id ||
-      supportedLanguages.length < 2 ||
-      !supportedLanguages.includes(language)
+      !supportedLanguages.includes(language) ||
+      (nonDeletableTypes.includes(type) && supportedLanguages.length < 2)
     ) {
       return null;
     }
+
     const { showDeleteWarning } = this.state;
 
     return (
@@ -150,7 +165,6 @@ DeleteLanguageVersion.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     articleType: PropTypes.string,
   }),
-  showDeleteButton: PropTypes.bool.isRequired,
   history: HistoryShape,
   type: PropTypes.string,
   createMessage: PropTypes.func,

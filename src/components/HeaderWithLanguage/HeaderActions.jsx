@@ -80,11 +80,7 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        <DeleteLanguageVersion
-          values={values}
-          type={type}
-          showDeleteButton={!noStatus || type === 'concept'}
-        />
+        <DeleteLanguageVersion values={values} type={type} />
       </Fragment>
     );
   }

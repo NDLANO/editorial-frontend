@@ -37,10 +37,11 @@ const HeaderWithLanguage = ({
     status && status.current
       ? t(`form.status.${status.current.toLowerCase()}`)
       : '';
+  const multiType = articleType ? articleType : type;
   return (
     <header>
       <HeaderInformation
-        type={articleType ? articleType : type}
+        type={multiType}
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
@@ -52,7 +53,7 @@ const HeaderWithLanguage = ({
           values={values}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
-          type={articleType}
+          type={multiType}
           title={title}
           {...rest}
         />

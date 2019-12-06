@@ -184,7 +184,6 @@ class ImageForm extends Component {
           return (
             <FormWrapper inModal={inModal}>
               <HeaderWithLanguage
-                noStatus
                 values={values}
                 type="image"
                 content={image}

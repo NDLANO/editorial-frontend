@@ -46,3 +46,8 @@ export const searchImages = (query, page) =>
 export const onError = err => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);
 };
+
+export const deleteLanguageVersionImage = (imageId, locale) =>
+  fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);

@@ -179,7 +179,6 @@ class AudioForm extends Component {
           return (
             <Form {...formClasses()}>
               <HeaderWithLanguage
-                noStatus
                 values={values}
                 type="audio"
                 content={audio}

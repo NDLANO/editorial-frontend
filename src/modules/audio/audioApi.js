@@ -32,3 +32,8 @@ export const updateAudio = (id, formData) =>
     headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);
+
+export const deleteLanguageVersionAudio = (audioId, locale) =>
+  fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);

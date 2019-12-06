@@ -15,9 +15,16 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../modules/draft/draftApi';
 import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { HistoryShape } from '../../shapes';
-import { toEditArticle, toEditConcept } from '../../util/routeHelpers';
+import {
+  toEditArticle,
+  toEditAudio,
+  toEditConcept,
+  toEditImage,
+} from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
+import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
+import { deleteLanguageVersionAudio } from '../../modules/audio/audioApi';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -54,14 +61,24 @@ class DeleteLanguageVersion extends React.Component {
       const otherSupportedLanguage = supportedLanguages.find(
         lang => lang !== language,
       );
-      if (type === 'concept') {
-        await deleteLanguageVersionConcept(id, language);
 
-        history.push(toEditConcept(id, otherSupportedLanguage));
-      } else {
-        await deleteLanguageVersion(id, language);
-
-        history.push(toEditArticle(id, articleType, otherSupportedLanguage));
+      switch (type) {
+        case 'audio':
+          await deleteLanguageVersionAudio(id, language);
+          history.push(toEditAudio(id, otherSupportedLanguage));
+          break;
+        case 'image':
+          await deleteLanguageVersionImage(id, language);
+          history.push(toEditImage(id, otherSupportedLanguage));
+          break;
+        case 'concept':
+          await deleteLanguageVersionConcept(id, language);
+          history.push(toEditConcept(id, otherSupportedLanguage));
+          break;
+        default:
+          await deleteLanguageVersion(id, language);
+          history.push(toEditArticle(id, articleType, otherSupportedLanguage));
+          break;
       }
     }
   }

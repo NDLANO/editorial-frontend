@@ -41,7 +41,7 @@ const SearchConcept = ({ concept, locale, t }) => {
         <div {...searchClasses('header')}>
           <Link
             {...searchClasses('link')}
-            to={toEditConcept(concept.id, locale)}>
+            to={toEditConcept(concept.id, concept.title.language)}>
             <h2 {...searchClasses('title')}>{title}</h2>
           </Link>
           {concept.supportedLanguages.map(lang => {
@@ -71,6 +71,7 @@ SearchConcept.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.shape({
       title: PropTypes.string,
+      language: PropTypes.string,
     }),
     content: PropTypes.shape({
       content: PropTypes.string,

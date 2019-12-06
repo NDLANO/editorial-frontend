@@ -254,6 +254,7 @@ class ConceptForm extends Component {
           return (
             <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
+                noStatus
                 values={values}
                 type="concept"
                 content={concept}

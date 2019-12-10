@@ -14,6 +14,8 @@ import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import AlertModal from '../../../../components/AlertModal';
 import {
+  deleteTopic,
+  fetchTopicConnections,
   deleteTopicConnection,
   deleteSubTopicConnection,
 } from '../../../../modules/taxonomy';
@@ -31,22 +33,18 @@ class DeleteTopic extends PureComponent {
   }
 
   async onDeleteTopic() {
-    const {
-      parent,
-      toggleEditMode,
-      connectionId,
-      refreshTopics,
-      t,
-    } = this.props;
+    const { parent, toggleEditMode, refreshTopics, t, id } = this.props;
     toggleEditMode('deleteTopic');
     this.setState({ loading: true, error: '' });
     const subTopic = parent.includes('topic');
+    const [{ connectionId }] = await fetchTopicConnections(id);
     try {
       if (subTopic) {
         await deleteSubTopicConnection(connectionId);
       } else {
         await deleteTopicConnection(connectionId);
       }
+      await deleteTopic(id);
       refreshTopics();
       this.setState({ loading: false });
     } catch (err) {

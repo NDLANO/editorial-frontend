@@ -49,7 +49,7 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
     ? config.headers['Content-Type']
     : 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
-  const cacheControl = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(
+  const cacheControl = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(
     config.method,
   )
     ? {}

@@ -151,13 +151,21 @@ class TopicArticleTaxonomy extends Component {
         ...topic,
       }));
 
+      const allSubtypes = allResourceTypes
+        .flatMap(rt => rt.subtypes)
+        .filter(st => st);
+
       const resourceTypes = topicResourceTypeConnections
         .filter(con => topics.map(t => t.id).includes(con.topicId))
         .map(con => {
+          const rt = allResourceTypes.find(rt => rt.id === con.resourceTypeId);
+          const subType = allSubtypes.find(st => st.id === con.resourceTypeId);
+          const name = (rt && rt.name) || (subType && subType.name);
+
           return {
             connectionId: con.id,
             id: con.resourceTypeId,
-            name: allResourceTypes.find(rt => rt.id === con.resourceTypeId),
+            name: name,
             parentId: this.getResourceTypeParentId(
               allResourceTypes,
               con.resourceTypeId,
@@ -293,7 +301,7 @@ class TopicArticleTaxonomy extends Component {
           stagedFilterChanges,
         );
 
-        await this.createDeleteUpdateResourceTypes(
+        const updatedResourceTypes = await this.createDeleteUpdateResourceTypes(
           stagedTopicChanges,
           stagedResourceTypeChanges,
           originalResourceTypes,
@@ -303,7 +311,8 @@ class TopicArticleTaxonomy extends Component {
           isDirty: false,
           originalFilters: updatedFilters,
           stagedFilterChanges: updatedFilters,
-          // TODO: resource types
+          originalResourceTypes: updatedResourceTypes,
+          stagedResourceTypeChanges: updatedResourceTypes,
           status: 'success',
         });
       }
@@ -414,23 +423,36 @@ class TopicArticleTaxonomy extends Component {
     stagedResourceTypeChanges,
     originalResourceTypes,
   ) => {
-    topics.forEach(topic => {
-      const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
-        changedItems: stagedResourceTypeChanges,
-        originalItems: originalResourceTypes,
-      });
-
-      createItems.forEach(item => {
-        createTopicResourceType({
-          resourceTypeId: item.id,
-          topicId: topic.id,
+    return await Promise.all(
+      topics.map(async topic => {
+        const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
+          changedItems: stagedResourceTypeChanges,
+          originalItems: originalResourceTypes,
         });
-      });
 
-      deleteItems.forEach(item => {
-        deleteTopicResourceType(item.connectionId);
-      });
-    });
+        const created = await Promise.all(
+          createItems.map(async item => {
+            const newConnectionUrl = await createTopicResourceType({
+              resourceTypeId: item.id,
+              topicId: topic.id,
+            });
+            const connectionId = newConnectionUrl.split('/').pop();
+            return {
+              connectionId,
+              ...item,
+            };
+          }),
+        );
+
+        deleteItems.forEach(item => {
+          deleteTopicResourceType(item.connectionId);
+        });
+
+        return created
+          .concat(originalResourceTypes)
+          .filter(rt => !deleteItems.includes(rt));
+      }),
+    ).then(resourceTypesForTopics => resourceTypesForTopics.flat());
   };
 
   createDeleteUpdateTopicFilters = async (

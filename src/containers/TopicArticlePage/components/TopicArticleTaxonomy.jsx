@@ -28,6 +28,7 @@ import {
   fetchTopicFilters,
   fetchTopicResources,
   addTopic,
+  fetchResourceTypes,
 } from '../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -43,6 +44,12 @@ import { FormikActionButton } from '../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
+import ResourceTypeSelect from '../../LearningResourcePage/components/taxonomy/ResourceTypeSelect';
+import { fetchTopicResourceTypes } from '../../../modules/taxonomy/topics';
+import {
+  createTopicResourceType,
+  deleteResourceResourceType, deleteTopicResourceType
+} from "../../../modules/taxonomy/resourcetypes";
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -101,11 +108,20 @@ class TopicArticleTaxonomy extends Component {
       article: { language, id },
     } = this.props;
     try {
-      const [topics, allTopics, allFilters, subjects] = await Promise.all([
+      const [
+        topics,
+        allTopics,
+        allFilters,
+        subjects,
+        allResourceTypes,
+        topicResourceTypeConnections,
+      ] = await Promise.all([
         queryTopics(id, language),
         fetchTopics(language),
         fetchFilters(language),
         fetchSubjects(language),
+        fetchResourceTypes(language),
+        fetchTopicResourceTypes(language),
       ]);
 
       const sortedSubjects = subjects
@@ -125,13 +141,23 @@ class TopicArticleTaxonomy extends Component {
         ...topic,
       }));
 
+      const resourceTypeConnections = topicResourceTypeConnections
+        .filter(connection => {
+          return topics.map(t => t.id).includes(connection.topicId);
+        });
+
       this.setState({
         status: 'initial',
         stagedTopicChanges: topicsWithConnections,
         stagedFilterChanges: topicFiltersWithId,
         originalFilters: topicFiltersWithId,
+        originalResourceTypes: resourceTypeConnections,
+        stagedResourceTypeChanges: resourceTypeConnections,
         structure: sortedSubjects,
         taxonomyChoices: {
+          availableResourceTypes: allResourceTypes.filter(
+            resourceType => resourceType.name,
+          ),
           allTopics: allTopics.filter(topic => topic.name),
           availableFilters: filterToSubjects(
             allFilters.filter(filt => filt.name),
@@ -145,7 +171,7 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  stageTaxonomyChanges = ({ path, filter }) => {
+  stageTaxonomyChanges = ({ path, filter, resourceTypes }) => {
     const {
       article: { title },
     } = this.props;
@@ -163,6 +189,12 @@ class TopicArticleTaxonomy extends Component {
     }
     if (filter) {
       this.setState({ isDirty: true, stagedFilterChanges: filter });
+    }
+    if (resourceTypes) {
+      this.setState({
+        isDirty: true,
+        stagedResourceTypeChanges: resourceTypes,
+      });
     }
   };
 
@@ -209,6 +241,8 @@ class TopicArticleTaxonomy extends Component {
       stagedTopicChanges,
       stagedFilterChanges,
       originalFilters,
+      stagedResourceTypeChanges,
+      originalResourceTypes
     } = this.state;
     const {
       updateNotes,
@@ -239,10 +273,18 @@ class TopicArticleTaxonomy extends Component {
           updateFilter,
           stagedFilterChanges,
         );
+
+        await this.createDeleteUpdateResourceTypes(
+            stagedTopicChanges,
+            stagedResourceTypeChanges,
+            originalResourceTypes,
+        );
+
         this.setState({
           isDirty: false,
           originalFilters: updatedFilters,
           stagedFilterChanges: updatedFilters,
+          // TODO: resource types
           status: 'success',
         });
       }
@@ -348,6 +390,26 @@ class TopicArticleTaxonomy extends Component {
     };
   };
 
+  createDeleteUpdateResourceTypes = async (topics, stagedResourceTypeChanges, originalResourceTypes) => {
+    topics.forEach(topic => {
+      const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
+        changedItems: stagedResourceTypeChanges,
+        originalItems: originalResourceTypes,
+      });
+
+      createItems.forEach(item => {
+        createTopicResourceType({
+          resourceTypeId: item.id,
+          topicId: topic.id,
+        });
+      });
+
+      deleteItems.forEach(item => {
+        deleteTopicResourceType(item.id);
+      });
+    });
+  };
+
   createDeleteUpdateTopicFilters = async (
     createFilter,
     deleteFilter,
@@ -379,9 +441,38 @@ class TopicArticleTaxonomy extends Component {
     return updatedFilters;
   };
 
+  onChangeSelectedResource = evt => {
+    const {
+      taxonomyChoices: { availableResourceTypes },
+    } = this.state;
+    const options = evt.target.value.split(',');
+    const selectedResource = availableResourceTypes.find(
+      resourceType => resourceType.id === options[0],
+    );
+    const resourceTypes = [
+      {
+        name: selectedResource.name,
+        id: selectedResource.id,
+      },
+    ];
+    if (options.length > 1) {
+      const subType = selectedResource.subtypes.find(
+        subtype => subtype.id === options[1],
+      );
+      resourceTypes.push({
+        id: subType.id,
+        name: subType.name,
+        parentId: selectedResource.id,
+      });
+    }
+
+    this.stageTaxonomyChanges({ resourceTypes });
+  };
+
   render() {
     const {
-      taxonomyChoices: { availableFilters, allTopics },
+      taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
+      stagedResourceTypeChanges,
       stagedTopicChanges,
       stagedFilterChanges,
       structure,
@@ -413,6 +504,11 @@ class TopicArticleTaxonomy extends Component {
 
     return (
       <Fragment>
+        <ResourceTypeSelect
+          availableResourceTypes={availableResourceTypes}
+          resourceTypes={stagedResourceTypeChanges}
+          onChangeSelectedResource={this.onChangeSelectedResource}
+        />
         <TopicArticleConnections
           availableFilters={availableFilters}
           structure={structure}

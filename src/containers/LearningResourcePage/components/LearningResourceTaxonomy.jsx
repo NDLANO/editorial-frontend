@@ -150,7 +150,7 @@ class LearningResourceTaxonomy extends Component {
       const resourceId = await getResourceId({ id, language });
 
       if (resourceId) {
-        const fullResource = await this.fetchFullResouce(resourceId, language);
+        const fullResource = await this.fetchFullResource(resourceId, language);
 
         this.setState({
           resourceId,
@@ -278,7 +278,7 @@ class LearningResourceTaxonomy extends Component {
     await new Promise(resolve => {
       setTimeout(resolve, 5000);
     });
-    const resourceTaxonomy = await this.fetchFullResouce(
+    const resourceTaxonomy = await this.fetchFullResource(
       this.state.resourceId,
       this.props.article.language,
     );
@@ -287,7 +287,7 @@ class LearningResourceTaxonomy extends Component {
     });
   };
 
-  fetchFullResouce = async (resourceId, language) => {
+  fetchFullResource = async (resourceId, language) => {
     const { resourceTypes, filters, topics } = await getFullResource(
       resourceId,
       language,

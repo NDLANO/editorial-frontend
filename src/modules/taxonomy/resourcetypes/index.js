@@ -41,6 +41,25 @@ function deleteResourceResourceType(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
+function createTopicResourceType(resourceType) {
+  return fetchAuthorized(`${baseUrl}/topic-resourcetypes`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(resourceType),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+}
+
+function deleteTopicResourceType(id) {
+  return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+}
+
 async function createDeleteResourceTypes(
   resourceId,
   resourceTypes,
@@ -72,4 +91,6 @@ export {
   createResourceResourceType,
   deleteResourceResourceType,
   createDeleteResourceTypes,
+  createTopicResourceType,
+  deleteTopicResourceType,
 };

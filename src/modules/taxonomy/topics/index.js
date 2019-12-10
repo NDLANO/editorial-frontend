@@ -27,6 +27,12 @@ function fetchTopicFilters(id) {
   );
 }
 
+function fetchTopicResourceTypes(locale) {
+  return fetchAuthorized(
+    `${baseUrl}/topic-resourcetypes/?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function fetchTopicResources(topicId, locale, relevance, filters) {
   const query = [];
   if (locale) query.push(`language=${locale}`);
@@ -139,4 +145,5 @@ export {
   fetchTopicResources,
   fetchTopicConnections,
   updateTopicSubtopic,
+  fetchTopicResourceTypes,
 };

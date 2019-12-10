@@ -170,7 +170,7 @@
     "redux-actions": "^2.6.5",
     "redux-saga": "^0.16.0",
     "reselect": "^4.0.0",
-    "serialize-javascript": "^1.8.0",
+    "serialize-javascript": "^2.1.1",
     "slate": "^0.47.4",
     "slate-deep-table": "^0.9.6",
     "slate-html-serializer": "^0.8.6",

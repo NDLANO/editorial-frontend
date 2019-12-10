@@ -110,7 +110,7 @@ class NdlaFilmEditor extends React.Component {
       subjects: 'urn:subject:20',
       'context-types': 'topic-article',
       sort: '-relevance',
-      'page-size': 100,
+      'page-size': 10000,
     };
     const response = await searchResources(query);
     return response.results;

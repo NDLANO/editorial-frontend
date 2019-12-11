@@ -65,10 +65,11 @@ class DeleteTopic extends PureComponent {
   }
 
   async getConnections() {
-    const {id} = this.props;
+    const { id } = this.props;
     const connections = await fetchTopicConnections(id);
     this.setState(prevState => ({
-      ...prevState, connections
+      ...prevState,
+      connections,
     }));
   }
 
@@ -78,7 +79,10 @@ class DeleteTopic extends PureComponent {
     const isDisabled = connections && connections.length > 1;
     return (
       <React.Fragment>
-        <MenuItemButton stripped disabled={isDisabled} onClick={this.toggleEditMode}>
+        <MenuItemButton
+          stripped
+          disabled={isDisabled}
+          onClick={this.toggleEditMode}>
           <RoundIcon small icon={<DeleteForever />} />
           {t('alertModal.delete')}
         </MenuItemButton>

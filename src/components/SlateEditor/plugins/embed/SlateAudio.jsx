@@ -70,14 +70,14 @@ class SlateAudio extends React.Component {
       language,
     } = this.props;
     const { audio } = this.state;
-    const speech = embed.audioType === 'speech';
+    const speech = embed.audiotype === 'speech';
 
     return (
       <Figure id={`${audio.id}`} draggable="true" {...attributes}>
         {this.state.editMode ? (
           <EditAudio
             onExit={this.toggleEdit}
-            audioType={embed.audioType || 'sound'}
+            audioType={embed.audiotype || 'sound'}
             onChange={onFigureInputChange}
             onAudioFigureInputChange={this.onAudioFigureInputChange}
             language={language}

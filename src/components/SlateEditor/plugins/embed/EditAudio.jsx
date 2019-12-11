@@ -48,7 +48,7 @@ class EditAudio extends Component {
       onAudioFigureInputChange,
       onExit,
       onRemoveClick,
-      audioType,
+      audiotype,
       t,
       language,
       speech,
@@ -82,11 +82,11 @@ class EditAudio extends Component {
               onClick={evt => evt.stopPropagation()}
               onChange={onChange}
               onBlur={onChange}
-              key="audioType"
-              name="audioType"
+              key="audiotype"
+              name="audiotype"
               labelKey="label"
               idKey="id"
-              value={audioType}
+              value={audiotype}
               options={[
                 {
                   id: 'sound',
@@ -134,7 +134,7 @@ EditAudio.propTypes = {
   onChange: func,
   onExit: func,
   onAudioFigureInputChange: func,
-  audioType: string,
+  audiotype: string,
   onRemoveClick: func,
   submitted: bool.isRequired,
   embed: EmbedShape.isRequired,

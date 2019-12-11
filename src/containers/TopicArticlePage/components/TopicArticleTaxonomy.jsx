@@ -493,24 +493,30 @@ class TopicArticleTaxonomy extends Component {
     const selectedResource = availableResourceTypes.find(
       resourceType => resourceType.id === options[0],
     );
-    const resourceTypes = [
-      {
-        name: selectedResource.name,
-        id: selectedResource.id,
-      },
-    ];
-    if (options.length > 1) {
-      const subType = selectedResource.subtypes.find(
-        subtype => subtype.id === options[1],
-      );
-      resourceTypes.push({
-        id: subType.id,
-        name: subType.name,
-        parentId: selectedResource.id,
-      });
-    }
 
-    this.stageTaxonomyChanges({ resourceTypes });
+    if (selectedResource) {
+      const resourceTypes = [
+        {
+          name: selectedResource.name,
+          id: selectedResource.id,
+        },
+      ];
+
+      if (options.length > 1) {
+        const subType = selectedResource.subtypes.find(
+          subtype => subtype.id === options[1],
+        );
+        resourceTypes.push({
+          id: subType.id,
+          name: subType.name,
+          parentId: selectedResource.id,
+        });
+      }
+
+      this.stageTaxonomyChanges({ resourceTypes });
+    } else {
+      this.stageTaxonomyChanges({ resourceTypes: [] });
+    }
   };
 
   render() {

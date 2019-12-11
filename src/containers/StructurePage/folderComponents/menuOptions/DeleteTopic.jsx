@@ -105,7 +105,7 @@ DeleteTopic.propTypes = {
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
   parent: PropTypes.string,
-  connectionId: PropTypes.string,
+  id: PropTypes.string,
   refreshTopics: PropTypes.func.isRequired,
 };
 

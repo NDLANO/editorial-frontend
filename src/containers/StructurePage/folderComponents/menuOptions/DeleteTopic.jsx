@@ -32,6 +32,10 @@ class DeleteTopic extends PureComponent {
     this.toggleEditMode = this.toggleEditMode.bind(this);
   }
 
+  componentDidMount() {
+    this.getConnections();
+  }
+
   async onDeleteTopic() {
     const { parent, toggleEditMode, refreshTopics, t, id } = this.props;
     toggleEditMode('deleteTopic');
@@ -60,12 +64,21 @@ class DeleteTopic extends PureComponent {
     this.props.toggleEditMode('deleteTopic');
   }
 
+  async getConnections() {
+    const {id} = this.props;
+    const connections = await fetchTopicConnections(id);
+    this.setState(prevState => ({
+      ...prevState, connections
+    }));
+  }
+
   render() {
     const { t, editMode } = this.props;
-    const { error, loading } = this.state;
+    const { error, loading, connections } = this.state;
+    const isDisabled = connections && connections.length > 1;
     return (
       <React.Fragment>
-        <MenuItemButton stripped onClick={this.toggleEditMode}>
+        <MenuItemButton stripped disabled={isDisabled} onClick={this.toggleEditMode}>
           <RoundIcon small icon={<DeleteForever />} />
           {t('alertModal.delete')}
         </MenuItemButton>

@@ -915,8 +915,7 @@ const phrases = {
     addFilter: 'Nytt filter',
     connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
-    confirmDeleteTopic:
-      'Vil du slette dette emnet frå mappa? Dette påvirker ikkje plasseringa andre steder',
+    confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',

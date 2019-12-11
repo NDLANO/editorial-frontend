@@ -96,7 +96,6 @@ class AddExistingToTopic extends React.PureComponent {
       <MenuItemDropdown
         placeholder={t('taxonomy.existingTopic')}
         searchResult={this.state.topics}
-        filter={path.split('/')[1]}
         onClose={onClose}
         onSubmit={this.onAddExistingSubTopic}
         icon={<Plus />}

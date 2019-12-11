@@ -48,7 +48,6 @@ import ResourceTypeSelect from '../../LearningResourcePage/components/taxonomy/R
 import { fetchTopicResourceTypes } from '../../../modules/taxonomy/topics';
 import {
   createTopicResourceType,
-  deleteResourceResourceType,
   deleteTopicResourceType,
 } from '../../../modules/taxonomy/resourcetypes';
 

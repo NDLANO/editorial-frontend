@@ -157,9 +157,8 @@ class TopicArticleTaxonomy extends Component {
       const resourceTypes = topicResourceTypeConnections
         .filter(con => topics.map(t => t.id).includes(con.topicId))
         .map(con => {
-          const rt = allResourceTypes.find(rt => rt.id === con.resourceTypeId);
           const subType = allSubtypes.find(st => st.id === con.resourceTypeId);
-          const name = (rt && rt.name) || (subType && subType.name);
+          const name = subType && subType.name;
 
           return {
             connectionId: con.id,

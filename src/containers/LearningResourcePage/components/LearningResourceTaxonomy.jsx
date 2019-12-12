@@ -91,26 +91,27 @@ class LearningResourceTaxonomy extends Component {
     const selectedResource = availableResourceTypes.find(
       resourceType => resourceType.id === options[0],
     );
-    const resourceTypes = [
-      {
-        name: selectedResource.name,
-        id: selectedResource.id,
-      },
-    ];
-    if (options.length > 1) {
-      const subType = selectedResource.subtypes.find(
-        subtype => subtype.id === options[1],
-      );
-      resourceTypes.push({
-        id: subType.id,
-        name: subType.name,
-        parentId: selectedResource.id,
-      });
-    }
 
-    this.stageTaxonomyChanges({
-      resourceTypes,
-    });
+    if (selectedResource) {
+      const resourceTypes = [
+        {
+          name: selectedResource.name,
+          id: selectedResource.id,
+        },
+      ];
+      if (options.length > 1) {
+        const subType = selectedResource.subtypes.find(
+          subtype => subtype.id === options[1],
+        );
+        resourceTypes.push({
+          id: subType.id,
+          name: subType.name,
+          parentId: selectedResource.id,
+        });
+      }
+
+      this.stageTaxonomyChanges({ resourceTypes });
+    }
   };
 
   getSubjectTopics = async subjectid => {
@@ -150,7 +151,7 @@ class LearningResourceTaxonomy extends Component {
       const resourceId = await getResourceId({ id, language });
 
       if (resourceId) {
-        const fullResource = await this.fetchFullResouce(resourceId, language);
+        const fullResource = await this.fetchFullResource(resourceId, language);
 
         this.setState({
           resourceId,
@@ -278,7 +279,7 @@ class LearningResourceTaxonomy extends Component {
     await new Promise(resolve => {
       setTimeout(resolve, 5000);
     });
-    const resourceTaxonomy = await this.fetchFullResouce(
+    const resourceTaxonomy = await this.fetchFullResource(
       this.state.resourceId,
       this.props.article.language,
     );
@@ -287,7 +288,7 @@ class LearningResourceTaxonomy extends Component {
     });
   };
 
-  fetchFullResouce = async (resourceId, language) => {
+  fetchFullResource = async (resourceId, language) => {
     const { resourceTypes, filters, topics } = await getFullResource(
       resourceId,
       language,

@@ -58,12 +58,15 @@ class AddExistingToSubjectTopic extends React.PureComponent {
 
   async onAddExistingTopic(topic) {
     const { id, refreshTopics } = this.props;
-    const [{ connectionId }] = await fetchTopicConnections(topic.id);
+    const connections = await fetchTopicConnections(topic.id);
 
-    if (connectionId.includes('topic-subtopic')) {
-      await deleteSubTopicConnection(connectionId);
-    } else {
-      await deleteTopicConnection(connectionId);
+    if (connections && connections.length > 0) {
+      const connectionId = connections[0].connectionId;
+      if (connectionId.includes('topic-subtopic')) {
+        await deleteSubTopicConnection(connectionId);
+      } else {
+        await deleteTopicConnection(connectionId);
+      }
     }
 
     await Promise.all([

@@ -905,8 +905,7 @@ const phrases = {
     addResource: 'Add resource',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
-    confirmDeleteTopic:
-      'Are you sure you want to delete the topic from the folder? This does not affect the topic location elsewhere',
+    confirmDeleteTopic: 'Are you sure you want to delete this topic?',
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Note! This is a different resource type: ',

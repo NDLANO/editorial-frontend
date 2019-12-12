@@ -106,10 +106,9 @@ class TopicArticleTaxonomy extends Component {
   getResourceTypeParentId = (resourceTypesList, resourceTypeId) => {
     const parentType = resourceTypesList.find(
       rt =>
-        rt.subtypes &&
-        rt.subtypes.filter(st => st.id === resourceTypeId).length > 0,
+        rt.subtypes && rt.subtypes.some(st => st.id === resourceTypeId).length,
     );
-    return parentType ? parentType.id : null;
+    return parentType && parentType.id;
   };
 
   fetchTaxonomy = async () => {
@@ -152,7 +151,8 @@ class TopicArticleTaxonomy extends Component {
 
       const allSubtypes = allResourceTypes
         .flatMap(rt => rt.subtypes)
-        .filter(st => st);
+        .filter(st => st)
+        .concat(allResourceTypes);
 
       const resourceTypes = topicResourceTypeConnections
         .filter(con => topics.map(t => t.id).includes(con.topicId))
@@ -422,7 +422,7 @@ class TopicArticleTaxonomy extends Component {
     stagedResourceTypeChanges,
     originalResourceTypes,
   ) => {
-    return await Promise.all(
+    const resourceTypesForTopics = await Promise.all(
       topics.map(async topic => {
         const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
           changedItems: stagedResourceTypeChanges,
@@ -451,7 +451,8 @@ class TopicArticleTaxonomy extends Component {
           .concat(originalResourceTypes)
           .filter(rt => !deleteItems.includes(rt));
       }),
-    ).then(resourceTypesForTopics => resourceTypesForTopics.flat());
+    );
+    return resourceTypesForTopics.flat();
   };
 
   createDeleteUpdateTopicFilters = async (
@@ -489,9 +490,9 @@ class TopicArticleTaxonomy extends Component {
     const {
       taxonomyChoices: { availableResourceTypes },
     } = this.state;
-    const options = evt.target.value.split(',');
+    const options = evt.target.value && evt.target.value.split(',');
     const selectedResource = availableResourceTypes.find(
-      resourceType => resourceType.id === options[0],
+      resourceType => resourceType.id === (options.length > 0 && options[0]),
     );
 
     if (selectedResource) {

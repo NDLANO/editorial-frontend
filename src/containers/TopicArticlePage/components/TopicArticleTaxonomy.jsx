@@ -105,8 +105,7 @@ class TopicArticleTaxonomy extends Component {
 
   getResourceTypeParentId = (resourceTypesList, resourceTypeId) => {
     const parentType = resourceTypesList.find(
-      rt =>
-        rt.subtypes && rt.subtypes.some(st => st.id === resourceTypeId).length,
+      rt => rt.subtypes && rt.subtypes.some(st => st.id === resourceTypeId),
     );
     return parentType && parentType.id;
   };

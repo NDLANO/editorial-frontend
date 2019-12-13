@@ -112,11 +112,14 @@ export class MastheadSearchForm extends Component {
     }
   }
 
-  handleUrlPaste(ndlaUrl) {
+  handleUrlPaste(frontendUrl) {
     const { history, locale } = this.props;
 
     // Removes search queries before split
-    const splittedNdlaUrl = ndlaUrl.split(/\?/)[0].split('/');
+    const ndlaUrl = frontendUrl.split(/\?/)[0];
+    // Strip / from end if topic
+    const cleanUrl = ndlaUrl.endsWith('/') ? ndlaUrl.slice(0, -1) : ndlaUrl;
+    const splittedNdlaUrl = cleanUrl.split('/');
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
 
@@ -134,7 +137,7 @@ export class MastheadSearchForm extends Component {
     } else if (splittedNdlaUrl.includes('node')) {
       this.handleNodeId(urlId);
     } else if (splittedNdlaUrl.includes('subjects')) {
-      this.handleFrontendUrl(ndlaUrl);
+      this.handleFrontendUrl(cleanUrl);
     } else {
       history.push(toEditArticle(urlId, 'standard', locale));
     }
@@ -142,10 +145,24 @@ export class MastheadSearchForm extends Component {
 
   async handleTopicUrl(urlId) {
     const { locale, history } = this.props;
-    const topicArticle = await fetchTopicArticle(urlId, locale);
-    const arr = topicArticle.contentUri.split(':');
-    const id = arr[arr.length - 1];
-    history.push(toEditArticle(id, 'topic-article', locale));
+    try {
+      const topicArticle = await fetchTopicArticle(urlId, locale);
+      const arr = topicArticle.contentUri.split(':');
+      const id = arr[arr.length - 1];
+      const article = await fetchDraft(id);
+      const [supportedLanguage] = article.supportedLanguages.filter(
+        item => item === locale,
+      );
+      history.push(
+        toEditArticle(
+          id,
+          'topic-article',
+          supportedLanguage || article.supportedLanguages[0],
+        ),
+      );
+    } catch {
+      history.push(to404());
+    }
   }
 
   async handleFrontendUrl(url) {
@@ -156,8 +173,18 @@ export class MastheadSearchForm extends Component {
       const newArticle = await resolveUrls(taxonomyUrl, locale);
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
+      const article = await fetchDraft(articleId);
+      const [supportedLanguage] = article.supportedLanguages.filter(
+        item => item === locale,
+      );
 
-      history.push(toEditArticle(articleId, 'standard', locale));
+      history.push(
+        toEditArticle(
+          articleId,
+          'standard',
+          supportedLanguage || article.supportedLanguages[0],
+        ),
+      );
     } catch {
       history.push(to404());
     }

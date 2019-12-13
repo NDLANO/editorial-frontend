@@ -70,16 +70,18 @@ async function createDeleteUpdateTopicResources(
       updateProperty: 'primary',
     });
 
-    createItems.forEach(item => {
-      createTopicResource({
-        topicid: item.id,
-        primary: item.primary,
-        resourceId, // Not consistent!
-      });
-    });
-    deleteItems.forEach(item => {
-      deleteTopicResource(item.connectionId);
-    });
+    await Promise.all(
+      createItems.map(item =>
+        createTopicResource({
+          topicid: item.id,
+          primary: item.primary,
+          resourceId, // Not consistent!
+        }),
+      ),
+    );
+    await Promise.all(
+      deleteItems.map(item => deleteTopicResource(item.connectionId)),
+    );
     updateItems.forEach(item => {
       // only update if changed to primary, previous primary is automatically unset
       if (item.primary)

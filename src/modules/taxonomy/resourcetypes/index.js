@@ -71,12 +71,14 @@ async function createDeleteResourceTypes(
       originalItems: originalResourceTypes,
     });
 
-    createItems.forEach(item => {
-      createResourceResourceType({
-        resourceTypeId: item.id,
-        resourceId,
-      });
-    });
+    await Promise.all(
+      createItems.map(item =>
+        createResourceResourceType({
+          resourceTypeId: item.id,
+          resourceId,
+        }),
+      ),
+    );
 
     deleteItems.forEach(item => {
       deleteResourceResourceType(item.connectionId);

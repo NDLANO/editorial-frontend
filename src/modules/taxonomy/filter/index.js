@@ -56,17 +56,19 @@ export async function createDeleteUpdateFilters(
       originalItems: originalFilters,
       updateProperty: 'relevanceId',
     });
+    await Promise.all(
+      createItems.map(item =>
+        createResourceFilter({
+          filterId: item.id,
+          relevanceId: item.relevanceId,
+          resourceId,
+        }),
+      ),
+    );
 
-    createItems.forEach(item => {
-      createResourceFilter({
-        filterId: item.id,
-        relevanceId: item.relevanceId,
-        resourceId,
-      });
-    });
-    deleteItems.forEach(item => {
-      deleteResourceFilter(item.connectionId);
-    });
+    await Promise.all(
+      deleteItems.map(item => deleteResourceFilter(item.connectionId)),
+    );
     updateItems.forEach(item => {
       updateResourceFilter(item.connectionId, {
         relevanceId: item.relevanceId,

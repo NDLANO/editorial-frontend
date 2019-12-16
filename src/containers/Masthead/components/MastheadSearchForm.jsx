@@ -96,8 +96,8 @@ export class MastheadSearchForm extends Component {
     try {
       const newArticle = await fetchNewArticleId(nodeId);
       const article = await fetchDraft(newArticle.id);
-      const [supportedLanguage] = article.supportedLanguages.filter(
-        item => item === locale,
+      const supportedLanguage = article.supportedLanguages.find(
+        language => language === locale,
       );
 
       history.push(
@@ -150,8 +150,8 @@ export class MastheadSearchForm extends Component {
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
       const article = await fetchDraft(id);
-      const [supportedLanguage] = article.supportedLanguages.filter(
-        item => item === locale,
+      const supportedLanguage = article.supportedLanguages.find(
+        language => language === locale,
       );
       history.push(
         toEditArticle(
@@ -174,8 +174,8 @@ export class MastheadSearchForm extends Component {
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
       const article = await fetchDraft(articleId);
-      const [supportedLanguage] = article.supportedLanguages.filter(
-        item => item === locale,
+      const supportedLanguage = article.supportedLanguages.find(
+        language => language === locale,
       );
 
       history.push(

@@ -51,6 +51,8 @@ import {
   deleteTopicResourceType,
 } from '../../../modules/taxonomy/resourcetypes';
 
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+
 class TopicArticleTaxonomy extends Component {
   constructor() {
     super();
@@ -530,8 +532,11 @@ class TopicArticleTaxonomy extends Component {
     } = this.state;
     const {
       t,
+      userAccess,
       article: { title },
     } = this.props;
+    const showResourceType =
+      userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
 
     if (status === 'loading') {
       return <Spinner />;
@@ -553,11 +558,13 @@ class TopicArticleTaxonomy extends Component {
 
     return (
       <Fragment>
-        <ResourceTypeSelect
-          availableResourceTypes={availableResourceTypes}
-          resourceTypes={stagedResourceTypeChanges}
-          onChangeSelectedResource={this.onChangeSelectedResource}
-        />
+        {showResourceType && (
+          <ResourceTypeSelect
+            availableResourceTypes={availableResourceTypes}
+            resourceTypes={stagedResourceTypeChanges}
+            onChangeSelectedResource={this.onChangeSelectedResource}
+          />
+        )}
         <TopicArticleConnections
           availableFilters={availableFilters}
           structure={structure}
@@ -609,6 +616,7 @@ TopicArticleTaxonomy.propTypes = {
     revision: PropTypes.number,
   }).isRequired,
   updateNotes: PropTypes.func.isRequired,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(TopicArticleTaxonomy);

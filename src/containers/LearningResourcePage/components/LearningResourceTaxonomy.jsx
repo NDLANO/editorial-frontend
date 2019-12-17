@@ -37,8 +37,6 @@ import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
 
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
-
 const emptyTaxonomy = {
   resourceTypes: [],
   filter: [],
@@ -400,9 +398,7 @@ class LearningResourceTaxonomy extends Component {
       isDirty,
     } = this.state;
 
-    const { t, userAccess } = this.props;
-    const showResourceType =
-      userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
+    const { t } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -424,13 +420,11 @@ class LearningResourceTaxonomy extends Component {
 
     return (
       <Fragment>
-        {showResourceType && (
-          <ResourceTypeSelect
-            availableResourceTypes={availableResourceTypes}
-            resourceTypes={resourceTypes}
-            onChangeSelectedResource={this.onChangeSelectedResource}
-          />
-        )}
+        <ResourceTypeSelect
+          availableResourceTypes={availableResourceTypes}
+          resourceTypes={resourceTypes}
+          onChangeSelectedResource={this.onChangeSelectedResource}
+        />
         <TopicConnections
           availableFilters={availableFilters}
           structure={structure}
@@ -483,7 +477,6 @@ LearningResourceTaxonomy.propTypes = {
     language: PropTypes.string,
   }),
   updateNotes: PropTypes.func,
-  userAccess: PropTypes.string,
 };
 
 export default injectT(LearningResourceTaxonomy);

@@ -26,7 +26,7 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name }) => {
       return <a {...linkProps}>{name}</a>;
     }
     return (
-      <Link to={toEditArticle(linkTo, contentType, locale)}>
+      <Link to={toEditArticle(linkTo, contentType)}>
         <h1 {...classes('title')}>{name}</h1>
       </Link>
     );

@@ -19,7 +19,7 @@ import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
 import { fetchTopicArticle } from '../../../modules/taxonomy';
 
-import { fetchDraft, fetchNewArticleId } from '../../../modules/draft/draftApi';
+import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
 import { getLocale } from '../../../modules/locale/locale';
 
@@ -92,21 +92,10 @@ export class MastheadSearchForm extends Component {
   }
 
   async handleNodeId(nodeId) {
-    const { history, locale } = this.props;
+    const { history } = this.props;
     try {
       const newArticle = await fetchNewArticleId(nodeId);
-      const article = await fetchDraft(newArticle.id);
-      const supportedLanguage = article.supportedLanguages.find(
-        language => language === locale,
-      );
-
-      history.push(
-        toEditArticle(
-          newArticle.id,
-          'standard',
-          supportedLanguage || article.supportedLanguages[0],
-        ),
-      );
+      history.push(toEditArticle(newArticle.id, 'standard'));
     } catch (error) {
       history.push(to404());
     }
@@ -139,7 +128,7 @@ export class MastheadSearchForm extends Component {
     } else if (splittedNdlaUrl.includes('subjects')) {
       this.handleFrontendUrl(cleanUrl);
     } else {
-      history.push(toEditArticle(urlId, 'standard', locale));
+      history.push(toEditArticle(urlId, 'standard'));
     }
   }
 
@@ -149,17 +138,7 @@ export class MastheadSearchForm extends Component {
       const topicArticle = await fetchTopicArticle(urlId, locale);
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
-      const article = await fetchDraft(id);
-      const supportedLanguage = article.supportedLanguages.find(
-        language => language === locale,
-      );
-      history.push(
-        toEditArticle(
-          id,
-          'topic-article',
-          supportedLanguage || article.supportedLanguages[0],
-        ),
-      );
+      history.push(toEditArticle(id, 'topic-article'));
     } catch {
       history.push(to404());
     }
@@ -173,18 +152,7 @@ export class MastheadSearchForm extends Component {
       const newArticle = await resolveUrls(taxonomyUrl, locale);
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
-      const article = await fetchDraft(articleId);
-      const supportedLanguage = article.supportedLanguages.find(
-        language => language === locale,
-      );
-
-      history.push(
-        toEditArticle(
-          articleId,
-          'standard',
-          supportedLanguage || article.supportedLanguages[0],
-        ),
-      );
+      history.push(toEditArticle(articleId, 'standard'));
     } catch {
       history.push(to404());
     }

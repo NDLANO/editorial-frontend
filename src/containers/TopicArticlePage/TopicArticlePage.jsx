@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import * as messageActions from '../Messages/messagesActions';
 import { getLocale } from '../../modules/locale/locale';
+import { fetchDraft } from '../../modules/draft/draftApi';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -19,8 +20,13 @@ import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
+import { toEditArticle } from '../../util/routeHelpers';
 
 class TopicArticlePage extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {};
+  }
   componentDidMount() {
     const { fetchLicenses, licenses } = this.props;
     if (!licenses.length) {
@@ -28,8 +34,13 @@ class TopicArticlePage extends React.Component {
     }
   }
 
+  async getDraft(id) {
+    const draft = await fetchDraft(id);
+    this.setState({ draft });
+  }
+
   render() {
-    const { match, history, ...rest } = this.props;
+    const { match, history, locale, ...rest } = this.props;
     return (
       <OneColumn>
         <Switch>
@@ -46,6 +57,23 @@ class TopicArticlePage extends React.Component {
                 {...rest}
               />
             )}
+          />
+          <Route
+            path={`${match.url}/:articleId/edit`}
+            render={routeProps => {
+              this.getDraft(routeProps.match.params.articleId);
+              const draft = this.state.draft;
+              const language =
+                draft && draft.supportedLanguages.find(lang => lang === locale);
+              draft &&
+                history.push(
+                  toEditArticle(
+                    draft.id,
+                    'topic-article',
+                    language || draft.supportedLanguages[0],
+                  ),
+                );
+            }}
           />
           <Route component={NotFoundPage} />
         </Switch>

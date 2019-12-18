@@ -40,7 +40,7 @@ class TopicArticlePage extends React.Component {
   }
 
   render() {
-    const { match, history, locale, ...rest } = this.props;
+    const { match, history, ...rest } = this.props;
     return (
       <OneColumn>
         <Switch>
@@ -64,7 +64,10 @@ class TopicArticlePage extends React.Component {
               this.getDraft(routeProps.match.params.articleId);
               const draft = this.state.draft;
               const language =
-                draft && draft.supportedLanguages.find(lang => lang === locale);
+                draft &&
+                draft.supportedLanguages.find(
+                  lang => lang === this.props.locale,
+                );
               draft &&
                 history.push(
                   toEditArticle(

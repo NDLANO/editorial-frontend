@@ -102,7 +102,7 @@ export class MastheadSearchForm extends Component {
   }
 
   handleUrlPaste(frontendUrl) {
-    const { history, locale } = this.props;
+    const { history } = this.props;
 
     // Removes search queries before split
     const ndlaUrl = frontendUrl.split(/\?/)[0];

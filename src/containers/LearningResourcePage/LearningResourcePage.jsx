@@ -15,13 +15,19 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
+import { fetchDraft } from '../../modules/draft/draftApi';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../shapes';
 import * as messageActions from '../Messages/messagesActions';
+import { toEditArticle } from '../../util/routeHelpers';
 
 class LearningResourcePage extends PureComponent {
+  constructor(props) {
+    super();
+    this.state = {};
+  }
   componentDidMount() {
     const { fetchLicenses, licenses } = this.props;
     if (!licenses.length) {
@@ -36,6 +42,11 @@ class LearningResourcePage extends PureComponent {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     }
+  }
+
+  async getDraft(id) {
+    const draft = await fetchDraft(id);
+    this.setState({ draft });
   }
 
   render() {
@@ -59,6 +70,26 @@ class LearningResourcePage extends PureComponent {
                   {...rest}
                 />
               )}
+            />
+            <Route
+              path={`${match.url}/:articleId/edit`}
+              render={props => {
+                this.getDraft(props.match.params.articleId);
+                const draft = this.state.draft;
+                const language =
+                  draft &&
+                  draft.supportedLanguages.find(
+                    lang => lang === this.props.locale,
+                  );
+                draft &&
+                  history.push(
+                    toEditArticle(
+                      draft.id,
+                      'standard',
+                      language || draft.supportedLanguages[0],
+                    ),
+                  );
+              }}
             />
             <Route component={NotFoundPage} />
           </Switch>

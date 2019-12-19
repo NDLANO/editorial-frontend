@@ -60,7 +60,7 @@ const learningpathFrontendDomain = () => {
     case 'prod':
       return 'https://stier.ndla.no';
     default:
-      return `https://learningpath-frontend.${ndlaEnvironment}.api.ndla.no`;
+      return `https://stier.${ndlaEnvironment}.ndla.no`;
   }
 };
 

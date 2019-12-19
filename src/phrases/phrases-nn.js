@@ -330,7 +330,7 @@ const phrases = {
     info: {
       lastUpdated: 'Sist oppdatert: ',
     },
-    title: 'Emnebeskrivelse | {title} ({key})',
+    title: 'Emne',
     fields: {
       caption: {
         label: {

@@ -14,7 +14,8 @@ export function toSearch(query, type = 'content') {
 
 export function toEditArticle(articleId, articleType, locale) {
   const url = articleTypes[articleType] || articleTypes.standard;
-  return `/subject-matter/${url}/${articleId}/edit/${locale}`;
+  const path = `/subject-matter/${url}/${articleId}/edit`;
+  return locale ? `${path}/${locale}` : path;
 }
 
 export function toEditConcept(conceptId, locale) {

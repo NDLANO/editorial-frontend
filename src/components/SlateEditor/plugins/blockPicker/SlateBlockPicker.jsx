@@ -110,14 +110,8 @@ class SlateBlockPicker extends Component {
     this.setState({ isOpen: false });
   }
 
-  getDerviedStateFromProps(nextProps, prevState) {
-    if (!nextProps.editor.isFocused && prevState.isOpen) {
-      this.setState({ isOpen: false });
-    }
-  }
-
-  toggleIsOpen(isOpen) {
-    this.setState({ isOpen });
+  toggleIsOpen() {
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
   getFactboxTitle() {
@@ -131,6 +125,8 @@ class SlateBlockPicker extends Component {
     const { current: slateBlockRef } = this.slateBlockRef;
     if (slateBlockRef) {
       await new Promise(resolve => setTimeout(resolve, 50));
+
+      // Find location of text selection to calculate where to move slateBlock
       const native = window.getSelection();
       const range = native.getRangeAt(0);
       const rect = range.getBoundingClientRect();

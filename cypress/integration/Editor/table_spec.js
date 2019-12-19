@@ -34,7 +34,7 @@ describe('Table plugin', () => {
       .wait(500)
       .then($el => {
         cy.wrap($el).type(
-          '{uparrow}{leftarrow}TEST{rightarrow}TEST2{downarrow}TEST3',
+          '{uparrow}{uparrow}{leftarrow}TEST{rightarrow}TEST2{downarrow}TEST3',
           {
             force: true,
           },

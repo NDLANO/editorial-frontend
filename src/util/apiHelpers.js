@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
 import config from '../config';

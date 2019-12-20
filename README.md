@@ -6,7 +6,7 @@ System for producing content for NDLA
 
 ## Requirements
 
-- Node.JS 8
+- Node.JS 10
 - yarn ~1.7.0
 - Docker (optional)
 

@@ -208,7 +208,6 @@ async function runCheck(argv) {
 
     const id = argv.single;
     const article = await fetchArticle(url, id);
-    console.log(article);
     const result = testArticle(article);
     printResults([article], [result]);
   } else if (argv.write) {

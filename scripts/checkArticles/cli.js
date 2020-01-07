@@ -29,8 +29,14 @@ const args = {
       alias: 'e',
       description: 'NDLA api enviornment',
       default: 'test',
-      choices: ['test', 'brukertest', 'spoletest', 'staging', 'prod'],
+      choices: ['test', 'staging', 'ff', 'prod'],
     },
+    api: {
+      alias: 'a',
+      description: 'Api to query',
+      default: 'article-api',
+      choices: ['article-api', 'draft-api']
+    }
   },
   usage: 'Usage: $0 -w',
 };

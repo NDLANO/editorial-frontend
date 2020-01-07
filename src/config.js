@@ -21,7 +21,7 @@ export const getNdlaApiUrl = env => {
     case 'prod':
       return 'https://api.ndla.no';
     default:
-      return `https://${ndlaEnvironment}.api.ndla.no`;
+      return `https://api.${ndlaEnvironment}.ndla.no`;
   }
 };
 
@@ -32,7 +32,7 @@ const editorialFrontendDomain = () => {
     case 'prod':
       return 'https://ndla.no';
     default:
-      return `https://ndla-frontend.${ndlaEnvironment}.api.ndla.no`;
+      return `https://www.${ndlaEnvironment}.ndla.no`;
   }
 };
 

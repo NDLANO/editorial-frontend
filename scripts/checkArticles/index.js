@@ -198,7 +198,10 @@ function printResults(articles, results) {
 
 async function runCheck(argv) {
   await fetchSystemAccessToken();
-  const url = `${getNdlaApiUrl(argv.env)}/article-api/v2/articles/`;
+  let url = `${getNdlaApiUrl(argv.env)}/article-api/v2/articles/`;
+  if (argv.api && argv.api === 'draft-api') {
+    url = `${getNdlaApiUrl(argv.env)}/draft-api/v1/drafts/`;
+  }
 
   if (argv.single) {
     /* SINGLE ARTICLE */

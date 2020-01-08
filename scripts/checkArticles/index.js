@@ -199,7 +199,7 @@ function printResults(articles, results) {
 async function runCheck(argv) {
   await fetchSystemAccessToken();
   let url = `${getNdlaApiUrl(argv.env)}/article-api/v2/articles/`;
-  if(argv.api && argv.api === 'draft-api') {
+  if (argv.api && argv.api === 'draft-api') {
     url = `${getNdlaApiUrl(argv.env)}/draft-api/v1/drafts/`;
   }
 

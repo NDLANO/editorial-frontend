@@ -35,8 +35,8 @@ const args = {
       alias: 'a',
       description: 'Api to query',
       default: 'article-api',
-      choices: ['article-api', 'draft-api']
-    }
+      choices: ['article-api', 'draft-api'],
+    },
   },
   usage: 'Usage: $0 -w',
 };

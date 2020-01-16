@@ -11,8 +11,17 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import queryString from "query-string";
 
 const conceptUrl = apiResourceUrl('/concept-api/v1/concepts');
+
+export const fetchTags = language => {
+    const query = queryString.stringify({ language });
+    const url = `${conceptUrl}/tags/?${query}`;
+    return fetchAuthorized(url).then(
+        resolveJsonOrRejectWithError,
+    );
+};
 
 export const fetchAllConcepts = async locale => {
   const response = await fetchAuthorized(`${conceptUrl}?language=${locale}`);

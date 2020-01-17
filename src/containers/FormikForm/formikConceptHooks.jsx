@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
-import * as draftApi from '../../modules/draft/draftApi';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import handleError from '../../util/handleError';
 
@@ -38,8 +37,8 @@ export function useFetchConceptData(conceptId, locale) {
   };
 
   const fetchTags = async () => {
-    const newTags = await draftApi.fetchTags(locale);
-    setTags(newTags ? newTags.tags : []);
+    const newTags = await conceptApi.fetchTags(locale);
+    setTags(newTags ? newTags : []);
   };
 
   useEffect(() => {

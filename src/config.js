@@ -56,7 +56,7 @@ const gaTrackingId = () => {
 const learningpathFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
-      return 'http://localhost:30008';
+      return 'http://localhost:30007';
     case 'prod':
       return 'https://stier.ndla.no';
     default:

@@ -15,6 +15,8 @@ import {
   getContentTypeFromResourceTypes,
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
+import { isLearningpath } from '../../../../util/routeHelpers';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -30,6 +32,12 @@ const SearchContent = ({ content, locale }) => {
     contexts[0].resourceTypes.length > 0
   ) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
+  } else {
+    if (isLearningpath(content.url)) {
+      resourceType = getContentTypeFromResourceTypes([
+        { id: RESOURCE_TYPE_LEARNING_PATH },
+      ]);
+    }
   }
   const contentTitle = (
     <h2 {...searchClasses('title')}>

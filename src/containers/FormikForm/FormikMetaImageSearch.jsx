@@ -80,6 +80,8 @@ class FormikMetaImageSearch extends Component {
   }
 
   onImageSelectClose() {
+    this.props.setFieldTouched('metaImageAlt', true, true);
+
     this.setState({
       showImageSelect: false,
     });
@@ -163,6 +165,7 @@ FormikMetaImageSearch.propTypes = {
   }),
   clearUploadedImage: PropTypes.func.isRequired,
   isSavingImage: PropTypes.bool,
+  setFieldTouched: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {

@@ -103,6 +103,7 @@ class EditRelated extends React.PureComponent {
     const articles = (await searchDrafts({
       query: inp,
       language: this.props.locale,
+      fallback: true,
     })).results;
     return articles ? articles.filter(article => !!article.id) : [];
   }

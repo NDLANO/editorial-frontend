@@ -14,16 +14,14 @@ import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
 import LinkForm from './LinkForm';
-import config from '../../../../config';
+import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 
 const newTabAttributes = {
   target: '_blank',
   rel: 'noopener noreferrer',
 };
 
-const createContentLinkData = (href, targetRel) => {
-  const splittedHref = href.split('/');
-  const id = splittedHref[splittedHref.length - 1];
+const createContentLinkData = (id, targetRel) => {
   return {
     type: TYPE,
     data: {
@@ -41,6 +39,30 @@ const createLinkData = (href, targetRel) => ({
     ...targetRel,
   },
 });
+
+const isNDLAArticleUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/article\/\d*/.test(url);
+const isNDLASubjectUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/subjects\/(.*)/.test(url);
+
+const isPlainId = url => /^\d*/.test(url);
+
+const getArticleIdFromUrl = async href => {
+  if (isNDLAArticleUrl(href)) {
+    const splittedHref = href.split('/');
+    return splittedHref.pop();
+  } else if (isNDLASubjectUrl(href)) {
+    const splitted = href.split('subjects');
+    const taxonomyPath = splitted.pop();
+    const taxonomyPaths = await resolveUrls(taxonomyPath);
+
+    const contentUri = taxonomyPaths && taxonomyPaths.contentUri;
+    return contentUri.split(':').pop();
+  } else if (isPlainId(href)) {
+    return href;
+  }
+  return null;
+};
 
 class EditLink extends React.Component {
   constructor() {
@@ -60,19 +82,18 @@ class EditLink extends React.Component {
     }
   }
 
-  handleSave(model) {
+  async handleSave(model) {
     const { editor, node } = this.props;
     const { href, text, checkbox } = model;
-    const isNDLAUrl = config.isNdlaProdEnvironment
-      ? /^https:\/\/(www\.)?ndla.no\/article\/\d*/.test(href)
-      : /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-    const data = isNDLAUrl
-      ? createContentLinkData(
-          href,
-          checkbox
-            ? { 'open-in': 'new-context' }
-            : { 'open-in': 'current-context' },
-        )
+
+    const ndlaArticleId = await getArticleIdFromUrl(href);
+
+    const targetRel = checkbox
+      ? { 'open-in': 'new-context' }
+      : { 'open-in': 'current-context' };
+
+    const data = ndlaArticleId
+      ? createContentLinkData(ndlaArticleId, targetRel)
       : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (node.key) {

@@ -122,6 +122,12 @@ const validateFormik = (values, rules, t, formType = undefined) => {
           t('validation.url', { label }),
         );
       }
+      if (rules[ruleKey].urlOrNumber && (!isUrl(value) && !isNumeric(value))) {
+        errors[ruleKey] = appendError(
+          errors[ruleKey],
+          t('validation.urlOrNumber', { label }),
+        );
+      }
       if (rules[ruleKey].test) {
         const testError = rules[ruleKey].test(value);
         if (testError) {

@@ -42,7 +42,7 @@ function fetchRelevances(locale) {
   );
 }
 
-function resolveUrls(path, locale) {
+function resolveUrls(path) {
   return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(
     resolveJsonOrRejectWithError,
   );

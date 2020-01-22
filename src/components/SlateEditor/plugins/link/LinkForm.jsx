@@ -25,7 +25,7 @@ const marginLeftStyle = css`
 
 const linkValidationRules = {
   text: { required: true },
-  href: { required: true, url: true },
+  href: { required: true, urlOrNumber: true },
 };
 
 export const getInitialValues = (link = {}) => ({

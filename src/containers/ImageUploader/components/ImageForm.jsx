@@ -94,12 +94,8 @@ export const getInitialValues = (image = {}) => ({
   creators: parseCopyrightContributors(image, 'creators'),
   processors: parseCopyrightContributors(image, 'processors'),
   rightsholders: parseCopyrightContributors(image, 'rightsholders'),
-  origin:
-    image.copyright && image.copyright.origin ? image.copyright.origin : '',
-  license:
-    image.copyright && image.copyright.license
-      ? image.copyright.license.license
-      : undefined,
+  origin: image?.copyright?.origin || '',
+  license: image?.copyright?.license?.license,
 });
 
 const FormWrapper = ({ inModal, children }) => {

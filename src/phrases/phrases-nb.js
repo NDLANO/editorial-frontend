@@ -757,6 +757,7 @@ const phrases = {
     license: {
       label: 'Lisens',
       helpLabel: 'Hva er lisenser?',
+      choose: 'Velg en lisens',
     },
     origin: {
       label: 'Opphav',

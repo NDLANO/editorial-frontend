@@ -49,6 +49,7 @@ const FormikLicense = props => {
             onBlur={onBlur}
             onFocus={onFocus}
             name={name}>
+            {!value && <option>{t('form.license.choose')}</option>}
             {licensesWithTranslations.map(license => (
               <option value={license.license} key={license.license}>
                 {license.title}

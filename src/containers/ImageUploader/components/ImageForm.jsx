@@ -17,7 +17,6 @@ import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
-  DEFAULT_LICENSE,
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
@@ -100,7 +99,7 @@ export const getInitialValues = (image = {}) => ({
   license:
     image.copyright && image.copyright.license
       ? image.copyright.license.license
-      : DEFAULT_LICENSE.license,
+      : undefined,
 });
 
 const FormWrapper = ({ inModal, children }) => {

@@ -45,7 +45,7 @@ const isNDLAArticleUrl = url =>
 const isNDLASubjectUrl = url =>
   /^https:\/\/((.*)\.)?ndla.no\/subjects\/(.*)/.test(url);
 
-const isPlainId = url => /^\d*/.test(url);
+const isPlainId = url => /^\d+/.test(url);
 
 const getArticleIdFromUrl = async href => {
   if (isNDLAArticleUrl(href)) {

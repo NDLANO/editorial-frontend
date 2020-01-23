@@ -48,12 +48,8 @@ export const getInitialValues = (audio = {}) => ({
   creators: parseCopyrightContributors(audio, 'creators'),
   processors: parseCopyrightContributors(audio, 'processors'),
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
-  origin:
-    audio.copyright && audio.copyright.origin ? audio.copyright.origin : '',
-  license:
-    audio.copyright && audio.copyright.license
-      ? audio.copyright.license.license
-      : DEFAULT_LICENSE.license,
+  origin: audio.copyright?.origin || '',
+  license: audio.copyright?.license?.license || DEFAULT_LICENSE.license,
 });
 
 const rules = {

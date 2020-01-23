@@ -44,18 +44,12 @@ export const getInitialValues = (article = {}) => {
     id: article.id,
     introduction: plainTextToEditorValue(article.introduction, true),
     language: article.language,
-    license:
-      article.copyright && article.copyright.license
-        ? article.copyright.license.license
-        : DEFAULT_LICENSE.license,
+    license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
+    metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
-    origin:
-      article.copyright && article.copyright.origin
-        ? article.copyright.origin
-        : '',
+    origin: article.copyright?.origin || '',
     processors: parseCopyrightContributors(article, 'processors'),
     published: article.published,
     revision: article.revision,

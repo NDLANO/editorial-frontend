@@ -30,22 +30,10 @@ const getInitialValues = (agreement = {}) => ({
   creators: parseCopyrightContributors(agreement, 'creators'),
   processors: parseCopyrightContributors(agreement, 'processors'),
   rightsholders: parseCopyrightContributors(agreement, 'rightsholders'),
-  origin:
-    agreement.copyright && agreement.copyright.origin
-      ? agreement.copyright.origin
-      : '',
-  license:
-    agreement.copyright && agreement.copyright.license
-      ? agreement.copyright.license.license
-      : DEFAULT_LICENSE.license,
-  validFrom:
-    agreement.copyright && agreement.copyright.validFrom
-      ? agreement.copyright.validFrom
-      : undefined,
-  validTo:
-    agreement.copyright && agreement.copyright.validTo
-      ? agreement.copyright.validTo
-      : undefined,
+  origin: agreement.copyright?.origin || '',
+  license: agreement.copyright?.license?.license || DEFAULT_LICENSE.license,
+  validFrom: agreement.copyright?.validFrom,
+  validTo: agreement.copyright?.validTo,
 });
 
 const rules = {

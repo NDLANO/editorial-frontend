@@ -84,6 +84,10 @@ const rules = {
   creators: {
     allObjectFieldsRequired: true,
   },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: values => !!values.metaImageId,
+  },
 };
 
 const FormWrapper = ({ inModal, children }) => {

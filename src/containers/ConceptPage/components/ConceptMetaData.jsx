@@ -30,8 +30,12 @@ const ConceptMetaData = ({ t, licenses, subjects, tags }) => (
     <FormikField label={t('form.concept.source')} name="source" />
     <FormikContributors contributorTypes={contributorTypes} width={1} />
     <FormikField name="metaImageId">
-      {({ field }) => (
-        <FormikMetaImageSearch metaImageId={field.value} {...field} />
+      {({ field, form }) => (
+        <FormikMetaImageSearch
+          metaImageId={field.value}
+          setFieldTouched={form.setFieldTouched}
+          {...field}
+        />
       )}
     </FormikField>
     <FormikField name="subjects" label={t('form.subjects.label')}>

@@ -105,18 +105,18 @@ export async function getFullResource(resourceId, language) {
   };
 }
 
-export function queryResources(articleId, language) {
+export function queryResources(articleId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
-      `urn:article:${articleId}`,
+      `urn:${contentType}:${articleId}`,
     )}&?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-export function queryTopics(articleId, language) {
+export function queryTopics(articleId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/queries/topics/?contentURI=${encodeURIComponent(
-      `urn:article:${articleId}`,
+      `urn:${contentType}:${articleId}`,
     )}&?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
@@ -127,4 +127,20 @@ export function queryLearningPathResource(learningpathId) {
       `urn:learningpath:${learningpathId}`,
     )}`,
   ).then(resolveJsonOrRejectWithError);
+}
+
+export async function queryContent(id, language, contentType) {
+  const resources = await queryResources(id, language, contentType);
+
+  if (resources[0]) {
+    return resources[0];
+  }
+
+  const topics = await queryTopics(id, language, contentType);
+
+  if (topics[0]) {
+    // Add resourceType so that content type is correct
+    return { ...topics[0], resourceTypes: [{ id: 'subject' }] };
+  }
+  return undefined;
 }

@@ -13,6 +13,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { queryContent } from '../../../../modules/taxonomy/resources';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
 import { Portal } from '../../../Portal';
@@ -36,12 +37,33 @@ const StyledLinkMenu = styled('span')`
   z-index: 1;
 `;
 
+const fetchResourcePath = async (data, language, contentType) => {
+  try {
+    const resource = await queryContent(
+      data['content-id'],
+      language,
+      contentType,
+    );
+    return `${language}/subjects${resource.path}`;
+  } catch (error) {
+    const fallbackPath =
+      contentType === 'learningpath' ? 'learningpaths' : 'article';
+    return `${language}/${fallbackPath}/${data['content-id']}`;
+  }
+};
+
 const getModelFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
 
+  const contentType = data['content-type'] || 'article';
+  const fallbackPath =
+    contentType === 'learningpath' ? 'learningpaths' : 'article';
+
   const href =
     data.resource === 'content-link'
-      ? `${config.editorialFrontendDomain}/article/${data['content-id']}`
+      ? `${config.editorialFrontendDomain}/${fallbackPath}/${
+          data['content-id']
+        }`
       : data.href;
 
   const checkbox =

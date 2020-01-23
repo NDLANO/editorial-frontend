@@ -21,11 +21,12 @@ const newTabAttributes = {
   rel: 'noopener noreferrer',
 };
 
-const createContentLinkData = (id, targetRel) => {
+const createContentLinkData = (id, resourceType, targetRel) => {
   return {
     type: TYPE,
     data: {
       'content-id': id,
+      'content-type': resourceType || 'article',
       resource: 'content-link',
       ...targetRel,
     },
@@ -44,24 +45,42 @@ const isNDLAArticleUrl = url =>
   /^https:\/\/((.*)\.)?ndla.no\/article\/\d*/.test(url);
 const isNDLASubjectUrl = url =>
   /^https:\/\/((.*)\.)?ndla.no\/subjects\/(.*)/.test(url);
+const isNDLALearningPathUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/learningpaths\/(.*)/.test(url);
 
 const isPlainId = url => /^\d+/.test(url);
 
-const getArticleIdFromUrl = async href => {
+const getIdAndTypeFromUrl = async href => {
   if (isNDLAArticleUrl(href)) {
     const splittedHref = href.split('/');
-    return splittedHref.pop();
-  } else if (isNDLASubjectUrl(href)) {
-    const splitted = href.split('subjects');
-    const taxonomyPath = splitted.pop();
-    const taxonomyPaths = await resolveUrls(taxonomyPath);
-
-    const contentUri = taxonomyPaths && taxonomyPaths.contentUri;
-    return contentUri.split(':').pop();
+    return {
+      resourceId: splittedHref.pop(),
+      resourceType: 'article',
+    };
+  } else if (isNDLALearningPathUrl(href)) {
+    const splittedHref = href.split('learningpaths/');
+    return {
+      resourceId: splittedHref[1],
+      resourceType: 'learningpath',
+    };
   } else if (isPlainId(href)) {
-    return href;
+    return {
+      resourceId: href,
+      resourceType: 'article',
+    };
+  } else if (isNDLASubjectUrl(href)) {
+    const taxonomyPath = href.split('subjects').pop();
+    const resolvedTaxonomy = await resolveUrls(taxonomyPath);
+
+    const contentUriSplit =
+      resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
+
+    const resourceId = contentUriSplit.pop();
+    const resourceType = contentUriSplit.pop();
+
+    return { resourceId, resourceType };
   }
-  return null;
+  return { resourceId: null };
 };
 
 class EditLink extends React.Component {
@@ -86,14 +105,14 @@ class EditLink extends React.Component {
     const { editor, node } = this.props;
     const { href, text, checkbox } = model;
 
-    const ndlaArticleId = await getArticleIdFromUrl(href);
+    const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
     const targetRel = checkbox
       ? { 'open-in': 'new-context' }
       : { 'open-in': 'current-context' };
 
-    const data = ndlaArticleId
-      ? createContentLinkData(ndlaArticleId, targetRel)
+    const data = resourceId
+      ? createContentLinkData(resourceId, resourceType, targetRel)
       : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (node.key) {

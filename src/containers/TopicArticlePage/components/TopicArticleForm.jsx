@@ -47,7 +47,7 @@ export const getInitialValues = (article = {}) => {
     language: article.language,
     license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
+    metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
     processors: parseCopyrightContributors(article, 'processors'),
@@ -60,8 +60,8 @@ export const getInitialValues = (article = {}) => {
     title: article.title || '',
     updated: article.updated,
     updatePublished: false,
-    visualElementAlt: visualElement.alt || '',
-    visualElementCaption: visualElement.caption || '',
+    visualElementAlt: visualElement?.alt || '',
+    visualElementCaption: visualElement?.caption || '',
     visualElement: visualElement || {},
   };
 };

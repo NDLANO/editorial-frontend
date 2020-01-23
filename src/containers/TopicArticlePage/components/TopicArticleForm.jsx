@@ -45,10 +45,7 @@ export const getInitialValues = (article = {}) => {
     id: article.id,
     introduction: plainTextToEditorValue(article.introduction, true),
     language: article.language,
-    license:
-      article.copyright && article.copyright.license
-        ? article.copyright.license.license
-        : DEFAULT_LICENSE.license,
+    license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
     metaImageAlt: article.metaImage ? article.metaImage.alt : '',
     metaImageId,
@@ -63,10 +60,8 @@ export const getInitialValues = (article = {}) => {
     title: article.title || '',
     updated: article.updated,
     updatePublished: false,
-    visualElementAlt:
-      visualElement && visualElement.alt ? visualElement.alt : '',
-    visualElementCaption:
-      visualElement && visualElement.caption ? visualElement.caption : '',
+    visualElementAlt: visualElement.alt || '',
+    visualElementCaption: visualElement.caption || '',
     visualElement: visualElement || {},
   };
 };

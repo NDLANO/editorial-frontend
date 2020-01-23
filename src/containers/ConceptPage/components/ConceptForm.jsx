@@ -54,22 +54,18 @@ const getInitialValues = (concept = {}, subjects = []) => {
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
-    subjects: concept.subjectIds
-      ? concept.subjectIds.map(subjectId =>
-          subjects.find(subject => subject.id === subjectId),
-        )
-      : [],
+    subjects:
+      concept.subjectIds?.map(subjectId =>
+        subjects.find(subject => subject.id === subjectId),
+      ) || [],
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
     creators: parseCopyrightContributors(concept, 'creators'),
     source: concept && concept.source ? concept.source : '',
-    license:
-      concept.copyright && concept.copyright.license
-        ? concept.copyright.license.license
-        : DEFAULT_LICENSE.license,
+    license: concept.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaImageId,
-    metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
+    metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
   };
 };

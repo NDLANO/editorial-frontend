@@ -38,49 +38,28 @@ const StyledLinkMenu = styled('span')`
 `;
 
 const fetchResourcePath = async (data, language, contentType) => {
+  const fallbackType =
+    contentType === 'learningpath' ? 'learningpaths' : 'article';
+  const fallbackPath = `${language}/${fallbackType}/${data['content-id']}`;
   try {
     const resource = await queryContent(
       data['content-id'],
       language,
       contentType,
     );
-    return `${language}/subjects${resource.path}`;
+    return resource.path
+      ? `${language}/subjects${resource.path}`
+      : fallbackPath;
   } catch (error) {
-    const fallbackPath =
-      contentType === 'learningpath' ? 'learningpaths' : 'article';
-    return `${language}/${fallbackPath}/${data['content-id']}`;
+    return fallbackPath;
   }
 };
 
-const getModelFromNode = node => {
-  const data = node.data ? node.data.toJS() : {};
-
-  const contentType = data['content-type'] || 'article';
-  const fallbackPath =
-    contentType === 'learningpath' ? 'learningpaths' : 'article';
-
-  const href =
-    data.resource === 'content-link'
-      ? `${config.editorialFrontendDomain}/${fallbackPath}/${
-          data['content-id']
-        }`
-      : data.href;
-
-  const checkbox =
-    data.target === '_blank' || data['open-in'] === 'new-context';
-
-  return {
-    href,
-    text: node.text,
-    checkbox,
-  };
-};
 class Link extends Component {
   constructor(props) {
     super(props);
-    const existingModel = getModelFromNode(props.node, props.editor.value);
     this.state = {
-      editMode: !(existingModel.href || existingModel['content-id']),
+      editMode: !this.hasHrefOrContentId(props.node),
     };
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.linkRef = React.createRef();
@@ -100,8 +79,43 @@ class Link extends Component {
     };
   }
 
+  hasHrefOrContentId(node) {
+    const data = node?.data?.toJS() || {};
+    return !!(data.resource === 'content-link' || data.href);
+  }
+
+  async setStateFromNode(node) {
+    const data = node?.data?.toJS() || {};
+
+    const contentType = data['content-type'] || 'article';
+
+    const resourcePath = await fetchResourcePath(
+      data,
+      this.props.locale,
+      contentType,
+    );
+    const href =
+      data.resource === 'content-link'
+        ? `${config.editorialFrontendDomain}/${resourcePath}`
+        : data.href;
+
+    const checkbox =
+      data.target === '_blank' || data['open-in'] === 'new-context';
+
+    const model = {
+      href,
+      text: node.text,
+      checkbox,
+    };
+
+    this.setState({ model });
+  }
+
   toggleEditMode() {
-    this.setState(prevState => ({ editMode: !prevState.editMode }));
+    this.setState(prevState => ({
+      ...prevState,
+      editMode: !prevState.editMode,
+    }));
   }
 
   render() {
@@ -113,11 +127,14 @@ class Link extends Component {
     } = this.props;
 
     const isInline = isNodeInCurrentSelection(value, node);
-
     const { top, left } = this.getMenuPosition();
 
-    const model = getModelFromNode(node, value);
-    const { href } = model;
+    if (!this.state.model) {
+      this.setStateFromNode(node);
+      return null;
+    }
+
+    const { href } = this.state.model;
 
     return (
       <span {...attributes}>
@@ -142,7 +159,7 @@ class Link extends Component {
         {this.state.editMode && (
           <EditLink
             {...this.props}
-            model={model}
+            model={this.state.model}
             closeEditMode={this.toggleEditMode}
             blur={blur}
             onChange={onChange}
@@ -159,6 +176,7 @@ Link.propTypes = {
   }),
   editor: EditorShape,
   node: Types.node.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(Link);

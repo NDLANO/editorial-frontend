@@ -41,14 +41,13 @@ const createLinkData = (href, targetRel) => ({
   },
 });
 
-const isNDLAArticleUrl = url =>
-  /^https:\/\/((.*)\.)?ndla.no\/article\/\d*/.test(url);
-const isNDLASubjectUrl = url =>
-  /^https:\/\/((.*)\.)?ndla.no\/subjects\/(.*)/.test(url);
-const isNDLALearningPathUrl = url =>
-  /^https:\/\/((.*)\.)?ndla.no\/learningpaths\/(.*)/.test(url);
-
-const isPlainId = url => /^\d+/.test(url);
+export const isNDLAArticleUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
+export const isNDLASubjectUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?subjects\/(.*)/.test(url);
+export const isNDLALearningPathUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
+export const isPlainId = url => /^\d+/.test(url);
 
 const getIdAndTypeFromUrl = async href => {
   if (isNDLAArticleUrl(href)) {

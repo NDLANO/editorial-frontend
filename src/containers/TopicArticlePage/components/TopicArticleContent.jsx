@@ -39,20 +39,6 @@ const byLineStyle = css`
   margin-top: 0;
 `;
 
-const plugins = [
-  createNoEmbedsPlugin(),
-  headingPlugin(),
-
-  // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-  // Blockquote and editList actions need to be triggered before paragraph action, else
-  // unwrapping (jumping out of block) will not work.
-  blockquotePlugin,
-  editListPlugin,
-  createLinkPlugin(),
-  paragraphPlugin(),
-  toolbarPlugin(),
-];
-
 const TopicArticleContent = props => {
   const {
     t,
@@ -61,6 +47,21 @@ const TopicArticleContent = props => {
       values: { id, language, creators, published, visualElement },
     },
   } = props;
+
+  const plugins = [
+    createNoEmbedsPlugin(),
+    headingPlugin(),
+
+    // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+    // Blockquote and editList actions need to be triggered before paragraph action, else
+    // unwrapping (jumping out of block) will not work.
+    blockquotePlugin,
+    editListPlugin,
+    createLinkPlugin(language),
+    paragraphPlugin(),
+    toolbarPlugin(),
+  ];
+
   return (
     <Fragment>
       <FormikField

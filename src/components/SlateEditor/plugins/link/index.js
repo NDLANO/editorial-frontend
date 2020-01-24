@@ -12,7 +12,7 @@ import Link from './Link';
 
 export const TYPE = 'link';
 
-export default function linkPlugin() {
+export default function linkPlugin(locale) {
   const schema = {
     document: {},
     inlines: {
@@ -33,7 +33,7 @@ export default function linkPlugin() {
 
     switch (node.type) {
       case TYPE:
-        return <Link {...props} editor={editor} />;
+        return <Link {...props} editor={editor} locale={locale} />;
       default:
         return next();
     }

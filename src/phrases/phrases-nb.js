@@ -860,6 +860,14 @@ const phrases = {
         noFilesAdded: 'Ingen filer er lagt til',
       },
     },
+    article: {
+      label: 'Artikkel',
+      add: 'Legg til artikkel',
+      change: 'Bytt artikkel',
+      title: 'Artikkeltittel',
+      copyright: 'Opphav',
+      url: 'Artikkellenke',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

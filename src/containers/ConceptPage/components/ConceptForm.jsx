@@ -71,6 +71,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     metaImageId,
     metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
     tags: concept.tags || [],
+    articleId: concept.articleId || '',
   };
 };
 
@@ -221,6 +222,7 @@ class ConceptForm extends Component {
           <ConceptMetaData
             classes={formClasses}
             licenses={licenses}
+            concept={concept}
             {...props}
           />
         ),

@@ -855,6 +855,14 @@ const phrases = {
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
     },
+    article: {
+      label: 'Artikkel',
+      add: 'Legg til artikkel',
+      change: 'Byt artikkel',
+      title: 'Artikkeltittel',
+      copyright: 'Opphav',
+      url: 'Artikkellenke',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

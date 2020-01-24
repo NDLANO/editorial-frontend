@@ -15,13 +15,13 @@ import {
   FormikContributors,
   FormikMetaImageSearch,
 } from '../../FormikForm';
-import { LicensesArrayOf, SubjectShape } from '../../../shapes';
+import { LicensesArrayOf, SubjectShape, ConceptShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import ConceptMetaDataArticle from './ConceptMetaDataArticle';
 
 const contributorTypes = ['creators'];
 
-const ConceptMetaData = ({ t, licenses, subjects, tags, locale }) => (
+const ConceptMetaData = ({ t, licenses, subjects, tags, locale, concept }) => (
   <Fragment>
     <FormikField name="license">
       {({ field }) => (
@@ -52,7 +52,7 @@ const ConceptMetaData = ({ t, licenses, subjects, tags, locale }) => (
     </FormikField>
     <FormikField  name="articleId">
         {({ field }) => (
-        <ConceptMetaDataArticle locale={locale} t={t} field={field} />
+        <ConceptMetaDataArticle locale={locale} t={t} field={field} articleId={concept.articleId} />
         )}
     </FormikField>
   </Fragment>
@@ -63,6 +63,7 @@ ConceptMetaData.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   locale: PropTypes.string.isRequired,
+  concept: ConceptShape.isRequired,
 };
 
 export default injectT(ConceptMetaData);

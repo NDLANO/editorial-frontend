@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -17,7 +17,7 @@ import styled from '@emotion/styled';
 
 import { Link } from 'react-router-dom';
 import { AsyncDropdown } from '../../../components/Dropdown';
-import { searchDrafts } from '../../../modules/draft/draftApi';
+import {fetchDraft, searchDrafts} from '../../../modules/draft/draftApi';
 
 import { toEditArticle } from '../../../util/routeHelpers';
 
@@ -29,10 +29,17 @@ const StyledFlexWrapper = styled.div`
   display: flex;
 `;
 
-const ConceptMetaDataArticle = ({ locale, t, field }) => {
+
+
+const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
   const [article, setArticle] = useState(undefined);
   const [modalOpen, setOpen] = useState(false);
-  const [title, setTitle] = useState('');
+
+  const fetchArticle = async (articleId, locale) => {
+    const article = await fetchDraft(articleId, locale);
+    const title = convertFieldWithFallback(article, 'title', '');
+    setArticle({...article, title});
+  };
 
   const searchForArticles = async inp => {
     const articles = (await searchDrafts({
@@ -45,7 +52,6 @@ const ConceptMetaDataArticle = ({ locale, t, field }) => {
   const onSelect = selectedArticle => {
     if (selectedArticle) {
       setSelected(selectedArticle);
-      setTitle(convertFieldWithFallback(selectedArticle, 'title', ''));
       onArticleSelectClose();
     }
   };
@@ -55,7 +61,7 @@ const ConceptMetaDataArticle = ({ locale, t, field }) => {
     field.onChange({
       target: {
         name: field.name,
-        value: article.id,
+        value: article?.id || null,
       },
     });
   };
@@ -71,6 +77,13 @@ const ConceptMetaDataArticle = ({ locale, t, field }) => {
   const removeArticle = () => {
     setSelected(undefined);
   };
+
+  useEffect(() => {
+    if(articleId){
+      fetchArticle(articleId, locale);
+    }
+  },[]);
+
 
   return (
     <div>
@@ -111,7 +124,7 @@ const ConceptMetaDataArticle = ({ locale, t, field }) => {
           <StyledFlexWrapper>
             <Link to={toEditArticle(article.id, article.articleType, locale)}>
               {' '}
-              <h2 style={{ margin: '0' }}>{title}</h2>{' '}
+              <h2 style={{ margin: '0' }}>{article.title}</h2>{' '}
             </Link>
 
             <StyledRemoveConnectionButton type="button" onClick={removeArticle}>

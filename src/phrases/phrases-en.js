@@ -839,6 +839,14 @@ const phrases = {
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
     },
+    article:{
+      label: 'Article',
+      add: 'Add article',
+      change: 'Change article',
+      title: 'Article title',
+      copyright: 'Copyright',
+      url: 'Article link',
+    },
   },
   validation: {
     isRequired: '{label} is required.',

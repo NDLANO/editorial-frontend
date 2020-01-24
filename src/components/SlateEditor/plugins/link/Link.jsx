@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import Button from '@ndla/button';
@@ -55,19 +55,26 @@ const fetchResourcePath = async (data, language, contentType) => {
   }
 };
 
-class Link extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      editMode: !this.hasHrefOrContentId(props.node),
-    };
-    this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.linkRef = React.createRef();
-  }
+function hasHrefOrContentId(node) {
+  const data = node?.data?.toJS() || {};
+  return !!(data.resource === 'content-link' || data.href);
+}
 
-  getMenuPosition() {
-    if (this.linkRef.current) {
-      const rect = this.linkRef.current.getBoundingClientRect();
+const Link = (props) => {
+  const {
+    t,
+    attributes,
+    editor: { onChange, blur, value },
+    node,
+    locale,
+  } = props;
+  const [editMode, setEditMode] = useState(hasHrefOrContentId(node));
+  const [model, setModel] = useState({});
+  const linkRef = React.createRef();
+
+  const getMenuPosition = () => {
+    if (linkRef.current) {
+      const rect = linkRef.current.getBoundingClientRect();
       return {
         top: window.scrollY + rect.top + rect.height,
         left: rect.left,
@@ -77,22 +84,21 @@ class Link extends Component {
       top: 0,
       left: 0,
     };
-  }
+  };
 
-  hasHrefOrContentId(node) {
-    const data = node?.data?.toJS() || {};
-    return !!(data.resource === 'content-link' || data.href);
-  }
+  const toggleEditMode = () => {
+    setEditMode(prev => !prev);
+  };
 
-  async setStateFromNode() {
-    const { node } = this.props;
+  const setStateFromNode = async () => {
+    const { node } = props;
     const data = node?.data?.toJS() || {};
 
     const contentType = data['content-type'] || 'article';
 
     const resourcePath = await fetchResourcePath(
       data,
-      this.props.locale,
+      props.locale,
       contentType,
     );
     const href =
@@ -109,45 +115,29 @@ class Link extends Component {
       checkbox,
     };
 
-    this.setState({ model });
+    setModel( model );
+  };
+
+  const isInline = isNodeInCurrentSelection(value, node);
+  const { top, left } = getMenuPosition();
+  if (!model) {
+    setStateFromNode(); // TODO: Dette må også skje når vi endrer linken
+    return null;
   }
 
-  toggleEditMode() {
-    this.setState(prevState => ({
-      ...prevState,
-      editMode: !prevState.editMode,
-    }));
-  }
+  const { href } = model;
 
-  render() {
-    const {
-      t,
-      attributes,
-      editor: { onChange, blur, value },
-      node,
-    } = this.props;
-
-    const isInline = isNodeInCurrentSelection(value, node);
-    const { top, left } = this.getMenuPosition();
-
-    this.setStateFromNode();
-    if (!this.state.model) {
-      return null;
-    }
-
-    const { href } = this.state.model;
-
-    return (
-      <span {...attributes}>
-        <a {...classes('link')} href={href} ref={this.linkRef}>
-          {this.props.children}
+  return (
+    <span {...attributes}>
+        <a {...classes('link')} href={href} ref={linkRef}>
+          {props.children}
         </a>
         <Portal isOpened={isInline}>
           <StyledLinkMenu top={top} left={left}>
             <Button
               css={linkMenuButtonStyle}
               stripped
-              onClick={this.toggleEditMode}>
+              onClick={toggleEditMode}>
               {t('form.content.link.change')}
             </Button>{' '}
             | {t('form.content.link.goTo')}{' '}
@@ -157,19 +147,19 @@ class Link extends Component {
             </a>
           </StyledLinkMenu>
         </Portal>
-        {this.state.editMode && (
-          <EditLink
-            {...this.props}
-            model={this.state.model}
-            closeEditMode={this.toggleEditMode}
-            blur={blur}
-            onChange={onChange}
-          />
-        )}
+      {editMode && (
+        <EditLink
+          {...props}
+          model={model}
+          closeEditMode={toggleEditMode}
+          blur={blur}
+          onChange={onChange}
+        />
+      )}
       </span>
-    );
-  }
-}
+  );
+
+};
 
 Link.propTypes = {
   attributes: PropTypes.shape({

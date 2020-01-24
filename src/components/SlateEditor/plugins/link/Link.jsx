@@ -84,7 +84,8 @@ class Link extends Component {
     return !!(data.resource === 'content-link' || data.href);
   }
 
-  async setStateFromNode(node) {
+  async setStateFromNode() {
+    const { node } = this.props;
     const data = node?.data?.toJS() || {};
 
     const contentType = data['content-type'] || 'article';
@@ -129,8 +130,8 @@ class Link extends Component {
     const isInline = isNodeInCurrentSelection(value, node);
     const { top, left } = this.getMenuPosition();
 
+    this.setStateFromNode();
     if (!this.state.model) {
-      this.setStateFromNode(node);
       return null;
     }
 

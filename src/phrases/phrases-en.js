@@ -839,7 +839,7 @@ const phrases = {
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
     },
-    article:{
+    article: {
       label: 'Article',
       add: 'Add article',
       change: 'Change article',

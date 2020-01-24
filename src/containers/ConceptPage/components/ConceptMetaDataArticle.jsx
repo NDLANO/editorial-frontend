@@ -6,7 +6,7 @@
  *
  */
 
-import React, {Fragment, useEffect, useState} from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -17,7 +17,7 @@ import styled from '@emotion/styled';
 
 import { Link } from 'react-router-dom';
 import { AsyncDropdown } from '../../../components/Dropdown';
-import {fetchDraft, searchDrafts} from '../../../modules/draft/draftApi';
+import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 
 import { toEditArticle } from '../../../util/routeHelpers';
 
@@ -29,8 +29,6 @@ const StyledFlexWrapper = styled.div`
   display: flex;
 `;
 
-
-
 const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
   const [article, setArticle] = useState(undefined);
   const [modalOpen, setOpen] = useState(false);
@@ -38,7 +36,7 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
   const fetchArticle = async (articleId, locale) => {
     const article = await fetchDraft(articleId, locale);
     const title = convertFieldWithFallback(article, 'title', '');
-    setArticle({...article, title});
+    setArticle({ ...article, title });
   };
 
   const searchForArticles = async inp => {
@@ -79,11 +77,10 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
   };
 
   useEffect(() => {
-    if(articleId){
+    if (articleId) {
       fetchArticle(articleId, locale);
     }
-  },[]);
-
+  }, []);
 
   return (
     <div>
@@ -145,6 +142,7 @@ ConceptMetaDataArticle.propTypes = {
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
   }),
+  articleId: PropTypes.number,
 };
 
 export default injectT(ConceptMetaDataArticle);

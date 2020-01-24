@@ -50,10 +50,15 @@ const ConceptMetaData = ({ t, licenses, subjects, tags, locale, concept }) => (
         <MultiSelectDropdown showCreateOption {...field} data={tags} />
       )}
     </FormikField>
-    <FormikField  name="articleId">
-        {({ field }) => (
-        <ConceptMetaDataArticle locale={locale} t={t} field={field} articleId={concept.articleId} />
-        )}
+    <FormikField name="articleId">
+      {({ field }) => (
+        <ConceptMetaDataArticle
+          locale={locale}
+          t={t}
+          field={field}
+          articleId={concept.articleId}
+        />
+      )}
     </FormikField>
   </Fragment>
 );

@@ -29,8 +29,8 @@ const StyledFlexWrapper = styled.div`
   display: flex;
 `;
 
-const ConceptMetaDataArticle = ({ locale, t }) => {
-  const [article, setSelected] = useState(undefined);
+const ConceptMetaDataArticle = ({ locale, t, field }) => {
+  const [article, setArticle] = useState(undefined);
   const [modalOpen, setOpen] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -48,6 +48,16 @@ const ConceptMetaDataArticle = ({ locale, t }) => {
       setTitle(convertFieldWithFallback(selectedArticle, 'title', ''));
       onArticleSelectClose();
     }
+  };
+
+  const setSelected = article => {
+    setArticle(article);
+    field.onChange({
+      target: {
+        name: field.name,
+        value: article.id,
+      },
+    });
   };
 
   const onArticleSelectClose = () => {
@@ -69,7 +79,7 @@ const ConceptMetaDataArticle = ({ locale, t }) => {
         controllable
         isOpen={modalOpen}
         onClose={onArticleSelectClose}
-        size="large"
+        size="regular"
         backgroundColor="white"
         minHeight="90vh">
         {() => (
@@ -118,6 +128,10 @@ const ConceptMetaDataArticle = ({ locale, t }) => {
 
 ConceptMetaDataArticle.propTypes = {
   locale: PropTypes.string.isRequired,
+  field: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
 };
 
 export default injectT(ConceptMetaDataArticle);

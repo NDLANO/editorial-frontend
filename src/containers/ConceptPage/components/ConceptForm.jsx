@@ -156,6 +156,7 @@ class ConceptForm extends Component {
         id: values.metaImageId,
         alt: values.metaImageAlt,
       },
+      articleId: values.articleId,
     };
   };
 

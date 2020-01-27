@@ -21,7 +21,7 @@ const resourceTypeProps = (item, numberInList) => {
   return iconMapping(numberInList).default;
 };
 
-const RelatedArticle = ({ locale, item, t, numberInList }) => (
+const RelatedArticle = ({ item, t, numberInList }) => (
   <RelatedArticleUI
     {...resourceTypeProps(item, numberInList)}
     title={convertFieldWithFallback(item, 'title', item.title)}
@@ -30,7 +30,7 @@ const RelatedArticle = ({ locale, item, t, numberInList }) => (
       'metaDescription',
       item.description,
     )}
-    to={item.url || toEditArticle(item.id, 'standard', locale)}
+    to={item.url || toEditArticle(item.id, 'standard')}
     linkInfo={
       item.id === 'external-learning-resources'
         ? t('form.content.relatedArticle.urlLocation', {
@@ -42,7 +42,6 @@ const RelatedArticle = ({ locale, item, t, numberInList }) => (
 );
 
 RelatedArticle.propTypes = {
-  locale: PropTypes.string,
   item: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,

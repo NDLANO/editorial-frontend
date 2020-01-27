@@ -198,12 +198,7 @@ export class RelatedArticleBox extends React.Component {
             !item.id ? (
               t('form.content.relatedArticle.invalidArticle')
             ) : (
-              <RelatedArticle
-                key={uuid()}
-                numberInList={i}
-                locale={locale}
-                item={item}
-              />
+              <RelatedArticle key={uuid()} numberInList={i} item={item} />
             ),
           )}
         </RelatedArticleList>

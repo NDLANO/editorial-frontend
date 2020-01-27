@@ -60,7 +60,7 @@ function hasHrefOrContentId(node) {
   return !!(data.resource === 'content-link' || data.href);
 }
 
-const Link = (props) => {
+const Link = props => {
   const {
     t,
     attributes,
@@ -70,7 +70,7 @@ const Link = (props) => {
   } = props;
   const linkRef = useRef(null);
   const [model, setModel] = useState(null);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(!hasHrefOrContentId(node));
 
   const getMenuPosition = () => {
     if (linkRef.current) {
@@ -86,18 +86,13 @@ const Link = (props) => {
     };
   };
 
-
   const setStateFromNode = async () => {
     const { node } = props;
     const data = node?.data?.toJS() || {};
 
     const contentType = data['content-type'] || 'article';
 
-    const resourcePath = await fetchResourcePath(
-      data,
-      locale,
-      contentType,
-    );
+    const resourcePath = await fetchResourcePath(data, locale, contentType);
     const href =
       data.resource === 'content-link'
         ? `${config.editorialFrontendDomain}/${resourcePath}`
@@ -131,24 +126,21 @@ const Link = (props) => {
 
   return (
     <span {...attributes}>
-        <a {...classes('link')} href={href} ref={linkRef}>
-          {props.children}
-        </a>
-        <Portal isOpened={isInline}>
-          <StyledLinkMenu top={top} left={left}>
-            <Button
-              css={linkMenuButtonStyle}
-              stripped
-              onClick={toggleEditMode}>
-              {t('form.content.link.change')}
-            </Button>{' '}
-            | {t('form.content.link.goTo')}{' '}
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              {' '}
-              {href}
-            </a>
-          </StyledLinkMenu>
-        </Portal>
+      <a {...classes('link')} href={href} ref={linkRef}>
+        {props.children}
+      </a>
+      <Portal isOpened={isInline}>
+        <StyledLinkMenu top={top} left={left}>
+          <Button css={linkMenuButtonStyle} stripped onClick={toggleEditMode}>
+            {t('form.content.link.change')}
+          </Button>{' '}
+          | {t('form.content.link.goTo')}{' '}
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {' '}
+            {href}
+          </a>
+        </StyledLinkMenu>
+      </Portal>
       {editMode && (
         <EditLink
           {...props}
@@ -158,9 +150,8 @@ const Link = (props) => {
           onChange={onChange}
         />
       )}
-      </span>
+    </span>
   );
-
 };
 
 Link.propTypes = {

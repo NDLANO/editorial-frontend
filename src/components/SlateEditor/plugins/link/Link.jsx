@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import Button from '@ndla/button';
@@ -68,9 +68,9 @@ const Link = (props) => {
     node,
     locale,
   } = props;
-  const [editMode, setEditMode] = useState(hasHrefOrContentId(node));
-  const [model, setModel] = useState({});
-  const linkRef = React.createRef();
+  const linkRef = useRef(null);
+  const [model, setModel] = useState(null);
+  const [editMode, setEditMode] = useState(false);
 
   const getMenuPosition = () => {
     if (linkRef.current) {
@@ -86,9 +86,6 @@ const Link = (props) => {
     };
   };
 
-  const toggleEditMode = () => {
-    setEditMode(prev => !prev);
-  };
 
   const setStateFromNode = async () => {
     const { node } = props;
@@ -98,7 +95,7 @@ const Link = (props) => {
 
     const resourcePath = await fetchResourcePath(
       data,
-      props.locale,
+      locale,
       contentType,
     );
     const href =
@@ -109,22 +106,27 @@ const Link = (props) => {
     const checkbox =
       data.target === '_blank' || data['open-in'] === 'new-context';
 
-    const model = {
+    setModel({
       href,
       text: node.text,
       checkbox,
-    };
-
-    setModel( model );
+    });
   };
 
-  const isInline = isNodeInCurrentSelection(value, node);
-  const { top, left } = getMenuPosition();
+  const toggleEditMode = () => {
+    setEditMode(prev => !prev);
+  };
+
+  useEffect(() => {
+    setStateFromNode();
+  }, [node]);
+
   if (!model) {
-    setStateFromNode(); // TODO: Dette må også skje når vi endrer linken
     return null;
   }
 
+  const { top, left } = getMenuPosition();
+  const isInline = isNodeInCurrentSelection(value, node);
   const { href } = model;
 
   return (

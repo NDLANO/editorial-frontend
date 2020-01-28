@@ -593,6 +593,7 @@ const linkRules = {
           data-link-text={slateObject.text}
           data-open-in={data['open-in']}
           data-resource={data.resource}
+          data-content-type={data['content-type']}
         />
       );
     }

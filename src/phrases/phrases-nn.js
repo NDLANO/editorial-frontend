@@ -864,6 +864,7 @@ const phrases = {
     maxLength: '{label} kan ikkje ha meir enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
     url: '{label} må inneholde ei gyldig lenke.',
+    urlOrNumber: '{label} må inneholde ei gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{label} kan ikkje være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikkje være før {beforeLabel}.',
     minItems:

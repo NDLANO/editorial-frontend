@@ -102,7 +102,6 @@ class EditRelated extends React.PureComponent {
   async searchForArticles(inp) {
     const articles = (await searchDrafts({
       query: inp,
-      language: this.props.locale,
       fallback: true,
     })).results;
     return articles ? articles.filter(article => !!article.id) : [];
@@ -114,7 +113,6 @@ class EditRelated extends React.PureComponent {
       removeArticle,
       insertExternal,
       items,
-      locale,
       onInsertBlock,
       onExit,
       t,
@@ -126,7 +124,7 @@ class EditRelated extends React.PureComponent {
         t('form.content.relatedArticle.invalidArticle')
       ) : (
         <StyledArticle key={relatedArticle.id}>
-          <RelatedArticle locale={locale} item={relatedArticle} />
+          <RelatedArticle item={relatedArticle} />
           <DeleteButton stripped onClick={e => removeArticle(i, e)} />
         </StyledArticle>
       ),
@@ -210,7 +208,6 @@ EditRelated.propTypes = {
   onExit: PropTypes.func,
   items: PropTypes.arrayOf(PropTypes.object),
   onInsertBlock: PropTypes.func,
-  locale: PropTypes.string,
   insertExternal: PropTypes.func,
 };
 

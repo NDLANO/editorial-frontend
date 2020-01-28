@@ -37,13 +37,12 @@ import {
 import {
   FormikAlertModalWrapper,
   FormikActionButton,
-  formClasses,
+  formClasses, FormikCopyright,
 } from '../../FormikForm';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
-import { addConcept } from '../../../modules/concept/conceptApi.js';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 
 const getInitialValues = (concept = {}, subjects = []) => {
@@ -179,10 +178,6 @@ class ConceptForm extends Component {
     }
   };
 
-  onAddConcept = newConcept => {
-    addConcept(newConcept);
-  };
-
   render() {
     const {
       t,
@@ -209,17 +204,25 @@ class ConceptForm extends Component {
         component: props => <ConceptContent classes={formClasses} {...props} />,
       },
       {
+        id: 'concept-copyright',
+        title: t('form.copyrightSection'),
+        className: 'u-6/6',
+        hasError: ['creators', 'license'].some(
+          field => !!errors[field] && touched[field],
+        ),
+        component: props => <FormikCopyright licenses={licenses} {...props} />,
+      },
+      {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: ['tags', 'creators', 'license', 'metaImageAlt'].some(
+        hasError: ['tags', 'metaImageAlt'].some(
           field => !!errors[field] && touched[field],
         ),
 
         component: props => (
           <ConceptMetaData
             classes={formClasses}
-            licenses={licenses}
             {...props}
           />
         ),

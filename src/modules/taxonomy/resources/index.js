@@ -105,18 +105,18 @@ export async function getFullResource(resourceId, language) {
   };
 }
 
-export function queryResources(articleId, language, contentType = 'article') {
+export function queryResources(contentId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
-      `urn:${contentType}:${articleId}`,
+      `urn:${contentType}:${contentId}`,
     )}&?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-export function queryTopics(articleId, language, contentType = 'article') {
+export function queryTopics(contentId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/queries/topics/?contentURI=${encodeURIComponent(
-      `urn:${contentType}:${articleId}`,
+      `urn:${contentType}:${contentId}`,
     )}&?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }

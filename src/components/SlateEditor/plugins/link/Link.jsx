@@ -66,7 +66,7 @@ const Link = props => {
     attributes,
     editor: { onChange, blur, value },
     node,
-    locale,
+    language,
   } = props;
   const linkRef = useRef(null);
   const [model, setModel] = useState(null);
@@ -92,7 +92,7 @@ const Link = props => {
 
     const contentType = data['content-type'] || 'article';
 
-    const resourcePath = await fetchResourcePath(data, locale, contentType);
+    const resourcePath = await fetchResourcePath(data, language, contentType);
     const href =
       data.resource === 'content-link'
         ? `${config.editorialFrontendDomain}/${resourcePath}`
@@ -160,7 +160,7 @@ Link.propTypes = {
   }),
   editor: EditorShape,
   node: Types.node.isRequired,
-  locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 export default injectT(Link);

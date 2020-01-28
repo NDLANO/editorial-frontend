@@ -37,7 +37,8 @@ import {
 import {
   FormikAlertModalWrapper,
   FormikActionButton,
-  formClasses, FormikCopyright,
+  formClasses,
+  FormikCopyright,
 } from '../../FormikForm';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -210,7 +211,14 @@ class ConceptForm extends Component {
         hasError: ['creators', 'license'].some(
           field => !!errors[field] && touched[field],
         ),
-        component: props => <FormikCopyright licenses={licenses} {...props} />,
+        component: props => (
+          <FormikCopyright
+            licenses={licenses}
+            contributorTypesOverride={['creators']}
+            {...props}
+            disableAgreements
+          />
+        ),
       },
       {
         id: 'concept-metadataSection',
@@ -221,10 +229,7 @@ class ConceptForm extends Component {
         ),
 
         component: props => (
-          <ConceptMetaData
-            classes={formClasses}
-            {...props}
-          />
+          <ConceptMetaData classes={formClasses} {...props} />
         ),
       },
     ];

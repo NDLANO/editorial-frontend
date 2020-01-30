@@ -108,9 +108,9 @@ const getArticleFromSlate = ({
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {
-      id: values.metaImageId,
-      alt: values.metaImageAlt,
-    }
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      }
     : undefined;
 
   const article = {

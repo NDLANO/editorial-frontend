@@ -106,6 +106,13 @@ const getArticleFromSlate = ({
         },
   );
   const content = topicArticleContentToHTML(values.content);
+  const metaImage = values?.metaImageId
+    ? {
+      id: values.metaImageId,
+      alt: values.metaImageAlt,
+    }
+    : undefined;
+
   const article = {
     articleType: 'topic-article',
     content: content || emptyField,
@@ -120,10 +127,7 @@ const getArticleFromSlate = ({
     introduction: editorValueToPlainText(values.introduction),
     metaDescription: editorValueToPlainText(values.metaDescription),
     language: values.language,
-    metaImage: {
-      id: values.metaImageId,
-      alt: values.metaImageAlt,
-    },
+    metaImage,
     notes: values.notes || [],
     published: getPublishedDate(values, initialValues, preview),
     supportedLanguages: values.supportedLanguages,

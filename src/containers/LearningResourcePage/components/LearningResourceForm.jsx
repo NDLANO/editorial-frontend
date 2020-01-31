@@ -86,6 +86,15 @@ const getArticleFromSlate = ({
 }) => {
   const content = learningResourceContentToHTML(values.content);
   const emptyContent = values.id ? '' : undefined;
+
+  const metaImage = values?.metaImageId
+    ? {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      }
+    : undefined;
+
+  console.log('mi', metaImage);
   const article = {
     articleType: 'standard',
     content: content && content.length > 0 ? content : emptyContent,
@@ -99,10 +108,7 @@ const getArticleFromSlate = ({
     id: values.id,
     introduction: editorValueToPlainText(values.introduction),
     language: values.language,
-    metaImage: {
-      id: values.metaImageId,
-      alt: values.metaImageAlt,
-    },
+    metaImage,
     metaDescription: editorValueToPlainText(values.metaDescription),
     notes: values.notes || [],
     published: getPublishedDate(values, initialValues, preview),

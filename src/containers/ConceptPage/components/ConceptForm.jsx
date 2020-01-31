@@ -137,6 +137,13 @@ class ConceptForm extends Component {
   getConcept = values => {
     const { licenses } = this.props;
 
+    const metaImage = values?.metaImageId
+      ? {
+          id: values.metaImageId,
+          alt: values.metaImageAlt,
+        }
+      : undefined;
+
     return {
       id: values.id,
       title: values.title,
@@ -152,10 +159,7 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
-      metaImage: {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      },
+      metaImage,
     };
   };
 

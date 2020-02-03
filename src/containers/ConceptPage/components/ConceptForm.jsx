@@ -192,7 +192,6 @@ class ConceptForm extends Component {
       tags,
       ...rest
     } = this.props;
-    console.log(this.props);
     const { savedToServer, showResetModal } = this.state;
     const panels = ({ errors, touched }) => [
       {

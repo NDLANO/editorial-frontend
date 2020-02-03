@@ -16,7 +16,6 @@ import { MultiSelectDropdown } from '../../../components/Dropdown';
 
 const ConceptMetaData = ({ t, subjects, tags }) => (
   <Fragment>
-    <FormikField label={t('form.concept.source')} name="source" />
     <FormikField name="metaImageId">
       {({ field, form }) => (
         <FormikMetaImageSearch

@@ -38,8 +38,8 @@ import {
   FormikAlertModalWrapper,
   FormikActionButton,
   formClasses,
-  FormikCopyright,
 } from '../../FormikForm';
+import ConceptCopyright from './ConceptCopyright';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
@@ -192,6 +192,7 @@ class ConceptForm extends Component {
       tags,
       ...rest
     } = this.props;
+    console.log(this.props);
     const { savedToServer, showResetModal } = this.state;
     const panels = ({ errors, touched }) => [
       {
@@ -211,12 +212,13 @@ class ConceptForm extends Component {
         hasError: ['creators', 'license'].some(
           field => !!errors[field] && touched[field],
         ),
-        component: props => (
-          <FormikCopyright
+        component: ({ values }) => (
+          <ConceptCopyright
             licenses={licenses}
             contributorTypesOverride={['creators']}
-            {...props}
             disableAgreements
+            label={t('form.concept.source')}
+            values={values}
           />
         ),
       },

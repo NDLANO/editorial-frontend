@@ -746,6 +746,7 @@ const phrases = {
     license: {
       label: 'License',
       helpLabel: 'What is a license?',
+      choose: 'Choose a license',
     },
     origin: {
       label: 'Origin',
@@ -853,6 +854,7 @@ const phrases = {
     isNumeric: '{label} must contain digits.',
     bothFields: 'One {labelLowerCase} must contain all fields.',
     url: '{label} must contain a valid link.',
+    urlOrNumber: '{label} must contain a valid link or article-id.',
     dateBeforeInvalid: '{label} can not be after {afterLabel}.',
     dateAfterInvalid: '{label} can not be before {beforeLabel}.',
     maxLength:

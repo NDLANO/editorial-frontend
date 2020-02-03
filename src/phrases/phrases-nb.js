@@ -757,6 +757,7 @@ const phrases = {
     license: {
       label: 'Lisens',
       helpLabel: 'Hva er lisenser?',
+      choose: 'Velg en lisens',
     },
     origin: {
       label: 'Opphav',
@@ -876,6 +877,7 @@ const phrases = {
     maxLength: '{label} kan ikke ha mer enn {maxLength, number} tegn.',
     minLength: '{label} må ha minst {minLength, number} tegn.',
     url: '{label} må inneholde en gyldig lenke.',
+    urlOrNumber: '{label} må inneholde en gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{label} kan ikke være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:

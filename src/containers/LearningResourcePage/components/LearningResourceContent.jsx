@@ -88,7 +88,7 @@ class LearningResourceContent extends Component {
       createBodyBoxPlugin(),
       createAsidePlugin(),
       createDetailsPlugin(),
-      createLinkPlugin(),
+      createLinkPlugin(language),
       conceptPlugin(language),
       headingPlugin(),
       // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.

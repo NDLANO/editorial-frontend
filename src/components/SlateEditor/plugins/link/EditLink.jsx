@@ -14,20 +14,19 @@ import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
 import LinkForm from './LinkForm';
-import config from '../../../../config';
+import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 
 const newTabAttributes = {
   target: '_blank',
   rel: 'noopener noreferrer',
 };
 
-const createContentLinkData = (href, targetRel) => {
-  const splittedHref = href.split('/');
-  const id = splittedHref[splittedHref.length - 1];
+const createContentLinkData = (id, resourceType, targetRel) => {
   return {
     type: TYPE,
     data: {
       'content-id': id,
+      'content-type': resourceType || 'article',
       resource: 'content-link',
       ...targetRel,
     },
@@ -41,6 +40,47 @@ const createLinkData = (href, targetRel) => ({
     ...targetRel,
   },
 });
+
+export const isNDLAArticleUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
+export const isNDLASubjectUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?subjects\/(.*)/.test(url);
+export const isNDLALearningPathUrl = url =>
+  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
+export const isPlainId = url => /^\d+/.test(url);
+
+const getIdAndTypeFromUrl = async href => {
+  if (isNDLAArticleUrl(href)) {
+    const splittedHref = href.split('/');
+    return {
+      resourceId: splittedHref.pop(),
+      resourceType: 'article',
+    };
+  } else if (isNDLALearningPathUrl(href)) {
+    const splittedHref = href.split('learningpaths/');
+    return {
+      resourceId: splittedHref[1],
+      resourceType: 'learningpath',
+    };
+  } else if (isPlainId(href)) {
+    return {
+      resourceId: href,
+      resourceType: 'article',
+    };
+  } else if (isNDLASubjectUrl(href)) {
+    const taxonomyPath = href.split('subjects').pop();
+    const resolvedTaxonomy = await resolveUrls(taxonomyPath);
+
+    const contentUriSplit =
+      resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
+
+    const resourceId = contentUriSplit.pop();
+    const resourceType = contentUriSplit.pop();
+
+    return { resourceId, resourceType };
+  }
+  return { resourceId: null };
+};
 
 class EditLink extends React.Component {
   constructor() {
@@ -60,19 +100,18 @@ class EditLink extends React.Component {
     }
   }
 
-  handleSave(model) {
+  async handleSave(model) {
     const { editor, node } = this.props;
     const { href, text, checkbox } = model;
-    const isNDLAUrl = config.isNdlaProdEnvironment
-      ? /^https:\/\/(www\.)?ndla.no\/article\/\d*/.test(href)
-      : /^https:\/(.*).ndla.no\/article\/\d*/.test(href);
-    const data = isNDLAUrl
-      ? createContentLinkData(
-          href,
-          checkbox
-            ? { 'open-in': 'new-context' }
-            : { 'open-in': 'current-context' },
-        )
+
+    const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
+
+    const targetRel = checkbox
+      ? { 'open-in': 'new-context' }
+      : { 'open-in': 'current-context' };
+
+    const data = resourceId
+      ? createContentLinkData(resourceId, resourceType, targetRel)
       : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (node.key) {

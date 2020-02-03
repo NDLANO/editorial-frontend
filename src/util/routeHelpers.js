@@ -86,6 +86,11 @@ export function to404() {
   return '/404';
 }
 
+export function isLearningpath(path) {
+  if (typeof path !== 'string') return false;
+  return path.includes('learningpath-api');
+}
+
 export function getResourceIdFromPath(path) {
   if (typeof path !== 'string') return undefined;
   const learningPath = path.match(/learningpaths\/(\d+)/);

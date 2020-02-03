@@ -44,18 +44,12 @@ export const getInitialValues = (article = {}) => {
     id: article.id,
     introduction: plainTextToEditorValue(article.introduction, true),
     language: article.language,
-    license:
-      article.copyright && article.copyright.license
-        ? article.copyright.license.license
-        : DEFAULT_LICENSE.license,
+    license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article.metaDescription, true),
-    metaImageAlt: article.metaImage ? article.metaImage.alt : '',
+    metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
-    origin:
-      article.copyright && article.copyright.origin
-        ? article.copyright.origin
-        : '',
+    origin: article.copyright?.origin || '',
     processors: parseCopyrightContributors(article, 'processors'),
     published: article.published,
     revision: article.revision,
@@ -92,6 +86,15 @@ const getArticleFromSlate = ({
 }) => {
   const content = learningResourceContentToHTML(values.content);
   const emptyContent = values.id ? '' : undefined;
+
+  const metaImage = values?.metaImageId
+    ? {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      }
+    : undefined;
+
+  console.log('mi', metaImage);
   const article = {
     articleType: 'standard',
     content: content && content.length > 0 ? content : emptyContent,
@@ -105,10 +108,7 @@ const getArticleFromSlate = ({
     id: values.id,
     introduction: editorValueToPlainText(values.introduction),
     language: values.language,
-    metaImage: {
-      id: values.metaImageId,
-      alt: values.metaImageAlt,
-    },
+    metaImage,
     metaDescription: editorValueToPlainText(values.metaDescription),
     notes: values.notes || [],
     published: getPublishedDate(values, initialValues, preview),

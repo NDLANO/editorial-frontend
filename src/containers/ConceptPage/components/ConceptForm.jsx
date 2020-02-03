@@ -54,22 +54,18 @@ const getInitialValues = (concept = {}, subjects = []) => {
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
-    subjects: concept.subjectIds
-      ? concept.subjectIds.map(subjectId =>
-          subjects.find(subject => subject.id === subjectId),
-        )
-      : [],
+    subjects:
+      concept.subjectIds?.map(subjectId =>
+        subjects.find(subject => subject.id === subjectId),
+      ) || [],
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
     creators: parseCopyrightContributors(concept, 'creators'),
     source: concept && concept.source ? concept.source : '',
-    license:
-      concept.copyright && concept.copyright.license
-        ? concept.copyright.license.license
-        : DEFAULT_LICENSE.license,
+    license: concept.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaImageId,
-    metaImageAlt: concept.metaImage ? concept.metaImage.alt : '',
+    metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
     articleId: concept.articleId || '',
   };
@@ -84,6 +80,10 @@ const rules = {
   },
   creators: {
     allObjectFieldsRequired: true,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: values => !!values.metaImageId,
   },
 };
 
@@ -138,6 +138,13 @@ class ConceptForm extends Component {
   getConcept = values => {
     const { licenses } = this.props;
 
+    const metaImage = values?.metaImageId
+      ? {
+          id: values.metaImageId,
+          alt: values.metaImageAlt,
+        }
+      : undefined;
+
     return {
       id: values.id,
       title: values.title,
@@ -153,11 +160,7 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
-      metaImage: {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      },
-      articleId: values.articleId,
+      metaImage,
     };
   };
 

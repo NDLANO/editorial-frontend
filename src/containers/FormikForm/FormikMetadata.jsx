@@ -41,8 +41,12 @@ const FormikMetadata = ({ t, tags }) => (
       )}
     </FormikField>
     <FormikField name="metaImageId">
-      {({ field }) => (
-        <FormikMetaImageSearch metaImageId={field.value} {...field} />
+      {({ field, form }) => (
+        <FormikMetaImageSearch
+          metaImageId={field.value}
+          setFieldTouched={form.setFieldTouched}
+          {...field}
+        />
       )}
     </FormikField>
   </Fragment>

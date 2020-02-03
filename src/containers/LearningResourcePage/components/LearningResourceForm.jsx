@@ -94,7 +94,6 @@ const getArticleFromSlate = ({
       }
     : undefined;
 
-  console.log('mi', metaImage);
   const article = {
     articleType: 'standard',
     content: content && content.length > 0 ? content : emptyContent,

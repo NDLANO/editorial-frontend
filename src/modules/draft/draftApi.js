@@ -119,6 +119,13 @@ export const uploadFile = formData =>
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
+export const deleteFile = fileUrl => {
+  const query = encodeURIComponent(fileUrl);
+  fetchAuthorized(`${baseFileUrl}/?path=${query}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+};
+
 export const searchDrafts = query =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',

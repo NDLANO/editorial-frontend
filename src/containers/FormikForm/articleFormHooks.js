@@ -6,9 +6,9 @@
  *
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { validateDraft } from '../../modules/draft/draftApi';
+import { validateDraft, deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
@@ -35,6 +35,24 @@ const handleValidation = async ({
       revision,
     });
   }
+};
+
+const getFilePathsFromHtml = htmlString => {
+  const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
+  const fileNodesArr = Array.from(
+    parsed.querySelectorAll('embed[data-resource=file]'),
+  );
+  return fileNodesArr.map(e => e.getAttribute('data-path'));
+};
+
+const deleteRemovedFiles = async (oldArticleContent, newArticleContent) => {
+  const oldFilePaths = getFilePathsFromHtml(oldArticleContent);
+  const newFilePaths = getFilePathsFromHtml(newArticleContent);
+
+  const pathsToDelete = oldFilePaths.filter(
+    op => !newFilePaths.some(np => op === np),
+  );
+  return Promise.all(pathsToDelete.map(path => deleteFile(path)));
 };
 
 export function useArticleFormHooks({
@@ -117,6 +135,8 @@ export function useArticleFormHooks({
           }),
         );
       }
+
+      await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
       actions.resetForm();

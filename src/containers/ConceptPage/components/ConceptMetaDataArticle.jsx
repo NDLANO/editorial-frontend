@@ -88,10 +88,10 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
       <Modal
         controllable
         isOpen={modalOpen}
-        onClose={onArticleSelectClose}
         size="regular"
         backgroundColor="white"
-        minHeight="90vh">
+        minHeight="90vh"
+        animationDuration="0">
         {() => (
           <Fragment>
             <ModalHeader>
@@ -110,7 +110,6 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
                 apiAction={searchForArticles}
                 onClick={e => e.stopPropagation()}
                 onChange={onSelect}
-                positionAbsolute
               />
             </ModalBody>
           </Fragment>
@@ -120,10 +119,8 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
         <Fragment>
           <StyledFlexWrapper>
             <Link to={toEditArticle(article.id, article.articleType, locale)}>
-              {' '}
-              <h2 style={{ margin: '0' }}>{article.title}</h2>{' '}
+              <h2 style={{ margin: '0' }}>{article.title}</h2>
             </Link>
-
             <StyledRemoveConnectionButton type="button" onClick={removeArticle}>
               <Cross />
             </StyledRemoveConnectionButton>

@@ -14,12 +14,21 @@ import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const FormikCopyright = ({ licenses, values }) => {
+const FormikCopyright = ({
+  licenses,
+  values,
+  contributorTypesOverride,
+  disableAgreements,
+}) => {
   const disabled = !!values.agreementId;
   return (
     <Fragment>
-      <FormikContributors contributorTypes={contributorTypes} />
-      <FormikAgreementConnection values={values} width={3 / 4} />
+      <FormikContributors
+        contributorTypes={contributorTypesOverride || contributorTypes}
+      />
+      {disableAgreements || (
+        <FormikAgreementConnection values={values} width={3 / 4} />
+      )}
       <FormikField name="license">
         {({ field }) => (
           <FormikLicense disabled={disabled} licenses={licenses} {...field} />
@@ -39,6 +48,8 @@ FormikCopyright.propTypes = {
   values: PropTypes.shape({
     agreementId: PropTypes.number,
   }),
+  contributorTypesOverride: PropTypes.arrayOf(PropTypes.string),
+  disableAgreements: PropTypes.bool,
 };
 
 export default FormikCopyright;

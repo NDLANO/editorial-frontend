@@ -91,7 +91,7 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
         size="regular"
         backgroundColor="white"
         minHeight="90vh"
-        animationDuration="0">
+        animationDuration={0}>
         {() => (
           <Fragment>
             <ModalHeader>
@@ -118,7 +118,7 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
       {article ? (
         <Fragment>
           <StyledFlexWrapper>
-            <Link to={toEditArticle(article.id, article.articleType, locale)}>
+            <Link to={toEditArticle(article.id, article.articleType)}>
               <h2 style={{ margin: '0' }}>{article.title}</h2>
             </Link>
             <StyledRemoveConnectionButton type="button" onClick={removeArticle}>

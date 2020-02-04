@@ -39,11 +39,11 @@ import {
   FormikActionButton,
   formClasses,
 } from '../../FormikForm';
+import ConceptCopyright from './ConceptCopyright';
 import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
-import { addConcept } from '../../../modules/concept/conceptApi.js';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 
 const getInitialValues = (concept = {}, subjects = []) => {
@@ -160,6 +160,7 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
+      articleId: values.articleId,
       metaImage,
     };
   };
@@ -182,10 +183,6 @@ class ConceptForm extends Component {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
-  };
-
-  onAddConcept = newConcept => {
-    addConcept(newConcept);
   };
 
   render() {
@@ -214,20 +211,32 @@ class ConceptForm extends Component {
         component: props => <ConceptContent classes={formClasses} {...props} />,
       },
       {
+        id: 'concept-copyright',
+        title: t('form.copyrightSection'),
+        className: 'u-6/6',
+        hasError: ['creators', 'license'].some(
+          field => !!errors[field] && touched[field],
+        ),
+        component: ({ values }) => (
+          <ConceptCopyright
+            licenses={licenses}
+            contributorTypesOverride={['creators']}
+            disableAgreements
+            label={t('form.concept.source')}
+            values={values}
+          />
+        ),
+      },
+      {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: ['tags', 'creators', 'license', 'metaImageAlt'].some(
+        hasError: ['tags', 'metaImageAlt'].some(
           field => !!errors[field] && touched[field],
         ),
 
         component: props => (
-          <ConceptMetaData
-            classes={formClasses}
-            licenses={licenses}
-            concept={concept}
-            {...props}
-          />
+          <ConceptMetaData classes={formClasses} concept={concept} {...props} />
         ),
       },
     ];

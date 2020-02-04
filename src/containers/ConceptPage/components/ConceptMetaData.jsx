@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -10,26 +10,13 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../../components/FormikField';
-import {
-  FormikLicense,
-  FormikContributors,
-  FormikMetaImageSearch,
-} from '../../FormikForm';
-import { LicensesArrayOf, SubjectShape, ConceptShape } from '../../../shapes';
+import { FormikMetaImageSearch } from '../../FormikForm';
+import { SubjectShape, ConceptShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import ConceptMetaDataArticle from './ConceptMetaDataArticle';
 
-const contributorTypes = ['creators'];
-
-const ConceptMetaData = ({ t, licenses, subjects, tags, locale, concept }) => (
+const ConceptMetaData = ({ t, subjects, tags, locale, concept }) => (
   <Fragment>
-    <FormikField name="license">
-      {({ field }) => (
-        <FormikLicense licenses={licenses} width={1} {...field} />
-      )}
-    </FormikField>
-    <FormikField label={t('form.concept.source')} name="source" />
-    <FormikContributors contributorTypes={contributorTypes} width={1} />
     <FormikField name="metaImageId">
       {({ field, form }) => (
         <FormikMetaImageSearch
@@ -68,7 +55,6 @@ const ConceptMetaData = ({ t, licenses, subjects, tags, locale, concept }) => (
 );
 
 ConceptMetaData.propTypes = {
-  licenses: LicensesArrayOf.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   locale: PropTypes.string.isRequired,

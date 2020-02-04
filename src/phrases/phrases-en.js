@@ -840,6 +840,10 @@ const phrases = {
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
     },
+    article: {
+      label: 'Article',
+      add: 'Add article',
+    },
   },
   validation: {
     isRequired: '{label} is required.',

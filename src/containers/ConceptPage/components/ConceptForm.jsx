@@ -67,6 +67,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     metaImageId,
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
+    articleId: concept.articleId || '',
   };
 };
 
@@ -159,6 +160,7 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
+      articleId: values.articleId,
       metaImage,
     };
   };
@@ -234,7 +236,7 @@ class ConceptForm extends Component {
         ),
 
         component: props => (
-          <ConceptMetaData classes={formClasses} {...props} />
+          <ConceptMetaData classes={formClasses} concept={concept} {...props} />
         ),
       },
     ];

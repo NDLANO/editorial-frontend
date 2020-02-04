@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -11,10 +11,11 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../../components/FormikField';
 import { FormikMetaImageSearch } from '../../FormikForm';
-import { SubjectShape } from '../../../shapes';
+import { SubjectShape, ConceptShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
+import ConceptMetaDataArticle from './ConceptMetaDataArticle';
 
-const ConceptMetaData = ({ t, subjects, tags }) => (
+const ConceptMetaData = ({ t, subjects, tags, locale, concept }) => (
   <Fragment>
     <FormikField name="metaImageId">
       {({ field, form }) => (
@@ -40,12 +41,24 @@ const ConceptMetaData = ({ t, subjects, tags }) => (
         <MultiSelectDropdown showCreateOption {...field} data={tags} />
       )}
     </FormikField>
+    <FormikField name="articleId">
+      {({ field }) => (
+        <ConceptMetaDataArticle
+          locale={locale}
+          t={t}
+          field={field}
+          articleId={concept.articleId}
+        />
+      )}
+    </FormikField>
   </Fragment>
 );
 
 ConceptMetaData.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  locale: PropTypes.string.isRequired,
+  concept: ConceptShape.isRequired,
 };
 
 export default injectT(ConceptMetaData);

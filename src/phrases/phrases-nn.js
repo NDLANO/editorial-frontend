@@ -856,6 +856,10 @@ const phrases = {
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
     },
+    article: {
+      label: 'Artikkel',
+      add: 'Legg til artikkel',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

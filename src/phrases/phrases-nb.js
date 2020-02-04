@@ -861,6 +861,10 @@ const phrases = {
         noFilesAdded: 'Ingen filer er lagt til',
       },
     },
+    article: {
+      label: 'Artikkel',
+      add: 'Legg til artikkel',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

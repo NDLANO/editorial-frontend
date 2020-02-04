@@ -238,6 +238,8 @@ class Filelist extends React.Component {
               changeName: t('form.file.changeName'),
               changeOrder: t('form.file.changeOrder'),
               removeFile: t('form.file.removeFile'),
+              missingFileTooltip: t('form.file.missingFileTooltip'),
+              missingTitle: t('form.file.missingFilename'),
             }}
           />
           <AddFileToList

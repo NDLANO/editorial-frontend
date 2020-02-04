@@ -855,6 +855,9 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
+      missingTitle: '[Mangler filnavn]',
+      missingFileTooltip:
+        'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
     },
   },
   validation: {

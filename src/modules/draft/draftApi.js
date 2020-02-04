@@ -112,6 +112,15 @@ export const fetchStatusStateMachine = () =>
     resolveJsonOrRejectWithError,
   );
 
+export const headFileAtRemote = async filePath => {
+  const fileUrl = apiResourceUrl(`${filePath}`);
+  const res = await fetch(fileUrl, {
+    method: 'HEAD',
+  });
+
+  return res.status === 200;
+};
+
 export const uploadFile = formData =>
   fetchAuthorized(`${baseFileUrl}/`, {
     method: 'POST',

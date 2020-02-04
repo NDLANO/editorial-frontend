@@ -78,16 +78,15 @@ class Filelist extends React.Component {
   }
 
   checkForRemoteFiles = async files => {
-    const newFiles = files.map(async file => {
+    const missingFiles = files.map(async file => {
       const exists = await headFileAtRemote(file.path);
-      return {
-        missingAtRemote: !exists,
-        ...file,
-      };
+      return { ...file, exists: !!exists };
     });
-    const resolvedFiles = await Promise.all(newFiles);
-
-    this.setState({ files: resolvedFiles });
+    const resolvedFiles = await Promise.all(missingFiles);
+    const missingFilePaths = resolvedFiles
+      .filter(f => !f.exists)
+      .map(f => f.path);
+    this.setState({ missingFilePaths });
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -172,7 +171,6 @@ class Filelist extends React.Component {
             type: file.type,
             title: file.title,
             resource: file.resource,
-            missingAtRemote: file.missing,
           })),
         ),
       }),
@@ -230,6 +228,7 @@ class Filelist extends React.Component {
           </FieldHeader>
           <FileListEditor
             files={this.state.files}
+            missingFilePaths={this.state.missingFilePaths}
             usePortal={true}
             onEditFileName={this.onUpdateFileName}
             onDeleteFile={this.onDeleteFile}

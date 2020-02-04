@@ -859,10 +859,6 @@ const phrases = {
     article: {
       label: 'Artikkel',
       add: 'Legg til artikkel',
-      change: 'Byt artikkel',
-      title: 'Artikkeltittel',
-      copyright: 'Opphav',
-      url: 'Artikkellenke',
     },
   },
   validation: {

@@ -843,10 +843,6 @@ const phrases = {
     article: {
       label: 'Article',
       add: 'Add article',
-      change: 'Change article',
-      title: 'Article title',
-      copyright: 'Copyright',
-      url: 'Article link',
     },
   },
   validation: {

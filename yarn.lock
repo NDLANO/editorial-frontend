@@ -1288,13 +1288,13 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.7.4":
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.4.tgz#226287e5a443f219bfe82b458196ef1d977c3275"
-  integrity sha512-KE/cgIsWn80hTUg3R0XVLnpgD51pmoQ5x3lnFfTy6zLPh3k+MLNt/0O5QaMNGNleP6SpOjSayxEZ2HoeRJzmxw==
+"@ndla/editor@^0.7.6":
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.6.tgz#201a9418be4abdfd80e208b097e892804d7cf59c"
+  integrity sha512-itcVJloNBYO6kGYlyN+/3l5XP1WgEW/kQoj6Ay3rtDO3W0RoLRpJqo/hEW1cFZXOlhuv3W+yuMkt0OV+CJpJaw==
   dependencies:
     "@ndla/core" "^0.6.21"
-    "@ndla/icons" "^0.6.19"
+    "@ndla/icons" "^0.6.20"
     "@types/react-beautiful-dnd" "^11.0.3"
     react-beautiful-dnd "^12.0.0"
 
@@ -1306,35 +1306,35 @@
     "@ndla/util" "^0.3.6"
     raven-js "^3.22.3"
 
-"@ndla/forms@^0.3.59":
-  version "0.3.59"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.59.tgz#8f6151db861166438d0fa581c6ed39bc0c5ec757"
-  integrity sha512-M74mqibGcTdSl0GJFvcGhuSoOTlposbUsbByVQGujhWpexfwlz9Kwe0ucl5gE4RFOqvVBiQp+KejxJKqyrregA==
+"@ndla/forms@^0.3.64":
+  version "0.3.64"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.64.tgz#36e8f081a7003e2bab9055819ba81199b42c4c47"
+  integrity sha512-Xs9wBIe8O/aoUuTCqVSA6mQd5Xa17tyIanSo1ry3EALRdC7xgyLi9Xvrw0JMednabYQKN49suAmbUdJu/tWtiw==
   dependencies:
     "@ndla/core" "^0.6.21"
-    "@ndla/icons" "^0.6.19"
-    "@ndla/ui" "^0.27.4"
+    "@ndla/icons" "^0.6.20"
+    "@ndla/ui" "^0.27.9"
 
-"@ndla/hooks@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.6.tgz#bc99bc2ab14eeb179f1c4b8816196a548c02b16e"
-  integrity sha512-1pMeKVylBPswyfn6Ga8BADXpHuZby3arKUhorByRiVEQTm2l/AE6GRI5TbCRifrzQI1lQM7W7jrzIA5hdQjuCw==
+"@ndla/hooks@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.7.tgz#de1d256c025d76d5f4d0cac7e1b707d74efac09e"
+  integrity sha512-rrVU1GRQ0xm5E27nA6qtFG7O5Pzg1W5137la9wtb5T5rdMWpgncH+zwujRxVgPCE5kFcQXkfNwSCn9TkRtDd9A==
   dependencies:
     "@ndla/util" "^0.3.6"
     lodash "^4.17.14"
 
-"@ndla/howto@^0.1.69":
-  version "0.1.69"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.69.tgz#f83216635930b4b0da0ee91c9f093a14f40beff7"
-  integrity sha512-R8BtsmAI7Enfhxmmm/yxGQFjQFys4kqAsv/Y3ea4lkE4qhfKVkin88RWf7OWv3QzLaeBRqK7xtVI9Yf8QsdN2A==
+"@ndla/howto@^0.1.74":
+  version "0.1.74"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.74.tgz#fe24f633a6095ee7f0e8236c9f9d6b4859ba731d"
+  integrity sha512-7qUU2dsEAugLm/BDzS2jqtK5JRKfcSErZQr5WbA1RwtNtKlcCfRGSqKK7zlQhnqz9pvRH9Rn8iCriYckVR42jA==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
-    "@ndla/icons" "^0.6.19"
+    "@ndla/icons" "^0.6.20"
     "@ndla/licenses" "^0.6.22"
     "@ndla/modal" "^0.4.6"
     "@ndla/tooltip" "^0.2.21"
-    "@ndla/ui" "^0.27.4"
+    "@ndla/ui" "^0.27.9"
 
 "@ndla/i18n@^0.4.2":
   version "0.4.2"
@@ -1351,14 +1351,19 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.19.tgz#7f66c56f26bfd662aa6febc840c611d7b726795e"
   integrity sha512-TiDjc30UypxpF2P3+07aCZKg5PeP5Swf1YHk0HOTcsGP4gWf5ny+/rLlZ0MCFJt2TuZw0nARV8/97lbjEJzBgA==
 
-"@ndla/image-search@^0.8.61":
-  version "0.8.61"
-  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.61.tgz#51bd92033fdd178bb68409210575c8ecc54c6293"
-  integrity sha512-icCIFfBp79DhlVK7Em2czWvgMJf7UUQvVqLQ+ztVN37EOYT4JnKEImubh1ISrP7GIkqazOP+z7nNbcnrGrr/Sw==
+"@ndla/icons@^0.6.20":
+  version "0.6.20"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.20.tgz#e5d8a753f74e6eb13c075d14ce0472b69158b185"
+  integrity sha512-9BwSQiqf8QoCK9Cmw+s+L6MypqdFa435AC6wNfwBpgElWUI9Tjm1WlqIPh1Jyfo/Glp01PDI4sXMPVwJ02mM1Q==
+
+"@ndla/image-search@^0.8.66":
+  version "0.8.66"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.66.tgz#3d63f7b8938c05ca8a0fffa6b26837a3ca4ea28f"
+  integrity sha512-nieKGav0ohPna4SeDbmZFj8/7Qk1RCBVTQo+6f2llV5lxdKZuf3o9GDgxhTOgRoVPtC409UbXbha+bwYRE1ldQ==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
-    "@ndla/forms" "^0.3.59"
+    "@ndla/forms" "^0.3.64"
     "@ndla/licenses" "^0.6.22"
     "@ndla/util" "^0.3.6"
 
@@ -1403,6 +1408,11 @@
   resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-0.0.3.tgz#e3d11c53e1d6e39379a214bb5bd910db58b9a9c3"
   integrity sha512-6iz+fjnGnjCk+9NIMw+HumQUiA0MWSKQb1hujCMwT9RWp3iQCDDX6WJN2eYcAcLNIVXyL5WItlKiPyw2ATlAsw==
 
+"@ndla/safelink@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-0.0.4.tgz#742fe9c8ae6d957900a2a8d98481b9fec3a7c72f"
+  integrity sha512-FSY8TCNPfLJHhoJpYJUrQS2+6TPsyWqrVAtksNCb8vgyx5XETyLuLI/qKMIrxWkC4kIGOplKC6DBZMeRSYIrIg==
+
 "@ndla/scripts@^0.7.4":
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.4.tgz#87c71967e1df6887eda7e0c4975570b68ac02ba3"
@@ -1445,20 +1455,20 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.27.4":
-  version "0.27.4"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.4.tgz#a2b60ee2e176c2b589bcc50479d86dcbac0c6b10"
-  integrity sha512-j9fweq2ijmVoADljY5w9qdFT4waravi2+l0dNk/fMh8AdU2lX57kPxxTYbiF//nSF1bYdB0DCA+fNZuWwgWhEQ==
+"@ndla/ui@^0.27.9":
+  version "0.27.9"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.9.tgz#fb19ebd49fabe5ff144725c3ce889903307460b4"
+  integrity sha512-KcKUEgZTtyotNlP6t/RCCnua5CYw0pNYt6wnN6RlYprMsiyMz77KsMdAzdbbmbMXIZOIcPKfY8ny0uVLSL/wDw==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/carousel" "^0.3.20"
     "@ndla/core" "^0.6.21"
-    "@ndla/hooks" "^0.1.6"
+    "@ndla/hooks" "^0.1.7"
     "@ndla/i18n" "^0.4.2"
-    "@ndla/icons" "^0.6.19"
+    "@ndla/icons" "^0.6.20"
     "@ndla/licenses" "^0.6.22"
     "@ndla/modal" "^0.4.6"
-    "@ndla/safelink" "^0.0.3"
+    "@ndla/safelink" "^0.0.4"
     "@ndla/switch" "^0.0.10"
     "@ndla/tabs" "^0.11.23"
     "@ndla/tooltip" "^0.2.21"

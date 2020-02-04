@@ -23,6 +23,7 @@ import { getSchemaEmbed } from '../../editorSchema';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
 import { arrMove } from '../../../../util/arrayHelpers';
+import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -70,9 +71,23 @@ document.addEventListener('keydown', event => {
 class Filelist extends React.Component {
   constructor(props) {
     super(props);
+    this.checkForRemoteFiles.bind(this);
     const files = this.getFilesFromSlate();
     this.state = { showFileUploader: false, files, currentDebounce: false };
+    this.checkForRemoteFiles(files);
   }
+
+  checkForRemoteFiles = async files => {
+    const missingFiles = files.map(async file => {
+      const exists = await headFileAtRemote(file.path);
+      return { ...file, exists: !!exists };
+    });
+    const resolvedFiles = await Promise.all(missingFiles);
+    const missingFilePaths = resolvedFiles
+      .filter(f => !f.exists)
+      .map(f => f.path);
+    this.setState({ missingFilePaths });
+  };
 
   static getDerivedStateFromProps(props, state) {
     if (
@@ -126,10 +141,10 @@ class Filelist extends React.Component {
       editor.removeNodeByKey(node.key);
       this.setState({ files: [] }, this.updateFilesToEditor);
     } else {
-      const newNodes = node.data
-        .get('nodes')
-        .filter((_, i) => i !== indexToDelete);
-      this.setState({ files: newNodes }, this.updateFilesToEditor);
+      this.setState(prevState => {
+        const newNodes = prevState.files.filter((_, i) => i !== indexToDelete);
+        return { files: newNodes };
+      }, this.updateFilesToEditor);
     }
   };
 
@@ -213,6 +228,7 @@ class Filelist extends React.Component {
           </FieldHeader>
           <FileListEditor
             files={this.state.files}
+            missingFilePaths={this.state.missingFilePaths}
             usePortal={true}
             onEditFileName={this.onUpdateFileName}
             onDeleteFile={this.onDeleteFile}
@@ -222,6 +238,8 @@ class Filelist extends React.Component {
               changeName: t('form.file.changeName'),
               changeOrder: t('form.file.changeOrder'),
               removeFile: t('form.file.removeFile'),
+              missingFileTooltip: t('form.file.missingFileTooltip'),
+              missingTitle: t('form.file.missingFilename'),
             }}
           />
           <AddFileToList

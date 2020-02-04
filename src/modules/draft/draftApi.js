@@ -112,12 +112,28 @@ export const fetchStatusStateMachine = () =>
     resolveJsonOrRejectWithError,
   );
 
+export const headFileAtRemote = async filePath => {
+  const fileUrl = apiResourceUrl(`${filePath}`);
+  const res = await fetch(fileUrl, {
+    method: 'HEAD',
+  });
+
+  return res.status === 200;
+};
+
 export const uploadFile = formData =>
   fetchAuthorized(`${baseFileUrl}/`, {
     method: 'POST',
     headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);
+
+export const deleteFile = fileUrl => {
+  const query = encodeURIComponent(fileUrl);
+  fetchAuthorized(`${baseFileUrl}/?path=${query}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+};
 
 export const searchDrafts = query =>
   fetchAuthorized(`${baseUrl}/search/`, {

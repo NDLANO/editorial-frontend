@@ -91,7 +91,7 @@ SearchConcept.propTypes = {
     }),
   }),
   locale: PropTypes.string,
-  subjects: PropTypes.arrayOf(PropTypes.string),
+  subjects: PropTypes.array,
 };
 
 export default injectT(SearchConcept);

@@ -49,6 +49,7 @@ SearchResult.propTypes = {
   ]),
   type: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+  subjects: PropTypes.array,
 };
 
 export default injectT(SearchResult);

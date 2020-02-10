@@ -41,7 +41,7 @@ class SearchContainer extends Component {
     this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { location, search, type } = this.props;
     if (location.search) {
       const searchObject = queryString.parse(location.search);

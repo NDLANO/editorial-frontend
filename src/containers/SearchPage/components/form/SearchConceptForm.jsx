@@ -176,12 +176,4 @@ SearchConceptForm.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-/*SearchConceptForm.defaultProps = {
-  searchObject: {
-    query: '',
-    subjects: '',
-    language: '',
-  },
-};*/
-
 export default injectT(SearchConceptForm);

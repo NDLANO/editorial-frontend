@@ -15,7 +15,15 @@ import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
-const SearchList = ({ results, searchObject, type, t, searching, locale }) => {
+const SearchList = ({
+  results,
+  searchObject,
+  type,
+  t,
+  searching,
+  locale,
+  subjects,
+}) => {
   if (searching) return <Spinner />;
   if (results.length === 0)
     return (
@@ -34,6 +42,7 @@ const SearchList = ({ results, searchObject, type, t, searching, locale }) => {
               result={result}
               type={type}
               locale={locale || result.title.language}
+              subjects={subjects}
             />
           </CSSTransition>
         ))}
@@ -51,6 +60,7 @@ SearchList.propTypes = {
   type: PropTypes.string,
   searching: PropTypes.bool,
   locale: PropTypes.string,
+  subjects: PropTypes.array,
 };
 
 SearchList.defaultProps = {

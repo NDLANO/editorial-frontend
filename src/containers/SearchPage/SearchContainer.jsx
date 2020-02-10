@@ -24,6 +24,7 @@ import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
+import { fetchSubjects } from '../../modules/taxonomy';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -33,16 +34,28 @@ export const searchClasses = new BEMHelper({
 class SearchContainer extends Component {
   constructor() {
     super();
+    this.state = {
+      subjects: [],
+    };
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { location, search, type } = this.props;
     if (location.search) {
       const searchObject = queryString.parse(location.search);
       search({ query: searchObject, type });
     }
+    this.getExternalData();
+  }
+
+  async getExternalData() {
+    const { locale } = this.props;
+    const subjects = await fetchSubjects(locale);
+    this.setState({
+      subjects,
+    });
   }
 
   onQueryPush(newSearchObject) {
@@ -90,6 +103,7 @@ class SearchContainer extends Component {
           searchObject={searchObject}
           location={location}
           locale={locale}
+          subjects={this.state.subjects}
         />
         {type === 'content' && (
           <SearchSort
@@ -109,6 +123,7 @@ class SearchContainer extends Component {
           searching={searching}
           type={type}
           locale={locale}
+          subjects={this.state.subjects}
         />
         <Pager
           page={searchObject.page ? parseInt(searchObject.page, 10) : 1}

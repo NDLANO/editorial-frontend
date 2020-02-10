@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
-import { fetchSubjects } from '../../../../modules/taxonomy';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
@@ -20,7 +19,7 @@ import { LocationShape } from '../../../../shapes';
 
 const emptySearchState = {
   query: '',
-  subjectIds: '',
+  subjects: '',
   language: '',
 };
 
@@ -29,23 +28,17 @@ class SearchConceptForm extends Component {
     super(props);
     const { searchObject } = props;
     this.state = {
-      subjects: [],
       search: {
-        subjectIds: searchObject.subjectIds || '',
+        subjects: searchObject.subjects || '',
         query: searchObject.query || '',
         language: searchObject.language || '',
         types: 'concept',
       },
     };
-    this.getExternalData = this.getExternalData.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.getExternalData();
   }
 
   onFieldChange = evt => {
@@ -55,14 +48,6 @@ class SearchConceptForm extends Component {
       this.handleSearch,
     );
   };
-
-  async getExternalData() {
-    const { locale } = this.props;
-    const subjects = await fetchSubjects(locale);
-    this.setState({
-      subjects,
-    });
-  }
 
   handleSearch = evt => {
     if (evt) {
@@ -91,8 +76,8 @@ class SearchConceptForm extends Component {
   }
 
   render() {
-    const { t } = this.props;
-    const { search, subjects } = this.state;
+    const { t, subjects } = this.props;
+    const { search } = this.state;
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -108,10 +93,10 @@ class SearchConceptForm extends Component {
           key={`searchfield_subjects`}
           {...searchFormClasses('field', `25-width`)}>
           <ObjectSelector
-            name={'subjectIds'}
+            name={'subjects'}
             options={subjects.sort(this.sortByProperty('name'))}
             idKey="id"
-            value={this.state.search['subjectIds']}
+            value={this.state.search['subjects']}
             labelKey="name"
             emptyField
             placeholder={t(`searchForm.types.subjects`)}
@@ -154,10 +139,7 @@ class SearchConceptForm extends Component {
             onRemoveItem={this.removeTagItem}
             languages={getResourceLanguages}
             subjects={subjects}
-            searchObject={{
-              subjects: this.state.search.subjectIds,
-              ...this.state.search,
-            }}
+            searchObject={this.state.search}
           />
         </div>
       </form>
@@ -170,10 +152,11 @@ SearchConceptForm.propTypes = {
   location: LocationShape,
   searchObject: PropTypes.shape({
     query: PropTypes.string,
-    subjectIds: PropTypes.string,
+    subjects: PropTypes.string,
     language: PropTypes.string,
   }),
   locale: PropTypes.string.isRequired,
+  subjects: PropTypes.array,
 };
 
 export default injectT(SearchConceptForm);

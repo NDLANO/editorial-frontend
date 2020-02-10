@@ -15,7 +15,7 @@ import { searchClasses } from '../../SearchContainer';
 import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
-const SearchConcept = ({ concept, locale, t }) => {
+const SearchConcept = ({ concept, locale, subjects, t }) => {
   const { url: metaImageSrc, alt: metaImageAlt } = concept.metaImage || {};
   const title = convertFieldWithFallback(
     concept,
@@ -27,7 +27,7 @@ const SearchConcept = ({ concept, locale, t }) => {
     'content',
     t('conceptSearch.noContent'),
   );
-
+  const breadcrumbs = subjects.filter(s => concept.subjectIds?.includes(s.id));
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
@@ -61,6 +61,13 @@ const SearchConcept = ({ concept, locale, t }) => {
           })}
         </div>
         <p {...searchClasses('description')}>{content}</p>
+        <div {...searchClasses('breadcrumbs')}>
+          {breadcrumbs?.map(breadcrumb => (
+            <p key={breadcrumb.id} {...searchClasses('breadcrumb')}>
+              {breadcrumb.name}
+            </p>
+          )) || <p {...searchClasses('breadcrumb')} />}
+        </div>
       </div>
     </div>
   );
@@ -77,12 +84,14 @@ SearchConcept.propTypes = {
       content: PropTypes.string,
     }),
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+    subjectIds: PropTypes.arrayOf(PropTypes.string),
     metaImage: PropTypes.shape({
       alt: PropTypes.string,
       url: PropTypes.string,
     }),
   }),
   locale: PropTypes.string,
+  subjects: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default injectT(SearchConcept);

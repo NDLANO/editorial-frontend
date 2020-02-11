@@ -11,10 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
-import {
-  fetchSubjects,
-  fetchResourceTypes,
-} from '../../../../modules/taxonomy';
+import { fetchResourceTypes } from '../../../../modules/taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
@@ -38,7 +35,6 @@ class SearchContentForm extends Component {
     const { searchObject } = props;
     this.state = {
       dropDown: {
-        subjects: [],
         resourceTypes: [],
         users: [],
       },
@@ -73,14 +69,12 @@ class SearchContentForm extends Component {
   async getExternalData() {
     const { locale } = this.props;
     const { t } = this.props;
-    const [resourceTypes, subjects, users] = await Promise.all([
+    const [resourceTypes, users] = await Promise.all([
       fetchResourceTypes(locale),
-      fetchSubjects(locale),
       this.getUsers(),
     ]);
     this.setState({
       dropDown: {
-        subjects,
         resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),
         users,
       },
@@ -137,9 +131,9 @@ class SearchContentForm extends Component {
 
   render() {
     const {
-      dropDown: { subjects, resourceTypes, users },
+      dropDown: { resourceTypes, users },
     } = this.state;
-    const { t } = this.props;
+    const { t, subjects } = this.props;
 
     const selectFields = [
       {
@@ -233,6 +227,7 @@ class SearchContentForm extends Component {
 
 SearchContentForm.propTypes = {
   search: PropTypes.func.isRequired,
+  subjects: PropTypes.array,
   location: LocationShape,
   searchObject: PropTypes.shape({
     query: PropTypes.string,

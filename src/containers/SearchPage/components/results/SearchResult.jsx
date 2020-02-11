@@ -19,12 +19,14 @@ import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 
-const SearchResult = ({ result, locale, type, t }) => {
+const SearchResult = ({ result, locale, type, subjects, t }) => {
   switch (type) {
     case 'content':
       return <SearchContent content={result} locale={locale} />;
     case 'concept':
-      return <SearchConcept concept={result} locale={locale} />;
+      return (
+        <SearchConcept concept={result} locale={locale} subjects={subjects} />
+      );
     case 'media':
       switch (result.type) {
         case 'images':
@@ -47,6 +49,7 @@ SearchResult.propTypes = {
   ]),
   type: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+  subjects: PropTypes.array,
 };
 
 export default injectT(SearchResult);

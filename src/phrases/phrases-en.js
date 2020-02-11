@@ -581,6 +581,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Whats the difference between statuses?',
       statusLabel: 'Status',
+      published: 'The article exists in a published version.',
     },
     status: {
       new: 'New - unsaved',

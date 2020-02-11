@@ -592,6 +592,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
       statusLabel: 'Status',
+      published: 'Artikkelen har en publisert versjon.',
     },
     status: {
       new: 'Ny - Ikke lagret',

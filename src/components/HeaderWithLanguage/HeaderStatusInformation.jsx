@@ -10,6 +10,7 @@ import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import HowToHelper from '../HowTo/HowToHelper';
 
 export const StyledSplitter = styled.div`
@@ -59,7 +60,11 @@ const HeaderStatusInformation = ({
       <StyledStatusWrapper>
         <StyledSplitter />
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-        {published && <StyledCheckIcon title={t('form.status.published')} />}
+        {published && (
+          <Tooltip tooltip={t('form.workflow.published')}>
+            <StyledCheckIcon title={t('form.status.published')} />
+          </Tooltip>
+        )}
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
@@ -72,7 +77,11 @@ const HeaderStatusInformation = ({
             ? t('form.status.new_language')
             : statusText || t('form.status.new')}
         </StyledStatus>
-        {published && <StyledCheckIcon title={t('form.status.published')} />}
+        {published && (
+          <Tooltip tooltip={t('form.workflow.published')}>
+            <StyledCheckIcon title={t('form.status.published')} />
+          </Tooltip>
+        )}
         <HowToHelper
           pageId="status"
           tooltip={t('form.workflow.statusInfoTooltip')}

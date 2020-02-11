@@ -702,6 +702,12 @@ const phrases = {
       description: 'Obligatorisk med 3 nøkkelord.',
       createOption: 'Opprett nytt nøkkelord',
     },
+    competences: {
+      label: 'Kompetansemål',
+      helpLabel: 'Hva er kompetansemål?',
+      description: 'Legg til kompetansemål.',
+      createOption: 'Opprett nytt kompetansemål',
+    },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
       placeholder: 'Legg til egenskap',

@@ -95,6 +95,11 @@ export const fetchAgreement = id =>
     resolveJsonOrRejectWithError,
   );
 
+export const fetchCompetences = query =>
+  fetchAuthorized(`${baseUrl}/competences/?query=${query}`).then(
+    resolveJsonOrRejectWithError,
+  );
+
 export const updateAgreement = agreement =>
   fetchAuthorized(`${baseAgreementsUrl}/${agreement.id}`, {
     method: 'PATCH',

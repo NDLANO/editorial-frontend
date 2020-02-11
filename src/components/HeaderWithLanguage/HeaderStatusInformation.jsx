@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
+import { Check } from '@ndla/icons/editor';
 import HowToHelper from '../HowTo/HowToHelper';
 
 export const StyledSplitter = styled.div`
@@ -39,10 +40,18 @@ const StyledSmallText = styled.small`
   text-transform: uppercase;
 `;
 
+const StyledCheckIcon = styled(Check)`
+  margin-top: 2px;
+  height: 25px;
+  width: 25px;
+  fill: ${colors.support.green};
+`;
+
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
   isNewLanguage,
+  published,
   t,
 }) => {
   if (noStatus && isNewLanguage) {
@@ -50,6 +59,7 @@ const HeaderStatusInformation = ({
       <StyledStatusWrapper>
         <StyledSplitter />
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
+        {published && <StyledCheckIcon title={t('form.status.published')} />}
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
@@ -62,6 +72,7 @@ const HeaderStatusInformation = ({
             ? t('form.status.new_language')
             : statusText || t('form.status.new')}
         </StyledStatus>
+        {published && <StyledCheckIcon title={t('form.status.published')} />}
         <HowToHelper
           pageId="status"
           tooltip={t('form.workflow.statusInfoTooltip')}
@@ -76,6 +87,7 @@ HeaderStatusInformation.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
   isNewLanguage: PropTypes.bool,
+  published: PropTypes.bool,
 };
 
 export default injectT(HeaderStatusInformation);

@@ -86,6 +86,7 @@ const HeaderInformation = ({
   type,
   noStatus,
   statusText,
+  published,
   isNewLanguage,
   title,
   t,
@@ -150,6 +151,7 @@ const HeaderInformation = ({
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
+        published={published}
       />
     </StyledHeader>
   );
@@ -158,6 +160,7 @@ const HeaderInformation = ({
 HeaderInformation.propTypes = {
   noStatus: PropTypes.bool,
   statusText: PropTypes.string,
+  published: PropTypes.bool,
   type: PropTypes.string.isRequired,
   editUrl: PropTypes.func,
   getArticle: PropTypes.func,

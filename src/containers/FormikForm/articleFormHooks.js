@@ -89,15 +89,6 @@ export function useArticleFormHooks({
     const newArticle = getArticleFromSlate({ values, initialValues, licenses });
 
     try {
-      await handleValidation({
-        statusChange,
-        initialStatus,
-        newStatus,
-        values,
-        newArticle,
-        revision,
-      });
-
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const skipSaving =

@@ -77,7 +77,7 @@ const EditorFooter: React.FC<Props> = ({
       formIsDirty={formIsDirty}
       large
       showSaved={savedToServer && !formIsDirty}
-      disabled={Object.keys(errors).length > 0}
+      submitForm={submitForm}
     />
   );
 

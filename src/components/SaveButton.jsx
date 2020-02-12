@@ -54,6 +54,7 @@ const SaveButton = ({
   formIsDirty,
   large,
   disabled,
+  submitForm,
   ...rest
 }) => {
   const getModifier = () => {
@@ -66,6 +67,7 @@ const SaveButton = ({
   return (
     <Button
       disabled={isSaving || !formIsDirty || disabled}
+      onClick={submitForm}
       submit
       css={css`
         ${large ? largerButtonStyle : ''}

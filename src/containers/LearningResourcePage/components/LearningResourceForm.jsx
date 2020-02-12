@@ -119,6 +119,18 @@ const getArticleFromSlate = ({
   return article;
 };
 
+// This effect is used to handle submission even if there are validation errors
+// TODO: Move this to a better place and maybe with a better name?
+const Effect = props => {
+  const effect = () => {
+    if (props.formik.submitCount > 0 && !props.formik.isValid) {
+      props.onInvalidSubmission();
+    }
+  };
+  React.useEffect(effect, [props.formik.submitCount]);
+  return null;
+};
+
 const LearningResourceForm = props => {
   const {
     savedToServer,
@@ -135,15 +147,16 @@ const LearningResourceForm = props => {
       validateOnBlur={false}
       onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>
-      {({
-        values,
-        dirty,
-        isSubmitting,
-        setValues,
-        errors,
-        touched,
-        ...formikProps
-      }) => {
+      {formik => {
+        const {
+          values,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+          ...formikProps
+        } = formik;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -152,7 +165,11 @@ const LearningResourceForm = props => {
         const getArticle = preview =>
           getArticleFromSlate({ values, initialValues, licenses, preview });
         return (
-          <Form {...formClasses()}>
+          <Form {...formClasses()} onSubmit={e => e.preventDefault()}>
+            <Effect
+              formik={formik}
+              onInvalidSubmission={() => handleSubmit(formik.values, formik)}
+            />
             <HeaderWithLanguage
               values={values}
               content={article}

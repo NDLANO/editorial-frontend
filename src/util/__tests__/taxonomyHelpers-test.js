@@ -162,15 +162,15 @@ test('taxonomy/sortIntoCreateDeleteUpdate different item changes', () => {
 
 test('getCurrentTopic', () => {
   const input = [
-    { params: { topic1: 'topic1' } },
-    { params: { topic1: 'topic1' }, subject: {} },
-    { params: { topic1: 'topic1' }, subject: { topics: [{ id: 'topic1' }] } },
+    { params: { topic: 'topic1' } },
+    { params: { topic: 'topic1' }, subject: {} },
+    { params: { topic: 'topic1' }, subject: { topics: [{ id: 'topic1' }] } },
     {
-      params: { topic1: 'topic1', topic2: 'topic2' },
+      params: { topic: 'topic1', subtopics: 'topic2' },
       subject: { topics: [{ id: 'topic1', subtopics: [{ id: 'topic2' }] }] },
     },
     {
-      params: { topic1: 'topic1', topic2: 'topic99' },
+      params: { topic: 'topic1', subtopics: 'topic99' },
       subject: { topics: [{ id: 'topic1', subtopics: [{ id: 'topic2' }] }] },
     },
   ];

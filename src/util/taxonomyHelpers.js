@@ -167,11 +167,11 @@ const getCurrentTopic = ({ params, subject = {} }) => {
   const { topic, subtopics } = params;
   let current = {};
   if (topic) {
-    const topics = subtopics?.split('/');
     current = subject?.topics?.find(t => t.id === topic);
+    const topics = subtopics?.split('/');
     while (topics?.length > 0) {
       const t = topics.shift();
-      current = current?.subtopics?.find(top => top.id === t.id);
+      current = current?.subtopics?.find(top => top.id === t);
     }
   }
   return current || {};

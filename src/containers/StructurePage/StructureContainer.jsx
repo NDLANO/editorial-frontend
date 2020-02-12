@@ -339,7 +339,7 @@ export class StructureContainer extends React.PureComponent {
     } = this.state;
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
-    const topicId = params.topic3 || params.topic2 || params.topic1;
+    const topicId = params.subtopics?.split('/')?.pop() || params.topic;
     const currentSubject = subjects.find(sub => sub.id === params.subject);
     const currentTopic = getCurrentTopic({
       params,
@@ -434,9 +434,8 @@ StructureContainer.propTypes = {
     url: PropTypes.string,
     params: PropTypes.shape({
       subject: PropTypes.string,
-      topic1: PropTypes.string,
-      topic2: PropTypes.string,
-      topic3: PropTypes.string,
+      topic: PropTypes.string,
+      subtopics: PropTypes.string,
     }).isRequired,
   }).isRequired,
   location: LocationShape,

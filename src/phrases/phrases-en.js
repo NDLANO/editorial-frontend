@@ -27,6 +27,9 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  menu: {
+    title: 'Menu',
+  },
   dropdown: {
     numberHits: `Search returned {hits} hits`,
     searching: 'Searching...',

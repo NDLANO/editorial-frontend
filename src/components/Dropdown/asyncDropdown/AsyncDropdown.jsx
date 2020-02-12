@@ -60,8 +60,12 @@ class AsyncDropDown extends React.Component {
   async handleSearch(query = '') {
     const { apiAction } = this.props;
     this.setState({ loading: true });
-    const items = await apiAction(query);
+    const apiOutput = await apiAction(query);
+    const items =
+      (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
+    const totalCount = apiOutput.totalCount || null;
     this.setState({
+      totalCount: totalCount,
       items: items
         ? items.map(item => ({
             ...item,
@@ -150,6 +154,7 @@ class AsyncDropDown extends React.Component {
                 disableSelected={disableSelected}
                 {...downshiftProps}
                 items={items}
+                totalCount={this.state.totalCount}
                 positionAbsolute={positionAbsolute}
               />
             </div>

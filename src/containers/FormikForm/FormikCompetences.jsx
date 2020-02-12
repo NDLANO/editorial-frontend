@@ -6,53 +6,89 @@
  *
  */
 
-import React, {Fragment, useEffect, useState} from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
 import FormikField from '../../components/FormikField';
-import MultiSelectDropdown from '../../components/Dropdown/MultiSelectDropdown';
-import {fetchCompetences} from "../../modules/draft/draftApi";
-import {DropdownInput, DropdownMenu, FormPill, FormPills} from '@ndla/forms';
-import {appLocales} from "../../i18n";
+import { fetchCompetences } from '../../modules/draft/draftApi';
+import { FormPill } from '@ndla/forms';
+import { AsyncDropdown } from '../../components/Dropdown';
 
-const FormikCompetences = ({ t, tags }) => {
+const FormikCompetences = ({ t, articleCompetences }) => {
+  // "Hacky" way to make AsyncDropdown work as expected
+  const convertToCompetencesWithTitle = competencesWithoutTitle => {
+    let newCompetences = [];
+    competencesWithoutTitle.map(r => {
+      let newObj = {};
+      newObj['title'] = r;
+      newCompetences.push(newObj);
+    });
+    return newCompetences;
+  };
 
-  const [result, setResult] = useState({totalCount:0, competences:[]});
-  const [competences, setCompetences] = useState(["a", "b", "c"]);
+  const [competences, setCompetences] = useState(articleCompetences);
+  const [competencesWithTitle, setCompetencesWithTitle] = useState(
+    convertToCompetencesWithTitle(articleCompetences),
+  );
 
   const searchForCompetences = async inp => {
     const result = await fetchCompetences(inp);
-    setResult(result["totalCount"], result["results"])
+    result.results = convertToCompetencesWithTitle(result.results);
+    return result;
   };
 
-  const removeItem = id => {
+  const addCompetence = competence => {
+    if (competences.indexOf(competence.title) === -1) {
+      const temp = competences.slice();
+      temp.push(competence.title);
+      setCompetences(temp);
+      setCompetencesWithTitle(convertToCompetencesWithTitle(temp));
+    }
+  };
+
+  const removeCompetence = id => {
     const temp = competences.slice();
-    temp.splice( id, 1);
+    temp.splice(id, 1);
     setCompetences(temp);
+    setCompetencesWithTitle(convertToCompetencesWithTitle(temp));
   };
 
   return (
     <Fragment>
-      <FormikField
-        name="competences"
-        label={t('form.competences.label')}>
+      <FormikField name="competences" label={t('form.competences.label')}>
         {({ field }) => (
           <div>
             {competences.map((competence, id) => (
-                <FormPill id={id} label={competence} onClick={removeItem}/>
-              ))}
-            <MultiSelectDropdown showCreateOption {...field} data={tags} />
+              <FormPill
+                id={id.toString()}
+                label={competence}
+                onClick={removeCompetence}
+              />
+            ))}
+
+            <AsyncDropdown
+              idField="title"
+              name="CompetencesSearch"
+              labelField="title"
+              placeholder={t('form.content.relatedArticle.placeholder')}
+              label="label"
+              apiAction={searchForCompetences}
+              onClick={e => e.stopPropagation()}
+              onChange={addCompetence}
+              selectedItems={competencesWithTitle}
+              multiSelect
+              disableSelected
+            />
           </div>
         )}
-
       </FormikField>
     </Fragment>
   );
 };
 
 FormikCompetences.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  articleCompetences: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default injectT(FormikCompetences);

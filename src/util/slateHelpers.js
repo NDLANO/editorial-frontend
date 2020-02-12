@@ -633,6 +633,23 @@ const topicArticeEmbedRule = [
     // Embeds handling
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
+      const embed = reduceElementDataAttributes(el);
+      if (embed.resource === 'content-link') {
+        return {
+          object: 'inline',
+          type: 'link',
+          data: embed,
+          nodes: [
+            {
+              object: 'text',
+              text: embed['link-text']
+                ? embed['link-text']
+                : 'Ukjent link tekst',
+              marks: [],
+            },
+          ],
+        };
+      }
       return {
         object: 'block',
         type: 'embed',

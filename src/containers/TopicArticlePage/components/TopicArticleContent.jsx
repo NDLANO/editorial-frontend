@@ -25,6 +25,7 @@ import {
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
+import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../LearningResourcePage/components/EditMarkupLink';
@@ -58,6 +59,7 @@ const TopicArticleContent = props => {
         // unwrapping (jumping out of block) will not work.
         blockquotePlugin,
         editListPlugin,
+        createLinkPlugin(language),
         paragraphPlugin(),
         toolbarPlugin(),
       ]);

@@ -17,7 +17,7 @@ import { listTypes } from '../externalPlugins';
 const topicArticleElements = {
   mark: ['bold', 'italic', 'underlined'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: [],
+  inline: ['link'],
 };
 
 const DEFAULT_NODE = 'paragraph';

@@ -8,34 +8,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { validateDraft, deleteFile } from '../../modules/draft/draftApi';
+import { deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
-
-const handleValidation = async ({
-  statusChange,
-  initialStatus,
-  newStatus,
-  values,
-  newArticle,
-  revision,
-}) => {
-  if (
-    (!statusChange &&
-      initialStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
-    (!statusChange && initialStatus === articleStatuses.QUALITY_ASSURED) ||
-    (statusChange && newStatus === articleStatuses.QUEUED_FOR_PUBLISHING) ||
-    (statusChange && newStatus === articleStatuses.QUALITY_ASSURED) ||
-    (statusChange && newStatus === articleStatuses.PUBLISHED)
-  ) {
-    return validateDraft(values.id, {
-      ...newArticle,
-      revision,
-    });
-  }
-};
 
 const getFilePathsFromHtml = htmlString => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -81,8 +58,9 @@ export function useArticleFormHooks({
     }
   }, [language, id]);
 
-  const handleSubmit = async (values, actions) => {
-    actions.setSubmitting(true);
+  const handleSubmit = async formik => {
+    formik.setSubmitting(true);
+    const values = formik.values;
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status.current;
     const statusChange = initialStatus !== newStatus;
@@ -130,13 +108,13 @@ export function useArticleFormHooks({
       await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
-      actions.resetForm();
+      formik.resetForm();
 
-      Object.keys(actions.values).map(fieldName => {
-        return actions.setFieldTouched(fieldName, true, true);
+      Object.keys(formik.values).map(fieldName => {
+        return formik.setFieldTouched(fieldName, true, true);
       });
 
-      actions.setFieldValue('notes', [], false);
+      formik.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {
         createMessage({
@@ -148,10 +126,10 @@ export function useArticleFormHooks({
       } else {
         applicationError(err);
       }
-      actions.setSubmitting(false);
+      formik.setSubmitting(false);
       if (statusChange) {
         // if validation failed we need to set status back so it won't be saved as new status on next save
-        actions.setFieldValue('status', { current: initialStatus });
+        formik.setFieldValue('status', { current: initialStatus });
       }
       setSavedToServer(false);
     }

@@ -210,9 +210,9 @@ const TopicArticleForm = props => {
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
+              onSaveClick={() => handleSubmit(formik)}
               {...formikProps}
               {...rest}
-              submitForm={() => handleSubmit(values, formik)}
             />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}

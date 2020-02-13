@@ -185,11 +185,9 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               errors={errors}
               values={values}
+              onSaveClick={() => handleSubmit(formik)}
               {...formikProps}
               {...rest}
-              submitForm={() => {
-                handleSubmit(values, formik);
-              }}
             />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}

@@ -34,6 +34,9 @@ const phrases = {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  menu: {
+    title: 'Meny',
+  },
   article: {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgave',

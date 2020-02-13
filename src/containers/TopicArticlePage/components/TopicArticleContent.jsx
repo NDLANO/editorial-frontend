@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -39,6 +39,22 @@ const byLineStyle = css`
   margin-top: 0;
 `;
 
+const createPlugins = language => {
+  return [
+    createNoEmbedsPlugin(),
+    createLinkPlugin(language),
+    headingPlugin(),
+
+    // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+    // Blockquote and editList actions need to be triggered before paragraph action, else
+    // unwrapping (jumping out of block) will not work.
+    blockquotePlugin,
+    editListPlugin,
+    paragraphPlugin(),
+    toolbarPlugin(),
+  ];
+};
+
 const TopicArticleContent = props => {
   const {
     t,
@@ -47,24 +63,10 @@ const TopicArticleContent = props => {
       values: { id, language, creators, published, visualElement },
     },
   } = props;
-  const [plugins, setPlugins] = useState([]);
-  useEffect(() => {
-    if (plugins.length === 0) {
-      setPlugins([
-        createNoEmbedsPlugin(),
-        headingPlugin(),
 
-        // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-        // Blockquote and editList actions need to be triggered before paragraph action, else
-        // unwrapping (jumping out of block) will not work.
-        blockquotePlugin,
-        editListPlugin,
-        createLinkPlugin(language),
-        paragraphPlugin(),
-        toolbarPlugin(),
-      ]);
-    }
-  });
+  const plugins = useMemo(() => {
+    return createPlugins(language);
+  }, [language]);
 
   return (
     <Fragment>

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -119,18 +119,6 @@ const getArticleFromSlate = ({
   return article;
 };
 
-// This effect is used to handle submission even if there are validation errors
-// TODO: Move this to a better place and maybe with a better name?
-const Effect = props => {
-  const effect = () => {
-    if (props.formik.submitCount > 0 && !props.formik.isValid) {
-      props.onInvalidSubmission();
-    }
-  };
-  React.useEffect(effect, [props.formik.submitCount]);
-  return null;
-};
-
 const LearningResourceForm = props => {
   const {
     savedToServer,
@@ -145,7 +133,7 @@ const LearningResourceForm = props => {
       initialValues={initialValues}
       ref={formikRef}
       validateOnBlur={false}
-      onSubmit={handleSubmit}
+      onSubmit={() => ({})}
       validate={values => validateFormik(values, learningResourceRules, t)}>
       {formik => {
         const {
@@ -165,11 +153,7 @@ const LearningResourceForm = props => {
         const getArticle = preview =>
           getArticleFromSlate({ values, initialValues, licenses, preview });
         return (
-          <Form {...formClasses()} onSubmit={e => e.preventDefault()}>
-            <Effect
-              formik={formik}
-              onInvalidSubmission={() => handleSubmit(formik.values, formik)}
-            />
+          <Form {...formClasses()}>
             <HeaderWithLanguage
               values={values}
               content={article}
@@ -203,6 +187,9 @@ const LearningResourceForm = props => {
               values={values}
               {...formikProps}
               {...rest}
+              submitForm={() => {
+                handleSubmit(values, formik);
+              }}
             />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}

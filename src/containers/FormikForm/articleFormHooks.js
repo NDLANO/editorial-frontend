@@ -131,6 +131,11 @@ export function useArticleFormHooks({
 
       setSavedToServer(true);
       actions.resetForm();
+
+      Object.keys(actions.values).map(fieldName => {
+        return actions.setFieldTouched(fieldName, true, true);
+      });
+
       actions.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {

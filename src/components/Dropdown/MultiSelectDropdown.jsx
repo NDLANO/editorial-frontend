@@ -28,6 +28,7 @@ export class MultiSelectDropdown extends Component {
       },
     });
     this.setState({ inputValue: '', isOpen: false });
+    this.triggerTouched();
   };
 
   onCreate = evt => {
@@ -58,6 +59,7 @@ export class MultiSelectDropdown extends Component {
     } else if (value.length < 2) {
       this.setState({ inputValue: value, isOpen: false });
     }
+    this.triggerTouched();
   };
 
   removeItem = id => {
@@ -68,6 +70,7 @@ export class MultiSelectDropdown extends Component {
         value: value.filter(val => (idField ? val[idField] : val) !== id),
       },
     });
+    this.triggerTouched();
   };
 
   handleStateChange = changes => {
@@ -80,6 +83,11 @@ export class MultiSelectDropdown extends Component {
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
       this.setState({ inputValue: '' });
     }
+  };
+
+  triggerTouched = () => {
+    const { name, setFieldTouched } = this.props;
+    setFieldTouched && setFieldTouched(name, true, true);
   };
 
   render() {
@@ -149,6 +157,7 @@ MultiSelectDropdown.propTypes = {
   labelField: PropTypes.string,
   idField: PropTypes.string,
   showCreateOption: PropTypes.bool,
+  setFieldTouched: PropTypes.func,
 };
 
 MultiSelectDropdown.defaultProps = {

@@ -116,6 +116,7 @@ class AsyncDropDown extends React.Component {
       multiSelect,
       selectedItems,
       disableSelected,
+      onCreate,
       ...rest
     } = this.props;
 
@@ -156,6 +157,8 @@ class AsyncDropDown extends React.Component {
                 items={items}
                 totalCount={this.state.totalCount}
                 positionAbsolute={positionAbsolute}
+                inputValue={this.state.inputValue}
+                onCreate={onCreate}
               />
             </div>
           );
@@ -178,6 +181,7 @@ AsyncDropDown.propTypes = {
   multiSelect: PropTypes.bool,
   selectedItems: PropTypes.array,
   disableSelected: PropTypes.bool,
+  onCreate: PropTypes.func,
 };
 
 AsyncDropDown.defaultPropTypes = {

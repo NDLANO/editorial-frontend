@@ -52,9 +52,7 @@ const panels = [
     title: 'form.competences.label',
     className: 'u-6/6',
     errorFields: ['competences'],
-    component: props => (
-      <FormikCompetences articleCompetences={props.article.competences} />
-    ),
+    component: props => <FormikCompetences {...props} />,
   },
   {
     id: 'learning-resource-workflow',
@@ -126,6 +124,9 @@ LearningResourcePanels.propTypes = {
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
   userAccess: PropTypes.string,
+  article: PropTypes.shape({
+    competences: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
 };
 
 export default injectT(LearningResourcePanels);

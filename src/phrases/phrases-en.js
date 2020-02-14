@@ -691,6 +691,10 @@ const phrases = {
       description: '3 tags is required.',
       createOption: 'Create new tag',
     },
+    competences: {
+      label: 'Competences',
+      placeholder: 'Search for competences',
+    },
     resourceTypes: {
       label: 'Resource type and properties',
       placeholder: 'Add property',

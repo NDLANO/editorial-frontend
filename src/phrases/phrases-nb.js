@@ -704,9 +704,7 @@ const phrases = {
     },
     competences: {
       label: 'Kompetansemål',
-      helpLabel: 'Hva er kompetansemål?',
-      description: 'Legg til kompetansemål.',
-      createOption: 'Opprett nytt kompetansemål',
+      placeholder: 'Søk på kompetansemål',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',

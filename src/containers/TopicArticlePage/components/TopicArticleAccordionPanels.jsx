@@ -25,7 +25,7 @@ const panels = [
   },
   {
     id: 'topic-article-taxonomy',
-    title: 'form.taxonomytSection',
+    title: 'form.taxonomySection',
     errorFields: [],
     showPanel: (values, userAccess) =>
       values.id && (userAccess && userAccess.includes(TAXONOMY_WRITE_SCOPE)),

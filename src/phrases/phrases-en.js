@@ -437,7 +437,7 @@ const phrases = {
     metadataSection: 'Metadata',
     contentSection: 'Content',
     workflowSection: 'Version log and notes',
-    taxonomytSection: 'Taxonomy',
+    taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
     saveDraft: 'Save draft',
@@ -585,6 +585,7 @@ const phrases = {
       statusInfoTooltip: 'Whats the difference between statuses?',
       statusLabel: 'Status',
       published: 'The article exists in a published version.',
+      multipleTaxonomy: 'The article has multiple entries in taxonomy.',
     },
     status: {
       new: 'New - unsaved',

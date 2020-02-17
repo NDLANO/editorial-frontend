@@ -39,6 +39,11 @@ const HeaderWithLanguage = ({
   const published =
     status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
+
+  const resourceAndTopics = Object.values(content?.taxonomy || {}).flat();
+  const allTaxonomyPaths = resourceAndTopics.flatMap(t => t?.paths);
+  const hasMultipleTaxonomyEntries = (allTaxonomyPaths?.length || 0) > 1;
+
   return (
     <header>
       <HeaderInformation
@@ -48,6 +53,7 @@ const HeaderWithLanguage = ({
         isNewLanguage={isNewLanguage}
         title={title}
         published={published}
+        hasMultipleTaxonomyEntries={hasMultipleTaxonomyEntries}
         {...rest}
       />
       <StyledLanguageWrapper>

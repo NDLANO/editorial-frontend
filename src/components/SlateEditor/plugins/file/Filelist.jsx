@@ -79,7 +79,7 @@ class Filelist extends React.Component {
 
   checkForRemoteFiles = async files => {
     const missingFiles = files.map(async file => {
-      const exists = await headFileAtRemote(file.path);
+      const exists = await headFileAtRemote(file.url);
       return { ...file, exists: !!exists };
     });
     const resolvedFiles = await Promise.all(missingFiles);

@@ -110,9 +110,9 @@ export function useArticleFormHooks({
       setSavedToServer(true);
       formik.resetForm();
 
-      Object.keys(formik.values).map(fieldName => {
-        return formik.setFieldTouched(fieldName, true, true);
-      });
+      Object.keys(formik.values).map(fieldName =>
+        formik.setFieldTouched(fieldName, true, true),
+      );
 
       formik.setFieldValue('notes', [], false);
     } catch (err) {
@@ -133,6 +133,7 @@ export function useArticleFormHooks({
       }
       setSavedToServer(false);
     }
+    await formik.validateForm();
   };
 
   return {

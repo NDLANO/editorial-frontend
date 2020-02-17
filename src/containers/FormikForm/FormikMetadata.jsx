@@ -20,10 +20,15 @@ const FormikMetadata = ({ t, tags }) => (
     <FormikField
       name="tags"
       label={t('form.tags.label')}
-      description={t('form.tags.description')}
-      obligatory>
-      {({ field }) => (
-        <MultiSelectDropdown showCreateOption {...field} data={tags} />
+      showError
+      description={t('form.tags.description')}>
+      {({ field, form }) => (
+        <MultiSelectDropdown
+          showCreateOption
+          {...field}
+          setFieldTouched={form.setFieldTouched}
+          data={tags}
+        />
       )}
     </FormikField>
     <FormikField

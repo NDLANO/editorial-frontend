@@ -473,7 +473,7 @@ const phrases = {
       validTo: 'Valid to',
       description: 'Content',
       conceptContent: 'Description',
-      competences: 'Competences',
+      competences: 'Curriculum connection',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -698,7 +698,7 @@ const phrases = {
     },
     competences: {
       label: 'Competences',
-      placeholder: 'Search for competences',
+      placeholder: 'Type competence code',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -872,7 +872,7 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
     competences:
-      'Competences are in the wrong format. The correct format is: capital letter K followed by optional E and one or more digits. Ex. K123, KE2255, K1337',
+      'Competences are in the wrong format. The correct format is K(E/M/V) followed by one or more digits. Ex. K123, KE1337, KM2255, KV5432',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

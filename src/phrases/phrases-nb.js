@@ -489,7 +489,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
-      competences: 'Kompetansemål',
+      competences: 'Læreplankobling',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -709,7 +709,7 @@ const phrases = {
     },
     competences: {
       label: 'Kompetansemål',
-      placeholder: 'Søk på kompetansemål',
+      placeholder: 'Skriv inn kompetansemålkode',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
@@ -892,7 +892,7 @@ const phrases = {
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
     competences:
-      'Kompetansemål er på feil format. Det riktige formatet er: stor bokstav K etterfulgt av opsjonell E og én eller flere siffer. Eks. K123, KE2255, K1337',
+      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M/V) fulgt av ett eller flere siffer. Eks. K123, KE1337, KM2255, KV5432',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',

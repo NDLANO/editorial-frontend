@@ -13,6 +13,7 @@ import { injectT } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
 import { fetchCompetences } from '../../modules/draft/draftApi';
 import { AsyncDropdown } from '../../components/Dropdown';
+import { isCompetenceValid } from '../../util/articleUtil';
 
 const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
   const convertToCompetencesWithTitle = competencesWithoutTitle => {
@@ -37,7 +38,10 @@ const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
   };
 
   const addCompetence = competence => {
-    if (!competences.includes(competence.title)) {
+    if (
+      !competences.includes(competence.title) &&
+      isCompetenceValid(competence.title)
+    ) {
       const temp = [...competences, competence.title];
       setCompetences(temp);
       updateFormik(field, temp);
@@ -46,7 +50,10 @@ const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
   };
 
   const createNewCompetence = newCompetence => {
-    if (!competences.includes(newCompetence.trim())) {
+    if (
+      !competences.includes(newCompetence.trim()) &&
+      isCompetenceValid(newCompetence)
+    ) {
       const temp = [...competences, newCompetence.trim()];
       setCompetences(temp);
       updateFormik(field, temp);

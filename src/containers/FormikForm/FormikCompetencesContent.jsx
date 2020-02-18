@@ -14,7 +14,7 @@ import { FormPill } from '@ndla/forms';
 import { fetchCompetences } from '../../modules/draft/draftApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 
-const FormikCompetencesContent = ({ t, articleCompetences, field }) => {
+const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
   const convertToCompetencesWithTitle = competencesWithoutTitle => {
     return competencesWithoutTitle.map(c => ({ title: c }));
   };
@@ -41,6 +41,7 @@ const FormikCompetencesContent = ({ t, articleCompetences, field }) => {
       const temp = [...competences, competence.title];
       setCompetences(temp);
       updateFormik(field, temp);
+      form.setFieldTouched('competences', true, true);
     }
   };
 
@@ -49,13 +50,17 @@ const FormikCompetencesContent = ({ t, articleCompetences, field }) => {
       const temp = [...competences, newCompetence.trim()];
       setCompetences(temp);
       updateFormik(field, temp);
+      form.setFieldTouched('competences', true, true);
     }
   };
 
   const removeCompetence = index => {
-    const reduced_array = competences.filter((_, idx) => idx !== parseInt(index));
+    const reduced_array = competences.filter(
+      (_, idx) => idx !== parseInt(index),
+    );
     setCompetences(reduced_array);
     updateFormik(field, reduced_array);
+    form.setFieldTouched('competences', true, true);
   };
 
   return (
@@ -92,6 +97,9 @@ FormikCompetencesContent.propTypes = {
   field: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
+  }),
+  form: PropTypes.shape({
+    setFieldTouched: PropTypes.func.isRequired,
   }),
 };
 

@@ -17,11 +17,12 @@ const FormikCompetences = ({ t, article }) => {
   return (
     <Fragment>
       <FormikField name="competences" label={t('form.competences.label')}>
-        {({ field }) => (
+        {({ field, form }) => (
           <FormikCompetencesContent
             t
             articleCompetences={article.competences}
             field={field}
+            form={form}
           />
         )}
       </FormikField>

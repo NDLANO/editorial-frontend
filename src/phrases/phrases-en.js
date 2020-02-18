@@ -473,6 +473,7 @@ const phrases = {
       validTo: 'Valid to',
       description: 'Content',
       conceptContent: 'Description',
+      competences: 'Competences',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -870,7 +871,8 @@ const phrases = {
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
-    competences: 'Competences are in the wrong format. The correct format is: capital letter K followed by optional E and one or more digits. Ex. K123, KE2255, K1337',
+    competences:
+      'Competences are in the wrong format. The correct format is: capital letter K followed by optional E and one or more digits. Ex. K123, KE2255, K1337',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

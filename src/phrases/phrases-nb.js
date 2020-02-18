@@ -489,6 +489,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
+      competences: 'Kompetansemål',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -890,7 +891,8 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
-    competences: 'Kompetansemål er på feil format. Det riktige formatet er: stor bokstav K etterfulgt av opsjonell E og én eller flere siffer. Eks. K123, KE2255, K1337',
+    competences:
+      'Kompetansemål er på feil format. Det riktige formatet er: stor bokstav K etterfulgt av opsjonell E og én eller flere siffer. Eks. K123, KE2255, K1337',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',

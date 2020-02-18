@@ -118,6 +118,13 @@ const formikCommonArticleRules = {
       return undefined;
     },
   },
+  competences: {
+    required: false,
+    test: values => {
+      const wrongFormat = !!values.find( value => !value.match(/^KE?\d+$/));
+      return wrongFormat ? { translationKey: 'validation.competences' } :  undefined;
+      }
+    },
 };
 
 export const learningResourceRules = {

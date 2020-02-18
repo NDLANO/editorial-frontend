@@ -48,7 +48,7 @@ const panels = [
     component: props => <FormikMetadata {...props} />,
   },
   {
-    id: 'learning-resource-competences',
+    id: 'topic-article-competences',
     title: 'form.competences.label',
     className: 'u-6/6',
     errorFields: ['competences'],

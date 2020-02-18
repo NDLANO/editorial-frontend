@@ -52,21 +52,20 @@ const FormikCompetencesContent = ({ t, articleCompetences, field }) => {
     }
   };
 
-  const removeCompetence = id => {
-    const temp = competences.slice();
-    temp.splice(id, 1);
-    setCompetences(temp);
-    updateFormik(field, temp);
+  const removeCompetence = index => {
+    const reduced_array = competences.filter((_, idx) => idx !== parseInt(index));
+    setCompetences(reduced_array);
+    updateFormik(field, reduced_array);
   };
 
   return (
     <Fragment>
-      {competences.map((competence, id) => (
+      {competences.map((competence, index) => (
         <FormPill
-          id={id.toString()}
+          id={index.toString()}
           label={competence}
           onClick={removeCompetence}
-          key={id}
+          key={index}
         />
       ))}
 

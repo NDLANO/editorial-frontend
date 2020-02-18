@@ -881,6 +881,7 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
+    competences: 'Kompetansemål er på feil format. Det riktige formatet er: stor bokstav K følgd av opsjonell E og éin eller fleire siffer. Eks. K123, KE2255, K1337',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',

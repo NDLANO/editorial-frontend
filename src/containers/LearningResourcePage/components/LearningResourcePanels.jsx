@@ -49,7 +49,7 @@ const panels = [
   },
   {
     id: 'learning-resource-competences',
-    title: 'form.competences.label',
+    title: 'form.name.competences',
     className: 'u-6/6',
     errorFields: ['competences'],
     component: props => <FormikCompetences {...props} />,

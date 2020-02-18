@@ -1,5 +1,5 @@
 import React from 'react';
-import { bool, string } from 'prop-types';
+import { bool, func, string } from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
@@ -54,6 +54,7 @@ const SaveButton = ({
   formIsDirty,
   large,
   disabled,
+  onClick,
   ...rest
 }) => {
   const getModifier = () => {
@@ -66,7 +67,7 @@ const SaveButton = ({
   return (
     <Button
       disabled={isSaving || !formIsDirty || disabled}
-      submit
+      onClick={onClick}
       css={css`
         ${large ? largerButtonStyle : ''}
         ${appereances[modifier]}
@@ -87,6 +88,7 @@ SaveButton.propTypes = {
   formIsDirty: bool,
   large: bool,
   disabled: bool,
+  onClick: func,
 };
 
 SaveButton.defaultProps = {

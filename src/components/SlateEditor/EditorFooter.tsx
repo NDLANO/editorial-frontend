@@ -31,9 +31,9 @@ interface Props {
   getArticle: () => Article;
   articleStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
-  submitForm: VoidFunction;
   showSimpleFooter: boolean;
   setFieldValue: (name: string, value: { current: string }) => void;
+  onSaveClick: VoidFunction;
 }
 
 const StyledLine = styled.hr`
@@ -60,15 +60,26 @@ const EditorFooter: React.FC<Props> = ({
   getArticle,
   createMessage,
   articleStatus,
-  submitForm,
   showSimpleFooter,
   setFieldValue,
   errors,
+  onSaveClick,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+
   useEffect(() => {
     fetchStatuses(setStatuses);
   }, []);
+
+  // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
+  const [newStatus, setNewStatus] = useState<string | null>(null);
+  useEffect(() => {
+    if (newStatus) {
+      onSaveClick();
+      setNewStatus(null);
+    }
+  }, [values.status]);
+
   const saveButton = (
     <SaveButton
       data-testid="saveLearningResourceButton"
@@ -77,7 +88,7 @@ const EditorFooter: React.FC<Props> = ({
       formIsDirty={formIsDirty}
       large
       showSaved={savedToServer && !formIsDirty}
-      disabled={Object.keys(errors).length > 0}
+      onClick={onSaveClick}
     />
   );
 
@@ -117,8 +128,9 @@ const EditorFooter: React.FC<Props> = ({
 
   const updateStatus = async (comment: string, status: string) => {
     try {
-      await setFieldValue('status', { current: status });
-      submitForm();
+      // Set new status field and update form (which we listen for changes to in the useEffect above)
+      setNewStatus(status);
+      setFieldValue('status', { current: status });
     } catch (error) {
       if (error && error.json && error.json.messages) {
         createMessage(formatErrorMessage(error));

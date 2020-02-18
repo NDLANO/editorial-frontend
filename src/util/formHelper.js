@@ -94,7 +94,8 @@ const formikCommonArticleRules = {
     maxLength: 155,
   },
   tags: {
-    required: false,
+    required: true,
+    minLength: 3,
   },
   creators: {
     allObjectFieldsRequired: true,

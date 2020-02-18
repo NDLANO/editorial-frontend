@@ -135,17 +135,18 @@ const LearningResourceForm = props => {
       initialValues={initialValues}
       ref={formikRef}
       validateOnBlur={false}
-      onSubmit={handleSubmit}
+      onSubmit={() => ({})}
       validate={values => validateFormik(values, learningResourceRules, t)}>
-      {({
-        values,
-        dirty,
-        isSubmitting,
-        setValues,
-        errors,
-        touched,
-        ...formikProps
-      }) => {
+      {formik => {
+        const {
+          values,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+          ...formikProps
+        } = formik;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -186,6 +187,7 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               errors={errors}
               values={values}
+              onSaveClick={() => handleSubmit(formik)}
               {...formikProps}
               {...rest}
             />

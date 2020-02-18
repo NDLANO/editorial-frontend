@@ -33,10 +33,11 @@ const HeaderWithLanguage = ({
   const { id, title, status, language } = content;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
-  const statusText =
-    status && status.current
-      ? t(`form.status.${status.current.toLowerCase()}`)
-      : '';
+  const statusText = status?.current
+    ? t(`form.status.${status.current.toLowerCase()}`)
+    : '';
+  const published =
+    status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
   return (
     <header>
@@ -46,6 +47,7 @@ const HeaderWithLanguage = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         title={title}
+        published={published}
         {...rest}
       />
       <StyledLanguageWrapper>
@@ -71,7 +73,10 @@ HeaderWithLanguage.propTypes = {
   content: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,
-    status: PropTypes.object,
+    status: PropTypes.shape({
+      current: PropTypes.string,
+      other: PropTypes.arrayOf(PropTypes.string),
+    }),
     current: PropTypes.object,
     title: PropTypes.string,
   }),

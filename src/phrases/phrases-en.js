@@ -27,6 +27,9 @@ const phrases = {
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
   },
+  menu: {
+    title: 'Menu',
+  },
   dropdown: {
     numberHits: `Search returned {hits} hits`,
     searching: 'Searching...',
@@ -581,6 +584,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Whats the difference between statuses?',
       statusLabel: 'Status',
+      published: 'The article exists in a published version.',
     },
     status: {
       new: 'New - unsaved',

@@ -34,6 +34,9 @@ const phrases = {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',
   },
+  menu: {
+    title: 'Meny',
+  },
   article: {
     lastUpdated: 'Sist oppdatert',
     edition: 'Utgave',
@@ -592,6 +595,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
       statusLabel: 'Status',
+      published: 'Artikkelen har en publisert versjon.',
     },
     status: {
       new: 'Ny - Ikke lagret',

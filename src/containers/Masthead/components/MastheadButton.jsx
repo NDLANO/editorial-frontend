@@ -57,7 +57,7 @@ const MastheadButton = ({ children, color, minWidth, open, onClick, t }) => (
     ) : (
       <>
         <Menu />
-        <span>{t('masthead.menu.title')}</span>
+        <span>{t('menu.title')}</span>
       </>
     )}
   </button>

@@ -101,7 +101,7 @@ export class App extends React.Component {
                 <PrivateRoute path="/film" component={NdlaFilmEditor} />
                 <PrivateRoute path="/h5p" component={H5PPage} />
                 <PrivateRoute
-                  path="/structure/:subject?/:topic1?/:topic2?/:topic3?"
+                  path="/structure/:subject?/:topic?/:subtopics(.*)?"
                   component={StructurePage}
                 />
                 <Route path="/forbidden" component={ForbiddenPage} />

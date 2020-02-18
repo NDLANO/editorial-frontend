@@ -55,6 +55,7 @@ class ResourceGroup extends PureComponent {
       currentTopic,
       currentSubject,
     } = this.props;
+    const topicId = params.subtopics?.split('/')?.pop() || params.topic;
 
     return (
       <React.Fragment>
@@ -86,7 +87,7 @@ class ResourceGroup extends PureComponent {
             topicFilters={currentTopic.filters}
             type={resource.id}
             allowPaste={resource.id !== RESOURCE_TYPE_LEARNING_PATH}
-            topicId={params.topic3 || params.topic2 || params.topic1}
+            topicId={topicId}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
           />
@@ -106,9 +107,8 @@ ResourceGroup.propTypes = {
     name: PropTypes.string,
   }),
   params: PropTypes.shape({
-    topic1: PropTypes.string,
-    topic2: PropTypes.string,
-    topic3: PropTypes.string,
+    topic: PropTypes.string,
+    subtopics: PropTypes.string,
   }),
   refreshResources: PropTypes.func,
   activeFilter: PropTypes.string,

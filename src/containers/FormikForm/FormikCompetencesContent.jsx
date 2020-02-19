@@ -94,6 +94,7 @@ const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
         multiSelect
         disableSelected
         onCreate={createNewCompetence}
+        disableSubmitOnEnterKey
       />
     </Fragment>
   );

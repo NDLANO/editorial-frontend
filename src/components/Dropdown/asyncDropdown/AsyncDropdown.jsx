@@ -117,6 +117,7 @@ class AsyncDropDown extends React.Component {
       selectedItems,
       disableSelected,
       onCreate,
+      disableSubmitOnEnterKey,
       ...rest
     } = this.props;
 
@@ -126,11 +127,13 @@ class AsyncDropDown extends React.Component {
       onChange: this.handleInputChange,
       onClick,
       value: this.state.inputValue,
-      onKeyDown: event => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-        }
-      },
+      onKeyDown: this.props.disableSubmitOnEnterKey
+        ? event => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+            }
+          }
+        : null,
     };
 
     return (
@@ -187,6 +190,7 @@ AsyncDropDown.propTypes = {
   selectedItems: PropTypes.array,
   disableSelected: PropTypes.bool,
   onCreate: PropTypes.func,
+  disableSubmitOnEnterKey: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {

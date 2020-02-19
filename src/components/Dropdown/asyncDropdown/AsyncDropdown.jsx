@@ -126,6 +126,11 @@ class AsyncDropDown extends React.Component {
       onChange: this.handleInputChange,
       onClick,
       value: this.state.inputValue,
+      onKeyDown: event => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+        }
+      },
     };
 
     return (

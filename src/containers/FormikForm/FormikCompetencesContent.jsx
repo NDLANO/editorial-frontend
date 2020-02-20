@@ -38,17 +38,17 @@ const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
   };
 
   const addCompetence = competence => {
-    if(competence) {
-    if (
-      !competences.includes(competence.title) &&
-      isCompetenceValid(competence.title)
-    ) {
-      const temp = [...competences, competence.title];
-      setCompetences(temp);
-      updateFormik(field, temp);
-      form.setFieldTouched('competences', true, true);
+    if (competence) {
+      if (
+        !competences.includes(competence.title) &&
+        isCompetenceValid(competence.title)
+      ) {
+        const temp = [...competences, competence.title];
+        setCompetences(temp);
+        updateFormik(field, temp);
+        form.setFieldTouched('competences', true, true);
+      }
     }
-  }
   };
 
   const createNewCompetence = newCompetence => {

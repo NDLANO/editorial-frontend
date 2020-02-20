@@ -134,6 +134,8 @@ const ConceptModal = ({
                           search={searchConcept}
                           searchObject={searchObject}
                           locale={locale}
+                          location={window.location}
+                          subjects={subjects}
                         />
                         <SearchConceptResults
                           searchObject={searchObject}

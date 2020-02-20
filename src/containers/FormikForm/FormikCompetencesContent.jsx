@@ -70,6 +70,12 @@ const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
     form.setFieldTouched('competences', true, true);
   };
 
+  const onKeyDown = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
     <Fragment>
       {competences.map((competence, index) => (
@@ -94,7 +100,7 @@ const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
         multiSelect
         disableSelected
         onCreate={createNewCompetence}
-        disableSubmitOnEnterKey
+        onKeyDown={onKeyDown}
       />
     </Fragment>
   );

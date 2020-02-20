@@ -14,6 +14,7 @@ import {
   FormikMetadata,
 } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
+import FormikCompetences from '../../FormikForm/FormikCompetences';
 
 const panels = [
   {
@@ -45,6 +46,13 @@ const panels = [
     className: 'u-6/6',
     errorFields: ['metaDescription', 'metaImageAlt', 'tags'],
     component: props => <FormikMetadata {...props} />,
+  },
+  {
+    id: 'learning-resource-competences',
+    title: 'form.name.competences',
+    className: 'u-6/6',
+    errorFields: ['competences'],
+    component: props => <FormikCompetences {...props} />,
   },
   {
     id: 'learning-resource-workflow',
@@ -116,6 +124,9 @@ LearningResourcePanels.propTypes = {
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
   userAccess: PropTypes.string,
+  article: PropTypes.shape({
+    competences: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
 };
 
 export default injectT(LearningResourcePanels);

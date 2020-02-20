@@ -10,6 +10,7 @@ import {
   transformArticleFromApiVersion,
   transformArticleToApiVersion,
   isDraftPublished,
+  isCompetenceValid,
 } from '../articleUtil';
 import { apiArticle, transformedArticle } from './articleMocks';
 
@@ -42,4 +43,23 @@ test('transformArticleFromApiVersion', () => {
 test('transformArticleToApiVersion', () => {
   const transformed = transformArticleToApiVersion(transformedArticle);
   expect(transformed).toMatchSnapshot();
+});
+
+test('isCompetenceValid correct behavior', () => {
+  const competences = [
+    'K1',
+    'K123',
+    'KE1337',
+    'KM2255',
+    'KV5432',
+    'KJ12',
+    '1K123',
+    'K3K',
+    'k123',
+  ];
+  const result = [true, true, true, true, true, false, false, false, false];
+
+  competences.map((value, idx) =>
+    expect(isCompetenceValid(value)).toBe(result[idx]),
+  );
 });

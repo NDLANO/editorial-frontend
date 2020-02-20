@@ -13,6 +13,7 @@ import {
   topicArticleContentToHTML,
 } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
+import { isCompetenceValid } from '../util/articleUtil';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -117,6 +118,15 @@ const formikCommonArticleRules = {
         return { translationKey: 'validation.noEmptyNote' };
       }
       return undefined;
+    },
+  },
+  competences: {
+    required: false,
+    test: values => {
+      const wrongFormat = !!values.find(value => !isCompetenceValid(value));
+      return wrongFormat
+        ? { translationKey: 'validation.competences' }
+        : undefined;
     },
   },
 };

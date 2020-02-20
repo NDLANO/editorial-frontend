@@ -473,6 +473,7 @@ const phrases = {
       validTo: 'Valid to',
       description: 'Content',
       conceptContent: 'Description',
+      competences: 'Curriculum connection',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -695,6 +696,10 @@ const phrases = {
       description: '3 tags is required.',
       createOption: 'Create new tag',
     },
+    competences: {
+      label: 'Competences',
+      placeholder: 'Type competence code',
+    },
     resourceTypes: {
       label: 'Resource type and properties',
       placeholder: 'Add property',
@@ -865,7 +870,9 @@ const phrases = {
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
-    noEmptyNote: 'En merknad kan ikke være en tom',
+    noEmptyNote: 'A note cannot be empty',
+    competences:
+      'Competences are in the wrong format. The correct format is K(E/M/V) followed by one or more digits. Ex. K123, KE1337, KM2255, KV5432',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

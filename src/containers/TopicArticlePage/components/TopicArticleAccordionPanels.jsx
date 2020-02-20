@@ -14,6 +14,7 @@ import {
 } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
+import FormikCompetences from '../../FormikForm/FormikCompetences';
 
 const panels = [
   {
@@ -45,6 +46,13 @@ const panels = [
     className: 'u-6/6',
     errorFields: ['metaDescription', 'tags'],
     component: props => <FormikMetadata {...props} />,
+  },
+  {
+    id: 'topic-article-competences',
+    title: 'form.name.competences',
+    className: 'u-6/6',
+    errorFields: ['competences'],
+    component: props => <FormikCompetences {...props} />,
   },
   {
     id: 'topic-article-workflow',

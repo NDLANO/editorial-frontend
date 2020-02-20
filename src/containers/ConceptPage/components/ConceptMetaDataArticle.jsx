@@ -40,11 +40,10 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
   };
 
   const searchForArticles = async inp => {
-    const articles = (await searchDrafts({
+    return await searchDrafts({
       query: inp,
       language: locale,
-    })).results;
-    return articles ? articles.filter(article => !!article.id) : [];
+    });
   };
 
   const onSelect = selectedArticle => {

@@ -21,6 +21,15 @@ const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
+const getTaxonomyPathsFromTaxonomy = taxonomy => {
+  const taxonomyObjects = Object.values(taxonomy || {});
+  const flattenedObjects = [].concat.apply([], taxonomyObjects);
+  const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
+  const flattenedPaths = [].concat.apply([], nestedTaxonomyPaths);
+
+  return flattenedPaths;
+};
+
 const HeaderWithLanguage = ({
   t,
   values,
@@ -41,9 +50,7 @@ const HeaderWithLanguage = ({
   const multiType = articleType ? articleType : type;
 
   const hasMultipleTaxonomyPaths =
-    Object.values(content?.taxonomy || {})
-      .flat()
-      .flatMap(t => t?.paths).length > 1;
+    getTaxonomyPathsFromTaxonomy(content?.taxonomy).length > 1;
 
   return (
     <header>

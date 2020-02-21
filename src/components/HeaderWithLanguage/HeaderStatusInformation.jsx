@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
+import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import HowToHelper from '../HowTo/HowToHelper';
 
@@ -48,23 +48,40 @@ const StyledCheckIcon = styled(Check)`
   fill: ${colors.support.green};
 `;
 
+const StyledWarnIcon = styled(AlertCircle)`
+  margin-top: 2px;
+  height: 25px;
+  width: 25px;
+  fill: ${colors.support.yellow};
+`;
+
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
   isNewLanguage,
   published,
+  hasMultipleTaxonomyEntries,
   t,
 }) => {
+  const multipleTaxonomyIcon = hasMultipleTaxonomyEntries && (
+    <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
+      <StyledWarnIcon title={t('form.taxonomySection')} />
+    </Tooltip>
+  );
+
+  const publishedIcon = published && (
+    <Tooltip tooltip={t('form.workflow.published')}>
+      <StyledCheckIcon title={t('form.status.published')} />
+    </Tooltip>
+  );
+
   if (noStatus && isNewLanguage) {
     return (
       <StyledStatusWrapper>
         <StyledSplitter />
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-        {published && (
-          <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon title={t('form.status.published')} />
-          </Tooltip>
-        )}
+        {publishedIcon}
+        {multipleTaxonomyIcon}
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
@@ -77,11 +94,8 @@ const HeaderStatusInformation = ({
             ? t('form.status.new_language')
             : statusText || t('form.status.new')}
         </StyledStatus>
-        {published && (
-          <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon title={t('form.status.published')} />
-          </Tooltip>
-        )}
+        {publishedIcon}
+        {multipleTaxonomyIcon}
         <HowToHelper
           pageId="status"
           tooltip={t('form.workflow.statusInfoTooltip')}
@@ -97,6 +111,7 @@ HeaderStatusInformation.propTypes = {
   statusText: PropTypes.string,
   isNewLanguage: PropTypes.bool,
   published: PropTypes.bool,
+  hasMultipleTaxonomyEntries: PropTypes.bool,
 };
 
 export default injectT(HeaderStatusInformation);

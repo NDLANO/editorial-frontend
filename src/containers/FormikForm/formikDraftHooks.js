@@ -9,17 +9,30 @@
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
+import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
 export function useFetchArticleData(articleId, locale) {
   const [article, setArticle] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState([]);
 
+  const fetchTaxonomy = async (id, language) => {
+    const [resources, topics] = await Promise.all([
+      queryResources(id, language, 'article'),
+      queryTopics(id, language, 'article'),
+    ]);
+
+    return { resources, topics };
+  };
+
   const fetchArticle = async () => {
     if (articleId) {
       setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
-      setArticle(transformArticleFromApiVersion(article, locale));
+      const taxonomy = await fetchTaxonomy(articleId, locale);
+      setArticle(
+        transformArticleFromApiVersion({ taxonomy, ...article }, locale),
+      );
       setLoading(false);
     }
   };

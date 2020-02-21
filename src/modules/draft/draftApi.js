@@ -117,8 +117,7 @@ export const fetchStatusStateMachine = () =>
     resolveJsonOrRejectWithError,
   );
 
-export const headFileAtRemote = async filePath => {
-  const fileUrl = apiResourceUrl(`${filePath}`);
+export const headFileAtRemote = async fileUrl => {
   const res = await fetch(fileUrl, {
     method: 'HEAD',
   });

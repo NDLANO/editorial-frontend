@@ -457,7 +457,7 @@ const phrases = {
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
     workflowSection: 'Versjonslogg og merknader',
-    taxonomytSection: 'Taksonomi',
+    taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     saveDraft: 'Lagre utkast',
@@ -606,6 +606,7 @@ const phrases = {
       statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
       statusLabel: 'Status',
       published: 'Artikkelen har ein publisert versjon.',
+      multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
     },
     status: {
       new: 'Ny - Ikke lagret',

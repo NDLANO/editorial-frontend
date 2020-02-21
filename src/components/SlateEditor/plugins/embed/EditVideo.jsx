@@ -41,6 +41,7 @@ class EditVideo extends Component {
       toggleEditModus,
       figureClass,
       t,
+      changes,
     } = this.props;
     return (
       <React.Fragment>
@@ -70,7 +71,7 @@ class EditVideo extends Component {
                 <Input
                   name="caption"
                   label={t('form.video.caption.label')}
-                  value={embed.caption}
+                  value={changes?.caption || embed.caption}
                   onChange={onFigureInputChange}
                   container="div"
                   type="text"
@@ -92,6 +93,9 @@ EditVideo.propTypes = {
   embed: EmbedShape.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,
   figureClass: PropTypes.shape({ className: PropTypes.string }).isRequired,
+  changes: PropTypes.shape({
+    caption: PropTypes.string,
+  }),
 };
 
 export default injectT(EditVideo);

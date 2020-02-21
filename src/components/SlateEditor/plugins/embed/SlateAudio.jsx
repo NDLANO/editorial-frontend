@@ -68,6 +68,7 @@ class SlateAudio extends React.Component {
       embed,
       onRemoveClick,
       language,
+      changes,
     } = this.props;
     const { audio } = this.state;
     const speech = embed.type === 'minimal';
@@ -86,6 +87,7 @@ class SlateAudio extends React.Component {
             audio={audio}
             speech={speech}
             submitted={submitted}
+            changes={changes}
           />
         ) : (
           <div
@@ -107,6 +109,9 @@ SlateAudio.propTypes = {
   embed: EmbedShape.isRequired,
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
+  }),
+  changes: PropTypes.shape({
+    caption: PropTypes.string,
   }),
   onRemoveClick: PropTypes.func.isRequired,
   onFigureInputChange: PropTypes.func.isRequired,

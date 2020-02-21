@@ -57,6 +57,7 @@ class EditAudio extends Component {
         audioFile: { mimeType, url },
       },
       submitted,
+      changes,
     } = this.props;
 
     return (
@@ -109,7 +110,7 @@ class EditAudio extends Component {
               label={t('form.audio.caption.label')}
               container="div"
               type="text"
-              value={embed.caption}
+              value={changes?.caption || embed.caption}
               onChange={onAudioFigureInputChange}
               placeholder={t('form.audio.caption.placeholder')}
               submitted={submitted}
@@ -139,6 +140,9 @@ EditAudio.propTypes = {
   submitted: bool.isRequired,
   embed: EmbedShape.isRequired,
   speech: bool,
+  changes: shape({
+    caption: string,
+  }),
   audio: shape({
     title: string,
     audioFile: object,

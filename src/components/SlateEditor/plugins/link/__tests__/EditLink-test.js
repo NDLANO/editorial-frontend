@@ -28,8 +28,8 @@ test('urls are parsed correctly', async () => {
     'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla.no/sma/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://test.api.ndla.no/nb/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://test.api.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
+    'https://test.ndla.no/nb/subjects/subject:3/topic:1:2342/resource:1:64323',
+    'https://test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://www.ndla.no/nn/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://www.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://www.staging.ndla.no/sma/subjects/subject:3/topic:1:2342/resource:1:64323',
@@ -48,6 +48,8 @@ test('urls are parsed correctly', async () => {
   const otherUrls = [
     'https://www.vg.no/',
     'https://www.youtube.com/subjects/subject:3/topic:1:2342/resource:1:64323',
+    'https://test.ndla.no/en/subjects/subject:3/',
+    'https://ndla.no/en/subjects/subject:1/',
   ];
 
   articleUrls.forEach(url => {

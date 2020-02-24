@@ -65,7 +65,13 @@ class SlateFigure extends React.Component {
   onFigureInputChange(e) {
     e.preventDefault();
     const { value, name } = e.target;
-    this.saveEmbedUpdates({ [name]: value });
+    const change = { [name]: value };
+
+    this.setState({
+      changes: change,
+    });
+
+    this.saveEmbedUpdates(change);
   }
 
   saveEmbedUpdates(updates) {
@@ -111,6 +117,7 @@ class SlateFigure extends React.Component {
       language,
       isSelectedForCopy,
       active,
+      changes: this.state.changes,
     };
     switch (embed.resource) {
       case 'image':

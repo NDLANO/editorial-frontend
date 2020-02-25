@@ -50,11 +50,12 @@ export class MultiSelectDropdown extends Component {
       this.setState({
         isOpen: true,
         inputValue: value,
-        data: data.filter(string =>
-          labelField
-            ? string[labelField].indexOf(value) !== -1
-            : string.indexOf(value) !== -1,
-        ),
+        data: data.filter(potentialResult => {
+          const string = labelField
+            ? potentialResult[labelField]
+            : potentialResult;
+          return string.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+        }),
       });
     } else if (value.length < 2) {
       this.setState({ inputValue: value, isOpen: false });

@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
+import { fetchNnTranslation } from '../../modules/translate/translateApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
@@ -76,6 +77,17 @@ export function useFetchArticleData(articleId, locale) {
     setTags(newTags ? newTags.tags : []);
   };
 
+  const translateArticle = async () => {
+    console.log(article)
+    const { introduction, content } = article;
+    const translatedArticleContents = await fetchNnTranslation({ introduction, content });
+    console.log(translatedArticleContents)
+    setArticle({
+      ...article,
+      ...translatedArticleContents.document
+    });
+  }
+
   useEffect(() => {
     fetchArticle();
   }, [articleId, locale]);
@@ -84,6 +96,10 @@ export function useFetchArticleData(articleId, locale) {
     fetchTags();
   }, []);
 
+  useEffect(() => {
+    console.log(article)
+  }, [article]);
+
   return {
     tags,
     article,
@@ -91,5 +107,6 @@ export function useFetchArticleData(articleId, locale) {
     createArticle,
     updateArticleAndStatus,
     loading,
+    translateArticle
   };
 }

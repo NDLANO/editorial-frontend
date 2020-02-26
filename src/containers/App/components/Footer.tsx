@@ -48,35 +48,17 @@ export const FooterWrapper: FC<Props> = ({
     />
   ) : null;
 
-  const links = [
-    {
-      to: 'https://www.facebook.com/ndla.no',
-      text: t('footer.socialMediaLinks.facebook'),
-      icon: <Facebook />,
-    },
-    {
-      to: 'https://twitter.com/ndla_no',
-      text: t('footer.socialMediaLinks.twitter'),
-      icon: <Twitter />,
-    },
-    {
-      to: 'https://om.ndla.no/nyhetsbrev/',
-      text: t('footer.socialMediaLinks.newsletter'),
-      icon: <EmailOutline />,
-    },
-  ];
-
   return (
     <StyledFooterWrapper>
-      <Footer lang={locale} links={links} languageSelector={languageSelector}>
-        <FooterText>
-          <EditorName
-            title={t('footer.footerEditiorInChief')}
-            name="Sigurd Trageton"
-          />
-          {t('footer.footerInfo')}
-        </FooterText>
-      </Footer>
+    <Footer lang={locale} languageSelector={languageSelector}>
+      <FooterText>
+        <EditorName
+          title={t('footer.footerEditiorInChief')}
+          name="Sigurd Trageton"
+        />
+        {t('footer.footerInfo')}
+      </FooterText>
+    </Footer>
     </StyledFooterWrapper>
   );
 };

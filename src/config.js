@@ -124,6 +124,7 @@ const config = {
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
+  npkToken: getEnvironmentVariabel('NPK_TOKEN'),
 };
 
 export function getUniversalConfig() {

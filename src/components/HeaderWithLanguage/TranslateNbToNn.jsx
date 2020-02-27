@@ -1,21 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import StyledFilledButton from '../../components/StyledFilledButton';
 
-const TranslateNbToNn = ({ getArticle }) => {
 
-  const handleClick = () => {
-
-  }
+const TranslateNbToNn = ({ translateArticle, editUrl }) => {
 
   return (
-    <StyledFilledButton type="button" onClick={() => {}}>
-      Translate
+    <StyledFilledButton type="button" onClick={translateArticle}>
+      <Link
+        to={editUrl('nn')}
+      >
+        Translate
+      </Link>
     </StyledFilledButton>
   )
 }
 
 TranslateNbToNn.propTypes = {
-  getArticle: PropTypes.func.isRequired
+  translateArticle: PropTypes.func.isRequired,
+  editUrl: PropTypes.func.isRequired
 }
+
+export default TranslateNbToNn;

@@ -78,13 +78,13 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const translateArticle = async () => {
-    console.log(article)
-    const { introduction, content } = article;
-    const translatedArticleContents = await fetchNnTranslation({ introduction, content });
-    console.log(translatedArticleContents)
+    const { title, introduction, content } = article;
+    const translatedArticleContents = await fetchNnTranslation({ title, introduction, content });
     setArticle({
       ...article,
-      ...translatedArticleContents.document
+      ...translatedArticleContents.document,
+      language: 'nn',
+      supportedLanguages: ['nb', 'nn']
     });
   }
 
@@ -95,10 +95,6 @@ export function useFetchArticleData(articleId, locale) {
   useEffect(() => {
     fetchTags();
   }, []);
-
-  useEffect(() => {
-    console.log(article)
-  }, [article]);
 
   return {
     tags,

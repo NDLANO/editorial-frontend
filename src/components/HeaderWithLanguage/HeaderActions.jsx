@@ -13,6 +13,7 @@ import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
+import TranslateNbToNn from './TranslateNbToNn';
 import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
@@ -25,6 +26,7 @@ const HeaderActions = ({
   values,
   t,
   type,
+  translateArticle
 }) => {
   const { id, language, supportedLanguages, articleType } = values;
 
@@ -80,6 +82,11 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
+        <TranslateNbToNn
+          getArticle={getArticle}
+          translateArticle={translateArticle}
+          editUrl={editUrl}
+        />
         <DeleteLanguageVersion values={values} type={type} />
       </Fragment>
     );
@@ -110,6 +117,7 @@ HeaderActions.propTypes = {
   getArticle: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   type: PropTypes.string,
+  translateArticle: PropTypes.func
 };
 
 export default injectT(HeaderActions);

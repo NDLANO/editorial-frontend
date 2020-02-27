@@ -11,19 +11,15 @@ import config from '../../config'
 
 const baseUrl = `${config.ndlaEnvironment === 'test' ? 'https://cors-anywhere.herokuapp.com/' : ''}https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate`
 
-export const fetchNnTranslation = (articleContents) => {
-  const body = {
-    token: config.npkToken,
-    document: articleContents
-  }
-  
-  return fetch(baseUrl, {
+export const fetchNnTranslation = (articleContents) => 
+  fetch(baseUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8'
     },
-    body: JSON.stringify(body) 
+    body: JSON.stringify({
+      token: config.npkToken,
+      document: articleContents
+    }) 
   })
   .then(resolveJsonOrRejectWithError);
-}
-

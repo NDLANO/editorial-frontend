@@ -540,7 +540,7 @@ const phrases = {
     previewVersion: 'See version',
     variant: {
       create: 'Create variant',
-      translate: 'Translate to newnorwegian'
+      translate: 'Translate to Nynorsk'
     },
     remainingCharacters:
       'Max {maxLength, number} characters and you have {remaining, number} remaining.',

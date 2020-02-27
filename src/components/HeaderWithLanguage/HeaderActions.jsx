@@ -83,10 +83,13 @@ const HeaderActions = ({
           editUrl={editUrl}
         />
         {language === 'nb' &&
-          <TranslateNbToNn
-            translateArticle={translateArticle}
-            editUrl={editUrl}
-          />
+          <Fragment>
+            <StyledSplitter />
+            <TranslateNbToNn
+              translateArticle={translateArticle}
+              editUrl={editUrl}
+            />
+          </Fragment>
         }
         <DeleteLanguageVersion values={values} type={type} />
       </Fragment>

@@ -51,7 +51,7 @@ const LanguagePill = ({ children, withComponent, ...rest }) => {
 };
 
 LanguagePill.propTypes = {
-  withComponent: PropTypes.func,
+  withComponent: PropTypes.elementType,
 };
 
 export default LanguagePill;

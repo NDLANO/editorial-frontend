@@ -93,6 +93,9 @@ class AsyncDropDown extends React.Component {
       });
       onChange(selectedItem);
     }
+    if (this.props.children) {
+      this.setState({ inputValue: '' });
+    }
   }
 
   handleStateChange(changes) {
@@ -105,6 +108,7 @@ class AsyncDropDown extends React.Component {
 
   render() {
     const {
+      children,
       placeholder,
       labelField,
       idField,
@@ -118,6 +122,7 @@ class AsyncDropDown extends React.Component {
       disableSelected,
       onCreate,
       onKeyDown,
+      removeItem,
       ...rest
     } = this.props;
 
@@ -130,6 +135,17 @@ class AsyncDropDown extends React.Component {
       onKeyDown: this.props.onKeyDown,
     };
 
+    const handleCreate = () => {
+      const newFunc = () => {
+        onCreate(this.state.inputValue);
+      };
+
+      if (children) {
+        this.setState({ inputValue: '' });
+      }
+      newFunc();
+    };
+
     return (
       <Downshift
         {...rest}
@@ -139,16 +155,21 @@ class AsyncDropDown extends React.Component {
         initialIsOpen={startOpen}
         selectedItem={this.state.selectedItem}>
         {({ getInputProps, openMenu, ...downshiftProps }) => {
+          const inpProps = getInputProps({ ...inputProps });
           return (
             <div
               style={positionAbsolute ? { position: 'relative' } : undefined}>
-              <Input
-                {...getInputProps({ ...inputProps })}
-                data-testid={'dropdownInput'}
-                iconRight={
-                  loading ? <Spinner size="normal" margin="0" /> : <Search />
-                }
-              />
+              {children ? (
+                children({ selectedItems, removeItem, ...inpProps })
+              ) : (
+                <Input
+                  {...inpProps}
+                  data-testid={'dropdownInput'}
+                  iconRight={
+                    loading ? <Spinner size="normal" margin="0" /> : <Search />
+                  }
+                />
+              )}
               <DropdownMenu
                 idField={idField}
                 labelField={labelField}
@@ -159,8 +180,7 @@ class AsyncDropDown extends React.Component {
                 items={items}
                 totalCount={this.state.totalCount}
                 positionAbsolute={positionAbsolute}
-                inputValue={this.state.inputValue}
-                onCreate={onCreate}
+                onCreate={onCreate && handleCreate}
               />
             </div>
           );
@@ -185,6 +205,8 @@ AsyncDropDown.propTypes = {
   disableSelected: PropTypes.bool,
   onCreate: PropTypes.func,
   onKeyDown: PropTypes.func,
+  children: PropTypes.node,
+  removeItem: PropTypes.func,
 };
 
 AsyncDropDown.defaultPropTypes = {

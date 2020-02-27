@@ -14,8 +14,9 @@ import { FormikMetaImageSearch } from '../../FormikForm';
 import { SubjectShape, ConceptShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import ConceptMetaDataArticle from './ConceptMetaDataArticle';
+import ConceptTags from './ConceptTags';
 
-const ConceptMetaData = ({ t, subjects, tags, locale, concept }) => (
+const ConceptMetaData = ({ t, subjects, locale, concept }) => (
   <Fragment>
     <FormikField name="metaImageId">
       {({ field, form }) => (
@@ -37,8 +38,13 @@ const ConceptMetaData = ({ t, subjects, tags, locale, concept }) => (
       )}
     </FormikField>
     <FormikField name="tags" label={t('form.tags.label')}>
-      {({ field }) => (
-        <MultiSelectDropdown showCreateOption {...field} data={tags} />
+      {({ field, form }) => (
+        <ConceptTags
+          locale={locale}
+          concept={concept}
+          field={field}
+          form={form}
+        />
       )}
     </FormikField>
     <FormikField name="articleId">
@@ -56,7 +62,6 @@ const ConceptMetaData = ({ t, subjects, tags, locale, concept }) => (
 
 ConceptMetaData.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   locale: PropTypes.string.isRequired,
   concept: ConceptShape.isRequired,
 };

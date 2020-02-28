@@ -136,14 +136,10 @@ class AsyncDropDown extends React.Component {
     };
 
     const handleCreate = () => {
-      const newFunc = () => {
-        onCreate(this.state.inputValue);
-      };
-
+      onCreate(this.state.inputValue);
       if (children) {
         this.setState({ inputValue: '' });
       }
-      newFunc();
     };
 
     return (

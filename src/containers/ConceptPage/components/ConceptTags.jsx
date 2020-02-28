@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
 import { ConceptShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
-import { fetchTagsPaginated } from '../../../modules/concept/conceptApi';
+import { fetchSearchTags } from '../../../modules/concept/conceptApi';
 
 const ConceptTags = ({ t, locale, concept, field, form }) => {
   const convertToTagsWithTitle = tagsWithoutTitle => {
@@ -22,7 +22,7 @@ const ConceptTags = ({ t, locale, concept, field, form }) => {
   const [tags, setTags] = useState(concept.tags);
 
   const searchForTags = async inp => {
-    const result = await fetchTagsPaginated(inp, locale);
+    const result = await fetchSearchTags(inp, locale);
     result.results = convertToTagsWithTitle(result.results);
     return result;
   };

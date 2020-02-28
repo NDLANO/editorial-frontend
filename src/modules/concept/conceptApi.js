@@ -21,7 +21,7 @@ export const fetchTags = language => {
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
-export const fetchTagsPaginated = async (input, language) => {
+export const fetchSearchTags = async (input, language) => {
   const response = await fetchAuthorized(
     `${conceptUrl}/tag-search/?language=${language}&query=${input}`,
   );

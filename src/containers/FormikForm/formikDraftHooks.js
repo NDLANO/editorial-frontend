@@ -79,8 +79,8 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const translateArticle = async () => {
-    const { title, introduction, content } = article;
-    const translatedArticleContents = await fetchNnTranslation({ title, introduction, content });
+    const { title, metaDescription, introduction, content } = article;
+    const translatedArticleContents = await fetchNnTranslation({ title, metaDescription, introduction, content });
     setArticle({
       ...article,
       ...translatedArticleContents.document,

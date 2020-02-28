@@ -21,6 +21,13 @@ export const fetchTags = language => {
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
+export const fetchSearchTags = async (input, language) => {
+  const response = await fetchAuthorized(
+    `${conceptUrl}/tag-search/?language=${language}&query=${input}`,
+  );
+  return await resolveJsonOrRejectWithError(response);
+};
+
 export const fetchAllConcepts = async locale => {
   const response = await fetchAuthorized(`${conceptUrl}?language=${locale}`);
   const concept = await resolveJsonOrRejectWithError(response);

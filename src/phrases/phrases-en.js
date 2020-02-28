@@ -696,6 +696,7 @@ const phrases = {
       helpLabel: 'What is a tag?',
       description: '3 tags is required.',
       createOption: 'Create new tag',
+      searchPlaceholder: 'Search for tags',
     },
     competences: {
       label: 'Competences',

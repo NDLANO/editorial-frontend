@@ -91,7 +91,6 @@ export function useFetchArticleData(articleId, locale) {
       ...article,
       ...translatedArticleContents.document,
       language: 'nn',
-      supportedLanguages: ['nb'],
     });
     setTranslating(false);
   };

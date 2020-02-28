@@ -15,6 +15,7 @@ import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 export function useFetchArticleData(articleId, locale) {
   const [article, setArticle] = useState(undefined);
   const [loading, setLoading] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [tags, setTags] = useState([]);
 
   const fetchTaxonomy = async (id, language) => {
@@ -84,12 +85,13 @@ export function useFetchArticleData(articleId, locale) {
       ...article,
       ...translatedArticleContents.document,
       language: 'nn',
-      supportedLanguages: ['nb', 'nn']
+      supportedLanguages: ['nb']
     });
+    setTranslating(false);
   }
 
   useEffect(() => {
-    fetchArticle();
+    !translating && fetchArticle();
   }, [articleId, locale]);
 
   useEffect(() => {
@@ -103,6 +105,8 @@ export function useFetchArticleData(articleId, locale) {
     createArticle,
     updateArticleAndStatus,
     loading,
-    translateArticle
+    translateArticle,
+    translating,
+    setTranslating
   };
 }

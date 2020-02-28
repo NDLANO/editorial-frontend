@@ -15,7 +15,7 @@ const baseUrl = `${
     : ''
 }https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate`;
 
-export const fetchNnTranslation = articleContents =>
+export const fetchNnTranslation = ({ id, ...articleContents }) =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
@@ -23,6 +23,7 @@ export const fetchNnTranslation = articleContents =>
     },
     body: JSON.stringify({
       token: config.npkToken,
+      guid: config.ndlaEnvironment + id,
       document: articleContents,
     }),
   }).then(resolveJsonOrRejectWithError);

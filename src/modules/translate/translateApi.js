@@ -23,7 +23,7 @@ export const fetchNnTranslation = ({ id, ...articleContents }) =>
     },
     body: JSON.stringify({
       token: config.npkToken,
-      guid: config.ndlaEnvironment + id,
+      guid: config.ndlaEnvironment + '_' + id,
       document: articleContents,
     }),
   }).then(resolveJsonOrRejectWithError);

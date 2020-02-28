@@ -132,7 +132,6 @@ const LearningResourceForm = props => {
   const { t, article, updateArticle, licenses, ...rest } = props;
   return (
     <Formik
-      enableReinitialize
       initialValues={initialValues}
       ref={formikRef}
       validateOnBlur={false}

@@ -50,15 +50,15 @@ export const FooterWrapper: FC<Props> = ({
 
   return (
     <StyledFooterWrapper>
-    <Footer lang={locale} languageSelector={languageSelector}>
-      <FooterText>
-        <EditorName
-          title={t('footer.footerEditiorInChief')}
-          name="Sigurd Trageton"
-        />
-        {t('footer.footerInfo')}
-      </FooterText>
-    </Footer>
+      <Footer lang={locale} languageSelector={languageSelector}>
+        <FooterText>
+          <EditorName
+            title={t('footer.footerEditiorInChief')}
+            name="Sigurd Trageton"
+          />
+          {t('footer.footerInfo')}
+        </FooterText>
+      </Footer>
     </StyledFooterWrapper>
   );
 };

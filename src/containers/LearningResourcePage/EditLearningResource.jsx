@@ -15,15 +15,17 @@ import LearningResourceForm from './components/LearningResourceForm';
 import { LicensesArrayOf } from '../../shapes';
 import { toEditArticle } from '../../util/routeHelpers';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
+import { useTranslateForm } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
 const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
   const {
     loading,
-    translating,
     article,
+    setArticle,
     ...articleHooks
   } = useFetchArticleData(articleId, selectedLanguage);
+  const { translating, translateArticle } = useTranslateForm(article, setArticle);
 
   if (loading || translating || !article || !article.id) {
     return <Spinner withWrapper />;
@@ -44,6 +46,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
         article={article}
         revision={article.revision}
         articleStatus={article.status}
+        translateArticle={translateArticle}
         {...rest}
         {...articleHooks}
       />

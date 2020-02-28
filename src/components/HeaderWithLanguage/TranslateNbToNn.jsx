@@ -5,11 +5,10 @@ import { injectT } from '@ndla/i18n';
 
 import StyledFilledButton from '../../components/StyledFilledButton';
 
-const TranslateNbToNn = ({ translateArticle, setTranslating, editUrl, t }) => {
+const TranslateNbToNn = ({ translateArticle, editUrl, t }) => {
   const history = useHistory();
 
   const handleClick = () => {
-    setTranslating(true);
     translateArticle();
     history.push(editUrl('nn'));
   };
@@ -23,7 +22,6 @@ const TranslateNbToNn = ({ translateArticle, setTranslating, editUrl, t }) => {
 
 TranslateNbToNn.propTypes = {
   translateArticle: PropTypes.func.isRequired,
-  setTranslating: PropTypes.func.isRequired,
   editUrl: PropTypes.func.isRequired,
 };
 

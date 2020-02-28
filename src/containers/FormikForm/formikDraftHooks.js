@@ -8,14 +8,12 @@
 
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
-import { fetchNnTranslation } from '../../modules/translate/translateApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
 export function useFetchArticleData(articleId, locale) {
   const [article, setArticle] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const [translating, setTranslating] = useState(false);
   const [tags, setTags] = useState([]);
 
   const fetchTaxonomy = async (id, language) => {
@@ -78,25 +76,8 @@ export function useFetchArticleData(articleId, locale) {
     setTags(newTags ? newTags.tags : []);
   };
 
-  const translateArticle = async () => {
-    const { id, title, metaDescription, introduction, content } = article;
-    const translatedArticleContents = await fetchNnTranslation({
-      id,
-      title,
-      metaDescription,
-      introduction,
-      content,
-    });
-    setArticle({
-      ...article,
-      ...translatedArticleContents.document,
-      language: 'nn',
-    });
-    setTranslating(false);
-  };
-
   useEffect(() => {
-    !translating && fetchArticle();
+    fetchArticle();
   }, [articleId, locale]);
 
   useEffect(() => {
@@ -106,12 +87,10 @@ export function useFetchArticleData(articleId, locale) {
   return {
     tags,
     article,
+    setArticle,
     updateArticle,
     createArticle,
     updateArticleAndStatus,
     loading,
-    translateArticle,
-    translating,
-    setTranslating,
   };
 }

@@ -16,12 +16,14 @@ import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import Spinner from '../../components/Spinner';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
-  const { loading, article, ...articleHooks } = useFetchArticleData(
-    articleId,
-    selectedLanguage,
-  );
+  const {
+    loading,
+    article,
+    translating,
+    ...articleHooks
+  } = useFetchArticleData(articleId, selectedLanguage);
 
-  if (loading || !article || !article.id) {
+  if (loading || translating || !article || !article.id) {
     return <Spinner withWrapper />;
   }
 

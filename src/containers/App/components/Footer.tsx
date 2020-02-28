@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { Facebook, Twitter, EmailOutline } from '@ndla/icons/common';
 import { LocationState } from 'history';
 import { withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';

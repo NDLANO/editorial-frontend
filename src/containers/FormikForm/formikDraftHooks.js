@@ -80,15 +80,20 @@ export function useFetchArticleData(articleId, locale) {
 
   const translateArticle = async () => {
     const { title, metaDescription, introduction, content } = article;
-    const translatedArticleContents = await fetchNnTranslation({ title, metaDescription, introduction, content });
+    const translatedArticleContents = await fetchNnTranslation({
+      title,
+      metaDescription,
+      introduction,
+      content,
+    });
     setArticle({
       ...article,
       ...translatedArticleContents.document,
       language: 'nn',
-      supportedLanguages: ['nb']
+      supportedLanguages: ['nb'],
     });
     setTranslating(false);
-  }
+  };
 
   useEffect(() => {
     !translating && fetchArticle();
@@ -107,6 +112,6 @@ export function useFetchArticleData(articleId, locale) {
     loading,
     translateArticle,
     translating,
-    setTranslating
+    setTranslating,
   };
 }

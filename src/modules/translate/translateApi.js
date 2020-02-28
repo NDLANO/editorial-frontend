@@ -7,19 +7,22 @@
  */
 
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
-import config from '../../config'
+import config from '../../config';
 
-const baseUrl = `${config.ndlaEnvironment === 'test' ? 'https://cors-anywhere.herokuapp.com/' : ''}https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate`
+const baseUrl = `${
+  config.ndlaEnvironment === 'test'
+    ? 'https://cors-anywhere.herokuapp.com/'
+    : ''
+}https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate`;
 
-export const fetchNnTranslation = (articleContents) => 
+export const fetchNnTranslation = articleContents =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json; charset=utf-8'
+      'Content-Type': 'application/json; charset=utf-8',
     },
     body: JSON.stringify({
       token: config.npkToken,
-      document: articleContents
-    }) 
-  })
-  .then(resolveJsonOrRejectWithError);
+      document: articleContents,
+    }),
+  }).then(resolveJsonOrRejectWithError);

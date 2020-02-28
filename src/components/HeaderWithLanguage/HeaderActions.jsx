@@ -27,7 +27,7 @@ const HeaderActions = ({
   t,
   type,
   translateArticle,
-  setTranslating
+  setTranslating,
 }) => {
   const { id, language, supportedLanguages, articleType } = values;
 
@@ -83,7 +83,7 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        {language === 'nb' &&
+        {language === 'nb' && (
           <Fragment>
             <StyledSplitter />
             <TranslateNbToNn
@@ -92,7 +92,7 @@ const HeaderActions = ({
               editUrl={editUrl}
             />
           </Fragment>
-        }
+        )}
         <DeleteLanguageVersion values={values} type={type} />
       </Fragment>
     );
@@ -124,7 +124,7 @@ HeaderActions.propTypes = {
   isNewLanguage: PropTypes.bool,
   type: PropTypes.string,
   translateArticle: PropTypes.func,
-  setTranslating: PropTypes.func
+  setTranslating: PropTypes.func,
 };
 
 export default injectT(HeaderActions);

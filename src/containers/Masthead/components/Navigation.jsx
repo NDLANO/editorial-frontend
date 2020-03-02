@@ -22,6 +22,7 @@ import SessionContainer from './SessionContainer';
 import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
 import config from '../../../config';
+import { NAVIGATION_HEADER_MARGIN } from '../../../constants';
 
 export const classes = new BEMHelper({
   name: 'navigation',
@@ -61,7 +62,7 @@ const StyledHeaderItems = styled.div`
   }
 `;
 const StyledWrapper = styled.div`
-  margin-bottom: 71px;
+  margin-bottom: ${NAVIGATION_HEADER_MARGIN};
 `;
 
 export class Navigation extends Component {

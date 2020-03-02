@@ -6,6 +6,8 @@
  *
  */
 
+export const NAVIGATION_HEADER_MARGIN = '71px';
+
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
 export const RESOURCE_TYPE_SUBJECT_MATERIAL =
   'urn:resourcetype:subjectMaterial';

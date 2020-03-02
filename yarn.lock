@@ -1323,18 +1323,18 @@
     "@ndla/util" "^0.3.6"
     lodash "^4.17.14"
 
-"@ndla/howto@^0.1.75":
-  version "0.1.75"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.75.tgz#f61b88b90e28bc9b74a9019a4e340240cf612fb3"
-  integrity sha512-rN+JzkEBZrZ97E7kin7Yn5eLFHEJUxh7O+NNJQ2Z//ViXOQKwJAKM28xM2ZibhJZ7BrYNoRT/oStdyHlFg0o6g==
+"@ndla/howto@^0.1.79":
+  version "0.1.79"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.79.tgz#4729afffe6880ce3901589204af0608618c0ada7"
+  integrity sha512-eacZNDiNJwnabTfQhEJIhZvxJDLBt+7BltN9r8YR9l+SiVjpPErs+GLZhHo1qRl/qiUVGnr+jn6n9sgQZEm1QA==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
-    "@ndla/icons" "^0.6.20"
+    "@ndla/icons" "^0.6.21"
     "@ndla/licenses" "^0.6.22"
     "@ndla/modal" "^0.4.6"
     "@ndla/tooltip" "^0.2.21"
-    "@ndla/ui" "^0.27.10"
+    "@ndla/ui" "^0.27.14"
 
 "@ndla/i18n@^0.4.2":
   version "0.4.2"
@@ -1459,37 +1459,6 @@
   integrity sha512-pwRajeYUzKsNPweuHOccVmyNSfdQOPTR626fJysm++vk5Y2O4YmW+RJFFfxe0PvltHPppgdT18+vpvZsZb5Z9A==
   dependencies:
     warning "^4.0.3"
-
-"@ndla/ui@^0.27.10":
-  version "0.27.10"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.10.tgz#8b9a648696e08ee3572a161f40c5d5f7988c06a0"
-  integrity sha512-esDb1wuWY7Lr4F7JmwxaExE+N2ffrGPLk7MlemaoUdxReWFgrbD01XpFMbIxDzi5Jw+yz4gAZtfF6zxH5EIytQ==
-  dependencies:
-    "@ndla/button" "^0.3.22"
-    "@ndla/carousel" "^0.3.20"
-    "@ndla/core" "^0.6.21"
-    "@ndla/hooks" "^0.1.7"
-    "@ndla/i18n" "^0.4.2"
-    "@ndla/icons" "^0.6.20"
-    "@ndla/licenses" "^0.6.22"
-    "@ndla/modal" "^0.4.6"
-    "@ndla/safelink" "^0.0.4"
-    "@ndla/switch" "^0.0.10"
-    "@ndla/tabs" "^0.11.23"
-    "@ndla/tooltip" "^0.2.21"
-    "@ndla/util" "^0.3.6"
-    "@reach/dialog" "^0.2.9"
-    classnames "2.2.6"
-    focus-trap "^4.0.2"
-    focus-trap-react "^6.0.0"
-    jump.js "^1.0.2"
-    lodash "^4.17.14"
-    react-bem-helper "1.4.1"
-    react-device-detect "^1.6.2"
-    react-facebook "^6.0.15"
-    react-prop-types "0.4.0"
-    react-swipeable "^5.0.1"
-    react-transition-group "^2.5.3"
 
 "@ndla/ui@^0.27.14":
   version "0.27.14"

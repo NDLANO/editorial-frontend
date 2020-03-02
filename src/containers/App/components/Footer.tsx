@@ -11,7 +11,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { Facebook, Twitter, EmailOutline } from '@ndla/icons/common';
 import { LocationState } from 'history';
 import { withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -48,27 +47,9 @@ export const FooterWrapper: FC<Props> = ({
     />
   ) : null;
 
-  const links = [
-    {
-      to: 'https://www.facebook.com/ndla.no',
-      text: t('footer.socialMediaLinks.facebook'),
-      icon: <Facebook />,
-    },
-    {
-      to: 'https://twitter.com/ndla_no',
-      text: t('footer.socialMediaLinks.twitter'),
-      icon: <Twitter />,
-    },
-    {
-      to: 'https://om.ndla.no/nyhetsbrev/',
-      text: t('footer.socialMediaLinks.newsletter'),
-      icon: <EmailOutline />,
-    },
-  ];
-
   return (
     <StyledFooterWrapper>
-      <Footer lang={locale} links={links} languageSelector={languageSelector}>
+      <Footer lang={locale} languageSelector={languageSelector}>
         <FooterText>
           <EditorName
             title={t('footer.footerEditiorInChief')}

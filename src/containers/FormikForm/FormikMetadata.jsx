@@ -13,9 +13,9 @@ import { injectT } from '@ndla/i18n';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
-import MultiSelectDropdown from '../../components/Dropdown/MultiSelectDropdown';
+import FormikMetaTagSearch from './FormikMetaTagSearch';
 
-const FormikMetadata = ({ t, tags }) => (
+const FormikMetadata = ({ t, article, locale }) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -23,11 +23,11 @@ const FormikMetadata = ({ t, tags }) => (
       showError
       description={t('form.tags.description')}>
       {({ field, form }) => (
-        <MultiSelectDropdown
-          showCreateOption
-          {...field}
-          setFieldTouched={form.setFieldTouched}
-          data={tags}
+        <FormikMetaTagSearch
+          initTags={article.tags}
+          locale={locale}
+          field={field}
+          form={form}
         />
       )}
     </FormikField>
@@ -58,7 +58,10 @@ const FormikMetadata = ({ t, tags }) => (
 );
 
 FormikMetadata.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  article: PropTypes.shape({
+    tags: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(FormikMetadata);

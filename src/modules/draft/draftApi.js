@@ -23,6 +23,13 @@ export const fetchTags = language => {
   );
 };
 
+export const fetchSearchTags = async (input, language) => {
+  const response = await fetchAuthorized(
+    `${baseUrl}/tag-search/?language=${language}&query=${input}`,
+  );
+  return await resolveJsonOrRejectWithError(response);
+};
+
 export const fetchLicenses = () =>
   fetchAuthorized(`${baseUrl}/licenses/`).then(resolveJsonOrRejectWithError);
 

@@ -14,7 +14,7 @@ import { AsyncDropdown } from '../../components/Dropdown';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
 import { TranslateType } from '../../interfaces';
 
-interface props extends TranslateType {
+interface props {
   t: TranslateType;
   locale: string;
   initTags: string[];

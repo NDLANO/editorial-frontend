@@ -83,7 +83,7 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        {language === 'nb' && !supportedLanguages.includes('nn') && (
+        {articleType && language === 'nb' && !supportedLanguages.includes('nn') && (
           <Fragment>
             <StyledSplitter />
             <TranslateNbToNn

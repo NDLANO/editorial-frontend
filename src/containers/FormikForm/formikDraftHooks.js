@@ -27,7 +27,6 @@ export function useFetchArticleData(articleId, locale) {
 
   const fetchArticle = async () => {
     if (articleId) {
-      setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
@@ -39,7 +38,8 @@ export function useFetchArticleData(articleId, locale) {
 
   const updateArticle = async updatedArticle => {
     const savedArticle = await draftApi.updateDraft(updatedArticle);
-    setArticle(transformArticleFromApiVersion(savedArticle, locale));
+    const taxonomy = await fetchTaxonomy(articleId, locale);
+    setArticle(transformArticleFromApiVersion({ taxonomy, ...savedArticle}, locale));
     return savedArticle;
   };
 

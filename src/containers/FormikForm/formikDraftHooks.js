@@ -40,7 +40,9 @@ export function useFetchArticleData(articleId, locale) {
   const updateArticle = async updatedArticle => {
     const savedArticle = await draftApi.updateDraft(updatedArticle);
     const taxonomy = await fetchTaxonomy(articleId, locale);
-    setArticle(transformArticleFromApiVersion({ taxonomy, ...savedArticle}, locale));
+    setArticle(
+      transformArticleFromApiVersion({ taxonomy, ...savedArticle }, locale),
+    );
     return savedArticle;
   };
 

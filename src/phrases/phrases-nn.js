@@ -716,6 +716,7 @@ const phrases = {
       helpLabel: 'Kva er nøkkelord?',
       description: 'Obligatorisk med 3 nøkkelord.',
       createOption: 'Opprett nytt nøkkelord',
+      searchPlaceholder: 'Søk etter nøkkelord',
     },
     competences: {
       label: 'Kompetansemål',

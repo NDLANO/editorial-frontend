@@ -15,7 +15,12 @@ import { fetchCompetences } from '../../modules/draft/draftApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isCompetenceValid } from '../../util/articleUtil';
 
-const FormikCompetencesContent = ({ t, articleCompetences, field, form }) => {
+const FormikCompetencesContent = ({
+  t,
+  articleCompetences = [],
+  field,
+  form,
+}) => {
   const convertToCompetencesWithTitle = competencesWithoutTitle => {
     return competencesWithoutTitle.map(c => ({ title: c }));
   };

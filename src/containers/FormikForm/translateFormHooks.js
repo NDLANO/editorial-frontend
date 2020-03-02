@@ -33,7 +33,6 @@ export function useTranslateForm(article, setArticle) {
 
   return {
     translating,
-    translateArticle
-  }
-  
+    translateArticle,
+  };
 }

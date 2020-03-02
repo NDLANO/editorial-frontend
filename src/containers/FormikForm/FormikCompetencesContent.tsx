@@ -7,33 +7,47 @@
  */
 
 import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
 import { FormPill } from '@ndla/forms';
 import { fetchCompetences } from '../../modules/draft/draftApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isCompetenceValid } from '../../util/articleUtil';
+import { TranslateType } from "../../interfaces";
+import {FieldProps, FormikActions, FormikValues} from "formik";
+
+interface Props {
+  t: TranslateType;
+  articleCompetences: string[];
+  field: FieldProps<string[]>['field'];
+  form: {
+    setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
+  };
+}
+
+interface CompetenceWithTitle {
+  title: string;
+}
 
 const FormikCompetencesContent = ({
   t,
   articleCompetences = [],
   field,
   form,
-}) => {
-  const convertToCompetencesWithTitle = competencesWithoutTitle => {
+}: Props) => {
+  const convertToCompetencesWithTitle = (competencesWithoutTitle:string[]) => {
     return competencesWithoutTitle.map(c => ({ title: c }));
   };
 
   const [competences, setCompetences] = useState(articleCompetences);
 
-  const searchForCompetences = async inp => {
+  const searchForCompetences = async (inp:string) => {
     const result = await fetchCompetences(inp);
     result.results = convertToCompetencesWithTitle(result.results);
     return result;
   };
 
-  const updateFormik = (formikField, newData) => {
+  const updateFormik = (formikField: Props['field'], newData: string[]) => {
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -42,7 +56,7 @@ const FormikCompetencesContent = ({
     });
   };
 
-  const addCompetence = competence => {
+  const addCompetence = (competence: CompetenceWithTitle) => {
     if (competence) {
       if (
         !competences.includes(competence.title) &&
@@ -56,7 +70,7 @@ const FormikCompetencesContent = ({
     }
   };
 
-  const createNewCompetence = newCompetence => {
+  const createNewCompetence = (newCompetence: string) => {
     if (
       !competences.includes(newCompetence.trim()) &&
       isCompetenceValid(newCompetence)
@@ -68,7 +82,7 @@ const FormikCompetencesContent = ({
     }
   };
 
-  const removeCompetence = index => {
+  const removeCompetence = (index:string) => {
     const reduced_array = competences.filter(
       (_, idx) => idx !== parseInt(index),
     );
@@ -77,7 +91,7 @@ const FormikCompetencesContent = ({
     form.setFieldTouched('competences', true, true);
   };
 
-  const onKeyDown = event => {
+  const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
@@ -88,7 +102,7 @@ const FormikCompetencesContent = ({
       {competences.map((competence, index) => (
         <FormPill
           id={index.toString()}
-          label={competence}
+          label={competence+"LELELE"}
           onClick={removeCompetence}
           key={index}
         />
@@ -101,7 +115,7 @@ const FormikCompetencesContent = ({
         placeholder={t('form.competences.placeholder')}
         label="label"
         apiAction={searchForCompetences}
-        onClick={e => e.stopPropagation()}
+        onClick={(e:Event) => e.stopPropagation()}
         onChange={addCompetence}
         selectedItems={convertToCompetencesWithTitle(competences)}
         multiSelect
@@ -111,17 +125,6 @@ const FormikCompetencesContent = ({
       />
     </Fragment>
   );
-};
-
-FormikCompetencesContent.propTypes = {
-  articleCompetences: PropTypes.arrayOf(PropTypes.string),
-  field: PropTypes.shape({
-    onChange: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
-  }),
-  form: PropTypes.shape({
-    setFieldTouched: PropTypes.func.isRequired,
-  }),
 };
 
 export default injectT(FormikCompetencesContent);

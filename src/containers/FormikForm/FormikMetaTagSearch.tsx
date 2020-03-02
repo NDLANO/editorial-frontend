@@ -9,33 +9,24 @@
 import React, { Fragment, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
+import { FormikActions, FieldProps, FormikValues } from 'formik';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
+import { TranslateType } from '../../interfaces';
 
-interface target {
-  target: {
-    name: string;
-    value: string[] | null;
-  };
-}
-
-interface props {
-  t(lang: string): void;
+interface props extends TranslateType {
+  t: TranslateType;
   locale: string;
   initTags: string[];
-  field: {
-    onChange: (target: target) => void;
-    name: string;
-  };
+  field: FieldProps<string[]>['field'];
   form: {
-    setFieldTouched: (fieldName: string, a: boolean, b: boolean) => void;
+    setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
   };
 }
 
 interface asyncDropdownProps {
-  selectedItems: (tags: string[]) => tagWithTitle[];
+  selectedItems: tagWithTitle[];
   removeItem: (tag: string) => void;
-  inpProps: any;
 }
 
 interface tagWithTitle {
@@ -65,24 +56,20 @@ const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: props) => {
   };
 
   const addTag = (tag: tagWithTitle) => {
-    if (tag) {
-      if (!tags.includes(tag.title)) {
-        const temp = [...tags, tag.title];
-        setTags(temp);
-        updateFormik(field, temp);
-        form.setFieldTouched('tags', true, true);
-      }
+    if (tag && !tags.includes(tag.title)) {
+      const temp = [...tags, tag.title];
+      setTags(temp);
+      updateFormik(field, temp);
+      form.setFieldTouched('tags', true, true);
     }
   };
 
   const createNewTag = (newTag: string) => {
-    if (newTag) {
-      if (!tags.includes(newTag.trim())) {
-        const temp = [...tags, newTag.trim()];
-        setTags(temp);
-        updateFormik(field, temp);
-        form.setFieldTouched('tags', true, true);
-      }
+    if (newTag && !tags.includes(newTag.trim())) {
+      const temp = [...tags, newTag.trim()];
+      setTags(temp);
+      updateFormik(field, temp);
+      form.setFieldTouched('tags', true, true);
     }
   };
 

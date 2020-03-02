@@ -29,6 +29,7 @@
     "BRIGHTCOVE_PLAYER_ID": "@brightcove_player_id",
     "BRIGHTCOVE_ACCOUNT_ID": "@brightcove_account_id",
     "BRIGHTCOVE_API_CLIENT_ID": "@brightcove_api_client_id",
-    "BRIGHTCOVE_API_CLIENT_SECRET": "@brightcove_api_client_secret"
+    "BRIGHTCOVE_API_CLIENT_SECRET": "@brightcove_api_client_secret",
+    "NPK_TOKEN": "@npk_token"
   }
 }

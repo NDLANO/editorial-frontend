@@ -13,15 +13,20 @@ import { injectT } from '@ndla/i18n';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../util/routeHelpers';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
+import { useTranslateForm } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
-  const { loading, article, ...articleHooks } = useFetchArticleData(
+  const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
+  const { translating, translateArticle } = useTranslateForm(
+    article,
+    setArticle,
+  );
 
-  if (loading || !article || !article.id) {
+  if (loading || translating || !article || !article.id) {
     return <Spinner withWrapper />;
   }
 
@@ -40,6 +45,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
       <TopicArticleForm
         articleStatus={article.status}
         article={article}
+        translateArticle={translateArticle}
         {...rest}
         {...articleHooks}
       />

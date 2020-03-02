@@ -129,9 +129,10 @@ const LearningResourceForm = props => {
     handleSubmit,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, updateArticle, licenses, ...rest } = props;
+  const { t, article, updateArticle, translating, licenses, ...rest } = props;
   return (
     <Formik
+      enableReinitialize={translating}
       initialValues={initialValues}
       ref={formikRef}
       validateOnBlur={false}
@@ -224,6 +225,7 @@ LearningResourceForm.propTypes = {
   userAccess: PropTypes.string,
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
+  translating: PropTypes.bool,
 };
 
 export default injectT(LearningResourceForm);

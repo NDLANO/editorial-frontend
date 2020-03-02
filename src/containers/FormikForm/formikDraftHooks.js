@@ -87,6 +87,7 @@ export function useFetchArticleData(articleId, locale) {
   return {
     tags,
     article,
+    setArticle,
     updateArticle,
     createArticle,
     updateArticleAndStatus,

@@ -23,6 +23,8 @@ const connectSrc = (() => {
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
     'https://mimir.nrk.no',
+    'https://monsapi2-jdkp6gp6pa-ew.a.run.app/',
+    'https://cors-anywhere.herokuapp.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

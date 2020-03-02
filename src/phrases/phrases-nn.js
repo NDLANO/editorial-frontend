@@ -560,6 +560,7 @@ const phrases = {
     previewVersion: 'Se versjon',
     variant: {
       create: 'Legg til språk',
+      translate: 'Oversett til nynorsk',
     },
     remainingCharacters:
       'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',

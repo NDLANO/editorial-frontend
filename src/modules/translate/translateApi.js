@@ -9,11 +9,8 @@
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import config from '../../config';
 
-const baseUrl = `${
-  config.ndlaEnvironment === 'test'
-    ? 'https://cors-anywhere.herokuapp.com/'
-    : ''
-}https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate`;
+const baseUrl =
+  'https://cors-anywhere.herokuapp.com/https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate';
 
 export const fetchNnTranslation = ({ id, ...articleContents }) =>
   fetch(baseUrl, {

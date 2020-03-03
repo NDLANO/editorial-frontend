@@ -6,15 +6,17 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
-
 import { FormPill } from '@ndla/forms';
-import { fetchCompetences } from '../../modules/draft/draftApi';
+import { FieldProps, FormikActions, FormikValues } from 'formik';
+import {
+  fetchCompetences,
+  fetchCompetenceDescription,
+} from '../../modules/draft/draftApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isCompetenceValid } from '../../util/articleUtil';
-import { TranslateType } from "../../interfaces";
-import {FieldProps, FormikActions, FormikValues} from "formik";
+import { TranslateType } from '../../interfaces';
 
 interface Props {
   t: TranslateType;
@@ -25,8 +27,9 @@ interface Props {
   };
 }
 
-interface CompetenceWithTitle {
-  title: string;
+interface Competence {
+  code: string;
+  description: string;
 }
 
 const FormikCompetencesContent = ({
@@ -35,17 +38,30 @@ const FormikCompetencesContent = ({
   field,
   form,
 }: Props) => {
-  const convertToCompetencesWithTitle = (competencesWithoutTitle:string[]) => {
-    return competencesWithoutTitle.map(c => ({ title: c }));
+  const convertCompetencesToObject = async (competences: string[]) => {
+    return Promise.all(
+      competences.map(async c => {
+        return {
+          code: c,
+          description: await fetchCompetenceDescription(c),
+        };
+      }),
+    );
   };
+  const [competences, setCompetences] = useState<Competence[]>([]);
 
-  const [competences, setCompetences] = useState(articleCompetences);
-
-  const searchForCompetences = async (inp:string) => {
+  const searchForCompetences = async (inp: string) => {
     const result = await fetchCompetences(inp);
-    result.results = convertToCompetencesWithTitle(result.results);
+    result.results = await convertCompetencesToObject(result.results);
     return result;
   };
+
+  useEffect(() => {
+    (async () => {
+      const comp = await convertCompetencesToObject(articleCompetences);
+      setCompetences(comp);
+    })();
+  }, []);
 
   const updateFormik = (formikField: Props['field'], newData: string[]) => {
     formikField.onChange({
@@ -56,38 +72,52 @@ const FormikCompetencesContent = ({
     });
   };
 
-  const addCompetence = (competence: CompetenceWithTitle) => {
-    if (competence) {
-      if (
-        !competences.includes(competence.title) &&
-        isCompetenceValid(competence.title)
-      ) {
-        const temp = [...competences, competence.title];
-        setCompetences(temp);
-        updateFormik(field, temp);
-        form.setFieldTouched('competences', true, true);
-      }
-    }
-  };
-
-  const createNewCompetence = (newCompetence: string) => {
+  const addCompetence = async (competence: Competence) => {
+    const comp = await fetchCompetenceDescription(competence.code);
     if (
-      !competences.includes(newCompetence.trim()) &&
-      isCompetenceValid(newCompetence)
+      comp &&
+      !competences.filter(c => c.code === competence.code).length &&
+      isCompetenceValid(competence.code)
     ) {
-      const temp = [...competences, newCompetence.trim()];
+      const temp = [
+        ...competences,
+        {
+          code: competence.code,
+          description: await fetchCompetenceDescription(competence.code),
+        },
+      ];
       setCompetences(temp);
-      updateFormik(field, temp);
+      updateFormik(field, temp.map(c => c.code));
       form.setFieldTouched('competences', true, true);
     }
   };
 
-  const removeCompetence = (index:string) => {
+  const createNewCompetence = async (newCompetence: string) => {
+    const comp = await fetchCompetenceDescription(newCompetence);
+    if (
+      comp &&
+      !competences.filter(c => c.code === newCompetence).length &&
+      isCompetenceValid(newCompetence)
+    ) {
+      const temp = [
+        ...competences,
+        {
+          code: newCompetence,
+          description: comp,
+        },
+      ];
+      setCompetences(temp);
+      updateFormik(field, temp.map(c => c.code));
+      form.setFieldTouched('competences', true, true);
+    }
+  };
+
+  const removeCompetence = (index: string) => {
     const reduced_array = competences.filter(
       (_, idx) => idx !== parseInt(index),
     );
     setCompetences(reduced_array);
-    updateFormik(field, reduced_array);
+    updateFormik(field, reduced_array.map(c => c.code));
     form.setFieldTouched('competences', true, true);
   };
 
@@ -102,22 +132,22 @@ const FormikCompetencesContent = ({
       {competences.map((competence, index) => (
         <FormPill
           id={index.toString()}
-          label={competence+"LELELE"}
+          label={competence.code + ' - ' + competence.description}
           onClick={removeCompetence}
           key={index}
         />
       ))}
 
       <AsyncDropdown
-        idField="title"
+        idField="code"
         name="CompetencesSearch"
-        labelField="title"
+        labelField="code"
         placeholder={t('form.competences.placeholder')}
         label="label"
         apiAction={searchForCompetences}
-        onClick={(e:Event) => e.stopPropagation()}
+        onClick={(e: Event) => e.stopPropagation()}
         onChange={addCompetence}
-        selectedItems={convertToCompetencesWithTitle(competences)}
+        selectedItems={competences}
         multiSelect
         disableSelected
         onCreate={createNewCompetence}

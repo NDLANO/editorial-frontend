@@ -25,6 +25,7 @@ const connectSrc = (() => {
     'https://mimir.nrk.no',
     'https://monsapi2-jdkp6gp6pa-ew.a.run.app/',
     'https://cors-anywhere.herokuapp.com',
+    'https://data.udir.no',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

@@ -108,7 +108,7 @@ export const fetchCompetences = query =>
     resolveJsonOrRejectWithError,
   );
 
-export const fetchCompetenceDescription = async (competenceCode, language) => {
+export const fetchCompetenceTitle = async competenceCode => {
   let url;
   if (competenceCode[1] === 'E') {
     url = grepUrl(`/kjerneelementer-lk20/${competenceCode}`);

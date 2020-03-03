@@ -12,7 +12,7 @@ import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikActions, FormikValues } from 'formik';
 import {
   fetchCompetences,
-  fetchCompetenceDescription,
+  fetchCompetenceTitle,
 } from '../../modules/draft/draftApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isCompetenceValid } from '../../util/articleUtil';
@@ -29,7 +29,7 @@ interface Props {
 
 interface Competence {
   code: string;
-  description: string;
+  title: string;
 }
 
 const FormikCompetencesContent = ({
@@ -43,7 +43,7 @@ const FormikCompetencesContent = ({
       competences.map(async c => {
         return {
           code: c,
-          description: await fetchCompetenceDescription(c),
+          title: await fetchCompetenceTitle(c),
         };
       }),
     );
@@ -73,7 +73,7 @@ const FormikCompetencesContent = ({
   };
 
   const addCompetence = async (competence: Competence) => {
-    const comp = await fetchCompetenceDescription(competence.code);
+    const comp = await fetchCompetenceTitle(competence.code);
     if (
       comp &&
       !competences.filter(c => c.code === competence.code).length &&
@@ -83,7 +83,7 @@ const FormikCompetencesContent = ({
         ...competences,
         {
           code: competence.code,
-          description: await fetchCompetenceDescription(competence.code),
+          title: await fetchCompetenceTitle(competence.code),
         },
       ];
       setCompetences(temp);
@@ -93,7 +93,7 @@ const FormikCompetencesContent = ({
   };
 
   const createNewCompetence = async (newCompetence: string) => {
-    const comp = await fetchCompetenceDescription(newCompetence);
+    const comp = await fetchCompetenceTitle(newCompetence);
     if (
       comp &&
       !competences.filter(c => c.code === newCompetence).length &&
@@ -103,7 +103,7 @@ const FormikCompetencesContent = ({
         ...competences,
         {
           code: newCompetence,
-          description: comp,
+          title: comp,
         },
       ];
       setCompetences(temp);
@@ -132,7 +132,7 @@ const FormikCompetencesContent = ({
       {competences.map((competence, index) => (
         <FormPill
           id={index.toString()}
-          label={competence.code + ' - ' + competence.description}
+          label={competence.code + ' - ' + competence.title}
           onClick={removeCompetence}
           key={index}
         />

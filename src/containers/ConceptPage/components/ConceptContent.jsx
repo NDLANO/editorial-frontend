@@ -53,6 +53,7 @@ const ConceptContent = props => {
         name="conceptContent"
         maxLength={800}
         placeholder={t('form.name.conceptContent')}
+        preview
       />
     </>
   );

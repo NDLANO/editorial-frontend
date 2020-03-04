@@ -97,8 +97,5 @@ const mapStateToProps = state => {
 };
 
 export default injectT(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AudioUploaderPage),
+  connect(mapStateToProps, mapDispatchToProps)(AudioUploaderPage),
 );

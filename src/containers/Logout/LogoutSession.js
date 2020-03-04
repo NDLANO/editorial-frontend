@@ -34,7 +34,4 @@ const mapDispatchToProps = {
   logout: actions.logout,
 };
 
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(LogoutSession);
+export default connect(undefined, mapDispatchToProps)(LogoutSession);

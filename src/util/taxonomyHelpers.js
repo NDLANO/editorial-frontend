@@ -160,7 +160,10 @@ const groupTopics = allTopics =>
   allTopics.reduce((acc, curr) => {
     const mainTopic = curr.parent.includes('subject');
     if (mainTopic) return acc;
-    return insertSubTopic(acc.filter(topic => topic.id !== curr.id), curr);
+    return insertSubTopic(
+      acc.filter(topic => topic.id !== curr.id),
+      curr,
+    );
   }, allTopics);
 
 const getCurrentTopic = ({ params, subject = {} }) => {

@@ -81,7 +81,7 @@
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.3",
+    "typescript": "^3.8.3",
     "wait-on": "^3.3.0",
     "yargs": "^14.0.0"
   },
@@ -148,7 +148,7 @@
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.2",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
     "query-string": "^5.1.1",
     "razzle": "3.0.0",

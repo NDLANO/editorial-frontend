@@ -141,9 +141,10 @@ export const learningResourceRules = {
     required: true,
     test: value => {
       const embedsHasErrors = value.find(sectionValue => {
-        const embeds = findNodesByType(sectionValue.document, 'embed').map(
-          node => node.get('data').toJS(),
-        );
+        const embeds = findNodesByType(
+          sectionValue.document,
+          'embed',
+        ).map(node => node.get('data').toJS());
         const notValidEmbeds = embeds.filter(
           embed => !isUserProvidedEmbedDataValid(embed),
         );

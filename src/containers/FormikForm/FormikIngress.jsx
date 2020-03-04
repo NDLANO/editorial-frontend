@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Remarkable } from 'remarkable';
@@ -18,7 +18,13 @@ import FormikField from '../../components/FormikField';
 const md = new Remarkable();
 md.inline.ruler.enable(['sub', 'sup']);
 
-const FormikIngress = ({ t, name, maxLength, placeholder, preview = false }) => (
+const FormikIngress = ({
+  t,
+  name,
+  maxLength,
+  placeholder,
+  preview = false,
+}) => (
   <StyledFormContainer>
     <FormikField
       noBorder
@@ -26,12 +32,14 @@ const FormikIngress = ({ t, name, maxLength, placeholder, preview = false }) => 
       name={name}
       showMaxLength
       maxLength={maxLength}>
-      {({ field }) => (
-        preview ?
-          <Fragment>
-            <span dangerouslySetInnerHTML={{ __html: md.render(field.value.document.text) }} />
-          </Fragment>
-          :
+      {({ field }) =>
+        preview ? (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: md.render(field.value.document.text),
+            }}
+          />
+        ) : (
           <PlainTextEditor
             id={field.name}
             {...field}
@@ -39,7 +47,8 @@ const FormikIngress = ({ t, name, maxLength, placeholder, preview = false }) => 
             className="article_introduction"
             data-cy="learning-resource-ingress"
           />
-      )}
+        )
+      }
     </FormikField>
   </StyledFormContainer>
 );

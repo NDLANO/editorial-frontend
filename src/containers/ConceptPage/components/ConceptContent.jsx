@@ -6,21 +6,27 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
+import { Eye } from '@ndla/icons/editor';
+
 import FormikField from '../../../components/FormikField';
 import { FormikIngress } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
+import ToggleButton from '../../../components/ToggleButton';
 
 const byLineStyle = css`
   display: flex;
   margin-top: 0;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const ConceptContent = props => {
+  const [preview, setPreview] = useState(false);
   const {
     t,
     formik: {
@@ -38,14 +44,19 @@ const ConceptContent = props => {
       />
       <FormikField noBorder name="created" css={byLineStyle}>
         {({ field, form }) => (
-          <LastUpdatedLineConcept
-            name={field.name}
-            creators={creators}
-            published={created}
-            onChange={date => {
-              form.setFieldValue(field.name, date);
-            }}
-          />
+          <>
+            <LastUpdatedLineConcept
+              name={field.name}
+              creators={creators}
+              published={created}
+              onChange={date => {
+                form.setFieldValue(field.name, date);
+              }}
+            />
+            <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+              <Eye />
+            </ToggleButton>
+          </>
         )}
       </FormikField>
 
@@ -53,7 +64,7 @@ const ConceptContent = props => {
         name="conceptContent"
         maxLength={800}
         placeholder={t('form.name.conceptContent')}
-        preview
+        preview={preview}
       />
     </>
   );

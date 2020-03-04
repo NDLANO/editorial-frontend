@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -16,6 +16,9 @@ import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
+import { getAccesTokenNdlaId } from '../../util/authHelpers';
+
+import { search } from '../../modules/search/searchApi';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -30,6 +33,22 @@ export const classes = new BEMHelper({
 });
 
 export const WelcomePage = ({ t }) => {
+  const [lastUsed, setLastUsed] = useState(undefined);
+
+  const fetchLastUsed = async () => {
+    console.log('fetching ...');
+    const lastUsed = await search({
+      users: getAccesTokenNdlaId(),
+    });
+    setLastUsed(lastUsed);
+  };
+
+  useEffect(() => {
+    fetchLastUsed();
+  }, []);
+
+  console.log(lastUsed);
+
   localStorage.setItem('lastPath', '');
   return (
     <Fragment>
@@ -54,6 +73,10 @@ export const WelcomePage = ({ t }) => {
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
               <span>{t('welcomePage.emptyLastUsed')}</span>
+
+              {lastUsed &&
+                lastUsed.results.map(a => <div>{a.title.title}</div>)}
+
             </div>
             <div>
               <div {...classes('column-header')}>

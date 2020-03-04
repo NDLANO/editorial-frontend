@@ -32,7 +32,7 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 64px;
-`
+`;
 
 const ConceptContent = props => {
   const [preview, setPreview] = useState(false);
@@ -63,14 +63,16 @@ const ConceptContent = props => {
               }}
             />
             <IconContainer>
-              <Tooltip tooltip={'tool'}>
-                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+              <Tooltip tooltip={t('form.markdown.button')}>
+                <ToggleButton
+                  active={preview}
+                  onClick={() => setPreview(!preview)}>
                   <Eye />
                 </ToggleButton>
               </Tooltip>
               <HowToHelper
                 pageId="MetaImage"
-                tooltip={t('form.metaImage.helpLabel')}
+                tooltip={t('form.markdown.helpLabel')}
               />
             </IconContainer>
           </>

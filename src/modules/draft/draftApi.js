@@ -10,7 +10,6 @@ import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
-  grepUrl,
 } from '../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
@@ -107,24 +106,6 @@ export const fetchCompetences = query =>
   fetchAuthorized(`${baseUrl}/competences/?query=${query}`).then(
     resolveJsonOrRejectWithError,
   );
-
-export const fetchCompetenceTitle = async competenceCode => {
-  let url;
-  if (competenceCode[1] === 'E') {
-    url = grepUrl(`/kjerneelementer-lk20/${competenceCode}`);
-  } else if (competenceCode[1] === 'M') {
-    url = grepUrl(`/kompetansemaal-lk20/${competenceCode}`);
-  } else {
-    url = grepUrl(`/kompetansemaalsett-lk20/${competenceCode}`);
-  }
-
-  const response = await fetchAuthorized(url);
-  const jsonResponse = await response.json();
-
-  return jsonResponse['tittel']
-    ? jsonResponse['tittel']['tekst'][0]['verdi']
-    : undefined;
-};
 
 export const updateAgreement = agreement =>
   fetchAuthorized(`${baseAgreementsUrl}/${agreement.id}`, {

@@ -702,6 +702,7 @@ const phrases = {
     competences: {
       label: 'Competences',
       placeholder: 'Type competence code',
+      titleNotFound: 'No title found for the provided competence code',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -875,7 +876,7 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
     competences:
-      'Competences are in the wrong format. The correct format is K(E/M/V) followed by one or more digits. Ex. K123, KE1337, KM2255, KV5432',
+      'Competences are in the wrong format. The correct format is K(E/M/V) followed by one or more digits. Ex. KE1337, KM2255, KV5432',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

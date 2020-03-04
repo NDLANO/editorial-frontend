@@ -171,8 +171,8 @@
     "redux-saga": "^0.16.0",
     "reselect": "^4.0.0",
     "serialize-javascript": "^2.1.1",
-    "slate": "^0.54.6",
-    "slate-react": "^0.54.6",
+    "slate": "0.57.1",
+    "slate-react": "0.57.1",
     "source-map-support": "^0.5.13"
   },
   "repository": {

@@ -1656,11 +1656,6 @@
   resolved "https://registry.yarnpkg.com/@types/debounce/-/debounce-1.2.0.tgz#9ee99259f41018c640b3929e1bb32c3dcecdb192"
   integrity sha512-bWG5wapaWgbss9E238T0R6bfo5Fh3OkeoSt245CM7JJwVwpw6MEBCbIxLq5z8KzsE3uJhzcIuQkyiZmzV3M/Dw==
 
-"@types/debug@^4.1.5":
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
-  integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
-
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -1768,11 +1763,6 @@
   integrity sha512-jcDDXdjTcrQzdN06+TSVsPPqxvsZA/5QkYfIZlq1JMw7FdP5AZylbOc+6B/cuDurctRe+MziUMtQ3xQdrbjqyQ==
   dependencies:
     "@types/jest-diff" "*"
-
-"@types/lodash@^4.14.149":
-  version "4.14.149"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
-  integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
 
 "@types/mime@*":
   version "2.0.0"
@@ -12937,25 +12927,23 @@ slate-hyperscript@^0.13.4:
   dependencies:
     is-plain-object "^2.0.4"
 
-slate-react@^0.54.6:
-  version "0.54.6"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.54.6.tgz#fa1c54c2fcb31183553e9db9f2f825cabf5fb4a4"
-  integrity sha512-LLm3hJA3gyuzYucxdSSa94vvbQ+axfeWiljxpM8fVebWB40Pq50tgjIcn+6nrSh0FiKif3xcwywhqtyt8SjWHQ==
+slate-react@0.57.1:
+  version "0.57.1"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.57.1.tgz#219a95b7caaea365a7f6fac5f3f5aa2e9da62295"
+  integrity sha512-W+M+YEcqBvuJD2xoU1gKgGbvhv6shwYJ5OOjPF8ZPEokUvGJh81Egxf65ZnnKxJejodsERdlwc2rRjpRphx2LQ==
   dependencies:
     "@types/debounce" "^1.2.0"
-    "@types/debug" "^4.1.5"
     "@types/is-hotkey" "^0.1.1"
-    "@types/lodash" "^4.14.149"
     debounce "^1.2.0"
     direction "^1.0.3"
     is-hotkey "^0.1.6"
     is-plain-object "^3.0.0"
     scroll-into-view-if-needed "^2.2.20"
 
-slate@^0.54.6:
-  version "0.54.6"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.54.6.tgz#1c655f3645c8be6ccda4a8658ed1568a4ffca75b"
-  integrity sha512-5nirCsNcLyMsXPUtUhXNR6ShpUIRUuIVeiwLj/Mz85KlQvYSWKJv5xEG0HdZD1+L6PbxPIKvdPcLNnE9cnYqmw==
+slate@0.57.1:
+  version "0.57.1"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.57.1.tgz#dc99d9a77840894c9e3d3bc1185b67ee36c17686"
+  integrity sha512-av95C0zbsi0+khfOuyQlpZy0Q3Pqqh0loCusGGi0Wlb/J8OUBAyK/a5EgTfE0zK4pmjtEBnPksfBuVilg5jrNg==
   dependencies:
     "@types/esrever" "^0.2.0"
     esrever "^0.2.0"

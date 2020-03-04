@@ -10,13 +10,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 
 import FormikField from '../../../components/FormikField';
 import { FormikIngress } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const byLineStyle = css`
   display: flex;
@@ -24,6 +27,12 @@ const byLineStyle = css`
   align-items: center;
   justify-content: space-between;
 `;
+
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 64px;
+`
 
 const ConceptContent = props => {
   const [preview, setPreview] = useState(false);
@@ -53,9 +62,17 @@ const ConceptContent = props => {
                 form.setFieldValue(field.name, date);
               }}
             />
-            <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
-              <Eye />
-            </ToggleButton>
+            <IconContainer>
+              <Tooltip tooltip={'tool'}>
+                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+                  <Eye />
+                </ToggleButton>
+              </Tooltip>
+              <HowToHelper
+                pageId="MetaImage"
+                tooltip={t('form.metaImage.helpLabel')}
+              />
+            </IconContainer>
           </>
         )}
       </FormikField>

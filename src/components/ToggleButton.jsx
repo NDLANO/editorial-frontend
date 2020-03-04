@@ -33,6 +33,10 @@ const StyledButton = styled.button`
     position: relative;
     pointer-events: none;
   }
+
+  &:hover {
+    color: ${colors.brand.primary};
+  }
 `;
 
 export const ToggleButton = ({ children, ...rest }) => (

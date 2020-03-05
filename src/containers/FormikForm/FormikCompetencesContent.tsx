@@ -95,8 +95,8 @@ const FormikCompetencesContent = ({
     }
   };
 
-  const removeCompetence = (index: number) => {
-    const reduced_array = competences.filter((_, idx) => idx !== index);
+  const removeCompetence = (index: string) => {
+    const reduced_array = competences.filter((_, idx) => idx !== parseInt(index));
     setCompetences(reduced_array);
     updateFormik(
       field,
@@ -114,9 +114,7 @@ const FormikCompetencesContent = ({
   return (
     <Fragment>
       <FormikFieldDescription
-        description={
-          'Det korrekte formatet er K(E/M/V) fulgt av ett eller flere siffer. Eks. KE1337, KM2255, KV5432'
-        }
+        description={t('form.competences.description')}
       />
       <AsyncDropdown
         idField="code"
@@ -137,7 +135,7 @@ const FormikCompetencesContent = ({
 
       {competences.map((competence, index) => (
         <FormPill
-          id={index}
+          id={index.toString()}
           label={`${competence.code} - ${competence.title ||
             t('form.competences.titleNotFound')}`}
           onClick={removeCompetence}

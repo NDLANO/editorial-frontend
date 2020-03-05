@@ -19,8 +19,11 @@ export const fetchCompetenceTitle = async (competenceCode: string) => {
     url = grepUrl(`/kjerneelementer-lk20/${competenceCode}`);
   } else if (competenceCode.startsWith('KM')) {
     url = grepUrl(`/kompetansemaal-lk20/${competenceCode}`);
-  } else {
+  } else if (competenceCode.startsWith('KV')) {
     url = grepUrl(`/kompetansemaalsett-lk20/${competenceCode}`);
+  }
+  else {
+    return null;
   }
 
   try {

@@ -27,7 +27,7 @@ interface Props {
 
 interface Competence {
   code: string;
-  title: string | undefined;
+  title: string | undefined | null;
 }
 
 const FormikCompetencesContent = ({
@@ -70,10 +70,7 @@ const FormikCompetencesContent = ({
     });
   };
 
-  const createNewCompetence = async (newCompetence: Competence | string) => {
-    const competence = (newCompetence as Competence).code
-      ? (newCompetence as Competence).code
-      : (newCompetence as string);
+  const createNewCompetence = async (competence: string) => {
     const comp = await fetchCompetenceTitle(competence);
     if (
       comp &&
@@ -135,7 +132,7 @@ const FormikCompetencesContent = ({
         label="label"
         apiAction={searchForCompetences}
         onClick={(e: Event) => e.stopPropagation()}
-        onChange={createNewCompetence}
+        onChange={(c: Competence) => createNewCompetence(c.code)}
         selectedItems={competences}
         multiSelect
         disableSelected

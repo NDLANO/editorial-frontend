@@ -11,6 +11,7 @@ import {
   grepUrl,
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
+import handleError from '../../util/handleError';
 
 export const fetchCompetenceTitle = async (competenceCode: string) => {
   let url;
@@ -22,10 +23,17 @@ export const fetchCompetenceTitle = async (competenceCode: string) => {
     url = grepUrl(`/kompetansemaalsett-lk20/${competenceCode}`);
   }
 
-  const jsonResponse = await fetchAuthorized(url).then(
-    resolveJsonOrRejectWithError,
-  );
-  const titles: { spraak: string; verdi: string }[] =
-    jsonResponse?.tittel?.tekst;
-  return titles?.find(t => t.spraak === 'default')?.verdi;
+  try {
+    const res = await fetchAuthorized(url);
+    if (res.status === 404) {
+      return null;
+    }
+
+    const jsonResponse = await resolveJsonOrRejectWithError(res);
+    const titles: { spraak: string; verdi: string }[] =
+      jsonResponse?.tittel?.tekst;
+    return titles?.find(t => t.spraak === 'default')?.verdi;
+  } catch (error) {
+    handleError(error);
+  }
 };

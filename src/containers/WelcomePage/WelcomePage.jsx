@@ -7,18 +7,19 @@
  */
 
 import React, { Fragment, useEffect, useState } from 'react';
+import BEMHelper from 'react-bem-helper';
+import PropTypes from 'prop-types';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
-import BEMHelper from 'react-bem-helper';
 import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccesTokenNdlaId } from '../../util/authHelpers';
-
 import { search } from '../../modules/search/searchApi';
+import LastUsedContent from './components/LastUsedContent';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -32,11 +33,10 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage = ({ t }) => {
+export const WelcomePage = ({ locale, t }) => {
   const [lastUsed, setLastUsed] = useState(undefined);
 
   const fetchLastUsed = async () => {
-    console.log('fetching ...');
     const lastUsed = await search({
       users: getAccesTokenNdlaId(),
     });
@@ -45,11 +45,10 @@ export const WelcomePage = ({ t }) => {
 
   useEffect(() => {
     fetchLastUsed();
-  }, []);
-
-  console.log(lastUsed);
+  }, [lastUsed]);
 
   localStorage.setItem('lastPath', '');
+
   return (
     <Fragment>
       <ContentWrapper>
@@ -72,11 +71,19 @@ export const WelcomePage = ({ t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
-              <span>{t('welcomePage.emptyLastUsed')}</span>
 
-              {lastUsed &&
-                lastUsed.results.map(a => <div>{a.title.title}</div>)}
-
+              {lastUsed ? (
+                lastUsed.results.map(result => (
+                  <LastUsedContent
+                    key={result.id}
+                    articleId={result.id}
+                    content={result}
+                    locale={locale}
+                  />
+                ))
+              ) : (
+                <span>{t('welcomePage.emptyLastUsed')}</span>
+              )}
             </div>
             <div>
               <div {...classes('column-header')}>
@@ -91,6 +98,10 @@ export const WelcomePage = ({ t }) => {
       </ContentWrapper>
     </Fragment>
   );
+};
+
+WelcomePage.propTypes = {
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(WelcomePage);

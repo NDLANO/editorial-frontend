@@ -67,7 +67,14 @@ export class App extends React.Component {
   };
 
   render() {
-    const { dispatch, messages, authenticated, userName, t } = this.props;
+    const {
+      authenticated,
+      dispatch,
+      locale,
+      messages,
+      t,
+      userName,
+    } = this.props;
     return (
       <ErrorBoundary>
         <FirstLoadContext.Provider value={this.state.firstLoad}>
@@ -78,7 +85,11 @@ export class App extends React.Component {
             <Content>
               <Navigation authenticated={authenticated} userName={userName} />
               <Switch>
-                <Route path="/" exact component={WelcomePage} />
+                <Route
+                  path="/"
+                  exact
+                  component={() => <WelcomePage locale={locale} />}
+                />
                 <Route path="/login" component={Login} />
                 <Route path="/logout" component={Logout} />
                 <PrivateRoute path="/search" component={SearchPage} />

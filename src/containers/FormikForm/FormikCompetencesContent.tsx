@@ -96,7 +96,9 @@ const FormikCompetencesContent = ({
   };
 
   const removeCompetence = (index: string) => {
-    const reduced_array = competences.filter((_, idx) => idx !== parseInt(index));
+    const reduced_array = competences.filter(
+      (_, idx) => idx !== parseInt(index),
+    );
     setCompetences(reduced_array);
     updateFormik(
       field,
@@ -113,9 +115,7 @@ const FormikCompetencesContent = ({
 
   return (
     <Fragment>
-      <FormikFieldDescription
-        description={t('form.competences.description')}
-      />
+      <FormikFieldDescription description={t('form.competences.description')} />
       <AsyncDropdown
         idField="code"
         name="CompetencesSearch"

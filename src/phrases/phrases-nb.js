@@ -714,7 +714,8 @@ const phrases = {
       label: 'Kompetansemål',
       placeholder: 'Skriv inn kompetansemålkode',
       titleNotFound: 'Finnes ikke tittel for denne kompetansemålkoden',
-      description: 'Det korrekte formatet er K(E/M/V) fulgt av ett eller flere siffer. Eks. KE137, KM2255, KV5.',
+      description:
+        'Det korrekte formatet er K(E/M/V) fulgt av ett eller flere siffer. Eks. KE137, KM2255, KV5.',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',

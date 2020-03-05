@@ -703,7 +703,8 @@ const phrases = {
       label: 'Competences',
       placeholder: 'Type competence code',
       titleNotFound: 'No title found for the provided competence code',
-      description: 'The correct format is K(E/M/V) followed by one or more digits. Ex. KE137, KM2255, KV5.',
+      description:
+        'The correct format is K(E/M/V) followed by one or more digits. Ex. KE137, KM2255, KV5.',
     },
     resourceTypes: {
       label: 'Resource type and properties',

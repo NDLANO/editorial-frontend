@@ -71,7 +71,7 @@ const ConceptContent = props => {
                 </ToggleButton>
               </Tooltip>
               <HowToHelper
-                pageId="MetaImage"
+                pageId="Markdown"
                 tooltip={t('form.markdown.helpLabel')}
               />
             </IconContainer>

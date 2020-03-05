@@ -29,7 +29,7 @@ const panels = [
     title: 'form.taxonomySection',
     errorFields: [],
     showPanel: (values, userAccess) =>
-      values.id && userAccess && userAccess.includes(TAXONOMY_WRITE_SCOPE),
+      values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE),
     className: 'u-6/6',
     component: props => <TopicArticleTaxonomy {...props} />,
   },

@@ -15,6 +15,7 @@ import { fetchCompetenceTitle } from '../../modules/grep/grepApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isCompetenceValid } from '../../util/articleUtil';
 import { TranslateType } from '../../interfaces';
+import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 
 interface Props {
   t: TranslateType;
@@ -70,7 +71,8 @@ const FormikCompetencesContent = ({
     });
   };
 
-  const createNewCompetence = async (competence: string) => {
+  const createNewCompetence = async (competenceCode: string) => {
+    const competence = competenceCode.toUpperCase();
     const comp = await fetchCompetenceTitle(competence);
     if (
       comp &&
@@ -111,19 +113,11 @@ const FormikCompetencesContent = ({
 
   return (
     <Fragment>
-      {competences.map((competence, index) => (
-        <FormPill
-          id={index.toString()}
-          label={`${competence.code} - ${
-            competence.title
-              ? competence.title
-              : t('form.competences.titleNotFound')
-          }`}
-          onClick={removeCompetence}
-          key={index}
-        />
-      ))}
-
+      <FormikFieldDescription
+        description={
+          'Det korrekte formatet er K(E/M/V) fulgt av ett eller flere siffer. Eks. KE1337, KM2255, KV5432'
+        }
+      />
       <AsyncDropdown
         idField="code"
         name="CompetencesSearch"
@@ -138,7 +132,18 @@ const FormikCompetencesContent = ({
         disableSelected
         onCreate={createNewCompetence}
         onKeyDown={onKeyDown}
+        positionAbsolute
       />
+
+      {competences.map((competence, index) => (
+        <FormPill
+          id={index}
+          label={`${competence.code} - ${competence.title ||
+            t('form.competences.titleNotFound')}`}
+          onClick={removeCompetence}
+          key={index}
+        />
+      ))}
     </Fragment>
   );
 };

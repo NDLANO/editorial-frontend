@@ -39,13 +39,14 @@ export const WelcomePage = ({ locale, t }) => {
   const fetchLastUsed = async () => {
     const lastUsed = await search({
       users: getAccesTokenNdlaId(),
+      sort: '-lastUpdated',
     });
     setLastUsed(lastUsed);
   };
 
   useEffect(() => {
     fetchLastUsed();
-  }, [lastUsed]);
+  }, []);
 
   localStorage.setItem('lastPath', '');
 

@@ -46,7 +46,7 @@ export class MultiSelectDropdown extends Component {
       target: { value },
     } = evt;
 
-    if (value.length >= 2) {
+    if (value.length >= this.props.minSearchLength) {
       this.setState({
         isOpen: true,
         inputValue: value,
@@ -57,7 +57,7 @@ export class MultiSelectDropdown extends Component {
           return string.toLowerCase().indexOf(value.toLowerCase()) !== -1;
         }),
       });
-    } else if (value.length < 2) {
+    } else {
       this.setState({ inputValue: value, isOpen: false });
     }
     this.triggerTouched();
@@ -159,10 +159,12 @@ MultiSelectDropdown.propTypes = {
   idField: PropTypes.string,
   showCreateOption: PropTypes.bool,
   setFieldTouched: PropTypes.func,
+  minSearchLength: PropTypes.number,
 };
 
 MultiSelectDropdown.defaultProps = {
   data: [],
+  minSearchLength: 2,
 };
 
 export default MultiSelectDropdown;

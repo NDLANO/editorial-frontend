@@ -57,7 +57,7 @@ test('isCompetenceValid correct behavior', () => {
     'K3K',
     'k123',
   ];
-  const result = [false, false, true, true, true, false, false, false, false];
+  const result = [false, false, true, true, false, false, false, false, false];
 
   competences.map((value, idx) =>
     expect(isCompetenceValid(value)).toBe(result[idx]),

@@ -700,11 +700,10 @@ const phrases = {
       searchPlaceholder: 'Search for tags',
     },
     competences: {
-      label: 'Competences',
+      label: 'Competences and core elements',
       placeholder: 'Type competence code',
-      titleNotFound: 'No title found for the provided competence code',
       description:
-        'Type in codes using the format K(E/M/V) followed by one or more digits. Ex. KE137, KM2255, KV5. Non existing codes will not be created.',
+        'Type in codes using the format K(E/M) followed by one or more digits. Ex. KE137, KM2255. Non existing codes will not be created.',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -878,7 +877,7 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
     competences:
-      'Competences are in the wrong format. The correct format is K(E/M/V) followed by one or more digits. Ex. KE137, KM2255, KV5.',
+      'Competences are in the wrong format. The correct format is K(E/M) followed by one or more digits. Ex. KE137, KM2255.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

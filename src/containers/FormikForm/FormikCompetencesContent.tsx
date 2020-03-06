@@ -120,7 +120,7 @@ const FormikCompetencesContent = ({
       ? title.length >= 100
         ? title.slice(0, 100) + '...'
         : title
-      : t('form.competences.titleNotFound');
+      : '';
   };
 
   return (
@@ -140,7 +140,7 @@ const FormikCompetencesContent = ({
         disableSelected
         onCreate={createNewCompetence}
         onKeyDown={onKeyDown}
-        positionAbsolute
+        clearInputField
       />
 
       {competences.map((competence, index) => (

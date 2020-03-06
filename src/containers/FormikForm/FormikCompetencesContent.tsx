@@ -113,6 +113,14 @@ const FormikCompetencesContent = ({
     }
   };
 
+  const isTitleTooLong = (title: string | undefined | null) => {
+    return title
+      ? title.length >= 100
+        ? title.slice(0, 100) + '...'
+        : title
+      : t('form.competences.titleNotFound');
+  };
+
   return (
     <Fragment>
       <FormikFieldDescription description={t('form.competences.description')} />
@@ -136,8 +144,7 @@ const FormikCompetencesContent = ({
       {competences.map((competence, index) => (
         <FormPill
           id={index.toString()}
-          label={`${competence.code} - ${competence.title ||
-            t('form.competences.titleNotFound')}`}
+          label={`${competence.code} - ${isTitleTooLong(competence.title)}`}
           onClick={removeCompetence}
           key={index}
         />

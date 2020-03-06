@@ -1331,9 +1331,9 @@
     lodash "^4.17.14"
 
 "@ndla/howto@^0.1.79":
-  version "0.1.79"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.79.tgz#4729afffe6880ce3901589204af0608618c0ada7"
-  integrity sha512-eacZNDiNJwnabTfQhEJIhZvxJDLBt+7BltN9r8YR9l+SiVjpPErs+GLZhHo1qRl/qiUVGnr+jn6n9sgQZEm1QA==
+  version "0.1.80"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.80.tgz#c1a7f1c257f77fd7b547cf681e5956cbf5567572"
+  integrity sha512-lZRl8YQFzavaw2tT8E4LzUp1sz/3Vvdrqp7ep93lXdx/x8jXBARZ8bpr5s/unJEHg5SM0lu+emSoeePxSa8gug==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
@@ -1342,6 +1342,7 @@
     "@ndla/modal" "^0.4.6"
     "@ndla/tooltip" "^0.2.21"
     "@ndla/ui" "^0.27.14"
+    remarkable "^2.0.0"
 
 "@ndla/i18n@^0.4.2":
   version "0.4.2"

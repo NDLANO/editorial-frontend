@@ -50,9 +50,11 @@ const FormikCompetencesContent = ({
   const [competences, setCompetences] = useState<Competence[]>([]);
 
   const searchForCompetences = async (inp: string) => {
-    const result = await fetchCompetences(inp);
-    result.results = await convertCompetencesToObject(result.results);
-    return result;
+    if (inp) {
+      const result = await fetchCompetences(inp);
+      result.results = await convertCompetencesToObject(result.results);
+      return result;
+    } else return [];
   };
 
   useEffect(() => {

@@ -83,16 +83,18 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        {language === 'nb' && !supportedLanguages.includes('nn') && (
-          <Fragment>
-            <StyledSplitter />
-            <TranslateNbToNn
-              translateArticle={translateArticle}
-              setTranslating={setTranslating}
-              editUrl={editUrl}
-            />
-          </Fragment>
-        )}
+        {articleType &&
+          language === 'nb' &&
+          !supportedLanguages.includes('nn') && (
+            <Fragment>
+              <StyledSplitter />
+              <TranslateNbToNn
+                translateArticle={translateArticle}
+                setTranslating={setTranslating}
+                editUrl={editUrl}
+              />
+            </Fragment>
+          )}
         <DeleteLanguageVersion values={values} type={type} />
       </Fragment>
     );

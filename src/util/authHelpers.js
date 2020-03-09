@@ -126,7 +126,7 @@ export const getAccessTokenExpiresAt = () =>
 
 export const getAccessToken = () => localStorage.getItem('access_token');
 
-export const getAccesTokenNdlaId = () => ndlaId(getAccessToken());
+export const getNdlaId = () => ndlaId(getAccessToken());
 
 export const isAccessTokenValid = () =>
   new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds

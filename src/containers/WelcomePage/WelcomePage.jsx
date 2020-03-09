@@ -17,7 +17,7 @@ import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
-import { getAccesTokenNdlaId } from '../../util/authHelpers';
+import { getNdlaId } from '../../util/authHelpers';
 import { search } from '../../modules/search/searchApi';
 import LastUsedContent from './components/LastUsedContent';
 
@@ -38,7 +38,7 @@ export const WelcomePage = ({ locale, t }) => {
 
   const fetchLastUsed = async () => {
     const lastUsed = await search({
-      users: getAccesTokenNdlaId(),
+      users: getNdlaId(),
       sort: '-lastUpdated',
     });
     setLastUsed(lastUsed);

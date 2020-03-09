@@ -59,8 +59,8 @@ const LastUsedContent = ({ articleId, content, locale, t }) => {
         </a>
       ) : (
         <Link {...classes('link')} to={linkProps.to}>
-          {content.title.title} ({t('form.saved')}{' '}
-          {article && formatDate(article.created)})
+          {content.title.title} ({t('article.lastUpdated')}{' '}
+          {article && formatDate(article.updated)})
         </Link>
       )}
     </div>

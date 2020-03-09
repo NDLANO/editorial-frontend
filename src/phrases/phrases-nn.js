@@ -725,7 +725,7 @@ const phrases = {
     },
     competences: {
       label: 'Kompetansemål og kjerneelementer',
-      placeholder: 'Skriv inn kompetansemålkode',
+      placeholder: 'Skriv inn kode',
       description:
         'Skriv inn koder på formatet K(E/M) fulgt av eit eller fleire siffer. Eks. KE137, KM2255. Koder som ikkje eksisterer vil ikkje bli oppretta.',
     },

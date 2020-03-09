@@ -705,7 +705,7 @@ const phrases = {
     },
     competences: {
       label: 'Competences and core elements',
-      placeholder: 'Type competence code',
+      placeholder: 'Type code',
       description:
         'Type in codes using the format K(E/M) followed by one or more digits. Ex. KE137, KM2255. Non existing codes will not be created.',
     },

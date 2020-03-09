@@ -72,5 +72,5 @@ export const transformArticle = article => {
 };
 
 export const isCompetenceValid = competence => {
-  return !!competence.match(/^K(E|M|V)?\d+$/);
+  return !!competence.match(/^K(E|M)\d+$/);
 };

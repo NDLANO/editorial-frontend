@@ -715,8 +715,10 @@ const phrases = {
       searchPlaceholder: 'Søk etter nøkkelord',
     },
     competences: {
-      label: 'Kompetansemål',
-      placeholder: 'Skriv inn kompetansemålkode',
+      label: 'Kompetansemål og kjerneelementer',
+      placeholder: 'Skriv inn kode',
+      description:
+        'Skriv inn koder på formatet K(E/M) fulgt av ett eller flere siffer. Eks. KE137, KM2255. Koder som ikke finnes vil ikke bli opprettet.',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
@@ -899,7 +901,7 @@ const phrases = {
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
     competences:
-      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M/V) fulgt av ett eller flere siffer. Eks. K123, KE1337, KM2255, KV5432',
+      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) fulgt av ett eller flere siffer. Eks. KE137, KM2255',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',

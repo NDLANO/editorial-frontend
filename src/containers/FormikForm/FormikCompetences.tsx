@@ -7,17 +7,26 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-
+import { FormikActions, FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
 import FormikCompetencesContent from './FormikCompetencesContent';
+import { TranslateType, ArticleType } from '../../interfaces';
 
-const FormikCompetences = ({ t, article }) => {
+interface Props {
+  t: TranslateType;
+  article: ArticleType;
+  field: FieldProps<string[]>['field'];
+  form: {
+    setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
+  };
+}
+
+const FormikCompetences = ({ t, article }: Props) => {
   return (
     <Fragment>
       <FormikField name="competences" label={t('form.competences.label')}>
-        {({ field, form }) => (
+        {({ field, form }: Props) => (
           <FormikCompetencesContent
             t
             articleCompetences={article.competences}
@@ -28,12 +37,6 @@ const FormikCompetences = ({ t, article }) => {
       </FormikField>
     </Fragment>
   );
-};
-
-FormikCompetences.propTypes = {
-  article: PropTypes.shape({
-    competences: PropTypes.arrayOf(PropTypes.string),
-  }),
 };
 
 export default injectT(FormikCompetences);

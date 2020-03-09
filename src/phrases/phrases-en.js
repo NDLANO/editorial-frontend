@@ -559,6 +559,10 @@ const phrases = {
       helpLabel: 'What is a meta image?',
       add: 'Choose meta image',
     },
+    markdown: {
+      button: 'Click to view markdown',
+      helpLabel: 'What is markdown?',
+    },
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',

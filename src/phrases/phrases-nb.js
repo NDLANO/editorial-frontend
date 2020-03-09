@@ -577,6 +577,10 @@ const phrases = {
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
     },
+    markdown: {
+      button: 'Klikk for å se markdown',
+      helpLabel: 'Hva er markdown?',
+    },
     visualElement: {
       title: 'Visuelt element',
       label: 'Visuelt element',

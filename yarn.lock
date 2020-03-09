@@ -1331,9 +1331,9 @@
     lodash "^4.17.14"
 
 "@ndla/howto@^0.1.79":
-  version "0.1.79"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.79.tgz#4729afffe6880ce3901589204af0608618c0ada7"
-  integrity sha512-eacZNDiNJwnabTfQhEJIhZvxJDLBt+7BltN9r8YR9l+SiVjpPErs+GLZhHo1qRl/qiUVGnr+jn6n9sgQZEm1QA==
+  version "0.1.80"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.80.tgz#c1a7f1c257f77fd7b547cf681e5956cbf5567572"
+  integrity sha512-lZRl8YQFzavaw2tT8E4LzUp1sz/3Vvdrqp7ep93lXdx/x8jXBARZ8bpr5s/unJEHg5SM0lu+emSoeePxSa8gug==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
@@ -1342,6 +1342,7 @@
     "@ndla/modal" "^0.4.6"
     "@ndla/tooltip" "^0.2.21"
     "@ndla/ui" "^0.27.14"
+    remarkable "^2.0.0"
 
 "@ndla/i18n@^0.4.2":
   version "0.4.2"
@@ -2319,7 +2320,7 @@ are-we-there-yet@~1.1.2:
     delegates "^1.0.0"
     readable-stream "^2.0.6"
 
-argparse@^1.0.7:
+argparse@^1.0.10, argparse@^1.0.7:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
   integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
@@ -2554,6 +2555,13 @@ auth0-js@^9.11.3:
     superagent "^3.8.3"
     url-join "^4.0.1"
     winchan "^0.2.2"
+
+autolinker@^3.11.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-3.13.0.tgz#7a51244bb11bf75de89a48047919e93071e78f43"
+  integrity sha512-qlM0Su9lYYJ7lAth6xxB0rRdpS4FGmRboaghmM45Ud6ygGZa/TK/cbRAX6afvusJ79vyciy18QSKrWTM6cJHiw==
+  dependencies:
+    tslib "^1.9.3"
 
 autoprefixer@^7.1.1:
   version "7.2.6"
@@ -12262,6 +12270,14 @@ remark@^10.0.1:
     remark-parse "^6.0.0"
     remark-stringify "^6.0.0"
     unified "^7.0.0"
+
+remarkable@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/remarkable/-/remarkable-2.0.0.tgz#795f965bede8300362ce51a716edc322d9e7a4ca"
+  integrity sha512-3gvKFAgL4xmmVRKAMNm6UzDo/rO2gPVkZrWagp6AXEA4JvCcMcRx9aapYbb7AJAmLLvi/u06+EhzqoS7ha9qOg==
+  dependencies:
+    argparse "^1.0.10"
+    autolinker "^3.11.0"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"

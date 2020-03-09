@@ -40,9 +40,10 @@ const FormikCompetencesContent = ({
   const convertCompetencesToObject = async (competences: string[]) => {
     return Promise.all(
       competences.map(async c => {
+        const compTitle = await fetchCompetenceTitle(c);
         return {
           code: c,
-          title: await fetchCompetenceTitle(c),
+          title: compTitle ? `${c} - ${compTitle}` : c,
         };
       }),
     );
@@ -85,7 +86,7 @@ const FormikCompetencesContent = ({
         ...competences,
         {
           code: competence,
-          title: comp,
+          title: `${competence} - ${comp}`,
         },
       ];
       setCompetences(temp);
@@ -117,8 +118,8 @@ const FormikCompetencesContent = ({
 
   const isTitleTooLong = (title: string | undefined | null) => {
     return title
-      ? title.length >= 100
-        ? title.slice(0, 100) + '...'
+      ? title.length >= 110
+        ? `${title.slice(0, 110)}...`
         : title
       : '';
   };
@@ -127,9 +128,9 @@ const FormikCompetencesContent = ({
     <Fragment>
       <FormikFieldDescription description={t('form.competences.description')} />
       <AsyncDropdown
-        idField="code"
+        idField="title"
         name="CompetencesSearch"
-        labelField="code"
+        labelField="title"
         placeholder={t('form.competences.placeholder')}
         label="label"
         apiAction={searchForCompetences}
@@ -141,12 +142,14 @@ const FormikCompetencesContent = ({
         onCreate={createNewCompetence}
         onKeyDown={onKeyDown}
         clearInputField
+        customCreateButtonText="Legg til kode"
+        hideTotalSearchCount
       />
 
       {competences.map((competence, index) => (
         <FormPill
           id={index.toString()}
-          label={`${competence.code} - ${isTitleTooLong(competence.title)}`}
+          label={isTitleTooLong(competence.title)}
           onClick={removeCompetence}
           key={index}
         />

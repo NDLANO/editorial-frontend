@@ -124,6 +124,8 @@ class AsyncDropDown extends React.Component {
       onKeyDown,
       removeItem,
       clearInputField,
+      customCreateButtonText,
+      hideTotalSearchCount,
       ...rest
     } = this.props;
 
@@ -178,6 +180,8 @@ class AsyncDropDown extends React.Component {
                 totalCount={this.state.totalCount}
                 positionAbsolute={positionAbsolute}
                 onCreate={onCreate && handleCreate}
+                customCreateButtonText={customCreateButtonText}
+                hideTotalSearchCount={hideTotalSearchCount}
               />
             </div>
           );
@@ -205,6 +209,8 @@ AsyncDropDown.propTypes = {
   children: PropTypes.node,
   removeItem: PropTypes.func,
   clearInputField: PropTypes.bool,
+  customCreateButtonText: PropTypes.string,
+  hideTotalSearchCount: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {

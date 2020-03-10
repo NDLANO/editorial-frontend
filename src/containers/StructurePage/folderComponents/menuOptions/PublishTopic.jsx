@@ -13,14 +13,29 @@ import { Done } from '@ndla/icons/editor';
 
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
-import { updateStatusDraft } from '../../../../modules/draft/draftApi';
+import { fetchDraft, updateStatusDraft } from '../../../../modules/draft/draftApi';
+import { fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 
-const PublishTopic = ({ t, contentUri }) => {
-  const articleId = contentUri.split(':').pop();
+const PublishTopic = ({ t, id, contentUri }) => {
   const publishTopic = () => {
-    updateStatusDraft(articleId, PUBLISHED)
+    publishResource(contentUri);
+    fetchTopicResources(id).then(
+      response => response.forEach(resource => {
+        publishResource(resource.contentUri);
+      })
+    )
   }
+
+  const publishResource = (contentUri) => {
+    const articleId = contentUri.split(':').pop();
+    fetchDraft(articleId).then(article => {
+      if (article.status.current !== PUBLISHED) {
+        updateStatusDraft(articleId, PUBLISHED);
+      }
+    })
+  }
+
   return (
     <MenuItemButton stripped onClick={publishTopic} >
       <RoundIcon small icon={<Done />} />
@@ -30,6 +45,7 @@ const PublishTopic = ({ t, contentUri }) => {
 }
 
 PublishTopic.propTypes = {
+  id: PropTypes.string.isRequired,
   contentUri: PropTypes.string.isRequired,
 }
 

@@ -54,7 +54,7 @@ export class MultiSelectDropdown extends Component {
           const string = labelField
             ? potentialResult[labelField]
             : potentialResult;
-          return string.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+          return string.toLowerCase().startsWith(value.toLowerCase());
         }),
       });
     } else {

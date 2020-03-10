@@ -930,6 +930,7 @@ const phrases = {
     connectFilters: 'Connect filters',
     confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
+    publishAll: 'Publish all',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',

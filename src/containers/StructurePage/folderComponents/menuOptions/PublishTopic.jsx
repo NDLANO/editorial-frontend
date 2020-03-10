@@ -39,7 +39,7 @@ const PublishTopic = ({ t, id, contentUri }) => {
   return (
     <MenuItemButton stripped onClick={publishTopic} >
       <RoundIcon small icon={<Done />} />
-      {'Publiser emne'}
+      {t('taxonomy.publishAll')}
     </MenuItemButton>
   )
 }

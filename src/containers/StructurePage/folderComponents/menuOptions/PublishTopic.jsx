@@ -19,15 +19,15 @@ import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 
 const PublishTopic = ({ t, id, contentUri }) => {
   const publishTopic = () => {
-    publishResource(contentUri);
+    publishArticle(contentUri);
     fetchTopicResources(id).then(
       response => response.forEach(resource => {
-        publishResource(resource.contentUri);
+        publishArticle(resource.contentUri);
       })
     )
   }
 
-  const publishResource = (contentUri) => {
+  const publishArticle = (contentUri) => {
     const articleId = contentUri.split(':').pop();
     fetchDraft(articleId).then(article => {
       if (article.status.current !== PUBLISHED) {

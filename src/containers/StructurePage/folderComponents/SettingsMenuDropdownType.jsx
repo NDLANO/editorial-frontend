@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddTopic from './menuOptions/AddTopic';
 import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
@@ -38,7 +37,6 @@ const SettingsMenuDropdownType = ({
     case 'topic':
       return (
         <>
-          {false && <AddTopic {...rest} />}
           <PublishTopic {...rest} />
           <ConnectFilterOption {...rest} />
           {showAllOptions && (

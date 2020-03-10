@@ -1,11 +1,11 @@
-import { Value } from 'slate';
+import Editor from 'slate';
 
 export interface Values {
   id: number;
   revision: number;
   title: string;
-  introduction: Value;
-  content: Value;
+  introduction: Editor.Node;
+  content: Editor.Node;
   tags: Array<string>;
   creators: string;
   processors: string;

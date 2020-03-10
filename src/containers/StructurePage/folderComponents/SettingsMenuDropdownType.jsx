@@ -15,6 +15,7 @@ import ChangeSubjectName from './menuOptions/ChangeSubjectName';
 import EditFilterOption from './menuOptions/EditFilterOption';
 import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
+import PublishTopic from './menuOptions/PublishTopic';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -38,6 +39,7 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           {false && <AddTopic {...rest} />}
+          <PublishTopic {...rest} />
           <ConnectFilterOption {...rest} />
           {showAllOptions && (
             <>

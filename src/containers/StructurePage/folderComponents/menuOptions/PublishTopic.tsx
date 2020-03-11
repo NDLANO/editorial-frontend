@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
@@ -16,20 +16,30 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { fetchDraft, updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
+import { ArticleType, TranslateType} from '../../../../interfaces';
 
-const PublishTopic = ({ t, id, contentUri }) => {
+interface Props {
+  t: TranslateType,
+  id: string,
+  contentUri: string,
+}
+
+const PublishTopic = ({t, id, contentUri}: Props) => {
+  const [showAlert, setShowAlert] = useState(false);
+
   const publishTopic = () => {
     publishArticle(contentUri);
     fetchTopicResources(id).then(
-      response => response.forEach(resource => {
-        publishArticle(resource.contentUri);
+      (articles: ArticleType[]) => articles.forEach(article => {
+        publishArticle(article.contentUri);
       })
     )
+    setShowAlert(true);
   }
 
-  const publishArticle = (contentUri) => {
+  const publishArticle = (contentUri: string) => {
     const articleId = contentUri.split(':').pop();
-    fetchDraft(articleId).then(article => {
+    fetchDraft(articleId).then((article: ArticleType) => {
       if (article.status.current !== PUBLISHED) {
         updateStatusDraft(articleId, PUBLISHED);
       }
@@ -37,10 +47,12 @@ const PublishTopic = ({ t, id, contentUri }) => {
   }
 
   return (
-    <MenuItemButton stripped onClick={publishTopic} >
-      <RoundIcon small icon={<Done />} />
-      {t('taxonomy.publishAll')}
-    </MenuItemButton>
+    <Fragment>
+      <MenuItemButton stripped onClick={publishTopic} >
+        <RoundIcon small icon={<Done />} />
+        {t('taxonomy.publishAll')}
+      </MenuItemButton>
+    </Fragment>
   )
 }
 

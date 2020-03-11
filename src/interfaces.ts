@@ -63,6 +63,11 @@ export interface ArticleType {
   updatedBy: string;
   articleType: string;
   created: string;
+  contentUri: string;
+  status: {
+    current: string,
+    other: string[],
+  }
   requiredLibraries: [
     {
       mediaType: string;

@@ -105,7 +105,7 @@ class SearchContainer extends Component {
           locale={locale}
           subjects={this.state.subjects}
         />
-        {type === 'content' && (
+        {(type === 'content' || type === 'concept') && (
           <SearchSort
             location={location}
             onSortOrderChange={this.onSortOrderChange}

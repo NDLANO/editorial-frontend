@@ -22,7 +22,4 @@ export default handleActions(
 
 const getLocaleFromState = state => state.locale;
 
-export const getLocale = createSelector(
-  [getLocaleFromState],
-  locale => locale,
-);
+export const getLocale = createSelector([getLocaleFromState], locale => locale);

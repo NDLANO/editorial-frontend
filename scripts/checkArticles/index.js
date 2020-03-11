@@ -108,9 +108,7 @@ async function fetchAllArticles(url) {
   );
 
   console.log(
-    `Fetching ${numberOfPages} pages with a page size of ${
-      query['page-size']
-    }. Estimated time is ${estimatedTime} minutes`,
+    `Fetching ${numberOfPages} pages with a page size of ${query['page-size']}. Estimated time is ${estimatedTime} minutes`,
   );
 
   for (let i = 1; i < numberOfPages + 1; i += 1) {

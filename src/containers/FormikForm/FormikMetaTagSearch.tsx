@@ -14,7 +14,7 @@ import { AsyncDropdown } from '../../components/Dropdown';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
 import { TranslateType } from '../../interfaces';
 
-interface props {
+interface Props {
   t: TranslateType;
   locale: string;
   initTags: string[];
@@ -24,16 +24,16 @@ interface props {
   };
 }
 
-interface asyncDropdownProps {
-  selectedItems: tagWithTitle[];
+interface AsyncDropdownProps {
+  selectedItems: TagWithTitle[];
   removeItem: (tag: string) => void;
 }
 
-interface tagWithTitle {
+interface TagWithTitle {
   title: string;
 }
 
-const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: props) => {
+const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: Props) => {
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]): object[] => {
     return tagsWithoutTitle.map(c => ({ title: c }));
   };
@@ -46,7 +46,7 @@ const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: props) => {
     return result;
   };
 
-  const updateFormik = (formikField: props['field'], newData: string[]) => {
+  const updateFormik = (formikField: Props['field'], newData: string[]) => {
     formikField.onChange({
       target: {
         name: formikField.name,
@@ -55,7 +55,7 @@ const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: props) => {
     });
   };
 
-  const addTag = (tag: tagWithTitle) => {
+  const addTag = (tag: TagWithTitle) => {
     if (tag && !tags.includes(tag.title)) {
       const temp = [...tags, tag.title];
       setTags(temp);
@@ -86,7 +86,7 @@ const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: props) => {
     }
   };
 
-  const AsyncDropdownInput = (props: asyncDropdownProps) => {
+  const AsyncDropdownInput = (props: AsyncDropdownProps) => {
     return (
       <DropdownInput
         multiSelect
@@ -116,7 +116,7 @@ const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: props) => {
         onCreate={createNewTag}
         onKeyDown={onKeyDown}
         removeItem={removeTag}>
-        {(props: asyncDropdownProps) => <AsyncDropdownInput {...props} />}
+        {(props: AsyncDropdownProps) => <AsyncDropdownInput {...props} />}
       </AsyncDropdown>
     </Fragment>
   );

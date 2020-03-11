@@ -31,6 +31,10 @@ export function apiResourceUrl(path) {
   return apiBaseUrl + path;
 }
 
+export function grepUrl(path = '') {
+  return 'https://data.udir.no/kl06/v201906' + path;
+}
+
 export function brightcoveApiResourceUrl(path) {
   return config.brightcoveApiUrl + path;
 }

@@ -9,11 +9,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { Remarkable } from 'remarkable';
+
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-const FormikIngress = ({ t, name, maxLength, placeholder }) => (
+const md = new Remarkable();
+md.inline.ruler.enable(['sub', 'sup']);
+
+const FormikIngress = ({
+  t,
+  name,
+  maxLength,
+  placeholder,
+  preview = false,
+}) => (
   <StyledFormContainer>
     <FormikField
       noBorder
@@ -21,15 +32,23 @@ const FormikIngress = ({ t, name, maxLength, placeholder }) => (
       name={name}
       showMaxLength
       maxLength={maxLength}>
-      {({ field }) => (
-        <PlainTextEditor
-          id={field.name}
-          {...field}
-          placeholder={placeholder || t('form.introduction.label')}
-          className="article_introduction"
-          data-cy="learning-resource-ingress"
-        />
-      )}
+      {({ field }) =>
+        preview ? (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: md.render(field.value.document.text),
+            }}
+          />
+        ) : (
+          <PlainTextEditor
+            id={field.name}
+            {...field}
+            placeholder={placeholder || t('form.introduction.label')}
+            className="article_introduction"
+            data-cy="learning-resource-ingress"
+          />
+        )
+      }
     </FormikField>
   </StyledFormContainer>
 );
@@ -45,6 +64,7 @@ FormikIngress.propTypes = {
   maxLength: PropTypes.number,
   type: PropTypes.string,
   placeholder: PropTypes.string,
+  preview: PropTypes.bool,
 };
 
 export default injectT(FormikIngress);

@@ -19,7 +19,7 @@ const ConceptTags = ({ t, locale, concept, field, form }) => {
     return tagsWithoutTitle.map(c => ({ title: c }));
   };
 
-  const [tags, setTags] = useState(concept.tags);
+  const [tags, setTags] = useState(concept.tags || []);
 
   const searchForTags = async inp => {
     const result = await fetchSearchTags(inp, locale);

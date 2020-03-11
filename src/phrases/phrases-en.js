@@ -559,6 +559,10 @@ const phrases = {
       helpLabel: 'What is a meta image?',
       add: 'Choose meta image',
     },
+    markdown: {
+      button: 'Click to view markdown',
+      helpLabel: 'What is markdown?',
+    },
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
@@ -700,8 +704,10 @@ const phrases = {
       searchPlaceholder: 'Search for tags',
     },
     competences: {
-      label: 'Competences',
-      placeholder: 'Type competence code',
+      label: 'Competences and core elements',
+      placeholder: 'Type code',
+      description:
+        'Type in codes using the format K(E/M) followed by one or more digits. Ex. KE137, KM2255. Non existing codes will not be created.',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -875,7 +881,7 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
     competences:
-      'Competences are in the wrong format. The correct format is K(E/M/V) followed by one or more digits. Ex. K123, KE1337, KM2255, KV5432',
+      'Competences are in the wrong format. The correct format is K(E/M) followed by one or more digits. Ex. KE137, KM2255.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

@@ -32,6 +32,7 @@ const ConceptMetaData = ({ t, subjects, locale, concept }) => (
         <MultiSelectDropdown
           idField="id"
           labelField="name"
+          minSearchLength={1}
           data={subjects}
           {...field}
         />

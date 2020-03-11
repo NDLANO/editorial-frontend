@@ -13,6 +13,11 @@ export interface TranslateType {
   ): string;
 }
 
+interface Status {
+  current: string;
+  other: string[];
+}
+
 export interface ArticleType {
   id: number;
   title: string;
@@ -49,6 +54,12 @@ export interface ArticleType {
         name: string;
       },
     ];
+    creators: [
+      {
+        type: string;
+        name: string;
+      },
+    ];
   };
   metaImage: {
     url: string;
@@ -58,7 +69,6 @@ export interface ArticleType {
   oldNdlaUrl: string;
   revision: number;
   updated: string;
-  content: string;
   supportedLanguages: string[];
   updatedBy: string;
   articleType: string;
@@ -70,4 +80,26 @@ export interface ArticleType {
       name: string;
     },
   ];
+  notes: [
+    {
+      note: string;
+      user: string;
+      status: Status;
+      timestamp: string;
+    },
+  ];
+  taxonomy: {
+    topics: [
+      {
+        id: string;
+        name: string;
+        contentUri: string;
+        path: string;
+        paths: string[];
+      },
+    ];
+  };
+  status: Status;
+  content: string;
+  competences: string[];
 }

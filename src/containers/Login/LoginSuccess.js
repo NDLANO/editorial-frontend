@@ -49,7 +49,4 @@ LoginSuccess.propTypes = {
 const mapDispatchToProps = {
   loginSuccess: actions.loginSuccess,
 };
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(LoginSuccess);
+export default connect(undefined, mapDispatchToProps)(LoginSuccess);

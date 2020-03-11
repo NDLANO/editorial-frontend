@@ -24,7 +24,7 @@ const FormikMetadata = ({ t, article, locale }) => (
       description={t('form.tags.description')}>
       {({ field, form }) => (
         <FormikMetaTagSearch
-          initTags={article.tags}
+          initTags={article.tags || []}
           locale={locale}
           field={field}
           form={form}

@@ -129,8 +129,5 @@ const mapDispatchToProps = {
 };
 
 export default injectT(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AgreementPage),
+  connect(mapStateToProps, mapDispatchToProps)(AgreementPage),
 );

@@ -189,9 +189,7 @@ app.post('/csp-report', (req, res) => {
   const { body } = req;
   if (body && body['csp-report']) {
     const cspReport = body['csp-report'];
-    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${
-      cspReport['violated-directive']
-    }`;
+    const errorMessage = `Refused to load the resource because it violates the following Content Security Policy directive: ${cspReport['violated-directive']}`;
     errorLogger.error(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
   } else {

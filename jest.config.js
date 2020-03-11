@@ -12,4 +12,9 @@ module.exports = {
   moduleNameMapper: {
     '\\.css$': 'identity-obj-proxy',
   },
+  globals: {
+    'ts-jest': {
+      babelConfig: true,
+    }
+  },
 };

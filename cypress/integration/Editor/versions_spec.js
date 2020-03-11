@@ -10,7 +10,7 @@ import { visitOptions, setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 // change article ID and run cy-record to add the new fixture data
-const ARTICLE_ID = 533;
+const ARTICLE_ID = 532;
 
 describe('Workflow features', () => {
   beforeEach(() => {

@@ -93,8 +93,5 @@ const mapStateToProps = (state, props) => {
 };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(CreateImage),
+  connect(mapStateToProps, mapDispatchToProps)(CreateImage),
 );

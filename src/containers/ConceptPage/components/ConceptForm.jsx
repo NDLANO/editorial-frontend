@@ -397,8 +397,5 @@ const mapDispatchToProps = {
 export default compose(
   injectT,
   withRouter,
-  connect(
-    undefined,
-    mapDispatchToProps,
-  ),
+  connect(undefined, mapDispatchToProps),
 )(ConceptForm);

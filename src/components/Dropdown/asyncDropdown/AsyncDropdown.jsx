@@ -93,7 +93,7 @@ class AsyncDropDown extends React.Component {
       });
       onChange(selectedItem);
     }
-    if (this.props.children) {
+    if (this.props.children || this.props.clearInputField) {
       this.setState({ inputValue: '' });
     }
   }
@@ -123,6 +123,9 @@ class AsyncDropDown extends React.Component {
       onCreate,
       onKeyDown,
       removeItem,
+      clearInputField,
+      customCreateButtonText,
+      hideTotalSearchCount,
       ...rest
     } = this.props;
 
@@ -137,7 +140,7 @@ class AsyncDropDown extends React.Component {
 
     const handleCreate = () => {
       onCreate(this.state.inputValue);
-      if (children) {
+      if (children || clearInputField) {
         this.setState({ inputValue: '' });
       }
     };
@@ -177,6 +180,8 @@ class AsyncDropDown extends React.Component {
                 totalCount={this.state.totalCount}
                 positionAbsolute={positionAbsolute}
                 onCreate={onCreate && handleCreate}
+                customCreateButtonText={customCreateButtonText}
+                hideTotalSearchCount={hideTotalSearchCount}
               />
             </div>
           );
@@ -203,6 +208,9 @@ AsyncDropDown.propTypes = {
   onKeyDown: PropTypes.func,
   children: PropTypes.node,
   removeItem: PropTypes.func,
+  clearInputField: PropTypes.bool,
+  customCreateButtonText: PropTypes.string,
+  hideTotalSearchCount: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {

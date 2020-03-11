@@ -1313,14 +1313,14 @@
     "@ndla/util" "^0.3.6"
     raven-js "^3.22.3"
 
-"@ndla/forms@^0.3.71":
-  version "0.3.71"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.71.tgz#aa89451f94c541f8cc99c254160d3a0e5a84cc8e"
-  integrity sha512-F2ISaEVIqj6rZpocNAycTqD1EiReB/f4QVGL7CR6FHTPZR7nPYrCfNg1s5O72FohZKCOChMpUJPA9F88NyTbRw==
+"@ndla/forms@^0.3.73":
+  version "0.3.73"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.73.tgz#bb08e63875b5bf7822762bca51ce396e9085381a"
+  integrity sha512-dM6FqDkMdW63lv3aVAvi/EP9whSM0xQ/h/Ckmv7yvUpSXWOzusOOd6iP36ZxohOmaPcw2d+03Y3Q6zpri2pNRw==
   dependencies:
     "@ndla/core" "^0.6.21"
     "@ndla/icons" "^0.6.21"
-    "@ndla/ui" "^0.27.14"
+    "@ndla/ui" "^0.27.15"
 
 "@ndla/hooks@^0.1.7":
   version "0.1.7"
@@ -1330,10 +1330,10 @@
     "@ndla/util" "^0.3.6"
     lodash "^4.17.14"
 
-"@ndla/howto@^0.1.79":
-  version "0.1.79"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.79.tgz#4729afffe6880ce3901589204af0608618c0ada7"
-  integrity sha512-eacZNDiNJwnabTfQhEJIhZvxJDLBt+7BltN9r8YR9l+SiVjpPErs+GLZhHo1qRl/qiUVGnr+jn6n9sgQZEm1QA==
+"@ndla/howto@^0.1.81":
+  version "0.1.81"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.81.tgz#57dbf0665c4d3febc820db0b8c5de7b827c1b642"
+  integrity sha512-gYqtKxWW/5OnYEuiMaOxbYyV1qwKgI9IU+PDnnwTXbi4FejHPvfR1KgX82S73VnGTSs1+rfBVq3o9IG+vj0idQ==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
@@ -1341,7 +1341,8 @@
     "@ndla/licenses" "^0.6.22"
     "@ndla/modal" "^0.4.6"
     "@ndla/tooltip" "^0.2.21"
-    "@ndla/ui" "^0.27.14"
+    "@ndla/ui" "^0.27.15"
+    remarkable "^2.0.0"
 
 "@ndla/i18n@^0.4.2":
   version "0.4.2"
@@ -1368,14 +1369,14 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.21.tgz#8b7bb4b6d37df8142c913fd3a07e76a99243db55"
   integrity sha512-/sFafIWWRsjr7aWkSn3AZaJe1pkSyiSbwTrcFVqu9VbSevXabKGS3VeoaKocBbJvBC3f5uXAT07xni0uWP9chQ==
 
-"@ndla/image-search@^0.8.73":
-  version "0.8.73"
-  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.73.tgz#742e0bfdb02fe8c3be0546d14cf4e26e6a01af14"
-  integrity sha512-xPLVy92M5wyhe8ZcH5KOsdVjmQWRNCVDpsb05C8mOoDLgGNbeK17YPRtwYPyzQTP9rl5RCe9t0Nl7Cgfffoakw==
+"@ndla/image-search@^0.8.75":
+  version "0.8.75"
+  resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-0.8.75.tgz#ba5e390cf41e64c089c65c04d897c562321f3437"
+  integrity sha512-8fal9JnTkQxCMa8Ecx52cCvT8TzczejjYSAUI3yA2BxvftKg7AoE7eaq8LOKJKUkTfI8mfwx+6QuWJpQW/o6AQ==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/core" "^0.6.21"
-    "@ndla/forms" "^0.3.71"
+    "@ndla/forms" "^0.3.73"
     "@ndla/licenses" "^0.6.22"
     "@ndla/util" "^0.3.6"
 
@@ -1467,10 +1468,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.27.14":
-  version "0.27.14"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.14.tgz#fa995857d959fec13d732202e5538b0366382927"
-  integrity sha512-p0nunxexus2Da9WpddsNv54XaD/B/LBNom02xTb802UXadp6mtBciyF1TKagu0qYco85Trp1+DNJR4+Xp+f0LA==
+"@ndla/ui@^0.27.15":
+  version "0.27.15"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.27.15.tgz#4c00e0d68a189ee2cd1b7ab1cbae08e55cd751db"
+  integrity sha512-g1HKxNyva0fdSnsH77nWlRyUpElrsZX5t80+sYRBy9Wq7T/TlXbQdrf18uqkGkuphliELTVOsVb+5fHE38H8XQ==
   dependencies:
     "@ndla/button" "^0.3.22"
     "@ndla/carousel" "^0.3.20"
@@ -2319,7 +2320,7 @@ are-we-there-yet@~1.1.2:
     delegates "^1.0.0"
     readable-stream "^2.0.6"
 
-argparse@^1.0.7:
+argparse@^1.0.10, argparse@^1.0.7:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
   integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
@@ -2554,6 +2555,13 @@ auth0-js@^9.11.3:
     superagent "^3.8.3"
     url-join "^4.0.1"
     winchan "^0.2.2"
+
+autolinker@^3.11.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-3.13.0.tgz#7a51244bb11bf75de89a48047919e93071e78f43"
+  integrity sha512-qlM0Su9lYYJ7lAth6xxB0rRdpS4FGmRboaghmM45Ud6ygGZa/TK/cbRAX6afvusJ79vyciy18QSKrWTM6cJHiw==
+  dependencies:
+    tslib "^1.9.3"
 
 autoprefixer@^7.1.1:
   version "7.2.6"
@@ -8584,7 +8592,7 @@ lodash.isstring@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
 
-lodash.memoize@^4.1.2:
+lodash.memoize@4.x, lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
 
@@ -11167,10 +11175,10 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.18.2:
-  version "1.18.2"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
-  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
+prettier@^1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
+  integrity sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
 
 pretty-format@^23.6.0:
   version "23.6.0"
@@ -12262,6 +12270,14 @@ remark@^10.0.1:
     remark-parse "^6.0.0"
     remark-stringify "^6.0.0"
     unified "^7.0.0"
+
+remarkable@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/remarkable/-/remarkable-2.0.0.tgz#795f965bede8300362ce51a716edc322d9e7a4ca"
+  integrity sha512-3gvKFAgL4xmmVRKAMNm6UzDo/rO2gPVkZrWagp6AXEA4JvCcMcRx9aapYbb7AJAmLLvi/u06+EhzqoS7ha9qOg==
+  dependencies:
+    argparse "^1.0.10"
+    autolinker "^3.11.0"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
@@ -13929,20 +13945,21 @@ trough@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/trough/-/trough-1.0.2.tgz#7f1663ec55c480139e2de5e486c6aef6cc24a535"
 
-ts-jest@^24.0.2:
-  version "24.0.2"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-24.0.2.tgz#8dde6cece97c31c03e80e474c749753ffd27194d"
-  integrity sha512-h6ZCZiA1EQgjczxq+uGLXQlNgeg02WWJBbeT8j6nyIBRQdglqbvzDoHahTEIiS6Eor6x8mK6PfZ7brQ9Q6tzHw==
+ts-jest@^25.2.1:
+  version "25.2.1"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-25.2.1.tgz#49bf05da26a8b7fbfbc36b4ae2fcdc2fef35c85d"
+  integrity sha512-TnntkEEjuXq/Gxpw7xToarmHbAafgCaAzOpnajnFC6jI7oo1trMzAHA04eWpc3MhV6+yvhE8uUBAmN+teRJh0A==
   dependencies:
     bs-logger "0.x"
     buffer-from "1.x"
     fast-json-stable-stringify "2.x"
     json5 "2.x"
+    lodash.memoize "4.x"
     make-error "1.x"
     mkdirp "0.x"
     resolve "1.x"
     semver "^5.5"
-    yargs-parser "10.x"
+    yargs-parser "^16.1.0"
 
 ts-loader@^5.2.1:
   version "5.4.5"
@@ -14019,10 +14036,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.3.tgz#c830f657f93f1ea846819e929092f5fe5983e977"
-  integrity sha512-ACzBtm/PhXBDId6a6sDJfroT2pOWt/oOnk4/dElG5G33ZL776N3Y6/6bKZJBFpd+b05F3Ct9qDjMeJmRWtE2/g==
+typescript@^3.8.3:
+  version "3.8.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
+  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
@@ -14755,7 +14772,7 @@ yallist@^3.0.0, yallist@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.3.tgz#b4b049e314be545e3ce802236d6cd22cd91c3de9"
 
-yargs-parser@10.x, yargs-parser@^10.0.0:
+yargs-parser@^10.0.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-10.1.0.tgz#7202265b89f7e9e9f2e5765e0fe735a905edbaa8"
   dependencies:
@@ -14773,6 +14790,14 @@ yargs-parser@^13.1.1:
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-13.1.1.tgz#d26058532aa06d365fe091f6a1fc06b2f7e5eca0"
   integrity sha512-oVAVsHz6uFrg3XQheFII8ESO2ssAf9luWuAd6Wexsu4F3OtIW0o8IribPXYrD4WC24LWtPrJlGy87y5udK+dxQ==
+  dependencies:
+    camelcase "^5.0.0"
+    decamelize "^1.2.0"
+
+yargs-parser@^16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-16.1.0.tgz#73747d53ae187e7b8dbe333f95714c76ea00ecf1"
+  integrity sha512-H/V41UNZQPkUMIT5h5hiwg4QKIY1RPvoBV4XcjUbRM8Bk2oKqqyZ0DIEbTFZB0XjbtSPG8SAa/0DxCQmiRgzKg==
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"

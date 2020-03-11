@@ -34,8 +34,10 @@ import { fetchNrkMedia } from './visualElementApi';
 
 const filterWhiteListedURL = url => {
   const domain = urlDomain(url);
-  const [isWhiteListedURL] = EXTERNAL_WHITELIST_PROVIDERS.filter(
-    filteredProvider => filteredProvider.url.includes(domain),
+  const [
+    isWhiteListedURL,
+  ] = EXTERNAL_WHITELIST_PROVIDERS.filter(filteredProvider =>
+    filteredProvider.url.includes(domain),
   );
   return isWhiteListedURL;
 };

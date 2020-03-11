@@ -7,7 +7,12 @@ export const conf = {
   comments: {
     blockComment: ['<!--', '-->'],
   },
-  brackets: [['<!--', '-->'], ['<', '>'], ['{', '}'], ['(', ')']],
+  brackets: [
+    ['<!--', '-->'],
+    ['<', '>'],
+    ['{', '}'],
+    ['(', ')'],
+  ],
   autoClosingPairs: [
     { open: '{', close: '}' },
     { open: '[', close: ']' },

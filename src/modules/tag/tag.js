@@ -43,13 +43,10 @@ export default handleActions(
 const getTagsFromState = state => state.tags.all;
 
 export const getAllTagsByLanguage = language =>
-  createSelector(
-    [getTagsFromState],
-    tags => {
-      const languageTags = defined(tags[language], {});
-      return defined(languageTags.tags, []);
-    },
-  );
+  createSelector([getTagsFromState], tags => {
+    const languageTags = defined(tags[language], {});
+    return defined(languageTags.tags, []);
+  });
 
 export const getHasFetched = (state, language) =>
   state.tags.all[language] ? state.tags.all[language].hasFetched : false;

@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import { Node, Text } from 'slate';
+import { Element, Node, Text } from 'slate';
 
 const serializeNodeToPlain = (nodes: Node[]): string => {
   return nodes.map(n => Node.string(n)).join('\n');
@@ -27,4 +27,13 @@ const serializeNodeToHtml = (node: Node): string => {
     default:
       return children
   }
+}
+
+interface Rule {
+  deserialize: (el: Element) => any;
+  serialize: (obj: Node, children: Node[]) => any;
+}
+
+export const Html = (rule: Rule) => {
+
 }

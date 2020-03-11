@@ -930,7 +930,6 @@ const phrases = {
     connectFilters: 'Connect filters',
     confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
-    publishAll: 'Publish all',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
@@ -942,6 +941,11 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    publish: {
+      button: 'Publish all',
+      waiting: 'Publishing resourses',
+      done: 'All resources are published',
+    },
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',

@@ -946,7 +946,6 @@ const phrases = {
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',
-    publishAll: 'Publiser alt',
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
@@ -956,6 +955,11 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    publish: {
+      button: 'Publiser alt',
+      waiting: 'Publiserar ressurser',
+      done: 'Alle ressurser er publisert',
+    },
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',

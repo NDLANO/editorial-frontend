@@ -221,7 +221,7 @@ class SlateBlockPicker extends Component {
           />
         </Portal>
         <Portal isOpened>
-          <div ref={this.slateBlockRef}>
+          <div cy="slate-block-picker-button" ref={this.slateBlockRef}>
             <SlateBlockMenu
               ref={this.slateBlockButtonRef}
               cy="slate-block-picker"

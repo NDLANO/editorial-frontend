@@ -155,4 +155,40 @@ describe('Learning resource editing', () => {
         });
       });
   });
+
+  it('Navigate around SlateBlockPicker', () => {
+    const beforeEach = () => {
+      cy.get('[data-slate-object=block] > p').first().click();
+      cy.get('[cy="slate-block-picker-button"]').should('have.css', 'z-index', '10');
+      cy.get('[data-cy=slate-block-picker]').click();
+    };
+
+    const afterEach = () => {
+      cy.get('[cy="slate-block-picker-button"]').should('have.css', 'z-index', '-1');
+      cy.get('[data-cy="learning-resource-title"]').click();
+    };
+
+    beforeEach();
+    cy.get('[data-cy=create-factAside]').click();
+    cy.get('[data-cy=remove-fact-aside]').click();
+    afterEach();
+
+    beforeEach();
+    cy.get('[data-cy=create-table]').click();
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]').focus();
+    cy.get('[data-cy=table-remove]').click();
+    afterEach();
+
+    beforeEach();
+    cy.get('[data-cy=create-bodybox]').click();
+    cy.get('[data-cy="remove-bodybox"]').click();
+    afterEach();
+
+    beforeEach();
+    cy.get('[data-cy=create-details]')
+      .last()
+      .click();
+    afterEach();
+
+  });
 });

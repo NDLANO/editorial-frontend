@@ -5,7 +5,6 @@ import { injectT } from '@ndla/i18n';
 import {
   ArticleType,
   ContentResultType,
-  ResourceType,
   TranslateType,
 } from '../../../interfaces';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
@@ -26,9 +25,7 @@ interface Props {
 }
 
 const LastUsedContent: FC<Props> = ({ articleId, content, locale, t }) => {
-  const { contexts } = content;
-
-  const [article, setArticle] = useState<ArticleType | undefined>(undefined);
+  const [article, setArticle] = useState<ArticleType>();
 
   const fetchArticle = async (articleId: number, locale: string) => {
     const article = await fetchDraft(articleId, locale);
@@ -41,20 +38,26 @@ const LastUsedContent: FC<Props> = ({ articleId, content, locale, t }) => {
     }
   }, []);
 
-  let resourceType: ResourceType | any = {};
-  if (contexts[0]?.resourceTypes?.length) {
-    resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
-  } else {
-    if (isLearningpath(content.url)) {
-      resourceType = getContentTypeFromResourceTypes([
-        { id: RESOURCE_TYPE_LEARNING_PATH },
-      ]);
+  const getResourceType = () => {
+    const resourceTypes =
+      content.contexts?.find(context => context.resourceTypes)?.resourceTypes ||
+      [];
+
+    if (resourceTypes.length) {
+      return getContentTypeFromResourceTypes(resourceTypes);
+    } else {
+      if (isLearningpath(content.url)) {
+        return getContentTypeFromResourceTypes([
+          { id: RESOURCE_TYPE_LEARNING_PATH },
+        ]);
+      }
+      return {};
     }
-  }
+  };
 
   const linkProps = resourceToLinkProps(
     content,
-    resourceType.contentType,
+    getResourceType().contentType,
     locale,
   );
 

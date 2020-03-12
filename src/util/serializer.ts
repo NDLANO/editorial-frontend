@@ -1,11 +1,11 @@
 import escapeHtml from 'escape-html';
 import { Element, Node, Text } from 'slate';
 
-const serializeNodeToPlain = (nodes: Node[]): string => {
+export const serializeNodeToPlain = (nodes: Node[]): string => {
   return nodes.map(n => Node.string(n)).join('\n');
 }
 
-const deserializePlain = (plain: string): Node[] => {
+export const deserializePlain = (plain: string): Node[] => {
   return plain.split('\n').map(s => {return {type: 'line', text: s}})
 }
 
@@ -29,11 +29,27 @@ const serializeNodeToHtml = (node: Node): string => {
   }
 }
 
-interface Rule {
-  deserialize: (el: Element) => any;
-  serialize: (obj: Node, children: Node[]) => any;
+export interface Rule {
+  deserialize?: (el: Element, next: Function) => any;
+  serialize?: (obj: Element, children: Node[]) => any;
 }
 
-export const Html = (rule: Rule) => {
+export const deserializeHtml = (node: Node, rules: Rule[]) => {
+  for (const rule of rules) {
+    if (!rule.deserialize || !Element.isElement(node)) {
+      continue
+    }
+    const res = rule.deserialize(node, ((children: Node) => deserializeHtml(children, rules)))
+    if (res) return res;
+  }
+}
 
+export const serializeHtml = (node: Node, rules: Rule[]) => {
+  for (const rule of rules) {
+    if (!rule.serialize || !Element.isElement(node)) {
+      continue
+    }
+    const res = rule.serialize(node, node.children)
+    if (res) return res;
+  }
 }

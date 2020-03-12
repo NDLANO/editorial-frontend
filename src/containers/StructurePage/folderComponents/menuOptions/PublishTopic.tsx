@@ -6,83 +6,125 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
+import { Spinner } from '@ndla/editor';
 
 import AlertModal from '../../../../components/AlertModal/AlertModal';
-import Spinner from '../../../../components/Spinner';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
-import { fetchDraft, updateStatusDraft } from '../../../../modules/draft/draftApi';
+import {
+  fetchDraft,
+  updateStatusDraft,
+} from '../../../../modules/draft/draftApi';
 import { fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
-import { ArticleType, TranslateType } from '../../../../interfaces';
+import {
+  ResourceType,
+  ArticleType,
+  TranslateType,
+} from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 
+const StyledDiv = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 1.5em;
+`;
+
+const iconStyle = css`
+  margin: 0px 4px;
+`;
+
 interface Props {
-  t: TranslateType,
-  id: string,
-  contentUri: string,
+  t: TranslateType;
+  id: string;
+  contentUri: string;
 }
 
 const PublishTopic = ({ t, id, contentUri }: Props) => {
+  const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
   const [articleCount, setArticleCount] = useState(1);
+  const [failedResources, setFailedResources] = useState<string[]>([]);
+
+  useEffect(() => {
+    setShowAlert(
+      failedResources.length !== 0 &&
+        publishedCount + failedResources.length === articleCount,
+    );
+  }, [failedResources, publishedCount]);
+
+  const done = publishedCount + failedResources.length === articleCount;
 
   const publishTopic = () => {
-    if (publishedCount !== articleCount) {
+    if (!done) {
       fetchTopicResources(id)
-      .then((articles: ArticleType[]) => {
-        setArticleCount(articles.length + 1);
-        setShowAlert(true);
-        articles.forEach(article => {
-          console.log(article)
-          if (article.contentUri) publishArticle(article.contentUri);
+        .then((resources: ResourceType[]) => {
+          setArticleCount(resources.length + 1);
+          setShowDisplay(true);
+          resources.forEach(resource => {
+            if (resource.contentUri) {
+              publishArticle(resource.contentUri);
+            } else {
+              setFailedResources(failedResources => [
+                ...failedResources,
+                resource.name,
+              ]);
+            }
+          });
         })
-      })
-      .catch((e: Error) => handleError(e));
+        .catch((e: Error) => handleError(e));
       publishArticle(contentUri);
     }
-    else {
-      setShowAlert(true);
-    }
-  }
+  };
 
   const publishArticle = (contentUri: string) => {
     const articleId = contentUri.split(':').pop();
-    fetchDraft(articleId).then((article: ArticleType) => {
-      if (article.status.current !== PUBLISHED) {
-        updateStatusDraft(articleId, PUBLISHED)
-          .then(() => setPublishedCount(prevState => prevState + 1))
-          .catch((e: Error) => handleError(e));
-      }
-      else {
-        setPublishedCount(prevState => prevState + 1);
-      }
-    })
-    .catch((e: Error) => handleError(e));
-  }
+    fetchDraft(articleId)
+      .then((article: ArticleType) => {
+        if (article.status.current !== PUBLISHED) {
+          updateStatusDraft(articleId, PUBLISHED).then(() =>
+            setPublishedCount(prevState => prevState + 1),
+          );
+        } else {
+          setPublishedCount(prevState => prevState + 1);
+        }
+      })
+      .catch((e: Error) => handleError(e));
+  };
 
   return (
     <Fragment>
-      <MenuItemButton stripped onClick={publishTopic} >
+      <MenuItemButton stripped onClick={publishTopic}>
         <RoundIcon small icon={<Done />} />
         {t('taxonomy.publish.button')}
       </MenuItemButton>
+      {showDisplay && (
+        <StyledDiv>
+          {done ? (
+            <Done css={iconStyle} />
+          ) : (
+            <Spinner size="normal" margin="0px 4px" />
+          )}
+          {t(done ? 'taxonomy.publish.done' : 'taxonomy.publish.waiting') +
+            ` (${publishedCount}/${articleCount})`}
+        </StyledDiv>
+      )}
       <AlertModal
         show={showAlert}
-        onCancel={() => {
-          setShowAlert(false);
-          setPublishedCount(0);
-        }}
-        severity={(publishedCount === articleCount)  ? 'success' : 'info'}
-        text={t((publishedCount === articleCount)  ? 'taxonomy.publish.done' : 'taxonomy.publish.waiting') + ` (${publishedCount}/${articleCount})`}
-        component={(publishedCount === articleCount) ? null : <Spinner />}
+        onCancel={() => setShowAlert(false)}
+        text={t('taxonomy.publish.error')}
+        component={failedResources.map((name, i) => (
+          <p key={i}>{name}</p>
+        ))}
       />
     </Fragment>
-  )
-}
+  );
+};
 
 export default injectT(PublishTopic);

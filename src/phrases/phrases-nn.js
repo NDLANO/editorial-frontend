@@ -958,7 +958,8 @@ const phrases = {
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserar ressurser',
-      done: 'Alle ressurser er publisert',
+      done: 'Ressurser er publisert',
+      error: 'Følgande ressurser blei ikkje publisert:',
     },
     resource: {
       confirmDelete:

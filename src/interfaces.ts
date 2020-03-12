@@ -65,9 +65,9 @@ export interface ArticleType {
   created: string;
   contentUri: string;
   status: {
-    current: string,
-    other: string[],
-  }
+    current: string;
+    other: string[];
+  };
   requiredLibraries: [
     {
       mediaType: string;
@@ -75,4 +75,22 @@ export interface ArticleType {
       name: string;
     },
   ];
+}
+
+export interface ResourceType {
+  connectionId: string;
+  contentUri: string;
+  id: string;
+  isPrimary: boolean;
+  name: string;
+  path: string;
+  paths: string[];
+  rank: number;
+  resourceTypes: [
+    {
+      id: string;
+      name: string;
+    },
+  ];
+  topicId: string;
 }

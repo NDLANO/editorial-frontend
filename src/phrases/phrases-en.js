@@ -944,7 +944,8 @@ const phrases = {
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',
-      done: 'All resources are published',
+      done: 'Resources published',
+      error: 'The following resources were not published:',
     },
     resource: {
       confirmDelete:

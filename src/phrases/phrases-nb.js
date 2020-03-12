@@ -963,7 +963,8 @@ const phrases = {
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserer ressurser',
-      done: 'Alle ressurser er publisert',
+      done: 'Ressurser er publisert',
+      error: 'Følgende ressurser ble ikke publisert:',
     },
     resource: {
       confirmDelete:

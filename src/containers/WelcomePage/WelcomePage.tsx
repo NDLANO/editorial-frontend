@@ -6,9 +6,9 @@
  *
  */
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
-import PropTypes from 'prop-types';
+//@ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -19,6 +19,8 @@ import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getNdlaId } from '../../util/authHelpers';
 import { search } from '../../modules/search/searchApi';
+import { ContentResultType, TranslateType } from '../../interfaces';
+
 import LastUsedContent from './components/LastUsedContent';
 
 const ContentWrapper = styled.div`
@@ -33,15 +35,20 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage = ({ locale, t }) => {
-  const [lastUsed, setLastUsed] = useState(undefined);
+interface Props {
+  locale: string;
+  t: TranslateType;
+}
+
+export const WelcomePage: FC<Props> = ({ locale, t }) => {
+  const [lastUsed, setLastUsed] = useState<ContentResultType[]>([]);
 
   const fetchLastUsed = async () => {
     const lastUsed = await search({
       users: getNdlaId(),
       sort: '-lastUpdated',
     });
-    setLastUsed(lastUsed);
+    setLastUsed(lastUsed.results);
   };
 
   useEffect(() => {
@@ -72,9 +79,8 @@ export const WelcomePage = ({ locale, t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
-
               {lastUsed ? (
-                lastUsed.results.map(result => (
+                lastUsed.map((result: ContentResultType) => (
                   <LastUsedContent
                     key={result.id}
                     articleId={result.id}
@@ -99,10 +105,6 @@ export const WelcomePage = ({ locale, t }) => {
       </ContentWrapper>
     </Fragment>
   );
-};
-
-WelcomePage.propTypes = {
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(WelcomePage);

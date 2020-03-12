@@ -1,9 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 
-import { ArticleType, ContentResultType, ResourceType, TranslateType } from '../../../interfaces';
+import {
+  ArticleType,
+  ContentResultType,
+  ResourceType,
+  TranslateType,
+} from '../../../interfaces';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import {
   getContentTypeFromResourceTypes,
@@ -24,7 +28,7 @@ interface Props {
 const LastUsedContent: FC<Props> = ({ articleId, content, locale, t }) => {
   const { contexts } = content;
 
-  const [article, setArticle] = useState<ArticleType | any>(undefined);
+  const [article, setArticle] = useState<ArticleType | undefined>(undefined);
 
   const fetchArticle = async (articleId: number, locale: string) => {
     const article = await fetchDraft(articleId, locale);
@@ -59,13 +63,11 @@ const LastUsedContent: FC<Props> = ({ articleId, content, locale, t }) => {
       {linkProps && linkProps.href ? (
         <a {...classes('link')} {...linkProps}>
           {content.title.title}
-          {console.log('a ', resourceType)}
         </a>
       ) : (
         <Link {...classes('link')} to={linkProps.to}>
           {content.title.title} ({t('article.lastUpdated')}{' '}
           {article && formatDate(article.updated)})
-          {console.log('Link ',resourceType, linkProps.to)}
         </Link>
       )}
     </div>

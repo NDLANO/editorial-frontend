@@ -14,11 +14,12 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import SaveButton from '../../components/SaveButton';
+import SaveButton from '../SaveButton';
 import { Article, PossibleStatuses, Values } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { TranslateType } from '../../interfaces';
+import SaveButtonDropDown from '../SaveButtonDropDown';
 
 interface Props {
   t: TranslateType;
@@ -80,16 +81,20 @@ const EditorFooter: React.FC<Props> = ({
     }
   }, [values.status]);
 
+  // TODO: Potentially move this to separate component
   const saveButton = (
-    <SaveButton
-      data-testid="saveLearningResourceButton"
-      isSaving={isSubmitting}
-      defaultText="save"
-      formIsDirty={formIsDirty}
-      large
-      showSaved={savedToServer && !formIsDirty}
-      onClick={onSaveClick}
-    />
+    <>
+      <SaveButtonDropDown
+        data-testid="saveLearningResourceButton"
+        isSaving={isSubmitting}
+        defaultText="save"
+        formIsDirty={formIsDirty}
+        large
+        showSaved={savedToServer && !formIsDirty}
+        onClick={onSaveClick}
+        clippedButton
+      />
+    </>
   );
 
   const onValidateClick = async () => {

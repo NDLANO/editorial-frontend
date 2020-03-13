@@ -8,7 +8,7 @@
 
 import React, { Fragment, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css, ThemeContext } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
@@ -93,27 +93,21 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
     const [, resourceType, id] = contentUri.split(':');
     if (resourceType === 'article') {
       fetchDraft(id)
-        .then((article: ArticleType) => {
-          if (article.status.current !== PUBLISHED) {
-            updateStatusDraft(id, PUBLISHED)
-              .then(() => setPublishedCount(prevState => prevState + 1))
-              .catch((e: Error) => handleError(e));
-          } else {
-            setPublishedCount(prevState => prevState + 1);
-          }
-        })
+        .then((article: ArticleType) =>
+          article.status.current !== PUBLISHED
+            ? updateStatusDraft(id, PUBLISHED)
+            : Promise.resolve(),
+        )
+        .then(() => setPublishedCount(prevState => prevState + 1))
         .catch((e: Error) => handleError(e));
     } else if (resourceType === 'learningpath') {
       fetchLearningpath(id)
-        .then((learningpath: LearningpathType) => {
-          if (learningpath.status !== PUBLISHED) {
-            updateStatusLearningpath(id, PUBLISHED)
-              .then(() => setPublishedCount(prevState => prevState + 1))
-              .catch((e: Error) => handleError(e));
-          } else {
-            setPublishedCount(prevState => prevState + 1);
-          }
-        })
+        .then((learningPath: LearningpathType) =>
+          learningPath.status !== PUBLISHED
+            ? updateStatusLearningpath(id, PUBLISHED)
+            : Promise.resolve(),
+        )
+        .then(() => setPublishedCount(prevState => prevState + 1))
         .catch((e: Error) => handleError(e));
     } else {
       setFailedResources(failedResources => [...failedResources, contentUri]);

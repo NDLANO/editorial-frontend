@@ -37,11 +37,12 @@ import handleError from '../../../../util/handleError';
 const StyledDiv = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 1.5em;
+  padding-left: 1.2em;
 `;
 
 const iconStyle = css`
   margin: 0px 4px;
+  color: green;
 `;
 
 interface Props {

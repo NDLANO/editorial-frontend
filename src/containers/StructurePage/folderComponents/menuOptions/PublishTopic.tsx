@@ -119,9 +119,11 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={failedResources.map((name, i) => (
-          <p key={i}>{name}</p>
-        ))}
+        component={<ul>{
+          failedResources.map((name, i) => (
+            <li key={i}>{name}</li>
+          ))
+        }</ul>}
       />
     </Fragment>
   );

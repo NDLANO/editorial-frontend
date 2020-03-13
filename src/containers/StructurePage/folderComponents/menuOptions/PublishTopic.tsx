@@ -20,12 +20,17 @@ import {
   fetchDraft,
   updateStatusDraft,
 } from '../../../../modules/draft/draftApi';
+import {
+  fetchLearningpath,
+  updateStatusLearningpath,
+} from '../../../../modules/learningpath/learningpathApi';
 import { fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import {
   ResourceType,
   ArticleType,
   TranslateType,
+  LearningpathType,
 } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 
@@ -69,7 +74,7 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
           setShowDisplay(true);
           resources.forEach(resource => {
             if (resource.contentUri) {
-              publishArticle(resource.contentUri);
+              publishResource(resource.contentUri);
             } else {
               setFailedResources(failedResources => [
                 ...failedResources,
@@ -79,23 +84,39 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
           });
         })
         .catch((e: Error) => handleError(e));
-      publishArticle(contentUri);
+      publishResource(contentUri);
     }
   };
 
-  const publishArticle = (contentUri: string) => {
-    const articleId = contentUri.split(':').pop();
-    fetchDraft(articleId)
-      .then((article: ArticleType) => {
-        if (article.status.current !== PUBLISHED) {
-          updateStatusDraft(articleId, PUBLISHED).then(() =>
-            setPublishedCount(prevState => prevState + 1),
-          );
-        } else {
-          setPublishedCount(prevState => prevState + 1);
-        }
-      })
-      .catch((e: Error) => handleError(e));
+  const publishResource = (contentUri: string) => {
+    const [, resourceType, id] = contentUri.split(':');
+    if (resourceType === 'article') {
+      fetchDraft(id)
+        .then((article: ArticleType) => {
+          if (article.status.current !== PUBLISHED) {
+            updateStatusDraft(id, PUBLISHED)
+              .then(() => setPublishedCount(prevState => prevState + 1))
+              .catch((e: Error) => handleError(e));
+          } else {
+            setPublishedCount(prevState => prevState + 1);
+          }
+        })
+        .catch((e: Error) => handleError(e));
+    } else if (resourceType === 'learningpath') {
+      fetchLearningpath(id)
+        .then((learningpath: LearningpathType) => {
+          if (learningpath.status !== PUBLISHED) {
+            updateStatusLearningpath(id, PUBLISHED)
+              .then(() => setPublishedCount(prevState => prevState + 1))
+              .catch((e: Error) => handleError(e));
+          } else {
+            setPublishedCount(prevState => prevState + 1);
+          }
+        })
+        .catch((e: Error) => handleError(e));
+    } else {
+      setFailedResources(failedResources => [...failedResources, contentUri]);
+    }
   };
 
   return (
@@ -119,11 +140,13 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={<ul>{
-          failedResources.map((name, i) => (
-            <li key={i}>{name}</li>
-          ))
-        }</ul>}
+        component={
+          <ul>
+            {failedResources.map((name, i) => (
+              <li key={i}>{name}</li>
+            ))}
+          </ul>
+        }
       />
     </Fragment>
   );

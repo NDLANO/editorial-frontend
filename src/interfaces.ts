@@ -94,3 +94,63 @@ export interface ResourceType {
   ];
   topicId: string;
 }
+
+export interface LearningpathType {
+  copyright: {
+    license: {
+      license: string;
+      description: string;
+      url: string;
+    };
+    contributors: [
+      {
+        type: string;
+        name: string;
+      },
+    ];
+  };
+  duration: number;
+  canEdit: boolean;
+  verificationStatus: string;
+  lastUpdated: string;
+  description: {
+    description: string;
+    language: string;
+  };
+  tags: {
+    tags: string[];
+    language: string;
+  };
+  isBasedOn: number;
+  learningsteps: [
+    {
+      seqNo: number;
+      metaUrl: string;
+      id: number;
+      title: {
+        title: string;
+        language: string;
+      };
+      type: string;
+    },
+  ];
+  metaUrl: string;
+  revision: number;
+  learningstepUrl: string;
+  id: number;
+  status: string;
+  ownerId: string;
+  supportedLanguages: string[];
+  message: {
+    message: string;
+    date: string;
+  };
+  coverPhoto: {
+    url: string;
+    metaUrl: string;
+  };
+  title: {
+    title: string;
+    language: string;
+  };
+}

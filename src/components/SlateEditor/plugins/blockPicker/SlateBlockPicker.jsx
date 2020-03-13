@@ -140,7 +140,7 @@ class SlateBlockPicker extends Component {
       this.slateBlockButtonRef.current.disabled = false;
       clearTimeout(this.zIndexTimeout);
       this.zIndexTimeout = setTimeout(() => {
-        slateBlockRef.style.zIndex = 10;
+        slateBlockRef.style.zIndex = 1;
       }, 100);
     }
   }

@@ -105,7 +105,7 @@ const Details = props => {
         {isOpen && editSummaryButton}
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
-      <DeleteButton stripped onMouseDown={onRemoveClick} />
+      <DeleteButton data-cy="remove-details" stripped onMouseDown={onRemoveClick} />
     </StyledDetailsDiv>
   );
 };

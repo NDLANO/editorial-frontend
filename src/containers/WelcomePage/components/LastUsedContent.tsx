@@ -40,8 +40,8 @@ const LastUsedContent: FC<Props> = ({ articleId, content, locale, t }) => {
 
   const getResourceType = () => {
     const resourceTypes =
-      content.contexts?.find(context => context.resourceTypes)?.resourceTypes ||
-      [];
+      content.contexts?.find(context => context.resourceTypes?.length)
+        ?.resourceTypes || [];
 
     if (resourceTypes.length) {
       return getContentTypeFromResourceTypes(resourceTypes);

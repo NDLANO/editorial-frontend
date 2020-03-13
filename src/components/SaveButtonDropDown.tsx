@@ -46,9 +46,11 @@ const StyledListItem = styled.li`
 `;
 
 const StyledButton = styled.button`
+  width: 100%;
+  text-align: right;
   background: transparent;
   border: 0;
-  padding: ${spacing.xsmall} ${spacing.large} ${spacing.xsmall}
+  padding: ${spacing.xsmall} ${spacing.normal} ${spacing.xsmall}
     ${spacing.normal};
   &:disabled {
     color: ${colors.text.light};
@@ -125,7 +127,7 @@ const StyledOptionContent = styled.div`
 `;
 
 const StyledOptionWrapper = styled.div<StyledOptionProps>`
-  width: 30vw;
+  width: 20vw;
   background: ${props => props.background};
   border-radius: ${misc.borderRadius};
   display: flex;
@@ -161,32 +163,20 @@ const checkItemStyle = css`
 `;
 
 interface OptionType {
-  func: () => void;
+  onClick: () => void;
   name: string;
+  id: string;
 }
 
-const SaveDropDownContent = ({}) => {
-  const options = [
-    {
-      name: 'Lagre',
-      id: 'save',
-      func: () => {
-        console.log('New');
-      },
-    },
-    {
-      name: 'Lagre som ny versjon',
-      id: 'saveAsNewVersion',
-      func: () => {
-        console.log('Ny ver');
-      },
-    },
-  ];
+interface SaveDropDownContentProps {
+  options: OptionType[];
+  setPopupState: (newState?: boolean) => void;
+}
 
-  const onSelect = (option: OptionType) => {
-    option.func();
-  };
-
+const SaveDropDownContent: React.FC<SaveDropDownContentProps> = ({
+  setPopupState,
+  options,
+}) => {
   return (
     <>
       <StyledList>
@@ -194,7 +184,10 @@ const SaveDropDownContent = ({}) => {
           <StyledListItem key={option.id}>
             <StyledButton
               css={checkItemStyle}
-              onClick={() => onSelect(option)}
+              onClick={() => {
+                setPopupState(false);
+                option.onClick();
+              }}
               type="button">
               {option.name}
             </StyledButton>
@@ -211,6 +204,7 @@ interface WrapperProps {
   disabled: boolean;
   onOpen?: () => void;
   onClose?: () => void;
+  options: OptionType[];
 }
 
 const DropDownArrow: React.FC<WrapperProps> = ({
@@ -219,6 +213,7 @@ const DropDownArrow: React.FC<WrapperProps> = ({
   disabled,
   onOpen,
   onClose,
+  options,
   ...rest
 }) => {
   const [isOpen, toggleIsOpen] = useState(false);
@@ -264,7 +259,12 @@ const DropDownArrow: React.FC<WrapperProps> = ({
               verticalPosition={'bottom'}>
               <StyledOptionWrapper background={'white'}>
                 <StyledOptionContent>
-                  {<SaveDropDownContent />}
+                  {
+                    <SaveDropDownContent
+                      options={options}
+                      setPopupState={setPopupState}
+                    />
+                  }
                 </StyledOptionContent>
               </StyledOptionWrapper>
             </StyledOptionWrapperAnimation>
@@ -282,8 +282,9 @@ interface Props {
   formIsDirty: boolean;
   large: boolean;
   disabled: boolean;
-  onClick: () => void;
+  onClick: (saveAsNewVersion?: boolean) => void;
   t: TranslateType;
+  savedToServer: boolean;
 }
 
 const SaveButtonDropDown: React.FC<Props> = ({
@@ -295,9 +296,9 @@ const SaveButtonDropDown: React.FC<Props> = ({
   large,
   disabled,
   onClick,
+  savedToServer,
   ...rest
 }) => {
-  const multiButton = true;
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
@@ -311,7 +312,7 @@ const SaveButtonDropDown: React.FC<Props> = ({
       <Button
         disabled={disabledButton}
         onClick={onClick}
-        clippedButton={multiButton}
+        clippedButton
         css={css`
           ${large ? largerButtonStyle : ''}
           ${saveButtonAppearances[modifier]}
@@ -322,13 +323,23 @@ const SaveButtonDropDown: React.FC<Props> = ({
           {showSaved && <Check css={checkStyle} />}
         </StyledSpan>
       </Button>
-      {multiButton && (
-        <DropDownArrow
-          disabled={disabledButton}
-          modifier={modifier}
-          large={large}
-        />
-      )}
+      <DropDownArrow
+        disabled={disabledButton}
+        modifier={modifier}
+        large={large}
+        options={[
+          {
+            id: 'save',
+            name: t('form.save'),
+            onClick: () => onClick(false),
+          },
+          {
+            id: 'saveAsNewVersion',
+            name: t('form.saveAsNewVersion'),
+            onClick: () => onClick(true),
+          },
+        ]}
+      />
     </>
   );
 };

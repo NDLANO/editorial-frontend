@@ -81,7 +81,6 @@ const EditorFooter: React.FC<Props> = ({
     }
   }, [values.status]);
 
-  // TODO: Potentially move this to separate component
   const saveButton = (
     <>
       <SaveButtonDropDown
@@ -92,7 +91,7 @@ const EditorFooter: React.FC<Props> = ({
         large
         showSaved={savedToServer && !formIsDirty}
         onClick={onSaveClick}
-        clippedButton
+        setFieldValue={setFieldValue}
       />
     </>
   );

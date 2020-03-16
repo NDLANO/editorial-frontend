@@ -7,10 +7,10 @@
  *
  */
 
-import { Block } from 'slate';
+import { Editor, Element, Node } from 'slate';
 import defaultBlocks from './utils/defaultBlocks';
 
-export const getSchemaEmbed = node => node.get('data').toJS();
+export const getSchemaEmbed = (node: Node) => node.get('data').toJS();
 
 export const schema = {
   document: {
@@ -50,10 +50,10 @@ export const schema = {
           ],
         },
       ],
-      normalize: (editor, error) => {
+      normalize: (editor: Editor, error: any) => {
         switch (error.code) {
           case 'first_child_type_invalid': {
-            const block = Block.create(defaultBlocks.defaultBlock);
+            const block = defaultBlocks.defaultBlock;
             editor.withoutSaving(() => {
               editor
                 .insertNodeByKey(error.node.key, 0, block)
@@ -63,7 +63,7 @@ export const schema = {
             break;
           }
           case 'last_child_type_invalid': {
-            const block = Block.create(defaultBlocks.defaultBlock);
+            const block = defaultBlocks.defaultBlock;
             editor.withoutSaving(() => {
               editor.insertNodeByKey(
                 error.node.key,
@@ -74,7 +74,7 @@ export const schema = {
             break;
           }
           case 'child_min_invalid': {
-            const block = Block.create(defaultBlocks.defaultBlock);
+            const block = defaultBlocks.defaultBlock;
             editor.withoutSaving(() => {
               editor.insertNodeByKey(error.node.key, 0, block);
             });

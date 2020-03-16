@@ -7,7 +7,7 @@
  *
  */
 
-import { Block } from 'slate';
+import { Editor } from 'slate';
 import defaultBlocks from './defaultBlocks';
 
 export const textBlockValidationRules = {
@@ -25,24 +25,24 @@ export const textBlockValidationRules = {
     { type: 'heading-two' },
     { type: 'heading-three' },
   ],
-  normalize: (editor, error) => {
+  normalize: (editor: Editor, error: any): void => {
     switch (error.code) {
       case 'first_child_type_invalid': {
-        const block = Block.create(defaultBlocks.defaultBlock);
+        const block = defaultBlocks.defaultBlock;
         editor.withoutSaving(() => {
           editor.insertNodeByKey(error.node.key, 0, block);
         });
         break;
       }
       case 'last_child_type_invalid': {
-        const block = Block.create(defaultBlocks.defaultBlock);
+        const block = defaultBlocks.defaultBlock;
         editor.withoutSaving(() => {
           editor.insertNodeByKey(error.node.key, error.node.nodes.size, block);
         });
         break;
       }
       case 'child_min_invalid': {
-        const block = Block.create(defaultBlocks.defaultBlock);
+        const block = defaultBlocks.defaultBlock;
         editor.withoutSaving(() => {
           editor.insertNodeByKey(error.node.key, 0, block);
         });
@@ -55,7 +55,7 @@ export const textBlockValidationRules = {
           editor.insertNodeByKey(
             wrapper.key,
             1,
-            Block.create(defaultBlocks.defaultBlock),
+            defaultBlocks.defaultBlock,
           );
           editor.unwrapBlockByKey(wrapper.key, 'section');
         });

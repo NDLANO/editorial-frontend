@@ -1,9 +1,9 @@
-import { Block } from 'slate';
+import { Element } from 'slate';
 
-export const defaultBlock = {
+export const defaultBlock: Element = {
   type: 'paragraph',
   data: {},
-  nodes: [
+  children: [
     {
       object: 'text',
       text: '',
@@ -12,9 +12,9 @@ export const defaultBlock = {
   ],
 };
 
-export const defaultBlockWithText = text => ({
+export const defaultBlockWithText = (text: string): Element => ({
   data: {},
-  nodes: [
+  children: [
     {
       object: 'text',
       text,
@@ -24,32 +24,35 @@ export const defaultBlockWithText = text => ({
   type: 'paragraph',
 });
 
-export const defaultAsideBlock = type =>
-  Block.create({
+export const defaultAsideBlock = (type: string): Element =>
+  ({
     data: { type },
     type: 'aside',
-    nodes: Block.createList([defaultBlock]),
+    children: [defaultBlock],
   });
 
-export const defaultEmbedBlock = data =>
-  Block.create({
+// TODO assign parameter type
+export const defaultEmbedBlock = (data: any): Element =>
+  ({
     type: 'embed',
     data,
+    children: [],
   });
 
-export const defaultFilesBlock = data => {
-  return Block.create({
+export const defaultFilesBlock = (data: any): Element => 
+  ({
     object: 'Block',
     type: 'file',
     data,
+    children: [],
   });
-};
 
-export const defaultRelatedBlock = () =>
-  Block.create({
+export const defaultRelatedBlock = (): Element =>
+  ({
     object: 'block',
     type: 'related',
     data: {},
+    children: [],
   });
 
 export default {

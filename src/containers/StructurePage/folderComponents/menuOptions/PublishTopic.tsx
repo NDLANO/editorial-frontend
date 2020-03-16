@@ -91,27 +91,35 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
 
   const publishResource = (contentUri: string) => {
     const [, resourceType, id] = contentUri.split(':');
+    let name: string;
     if (resourceType === 'article') {
       fetchDraft(id)
-        .then((article: ArticleType) =>
-          article.status.current !== PUBLISHED
+        .then((article: ArticleType) => {
+          name = article.title.title;
+          return article.status.current !== PUBLISHED
             ? updateStatusDraft(id, PUBLISHED)
-            : Promise.resolve(),
-        )
+            : Promise.resolve();
+        })
         .then(() => setPublishedCount(prevState => prevState + 1))
-        .catch((e: Error) => handleError(e));
+        .catch((e: Error) => handlePublishError(e, name));
     } else if (resourceType === 'learningpath') {
       fetchLearningpath(id)
-        .then((learningPath: LearningpathType) =>
-          learningPath.status !== PUBLISHED
+        .then((learningpath: LearningpathType) => {
+          name = learningpath.title.title;
+          return learningpath.status !== PUBLISHED
             ? updateStatusLearningpath(id, PUBLISHED)
-            : Promise.resolve(),
-        )
+            : Promise.resolve();
+        })
         .then(() => setPublishedCount(prevState => prevState + 1))
-        .catch((e: Error) => handleError(e));
+        .catch((e: Error) => handlePublishError(e, name));
     } else {
       setFailedResources(failedResources => [...failedResources, contentUri]);
     }
+  };
+
+  const handlePublishError = (error: Error, name: string) => {
+    setFailedResources(failedResources => [...failedResources, name]);
+    handleError(error);
   };
 
   return (

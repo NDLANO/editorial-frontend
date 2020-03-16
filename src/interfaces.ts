@@ -15,7 +15,10 @@ export interface TranslateType {
 
 export interface ArticleType {
   id: number;
-  title: string;
+  title: {
+    title: string;
+    language: string;
+  };
   language: string;
   agreementId: number;
   introduction: string;

@@ -962,6 +962,12 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    publish: {
+      button: 'Publiser alt',
+      waiting: 'Publiserer ressurser',
+      done: 'Ressurser er publisert',
+      error: 'Følgende ressurser ble ikke publisert:',
+    },
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',

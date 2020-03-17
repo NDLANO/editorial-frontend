@@ -86,8 +86,5 @@ const mapStateToProps = state => ({
 });
 
 export default injectT(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ConceptPage),
+  connect(mapStateToProps, mapDispatchToProps)(ConceptPage),
 );

@@ -90,7 +90,10 @@ const FormikCompetencesContent = ({
         },
       ];
       setCompetences(temp);
-      updateFormik(field, temp.map(c => c.code));
+      updateFormik(
+        field,
+        temp.map(c => c.code),
+      );
       form.setFieldTouched('competences', true, true);
     }
   };
@@ -100,7 +103,10 @@ const FormikCompetencesContent = ({
       (_, idx) => idx !== parseInt(index),
     );
     setCompetences(reduced_array);
-    updateFormik(field, reduced_array.map(c => c.code));
+    updateFormik(
+      field,
+      reduced_array.map(c => c.code),
+    );
     form.setFieldTouched('competences', true, true);
   };
 

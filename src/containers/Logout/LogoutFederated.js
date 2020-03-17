@@ -30,7 +30,4 @@ const mapDispatchToProps = {
   logout: actions.logout,
 };
 
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(LogoutFederated);
+export default connect(undefined, mapDispatchToProps)(LogoutFederated);

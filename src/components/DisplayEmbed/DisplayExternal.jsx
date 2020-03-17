@@ -129,12 +129,11 @@ export class DisplayExternal extends Component {
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 
-    const [
-      allowedProvider,
-    ] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
-      type === 'iframe'
-        ? whitelistProvider.url.includes(domain)
-        : whitelistProvider.name === providerName,
+    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(
+      whitelistProvider =>
+        type === 'iframe'
+          ? whitelistProvider.url.includes(domain)
+          : whitelistProvider.name === providerName,
     );
 
     if (error || !allowedProvider) {

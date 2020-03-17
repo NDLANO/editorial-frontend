@@ -76,4 +76,7 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-export default connect(undefined, mapDispatchToProps)(EditAgreement);
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(EditAgreement);

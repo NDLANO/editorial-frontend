@@ -11,10 +11,7 @@ const Differ = require('diff-match-patch');
 
 const differ = new Differ();
 
-const allowedConversions = [
-  ['&#x27;', "'"],
-  ['&quot;', '"'],
-];
+const allowedConversions = [['&#x27;', "'"], ['&quot;', '"']];
 const brWrappers = ['strong', 'em', 'u'];
 
 /**

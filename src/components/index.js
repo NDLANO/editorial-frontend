@@ -8,4 +8,6 @@
 
 export { HelpMessage } from './HelpMessage';
 export { Row } from './Row';
-export { default as PreviewDraftLightbox } from './PreviewDraft/PreviewDraftLightbox';
+export {
+  default as PreviewDraftLightbox,
+} from './PreviewDraft/PreviewDraftLightbox';

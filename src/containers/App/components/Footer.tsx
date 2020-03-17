@@ -69,5 +69,8 @@ const mapStateToProps = (state: { locale: string }) => ({
 export default compose<any>(
   injectT,
   withRouter,
-  connect(mapStateToProps, null),
+  connect(
+    mapStateToProps,
+    null,
+  ),
 )(FooterWrapper);

@@ -228,5 +228,8 @@ const mapStateToProps = state => ({
 
 export default compose(
   injectT,
-  connect(mapStateToProps, null),
+  connect(
+    mapStateToProps,
+    null,
+  ),
 )(RelatedArticleBox);

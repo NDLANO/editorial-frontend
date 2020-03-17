@@ -154,4 +154,7 @@ const mapStateToProps = state => ({
   searching: getSearching(state),
 });
 
-export default compose(connect(mapStateToProps), injectT)(SearchContainer);
+export default compose(
+  connect(mapStateToProps),
+  injectT,
+)(SearchContainer);

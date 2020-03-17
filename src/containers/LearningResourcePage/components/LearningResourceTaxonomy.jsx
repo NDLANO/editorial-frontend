@@ -71,7 +71,12 @@ class LearningResourceTaxonomy extends Component {
     this.fetchTaxonomyChoices();
   }
 
-  componentDidUpdate({ article: { id: prevId } }, prevState) {
+  componentDidUpdate(
+    {
+      article: { id: prevId },
+    },
+    prevState,
+  ) {
     // We need to refresh taxonomy for when an article URL has been pasted and a new article is showing
     if (prevId !== this.props.article.id) {
       this.fetchTaxonomy();

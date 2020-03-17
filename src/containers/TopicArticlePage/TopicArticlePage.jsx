@@ -116,4 +116,7 @@ const mapStateToProps = state => ({
   userAccess: state.session.user.scope,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopicArticlePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TopicArticlePage);

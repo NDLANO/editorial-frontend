@@ -100,12 +100,10 @@ class EditRelated extends React.PureComponent {
   }
 
   async searchForArticles(inp) {
-    const articles = (
-      await searchDrafts({
-        query: inp,
-        fallback: true,
-      })
-    ).results;
+    const articles = (await searchDrafts({
+      query: inp,
+      fallback: true,
+    })).results;
     return articles ? articles.filter(article => !!article.id) : [];
   }
 

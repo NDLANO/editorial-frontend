@@ -1,102 +1,120 @@
 [
   {
-    "id": "5825832715001",
+    "link": null,
+    "long_description": null,
+    "name": "ND-filter",
+    "original_filename": "download-original",
+    "projection": null,
+    "published_at": "2018-06-12T18:43:12.010Z",
+    "reference_id": "166820",
+    "schedule": null,
+    "sharing": null,
+    "state": "ACTIVE",
+    "tags": [
+      "camera",
+      "kamera",
+      "medieuttrykk og mediesamfunnet",
+      "nd-filter",
+      "video camera",
+      "videokamera"
+    ],
+    "text_tracks": [
+      {
+        "id": "e9049e61-c649-4f1c-b9cf-d641daf56a93",
+        "account_id": "4806596774001",
+        "src": "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/e9049e61-c649-4f1c-b9cf-d641daf56a93/text.vtt?fastly_token=NWU3MTM4OWFfYzdmYmM1NDAwYzNmNDQ0ZDk1MzY0NmNjNGU2OTQ0MWE3NTY2MmYxZTczNzhhNTI5NDQ0NmUxZjhmN2I5OWYzZF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvZTkwNDllNjEtYzY0OS00ZjFjLWI5Y2YtZDY0MWRhZjU2YTkzL3RleHQudnR0",
+        "srclang": "nn-NO",
+        "label": "Nynorsk",
+        "kind": "captions",
+        "mime_type": "text/webvtt",
+        "asset_id": null,
+        "sources": [
+          {
+            "src": "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/e9049e61-c649-4f1c-b9cf-d641daf56a93/text.vtt?fastly_token=NWU3MTM4OWFfYzdmYmM1NDAwYzNmNDQ0ZDk1MzY0NmNjNGU2OTQ0MWE3NTY2MmYxZTczNzhhNTI5NDQ0NmUxZjhmN2I5OWYzZF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvZTkwNDllNjEtYzY0OS00ZjFjLWI5Y2YtZDY0MWRhZjU2YTkzL3RleHQudnR0"
+          },
+          {
+            "src": "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/e9049e61-c649-4f1c-b9cf-d641daf56a93/text.vtt?fastly_token=NWU3MTM4OWFfYzdmYmM1NDAwYzNmNDQ0ZDk1MzY0NmNjNGU2OTQ0MWE3NTY2MmYxZTczNzhhNTI5NDQ0NmUxZjhmN2I5OWYzZF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvZTkwNDllNjEtYzY0OS00ZjFjLWI5Y2YtZDY0MWRhZjU2YTkzL3RleHQudnR0"
+          }
+        ],
+        "in_band_metadata_track_dispatch_type": "",
+        "default": false
+      },
+      {
+        "id": "3530935f-6312-4eb1-b46a-4200cb5a31c0",
+        "account_id": "4806596774001",
+        "src": "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/3530935f-6312-4eb1-b46a-4200cb5a31c0/text.vtt?fastly_token=NWU3MTM4OWFfNjhjOTNjNGRmNjRmZWViYWM5OWQ0Yjg2MjhmMmM3YmYyMzhkNTBkNjkwNjAxNDk5NTYwNzRjNjViNzljOTNlMF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvMzUzMDkzNWYtNjMxMi00ZWIxLWI0NmEtNDIwMGNiNWEzMWMwL3RleHQudnR0",
+        "srclang": "no-NO",
+        "label": "Bokmål",
+        "kind": "captions",
+        "mime_type": "text/webvtt",
+        "asset_id": null,
+        "sources": [
+          {
+            "src": "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/3530935f-6312-4eb1-b46a-4200cb5a31c0/text.vtt?fastly_token=NWU3MTM4OWFfNjhjOTNjNGRmNjRmZWViYWM5OWQ0Yjg2MjhmMmM3YmYyMzhkNTBkNjkwNjAxNDk5NTYwNzRjNjViNzljOTNlMF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvMzUzMDkzNWYtNjMxMi00ZWIxLWI0NmEtNDIwMGNiNWEzMWMwL3RleHQudnR0"
+          },
+          {
+            "src": "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/3530935f-6312-4eb1-b46a-4200cb5a31c0/text.vtt?fastly_token=NWU3MTM4OWFfNjhjOTNjNGRmNjRmZWViYWM5OWQ0Yjg2MjhmMmM3YmYyMzhkNTBkNjkwNjAxNDk5NTYwNzRjNjViNzljOTNlMF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvMzUzMDkzNWYtNjMxMi00ZWIxLWI0NmEtNDIwMGNiNWEzMWMwL3RleHQudnR0"
+          }
+        ],
+        "in_band_metadata_track_dispatch_type": "",
+        "default": true
+      }
+    ],
+    "updated_at": "2020-03-16T20:14:39.585Z",
+    "updated_by": {
+      "type": "internal"
+    },
+    "playback_rights_id": null
+  },
+  {
+    "id": "6138680598001",
     "account_id": "4806596774001",
     "ad_keys": null,
     "clip_source_video_id": null,
     "complete": true,
-    "created_at": "2018-08-23T12:52:12.000Z",
+    "created_at": "2020-03-05T14:33:56.477Z",
+    "created_by": {
+      "type": "user",
+      "id": "76076169534",
+      "email": "ragnfrid.myhr@ndla.no"
+    },
     "cue_points": [],
-    "custom_fields": {},
+    "custom_fields": {
+      "licenseinfo2": "Forfatter: Reidar Kyllesdal",
+      "yt_privacy_status": "public",
+      "license": "Navngivelse-Del på samme vilkår",
+      "licenseinfo3": "Forfatter: Kristin Bøhle",
+      "licenseinfo": "Leverandør: Amendor AS"
+    },
     "delivery_type": "dynamic_origin",
     "description": null,
     "digital_master_id": null,
-    "duration": 166371,
+    "duration": 185834,
     "economics": "AD_SUPPORTED",
-    "folder_id": null,
+    "folder_id": "5c6fc4ec2222482475075bcb",
     "geo": null,
     "has_digital_master": true,
     "images": {
       "poster": {
-        "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/036f564f-6e69-4ad7-8768-e949f9e67451/main/1280x720/1m23s185ms/match/image.jpg",
+        "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/1280x720/1m32s917ms/match/image.jpg",
         "sources": [
           {
-            "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/036f564f-6e69-4ad7-8768-e949f9e67451/main/1280x720/1m23s185ms/match/image.jpg",
+            "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/1280x720/1m32s917ms/match/image.jpg",
             "height": 720,
             "width": 1280
           }
         ]
       },
       "thumbnail": {
-        "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/036f564f-6e69-4ad7-8768-e949f9e67451/main/160x90/1m23s185ms/match/image.jpg",
+        "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/160x90/1m32s917ms/match/image.jpg",
         "sources": [
           {
-            "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/036f564f-6e69-4ad7-8768-e949f9e67451/main/160x90/1m23s185ms/match/image.jpg",
+            "src": "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/160x90/1m32s917ms/match/image.jpg",
             "height": 90,
             "width": 160
           }
         ]
       }
-    },
-    "link": null,
-    "long_description": null,
-    "name": "Den%20store%20reisen",
-    "original_filename": "Den%20store%20reisen.mp4",
-    "projection": null,
-    "published_at": null,
-    "reference_id": null,
-    "schedule": null,
-    "sharing": null,
-    "state": "INACTIVE",
-    "tags": [],
-    "text_tracks": [],
-    "updated_at": "2018-08-23T12:53:19.555Z"
-  },
-  {
-    "id": "5796304243001",
-    "account_id": "4806596774001",
-    "ad_keys": null,
-    "clip_source_video_id": null,
-    "complete": false,
-    "created_at": "2018-06-11T20:03:37.629Z",
-    "cue_points": [],
-    "custom_fields": {
-      "yt_privacy_status": "private",
-      "licenseinfo2": "Opphavsmann: STRIX",
-      "license": "Navngivelse-Ikkekommersiell-Ingen Bearbeidelse",
-      "licenseinfo": "Leverandør: NRK"
-    },
-    "delivery_type": "unknown",
-    "description": null,
-    "digital_master_id": null,
-    "duration": 0,
-    "economics": "AD_SUPPORTED",
-    "folder_id": null,
-    "geo": null,
-    "has_digital_master": false,
-    "images": {},
-    "link": null,
-    "long_description": null,
-    "name": "Den store reisen",
-    "original_filename": null,
-    "projection": null,
-    "published_at": "2018-06-11T20:03:37.629Z",
-    "reference_id": "70627",
-    "schedule": null,
-    "sharing": null,
-    "state": "ACTIVE",
-    "tags": [
-      "the big trip",
-      "kommunikation",
-      "språkforståelse",
-      "communication",
-      "medie- og informasjonskunnskap 1 og 2",
-      "kommunikasjon",
-      "govlesadteme",
-      "den store reisen",
-      "comprehension"
-    ],
-    "text_tracks": [],
-    "updated_at": "2018-08-23T11:47:09.904Z"
+    }
   }
 ]

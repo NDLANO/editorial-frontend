@@ -1,0 +1,50 @@
+{
+  "id": "26817",
+  "title": {
+    "title": "    TOGETHER (2002) - TANG YUN - WANG ZHIWEN.  ",
+    "language": "unknown"
+  },
+  "contributors": [
+    "UNITED ARITSTS / ZHAO HONG YANG / Album",
+    "NTB scanpix"
+  ],
+  "altText": {
+    "alttext": "Bilde 5 av \"Sammen med deg\"",
+    "language": "unknown"
+  },
+  "previewUrl": "https://test.api.ndla.no/image-api/raw/20130920-071657-8_0.jpg",
+  "metaUrl": "https://test.api.ndla.no/image-api/v2/images/26817",
+  "license": "by-nc-sa",
+  "supportedLanguages": ["unknown", "nb", "nn", "en", "de"],
+  "imageUrl": "https://test.api.ndla.no/image-api/raw/20130920-071657-8_0.jpg",
+  "size": 282185,
+  "contentType": "image/jpeg",
+  "copyright": {
+    "license": {
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    },
+    "origin": "http://www.scanpix.no",
+    "creators": [ ],
+    "processors": [ ],
+    "rightsholders": [
+      {
+        "type": "Supplier",
+        "name": "UNITED ARITSTS / ZHAO HONG YANG / Album"
+      },
+      {
+        "type": "Supplier",
+        "name": "NTB scanpix"
+      }
+    ]
+  },
+  "tags": {
+    "tags": [
+      "bilde",
+      "film",
+      "kinesisk"
+    ],
+    "language": "nb"
+  }
+}

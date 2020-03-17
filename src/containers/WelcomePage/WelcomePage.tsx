@@ -17,7 +17,12 @@ import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
-import { getNdlaId } from '../../util/authHelpers';
+import {
+  getNdlaId,
+  getAccessToken,
+  getAccessTokenPersonal,
+} from '../../util/authHelpers';
+import { isValid } from '../../util/jwtHelper';
 import { search } from '../../modules/search/searchApi';
 import { ContentResultType, TranslateType } from '../../interfaces';
 
@@ -43,12 +48,17 @@ interface Props {
 export const WelcomePage: FC<Props> = ({ locale, t }) => {
   const [lastUsed, setLastUsed] = useState<ContentResultType[]>([]);
 
+  const token = getAccessToken();
+  const isAccessTokenPersonal = getAccessTokenPersonal();
+
   const fetchLastUsed = async () => {
-    const lastUsed = await search({
-      users: getNdlaId(),
-      sort: '-lastUpdated',
-    });
-    setLastUsed(lastUsed.results);
+    if (isValid(token) && isAccessTokenPersonal) {
+      const lastUsed = await search({
+        users: getNdlaId(),
+        sort: '-lastUpdated',
+      });
+      setLastUsed(lastUsed.results);
+    }
   };
 
   useEffect(() => {

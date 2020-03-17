@@ -8,7 +8,7 @@
 
 import React, { Fragment, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { css, ThemeContext } from '@emotion/core';
+import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';

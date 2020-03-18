@@ -27,35 +27,35 @@ import {
   renderLeaf,
 } from '../../../components/SlateEditor/slateRendering';
 import { findNodesByType } from '../../../util/slateHelpers';
-import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
-import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
-import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
-import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
-import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
-import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
-import relatedPlugin from '../../../components/SlateEditor/plugins/related';
-import filePlugin from '../../../components/SlateEditor/plugins/file';
-import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
-import { createEmptyValue } from '../../../util/articleContentConverter';
-import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
-import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
-import dndPlugin from '../../../components/SlateEditor/plugins/DND';
-import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
-import {
-  editListPlugin,
-  editTablePlugin,
-} from '../../../components/SlateEditor/plugins/externalPlugins';
-import createTablePlugin from '../../../components/SlateEditor/plugins/table';
+// import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
+// import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
+// import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
+// import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
+// import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
+// import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+// import headingPlugin from '../../../components/SlateEditor/plugins/heading';
+// import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
+// import relatedPlugin from '../../../components/SlateEditor/plugins/related';
+// import filePlugin from '../../../components/SlateEditor/plugins/file';
+// import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
+// import { createEmptyValue } from '../../../util/articleContentConverter';
+// import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
+// import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
+// import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
+// import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
+// import dndPlugin from '../../../components/SlateEditor/plugins/DND';
+// import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+// import {
+//   editListPlugin,
+//   editTablePlugin,
+// } from '../../../components/SlateEditor/plugins/externalPlugins';
+// import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from './EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
-import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
+// import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
   display: flex;
@@ -82,34 +82,34 @@ class LearningResourceContent extends Component {
     } = props;
     this.addSection = this.addSection.bind(this);
     this.plugins = [
-      footnotePlugin(),
-      createEmbedPlugin(language),
-      createBodyBoxPlugin(),
-      createAsidePlugin(),
-      createDetailsPlugin(),
-      createLinkPlugin(language),
-      conceptPlugin(language),
-      headingPlugin(),
-      // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-      // Blockquote and editList actions need to be triggered before paragraph action, else
-      // unwrapping (jumping out of block) will not work.
-      blockquotePlugin,
-      editListPlugin,
-      paragraphPlugin(),
-      createTablePlugin(),
-      editTablePlugin,
-      relatedPlugin(),
-      filePlugin(),
-      mathmlPlugin(),
-      blockPickerPlugin(this.addSection, {
-        articleLanguage: language,
-        actionsToShowInAreas: {
-          solutionbox: ['table'],
-        },
-      }),
-      pasteHandler(),
-      dndPlugin,
-      toolbarPlugin(),
+      // footnotePlugin(),
+      // createEmbedPlugin(language),
+      // createBodyBoxPlugin(),
+      // createAsidePlugin(),
+      // createDetailsPlugin(),
+      // createLinkPlugin(language),
+      // conceptPlugin(language),
+      // headingPlugin(),
+      // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+      // // Blockquote and editList actions need to be triggered before paragraph action, else
+      // // unwrapping (jumping out of block) will not work.
+      // blockquotePlugin,
+      // editListPlugin,
+      // paragraphPlugin(),
+      // createTablePlugin(),
+      // editTablePlugin,
+      // relatedPlugin(),
+      // filePlugin(),
+      // mathmlPlugin(),
+      // blockPickerPlugin(this.addSection, {
+      //   articleLanguage: language,
+      //   actionsToShowInAreas: {
+      //     solutionbox: ['table'],
+      //   },
+      // }),
+      // pasteHandler(),
+      // dndPlugin,
+      // toolbarPlugin(),
     ];
   }
 
@@ -119,15 +119,15 @@ class LearningResourceContent extends Component {
     } = this.props;
     if (prevLanguage !== language || prevId !== id) {
       this.plugins = [
-        createEmbedPlugin(language),
-        conceptPlugin(language),
-        blockPickerPlugin(this.addSection, {
-          articleLanguage: language,
-          actionsToShowInAreas: {
-            solutionbox: ['table'],
-          },
-          ...this.plugins,
-        }),
+        // createEmbedPlugin(language),
+        // conceptPlugin(language),
+        // blockPickerPlugin(this.addSection, {
+        //   articleLanguage: language,
+        //   actionsToShowInAreas: {
+        //     solutionbox: ['table'],
+        //   },
+        //   ...this.plugins,
+        // }),
       ];
     }
   }

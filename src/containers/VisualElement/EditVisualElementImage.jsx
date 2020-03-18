@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import FocusTrapReact from 'focus-trap-react';
-import Types from 'slate-prop-types';
+import { Node } from 'slate';
 import { injectT } from '@ndla/i18n';
 import { shadows } from '@ndla/core';
 import { connect } from 'formik';
@@ -101,7 +101,7 @@ EditVisualElementImage.propTypes = {
   embed: EmbedShape.isRequired,
   saveEmbedUpdates: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
-  node: Types.node.isRequired,
+  node: Node.isRequired,
   editor: EditorShape,
   formik: PropTypes.shape({
     handleChange: PropTypes.func,

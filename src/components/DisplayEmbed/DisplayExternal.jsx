@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Types from 'slate-prop-types';
+import { Node } from 'slate';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -200,7 +200,7 @@ DisplayExternal.propTypes = {
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
-  node: Types.node,
+  node: Node,
   isIframe: PropTypes.bool,
   embed: PropTypes.shape({
     width: PropTypes.string,

@@ -7,14 +7,14 @@
  *
  */
 
-import { Editor, Element, Node } from 'slate';
+import { Editor, Node } from 'slate';
 import defaultBlocks from './utils/defaultBlocks';
 
 export const getSchemaEmbed = (node: Node) => node.get('data').toJS();
 
 export const schema = {
   document: {
-    nodes: [
+    children: [
       {
         match: [{ type: 'section' }],
         min: 1,
@@ -25,7 +25,7 @@ export const schema = {
     section: {
       first: { type: 'paragraph' },
       last: { type: 'paragraph' },
-      nodes: [
+      children: [
         {
           match: [
             { type: 'paragraph' },
@@ -67,7 +67,7 @@ export const schema = {
             editor.withoutSaving(() => {
               editor.insertNodeByKey(
                 error.node.key,
-                error.node.nodes.size,
+                error.node.children.size,
                 block,
               );
             });

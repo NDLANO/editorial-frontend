@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
-import Types from 'slate-prop-types';
+import { Node } from 'slate';
 import './helpers/h5pResizer';
 import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
@@ -173,7 +173,7 @@ DisplayExternalVisualElement.propTypes = {
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
-  node: Types.node,
+  node: Node,
   isIframe: PropTypes.bool,
   embed: PropTypes.shape({
     width: PropTypes.string,

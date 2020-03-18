@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Field, connect, ErrorMessage } from 'formik';
-import { Value } from 'slate';
+import { Node } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
@@ -42,7 +42,7 @@ const FormikField = ({
 }) => {
   const [focus, setFocus] = useState(false);
 
-  const isSlateValue = Value.isValue(values[name]);
+  const isSlateValue = Node.isNode(values[name]);
   const fieldActions = !isSlateValue
     ? {
         onFocus: () => {

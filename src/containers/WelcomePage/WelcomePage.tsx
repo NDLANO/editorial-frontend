@@ -6,16 +6,27 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
+import BEMHelper from 'react-bem-helper';
+//@ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
-import BEMHelper from 'react-bem-helper';
 import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
+import {
+  getNdlaId,
+  getAccessToken,
+  getAccessTokenPersonal,
+} from '../../util/authHelpers';
+import { isValid } from '../../util/jwtHelper';
+import { search } from '../../modules/search/searchApi';
+import { ContentResultType, TranslateType } from '../../interfaces';
+
+import LastUsedContent from './components/LastUsedContent';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -29,8 +40,33 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage = ({ t }) => {
+interface Props {
+  locale: string;
+  t: TranslateType;
+}
+
+export const WelcomePage: FC<Props> = ({ locale, t }) => {
+  const [lastUsed, setLastUsed] = useState<ContentResultType[]>([]);
+
+  const token = getAccessToken();
+  const isAccessTokenPersonal = getAccessTokenPersonal();
+
+  const fetchLastUsed = async () => {
+    if (isValid(token) && isAccessTokenPersonal) {
+      const lastUsed = await search({
+        users: getNdlaId(),
+        sort: '-lastUpdated',
+      });
+      setLastUsed(lastUsed.results);
+    }
+  };
+
+  useEffect(() => {
+    fetchLastUsed();
+  }, []);
+
   localStorage.setItem('lastPath', '');
+
   return (
     <Fragment>
       <ContentWrapper>
@@ -53,7 +89,18 @@ export const WelcomePage = ({ t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
-              <span>{t('welcomePage.emptyLastUsed')}</span>
+              {lastUsed.length ? (
+                lastUsed.map((result: ContentResultType) => (
+                  <LastUsedContent
+                    key={result.id}
+                    articleId={result.id}
+                    content={result}
+                    locale={locale}
+                  />
+                ))
+              ) : (
+                <span>{t('welcomePage.emptyLastUsed')}</span>
+              )}
             </div>
             <div>
               <div {...classes('column-header')}>

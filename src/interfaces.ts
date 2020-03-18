@@ -18,6 +18,33 @@ interface Status {
   other: string[];
 }
 
+interface Resource {
+  id: string;
+  name: string;
+  contentUri?: string;
+  path: string;
+}
+
+export interface ResourceType {
+  id: string;
+  name: string;
+  resources?: Resource[];
+}
+
+export interface ContentResultType {
+  id: number;
+  title: { title: string };
+  url?: string;
+  metaDescription?: { metaDescription: string };
+  metaImage?: { alt: string; url: string; language: string };
+  contexts: [
+    {
+      learningResourceType: string;
+      resourceTypes: ResourceType[];
+    },
+  ];
+}
+
 export interface ArticleType {
   id: number;
   title: {

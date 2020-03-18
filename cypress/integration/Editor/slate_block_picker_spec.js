@@ -55,20 +55,19 @@ describe("can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('adds and removes image', () => {
-    cy.route(
+    cy.apiroute(
       'GET',
       '/image-api/v2/images/?page=1&page-size=16',
-      'fixture:editor/imageSearch.json',
-    );
-
-    cy.route(
+      'editor/images/imageList');
+    cy.apiroute(
       'GET',
-      '/image-api/v2/images/26817?language=nb',
-      'fixture:editor/images/image:26817.json',
-    );
+      '/image-api/v2/images/*?language=nb',
+      'editor/images/image');
 
     cy.get('[data-cy=create-image]').click();
+    cy.apiwait('@editor/images/imageList');
     cy.get('[data-cy="select-image-from-list"]').first().click();
+    cy.apiwait('@editor/images/image');
     cy.get('[data-cy="use-image"]').click();
     cy.get('[data-cy=remove-element]').click();
   });
@@ -81,32 +80,35 @@ describe("can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('adds and removes video-brightcove', () => {
-    cy.route(
+    cy.apiroute('GET',
+      '/get_brightcove_token',
+      'editor/videos/brightcoveToken');
+    cy.apiroute(
       'GET',
-      '*.brightcove/**',
-      'fixture:editor/a.json');
+      '**/videos/**',
+      'editor/videos/videoListBrightcove');
 
     cy.get('[data-cy=create-video]').click();
+    cy.apiwait(['@editor/videos/brightcoveToken', '@editor/videos/videoListBrightcove']);
     cy.get('[data-cy="use-video"]').first().click();
     cy.get('[data-cy="remove-element"]').click();
   });
 
   it('adds and removes video-youtube', () => {
-    cy.route(
+    cy.apiroute(
       'GET',
       '**/customsearch/**',
-      'fixture:editor/videos/video:items.json',
-    );
-
-    cy.route(
+      'editor/videos/videoListYoutube');
+    cy.apiroute(
       'GET',
       '**/oembed-proxy/**',
-      'fixture:editor/videos/video:linkinpark.json',
-    );
+      'editor/videos/videoYoutube');
 
     cy.get('[data-cy=create-video]').click();
     cy.get('[data-cy="YouTube-video-tab"]').click();
+    cy.apiwait('@editor/videos/videoListYoutube');
     cy.get('[data-cy="use-video"]').first().click();
+    cy.apiwait('@editor/videos/videoYoutube');
     cy.get('[data-cy="remove-element"]').click();
   });
 

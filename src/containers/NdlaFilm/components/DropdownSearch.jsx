@@ -10,12 +10,15 @@ import PropTypes from 'prop-types';
 import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
+import config from '../../../config';
 
 const queryResources = async input => {
+  const contextType =
+    config.ndlaEnvironment === 'ff' ? 'standard' : 'topic-article';
   const query = {
     page: 1,
     subjects: 'urn:subject:20',
-    'context-types': 'topic-article',
+    'context-types': contextType,
     sort: '-relevance',
     'page-size': 10,
     query: input,

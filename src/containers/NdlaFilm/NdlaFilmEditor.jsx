@@ -27,6 +27,7 @@ import {
   addMovieToTheme,
   convertThemeNames,
 } from '../../util/ndlaFilmHelpers';
+import config from '../../config';
 
 class NdlaFilmEditor extends React.Component {
   state = {
@@ -105,10 +106,12 @@ class NdlaFilmEditor extends React.Component {
   };
 
   fetchAllMovies = async () => {
+    const contextType =
+      config.ndlaEnvironment === 'ff' ? 'standard' : 'topic-article';
     const query = {
       page: 1,
       subjects: 'urn:subject:20',
-      'context-types': 'topic-article',
+      'context-types': contextType,
       sort: '-relevance',
       'page-size': 10000,
     };
@@ -117,9 +120,11 @@ class NdlaFilmEditor extends React.Component {
   };
 
   queryArticles = async ids => {
+    const contextType =
+      config.ndlaEnvironment === 'ff' ? 'standard' : 'topic-article';
     const query = {
       page: 1,
-      'context-types': 'topic-article',
+      'context-types': contextType,
       sort: '-relevance',
       'page-size': 10,
       ids: ids,

@@ -49,7 +49,7 @@ const SearchPage = ({ match, t }) => {
       title: t('subNavigation.searchConcepts'),
       type: 'concept',
       url: toSearch(
-        { page: '1', sort: '-relevance', 'page-size': 10 },
+        { page: '1', sort: '-lastUpdated', 'page-size': 10 },
         'concept',
       ),
       icon: <Concept className="c-icon--large" />,

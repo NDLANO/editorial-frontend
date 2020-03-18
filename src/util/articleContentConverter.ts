@@ -6,15 +6,14 @@
  *
  */
 
-import { Value } from 'slate';
-import Plain from 'slate-plain-serializer';
-import Html from 'slate-html-serializer';
+import { Node, Editor, Element } from 'slate';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
+import { serializeNodeToPlain, deserializePlain, serializeHtml, deserializeHtml} from './serializer';
 
-export const sectionSplitter = html => {
+export const sectionSplitter = (html: HTMLElement): HTMLElement[] => {
   const node = document.createElement('div');
-  node.insertAdjacentHTML('beforeend', html);
+  node.insertAdjacentHTML('beforeend', html.toString());
   const sections = [];
   for (let i = 0; i < node.children.length; i += 1) {
     sections.push(node.children[i].outerHTML);
@@ -23,43 +22,36 @@ export const sectionSplitter = html => {
   return sections;
 };
 
-export const createEmptyValue = () =>
-  Value.fromJSON({
-    document: {
-      nodes: [
-        {
-          object: 'block',
-          type: 'section',
-          nodes: [
-            {
-              object: 'block',
-              type: 'paragraph',
-              nodes: [
-                {
-                  object: 'text',
-                  text: '',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  });
+// TODO  find a viable replacement for this.
+export const createEmptyValue = (): Element =>
+  ({
+    children: [
+      {
+        object: 'block',
+        type: 'section',
+        children: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            children: [
+              {
+                object: 'text',
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    });
 
-export function learningResourceContentToEditorValue(
-  html,
+export const learningResourceContentToEditorValue = (
+  html: HTMLElement,
   fragment = undefined,
-) {
+) => {
   if (!html) {
     return [createEmptyValue()];
   }
-
-  const serializer = new Html({
-    rules: learningResourceRules,
-    parseHtml: fragment,
-  });
-
   const sections = sectionSplitter(html);
 
   /**
@@ -71,10 +63,7 @@ export function learningResourceContentToEditorValue(
     /*   Slate's default sanitization just obliterates block nodes that contain both
     inline+text children and block children.
     see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-    const json = serializer.deserialize(section, {
-      toJSON: true,
-      parseHtml: fragment,
-    });
+    const json = deserializeHtml(section, learningResourceRules)
 
     const value = convertFromHTML(json);
 
@@ -82,45 +71,38 @@ export function learningResourceContentToEditorValue(
   });
 }
 
-export function learningResourceContentToHTML(contentValues) {
+export const learningResourceContentToHTML = (contentValues: Node[]) => {
   // Use footnoteCounter hack until we have a better footnote api
-  const serializer = new Html({
-    rules: learningResourceRules,
-  });
-
   return contentValues
-    .map(value => serializer.serialize(value))
+    .map(value => serializeHtml(value, learningResourceRules))
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export function topicArticleContentToEditorValue(html, fragment = undefined) {
+export const topicArticleContentToEditorValue = (html: HTMLElement, fragment = undefined) => {
   if (!html) {
     return createEmptyValue();
   }
-  const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
 
   /*   Slate's default sanitization just obliterates block nodes that contain both
   inline+text children and block children.
   see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-  const json = serializer.deserialize(html, { toJSON: true });
+  const json = deserializeHtml(html, topicArticeRules).toJSON();
   const value = convertFromHTML(json);
   return value;
 }
 
-export function topicArticleContentToHTML(value) {
-  const serializer = new Html({ rules: topicArticeRules });
-
-  return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
+export const topicArticleContentToHTML = (value: Node) => {
+  return serializeHtml(value, topicArticeRules).replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
+export const plainTextToEditorValue = (text: string, withDefaultPlainValue = false): Node[] | undefined => {
   if (withDefaultPlainValue) {
-    return text ? Plain.deserialize(text) : Plain.deserialize('');
+    return text ? deserializePlain(text) : deserializePlain('');
   }
-  return text ? Plain.deserialize(text) : undefined;
+  return text ? deserializePlain(text) : undefined;
 }
 
-export function editorValueToPlainText(editorValue) {
-  return editorValue ? Plain.serialize(editorValue) : '';
+export const editorValueToPlainText = (editorValue: Editor) => {
+  return editorValue ? serializeNodeToPlain(editorValue.children) : '';
 }

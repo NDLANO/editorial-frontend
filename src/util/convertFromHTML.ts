@@ -10,16 +10,16 @@
 
 /* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
 
-import { Value } from 'slate';
+import { Element, Node } from 'slate';
 
-export function convertFromHTML(json) {
-  const wrapMixedChildren = node => {
-    if (!node.nodes) return;
+export function convertFromHTML(json: any) {
+  const wrapMixedChildren = (node: Node): Element | void => {
+    if (node.children.length === 0) return;
 
     // visit all our children
-    node.nodes.forEach(wrapMixedChildren);
+    node.children.forEach(wrapMixedChildren);
 
-    const blockChildren = node.nodes.filter(n => n.object === 'block');
+    const blockChildren = node.children.filter((n: Node) => n.object === 'block');
     const mixed =
       blockChildren.length > 0 && blockChildren.length !== node.nodes.length;
     if (!mixed) {
@@ -27,14 +27,14 @@ export function convertFromHTML(json) {
     }
 
     const cleanNodes = [];
-    let openWrapperBlock = null;
+    let openWrapperBlock: Element = { children: [] };
     for (const child of node.nodes) {
       // dont wrap whitespace
       if (child.text === ' ') continue;
 
       if (child.object === 'block') {
         if (openWrapperBlock) {
-          openWrapperBlock = null;
+          openWrapperBlock = { children: [] };
           // this node will close the wrapper block we've created and trigger a newline!
           // If this node is empty (was just a <br> or <p></p> to begin with) let's skip
           // it to avoid creating a double newline.
@@ -48,11 +48,11 @@ export function convertFromHTML(json) {
         }
         cleanNodes.push(child);
       } else {
-        if (!openWrapperBlock) {
+        if (openWrapperBlock.children.length === 0) {
           openWrapperBlock = {
             type: 'paragraph',
             object: 'block',
-            nodes: [],
+            children: [],
             data: {},
           };
           cleanNodes.push(openWrapperBlock);
@@ -64,5 +64,5 @@ export function convertFromHTML(json) {
   };
 
   wrapMixedChildren(json.document);
-  return Value.fromJSON(json);
+  return json;
 }

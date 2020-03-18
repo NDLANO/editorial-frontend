@@ -30,16 +30,16 @@ const serializeNodeToHtml = (node: Node): string => {
 }
 
 export interface Rule {
-  deserialize?: (el: Element, next: Function) => any;
+  deserialize?: (el: HTMLElement | HTMLLinkElement, next: Function) => any;
   serialize?: (obj: Element, children: Node[]) => any;
 }
 
-export const deserializeHtml = (node: Node, rules: Rule[]) => {
+export const deserializeHtml = (html: HTMLElement, rules: Rule[]) => {
   for (const rule of rules) {
-    if (!rule.deserialize || !Element.isElement(node)) {
+    if (!rule.deserialize) {
       continue
     }
-    const res = rule.deserialize(node, ((children: Node) => deserializeHtml(children, rules)))
+    const res = rule.deserialize(html, ((children: HTMLElement) => deserializeHtml(children, rules)))
     if (res) return res;
   }
 }

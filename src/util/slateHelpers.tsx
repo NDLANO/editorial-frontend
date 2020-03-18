@@ -87,9 +87,9 @@ export const logState = (state: any) => {
 // Check if a the parent element can contain a Slate block. This is useful because Slate does not
 // allow you to have mixed inline and block level content in the same node. A block can either
 // contain all block nodes, or it can contain inline and text nodes.
-const canParentElementContainBlock = (el: Element) => {
-  if (el.parentNode && el.parentNode.tagName) {
-    const tagName = el.parentNode.tagName.toLowerCase();
+const canParentElementContainBlock = (el: HTMLElement) => {
+  if (el.parentElement && el.parentElement.tagName) {
+    const tagName = el.parentElement.tagName.toLowerCase();
     return (
       tagName === 'section' ||
       tagName === 'div' ||
@@ -101,9 +101,9 @@ const canParentElementContainBlock = (el: Element) => {
 };
 
 // TODO: get type of aside in here. Default should be rightAside since that is the only
-const getAsideType = (el: Element) => ({
+const getAsideType = (el: HTMLElement) => ({
   type: el.attributes.getNamedItem('data-type')
-    ? el.attributes.getNamedItem('data-type').value
+    ? el.attributes.getNamedItem('data-type')?.value
     : 'rightAside',
 });
 
@@ -115,18 +115,18 @@ const illegalTextUnderBlocks = ['ol', 'ul'];
 
 /* eslint-disable consistent-return, default-case */
 export const textRule: Rule = {
-  deserialize(el: Element) {
+  deserialize(el: HTMLElement) {
     if (
       el.nodeName.toLowerCase() === '#text' &&
-      el.parentNode &&
-      illegalTextUnderBlocks.includes(el.parentNode.tagName.toLowerCase())
+      el.parentElement &&
+      illegalTextUnderBlocks.includes(el.parentElement.tagName.toLowerCase())
     ) {
       return null;
     }
     if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
-      (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
+      (el.parentElement && el.parentElement.tagName.toLowerCase() !== 'section')
     ) {
       return;
     }
@@ -135,7 +135,7 @@ export const textRule: Rule = {
 };
 export const divRule: Rule = {
   // div handling with text in box (bodybox), related content and file embeds
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'div') return;
     const { type } = el.dataset;
 
@@ -196,7 +196,7 @@ export const divRule: Rule = {
 
 export const paragraphRule: Rule = {
   // div handling with text in box (bodybox)
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'p') return;
     const parent = el.parentElement
       ? el.parentElement.tagName.toLowerCase()
@@ -233,7 +233,7 @@ export const paragraphRule: Rule = {
 
 export const listItemRule: Rule = {
   // div handling with text in box (bodybox)
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'li') return;
     // const nodes = [...next(el.childNodes), ...emptyNodes];
 
@@ -251,7 +251,7 @@ export const listItemRule: Rule = {
 };
 
 export const unorderListRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'ul') return;
     return {
       object: 'block',
@@ -269,7 +269,7 @@ export const unorderListRules: Rule = {
 };
 
 export const mathRules: Rule = {
-  deserialize(el: Element) {
+  deserialize(el: HTMLElement) {
     const tagName = el.tagName.toLowerCase();
     if (tagName !== 'math') return;
     return {
@@ -302,7 +302,7 @@ export const mathRules: Rule = {
 
 export const orderListRules: Rule = {
   // div handling with text in box (bodybox)
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'ol') return;
     const type = el.attributes.getNamedItem('data-type');
     const data = { type: type ? type.value : '' };
@@ -335,7 +335,7 @@ export const orderListRules: Rule = {
 };
 
 export const footnoteRule: Rule = {
-  deserialize(el: Element) {
+  deserialize(el: HTMLElement, next: Function) {
     if (!el.tagName.toLowerCase().startsWith('embed')) return;
     const embed = reduceElementDataAttributes(el);
     if (embed.resource !== 'footnote') return;
@@ -370,7 +370,7 @@ export const footnoteRule: Rule = {
 };
 
 export const blockRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     const block = BLOCK_TAGS[el.tagName.toLowerCase() as keyof typeof BLOCK_TAGS];
     if (block) {
       return {
@@ -410,7 +410,7 @@ export const blockRules: Rule = {
 };
 
 export const inlineRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     const inline = INLINE_TAGS[el.tagName.toLowerCase()  as keyof typeof INLINE_TAGS];
     const attributes = reduceElementDataAttributes(el);
 
@@ -421,7 +421,7 @@ export const inlineRules: Rule = {
       object: 'inline',
       type: inline,
       data: attributes,
-      children: el.children.map(c => next(c)),
+      children: ([].slice.call(el.children)).map(c => next(c)),
     };
   },
   serialize(slateObject: Element, children: Node[]) {
@@ -436,19 +436,19 @@ export const inlineRules: Rule = {
 };
 
 export const detailsRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'details') return;
     if (el.className === 'c-details--solution-box') {
       return {
         object: 'block',
         type: 'solutionbox',
-        children: el.children.map(c => next(c)),
+        children: ([].slice.call(el.children)).map(c => next(c)),
       };
     }
     return {
       object: 'block',
       type: 'details',
-      children: el.children.map(c => next(c)),
+      children: ([].slice.call(el.children)).map(c => next(c)),
     };
   },
   serialize(object: Element, children: Node[]) {
@@ -462,7 +462,7 @@ export const detailsRules: Rule = {
 };
 
 export const tableRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     const tagName = el.tagName.toLowerCase();
     const tableTag = TABLE_TAGS[tagName  as keyof typeof TABLE_TAGS];
     if (!tableTag) return;
@@ -472,7 +472,7 @@ export const tableRules: Rule = {
       object: 'block',
       type: tableTag,
       data: { isHeader: tagName === 'th', ...attributes },
-      children: el.children.map(c => next(c)),
+      children: ([].slice.call(el.children)).map(c => next(c)),
     };
   },
   serialize(object: Element, children: Node[]) {
@@ -519,7 +519,7 @@ const relatedRule: Rule = {
 };
 
 export const brRule: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'br') return;
 
     // Transform <br> in blocktags as blocks. This prevents slate from
@@ -528,7 +528,7 @@ export const brRule: Rule = {
       return {
         object: 'block',
         type: 'br',
-        children: el.children.map(c => next(c)),
+        children: ([].slice.call(el.children)).map(c => next(c)),
       };
     }
     // Default to standard slate deserializing if not in a known block
@@ -540,15 +540,15 @@ export const brRule: Rule = {
 };
 
 const markRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     const tagName: string = el.tagName? el.tagName : '';
     const mark = MARK_TAGS[tagName.toLowerCase() as keyof typeof MARK_TAGS];
     if (!mark) return;
-    if (!el.children[0] || el.children[0].data === ' ') return;
+    if (!el.children[0] || el.children[0].textContent === ' ') return;
     return {
       object: 'mark',
       type: mark,
-      children: el.children.map(c => next(c)),
+      children: ([].slice.call(el.children)).map(c => next(c)),
     };
   },
   serialize(slateObject: Element, children: Node[]) {
@@ -572,17 +572,18 @@ const markRules: Rule = {
 };
 
 const linkRules: Rule = {
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement | HTMLLinkElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'a') return;
-    const children = el.children.map(c => next(c));
+    const element = el as HTMLLinkElement
+    const children = ([].slice.call(el.children)).map(c => next(c));
     return {
       object: 'inline',
       type: 'link',
       data: {
-        href: el.href ? el.href : '#',
-        target: el.target !== '' ? el.target : undefined,
-        title: el.title !== '' ? el.title : undefined,
-        rel: el.rel !== '' ? el.rel : undefined,
+        href: element.href ? element.href : '#',
+        target: element.target !== '' ? element.target : undefined,
+        title: element.title !== '' ? element.title : undefined,
+        rel: element.rel !== '' ? element.rel : undefined,
       },
       children,
     };
@@ -618,12 +619,12 @@ const linkRules: Rule = {
 
 const asideRules: Rule = {
   // Aside handling
-  deserialize(el: Element, next: Function) {
+  deserialize(el: HTMLElement, next: Function) {
     if (el.tagName.toLowerCase() !== 'aside') return;
     return {
       object: 'block',
       type: 'aside',
-      children: el.children.map(c => next(c)),
+      children: ([].slice.call(el.children)).map(c => next(c)),
       data: getAsideType(el),
     };
   },
@@ -637,7 +638,7 @@ const asideRules: Rule = {
 const topicArticeEmbedRule: Rule[] = [
   {
     // Embeds handling
-    deserialize(el: Element) {
+    deserialize(el: HTMLElement) {
       if (el.tagName.toLowerCase() !== 'embed') return;
       const embed = reduceElementDataAttributes(el);
       if (embed.resource === 'content-link') {
@@ -675,7 +676,7 @@ const topicArticeEmbedRule: Rule[] = [
 
 export const learningResourceEmbedRule: Rule[] = [
   {
-    deserialize(el: Element) {
+    deserialize(el: HTMLElement) {
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
       const embed = reduceElementDataAttributes(el);
 

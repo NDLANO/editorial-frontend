@@ -150,14 +150,14 @@ const phrases = {
     header: {
       content: 'Søk etter innhold',
       media: 'Søk etter media',
-      concept: 'Søk etter begreper',
+      concept: 'Søk etter forklaringer',
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
     contentNoHits: 'Ingen innhold samsvarte med søket ditt på: {query}',
-    conceptNoHits: 'Ingen begreper samsvarte med søket ditt på: {query}',
+    conceptNoHits: 'Ingen forklaringer samsvarte med søket ditt på: {query}',
     mediaNoHits: 'Ingen media samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
@@ -179,10 +179,10 @@ const phrases = {
     structure: 'Strukturredigering',
     searchContent: 'Søk innhold',
     searchMedia: 'Søk media',
-    searchConcepts: 'Søk begrep',
+    searchConcepts: 'Søk forklaring',
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
-    newConcept: 'Opprett begrep',
+    newConcept: 'Opprett forklaring',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -210,7 +210,7 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
-      conceptQuery: 'Søk på Begrep',
+      conceptQuery: 'Søk på Forklaring',
       contentQuery: 'Søk på Innhold',
       mediaQuery: 'Søk på Media',
       language: 'Velg Språk',
@@ -311,7 +311,7 @@ const phrases = {
     noTitle: 'Ingen tittel',
   },
   conceptSearch: {
-    searchPlaceholder: 'Søk i begreper',
+    searchPlaceholder: 'Søk i forklaringer',
     searchButtonTitle: 'Søk',
     noResults: 'Ingen resultater funnet',
     noTitle: 'Ingen tittel',
@@ -428,7 +428,7 @@ const phrases = {
     headingThree: 'Overskrift 3',
     footnote: 'Fotnote',
     mathml: 'Matte',
-    concept: 'Begrep',
+    concept: 'Forklaring',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -505,10 +505,10 @@ const phrases = {
       add: 'Legg til',
     },
     concept: {
-      create: 'Opprett nytt begrep',
-      addText: 'Velg ett begrep under og trykk "koble til fagtekst", eller',
-      edit: 'Rediger begrep',
-      addConcept: 'Legg til eksisterende begrep',
+      create: 'Opprett ny forklaring',
+      addText: 'Velg en forklaring under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger forklaring',
+      addConcept: 'Legg til eksisterende forklaring',
       source: 'Kilde',
     },
     abort: 'Avbryt',
@@ -664,8 +664,8 @@ const phrases = {
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {
-        remove: 'Fjern begrep',
-        choose: 'Velg begrep',
+        remove: 'Fjern forklaring',
+        choose: 'Velg forklaring',
       },
       link: {
         goTo: 'Gå til',
@@ -1011,8 +1011,8 @@ const phrases = {
     placeholder: 'Kort sammendrag',
   },
   notions: {
-    edit: 'Rediger begrep',
-    closeNotion: 'Lukk begrepsmodal',
+    edit: 'Rediger forklaring',
+    closeNotion: 'Lukk forklaring',
   },
   contextTypes: {
     topic: 'Emne',
@@ -1045,7 +1045,7 @@ const phrases = {
     closeModal: 'Lukk',
   },
   conceptform: {
-    title: 'Begrep',
+    title: 'Forklaring',
   },
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',

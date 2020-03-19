@@ -131,7 +131,7 @@ export const resourceTypesMock = [
   },
   {
     id: 'urn:resourcetype:concept',
-    name: 'Begrep',
+    name: 'Forklaring',
   },
 ];
 
@@ -311,7 +311,7 @@ export const flattenedResourceTypes = [
     typeId: 'urn:resourcetype:externalResource',
     typeName: 'Ekstern læringsressurs',
   },
-  { id: 'urn:resourcetype:concept', name: 'Begrep' },
+  { id: 'urn:resourcetype:concept', name: 'Forklaring' },
   { id: 'topic-article', name: 'Emne' },
 ];
 

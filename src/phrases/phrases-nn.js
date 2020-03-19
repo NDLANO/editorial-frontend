@@ -180,10 +180,10 @@ const phrases = {
     structure: 'Strukturredigering',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
-    searchConcepts: 'Søk begrep',
+    searchConcepts: 'Søk forklaring',
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
-    newConcept: 'Opprett begrep',
+    newConcept: 'Opprett forklaring',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -592,10 +592,10 @@ const phrases = {
       h5p: 'H5P',
     },
     concept: {
-      create: 'Opprett nytt begrep',
-      addText: 'Velg eit begrep under og trykk "koble til fagtekst", eller',
-      edit: 'Rediger begrep',
-      addConcept: 'Legg til eksisterande begrep',
+      create: 'Opprett ny forklaring',
+      addText: 'Velg ei forklaring under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger forklaring',
+      addConcept: 'Legg til eksisterande forklaring',
       source: 'Kjelde',
     },
     workflow: {
@@ -673,8 +673,8 @@ const phrases = {
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {
-        remove: 'Fjern begrep',
-        choose: 'Velg begrep',
+        remove: 'Fjern forklaring',
+        choose: 'Velg forklaring',
       },
       link: {
         goTo: 'Gå til',
@@ -999,8 +999,8 @@ const phrases = {
     goTo: 'Åpne i stukturredigering',
   },
   notions: {
-    edit: 'Rediger begrep',
-    closeNotion: 'Lukk begrepsmodal',
+    edit: 'Rediger forklaring',
+    closeNotion: 'Lukk forklaring',
   },
   contextTypes: {
     topic: 'Emne',
@@ -1033,7 +1033,7 @@ const phrases = {
     closeModal: 'Lukk',
   },
   conceptform: {
-    title: 'Begrep',
+    title: 'Forklaring',
   },
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',

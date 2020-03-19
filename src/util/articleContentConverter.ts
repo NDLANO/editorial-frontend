@@ -11,7 +11,7 @@ import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 import { serializeNodeToPlain, deserializePlain, serializeHtml, deserializeHtml} from './serializer';
 
-export const sectionSplitter = (html: HTMLElement): HTMLElement[] => {
+export const sectionSplitter = (html: string): string[] => {
   const node = document.createElement('div');
   node.insertAdjacentHTML('beforeend', html.toString());
   const sections = [];
@@ -46,7 +46,7 @@ export const createEmptyValue = (): Element =>
     });
 
 export const learningResourceContentToEditorValue = (
-  html: HTMLElement,
+  html: string,
   fragment = undefined,
 ) => {
   if (!html) {

@@ -89,7 +89,6 @@ describe("can enter both element types SlateBlockPicker and SlateVisualElementPi
       'editor/videos/videoListBrightcove');
 
     cy.get('[data-cy=create-video]').click();
-    cy.apiwait(['@editor/videos/brightcoveToken', '@editor/videos/videoListBrightcove']);
     cy.get('[data-cy="use-video"]').first().click();
     cy.get('[data-cy="remove-element"]').click();
   });

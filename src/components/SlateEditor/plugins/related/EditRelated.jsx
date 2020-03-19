@@ -149,7 +149,7 @@ class EditRelated extends React.PureComponent {
                 {t('form.related.title')}
               </h1>
               <StyledListWrapper>{relatedArticles}</StyledListWrapper>
-              <StyledArticle>
+              <StyledArticle data-cy="styled-article-modal">
                 <AsyncDropdown
                   idField="id"
                   name="relatedArticleSearch"

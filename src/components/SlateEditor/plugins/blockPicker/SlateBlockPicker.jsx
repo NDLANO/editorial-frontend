@@ -44,8 +44,6 @@ class SlateBlockPicker extends Component {
   componentDidMount() {
     this.slateBlockRef.current.style.transition = 'opacity 200ms ease';
     this.slateBlockRef.current.style.position = 'absolute';
-
-    this.showPicker();
   }
 
   componentDidUpdate() {
@@ -110,8 +108,8 @@ class SlateBlockPicker extends Component {
     this.setState({ isOpen: false });
   }
 
-  toggleIsOpen() {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  toggleIsOpen(open) {
+    this.setState({ isOpen: open });
   }
 
   getFactboxTitle() {
@@ -121,11 +119,9 @@ class SlateBlockPicker extends Component {
     return messages['editorBlockpicker.actions.solutionbox'];
   }
 
-  async update() {
+  update() {
     const { current: slateBlockRef } = this.slateBlockRef;
     if (slateBlockRef) {
-      await new Promise(resolve => setTimeout(resolve, 50));
-
       // Find location of text selection to calculate where to move slateBlock
       const native = window.getSelection();
       const range = native.getRangeAt(0);
@@ -144,7 +140,7 @@ class SlateBlockPicker extends Component {
       this.slateBlockButtonRef.current.disabled = false;
       clearTimeout(this.zIndexTimeout);
       this.zIndexTimeout = setTimeout(() => {
-        slateBlockRef.style.zIndex = 10;
+        slateBlockRef.style.zIndex = 1;
       }, 100);
     }
   }
@@ -173,13 +169,13 @@ class SlateBlockPicker extends Component {
       this.update();
     } else {
       const { current: slateBlockRef } = this.slateBlockRef;
-      slateBlockRef.style.opacity = 0;
+      slateBlockRef.style.opacity = 1;
       this.slateBlockButtonRef.current.setAttribute('aria-hidden', true);
       this.slateBlockButtonRef.current.tabIndex = -1;
       this.slateBlockButtonRef.current.disabled = true;
       clearTimeout(this.zIndexTimeout);
       this.zIndexTimeout = setTimeout(() => {
-        slateBlockRef.style.zIndex = 0;
+        slateBlockRef.style.zIndex = -1;
       }, 100);
     }
   }
@@ -225,7 +221,7 @@ class SlateBlockPicker extends Component {
           />
         </Portal>
         <Portal isOpened>
-          <div ref={this.slateBlockRef}>
+          <div cy="slate-block-picker-button" ref={this.slateBlockRef}>
             <SlateBlockMenu
               ref={this.slateBlockButtonRef}
               cy="slate-block-picker"

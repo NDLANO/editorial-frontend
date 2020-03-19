@@ -18,13 +18,6 @@ interface Status {
   other: string[];
 }
 
-interface Resource {
-  id: string;
-  name: string;
-  contentUri?: string;
-  path: string;
-}
-
 export interface ResourceType {
   id: string;
   name: string;
@@ -135,9 +128,9 @@ export interface ArticleType {
   competences: string[];
 }
 
-export interface ResourceType {
+export interface Resource {
   connectionId: string;
-  contentUri: string;
+  contentUri?: string;
   id: string;
   isPrimary: boolean;
   name: string;
@@ -153,7 +146,7 @@ export interface ResourceType {
   topicId: string;
 }
 
-export interface LearningpathType {
+export interface Learningpath {
   copyright: {
     license: {
       license: string;

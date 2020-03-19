@@ -27,10 +27,10 @@ import {
 import { fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import {
-  ResourceType,
+  Resource,
   ArticleType,
   TranslateType,
-  LearningpathType,
+  Learningpath,
 } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 
@@ -70,7 +70,7 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
   const publishTopic = () => {
     if (!done) {
       fetchTopicResources(id)
-        .then((resources: ResourceType[]) => {
+        .then((resources: Resource[]) => {
           setArticleCount(resources.length + 1);
           setShowDisplay(true);
           resources.forEach(resource => {
@@ -104,7 +104,7 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
         .catch((e: Error) => handlePublishError(e, name));
     } else if (resourceType === 'learningpath') {
       fetchLearningpath(id)
-        .then((learningpath: LearningpathType) => {
+        .then((learningpath: Learningpath) => {
           name = learningpath.title.title;
           return learningpath.status !== PUBLISHED
             ? updateStatusLearningpath(id, PUBLISHED)

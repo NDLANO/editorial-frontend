@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
@@ -23,6 +24,14 @@ const filterButtonStyle = css`
   padding: 0 10px;
   margin: 0 20px;
 `;
+
+const PublishIndicator = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: green;
+  line-height: 1.625;
+`
 
 const Resource = ({
   contentType,
@@ -39,6 +48,7 @@ const Resource = ({
   connectionId,
   dragHandleProps,
   contentUri,
+  status,
   locale,
   t,
 }) => {
@@ -88,7 +98,7 @@ const Resource = ({
           <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
         </TaxonomyLightbox>
       )}
-
+      <PublishIndicator/>
       {onDelete && (
         <Button onClick={() => onDelete(connectionId)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
@@ -124,6 +134,7 @@ Resource.propTypes = {
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
   contentUri: PropTypes.string,
+  status: PropTypes.string,
   locale: PropTypes.string.isRequired,
 };
 

@@ -19,6 +19,7 @@ import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -106,7 +107,19 @@ export class StructureResources extends React.PureComponent {
           undefined,
           activeFilters.join(','),
         );
-
+        allTopicResources.forEach(resource => {
+          if (resource.contentUri) {
+            const [, resourceType, id] = resource.contentUri.split(':');
+            if (resourceType === 'article') {
+              fetchDraft(id)
+                .then(article => resource.status = article.status.current);
+            }
+            else if (resourceType === 'learningpath') {
+              fetchLearningpath(id)
+                .then(learningpath => resource.status = learningpath.status);
+            }
+          }
+        })
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,
           allTopicResources,

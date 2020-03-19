@@ -13,12 +13,32 @@ import {
 } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 
+interface Tekst {
+  tekst: {
+    spraak: string;
+    verdi: string;
+  }[];
+}
+
+interface Title {
+  spraak: string;
+  verdi: string;
+}
+
+const getTitles = async (titles: Tekst | Title[] | undefined) => {
+  return (titles as Tekst)?.tekst
+    ? (titles as Tekst)?.tekst.find(t => t.spraak === 'default')?.verdi
+    : (titles as Title[])?.find(t => t.spraak === 'default')?.verdi;
+};
+
 export const fetchCompetenceTitle = async (competenceCode: string) => {
   let url;
   if (competenceCode.startsWith('KE')) {
     url = grepUrl(`/kjerneelementer-lk20/${competenceCode}`);
   } else if (competenceCode.startsWith('KM')) {
     url = grepUrl(`/kompetansemaal-lk20/${competenceCode}`);
+  } else if (competenceCode.startsWith('TT')) {
+    url = grepUrl(`/tverrfaglige-temaer-lk20/${competenceCode}`);
   } else {
     return null;
   }
@@ -28,11 +48,8 @@ export const fetchCompetenceTitle = async (competenceCode: string) => {
     if (res.status === 404) {
       return null;
     }
-
     const jsonResponse = await resolveJsonOrRejectWithError(res);
-    const titles: { spraak: string; verdi: string }[] =
-      jsonResponse?.tittel?.tekst;
-    return titles?.find(t => t.spraak === 'default')?.verdi;
+    return getTitles(jsonResponse?.tittel);
   } catch (error) {
     handleError(error);
   }

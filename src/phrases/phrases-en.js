@@ -943,6 +943,12 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    publish: {
+      button: 'Publish all',
+      waiting: 'Publishing resourses',
+      done: 'Resources published',
+      error: 'The following resources were not published:',
+    },
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',

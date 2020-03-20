@@ -44,11 +44,12 @@ const StyledLanguagePill = styled.span`
 `;
 
 const LanguagePill = ({ children, withComponent, isSubmitting, ...rest }) => {
-  const StyledLanguagePillWithComponent = (withComponent && !isSubmitting)
-    ? StyledLanguagePill.withComponent(withComponent)
-    : StyledLanguagePill;
+  const StyledLanguagePillWithComponent =
+    withComponent && !isSubmitting
+      ? StyledLanguagePill.withComponent(withComponent)
+      : StyledLanguagePill;
   return (
-    <StyledLanguagePillWithComponent disabled={isSubmitting} { ...rest}>
+    <StyledLanguagePillWithComponent disabled={isSubmitting} {...rest}>
       {children}
     </StyledLanguagePillWithComponent>
   );

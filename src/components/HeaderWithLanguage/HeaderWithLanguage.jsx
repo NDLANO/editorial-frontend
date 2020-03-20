@@ -36,6 +36,7 @@ const HeaderWithLanguage = ({
   noStatus,
   content,
   type,
+  isSubmitting,
   ...rest
 }) => {
   const { supportedLanguages, articleType } = values;
@@ -71,6 +72,7 @@ const HeaderWithLanguage = ({
           isNewLanguage={isNewLanguage}
           type={multiType}
           title={title}
+          isSubmitting={isSubmitting}
           {...rest}
         />
       </StyledLanguageWrapper>
@@ -104,6 +106,7 @@ HeaderWithLanguage.propTypes = {
     'standard',
     'concept',
   ]),
+  isSubmitting: PropTypes.bool,
 };
 
 export default injectT(HeaderWithLanguage);

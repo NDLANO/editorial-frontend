@@ -13,10 +13,14 @@ const currentStyle = css`
   color: #${colors.brand.primary};
   background: transparent;
   &:focus,
-  &:hover {
+  &:hover:not([disabled]) {
     color: #fff;
     background: ${colors.brand.primary};
     transform: translate(1px, 1px);
+  }
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
   }
 `;
 const StyledLanguagePill = styled.span`
@@ -39,12 +43,13 @@ const StyledLanguagePill = styled.span`
   ${props => !props.current && currentStyle}
 `;
 
-const LanguagePill = ({ children, withComponent, ...rest }) => {
-  const StyledLanguagePillWithComponent = withComponent
-    ? StyledLanguagePill.withComponent(withComponent)
-    : StyledLanguagePill;
+const LanguagePill = ({ children, withComponent, isSubmitting, ...rest }) => {
+  const StyledLanguagePillWithComponent =
+    withComponent && !isSubmitting
+      ? StyledLanguagePill.withComponent(withComponent)
+      : StyledLanguagePill;
   return (
-    <StyledLanguagePillWithComponent {...rest}>
+    <StyledLanguagePillWithComponent disabled={isSubmitting} {...rest}>
       {children}
     </StyledLanguagePillWithComponent>
   );
@@ -52,6 +57,7 @@ const LanguagePill = ({ children, withComponent, ...rest }) => {
 
 LanguagePill.propTypes = {
   withComponent: PropTypes.elementType,
+  isSubmitting: PropTypes.bool,
 };
 
 export default LanguagePill;

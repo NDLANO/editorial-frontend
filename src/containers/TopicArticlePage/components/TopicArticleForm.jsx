@@ -188,6 +188,7 @@ const TopicArticleForm = props => {
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
               setValues={setValues}
+              isSubmitting={isSubmitting}
               {...rest}
             />
             <TopicArticleAccordionPanels

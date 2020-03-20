@@ -211,10 +211,10 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
-      conceptQuery: 'Søk på Forklaringar',
-      contentQuery: 'Søk på Innhald',
-      mediaQuery: 'Søk på Media',
-      language: 'Velg Språk',
+      conceptQuery: 'Søk på forklaringar',
+      contentQuery: 'Søk på innhald',
+      mediaQuery: 'Søk på media',
+      language: 'Velg språk',
       users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',

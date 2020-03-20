@@ -12,7 +12,7 @@
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src",
     "format-check": "node prettier.js lint",
     "format": "node prettier.js write",
-    "start": "razzle start",
+    "start": "razzle start  --inspect --inspect-port 9230",
     "start-with-local-converter": "LOCAL_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",

@@ -6,50 +6,51 @@
  *
  */
 
-import {
-  fetchAuthorized,
-  grepUrl,
-  resolveJsonOrRejectWithError,
-} from '../../util/apiHelpers';
+import { grepUrl, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
 
 interface Tekst {
-  tekst: {
-    spraak: string;
-    verdi: string;
-  }[];
+  tekst: Title[];
 }
-
 interface Title {
   spraak: string;
   verdi: string;
 }
+const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
+  return (titles as Tekst)?.tekst || titles || [];
+};
 
-const getTitles = async (titles: Tekst | Title[] | undefined) => {
-  return (titles as Tekst)?.tekst
-    ? (titles as Tekst)?.tekst.find(t => t.spraak === 'default')?.verdi
-    : (titles as Title[])?.find(t => t.spraak === 'default')?.verdi;
+const getDefaultLang = (titles: Title[]) =>
+  titles?.find(t => t.spraak === 'default')?.verdi;
+
+const fetchKjerneelementer = async (code: string) =>
+  fetch(grepUrl(`/kjerneelementer-lk20/${code}`));
+
+const fetchKompetansemaal = async (code: string) =>
+  fetch(grepUrl(`/kompetansemaal-lk20/${code}`));
+
+const fetchTverrfagligeTemaer = async (code: string) =>
+  fetch(grepUrl(`/tverrfaglige-temaer-lk20/${code}`));
+
+const doCompetenceRequest = async (code: string) => {
+  if (code.startsWith('KE')) {
+    return fetchKjerneelementer(code);
+  } else if (code.startsWith('KM')) {
+    return fetchKompetansemaal(code);
+  } else if (code.startsWith('TT')) {
+    return fetchTverrfagligeTemaer(code);
+  }
 };
 
 export const fetchCompetenceTitle = async (competenceCode: string) => {
-  let url;
-  if (competenceCode.startsWith('KE')) {
-    url = grepUrl(`/kjerneelementer-lk20/${competenceCode}`);
-  } else if (competenceCode.startsWith('KM')) {
-    url = grepUrl(`/kompetansemaal-lk20/${competenceCode}`);
-  } else if (competenceCode.startsWith('TT')) {
-    url = grepUrl(`/tverrfaglige-temaer-lk20/${competenceCode}`);
-  } else {
-    return null;
-  }
-
+  const res = await doCompetenceRequest(competenceCode);
   try {
-    const res = await fetchAuthorized(url);
-    if (res.status === 404) {
+    if (res?.status === 404) {
       return null;
     }
     const jsonResponse = await resolveJsonOrRejectWithError(res);
-    return getTitles(jsonResponse?.tittel);
+    const titlesObj = getTitlesObject(jsonResponse?.tittel);
+    return getDefaultLang(titlesObj);
   } catch (error) {
     handleError(error);
   }

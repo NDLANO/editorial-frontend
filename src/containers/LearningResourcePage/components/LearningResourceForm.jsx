@@ -165,6 +165,7 @@ const LearningResourceForm = props => {
               }
               getArticle={getArticle}
               formIsDirty={formIsDirty}
+              isSubmitting={isSubmitting}
               {...rest}
             />
             <LearningResourcePanels

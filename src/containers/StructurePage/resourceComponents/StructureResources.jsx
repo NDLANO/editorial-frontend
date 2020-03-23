@@ -96,6 +96,7 @@ export class StructureResources extends React.PureComponent {
       currentTopic: { id: topicId },
       locale,
       activeFilters,
+      currentTopic,
     } = this.props;
     const { resourceTypes } = this.state;
     if (topicId) {
@@ -108,6 +109,13 @@ export class StructureResources extends React.PureComponent {
           activeFilters.join(','),
         );
 
+        if (currentTopic.contentUri)
+          fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
+            article =>
+              this.setState({
+                topicStatus: article.status.current,
+              }),
+          );
         this.getResourceStatuses(allTopicResources);
 
         const topicResources = groupSortResourceTypesFromTopicResources(
@@ -160,6 +168,7 @@ export class StructureResources extends React.PureComponent {
       topicDescription,
       resourceTypes,
       topicResources,
+      topicStatus,
       loading,
     } = this.state;
     if (loading) {
@@ -173,6 +182,7 @@ export class StructureResources extends React.PureComponent {
           resourceRef={resourceRef}
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
+          status={topicStatus}
         />
         {resourceTypes.map(resourceType => {
           const topicResource =

@@ -75,11 +75,11 @@ const Resource = ({
           name={name}
         />
       </div>
-      {status === PUBLISHED &&
+      {status === PUBLISHED && (
         <Tooltip tooltip={t('form.workflow.published')}>
-          <StyledCheckIcon/>
+          <StyledCheckIcon />
         </Tooltip>
-      }
+      )}
       {contentType !== 'topic-article' && (
         <Button
           stripped

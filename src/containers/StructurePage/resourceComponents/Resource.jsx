@@ -15,6 +15,10 @@ import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
+import { Check } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
@@ -26,12 +30,10 @@ const filterButtonStyle = css`
   margin: 0 20px;
 `;
 
-const PublishIndicator = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: green;
-  line-height: 1.625;
+const StyledCheckIcon = styled(Check)`
+  height: 24px;
+  width: 24px;
+  fill: ${colors.support.green};
 `;
 
 const Resource = ({
@@ -73,6 +75,11 @@ const Resource = ({
           name={name}
         />
       </div>
+      {status === PUBLISHED &&
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <StyledCheckIcon/>
+        </Tooltip>
+      }
       {contentType !== 'topic-article' && (
         <Button
           stripped
@@ -99,7 +106,6 @@ const Resource = ({
           <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
         </TaxonomyLightbox>
       )}
-      {status === PUBLISHED && <PublishIndicator />}
       {onDelete && (
         <Button onClick={() => onDelete(connectionId)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />

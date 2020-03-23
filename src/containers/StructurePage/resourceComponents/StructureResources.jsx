@@ -107,19 +107,9 @@ export class StructureResources extends React.PureComponent {
           undefined,
           activeFilters.join(','),
         );
-        allTopicResources.forEach(resource => {
-          if (resource.contentUri) {
-            const [, resourceType, id] = resource.contentUri.split(':');
-            if (resourceType === 'article') {
-              fetchDraft(id)
-                .then(article => resource.status = article.status.current);
-            }
-            else if (resourceType === 'learningpath') {
-              fetchLearningpath(id)
-                .then(learningpath => resource.status = learningpath.status);
-            }
-          }
-        })
+
+        this.getResourceStatuses(allTopicResources);
+
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,
           allTopicResources,
@@ -132,6 +122,29 @@ export class StructureResources extends React.PureComponent {
     } else {
       this.setState({ topicResources: [], loading: false });
     }
+  }
+
+  async getResourceStatuses(allTopicResources) {
+    const resourcePromises = allTopicResources.map(async resource => {
+      if (resource.contentUri) {
+        const [, resourceType, id] = resource.contentUri.split(':');
+        if (resourceType === 'article') {
+          const article = await fetchDraft(id);
+          resource.status = article.status.current;
+          return article;
+        } else if (resourceType === 'learningpath') {
+          const learningpath = await fetchLearningpath(id);
+          resource.status = learningpath.status;
+          return learningpath;
+        }
+      }
+    });
+    await Promise.all(resourcePromises);
+    const topicResources = groupSortResourceTypesFromTopicResources(
+      this.state.resourceTypes,
+      allTopicResources,
+    );
+    this.setState({ topicResources });
   }
 
   render() {

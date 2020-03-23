@@ -19,6 +19,7 @@ import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
+import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -31,7 +32,7 @@ const PublishIndicator = styled.div`
   border-radius: 50%;
   background-color: green;
   line-height: 1.625;
-`
+`;
 
 const Resource = ({
   contentType,
@@ -98,7 +99,7 @@ const Resource = ({
           <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
         </TaxonomyLightbox>
       )}
-      <PublishIndicator/>
+      {status === PUBLISHED && <PublishIndicator />}
       {onDelete && (
         <Button onClick={() => onDelete(connectionId)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />

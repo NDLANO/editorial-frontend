@@ -39,7 +39,6 @@ import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPick
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
-import { createEmptyValue } from '../../../util/articleContentConverter';
 import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';

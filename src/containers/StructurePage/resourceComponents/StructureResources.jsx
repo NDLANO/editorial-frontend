@@ -109,13 +109,14 @@ export class StructureResources extends React.PureComponent {
           activeFilters.join(','),
         );
 
-        if (currentTopic.contentUri)
+        if (currentTopic.contentUri) {
           fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
             article =>
               this.setState({
                 topicStatus: article.status.current,
               }),
           );
+        }
         this.getResourceStatuses(allTopicResources);
 
         const topicResources = groupSortResourceTypesFromTopicResources(

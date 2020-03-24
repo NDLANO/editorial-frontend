@@ -19,6 +19,7 @@ import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -95,6 +96,7 @@ export class StructureResources extends React.PureComponent {
       currentTopic: { id: topicId },
       locale,
       activeFilters,
+      currentTopic,
     } = this.props;
     const { resourceTypes } = this.state;
     if (topicId) {
@@ -106,6 +108,16 @@ export class StructureResources extends React.PureComponent {
           undefined,
           activeFilters.join(','),
         );
+
+        if (currentTopic.contentUri) {
+          fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
+            article =>
+              this.setState({
+                topicStatus: article.status.current,
+              }),
+          );
+        }
+        this.getResourceStatuses(allTopicResources);
 
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,
@@ -121,6 +133,29 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
+  async getResourceStatuses(allTopicResources) {
+    const resourcePromises = allTopicResources.map(async resource => {
+      if (resource.contentUri) {
+        const [, resourceType, id] = resource.contentUri.split(':');
+        if (resourceType === 'article') {
+          const article = await fetchDraft(id);
+          resource.status = article.status.current;
+          return article;
+        } else if (resourceType === 'learningpath') {
+          const learningpath = await fetchLearningpath(id);
+          resource.status = learningpath.status;
+          return learningpath;
+        }
+      }
+    });
+    await Promise.all(resourcePromises);
+    const topicResources = groupSortResourceTypesFromTopicResources(
+      this.state.resourceTypes,
+      allTopicResources,
+    );
+    this.setState({ topicResources });
+  }
+
   render() {
     const {
       activeFilters,
@@ -134,6 +169,7 @@ export class StructureResources extends React.PureComponent {
       topicDescription,
       resourceTypes,
       topicResources,
+      topicStatus,
       loading,
     } = this.state;
     if (loading) {
@@ -147,6 +183,7 @@ export class StructureResources extends React.PureComponent {
           resourceRef={resourceRef}
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
+          status={topicStatus}
         />
         {resourceTypes.map(resourceType => {
           const topicResource =

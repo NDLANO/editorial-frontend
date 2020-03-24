@@ -89,7 +89,7 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
-              {lastUsed.length ? (
+              {false && lastUsed.length ? (
                 lastUsed.map((result: ContentResultType) => (
                   <LastUsedContent
                     key={result.id}

@@ -1295,13 +1295,13 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.7.8":
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.8.tgz#93cfa06c5f1925a98b1ee121a33c547ebca35ae3"
-  integrity sha512-rpgKRq+iwa2NNM9gKWtYe/ux9pYhWu6cswtDTCaXgOuD+KqZfZPAUVrtHQkGnNawcW4OhUh2fyVm6D0klH/pQw==
+"@ndla/editor@^0.7.10":
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.10.tgz#0c9f94292df037a18852c0a4dad1a7f7efd2ea35"
+  integrity sha512-fAJuWVxfCfYiKFO1ur5p7pN8iFADWFALN9TuXrMehZBIapMw56og7iqqRH8m2Teg15SChIb5UyROoDyViqPMqA==
   dependencies:
     "@ndla/core" "^0.6.21"
-    "@ndla/icons" "^0.6.21"
+    "@ndla/icons" "^0.6.22"
     "@types/react-beautiful-dnd" "^11.0.3"
     react-beautiful-dnd "^12.0.0"
 
@@ -1363,6 +1363,11 @@
   version "0.6.21"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.21.tgz#8b7bb4b6d37df8142c913fd3a07e76a99243db55"
   integrity sha512-/sFafIWWRsjr7aWkSn3AZaJe1pkSyiSbwTrcFVqu9VbSevXabKGS3VeoaKocBbJvBC3f5uXAT07xni0uWP9chQ==
+
+"@ndla/icons@^0.6.22":
+  version "0.6.22"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.22.tgz#0e5b44d6982f2e7541360e9e01443eab966378da"
+  integrity sha512-9Y9Nl4Vw+mwz+LhQCJRWwWcQYAu2HuK/6ZTY5LUBZEQrrcI/5tbru2W9cadcdGtOh9++chJ80tTAIyM8wbB9rA==
 
 "@ndla/image-search@^0.8.78":
   version "0.8.78"

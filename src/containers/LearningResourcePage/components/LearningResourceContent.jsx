@@ -81,7 +81,6 @@ class LearningResourceContent extends Component {
     const {
       article: { language },
     } = props;
-    this.addSection = this.addSection.bind(this);
     this.plugins = [
       footnotePlugin(),
       createEmbedPlugin(language),
@@ -102,7 +101,7 @@ class LearningResourceContent extends Component {
       relatedPlugin(),
       filePlugin(),
       mathmlPlugin(),
-      blockPickerPlugin(this.addSection, {
+      blockPickerPlugin({
         articleLanguage: language,
         actionsToShowInAreas: {
           solutionbox: ['table'],
@@ -122,7 +121,7 @@ class LearningResourceContent extends Component {
       this.plugins = [
         createEmbedPlugin(language),
         conceptPlugin(language),
-        blockPickerPlugin(this.addSection, {
+        blockPickerPlugin({
           articleLanguage: language,
           actionsToShowInAreas: {
             solutionbox: ['table'],
@@ -131,16 +130,6 @@ class LearningResourceContent extends Component {
         }),
       ];
     }
-  }
-
-  addSection() {
-    const {
-      formik: {
-        values: { content },
-        setFieldValue,
-      },
-    } = this.props;
-    setFieldValue('content', [...content, createEmptyValue()]);
   }
 
   render() {

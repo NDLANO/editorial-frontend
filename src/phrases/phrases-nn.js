@@ -145,6 +145,8 @@ const phrases = {
     savedSearch: 'Lagra søk',
     emptySavedSearch: 'Ingen lagra søk',
     guidelines: 'Retningslinjer',
+    saveSearch: 'Lagre søk',
+    deleteSearch: 'Slett søk',
   },
   searchPage: {
     header: {

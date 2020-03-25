@@ -147,6 +147,8 @@ const phrases = {
     savedSearch: 'Saved searches',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
+    saveSearch: 'Save search',
+    deleteSearch: 'Delete search',
   },
   searchPage: {
     header: {

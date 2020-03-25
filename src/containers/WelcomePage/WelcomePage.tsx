@@ -27,6 +27,7 @@ import { search } from '../../modules/search/searchApi';
 import { ContentResultType, TranslateType } from '../../interfaces';
 
 import LastUsedContent from './components/LastUsedContent';
+import SaveSearchUrl from './components/SaveSearchUrl';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -108,6 +109,7 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <span>{t('welcomePage.savedSearch')}</span>
               </div>
               <span>{t('welcomePage.emptySavedSearch')}</span>
+              <SaveSearchUrl />
             </div>
           </div>
         </OneColumn>

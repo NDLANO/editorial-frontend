@@ -36,6 +36,7 @@ class TopicDescription extends Component {
       locale,
       refreshTopics,
       currentTopic,
+      status,
       t,
       resourceRef,
     } = this.props;
@@ -55,6 +56,7 @@ class TopicDescription extends Component {
               name={topicDescription}
               locale={locale}
               contentUri={currentTopic.contentUri}
+              status={status}
             />
           )}
         </Accordion>
@@ -79,6 +81,7 @@ TopicDescription.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
   }).isRequired,
+  status: PropTypes.string,
   resourceRef: PropTypes.object,
 };
 

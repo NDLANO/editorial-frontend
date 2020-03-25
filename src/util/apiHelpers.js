@@ -52,11 +52,7 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
     ? config.headers['Content-Type']
     : 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
-  const cacheControl = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(
-    config.method,
-  )
-    ? {}
-    : { 'Cache-Control': 'no-cache' };
+  const cacheControl = { 'Cache-Control': 'no-cache' };
 
   return fetch(url, {
     ...config,

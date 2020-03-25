@@ -46,20 +46,23 @@ test('transformArticleToApiVersion', () => {
 });
 
 test('isCompetenceValid correct behavior', () => {
-  const competences = [
-    'K1',
-    'K123',
-    'KE1337',
-    'KM2255',
-    'KV5432',
-    'KJ12',
-    '1K123',
-    'K3K',
-    'k123',
-  ];
-  const result = [false, false, true, true, false, false, false, false, false];
+  const competences = new Map();
+  competences.set('KE1337', true);
+  competences.set('KM2255', true);
+  competences.set('TT3', true);
+  competences.set('TT9898', true);
+  competences.set('TTR13', false);
+  competences.set('TT12KE1337', false);
+  competences.set('KE1337TT12', false);
+  competences.set('K1', false);
+  competences.set('K123', false);
+  competences.set('KV5432', false);
+  competences.set('KJ12', false);
+  competences.set('1K123', false);
+  competences.set('K3K', false);
+  competences.set('k123', false);
 
-  competences.map((value, idx) =>
-    expect(isCompetenceValid(value)).toBe(result[idx]),
+  competences.forEach((value, key) =>
+    expect(isCompetenceValid(key)).toBe(value),
   );
 });

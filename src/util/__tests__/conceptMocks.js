@@ -1,8 +1,8 @@
 export const apiConcept = {
   id: 400,
-  title: { title: 'Testbegrep', language: 'nb' },
+  title: { title: 'Testforklaring', language: 'nb' },
   content: {
-    content: 'Beskrivelse av testbegrep.',
+    content: 'Beskrivelse av testforklaring.',
     language: 'nb',
   },
   copyright: {
@@ -22,7 +22,7 @@ export const apiConcept = {
 };
 
 export const transformedConcept = {
-  content: 'Beskrivelse av testbegrep.',
+  content: 'Beskrivelse av testforklaring.',
   copyright: {
     creators: [
       {
@@ -43,6 +43,6 @@ export const transformedConcept = {
   id: 400,
   published: '2019-01-16T12:30:04Z',
   supportedLanguages: ['nb', 'nn', 'en'],
-  title: 'Testbegrep',
+  title: 'Testforklaring',
   updated: '2019-05-15T08:45:46Z',
 };

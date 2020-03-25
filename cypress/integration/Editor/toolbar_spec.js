@@ -30,9 +30,6 @@ describe('Selecting text and using the toolbar', () => {
 
     cy.get('[data-testid=toolbar-button-bold]').click({ force: true });
     cy.get('[data-testid=toolbar-button-italic]').click({ force: true });
-    cy.get('[data-testid=toolbar-button-underlined]').click({
-      force: true,
-    });
     cy.get('[data-testid=toolbar-button-quote]').click({ force: true });
     cy.get('span')
       .contains('This is test content')
@@ -46,7 +43,6 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
         cy.get('[data-testid=toolbar-button-italic]').click();
-        cy.get('[data-testid=toolbar-button-underlined]').click();
         cy.get('[data-testid=toolbar-button-heading-two]').click();
         cy.wrap($el).type('{selectall}new heading{selectall}');
         cy.get('[data-testid=toolbar-button-heading-three]').click();
@@ -66,8 +62,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('{selectall}');
       });
 
-    cy.get('[data-testid=toolbar-button-link]')
-      .click({ force: true });
+    cy.get('[data-testid=toolbar-button-link]').click({ force: true });
     cy.wait(500);
     cy.get('button')
       .contains('Sett inn lenke')

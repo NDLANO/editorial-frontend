@@ -13,6 +13,11 @@ export function expiresIn(token) {
   return decoded.exp - decoded.iat - 60; // Add 60 second buffer
 }
 
+export function ndlaId(token) {
+  const decoded = decode(token);
+  return decoded['https://ndla.no/ndla_id'];
+}
+
 export const decodeToken = accessToken => decode(accessToken);
 
 export const isValid = accessToken => {

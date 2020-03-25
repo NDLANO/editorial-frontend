@@ -26,7 +26,12 @@ const deleteButtonStyle = css`
 `;
 
 export const DeleteButton = ({ children, style, ...rest }) => (
-  <CrossButton stripped css={[deleteButtonStyle, style]} {...rest} />
+  <CrossButton
+    data-cy="close-related-button"
+    stripped
+    css={[deleteButtonStyle, style]}
+    {...rest}
+  />
 );
 
 DeleteButton.propTypes = {

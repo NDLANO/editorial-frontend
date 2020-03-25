@@ -10,18 +10,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
+import { Check } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
+import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 
 const filterButtonStyle = css`
   padding: 0 10px;
   margin: 0 20px;
+`;
+
+const StyledCheckIcon = styled(Check)`
+  height: 24px;
+  width: 24px;
+  fill: ${colors.support.green};
 `;
 
 const Resource = ({
@@ -39,6 +51,7 @@ const Resource = ({
   connectionId,
   dragHandleProps,
   contentUri,
+  status,
   locale,
   t,
 }) => {
@@ -62,6 +75,11 @@ const Resource = ({
           name={name}
         />
       </div>
+      {status === PUBLISHED && (
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <StyledCheckIcon />
+        </Tooltip>
+      )}
       {contentType !== 'topic-article' && (
         <Button
           stripped
@@ -88,7 +106,6 @@ const Resource = ({
           <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
         </TaxonomyLightbox>
       )}
-
       {onDelete && (
         <Button onClick={() => onDelete(connectionId)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
@@ -124,6 +141,7 @@ Resource.propTypes = {
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
   contentUri: PropTypes.string,
+  status: PropTypes.string,
   locale: PropTypes.string.isRequired,
 };
 

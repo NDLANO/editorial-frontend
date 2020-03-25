@@ -707,7 +707,7 @@ export const learningResourceEmbedRule: Rule[] = [
               object: 'text',
               text: embed['link-text']
                 ? embed['link-text']
-                : 'Ukjent begrepstekst',
+                : 'Ukjent forklaringsstekst',
               marks: [],
             },
           ],

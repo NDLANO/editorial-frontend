@@ -15,6 +15,7 @@ import HeaderLanguagePill from './HeaderLanguagePill';
 const HeaderSupportedLanguages = ({
   supportedLanguages,
   editUrl,
+  isSubmitting,
   language,
   t,
 }) => {
@@ -32,7 +33,8 @@ const HeaderSupportedLanguages = ({
         })}>
         <HeaderLanguagePill
           to={editUrl(supportedLanguage)}
-          withComponent={Link}>
+          withComponent={Link}
+          isSubmitting={isSubmitting}>
           {t(`language.${supportedLanguage}`)}
         </HeaderLanguagePill>
       </Tooltip>
@@ -49,6 +51,7 @@ HeaderSupportedLanguages.propTypes = {
   language: PropTypes.string,
   editUrl: PropTypes.func.isRequired,
   supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+  isSubmitting: PropTypes.bool,
 };
 
 export default injectT(HeaderSupportedLanguages);

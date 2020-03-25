@@ -202,6 +202,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         <button
           className="emotion-3 emotion-4"
           color="red"
+          data-cy="remove-element"
           onClick={[Function]}
           tabIndex={-1}
           type="button"

@@ -14,6 +14,18 @@ import {
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
+export const fetchLearningpath = id =>
+  fetchAuthorized(`${baseUrl}/${id}`).then(resolveJsonOrRejectWithError);
+
+export const updateStatusLearningpath = (id, status, message) =>
+  fetchAuthorized(`${baseUrl}/${id}/status/`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      status,
+      message,
+    }),
+  }).then(resolveJsonOrRejectWithError);
+
 export const learningpathSearch = query =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',

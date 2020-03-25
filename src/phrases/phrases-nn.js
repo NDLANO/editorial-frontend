@@ -180,10 +180,10 @@ const phrases = {
     structure: 'Strukturredigering',
     searchContent: 'Søk innhald',
     searchMedia: 'Søk media',
-    searchConcepts: 'Søk begrep',
+    searchConcepts: 'Søk forklaring',
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
-    newConcept: 'Opprett begrep',
+    newConcept: 'Opprett forklaring',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -211,10 +211,10 @@ const phrases = {
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
     types: {
-      conceptQuery: 'Søk på Forklaringar',
-      contentQuery: 'Søk på Innhald',
-      mediaQuery: 'Søk på Media',
-      language: 'Velg Språk',
+      conceptQuery: 'Søk på forklaringar',
+      contentQuery: 'Søk på innhald',
+      mediaQuery: 'Søk på media',
+      language: 'Velg språk',
       users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
@@ -592,10 +592,10 @@ const phrases = {
       h5p: 'H5P',
     },
     concept: {
-      create: 'Opprett nytt begrep',
-      addText: 'Velg eit begrep under og trykk "koble til fagtekst", eller',
-      edit: 'Rediger begrep',
-      addConcept: 'Legg til eksisterande begrep',
+      create: 'Opprett ny forklaring',
+      addText: 'Velg ei forklaring under og trykk "koble til fagtekst", eller',
+      edit: 'Rediger forklaring',
+      addConcept: 'Legg til eksisterande forklaring',
       source: 'Kjelde',
     },
     workflow: {
@@ -673,8 +673,8 @@ const phrases = {
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {
-        remove: 'Fjern begrep',
-        choose: 'Velg begrep',
+        remove: 'Fjern forklaring',
+        choose: 'Velg forklaring',
       },
       link: {
         goTo: 'Gå til',
@@ -727,7 +727,7 @@ const phrases = {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
-        'Skriv inn koder på formatet K(E/M) fulgt av eit eller fleire siffer. Eks. KE137, KM2255. Koder som ikkje eksisterer vil ikkje bli oppretta.',
+        'Skriv inn koder på formatet K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2. Koder som ikkje eksisterer vil ikkje bli oppretta.',
     },
     resourceTypes: {
       label: 'Innhaldstype og egenskaper',
@@ -896,7 +896,7 @@ const phrases = {
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     competences:
-      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) fulgt av eit eller fleire siffer. Eks. KE137, KM2255.',
+      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',
@@ -957,6 +957,12 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    publish: {
+      button: 'Publiser alt',
+      waiting: 'Publiserar ressurser',
+      done: 'Ressurser er publisert',
+      error: 'Følgande ressurser blei ikkje publisert:',
+    },
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
@@ -993,8 +999,8 @@ const phrases = {
     goTo: 'Åpne i stukturredigering',
   },
   notions: {
-    edit: 'Rediger begrep',
-    closeNotion: 'Lukk begrepsmodal',
+    edit: 'Rediger forklaring',
+    closeNotion: 'Lukk forklaring',
   },
   contextTypes: {
     topic: 'Emne',
@@ -1027,7 +1033,7 @@ const phrases = {
     closeModal: 'Lukk',
   },
   conceptform: {
-    title: 'Begrep',
+    title: 'Forklaring',
   },
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',

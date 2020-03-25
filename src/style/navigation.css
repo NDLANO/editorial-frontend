@@ -11,9 +11,9 @@
     align-self: center;
     display: block;
     text-align: center;
-    margin-right: 3rem;
+    margin-right: 2rem;
     box-shadow: none;
-    width: 7.5rem;
+    width: 8.5rem;
     font-size: 14px;
 
     &:hover,

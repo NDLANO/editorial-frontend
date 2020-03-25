@@ -707,7 +707,7 @@ const phrases = {
       label: 'Competences and core elements',
       placeholder: 'Type code',
       description:
-        'Type in codes using the format K(E/M) followed by one or more digits. Ex. KE137, KM2255. Non existing codes will not be created.',
+        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created.',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -881,7 +881,7 @@ const phrases = {
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
     competences:
-      'Competences are in the wrong format. The correct format is K(E/M) followed by one or more digits. Ex. KE137, KM2255.',
+      'Competences are in the wrong format. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -943,6 +943,12 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    publish: {
+      button: 'Publish all',
+      waiting: 'Publishing resourses',
+      done: 'Resources published',
+      error: 'The following resources were not published:',
+    },
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',

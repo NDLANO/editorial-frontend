@@ -62,12 +62,8 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(block) {
-    const { editor, addSection } = this.props;
+    const { editor } = this.props;
     switch (block.type) {
-      case 'block': {
-        addSection();
-        break;
-      }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
         break;
@@ -248,7 +244,6 @@ class SlateBlockPicker extends Component {
 SlateBlockPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   editor: PropTypes.object.isRequired,
-  addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),
   articleLanguage: PropTypes.string.isRequired,

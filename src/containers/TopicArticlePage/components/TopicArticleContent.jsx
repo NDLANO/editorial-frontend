@@ -6,17 +6,22 @@
  *
  */
 
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import Tooltip from '@ndla/tooltip';
+import { Eye } from '@ndla/icons/editor';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
 import TopicArticleVisualElement from './TopicArticleVisualElement';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
+import ToggleButton from '../../../components/ToggleButton';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 import {
   renderBlock,
   renderMark,
@@ -37,6 +42,14 @@ import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar'
 const byLineStyle = css`
   display: flex;
   margin-top: 0;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 64px;
 `;
 
 const createPlugins = language => {
@@ -63,7 +76,7 @@ const TopicArticleContent = props => {
       values: { id, language, creators, published, visualElement },
     },
   } = props;
-
+  const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
     return createPlugins(language);
   }, [language]);
@@ -79,17 +92,32 @@ const TopicArticleContent = props => {
       />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
-          <LastUpdatedLine
-            name={field.name}
-            creators={creators}
-            published={published}
-            onChange={date => {
-              form.setFieldValue(field.name, date);
-            }}
-          />
+          <>
+            <LastUpdatedLine
+              name={field.name}
+              creators={creators}
+              published={published}
+              onChange={date => {
+                form.setFieldValue(field.name, date);
+              }}
+            />
+            <IconContainer>
+              <Tooltip tooltip={t('form.markdown.button')}>
+                <ToggleButton
+                  active={preview}
+                  onClick={() => setPreview(!preview)}>
+                  <Eye />
+                </ToggleButton>
+              </Tooltip>
+              <HowToHelper
+                pageId="Markdown"
+                tooltip={t('form.markdown.helpLabel')}
+              />
+            </IconContainer>
+          </>
         )}
       </FormikField>
-      <FormikIngress />
+      <FormikIngress preview={preview} />
       <TopicArticleVisualElement visualElement={visualElement} />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (

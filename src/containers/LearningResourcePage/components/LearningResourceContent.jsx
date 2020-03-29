@@ -10,10 +10,13 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { compose } from 'redux';
 import { connect as reduxConnect } from 'react-redux';
 import { connect as formikConnect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
+import Tooltip from '@ndla/tooltip';
+import { Eye } from '@ndla/icons/editor';
 import { getLocale } from '../../../modules/locale/locale';
 import FormikField, {
   classes as formikFieldClasses,
@@ -27,6 +30,8 @@ import {
   renderMark,
   renderInline,
 } from '../../../components/SlateEditor/slateRendering';
+import ToggleButton from '../../../components/ToggleButton';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../util/slateHelpers';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
@@ -60,6 +65,14 @@ import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar'
 const byLineStyle = css`
   display: flex;
   margin-top: 0;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 64px;
 `;
 
 const findFootnotes = content =>
@@ -80,6 +93,9 @@ class LearningResourceContent extends Component {
     const {
       article: { language },
     } = props;
+    this.state = {
+      preview: false,
+    };
     this.plugins = [
       footnotePlugin(),
       createEmbedPlugin(language),
@@ -154,17 +170,36 @@ class LearningResourceContent extends Component {
         />
         <FormikField name="published" css={byLineStyle}>
           {({ field, form }) => (
-            <LastUpdatedLine
-              name={field.name}
-              creators={creators}
-              published={published}
-              onChange={date => {
-                form.setFieldValue(field.name, date);
-              }}
-            />
+            <>
+              <LastUpdatedLine
+                name={field.name}
+                creators={creators}
+                published={published}
+                onChange={date => {
+                  form.setFieldValue(field.name, date);
+                }}
+              />
+              <IconContainer>
+                <Tooltip tooltip={t('form.markdown.button')}>
+                  <ToggleButton
+                    active={this.state.preview}
+                    onClick={() =>
+                      this.setState(prevState => ({
+                        preview: !prevState.preview,
+                      }))
+                    }>
+                    <Eye />
+                  </ToggleButton>
+                </Tooltip>
+                <HowToHelper
+                  pageId="Markdown"
+                  tooltip={t('form.markdown.helpLabel')}
+                />
+              </IconContainer>
+            </>
           )}
         </FormikField>
-        <FormikIngress />
+        <FormikIngress preview={this.state.preview} />
         <FormikField
           name="content"
           label={t('form.content.label')}

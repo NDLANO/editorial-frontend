@@ -50,6 +50,7 @@ const FormikMetadata = ({ t, article, locale }) => (
         <FormikMetaImageSearch
           metaImageId={field.value}
           setFieldTouched={form.setFieldTouched}
+          showRemoveButton={false}
           {...field}
         />
       )}

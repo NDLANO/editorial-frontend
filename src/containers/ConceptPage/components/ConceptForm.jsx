@@ -135,15 +135,18 @@ class ConceptForm extends Component {
     return undefined;
   };
 
+  nullOrUndefined = metaImageId => {
+    return metaImageId === null ? null : undefined;
+  };
+
   getConcept = values => {
     const { licenses } = this.props;
-
     const metaImage = values?.metaImageId
       ? {
           id: values.metaImageId,
           alt: values.metaImageAlt,
         }
-      : undefined;
+      : this.nullOrUndefined(values?.metaImageId);
 
     return {
       id: values.id,

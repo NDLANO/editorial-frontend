@@ -558,6 +558,7 @@ const phrases = {
       label: 'Meta image',
       helpLabel: 'What is a meta image?',
       add: 'Choose meta image',
+      remove: 'Remove meta image',
     },
     markdown: {
       button: 'Click to view markdown',

@@ -79,6 +79,10 @@ const getPublishedDate = (values, initialValues, preview = false) => {
   return undefined;
 };
 
+const nullOrUndefined = metaImageId => {
+  return metaImageId === null ? null : undefined;
+};
+
 const getArticleFromSlate = ({
   values,
   licenses,
@@ -93,7 +97,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'standard',

@@ -112,7 +112,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'topic-article',
@@ -139,6 +139,10 @@ const getArticleFromSlate = ({
   };
 
   return article;
+};
+
+const nullOrUndefined = metaImageId => {
+  return metaImageId === null ? null : undefined;
 };
 
 const TopicArticleForm = props => {

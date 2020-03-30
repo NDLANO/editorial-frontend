@@ -70,14 +70,24 @@ class FormikMetaImageSearch extends Component {
   onImageChange(image) {
     this.onImageSelectClose();
     this.setState({ image });
+    this.onChangeFormik(image.id);
+  }
+
+  onChangeFormik = value => {
     const { onChange, name } = this.props;
     onChange({
       target: {
         name,
-        value: image.id,
+        value: value,
       },
     });
-  }
+  };
+
+  onImageRemove = () => {
+    this.onImageSelectClose();
+    this.setState({ image: undefined });
+    this.onChangeFormik(null);
+  };
 
   onImageSelectClose() {
     this.props.setFieldTouched('metaImageAlt', true, true);
@@ -94,7 +104,7 @@ class FormikMetaImageSearch extends Component {
   }
 
   render() {
-    const { t, locale, isSavingImage } = this.props;
+    const { t, locale, isSavingImage, showRemoveButton } = this.props;
     const { image, showImageSelect } = this.state;
     const fetchImage = id => api.fetchImage(id, locale);
     return (
@@ -138,6 +148,8 @@ class FormikMetaImageSearch extends Component {
           <FormikMetaImage
             image={image}
             onImageSelectOpen={this.onImageSelectOpen}
+            onImageDelete={this.onImageRemove}
+            showRemoveButton={showRemoveButton}
           />
         ) : (
           <Button onClick={this.onImageSelectOpen}>
@@ -166,6 +178,7 @@ FormikMetaImageSearch.propTypes = {
   clearUploadedImage: PropTypes.func.isRequired,
   isSavingImage: PropTypes.bool,
   setFieldTouched: PropTypes.func.isRequired,
+  showRemoveButton: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

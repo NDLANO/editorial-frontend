@@ -53,10 +53,10 @@ interface Props {
   t: TranslateType;
   locale: string;
   id: string;
-  contentUri: string;
+  setResourcesUpdated: Function;
 }
 
-const PublishTopic = ({ t, locale, id, contentUri }: Props) => {
+const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
@@ -82,18 +82,22 @@ const PublishTopic = ({ t, locale, id, contentUri }: Props) => {
         .then((resources: Resource[]) => {
           setArticleCount(resources.length + 1);
           setShowDisplay(true);
-          resources.forEach(resource => publishResource(resource));
+          return resources.map(resource => publishResource(resource));
         })
+        .then((publishPromises: Promise<void>[]) =>
+          Promise.all(publishPromises),
+        )
+        .then(() => setResourcesUpdated(true))
         .catch((e: Error) => handleError(e));
     }
   };
 
-  const publishResource = (resource: Resource) => {
+  const publishResource = (resource: Resource): Promise<void> => {
     if (resource.contentUri) {
       const [, resourceType, id] = resource.contentUri.split(':');
       let name: string;
       if (resourceType === 'article') {
-        fetchDraft(id)
+        return fetchDraft(id)
           .then((article: ArticleType) => {
             name = article.title.title;
             return article.status.current !== PUBLISHED
@@ -103,7 +107,7 @@ const PublishTopic = ({ t, locale, id, contentUri }: Props) => {
           .then(() => setPublishedCount(prevState => prevState + 1))
           .catch((e: Error) => handlePublishError(e, resource));
       } else if (resourceType === 'learningpath') {
-        fetchLearningpath(id)
+        return fetchLearningpath(id)
           .then((learningpath: Learningpath) => {
             name = learningpath.title.title;
             return learningpath.status !== PUBLISHED
@@ -114,9 +118,11 @@ const PublishTopic = ({ t, locale, id, contentUri }: Props) => {
           .catch((e: Error) => handlePublishError(e, resource));
       } else {
         setFailedResources(failedResources => [...failedResources, resource]);
+        return Promise.reject();
       }
     } else {
       setFailedResources(failedResources => [...failedResources, resource]);
+      return Promise.reject();
     }
   };
 

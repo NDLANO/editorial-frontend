@@ -28,6 +28,7 @@ const HeaderActions = ({
   type,
   translateArticle,
   setTranslating,
+  isSubmitting,
 }) => {
   const { id, language, supportedLanguages, articleType } = values;
 
@@ -55,6 +56,7 @@ const HeaderActions = ({
           editUrl={editUrl}
           language={language}
           supportedLanguages={supportedLanguages}
+          isSubmitting={isSubmitting}
         />
         {isNewLanguage && (
           <HeaderLanguagePill current key={`types_${language}`}>
@@ -127,6 +129,7 @@ HeaderActions.propTypes = {
   type: PropTypes.string,
   translateArticle: PropTypes.func,
   setTranslating: PropTypes.func,
+  isSubmitting: PropTypes.bool,
 };
 
 export default injectT(HeaderActions);

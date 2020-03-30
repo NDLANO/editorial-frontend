@@ -62,6 +62,8 @@ const getInitialValues = (concept = {}, subjects = []) => {
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
     creators: parseCopyrightContributors(concept, 'creators'),
+    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
+    processors: parseCopyrightContributors(concept, 'processors'),
     source: concept && concept.source ? concept.source : '',
     license: concept.copyright?.license?.license || DEFAULT_LICENSE.license,
     metaImageId,
@@ -154,6 +156,8 @@ class ConceptForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === values.license),
         creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
         agreementId: values.agreementId,
       },
       source: values.source,
@@ -220,7 +224,6 @@ class ConceptForm extends Component {
         component: ({ values }) => (
           <ConceptCopyright
             licenses={licenses}
-            contributorTypesOverride={['creators']}
             disableAgreements
             label={t('form.concept.source')}
             values={values}

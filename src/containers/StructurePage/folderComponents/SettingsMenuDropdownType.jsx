@@ -37,7 +37,7 @@ const SettingsMenuDropdownType = ({
     case 'topic':
       return (
         <>
-          <PublishTopic {...rest} />
+          {showAllOptions && <PublishTopic {...rest} />}
           <ConnectFilterOption {...rest} />
           {showAllOptions && (
             <>

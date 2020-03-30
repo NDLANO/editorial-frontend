@@ -62,12 +62,8 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(block) {
-    const { editor, addSection } = this.props;
+    const { editor } = this.props;
     switch (block.type) {
-      case 'block': {
-        addSection();
-        break;
-      }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
         break;
@@ -119,9 +115,11 @@ class SlateBlockPicker extends Component {
     return messages['editorBlockpicker.actions.solutionbox'];
   }
 
-  update() {
+  async update() {
     const { current: slateBlockRef } = this.slateBlockRef;
     if (slateBlockRef) {
+      await new Promise(resolve => setTimeout(resolve, 50));
+
       // Find location of text selection to calculate where to move slateBlock
       const native = window.getSelection();
       const range = native.getRangeAt(0);
@@ -169,7 +167,7 @@ class SlateBlockPicker extends Component {
       this.update();
     } else {
       const { current: slateBlockRef } = this.slateBlockRef;
-      slateBlockRef.style.opacity = 1;
+      slateBlockRef.style.opacity = 0;
       this.slateBlockButtonRef.current.setAttribute('aria-hidden', true);
       this.slateBlockButtonRef.current.tabIndex = -1;
       this.slateBlockButtonRef.current.disabled = true;
@@ -246,7 +244,6 @@ class SlateBlockPicker extends Component {
 SlateBlockPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   editor: PropTypes.object.isRequired,
-  addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),
   articleLanguage: PropTypes.string.isRequired,

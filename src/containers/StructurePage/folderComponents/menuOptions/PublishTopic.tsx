@@ -106,11 +106,9 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
   const publishResource = (resource: Resource): Promise<void> => {
     if (resource.contentUri) {
       const [, resourceType, id] = resource.contentUri.split(':');
-      let name: string;
       if (resourceType === 'article') {
         return fetchDraft(id)
           .then((article: ArticleType) => {
-            name = article.title.title;
             return article.status.current !== PUBLISHED
               ? updateStatusDraft(id, PUBLISHED)
               : Promise.resolve();
@@ -120,7 +118,6 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
       } else if (resourceType === 'learningpath') {
         return fetchLearningpath(id)
           .then((learningpath: Learningpath) => {
-            name = learningpath.title.title;
             return learningpath.status !== PUBLISHED
               ? updateStatusLearningpath(id, PUBLISHED)
               : Promise.resolve();

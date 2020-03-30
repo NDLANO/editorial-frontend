@@ -12,6 +12,7 @@ import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
+import { colors } from '@ndla/core';
 
 import AlertModal from '../../../../components/AlertModal/AlertModal';
 import MenuItemButton from './MenuItemButton';
@@ -42,6 +43,16 @@ const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   padding-left: 1.2em;
+`;
+
+const LinkWrapper = styled.div`
+  a {
+    color: ${colors.white};
+    &:hover {
+      color: ${colors.white};
+    }
+  }
+  margin-top: 0.5em;
 `;
 
 const iconStyle = css`
@@ -152,26 +163,20 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={
-          <ul>
-            {failedResources.map((resource, i) => (
-              <li key={i}>
-                {
-                  <ResourceItemLink
-                    contentType={
-                      resource.contentUri?.split(':')[1] === 'article'
-                        ? 'article'
-                        : 'learning-path'
-                    }
-                    contentUri={resource.contentUri}
-                    name={resource.name}
-                    locale={locale}
-                  />
-                }
-              </li>
-            ))}
-          </ul>
-        }
+        component={failedResources.map((resource, i) => (
+          <LinkWrapper>
+            <ResourceItemLink
+              contentType={
+                resource.contentUri?.split(':')[1] === 'article'
+                  ? 'article'
+                  : 'learning-path'
+              }
+              contentUri={resource.contentUri}
+              name={resource.name}
+              locale={locale}
+            />
+          </LinkWrapper>
+        ))}
       />
     </Fragment>
   );

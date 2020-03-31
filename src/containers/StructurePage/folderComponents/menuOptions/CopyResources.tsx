@@ -13,15 +13,19 @@ import { Plus } from '@ndla/icons/action';
 import {
   fetchTopics,
   fetchSubjectTopics,
+  fetchTopicResources,
+  createTopicResource,
 } from '../../../../modules/taxonomy';
 import {
   Topic,
+  Resource,
   TranslateType
 } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
+import handleError from '../../../../util/handleError';
 
 type PathArray = Array<{
   name: string;
@@ -31,18 +35,19 @@ type PathArray = Array<{
 interface Props {
   t: TranslateType;
   locale: string;
+  id: string;
   subjectId: string;
   structure: PathArray;
   onClose: Function;
 }
 
-const CopyResources = ({ t, locale, subjectId, structure, onClose }: Props) => {
+const CopyResources = ({ t, id, locale, subjectId, structure, onClose }: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
     Promise.all([
-      fetchTopics(locale || 'nb'), 
+      fetchTopics(locale || 'nb'),
       fetchSubjectTopics(subjectId),
     ])
       .then(([topics, subjectTopics]: Array<Topic[]>) => {
@@ -53,6 +58,7 @@ const CopyResources = ({ t, locale, subjectId, structure, onClose }: Props) => {
             description: getTopicBreadcrumb(topic, topics),
           })))
       })
+      .catch((e: Error) => handleError(e));
   }, []);
 
   const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
@@ -66,21 +72,39 @@ const CopyResources = ({ t, locale, subjectId, structure, onClose }: Props) => {
     return breadCrumbs.map(crumb => crumb.name).join(' > ');
   };
 
+  const addResourcesToTopic = (topic: Topic) => {
+    fetchTopicResources(topic.id)
+      .then((resources: Resource[]) =>
+        resources.forEach(async resource => {
+          try {
+            await createTopicResource({
+              primary: resource.isPrimary,
+              rank: resource.rank,
+              resourceId: resource.id,
+              topicid: id,
+            })
+          } catch (e) {
+            handleError(e);
+          }
+        }))
+      .catch((e: Error) => handleError(e));
+  }
+
   return (
     showSearch ? (
       <MenuItemDropdown
         placeholder={t('taxonomy.existingTopic')}
         searchResult={topics}
         onClose={onClose}
-        onSubmit={() => {}}
+        onSubmit={addResourcesToTopic}
         icon={<Plus />}
       />
     ) : (
-      <MenuItemButton stripped onClick={() => setShowSearch(true)}>
-        <RoundIcon small icon={<Plus />} />
-        {'Kopier'}
-      </MenuItemButton>
-    ));
+        <MenuItemButton stripped onClick={() => setShowSearch(true)}>
+          <RoundIcon small icon={<Plus />} />
+          {'Kopier'}
+        </MenuItemButton>
+      ));
 }
 
 export default injectT(CopyResources);

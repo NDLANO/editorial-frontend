@@ -28,6 +28,7 @@ import {
 } from '../../../util/formHelper';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -139,10 +140,6 @@ const getArticleFromSlate = ({
   };
 
   return article;
-};
-
-const nullOrUndefined = metaImageId => {
-  return metaImageId === null ? null : undefined;
 };
 
 const TopicArticleForm = props => {

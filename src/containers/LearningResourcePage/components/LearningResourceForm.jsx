@@ -30,6 +30,7 @@ import {
   learningResourceRules,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
@@ -77,10 +78,6 @@ const getPublishedDate = (values, initialValues, preview = false) => {
     return values.published;
   }
   return undefined;
-};
-
-const nullOrUndefined = metaImageId => {
-  return metaImageId === null ? null : undefined;
 };
 
 const getArticleFromSlate = ({

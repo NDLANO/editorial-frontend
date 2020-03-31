@@ -148,7 +148,7 @@ class FormikMetaImageSearch extends Component {
           <FormikMetaImage
             image={image}
             onImageSelectOpen={this.onImageSelectOpen}
-            onImageDelete={this.onImageRemove}
+            onImageRemove={this.onImageRemove}
             showRemoveButton={showRemoveButton}
           />
         ) : (

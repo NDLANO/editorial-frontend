@@ -45,6 +45,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
+import { nullOrUndefined } from '../../../util/articleUtil';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
@@ -135,10 +136,6 @@ class ConceptForm extends Component {
     return undefined;
   };
 
-  nullOrUndefined = metaImageId => {
-    return metaImageId === null ? null : undefined;
-  };
-
   getConcept = values => {
     const { licenses } = this.props;
     const metaImage = values?.metaImageId
@@ -146,7 +143,7 @@ class ConceptForm extends Component {
           id: values.metaImageId,
           alt: values.metaImageAlt,
         }
-      : this.nullOrUndefined(values?.metaImageId);
+      : nullOrUndefined(values?.metaImageId);
 
     return {
       id: values.id,

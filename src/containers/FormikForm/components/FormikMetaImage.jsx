@@ -35,6 +35,7 @@ const metaImageDeleteButtonStyle = css`
   }
   :focus {
     background-color: #8f2024;
+    border: 0;
   }
 `;
 

@@ -39,9 +39,10 @@ interface Props {
   subjectId: string;
   structure: PathArray;
   onClose: Function;
+  setResourcesUpdated: Function;
 }
 
-const CopyResources = ({ t, id, locale, subjectId, structure, onClose }: Props) => {
+const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResourcesUpdated }: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -75,18 +76,16 @@ const CopyResources = ({ t, id, locale, subjectId, structure, onClose }: Props) 
   const addResourcesToTopic = (topic: Topic) => {
     fetchTopicResources(topic.id)
       .then((resources: Resource[]) =>
-        resources.forEach(async resource => {
-          try {
-            await createTopicResource({
-              primary: resource.isPrimary,
-              rank: resource.rank,
-              resourceId: resource.id,
-              topicid: id,
-            })
-          } catch (e) {
-            handleError(e);
-          }
-        }))
+        resources.map(resource => 
+          createTopicResource({
+            primary: resource.isPrimary,
+            rank: resource.rank,
+            resourceId: resource.id,
+            topicid: id,
+          })
+        ))
+      .then((promises: Promise<void>[]) => Promise.all(promises))
+      .then(() => setResourcesUpdated(true))
       .catch((e: Error) => handleError(e));
   }
 

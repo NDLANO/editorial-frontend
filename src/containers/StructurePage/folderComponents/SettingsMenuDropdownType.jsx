@@ -15,6 +15,7 @@ import EditFilterOption from './menuOptions/EditFilterOption';
 import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 import PublishTopic from './menuOptions/PublishTopic';
+import CopyResources from './menuOptions/CopyResources';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -43,6 +44,7 @@ const SettingsMenuDropdownType = ({
             <>
               <DeleteTopic {...rest} />
               <AddExistingToTopic {...rest} />
+              <CopyResources {...rest} />
             </>
           )}
         </>

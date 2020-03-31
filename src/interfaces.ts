@@ -128,6 +128,14 @@ export interface ArticleType {
   competences: string[];
 }
 
+export interface Topic {
+  contentUri: string,
+  id: string,
+  name: string,
+  path: string,
+  paths: string[],
+}
+
 export interface Resource {
   connectionId: string;
   contentUri?: string;

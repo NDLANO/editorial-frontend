@@ -7,8 +7,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
-import { Plus } from '@ndla/icons/action';
+import { Copy } from '@ndla/icons/action';
 
 import {
   fetchTopics,
@@ -41,6 +42,11 @@ interface Props {
   onClose: Function;
   setResourcesUpdated: Function;
 }
+
+const iconCss = css`
+  width: 8px;
+  height: 8px;
+`
 
 const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResourcesUpdated }: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
@@ -95,11 +101,12 @@ const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResour
         searchResult={topics}
         onClose={onClose}
         onSubmit={addResourcesToTopic}
-        icon={<Plus />}
+        icon={<Copy />}
+        smallIcon
       />
     ) : (
         <MenuItemButton stripped onClick={() => setShowSearch(true)}>
-          <RoundIcon small icon={<Plus />} />
+          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
           {'Kopier'}
         </MenuItemButton>
       ));

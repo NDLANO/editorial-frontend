@@ -85,13 +85,13 @@ class MenuItemDropdown extends PureComponent {
   }
 
   render() {
-    const { icon, t, placeholder } = this.props;
+    const { icon, t, placeholder, smallIcon } = this.props;
     const { selected, status } = this.state;
     const items = this.getResultItems();
     return (
       <Fragment>
         <div css={menuItemStyle}>
-          <RoundIcon open small icon={icon} />
+          <RoundIcon open small smallIcon={smallIcon} icon={icon} />
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
@@ -141,6 +141,7 @@ MenuItemDropdown.propTypes = {
   searchResult: PropTypes.array,
   placeholder: PropTypes.string,
   filter: PropTypes.string,
+  smallIcon: PropTypes.bool,
 };
 
 export default injectT(MenuItemDropdown);

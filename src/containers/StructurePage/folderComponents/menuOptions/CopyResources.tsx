@@ -73,7 +73,7 @@ const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResour
     return breadCrumbs.map(crumb => crumb.name).join(' > ');
   };
 
-  const addResourcesToTopic = (topic: Topic) => {
+  const addResourcesToTopic = (topic: Topic) => 
     fetchTopicResources(topic.id)
       .then((resources: Resource[]) =>
         resources.map(resource => 
@@ -87,7 +87,6 @@ const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResour
       .then((promises: Promise<void>[]) => Promise.all(promises))
       .then(() => setResourcesUpdated(true))
       .catch((e: Error) => handleError(e));
-  }
 
   return (
     showSearch ? (

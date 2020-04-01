@@ -17,11 +17,7 @@ import {
   fetchTopicResources,
   createTopicResource,
 } from '../../../../modules/taxonomy';
-import {
-  Topic,
-  Resource,
-  TranslateType
-} from '../../../../interfaces';
+import { Topic, Resource, TranslateType } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -46,24 +42,31 @@ interface Props {
 const iconCss = css`
   width: 8px;
   height: 8px;
-`
+`;
 
-const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResourcesUpdated }: Props) => {
+const CopyResources = ({
+  t,
+  id,
+  locale,
+  subjectId,
+  structure,
+  onClose,
+  setResourcesUpdated,
+}: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      fetchTopics(locale || 'nb'),
-      fetchSubjectTopics(subjectId),
-    ])
+    Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId)])
       .then(([topics, subjectTopics]: Array<Topic[]>) => {
-        setTopics(topics
-          .filter(topic => !subjectTopics.some(t => t.id === topic.id))
-          .map(topic => ({
-            ...topic,
-            description: getTopicBreadcrumb(topic, topics),
-          })))
+        setTopics(
+          topics
+            .filter(topic => !subjectTopics.some(t => t.id === topic.id))
+            .map(topic => ({
+              ...topic,
+              description: getTopicBreadcrumb(topic, topics),
+            })),
+        );
       })
       .catch((e: Error) => handleError(e));
   }, []);
@@ -79,37 +82,37 @@ const CopyResources = ({ t, id, locale, subjectId, structure, onClose, setResour
     return breadCrumbs.map(crumb => crumb.name).join(' > ');
   };
 
-  const addResourcesToTopic = (topic: Topic) => 
+  const addResourcesToTopic = (topic: Topic) =>
     fetchTopicResources(topic.id)
       .then((resources: Resource[]) =>
-        resources.map(resource => 
+        resources.map(resource =>
           createTopicResource({
             primary: resource.isPrimary,
             rank: resource.rank,
             resourceId: resource.id,
             topicid: id,
-          })
-        ))
+          }),
+        ),
+      )
       .then((promises: Promise<void>[]) => Promise.all(promises))
       .then(() => setResourcesUpdated(true))
       .catch((e: Error) => handleError(e));
 
-  return (
-    showSearch ? (
-      <MenuItemDropdown
-        placeholder={t('taxonomy.existingTopic')}
-        searchResult={topics}
-        onClose={onClose}
-        onSubmit={addResourcesToTopic}
-        icon={<Copy />}
-        smallIcon
-      />
-    ) : (
-        <MenuItemButton stripped onClick={() => setShowSearch(true)}>
-          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-          {'Kopier'}
-        </MenuItemButton>
-      ));
-}
+  return showSearch ? (
+    <MenuItemDropdown
+      placeholder={t('taxonomy.existingTopic')}
+      searchResult={topics}
+      onClose={onClose}
+      onSubmit={addResourcesToTopic}
+      icon={<Copy />}
+      smallIcon
+    />
+  ) : (
+    <MenuItemButton stripped onClick={() => setShowSearch(true)}>
+      <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+      {'Kopier'}
+    </MenuItemButton>
+  );
+};
 
 export default injectT(CopyResources);

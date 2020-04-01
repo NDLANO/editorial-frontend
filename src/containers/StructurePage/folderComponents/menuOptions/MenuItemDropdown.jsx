@@ -91,7 +91,7 @@ class MenuItemDropdown extends PureComponent {
     return (
       <Fragment>
         <div css={menuItemStyle}>
-          <RoundIcon open small smallIcon={smallIcon} icon={icon} />
+          <RoundIcon open small smallIcon={smallIcon} icon={icon} />
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}

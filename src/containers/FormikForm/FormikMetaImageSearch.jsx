@@ -39,7 +39,7 @@ class FormikMetaImageSearch extends Component {
 
   componentDidUpdate({ metaImageId: prevMetaImageId }) {
     const { uploadedImage, clearUploadedImage, metaImageId } = this.props;
-    if (uploadedImage) {
+    if (uploadedImage && this.state.showImageSelect) {
       this.onImageChange(uploadedImage);
       clearUploadedImage();
     }

@@ -110,7 +110,7 @@ const CopyResources = ({
   ) : (
     <MenuItemButton stripped onClick={() => setShowSearch(true)}>
       <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-      {'Kopier'}
+      {t('taxonomy.copyResources')}
     </MenuItemButton>
   );
 };

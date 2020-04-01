@@ -44,9 +44,9 @@ const SettingsMenuDropdownType = ({
             <>
               <DeleteTopic {...rest} />
               <AddExistingToTopic {...rest} />
-              <CopyResources {...rest} />
             </>
           )}
+          <CopyResources {...rest} />
         </>
       );
     default:

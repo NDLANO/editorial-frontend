@@ -10,7 +10,7 @@ import { visitOptions, setToken } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:12';
-const selectTopic = 'urn:topic:1:1:183043';
+const selectTopic = 'urn:topic:1:183043';
 
 describe('Topic editing', () => {
   beforeEach(() => {

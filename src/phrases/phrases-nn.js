@@ -460,6 +460,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveAsNewVersion: 'Lagre som ny versjon',
     saveDraft: 'Lagre utkast',
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',

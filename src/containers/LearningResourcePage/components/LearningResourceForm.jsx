@@ -190,7 +190,9 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
               {...formikProps}
               {...rest}
             />

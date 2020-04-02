@@ -214,7 +214,9 @@ const TopicArticleForm = props => {
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
               {...formikProps}
               {...rest}
             />

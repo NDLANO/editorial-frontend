@@ -14,11 +14,11 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import SaveButton from '../../components/SaveButton';
 import { Article, PossibleStatuses, Values } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { TranslateType } from '../../interfaces';
+import SaveMultiButton from '../SaveMultiButton';
 
 interface Props {
   t: TranslateType;
@@ -81,12 +81,10 @@ const EditorFooter: React.FC<Props> = ({
   }, [values.status]);
 
   const saveButton = (
-    <SaveButton
-      data-testid="saveLearningResourceButton"
-      isSaving={isSubmitting}
-      defaultText="save"
-      formIsDirty={formIsDirty}
+    <SaveMultiButton
       large
+      isSaving={isSubmitting}
+      formIsDirty={formIsDirty}
       showSaved={savedToServer && !formIsDirty}
       onClick={onSaveClick}
     />

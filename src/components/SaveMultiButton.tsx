@@ -67,11 +67,11 @@ const SaveMultiButton: React.FC<Props> = ({
           mainButton={{ value: 'save' }}
           secondaryButtons={[
             {
-              label: 'Lagre som ny versjon',
+              label: t('form.saveAsNewVersion'),
               value: 'saveAsNew',
             },
             {
-              label: 'Lagre',
+              label: t('form.save'),
               value: 'save',
             },
           ]}

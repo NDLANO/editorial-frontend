@@ -83,7 +83,6 @@ const EditorFooter: React.FC<Props> = ({
   const saveButton = (
     <SaveMultiButton
       large
-      data-testid="saveLearningResourceButton"
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
       showSaved={savedToServer && !formIsDirty}

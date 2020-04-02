@@ -57,7 +57,9 @@ const SaveMultiButton: React.FC<Props> = ({
 
   return (
     <>
-      <Wrapper modifier={modifier}>
+      <Wrapper
+        modifier={modifier}
+        data-testid="saveLearningResourceButtonWrapper">
         <MultiButton
           disabled={disabledButton}
           onClick={(value: string) => {

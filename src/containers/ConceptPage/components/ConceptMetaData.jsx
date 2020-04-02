@@ -23,6 +23,7 @@ const ConceptMetaData = ({ t, subjects, locale, concept }) => (
         <FormikMetaImageSearch
           metaImageId={field.value}
           setFieldTouched={form.setFieldTouched}
+          showRemoveButton
           {...field}
         />
       )}

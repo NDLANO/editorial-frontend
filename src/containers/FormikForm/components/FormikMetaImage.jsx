@@ -18,9 +18,34 @@ import FormikField from '../../../components/FormikField';
 
 const metaImageButtonStyle = css`
   display: block;
+  margin: 1%;
+  min-width: 7.5rem;
 `;
 
-const FormikMetaImage = ({ image, onImageSelectOpen, t }) => {
+const metaImageDeleteButtonStyle = css`
+  display: block;
+  margin: 1%;
+  min-width: 7.5rem;
+  min-height: 2.1rem;
+  background-color: #ba292e;
+  border: #ba292e;
+  :hover {
+    background-color: #8f2024;
+    border: 0;
+  }
+  :focus {
+    background-color: #8f2024;
+    border: 0;
+  }
+`;
+
+const FormikMetaImage = ({
+  image,
+  onImageSelectOpen,
+  onImageRemove,
+  showRemoveButton,
+  t,
+}) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
@@ -28,9 +53,16 @@ const FormikMetaImage = ({ image, onImageSelectOpen, t }) => {
   const title = convertFieldWithFallback(image, 'title', '');
   const alt = convertFieldWithFallback(image, 'alttext', '');
   const imageAction = (
-    <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
-      {t('form.metaImage.change')}
-    </Button>
+    <>
+      <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
+        {t('form.metaImage.change')}
+      </Button>
+      {showRemoveButton && (
+        <Button css={metaImageDeleteButtonStyle} onClick={onImageRemove}>
+          {t('form.metaImage.remove')}
+        </Button>
+      )}
+    </>
   );
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),
@@ -65,6 +97,8 @@ FormikMetaImage.propTypes = {
     imageUrl: PropTypes.string,
   }),
   onImageSelectOpen: PropTypes.func.isRequired,
+  onImageRemove: PropTypes.func,
+  showRemoveButton: PropTypes.bool,
 };
 
 export default injectT(FormikMetaImage);

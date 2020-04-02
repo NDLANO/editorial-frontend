@@ -578,6 +578,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
+      remove: 'Fjern metabilde',
     },
     markdown: {
       button: 'Klikk for å se markdown',

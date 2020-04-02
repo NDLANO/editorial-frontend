@@ -104,6 +104,7 @@ describe('Topic editing', () => {
 
   it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjectTopics');
+    cy.wait(500);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
@@ -124,6 +125,7 @@ describe('Topic editing', () => {
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@addFilter', '@deleteFilter', '@allSubjectTopics']);
+    cy.wait(500);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')

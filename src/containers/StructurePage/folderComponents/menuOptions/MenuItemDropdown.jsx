@@ -12,6 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { Spinner } from '@ndla/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Search } from '@ndla/icons/lib/common';
@@ -19,7 +20,6 @@ import { DropdownMenu, Input } from '@ndla/forms';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';
 import RoundIcon from '../../../../components/RoundIcon';
-import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from './MenuItemEditField';
 
 const menuItemStyle = css`

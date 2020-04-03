@@ -945,6 +945,7 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    copyResources: 'Copy resources from topic',
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',

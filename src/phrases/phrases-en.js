@@ -440,6 +440,7 @@ const phrases = {
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
+    saveAsNewVersion: 'Save as new version',
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
@@ -558,6 +559,7 @@ const phrases = {
       label: 'Meta image',
       helpLabel: 'What is a meta image?',
       add: 'Choose meta image',
+      remove: 'Remove meta image',
     },
     markdown: {
       button: 'Click to view markdown',
@@ -943,6 +945,7 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    copyResources: 'Copy resources from topic',
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',

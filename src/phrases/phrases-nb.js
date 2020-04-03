@@ -455,6 +455,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveAsNewVersion: 'Lagre som ny versjon',
     saveDraft: 'Lagre utkast',
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
@@ -576,6 +577,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
+      remove: 'Fjern metabilde',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -962,6 +964,7 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    copyResources: 'Kopier ressurser fra emne',
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserer ressurser',

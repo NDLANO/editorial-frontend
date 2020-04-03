@@ -12,6 +12,7 @@ import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
+import { colors } from '@ndla/core';
 
 import AlertModal from '../../../../components/AlertModal/AlertModal';
 import MenuItemButton from './MenuItemButton';
@@ -24,7 +25,10 @@ import {
   fetchLearningpath,
   updateStatusLearningpath,
 } from '../../../../modules/learningpath/learningpathApi';
-import { fetchTopicResources } from '../../../../modules/taxonomy';
+import {
+  fetchTopicArticle,
+  fetchTopicResources,
+} from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import {
   Resource,
@@ -33,11 +37,22 @@ import {
   Learningpath,
 } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
+import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 
 const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   padding-left: 1.2em;
+`;
+
+const LinkWrapper = styled.div`
+  a {
+    color: ${colors.white};
+    &:hover {
+      color: ${colors.white};
+    }
+  }
+  margin-top: 0.5em;
 `;
 
 const iconStyle = css`
@@ -47,16 +62,17 @@ const iconStyle = css`
 
 interface Props {
   t: TranslateType;
+  locale: string;
   id: string;
-  contentUri: string;
+  setResourcesUpdated: Function;
 }
 
-const PublishTopic = ({ t, id, contentUri }: Props) => {
+const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
   const [articleCount, setArticleCount] = useState(1);
-  const [failedResources, setFailedResources] = useState<string[]>([]);
+  const [failedResources, setFailedResources] = useState<Resource[]>([]);
 
   useEffect(() => {
     setShowAlert(
@@ -69,56 +85,57 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
 
   const publishTopic = () => {
     if (!done) {
+      fetchTopicArticle(id, locale)
+        .then((resource: Resource) => publishResource(resource))
+        .catch((e: Error) => handleError(e));
+
       fetchTopicResources(id)
         .then((resources: Resource[]) => {
           setArticleCount(resources.length + 1);
           setShowDisplay(true);
-          resources.forEach(resource => {
-            if (resource.contentUri) {
-              publishResource(resource.contentUri);
-            } else {
-              setFailedResources(failedResources => [
-                ...failedResources,
-                resource.name,
-              ]);
-            }
-          });
+          return resources.map(resource => publishResource(resource));
         })
+        .then((publishPromises: Promise<void>[]) =>
+          Promise.all(publishPromises),
+        )
+        .then(() => setResourcesUpdated(true))
         .catch((e: Error) => handleError(e));
-      publishResource(contentUri);
     }
   };
 
-  const publishResource = (contentUri: string) => {
-    const [, resourceType, id] = contentUri.split(':');
-    let name: string;
-    if (resourceType === 'article') {
-      fetchDraft(id)
-        .then((article: ArticleType) => {
-          name = article.title.title;
-          return article.status.current !== PUBLISHED
-            ? updateStatusDraft(id, PUBLISHED)
-            : Promise.resolve();
-        })
-        .then(() => setPublishedCount(prevState => prevState + 1))
-        .catch((e: Error) => handlePublishError(e, name));
-    } else if (resourceType === 'learningpath') {
-      fetchLearningpath(id)
-        .then((learningpath: Learningpath) => {
-          name = learningpath.title.title;
-          return learningpath.status !== PUBLISHED
-            ? updateStatusLearningpath(id, PUBLISHED)
-            : Promise.resolve();
-        })
-        .then(() => setPublishedCount(prevState => prevState + 1))
-        .catch((e: Error) => handlePublishError(e, name));
+  const publishResource = (resource: Resource): Promise<void> => {
+    if (resource.contentUri) {
+      const [, resourceType, id] = resource.contentUri.split(':');
+      if (resourceType === 'article') {
+        return fetchDraft(id)
+          .then((article: ArticleType) => {
+            return article.status.current !== PUBLISHED
+              ? updateStatusDraft(id, PUBLISHED)
+              : Promise.resolve();
+          })
+          .then(() => setPublishedCount(prevState => prevState + 1))
+          .catch((e: Error) => handlePublishError(e, resource));
+      } else if (resourceType === 'learningpath') {
+        return fetchLearningpath(id)
+          .then((learningpath: Learningpath) => {
+            return learningpath.status !== PUBLISHED
+              ? updateStatusLearningpath(id, PUBLISHED)
+              : Promise.resolve();
+          })
+          .then(() => setPublishedCount(prevState => prevState + 1))
+          .catch((e: Error) => handlePublishError(e, resource));
+      } else {
+        setFailedResources(failedResources => [...failedResources, resource]);
+        return Promise.reject();
+      }
     } else {
-      setFailedResources(failedResources => [...failedResources, contentUri]);
+      setFailedResources(failedResources => [...failedResources, resource]);
+      return Promise.reject();
     }
   };
 
-  const handlePublishError = (error: Error, name: string) => {
-    setFailedResources(failedResources => [...failedResources, name]);
+  const handlePublishError = (error: Error, resource: Resource) => {
+    setFailedResources(failedResources => [...failedResources, resource]);
     handleError(error);
   };
 
@@ -143,13 +160,20 @@ const PublishTopic = ({ t, id, contentUri }: Props) => {
         show={showAlert}
         onCancel={() => setShowAlert(false)}
         text={t('taxonomy.publish.error')}
-        component={
-          <ul>
-            {failedResources.map((name, i) => (
-              <li key={i}>{name}</li>
-            ))}
-          </ul>
-        }
+        component={failedResources.map((resource, i) => (
+          <LinkWrapper>
+            <ResourceItemLink
+              contentType={
+                resource.contentUri?.split(':')[1] === 'article'
+                  ? 'article'
+                  : 'learning-path'
+              }
+              contentUri={resource.contentUri}
+              name={resource.name}
+              locale={locale}
+            />
+          </LinkWrapper>
+        ))}
       />
     </Fragment>
   );

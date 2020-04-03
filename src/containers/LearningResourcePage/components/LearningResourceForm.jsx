@@ -30,6 +30,7 @@ import {
   learningResourceRules,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
@@ -93,7 +94,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'standard',
@@ -189,7 +190,9 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
               {...formikProps}
               {...rest}
             />

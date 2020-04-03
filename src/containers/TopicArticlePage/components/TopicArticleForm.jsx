@@ -28,6 +28,7 @@ import {
 } from '../../../util/formHelper';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -112,7 +113,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'topic-article',
@@ -213,7 +214,9 @@ const TopicArticleForm = props => {
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
               {...formikProps}
               {...rest}
             />

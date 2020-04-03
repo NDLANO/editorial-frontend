@@ -53,14 +53,21 @@ export class StructureResources extends React.PureComponent {
     const {
       currentTopic: { id, contentUri },
       activeFilters,
+      resourcesUpdated,
+      setResourcesUpdated,
     } = this.props;
-    if (id !== prevProps.currentTopic.id) {
-      this.getTopicResources();
-    } else if (activeFilters.length !== prevProps.activeFilters.length) {
+    if (
+      id !== prevProps.currentTopic.id ||
+      activeFilters.length !== prevProps.activeFilters.length ||
+      resourcesUpdated
+    ) {
       this.getTopicResources();
     }
     if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
       this.getArticle(contentUri);
+    }
+    if (resourcesUpdated) {
+      setResourcesUpdated(false);
     }
   }
 
@@ -235,6 +242,8 @@ StructureResources.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  resourcesUpdated: PropTypes.bool,
+  setResourcesUpdated: PropTypes.func,
 };
 
 export default StructureResources;

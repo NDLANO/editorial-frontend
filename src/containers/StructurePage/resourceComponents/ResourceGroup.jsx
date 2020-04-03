@@ -107,6 +107,7 @@ ResourceGroup.propTypes = {
   resource: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
+    disabled: PropTypes.bool,
   }),
   params: PropTypes.shape({
     topic: PropTypes.string,

@@ -564,9 +564,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
 }
 
 .emotion-142:disabled {
-  color: #777777;
   border: 2px solid transparent;
-  background-color: #e6e6e6;
   cursor: not-allowed;
   -webkit-transform: translateY(0) translateX(0);
   -ms-transform: translateY(0) translateX(0);

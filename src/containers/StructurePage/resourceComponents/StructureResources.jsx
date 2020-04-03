@@ -85,6 +85,7 @@ export class StructureResources extends React.PureComponent {
   async getAllResourceTypes() {
     try {
       const resourceTypes = await fetchAllResourceTypes(this.props.locale);
+      resourceTypes.push({ id: 'missing', name: 'Mangler Ressurstype', disabled: true });
       this.setState({ resourceTypes });
     } catch (error) {
       handleError(error);
@@ -102,12 +103,20 @@ export class StructureResources extends React.PureComponent {
     if (topicId) {
       try {
         this.setState({ loading: true });
-        const allTopicResources = await fetchTopicResources(
+        const initialTopicResources = await fetchTopicResources(
           topicId,
           locale,
           undefined,
           activeFilters.join(','),
         );
+        const allTopicResources = initialTopicResources.map(r => {
+          if (r.resourceTypes.length > 0) {
+            return r;
+          }
+          else {
+            return { ...r, resourceTypes: [{ id: 'missing'}] }
+          }
+        })
 
         if (currentTopic.contentUri) {
           fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
@@ -200,6 +209,7 @@ export class StructureResources extends React.PureComponent {
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              disable={resourceType.disabled}
             />
           );
         })}

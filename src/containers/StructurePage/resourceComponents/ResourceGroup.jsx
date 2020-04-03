@@ -60,7 +60,10 @@ class ResourceGroup extends PureComponent {
       <React.Fragment>
         <Accordion
           addButton={
-            <AddTopicResourceButton stripped onClick={this.toggleAddModal} disabled={resource.disabled}>
+            <AddTopicResourceButton
+              stripped
+              onClick={this.toggleAddModal}
+              disabled={resource.disabled}>
               <Plus />
               {t('taxonomy.addResource')}
             </AddTopicResourceButton>

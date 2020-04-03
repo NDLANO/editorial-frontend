@@ -33,7 +33,7 @@ export class StructureResources extends React.PureComponent {
     this.getTopicResources = this.getTopicResources.bind(this);
     this.getArticle = this.getArticle.bind(this);
   }
- 
+
   async componentDidMount() {
     try {
       const { currentTopic } = this.props;

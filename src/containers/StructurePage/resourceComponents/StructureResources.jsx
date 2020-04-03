@@ -8,6 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
@@ -32,7 +33,7 @@ export class StructureResources extends React.PureComponent {
     this.getTopicResources = this.getTopicResources.bind(this);
     this.getArticle = this.getArticle.bind(this);
   }
-
+ 
   async componentDidMount() {
     try {
       const { currentTopic } = this.props;
@@ -90,11 +91,12 @@ export class StructureResources extends React.PureComponent {
   }
 
   async getAllResourceTypes() {
+    const { t } = this.props;
     try {
       const resourceTypes = await fetchAllResourceTypes(this.props.locale);
       resourceTypes.push({
         id: 'missing',
-        name: 'Mangler Ressurstype',
+        name: t('taxonomy.missingResourceType'),
         disabled: true,
       });
       this.setState({ resourceTypes });
@@ -249,4 +251,4 @@ StructureResources.propTypes = {
   setResourcesUpdated: PropTypes.func,
 };
 
-export default StructureResources;
+export default injectT(StructureResources);

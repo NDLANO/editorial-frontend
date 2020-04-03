@@ -1000,6 +1000,7 @@ const phrases = {
       core: 'Kjerneressurs',
     },
     goTo: 'Åpne i stukturredigering',
+    missingResourceType: 'Mangler ressurstype',
   },
   notions: {
     edit: 'Rediger forklaring',

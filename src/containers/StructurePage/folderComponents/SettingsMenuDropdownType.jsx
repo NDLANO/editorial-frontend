@@ -46,7 +46,7 @@ const SettingsMenuDropdownType = ({
               <AddExistingToTopic {...rest} />
             </>
           )}
-          <CopyResources {...rest} />
+          {showAllOptions && <CopyResources {...rest} />}
         </>
       );
     default:

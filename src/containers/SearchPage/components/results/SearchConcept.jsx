@@ -10,10 +10,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
+import { colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import { Concept } from '@ndla/icons/editor';
 import { searchClasses } from '../../SearchContainer';
 import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
+import formatDate from '../../../../util/formatDate';
+
+const StyledInfo = styled.div`
+  color: ${colors.text.light};
+  line-height: 1rem;
+  font-size: 0.7rem;
+`;
 
 const SearchConcept = ({ concept, locale, subjects, t }) => {
   const { url: metaImageSrc, alt: metaImageAlt } = concept.metaImage || {};
@@ -43,6 +52,11 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
             {...searchClasses('link')}
             to={toEditConcept(concept.id, concept.title.language)}>
             <h2 {...searchClasses('title')}>{title}</h2>
+            <StyledInfo>
+              {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
+                concept.lastUpdated,
+              )}`}
+            </StyledInfo>
           </Link>
           {concept.supportedLanguages.map(lang => {
             return lang !== locale ? (
@@ -89,6 +103,7 @@ SearchConcept.propTypes = {
       alt: PropTypes.string,
       url: PropTypes.string,
     }),
+    lastUpdated: PropTypes.string,
   }),
   locale: PropTypes.string,
   subjects: PropTypes.array,

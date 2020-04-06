@@ -982,6 +982,7 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+    missingResourceType: 'Missing resource type',
   },
   notions: {
     edit: 'Edit notions',

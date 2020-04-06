@@ -14,6 +14,7 @@ import Button from '@ndla/button';
 
 const addButtonStyle = css`
   &,
+  &:disabled,
   &:hover,
   &:focus {
     white-space: nowrap;

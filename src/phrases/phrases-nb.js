@@ -1008,6 +1008,7 @@ const phrases = {
       core: 'Kjerneressurs',
     },
     goTo: 'Åpne i stukturredigering',
+    missingResourceType: 'Mangler ressurstype',
   },
   detailBox: {
     label: 'Endre overskrift',

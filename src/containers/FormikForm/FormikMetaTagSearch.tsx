@@ -16,7 +16,7 @@ import { TranslateType } from '../../interfaces';
 
 interface Props {
   t: TranslateType;
-  locale: string;
+  language: string;
   initTags: string[];
   field: FieldProps<string[]>['field'];
   form: {
@@ -33,7 +33,7 @@ interface TagWithTitle {
   title: string;
 }
 
-const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: Props) => {
+const FormikMetaTagSearch = ({ t, language, initTags, field, form }: Props) => {
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]): object[] => {
     return tagsWithoutTitle.map(c => ({ title: c }));
   };
@@ -41,7 +41,7 @@ const FormikMetaTagSearch = ({ t, locale, initTags, field, form }: Props) => {
   const [tags, setTags] = useState(initTags);
 
   const searchForTags = async (inp: string) => {
-    const result = await fetchSearchTags(inp, locale);
+    const result = await fetchSearchTags(inp, language);
     result.results = convertToTagsWithTitle(result.results);
     return result;
   };

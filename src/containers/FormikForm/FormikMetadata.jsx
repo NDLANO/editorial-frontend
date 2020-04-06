@@ -15,7 +15,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
 import FormikMetaTagSearch from './FormikMetaTagSearch';
 
-const FormikMetadata = ({ t, article, locale }) => (
+const FormikMetadata = ({ t, article }) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -25,7 +25,7 @@ const FormikMetadata = ({ t, article, locale }) => (
       {({ field, form }) => (
         <FormikMetaTagSearch
           initTags={article.tags || []}
-          locale={locale}
+          language={article.language}
           field={field}
           form={form}
         />
@@ -61,8 +61,8 @@ const FormikMetadata = ({ t, article, locale }) => (
 FormikMetadata.propTypes = {
   article: PropTypes.shape({
     tags: PropTypes.arrayOf(PropTypes.string),
+    language: PropTypes.string,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(FormikMetadata);

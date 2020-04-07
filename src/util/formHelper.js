@@ -96,7 +96,7 @@ const formikCommonArticleRules = {
   },
   tags: {
     required: true,
-    minLength: 3,
+    minItems: 3,
   },
   creators: {
     allObjectFieldsRequired: true,

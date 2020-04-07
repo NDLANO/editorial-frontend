@@ -29,7 +29,6 @@ import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import {
-  DEFAULT_LICENSE,
   isFormikFormDirty,
   parseCopyrightContributors,
   parseImageUrl,
@@ -66,7 +65,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
     processors: parseCopyrightContributors(concept, 'processors'),
     source: concept && concept.source ? concept.source : '',
-    license: concept.copyright?.license?.license || DEFAULT_LICENSE.license,
+    license: concept.copyright?.license?.license,
     metaImageId,
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],

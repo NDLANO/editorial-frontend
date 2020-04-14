@@ -490,7 +490,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
-      competences: 'Læreplankobling',
+      grepCodes: 'Læreplankobling',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -716,7 +716,7 @@ const phrases = {
       createOption: 'Opprett nytt nøkkelord',
       searchPlaceholder: 'Søk etter nøkkelord',
     },
-    competences: {
+    grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
@@ -902,7 +902,7 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
-    competences:
+    grepCodes:
       'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
   },
   errorMessage: {

@@ -14,7 +14,7 @@ import {
 } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
-import FormikCompetences from '../../FormikForm/FormikCompetences';
+import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
 
 const panels = [
   {
@@ -48,11 +48,11 @@ const panels = [
     component: props => <FormikMetadata {...props} />,
   },
   {
-    id: 'topic-article-competences',
-    title: 'form.name.competences',
+    id: 'topic-article-grepCodes',
+    title: 'form.name.grepCodes',
     className: 'u-6/6',
-    errorFields: ['competences'],
-    component: props => <FormikCompetences {...props} />,
+    errorFields: ['grepCodes'],
+    component: props => <FormikGrepCodes {...props} />,
   },
   {
     id: 'topic-article-workflow',

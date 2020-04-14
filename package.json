@@ -110,7 +110,7 @@
     "@ndla/ui": "^0.27.25",
     "@ndla/util": "^0.3.6",
     "@ndla/video-search": "^0.8.31",
-    "auth0-js": "^9.11.3",
+    "auth0-js": "^9.13.2",
     "babel-plugin-emotion": "^10.0.16",
     "body-parser": "^1.19.0",
     "btoa": "^1.2.1",

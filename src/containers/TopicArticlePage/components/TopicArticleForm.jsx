@@ -64,7 +64,7 @@ export const getInitialValues = (article = {}) => {
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
     visualElement: visualElement || {},
-    competences: article.competences || [],
+    grepCodes: article.grepCodes || [],
   };
 };
 
@@ -136,7 +136,7 @@ const getArticleFromSlate = ({
     tags: values.tags,
     title: values.title,
     visualElement: visualElement,
-    competences: values.competences,
+    grepCodes: values.grepCodes,
   };
 
   return article;

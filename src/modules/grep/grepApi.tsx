@@ -32,7 +32,7 @@ const fetchKompetansemaal = async (code: string) =>
 const fetchTverrfagligeTemaer = async (code: string) =>
   fetch(grepUrl(`/tverrfaglige-temaer-lk20/${code}`));
 
-const doCompetenceRequest = async (code: string) => {
+const doGrepCodeRequest = async (code: string) => {
   if (code.startsWith('KE')) {
     return fetchKjerneelementer(code);
   } else if (code.startsWith('KM')) {
@@ -42,8 +42,8 @@ const doCompetenceRequest = async (code: string) => {
   }
 };
 
-export const fetchCompetenceTitle = async (competenceCode: string) => {
-  const res = await doCompetenceRequest(competenceCode);
+export const fetchGrepCodeTitle = async (grepCode: string) => {
+  const res = await doGrepCodeRequest(grepCode);
   try {
     if (res?.status === 404) {
       return null;

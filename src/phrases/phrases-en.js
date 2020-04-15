@@ -474,7 +474,7 @@ const phrases = {
       validTo: 'Valid to',
       description: 'Content',
       conceptContent: 'Description',
-      competences: 'Curriculum connection',
+      grepCodes: 'Curriculum connection',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -705,7 +705,7 @@ const phrases = {
       createOption: 'Create new tag',
       searchPlaceholder: 'Search for tags',
     },
-    competences: {
+    grepCodes: {
       label: 'Competences and core elements',
       placeholder: 'Type code',
       description:
@@ -882,8 +882,8 @@ const phrases = {
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
-    competences:
-      'Competences are in the wrong format. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
+    grepCodes:
+      'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

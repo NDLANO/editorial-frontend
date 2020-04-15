@@ -494,7 +494,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhald',
       conceptContent: 'Skildring',
-      competences: 'Læreplankobling',
+      grepCodes: 'Læreplankobling',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -725,7 +725,7 @@ const phrases = {
       createOption: 'Opprett nytt nøkkelord',
       searchPlaceholder: 'Søk etter nøkkelord',
     },
-    competences: {
+    grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
@@ -897,8 +897,8 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
-    competences:
-      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
+    grepCodes:
+      'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',

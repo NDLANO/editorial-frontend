@@ -125,7 +125,7 @@ export interface ArticleType {
   };
   status: Status;
   content: string;
-  competences: string[];
+  grepCodes: string[];
 }
 
 export interface Topic {

@@ -10,58 +10,58 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikActions, FormikValues } from 'formik';
-import { fetchCompetences } from '../../modules/draft/draftApi';
-import { fetchCompetenceTitle } from '../../modules/grep/grepApi';
+import { fetchGrepCodes } from '../../modules/draft/draftApi';
+import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
 import { AsyncDropdown } from '../../components/Dropdown';
-import { isCompetenceValid } from '../../util/articleUtil';
+import { isGrepCodeValid } from '../../util/articleUtil';
 import { TranslateType } from '../../interfaces';
 import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 
 interface Props {
   t: TranslateType;
-  articleCompetences: string[];
+  articleGrepCodes: string[];
   field: FieldProps<string[]>['field'];
   form: {
     setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
   };
 }
 
-interface Competence {
+interface GrepCode {
   code: string;
   title: string | undefined | null;
 }
 
-const FormikCompetencesContent = ({
+const FormikGrepCodesContent = ({
   t,
-  articleCompetences = [],
+  articleGrepCodes = [],
   field,
   form,
 }: Props) => {
-  const convertCompetencesToObject = async (competences: string[]) => {
+  const convertGrepCodesToObject = async (grepCodes: string[]) => {
     return Promise.all(
-      competences.map(async c => {
-        const compTitle = await fetchCompetenceTitle(c);
+      grepCodes.map(async c => {
+        const grepCodeTitle = await fetchGrepCodeTitle(c);
         return {
           code: c,
-          title: compTitle ? `${c} - ${compTitle}` : c,
+          title: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
         };
       }),
     );
   };
-  const [competences, setCompetences] = useState<Competence[]>([]);
+  const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
 
-  const searchForCompetences = async (inp: string) => {
+  const searchForGrepCodes = async (inp: string) => {
     if (inp) {
-      const result = await fetchCompetences(inp);
-      result.results = await convertCompetencesToObject(result.results);
+      const result = await fetchGrepCodes(inp);
+      result.results = await convertGrepCodesToObject(result.results);
       return result;
     } else return [];
   };
 
   useEffect(() => {
     (async () => {
-      const comp = await convertCompetencesToObject(articleCompetences);
-      setCompetences(comp);
+      const comp = await convertGrepCodesToObject(articleGrepCodes);
+      setGrepCodes(comp);
     })();
   }, []);
 
@@ -74,40 +74,38 @@ const FormikCompetencesContent = ({
     });
   };
 
-  const createNewCompetence = async (competenceCode: string) => {
-    const competence = competenceCode.toUpperCase();
-    const comp = await fetchCompetenceTitle(competence);
+  const createNewGrepCode = async (newGrepCode: string) => {
+    const grepCode = newGrepCode.toUpperCase();
+    const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
     if (
-      comp &&
-      !competences.filter(c => c.code === competence).length &&
-      isCompetenceValid(competence)
+      grepCodeTitle &&
+      !grepCodes.filter(c => c.code === grepCode).length &&
+      isGrepCodeValid(grepCode)
     ) {
       const temp = [
-        ...competences,
+        ...grepCodes,
         {
-          code: competence,
-          title: `${competence} - ${comp}`,
+          code: grepCode,
+          title: `${grepCode} - ${grepCodeTitle}`,
         },
       ];
-      setCompetences(temp);
+      setGrepCodes(temp);
       updateFormik(
         field,
         temp.map(c => c.code),
       );
-      form.setFieldTouched('competences', true, true);
+      form.setFieldTouched('grepCodes', true, true);
     }
   };
 
-  const removeCompetence = (index: string) => {
-    const reduced_array = competences.filter(
-      (_, idx) => idx !== parseInt(index),
-    );
-    setCompetences(reduced_array);
+  const removeGrepCode = (index: string) => {
+    const reduced_array = grepCodes.filter((_, idx) => idx !== parseInt(index));
+    setGrepCodes(reduced_array);
     updateFormik(
       field,
       reduced_array.map(c => c.code),
     );
-    form.setFieldTouched('competences', true, true);
+    form.setFieldTouched('grepCodes', true, true);
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -126,31 +124,31 @@ const FormikCompetencesContent = ({
 
   return (
     <Fragment>
-      <FormikFieldDescription description={t('form.competences.description')} />
+      <FormikFieldDescription description={t('form.grepCodes.description')} />
       <AsyncDropdown
         idField="title"
-        name="CompetencesSearch"
+        name="GrepCodesSearch"
         labelField="title"
-        placeholder={t('form.competences.placeholder')}
+        placeholder={t('form.grepCodes.placeholder')}
         label="label"
-        apiAction={searchForCompetences}
+        apiAction={searchForGrepCodes}
         onClick={(e: Event) => e.stopPropagation()}
-        onChange={(c: Competence) => createNewCompetence(c.code)}
-        selectedItems={competences}
+        onChange={(c: GrepCode) => createNewGrepCode(c.code)}
+        selectedItems={grepCodes}
         multiSelect
         disableSelected
-        onCreate={createNewCompetence}
+        onCreate={createNewGrepCode}
         onKeyDown={onKeyDown}
         clearInputField
         customCreateButtonText="Legg til kode"
         hideTotalSearchCount
       />
 
-      {competences.map((competence, index) => (
+      {grepCodes.map((grepCode, index) => (
         <FormPill
           id={index.toString()}
-          label={isTitleTooLong(competence.title)}
-          onClick={removeCompetence}
+          label={isTitleTooLong(grepCode.title)}
+          onClick={removeGrepCode}
           key={index}
         />
       ))}
@@ -158,4 +156,4 @@ const FormikCompetencesContent = ({
   );
 };
 
-export default injectT(FormikCompetencesContent);
+export default injectT(FormikGrepCodesContent);

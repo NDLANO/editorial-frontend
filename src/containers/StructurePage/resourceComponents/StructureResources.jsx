@@ -134,7 +134,7 @@ export class StructureResources extends React.PureComponent {
           fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
             article =>
               this.setState({
-                topicStatus: article.status.current,
+                topicStatus: article.status,
               }),
           );
         }
@@ -160,11 +160,11 @@ export class StructureResources extends React.PureComponent {
         const [, resourceType, id] = resource.contentUri.split(':');
         if (resourceType === 'article') {
           const article = await fetchDraft(id);
-          resource.status = article.status.current;
+          resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
           const learningpath = await fetchLearningpath(id);
-          resource.status = learningpath.status;
+          resource.status = { current: learningpath.status };
           return learningpath;
         }
       }

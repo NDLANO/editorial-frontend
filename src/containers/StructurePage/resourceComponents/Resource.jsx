@@ -75,7 +75,8 @@ const Resource = ({
           name={name}
         />
       </div>
-      {status === PUBLISHED && (
+      {(status?.current === PUBLISHED ||
+        status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />
         </Tooltip>
@@ -141,7 +142,10 @@ Resource.propTypes = {
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
   contentUri: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
   locale: PropTypes.string.isRequired,
 };
 

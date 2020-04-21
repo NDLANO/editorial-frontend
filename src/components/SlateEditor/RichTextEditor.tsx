@@ -55,7 +55,7 @@ const RichTextEditor = (props: Props): JSX.Element => {
         <Slate 
           editor={editor} 
           value={value} 
-          onChange={onChange(value)} 
+          onChange={() => onChange(value)} // Needs to pass index?
           plugins={plugins}
           slateStore={state}
         >

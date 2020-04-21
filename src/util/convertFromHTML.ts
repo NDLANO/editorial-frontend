@@ -12,9 +12,10 @@
 
 import { Element, Node } from 'slate';
 
-export function convertFromHTML(json: any) {
+export function convertFromHTML(json: any) {  // TODO Rename from json? Doesnt look like json to me.
   const wrapMixedChildren = (node: Node): Element | void => {
-    if (node.children.length === 0) return;
+    console.log(node);
+    if (!node?.children || node.children.length === 0) return;
 
     // visit all our children
     node.children.forEach(wrapMixedChildren);
@@ -62,7 +63,7 @@ export function convertFromHTML(json: any) {
     }
     node.nodes = cleanNodes;
   };
-
-  wrapMixedChildren(json.document);
+  console.log(json);
+  wrapMixedChildren(json);
   return json;
 }

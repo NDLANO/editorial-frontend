@@ -63,16 +63,17 @@ const byLineStyle = css`
 `;
 
 const findFootnotes = content =>
-  content
-    .reduce(
-      (all, value) => [
-        ...all,
-        ...findNodesByType(value.document, footnoteType),
-      ],
-      [],
-    )
-    .filter(footnote => footnote.data.size > 0)
-    .map(footnoteNode => footnoteNode.data.toJS());
+  [];
+  // content
+  //   .reduce(
+  //     (all, value) => [
+  //       ...all,
+  //       ...findNodesByType(value.document, footnoteType),
+  //     ],
+  //     [],
+  //   )
+  //   .filter(footnote => footnote.data.size > 0)
+  //   .map(footnoteNode => footnoteNode.data.toJS());
 
 class LearningResourceContent extends Component {
   constructor(props) {

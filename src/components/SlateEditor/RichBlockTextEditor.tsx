@@ -46,15 +46,30 @@ const RichBlockTextEditor = (props: Props) => {
     placeholder
   } = props;
 
+  // This doesnt make any sense
+  // Receives evt:
+  // children: [
+  //  object: "block"
+  //  type: "section"
+  //  children: [
+  //    {object: "block", type: "paragraph", children: Array(1)} ...
+  //  ]
+  // ]
+  // index: undefined.
+  //
   const onChange = (evt: any, index: number) => {
-    const newValue = value ;
-    newValue[index] = evt.target.value;
-    props.onChange({
-      target: {
-        value: newValue,
-        name,
-      },
-    });
+    console.log(evt);
+    console.log(index);
+    console.log(props);
+    const newValue = value;
+    props.onChange(evt)
+    // newValue[index] = evt.target.value;
+    // props.onChange({
+    //   target: {
+    //     value: newValue,
+    //     name,
+    //   },
+    // });
   }
 
   const removeSection = (index: number) => {
@@ -73,12 +88,13 @@ const RichBlockTextEditor = (props: Props) => {
         >
           {value.length > 1 ? (
             <Tooltip
-              // FIXME: Should be coming from i18n / translatefunc
+              // FIXME: Should be coming from phrases
               tooltip="Ta bort seksjon"
               tooltipContainerClass="tooltipContainerClass">
               <CrossButton
                 stripped
                 onClick={() => removeSection(index)}
+                children={[]}  // Temp fix until I figure out wtf should be here
               />
             </Tooltip>
           ) : null}

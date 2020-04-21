@@ -64,7 +64,9 @@ export const learningResourceContentToEditorValue = (
     inline+text children and block children.
     see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
     const json = deserializeHtml(section, learningResourceRules)
+    console.log(json);
 
+    // FIXME Childrens are mangled and undefined, pls fix
     const value = convertFromHTML(json);
 
     return value;

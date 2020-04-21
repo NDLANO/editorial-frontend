@@ -76,7 +76,6 @@ EditAudio.propTypes = {
     }),
   ).isRequired,
   locale: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
   audioLanguage: PropTypes.string.isRequired,
 };
 

@@ -91,7 +91,7 @@ const ConceptTags = ({ t, locale, concept, field, form }) => {
         idField="title"
         name="TagSearch"
         labelField="title"
-        placeholder={t('form.tags.searchPlaceholder')}
+        placeholder={t('form.categories.searchPlaceholder')}
         label="label"
         apiAction={searchForTags}
         onChange={addTag}

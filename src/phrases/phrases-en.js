@@ -705,6 +705,11 @@ const phrases = {
       createOption: 'Create new tag',
       searchPlaceholder: 'Search for tags',
     },
+    categories: {
+      label: 'Categories',
+      description: 'Format: label:filter1:filter2',
+      searchPlaceholder: 'Search for categories',
+    },
     grepCodes: {
       label: 'Competences and core elements',
       placeholder: 'Type code',

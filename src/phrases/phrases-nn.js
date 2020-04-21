@@ -725,6 +725,11 @@ const phrases = {
       createOption: 'Opprett nytt nøkkelord',
       searchPlaceholder: 'Søk etter nøkkelord',
     },
+    categories: {
+      label: 'Kategoriar',
+      description: 'Format: liste:filter1:filter2',
+      searchPlaceholder: 'Søk etter kategoriar',
+    },
     grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',

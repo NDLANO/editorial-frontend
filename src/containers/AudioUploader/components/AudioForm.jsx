@@ -78,9 +78,12 @@ const rules = {
 };
 
 class AudioForm extends Component {
-  state = {
-    savedToServer: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      savedToServer: false,
+    };
+  }
 
   componentDidUpdate({ audioLanguage: prevAudioLanguage }) {
     const { audioLanguage } = this.props;

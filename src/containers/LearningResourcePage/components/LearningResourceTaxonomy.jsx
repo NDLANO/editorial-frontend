@@ -452,7 +452,7 @@ class LearningResourceTaxonomy extends Component {
           <SaveButton
             isSaving={status === 'loading'}
             showSaved={status === 'success' && !isDirty}
-            disabled={!isDirty}
+            disabled={!isDirty || !resourceTypes.length}
             onClick={this.handleSubmit}
             defaultText="saveTax"
           />

@@ -10,7 +10,7 @@ import React from 'react';
 import SlateBlockPicker from './SlateBlockPicker';
 import options from './options';
 
-export default function blockPickerPlugin(addSection, opts = {}) {
+export default function blockPickerPlugin(opts = {}) {
   const schema = {};
   const renderEditor = (props, editor, next) => {
     const children = next();
@@ -19,7 +19,6 @@ export default function blockPickerPlugin(addSection, opts = {}) {
         <SlateBlockPicker
           editor={editor}
           onChange={editor.onChange}
-          addSection={addSection}
           articleLanguage={opts.articleLanguage}
           {...options(opts)}
         />

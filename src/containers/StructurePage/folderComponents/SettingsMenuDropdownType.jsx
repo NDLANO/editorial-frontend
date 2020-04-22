@@ -8,13 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddTopic from './menuOptions/AddTopic';
 import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import DeleteTopic from './menuOptions/DeleteTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
 import EditFilterOption from './menuOptions/EditFilterOption';
 import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
+import PublishTopic from './menuOptions/PublishTopic';
+import CopyResources from './menuOptions/CopyResources';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -37,7 +38,7 @@ const SettingsMenuDropdownType = ({
     case 'topic':
       return (
         <>
-          {false && <AddTopic {...rest} />}
+          {showAllOptions && <PublishTopic {...rest} />}
           <ConnectFilterOption {...rest} />
           {showAllOptions && (
             <>
@@ -45,6 +46,7 @@ const SettingsMenuDropdownType = ({
               <AddExistingToTopic {...rest} />
             </>
           )}
+          {showAllOptions && <CopyResources {...rest} />}
         </>
       );
     default:

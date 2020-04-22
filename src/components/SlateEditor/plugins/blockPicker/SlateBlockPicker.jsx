@@ -44,8 +44,6 @@ class SlateBlockPicker extends Component {
   componentDidMount() {
     this.slateBlockRef.current.style.transition = 'opacity 200ms ease';
     this.slateBlockRef.current.style.position = 'absolute';
-
-    this.showPicker();
   }
 
   componentDidUpdate() {
@@ -64,12 +62,8 @@ class SlateBlockPicker extends Component {
   }
 
   onElementAdd(block) {
-    const { editor, addSection } = this.props;
+    const { editor } = this.props;
     switch (block.type) {
-      case 'block': {
-        addSection();
-        break;
-      }
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
         break;
@@ -110,8 +104,8 @@ class SlateBlockPicker extends Component {
     this.setState({ isOpen: false });
   }
 
-  toggleIsOpen() {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+  toggleIsOpen(open) {
+    this.setState({ isOpen: open });
   }
 
   getFactboxTitle() {
@@ -144,7 +138,7 @@ class SlateBlockPicker extends Component {
       this.slateBlockButtonRef.current.disabled = false;
       clearTimeout(this.zIndexTimeout);
       this.zIndexTimeout = setTimeout(() => {
-        slateBlockRef.style.zIndex = 10;
+        slateBlockRef.style.zIndex = 1;
       }, 100);
     }
   }
@@ -179,7 +173,7 @@ class SlateBlockPicker extends Component {
       this.slateBlockButtonRef.current.disabled = true;
       clearTimeout(this.zIndexTimeout);
       this.zIndexTimeout = setTimeout(() => {
-        slateBlockRef.style.zIndex = 0;
+        slateBlockRef.style.zIndex = -1;
       }, 100);
     }
   }
@@ -225,7 +219,7 @@ class SlateBlockPicker extends Component {
           />
         </Portal>
         <Portal isOpened>
-          <div ref={this.slateBlockRef}>
+          <div cy="slate-block-picker-button" ref={this.slateBlockRef}>
             <SlateBlockMenu
               ref={this.slateBlockButtonRef}
               cy="slate-block-picker"
@@ -250,7 +244,6 @@ class SlateBlockPicker extends Component {
 SlateBlockPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   editor: PropTypes.object.isRequired,
-  addSection: PropTypes.func.isRequired,
   allowedPickAreas: PropTypes.arrayOf(PropTypes.string),
   illegalAreas: PropTypes.arrayOf(PropTypes.string),
   articleLanguage: PropTypes.string.isRequired,

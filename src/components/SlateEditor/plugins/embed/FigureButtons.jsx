@@ -77,7 +77,8 @@ const FigureButtons = ({
           color="red"
           type="button"
           onClick={onRemoveClick}
-          tabIndex={-1}>
+          tabIndex={-1}
+          data-cy="remove-element">
           <DeleteForever />
         </IconButton>
       </Tooltip>

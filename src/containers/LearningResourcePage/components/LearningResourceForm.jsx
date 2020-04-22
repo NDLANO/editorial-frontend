@@ -30,6 +30,7 @@ import {
   learningResourceRules,
 } from '../../../util/formHelper';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
@@ -60,7 +61,7 @@ export const getInitialValues = (article = {}) => {
     title: article.title || '',
     updatePublished: false,
     updated: article.updated,
-    competences: article.competences || [],
+    grepCodes: article.grepCodes || [],
   };
 };
 
@@ -93,7 +94,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'standard',
@@ -115,7 +116,7 @@ const getArticleFromSlate = ({
     supportedLanguages: values.supportedLanguages,
     tags: values.tags,
     title: values.title,
-    competences: values.competences,
+    grepCodes: values.grepCodes,
   };
 
   return article;
@@ -165,6 +166,7 @@ const LearningResourceForm = props => {
               }
               getArticle={getArticle}
               formIsDirty={formIsDirty}
+              isSubmitting={isSubmitting}
               {...rest}
             />
             <LearningResourcePanels
@@ -188,7 +190,9 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
               {...formikProps}
               {...rest}
             />

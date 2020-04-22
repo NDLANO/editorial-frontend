@@ -8,6 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
@@ -19,6 +20,7 @@ import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -52,14 +54,21 @@ export class StructureResources extends React.PureComponent {
     const {
       currentTopic: { id, contentUri },
       activeFilters,
+      resourcesUpdated,
+      setResourcesUpdated,
     } = this.props;
-    if (id !== prevProps.currentTopic.id) {
-      this.getTopicResources();
-    } else if (activeFilters.length !== prevProps.activeFilters.length) {
+    if (
+      id !== prevProps.currentTopic.id ||
+      activeFilters.length !== prevProps.activeFilters.length ||
+      resourcesUpdated
+    ) {
       this.getTopicResources();
     }
     if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
       this.getArticle(contentUri);
+    }
+    if (resourcesUpdated) {
+      setResourcesUpdated(false);
     }
   }
 
@@ -82,8 +91,14 @@ export class StructureResources extends React.PureComponent {
   }
 
   async getAllResourceTypes() {
+    const { t } = this.props;
     try {
       const resourceTypes = await fetchAllResourceTypes(this.props.locale);
+      resourceTypes.push({
+        id: 'missing',
+        name: t('taxonomy.missingResourceType'),
+        disabled: true,
+      });
       this.setState({ resourceTypes });
     } catch (error) {
       handleError(error);
@@ -95,17 +110,35 @@ export class StructureResources extends React.PureComponent {
       currentTopic: { id: topicId },
       locale,
       activeFilters,
+      currentTopic,
     } = this.props;
     const { resourceTypes } = this.state;
     if (topicId) {
       try {
         this.setState({ loading: true });
-        const allTopicResources = await fetchTopicResources(
+        const initialTopicResources = await fetchTopicResources(
           topicId,
           locale,
           undefined,
           activeFilters.join(','),
         );
+        const allTopicResources = initialTopicResources.map(r => {
+          if (r.resourceTypes.length > 0) {
+            return r;
+          } else {
+            return { ...r, resourceTypes: [{ id: 'missing' }] };
+          }
+        });
+
+        if (currentTopic.contentUri) {
+          fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
+            article =>
+              this.setState({
+                topicStatus: article.status,
+              }),
+          );
+        }
+        this.getResourceStatuses(allTopicResources);
 
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,
@@ -121,6 +154,29 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
+  async getResourceStatuses(allTopicResources) {
+    const resourcePromises = allTopicResources.map(async resource => {
+      if (resource.contentUri) {
+        const [, resourceType, id] = resource.contentUri.split(':');
+        if (resourceType === 'article') {
+          const article = await fetchDraft(id);
+          resource.status = article.status;
+          return article;
+        } else if (resourceType === 'learningpath') {
+          const learningpath = await fetchLearningpath(id);
+          resource.status = { current: learningpath.status };
+          return learningpath;
+        }
+      }
+    });
+    await Promise.all(resourcePromises);
+    const topicResources = groupSortResourceTypesFromTopicResources(
+      this.state.resourceTypes,
+      allTopicResources,
+    );
+    this.setState({ topicResources });
+  }
+
   render() {
     const {
       activeFilters,
@@ -134,6 +190,7 @@ export class StructureResources extends React.PureComponent {
       topicDescription,
       resourceTypes,
       topicResources,
+      topicStatus,
       loading,
     } = this.state;
     if (loading) {
@@ -147,6 +204,7 @@ export class StructureResources extends React.PureComponent {
           resourceRef={resourceRef}
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
+          status={topicStatus}
         />
         {resourceTypes.map(resourceType => {
           const topicResource =
@@ -163,6 +221,7 @@ export class StructureResources extends React.PureComponent {
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              disable={resourceType.disabled}
             />
           );
         })}
@@ -188,6 +247,8 @@ StructureResources.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  resourcesUpdated: PropTypes.bool,
+  setResourcesUpdated: PropTypes.func,
 };
 
-export default StructureResources;
+export default injectT(StructureResources);

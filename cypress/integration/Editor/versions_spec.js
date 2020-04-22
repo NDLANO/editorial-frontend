@@ -43,7 +43,7 @@ describe('Workflow features', () => {
   it('Can add notes and save', () => {
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
-    cy.get('[data-testid=saveLearningResourceButton]').click();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
   });
 
@@ -64,7 +64,7 @@ describe('Workflow features', () => {
       .first()
       .click();
 
-    cy.get('[data-testid=saveLearningResourceButton]').click();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
   });
 });

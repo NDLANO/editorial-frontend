@@ -23,6 +23,7 @@ const ConceptMetaData = ({ t, subjects, locale, concept }) => (
         <FormikMetaImageSearch
           metaImageId={field.value}
           setFieldTouched={form.setFieldTouched}
+          showRemoveButton
           {...field}
         />
       )}
@@ -38,7 +39,10 @@ const ConceptMetaData = ({ t, subjects, locale, concept }) => (
         />
       )}
     </FormikField>
-    <FormikField name="tags" label={t('form.tags.label')}>
+    <FormikField
+      name="tags"
+      label={t('form.categories.label')}
+      description={t('form.categories.description')}>
       {({ field, form }) => (
         <ConceptTags
           locale={locale}

@@ -10,7 +10,7 @@ import {
   transformArticleFromApiVersion,
   transformArticleToApiVersion,
   isDraftPublished,
-  isCompetenceValid,
+  isGrepCodeValid,
 } from '../articleUtil';
 import { apiArticle, transformedArticle } from './articleMocks';
 
@@ -45,21 +45,22 @@ test('transformArticleToApiVersion', () => {
   expect(transformed).toMatchSnapshot();
 });
 
-test('isCompetenceValid correct behavior', () => {
-  const competences = [
-    'K1',
-    'K123',
-    'KE1337',
-    'KM2255',
-    'KV5432',
-    'KJ12',
-    '1K123',
-    'K3K',
-    'k123',
-  ];
-  const result = [false, false, true, true, false, false, false, false, false];
+test('isGrepCodeValid correct behavior', () => {
+  const grepCodes = new Map();
+  grepCodes.set('KE1337', true);
+  grepCodes.set('KM2255', true);
+  grepCodes.set('TT3', true);
+  grepCodes.set('TT9898', true);
+  grepCodes.set('TTR13', false);
+  grepCodes.set('TT12KE1337', false);
+  grepCodes.set('KE1337TT12', false);
+  grepCodes.set('K1', false);
+  grepCodes.set('K123', false);
+  grepCodes.set('KV5432', false);
+  grepCodes.set('KJ12', false);
+  grepCodes.set('1K123', false);
+  grepCodes.set('K3K', false);
+  grepCodes.set('k123', false);
 
-  competences.map((value, idx) =>
-    expect(isCompetenceValid(value)).toBe(result[idx]),
-  );
+  grepCodes.forEach((value, key) => expect(isGrepCodeValid(key)).toBe(value));
 });

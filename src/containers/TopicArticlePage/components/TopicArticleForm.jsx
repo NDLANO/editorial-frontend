@@ -28,6 +28,7 @@ import {
 } from '../../../util/formHelper';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -63,7 +64,7 @@ export const getInitialValues = (article = {}) => {
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
     visualElement: visualElement || {},
-    competences: article.competences || [],
+    grepCodes: article.grepCodes || [],
   };
 };
 
@@ -112,7 +113,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'topic-article',
@@ -135,7 +136,7 @@ const getArticleFromSlate = ({
     tags: values.tags,
     title: values.title,
     visualElement: visualElement,
-    competences: values.competences,
+    grepCodes: values.grepCodes,
   };
 
   return article;
@@ -188,6 +189,7 @@ const TopicArticleForm = props => {
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
               setValues={setValues}
+              isSubmitting={isSubmitting}
               {...rest}
             />
             <TopicArticleAccordionPanels
@@ -212,7 +214,9 @@ const TopicArticleForm = props => {
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
               {...formikProps}
               {...rest}
             />

@@ -213,3 +213,10 @@ export interface Learningpath {
     language: string;
   };
 }
+
+export interface Filter {
+  id: string;
+  connectionId: string;
+  relevanceId: string;
+  name: string;
+}

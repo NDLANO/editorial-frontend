@@ -16,8 +16,10 @@ import {
   fetchSubjectTopics,
   fetchTopicResources,
   createTopicResource,
+  fetchTopicFilters,
+  addFilterToResource,
 } from '../../../../modules/taxonomy';
-import { Topic, Resource, TranslateType } from '../../../../interfaces';
+import { Topic, Resource, TranslateType, Filter } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -82,28 +84,47 @@ const CopyResources = ({
     return breadCrumbs.map(crumb => crumb.name).join(' > ');
   };
 
-  const addResourcesToTopic = (topic: Topic) =>
-    fetchTopicResources(topic.id)
-      .then((resources: Resource[]) =>
-        resources.map(resource =>
-          createTopicResource({
-            primary: resource.isPrimary,
-            rank: resource.rank,
-            resourceId: resource.id,
-            topicid: id,
-          }),
-        ),
-      )
-      .then((promises: Promise<void>[]) => Promise.all(promises))
-      .then(() => setResourcesUpdated(true))
-      .catch((e: Error) => handleError(e));
+  const addResourcesToTopic = async (resources: Resource[]) => {
+    const promises = resources.map(resource =>
+      createTopicResource({
+        primary: resource.isPrimary,
+        rank: resource.rank,
+        resourceId: resource.id,
+        topicid: id,
+      }),
+    );
+    await Promise.all(promises);
+    setResourcesUpdated(true);
+  };
+
+  const addTopicFiltersToResources = async (
+    resources: Resource[],
+    filters: Filter[],
+  ) => {
+    resources.forEach(resource =>
+      filters.forEach(filter =>
+        addFilterToResource({
+          filterId: filter.id,
+          resourceId: resource.id,
+        }),
+      ),
+    );
+  };
+
+  const handleSubmit = async (topic: Topic) => {
+    const resources: Resource[] = await fetchTopicResources(topic.id);
+    addResourcesToTopic(resources);
+
+    const filters: Filter[] = await fetchTopicFilters(id);
+    addTopicFiltersToResources(resources, filters);
+  };
 
   return showSearch ? (
     <MenuItemDropdown
       placeholder={t('taxonomy.existingTopic')}
       searchResult={topics}
       onClose={onClose}
-      onSubmit={addResourcesToTopic}
+      onSubmit={handleSubmit}
       icon={<Copy />}
       smallIcon
     />

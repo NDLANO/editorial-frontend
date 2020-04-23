@@ -25,10 +25,20 @@ import { LicensesArrayOf } from '../../shapes';
 import Footer from '../App/components/Footer';
 
 class ConceptPage extends PureComponent {
+  state = {
+    previousLocation: '',
+  };
+
   componentDidMount() {
     const { fetchLicenses, licenses } = this.props;
     if (!licenses.length) {
       fetchLicenses();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ previousLocation: prevProps.location.pathname });
     }
   }
 
@@ -49,6 +59,9 @@ class ConceptPage extends PureComponent {
                   licenses={licenses}
                   conceptId={routeProps.match.params.conceptId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
+                  isNewlyCreated={
+                    this.state.previousLocation === '/concept/new'
+                  }
                   {...rest}
                 />
               )}
@@ -73,6 +86,7 @@ ConceptPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  location: PropTypes.string,
 };
 
 const mapDispatchToProps = {

@@ -14,7 +14,13 @@ import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 
-const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
+const EditConcept = ({
+  conceptId,
+  selectedLanguage,
+  t,
+  isNewlyCreated,
+  ...rest
+}) => {
   const { concept, updateConcept, subjects, tags } = useFetchConceptData(
     conceptId,
     selectedLanguage,
@@ -23,14 +29,6 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
   if (!concept) {
     return null;
   }
-
-  const isNewlyCreated = concept => {
-    const conceptDate = Date.parse(concept.created);
-    const dateNow = Date.now();
-
-    // accounting for server lag up to 10 seconds
-    return dateNow - conceptDate <= 10000;
-  };
 
   return (
     <Fragment>
@@ -42,7 +40,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
         concept={concept}
         subjects={subjects}
         tags={tags}
-        isNewlyCreated={isNewlyCreated(concept)}
+        isNewlyCreated={isNewlyCreated}
         {...rest}
       />
     </Fragment>
@@ -53,6 +51,7 @@ EditConcept.propTypes = {
   conceptId: PropTypes.string,
   selectedLanguage: PropTypes.string.isRequired,
   licenses: LicensesArrayOf.isRequired,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(EditConcept);

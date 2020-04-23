@@ -199,6 +199,7 @@ class ConceptForm extends Component {
       inModal,
       subjects,
       tags,
+      isNewlyCreated,
       ...rest
     } = this.props;
     const { savedToServer, showResetModal } = this.state;
@@ -350,7 +351,7 @@ class ConceptForm extends Component {
                   {...formClasses}
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}
+                  showSaved={(savedToServer && !formIsDirty) || isNewlyCreated}
                   submit={!inModal}
                   onClick={evt => {
                     if (inModal) {
@@ -390,6 +391,7 @@ ConceptForm.propTypes = {
   licenses: LicensesArrayOf,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),
+  isNewlyCreated: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

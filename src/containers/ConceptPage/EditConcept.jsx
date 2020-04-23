@@ -24,6 +24,14 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
     return null;
   }
 
+  const isNewlyCreated = concept => {
+    const conceptDate = Date.parse(concept.created);
+    const dateNow = Date.now();
+
+    // accounting for server lag up to 10 seconds
+    return dateNow - conceptDate <= 10000;
+  };
+
   return (
     <Fragment>
       <HelmetWithTracker
@@ -34,6 +42,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
         concept={concept}
         subjects={subjects}
         tags={tags}
+        isNewlyCreated={isNewlyCreated(concept)}
         {...rest}
       />
     </Fragment>

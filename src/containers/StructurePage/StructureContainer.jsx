@@ -123,7 +123,7 @@ export class StructureContainer extends React.PureComponent {
 
   async getAllSubjects() {
     try {
-      const subjects = await fetchSubjects(this.props.locale);
+      const subjects = await fetchSubjects(this.props.locale, true);
       this.setState({
         subjects: subjects.sort((a, b) => a.name.localeCompare(b.name)),
       });

@@ -14,8 +14,8 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function fetchSubjects(locale) {
-  return fetchAuthorized(`${baseUrl}/subjects/?language=${locale}`).then(
+function fetchSubjects(locale, includeMetadata=false) {
+  return fetchAuthorized(`${baseUrl}/subjects/?includeMetadata=${includeMetadata}&?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 }

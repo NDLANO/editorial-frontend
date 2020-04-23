@@ -112,11 +112,14 @@ const CopyResources = ({
   };
 
   const handleSubmit = async (topic: Topic) => {
-    const resources: Resource[] = await fetchTopicResources(topic.id);
-    addResourcesToTopic(resources);
-
-    const filters: Filter[] = await fetchTopicFilters(id);
-    addTopicFiltersToResources(resources, filters);
+    try {
+      const resources: Resource[] = await fetchTopicResources(topic.id);
+      addResourcesToTopic(resources);
+      const filters: Filter[] = await fetchTopicFilters(id);
+      addTopicFiltersToResources(resources, filters);
+    } catch (e) {
+      handleError(e);
+    }
   };
 
   return showSearch ? (

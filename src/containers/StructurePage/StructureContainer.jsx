@@ -132,11 +132,14 @@ export class StructureContainer extends React.PureComponent {
     }
   }
 
-  async getSubjectTopics(subjectid) {
+  async getSubjectTopics(subjectid, includeMetadata=false) {
     try {
+      console.log('sid', subjectid)
       this.saveSubjectItems(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid);
+      const allTopics = await fetchSubjectTopics(subjectid, true);
+      console.log("allTopics", allTopics);
       const topics = groupTopics(allTopics);
+      console.log('topics:', topics)
       this.saveSubjectItems(subjectid, { topics, loading: false });
     } catch (e) {
       handleError(e);

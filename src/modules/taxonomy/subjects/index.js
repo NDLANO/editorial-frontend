@@ -20,9 +20,9 @@ function fetchSubjects(locale) {
   );
 }
 
-function fetchSubjectTopics(subject) {
+function fetchSubjectTopics(subject, includeMetadata=false) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?recursive=true`,
+    `${baseUrl}/subjects/${subject}/topics?includeMetadata=${includeMetadata}&?recursive=true`,
   ).then(resolveJsonOrRejectWithError);
 }
 

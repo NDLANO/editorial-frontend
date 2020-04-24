@@ -82,6 +82,8 @@ const renderBlock = (props, editor, next) => {
       return (
         <td
           className={node.data.get('isHeader') ? 'c-table__header' : ''}
+          rowSpan={node.data.get('rowspan')}
+          colSpan={node.data.get('colspan')}
           {...attributes}>
           {children}
         </td>

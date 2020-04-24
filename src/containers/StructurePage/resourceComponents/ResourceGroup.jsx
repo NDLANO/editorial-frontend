@@ -56,12 +56,14 @@ class ResourceGroup extends PureComponent {
       currentSubject,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
-
     return (
       <React.Fragment>
         <Accordion
           addButton={
-            <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
+            <AddTopicResourceButton
+              stripped
+              onClick={this.toggleAddModal}
+              disabled={resource.disabled}>
               <Plus />
               {t('taxonomy.addResource')}
             </AddTopicResourceButton>
@@ -105,6 +107,7 @@ ResourceGroup.propTypes = {
   resource: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
+    disabled: PropTypes.bool,
   }),
   params: PropTypes.shape({
     topic: PropTypes.string,

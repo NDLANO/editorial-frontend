@@ -21,11 +21,6 @@ describe("can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 
-  afterEach( () => {
-    cy.get('[data-cy="learning-resource-title"]').focus();
-    cy.get('[cy="slate-block-picker-button"]').should('have.css', 'z-index', '-1');
-  });
-
   it('adds and removes factAside', () => {
     cy.get('[data-cy="create-factAside"]').click();
     cy.get('[data-cy=remove-fact-aside]').click();

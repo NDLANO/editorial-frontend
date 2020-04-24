@@ -80,7 +80,6 @@ const rules = {
 class AudioForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       savedToServer: false,
     };
@@ -93,9 +92,10 @@ class AudioForm extends Component {
     }
   }
 
-  async handleSubmit(values, actions) {
+  handleSubmit = async (values, actions) => {
     const { licenses, onUpdate, revision, applicationError } = this.props;
     try {
+      actions.setSubmitting(true);
       const audioMetaData = {
         id: values.id,
         revision,
@@ -118,7 +118,7 @@ class AudioForm extends Component {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
-  }
+  };
 
   render() {
     const { t, tags, licenses, audio } = this.props;
@@ -166,7 +166,7 @@ class AudioForm extends Component {
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting } = formikProps;
+          const { values, dirty, isSubmitting, submitForm } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -218,6 +218,10 @@ class AudioForm extends Component {
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
                   showSaved={savedToServer && !formIsDirty}
+                  onClick={evt => {
+                    evt.preventDefault();
+                    submitForm();
+                  }}
                 />
               </Field>
               <FormikAlertModalWrapper

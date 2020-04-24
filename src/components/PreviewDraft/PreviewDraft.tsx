@@ -7,6 +7,8 @@
  */
 
 import React, { Component } from 'react';
+import { Remarkable } from 'remarkable';
+
 //@ts-ignore
 import { Article, ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
@@ -38,6 +40,13 @@ class PreviewDraft extends Component<Props, {}> {
       return null;
     }
 
+    const markdown = new Remarkable();
+    markdown.inline.ruler.enable(['sub', 'sup']);
+
+    const renderMarkdown = (text: string) => {
+      return markdown.render(text);
+    };
+
     const icon = contentType ? (
       <ContentTypeBadge type={contentType} background size="large" />
     ) : null;
@@ -58,6 +67,7 @@ class PreviewDraft extends Component<Props, {}> {
           authorLabel: t('license.creditType.originator'),
           authorDescription: t('license.creditType.authorDesc'),
         }}
+        renderMarkdown={renderMarkdown}
       />
     );
   }

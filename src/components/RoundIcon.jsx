@@ -55,6 +55,15 @@ const StyledRoundIcon = styled.div`
     `}
 
   ${props =>
+    props.smallIcon &&
+    css`
+      > svg {
+        height: 11px;
+        width: 11px;
+      }
+    `}
+
+  ${props =>
     props.margin &&
     css`
       margin: 0 calc(${spacing.small} / 2);
@@ -65,6 +74,7 @@ RoundIcon.propTypes = {
   icon: PropTypes.node,
   open: PropTypes.bool,
   small: PropTypes.bool,
+  smallIcon: PropTypes.bool,
   margin: PropTypes.bool,
 };
 

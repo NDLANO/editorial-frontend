@@ -27,11 +27,14 @@ const FormikLicense = props => {
     disabled,
     locale,
     width,
+    enableLicenseNA,
   } = props;
-  const licensesWithTranslations = licenses.map(license => ({
-    ...license,
-    ...getLicenseByAbbreviation(license.license, locale),
-  }));
+  const licensesWithTranslations = licenses
+    .filter(license => license.license !== 'N/A' || enableLicenseNA)
+    .map(license => ({
+      ...license,
+      ...getLicenseByAbbreviation(license.license, locale),
+    }));
   return (
     <Fragment>
       <FieldHeader title={t('form.license.label')} width={width}>
@@ -77,6 +80,7 @@ FormikLicense.propTypes = {
   value: PropTypes.string,
   onFocus: PropTypes.func,
   width: PropTypes.number,
+  enableLicenseNA: PropTypes.bool,
 };
 
 FormikLicense.defaultProps = {

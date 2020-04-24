@@ -460,6 +460,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveAsNewVersion: 'Lagre som ny versjon',
     saveDraft: 'Lagre utkast',
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
@@ -493,7 +494,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhald',
       conceptContent: 'Skildring',
-      competences: 'Læreplankobling',
+      grepCodes: 'Læreplankobling',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -578,6 +579,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
+      remove: 'Fjern metabilde',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -723,7 +725,12 @@ const phrases = {
       createOption: 'Opprett nytt nøkkelord',
       searchPlaceholder: 'Søk etter nøkkelord',
     },
-    competences: {
+    categories: {
+      label: 'Kategoriar',
+      description: 'Format: liste:filter1:filter2',
+      searchPlaceholder: 'Søk etter kategoriar',
+    },
+    grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
@@ -895,8 +902,8 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
-    competences:
-      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
+    grepCodes:
+      'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',
@@ -957,6 +964,7 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    copyResources: 'Kopier ressurser fra emne',
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserar ressurser',
@@ -997,6 +1005,7 @@ const phrases = {
       core: 'Kjerneressurs',
     },
     goTo: 'Åpne i stukturredigering',
+    missingResourceType: 'Mangler ressurstype',
   },
   notions: {
     edit: 'Rediger forklaring',

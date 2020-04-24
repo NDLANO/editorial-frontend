@@ -1,13 +1,17 @@
 import React from 'react';
-import { bool, func, string } from 'prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import { colors, spacing, fonts } from '@ndla/core';
+import { TranslateType } from '../interfaces';
 
-const appereances = {
+interface AppearanceMap {
+  [index: string]: SerializedStyles;
+}
+
+export const saveButtonAppearances: AppearanceMap = {
   saved: css`
     &,
     &:hover,
@@ -46,7 +50,19 @@ const largerButtonStyle = css`
   ${fonts.sizes(18, 1.25)};
 `;
 
-const SaveButton = ({
+interface Props {
+  isSaving: boolean;
+  showSaved: boolean;
+  defaultText: string;
+  formIsDirty: boolean;
+  large: boolean;
+  disabled: boolean;
+  onClick: () => void;
+  t: TranslateType;
+  clippedButton?: boolean;
+}
+
+const SaveButton: React.FC<Props> = ({
   isSaving,
   showSaved,
   t,
@@ -55,6 +71,7 @@ const SaveButton = ({
   large,
   disabled,
   onClick,
+  clippedButton,
   ...rest
 }) => {
   const getModifier = () => {
@@ -62,33 +79,27 @@ const SaveButton = ({
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
-
   const modifier = getModifier();
-  return (
-    <Button
-      disabled={isSaving || !formIsDirty || disabled}
-      onClick={onClick}
-      css={css`
-        ${large ? largerButtonStyle : ''}
-        ${appereances[modifier]}
-      `}
-      {...rest}>
-      <StyledSpan>
-        {t(`form.${modifier}`)}
-        {showSaved && <Check css={checkStyle} />}
-      </StyledSpan>
-    </Button>
-  );
-};
+  const disabledButton = isSaving || !formIsDirty || disabled;
 
-SaveButton.propTypes = {
-  isSaving: bool,
-  showSaved: bool,
-  defaultText: string,
-  formIsDirty: bool,
-  large: bool,
-  disabled: bool,
-  onClick: func,
+  return (
+    <>
+      <Button
+        disabled={disabledButton}
+        onClick={onClick}
+        clippedButton={clippedButton}
+        css={[
+          large ? largerButtonStyle : null,
+          saveButtonAppearances[modifier],
+        ]}
+        {...rest}>
+        <StyledSpan>
+          {t(`form.${modifier}`)}
+          {showSaved && <Check css={checkStyle} />}
+        </StyledSpan>
+      </Button>
+    </>
+  );
 };
 
 SaveButton.defaultProps = {

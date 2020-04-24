@@ -29,7 +29,6 @@ import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import {
-  DEFAULT_LICENSE,
   isFormikFormDirty,
   parseCopyrightContributors,
   parseImageUrl,
@@ -45,6 +44,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
+import { nullOrUndefined } from '../../../util/articleUtil';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
@@ -62,8 +62,10 @@ const getInitialValues = (concept = {}, subjects = []) => {
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
     creators: parseCopyrightContributors(concept, 'creators'),
+    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
+    processors: parseCopyrightContributors(concept, 'processors'),
     source: concept && concept.source ? concept.source : '',
-    license: concept.copyright?.license?.license || DEFAULT_LICENSE.license,
+    license: concept.copyright?.license?.license,
     metaImageId,
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
@@ -137,13 +139,12 @@ class ConceptForm extends Component {
 
   getConcept = values => {
     const { licenses } = this.props;
-
     const metaImage = values?.metaImageId
       ? {
           id: values.metaImageId,
           alt: values.metaImageAlt,
         }
-      : undefined;
+      : nullOrUndefined(values?.metaImageId);
 
     return {
       id: values.id,
@@ -154,6 +155,8 @@ class ConceptForm extends Component {
       copyright: {
         license: licenses.find(license => license.license === values.license),
         creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
         agreementId: values.agreementId,
       },
       source: values.source,
@@ -220,7 +223,6 @@ class ConceptForm extends Component {
         component: ({ values }) => (
           <ConceptCopyright
             licenses={licenses}
-            contributorTypesOverride={['creators']}
             disableAgreements
             label={t('form.concept.source')}
             values={values}

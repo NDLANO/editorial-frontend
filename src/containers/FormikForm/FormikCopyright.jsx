@@ -19,6 +19,7 @@ const FormikCopyright = ({
   values,
   contributorTypesOverride,
   disableAgreements,
+  enableLicenseNA,
 }) => {
   const disabled = !!values.agreementId;
   return (
@@ -31,7 +32,12 @@ const FormikCopyright = ({
       )}
       <FormikField name="license">
         {({ field }) => (
-          <FormikLicense disabled={disabled} licenses={licenses} {...field} />
+          <FormikLicense
+            disabled={disabled}
+            licenses={licenses}
+            enableLicenseNA={enableLicenseNA}
+            {...field}
+          />
         )}
       </FormikField>
     </Fragment>
@@ -50,6 +56,7 @@ FormikCopyright.propTypes = {
   }),
   contributorTypesOverride: PropTypes.arrayOf(PropTypes.string),
   disableAgreements: PropTypes.bool,
+  enableLicenseNA: PropTypes.bool,
 };
 
 export default FormikCopyright;

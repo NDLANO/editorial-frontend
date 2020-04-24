@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FormikActions, FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
-import FormikCompetencesContent from './FormikCompetencesContent';
+import FormikGrepCodesContent from './FormikGrepCodesContent';
 import { TranslateType, ArticleType } from '../../interfaces';
 
 interface Props {
@@ -22,14 +22,14 @@ interface Props {
   };
 }
 
-const FormikCompetences = ({ t, article }: Props) => {
+const FormikGrepCodes = ({ t, article }: Props) => {
   return (
     <Fragment>
-      <FormikField name="competences" label={t('form.competences.label')}>
+      <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
         {({ field, form }: Props) => (
-          <FormikCompetencesContent
+          <FormikGrepCodesContent
             t
-            articleCompetences={article.competences}
+            articleGrepCodes={article.grepCodes}
             field={field}
             form={form}
           />
@@ -39,4 +39,4 @@ const FormikCompetences = ({ t, article }: Props) => {
   );
 };
 
-export default injectT(FormikCompetences);
+export default injectT(FormikGrepCodes);

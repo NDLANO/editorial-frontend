@@ -22,7 +22,7 @@ describe('Learning resource editing', () => {
   });
 
   it('can enter title, ingress and content then save', () => {
-    cy.get('[data-testid=saveLearningResourceButton]').click({ force: true }); // checking that saving is disabled
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click({ force: true }); // checking that saving is disabled
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
     });
@@ -33,7 +33,7 @@ describe('Learning resource editing', () => {
       .type('This is test content {enter}', {
         force: true,
       });
-    cy.get('[data-testid=saveLearningResourceButton').click();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     // cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
   });
 

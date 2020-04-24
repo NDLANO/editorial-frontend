@@ -11,7 +11,6 @@ import {
   RelatedArticle,
 } from '@ndla/icons/editor';
 import { Download, VolumeUp } from '@ndla/icons/common';
-import { Minus } from '@ndla/icons/action';
 import HowToHelper from '../../../HowTo/HowToHelper';
 
 const renderArticleInModal = pageId => (
@@ -19,11 +18,6 @@ const renderArticleInModal = pageId => (
 );
 
 const actions = [
-  {
-    data: { type: 'block', object: 'block' },
-    icon: <Minus />,
-    helpIcon: renderArticleInModal('Paragraph'),
-  },
   {
     data: { type: 'aside', object: 'factAside' },
     icon: <FactBoxMaterial />,

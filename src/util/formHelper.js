@@ -13,7 +13,7 @@ import {
   topicArticleContentToHTML,
 } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
-import { isCompetenceValid } from '../util/articleUtil';
+import { isGrepCodeValid } from './articleUtil';
 
 export const DEFAULT_LICENSE = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
@@ -96,7 +96,7 @@ const formikCommonArticleRules = {
   },
   tags: {
     required: true,
-    minLength: 3,
+    minItems: 3,
   },
   creators: {
     allObjectFieldsRequired: true,
@@ -120,12 +120,12 @@ const formikCommonArticleRules = {
       return undefined;
     },
   },
-  competences: {
+  grepCodes: {
     required: false,
     test: values => {
-      const wrongFormat = !!values.find(value => !isCompetenceValid(value));
+      const wrongFormat = !!values.find(value => !isGrepCodeValid(value));
       return wrongFormat
-        ? { translationKey: 'validation.competences' }
+        ? { translationKey: 'validation.grepCodes' }
         : undefined;
     },
   },

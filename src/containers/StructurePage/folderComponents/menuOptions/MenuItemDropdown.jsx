@@ -12,6 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { Spinner } from '@ndla/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Search } from '@ndla/icons/lib/common';
@@ -19,7 +20,6 @@ import { DropdownMenu, Input } from '@ndla/forms';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';
 import RoundIcon from '../../../../components/RoundIcon';
-import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from './MenuItemEditField';
 
 const menuItemStyle = css`
@@ -85,13 +85,13 @@ class MenuItemDropdown extends PureComponent {
   }
 
   render() {
-    const { icon, t, placeholder } = this.props;
+    const { icon, t, placeholder, smallIcon } = this.props;
     const { selected, status } = this.state;
     const items = this.getResultItems();
     return (
       <Fragment>
         <div css={menuItemStyle}>
-          <RoundIcon open small icon={icon} />
+          <RoundIcon open small smallIcon={smallIcon} icon={icon} />
           <Downshift
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
@@ -141,6 +141,7 @@ MenuItemDropdown.propTypes = {
   searchResult: PropTypes.array,
   placeholder: PropTypes.string,
   filter: PropTypes.string,
+  smallIcon: PropTypes.bool,
 };
 
 export default injectT(MenuItemDropdown);

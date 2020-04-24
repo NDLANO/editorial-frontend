@@ -10,7 +10,7 @@ import {
   transformArticleFromApiVersion,
   transformArticleToApiVersion,
   isDraftPublished,
-  isCompetenceValid,
+  isGrepCodeValid,
 } from '../articleUtil';
 import { apiArticle, transformedArticle } from './articleMocks';
 
@@ -45,24 +45,22 @@ test('transformArticleToApiVersion', () => {
   expect(transformed).toMatchSnapshot();
 });
 
-test('isCompetenceValid correct behavior', () => {
-  const competences = new Map();
-  competences.set('KE1337', true);
-  competences.set('KM2255', true);
-  competences.set('TT3', true);
-  competences.set('TT9898', true);
-  competences.set('TTR13', false);
-  competences.set('TT12KE1337', false);
-  competences.set('KE1337TT12', false);
-  competences.set('K1', false);
-  competences.set('K123', false);
-  competences.set('KV5432', false);
-  competences.set('KJ12', false);
-  competences.set('1K123', false);
-  competences.set('K3K', false);
-  competences.set('k123', false);
+test('isGrepCodeValid correct behavior', () => {
+  const grepCodes = new Map();
+  grepCodes.set('KE1337', true);
+  grepCodes.set('KM2255', true);
+  grepCodes.set('TT3', true);
+  grepCodes.set('TT9898', true);
+  grepCodes.set('TTR13', false);
+  grepCodes.set('TT12KE1337', false);
+  grepCodes.set('KE1337TT12', false);
+  grepCodes.set('K1', false);
+  grepCodes.set('K123', false);
+  grepCodes.set('KV5432', false);
+  grepCodes.set('KJ12', false);
+  grepCodes.set('1K123', false);
+  grepCodes.set('K3K', false);
+  grepCodes.set('k123', false);
 
-  competences.forEach((value, key) =>
-    expect(isCompetenceValid(key)).toBe(value),
-  );
+  grepCodes.forEach((value, key) => expect(isGrepCodeValid(key)).toBe(value));
 });

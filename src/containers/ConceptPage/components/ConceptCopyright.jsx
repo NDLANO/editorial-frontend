@@ -25,6 +25,7 @@ const ConceptCopyright = ({
         contributorTypesOverride={contributorTypesOverride}
         disableAgreements={disableAgreements}
         values={values}
+        enableLicenseNA={true}
       />
       <FormikField label={label} name="source" />
     </Fragment>

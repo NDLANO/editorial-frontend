@@ -58,13 +58,20 @@ export function useArticleFormHooks({
     }
   }, [language, id]);
 
-  const handleSubmit = async formik => {
+  const handleSubmit = async (formik, saveAsNewVersion) => {
     formik.setSubmitting(true);
     const values = formik.values;
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status.current;
     const statusChange = initialStatus !== newStatus;
-    const newArticle = getArticleFromSlate({ values, initialValues, licenses });
+    const slateArticle = getArticleFromSlate({
+      values,
+      initialValues,
+      licenses,
+    });
+    const newArticle = saveAsNewVersion
+      ? { ...slateArticle, createNewVersion: true }
+      : slateArticle;
 
     try {
       if (statusChange) {

@@ -53,6 +53,7 @@ export class StructureContainer extends React.PureComponent {
       filters: {},
       jsPlumbConnections: [],
       activeConnections: [],
+      resourcesUpdated: false,
     };
     this.starButton = React.createRef();
     this.resourceSection = React.createRef();
@@ -72,6 +73,7 @@ export class StructureContainer extends React.PureComponent {
     this.toggleStructure = this.toggleStructure.bind(this);
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
   }
 
   async componentDidMount() {
@@ -329,6 +331,12 @@ export class StructureContainer extends React.PureComponent {
     this.refreshTopics();
   }
 
+  setResourcesUpdated(updated) {
+    this.setState({
+      resourcesUpdated: updated,
+    });
+  }
+
   render() {
     const { match, t, locale, userAccess } = this.props;
     const {
@@ -402,6 +410,7 @@ export class StructureContainer extends React.PureComponent {
                     }
                     locale={locale}
                     userAccess={userAccess}
+                    setResourcesUpdated={this.setResourcesUpdated}
                   />
                 )}
               />
@@ -419,6 +428,8 @@ export class StructureContainer extends React.PureComponent {
               currentTopic={currentTopic}
               currentSubject={currentSubject}
               refreshTopics={this.refreshTopics}
+              resourcesUpdated={this.state.resourcesUpdated}
+              setResourcesUpdated={this.setResourcesUpdated}
             />
           )}
         </OneColumn>

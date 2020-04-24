@@ -102,8 +102,8 @@ export const fetchAgreement = id =>
     resolveJsonOrRejectWithError,
   );
 
-export const fetchCompetences = query =>
-  fetchAuthorized(`${baseUrl}/competences/?query=${query}`).then(
+export const fetchGrepCodes = query =>
+  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(
     resolveJsonOrRejectWithError,
   );
 

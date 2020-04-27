@@ -32,7 +32,6 @@ const emptySearchState = {
 class SearchContentForm extends Component {
   constructor(props) {
     super(props);
-    console.log('PROPS: ', props);
     const { searchObject } = props;
     this.state = {
       dropDown: {

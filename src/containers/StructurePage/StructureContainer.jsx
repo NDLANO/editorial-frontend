@@ -80,7 +80,7 @@ export class StructureContainer extends React.PureComponent {
     await this.getAllSubjects();
     const { subject } = this.props.match.params;
     if (subject) {
-      this.getSubjectTopics(subject);
+      this.getSubjectTopics(subject, true);
       this.getFilters();
     }
     this.showLink();
@@ -105,7 +105,7 @@ export class StructureContainer extends React.PureComponent {
       }
       const currentSub = subjects.find(sub => sub.id === subject);
       if (currentSub) {
-        this.getSubjectTopics(subject);
+        this.getSubjectTopics(subject, true);
       }
       if (pathname.includes('topic')) {
         this.showLink();
@@ -132,14 +132,12 @@ export class StructureContainer extends React.PureComponent {
     }
   }
 
-  async getSubjectTopics(subjectid, includeMetadata=false) {
+  async getSubjectTopics(subjectid, includeMetadata = false) {
     try {
-      console.log('sid', subjectid)
       this.saveSubjectItems(subjectid, { loading: true });
       const allTopics = await fetchSubjectTopics(subjectid, true);
-      console.log("allTopics", allTopics);
       const topics = groupTopics(allTopics);
-      console.log('topics:', topics)
+      console.log('topics:', topics);
       this.saveSubjectItems(subjectid, { topics, loading: false });
     } catch (e) {
       handleError(e);

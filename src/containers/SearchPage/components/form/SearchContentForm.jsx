@@ -125,9 +125,7 @@ class SearchContentForm extends Component {
 
   sortByProperty(property) {
     return function(a, b) {
-      // returns true if value of array element at field "name" is null or undefined
-      if (!a[property]) return 1;
-      return a[property].localeCompare(b[property]);
+      return a[property]?.localeCompare(b[property]);
     };
   }
 

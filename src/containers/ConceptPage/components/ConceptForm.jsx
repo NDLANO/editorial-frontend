@@ -45,6 +45,7 @@ import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 import { nullOrUndefined } from '../../../util/articleUtil';
+import EditorFooter from "../../../components/SlateEditor/EditorFooter";
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
@@ -70,6 +71,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
     articleId: concept.articleId,
+    status: concept.status || {},
   };
 };
 
@@ -198,7 +200,6 @@ class ConceptForm extends Component {
       onClose,
       inModal,
       subjects,
-      tags,
       ...rest
     } = this.props;
     const { savedToServer, showResetModal } = this.state;
@@ -267,7 +268,7 @@ class ConceptForm extends Component {
             initialValues,
             dirty,
           });
-
+          //{console.log("huehue", this.getConcept(values))}
           return (
             <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
@@ -275,7 +276,7 @@ class ConceptForm extends Component {
                 values={values}
                 type="concept"
                 content={concept}
-                getConcept={() => this.getConcept(values)}
+                getConcept={() => {const a = this.getConcept(values);console.log("concept: ", a); return a}}
                 editUrl={lang => toEditConcept(values.id, lang)}
               />
 
@@ -303,7 +304,6 @@ class ConceptForm extends Component {
                               {panel.component({
                                 values,
                                 subjects,
-                                tags,
                                 closePanel: () => handleItemClick(panel.id),
                                 ...rest,
                               })}
@@ -315,52 +315,24 @@ class ConceptForm extends Component {
                   </AccordionWrapper>
                 )}
               </Accordion>
-              <Field right>
-                {error && <span className="c-errorMessage">{error}</span>}
-                <AlertModal
-                  show={showResetModal}
-                  text={t('form.resetToProd.modal')}
-                  actions={[
-                    {
-                      text: t('form.abort'),
-                      onClick: () => this.setState({ showResetModal: false }),
-                    },
-                    {
-                      text: 'Reset',
-                      onClick: () => this.onReset(setValues),
-                    },
-                  ]}
-                  onCancel={() => this.setState({ showResetModal: false })}
-                />
-
-                {inModal ? (
-                  <FormikActionButton outline onClick={onClose}>
-                    {t('form.abort')}
-                  </FormikActionButton>
-                ) : (
-                  <FormikActionButton
-                    onClick={history.goBack}
-                    outline
-                    disabled={isSubmitting}>
-                    {t('form.abort')}
-                  </FormikActionButton>
-                )}
-
-                <SaveButton
-                  {...formClasses}
-                  isSaving={isSubmitting}
-                  formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}
-                  submit={!inModal}
-                  onClick={evt => {
-                    if (inModal) {
-                      evt.preventDefault();
-                      submitForm();
-                    }
-                  }}>
-                  {t('form.save')}
-                </SaveButton>
-              </Field>
+              { <EditorFooter
+                showSimpleFooter={!concept.id}
+                isSubmitting={isSubmitting}
+                formIsDirty={formIsDirty}
+                savedToServer={savedToServer}
+                getEntity={this.getConcept}
+                errors={error}
+                values={values}
+                onSaveClick={saveAsNewVersion =>{
+                  console.log("onSaveclick: ", saveAsNewVersion)
+                  console.log("formikValues: ", formikProps.values)
+                  console.log("Values: ", values)
+                  this.handleSubmit(formikProps.values, saveAsNewVersion)}
+                }
+                entityStatus={concept.status}
+                entityType={"Concept"}
+                {...rest}
+              />}
               {!inModal && (
                 <FormikAlertModalWrapper
                   isSubmitting={isSubmitting}
@@ -388,7 +360,6 @@ ConceptForm.propTypes = {
   onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),
 };
 

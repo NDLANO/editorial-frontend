@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { toEditConcept } from '../../../src/util/routeHelpers.js';
+import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './components/ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
@@ -27,7 +27,7 @@ const CreateConcept = props => {
     addConceptInModal,
     ...rest
   } = props;
-  const { subjects, createConcept, tags } = useFetchConceptData(
+  const { subjects, createConcept } = useFetchConceptData(
     undefined,
     locale,
   );
@@ -51,7 +51,6 @@ const CreateConcept = props => {
         licenses={licenses}
         inModal={inModal}
         subjects={subjects}
-        tags={tags}
         {...rest}
       />
     </Fragment>

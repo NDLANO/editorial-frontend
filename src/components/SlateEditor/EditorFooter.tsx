@@ -14,8 +14,9 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { Article, PossibleStatuses, Values } from './editorTypes';
+import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
+import * as conceptApi from '../../modules/concept/conceptApi'
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { TranslateType } from '../../interfaces';
 import SaveMultiButton from '../SaveMultiButton';
@@ -28,12 +29,13 @@ interface Props {
   values: Values;
   error: string;
   errors: Object;
-  getArticle: () => Article;
-  articleStatus: { current: string };
+  getEntity: () => Article | Concept;
+  entityStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
   showSimpleFooter: boolean;
   setFieldValue: (name: string, value: { current: string }) => void;
   onSaveClick: VoidFunction;
+  entityType: string;
 }
 
 const StyledLine = styled.hr`
@@ -46,26 +48,32 @@ const StyledLine = styled.hr`
   }
 `;
 
-const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-  const possibleStatuses = await draftApi.fetchStatusStateMachine();
-  setStatuses(possibleStatuses);
-};
-
 const EditorFooter: React.FC<Props> = ({
   t,
   isSubmitting,
   formIsDirty,
   savedToServer,
   values,
-  getArticle,
+  getEntity,
   createMessage,
-  articleStatus,
+  entityStatus,
   showSimpleFooter,
   setFieldValue,
   errors,
   onSaveClick,
+  entityType,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+
+  const isConceptType = () => {
+    return entityType === "Concept"
+  };
+
+  const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
+    const possibleStatuses = isConceptType() ? await conceptApi.fetchStatusStateMachine()
+      : await draftApi.fetchStatusStateMachine();
+    setStatuses(possibleStatuses);
+  };
 
   useEffect(() => {
     fetchStatuses(setStatuses);
@@ -93,7 +101,7 @@ const EditorFooter: React.FC<Props> = ({
   const onValidateClick = async () => {
     const { id, revision } = values;
     try {
-      await draftApi.validateDraft(id, { ...getArticle(), revision });
+      await draftApi.validateDraft(id, { ...getEntity(), revision });
       createMessage({
         translationKey: 'form.validationOk',
         severity: 'success',
@@ -116,11 +124,11 @@ const EditorFooter: React.FC<Props> = ({
   }
 
   const getStatuses = () =>
-    Array.isArray(possibleStatuses[articleStatus.current])
-      ? possibleStatuses[articleStatus.current].map((status: string) => ({
+    Array.isArray(possibleStatuses[entityStatus.current])
+      ? possibleStatuses[entityStatus.current].map((status: string) => ({
           name: t(`form.status.actions.${status}`),
           id: status,
-          active: status === articleStatus.current,
+          active: status === entityStatus.current,
         }))
       : [];
 
@@ -153,7 +161,7 @@ const EditorFooter: React.FC<Props> = ({
         )}
         <StyledLine />
         {values.id && (
-          <FooterLinkButton bold onClick={() => onValidateClick()}>
+          <FooterLinkButton bold onClick={() => {if(!isConceptType()) onValidateClick()}}>
             {t('form.validate')}
           </FooterLinkButton>
         )}
@@ -165,7 +173,7 @@ const EditorFooter: React.FC<Props> = ({
           messages={{
             label: '',
             changeStatus: t(
-              `form.status.${articleStatus.current.toLowerCase()}`,
+              `form.status.${entityStatus.current.toLowerCase()}`,
             ),
             back: t('editorFooter.back'),
             inputHeader: t('editorFooter.inputHeader'),

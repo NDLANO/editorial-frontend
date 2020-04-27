@@ -210,13 +210,15 @@ const TopicArticleForm = props => {
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               savedToServer={savedToServer}
-              getArticle={getArticle}
+              getEntity={getArticle}
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
               onSaveClick={saveAsNewVersion =>
                 handleSubmit(formik, saveAsNewVersion)
               }
+              entityStatus={article.status}
+              entityType={"Article"}
               {...formikProps}
               {...rest}
             />

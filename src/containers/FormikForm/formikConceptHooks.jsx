@@ -7,7 +7,6 @@ import handleError from '../../util/handleError';
 export function useFetchConceptData(conceptId, locale) {
   const [concept, setConcept] = useState(undefined);
   const [subjects, setSubjects] = useState([]);
-  const [tags, setTags] = useState([]);
   const fetchConcept = async () => {
     try {
       if (conceptId) {
@@ -36,19 +35,13 @@ export function useFetchConceptData(conceptId, locale) {
     return savedConcept;
   };
 
-  const fetchTags = async () => {
-    const newTags = await conceptApi.fetchTags(locale);
-    setTags(newTags ? newTags : []);
-  };
-
   useEffect(() => {
     fetchConcept();
-    fetchTags();
   }, [conceptId, locale]);
 
   useEffect(() => {
     fetchSubjects();
   }, []);
 
-  return { concept, createConcept, updateConcept, tags, subjects };
+  return { concept, createConcept, updateConcept, subjects };
 }

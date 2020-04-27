@@ -149,6 +149,7 @@ const LearningResourceForm = props => {
           touched,
           ...formikProps
         } = formik;
+        console.log("Article: ", article);
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -182,20 +183,25 @@ const LearningResourceForm = props => {
               getArticle={getArticle}
               {...rest}
             />
-            <EditorFooter
+            { <EditorFooter
               showSimpleFooter={!article.id}
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               savedToServer={savedToServer}
-              getArticle={getArticle}
+              getEntity={getArticle}
               errors={errors}
               values={values}
               onSaveClick={saveAsNewVersion =>
+              {
+                console.log("onSaveclick: ", saveAsNewVersion)
+                console.log("formikProps: ", formik)
                 handleSubmit(formik, saveAsNewVersion)
-              }
+              }}
+              entityStatus={article.status}
+              entityType={"Article"}
               {...formikProps}
               {...rest}
-            />
+            />}
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}

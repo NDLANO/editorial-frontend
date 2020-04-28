@@ -64,7 +64,7 @@ function fetchSubjectFilters(id) {
   );
 }
 
-function updateMetadata(subjectId, body) {
+function updateSubjectMetadata(subjectId, body) {
   return fetchAuthorized(`${baseUrl}/v1/subjects/${subjectId}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -80,5 +80,5 @@ export {
   addSubjectTopic,
   fetchSubjectFilters,
   updateSubjectTopic,
-  updateMetadata,
+  updateSubjectMetadata,
 };

@@ -135,7 +135,7 @@ export class StructureContainer extends React.PureComponent {
   async getSubjectTopics(subjectid, includeMetadata = false) {
     try {
       this.saveSubjectItems(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid, true);
+      const allTopics = await fetchSubjectTopics(subjectid, includeMetadata);
       const topics = groupTopics(allTopics);
       console.log('topics:', topics);
       this.saveSubjectItems(subjectid, { topics, loading: false });
@@ -219,7 +219,7 @@ export class StructureContainer extends React.PureComponent {
         await deleteTopicConnection(connectionId);
       }
       this.deleteConnections();
-      this.getSubjectTopics(subjectId);
+      this.getSubjectTopics(subjectId, true);
     } catch (e) {
       handleError(e);
     }
@@ -277,7 +277,7 @@ export class StructureContainer extends React.PureComponent {
     const {
       match: { params },
     } = this.props;
-    this.getSubjectTopics(params.subject);
+    this.getSubjectTopics(params.subject, true);
   }
 
   toggleStructure() {

@@ -58,7 +58,7 @@ export {
   fetchSubjectFilters,
   addSubjectTopic,
   updateSubjectTopic,
-  updateMetadata,
+  updateSubjectMetadata,
 } from './subjects';
 
 export {

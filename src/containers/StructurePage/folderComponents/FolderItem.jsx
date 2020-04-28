@@ -47,6 +47,7 @@ const FolderItem = ({
   filters,
   t,
   userAccess,
+  metadata,
   ...rest
 }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
@@ -117,6 +118,7 @@ FolderItem.propTypes = {
     }),
   ),
   userAccess: string,
+  metadata: bool,
 };
 
 export default withRouter(injectT(FolderItem));

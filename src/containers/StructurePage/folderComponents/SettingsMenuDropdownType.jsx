@@ -16,6 +16,7 @@ import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 import PublishTopic from './menuOptions/PublishTopic';
 import CopyResources from './menuOptions/CopyResources';
+import ToggleSubjectMetadataVisibility from './menuOptions/ToggleSubjectMetadataVisibility';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -31,6 +32,7 @@ const SettingsMenuDropdownType = ({
             <>
               <EditFilterOption {...rest} />
               <AddExistingToSubjectTopic {...rest} />
+              <ToggleSubjectMetadataVisibility {...rest} />
             </>
           )}
         </>

@@ -20,6 +20,7 @@ export {
   queryTopics,
   fetchResourceResourceType,
   fetchResourceFilter,
+  addFilterToResource,
   fetchFullResource,
   updateResourceRelevance,
   getFullResource,

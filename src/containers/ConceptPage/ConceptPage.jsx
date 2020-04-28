@@ -44,6 +44,8 @@ class ConceptPage extends PureComponent {
 
   render() {
     const { t, licenses, history, match, ...rest } = this.props;
+  console.log("actual location: ", this.props.location.pathname)
+    console.log("prev location: ", this.state.previousLocation)
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>
@@ -59,7 +61,7 @@ class ConceptPage extends PureComponent {
                   licenses={licenses}
                   conceptId={routeProps.match.params.conceptId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
-                  isNewlyCreated={
+                isNewlyCreated={
                     this.state.previousLocation === '/concept/new'
                   }
                   {...rest}

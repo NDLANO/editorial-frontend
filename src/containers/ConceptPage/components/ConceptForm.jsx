@@ -19,7 +19,6 @@ import Accordion, {
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import Field from '../../../components/Field';
 import * as messageActions from '../../Messages/messagesActions';
 import {
   plainTextToEditorValue,
@@ -33,19 +32,14 @@ import {
   parseCopyrightContributors,
   parseImageUrl,
 } from '../../../util/formHelper';
-import {
-  FormikAlertModalWrapper,
-  FormikActionButton,
-  formClasses,
-} from '../../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
-import AlertModal from '../../../components/AlertModal';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
-import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 import { nullOrUndefined } from '../../../util/articleUtil';
-import EditorFooter from "../../../components/SlateEditor/EditorFooter";
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
+import * as articleStatuses from '../../../util/constants/ArticleStatus';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
@@ -170,22 +164,48 @@ class ConceptForm extends Component {
     };
   };
 
-  handleSubmit = async (values, actions) => {
-    const { onUpdate, concept, applicationError } = this.props;
+  handleSubmit = async formik => {
+    formik.setSubmitting(true);
+    const {
+      onUpdate,
+      concept,
+      applicationError,
+      updateConceptAndStatus,
+    } = this.props;
     const { revision } = concept;
-    actions.setSubmitting(true);
+    const values = formik.values;
+    const initialValues = formik.initialValues;
+    const initialStatus = concept.status?.current;
+    const newStatus = formik.values.status?.current;
+    const statusChange = initialStatus !== newStatus;
 
     try {
-      await onUpdate({
-        ...this.getConcept(values),
-        revision,
-      });
-      actions.resetForm();
-      actions.setSubmitting(false);
+      if (statusChange) {
+        // if editor is not dirty, OR we are unpublishing, we don't save before changing status
+        const skipSaving =
+          newStatus === articleStatuses.UNPUBLISHED ||
+          !isFormikFormDirty({
+            values,
+            initialValues,
+            dirty: true,
+          });
+        await updateConceptAndStatus(
+          this.getConcept(values),
+          newStatus,
+          !skipSaving,
+        );
+      } else {
+        await onUpdate({
+          ...this.getConcept(values),
+          revision,
+        });
+      }
+      formik.resetForm();
+      formik.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
       applicationError(err);
-      actions.setSubmitting(false);
+      formik.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
   };
@@ -202,7 +222,7 @@ class ConceptForm extends Component {
       subjects,
       ...rest
     } = this.props;
-    const { savedToServer, showResetModal } = this.state;
+    const { savedToServer } = this.state;
     const panels = ({ errors, touched }) => [
       {
         id: 'concept-content',
@@ -249,7 +269,7 @@ class ConceptForm extends Component {
     return (
       <Formik
         initialValues={initialValues}
-        onSubmit={this.handleSubmit}
+        onSubmit={() => ({})}
         ref={this.formik}
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
@@ -258,17 +278,15 @@ class ConceptForm extends Component {
             values,
             dirty,
             isSubmitting,
-            setValues,
             error,
-            submitForm,
+            errors,
+            setFieldValue,
           } = formikProps;
-
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
             dirty,
           });
-          //{console.log("huehue", this.getConcept(values))}
           return (
             <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
@@ -276,7 +294,7 @@ class ConceptForm extends Component {
                 values={values}
                 type="concept"
                 content={concept}
-                getConcept={() => {const a = this.getConcept(values);console.log("concept: ", a); return a}}
+                getConcept={() => this.getConcept(values)}
                 editUrl={lang => toEditConcept(values.id, lang)}
               />
 
@@ -315,24 +333,26 @@ class ConceptForm extends Component {
                   </AccordionWrapper>
                 )}
               </Accordion>
-              { <EditorFooter
-                showSimpleFooter={!concept.id}
-                isSubmitting={isSubmitting}
-                formIsDirty={formIsDirty}
-                savedToServer={savedToServer}
-                getEntity={this.getConcept}
-                errors={error}
-                values={values}
-                onSaveClick={saveAsNewVersion =>{
-                  console.log("onSaveclick: ", saveAsNewVersion)
-                  console.log("formikValues: ", formikProps.values)
-                  console.log("Values: ", values)
-                  this.handleSubmit(formikProps.values, saveAsNewVersion)}
-                }
-                entityStatus={concept.status}
-                entityType={"Concept"}
-                {...rest}
-              />}
+              {
+                <EditorFooter
+                  t={t}
+                  isSubmitting={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  savedToServer={savedToServer}
+                  values={values}
+                  error={error}
+                  errors={errors}
+                  getEntity={this.getConcept}
+                  entityStatus={concept.status}
+                  createMessage={this.props.createMessage}
+                  showSimpleFooter={!concept.id}
+                  setFieldValue={setFieldValue}
+                  onSaveClick={() => {
+                    this.handleSubmit(formikProps);
+                  }}
+                  entityType={'Concept'}
+                />
+              }
               {!inModal && (
                 <FormikAlertModalWrapper
                   isSubmitting={isSubmitting}
@@ -361,6 +381,8 @@ ConceptForm.propTypes = {
   applicationError: PropTypes.func.isRequired,
   licenses: LicensesArrayOf,
   subjects: PropTypes.arrayOf(SubjectShape),
+  createMessage: PropTypes.func.isRequired,
+  updateConceptAndStatus: PropTypes.func,
 };
 
 const mapDispatchToProps = {

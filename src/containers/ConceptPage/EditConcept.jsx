@@ -15,10 +15,12 @@ import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 
 const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
-  const { concept, updateConcept, subjects } = useFetchConceptData(
-    conceptId,
-    selectedLanguage,
-  );
+  const {
+    concept,
+    updateConcept,
+    subjects,
+    updateConceptAndStatus,
+  } = useFetchConceptData(conceptId, selectedLanguage);
 
   if (!concept) {
     return null;
@@ -31,6 +33,7 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
       />
       <ConceptForm
         onUpdate={updateConcept}
+        updateConceptAndStatus={updateConceptAndStatus}
         concept={concept}
         subjects={subjects}
         {...rest}

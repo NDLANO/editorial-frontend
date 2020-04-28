@@ -16,7 +16,7 @@ import { Launch } from '@ndla/icons/common';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
 import * as draftApi from '../../modules/draft/draftApi';
-import * as conceptApi from '../../modules/concept/conceptApi'
+import * as conceptApi from '../../modules/concept/conceptApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { TranslateType } from '../../interfaces';
 import SaveMultiButton from '../SaveMultiButton';
@@ -64,13 +64,15 @@ const EditorFooter: React.FC<Props> = ({
   entityType,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
-
   const isConceptType = () => {
-    return entityType === "Concept"
+    return entityType === 'Concept';
   };
 
-  const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-    const possibleStatuses = isConceptType() ? await conceptApi.fetchStatusStateMachine()
+  const fetchStatuses = async (
+    setStatuses: React.Dispatch<PossibleStatuses>,
+  ) => {
+    const possibleStatuses = isConceptType()
+      ? await conceptApi.fetchStatusStateMachine()
       : await draftApi.fetchStatusStateMachine();
     setStatuses(possibleStatuses);
   };
@@ -107,7 +109,7 @@ const EditorFooter: React.FC<Props> = ({
         severity: 'success',
       });
     } catch (error) {
-      if (error && error.json && error.json.messages) {
+      if (error?.json?.messages) {
         createMessage(formatErrorMessage(error));
       } else {
         createMessage(error);
@@ -138,7 +140,7 @@ const EditorFooter: React.FC<Props> = ({
       setNewStatus(status);
       setFieldValue('status', { current: status });
     } catch (error) {
-      if (error && error.json && error.json.messages) {
+      if (error?.json?.messages) {
         createMessage(formatErrorMessage(error));
       } else {
         createMessage(error);
@@ -160,8 +162,8 @@ const EditorFooter: React.FC<Props> = ({
           </FooterLinkButton>
         )}
         <StyledLine />
-        {values.id && (
-          <FooterLinkButton bold onClick={() => {if(!isConceptType()) onValidateClick()}}>
+        {values.id && !isConceptType() && (
+          <FooterLinkButton bold onClick={() => onValidateClick()}>
             {t('form.validate')}
           </FooterLinkButton>
         )}

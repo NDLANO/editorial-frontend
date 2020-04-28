@@ -218,7 +218,7 @@ const TopicArticleForm = props => {
                 handleSubmit(formik, saveAsNewVersion)
               }
               entityStatus={article.status}
-              entityType={"Article"}
+              entityType={'Article'}
               {...formikProps}
               {...rest}
             />

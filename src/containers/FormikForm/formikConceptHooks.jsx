@@ -35,6 +35,23 @@ export function useFetchConceptData(conceptId, locale) {
     return savedConcept;
   };
 
+  const updateConceptAndStatus = async (updatedConcept, newStatus, dirty) => {
+    let newConcept = updatedConcept;
+    if (dirty) {
+      const savedConcept = await conceptApi.updateConcept(updatedConcept);
+      newConcept = transformConceptFromApiVersion(savedConcept, locale);
+    }
+    const conceptChangedStatus = await conceptApi.updateConceptStatus(
+      updatedConcept.id,
+      newStatus,
+    );
+    setConcept({
+      ...newConcept,
+      status: conceptChangedStatus.status,
+      revision: conceptChangedStatus.revision,
+    });
+  };
+
   useEffect(() => {
     fetchConcept();
   }, [conceptId, locale]);
@@ -43,5 +60,11 @@ export function useFetchConceptData(conceptId, locale) {
     fetchSubjects();
   }, []);
 
-  return { concept, createConcept, updateConcept, subjects };
+  return {
+    concept,
+    createConcept,
+    updateConcept,
+    subjects,
+    updateConceptAndStatus,
+  };
 }

@@ -22,7 +22,9 @@ export const fetchSearchTags = async (input, language) => {
 };
 
 export const fetchAllConcepts = async locale => {
-  const response = await fetchAuthorized(`${draftConceptUrl}?language=${locale}`);
+  const response = await fetchAuthorized(
+    `${draftConceptUrl}?language=${locale}`,
+  );
   return await resolveJsonOrRejectWithError(response);
 };
 
@@ -54,3 +56,9 @@ export const fetchStatusStateMachine = () =>
   fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const updateConceptStatus = async (id, status) => {
+  const url = `${draftConceptUrl}/${id}/status/${status}`;
+  const response = fetchAuthorized(url, { method: 'PUT' });
+  return await resolveJsonOrRejectWithError(response);
+};

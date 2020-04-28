@@ -125,7 +125,7 @@ class SearchContentForm extends Component {
 
   sortByProperty(property) {
     return function(a, b) {
-      return a[property].localeCompare(b[property]);
+      return a[property]?.localeCompare(b[property]);
     };
   }
 

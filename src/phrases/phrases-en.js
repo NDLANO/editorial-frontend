@@ -706,9 +706,9 @@ const phrases = {
       searchPlaceholder: 'Search for tags',
     },
     categories: {
-      label: 'Categories',
-      description: 'Format: label:filter1:filter2',
-      searchPlaceholder: 'Search for categories',
+      label: 'List and filters',
+      description: 'Format: list:filter1:filter2',
+      searchPlaceholder: 'Search for lists',
     },
     grepCodes: {
       label: 'Competences and core elements',

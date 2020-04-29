@@ -717,9 +717,9 @@ const phrases = {
       searchPlaceholder: 'Søk etter nøkkelord',
     },
     categories: {
-      label: 'Kategorier',
+      label: 'Liste og filter',
       description: 'Format: liste:filter1:filter2',
-      searchPlaceholder: 'Søk etter kategorier',
+      searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {
       label: 'Kompetansemål og kjerneelementer',

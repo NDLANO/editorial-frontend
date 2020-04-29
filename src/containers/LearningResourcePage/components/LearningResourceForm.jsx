@@ -128,6 +128,8 @@ const LearningResourceForm = props => {
     formikRef,
     initialValues,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
   const { t, article, updateArticle, translating, licenses, ...rest } = props;
@@ -194,7 +196,9 @@ const LearningResourceForm = props => {
                 handleSubmit(formik, saveAsNewVersion);
               }}
               entityStatus={article.status}
-              entityType={'Article'}
+              getStateStatuses={fetchStatusStateMachine}
+              validateEntity={validateDraft}
+              isArticle={true}
               {...formikProps}
               {...rest}
             />

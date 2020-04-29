@@ -15,8 +15,6 @@ import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
-import * as draftApi from '../../modules/draft/draftApi';
-import * as conceptApi from '../../modules/concept/conceptApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { TranslateType } from '../../interfaces';
 import SaveMultiButton from '../SaveMultiButton';
@@ -35,7 +33,9 @@ interface Props {
   showSimpleFooter: boolean;
   setFieldValue: (name: string, value: { current: string }) => void;
   onSaveClick: VoidFunction;
-  entityType: string;
+  getStateStatuses: () => PossibleStatuses;
+  validateEntity: (id: number, updatedEntity: Article | Concept) => void;
+  isArticle: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -61,19 +61,16 @@ const EditorFooter: React.FC<Props> = ({
   setFieldValue,
   errors,
   onSaveClick,
-  entityType,
+  getStateStatuses,
+  validateEntity,
+  isArticle,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
-  const isConceptType = () => {
-    return entityType === 'Concept';
-  };
 
   const fetchStatuses = async (
     setStatuses: React.Dispatch<PossibleStatuses>,
   ) => {
-    const possibleStatuses = isConceptType()
-      ? await conceptApi.fetchStatusStateMachine()
-      : await draftApi.fetchStatusStateMachine();
+    const possibleStatuses = await getStateStatuses();
     setStatuses(possibleStatuses);
   };
 
@@ -102,8 +99,9 @@ const EditorFooter: React.FC<Props> = ({
 
   const onValidateClick = async () => {
     const { id, revision } = values;
+    const updatedEntity = { ...getEntity(), revision };
     try {
-      await draftApi.validateDraft(id, { ...getEntity(), revision });
+      await validateEntity(id, updatedEntity);
       createMessage({
         translationKey: 'form.validationOk',
         severity: 'success',
@@ -151,7 +149,7 @@ const EditorFooter: React.FC<Props> = ({
   return (
     <Footer>
       <div>
-        {values.id && (
+        {values.id && isArticle && (
           <FooterLinkButton
             bold
             onClick={() =>
@@ -162,7 +160,7 @@ const EditorFooter: React.FC<Props> = ({
           </FooterLinkButton>
         )}
         <StyledLine />
-        {values.id && !isConceptType() && (
+        {values.id && isArticle && (
           <FooterLinkButton bold onClick={() => onValidateClick()}>
             {t('form.validate')}
           </FooterLinkButton>

@@ -220,6 +220,8 @@ class ConceptForm extends Component {
       onClose,
       inModal,
       subjects,
+      createMessage,
+      fetchStateStatuses,
       ...rest
     } = this.props;
     const { savedToServer } = this.state;
@@ -344,13 +346,14 @@ class ConceptForm extends Component {
                   errors={errors}
                   getEntity={this.getConcept}
                   entityStatus={concept.status}
-                  createMessage={this.props.createMessage}
+                  createMessage={createMessage}
                   showSimpleFooter={!concept.id}
                   setFieldValue={setFieldValue}
                   onSaveClick={() => {
                     this.handleSubmit(formikProps);
                   }}
-                  entityType={'Concept'}
+                  getStateStatuses={fetchStateStatuses}
+                  isArticle={false}
                 />
               }
               {!inModal && (
@@ -383,6 +386,7 @@ ConceptForm.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   createMessage: PropTypes.func.isRequired,
   updateConceptAndStatus: PropTypes.func,
+  fetchStateStatuses: PropTypes.func,
 };
 
 const mapDispatchToProps = {

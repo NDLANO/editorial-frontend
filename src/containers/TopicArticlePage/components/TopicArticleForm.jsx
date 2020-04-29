@@ -149,6 +149,8 @@ const TopicArticleForm = props => {
     initialValues,
     setResetModal,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
   const { t, article, updateArticle, licenses, ...rest } = props;
@@ -218,7 +220,9 @@ const TopicArticleForm = props => {
                 handleSubmit(formik, saveAsNewVersion)
               }
               entityStatus={article.status}
-              entityType={'Article'}
+              getStateStatuses={fetchStatusStateMachine}
+              validateEntity={validateDraft}
+              isArticle={true}
               {...formikProps}
               {...rest}
             />

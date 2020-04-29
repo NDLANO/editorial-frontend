@@ -57,8 +57,7 @@ export const fetchStatusStateMachine = () =>
     resolveJsonOrRejectWithError,
   );
 
-export const updateConceptStatus = async (id, status) => {
-  const url = `${draftConceptUrl}/${id}/status/${status}`;
-  const response = fetchAuthorized(url, { method: 'PUT' });
-  return await resolveJsonOrRejectWithError(response);
-};
+export const updateConceptStatus = (id, status) =>
+  fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
+    method: 'PUT',
+  }).then(resolveJsonOrRejectWithError);

@@ -353,7 +353,7 @@ class ConceptForm extends Component {
                     this.handleSubmit(formikProps);
                   }}
                   getStateStatuses={fetchStateStatuses}
-                  isArticle={false}
+                  hideSecondaryButton
                 />
               }
               {!inModal && (

@@ -198,7 +198,7 @@ const LearningResourceForm = props => {
               entityStatus={article.status}
               getStateStatuses={fetchStatusStateMachine}
               validateEntity={validateDraft}
-              isArticle={true}
+              isArticle
               {...formikProps}
               {...rest}
             />

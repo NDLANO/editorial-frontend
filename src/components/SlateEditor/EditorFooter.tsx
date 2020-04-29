@@ -36,6 +36,7 @@ interface Props {
   getStateStatuses: () => PossibleStatuses;
   validateEntity: (id: number, updatedEntity: Article | Concept) => void;
   isArticle: boolean;
+  hideSecondaryButton: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -64,6 +65,7 @@ const EditorFooter: React.FC<Props> = ({
   getStateStatuses,
   validateEntity,
   isArticle,
+  hideSecondaryButton,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
@@ -94,6 +96,7 @@ const EditorFooter: React.FC<Props> = ({
       formIsDirty={formIsDirty}
       showSaved={savedToServer && !formIsDirty}
       onClick={onSaveClick}
+      hideSecondaryButton={hideSecondaryButton}
     />
   );
 

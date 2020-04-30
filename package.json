@@ -28,7 +28,9 @@
     "run-e2e": "yarn start-test 'yarn start prod' http://localhost:3000 'CYPRESS_USE_FIXTURES=true cypress run --record  --parallel'",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
-    "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record"
+    "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx|ts|tsx)$",
@@ -69,7 +71,7 @@
     "jsdom": "^15.1.1",
     "mkdirp": "^0.5.1",
     "nock": "^10.0.6",
-    "razzle": "3.0.0",
+    "razzle": "3.1.0",
     "razzle-config-utils": "^0.1.0",
     "react-test-renderer": "^16.9.0",
     "redux-mock-store": "^1.5.3",
@@ -151,7 +153,7 @@
     "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
     "query-string": "^5.1.1",
-    "razzle": "3.0.0",
+    "razzle": "3.1.0",
     "razzle-config-utils": "^0.1.0",
     "razzle-plugin-typescript": "^3.0.0",
     "react": "^16.9.0",
@@ -178,7 +180,8 @@
     "slate-plain-serializer": "^0.7.6",
     "slate-prop-types": "^0.5.37",
     "slate-react": "^0.22.4",
-    "source-map-support": "^0.5.13"
+    "source-map-support": "^0.5.13",
+    "snyk": "^1.316.0"
   },
   "repository": {
     "type": "git",
@@ -189,5 +192,6 @@
   },
   "homepage": "https://github.com/NDLANO/editorial-frontend",
   "author": "ndla@knowit.no",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "snyk": true
 }

@@ -9,20 +9,27 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { fetchSearchTags } from '../../../modules/draft/draftApi';
 import FormikField from '../../../components/FormikField';
 import { FormikLicense, FormikContributors } from '../../FormikForm';
-import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
+import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const ImageMetaData = ({ t, tags, licenses }) => (
+const ImageMetaData = ({ t, imageTags, licenses, locale }) => (
   <Fragment>
     <FormikField
       name="tags"
       label={t('form.tags.label')}
       obligatory
       description={t('form.tags.description')}>
-      {({ field }) => (
-        <MultiSelectDropdown showCreateOption data={tags} {...field} />
+      {({ field, form }) => (
+        <AsyncSearchTags
+          locale={locale}
+          initialTags={imageTags}
+          field={field}
+          form={form}
+          fetchTags={fetchSearchTags}
+        />
       )}
     </FormikField>
     <FormikField name="license">
@@ -34,13 +41,14 @@ const ImageMetaData = ({ t, tags, licenses }) => (
 );
 
 ImageMetaData.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  imageTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
+  locale: PropTypes.string,
 };
 
 export default injectT(ImageMetaData);

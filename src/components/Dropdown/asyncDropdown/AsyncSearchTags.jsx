@@ -114,7 +114,7 @@ const AsyncSearchTags = ({
 
 AsyncSearchTags.propTypes = {
   locale: PropTypes.string.isRequired,
-  initialTags: PropTypes.array.isRequired,
+  initialTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   field: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,

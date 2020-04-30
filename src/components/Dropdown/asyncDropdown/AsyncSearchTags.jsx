@@ -10,19 +10,24 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
-import { ConceptShape } from '../../../shapes';
-import { AsyncDropdown } from '../../../components/Dropdown';
-import { fetchSearchTags } from '../../../modules/concept/conceptApi';
+import AsyncDropdown from './AsyncDropdown';
 
-const ConceptTags = ({ t, locale, concept, field, form }) => {
+const AsyncSearchTags = ({
+  t,
+  locale,
+  initialTags,
+  field,
+  form,
+  fetchTags,
+}) => {
   const convertToTagsWithTitle = tagsWithoutTitle => {
     return tagsWithoutTitle.map(c => ({ title: c }));
   };
 
-  const [tags, setTags] = useState(concept.tags || []);
+  const [tags, setTags] = useState(initialTags || []);
 
   const searchForTags = async inp => {
-    const result = await fetchSearchTags(inp, locale);
+    const result = await fetchTags(inp, locale);
     result.results = convertToTagsWithTitle(result.results);
     return result;
   };
@@ -107,9 +112,9 @@ const ConceptTags = ({ t, locale, concept, field, form }) => {
   );
 };
 
-ConceptTags.propTypes = {
+AsyncSearchTags.propTypes = {
   locale: PropTypes.string.isRequired,
-  concept: ConceptShape.isRequired,
+  initialTags: PropTypes.array.isRequired,
   field: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
@@ -119,6 +124,7 @@ ConceptTags.propTypes = {
   }),
   selectedItems: PropTypes.array,
   removeItem: PropTypes.func,
+  fetchTags: PropTypes.func.isRequired,
 };
 
-export default injectT(ConceptTags);
+export default injectT(AsyncSearchTags);

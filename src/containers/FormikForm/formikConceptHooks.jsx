@@ -56,6 +56,10 @@ export function useFetchConceptData(conceptId, locale) {
     return await conceptApi.fetchStatusStateMachine();
   };
 
+  const fetchConceptTags = async (input, language) => {
+    return await conceptApi.fetchSearchTags(input, language);
+  };
+
   useEffect(() => {
     fetchConcept();
   }, [conceptId, locale]);
@@ -71,5 +75,6 @@ export function useFetchConceptData(conceptId, locale) {
     subjects,
     updateConceptAndStatus,
     fetchStateStatuses,
+    fetchConceptTags,
   };
 }

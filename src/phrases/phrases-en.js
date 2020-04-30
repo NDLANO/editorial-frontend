@@ -592,7 +592,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Whats the difference between statuses?',
       statusLabel: 'Status',
-      published: 'The article exists in a published version.',
+      published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
     },
     status: {

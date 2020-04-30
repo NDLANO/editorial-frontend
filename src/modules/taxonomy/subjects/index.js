@@ -65,7 +65,7 @@ function fetchSubjectFilters(id) {
 }
 
 function updateSubjectMetadata(subjectId, body) {
-  return fetchAuthorized(`${baseUrl}/v1/subjects/${subjectId}/metadata`, {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),

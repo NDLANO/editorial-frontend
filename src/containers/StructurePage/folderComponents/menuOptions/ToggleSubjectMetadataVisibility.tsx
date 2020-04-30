@@ -6,54 +6,82 @@
  *
  */
 
-import React, { FC, useState } from 'react';
-import Button from '@ndla/button';
+import React, { FC, useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
+import { Eye } from '@ndla/icons/editor';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+
 import { updateSubjectMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
+import ToggleSwitch from '../../../../components/ToggleSwitch';
 import MenuItemButton from './MenuItemButton';
 
-// {
-//   "grepCodes": [
-//     "string"
-//   ],
-//   "visible": true
-// }
-
 interface Props {
+  id: string;
   name: string;
   metadata: { grepCodes: string[]; visible: boolean };
 }
 
-const ToggleSubjectMetadataVisibility: FC<Props> = ({ name, metadata }) => {
-  const [isVisible, setIsVisible] = useState(metadata.visible);
+export const DropDownWrapper = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  background-color: white;
+  padding: calc(${spacing.small} / 2);
+`;
+
+const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata }) => {
+  const [visible, setVisible] = useState(metadata.visible);
   const [editMode, setEditMode] = useState(false);
 
-  const printHello = () => {
-    console.log('hello');
-    metadata !== undefined && console.log(metadata);
+  const updateMetadata = async (visible: boolean) => {
+    if (editMode) {
+      // TODO: handle error
+      await updateSubjectMetadata(id, {
+        grepCodes: metadata.grepCodes,
+        visible: !visible,
+      });
+      setVisible(!visible);
+    }
   };
 
-  // api-kall for å toggle visibility
-  const updateMetadata = async (isVisible: boolean) => {
-    const put = await updateSubjectMetadata({
-      grepCodes: metadata.grepCodes,
-      visible: !isVisible,
-    });
-    setIsVisible(!isVisible);
-  };
+  useEffect(() => {}, [editMode]);
 
-  // hook for å trigge api-kallet
+  const ToggleMenu = visible ? (
+    <DropDownWrapper>
+      Subject er synlig
+      <ToggleSwitch
+        onClick={() => updateMetadata(visible)}
+        on={visible}
+        testId="toggleVisible"
+      />
+    </DropDownWrapper>
+  ) : (
+    <DropDownWrapper>
+      Subject er ikke synlig
+      <ToggleSwitch
+        onClick={() => updateMetadata(visible)}
+        on={visible}
+        testId="toggleVisible"
+      />
+    </DropDownWrapper>
+  );
+
+  console.log('edit mode: ', editMode);
 
   return (
-    <MenuItemButton
-      stripped
-      data-testid="changeSubjectNameButton"
-      onClick={console.log('TODO: change editMode')}>
-      <RoundIcon small icon={<Pencil />} />
-      Endre synlighet til {name ? name : '...'}
-    </MenuItemButton>
+    <>
+      <MenuItemButton
+        stripped
+        data-testid="changeSubjectNameButton"
+        onClick={() => setEditMode(!editMode)}>
+        <RoundIcon small icon={<Eye />} />
+        Endre synlighet
+      </MenuItemButton>
+      {editMode && ToggleMenu}
+    </>
   );
 };
 
-export default injectT(ToggleSubjectMetadataVisibility);
+export default injectT(ToggleSubjectVisibility);

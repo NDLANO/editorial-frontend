@@ -6,55 +6,58 @@
  *
  */
 
-import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
 
-const conceptUrl = apiResourceUrl('/concept-api/v1/concepts');
-
-export const fetchTags = language => {
-  const query = queryString.stringify({ language });
-  const url = `${conceptUrl}/tags/?${query}`;
-  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
-};
+const draftConceptUrl = apiResourceUrl('/concept-api/v1/drafts');
 
 export const fetchSearchTags = async (input, language) => {
   const response = await fetchAuthorized(
-    `${conceptUrl}/tag-search/?language=${language}&query=${input}`,
+    `${draftConceptUrl}/tag-search/?language=${language}&query=${input}`,
   );
   return await resolveJsonOrRejectWithError(response);
 };
 
 export const fetchAllConcepts = async locale => {
-  const response = await fetchAuthorized(`${conceptUrl}?language=${locale}`);
-  const concept = await resolveJsonOrRejectWithError(response);
-  return concept;
+  const response = await fetchAuthorized(
+    `${draftConceptUrl}?language=${locale}`,
+  );
+  return await resolveJsonOrRejectWithError(response);
 };
 
 export const fetchConcept = async (conceptId, locale) => {
   const response = await fetchAuthorized(
-    `${conceptUrl}/${conceptId}?language=${locale}&fallback=true`,
+    `${draftConceptUrl}/${conceptId}?language=${locale}&fallback=true`,
   );
-  const concept = await resolveJsonOrRejectWithError(response);
-  return concept;
+  return await resolveJsonOrRejectWithError(response);
 };
 
 export const addConcept = concept =>
-  fetchAuthorized(`${conceptUrl}/`, {
+  fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
   }).then(resolveJsonOrRejectWithError);
 
 export const updateConcept = concept =>
-  fetchAuthorized(`${conceptUrl}/${concept.id}`, {
+  fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
   }).then(resolveJsonOrRejectWithError);
 
 export const deleteLanguageVersionConcept = (conceptId, locale) =>
-  fetchAuthorized(`${conceptUrl}/${conceptId}?language=${locale}`, {
+  fetchAuthorized(`${draftConceptUrl}/${conceptId}?language=${locale}`, {
     method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+
+export const fetchStatusStateMachine = () =>
+  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(
+    resolveJsonOrRejectWithError,
+  );
+
+export const updateConceptStatus = (id, status) =>
+  fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
+    method: 'PUT',
   }).then(resolveJsonOrRejectWithError);

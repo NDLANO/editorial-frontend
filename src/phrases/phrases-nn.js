@@ -612,7 +612,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
       statusLabel: 'Status',
-      published: 'Artikkelen har ein publisert versjon.',
+      published: 'Det finst ein publisert versjon av dettet elementet.',
       multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
     },
     status: {

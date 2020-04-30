@@ -61,6 +61,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
       revision={audio && audio.revision}
       onUpdate={onUpdate}
       audioLanguage={audioLanguage}
+      locale={locale}
       {...rest}
     />
   );
@@ -68,7 +69,6 @@ const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
 
 EditAudio.propTypes = {
   audioId: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

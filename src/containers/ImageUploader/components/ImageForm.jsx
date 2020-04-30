@@ -269,7 +269,7 @@ ImageForm.propTypes = {
   revision: PropTypes.number,
   inModal: PropTypes.bool,
   closeModal: PropTypes.func,
-  locale: PropTypes.string
+  locale: PropTypes.string,
 };
 
 export default injectT(ImageForm);

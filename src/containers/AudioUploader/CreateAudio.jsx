@@ -27,6 +27,7 @@ const CreateAudio = ({ history, locale, ...rest }) => {
       audio={{ language: locale }}
       onUpdate={onCreateAudio}
       audioLanguage={locale}
+      locale={locale}
       {...rest}
     />
   );

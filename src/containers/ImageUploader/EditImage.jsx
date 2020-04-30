@@ -21,12 +21,7 @@ import { ImageShape } from '../../shapes';
 
 class EditImage extends Component {
   componentDidMount() {
-    const {
-      imageId,
-      fetchImage,
-      imageLanguage,
-      fetchLicenses,
-    } = this.props;
+    const { imageId, fetchImage, imageLanguage, fetchLicenses } = this.props;
     if (imageId) {
       fetchImage({ id: imageId, language: imageLanguage });
     }

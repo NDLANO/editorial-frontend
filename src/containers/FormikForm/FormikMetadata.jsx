@@ -13,9 +13,9 @@ import { injectT } from '@ndla/i18n';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
-import FormikMetaTagSearch from './FormikMetaTagSearch';
+import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
-const FormikMetadata = ({ t, article }) => (
+const FormikMetadata = ({ t, article, fetchSearchTags }) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -23,11 +23,12 @@ const FormikMetadata = ({ t, article }) => (
       showError
       description={t('form.tags.description')}>
       {({ field, form }) => (
-        <FormikMetaTagSearch
+        <AsyncSearchTags
           initTags={article.tags || []}
           language={article.language}
           field={field}
           form={form}
+          fetchTags={fetchSearchTags}
         />
       )}
     </FormikField>
@@ -63,6 +64,7 @@ FormikMetadata.propTypes = {
     tags: PropTypes.arrayOf(PropTypes.string),
     language: PropTypes.string,
   }).isRequired,
+  fetchSearchTags: PropTypes.func,
 };
 
 export default injectT(FormikMetadata);

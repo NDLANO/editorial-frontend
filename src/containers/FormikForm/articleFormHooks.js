@@ -12,6 +12,7 @@ import {
   deleteFile,
   fetchStatusStateMachine,
   validateDraft,
+  fetchSearchTags,
 } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
@@ -154,5 +155,6 @@ export function useArticleFormHooks({
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
+    fetchSearchTags,
   };
 }

@@ -130,6 +130,7 @@ const LearningResourceForm = props => {
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
+    fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
   const { t, article, updateArticle, translating, licenses, ...rest } = props;
@@ -182,6 +183,7 @@ const LearningResourceForm = props => {
               setValues={setValues}
               licenses={licenses}
               getArticle={getArticle}
+              fetchSearchTags={fetchSearchTags}
               {...rest}
             />
             <EditorFooter

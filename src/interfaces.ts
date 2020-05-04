@@ -220,3 +220,11 @@ export interface Filter {
   relevanceId: string;
   name: string;
 }
+
+export interface SearchResult {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: string[];
+}

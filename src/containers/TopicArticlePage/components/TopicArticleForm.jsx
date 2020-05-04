@@ -151,6 +151,7 @@ const TopicArticleForm = props => {
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
+    fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
   const { t, article, updateArticle, licenses, ...rest } = props;
@@ -205,6 +206,7 @@ const TopicArticleForm = props => {
               setValues={setValues}
               licenses={licenses}
               getArticle={getArticle}
+              fetchSearchTags={fetchSearchTags}
               {...rest}
             />
             <EditorFooter

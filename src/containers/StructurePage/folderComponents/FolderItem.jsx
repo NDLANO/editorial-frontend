@@ -67,6 +67,7 @@ const FolderItem = ({
           showAllOptions={
             userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE)
           }
+          metadata={metadata}
           {...rest}
         />
       )}

@@ -33,7 +33,11 @@ function normalizeNode(node, editor, next) {
         );
       });
   }
-  const countCells = row => row.nodes.count(node => node.type === 'table-cell');
+  const countCells = row => row.nodes.map(node => {
+    if (node.type === 'table-cell') {
+      return node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1
+    }
+  }).reduce((a, b) => a + b);
   const rows = nodes.filter(node => node.type === 'table-row');
   const maxCols = rows.map(countCells).max();
   const rowsMissingCols = rows.filter(row => countCells(row) < maxCols);
@@ -45,7 +49,7 @@ function normalizeNode(node, editor, next) {
           node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1,
         )
         .reduce((a, b) => a + b);
-      for (let i = rows.indexOf(row); i > 0; i--) {
+      for (let i = rows.indexOf(row) - 1; i > 0; i--) {
         const rowSpan = rows
           .get(i)
           .nodes.map(node => node.data.get('rowspan'))

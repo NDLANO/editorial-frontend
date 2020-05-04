@@ -41,6 +41,7 @@ function normalizeNode(node, editor, next) {
             ? parseInt(node.data.get('colspan'))
             : 1;
         }
+        return 0;
       })
       .reduce((a, b) => a + b);
   const rows = nodes.filter(node => node.type === 'table-row');

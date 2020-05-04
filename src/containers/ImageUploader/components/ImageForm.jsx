@@ -160,7 +160,13 @@ class ImageForm extends Component {
           'processors',
           'license',
         ],
-        component: <ImageMetaData licenses={licenses} locale={locale} />,
+        component: (
+          <ImageMetaData
+            licenses={licenses}
+            locale={locale}
+            imageTags={image.tags}
+          />
+        ),
       },
     ];
     const initialValues = getInitialValues(image);

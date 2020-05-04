@@ -128,6 +128,8 @@ const LearningResourceForm = props => {
     formikRef,
     initialValues,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
   const { t, article, updateArticle, translating, licenses, ...rest } = props;
@@ -187,12 +189,16 @@ const LearningResourceForm = props => {
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               savedToServer={savedToServer}
-              getArticle={getArticle}
+              getEntity={getArticle}
               errors={errors}
               values={values}
-              onSaveClick={saveAsNewVersion =>
-                handleSubmit(formik, saveAsNewVersion)
-              }
+              onSaveClick={saveAsNewVersion => {
+                handleSubmit(formik, saveAsNewVersion);
+              }}
+              entityStatus={article.status}
+              getStateStatuses={fetchStatusStateMachine}
+              validateEntity={validateDraft}
+              isArticle
               {...formikProps}
               {...rest}
             />

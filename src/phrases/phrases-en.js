@@ -592,7 +592,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Whats the difference between statuses?',
       statusLabel: 'Status',
-      published: 'The article exists in a published version.',
+      published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
     },
     status: {
@@ -706,9 +706,9 @@ const phrases = {
       searchPlaceholder: 'Search for tags',
     },
     categories: {
-      label: 'Categories',
-      description: 'Format: label:filter1:filter2',
-      searchPlaceholder: 'Search for categories',
+      label: 'List and filters',
+      description: 'Format: list:filter1:filter2',
+      searchPlaceholder: 'Search for lists',
     },
     grepCodes: {
       label: 'Competences and core elements',

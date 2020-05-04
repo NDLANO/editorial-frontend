@@ -29,7 +29,6 @@ const ConceptModal = ({
   id,
   onClose,
   isOpen,
-  tags,
   subjects,
   t,
   locale,
@@ -170,7 +169,6 @@ const ConceptModal = ({
                       <ConceptForm
                         inModal
                         onClose={onClose}
-                        tags={tags}
                         subjects={subjects}
                         licenses={licenses}
                         onUpdate={onConceptUpsert}
@@ -205,7 +203,6 @@ ConceptModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleRemove: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default injectT(ConceptModal);

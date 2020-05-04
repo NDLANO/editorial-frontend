@@ -31,7 +31,7 @@ describe('Language handling', () => {
       `/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', `@draft:${ARTICLE_ID}`]);
+    cy.apiwait(['@licenses', `@draft:${ARTICLE_ID}`]);
   });
 
   it('Can change language and fetch the new article', () => {

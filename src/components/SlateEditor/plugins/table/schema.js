@@ -70,7 +70,6 @@ function normalizeNode(node, editor, next) {
               Block.create({
                 type: 'table-cell',
                 nodes: [Block.create(defaultBlocks.defaultBlock)],
-                normalize: false,
               }),
             )
             .forEach(cell =>

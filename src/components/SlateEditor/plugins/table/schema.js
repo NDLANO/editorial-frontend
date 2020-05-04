@@ -23,18 +23,59 @@ function normalizeNode(node, editor, next) {
     child => !!child.data.get('isHeader'),
   );
 
-  if (headerNodes.size === firstNode.nodes.size) {
-    return next();
+  if (headerNodes.size !== firstNode.nodes.size) {
+    return () =>
+      editor.withoutSaving(() => {
+        firstNode.nodes.forEach(child =>
+          editor.setNodeByKey(child.key, {
+            data: { ...child.data.toJS(), isHeader: true },
+          }),
+        );
+      });
   }
-
-  return () =>
-    editor.withoutSaving(() => {
-      firstNode.nodes.forEach(child =>
-        editor.setNodeByKey(child.key, {
-          data: { ...child.data.toJS(), isHeader: true },
-        }),
-      );
+  const countCells = row => row.nodes.count(node => node.type === 'table-cell');
+  const rows = nodes.filter(node => node.type === 'table-row');
+  const maxCols = rows.map(countCells).max();
+  const rowsMissingCols = rows.filter(row => countCells(row) < maxCols);
+  const missingCells = new Map();
+  if (rowsMissingCols) {
+    rowsMissingCols.forEach(row => {
+      let cellCount = row.nodes
+        .map(node =>
+          node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1,
+        )
+        .reduce((a, b) => a + b);
+      for (let i = rows.indexOf(row); i > 0; i--) {
+        const rowSpan = rows
+          .get(i)
+          .nodes.map(node => node.data.get('rowspan'))
+          .filter(val => val > rows.indexOf(row) - 1);
+        cellCount += rowSpan.size;
+      }
+      if (cellCount < maxCols) {
+        missingCells.set(row.key, maxCols - cellCount);
+      }
     });
+  }
+  if (missingCells.size > 0) {
+    return () =>
+      editor.withoutSaving(() =>
+        rowsMissingCols.forEach(row =>
+          Array.from({ length: missingCells.get(row.key) })
+            .map(() =>
+              Block.create({
+                type: 'table-cell',
+                nodes: [Block.create(defaultBlocks.defaultBlock)],
+                normalize: false,
+              }),
+            )
+            .forEach(cell =>
+              editor.insertNodeByKey(row.key, row.nodes.size, cell),
+            ),
+        ),
+      );
+  }
+  return;
 }
 
 const schema = {

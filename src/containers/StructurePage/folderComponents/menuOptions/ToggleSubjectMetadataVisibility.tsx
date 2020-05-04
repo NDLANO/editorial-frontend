@@ -15,12 +15,14 @@ import { spacing } from '@ndla/core';
 import { updateSubjectMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
+import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
 
 interface Props {
   id: string;
   name: string;
   metadata: { grepCodes: string[]; visible: boolean };
+  t: TranslateType;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -31,7 +33,7 @@ export const DropDownWrapper = styled('div')`
   padding: calc(${spacing.small} / 2);
 `;
 
-const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata }) => {
+const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata, t }) => {
   const [visible, setVisible] = useState(metadata.visible);
   const [editMode, setEditMode] = useState(false);
 
@@ -50,7 +52,7 @@ const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata }) => {
 
   const ToggleMenu = visible ? (
     <DropDownWrapper>
-      Subject er synlig
+      {name} {t('metadata.visible')}
       <ToggleSwitch
         onClick={() => updateMetadata(visible)}
         on={visible}
@@ -59,7 +61,7 @@ const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata }) => {
     </DropDownWrapper>
   ) : (
     <DropDownWrapper>
-      Subject er ikke synlig
+      {name} {t('metadata.notVisible')}
       <ToggleSwitch
         onClick={() => updateMetadata(visible)}
         on={visible}
@@ -77,7 +79,7 @@ const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata }) => {
         data-testid="changeSubjectNameButton"
         onClick={() => setEditMode(!editMode)}>
         <RoundIcon small icon={<Eye />} />
-        Endre synlighet
+        {t('metadata.changeVisibility')}
       </MenuItemButton>
       {editMode && ToggleMenu}
     </>

@@ -33,11 +33,16 @@ function normalizeNode(node, editor, next) {
         );
       });
   }
-  const countCells = row => row.nodes.map(node => {
-    if (node.type === 'table-cell') {
-      return node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1
-    }
-  }).reduce((a, b) => a + b);
+  const countCells = row =>
+    row.nodes
+      .map(node => {
+        if (node.type === 'table-cell') {
+          return node.data.get('colspan')
+            ? parseInt(node.data.get('colspan'))
+            : 1;
+        }
+      })
+      .reduce((a, b) => a + b);
   const rows = nodes.filter(node => node.type === 'table-row');
   const maxCols = rows.map(countCells).max();
   const rowsMissingCols = rows.filter(row => countCells(row) < maxCols);

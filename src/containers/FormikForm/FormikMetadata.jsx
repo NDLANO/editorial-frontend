@@ -24,7 +24,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags }) => (
       description={t('form.tags.description')}>
       {({ field, form }) => (
         <AsyncSearchTags
-          initTags={article.tags || []}
+          initialTags={article.tags}
           language={article.language}
           field={field}
           form={form}

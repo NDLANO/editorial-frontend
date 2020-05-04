@@ -242,7 +242,6 @@ const TopicArticleForm = props => {
 };
 
 TopicArticleForm.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,

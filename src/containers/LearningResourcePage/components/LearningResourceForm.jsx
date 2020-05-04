@@ -219,7 +219,6 @@ const LearningResourceForm = props => {
 
 LearningResourceForm.propTypes = {
   licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,

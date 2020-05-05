@@ -22,7 +22,7 @@ function fetchSubjects(locale, includeMetadata = false) {
 
 function fetchSubjectTopics(subject, includeMetadata = false) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?includeMetadata=${includeMetadata}&?recursive=true`,
+    `${baseUrl}/subjects/${subject}/topics?includeMetadata=${includeMetadata}&recursive=true`,
   ).then(resolveJsonOrRejectWithError);
 }
 

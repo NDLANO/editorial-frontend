@@ -16,7 +16,7 @@ import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 import PublishTopic from './menuOptions/PublishTopic';
 import CopyResources from './menuOptions/CopyResources';
-import ToggleSubjectVisibility from './menuOptions/ToggleSubjectMetadataVisibility';
+import ToggleSubjectVisibility from './menuOptions/ToggleSubjectVisibility';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,

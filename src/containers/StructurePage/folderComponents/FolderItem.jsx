@@ -119,7 +119,10 @@ FolderItem.propTypes = {
     }),
   ),
   userAccess: string,
-  metadata: bool,
+  metadata: shape({
+    grepCodes: arrayOf(string),
+    visible: bool,
+  }),
 };
 
 export default withRouter(injectT(FolderItem));

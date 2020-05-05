@@ -20,9 +20,11 @@ import MenuItemButton from './MenuItemButton';
 
 interface Props {
   id: string;
+  editMode: string;
   name: string;
   metadata: { grepCodes: string[]; visible: boolean };
   t: TranslateType;
+  toggleEditMode: Function;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -33,19 +35,27 @@ export const DropDownWrapper = styled('div')`
   padding: calc(${spacing.small} / 2);
 `;
 
-const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata, t }) => {
+const ToggleSubjectVisibility: FC<Props> = ({
+  id,
+  editMode,
+  name,
+  metadata,
+  t,
+  toggleEditMode,
+}) => {
   const [visible, setVisible] = useState(metadata.visible);
-  const [editMode, setEditMode] = useState(false);
 
   const updateMetadata = async (visible: boolean) => {
-    if (editMode) {
-      // TODO: handle error
-      await updateSubjectMetadata(id, {
-        grepCodes: metadata.grepCodes,
-        visible: !visible,
-      });
-      setVisible(!visible);
-    }
+    // TODO: handle error
+    await updateSubjectMetadata(id, {
+      grepCodes: metadata.grepCodes,
+      visible: !visible,
+    });
+    setVisible(!visible);
+  };
+
+  const toggleEditModes = () => {
+    toggleEditMode('toggleMetadataVisibility');
   };
 
   useEffect(() => {}, [editMode]);
@@ -70,18 +80,16 @@ const ToggleSubjectVisibility: FC<Props> = ({ id, name, metadata, t }) => {
     </DropDownWrapper>
   );
 
-  console.log('edit mode: ', editMode);
-
   return (
     <>
       <MenuItemButton
         stripped
         data-testid="changeSubjectNameButton"
-        onClick={() => setEditMode(!editMode)}>
+        onClick={() => toggleEditModes()}>
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}
       </MenuItemButton>
-      {editMode && ToggleMenu}
+      {editMode === 'toggleMetadataVisibility' && ToggleMenu}
     </>
   );
 };

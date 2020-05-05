@@ -24,7 +24,7 @@ const ImageMetaData = ({ t, imageTags, licenses, locale }) => (
       description={t('form.tags.description')}>
       {({ field, form }) => (
         <AsyncSearchTags
-          locale={locale}
+          language={locale}
           initialTags={imageTags}
           field={field}
           form={form}

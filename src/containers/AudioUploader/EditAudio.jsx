@@ -30,6 +30,7 @@ const transformAudio = audio => {
 };
 
 const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
+  console.log('locale: ', locale);
   const [audio, setAudio] = useState({});
 
   const fetchAudio = async () => {

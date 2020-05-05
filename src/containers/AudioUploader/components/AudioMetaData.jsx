@@ -27,7 +27,7 @@ const AudioMetaData = props => {
         description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
-            locale={locale}
+            language={locale}
             initialTags={audioTags}
             field={field}
             form={form}

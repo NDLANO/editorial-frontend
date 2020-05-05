@@ -17,6 +17,7 @@ import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 import PublishTopic from './menuOptions/PublishTopic';
 import CopyResources from './menuOptions/CopyResources';
 import ToggleSubjectVisibility from './menuOptions/ToggleSubjectVisibility';
+import ToggleTopicVisibility from './menuOptions/ToggleTopicVisibility';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -46,6 +47,7 @@ const SettingsMenuDropdownType = ({
             <>
               <DeleteTopic {...rest} />
               <AddExistingToTopic {...rest} />
+              <ToggleTopicVisibility {...rest} />
             </>
           )}
           {showAllOptions && <CopyResources {...rest} />}

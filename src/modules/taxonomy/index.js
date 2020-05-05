@@ -77,4 +77,5 @@ export {
   fetchTopicConnections,
   updateTopicSubtopic,
   deleteTopic,
+  updateTopicMetadata,
 } from './topics';

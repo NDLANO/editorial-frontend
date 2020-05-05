@@ -84,7 +84,7 @@ const ToggleSubjectVisibility: FC<Props> = ({
     <>
       <MenuItemButton
         stripped
-        data-testid="changeSubjectNameButton"
+        data-testid="toggleSubjectVisibilityButton"
         onClick={() => toggleEditModes()}>
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}

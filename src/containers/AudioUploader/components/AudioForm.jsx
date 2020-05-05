@@ -121,7 +121,7 @@ class AudioForm extends Component {
   };
 
   render() {
-    const { t, tags, licenses, audio } = this.props;
+    const { t, tags, licenses, audio, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -217,7 +217,7 @@ class AudioForm extends Component {
                   {...formClasses}
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}
+                  showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   onClick={evt => {
                     evt.preventDefault();
                     submitForm();
@@ -255,6 +255,7 @@ AudioForm.propTypes = {
   audio: AudioShape,
   applicationError: PropTypes.func.isRequired,
   audioLanguage: PropTypes.string,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default compose(

@@ -149,9 +149,18 @@ const TopicArticleForm = props => {
     initialValues,
     setResetModal,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, updateArticle, licenses, ...rest } = props;
+  const {
+    t,
+    article,
+    updateArticle,
+    licenses,
+    isNewlyCreated,
+    ...rest
+  } = props;
   return (
     <Formik
       initialValues={initialValues}
@@ -210,13 +219,18 @@ const TopicArticleForm = props => {
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               savedToServer={savedToServer}
-              getArticle={getArticle}
+              getEntity={getArticle}
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
               onSaveClick={saveAsNewVersion =>
                 handleSubmit(formik, saveAsNewVersion)
               }
+              entityStatus={article.status}
+              getStateStatuses={fetchStatusStateMachine}
+              validateEntity={validateDraft}
+              isArticle
+              isNewlyCreated={isNewlyCreated}
               {...formikProps}
               {...rest}
             />
@@ -246,6 +260,7 @@ TopicArticleForm.propTypes = {
   updateArticleAndStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   article: ArticleShape,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(TopicArticleForm);

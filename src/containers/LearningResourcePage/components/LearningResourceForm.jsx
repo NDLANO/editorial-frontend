@@ -128,9 +128,19 @@ const LearningResourceForm = props => {
     formikRef,
     initialValues,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, updateArticle, translating, licenses, ...rest } = props;
+  const {
+    t,
+    article,
+    updateArticle,
+    translating,
+    licenses,
+    isNewlyCreated,
+    ...rest
+  } = props;
   return (
     <Formik
       enableReinitialize={translating}
@@ -187,12 +197,17 @@ const LearningResourceForm = props => {
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               savedToServer={savedToServer}
-              getArticle={getArticle}
+              getEntity={getArticle}
               errors={errors}
               values={values}
-              onSaveClick={saveAsNewVersion =>
-                handleSubmit(formik, saveAsNewVersion)
-              }
+              onSaveClick={saveAsNewVersion => {
+                handleSubmit(formik, saveAsNewVersion);
+              }}
+              entityStatus={article.status}
+              getStateStatuses={fetchStatusStateMachine}
+              validateEntity={validateDraft}
+              isArticle
+              isNewlyCreated={isNewlyCreated}
               {...formikProps}
               {...rest}
             />
@@ -230,6 +245,7 @@ LearningResourceForm.propTypes = {
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(LearningResourceForm);

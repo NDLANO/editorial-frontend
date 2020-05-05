@@ -16,6 +16,7 @@ import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses } from './SearchForm';
 import { LocationShape } from '../../../../shapes';
+import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 
 const emptySearchState = {
   query: '',
@@ -39,6 +40,7 @@ class SearchConceptForm extends Component {
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.getConceptStatuses = this.getConceptStatuses.bind(this);
   }
 
   onFieldChange = evt => {
@@ -48,6 +50,12 @@ class SearchConceptForm extends Component {
       this.handleSearch,
     );
   };
+
+  getConceptStatuses() {
+    return Object.keys(conceptStatuses).map(s => {
+      return { id: s, name: this.props.t(`form.status.${s.toLowerCase()}`) };
+    });
+  }
 
   handleSearch = evt => {
     if (evt) {
@@ -71,7 +79,7 @@ class SearchConceptForm extends Component {
 
   sortByProperty(property) {
     return function(a, b) {
-      return a[property].localeCompare(b[property]);
+      return a[property]?.localeCompare(b[property]);
     };
   }
 
@@ -81,7 +89,7 @@ class SearchConceptForm extends Component {
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '100-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.conceptQuery')}
@@ -100,6 +108,22 @@ class SearchConceptForm extends Component {
             labelKey="name"
             emptyField
             placeholder={t(`searchForm.types.subjects`)}
+            onChange={this.onFieldChange}
+          />
+        </div>
+        <div
+          key={`searchfield_status`}
+          {...searchFormClasses('field', `25-width`)}>
+          <ObjectSelector
+            name={'status'}
+            options={this.getConceptStatuses().sort(
+              this.sortByProperty('name'),
+            )}
+            idKey="id"
+            value={this.state.search['status']}
+            labelKey="name"
+            emptyField
+            placeholder={t(`searchForm.types.draftStatus`)}
             onChange={this.onFieldChange}
           />
         </div>

@@ -603,7 +603,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
       statusLabel: 'Status',
-      published: 'Artikkelen har en publisert versjon.',
+      published: 'Det finnes en publisert versjon av dette elementet.',
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
     },
     status: {
@@ -717,9 +717,9 @@ const phrases = {
       searchPlaceholder: 'Søk etter nøkkelord',
     },
     categories: {
-      label: 'Kategorier',
+      label: 'Liste og filter',
       description: 'Format: liste:filter1:filter2',
-      searchPlaceholder: 'Søk etter kategorier',
+      searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {
       label: 'Kompetansemål og kjerneelementer',

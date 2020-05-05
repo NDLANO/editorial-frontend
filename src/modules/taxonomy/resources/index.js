@@ -50,6 +50,18 @@ export function fetchResourceFilter(id, locale) {
   ).then(resolveJsonOrRejectWithError);
 }
 
+export function addFilterToResource({
+  filterId,
+  relevanceId = 'urn:relevance:core',
+  resourceId,
+}) {
+  return fetchAuthorized(`${baseUrl}/resource-filters`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ filterId, relevanceId, resourceId }),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+}
+
 export function updateResourceRelevance(resourceFilterId, relevance) {
   return fetchAuthorized(`${baseUrl}/resource-filters/${resourceFilterId}`, {
     headers: {

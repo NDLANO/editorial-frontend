@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -17,32 +17,25 @@ import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
 import CreateImage from './CreateImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { LocationShape } from '../../shapes';
 
-function usePrevious(value) {
+const usePreviousLocation = value => {
   const ref = useRef();
+  const actualRef = useRef();
   useEffect(() => {
+    if (ref.current !== actualRef.current) {
+      actualRef.current = ref.current;
+    }
     ref.current = value;
   }, [value]);
-  return ref.current;
-}
+  return actualRef.current;
+};
 
 const ImageUploaderPage = ({ match, t, location, ...rest }) => {
-
-
-
-  //const qwe = useRef();
-
-  const prevLoc = usePrevious(location.pathname);
-
-  console.log("actual location: ", location.pathname);
-  //console.log("previous location: ", previousLocation);
-  console.log("qwe location: ", prevLoc)
-
-
-
+  const prevLoc = usePreviousLocation(location.pathname);
   return (
     <OneColumn>
-      <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')}/>
+      <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
       <Switch>
         <Route
           path={`${match.url}/new`}
@@ -59,7 +52,7 @@ const ImageUploaderPage = ({ match, t, location, ...rest }) => {
             />
           )}
         />
-        <Route component={NotFoundPage}/>
+        <Route component={NotFoundPage} />
       </Switch>
     </OneColumn>
   );
@@ -77,7 +70,7 @@ ImageUploaderPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   isSaving: PropTypes.bool.isRequired,
-  location: PropTypes.string,
+  location: LocationShape,
 };
 
 const mapStateToProps = state => ({

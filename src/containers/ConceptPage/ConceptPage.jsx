@@ -21,7 +21,7 @@ import CreateConcept from './CreateConcept';
 import EditConcept from './EditConcept';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getLocale } from '../../modules/locale/locale';
-import { LicensesArrayOf } from '../../shapes';
+import { LicensesArrayOf, LocationShape } from '../../shapes';
 import Footer from '../App/components/Footer';
 
 class ConceptPage extends PureComponent {
@@ -44,8 +44,6 @@ class ConceptPage extends PureComponent {
 
   render() {
     const { t, licenses, history, match, ...rest } = this.props;
-  console.log("actual location: ", this.props.location.pathname)
-    console.log("prev location: ", this.state.previousLocation)
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <OneColumn>
@@ -61,7 +59,7 @@ class ConceptPage extends PureComponent {
                   licenses={licenses}
                   conceptId={routeProps.match.params.conceptId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
-                isNewlyCreated={
+                  isNewlyCreated={
                     this.state.previousLocation === '/concept/new'
                   }
                   {...rest}
@@ -88,12 +86,13 @@ ConceptPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  location: PropTypes.string,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
   applicationError: messageActions.applicationError,
+  createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
 const mapStateToProps = state => ({

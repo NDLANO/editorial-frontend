@@ -45,7 +45,7 @@ const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
       description={t('form.categories.description')}>
       {({ field, form }) => (
         <AsyncSearchTags
-          language={locale}
+          language={concept.language}
           initialTags={concept.tags}
           field={field}
           form={form}

@@ -140,7 +140,7 @@ class ImageForm extends Component {
   };
 
   render() {
-    const { t, image, licenses, inModal, closeModal, locale } = this.props;
+    const { t, image, licenses, inModal, closeModal } = this.props;
     const { savedToServer } = this.state;
 
     const panels = [
@@ -163,7 +163,7 @@ class ImageForm extends Component {
         component: (
           <ImageMetaData
             licenses={licenses}
-            locale={locale}
+            imageLanguage={image.language}
             imageTags={image.tags}
           />
         ),
@@ -275,7 +275,6 @@ ImageForm.propTypes = {
   revision: PropTypes.number,
   inModal: PropTypes.bool,
   closeModal: PropTypes.func,
-  locale: PropTypes.string,
 };
 
 export default injectT(ImageForm);

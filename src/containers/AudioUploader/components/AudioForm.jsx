@@ -121,7 +121,7 @@ class AudioForm extends Component {
   };
 
   render() {
-    const { t, licenses, audio, locale } = this.props;
+    const { t, licenses, audio } = this.props;
     const { savedToServer } = this.state;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -152,7 +152,7 @@ class AudioForm extends Component {
           <AudioMetaData
             classes={formClasses}
             licenses={licenses}
-            locale={locale}
+            audioLanguage={audio.language}
             audioTags={audio.tags}
           />
         ),
@@ -254,7 +254,6 @@ AudioForm.propTypes = {
   audio: AudioShape,
   applicationError: PropTypes.func.isRequired,
   audioLanguage: PropTypes.string,
-  locale: PropTypes.string,
 };
 
 export default compose(

@@ -15,7 +15,7 @@ import { FormikLicense, FormikContributors } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const ImageMetaData = ({ t, imageTags, licenses, locale }) => (
+const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -24,7 +24,7 @@ const ImageMetaData = ({ t, imageTags, licenses, locale }) => (
       description={t('form.tags.description')}>
       {({ field, form }) => (
         <AsyncSearchTags
-          language={locale}
+          language={imageLanguage}
           initialTags={imageTags}
           field={field}
           form={form}
@@ -48,7 +48,7 @@ ImageMetaData.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  locale: PropTypes.string,
+  imageLanguage: PropTypes.string,
 };
 
 export default injectT(ImageMetaData);

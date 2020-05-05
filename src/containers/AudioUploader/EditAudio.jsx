@@ -61,7 +61,6 @@ const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
       revision={audio && audio.revision}
       onUpdate={onUpdate}
       audioLanguage={audioLanguage}
-      locale={locale}
       {...rest}
     />
   );

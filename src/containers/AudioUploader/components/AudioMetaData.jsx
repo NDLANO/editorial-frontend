@@ -17,7 +17,7 @@ import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSea
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const AudioMetaData = props => {
-  const { t, licenses, locale, audioTags } = props;
+  const { t, licenses, audioLanguage, audioTags } = props;
   return (
     <Fragment>
       <FormikField
@@ -27,7 +27,7 @@ const AudioMetaData = props => {
         description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
-            language={locale}
+            language={audioLanguage}
             initialTags={audioTags}
             field={field}
             form={form}
@@ -52,7 +52,7 @@ AudioMetaData.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  locale: PropTypes.string,
+  audioLanguage: PropTypes.string,
   audioTags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

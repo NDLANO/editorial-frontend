@@ -59,7 +59,6 @@ class EditImage extends Component {
           updateImage({ image, file, history, editingArticle });
         }}
         closeModal={closeModal}
-        locale={locale}
         {...rest}
       />
     );

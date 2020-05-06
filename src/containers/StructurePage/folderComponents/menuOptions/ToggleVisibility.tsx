@@ -12,11 +12,19 @@ import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-import { updateSubjectMetadata } from '../../../../modules/taxonomy';
+import {
+  updateSubjectMetadata,
+  updateTopicMetadata,
+} from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
+
+enum MenuType {
+  subject = 'subject',
+  topic = 'topic',
+}
 
 interface Props {
   id: string;
@@ -25,6 +33,7 @@ interface Props {
   metadata: { grepCodes: string[]; visible: boolean };
   t: TranslateType;
   toggleEditMode: Function;
+  menuType: MenuType;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -35,23 +44,40 @@ export const DropDownWrapper = styled('div')`
   padding: calc(${spacing.small} / 2);
 `;
 
-const ToggleSubjectVisibility: FC<Props> = ({
+const ToggleVisibility: FC<Props> = ({
   id,
   editMode,
   name,
   metadata,
   t,
   toggleEditMode,
+  menuType,
 }) => {
   const [visible, setVisible] = useState(metadata.visible);
 
   const updateMetadata = async (visible: boolean) => {
-    // TODO: handle error
-    await updateSubjectMetadata(id, {
-      grepCodes: metadata.grepCodes,
-      visible: !visible,
-    });
-    setVisible(!visible);
+    switch (menuType) {
+      case 'subject': {
+        await updateSubjectMetadata(id, {
+          grepCodes: metadata.grepCodes,
+          visible: !visible,
+        });
+        setVisible(!visible);
+        break;
+      }
+
+      case 'topic': {
+        await updateTopicMetadata(id, {
+          grepCodes: metadata.grepCodes,
+          visible: !visible,
+        });
+        setVisible(!visible);
+        break;
+      }
+
+      default:
+        return null;
+    }
   };
 
   const toggleEditModes = () => {
@@ -84,7 +110,7 @@ const ToggleSubjectVisibility: FC<Props> = ({
     <>
       <MenuItemButton
         stripped
-        data-testid="toggleSubjectVisibilityButton"
+        data-testid="toggleVisibilityButton"
         onClick={() => toggleEditModes()}>
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}
@@ -94,4 +120,4 @@ const ToggleSubjectVisibility: FC<Props> = ({
   );
 };
 
-export default injectT(ToggleSubjectVisibility);
+export default injectT(ToggleVisibility);

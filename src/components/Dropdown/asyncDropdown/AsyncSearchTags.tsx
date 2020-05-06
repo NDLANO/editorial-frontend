@@ -10,18 +10,18 @@ import React, { Fragment, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
 import { FormikActions, FieldProps, FormikValues } from 'formik';
-import { AsyncDropdown } from '../../components/Dropdown';
-import { fetchSearchTags } from '../../modules/draft/draftApi';
-import { TranslateType } from '../../interfaces';
+import { AsyncDropdown } from '../index';
+import { TranslateType, SearchResult } from '../../../interfaces';
 
 interface Props {
   t: TranslateType;
   language: string;
-  initTags: string[];
+  initialTags: string[];
   field: FieldProps<string[]>['field'];
   form: {
     setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
   };
+  fetchTags: (inp: string, language: string) => SearchResult;
 }
 
 interface AsyncDropdownProps {
@@ -33,17 +33,24 @@ interface TagWithTitle {
   title: string;
 }
 
-const FormikMetaTagSearch = ({ t, language, initTags, field, form }: Props) => {
-  const convertToTagsWithTitle = (tagsWithoutTitle: string[]): object[] => {
-    return tagsWithoutTitle.map(c => ({ title: c }));
+const AsyncSearchTags = ({
+  t,
+  language,
+  initialTags,
+  field,
+  form,
+  fetchTags,
+}: Props) => {
+  const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
+    return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
 
-  const [tags, setTags] = useState(initTags);
+  const [tags, setTags] = useState(initialTags || []);
 
   const searchForTags = async (inp: string) => {
-    const result = await fetchSearchTags(inp, language);
-    result.results = convertToTagsWithTitle(result.results);
-    return result;
+    const response = await fetchTags(inp, language);
+    const tagsWithTitle = convertToTagsWithTitle(response.results);
+    return { ...response, results: tagsWithTitle };
   };
 
   const updateFormik = (formikField: Props['field'], newData: string[]) => {
@@ -74,7 +81,7 @@ const FormikMetaTagSearch = ({ t, language, initTags, field, form }: Props) => {
   };
 
   const removeTag = (tag: string) => {
-    const reduced_array = tags.filter(c => c !== tag);
+    const reduced_array = tags.filter(t => t !== tag);
     setTags(reduced_array);
     updateFormik(field, reduced_array);
     form.setFieldTouched('tags', true, true);
@@ -122,4 +129,4 @@ const FormikMetaTagSearch = ({ t, language, initTags, field, form }: Props) => {
   );
 };
 
-export default injectT(FormikMetaTagSearch);
+export default injectT(AsyncSearchTags);

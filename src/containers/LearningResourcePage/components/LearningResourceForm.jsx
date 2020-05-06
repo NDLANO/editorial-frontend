@@ -130,6 +130,7 @@ const LearningResourceForm = props => {
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
+    fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
   const { t, article, updateArticle, translating, licenses, ...rest } = props;
@@ -182,6 +183,7 @@ const LearningResourceForm = props => {
               setValues={setValues}
               licenses={licenses}
               getArticle={getArticle}
+              fetchSearchTags={fetchSearchTags}
               {...rest}
             />
             <EditorFooter
@@ -217,7 +219,6 @@ const LearningResourceForm = props => {
 
 LearningResourceForm.propTypes = {
   licenses: LicensesArrayOf,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,

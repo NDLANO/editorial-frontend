@@ -20,8 +20,8 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
     updateConcept,
     subjects,
     updateConceptAndStatus,
-    fetchStateStatuses,
-    fetchConceptTags,
+    fetchStatusStateMachine,
+    fetchSearchTags,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
   if (!concept) {
@@ -36,8 +36,8 @@ const EditConcept = ({ conceptId, selectedLanguage, t, ...rest }) => {
       <ConceptForm
         onUpdate={updateConcept}
         updateConceptAndStatus={updateConceptAndStatus}
-        fetchStateStatuses={fetchStateStatuses}
-        fetchConceptTags={fetchConceptTags}
+        fetchStateStatuses={fetchStatusStateMachine}
+        fetchConceptTags={fetchSearchTags}
         concept={concept}
         subjects={subjects}
         {...rest}

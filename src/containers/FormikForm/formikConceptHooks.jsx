@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
+import {
+  fetchSearchTags,
+  fetchStatusStateMachine,
+} from '../../modules/concept/conceptApi';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import handleError from '../../util/handleError';
 
@@ -52,14 +56,6 @@ export function useFetchConceptData(conceptId, locale) {
     });
   };
 
-  const fetchStateStatuses = async () => {
-    return await conceptApi.fetchStatusStateMachine();
-  };
-
-  const fetchConceptTags = async (input, language) => {
-    return await conceptApi.fetchSearchTags(input, language);
-  };
-
   useEffect(() => {
     fetchConcept();
   }, [conceptId, locale]);
@@ -74,7 +70,7 @@ export function useFetchConceptData(conceptId, locale) {
     updateConcept,
     subjects,
     updateConceptAndStatus,
-    fetchStateStatuses,
-    fetchConceptTags,
+    fetchStatusStateMachine,
+    fetchSearchTags,
   };
 }

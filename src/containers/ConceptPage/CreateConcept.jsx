@@ -30,8 +30,8 @@ const CreateConcept = props => {
   const {
     subjects,
     createConcept,
-    fetchStateStatuses,
-    fetchConceptTags,
+    fetchStatusStateMachine,
+    fetchSearchTags,
   } = useFetchConceptData(undefined, locale);
 
   const createConceptAndPushRoute = async createdConcept => {
@@ -50,8 +50,8 @@ const CreateConcept = props => {
         concept={{ ...initialConcept, language: locale }}
         locale={locale}
         onUpdate={createConceptAndPushRoute}
-        fetchStateStatuses={fetchStateStatuses}
-        fetchConceptTags={fetchConceptTags}
+        fetchStateStatuses={fetchStatusStateMachine}
+        fetchConceptTags={fetchSearchTags}
         licenses={licenses}
         inModal={inModal}
         subjects={subjects}

@@ -38,6 +38,7 @@ export const deserializeHtml = (input: any, rules: Rule[]) => {
   let html = input;
   console.log("Deserializing HTML")
   console.log(html);
+  if (!html) return;
   if (typeof html === 'string') {
     html = new DOMParser().parseFromString(input, 'text/html').body;
   }

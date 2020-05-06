@@ -17,6 +17,7 @@ import {
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
 import { Element, Text, Node } from 'slate';
+import { jsx } from 'slate-hyperscript';
 import { Rule, deserializeHtml } from './serializer'
 
 declare global { namespace JSX {
@@ -148,38 +149,42 @@ export const divRule: Rule = {
     if ((el.tagName.toLowerCase() === 'section' ||
          el.tagName.toLowerCase() === 'body') && 
          el.firstElementChild && divRule.deserialize) {
-      return divRule.deserialize(el.firstElementChild, next) 
+      return jsx('fragment', {}, Array.from(el.childNodes).map(next)) 
     }
     if (el.tagName.toLowerCase() !== 'div') return;
     const { type } = el.dataset;
-    const children = Array.from(el.childNodes);
+    const children = Array.from(el.childNodes).map(next);
     if (el.className === 'c-bodybox') {
-      return {
-        type: 'bodybox',
-        children: children.map(next),
-      };
+      return jsx('element', {type: 'bodybox'}, children)
+      // {
+      //   type: 'bodybox',
+      //   children: children.map(next),
+      // };
     }
     if (type === 'related-content') {
-      return {
-        object: 'block',
-        type: 'related',
-        data: reduceChildElements(el, type),
-        children: emptyNodes,
-      };
+      return jsx('element', {type: 'related', data: reduceChildElements(el, type)}, emptyNodes)
+      // {
+      //   object: 'block',
+      //   type: 'related',
+      //   data: reduceChildElements(el, type),
+      //   children: emptyNodes,
+      // };
     }
     if (type === 'file') {
-      return {
-        object: 'block',
-        type: 'file',
-        children: emptyNodes,
-        data: reduceChildElements(el, type),
-      };
+      return jsx('element', {type: 'file', data: reduceChildElements(el, type)}, emptyNodes)
+      // {
+      //   object: 'block',
+      //   type: 'file',
+      //   children: emptyNodes,
+      //   data: reduceChildElements(el, type),
+      // };
     }
-    return {
-      object: 'block',
-      type: 'div',
-      children: children.map(next),
-    };
+    return jsx('element', {type: 'div'}, children)
+    // {
+    //   object: 'block',
+    //   type: 'div',
+    //   children: children.map(next),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'block') return;
@@ -211,18 +216,20 @@ export const paragraphRule: Rule = {
   // div handling with text in box (bodybox)
   deserialize(el: HTMLElement, next: NextFunc) {
     if (el.tagName?.toLowerCase() !== 'p') return;
+    console.log('DESERIALIZING PARAGRAPH COMMENCED')
     const parent = el.parentElement
       ? el.parentElement.tagName.toLowerCase()
       : '';
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-    return {
-      object: 'block',
-      data: {
-        ...reduceElementDataAttributes(el),
-      },
-      type,
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', {type: type, data: {...reduceElementDataAttributes(el)}}, Array.from(el.childNodes).map(next))
+    // {
+    //   object: 'block',
+    //   data: {
+    //     ...reduceElementDataAttributes(el),
+    //   },
+    //   type,
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'block') return;
@@ -250,11 +257,12 @@ export const listItemRule: Rule = {
     if (el.tagName?.toLowerCase() !== 'li') return;
     // const nodes = [...next(el.childNodes), ...emptyNodes];
 
-    return {
-      object: 'block',
-      type: 'list-item',
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', {type: 'list-item'}, Array.from(el.childNodes).map(next))
+    // {
+    //   object: 'block',
+    //   type: 'list-item',
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'block') return;
@@ -266,11 +274,12 @@ export const listItemRule: Rule = {
 export const unorderListRules: Rule = {
   deserialize(el: HTMLElement, next: NextFunc) {
     if (el.tagName?.toLowerCase() !== 'ul') return;
-    return {
-      object: 'block',
-      type: 'bulleted-list',
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', {type: 'bulleted-list'}, Array.from(el.childNodes).map(next))
+    // {
+    //   object: 'block',
+    //   type: 'bulleted-list',
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'block') return;
@@ -285,18 +294,20 @@ export const mathRules: Rule = {
   deserialize(el: HTMLElement) {
     const tagName = el.tagName? el.tagName.toLowerCase() : '';
     if (tagName !== 'math') return;
-    return {
-      object: canParentElementContainBlock(el) ? 'block' : 'inline',
-      type: 'mathml',
-      data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
-      children: [
-        {
-          object: 'text',
-          text: 'm',
-          marks: [],
-        },
-      ],
-    };
+    return jsx('element', {type: 'mathml', data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML }}, 
+    [jsx('text', {type: 'text', text: 'm'})]);  // verify this when plugin is added.
+    // {
+    //   object: canParentElementContainBlock(el) ? 'block' : 'inline',
+    //   type: 'mathml',
+    //   data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
+    //   children: [
+    //     {
+    //       object: 'text',
+    //       text: 'm',
+    //       marks: [],
+    //     },
+    //   ],
+    // };
   },
   serialize(slateObject: Element) {
     const { type, data } = slateObject;
@@ -321,18 +332,20 @@ export const orderListRules: Rule = {
     const type = el.attributes.getNamedItem('data-type');
     const data = { type: type ? type.value : '' };
     if (data.type === 'letters') {
-      return {
-        object: 'block',
-        type: 'letter-list',
-        children: Array.from(el.childNodes).map(next),
-        data,
-      };
+      return jsx('element', { type: 'letter-list', data}, Array.from(el.childNodes).map(next));
+      // {
+      //   object: 'block',
+      //   type: 'letter-list',
+      //   children: Array.from(el.childNodes).map(next),
+      //   data,
+      // };
     }
-    return {
-      object: 'block',
-      type: 'numbered-list',
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', { type: 'numbered-list' }, Array.from(el.childNodes).map(next));
+    // {
+    //   object: 'block',
+    //   type: 'numbered-list',
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'block') return;
@@ -354,21 +367,23 @@ export const footnoteRule: Rule = {
     const embed = reduceElementDataAttributes(el);
     if (embed.resource !== 'footnote') return;
 
-    return {
-      object: 'inline',
-      type: 'footnote',
-      children: [
-        {
-          object: 'text',
-          text: '#',
-          marks: [],
-        },
-      ],
-      data: {
-        ...embed,
-        authors: embed.authors ? embed.authors.split(';') : [],
-      },
-    };
+    return jsx('element', { type: 'footnote', data: { ...embed, authors: embed.authors ? embed.authors.split(';') : []}}, 
+    [jsx('text', { type: 'text', text: '#'})])
+    // {
+    //   object: 'inline',
+    //   type: 'footnote',
+    //   children: [
+    //     {
+    //       object: 'text',
+    //       text: '#',
+    //       marks: [],
+    //     },
+    //   ],
+    //   data: {
+    //     ...embed,
+    //     authors: embed.authors ? embed.authors.split(';') : [],
+    //   },
+    // };
   },
   serialize(slateObject: Element) {
     if (slateObject.object !== 'inline') return;
@@ -387,11 +402,12 @@ export const blockRules: Rule = {
   deserialize(el: HTMLElement, next: NextFunc) {
     const block = BLOCK_TAGS[el.tagName?.toLowerCase() as keyof typeof BLOCK_TAGS];
     if (block) {
-      return {
-        object: 'block',
-        type: block,
-        children: Array.from(el.childNodes).map(next),
-      };
+      return jsx('element', { type: 'block' }, Array.from(el.childNodes).map(next));
+      // {
+      //   object: 'block',
+      //   type: block,
+      //   children: Array.from(el.childNodes).map(next),
+      // };
     }
   },
   serialize(slateObject: Element, children: Node[]) {
@@ -431,12 +447,13 @@ export const inlineRules: Rule = {
     if (!inline) return;
     if (inline === 'span' && isEmpty(attributes)) return; // Keep only spans with attributes
 
-    return {
-      object: 'inline',
-      type: inline,
-      data: attributes,
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', { type: 'inline', data: attributes }, Array.from(el.childNodes).map(next));
+    // {
+    //   object: 'inline',
+    //   type: inline,
+    //   data: attributes,
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'inline') return;
@@ -454,17 +471,19 @@ export const detailsRules: Rule = {
     console.log(el);
     if (el.tagName?.toLowerCase() !== 'details') return;
     if (el.className === 'c-details--solution-box') {
-      return {
-        object: 'block',
-        type: 'solutionbox',
-        children: Array.from(el.childNodes).map(next),
-      };
+      return jsx('element', { type: 'solutionbox' }, Array.from(el.childNodes).map(next));
+      // {
+      //   object: 'block',
+      //   type: 'solutionbox',
+      //   children: Array.from(el.childNodes).map(next),
+      // };
     }
-    return {
-      object: 'block',
-      type: 'details',
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', { type: 'details' }, Array.from(el.childNodes).map(next));
+    // {
+    //   object: 'block',
+    //   type: 'details',
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(object: Element, children: Node[]) {
     if (object.type !== 'details' && object.type !== 'solutionbox') {
@@ -483,12 +502,13 @@ export const tableRules: Rule = {
     if (!tableTag) return;
 
     const attributes = reduceElementDataAttributes(el);
-    return {
-      object: 'block',
-      type: tableTag,
-      data: { isHeader: tagName === 'th', ...attributes },
-      children: Array.from(el.childNodes).map(next),
-    };
+    return jsx('element', { type: tableTag, data: { isHeader: tagName === 'th', ...attributes } }, Array.from(el.childNodes).map(next));
+    // {
+    //   object: 'block',
+    //   type: tableTag,
+    //   data: { isHeader: tagName === 'th', ...attributes },
+    //   children: Array.from(el.childNodes).map(next),
+    // };
   },
   serialize(object: Element, children: Node[]) {
     if (object.object !== 'block') return;
@@ -540,11 +560,12 @@ export const brRule: Rule = {
     // Transform <br> in blocktags as blocks. This prevents slate from
     // wrapping br in paragraphs (i.e. "<br><br><br>" -> "<p><br><br><br></p>"
     if (canParentElementContainBlock(el)) {
-      return {
-        object: 'block',
-        type: 'br',
-        children: Array.from(el.childNodes).map(next),
-      };
+      return jsx('element', { type: 'br' }, Array.from(el.childNodes).map(next));
+      // {
+      //   object: 'block',
+      //   type: 'br',
+      //   children: Array.from(el.childNodes).map(next),
+      // };
     }
     // Default to standard slate deserializing if not in a known block
   },
@@ -560,11 +581,12 @@ const markRules: Rule = {
     const mark = MARK_TAGS[tagName.toLowerCase() as keyof typeof MARK_TAGS];
     if (!mark) return;
     if (!el.children[0] || el.children[0].textContent === ' ') return;
-    return {
-      object: 'mark',
-      type: mark,
-      children: ([].slice.call(el.children)).map(c => next(c)),
-    };
+    return jsx('element', { type: mark }, Array.from(el.childNodes).map(next));
+    // {
+    //   object: 'mark',
+    //   type: mark,
+    //   children: ([].slice.call(el.children)).map(c => next(c)),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'mark') return;
@@ -591,17 +613,23 @@ const linkRules: Rule = {
     if (el.tagName?.toLowerCase() !== 'a') return;
     const element = el as HTMLLinkElement
     const children = Array.from(el.childNodes).map(next)
-    return {
-      object: 'inline',
-      type: 'link',
-      data: {
-        href: element.href ? element.href : '#',
-        target: element.target !== '' ? element.target : undefined,
-        title: element.title !== '' ? element.title : undefined,
-        rel: element.rel !== '' ? element.rel : undefined,
-      },
-      children,
-    };
+    return jsx('element', { type: 'link', data: { 
+      href: element.href ? element.href : '#',
+      target: element.target !== '' ? element.target : undefined,
+      title: element.title !== '' ? element.title : undefined,
+      rel: element.rel !== '' ? element.rel : undefined,
+    }}, children);
+    // {
+    //   object: 'inline',
+    //   type: 'link',
+    //   data: {
+    //     href: element.href ? element.href : '#',
+    //     target: element.target !== '' ? element.target : undefined,
+    //     title: element.title !== '' ? element.title : undefined,
+    //     rel: element.rel !== '' ? element.rel : undefined,
+    //   },
+    //   children,
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'inline') return;
@@ -636,12 +664,13 @@ const asideRules: Rule = {
   // Aside handling
   deserialize(el: HTMLElement, next: NextFunc) {
     if (el.tagName?.toLowerCase() !== 'aside') return;
-    return {
-      object: 'block',
-      type: 'aside',
-      children: Array.from(el.childNodes).map(next),
-      data: getAsideType(el),
-    };
+    return jsx('element', { type: 'aside', data: getAsideType(el) }, Array.from(el.childNodes).map(next));
+    // {
+    //   object: 'block',
+    //   type: 'aside',
+    //   children: Array.from(el.childNodes).map(next),
+    //   data: getAsideType(el),
+    // };
   },
   serialize(slateObject: Element, children: Node[]) {
     if (slateObject.object !== 'block') return;
@@ -657,26 +686,28 @@ const topicArticeEmbedRule: Rule[] = [
       if (el.tagName?.toLowerCase() !== 'embed') return;
       const embed = reduceElementDataAttributes(el);
       if (embed.resource === 'content-link') {
-        return {
-          object: 'inline',
-          type: 'link',
-          data: embed,
-          children: [
-            {
-              object: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent link tekst',
-              marks: [],
-            },
-          ],
-        };
+        return jsx('element', { type: 'link', data: embed }, [jsx('text', { text: embed['link-text'] ? embed['link-text'] : 'Ukjent link tekst' })]);
+        // {
+        //   object: 'inline',
+        //   type: 'link',
+        //   data: embed,
+        //   children: [
+        //     {
+        //       object: 'text',
+        //       text: embed['link-text']
+        //         ? embed['link-text']
+        //         : 'Ukjent link tekst',
+        //       marks: [],
+        //     },
+        //   ],
+        // };
       }
-      return {
-        object: 'block',
-        type: 'embed',
-        data: reduceElementDataAttributes(el),
-      };
+      return jsx('element', { type: 'embed', data: reduceElementDataAttributes(el) });
+      // {
+      //   object: 'block',
+      //   type: 'embed',
+      //   data: reduceElementDataAttributes(el),
+      // };
     },
     serialize(object: Element) {
       if (object.object !== 'block') return;
@@ -697,44 +728,47 @@ export const learningResourceEmbedRule: Rule[] = [
 
       if (el.dataset.resource === 'related-content') return;
       if (embed.resource === 'content-link') {
-        return {
-          object: 'inline',
-          type: 'link',
-          data: embed,
-          children: [
-            {
-              object: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent link tekst',
-              marks: [],
-            },
-          ],
-        };
+        return jsx('element', { type: 'link', data: embed }, [jsx('text', { text: embed['link-text']? embed['link-text'] : 'Ukjent link tekst'})])
+        // {
+        //   object: 'inline',
+        //   type: 'link',
+        //   data: embed,
+        //   children: [
+        //     {
+        //       object: 'text',
+        //       text: embed['link-text']
+        //         ? embed['link-text']
+        //         : 'Ukjent link tekst',
+        //       marks: [],
+        //     },
+        //   ],
+        // };
       }
       if (embed.resource === 'concept') {
-        return {
-          object: 'inline',
-          type: 'concept',
-          data: embed,
-          children: [
-            {
-              object: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent forklaringsstekst',
-              marks: [],
-            },
-          ],
-        };
+        return jsx('element', { type: 'concept', data: embed}, [jsx('text', {text: embed['link-text']? embed['link-text'] : 'Ukjent forklaringsstekst'})])
+        // {
+        //   object: 'inline',
+        //   type: 'concept',
+        //   data: embed,
+        //   children: [
+        //     {
+        //       object: 'text',
+        //       text: embed['link-text']
+        //         ? embed['link-text']
+        //         : 'Ukjent forklaringsstekst',
+        //       marks: [],
+        //     },
+        //   ],
+        // };
       }
 
-      return {
-        object: 'block',
-        type: 'embed',
-        data: embed,
-        children: emptyNodes,
-      };
+      return jsx('element', { type: 'embed', data: embed }, emptyNodes);
+      // {
+      //   object: 'block',
+      //   type: 'embed',
+      //   data: embed,
+      //   children: emptyNodes,
+      // };
     },
 
     serialize(object: Element) {

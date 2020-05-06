@@ -59,7 +59,9 @@ export const learningResourceContentToEditorValue = (
    implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
    https://github.com/ianstormtaylor/slate/issues/1111
   */
-  return sections.map((section, index) => {
+ console.log(sections);
+  return sections.map((section) => {
+    console.log(section);
     /*   Slate's default sanitization just obliterates block nodes that contain both
     inline+text children and block children.
     see more here: https://github.com/ianstormtaylor/slate/issues/1497 */

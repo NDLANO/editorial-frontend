@@ -76,7 +76,7 @@
     "redux-saga-test-plan": "^3.7.0",
     "rimraf": "^3.0.0",
     "sinon": "^7.4.1",
-    "slate-hyperscript": "^0.13.4",
+    "slate-hyperscript": "^0.57.3",
     "start-server-and-test": "^1.10.2",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",

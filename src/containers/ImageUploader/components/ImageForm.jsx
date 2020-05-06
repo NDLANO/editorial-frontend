@@ -142,7 +142,6 @@ class ImageForm extends Component {
   render() {
     const {
       t,
-      tags,
       image,
       licenses,
       inModal,
@@ -168,7 +167,13 @@ class ImageForm extends Component {
           'processors',
           'license',
         ],
-        component: <ImageMetaData tags={tags} licenses={licenses} />,
+        component: (
+          <ImageMetaData
+            licenses={licenses}
+            imageLanguage={image.language}
+            imageTags={image.tags}
+          />
+        ),
       },
     ];
     const initialValues = getInitialValues(image);
@@ -272,7 +277,6 @@ ImageForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   onUpdate: PropTypes.func.isRequired,
   showSaved: PropTypes.bool.isRequired,
   revision: PropTypes.number,

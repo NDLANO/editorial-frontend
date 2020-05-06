@@ -222,6 +222,7 @@ class ConceptForm extends Component {
       subjects,
       createMessage,
       fetchStateStatuses,
+      fetchConceptTags,
       isNewlyCreated,
       ...rest
     } = this.props;
@@ -262,7 +263,12 @@ class ConceptForm extends Component {
         ),
 
         component: props => (
-          <ConceptMetaData classes={formClasses} concept={concept} {...props} />
+          <ConceptMetaData
+            classes={formClasses}
+            concept={concept}
+            fetchTags={fetchConceptTags}
+            {...props}
+          />
         ),
       },
     ];
@@ -388,6 +394,7 @@ ConceptForm.propTypes = {
   createMessage: PropTypes.func.isRequired,
   updateConceptAndStatus: PropTypes.func,
   fetchStateStatuses: PropTypes.func,
+  fetchConceptTags: PropTypes.func.isRequired,
   isNewlyCreated: PropTypes.bool,
 };
 

@@ -11,10 +11,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
-import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
@@ -25,18 +21,10 @@ import { ImageShape } from '../../shapes';
 
 class EditImage extends Component {
   componentDidMount() {
-    const {
-      imageId,
-      fetchImage,
-      imageLanguage,
-      fetchTags,
-      fetchLicenses,
-      locale,
-    } = this.props;
+    const { imageId, fetchImage, imageLanguage, fetchLicenses } = this.props;
     if (imageId) {
       fetchImage({ id: imageId, language: imageLanguage });
     }
-    fetchTags({ language: locale });
     fetchLicenses();
   }
 
@@ -63,7 +51,6 @@ class EditImage extends Component {
       isNewlyCreated,
       ...rest
     } = this.props;
-
     return (
       <ImageForm
         image={imageData || { language: locale }}
@@ -84,7 +71,6 @@ EditImage.propTypes = {
   imageId: PropTypes.string,
   fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchImage: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -107,7 +93,6 @@ EditImage.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTags: tagActions.fetchTags,
   fetchLicenses: licenseActions.fetchLicenses,
   fetchImage: actions.fetchImage,
   updateImage: actions.updateImage,
@@ -117,10 +102,8 @@ const mapStateToProps = (state, props) => {
   const { imageId } = props;
   const getImageSelector = getImage(imageId, true);
   const locale = getLocale(state);
-  const getAllTagsSelector = getAllTagsByLanguage(locale);
   return {
     locale,
-    tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
     image: getImageSelector(state),
   };

@@ -75,7 +75,6 @@ const EditAudio = ({
 
 EditAudio.propTypes = {
   audioId: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

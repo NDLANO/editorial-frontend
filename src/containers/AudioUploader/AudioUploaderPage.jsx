@@ -13,10 +13,6 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
-import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
@@ -32,9 +28,7 @@ class AudioUploaderPage extends Component {
   };
 
   componentDidMount() {
-    const { fetchTags, fetchLicenses, locale } = this.props;
-    fetchTags({ language: locale });
-    fetchLicenses();
+    this.props.fetchLicenses();
   }
 
   componentDidUpdate(prevProps) {
@@ -82,30 +76,25 @@ AudioUploaderPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
       license: PropTypes.string,
     }),
   ).isRequired,
-  fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   location: LocationShape,
 };
 
 const mapDispatchToProps = {
-  fetchTags: tagActions.fetchTags,
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
 const mapStateToProps = state => {
   const locale = getLocale(state);
-  const getAllTagsSelector = getAllTagsByLanguage(locale);
   return {
     locale,
-    tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
   };
 };

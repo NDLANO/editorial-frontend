@@ -16,7 +16,7 @@ const draftConceptUrl = apiResourceUrl('/concept-api/v1/drafts');
 
 export const fetchSearchTags = async (input, language) => {
   const response = await fetchAuthorized(
-    `${draftConceptUrl}/tag-search/?language=${language}&query=${input}`,
+    `${draftConceptUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
   return await resolveJsonOrRejectWithError(response);
 };

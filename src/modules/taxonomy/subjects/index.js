@@ -14,15 +14,15 @@ import {
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function fetchSubjects(locale, includeMetadata = false) {
+function fetchSubjects(locale) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/?includeMetadata=${includeMetadata}&?language=${locale}`,
+    `${baseUrl}/subjects?includeMetadata=true&language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-function fetchSubjectTopics(subject, includeMetadata = false) {
+function fetchSubjectTopics(subject) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?includeMetadata=${includeMetadata}&recursive=true`,
+    `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true`,
   ).then(resolveJsonOrRejectWithError);
 }
 

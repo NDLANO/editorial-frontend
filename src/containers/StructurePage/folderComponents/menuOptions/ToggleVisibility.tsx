@@ -53,7 +53,7 @@ const ToggleVisibility: FC<Props> = ({
   toggleEditMode,
   menuType,
 }) => {
-  const [visible, setVisible] = useState(metadata.visible);
+  const [visible, setVisible] = useState(metadata?.visible);
 
   const updateMetadata = async (visible: boolean) => {
     switch (menuType) {

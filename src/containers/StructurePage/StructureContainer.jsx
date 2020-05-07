@@ -80,7 +80,7 @@ export class StructureContainer extends React.PureComponent {
     await this.getAllSubjects();
     const { subject } = this.props.match.params;
     if (subject) {
-      this.getSubjectTopics(subject, true);
+      this.getSubjectTopics(subject);
       this.getFilters();
     }
     this.showLink();
@@ -105,7 +105,7 @@ export class StructureContainer extends React.PureComponent {
       }
       const currentSub = subjects.find(sub => sub.id === subject);
       if (currentSub) {
-        this.getSubjectTopics(subject, true);
+        this.getSubjectTopics(subject);
       }
       if (pathname.includes('topic')) {
         this.showLink();
@@ -123,7 +123,7 @@ export class StructureContainer extends React.PureComponent {
 
   async getAllSubjects() {
     try {
-      const subjects = await fetchSubjects(this.props.locale, true);
+      const subjects = await fetchSubjects(this.props.locale);
       this.setState({
         subjects: subjects.sort((a, b) => a.name?.localeCompare(b.name)),
       });
@@ -132,10 +132,10 @@ export class StructureContainer extends React.PureComponent {
     }
   }
 
-  async getSubjectTopics(subjectid, includeMetadata = false) {
+  async getSubjectTopics(subjectid) {
     try {
       this.saveSubjectItems(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid, includeMetadata);
+      const allTopics = await fetchSubjectTopics(subjectid);
       const topics = groupTopics(allTopics);
       this.saveSubjectItems(subjectid, { topics, loading: false });
     } catch (e) {
@@ -218,7 +218,7 @@ export class StructureContainer extends React.PureComponent {
         await deleteTopicConnection(connectionId);
       }
       this.deleteConnections();
-      this.getSubjectTopics(subjectId, true);
+      this.getSubjectTopics(subjectId);
     } catch (e) {
       handleError(e);
     }
@@ -276,7 +276,7 @@ export class StructureContainer extends React.PureComponent {
     const {
       match: { params },
     } = this.props;
-    this.getSubjectTopics(params.subject, true);
+    this.getSubjectTopics(params.subject);
   }
 
   toggleStructure() {

@@ -16,7 +16,13 @@ import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { useTranslateForm } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
-const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
+const EditTopicArticle = ({
+  articleId,
+  selectedLanguage,
+  t,
+  isNewlyCreated,
+  ...rest
+}) => {
   const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
@@ -46,6 +52,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, ...rest }) => {
         articleStatus={article.status}
         article={article}
         translateArticle={translateArticle}
+        isNewlyCreated={isNewlyCreated}
         {...rest}
         {...articleHooks}
       />
@@ -57,6 +64,7 @@ EditTopicArticle.propTypes = {
   articleId: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
   createMessage: PropTypes.func.isRequired,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(withRouter(EditTopicArticle));

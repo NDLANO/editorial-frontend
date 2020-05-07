@@ -223,6 +223,7 @@ class ConceptForm extends Component {
       createMessage,
       fetchStateStatuses,
       fetchConceptTags,
+      isNewlyCreated,
       ...rest
     } = this.props;
     const { savedToServer } = this.state;
@@ -359,6 +360,7 @@ class ConceptForm extends Component {
                   }}
                   getStateStatuses={fetchStateStatuses}
                   hideSecondaryButton
+                  isNewlyCreated={isNewlyCreated}
                 />
               }
               {!inModal && (
@@ -393,6 +395,7 @@ ConceptForm.propTypes = {
   updateConceptAndStatus: PropTypes.func,
   fetchStateStatuses: PropTypes.func,
   fetchConceptTags: PropTypes.func.isRequired,
+  isNewlyCreated: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

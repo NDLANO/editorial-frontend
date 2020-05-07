@@ -20,15 +20,25 @@ import { getLocale } from '../../modules/locale/locale';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { LocationShape } from '../../shapes';
 
 class AudioUploaderPage extends Component {
+  state = {
+    previousLocation: '',
+  };
+
   componentDidMount() {
     this.props.fetchLicenses();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ previousLocation: prevProps.location.pathname });
+    }
+  }
+
   render() {
     const { match, t, ...rest } = this.props;
-
     return (
       <div>
         <OneColumn>
@@ -44,6 +54,9 @@ class AudioUploaderPage extends Component {
                 <EditAudio
                   audioId={props.match.params.audioId}
                   audioLanguage={props.match.params.audioLanguage}
+                  isNewlyCreated={
+                    this.state.previousLocation === '/media/audio-upload/new'
+                  }
                   {...rest}
                 />
               )}
@@ -71,6 +84,7 @@ AudioUploaderPage.propTypes = {
   ).isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {

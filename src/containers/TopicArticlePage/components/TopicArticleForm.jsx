@@ -154,7 +154,14 @@ const TopicArticleForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, updateArticle, licenses, ...rest } = props;
+  const {
+    t,
+    article,
+    updateArticle,
+    licenses,
+    isNewlyCreated,
+    ...rest
+  } = props;
   return (
     <Formik
       initialValues={initialValues}
@@ -225,6 +232,7 @@ const TopicArticleForm = props => {
               getStateStatuses={fetchStatusStateMachine}
               validateEntity={validateDraft}
               isArticle
+              isNewlyCreated={isNewlyCreated}
               {...formikProps}
               {...rest}
             />
@@ -253,6 +261,7 @@ TopicArticleForm.propTypes = {
   updateArticleAndStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   article: ArticleShape,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(TopicArticleForm);

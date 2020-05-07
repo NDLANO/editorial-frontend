@@ -22,11 +22,12 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../shapes';
 import * as messageActions from '../Messages/messagesActions';
 import { toEditArticle } from '../../util/routeHelpers';
+import { LocationShape } from '../../shapes';
 
 class LearningResourcePage extends PureComponent {
   constructor(props) {
     super();
-    this.state = {};
+    this.state = { previousLocation: '' };
   }
   componentDidMount() {
     const { fetchLicenses, licenses } = this.props;
@@ -38,9 +39,12 @@ class LearningResourcePage extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (window.MathJax) {
       window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    }
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ previousLocation: prevProps.location.pathname });
     }
   }
 
@@ -67,6 +71,10 @@ class LearningResourcePage extends PureComponent {
                 <EditLearningResource
                   articleId={props.match.params.articleId}
                   selectedLanguage={props.match.params.selectedLanguage}
+                  isNewlyCreated={
+                    this.state.previousLocation ===
+                    '/subject-matter/learning-resource/new'
+                  }
                   {...rest}
                 />
               )}
@@ -112,6 +120,7 @@ LearningResourcePage.propTypes = {
   userAccess: PropTypes.string,
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {

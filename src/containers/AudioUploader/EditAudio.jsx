@@ -29,7 +29,13 @@ const transformAudio = audio => {
     : undefined;
 };
 
-const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
+const EditAudio = ({
+  locale,
+  audioId,
+  audioLanguage,
+  isNewlyCreated,
+  ...rest
+}) => {
   const [audio, setAudio] = useState({});
 
   const fetchAudio = async () => {
@@ -61,6 +67,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, ...rest }) => {
       revision={audio && audio.revision}
       onUpdate={onUpdate}
       audioLanguage={audioLanguage}
+      isNewlyCreated={isNewlyCreated}
       {...rest}
     />
   );
@@ -76,6 +83,7 @@ EditAudio.propTypes = {
   ).isRequired,
   locale: PropTypes.string.isRequired,
   audioLanguage: PropTypes.string.isRequired,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default EditAudio;

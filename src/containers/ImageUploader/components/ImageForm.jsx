@@ -140,7 +140,14 @@ class ImageForm extends Component {
   };
 
   render() {
-    const { t, image, licenses, inModal, closeModal } = this.props;
+    const {
+      t,
+      image,
+      licenses,
+      inModal,
+      closeModal,
+      isNewlyCreated,
+    } = this.props;
     const { savedToServer } = this.state;
 
     const panels = [
@@ -236,7 +243,7 @@ class ImageForm extends Component {
                 )}
                 <SaveButton
                   isSaving={isSubmitting}
-                  showSaved={savedToServer && !formIsDirty}
+                  showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}
                   onClick={evt => {
@@ -275,6 +282,7 @@ ImageForm.propTypes = {
   revision: PropTypes.number,
   inModal: PropTypes.bool,
   closeModal: PropTypes.func,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(ImageForm);

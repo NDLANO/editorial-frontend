@@ -133,7 +133,15 @@ const LearningResourceForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
 
-  const { t, article, updateArticle, translating, licenses, ...rest } = props;
+  const {
+    t,
+    article,
+    updateArticle,
+    translating,
+    licenses,
+    isNewlyCreated,
+    ...rest
+  } = props;
   return (
     <Formik
       enableReinitialize={translating}
@@ -201,6 +209,7 @@ const LearningResourceForm = props => {
               getStateStatuses={fetchStatusStateMachine}
               validateEntity={validateDraft}
               isArticle
+              isNewlyCreated={isNewlyCreated}
               {...formikProps}
               {...rest}
             />
@@ -237,6 +246,7 @@ LearningResourceForm.propTypes = {
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(LearningResourceForm);

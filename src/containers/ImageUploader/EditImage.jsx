@@ -48,6 +48,7 @@ class EditImage extends Component {
       locale,
       editingArticle,
       closeModal,
+      isNewlyCreated,
       ...rest
     } = this.props;
     return (
@@ -59,6 +60,7 @@ class EditImage extends Component {
           updateImage({ image, file, history, editingArticle });
         }}
         closeModal={closeModal}
+        isNewlyCreated={isNewlyCreated}
         {...rest}
       />
     );
@@ -87,6 +89,7 @@ EditImage.propTypes = {
   inModal: PropTypes.bool,
   closeModal: PropTypes.func,
   editingArticle: PropTypes.bool,
+  isNewlyCreated: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

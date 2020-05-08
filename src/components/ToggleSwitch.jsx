@@ -26,7 +26,6 @@ const ToggleSwitch = ({
     contentLabelOn={contentLabelOn}>
     <input checked={on} onChange={onClick} type="checkbox" />
     <StyledSlider large={large} contentLabelOff={contentLabelOff} />
-    {console.log('label', contentLabelOn)}
   </StyledLabel>
 );
 

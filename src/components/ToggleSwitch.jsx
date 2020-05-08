@@ -17,15 +17,15 @@ const ToggleSwitch = ({
   onClick,
   testId,
   large,
-  contentLabelOff,
-  contentLabelOn,
+  offLabel,
+  onLabel,
 }) => (
   <StyledLabel
     data-testid={testId}
     large={large}
-    contentLabelOn={contentLabelOn}>
+    onLabel={onLabel}>
     <input checked={on} onChange={onClick} type="checkbox" />
-    <StyledSlider large={large} contentLabelOff={contentLabelOff} />
+    <StyledSlider large={large} offLabel={offLabel} />
   </StyledLabel>
 );
 
@@ -56,7 +56,7 @@ const StyledSlider = styled.span`
 
   &::before {
     position: absolute;
-    content: '${props => props.contentLabelOff}';
+    content: '${props => props.offLabel}';
     left: -3px;
     top: -0.63px;
     display: flex;
@@ -94,7 +94,7 @@ const StyledLabel = styled.label`
     transform: translateX(20px);
     background-color: #507aa4;
     color: white;
-    content: '${props => props.contentLabelOn}';
+    content: '${props => props.onLabel}';
     border: 0.91px solid #446b92;
   }
 `;
@@ -104,13 +104,13 @@ ToggleSwitch.propTypes = {
   onClick: PropTypes.func,
   testId: PropTypes.string,
   large: PropTypes.bool,
-  contentLabelOn: PropTypes.string,
-  contentLabelOff: PropTypes.string,
+  offLabel: PropTypes.string,
+  onLabel: PropTypes.string,
 };
 
 ToggleSwitch.defaultProps = {
-  contentLabelOff: 'T',
-  contentLabelOn: 'K',
+  offLabel: 'T',
+  onLabel: 'K',
 };
 
 export default ToggleSwitch;

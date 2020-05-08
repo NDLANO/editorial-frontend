@@ -99,8 +99,8 @@ const ToggleVisibility: FC<Props> = ({
         onClick={() => updateMetadata(visible)}
         on={visible}
         testId="toggleVisible"
-        contentLabelOn=""
-        contentLabelOff=""
+        offLabel=""
+        onLabel=""
       />
     </DropDownWrapper>
   ) : (
@@ -110,8 +110,8 @@ const ToggleVisibility: FC<Props> = ({
         onClick={() => updateMetadata(visible)}
         on={visible}
         testId="toggleVisible"
-        contentLabelOn=""
-        contentLabelOff=""
+        offLabel=""
+        onLabel=""
       />
     </DropDownWrapper>
   );

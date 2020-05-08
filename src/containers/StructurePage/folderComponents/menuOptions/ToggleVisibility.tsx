@@ -27,13 +27,15 @@ enum MenuType {
 }
 
 interface Props {
-  id: string;
   editMode: string;
+  getAllSubjects: Function;
+  id: string;
   name: string;
+  menuType: MenuType;
   metadata: { grepCodes: string[]; visible: boolean };
+  refreshTopics: Function;
   t: TranslateType;
   toggleEditMode: Function;
-  menuType: MenuType;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -45,13 +47,15 @@ export const DropDownWrapper = styled('div')`
 `;
 
 const ToggleVisibility: FC<Props> = ({
-  id,
   editMode,
+  getAllSubjects,
+  id,
   name,
+  menuType,
   metadata,
+  refreshTopics,
   t,
   toggleEditMode,
-  menuType,
 }) => {
   const [visible, setVisible] = useState(metadata?.visible);
 
@@ -63,6 +67,7 @@ const ToggleVisibility: FC<Props> = ({
           visible: !visible,
         });
         setVisible(!visible);
+        getAllSubjects();
         break;
       }
 
@@ -72,6 +77,7 @@ const ToggleVisibility: FC<Props> = ({
           visible: !visible,
         });
         setVisible(!visible);
+        refreshTopics();
         break;
       }
 

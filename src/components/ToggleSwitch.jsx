@@ -12,18 +12,8 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 
-const ToggleSwitch = ({
-  on,
-  onClick,
-  testId,
-  large,
-  offLabel,
-  onLabel,
-}) => (
-  <StyledLabel
-    data-testid={testId}
-    large={large}
-    onLabel={onLabel}>
+const ToggleSwitch = ({ on, onClick, testId, large, offLabel, onLabel }) => (
+  <StyledLabel data-testid={testId} large={large} onLabel={onLabel}>
     <input checked={on} onChange={onClick} type="checkbox" />
     <StyledSlider large={large} offLabel={offLabel} />
   </StyledLabel>

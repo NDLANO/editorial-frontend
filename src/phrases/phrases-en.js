@@ -198,6 +198,7 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',
     loginLink: 'Click to try again.',
+    userNotRegistered: 'You are not a registered user.',
   },
   loginProviders: {
     description: 'Log in with',

@@ -7,9 +7,9 @@
  */
 
 export const DRAFT = 'DRAFT';
-export const PUBLISHED = 'PUBLISHED';
-export const QUEUED_FOR_PUBLISHING = 'QUEUED_FOR_PUBLISHING';
 export const QUEUED_FOR_LANGUAGE = 'QUEUED_FOR_LANGUAGE';
 export const TRANSLATED = 'TRANSLATED';
+export const QUALITY_ASSURED = 'QUALITY_ASSURED';
+export const PUBLISHED = 'PUBLISHED';
 export const UNPUBLISHED = 'UNPUBLISHED';
 export const ARCHIVED = 'ARCHIVED';

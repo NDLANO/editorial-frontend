@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { toEditConcept } from '../../../src/util/routeHelpers.js';
+import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './components/ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
@@ -27,10 +27,12 @@ const CreateConcept = props => {
     addConceptInModal,
     ...rest
   } = props;
-  const { subjects, createConcept, tags } = useFetchConceptData(
-    undefined,
-    locale,
-  );
+  const {
+    subjects,
+    createConcept,
+    fetchStatusStateMachine,
+    fetchSearchTags,
+  } = useFetchConceptData(undefined, locale);
 
   const createConceptAndPushRoute = async createdConcept => {
     const savedConcept = await createConcept(createdConcept);
@@ -48,10 +50,11 @@ const CreateConcept = props => {
         concept={{ ...initialConcept, language: locale }}
         locale={locale}
         onUpdate={createConceptAndPushRoute}
+        fetchStateStatuses={fetchStatusStateMachine}
+        fetchConceptTags={fetchSearchTags}
         licenses={licenses}
         inModal={inModal}
         subjects={subjects}
-        tags={tags}
         {...rest}
       />
     </Fragment>

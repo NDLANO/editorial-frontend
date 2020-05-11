@@ -18,7 +18,13 @@ import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { useTranslateForm } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
-const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
+const EditLearningResource = ({
+  selectedLanguage,
+  articleId,
+  t,
+  isNewlyCreated,
+  ...rest
+}) => {
   const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
@@ -48,6 +54,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, ...rest }) => {
         revision={article.revision}
         articleStatus={article.status}
         translateArticle={translateArticle}
+        isNewlyCreated={isNewlyCreated}
         {...rest}
         {...articleHooks}
       />
@@ -60,6 +67,7 @@ EditLearningResource.propTypes = {
   licenses: LicensesArrayOf,
   locale: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(withRouter(EditLearningResource));

@@ -14,8 +14,7 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { Article, PossibleStatuses, Values } from './editorTypes';
-import * as draftApi from '../../modules/draft/draftApi';
+import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { TranslateType } from '../../interfaces';
 import SaveMultiButton from '../SaveMultiButton';
@@ -28,12 +27,17 @@ interface Props {
   values: Values;
   error: string;
   errors: Object;
-  getArticle: () => Article;
-  articleStatus: { current: string };
+  getEntity: () => Article | Concept;
+  entityStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
   showSimpleFooter: boolean;
   setFieldValue: (name: string, value: { current: string }) => void;
   onSaveClick: VoidFunction;
+  getStateStatuses: () => PossibleStatuses;
+  validateEntity: (id: number, updatedEntity: Article | Concept) => void;
+  isArticle: boolean;
+  hideSecondaryButton: boolean;
+  isNewlyCreated: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -46,26 +50,33 @@ const StyledLine = styled.hr`
   }
 `;
 
-const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-  const possibleStatuses = await draftApi.fetchStatusStateMachine();
-  setStatuses(possibleStatuses);
-};
-
 const EditorFooter: React.FC<Props> = ({
   t,
   isSubmitting,
   formIsDirty,
   savedToServer,
   values,
-  getArticle,
+  getEntity,
   createMessage,
-  articleStatus,
+  entityStatus,
   showSimpleFooter,
   setFieldValue,
   errors,
   onSaveClick,
+  getStateStatuses,
+  validateEntity,
+  isArticle,
+  hideSecondaryButton,
+  isNewlyCreated,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+
+  const fetchStatuses = async (
+    setStatuses: React.Dispatch<PossibleStatuses>,
+  ) => {
+    const possibleStatuses = await getStateStatuses();
+    setStatuses(possibleStatuses);
+  };
 
   useEffect(() => {
     fetchStatuses(setStatuses);
@@ -85,21 +96,23 @@ const EditorFooter: React.FC<Props> = ({
       large
       isSaving={isSubmitting}
       formIsDirty={formIsDirty}
-      showSaved={savedToServer && !formIsDirty}
+      showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
       onClick={onSaveClick}
+      hideSecondaryButton={hideSecondaryButton}
     />
   );
 
   const onValidateClick = async () => {
     const { id, revision } = values;
+    const updatedEntity = { ...getEntity(), revision };
     try {
-      await draftApi.validateDraft(id, { ...getArticle(), revision });
+      await validateEntity(id, updatedEntity);
       createMessage({
         translationKey: 'form.validationOk',
         severity: 'success',
       });
     } catch (error) {
-      if (error && error.json && error.json.messages) {
+      if (error?.json?.messages) {
         createMessage(formatErrorMessage(error));
       } else {
         createMessage(error);
@@ -116,11 +129,11 @@ const EditorFooter: React.FC<Props> = ({
   }
 
   const getStatuses = () =>
-    Array.isArray(possibleStatuses[articleStatus.current])
-      ? possibleStatuses[articleStatus.current].map((status: string) => ({
+    Array.isArray(possibleStatuses[entityStatus.current])
+      ? possibleStatuses[entityStatus.current].map((status: string) => ({
           name: t(`form.status.actions.${status}`),
           id: status,
-          active: status === articleStatus.current,
+          active: status === entityStatus.current,
         }))
       : [];
 
@@ -130,7 +143,7 @@ const EditorFooter: React.FC<Props> = ({
       setNewStatus(status);
       setFieldValue('status', { current: status });
     } catch (error) {
-      if (error && error.json && error.json.messages) {
+      if (error?.json?.messages) {
         createMessage(formatErrorMessage(error));
       } else {
         createMessage(error);
@@ -141,7 +154,7 @@ const EditorFooter: React.FC<Props> = ({
   return (
     <Footer>
       <div>
-        {values.id && (
+        {values.id && isArticle && (
           <FooterLinkButton
             bold
             onClick={() =>
@@ -152,7 +165,7 @@ const EditorFooter: React.FC<Props> = ({
           </FooterLinkButton>
         )}
         <StyledLine />
-        {values.id && (
+        {values.id && isArticle && (
           <FooterLinkButton bold onClick={() => onValidateClick()}>
             {t('form.validate')}
           </FooterLinkButton>
@@ -165,7 +178,7 @@ const EditorFooter: React.FC<Props> = ({
           messages={{
             label: '',
             changeStatus: t(
-              `form.status.${articleStatus.current.toLowerCase()}`,
+              `form.status.${entityStatus.current.toLowerCase()}`,
             ),
             back: t('editorFooter.back'),
             inputHeader: t('editorFooter.inputHeader'),

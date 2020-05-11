@@ -70,6 +70,7 @@ const LearningResourcePanels = ({
   userAccess,
   errors,
   touched,
+  fetchSearchTags,
   ...rest
 }) => (
   <Accordion openIndexes={['learning-resource-content']}>
@@ -103,6 +104,7 @@ const LearningResourcePanels = ({
                       userAccess,
                       values,
                       closePanel: () => handleItemClick(panel.id),
+                      fetchSearchTags,
                       ...rest,
                     })}
                   </div>
@@ -127,6 +129,7 @@ LearningResourcePanels.propTypes = {
   article: PropTypes.shape({
     grepCodes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  fetchSearchTags: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourcePanels);

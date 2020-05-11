@@ -68,6 +68,7 @@ const ToggleVisibility: FC<Props> = ({
         });
         setVisible(!visible);
         getAllSubjects();
+        refreshTopics();
         break;
       }
 

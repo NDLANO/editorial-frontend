@@ -10,7 +10,7 @@ import 'isomorphic-fetch';
 import defined from 'defined';
 import auth0 from 'auth0-js';
 import config from '../config';
-import { expiresIn, ndlaId } from './jwtHelper';
+import { expiresIn, ndlaId, decodeToken } from './jwtHelper';
 import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
 import * as messageActions from '../containers/Messages/messagesActions';
 
@@ -102,12 +102,23 @@ export function parseHash(hash) {
 }
 
 export function setAccessTokenInLocalStorage(accessToken, personal) {
-  localStorage.setItem('access_token', accessToken);
-  localStorage.setItem(
-    'access_token_expires_at',
-    expiresIn(accessToken) * 1000 + new Date().getTime(),
-  );
-  localStorage.setItem('access_token_personal', personal);
+  const decodedToken = decodeToken(accessToken);
+
+  // All access rights given by us includes ":", if a user does not have the required access rights we log him out.
+  if(decodedToken.scope.includes(':')) {
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem(
+      'access_token_expires_at',
+      expiresIn(accessToken) * 1000 + new Date().getTime(),
+    );
+    localStorage.setItem('access_token_personal', personal);
+  } else {
+    const options = {
+      returnTo: `${locationOrigin}`,
+      clientID: ndlaPersonalClientId,
+    };
+    return auth.logout(options);
+  }
 }
 
 export const clearAccessTokenFromLocalStorage = () => {

@@ -20,7 +20,7 @@ export const removeEmptyElementDataAttributes = obj => {
 
 export const reduceElementDataAttributes = (el, filter) => {
   if (!el.attributes) return null;
-  let attrs = [].slice.call(el.attributes);
+  let attrs = [].slice.call(el.attributes).filter(a => a.name !== 'style');
   if (filter) attrs = attrs.filter(a => filter.includes(a.name));
   const obj = attrs.reduce(
     (all, attr) =>

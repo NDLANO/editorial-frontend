@@ -1041,6 +1041,11 @@ const phrases = {
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
   },
+  metadata: {
+    visible: 'is visible',
+    notVisible: 'is not visible',
+    changeVisibility: 'Change visibility',
+  },
 };
 
 export default phrases;

@@ -1645,12 +1645,22 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.7.10":
-  version "0.7.10"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.10.tgz#0c9f94292df037a18852c0a4dad1a7f7efd2ea35"
-  integrity sha512-fAJuWVxfCfYiKFO1ur5p7pN8iFADWFALN9TuXrMehZBIapMw56og7iqqRH8m2Teg15SChIb5UyROoDyViqPMqA==
+"@ndla/core@^0.6.23":
+  version "0.6.23"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.23.tgz#70db7bd11e549f01b2419ea85b37be14e441a423"
+  integrity sha512-m3MHelC3gFNH3pbHjUNFnwS6w0lCxha8q1hOo5uz8NbGmLewfmsp67fNeZ/3f31vT1vWVSAc517pEEMgZx+wQg==
   dependencies:
-    "@ndla/core" "^0.6.21"
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/editor@^0.7.12":
+  version "0.7.12"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.12.tgz#06300cc7e0eeb027f28cd01323dd6adf87a5169f"
+  integrity sha512-Ykm30PxTCvDv5hqqW9MuyHOvou+e6mbq+LpHXA55U9SxcUJbaAscw0374jIazf7Qh9jOOFmAzsY4jD63qHfiEQ==
+  dependencies:
+    "@ndla/core" "^0.6.23"
     "@ndla/icons" "^0.6.22"
     "@types/react-beautiful-dnd" "^11.0.3"
     react-beautiful-dnd "^12.0.0"

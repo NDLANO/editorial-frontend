@@ -25,10 +25,10 @@ describe('Topic editing', () => {
         );
       },
     });
-    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy/v1/subjects?includeMetadata=true&language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true`,
+      `/taxonomy/v1/subjects/${selectSubject}/topics?includeMetadata=true&recursive=true`,
       'allSubjectTopics',
     );
     cy.apiroute(
@@ -43,12 +43,12 @@ describe('Topic editing', () => {
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:core`,
+      `/taxonomy/v1/topics/${selectTopic}/resources?includeMetadata=true&language=nb&relevance=urn:relevance:core`,
       'coreResources',
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/resources/?language=nb&relevance=urn:relevance:supplementary`,
+      `/taxonomy/v1/topics/${selectTopic}/resources?includeMetadata=true&language=nb&relevance=urn:relevance:supplementary`,
       'suppResources',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
@@ -74,7 +74,7 @@ describe('Topic editing', () => {
       response: '',
       alias: 'addFilter',
     });
-    cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
+    cy.apiroute('GET', '/taxonomy/v1/topics?includeMetadata=true&language=nb', 'allTopics');
     cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/filters`,
@@ -92,12 +92,6 @@ describe('Topic editing', () => {
       response: '',
       alias: 'changeFilter',
     });
-    cy.route({
-      method: 'DELETE',
-      url: '/taxonomy/v1/topic-filters/**',
-      status: 204,
-      response: '',
-    }).as('deleteFilter');
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
   });
@@ -121,28 +115,11 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
+    cy.wait(500);
     cy.wait('@allSubjectTopics');
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@addFilter', '@deleteFilter', '@allSubjectTopics']);
+    cy.apiwait(['@addFilter', '@allSubjectTopics']);
     cy.wait(500);
-
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
-      .click();
-    cy.get('button')
-      .contains(phrases.alertModal.delete)
-      .click();
-    cy.route({
-      method: 'DELETE',
-      url:
-        '/taxonomy/v1/subject-topics/urn:subject-topic:2357d45d-1f79-4953-86e8-b97617a493d0',
-      status: 204,
-      response: '',
-    });
-    cy.get('[data-testid=confirmDelete]').click({
-      force: true,
-    });
   });
 });

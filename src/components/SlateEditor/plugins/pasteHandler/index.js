@@ -7,7 +7,7 @@
  */
 
 import { Document, Block } from 'slate';
-import Html from "slate-html-serializer";
+import Html from 'slate-html-serializer';
 import { getEventTransfer } from 'slate-react';
 import { RULES } from '../../../../util/slateHelpers';
 
@@ -24,13 +24,12 @@ export function convertToSupportedBlockTypes(block) {
 }
 
 function PasteHandler({ rules }) {
-  const serializer = new Html({ rules })
   return {
     schema: {},
     onPaste(event, change, next) {
-      const {html, text, type} = getEventTransfer(event);
+      const { html, text, type } = getEventTransfer(event);
       if (type === 'html') {
-        // TODO: Sanitize element attributes.
+        const serializer = new Html({ rules });
         const { document } = serializer.deserialize(html);
         return change.insertFragment(document);
       }

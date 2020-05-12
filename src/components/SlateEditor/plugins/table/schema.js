@@ -37,8 +37,8 @@ function normalizeNode(node, editor, next) {
     row.nodes
       .map(node => {
         if (node.type === 'table-cell') {
-          return node.data.get('colspan')
-            ? parseInt(node.data.get('colspan'))
+          return node.data.get('colSpan')
+            ? parseInt(node.data.get('colSpan'))
             : 1;
         }
         return 0;
@@ -52,13 +52,13 @@ function normalizeNode(node, editor, next) {
     rowsMissingCols.forEach(row => {
       let cellCount = row.nodes
         .map(node =>
-          node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1,
+          node.data.get('colSpan') ? parseInt(node.data.get('colSpan')) : 1,
         )
         .reduce((a, b) => a + b);
       for (let i = rows.indexOf(row) - 1; i > 0; i--) {
         const rowSpan = rows
           .get(i)
-          .nodes.map(node => node.data.get('rowspan'))
+          .nodes.map(node => node.data.get('rowSpan'))
           .filter(val => val > rows.indexOf(row) - 1);
         cellCount += rowSpan.size;
       }
@@ -132,8 +132,8 @@ const renderBlock = (props, editor, next) => {
       return (
         <td
           className={node.data.get('isHeader') ? 'c-table__header' : ''}
-          rowSpan={node.data.get('rowspan')}
-          colSpan={node.data.get('colspan')}
+          rowSpan={node.data.get('rowSpan')}
+          colSpan={node.data.get('colSpan')}
           {...attributes}>
           {children}
         </td>

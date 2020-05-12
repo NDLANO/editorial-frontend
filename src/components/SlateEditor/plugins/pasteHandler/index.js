@@ -32,7 +32,6 @@ function PasteHandler({ rules }) {
         const { document } = serializer.deserialize(html);
         return change.insertFragment(document);
       }
-      if (type === 'text') return change.insertText(text);
       return next();
     },
   };

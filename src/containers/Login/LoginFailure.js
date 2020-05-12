@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 export const LoginFailure = ({ t, userNotRegistered }) => (
   <div>
     <h2>{t('loginFailure.errorMessage')}</h2>
-    {userNotRegistered && <h2>{t('loginFailure.userNotRegistered')}</h2>}
+    {userNotRegistered && <p>{t('loginFailure.userNotRegistered')}</p>}
     <p>
       <Link to="/login">{t('loginFailure.loginLink')}</Link>
     </p>

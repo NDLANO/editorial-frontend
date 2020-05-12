@@ -197,7 +197,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feila.',
     loginLink: 'Klikk for å prøve igjen.',
-    userNotRegistered: 'Du er ikkje registrert som ein brukar.',
+    userNotRegistered:
+      'Vi kjente ikkje igjen epostadressa di. Har du logga inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',

@@ -6,10 +6,9 @@
  *
  */
 
-import { Document, Block } from 'slate';
+import { Block } from 'slate';
 import Html from 'slate-html-serializer';
 import { getEventTransfer } from 'slate-react';
-import { RULES } from '../../../../util/slateHelpers';
 
 export function convertToSupportedBlockTypes(block) {
   switch (block.type) {

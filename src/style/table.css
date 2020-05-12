@@ -10,6 +10,10 @@
   min-width: 29px;
 }
 
+.c-editor table p {
+  margin: 0;
+}
+
 .c-table__header {
   background-color: white;
   border-bottom: 3px solid #deebf6;
@@ -18,4 +22,8 @@
 
 .c-article table {
   margin-top: 0;
+}
+
+.c-article table p {
+  margin: 0;
 }

@@ -26,7 +26,7 @@ function PasteHandler({ rules }) {
   return {
     schema: {},
     onPaste(event, change, next) {
-      const { html, text, type } = getEventTransfer(event);
+      const { html, type } = getEventTransfer(event);
       if (type === 'html') {
         const serializer = new Html({ rules });
         const { document } = serializer.deserialize(html);

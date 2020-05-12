@@ -6,7 +6,8 @@
  *
  */
 
-import { Document, Block } from 'slate';
+import { Block } from 'slate';
+import Html from 'slate-html-serializer';
 import { getEventTransfer } from 'slate-react';
 
 export function convertToSupportedBlockTypes(block) {
@@ -21,20 +22,18 @@ export function convertToSupportedBlockTypes(block) {
   }
 }
 
-function PasteHandler() {
+function PasteHandler({ rules }) {
   return {
     schema: {},
-    onPaste(event, change) {
-      const { fragment, text } = getEventTransfer(event);
-      if (!fragment) return change.insertText(text);
-
-      const textNode = fragment.getLastText();
-      const closestBlock = fragment.getClosestBlock(textNode.key);
-      const newFragment = Document.create({
-        nodes: [convertToSupportedBlockTypes(closestBlock)],
-        isVoid: false,
-      });
-      return change.insertFragment(newFragment);
+    onPaste(event, change, next) {
+      const { html, text, type } = getEventTransfer(event);
+      if (type === 'html') {
+        const serializer = new Html({ rules });
+        const { document } = serializer.deserialize(html);
+        return change.insertFragment(document);
+      }
+      if (type === 'text') return change.insertText(text);
+      return next();
     },
   };
 }

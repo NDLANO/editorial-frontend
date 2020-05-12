@@ -197,13 +197,9 @@ export const paragraphRule = {
       ? el.parentElement.tagName.toLowerCase()
       : '';
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-    const data = {};
-    if (el.align) data.align = el.align;
-    if (!el.align && el.getAttribute('data-align'))
-      data.align = el.getAttribute('data-align');
     return {
       object: 'block',
-      data,
+      data: reduceElementDataAttributes(el, ['align', 'data-align']),
       type,
       nodes: next(el.childNodes),
     };
@@ -464,21 +460,25 @@ export const tableRules = {
     const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
 
-    const data = {
+    let data = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
-      if (el.rowSpan > 1) data.rowSpan = el.rowSpan;
-      if (el.colSpan > 1) data.colSpan = el.colSpan;
-      if (el.align) data.align = el.align;
-      if (!el.align && el.getAttribute('data-align'))
-        data.align = el.getAttribute('data-align');
-      if (el.vAlign) data.valign = el.vAlign;
-      if (!el.vAlign && el.getAttribute('data-vAlign'))
-        data.valign = el.getAttribute('data-vAlign');
-      if (el.class) data.class = el.class;
-      if (!el.class && el.getAttribute('data-class'))
-        data.class = el.getAttribute('data-class');
+      const filter = [
+        'rowspan',
+        'colspan',
+        'align',
+        'data-align',
+        'valign',
+        'data-valign',
+        'class',
+        'data-class',
+      ];
+      const attrs = reduceElementDataAttributes(el, filter);
+      data = {
+        isHeader: tagName === 'th',
+        ...attrs,
+      };
     }
     return {
       object: 'block',

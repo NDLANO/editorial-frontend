@@ -21,10 +21,11 @@ describe('Subject editing', () => {
         );
       },
     });
-    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+
+    cy.apiroute('GET', '/taxonomy/v1/subjects?includeMetadata=true&language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?includeMetadata=true&recursive=true',
       'allSubjectTopics',
     );
     cy.apiroute(
@@ -80,7 +81,7 @@ describe('Subject editing', () => {
       response: '',
       status: 204,
     }).as('deleteFilter');
-    cy.apiroute('GET', '/taxonomy/v1/topics/?language=nb', 'allTopics');
+    cy.apiroute('GET', '/taxonomy/v1/topics?includeMetadata=true&language=nb', 'allTopics');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topic-filters',

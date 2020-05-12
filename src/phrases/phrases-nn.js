@@ -1061,6 +1061,11 @@ const phrases = {
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
   },
+  metadata: {
+    visible: 'er synleg',
+    notVisible: 'er ikkje synleg',
+    changeVisibility: 'Endre synlegheit',
+  },
 };
 
 export default phrases;

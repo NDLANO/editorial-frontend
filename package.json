@@ -92,7 +92,7 @@
     "@ndla/audio-search": "^0.6.31",
     "@ndla/button": "^0.3.25",
     "@ndla/core": "^0.6.21",
-    "@ndla/editor": "^0.7.10",
+    "@ndla/editor": "^0.7.12",
     "@ndla/error-reporter": "^0.4.8",
     "@ndla/forms": "^0.3.85",
     "@ndla/howto": "^0.1.93",

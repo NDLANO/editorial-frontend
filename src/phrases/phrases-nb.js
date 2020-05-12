@@ -1073,6 +1073,11 @@ const phrases = {
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
   },
+  metadata: {
+    visible: 'er synlig',
+    notVisible: 'er ikke synlig',
+    changeVisibility: 'Endre synlighet',
+  },
 };
 
 export default phrases;

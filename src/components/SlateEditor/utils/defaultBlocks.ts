@@ -1,16 +1,22 @@
 import { Element } from 'slate';
+import { jsx } from 'slate-hyperscript';
 
-export const defaultBlock: Element = {
-  type: 'paragraph',
-  data: {},
-  children: [
-    {
-      object: 'text',
-      text: '',
-      marks: [],
-    },
-  ],
-};
+export const defaultBlock: Element = jsx(
+  'element', 
+  { type: 'paragraph' },
+  [jsx('text', { text: '' })]
+);
+// {
+//   type: 'paragraph',
+//   data: {},
+//   children: [
+//     {
+//       object: 'text',
+//       text: '',
+//       marks: [],
+//     },
+//   ],
+// };
 
 export const defaultBlockWithText = (text: string): Element => ({
   data: {},

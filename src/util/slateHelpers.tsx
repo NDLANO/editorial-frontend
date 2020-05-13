@@ -64,13 +64,16 @@ export const MARK_TAGS = {
 
 const ListText = (props: { children: any }) => props.children;
 
+// const emptyNodes = [
+//   {
+//     object: 'text',
+//     text: '',
+//     marks: [],
+//   },
+// ];
 const emptyNodes = [
-  {
-    object: 'text',
-    text: '',
-    marks: [],
-  },
-];
+  jsx('text', { text: '' }),
+]
 
 export const findNodesByType = (node: Node, type: string, nodes: Node[] = []): Node[] => {
   if ((type === 'text' && Text.isText(node)) || node?.type === type) {

@@ -7,6 +7,7 @@
  */
 
 import { Node, Editor, Element } from 'slate';
+import { jsx } from 'slate-hyperscript';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 import { serializeNodeToPlain, deserializePlain, serializeHtml, deserializeHtml} from './serializer';
@@ -24,26 +25,31 @@ export const sectionSplitter = (html: string): string[] => {
 
 // TODO  find a viable replacement for this.
 export const createEmptyValue = (): Element =>
-  ({
-    children: [
-      {
-        object: 'block',
-        type: 'section',
-        children: [
-          {
-            object: 'block',
-            type: 'paragraph',
-            children: [
-              {
-                object: 'text',
-                text: '',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    });
+  jsx(
+    'element', { type: 'section' }, 
+    [jsx(
+      'element', { type: 'paragraph' },
+      [jsx('text', { text: '' })])])
+  // ({
+  //   children: [
+  //     {
+  //       object: 'block',
+  //       type: 'section',
+  //       children: [
+  //         {
+  //           object: 'block',
+  //           type: 'paragraph',
+  //           children: [
+  //             {
+  //               object: 'text',
+  //               text: '',
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   });
 
 export const learningResourceContentToEditorValue = (
   html: string,

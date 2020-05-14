@@ -21,6 +21,7 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { StructureShape } from '../../../shapes';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -185,6 +186,7 @@ export class StructureResources extends React.PureComponent {
       currentTopic,
       resourceRef,
       currentSubject,
+      structure,
     } = this.props;
     const {
       topicDescription,
@@ -221,6 +223,7 @@ export class StructureResources extends React.PureComponent {
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={structure}
               disable={resourceType.disabled}
             />
           );
@@ -247,6 +250,7 @@ StructureResources.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   resourcesUpdated: PropTypes.bool,
   setResourcesUpdated: PropTypes.func,
 };

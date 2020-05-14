@@ -15,7 +15,7 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import { FilterShape } from '../../../shapes';
+import { FilterShape, StructureShape } from '../../../shapes';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({
@@ -54,6 +54,7 @@ class ResourceGroup extends PureComponent {
       locale,
       currentTopic,
       currentSubject,
+      structure,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
     return (
@@ -81,6 +82,7 @@ class ResourceGroup extends PureComponent {
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={structure}
             />
           )}
         </Accordion>
@@ -123,6 +125,7 @@ ResourceGroup.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
 };
 
 export default injectT(ResourceGroup);

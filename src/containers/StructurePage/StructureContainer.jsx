@@ -427,6 +427,7 @@ export class StructureContainer extends React.PureComponent {
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={subjects}
               refreshTopics={this.refreshTopics}
               resourcesUpdated={this.state.resourcesUpdated}
               setResourcesUpdated={this.setResourcesUpdated}

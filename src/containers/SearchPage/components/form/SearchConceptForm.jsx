@@ -116,9 +116,7 @@ class SearchConceptForm extends Component {
           {...searchFormClasses('field', `25-width`)}>
           <ObjectSelector
             name={'status'}
-            options={this.getConceptStatuses().sort(
-              this.sortByProperty('name'),
-            )}
+            options={this.getConceptStatuses()}
             idKey="id"
             value={this.state.search['status']}
             labelKey="name"

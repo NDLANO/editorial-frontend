@@ -196,6 +196,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feilet.',
     loginLink: 'Klikk for å prøve igjen.',
+    userNotRegistered:
+      'Vi kjente ikke igjen epostadressen din. Har du logget inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',
@@ -1071,6 +1073,11 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+  },
+  metadata: {
+    visible: 'er synlig',
+    notVisible: 'er ikke synlig',
+    changeVisibility: 'Endre synlighet',
   },
 };
 

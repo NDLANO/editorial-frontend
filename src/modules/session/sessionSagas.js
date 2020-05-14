@@ -20,6 +20,9 @@ import {
 export function* login(accessToken, history) {
   try {
     const decoded = decodeToken(accessToken);
+    if (!decoded.scope.includes(':')) {
+      yield put(actions.setUserNotRegistered(true));
+    }
     yield put(actions.setAuthenticated(true));
     yield put(
       actions.setUserData({

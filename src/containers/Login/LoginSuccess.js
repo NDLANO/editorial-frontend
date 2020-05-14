@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
 import { parseHash } from '../../util/authHelpers';
 import { LocationShape } from '../../shapes';
+import { toLogin } from '../../util/routeHelpers';
 
 export class LoginSuccess extends React.Component {
   async componentDidMount() {
@@ -22,14 +23,18 @@ export class LoginSuccess extends React.Component {
     } = this.props;
 
     const authResult = await parseHash(hash);
-    if (authResult && authResult.accessToken) {
-      if (authResult.state) {
-        window.location.href = authResult.state;
+    if (authResult.scope.includes(':')) {
+      if (authResult && authResult.accessToken) {
+        if (authResult.state) {
+          window.location.href = authResult.state;
+        }
+        loginSuccess({
+          accessToken: authResult.accessToken,
+          history,
+        });
       }
-      loginSuccess({
-        accessToken: authResult.accessToken,
-        history,
-      });
+    } else {
+      history.replace(`${toLogin()}/failure`);
     }
   }
 

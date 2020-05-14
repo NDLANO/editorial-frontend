@@ -198,6 +198,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',
     loginLink: 'Click to try again.',
+    userNotRegistered:
+      'We did not recognize your email address. Did you use the correct email address?',
   },
   loginProviders: {
     description: 'Log in with',
@@ -1040,6 +1042,11 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+  },
+  metadata: {
+    visible: 'is visible',
+    notVisible: 'is not visible',
+    changeVisibility: 'Change visibility',
   },
 };
 

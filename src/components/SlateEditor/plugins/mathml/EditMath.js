@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import EditMathModal from './EditMathModal';
 import { getLocale } from '../../../../modules/locale/locale';
 
-const mathOpenTag = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
-const mathCloseTag = '</math>';
 const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 let mathEditor;
 

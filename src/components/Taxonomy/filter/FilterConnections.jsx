@@ -24,15 +24,15 @@ const FilterConnections = ({
   updateFilter,
   resourceId,
 }) => {
-  const availableSubjects = {};
+  const availableSubjects = [];
   topics.forEach(topic => {
     if (topic.paths) {
       topic.paths.forEach(path => {
-        availableSubjects[`urn:${path.split('/')[1]}`] = true;
+        availableSubjects.push(`urn:${path.split('/')[1]}`);
       });
     } else {
       const parentSubject = topic.path.split('/')[1];
-      availableSubjects[`urn:${parentSubject}`] = true;
+      availableSubjects.push(`urn:${parentSubject}`);
     }
   });
   return (
@@ -47,7 +47,7 @@ const FilterConnections = ({
       </FieldHeader>
       <StyledFilterTable>
         <tbody>
-          {Object.keys(availableSubjects).map((filterSubjectKey, index) => (
+          {availableSubjects.map((filterSubjectKey, index) => (
             <SubjectFilters
               key={filterSubjectKey}
               isFirstSubject={index === 0}

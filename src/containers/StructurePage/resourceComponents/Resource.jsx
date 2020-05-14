@@ -46,8 +46,6 @@ const Resource = ({
   toggleFilterPicker,
   onFilterChange,
   activeFilters,
-  currentTopic,
-  currentSubject,
   structure,
   onFilterSubmit,
   onDelete,

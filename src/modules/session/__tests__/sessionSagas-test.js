@@ -7,7 +7,6 @@
  */
 
 import { expectSaga } from 'redux-saga-test-plan';
-import nock from 'nock';
 
 import * as sagas from '../sessionSagas';
 import { actions } from '../session';

@@ -11,7 +11,6 @@ import defined from 'defined';
 import auth0 from 'auth0-js';
 import config from '../config';
 import { expiresIn, ndlaId } from './jwtHelper';
-import { resolveJsonOrRejectWithError } from './resolveJsonOrRejectWithError';
 import * as messageActions from '../containers/Messages/messagesActions';
 
 const client =

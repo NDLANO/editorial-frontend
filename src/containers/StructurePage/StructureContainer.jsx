@@ -90,12 +90,16 @@ export class StructureContainer extends React.PureComponent {
       this.getFilters();
     }
     this.showLink();
-    const availableFilters = await fetchFilters(this.props.locale);
-    this.setState({
-      availableFilters: filterToSubjects(
-        availableFilters.filter(filter => filter.name),
-      ),
-    });
+    try {
+      const availableFilters = await fetchFilters(this.props.locale);
+      this.setState({
+        availableFilters: filterToSubjects(
+          availableFilters.filter(filter => filter.name),
+        ),
+      });
+    } catch (e) {
+      handleError(e);
+    }
   }
 
   componentDidUpdate({

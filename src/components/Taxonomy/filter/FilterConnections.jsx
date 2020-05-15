@@ -12,29 +12,38 @@ import { FieldHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
-import { TopicShape, FilterShape, StructureShape } from '../../../shapes';
+import {
+  TopicShape,
+  FilterShape,
+  AvailableFiltersShape,
+  StructureShape,
+} from '../../../shapes';
 import HowToHelper from '../../HowTo/HowToHelper';
 
 const FilterConnections = ({
   t,
   topics,
+  resourceSubjects,
   activeFilters,
   availableFilters,
   structure,
   updateFilter,
   resourceId,
 }) => {
-  const availableSubjects = [];
-  topics.forEach(topic => {
-    if (topic.paths) {
-      topic.paths.forEach(path => {
-        availableSubjects.push(`urn:${path.split('/')[1]}`);
-      });
-    } else {
-      const parentSubject = topic.path.split('/')[1];
-      availableSubjects.push(`urn:${parentSubject}`);
-    }
-  });
+  const availableSubjects = resourceSubjects || [];
+  if (topics) {
+    topics.forEach(topic => {
+      if (topic.paths) {
+        topic.paths.forEach(path => {
+          availableSubjects.push(`urn:${path.split('/')[1]}`);
+        });
+      } else {
+        const parentSubject = topic.path.split('/')[1];
+        availableSubjects.push(`urn:${parentSubject}`);
+      }
+    });
+  }
+
   return (
     <Fragment>
       <FieldHeader
@@ -65,22 +74,11 @@ const FilterConnections = ({
   );
 };
 
-FilterConnections.defaultProps = {
-  topics: [],
-};
-
 FilterConnections.propTypes = {
-  availableFilters: PropTypes.objectOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string,
-        subjectId: PropTypes.string,
-      }),
-    ),
-  ),
+  availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(FilterShape),
   topics: PropTypes.arrayOf(TopicShape),
+  resourceSubjects: PropTypes.arrayOf(PropTypes.string),
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,

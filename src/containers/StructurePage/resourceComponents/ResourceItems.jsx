@@ -25,7 +25,7 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
-import { StructureShape } from '../../../shapes';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -171,11 +171,25 @@ class ResourceItems extends React.PureComponent {
     });
   }
 
+  getResourceSubjects(resource) {
+    const availableSubjects = [];
+    if (resource.paths) {
+      resource.paths.forEach(path => {
+        availableSubjects.push(`urn:${path.split('/')[1]}`);
+      });
+    } else {
+      const parentSubject = resource.path.split('/')[1];
+      availableSubjects.push(`urn:${parentSubject}`);
+    }
+    return availableSubjects;
+  }
+
   render() {
     const {
       contentType,
       resources,
       t,
+      availableFilters,
       currentTopic,
       currentSubject,
       structure,
@@ -212,6 +226,8 @@ class ResourceItems extends React.PureComponent {
               toggleFilterPicker={this.toggleFilterPicker}
               onDelete={this.toggleDelete}
               currentTopic={currentTopic}
+              resourceSubjects={this.getResourceSubjects(resource)}
+              availableFilters={availableFilters}
               activeFilters={activeFilters[resource.id]}
               {...resource}
               locale={locale}
@@ -250,6 +266,7 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
+  availableFilters: AvailableFiltersShape,
   activeFilter: PropTypes.string,
   currentTopic: PropTypes.shape({
     filters: PropTypes.array,

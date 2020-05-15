@@ -279,6 +279,16 @@ export const FilterShape = PropTypes.shape({
   relevanceId: PropTypes.string,
 });
 
+export const AvailableFiltersShape = PropTypes.objectOf(
+  PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      subjectId: PropTypes.string,
+    }),
+  ),
+);
+
 export const StructureShape = PropTypes.shape({
   contentUri: PropTypes.string,
   id: PropTypes.string.isRequired,

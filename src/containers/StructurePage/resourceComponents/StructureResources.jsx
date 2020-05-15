@@ -21,7 +21,7 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { StructureShape } from '../../../shapes';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -171,15 +171,11 @@ export class StructureResources extends React.PureComponent {
       }
     });
     await Promise.all(resourcePromises);
-    const topicResources = groupSortResourceTypesFromTopicResources(
-      this.state.resourceTypes,
-      allTopicResources,
-    );
-    this.setState({ topicResources });
   }
 
   render() {
     const {
+      availableFilters,
       activeFilters,
       locale,
       refreshTopics,
@@ -219,6 +215,7 @@ export class StructureResources extends React.PureComponent {
               topicResource={topicResource}
               params={this.props.params}
               refreshResources={this.getTopicResources}
+              availableFilters={availableFilters}
               activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
               currentTopic={currentTopic}
@@ -244,6 +241,7 @@ StructureResources.propTypes = {
     contentUri: PropTypes.string,
   }).isRequired,
   refreshTopics: PropTypes.func,
+  availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   resourceRef: PropTypes.object,
   currentSubject: PropTypes.shape({

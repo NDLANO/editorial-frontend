@@ -37,8 +37,13 @@ import {
   updateSubjectTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  fetchFilters,
 } from '../../modules/taxonomy';
-import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
+import {
+  groupTopics,
+  getCurrentTopic,
+  filterToSubjects,
+} from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
@@ -50,6 +55,7 @@ export class StructureContainer extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
+      availableFilters: {},
       filters: {},
       jsPlumbConnections: [],
       activeConnections: [],
@@ -77,13 +83,19 @@ export class StructureContainer extends React.PureComponent {
   }
 
   async componentDidMount() {
-    await this.getAllSubjects();
+    this.getAllSubjects();
     const { subject } = this.props.match.params;
     if (subject) {
       this.getSubjectTopics(subject);
       this.getFilters();
     }
     this.showLink();
+    const availableFilters = await fetchFilters(this.props.locale);
+    this.setState({
+      availableFilters: filterToSubjects(
+        availableFilters.filter(filter => filter.name),
+      ),
+    });
   }
 
   componentDidUpdate({
@@ -424,6 +436,7 @@ export class StructureContainer extends React.PureComponent {
               locale={locale}
               params={params}
               resourceRef={this.resourceSection}
+              availableFilters={this.state.availableFilters}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               currentSubject={currentSubject}

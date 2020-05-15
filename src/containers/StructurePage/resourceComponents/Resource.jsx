@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -24,9 +24,7 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { getFullResource, fetchFilters } from '../../../modules/taxonomy';
-import { filterToSubjects } from '../../../util/taxonomyHelpers';
-import { StructureShape } from '../../../shapes';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -45,7 +43,9 @@ const Resource = ({
   showFilterPicker,
   toggleFilterPicker,
   onFilterChange,
+  availableFilters,
   activeFilters,
+  resourceSubjects,
   structure,
   onFilterSubmit,
   onDelete,
@@ -59,20 +59,6 @@ const Resource = ({
 }) => {
   // because topic-article icon is wrongly named "subject" in frontend-packages:
   const iconType = contentType === 'topic-article' ? 'subject' : contentType;
-
-  const [topics, setTopics] = useState([]);
-  const [availableFilters, setAvailableFilters] = useState({});
-
-  useEffect(() => {
-    if (id) {
-      getFullResource(id, locale).then(fullResource =>
-        setTopics(fullResource.topics),
-      );
-    }
-    fetchFilters(locale).then(filters =>
-      setAvailableFilters(filterToSubjects(filters.filter(f => f.name))),
-    );
-  }, []);
 
   return (
     <div
@@ -113,7 +99,7 @@ const Resource = ({
           title={t('taxonomy.resource.chooseFilter')}
           onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
-            topics={topics}
+            resourceSubjects={resourceSubjects}
             activeFilters={activeFilters}
             resourceId={id}
             structure={structure}
@@ -144,7 +130,9 @@ Resource.propTypes = {
   showFilterPicker: PropTypes.bool,
   toggleFilterPicker: PropTypes.func,
   onFilterChange: PropTypes.func,
+  availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(PropTypes.object),
+  resourceSubjects: PropTypes.arrayOf(PropTypes.string),
   currentTopic: PropTypes.shape({
     filters: PropTypes.array,
   }),

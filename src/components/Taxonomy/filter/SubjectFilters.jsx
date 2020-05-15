@@ -25,7 +25,7 @@ const SubjectFilters = ({
     structureItem => structureItem.id === filterSubjectKey,
   );
 
-  if (!subject) {
+  if (!subject || !availableFilters[filterSubjectKey]) {
     return null;
   }
 
@@ -38,8 +38,7 @@ const SubjectFilters = ({
           </StyledSubjectName>
         </td>
       </tr>
-      {availableFilters[filterSubjectKey] &&
-        availableFilters[filterSubjectKey].map(currentFilter => (
+      {availableFilters[filterSubjectKey].map(currentFilter => (
           <FilterItem
             key={currentFilter.id}
             currentFilter={currentFilter}

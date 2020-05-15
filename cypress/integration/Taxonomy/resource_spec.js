@@ -26,6 +26,11 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
+      '/taxonomy/v1/filters/?language=nb',
+      'allFilters'
+    );
+    cy.apiroute(
+      'GET',
       '/taxonomy/v1/resource-types/?language=nb',
       'resourceTypes',
     );
@@ -48,6 +53,7 @@ describe('Resource listing', () => {
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');
+    cy.apiwait('@allFilters');
     cy.apiwait('@coreResources');
     cy.apiwait('@article');
   });

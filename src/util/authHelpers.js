@@ -131,14 +131,6 @@ export const getNdlaId = () => ndlaId(getAccessToken());
 export const isAccessTokenValid = () =>
   new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
 
-export const fetchSystemAccessToken = () =>
-  fetch(`${locationOrigin}/get_token`).then(resolveJsonOrRejectWithError);
-
-export const renewSystemAuth = () =>
-  fetchSystemAccessToken().then(res => {
-    setAccessTokenInLocalStorage(res.access_token, false);
-  });
-
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {
     auth.checkSession(
@@ -169,12 +161,14 @@ export const renewAuth = async () => {
   if (localStorage.getItem('access_token_personal') === 'true') {
     return renewPersonalAuth();
   }
-  return renewSystemAuth();
 };
 
 let tokenRenewalTimeout;
 
 const scheduleRenewal = async () => {
+  if (localStorage.getItem('access_token_personal') !== 'true') {
+    return null;
+  }
   const expiresAt = getAccessTokenExpiresAt();
 
   const timeout = expiresAt - Date.now();

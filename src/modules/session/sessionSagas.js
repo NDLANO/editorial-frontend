@@ -14,7 +14,6 @@ import {
   personalAuthLogout,
   setAccessTokenInLocalStorage,
   clearAccessTokenFromLocalStorage,
-  renewSystemAuth,
 } from '../../util/authHelpers';
 
 export function* login(accessToken, history) {
@@ -44,7 +43,6 @@ export function* logout(federated, returnToLogin = false) {
     yield put(actions.clearUserData());
     yield call(personalAuthLogout, federated, returnToLogin);
     clearAccessTokenFromLocalStorage();
-    yield call(renewSystemAuth);
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
   }

@@ -43,14 +43,16 @@ describe('Workflow features', () => {
   it('Can add notes and save', () => {
     cy.get('[data-testid=addNote]').click();
     cy.get('[data-testid=notesInput]').type('Test merknad');
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click();
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
   });
 
   it('Open previews', () => {
     cy.route(
       'POST',
-      '/article-converter/json/nb/transform-article',
+      '/article-converter/json/nb/transform-article?draftConcept=true',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
     cy.get('[data-testid=previewVersion]')
@@ -64,7 +66,9 @@ describe('Workflow features', () => {
       .first()
       .click();
 
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click();
     cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
   });
 });

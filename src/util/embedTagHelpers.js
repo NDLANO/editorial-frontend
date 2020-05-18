@@ -18,9 +18,10 @@ export const removeEmptyElementDataAttributes = obj => {
   return newObject;
 };
 
-export const reduceElementDataAttributes = el => {
+export const reduceElementDataAttributes = (el, filter) => {
   if (!el.attributes) return null;
-  const attrs = [].slice.call(el.attributes);
+  let attrs = [].slice.call(el.attributes).filter(a => a.name !== 'style');
+  if (filter) attrs = attrs.filter(a => filter.includes(a.name));
   const obj = attrs.reduce(
     (all, attr) =>
       Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),

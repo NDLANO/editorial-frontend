@@ -6,18 +6,27 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
+import { connect } from 'react-redux';
 
-export const LoginFailure = ({ t }) => (
+export const LoginFailure = ({ t, userNotRegistered }) => (
   <div>
     <h2>{t('loginFailure.errorMessage')}</h2>
+    {userNotRegistered && <p>{t('loginFailure.userNotRegistered')}</p>}
     <p>
       <Link to="/login">{t('loginFailure.loginLink')}</Link>
     </p>
   </div>
 );
 
-LoginFailure.propTypes = {};
+LoginFailure.propTypes = {
+  userNotRegistered: PropTypes.bool,
+};
 
-export default injectT(LoginFailure);
+const mapStateToProps = state => ({
+  userNotRegistered: state.session.userNotRegistered,
+});
+
+export default connect(mapStateToProps)(injectT(LoginFailure));

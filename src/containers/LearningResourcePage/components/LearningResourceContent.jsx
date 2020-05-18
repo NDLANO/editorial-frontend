@@ -61,6 +61,7 @@ import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
 import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
+import { learningResourceRules } from '../../../util/slateHelpers';
 
 const byLineStyle = css`
   display: flex;
@@ -122,7 +123,7 @@ class LearningResourceContent extends Component {
           solutionbox: ['table'],
         },
       }),
-      pasteHandler(),
+      pasteHandler({ rules: learningResourceRules }),
       dndPlugin,
       toolbarPlugin(),
     ];

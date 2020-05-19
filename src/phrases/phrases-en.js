@@ -628,6 +628,12 @@ const phrases = {
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Archive',
       },
+      learningpath_statuses: {
+        private: 'Draft',
+        published: 'Public',
+        unlisted: 'Link shared',
+        submitted: 'Requested publication',
+      },
     },
     validDate: {
       label: 'Valid date',

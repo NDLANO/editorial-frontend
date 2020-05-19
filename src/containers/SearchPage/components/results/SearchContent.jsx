@@ -10,10 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
-import Tooltip from '@ndla/tooltip';
-import { Check } from '@ndla/icons/lib/editor';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import { injectT } from '@ndla/i18n';
 import { ContentResultShape } from '../../../../shapes';
 import {
@@ -25,14 +21,7 @@ import { RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
-
-const StyledCheckIcon = styled(Check)`
-  margin-left: 10px;
-  margin-top: 2px;
-  height: 25px;
-  width: 25px;
-  fill: ${colors.support.green};
-`;
+import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 
 const SearchContent = ({ content, locale, t }) => {
   const { contexts, metaImage } = content;
@@ -58,12 +47,6 @@ const SearchContent = ({ content, locale, t }) => {
         <ContentTypeBadge background type={resourceType.contentType} />
       )}{' '}
       {content.title.title}
-      {(content.status?.current === 'PUBLISHED' ||
-        content.status?.other.includes('PUBLISHED')) && (
-        <Tooltip tooltip={t('form.workflow.published')}>
-          <StyledCheckIcon title={t('form.status.published')} />
-        </Tooltip>
-      )}
     </h2>
   );
 
@@ -72,6 +55,16 @@ const SearchContent = ({ content, locale, t }) => {
     resourceType.contentType,
     locale,
   );
+
+  const statusType = resource => {
+    const status = content.status.current.toLowerCase();
+    const isLearningpath = resource.contentType === 'learning-path';
+    return t(
+      `form.status.${
+        isLearningpath ? 'learningpath_statuses.' + status : status
+      }`,
+    );
+  };
 
   return (
     <div {...searchClasses('result')}>
@@ -98,6 +91,15 @@ const SearchContent = ({ content, locale, t }) => {
             />
           ))}
         </div>
+        <HeaderStatusInformation
+          statusText={statusType(resourceType)}
+          published={
+            content.status?.current === 'PUBLISHED' ||
+            content.status?.other.includes('PUBLISHED')
+          }
+          noHelp
+          indentLeft
+        />
         <p {...searchClasses('description')}>
           {convertFieldWithFallback(content, 'metaDescription', '')}
         </p>

@@ -639,6 +639,12 @@ const phrases = {
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
       },
+      learningpath_statuses: {
+        private: 'Kladd',
+        published: 'Offentlig',
+        unlisted: 'Lenkedelt',
+        submitted: 'Bedt om offentliggjøring',
+      },
     },
     validDate: {
       label: 'Gyldighet',

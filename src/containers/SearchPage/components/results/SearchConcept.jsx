@@ -13,8 +13,10 @@ import { Link } from 'react-router-dom';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Concept } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+import { Check } from '@ndla/icons/lib/editor';
 import { searchClasses } from '../../SearchContainer';
-import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
+import { toEditConcept } from '../../../../util/routeHelpers';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import formatDate from '../../../../util/formatDate';
 
@@ -22,6 +24,14 @@ const StyledInfo = styled.div`
   color: ${colors.text.light};
   line-height: 1rem;
   font-size: 0.7rem;
+`;
+
+const StyledCheckIcon = styled(Check)`
+  margin-left: 10px;
+  margin-top: 2px;
+  height: 25px;
+  width: 25px;
+  fill: ${colors.support.green};
 `;
 
 const SearchConcept = ({ concept, locale, subjects, t }) => {
@@ -51,7 +61,15 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
           <Link
             {...searchClasses('link')}
             to={toEditConcept(concept.id, concept.title.language)}>
-            <h2 {...searchClasses('title')}>{title}</h2>
+            <h2 {...searchClasses('title')}>
+              {title}
+              {(concept.status.current === 'PUBLISHED' ||
+                concept.status.other.includes('PUBLISHED')) && (
+                <Tooltip tooltip={t('form.workflow.published')}>
+                  <StyledCheckIcon title={t('form.status.published')} />
+                </Tooltip>
+              )}
+            </h2>
             <StyledInfo>
               {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
                 concept.lastUpdated,
@@ -104,6 +122,10 @@ SearchConcept.propTypes = {
       url: PropTypes.string,
     }),
     lastUpdated: PropTypes.string,
+    status: PropTypes.shape({
+      current: PropTypes.string,
+      other: PropTypes.string,
+    }),
   }),
   locale: PropTypes.string,
   subjects: PropTypes.array,

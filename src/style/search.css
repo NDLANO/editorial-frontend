@@ -81,6 +81,7 @@
   }
 
   &__title {
+    display: flex;
     font-size: 1.2rem;
     margin: 1.3rem 0 0.3rem;
     font-weight: 600;

@@ -10,6 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
+import Tooltip from '@ndla/tooltip';
+import { Check } from '@ndla/icons/lib/editor';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { injectT } from '@ndla/i18n';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
@@ -21,7 +26,15 @@ import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 
-const SearchContent = ({ content, locale }) => {
+const StyledCheckIcon = styled(Check)`
+  margin-left: 10px;
+  margin-top: 2px;
+  height: 25px;
+  width: 25px;
+  fill: ${colors.support.green};
+`;
+
+const SearchContent = ({ content, locale, t }) => {
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   let resourceType = {};
@@ -41,10 +54,16 @@ const SearchContent = ({ content, locale }) => {
   }
   const contentTitle = (
     <h2 {...searchClasses('title')}>
-      {resourceType && resourceType.contentType && (
+      {resourceType?.contentType && (
         <ContentTypeBadge background type={resourceType.contentType} />
       )}{' '}
       {content.title.title}
+      {(content.status?.current === 'PUBLISHED' ||
+        content.status?.other.includes('PUBLISHED')) && (
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <StyledCheckIcon title={t('form.status.published')} />
+        </Tooltip>
+      )}
     </h2>
   );
 
@@ -103,4 +122,4 @@ SearchContent.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchContent;
+export default injectT(SearchContent);

@@ -1,0 +1,332 @@
+[
+    {
+        "id": "urn:filter:2309b75d-197e-4d94-a1b3-55eaab9945f2",
+        "name": "SF VG2",
+        "subjectId": "urn:subject:9"
+    },
+    {
+        "id": "urn:filter:1ceede07-0824-4dee-b5f6-c2f008b4924a",
+        "name": "kinesisk 2",
+        "subjectId": "urn:subject:2"
+    },
+    {
+        "id": "urn:filter:c5dac80d-6195-4836-800a-a9f550d34c9e",
+        "name": "ML 1",
+        "subjectId": "urn:subject:7"
+    },
+    {
+        "id": "urn:filter:d8f5765d-04a4-45c7-8763-ab573d4883de",
+        "name": "ML1",
+        "subjectId": "urn:subject:7"
+    },
+    {
+        "id": "urn:filter:fb7e8e6f-de72-4f49-a207-7a94278786a2",
+        "name": "PB VG3",
+        "subjectId": "urn:subject:9"
+    },
+    {
+        "id": "urn:filter:2111e1df-1baf-4197-a057-eaa17179713b",
+        "name": "Test",
+        "subjectId": "urn:subject:b5b2b1fa-a129-4781-b2b4-18ecbadf0f10"
+    },
+    {
+        "id": "urn:filter:fcc721ed-aa16-486d-801c-511bbe7f7dcc",
+        "name": "MIK 2",
+        "subjectId": "urn:subject:14"
+    },
+    {
+        "id": "urn:filter:1e2de4a1-db77-4b56-8fec-9027637d44f4",
+        "name": "1T",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:222b1643-cb6c-492b-be90-97e7016a580c",
+        "name": "1P",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:69300880-72f3-435f-a752-12fbdd42c398",
+        "name": "Simple",
+        "subjectId": "urn:subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff"
+    },
+    {
+        "id": "urn:filter:8abb2332-1f96-47d2-a061-8c8551f2bab9",
+        "name": "2P-Y",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:cb0d317d-78bb-4ac5-b293-d0d5e333bdec",
+        "name": "TestFilter",
+        "subjectId": "urn:subject:4769da63-fa10-4666-bf93-55173c57753f"
+    },
+    {
+        "id": "urn:filter:122309e6-ad4b-45a3-8d86-39d07aa6daa0",
+        "name": "SF VG3",
+        "subjectId": "urn:subject:1"
+    },
+    {
+        "id": "urn:filter:820c704e-6d31-3dd2-9d8c-a8c3ccde4550",
+        "name": "TIP yrkesprgram",
+        "subjectId": "urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a"
+    },
+    {
+        "id": "urn:filter:ca7608a8-2a81-413c-9c7f-7c3629b9b6d1",
+        "name": "SF VG1",
+        "subjectId": "urn:subject:1"
+    },
+    {
+        "id": "urn:filter:192e12df-b3d1-40c7-b32f-112b3ebcb7ec",
+        "name": "TMK filter 2",
+        "subjectId": "urn:subject:1cc21323-3aa2-4213-8e56-c7403148030f"
+    },
+    {
+        "id": "urn:filter:6926b744-1d8b-4cd0-a366-b15680cdccd4",
+        "name": "Lang",
+        "subjectId": "urn:subject:4769da63-fa10-4666-bf93-55173c57753f"
+    },
+    {
+        "id": "urn:filter:8eb64af6-65b1-328c-af59-41213b19f5a9",
+        "name": "Byggfag yrkesprogram",
+        "subjectId": "urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a"
+    },
+    {
+        "id": "urn:filter:86b992ee-d7d5-4591-a077-fed55848ded9",
+        "name": "YF VG1",
+        "subjectId": "urn:subject:15"
+    },
+    {
+        "id": "urn:filter:5d6013b3-7a17-4c94-b47e-0b0735ce652f",
+        "name": "Kinesisk 2",
+        "subjectId": "urn:subject:2"
+    },
+    {
+        "id": "urn:filter:1f7d38e3-5b84-45e4-9751-4c561ea9055d",
+        "name": "YFF",
+        "subjectId": "urn:subject:b69ef89b-22eb-4512-a399-3cec194c9f1b"
+    },
+    {
+        "id": "urn:filter:66ddbbd8-7c79-4e59-8f95-083027d712cb",
+        "name": "SF VG3",
+        "subjectId": "urn:subject:9"
+    },
+    {
+        "id": "urn:filter:e5ab97a3-a390-4508-8d92-53b0c26e47a4",
+        "name": "Sikkerhet og transport",
+        "subjectId": "urn:subject:12"
+    },
+    {
+        "id": "urn:filter:26ac4b1a-4069-4049-8acb-35c8531f9197",
+        "name": "YF VG2",
+        "subjectId": "urn:subject:15"
+    },
+    {
+        "id": "urn:filter:9494cb1a-bf5f-4273-ad39-59a1308fdfb7",
+        "name": "SF VG2",
+        "subjectId": "urn:subject:1"
+    },
+    {
+        "id": "urn:filter:b1c741a8-0339-360c-ad19-fd9812c66653",
+        "name": "d",
+        "subjectId": "urn:subject:4e36e10e-6d9c-4d02-a615-bfbe2999fb74"
+    },
+    {
+        "id": "urn:filter:578477c5-ce99-4353-b05e-ed306ffbd0bc",
+        "name": "Filter 2",
+        "subjectId": "urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2"
+    },
+    {
+        "id": "urn:filter:03200223-742a-499b-ad0f-4e73917cfea4",
+        "name": "1T-Y",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:745bc9be-b42d-4937-9df2-59bdb0a0c041",
+        "name": "YL",
+        "subjectId": "urn:subject:7"
+    },
+    {
+        "id": "urn:filter:0b0a7a49-f126-4917-8121-07aa61cd457f",
+        "name": "Filter 1",
+        "subjectId": "urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2"
+    },
+    {
+        "id": "urn:filter:c317b2a0-73c8-43d8-9bf1-964c60d902e1",
+        "name": "Medieuttrykk",
+        "subjectId": "urn:subject:1"
+    },
+    {
+        "id": "urn:filter:c85a26a6-c796-4d8b-ba53-fd953521906d",
+        "name": "Tysk 2",
+        "subjectId": "urn:subject:8"
+    },
+    {
+        "id": "urn:filter:f36fc323-304b-442e-a4b7-33e3161ce433",
+        "name": "SF VG2",
+        "subjectId": "urn:subject:27"
+    },
+    {
+        "id": "urn:filter:5555ce0e-f34f-436d-acff-5e58fd8ab53b",
+        "name": "Tysk 3",
+        "subjectId": "urn:subject:8"
+    },
+    {
+        "id": "urn:filter:3ca86b25-453c-4547-aca7-dcddff32d9a1",
+        "name": "ddd",
+        "subjectId": "urn:subject:27"
+    },
+    {
+        "id": "urn:filter:0dce0199-9f43-4b50-9c99-35053835aae8",
+        "name": "Fugl",
+        "subjectId": "urn:subject:3b9b6cac-2d2b-40bd-9472-e90114b0e5e2"
+    },
+    {
+        "id": "urn:filter:fb2266d4-7c50-4972-94f5-e0ec08c68e4b",
+        "name": "R1",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:c3b90373-e42b-4456-8aba-4833643882d4",
+        "name": "Mediesamfunnet",
+        "subjectId": "urn:subject:1"
+    },
+    {
+        "id": "urn:filter:72d5d880-469e-4733-87a3-b84313819ca2",
+        "name": "NDLA Film",
+        "subjectId": "urn:subject:7cf523b9-8d16-4173-80a4-1674ec8f6672"
+    },
+    {
+        "id": "urn:filter:17daf1d8-6fb8-43a4-90a7-edafa9a8ff79",
+        "name": "Slett",
+        "subjectId": "urn:subject:8770048e-937f-46e1-bf12-8728019ed3f2"
+    },
+    {
+        "id": "urn:filter:30d96ddc-f04f-4d76-a9ae-e69b0698bd5c",
+        "name": "PB VG3",
+        "subjectId": "urn:subject:15"
+    },
+    {
+        "id": "urn:filter:85efba2b-f50f-4bec-8f71-2aba1c6cb53f",
+        "name": "2P",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12"
+    },
+    {
+        "id": "urn:filter:55c53a49-9d53-49fa-844d-1f0a47e35e3d",
+        "name": "SF VG2",
+        "subjectId": "urn:subject:15"
+    },
+    {
+        "id": "urn:filter:02e5e299-b929-4bef-b05c-b2adb172e118",
+        "name": "Vg2 YF",
+        "subjectId": "urn:subject:b69ef89b-22eb-4512-a399-3cec194c9f1b"
+    },
+    {
+        "id": "urn:filter:32c02e05-c5cf-4a99-9d08-d0cd05a9b7de",
+        "name": "vg1 yf",
+        "subjectId": "urn:subject:f8fcacb6-383b-4c96-baf1-618fe9b32be8"
+    },
+    {
+        "id": "urn:filter:b4913bfd-d1a2-40cc-ac0a-eb3f64d491ab",
+        "name": "R2",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:f0fff57a-d375-4a85-bea2-63b4272decf1",
+        "name": "1P-Y",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:8f224489-e31e-49c4-9fd2-3b9a1dd53c8d",
+        "name": "Filter",
+        "subjectId": "urn:subject:24"
+    },
+    {
+        "id": "urn:filter:90db0775-b7bd-4630-b0b9-cb3fe6f1313a",
+        "name": "S2",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:e01feab2-2f07-4144-9424-e3b73537e595",
+        "name": "SF VG1",
+        "subjectId": "urn:subject:15"
+    },
+    {
+        "id": "urn:filter:77db55c9-b7ae-4702-8a57-eaa4f88c6332",
+        "name": "MIK 1",
+        "subjectId": "urn:subject:14"
+    },
+    {
+        "id": "urn:filter:6d928a1c-f774-409a-9c04-26b0a107f525",
+        "name": "Markedsføring og salg",
+        "subjectId": "urn:subject:12"
+    },
+    {
+        "id": "urn:filter:9d9adf4f-662d-39e1-9c03-691b40634863",
+        "name": "Tverrfaglige ressurser",
+        "subjectId": "urn:subject:308eb24b-886f-35a3-b4ff-4170f099056a"
+    },
+    {
+        "id": "urn:filter:ba8a160d-0925-4a56-9507-b9cf3885f955",
+        "name": "SF VG3",
+        "subjectId": "urn:subject:23"
+    },
+    {
+        "id": "urn:filter:45a062eb-25cd-33e5-89b7-0c5c18889ed7",
+        "name": "NDLA Film",
+        "subjectId": "urn:subject:20"
+    },
+    {
+        "id": "urn:filter:dc42aca9-35e4-4bf1-8fd2-64907934b5f2",
+        "name": "ML 2",
+        "subjectId": "urn:subject:7"
+    },
+    {
+        "id": "urn:filter:f95feb14-a86c-4700-9ad6-f2d8b6d82405",
+        "name": "S1",
+        "subjectId": "urn:subject:10"
+    },
+    {
+        "id": "urn:filter:4602e5bc-1adb-4c48-9dc5-8fa53ad1e413",
+        "name": "Tysk 1",
+        "subjectId": "urn:subject:8"
+    },
+    {
+        "id": "urn:filter:f1abdfcf-5e50-4d1a-85bf-eee07ed00c37",
+        "name": "Vg1 SF",
+        "subjectId": "urn:subject:b69ef89b-22eb-4512-a399-3cec194c9f1b"
+    },
+    {
+        "id": "urn:filter:d60b8f38-96d4-43c6-8beb-d6a0da950a98",
+        "name": "Testfilter",
+        "subjectId": "urn:subject:7cf523b9-8d16-4173-80a4-1674ec8f6672"
+    },
+    {
+        "id": "urn:filter:5fc964cd-e27b-46c3-9edb-781ccc7caffe",
+        "name": "TMK filter 1",
+        "subjectId": "urn:subject:1cc21323-3aa2-4213-8e56-c7403148030f"
+    },
+    {
+        "id": "urn:filter:6222b28c-e2a2-4d35-8f46-9c53fdf5a37e",
+        "name": "vg1 sf",
+        "subjectId": "urn:subject:f8fcacb6-383b-4c96-baf1-618fe9b32be8"
+    },
+    {
+        "id": "urn:filter:7a538c54-48b1-462e-ab31-23a088b17318",
+        "name": "TestFilter VG2",
+        "subjectId": "urn:subject:4769da63-fa10-4666-bf93-55173c57753f"
+    },
+    {
+        "id": "urn:filter:214262b2-8430-4ef1-93ad-e45568dc3166",
+        "name": "YF VG2",
+        "subjectId": "urn:subject:4"
+    },
+    {
+        "id": "urn:filter:abc7c8fc-ead9-48b5-9dd8-9ff3c55185cc",
+        "name": "Advanced",
+        "subjectId": "urn:subject:bfe6d0b2-fa5d-4962-84d7-796dedb099ff"
+    }
+]

@@ -57,7 +57,7 @@ const SearchContent = ({ content, locale, t }) => {
   );
 
   const statusType = resource => {
-    const status = content.status.current.toLowerCase();
+    const status = content.status?.current.toLowerCase();
     const isLearningpath = resource.contentType === 'learning-path';
     return t(
       `form.status.${

@@ -267,6 +267,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
           className="emotion-10 emotion-4"
           onClick={[Function]}
           tabIndex={-1}
+          type="button"
         >
           <svg
             className="c-icon"

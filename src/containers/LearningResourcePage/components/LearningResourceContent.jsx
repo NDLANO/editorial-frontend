@@ -44,7 +44,6 @@ import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPick
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
-import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
@@ -61,7 +60,6 @@ import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
 import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
-import { learningResourceRules } from '../../../util/slateHelpers';
 
 const byLineStyle = css`
   display: flex;
@@ -123,7 +121,6 @@ class LearningResourceContent extends Component {
           solutionbox: ['table'],
         },
       }),
-      pasteHandler({ rules: learningResourceRules }),
       dndPlugin,
       toolbarPlugin(),
     ];

@@ -73,7 +73,7 @@ class FileUploader extends React.Component {
       <div css={wrapperCSS}>
         <UploadDropZone
           name="file"
-          allowedFiles={['application/*']}
+          allowedFiles={['dwg', 'ipynb', 'pln', 'pro', 'skp', 'application/*']}
           onAddedFiles={this.onSave}
           multiple
           loading={saving}

@@ -75,22 +75,28 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
             );
           })}
         </div>
-        <HeaderStatusInformation
-          statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
-          published={
-            concept.status?.current === 'PUBLISHED' ||
-            concept.status?.other.includes('PUBLISHED')
-          }
-          noHelp
-          indentLeft
-        />
         <p {...searchClasses('description')}>{content}</p>
-        <div {...searchClasses('breadcrumbs')}>
+        <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-20px' }}>
           {breadcrumbs?.map(breadcrumb => (
-            <p key={breadcrumb.id} {...searchClasses('breadcrumb')}>
+            <p
+              key={breadcrumb.id}
+              {...searchClasses('breadcrumb')}
+              style={{ marginTop: 'auto', marginBottom: 'auto' }}>
               {breadcrumb.name}
             </p>
           )) || <p {...searchClasses('breadcrumb')} />}
+          <HeaderStatusInformation
+            statusText={t(
+              `form.status.${concept.status.current.toLowerCase()}`,
+            )}
+            published={
+              concept.status?.current === 'PUBLISHED' ||
+              concept.status?.other.includes('PUBLISHED')
+            }
+            noHelp
+            indentLeft
+            fontSize={10}
+          />
         </div>
       </div>
     </div>

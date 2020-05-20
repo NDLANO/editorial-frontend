@@ -56,9 +56,9 @@ const SearchContent = ({ content, locale, t }) => {
     locale,
   );
 
-  const statusType = resource => {
+  const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    const isLearningpath = resource.contentType === 'learning-path';
+    const isLearningpath = resourceType.contentType === 'learning-path';
     return t(
       `form.status.${
         isLearningpath ? 'learningpath_statuses.' + status : status
@@ -91,28 +91,32 @@ const SearchContent = ({ content, locale, t }) => {
             />
           ))}
         </div>
-        <HeaderStatusInformation
-          statusText={statusType(resourceType)}
-          published={
-            content.status?.current === 'PUBLISHED' ||
-            content.status?.other.includes('PUBLISHED')
-          }
-          noHelp
-          indentLeft
-        />
         <p {...searchClasses('description')}>
           {convertFieldWithFallback(content, 'metaDescription', '')}
         </p>
-        <div {...searchClasses('breadcrumbs')}>
+        <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map(breadcrumb => (
-              <p key={breadcrumb} {...searchClasses('breadcrumb')}>
+              <p
+                key={breadcrumb}
+                {...searchClasses('breadcrumb')}
+                style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 {breadcrumb}
               </p>
             ))
           ) : (
-            <p {...searchClasses('breadcrumb')} />
+            <p {...searchClasses('breadcrumb')} style={{ marginRight: 0 }} />
           )}
+          <HeaderStatusInformation
+            statusText={statusType()}
+            published={
+              content.status?.current === 'PUBLISHED' ||
+              content.status?.other.includes('PUBLISHED')
+            }
+            noHelp
+            indentLeft
+            fontSize={10}
+          />
         </div>
       </div>
     </div>

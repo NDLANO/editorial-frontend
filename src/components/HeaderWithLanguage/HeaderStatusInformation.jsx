@@ -26,21 +26,6 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
-const StyledSmallText = styled.small`
-  color: ${colors.text.light};
-  padding-right: ${spacing.xsmall};
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.light};
-  text-transform: uppercase;
-`;
-
-const StyledCheckIcon = styled(Check)`
-  margin-top: 2px;
-  height: 25px;
-  width: 25px;
-  fill: ${colors.support.green};
-`;
-
 const StyledWarnIcon = styled(AlertCircle)`
   margin-top: 2px;
   height: 25px;
@@ -56,16 +41,32 @@ const HeaderStatusInformation = ({
   hasMultipleTaxonomyEntries,
   noHelp,
   indentLeft,
+  fontSize,
   t,
 }) => {
   const StyledStatus = styled.p`
-    ${fonts.sizes(18, 1.1)};
+    ${fonts.sizes(fontSize ? fontSize : 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
     text-transform: uppercase;
     margin-top: 0;
     margin-bottom: 0;
     margin-right: ${spacing.small};
     margin-left: ${indentLeft ? 0 : spacing.small};
+  `;
+
+  const StyledSmallText = styled.small`
+    color: ${colors.text.light};
+    padding-right: ${spacing.xsmall};
+    ${fonts.sizes(fontSize ? fontSize : 14, 1.1)};
+    font-weight: ${fonts.weight.light};
+    text-transform: uppercase;
+  `;
+
+  const StyledCheckIcon = styled(Check)`
+    margin-top: 2px;
+    height: ${fontSize ? fontSize : '25px'};
+    width: ${fontSize ? fontSize : '25px'};
+    fill: ${colors.support.green};
   `;
 
   const multipleTaxonomyIcon = hasMultipleTaxonomyEntries && (
@@ -125,6 +126,7 @@ HeaderStatusInformation.propTypes = {
   hasMultipleTaxonomyEntries: PropTypes.bool,
   noHelp: PropTypes.bool,
   indentLeft: PropTypes.bool,
+  fontSize: PropTypes.number,
 };
 
 export default injectT(HeaderStatusInformation);

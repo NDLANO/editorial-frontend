@@ -74,11 +74,30 @@ class FileUploader extends React.Component {
         <UploadDropZone
           name="file"
           allowedFiles={[
+            '.csv',
+            '.doc',
+            '.docx',
             '.dwg',
+            '.ggb',
             '.ipynb',
+            '.json',
+            '.odp',
+            '.ods',
+            '.odt',
+            '.pdf',
             '.pln',
             '.pro',
+            '.ppt',
+            '.pptx',
+            '.pub',
+            '.rtf',
             '.skp',
+            '.tex',
+            '.tsv',
+            '.txt',
+            '.xls',
+            '.xlsx',
+            '.xml',
             'application/*',
           ]}
           onAddedFiles={this.onSave}

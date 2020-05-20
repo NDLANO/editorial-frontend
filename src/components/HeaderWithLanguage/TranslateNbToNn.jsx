@@ -5,7 +5,7 @@ import { injectT } from '@ndla/i18n';
 
 import StyledFilledButton from '../../components/StyledFilledButton';
 
-const TranslateNbToNn = ({ translateArticle, editUrl, t }) => {
+const TranslateNbToNn = ({ translateArticle, editUrl, disabled, t }) => {
   const history = useHistory();
 
   const handleClick = () => {
@@ -14,7 +14,7 @@ const TranslateNbToNn = ({ translateArticle, editUrl, t }) => {
   };
 
   return (
-    <StyledFilledButton type="button" onClick={handleClick}>
+    <StyledFilledButton type="button" onClick={handleClick} disabled={disabled}>
       {t('form.variant.translate')}
     </StyledFilledButton>
   );
@@ -23,6 +23,7 @@ const TranslateNbToNn = ({ translateArticle, editUrl, t }) => {
 TranslateNbToNn.propTypes = {
   translateArticle: PropTypes.func.isRequired,
   editUrl: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 export default injectT(TranslateNbToNn);

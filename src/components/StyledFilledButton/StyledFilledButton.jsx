@@ -48,6 +48,12 @@ const StyledFilledButton = styled.button`
       color: #fff;
     }
   }
+  &:disabled {
+    color: ${colors.brand.grey};
+    background-color: ${colors.background.dark};
+    cursor: not-allowed;
+    transform: translateY(0) translateX(0);
+  }
 `;
 
 export default StyledFilledButton;

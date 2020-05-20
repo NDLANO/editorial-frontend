@@ -29,6 +29,7 @@ const HeaderActions = ({
   translateArticle,
   setTranslating,
   isSubmitting,
+  formIsDirty,
 }) => {
   const { id, language, supportedLanguages, articleType } = values;
 
@@ -94,6 +95,7 @@ const HeaderActions = ({
                 translateArticle={translateArticle}
                 setTranslating={setTranslating}
                 editUrl={editUrl}
+                disabled={formIsDirty}
               />
             </Fragment>
           )}
@@ -130,6 +132,7 @@ HeaderActions.propTypes = {
   translateArticle: PropTypes.func,
   setTranslating: PropTypes.func,
   isSubmitting: PropTypes.bool,
+  formIsDirty: PropTypes.bool,
 };
 
 export default injectT(HeaderActions);

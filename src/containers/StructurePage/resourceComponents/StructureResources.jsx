@@ -56,6 +56,7 @@ export class StructureResources extends React.PureComponent {
       activeFilters,
       resourcesUpdated,
       setResourcesUpdated,
+      locale,
     } = this.props;
     if (
       id !== prevProps.currentTopic.id ||
@@ -65,7 +66,7 @@ export class StructureResources extends React.PureComponent {
       this.getTopicResources();
     }
     if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
-      this.getArticle(contentUri);
+      this.getArticle(contentUri, locale);
     }
     if (resourcesUpdated) {
       setResourcesUpdated(false);
@@ -81,9 +82,12 @@ export class StructureResources extends React.PureComponent {
     return null;
   }
 
-  async getArticle(contentUri) {
+  async getArticle(contentUri, locale) {
     try {
-      const article = await fetchDraft(contentUri.replace('urn:article:', ''));
+      const article = await fetchDraft(
+        contentUri.replace('urn:article:', ''),
+        locale,
+      );
       this.setState({ topicDescription: article.title && article.title.title });
     } catch (error) {
       handleError(error);
@@ -131,11 +135,13 @@ export class StructureResources extends React.PureComponent {
         });
 
         if (currentTopic.contentUri) {
-          fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
-            article =>
-              this.setState({
-                topicStatus: article.status,
-              }),
+          fetchDraft(
+            currentTopic.contentUri.replace('urn:article:', ''),
+            locale,
+          ).then(article =>
+            this.setState({
+              topicStatus: article.status,
+            }),
           );
         }
         this.getResourceStatuses(allTopicResources);
@@ -159,11 +165,11 @@ export class StructureResources extends React.PureComponent {
       if (resource.contentUri) {
         const [, resourceType, id] = resource.contentUri.split(':');
         if (resourceType === 'article') {
-          const article = await fetchDraft(id);
+          const article = await fetchDraft(id, this.props.locale);
           resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
-          const learningpath = await fetchLearningpath(id);
+          const learningpath = await fetchLearningpath(id, this.props.locale);
           resource.status = { current: learningpath.status };
           return learningpath;
         }

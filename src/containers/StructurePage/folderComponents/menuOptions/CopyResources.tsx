@@ -59,7 +59,10 @@ const CopyResources = ({
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
-    Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId)])
+    Promise.all([
+      fetchTopics(locale || 'nb'),
+      fetchSubjectTopics(subjectId, locale),
+    ])
       .then(([topics, subjectTopics]: Array<Topic[]>) => {
         setTopics(
           topics

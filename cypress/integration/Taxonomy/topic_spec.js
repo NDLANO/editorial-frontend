@@ -25,10 +25,14 @@ describe('Topic editing', () => {
         );
       },
     });
-    cy.apiroute('GET', '/taxonomy/v1/subjects?includeMetadata=true&language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/subjects/${selectSubject}/topics?includeMetadata=true&recursive=true`,
+      '/taxonomy/v1/subjects?includeMetadata=true&language=nb',
+      'allSubjects',
+    );
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/subjects/${selectSubject}/topics?includeMetadata=true&recursive=true&language=nb`,
       'allSubjectTopics',
     );
     cy.apiroute(
@@ -74,7 +78,11 @@ describe('Topic editing', () => {
       response: '',
       alias: 'addFilter',
     });
-    cy.apiroute('GET', '/taxonomy/v1/topics?includeMetadata=true&language=nb', 'allTopics');
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/topics?includeMetadata=true&language=nb',
+      'allTopics',
+    );
     cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/filters`,
@@ -98,7 +106,7 @@ describe('Topic editing', () => {
 
   it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjectTopics');
-    cy.wait(500);
+    cy.wait(1000);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')

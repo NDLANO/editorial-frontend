@@ -92,7 +92,7 @@ class TopicArticleTaxonomy extends Component {
     }
     try {
       this.updateSubject(subjectId, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectId);
+      const allTopics = await fetchSubjectTopics(subjectId, this.prop.locale);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectId, { loading: false, topics: groupedTopics });
     } catch (e) {
@@ -603,6 +603,7 @@ class TopicArticleTaxonomy extends Component {
 
 TopicArticleTaxonomy.propTypes = {
   language: PropTypes.string,
+  locale: PropTypes.string,
   closePanel: PropTypes.func.isRequired,
   article: PropTypes.shape({
     title: PropTypes.string,

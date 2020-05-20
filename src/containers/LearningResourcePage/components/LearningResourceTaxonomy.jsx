@@ -119,7 +119,7 @@ class LearningResourceTaxonomy extends Component {
     }
     try {
       this.updateSubject(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid);
+      const allTopics = await fetchSubjectTopics(subjectid, this.props.locale);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectid, { loading: false, topics: groupedTopics });
     } catch (err) {
@@ -464,6 +464,7 @@ class LearningResourceTaxonomy extends Component {
 
 LearningResourceTaxonomy.propTypes = {
   language: PropTypes.string,
+  locale: PropTypes.string,
   closePanel: PropTypes.func,
   revision: PropTypes.number,
   article: PropTypes.shape({

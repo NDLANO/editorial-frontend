@@ -15,6 +15,7 @@ import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomy
 import {
   fetchAllResourceTypes,
   fetchTopicResources,
+  fetchTopic,
 } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
@@ -123,13 +124,14 @@ export class StructureResources extends React.PureComponent {
           undefined,
           activeFilters.join(','),
         );
-        const allTopicResources = initialTopicResources.map(r => {
+        const allTopicResources = await Promise.all(initialTopicResources.map(async r => {
+          const pathNames = await this.getNamesFromPath(r);
           if (r.resourceTypes.length > 0) {
-            return r;
+            return { ...r, pathNames };
           } else {
-            return { ...r, resourceTypes: [{ id: 'missing' }] };
+            return { ...r, resourceTypes: [{ id: 'missing' }], pathNames };
           }
-        });
+        }));
 
         if (currentTopic.contentUri) {
           fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
@@ -171,6 +173,28 @@ export class StructureResources extends React.PureComponent {
       }
     });
     await Promise.all(resourcePromises);
+  }
+
+  async getNamesFromPath(resource) {
+    const pathNames = [];
+    if (resource.paths) {
+      resource.paths.forEach(async path => {
+        pathNames.push({
+          subject: this.props.structure.find(
+            structureItem => structureItem.id === `urn:${path.split('/')[1]}`,
+          ),
+          topic: await fetchTopic(`urn:${path.split('/')[2]}`)
+        })
+      });
+    } else {
+      pathNames.push({
+        subject: this.props.structure.find(
+          structureItem => structureItem.id === `urn:${resource.path.split('/')[1]}`,
+        ),
+        topic: await fetchTopic(`urn:${resource.path.split('/')[2]}`)
+      })
+    }
+    return pathNames;
   }
 
   render() {

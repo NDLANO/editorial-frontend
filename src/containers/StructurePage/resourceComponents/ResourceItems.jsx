@@ -171,18 +171,6 @@ class ResourceItems extends React.PureComponent {
     });
   }
 
-  getResourceSubjects(resource) {
-    const availableSubjects = [];
-    if (resource.paths) {
-      resource.paths.forEach(path => {
-        availableSubjects.push(`urn:${path.split('/')[1]}`);
-      });
-    } else {
-      const parentSubject = resource.path.split('/')[1];
-      availableSubjects.push(`urn:${parentSubject}`);
-    }
-    return availableSubjects;
-  }
 
   render() {
     const {
@@ -226,7 +214,6 @@ class ResourceItems extends React.PureComponent {
               toggleFilterPicker={this.toggleFilterPicker}
               onDelete={this.toggleDelete}
               currentTopic={currentTopic}
-              resourceSubjects={this.getResourceSubjects(resource)}
               availableFilters={availableFilters}
               activeFilters={activeFilters[resource.id]}
               {...resource}

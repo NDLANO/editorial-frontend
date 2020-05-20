@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { StyledSubjectName } from '../../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
-import { FilterShape, StructureShape } from '../../../shapes';
+import { FilterShape, StructureShape, SubjectShape, TopicShape } from '../../../shapes';
 
 const SubjectFilters = ({
   activeFilters,
@@ -20,6 +20,7 @@ const SubjectFilters = ({
   resourceId,
   isFirstSubject,
   filterSubjectKey,
+  pathName,
 }) => {
   const subject = structure.find(
     structureItem => structureItem.id === filterSubjectKey,
@@ -34,7 +35,7 @@ const SubjectFilters = ({
       <tr>
         <td>
           <StyledSubjectName firstSubject={isFirstSubject}>
-            {subject.name}:
+            {`${pathName.subject.name} > ${pathName.topic.name}`}:
           </StyledSubjectName>
         </td>
       </tr>
@@ -71,6 +72,10 @@ SubjectFilters.propTypes = {
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
   isFirstSubject: PropTypes.bool,
+  pathName: PropTypes.shape({
+    subject: SubjectShape,
+    topic: TopicShape,
+  })
 };
 
 export default SubjectFilters;

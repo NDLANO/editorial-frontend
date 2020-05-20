@@ -24,7 +24,7 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { StructureShape, AvailableFiltersShape } from '../../../shapes';
+import { StructureShape, AvailableFiltersShape, SubjectShape, TopicShape } from '../../../shapes';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -45,7 +45,7 @@ const Resource = ({
   onFilterChange,
   availableFilters,
   activeFilters,
-  resourceSubjects,
+  pathNames,
   structure,
   onFilterSubmit,
   onDelete,
@@ -59,7 +59,6 @@ const Resource = ({
 }) => {
   // because topic-article icon is wrongly named "subject" in frontend-packages:
   const iconType = contentType === 'topic-article' ? 'subject' : contentType;
-
   return (
     <div
       data-testid={`resource-type-${contentType}`}
@@ -79,10 +78,10 @@ const Resource = ({
       </div>
       {(status?.current === PUBLISHED ||
         status?.other?.includes(PUBLISHED)) && (
-        <Tooltip tooltip={t('form.workflow.published')}>
-          <StyledCheckIcon />
-        </Tooltip>
-      )}
+          <Tooltip tooltip={t('form.workflow.published')}>
+            <StyledCheckIcon />
+          </Tooltip>
+        )}
       {contentType !== 'topic-article' && (
         <Button
           stripped
@@ -99,7 +98,7 @@ const Resource = ({
           title={t('taxonomy.resource.chooseFilter')}
           onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
-            resourceSubjects={resourceSubjects}
+            pathNames={pathNames}
             activeFilters={activeFilters}
             resourceId={id}
             structure={structure}
@@ -132,7 +131,6 @@ Resource.propTypes = {
   onFilterChange: PropTypes.func,
   availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(PropTypes.object),
-  resourceSubjects: PropTypes.arrayOf(PropTypes.string),
   currentTopic: PropTypes.shape({
     filters: PropTypes.array,
   }),
@@ -152,6 +150,11 @@ Resource.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   locale: PropTypes.string.isRequired,
+  pathNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      subject: SubjectShape,
+      topic: TopicShape,
+    })),
 };
 
 export default injectT(Resource);

@@ -90,16 +90,7 @@ export class StructureContainer extends React.PureComponent {
       this.getFilters();
     }
     this.showLink();
-    try {
-      const availableFilters = await fetchFilters(this.props.locale);
-      this.setState({
-        availableFilters: filterToSubjects(
-          availableFilters.filter(filter => filter.name),
-        ),
-      });
-    } catch (e) {
-      handleError(e);
-    }
+    this.getAvailableFilters();
   }
 
   componentDidUpdate({
@@ -182,6 +173,19 @@ export class StructureContainer extends React.PureComponent {
           [subject]: filters,
         },
       }));
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  async getAvailableFilters() {
+    try {
+      const availableFilters = await fetchFilters(this.props.locale);
+      this.setState({
+        availableFilters: filterToSubjects(
+          availableFilters.filter(filter => filter.name),
+        ),
+      });
     } catch (e) {
       handleError(e);
     }

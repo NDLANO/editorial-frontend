@@ -171,7 +171,6 @@ class ResourceItems extends React.PureComponent {
     });
   }
 
-
   render() {
     const {
       contentType,

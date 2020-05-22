@@ -24,14 +24,14 @@ import HowToHelper from '../../HowTo/HowToHelper';
 const FilterConnections = ({
   t,
   topics,
-  pathNames,
+  pathObjects,
   activeFilters,
   availableFilters,
   structure,
   updateFilter,
   resourceId,
 }) => {
-  const availableSubjects = pathNames.map(name => name.subject.id) || [];
+  const availableSubjects = pathObjects?.map(name => name.subject.id) || [];
   if (topics) {
     topics.forEach(topic => {
       if (topic.paths) {
@@ -62,7 +62,7 @@ const FilterConnections = ({
               key={filterSubjectKey}
               isFirstSubject={index === 0}
               filterSubjectKey={filterSubjectKey}
-              pathName={pathNames[index]}
+              pathObject={pathObjects && pathObjects[index]}
               availableFilters={availableFilters}
               activeFilters={activeFilters}
               structure={structure}
@@ -84,11 +84,12 @@ FilterConnections.propTypes = {
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
-  pathNames: PropTypes.arrayOf(
+  pathObjects: PropTypes.arrayOf(
     PropTypes.shape({
       subject: SubjectShape,
       topic: TopicShape,
-    })),
+    }),
+  ),
 };
 
 export default injectT(FilterConnections);

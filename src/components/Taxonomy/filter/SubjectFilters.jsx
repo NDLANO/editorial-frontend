@@ -10,7 +10,13 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { StyledSubjectName } from '../../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
-import { FilterShape, StructureShape, SubjectShape, TopicShape } from '../../../shapes';
+import {
+  FilterShape,
+  StructureShape,
+  SubjectShape,
+  TopicShape,
+} from '../../../shapes';
+import Breadcrumb from '../Breadcrumb';
 
 const SubjectFilters = ({
   activeFilters,
@@ -20,7 +26,7 @@ const SubjectFilters = ({
   resourceId,
   isFirstSubject,
   filterSubjectKey,
-  pathName,
+  pathObject,
 }) => {
   const subject = structure.find(
     structureItem => structureItem.id === filterSubjectKey,
@@ -34,9 +40,24 @@ const SubjectFilters = ({
     <Fragment>
       <tr>
         <td>
-          <StyledSubjectName firstSubject={isFirstSubject}>
-            {`${pathName.subject.name} > ${pathName.topic.name}`}:
-          </StyledSubjectName>
+          {pathObject ? (
+            <Breadcrumb
+              breadcrumb={[
+                {
+                  id: pathObject.subject.id,
+                  name: pathObject.subject.name,
+                },
+                {
+                  id: pathObject.topic.id,
+                  name: pathObject.topic.name,
+                },
+              ]}
+            />
+          ) : (
+            <StyledSubjectName firstSubject={isFirstSubject}>
+              {subject.name}
+            </StyledSubjectName>
+          )}
         </td>
       </tr>
       {availableFilters[filterSubjectKey].map(currentFilter => (
@@ -72,10 +93,10 @@ SubjectFilters.propTypes = {
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
   isFirstSubject: PropTypes.bool,
-  pathName: PropTypes.shape({
+  pathObject: PropTypes.shape({
     subject: SubjectShape,
     topic: TopicShape,
-  })
+  }),
 };
 
 export default SubjectFilters;

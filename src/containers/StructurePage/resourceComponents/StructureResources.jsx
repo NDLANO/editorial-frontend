@@ -124,14 +124,16 @@ export class StructureResources extends React.PureComponent {
           undefined,
           activeFilters.join(','),
         );
-        const allTopicResources = await Promise.all(initialTopicResources.map(async r => {
-          const pathNames = await this.getNamesFromPath(r);
-          if (r.resourceTypes.length > 0) {
-            return { ...r, pathNames };
-          } else {
-            return { ...r, resourceTypes: [{ id: 'missing' }], pathNames };
-          }
-        }));
+        const allTopicResources = await Promise.all(
+          initialTopicResources.map(async r => {
+            const pathObjects = await this.getObjectsFromPath(r);
+            if (r.resourceTypes.length > 0) {
+              return { ...r, pathObjects };
+            } else {
+              return { ...r, resourceTypes: [{ id: 'missing' }], pathObjects };
+            }
+          }),
+        );
 
         if (currentTopic.contentUri) {
           fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
@@ -175,26 +177,27 @@ export class StructureResources extends React.PureComponent {
     await Promise.all(resourcePromises);
   }
 
-  async getNamesFromPath(resource) {
-    const pathNames = [];
+  async getObjectsFromPath(resource) {
+    const pathObjects = [];
     if (resource.paths) {
       resource.paths.forEach(async path => {
-        pathNames.push({
+        pathObjects.push({
           subject: this.props.structure.find(
             structureItem => structureItem.id === `urn:${path.split('/')[1]}`,
           ),
-          topic: await fetchTopic(`urn:${path.split('/')[2]}`)
-        })
+          topic: await fetchTopic(`urn:${path.split('/')[2]}`),
+        });
       });
     } else {
-      pathNames.push({
+      pathObjects.push({
         subject: this.props.structure.find(
-          structureItem => structureItem.id === `urn:${resource.path.split('/')[1]}`,
+          structureItem =>
+            structureItem.id === `urn:${resource.path.split('/')[1]}`,
         ),
-        topic: await fetchTopic(`urn:${resource.path.split('/')[2]}`)
-      })
+        topic: await fetchTopic(`urn:${resource.path.split('/')[2]}`),
+      });
     }
-    return pathNames;
+    return pathObjects;
   }
 
   render() {

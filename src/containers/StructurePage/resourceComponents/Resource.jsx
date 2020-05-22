@@ -24,7 +24,12 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { StructureShape, AvailableFiltersShape, SubjectShape, TopicShape } from '../../../shapes';
+import {
+  StructureShape,
+  AvailableFiltersShape,
+  SubjectShape,
+  TopicShape,
+} from '../../../shapes';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -45,7 +50,7 @@ const Resource = ({
   onFilterChange,
   availableFilters,
   activeFilters,
-  pathNames,
+  pathObjects,
   structure,
   onFilterSubmit,
   onDelete,
@@ -78,10 +83,10 @@ const Resource = ({
       </div>
       {(status?.current === PUBLISHED ||
         status?.other?.includes(PUBLISHED)) && (
-          <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon />
-          </Tooltip>
-        )}
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <StyledCheckIcon />
+        </Tooltip>
+      )}
       {contentType !== 'topic-article' && (
         <Button
           stripped
@@ -98,7 +103,7 @@ const Resource = ({
           title={t('taxonomy.resource.chooseFilter')}
           onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
-            pathNames={pathNames}
+            pathObjects={pathObjects}
             activeFilters={activeFilters}
             resourceId={id}
             structure={structure}
@@ -150,11 +155,12 @@ Resource.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   locale: PropTypes.string.isRequired,
-  pathNames: PropTypes.arrayOf(
+  pathObjects: PropTypes.arrayOf(
     PropTypes.shape({
       subject: SubjectShape,
       topic: TopicShape,
-    })),
+    }),
+  ),
 };
 
 export default injectT(Resource);

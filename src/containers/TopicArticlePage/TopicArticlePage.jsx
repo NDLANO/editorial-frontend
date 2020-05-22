@@ -21,16 +21,23 @@ import {
   getAllLicenses,
 } from '../../modules/license/license';
 import { toEditArticle } from '../../util/routeHelpers';
+import { LocationShape } from '../../shapes';
 
 class TopicArticlePage extends React.Component {
   constructor(props) {
     super();
-    this.state = {};
+    this.state = { previousLocation: '' };
   }
   componentDidMount() {
     const { fetchLicenses, licenses } = this.props;
     if (!licenses.length) {
       fetchLicenses();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ previousLocation: prevProps.location.pathname });
     }
   }
 
@@ -54,6 +61,10 @@ class TopicArticlePage extends React.Component {
               <EditTopicArticle
                 articleId={routeProps.match.params.articleId}
                 selectedLanguage={routeProps.match.params.selectedLanguage}
+                isNewlyCreated={
+                  this.state.previousLocation ===
+                  '/subject-matter/topic-article/new'
+                }
                 {...rest}
               />
             )}
@@ -102,6 +113,7 @@ TopicArticlePage.propTypes = {
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
   userAccess: PropTypes.string,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {

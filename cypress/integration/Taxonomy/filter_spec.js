@@ -12,10 +12,10 @@ describe('Test filter functionality', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy/v1/subjects?includeMetadata=true&language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?includeMetadata=true&recursive=true',
       'allSubjectTopics',
     );
     cy.apiroute(

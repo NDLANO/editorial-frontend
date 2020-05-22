@@ -23,9 +23,10 @@ class ChangeSubjectName extends Component {
   }
 
   async onChangeSubjectName(name) {
-    const { id, getAllSubjects } = this.props;
+    const { id, getAllSubjects, refreshTopics } = this.props;
     const ok = await updateSubjectName(id, name);
     getAllSubjects();
+    refreshTopics();
     return ok;
   }
 
@@ -65,6 +66,7 @@ ChangeSubjectName.propTypes = {
   name: PropTypes.string,
   id: PropTypes.string.isRequired,
   getAllSubjects: PropTypes.func.isRequired,
+  refreshTopics: PropTypes.func.isRequired,
 };
 
 export default injectT(ChangeSubjectName);

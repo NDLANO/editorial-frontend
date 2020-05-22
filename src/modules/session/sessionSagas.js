@@ -14,12 +14,14 @@ import {
   personalAuthLogout,
   setAccessTokenInLocalStorage,
   clearAccessTokenFromLocalStorage,
-  renewSystemAuth,
 } from '../../util/authHelpers';
 
 export function* login(accessToken, history) {
   try {
     const decoded = decodeToken(accessToken);
+    if (!decoded.scope.includes(':')) {
+      yield put(actions.setUserNotRegistered(true));
+    }
     yield put(actions.setAuthenticated(true));
     yield put(
       actions.setUserData({
@@ -41,7 +43,6 @@ export function* logout(federated, returnToLogin = false) {
     yield put(actions.clearUserData());
     yield call(personalAuthLogout, federated, returnToLogin);
     clearAccessTokenFromLocalStorage();
-    yield call(renewSystemAuth);
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
   }

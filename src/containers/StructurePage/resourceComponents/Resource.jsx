@@ -108,7 +108,7 @@ const Resource = ({
         </TaxonomyLightbox>
       )}
       {onDelete && (
-        <Button onClick={() => onDelete(connectionId)} stripped>
+        <Button onClick={() => onDelete(connectionId, id)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
       )}

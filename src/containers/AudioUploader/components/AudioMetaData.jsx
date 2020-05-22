@@ -9,14 +9,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { fetchSearchTags } from '../../../modules/draft/draftApi';
 import { FormikLicense, FormikContributors } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
-import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
+import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const AudioMetaData = props => {
-  const { t, tags, licenses } = props;
+  const { t, licenses, audioLanguage, audioTags } = props;
   return (
     <Fragment>
       <FormikField
@@ -24,8 +25,14 @@ const AudioMetaData = props => {
         label={t('form.tags.label')}
         obligatory
         description={t('form.tags.description')}>
-        {({ field }) => (
-          <MultiSelectDropdown showCreateOption data={tags} {...field} />
+        {({ field, form }) => (
+          <AsyncSearchTags
+            language={audioLanguage}
+            initialTags={audioTags}
+            field={field}
+            form={form}
+            fetchTags={fetchSearchTags}
+          />
         )}
       </FormikField>
       <FormikField name="license">
@@ -38,7 +45,6 @@ const AudioMetaData = props => {
 };
 
 AudioMetaData.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   classes: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -46,6 +52,8 @@ AudioMetaData.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
+  audioLanguage: PropTypes.string,
+  audioTags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default injectT(AudioMetaData);

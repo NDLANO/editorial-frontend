@@ -197,6 +197,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feila.',
     loginLink: 'Klikk for å prøve igjen.',
+    userNotRegistered:
+      'Vi kjente ikkje igjen epostadressa di. Har du logga inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',
@@ -612,7 +614,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
       statusLabel: 'Status',
-      published: 'Artikkelen har ein publisert versjon.',
+      published: 'Det finst ein publisert versjon av dettet elementet.',
       multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
     },
     status: {
@@ -726,9 +728,9 @@ const phrases = {
       searchPlaceholder: 'Søk etter nøkkelord',
     },
     categories: {
-      label: 'Kategoriar',
+      label: 'Liste og filter',
       description: 'Format: liste:filter1:filter2',
-      searchPlaceholder: 'Søk etter kategoriar',
+      searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
@@ -1059,6 +1061,11 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+  },
+  metadata: {
+    visible: 'er synleg',
+    notVisible: 'er ikkje synleg',
+    changeVisibility: 'Endre synlegheit',
   },
 };
 

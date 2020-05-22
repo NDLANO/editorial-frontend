@@ -11,6 +11,7 @@ import { decodeToken, isValid } from '../../util/jwtHelper';
 
 export const setAuthenticated = createAction('SET_AUTHENTICATED');
 export const setUserData = createAction('SET_USER_DATA');
+export const setUserNotRegistered = createAction('SET_USER_NOT_REGISTERED');
 export const clearUserData = createAction('CLEAR_USER_DATA');
 export const loginSuccess = createAction('LOGIN_SUCCESS');
 export const logout = createAction('LOGOUT');
@@ -18,6 +19,7 @@ export const logout = createAction('LOGOUT');
 export const actions = {
   setAuthenticated,
   setUserData,
+  setUserNotRegistered,
   clearUserData,
   loginSuccess,
   logout,
@@ -26,6 +28,7 @@ export const actions = {
 const initialState = {
   user: {},
   authenticated: false,
+  userNotRegistered: true,
 };
 
 export const getSessionStateFromLocalStorage = () => {
@@ -39,6 +42,7 @@ export const getSessionStateFromLocalStorage = () => {
         scope: decodedToken.scope,
       },
       authenticated: true,
+      userNotRegistered: false,
     };
   }
   return initialState; // Return inital state if token is undefined
@@ -56,6 +60,13 @@ export default handleActions(
     },
     [actions.setAuthenticated]: {
       next: (state, action) => ({ ...state, authenticated: action.payload }),
+      throw: state => state,
+    },
+    [actions.setUserNotRegistered]: {
+      next: (state, action) => ({
+        ...state,
+        userNotRegistered: action.payload,
+      }),
       throw: state => state,
     },
   },

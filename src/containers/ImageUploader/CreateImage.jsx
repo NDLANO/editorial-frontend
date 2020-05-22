@@ -10,10 +10,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
-import {
   actions as licenseActions,
   getAllLicenses,
 } from '../../modules/license/license';
@@ -24,9 +20,7 @@ import { ImageShape } from '../../shapes';
 
 class CreateImage extends Component {
   componentDidMount() {
-    const { fetchTags, fetchLicenses, locale } = this.props;
-    fetchTags({ language: locale });
-    fetchLicenses();
+    this.props.fetchLicenses();
   }
 
   render() {
@@ -54,9 +48,7 @@ class CreateImage extends Component {
 
 CreateImage.propTypes = {
   imageId: PropTypes.string,
-  fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -77,17 +69,14 @@ CreateImage.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTags: tagActions.fetchTags,
   fetchLicenses: licenseActions.fetchLicenses,
   updateImage: actions.updateImage,
 };
 
 const mapStateToProps = (state, props) => {
   const locale = getLocale(state);
-  const getAllTagsSelector = getAllTagsByLanguage(locale);
   return {
     locale,
-    tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
   };
 };

@@ -17,7 +17,6 @@ describe('Learning resource editing', () => {
     editorRoutes();
 
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
-    cy.apiwait('@tags');
     cy.apiwait('@licenses');
   });
 

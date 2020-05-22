@@ -9,8 +9,7 @@
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import config from '../../config';
 
-const baseUrl =
-  'https://cors-anywhere.herokuapp.com/https://monsapi2-jdkp6gp6pa-ew.a.run.app/translate';
+const baseUrl = 'https://nynorsk.cloud/translate';
 
 export const fetchNnTranslation = ({ id, ...articleContents }) =>
   fetch(baseUrl, {

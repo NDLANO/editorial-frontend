@@ -112,7 +112,7 @@ const Html = props => {
           type="text/javascript"
           defer
           async
-          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"
         />
       </body>
     </html>

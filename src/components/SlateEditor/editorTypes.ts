@@ -66,6 +66,34 @@ export interface PossibleStatuses {
   QUEUED_FOR_PUBLISHING: Array<string>;
 }
 
+export interface Concept {
+  id: number;
+  title: string;
+  tags: Array<string>;
+  content: string;
+  metaImage: {
+    id: number;
+    alt: string;
+  };
+  metaDescription: string;
+  articleType: string;
+  copyright: {
+    agreementId: number;
+    license: string;
+    creators: Array<string>;
+    processors: Array<string>;
+    rightsholders: Array<string>;
+  };
+  notes: Array<string>;
+  language: string;
+  published: string;
+  supportedLanguages: Array<string>;
+  articleId: number;
+  created: string;
+  source: string;
+  subjectIds: Array<string>;
+}
+
 export type PreviewTypes =
   | 'previewProductionArticle'
   | 'previewLanguageArticle'

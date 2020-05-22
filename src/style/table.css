@@ -13,7 +13,6 @@
 .c-table__header {
   background-color: white;
   border-bottom: 3px solid #deebf6;
-  text-transform: uppercase;
   font-weight: 700;
 }
 

@@ -32,6 +32,7 @@ import {
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../util/slateHelpers';
+
 // import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 // import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 // import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
@@ -43,7 +44,6 @@ import { findNodesByType } from '../../../util/slateHelpers';
 // import relatedPlugin from '../../../components/SlateEditor/plugins/related';
 // import filePlugin from '../../../components/SlateEditor/plugins/file';
 // import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
-// import pasteHandler from '../../../components/SlateEditor/plugins/pasteHandler';
 // import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 // import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 // import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
@@ -97,34 +97,33 @@ class LearningResourceContent extends Component {
       preview: false,
     };
     this.plugins = [
-      // footnotePlugin(),
-      // createEmbedPlugin(language),
-      // createBodyBoxPlugin(),
-      // createAsidePlugin(),
-      // createDetailsPlugin(),
-      // createLinkPlugin(language),
-      // conceptPlugin(language),
-      // headingPlugin(),
-      // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-      // // Blockquote and editList actions need to be triggered before paragraph action, else
-      // // unwrapping (jumping out of block) will not work.
-      // blockquotePlugin,
-      // editListPlugin,
-      // paragraphPlugin(),
-      // createTablePlugin(),
-      // editTablePlugin,
-      // relatedPlugin(),
-      // filePlugin(),
-      // mathmlPlugin(),
-      // blockPickerPlugin({
-      //   articleLanguage: language,
-      //   actionsToShowInAreas: {
-      //     solutionbox: ['table'],
-      //   },
-      // }),
-      // pasteHandler(),
-      // dndPlugin,
-      // toolbarPlugin(),
+    //  footnotePlugin(),
+    //  createEmbedPlugin(language),
+    //  createBodyBoxPlugin(),
+    //  createAsidePlugin(),
+    //  createDetailsPlugin(),
+    //  createLinkPlugin(language),
+    //  conceptPlugin(language),
+    //  headingPlugin(),
+    //  // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+    //  // Blockquote and editList actions need to be triggered before paragraph action, else
+    //  // unwrapping (jumping out of block) will not work.
+    //  blockquotePlugin,
+    //  editListPlugin,
+    //  paragraphPlugin(),
+    //  createTablePlugin(),
+    //  editTablePlugin,
+    //  relatedPlugin(),
+    //  filePlugin(),
+    //  mathmlPlugin(),
+    //  blockPickerPlugin({
+    //    articleLanguage: language,
+    //    actionsToShowInAreas: {
+    //      solutionbox: ['table'],
+    //    },
+    //  }),
+    //  dndPlugin,
+    //  toolbarPlugin(),
     ];
   }
 

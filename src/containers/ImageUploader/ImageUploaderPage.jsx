@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -17,29 +17,46 @@ import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
 import CreateImage from './CreateImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { LocationShape } from '../../shapes';
 
-const ImageUploaderPage = ({ match, t, ...rest }) => (
-  <OneColumn>
-    <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
-    <Switch>
-      <Route
-        path={`${match.url}/new`}
-        render={() => <CreateImage {...rest} />}
-      />
-      <Route
-        path={`${match.url}/:imageId/edit/:imageLanguage`}
-        render={props => (
-          <EditImage
-            imageId={props.match.params.imageId}
-            imageLanguage={props.match.params.imageLanguage}
-            {...rest}
-          />
-        )}
-      />
-      <Route component={NotFoundPage} />
-    </Switch>
-  </OneColumn>
-);
+const usePreviousLocation = value => {
+  const ref = useRef();
+  const actualRef = useRef();
+  useEffect(() => {
+    if (ref.current !== actualRef.current) {
+      actualRef.current = ref.current;
+    }
+    ref.current = value;
+  }, [value]);
+  return actualRef.current;
+};
+
+const ImageUploaderPage = ({ match, t, location, ...rest }) => {
+  const prevLoc = usePreviousLocation(location.pathname);
+  return (
+    <OneColumn>
+      <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
+      <Switch>
+        <Route
+          path={`${match.url}/new`}
+          render={() => <CreateImage {...rest} />}
+        />
+        <Route
+          path={`${match.url}/:imageId/edit/:imageLanguage`}
+          render={props => (
+            <EditImage
+              imageId={props.match.params.imageId}
+              imageLanguage={props.match.params.imageLanguage}
+              isNewlyCreated={prevLoc === '/media/image-upload/new'}
+              {...rest}
+            />
+          )}
+        />
+        <Route component={NotFoundPage} />
+      </Switch>
+    </OneColumn>
+  );
+};
 
 ImageUploaderPage.propTypes = {
   match: PropTypes.shape({
@@ -53,6 +70,7 @@ ImageUploaderPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   isSaving: PropTypes.bool.isRequired,
+  location: LocationShape,
 };
 
 const mapStateToProps = state => ({

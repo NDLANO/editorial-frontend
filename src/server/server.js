@@ -92,14 +92,6 @@ app.post('/format-html', (req, res) => {
   res.status(OK).json({ html });
 });
 
-app.get('/get_token', (req, res) => {
-  getToken()
-    .then(token => {
-      res.send(token);
-    })
-    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
-});
-
 app.get('/get_brightcove_token', (req, res) => {
   getBrightcoveToken()
     .then(token => {

@@ -4,6 +4,7 @@ exports[`reducers/session getSessionStateFromLocalStorage when access_token does
 Object {
   "authenticated": false,
   "user": Object {},
+  "userNotRegistered": true,
 }
 `;
 
@@ -14,6 +15,7 @@ Object {
     "name": "Rune Storløpa",
     "scope": "",
   },
+  "userNotRegistered": false,
 }
 `;
 
@@ -21,6 +23,7 @@ exports[`reducers/session initialState when access_token exists in localstorage 
 Object {
   "authenticated": false,
   "user": Object {},
+  "userNotRegistered": true,
 }
 `;
 
@@ -28,6 +31,7 @@ exports[`reducers/session sets if authenticated 1`] = `
 Object {
   "authenticated": true,
   "user": Object {},
+  "userNotRegistered": true,
 }
 `;
 
@@ -35,6 +39,7 @@ exports[`reducers/session sets if authenticated 2`] = `
 Object {
   "authenticated": false,
   "user": Object {},
+  "userNotRegistered": true,
 }
 `;
 
@@ -44,5 +49,6 @@ Object {
   "user": Object {
     "name": "Ola Nordmann",
   },
+  "userNotRegistered": true,
 }
 `;

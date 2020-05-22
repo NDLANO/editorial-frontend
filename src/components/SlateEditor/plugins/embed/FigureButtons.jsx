@@ -100,7 +100,7 @@ const FigureButtons = ({
             type: providerName || t('form.external.title'),
           })}
           align="right">
-          <IconButton tabIndex={-1} onClick={onEdit}>
+          <IconButton type="button" tabIndex={-1} onClick={onEdit}>
             <LinkIcon />
           </IconButton>
         </Tooltip>

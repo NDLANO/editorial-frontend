@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import EditMathModal from './EditMathModal';
 import { getLocale } from '../../../../modules/locale/locale';
 
-const mathOpenTag = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
-const mathCloseTag = '</math>';
 const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 let mathEditor;
 
@@ -23,12 +21,8 @@ class EditMath extends Component {
     const { innerHTML } = props.model;
     this.state = {
       openDiscardModal: false,
-      renderMathML: innerHTML
-        ? `${mathOpenTag}${innerHTML}${mathCloseTag}`
-        : emptyMathTag,
-      initialMathML: innerHTML
-        ? `${mathOpenTag}${innerHTML}${mathCloseTag}`
-        : emptyMathTag,
+      renderMathML: innerHTML ? innerHTML : emptyMathTag,
+      initialMathML: innerHTML ? innerHTML : emptyMathTag,
     };
     this.previewMath = this.previewMath.bind(this);
     this.handleExit = this.handleExit.bind(this);
@@ -80,15 +74,7 @@ class EditMath extends Component {
 
   handleSave() {
     const { handleSave } = this.props;
-
-    let saveMathML = mathEditor.getMathML();
-
-    /* Outer closing <math> tag needs to be stripped away as it is not
-       to be saved as embed */
-    saveMathML = saveMathML.replace(mathOpenTag, '');
-    saveMathML = saveMathML.replace(mathCloseTag, '');
-
-    handleSave(saveMathML);
+    handleSave(mathEditor.getMathML());
   }
 
   previewMath() {

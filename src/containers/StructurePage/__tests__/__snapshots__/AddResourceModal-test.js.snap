@@ -912,6 +912,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   width: 100%;
   -webkit-transition: background 200ms ease;
   transition: background 200ms ease;
+  background: transparent;
 }
 
 .emotion-23:focus,

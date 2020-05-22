@@ -41,10 +41,11 @@ class ResourceItems extends React.PureComponent {
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-  async onDelete(id) {
+  async onDelete(deleteId, resourceId) {
     try {
       this.setState({ deleteId: '', error: '' });
-      await deleteTopicResource(id);
+      await deleteTopicResource(deleteId);
+      await this.deleteFilters(resourceId);
       this.props.refreshResources();
     } catch (e) {
       handleError(e);
@@ -52,6 +53,18 @@ class ResourceItems extends React.PureComponent {
         error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
       });
     }
+  }
+
+  async deleteFilters(id) {
+    const resourceFilters = await fetchResourceFilter(id);
+    const topicFilterIds = this.props.currentTopic.filters.map(
+      filter => filter.id,
+    );
+    resourceFilters.forEach(resourceFilter => {
+      if (topicFilterIds.includes(resourceFilter.id)) {
+        deleteResourceFilter(resourceFilter.connectionId);
+      }
+    });
   }
 
   async onDragEnd({ destination, source }) {
@@ -115,8 +128,8 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  toggleDelete(id) {
-    this.setState({ deleteId: id });
+  toggleDelete(deleteId, resourceId) {
+    this.setState({ deleteId, resourceId });
   }
 
   async toggleFilterPicker(id) {
@@ -169,6 +182,7 @@ class ResourceItems extends React.PureComponent {
 
     const {
       deleteId,
+      resourceId,
       error,
       filterPickerId,
       activeFilters,
@@ -218,7 +232,7 @@ class ResourceItems extends React.PureComponent {
             },
             {
               text: t('alertModal.delete'),
-              onClick: () => this.onDelete(deleteId),
+              onClick: () => this.onDelete(deleteId, resourceId),
             },
           ]}
           onCancel={() => this.toggleDelete('')}
@@ -235,7 +249,7 @@ ResourceItems.propTypes = {
   refreshResources: PropTypes.func.isRequired,
   activeFilter: PropTypes.string,
   currentTopic: PropTypes.shape({
-    filter: PropTypes.array,
+    filters: PropTypes.array,
   }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,

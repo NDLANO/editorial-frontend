@@ -15,7 +15,7 @@ import { toEditArticle } from '../../util/routeHelpers';
 
 const CreateTopicArticle = props => {
   const { locale, t, history, ...rest } = props;
-  const { tags, createArticle } = useFetchArticleData(undefined, locale);
+  const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async createdArticle => {
     const savedArticle = await createArticle(createdArticle);
@@ -36,7 +36,6 @@ const CreateTopicArticle = props => {
         staticArticle={{ notes: [] }}
         locale={locale}
         updateArticle={createArticleAndPushRoute}
-        tags={tags}
         {...rest}
       />
     </Fragment>

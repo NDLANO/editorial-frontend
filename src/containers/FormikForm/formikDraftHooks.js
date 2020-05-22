@@ -14,7 +14,6 @@ import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 export function useFetchArticleData(articleId, locale) {
   const [article, setArticle] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const [tags, setTags] = useState([]);
 
   const fetchTaxonomy = async (id, language) => {
     const [resources, topics] = await Promise.all([
@@ -74,21 +73,11 @@ export function useFetchArticleData(articleId, locale) {
     return savedArticle;
   };
 
-  const fetchTags = async () => {
-    const newTags = await draftApi.fetchTags(locale);
-    setTags(newTags ? newTags.tags : []);
-  };
-
   useEffect(() => {
     fetchArticle();
   }, [articleId, locale]);
 
-  useEffect(() => {
-    fetchTags();
-  }, []);
-
   return {
-    tags,
     article,
     setArticle,
     updateArticle,

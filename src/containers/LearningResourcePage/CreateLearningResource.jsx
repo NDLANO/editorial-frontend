@@ -15,7 +15,7 @@ import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../util/routeHelpers';
 
 const CreateLearningResource = ({ locale, t, history, ...rest }) => {
-  const { tags, createArticle } = useFetchArticleData(undefined, locale);
+  const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async createdArticle => {
     const savedArticle = await createArticle(createdArticle);
@@ -33,7 +33,6 @@ const CreateLearningResource = ({ locale, t, history, ...rest }) => {
       <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
       <LearningResourceForm
         article={{ language: locale }}
-        tags={tags}
         updateArticle={createArticleAndPushRoute}
         {...rest}
       />

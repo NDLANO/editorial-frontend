@@ -70,6 +70,7 @@ const TopicArticleAccordionPanels = ({
   values,
   userAccess,
   touched,
+  fetchSearchTags,
   ...rest
 }) => (
   <Accordion openIndexes={['topic-article-content']}>
@@ -103,6 +104,7 @@ const TopicArticleAccordionPanels = ({
                       values,
                       userAccess,
                       closePanel: () => handleItemClick(panel.id),
+                      fetchSearchTags,
                       ...rest,
                     })}
                   </div>
@@ -124,6 +126,7 @@ TopicArticleAccordionPanels.propTypes = {
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
   userAccess: PropTypes.string,
+  fetchSearchTags: PropTypes.func.isRequired,
 };
 
 export default injectT(TopicArticleAccordionPanels);

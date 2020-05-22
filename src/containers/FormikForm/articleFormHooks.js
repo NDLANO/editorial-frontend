@@ -8,7 +8,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { deleteFile } from '../../modules/draft/draftApi';
+import {
+  deleteFile,
+  fetchStatusStateMachine,
+  validateDraft,
+  fetchSearchTags,
+} from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
@@ -148,5 +153,8 @@ export function useArticleFormHooks({
     formikRef,
     initialValues,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
+    fetchSearchTags,
   };
 }

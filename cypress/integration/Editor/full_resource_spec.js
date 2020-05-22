@@ -43,7 +43,7 @@ describe('Edit article with everything', () => {
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', '@draftFull']);
+    cy.apiwait(['@licenses', '@draftFull']);
   });
 
   it('Can change language and fetch the new article', () => {

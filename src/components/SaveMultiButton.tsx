@@ -35,6 +35,7 @@ interface Props {
   onClick: (saveAsNew: boolean) => void;
   t: TranslateType;
   clippedButton?: boolean;
+  hideSecondaryButton?: boolean;
 }
 
 const SaveMultiButton: React.FC<Props> = ({
@@ -45,6 +46,7 @@ const SaveMultiButton: React.FC<Props> = ({
   large,
   disabled,
   onClick,
+  hideSecondaryButton,
   ...rest
 }) => {
   const getModifier = () => {
@@ -67,16 +69,20 @@ const SaveMultiButton: React.FC<Props> = ({
             onClick(saveAsNewVersion);
           }}
           mainButton={{ value: 'save' }}
-          secondaryButtons={[
-            {
-              label: t('form.saveAsNewVersion'),
-              value: 'saveAsNew',
-            },
-            {
-              label: t('form.save'),
-              value: 'save',
-            },
-          ]}
+          secondaryButtons={
+            hideSecondaryButton
+              ? []
+              : [
+                  {
+                    label: t('form.saveAsNewVersion'),
+                    value: 'saveAsNew',
+                  },
+                  {
+                    label: t('form.save'),
+                    value: 'save',
+                  },
+                ]
+          }
           large
           {...rest}>
           <StyledSpan>

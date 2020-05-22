@@ -257,6 +257,7 @@ LearningResourceForm.propTypes = {
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
+  translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
 };
 

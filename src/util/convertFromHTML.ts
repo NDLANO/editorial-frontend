@@ -11,8 +11,11 @@
 /* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
 
 import { Element, Node } from 'slate';
+import { jsx } from 'slate-hyperscript';
 
 export function convertFromHTML(json: any) {  // TODO Rename from json? Doesnt look like json to me.
+  console.log('CONVERT FROM HTML');
+  console.log(json);
   const wrapMixedChildren = (node: Node): Element | void => {
     console.log(node);
     if (!node?.children || node.children.length === 0) return;
@@ -65,5 +68,9 @@ export function convertFromHTML(json: any) {  // TODO Rename from json? Doesnt l
   };
   console.log(json);
   wrapMixedChildren(json);
-  return json;
+  const editor = jsx('editor', { }, json);
+  console.log('CHECK EDITOR');
+  console.log(editor);
+  console.log('YEET')
+  return editor;
 }

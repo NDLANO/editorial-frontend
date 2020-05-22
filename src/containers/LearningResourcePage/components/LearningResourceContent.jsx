@@ -157,6 +157,8 @@ class LearningResourceContent extends Component {
         values: { id, language, creators, published },
       },
     } = this.props;
+    console.log('props.article');
+    console.log(this.props.article);
 
     return (
       <Fragment>

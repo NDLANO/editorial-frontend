@@ -43,6 +43,9 @@ const FormikField = ({
   const [focus, setFocus] = useState(false);
 
   const isSlateValue = Node.isNode(values[name]);
+  console.log(name)
+  console.log(values[name]);
+  console.log(isSlateValue);
   const fieldActions = !isSlateValue
     ? {
         onFocus: () => {

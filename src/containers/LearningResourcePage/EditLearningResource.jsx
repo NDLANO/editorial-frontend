@@ -34,7 +34,7 @@ const EditLearningResource = ({
     setArticle,
   );
 
-  if (loading || translating || !article || !article.id) {
+  if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
@@ -53,6 +53,7 @@ const EditLearningResource = ({
         article={article}
         revision={article.revision}
         articleStatus={article.status}
+        translating={translating}
         translateArticle={translateArticle}
         isNewlyCreated={isNewlyCreated}
         {...rest}

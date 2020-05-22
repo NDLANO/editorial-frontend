@@ -63,7 +63,7 @@ const HeaderStatusInformation = ({
   `;
 
   const StyledCheckIcon = styled(Check)`
-    margin-top: 2px;
+    margin-top: -3px;
     height: ${fontSize ? fontSize : '25px'};
     width: ${fontSize ? fontSize : '25px'};
     fill: ${colors.support.green};

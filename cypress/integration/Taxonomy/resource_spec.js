@@ -39,6 +39,11 @@ describe('Resource listing', () => {
       '/taxonomy/v1/topics/**/resources/?language=nb',
       'coreResources',
     );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/topics/urn:topic:1:183043',
+      'topic',
+    );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
     cy.apiroute(
       'GET',
@@ -56,6 +61,7 @@ describe('Resource listing', () => {
     cy.apiwait('@allFilters');
     cy.apiwait('@coreResources');
     cy.apiwait('@article');
+    cy.apiwait('@topic');
   });
 
   it('should open filter picker and have functioning buttons', () => {

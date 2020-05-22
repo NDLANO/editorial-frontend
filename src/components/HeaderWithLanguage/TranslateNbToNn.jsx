@@ -1,28 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 
 import StyledFilledButton from '../../components/StyledFilledButton';
 
-const TranslateNbToNn = ({ translateArticle, editUrl, t }) => {
-  const history = useHistory();
+const StyledLink = StyledFilledButton.withComponent(Link);
 
-  const handleClick = () => {
-    translateArticle();
-    history.push(editUrl('nn'));
-  };
-
+const TranslateNbToNn = ({
+  formIsDirty,
+  translateArticle,
+  setTranslateOnContinue,
+  editUrl,
+  t,
+}) => {
   return (
-    <StyledFilledButton type="button" onClick={handleClick}>
+    <StyledLink
+      to={editUrl('nn')}
+      onClick={() =>
+        formIsDirty ? setTranslateOnContinue(true) : translateArticle()
+      }>
       {t('form.variant.translate')}
-    </StyledFilledButton>
+    </StyledLink>
   );
 };
 
 TranslateNbToNn.propTypes = {
   translateArticle: PropTypes.func.isRequired,
   editUrl: PropTypes.func.isRequired,
+  setTranslateOnContinue: PropTypes.func.isRequired,
+  formIsDirty: PropTypes.bool.isRequired,
 };
 
 export default injectT(TranslateNbToNn);

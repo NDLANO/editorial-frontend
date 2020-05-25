@@ -10,12 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { StyledSubjectName } from '../../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
-import {
-  FilterShape,
-  StructureShape,
-  SubjectShape,
-  TopicShape,
-} from '../../../shapes';
+import { FilterShape, StructureShape, TopicShape } from '../../../shapes';
 import Breadcrumb from '../Breadcrumb';
 
 const SubjectFilters = ({
@@ -26,7 +21,7 @@ const SubjectFilters = ({
   resourceId,
   isFirstSubject,
   filterSubjectKey,
-  pathObject,
+  breadCrumb,
 }) => {
   const subject = structure.find(
     structureItem => structureItem.id === filterSubjectKey,
@@ -35,24 +30,12 @@ const SubjectFilters = ({
   if (!subject || !availableFilters[filterSubjectKey]) {
     return null;
   }
-
   return (
     <Fragment>
       <tr>
         <td>
-          {pathObject ? (
-            <Breadcrumb
-              breadcrumb={[
-                {
-                  id: pathObject.subject.id,
-                  name: pathObject.subject.name,
-                },
-                {
-                  id: pathObject.topic.id,
-                  name: pathObject.topic.name,
-                },
-              ]}
-            />
+          {breadCrumb ? (
+            <Breadcrumb breadcrumb={breadCrumb} />
           ) : (
             <StyledSubjectName firstSubject={isFirstSubject}>
               {subject.name}
@@ -93,10 +76,7 @@ SubjectFilters.propTypes = {
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
   isFirstSubject: PropTypes.bool,
-  pathObject: PropTypes.shape({
-    subject: SubjectShape,
-    topic: TopicShape,
-  }),
+  breadCrumb: TopicShape,
 };
 
 export default SubjectFilters;

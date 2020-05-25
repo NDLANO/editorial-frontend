@@ -126,11 +126,11 @@ export class StructureResources extends React.PureComponent {
         );
         const allTopicResources = await Promise.all(
           initialTopicResources.map(async r => {
-            const pathObjects = await this.getObjectsFromPath(r);
+            const breadCrumbs = await this.getCrumbsFromPath(r);
             if (r.resourceTypes.length > 0) {
-              return { ...r, pathObjects };
+              return { ...r, breadCrumbs };
             } else {
-              return { ...r, resourceTypes: [{ id: 'missing' }], pathObjects };
+              return { ...r, resourceTypes: [{ id: 'missing' }], breadCrumbs };
             }
           }),
         );
@@ -177,27 +177,37 @@ export class StructureResources extends React.PureComponent {
     await Promise.all(resourcePromises);
   }
 
-  async getObjectsFromPath(resource) {
-    const pathObjects = [];
+  async getCrumbsFromPath(resource) {
+    const breadCrumbs = [];
     if (resource.paths) {
       resource.paths.forEach(async path => {
-        pathObjects.push({
-          subject: this.props.structure.find(
+        breadCrumbs.push([
+          this.props.structure.find(
             structureItem => structureItem.id === `urn:${path.split('/')[1]}`,
           ),
-          topic: await fetchTopic(`urn:${path.split('/')[2]}`),
-        });
+          ...(await Promise.all(
+            path
+              .split('/')
+              .slice(2, -1)
+              .map(topicId => fetchTopic(`urn:${topicId}`)),
+          )),
+        ]);
       });
     } else {
-      pathObjects.push({
-        subject: this.props.structure.find(
+      breadCrumbs.push([
+        this.props.structure.find(
           structureItem =>
             structureItem.id === `urn:${resource.path.split('/')[1]}`,
         ),
-        topic: await fetchTopic(`urn:${resource.path.split('/')[2]}`),
-      });
+        ...(await Promise.all(
+          resource.path
+            .split('/')
+            .slice(2, -1)
+            .map(topicId => fetchTopic(`urn:${topicId}`)),
+        )),
+      ]);
     }
-    return pathObjects;
+    return breadCrumbs;
   }
 
   render() {

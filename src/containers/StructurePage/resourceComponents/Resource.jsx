@@ -27,7 +27,6 @@ import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import {
   StructureShape,
   AvailableFiltersShape,
-  SubjectShape,
   TopicShape,
 } from '../../../shapes';
 
@@ -50,7 +49,7 @@ const Resource = ({
   onFilterChange,
   availableFilters,
   activeFilters,
-  pathObjects,
+  breadCrumbs,
   structure,
   onFilterSubmit,
   onDelete,
@@ -103,7 +102,7 @@ const Resource = ({
           title={t('taxonomy.resource.chooseFilter')}
           onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
-            pathObjects={pathObjects}
+            breadCrumbs={breadCrumbs}
             activeFilters={activeFilters}
             resourceId={id}
             structure={structure}
@@ -155,12 +154,7 @@ Resource.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   locale: PropTypes.string.isRequired,
-  pathObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      subject: SubjectShape,
-      topic: TopicShape,
-    }),
-  ),
+  breadCrumbs: PropTypes.arrayOf(TopicShape),
 };
 
 export default injectT(Resource);

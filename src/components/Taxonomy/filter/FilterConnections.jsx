@@ -13,7 +13,6 @@ import { injectT } from '@ndla/i18n';
 import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
 import {
-  SubjectShape,
   TopicShape,
   FilterShape,
   AvailableFiltersShape,
@@ -24,14 +23,14 @@ import HowToHelper from '../../HowTo/HowToHelper';
 const FilterConnections = ({
   t,
   topics,
-  pathObjects,
+  breadCrumbs,
   activeFilters,
   availableFilters,
   structure,
   updateFilter,
   resourceId,
 }) => {
-  const availableSubjects = pathObjects?.map(name => name.subject.id) || [];
+  const availableSubjects = breadCrumbs?.map(path => path[0].id) || [];
   if (topics) {
     topics.forEach(topic => {
       if (topic.paths) {
@@ -62,7 +61,7 @@ const FilterConnections = ({
               key={filterSubjectKey}
               isFirstSubject={index === 0}
               filterSubjectKey={filterSubjectKey}
-              pathObject={pathObjects && pathObjects[index]}
+              breadCrumb={breadCrumbs && breadCrumbs[index]}
               availableFilters={availableFilters}
               activeFilters={activeFilters}
               structure={structure}
@@ -84,12 +83,7 @@ FilterConnections.propTypes = {
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
-  pathObjects: PropTypes.arrayOf(
-    PropTypes.shape({
-      subject: SubjectShape,
-      topic: TopicShape,
-    }),
-  ),
+  breadCrumbs: PropTypes.arrayOf(TopicShape),
 };
 
 export default injectT(FilterConnections);

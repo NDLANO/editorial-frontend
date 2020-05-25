@@ -66,6 +66,7 @@ class SlateVideo extends React.PureComponent {
       attributes,
       figureClass,
       onRemoveClick,
+      language,
       t,
       ...rest
     } = this.props;
@@ -78,6 +79,7 @@ class SlateVideo extends React.PureComponent {
           onRemoveClick={onRemoveClick}
           embed={embed}
           figureType="video"
+          language={language}
           t={t}
         />
         {editMode ? (
@@ -126,6 +128,7 @@ SlateVideo.propTypes = {
   }),
   onRemoveClick: PropTypes.func.isRequired,
   figureClass: PropTypes.shape({ className: PropTypes.string }),
+  language: PropTypes.string,
 };
 
 export default injectT(SlateVideo);

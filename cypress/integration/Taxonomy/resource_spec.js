@@ -42,7 +42,12 @@ describe('Resource listing', () => {
     cy.apiroute(
       'GET',
       '/taxonomy/v1/topics/urn:topic:1:183043',
-      'topic',
+      'topic:183043',
+    );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/topics/urn:topic:1:183437',
+      'topic:183437',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
     cy.apiroute(
@@ -61,7 +66,8 @@ describe('Resource listing', () => {
     cy.apiwait('@allFilters');
     cy.apiwait('@coreResources');
     cy.apiwait('@article');
-    cy.apiwait('@topic');
+    cy.apiwait('@topic:183043');
+    cy.apiwait('@topic:183437');
   });
 
   it('should open filter picker and have functioning buttons', () => {

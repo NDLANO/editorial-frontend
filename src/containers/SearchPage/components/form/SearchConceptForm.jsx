@@ -17,11 +17,13 @@ import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses } from './SearchForm';
 import { LocationShape } from '../../../../shapes';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
+import { fetchAuth0ConceptEditors } from '../../../../modules/auth0/auth0Api';
 
 const emptySearchState = {
   query: '',
   subjects: '',
   language: '',
+  users: '',
 };
 
 class SearchConceptForm extends Component {
@@ -34,13 +36,24 @@ class SearchConceptForm extends Component {
         query: searchObject.query || '',
         language: searchObject.language || '',
         types: 'concept',
+        users: searchObject.users || '',
       },
+      users: [],
     };
     this.handleSearch = this.handleSearch.bind(this);
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
     this.getConceptStatuses = this.getConceptStatuses.bind(this);
+  }
+
+  componentDidMount() {
+    this.getExternalData();
+  }
+
+  async getExternalData() {
+    const users = await this.getUsers();
+    this.setState({ users: users });
   }
 
   onFieldChange = evt => {
@@ -77,6 +90,13 @@ class SearchConceptForm extends Component {
     this.setState({ search: emptySearchState }, this.handleSearch);
   }
 
+  async getUsers() {
+    const editors = await fetchAuth0ConceptEditors();
+    return editors.map(u => {
+      return { id: `"${u.app_metadata.ndla_id}"`, name: u.name };
+    });
+  }
+
   sortByProperty(property) {
     return function(a, b) {
       return a[property]?.localeCompare(b[property]);
@@ -89,7 +109,7 @@ class SearchConceptForm extends Component {
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '100-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.conceptQuery')}
@@ -99,7 +119,7 @@ class SearchConceptForm extends Component {
         </div>
         <div
           key={`searchfield_subjects`}
-          {...searchFormClasses('field', `25-width`)}>
+          {...searchFormClasses('field', `50-width`)}>
           <ObjectSelector
             name={'subjects'}
             options={subjects.sort(this.sortByProperty('name'))}
@@ -136,6 +156,19 @@ class SearchConceptForm extends Component {
             onChange={this.onFieldChange}
             onBlur={this.onFieldChange}
             placeholder={t('searchForm.types.language')}
+          />
+        </div>
+        <div {...searchFormClasses('field', '25-width')}>
+          <ObjectSelector
+            name="users"
+            value={search.users}
+            options={this.state.users.sort(this.sortByProperty('name'))}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            onBlur={this.onFieldChange}
+            placeholder={t('searchForm.types.users')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
@@ -176,6 +209,7 @@ SearchConceptForm.propTypes = {
     query: PropTypes.string,
     subjects: PropTypes.string,
     language: PropTypes.string,
+    users: PropTypes.string,
   }),
   locale: PropTypes.string.isRequired,
   subjects: PropTypes.array,

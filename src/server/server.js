@@ -30,7 +30,11 @@ import { getToken, getBrightcoveToken, getUsers, getEditors } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
-import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
+import {
+  DRAFT_PUBLISH_SCOPE,
+  DRAFT_WRITE_SCOPE,
+  CONCEPT_WRITE_SCOPE,
+} from '../constants';
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
@@ -168,7 +172,40 @@ app.get(
         const managementToken = await getToken(
           `https://${config.auth0Domain}/api/v2/`,
         );
-        const editors = await getEditors(managementToken);
+        const editors = await getEditors(managementToken, false);
+        res.status(OK).json(editors);
+      } catch (err) {
+        res.status(INTERNAL_SERVER_ERROR).send(err.message);
+      }
+    }
+  },
+);
+
+app.get(
+  '/get_concept_editors',
+  jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
+    }),
+    audience: 'ndla_system',
+    issuer: `https://${config.auth0Domain}/`,
+    algorithms: ['RS256'],
+  }),
+  async (req, res) => {
+    const { user } = req;
+    const hasWriteAccess = user?.scope?.includes(CONCEPT_WRITE_SCOPE);
+
+    if (!hasWriteAccess) {
+      res
+        .status(FORBIDDEN)
+        .json({ status: FORBIDDEN, text: 'No access allowed' });
+    } else {
+      try {
+        const managementToken = await getToken(
+          `https://${config.auth0Domain}/api/v2/`,
+        );
+        const editors = await getEditors(managementToken, true);
         res.status(OK).json(editors);
       } catch (err) {
         res.status(INTERNAL_SERVER_ERROR).send(err.message);

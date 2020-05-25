@@ -18,3 +18,6 @@ export const fetchAuth0Users = uniqueUserIds =>
 
 export const fetchAuth0Editors = () =>
   fetchAuthorized('/get_editors').then(resolveJsonOrRejectWithError);
+
+export const fetchAuth0ConceptEditors = () =>
+  fetchAuthorized('/get_concept_editors').then(resolveJsonOrRejectWithError);

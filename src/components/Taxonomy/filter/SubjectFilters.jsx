@@ -33,7 +33,7 @@ const SubjectFilters = ({
   return (
     <Fragment>
       <tr>
-        <td>
+        <td colSpan="2">
           {breadCrumb ? (
             <Breadcrumb breadcrumb={breadCrumb} />
           ) : (

@@ -20,6 +20,7 @@ const DisplayVisualElement = ({
   onRemoveClick,
   className,
   onChange,
+  language,
 }) => {
   switch (embed.resource) {
     case 'image':
@@ -30,6 +31,7 @@ const DisplayVisualElement = ({
           onRemoveClick={onRemoveClick}
           renderEditComponent={props => <EditVisualElementImage {...props} />}
           visualElement
+          language={language}
         />
       );
     case 'brightcove':
@@ -44,21 +46,10 @@ const DisplayVisualElement = ({
               target: { name: 'visualElementCaption', value: e.target.value },
             })
           }
+          language={language}
         />
       );
     case 'external':
-      return (
-        <DisplayExternalVisualElement
-          embed={embed}
-          changeVisualElement={changeVisualElement}
-          onRemoveClick={onRemoveClick}
-          onFigureInputChange={e =>
-            onChange({
-              target: { name: 'visualElementCaption', value: e.target.value },
-            })
-          }
-        />
-      );
     case 'iframe':
       return (
         <DisplayExternalVisualElement
@@ -70,6 +61,7 @@ const DisplayVisualElement = ({
               target: { name: 'visualElementCaption', value: e.target.value },
             })
           }
+          language={language}
         />
       );
     default:
@@ -83,6 +75,7 @@ DisplayVisualElement.propTypes = {
   changeVisualElement: PropTypes.func,
   onRemoveClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  language: PropTypes.string,
 };
 
 DisplayVisualElement.defaultProps = {

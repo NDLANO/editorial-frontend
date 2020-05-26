@@ -27,8 +27,9 @@ const HeaderActions = ({
   t,
   type,
   translateArticle,
-  setTranslating,
+  setTranslateOnContinue,
   isSubmitting,
+  formIsDirty,
 }) => {
   const { id, language, supportedLanguages, articleType } = values;
 
@@ -92,8 +93,9 @@ const HeaderActions = ({
               <StyledSplitter />
               <TranslateNbToNn
                 translateArticle={translateArticle}
-                setTranslating={setTranslating}
                 editUrl={editUrl}
+                formIsDirty={formIsDirty}
+                setTranslateOnContinue={setTranslateOnContinue}
               />
             </Fragment>
           )}
@@ -128,8 +130,9 @@ HeaderActions.propTypes = {
   isNewLanguage: PropTypes.bool,
   type: PropTypes.string,
   translateArticle: PropTypes.func,
-  setTranslating: PropTypes.func,
+  setTranslateOnContinue: PropTypes.func,
   isSubmitting: PropTypes.bool,
+  formIsDirty: PropTypes.bool.isRequired,
 };
 
 export default injectT(HeaderActions);

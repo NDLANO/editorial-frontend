@@ -14,9 +14,10 @@ import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Concept } from '@ndla/icons/editor';
 import { searchClasses } from '../../SearchContainer';
-import { toEditConcept } from '../../../../../src/util/routeHelpers.js';
+import { toEditConcept } from '../../../../util/routeHelpers';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import formatDate from '../../../../util/formatDate';
+import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 
 const StyledInfo = styled.div`
   color: ${colors.text.light};
@@ -75,12 +76,27 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
           })}
         </div>
         <p {...searchClasses('description')}>{content}</p>
-        <div {...searchClasses('breadcrumbs')}>
+        <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-20px' }}>
           {breadcrumbs?.map(breadcrumb => (
-            <p key={breadcrumb.id} {...searchClasses('breadcrumb')}>
+            <p
+              key={breadcrumb.id}
+              {...searchClasses('breadcrumb')}
+              style={{ marginTop: 'auto', marginBottom: 'auto' }}>
               {breadcrumb.name}
             </p>
           )) || <p {...searchClasses('breadcrumb')} />}
+          <HeaderStatusInformation
+            statusText={t(
+              `form.status.${concept.status.current.toLowerCase()}`,
+            )}
+            published={
+              concept.status?.current === 'PUBLISHED' ||
+              concept.status?.other.includes('PUBLISHED')
+            }
+            noHelp
+            indentLeft
+            fontSize={10}
+          />
         </div>
       </div>
     </div>
@@ -104,6 +120,10 @@ SearchConcept.propTypes = {
       url: PropTypes.string,
     }),
     lastUpdated: PropTypes.string,
+    status: PropTypes.shape({
+      current: PropTypes.string,
+      other: PropTypes.string,
+    }),
   }),
   locale: PropTypes.string,
   subjects: PropTypes.array,

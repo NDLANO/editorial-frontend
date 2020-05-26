@@ -26,28 +26,6 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
-const StyledStatus = styled.p`
-  ${fonts.sizes(18, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  text-transform: uppercase;
-  margin: 0 ${spacing.small};
-`;
-
-const StyledSmallText = styled.small`
-  color: ${colors.text.light};
-  padding-right: ${spacing.xsmall};
-  ${fonts.sizes(14, 1.1)};
-  font-weight: ${fonts.weight.light};
-  text-transform: uppercase;
-`;
-
-const StyledCheckIcon = styled(Check)`
-  margin-top: 2px;
-  height: 25px;
-  width: 25px;
-  fill: ${colors.support.green};
-`;
-
 const StyledWarnIcon = styled(AlertCircle)`
   margin-top: 2px;
   height: 25px;
@@ -61,8 +39,36 @@ const HeaderStatusInformation = ({
   isNewLanguage,
   published,
   hasMultipleTaxonomyEntries,
+  noHelp,
+  indentLeft,
+  fontSize,
   t,
 }) => {
+  const StyledStatus = styled.p`
+    ${fonts.sizes(fontSize || 18, 1.1)};
+    font-weight: ${fonts.weight.semibold};
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: ${fontSize <= 12 ? spacing.xsmall : spacing.small};
+    margin-left: ${indentLeft ? 0 : spacing.small};
+  `;
+
+  const StyledSmallText = styled.small`
+    color: ${fontSize <= 12 ? '#000' : colors.text.light};
+    padding-right: ${spacing.xsmall};
+    ${fonts.sizes(fontSize - 1 || 14, 1.1)};
+    font-weight: ${fonts.weight.light};
+    text-transform: uppercase;
+  `;
+
+  const StyledCheckIcon = styled(Check)`
+    margin-top: -3px;
+    height: ${fontSize || '25px'};
+    width: ${fontSize || '25px'};
+    fill: ${colors.support.green};
+  `;
+
   const multipleTaxonomyIcon = hasMultipleTaxonomyEntries && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
       <StyledWarnIcon title={t('form.taxonomySection')} />
@@ -75,10 +81,19 @@ const HeaderStatusInformation = ({
     </Tooltip>
   );
 
+  const helperIcon = !noHelp && (
+    <HowToHelper
+      pageId="status"
+      tooltip={t('form.workflow.statusInfoTooltip')}
+    />
+  );
+
+  const splitter = !indentLeft && <StyledSplitter />;
+
   if (noStatus && isNewLanguage) {
     return (
       <StyledStatusWrapper>
-        <StyledSplitter />
+        {splitter}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
         {publishedIcon}
         {multipleTaxonomyIcon}
@@ -87,7 +102,7 @@ const HeaderStatusInformation = ({
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
-        <StyledSplitter />
+        {splitter}
         <StyledStatus>
           <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
           {isNewLanguage
@@ -96,10 +111,7 @@ const HeaderStatusInformation = ({
         </StyledStatus>
         {publishedIcon}
         {multipleTaxonomyIcon}
-        <HowToHelper
-          pageId="status"
-          tooltip={t('form.workflow.statusInfoTooltip')}
-        />
+        {helperIcon}
       </StyledStatusWrapper>
     );
   }
@@ -112,6 +124,9 @@ HeaderStatusInformation.propTypes = {
   isNewLanguage: PropTypes.bool,
   published: PropTypes.bool,
   hasMultipleTaxonomyEntries: PropTypes.bool,
+  noHelp: PropTypes.bool,
+  indentLeft: PropTypes.bool,
+  fontSize: PropTypes.number,
 };
 
 export default injectT(HeaderStatusInformation);

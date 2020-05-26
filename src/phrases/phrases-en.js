@@ -455,7 +455,7 @@ const phrases = {
     },
     name: {
       title: 'Title',
-      introduction: 'Introduction',
+      introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
       processors: 'Processors',

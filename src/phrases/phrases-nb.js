@@ -471,7 +471,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
-      introduction: 'Introduksjon',
+      introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
       processors: 'Bearbeider',

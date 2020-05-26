@@ -118,6 +118,7 @@ const setAsideTag = (data: Element) => ({
 });
 
 const illegalTextUnderBlocks = ['ol', 'ul'];
+const legalTextUnderBlocks = ['p'];
 
 /* eslint-disable consistent-return, default-case */
 export const textRule: Rule = {
@@ -128,6 +129,10 @@ export const textRule: Rule = {
       illegalTextUnderBlocks.includes(el.parentElement.tagName.toLowerCase())
     ) {
       return null;
+    }
+    if (el.nodeName.toLowerCase() !== '#text' && 
+        (el.parentElement && true /* legalTextUnderBlocks.includes(el.parentElement.tagName.toLowerCase()) */)) {
+      return jsx('text', { text: el.textContent })
     }
     if (
       !el.nodeName ||
@@ -219,12 +224,11 @@ export const paragraphRule: Rule = {
   // div handling with text in box (bodybox)
   deserialize(el: HTMLElement, next: NextFunc) {
     if (el.tagName?.toLowerCase() !== 'p') return;
-    console.log('DESERIALIZING PARAGRAPH COMMENCED')
     const parent = el.parentElement
       ? el.parentElement.tagName.toLowerCase()
       : '';
     const type = parent === 'li' ? 'list-text' : 'paragraph';
-    return jsx('element', {type: type, data: {...reduceElementDataAttributes(el)}}, Array.from(el.childNodes).map(next))
+    return jsx('element', {type: type, data: { ...reduceElementDataAttributes(el)}, children: Array.from(el.childNodes).map(next)})
     // {
     //   object: 'block',
     //   data: {

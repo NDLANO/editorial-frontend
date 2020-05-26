@@ -18,7 +18,7 @@ import { Editor, Node, createEditor } from 'slate';
 interface Props {
   onChange: Function;
   submitted: boolean;
-  value: Node[];
+  value: Node;
   removeSection: Function;
   plugins: Array<Object>;
   renderElement: (props: RenderElementProps) => JSX.Element;
@@ -48,13 +48,14 @@ const RichTextEditor = (props: Props): JSX.Element => {
   useEffect(() => {
     setState( { submitted, ...state })
   }, [submitted])
-
+  console.log('RICHTEXTEDITOR')
+  console.log(value);
   return (
     <article>
       <div data-cy="slate-editor" css={slateEditorDivStyle}>
         <Slate 
           editor={editor} 
-          value={value} 
+          value={value.children} 
           onChange={() => onChange(value)} // Needs to pass index?
           plugins={plugins}
           slateStore={state}

@@ -19,7 +19,7 @@ import CrossButton from '../CrossButton';
 interface Props {
   onChange: Function;
   submitted: boolean;
-  value: [Node[]];
+  value: Node[];
   name: string;
   removeSection: Function;
   plugins: Array<Object>;
@@ -79,7 +79,8 @@ const RichBlockTextEditor = (props: Props) => {
       setFieldValue(name, newValue)
     }
   }
-
+  console.log('RICHBLOCKTEXTEDITOR');
+  console.log(value);
   return (
     <article>
       {value.map((blockValue, index) => (

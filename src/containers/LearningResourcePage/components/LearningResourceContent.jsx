@@ -206,7 +206,9 @@ class LearningResourceContent extends Component {
           label={t('form.content.label')}
           noBorder
           className={formikFieldClasses('', 'position-static').className}>
-          {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
+          {({ field: { value, name, onChange }, form: { isSubmitting } }) => {
+            console.log(value);
+            return (
             <Fragment>
               <FieldHeader title={t('form.content.label')}>
                 {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
@@ -244,7 +246,7 @@ class LearningResourceContent extends Component {
                 footnotes={findFootnotes(value)}
               />
             </Fragment>
-          )}
+          )}}
         </FormikField>
       </Fragment>
     );

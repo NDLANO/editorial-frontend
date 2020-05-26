@@ -416,10 +416,15 @@ class LearningResourceTaxonomy extends Component {
     const breadCrumbs = [];
     topics.forEach(topic => {
       if (topic.paths) {
-        topic.paths.forEach(path => breadCrumbs.push(retriveBreadCrumbs({topicPath: path, allTopics, structure})));
-      }
-      else {
-        breadCrumbs.push(retriveBreadCrumbs({topicPath: topic.path, allTopics, structure}));
+        topic.paths.forEach(path =>
+          breadCrumbs.push(
+            retriveBreadCrumbs({ topicPath: path, allTopics, structure }),
+          ),
+        );
+      } else {
+        breadCrumbs.push(
+          retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }),
+        );
       }
     });
 

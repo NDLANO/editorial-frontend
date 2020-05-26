@@ -22,7 +22,6 @@ import HowToHelper from '../../HowTo/HowToHelper';
 
 const FilterConnections = ({
   t,
-  topics,
   breadCrumbs,
   activeFilters,
   availableFilters,
@@ -30,19 +29,7 @@ const FilterConnections = ({
   updateFilter,
   resourceId,
 }) => {
-  const availableSubjects = breadCrumbs?.map(path => path[0].id) || [];
-  if (topics) {
-    topics.forEach(topic => {
-      if (topic.paths) {
-        topic.paths.forEach(path => {
-          availableSubjects.push(`urn:${path.split('/')[1]}`);
-        });
-      } else {
-        const parentSubject = topic.path.split('/')[1];
-        availableSubjects.push(`urn:${parentSubject}`);
-      }
-    });
-  }
+  const availableSubjects = breadCrumbs.map(path => path[0].id);
 
   return (
     <Fragment>
@@ -78,7 +65,6 @@ const FilterConnections = ({
 FilterConnections.propTypes = {
   availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(FilterShape),
-  topics: PropTypes.arrayOf(TopicShape),
   resourceSubjects: PropTypes.arrayOf(PropTypes.string),
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,

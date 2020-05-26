@@ -14,7 +14,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-// import { updateSubjectMetadata } from '../../../../modules/taxonomy';
+import { updateSubjectMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
@@ -25,7 +25,7 @@ interface Props {
   getAllSubjects: Function;
   id: string;
   name: string;
-  metadata: { grepCodes: GrepCode[]; visible: boolean };
+  metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: Function;
   t: TranslateType;
   toggleEditMode: Function;
@@ -38,11 +38,15 @@ interface GrepCode {
 }
 
 export const DropDownWrapper = styled('div')`
-  display: flex;
-  justify-content: space-between;
   font-size: 0.9rem;
   background-color: white;
   padding: calc(${spacing.small} / 2);
+`;
+
+const StyledGrepItem = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  margin: calc(var(--spacing--small) / 2);
 `;
 
 const EditGrepCodes: FC<Props> = ({
@@ -55,17 +59,18 @@ const EditGrepCodes: FC<Props> = ({
   t,
   toggleEditMode,
 }) => {
-  const [grepCodes, setGrepCodes] = useState(['TT1', 'TT2']);
+  const [grepCodes, setGrepCodes] = useState(metadata.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
 
-  // const updateMetadata = async (grepCodes: boolean) => {
-  //   await updateSubjectMetadata(id, {
-  //     grepCodes: grepCodes,
-  //     visible: metadata.visible,
-  //   });
-  //   getAllSubjects();
-  //   refreshTopics();
-  // };
+  const updateMetadata = async (codes: string[]) => {
+    await updateSubjectMetadata(id, {
+      grepCodes: codes,
+      visible: metadata.visible,
+    });
+    setGrepCodes(codes);
+    getAllSubjects();
+    refreshTopics();
+  };
 
   const toggleEditModes = () => {
     toggleEditMode('editGrepCodes');
@@ -73,39 +78,35 @@ const EditGrepCodes: FC<Props> = ({
 
   useEffect(() => {}, [editMode, grepCodes, addingNewGrepCode]);
 
-  const addGrepCode = (getpCode: string) => {
-    grepCodes.push(getpCode);
-    console.log(grepCodes);
+  const addGrepCode = (grepCode: string) => {
+    grepCodes.push(grepCode);
+    updateMetadata(grepCodes);
+  };
+
+  const deleteGrepCode = (position: number) => {
+    grepCodes.splice(position, 1);
+    updateMetadata(grepCodes);
   };
 
   const grepCodesList = (
-    <>
+    <DropDownWrapper>
       {grepCodes.length === 0 ? (
-        <ul>
-          <li>Empty array</li>
-        </ul>
+        <p>{t('taxonomy.grepCodes.empty')}</p>
       ) : (
         grepCodes.map((grepCode, index) => (
-          <div>
+          <StyledGrepItem>
             {grepCode}
-            <div style={{ display: 'flex' }}>
-              <Button
-                disabled
-                stripped
-                data-testid={`editGrepCode${grepCode}`}
-                onClick={() => console.log(index)}>
-                <RoundIcon small icon={<Pencil />} />
-              </Button>
-              <Button
-                stripped
-                data-testid="deleteGrepCode"
-                onClick={() => console.log(grepCode)}>
-                <RoundIcon small icon={<DeleteForever />} />
-              </Button>
-            </div>
-          </div>
+
+            <Button
+              stripped
+              data-testid="deleteGrepCode"
+              onClick={() => deleteGrepCode(index)}>
+              <RoundIcon small icon={<DeleteForever />} />
+            </Button>
+          </StyledGrepItem>
         ))
       )}
+
       {addingNewGrepCode ? (
         <MenuItemEditField
           currentVal=""
@@ -121,11 +122,11 @@ const EditGrepCodes: FC<Props> = ({
           stripped
           data-testid="addFilterButton"
           onClick={() => setAddingNewGrepCode(!addingNewGrepCode)}>
-          <RoundIcon small icon={<Plus />} />
-          Add grep code
+          <Plus />
+          {t('taxonomy.grepCodes.addNew')}
         </Button>
       )}
-    </>
+    </DropDownWrapper>
   );
 
   return (
@@ -135,7 +136,7 @@ const EditGrepCodes: FC<Props> = ({
         data-testid="editGrepCodes"
         onClick={() => toggleEditModes()}>
         <RoundIcon small icon={<Pencil />} />
-        Edit grep code
+        {t('taxonomy.grepCodes.edit')}
       </MenuItemButton>
       {editMode === 'editGrepCodes' && grepCodesList}
     </>

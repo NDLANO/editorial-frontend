@@ -220,7 +220,7 @@ export class StructureContainer extends React.PureComponent {
         await deleteTopicConnection(connectionId);
       }
       this.deleteConnections();
-      this.getSubjectTopics(subjectId);
+      this.getSubjectTopics(subjectId, this.props.locale);
     } catch (e) {
       handleError(e);
     }
@@ -277,8 +277,9 @@ export class StructureContainer extends React.PureComponent {
   refreshTopics() {
     const {
       match: { params },
+      locale,
     } = this.props;
-    this.getSubjectTopics(params.subject);
+    this.getSubjectTopics(params.subject, locale);
   }
 
   toggleStructure() {

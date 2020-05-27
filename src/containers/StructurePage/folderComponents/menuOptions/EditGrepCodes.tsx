@@ -14,7 +14,10 @@ import { DeleteForever } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-import { updateSubjectMetadata } from '../../../../modules/taxonomy';
+import {
+  updateSubjectMetadata,
+  updateTopicMetadata,
+} from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
@@ -25,16 +28,16 @@ interface Props {
   getAllSubjects: Function;
   id: string;
   name: string;
+  menuType: MenuType;
   metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: Function;
   t: TranslateType;
   toggleEditMode: Function;
 }
 
-interface GrepCode {
-  id: string;
-  code: string;
-  title: string | undefined | null;
+enum MenuType {
+  subject = 'subject',
+  topic = 'topic',
 }
 
 export const DropDownWrapper = styled('div')`
@@ -54,6 +57,7 @@ const EditGrepCodes: FC<Props> = ({
   getAllSubjects,
   id,
   name,
+  menuType,
   metadata,
   refreshTopics,
   t,
@@ -63,13 +67,31 @@ const EditGrepCodes: FC<Props> = ({
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
 
   const updateMetadata = async (codes: string[]) => {
-    await updateSubjectMetadata(id, {
-      grepCodes: codes,
-      visible: metadata.visible,
-    });
-    setGrepCodes(codes);
-    getAllSubjects();
-    refreshTopics();
+    switch (menuType) {
+      case 'subject': {
+        await updateSubjectMetadata(id, {
+          grepCodes: codes,
+          visible: metadata.visible,
+        });
+        setGrepCodes(codes);
+        getAllSubjects();
+        refreshTopics();
+        break;
+      }
+
+      case 'topic': {
+        await updateTopicMetadata(id, {
+          grepCodes: codes,
+          visible: metadata.visible,
+        });
+        setGrepCodes(codes);
+        refreshTopics();
+        break;
+      }
+
+      default:
+        return null;
+    }
   };
 
   const toggleEditModes = () => {

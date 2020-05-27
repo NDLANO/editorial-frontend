@@ -35,7 +35,7 @@ const SettingsMenuDropdownType = ({
               <EditFilterOption {...rest} />
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
-              <EditGrepCodes {...rest} />
+              <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
         </>
@@ -50,6 +50,7 @@ const SettingsMenuDropdownType = ({
               <DeleteTopic {...rest} />
               <AddExistingToTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
+              <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
           {showAllOptions && <CopyResources {...rest} />}

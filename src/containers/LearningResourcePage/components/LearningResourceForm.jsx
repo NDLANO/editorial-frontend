@@ -34,6 +34,7 @@ import { nullOrUndefined } from '../../../util/articleUtil';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
@@ -134,6 +135,8 @@ const LearningResourceForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const [unsaved, setUnsaved] = useState(false);
+  usePreventWindowUnload(unsaved);
 
   const {
     t,
@@ -168,6 +171,7 @@ const LearningResourceForm = props => {
           initialValues,
           dirty,
         });
+        setUnsaved(formIsDirty);
         const getArticle = preview =>
           getArticleFromSlate({ values, initialValues, licenses, preview });
         return (

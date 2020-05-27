@@ -34,6 +34,7 @@ import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
@@ -155,6 +156,8 @@ const TopicArticleForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const [unsaved, setUnsaved] = useState(false);
+  usePreventWindowUnload(unsaved);
 
   const {
     t,
@@ -190,6 +193,7 @@ const TopicArticleForm = props => {
           initialValues,
           dirty,
         });
+        setUnsaved(formIsDirty);
         const getArticle = () =>
           getArticleFromSlate({ values, initialValues, licenses });
         return (

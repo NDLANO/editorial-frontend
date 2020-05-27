@@ -69,7 +69,7 @@ FilterConnections.propTypes = {
   structure: PropTypes.arrayOf(StructureShape),
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
-  breadCrumbs: PropTypes.arrayOf(TopicShape),
+  breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
 };
 
 export default injectT(FilterConnections);

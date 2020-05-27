@@ -154,7 +154,7 @@ Resource.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   locale: PropTypes.string.isRequired,
-  breadCrumbs: PropTypes.arrayOf(TopicShape),
+  breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
 };
 
 export default injectT(Resource);

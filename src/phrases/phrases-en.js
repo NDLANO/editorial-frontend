@@ -997,7 +997,7 @@ const phrases = {
     },
     grepCodes: {
       edit: 'Edit grep codes',
-      empty: 'No exsisting grep codes',
+      empty: 'No existing grep codes',
       addNew: 'Add new grep code',
     },
     missingResourceType: 'Missing resource type',

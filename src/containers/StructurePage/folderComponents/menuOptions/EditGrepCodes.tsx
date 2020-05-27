@@ -63,7 +63,7 @@ const EditGrepCodes: FC<Props> = ({
   t,
   toggleEditMode,
 }) => {
-  const [grepCodes, setGrepCodes] = useState(metadata.grepCodes);
+  const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
 
   const updateMetadata = async (codes: string[]) => {
@@ -112,9 +112,7 @@ const EditGrepCodes: FC<Props> = ({
 
   const grepCodesList = (
     <DropDownWrapper>
-      {grepCodes.length === 0 ? (
-        <p>{t('taxonomy.grepCodes.empty')}</p>
-      ) : (
+      {grepCodes?.length > 0 ? (
         grepCodes.map((grepCode, index) => (
           <StyledGrepItem>
             {grepCode}
@@ -127,6 +125,8 @@ const EditGrepCodes: FC<Props> = ({
             </Button>
           </StyledGrepItem>
         ))
+      ) : (
+        <p>{t('taxonomy.grepCodes.empty')}</p>
       )}
 
       {addingNewGrepCode ? (

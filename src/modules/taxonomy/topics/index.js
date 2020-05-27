@@ -21,6 +21,12 @@ function fetchTopics(locale) {
   ).then(resolveJsonOrRejectWithError);
 }
 
+function fetchTopic(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 function fetchTopicFilters(id) {
   return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(
     resolveJsonOrRejectWithError,
@@ -139,6 +145,7 @@ function updateTopicMetadata(subjectId, body) {
 
 export {
   fetchTopics,
+  fetchTopic,
   addTopic,
   updateTopic,
   deleteTopic,

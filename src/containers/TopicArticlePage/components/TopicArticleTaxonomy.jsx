@@ -551,6 +551,21 @@ class TopicArticleTaxonomy extends Component {
       );
     }
 
+    const breadCrumbs = [];
+    stagedTopicChanges.forEach(topic => {
+      if (topic.paths) {
+        topic.paths.forEach(path =>
+          breadCrumbs.push(
+            retriveBreadCrumbs({ topicPath: path, allTopics, structure }),
+          ),
+        );
+      } else {
+        breadCrumbs.push(
+          retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }),
+        );
+      }
+    });
+
     return (
       <Fragment>
         {showResourceType && (
@@ -574,7 +589,7 @@ class TopicArticleTaxonomy extends Component {
         {stagedTopicChanges.length > 0 &&
           !stagedTopicChanges.find(topic => topic.id === 'staged') && (
             <FilterConnections
-              topics={stagedTopicChanges}
+              breadCrumbs={breadCrumbs}
               activeFilters={stagedFilterChanges}
               structure={structure}
               availableFilters={availableFilters}

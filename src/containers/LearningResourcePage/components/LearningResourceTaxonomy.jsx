@@ -413,6 +413,21 @@ class LearningResourceTaxonomy extends Component {
       );
     }
 
+    const breadCrumbs = [];
+    topics.forEach(topic => {
+      if (topic.paths) {
+        topic.paths.forEach(path =>
+          breadCrumbs.push(
+            retriveBreadCrumbs({ topicPath: path, allTopics, structure }),
+          ),
+        );
+      } else {
+        breadCrumbs.push(
+          retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }),
+        );
+      }
+    });
+
     return (
       <Fragment>
         <ResourceTypeSelect
@@ -435,7 +450,7 @@ class LearningResourceTaxonomy extends Component {
         />
         {topics.length > 0 && (
           <FilterConnections
-            topics={topics}
+            breadCrumbs={breadCrumbs}
             activeFilters={filter}
             structure={structure}
             availableFilters={availableFilters}

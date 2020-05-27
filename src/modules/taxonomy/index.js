@@ -65,6 +65,7 @@ export {
 export {
   addTopic,
   fetchTopics,
+  fetchTopic,
   fetchTopicFilters,
   updateTopic,
   addTopicToTopic,

@@ -15,12 +15,14 @@ import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomy
 import {
   fetchAllResourceTypes,
   fetchTopicResources,
+  fetchTopic,
 } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -122,13 +124,16 @@ export class StructureResources extends React.PureComponent {
           undefined,
           activeFilters.join(','),
         );
-        const allTopicResources = initialTopicResources.map(r => {
-          if (r.resourceTypes.length > 0) {
-            return r;
-          } else {
-            return { ...r, resourceTypes: [{ id: 'missing' }] };
-          }
-        });
+        const allTopicResources = await Promise.all(
+          initialTopicResources.map(async r => {
+            const breadCrumbs = await this.getCrumbsFromPath(r);
+            if (r.resourceTypes.length > 0) {
+              return { ...r, breadCrumbs };
+            } else {
+              return { ...r, resourceTypes: [{ id: 'missing' }], breadCrumbs };
+            }
+          }),
+        );
 
         if (currentTopic.contentUri) {
           fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
@@ -170,21 +175,51 @@ export class StructureResources extends React.PureComponent {
       }
     });
     await Promise.all(resourcePromises);
-    const topicResources = groupSortResourceTypesFromTopicResources(
-      this.state.resourceTypes,
-      allTopicResources,
-    );
-    this.setState({ topicResources });
+  }
+
+  async getCrumbsFromPath(resource) {
+    const breadCrumbs = [];
+    if (resource.paths) {
+      resource.paths.forEach(async path => {
+        breadCrumbs.push([
+          this.props.structure.find(
+            structureItem => structureItem.id === `urn:${path.split('/')[1]}`,
+          ),
+          ...(await Promise.all(
+            path
+              .split('/')
+              .slice(2, -1)
+              .map(topicId => fetchTopic(`urn:${topicId}`)),
+          )),
+        ]);
+      });
+    } else {
+      breadCrumbs.push([
+        this.props.structure.find(
+          structureItem =>
+            structureItem.id === `urn:${resource.path.split('/')[1]}`,
+        ),
+        ...(await Promise.all(
+          resource.path
+            .split('/')
+            .slice(2, -1)
+            .map(topicId => fetchTopic(`urn:${topicId}`)),
+        )),
+      ]);
+    }
+    return breadCrumbs;
   }
 
   render() {
     const {
+      availableFilters,
       activeFilters,
       locale,
       refreshTopics,
       currentTopic,
       resourceRef,
       currentSubject,
+      structure,
     } = this.props;
     const {
       topicDescription,
@@ -217,10 +252,12 @@ export class StructureResources extends React.PureComponent {
               topicResource={topicResource}
               params={this.props.params}
               refreshResources={this.getTopicResources}
+              availableFilters={availableFilters}
               activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={structure}
               disable={resourceType.disabled}
             />
           );
@@ -241,12 +278,14 @@ StructureResources.propTypes = {
     contentUri: PropTypes.string,
   }).isRequired,
   refreshTopics: PropTypes.func,
+  availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   resourceRef: PropTypes.object,
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   resourcesUpdated: PropTypes.bool,
   setResourcesUpdated: PropTypes.func,
 };

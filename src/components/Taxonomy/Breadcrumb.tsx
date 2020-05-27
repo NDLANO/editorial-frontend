@@ -29,7 +29,7 @@ export default function Breadcrumb({ breadcrumb, type }: Props) {
             <span css={{ 'white-space': 'nowrap' }}>
               <SafeLink to={url}>{path.name}</SafeLink>
             </span>
-            {(type !== 'topic-article' || index + 1 !== breadcrumb.length) && (
+            {type !== 'topic-article' && index + 1 !== breadcrumb.length && (
               <ChevronRight />
             )}
           </Fragment>

@@ -40,7 +40,7 @@ class PreviewDraft extends Component<Props, {}> {
       return null;
     }
 
-    const markdown = new Remarkable();
+    const markdown = new Remarkable({ breaks: true });
     markdown.inline.ruler.enable(['sub', 'sup']);
 
     const renderMarkdown = (text: string) => {

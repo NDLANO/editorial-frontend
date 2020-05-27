@@ -455,7 +455,7 @@ const phrases = {
     },
     name: {
       title: 'Title',
-      introduction: 'Introduction',
+      introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
       processors: 'Processors',
@@ -627,6 +627,12 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Archive',
+      },
+      learningpath_statuses: {
+        private: 'Draft',
+        published: 'Public',
+        unlisted: 'Link shared',
+        submitted: 'Requested publication',
       },
     },
     validDate: {

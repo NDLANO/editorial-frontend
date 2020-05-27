@@ -25,6 +25,7 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -175,8 +176,10 @@ class ResourceItems extends React.PureComponent {
       contentType,
       resources,
       t,
+      availableFilters,
       currentTopic,
       currentSubject,
+      structure,
       locale,
     } = this.props;
 
@@ -204,11 +207,13 @@ class ResourceItems extends React.PureComponent {
               contentType={contentType}
               showFilterPicker={filterPickerId === resource.id}
               currentSubject={currentSubject}
+              structure={structure}
               onFilterChange={this.updateFilter}
               onFilterSubmit={this.onFilterSubmit}
               toggleFilterPicker={this.toggleFilterPicker}
               onDelete={this.toggleDelete}
               currentTopic={currentTopic}
+              availableFilters={availableFilters}
               activeFilters={activeFilters[resource.id]}
               {...resource}
               locale={locale}
@@ -247,6 +252,7 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
+  availableFilters: AvailableFiltersShape,
   activeFilter: PropTypes.string,
   currentTopic: PropTypes.shape({
     filters: PropTypes.array,
@@ -255,6 +261,7 @@ ResourceItems.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

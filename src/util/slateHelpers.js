@@ -118,6 +118,16 @@ export const textRule = {
       return null;
     }
     if (
+      el.nodeName.toLowerCase() === '#text' &&
+      el.parentNode?.tagName.toLowerCase() === 'section'
+    ) {
+      // handle text nodes directly inside section
+      return {
+        object: 'text',
+        text: el.data,
+      };
+    }
+    if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')

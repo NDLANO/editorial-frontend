@@ -57,6 +57,7 @@ class FormikAlertModalWrapper extends PureComponent {
   }
 
   onContinue() {
+    this.props.onContinue();
     this.setState({ discardChanges: true, openModal: false }, () => {
       const nextLocation =
         this.state.nextLocation.pathname +
@@ -98,6 +99,7 @@ FormikAlertModalWrapper.propTypes = {
   severity: PropTypes.string,
   isSubmitting: PropTypes.bool,
   formIsDirty: PropTypes.bool,
+  onContinue: PropTypes.func,
 };
 
 export default withRouter(injectT(FormikAlertModalWrapper));

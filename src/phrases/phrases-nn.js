@@ -475,7 +475,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
-      introduction: 'Introduksjon',
+      introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
       processors: 'Bearbeider',
@@ -647,6 +647,12 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
+      },
+      learningpath_statuses: {
+        private: 'Kladd',
+        published: 'Offentleg',
+        unlisted: 'Lenkedelt',
+        submitted: 'Bedt om offentleggjering',
       },
     },
     validDate: {

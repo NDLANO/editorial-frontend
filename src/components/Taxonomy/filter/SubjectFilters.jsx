@@ -10,7 +10,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { StyledSubjectName } from '../../../style/LearningResourceTaxonomyStyles';
 import FilterItem from './FilterItem';
-import { FilterShape, StructureShape } from '../../../shapes';
+import { FilterShape, StructureShape, TopicShape } from '../../../shapes';
+import Breadcrumb from '../Breadcrumb';
 
 const SubjectFilters = ({
   activeFilters,
@@ -20,34 +21,37 @@ const SubjectFilters = ({
   resourceId,
   isFirstSubject,
   filterSubjectKey,
+  breadCrumb,
 }) => {
   const subject = structure.find(
     structureItem => structureItem.id === filterSubjectKey,
   );
 
-  if (!subject) {
+  if (!subject || !availableFilters[filterSubjectKey]) {
     return null;
   }
-
   return (
     <Fragment>
       <tr>
-        <td>
-          <StyledSubjectName firstSubject={isFirstSubject}>
-            {subject.name}:
-          </StyledSubjectName>
+        <td colSpan="2">
+          {breadCrumb ? (
+            <Breadcrumb breadcrumb={breadCrumb} />
+          ) : (
+            <StyledSubjectName firstSubject={isFirstSubject}>
+              {subject.name}
+            </StyledSubjectName>
+          )}
         </td>
       </tr>
-      {availableFilters[filterSubjectKey] &&
-        availableFilters[filterSubjectKey].map(currentFilter => (
-          <FilterItem
-            key={currentFilter.id}
-            currentFilter={currentFilter}
-            activeFilters={activeFilters}
-            resourceId={resourceId}
-            updateFilter={updateFilter}
-          />
-        ))}
+      {availableFilters[filterSubjectKey].map(currentFilter => (
+        <FilterItem
+          key={currentFilter.id}
+          currentFilter={currentFilter}
+          activeFilters={activeFilters}
+          resourceId={resourceId}
+          updateFilter={updateFilter}
+        />
+      ))}
     </Fragment>
   );
 };
@@ -72,6 +76,7 @@ SubjectFilters.propTypes = {
   updateFilter: PropTypes.func,
   resourceId: PropTypes.string,
   isFirstSubject: PropTypes.bool,
+  breadCrumb: TopicShape,
 };
 
 export default SubjectFilters;

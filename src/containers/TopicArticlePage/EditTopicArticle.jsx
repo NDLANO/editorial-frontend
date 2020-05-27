@@ -32,7 +32,7 @@ const EditTopicArticle = ({
     setArticle,
   );
 
-  if (loading || translating || !article || !article.id) {
+  if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
 
@@ -52,6 +52,7 @@ const EditTopicArticle = ({
         articleStatus={article.status}
         article={article}
         translateArticle={translateArticle}
+        translating={translating}
         isNewlyCreated={isNewlyCreated}
         {...rest}
         {...articleHooks}

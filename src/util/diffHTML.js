@@ -93,7 +93,7 @@ function allowStrongRemoval({ current, next, previous }) {
     return true;
   }
   // I.E. <strong>one</strong><strong>two</strong> -> <strong>onetwo</strong>
-  if (brWrappers.some(tag => current.includes(`${tag}></${tag}`))) {
+  if (brWrappers.some(tag => current.includes(`/${tag}><${tag}`))) {
     return true;
   }
   return false;

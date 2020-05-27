@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
+import { injectT } from '@ndla/i18n';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
@@ -20,8 +21,9 @@ import { RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
+import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 
-const SearchContent = ({ content, locale }) => {
+const SearchContent = ({ content, locale, t }) => {
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   let resourceType = {};
@@ -41,7 +43,7 @@ const SearchContent = ({ content, locale }) => {
   }
   const contentTitle = (
     <h2 {...searchClasses('title')}>
-      {resourceType && resourceType.contentType && (
+      {resourceType?.contentType && (
         <ContentTypeBadge background type={resourceType.contentType} />
       )}{' '}
       {content.title.title}
@@ -53,6 +55,16 @@ const SearchContent = ({ content, locale }) => {
     resourceType.contentType,
     locale,
   );
+
+  const statusType = () => {
+    const status = content.status?.current.toLowerCase();
+    const isLearningpath = resourceType.contentType === 'learning-path';
+    return t(
+      `form.status.${
+        isLearningpath ? 'learningpath_statuses.' + status : status
+      }`,
+    );
+  };
 
   return (
     <div {...searchClasses('result')}>
@@ -82,16 +94,29 @@ const SearchContent = ({ content, locale }) => {
         <p {...searchClasses('description')}>
           {convertFieldWithFallback(content, 'metaDescription', '')}
         </p>
-        <div {...searchClasses('breadcrumbs')}>
+        <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map(breadcrumb => (
-              <p key={breadcrumb} {...searchClasses('breadcrumb')}>
+              <p
+                key={breadcrumb}
+                {...searchClasses('breadcrumb')}
+                style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 {breadcrumb}
               </p>
             ))
           ) : (
-            <p {...searchClasses('breadcrumb')} />
+            <p {...searchClasses('breadcrumb')} style={{ marginRight: 0 }} />
           )}
+          <HeaderStatusInformation
+            statusText={statusType()}
+            published={
+              content.status?.current === 'PUBLISHED' ||
+              content.status?.other.includes('PUBLISHED')
+            }
+            noHelp
+            indentLeft
+            fontSize={10}
+          />
         </div>
       </div>
     </div>
@@ -103,4 +128,4 @@ SearchContent.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default SearchContent;
+export default injectT(SearchContent);

@@ -82,7 +82,13 @@ export class DisplayExternalVisualElement extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, onFigureInputChange, t } = this.props;
+    const {
+      onRemoveClick,
+      embed,
+      onFigureInputChange,
+      language,
+      t,
+    } = this.props;
     const {
       title,
       src,
@@ -125,6 +131,7 @@ export class DisplayExternalVisualElement extends Component {
             tooltip={t(`form.${youtubeOrH5p}.remove`, { type: providerName })}
             onRemoveClick={onRemoveClick}
             embed={embed}
+            language={language}
             t={t}
             figureType="external"
           />
@@ -184,6 +191,7 @@ DisplayExternalVisualElement.propTypes = {
     caption: PropTypes.string,
   }),
   onFigureInputChange: PropTypes.func,
+  language: PropTypes.string,
 };
 
 export default injectT(DisplayExternalVisualElement);

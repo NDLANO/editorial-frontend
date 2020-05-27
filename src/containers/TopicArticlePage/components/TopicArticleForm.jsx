@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -34,6 +34,7 @@ import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
+import Spinner from '../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -153,17 +154,21 @@ const TopicArticleForm = props => {
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+  const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const {
     t,
     article,
     updateArticle,
+    translating,
+    translateArticle,
     licenses,
     isNewlyCreated,
     ...rest
   } = props;
   return (
     <Formik
+      enableReinitialize={translating}
       initialValues={initialValues}
       validateOnChange={false}
       ref={formikRef}
@@ -200,22 +205,28 @@ const TopicArticleForm = props => {
               getInitialValues={getInitialValues}
               setValues={setValues}
               isSubmitting={isSubmitting}
+              translateArticle={translateArticle}
+              setTranslateOnContinue={setTranslateOnContinue}
               {...rest}
             />
-            <TopicArticleAccordionPanels
-              values={values}
-              errors={errors}
-              updateNotes={updateArticle}
-              article={article}
-              touched={touched}
-              formIsDirty={formIsDirty}
-              getInitialValues={getInitialValues}
-              setValues={setValues}
-              licenses={licenses}
-              getArticle={getArticle}
-              fetchSearchTags={fetchSearchTags}
-              {...rest}
-            />
+            {translating ? (
+              <Spinner withWrapper />
+            ) : (
+              <TopicArticleAccordionPanels
+                values={values}
+                errors={errors}
+                updateNotes={updateArticle}
+                article={article}
+                touched={touched}
+                formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
+                licenses={licenses}
+                getArticle={getArticle}
+                fetchSearchTags={fetchSearchTags}
+                {...rest}
+              />
+            )}
             <EditorFooter
               showSimpleFooter={!article.id}
               isSubmitting={isSubmitting}
@@ -239,6 +250,7 @@ const TopicArticleForm = props => {
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
+              onContinue={translateOnContinue ? translateArticle : () => {}}
               severity="danger"
               text={t('alertModal.notSaved')}
             />
@@ -261,6 +273,8 @@ TopicArticleForm.propTypes = {
   updateArticleAndStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   article: ArticleShape,
+  translating: PropTypes.bool,
+  translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
 };
 

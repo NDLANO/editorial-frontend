@@ -46,6 +46,7 @@ describe('Film editing', () => {
     cy.get('ul > li > div')
       .contains('Page One')
       .parent()
+      .parent()
       .find('button')
       .eq(-1)
       .click();

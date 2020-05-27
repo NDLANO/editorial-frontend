@@ -8,12 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { ContentResultShape } from '../../../shapes';
+import { toEditArticle } from '../../../util/routeHelpers';
 
 const MOVIE_HEIGHT = 69;
 const MOVIE_MARGIN = 4;
@@ -38,7 +40,9 @@ const MovieListItem = ({
         src={movie.metaImage ? movie.metaImage.url : ''}
         alt={movie.metaImage ? movie.metaImage.alt : ''}
       />
-      {movie.title.title}
+      <Link to={toEditArticle(movie.id, movie.learningReasourceType)}>
+        {movie.title.title}
+      </Link>
     </div>
     <div>
       {showDragTooptil ? (

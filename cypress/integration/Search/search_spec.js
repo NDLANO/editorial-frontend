@@ -23,7 +23,7 @@ describe('Search', () => {
       '/search-api/v1/search/editorial/?page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.apiroute('GET', '/get_editors', 'editors');
+    cy.apiroute('GET', '/get_editors*', 'editors');
     cy.visit(
       '/search/content?page=1&page-size=10&sort=-relevance',
       visitOptions,

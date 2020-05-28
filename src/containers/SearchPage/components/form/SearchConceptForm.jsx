@@ -93,7 +93,7 @@ class SearchConceptForm extends Component {
   async getUsers() {
     const editors = await fetchAuth0ConceptEditors();
     return editors.map(u => {
-      return { id: `"${u.app_metadata.ndla_id}"`, name: u.name };
+      return { id: `${u.app_metadata.ndla_id}`, name: u.name };
     });
   }
 
@@ -161,7 +161,7 @@ class SearchConceptForm extends Component {
         <div {...searchFormClasses('field', '25-width')}>
           <ObjectSelector
             name="users"
-            value={search.users}
+            value={search['users']}
             options={this.state.users.sort(this.sortByProperty('name'))}
             idKey="id"
             labelKey="name"

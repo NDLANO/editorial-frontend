@@ -17,6 +17,7 @@ test('urls are parsed correctly', async () => {
   const articleUrls = [
     'https://www.test.ndla.no/article/64323',
     'https://www.test.ndla.no/sma/article/64323',
+    'http://www.test.ndla.no/en/article/64323',
   ];
 
   const subjectUrls = [
@@ -36,6 +37,7 @@ test('urls are parsed correctly', async () => {
     'https://www.staging.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://www.test.ndla.no/en/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://www.test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
+    'http://www.test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
   ];
 
   const learningPathUrls = [

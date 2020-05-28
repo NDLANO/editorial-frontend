@@ -157,8 +157,8 @@ app.get(
       query: { roles },
     } = req;
 
-    const isConcept = roles?.includes('concept');
-    const hasWriteAccess = user?.scope?.includes(...roles);
+    const roleList = roles.split(',');
+    const hasWriteAccess = roleList.find(role => user.scope.includes(role));
     if (!hasWriteAccess) {
       res
         .status(FORBIDDEN)
@@ -168,7 +168,7 @@ app.get(
         const managementToken = await getToken(
           `https://${config.auth0Domain}/api/v2/`,
         );
-        const editors = await getEditors(managementToken, isConcept);
+        const editors = await getEditors(managementToken, roleList);
         res.status(OK).json(editors);
       } catch (err) {
         res.status(INTERNAL_SERVER_ERROR).send(err.message);

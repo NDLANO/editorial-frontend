@@ -92,7 +92,7 @@ class SearchConceptForm extends Component {
   }
 
   async getUsers() {
-    const editors = await fetchAuth0Editors(CONCEPT_WRITE_SCOPE);
+    const editors = await fetchAuth0Editors([CONCEPT_WRITE_SCOPE]);
     return editors.map(u => {
       return { id: `${u.app_metadata.ndla_id}`, name: u.name };
     });

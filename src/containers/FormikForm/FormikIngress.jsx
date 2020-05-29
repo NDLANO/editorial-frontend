@@ -10,13 +10,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Remarkable } from 'remarkable';
+import parse from 'html-react-parser';
 
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-const md = new Remarkable();
-md.inline.ruler.enable(['sub', 'sup']);
+const markdown = new Remarkable({ breaks: true });
+markdown.inline.ruler.enable(['sub', 'sup']);
+
+const renderMarkdown = text => {
+  return markdown.render(text);
+};
 
 const FormikIngress = ({
   t,
@@ -34,11 +39,9 @@ const FormikIngress = ({
       maxLength={maxLength}>
       {({ field }) =>
         preview ? (
-          <span
-            dangerouslySetInnerHTML={{
-              __html: md.render(field.value.document.text),
-            }}
-          />
+          <p className="article_introduction">
+            {parse(renderMarkdown(field.value.document.text))}
+          </p>
         ) : (
           <PlainTextEditor
             id={field.name}

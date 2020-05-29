@@ -69,7 +69,7 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
   nock('http://ndla-api')
     .persist()
     .get(
-      `/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?includeMetadata=true&recursive=true`,
+      `/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?includeMetadata=true&recursive=true&language=nb`,
     )
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')

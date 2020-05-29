@@ -38,7 +38,7 @@ class AddExistingToTopic extends React.PureComponent {
   async componentDidMount() {
     const { locale, subjectId } = this.props;
     const topics = await fetchTopics(locale || 'nb');
-    const subjectTopics = await fetchSubjectTopics(subjectId);
+    const subjectTopics = await fetchSubjectTopics(subjectId, locale);
     this.setState({
       topics: topics
         .filter(topic => !subjectTopics.some(t => t.id === topic.id))

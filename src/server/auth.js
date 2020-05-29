@@ -89,9 +89,7 @@ async function fetchEditors(token, query, page) {
   ).then(res => res.json());
 }
 
-export const getEditors = async (managementToken, roles) => {
-  // In the case of multiple roles we chose the one with "write" scope.
-  const role = roles.find(r => r.includes('write'));
+export const getEditors = async (managementToken, role) => {
   const query = `include_totals=true&q=app_metadata.roles:"${role}"`;
 
   const firstPage = await fetchEditors(managementToken.access_token, query, 0);

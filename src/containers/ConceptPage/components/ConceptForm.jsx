@@ -19,6 +19,7 @@ import Accordion, {
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
+import Field from '../../../components/Field';
 import * as messageActions from '../../Messages/messagesActions';
 import {
   plainTextToEditorValue,
@@ -32,10 +33,12 @@ import {
   parseCopyrightContributors,
   parseImageUrl,
 } from '../../../util/formHelper';
+import { FormikActionButton } from '../../FormikForm';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
+import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
@@ -341,7 +344,25 @@ class ConceptForm extends Component {
                   </AccordionWrapper>
                 )}
               </Accordion>
-              {
+              {inModal ? (
+                <Field right>
+                  <FormikActionButton outline onClick={onClose}>
+                    {t('form.abort')}
+                  </FormikActionButton>
+                  <SaveButton
+                    {...formClasses}
+                    isSaving={isSubmitting}
+                    formIsDirty={formIsDirty}
+                    showSaved={savedToServer && !formIsDirty}
+                    submit={!inModal}
+                    onClick={evt => {
+                      evt.preventDefault();
+                      this.handleSubmit(formikProps);
+                    }}>
+                    {t('form.save')}
+                  </SaveButton>
+                </Field>
+              ) : (
                 <EditorFooter
                   t={t}
                   isSubmitting={isSubmitting}
@@ -362,7 +383,7 @@ class ConceptForm extends Component {
                   hideSecondaryButton
                   isNewlyCreated={isNewlyCreated}
                 />
-              }
+              )}
               {!inModal && (
                 <FormikAlertModalWrapper
                   isSubmitting={isSubmitting}

@@ -16,5 +16,7 @@ export const fetchAuth0Users = uniqueUserIds =>
     resolveJsonOrRejectWithError,
   );
 
-export const fetchAuth0Editors = () =>
-  fetchAuthorized('/get_editors').then(resolveJsonOrRejectWithError);
+export const fetchAuth0Editors = role =>
+  fetchAuthorized(`/get_editors?role=${role}`).then(
+    resolveJsonOrRejectWithError,
+  );

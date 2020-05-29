@@ -20,6 +20,7 @@ import ArticleStatuses from '../../../../util/constants/index';
 import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { searchFormClasses } from './SearchForm';
 import { LocationShape } from '../../../../shapes';
+import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 
 const emptySearchState = {
   query: '',
@@ -117,7 +118,7 @@ class SearchContentForm extends Component {
   }
 
   async getUsers() {
-    const editors = await fetchAuth0Editors();
+    const editors = await fetchAuth0Editors(DRAFT_WRITE_SCOPE);
     return editors.map(u => {
       return { id: `"${u.app_metadata.ndla_id}"`, name: u.name };
     });

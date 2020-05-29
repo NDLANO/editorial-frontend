@@ -152,13 +152,12 @@ app.get(
     algorithms: ['RS256'],
   }),
   async (req, res) => {
-    const { user } = req;
-    const hasWriteAccess =
-      user &&
-      user.scope &&
-      (user.scope.includes(DRAFT_WRITE_SCOPE) ||
-        user.scope.includes(DRAFT_PUBLISH_SCOPE));
+    const {
+      user,
+      query: { role },
+    } = req;
 
+    const hasWriteAccess = user.scope.includes(role);
     if (!hasWriteAccess) {
       res
         .status(FORBIDDEN)
@@ -168,7 +167,7 @@ app.get(
         const managementToken = await getToken(
           `https://${config.auth0Domain}/api/v2/`,
         );
-        const editors = await getEditors(managementToken);
+        const editors = await getEditors(managementToken, role);
         res.status(OK).json(editors);
       } catch (err) {
         res.status(INTERNAL_SERVER_ERROR).send(err.message);

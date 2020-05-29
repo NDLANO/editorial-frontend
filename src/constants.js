@@ -30,6 +30,8 @@ export const DRAFT_WRITE_SCOPE = 'drafts:write';
 export const DRAFT_HTML_SCOPE = 'drafts:html';
 export const DRAFT_PUBLISH_SCOPE = 'drafts:publish';
 
+export const CONCEPT_WRITE_SCOPE = 'concept:write';
+
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
 

@@ -42,11 +42,13 @@ const createLinkData = (href, targetRel) => ({
 });
 
 export const isNDLAArticleUrl = url =>
-  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
-export const isNDLASubjectUrl = url =>
-  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?subjects\/(.*)\/topic(.*)/.test(url);
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
+export const isNDLATaxonomyUrl = url =>
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subjects\/(.*)\/topic(.*)/.test(
+    url,
+  );
 export const isNDLALearningPathUrl = url =>
-  /^https:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
 export const isPlainId = url => /^\d+/.test(url);
 
 const getIdAndTypeFromUrl = async href => {
@@ -67,7 +69,7 @@ const getIdAndTypeFromUrl = async href => {
       resourceId: href,
       resourceType: 'article',
     };
-  } else if (isNDLASubjectUrl(href)) {
+  } else if (isNDLATaxonomyUrl(href)) {
     const taxonomyPath = href.split('subjects').pop();
     const resolvedTaxonomy = await resolveUrls(taxonomyPath);
 

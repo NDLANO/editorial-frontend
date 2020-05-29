@@ -9,7 +9,7 @@
 import {
   isNDLAArticleUrl,
   isNDLALearningPathUrl,
-  isNDLASubjectUrl,
+  isNDLATaxonomyUrl,
   isPlainId,
 } from '../EditLink';
 
@@ -17,6 +17,7 @@ test('urls are parsed correctly', async () => {
   const articleUrls = [
     'https://www.test.ndla.no/article/64323',
     'https://www.test.ndla.no/sma/article/64323',
+    'http://www.test.ndla.no/en/article/64323',
   ];
 
   const subjectUrls = [
@@ -55,35 +56,35 @@ test('urls are parsed correctly', async () => {
   articleUrls.forEach(url => {
     expect(isNDLAArticleUrl(url)).toBe(true);
     expect(isNDLALearningPathUrl(url)).toBe(false);
-    expect(isNDLASubjectUrl(url)).toBe(false);
+    expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(false);
   });
 
   subjectUrls.forEach(url => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
-    expect(isNDLASubjectUrl(url)).toBe(true);
+    expect(isNDLATaxonomyUrl(url)).toBe(true);
     expect(isPlainId(url)).toBe(false);
   });
 
   learningPathUrls.forEach(url => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(true);
-    expect(isNDLASubjectUrl(url)).toBe(false);
+    expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(false);
   });
 
   plainIds.forEach(url => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
-    expect(isNDLASubjectUrl(url)).toBe(false);
+    expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(true);
   });
 
   otherUrls.forEach(url => {
     expect(isNDLAArticleUrl(url)).toBe(false);
     expect(isNDLALearningPathUrl(url)).toBe(false);
-    expect(isNDLASubjectUrl(url)).toBe(false);
+    expect(isNDLATaxonomyUrl(url)).toBe(false);
     expect(isPlainId(url)).toBe(false);
   });
 });

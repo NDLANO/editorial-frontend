@@ -20,6 +20,7 @@ import {
 } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
+import { convertGrepCodesToObject } from '../../../FormikForm/FormikGrepCodesContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
 
@@ -33,6 +34,11 @@ interface Props {
   refreshTopics: Function;
   t: TranslateType;
   toggleEditMode: Function;
+}
+
+interface GrepCode {
+  code: string;
+  title: string | undefined | null;
 }
 
 enum MenuType {
@@ -65,6 +71,7 @@ const EditGrepCodes: FC<Props> = ({
 }) => {
   const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
+  const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);
 
   const updateMetadata = async (codes: string[]) => {
     switch (menuType) {
@@ -74,6 +81,7 @@ const EditGrepCodes: FC<Props> = ({
           visible: metadata.visible,
         });
         setGrepCodes(codes);
+        grepCodeDescriptionTitle();
         getAllSubjects();
         refreshTopics();
         break;
@@ -85,6 +93,7 @@ const EditGrepCodes: FC<Props> = ({
           visible: metadata.visible,
         });
         setGrepCodes(codes);
+        grepCodeDescriptionTitle();
         refreshTopics();
         break;
       }
@@ -98,10 +107,12 @@ const EditGrepCodes: FC<Props> = ({
     toggleEditMode('editGrepCodes');
   };
 
-  useEffect(() => {}, [editMode, grepCodes, addingNewGrepCode]);
+  useEffect(() => {
+    grepCodeDescriptionTitle();
+  }, [editMode, grepCodes, addingNewGrepCode]);
 
   const addGrepCode = (grepCode: string) => {
-    grepCodes.push(grepCode);
+    grepCodes.push(grepCode.toUpperCase());
     updateMetadata(grepCodes);
   };
 
@@ -110,21 +121,28 @@ const EditGrepCodes: FC<Props> = ({
     updateMetadata(grepCodes);
   };
 
+  const grepCodeDescriptionTitle = async () => {
+    const withName = await convertGrepCodesToObject(grepCodes);
+    console.log(withName);
+    setGrepCodesWithName(withName);
+  };
+
   const grepCodesList = (
     <DropDownWrapper>
-      {grepCodes?.length > 0 ? (
-        grepCodes.map((grepCode, index) => (
-          <StyledGrepItem>
-            {grepCode}
-
-            <Button
-              stripped
-              data-testid="deleteGrepCode"
-              onClick={() => deleteGrepCode(index)}>
-              <RoundIcon small icon={<DeleteForever />} />
-            </Button>
-          </StyledGrepItem>
-        ))
+      {grepCodesWithName?.length > 0 ? (
+        grepCodesWithName.map((grepCode, index) => {
+          return (
+            <StyledGrepItem>
+              {grepCode.title}
+              <Button
+                stripped
+                data-testid="deleteGrepCode"
+                onClick={() => deleteGrepCode(index)}>
+                <RoundIcon small icon={<DeleteForever />} />
+              </Button>
+            </StyledGrepItem>
+          );
+        })
       ) : (
         <p>{t('taxonomy.grepCodes.empty')}</p>
       )}

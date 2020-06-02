@@ -44,13 +44,16 @@ const doGrepCodeRequest = async (code: string) => {
 
 export const fetchGrepCodeTitle = async (grepCode: string) => {
   const res = await doGrepCodeRequest(grepCode);
+  console.log(res);
   try {
     if (res?.status === 404) {
+      console.log(grepCode, 'finnes ikke');
       return null;
     }
     const jsonResponse = await resolveJsonOrRejectWithError(res);
     const titlesObj = getTitlesObject(jsonResponse?.tittel);
-    return getDefaultLang(titlesObj);
+    const titleInLanguage = getDefaultLang(titlesObj);
+    return titleInLanguage;
   } catch (error) {
     handleError(error);
   }

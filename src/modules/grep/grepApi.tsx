@@ -32,6 +32,12 @@ const fetchKompetansemaal = async (code: string) =>
 const fetchTverrfagligeTemaer = async (code: string) =>
   fetch(grepUrl(`/tverrfaglige-temaer-lk20/${code}`));
 
+const fetchKompetansemaalsett = async (code: string) =>
+  fetch(grepUrl(`/kompetansemaalsett-lk20/${code}`));
+
+const fetchLaereplaner = async (code: string) =>
+  fetch(grepUrl(`/laereplaner-lk20/${code}`));
+
 const doGrepCodeRequest = async (code: string) => {
   if (code.startsWith('KE')) {
     return fetchKjerneelementer(code);
@@ -39,6 +45,10 @@ const doGrepCodeRequest = async (code: string) => {
     return fetchKompetansemaal(code);
   } else if (code.startsWith('TT')) {
     return fetchTverrfagligeTemaer(code);
+  } else if (code.startsWith('KV')) {
+    return fetchKompetansemaalsett(code);
+  } else {
+    return fetchLaereplaner(code);
   }
 };
 

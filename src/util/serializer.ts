@@ -31,18 +31,15 @@ const serializeNodeToHtml = (node: Node): string => {
 
 export interface Rule {
   deserialize?: (el: any, next: (children: ChildNode) => any) => any;
-  serialize?: (obj: Element, children: Node[]) => any;
+  serialize?: (obj: Node, children: Node[]) => any;
 }
 
 export const deserializeHtml = (input: any, rules: Rule[]) => {
   let html = input;
-  console.log("Deserializing HTML")
-  console.log(html);
   if (!html) return;
   if (typeof html === 'string') {
     html = new DOMParser().parseFromString(input, 'text/html').body;
   }
-  console.log(html);
   for (const rule of rules) {
     if (!rule.deserialize) {
       continue
@@ -52,16 +49,15 @@ export const deserializeHtml = (input: any, rules: Rule[]) => {
     if (res) console.log(res);
     if (res) return res;
   }
-
-  console.log(`NO DESERIALIZING HAPPENING! ELEMENT \n ${html? html : ''}`)
 }
 
 export const serializeHtml = (node: Node, rules: Rule[]) => {
   for (const rule of rules) {
-    if (!rule.serialize || !Element.isElement(node)) {
+    if (!rule.serialize || !Node.isNode(node)) {
       continue
     }
     const res = rule.serialize(node, node.children)
     if (res) return res;
   }
+  return null;
 }

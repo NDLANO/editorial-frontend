@@ -130,6 +130,7 @@ export const textRule: Rule = {
     ) {
       return null;
     }
+    // FIXME this is just a temp hack and should be fixed asap.
     if (el.nodeName.toLowerCase() !== '#text' && 
         (el.parentElement && true /* legalTextUnderBlocks.includes(el.parentElement.tagName.toLowerCase()) */)) {
       return jsx('text', { text: el.textContent })
@@ -194,7 +195,7 @@ export const divRule: Rule = {
     //   children: children.map(next),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     if (
       slateObject.type !== 'div' &&
@@ -238,7 +239,7 @@ export const paragraphRule: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     if (slateObject.type !== 'paragraph' && slateObject.type !== 'list-text')
       return;
@@ -271,7 +272,7 @@ export const listItemRule: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     if (slateObject.type !== 'list-item') return;
     return <li>{children}</li>;
@@ -288,7 +289,7 @@ export const unorderListRules: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     if (slateObject.type !== 'bulleted-list') {
       return;
@@ -316,7 +317,7 @@ export const mathRules: Rule = {
     //   ],
     // };
   },
-  serialize(slateObject: Element) {
+  serialize(slateObject: Node) {
     const { type, data } = slateObject;
     if (type !== 'mathml') return;
     const { innerHTML, ...mathAttributes } = data.toJS();
@@ -354,7 +355,7 @@ export const orderListRules: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     if (
       slateObject.type !== 'numbered-list' &&
@@ -392,7 +393,7 @@ export const footnoteRule: Rule = {
     //   },
     // };
   },
-  serialize(slateObject: Element) {
+  serialize(slateObject: Node) {
     if (slateObject.object !== 'inline') return;
     if (slateObject.type !== 'footnote') return;
 
@@ -417,7 +418,7 @@ export const blockRules: Rule = {
       // };
     }
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     switch (slateObject.type) {
       case 'section':
@@ -462,7 +463,7 @@ export const inlineRules: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'inline') return;
     const data = slateObject.data.toJS();
     const props = createProps(data);
@@ -492,7 +493,7 @@ export const detailsRules: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(object: Element, children: Node[]) {
+  serialize(object: Node, children: Node[]) {
     if (object.type !== 'details' && object.type !== 'solutionbox') {
       return;
     }
@@ -517,7 +518,7 @@ export const tableRules: Rule = {
     //   children: Array.from(el.childNodes).map(next),
     // };
   },
-  serialize(object: Element, children: Node[]) {
+  serialize(object: Node, children: Node[]) {
     if (object.object !== 'block') return;
 
     const data = object.data.toJS();
@@ -546,7 +547,7 @@ export const tableRules: Rule = {
 };
 
 const relatedRule: Rule = {
-  serialize(object: Element) {
+  serialize(object: Node) {
     if (object.type === 'related') {
       return (
         <div data-type="related-content">
@@ -576,7 +577,7 @@ export const brRule: Rule = {
     }
     // Default to standard slate deserializing if not in a known block
   },
-  serialize(slateObject: Element) {
+  serialize(slateObject: Node) {
     if (slateObject.type !== 'br') return;
     return <br />;
   },
@@ -595,7 +596,7 @@ const markRules: Rule = {
     //   children: ([].slice.call(el.children)).map(c => next(c)),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'mark') return;
 
     switch (slateObject.type) {
@@ -638,7 +639,7 @@ const linkRules: Rule = {
     //   children,
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'inline') return;
     if (slateObject.type !== 'link') return;
     const data = slateObject.data.toJS();
@@ -679,7 +680,7 @@ const asideRules: Rule = {
     //   data: getAsideType(el),
     // };
   },
-  serialize(slateObject: Element, children: Node[]) {
+  serialize(slateObject: Node, children: Node[]) {
     if (slateObject.object !== 'block') return;
     if (slateObject.type !== 'aside') return;
     return <aside {...setAsideTag(slateObject.data)}>{children}</aside>;
@@ -716,7 +717,7 @@ const topicArticeEmbedRule: Rule[] = [
       //   data: reduceElementDataAttributes(el),
       // };
     },
-    serialize(object: Element) {
+    serialize(object: Node) {
       if (object.object !== 'block') return;
       if (object.type !== 'embed') return;
       switch (object.type) {
@@ -778,7 +779,7 @@ export const learningResourceEmbedRule: Rule[] = [
       // };
     },
 
-    serialize(object: Element) {
+    serialize(object: Node) {
       if (
         (object.type && object.type.startsWith('embed')) ||
         object.type === 'concept'

@@ -58,12 +58,12 @@ const RichBlockTextEditor = (props: Props) => {
   // index: undefined.
   //
   const onChange = (evt: any, index: number) => {
-    console.log(evt);
-    console.log(index);
-    console.log(props);
-    const newValue = value;
-    props.onChange(evt)
-    // newValue[index] = evt.target.value;
+    console.log('ONCHANGE');
+    if (evt === value) return;
+    // console.log(evt);
+    // const newValue = value;
+    // newValue[index] = evt.selection.value;
+    setFieldValue(name, evt);
     // props.onChange({
     //   target: {
     //     value: newValue,

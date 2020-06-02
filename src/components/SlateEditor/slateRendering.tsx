@@ -12,6 +12,8 @@ import { RenderElementProps, RenderLeafProps } from 'slate-react';
 
 export const renderElement = (props: RenderElementProps) => {
   const { attributes, children, element } = props;
+  console.log('RENDERELEMENT');
+  console.log(element);
   switch (element.type) {
     case 'section':
       return <section {...attributes}>{children}</section>;
@@ -52,6 +54,9 @@ export const renderElement = (props: RenderElementProps) => {
 
 export const renderLeaf = (props: RenderLeafProps) => {
   const { attributes, children, leaf } = props;
+  console.log('RENDERLEAF')
+  console.log(leaf);
+  console.log(children);
   switch (leaf.type) {
     case 'bold':
       return <strong {...attributes}>{children}</strong>;

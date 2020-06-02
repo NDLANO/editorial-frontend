@@ -7,6 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
+import { Node } from 'slate';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -231,7 +232,7 @@ class LearningResourceContent extends Component {
                 name={name}
                 onChange={onChange}
                 onBlur={(event, editor, next) => {
-                  next();
+                  // next();
                   // this is a hack since formik onBlur-handler interferes with slates
                   // related to: https://github.com/ianstormtaylor/slate/issues/2434
                   // formik handleBlur needs to be called for validation to work (and touched to be set)

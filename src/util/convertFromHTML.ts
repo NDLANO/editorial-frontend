@@ -38,7 +38,7 @@ export function convertFromHTML(json: any) {  // TODO Rename from json? Doesnt l
 
       if (child.object === 'block') {
         if (openWrapperBlock) {
-          openWrapperBlock = { children: [] };
+          openWrapperBlock = jsx('element', {}, []);
           // this node will close the wrapper block we've created and trigger a newline!
           // If this node is empty (was just a <br> or <p></p> to begin with) let's skip
           // it to avoid creating a double newline.
@@ -53,12 +53,13 @@ export function convertFromHTML(json: any) {  // TODO Rename from json? Doesnt l
         cleanNodes.push(child);
       } else {
         if (openWrapperBlock.children.length === 0) {
-          openWrapperBlock = {
-            type: 'paragraph',
-            object: 'block',
-            children: [],
-            data: {},
-          };
+          openWrapperBlock = jsx('element', { type: 'paragraph' }, [])
+          // {
+          //   type: 'paragraph',
+          //   object: 'block',
+          //   children: [],
+          //   data: {},
+          // };
           cleanNodes.push(openWrapperBlock);
         }
         openWrapperBlock.nodes.push(child);

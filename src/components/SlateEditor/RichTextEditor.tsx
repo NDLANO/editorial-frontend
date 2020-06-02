@@ -89,7 +89,7 @@ const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, editor: Editor, r
       if (
         numberOfNodesInSection === 1 &&
         // value.document.text.length === 0 &&
-        // selection.isCollapsed &&
+        // selection?.isCollapsed &&
         selection?.anchor.offset === 0
       ) {
         removeSection(editor.index);

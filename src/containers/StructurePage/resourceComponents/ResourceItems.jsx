@@ -58,11 +58,11 @@ class ResourceItems extends React.PureComponent {
 
   async deleteFilters(id) {
     const resourceFilters = await fetchResourceFilter(id);
-    const topicFilterIds = this.props.currentTopic.filters.map(
-      filter => filter.id,
-    );
+    const subjectFilterIds = this.props.availableFilters[
+      this.props.currentSubject.id
+    ].map(filter => filter.id);
     resourceFilters.forEach(resourceFilter => {
-      if (topicFilterIds.includes(resourceFilter.id)) {
+      if (subjectFilterIds.includes(resourceFilter.id)) {
         deleteResourceFilter(resourceFilter.connectionId);
       }
     });

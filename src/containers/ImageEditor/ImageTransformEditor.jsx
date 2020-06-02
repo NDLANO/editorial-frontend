@@ -40,6 +40,7 @@ const ImageTransformEditor = ({
       return (
         <figure>
           <img
+            style={{ minWidth: '100%' }}
             alt={embed.alt}
             srcSet={getSrcSets(embed.resource_id, transformData)}
           />

@@ -112,6 +112,7 @@ class SlateImage extends React.Component {
               <img
                 src={src}
                 alt={embed.alt}
+                style={{ minWidth: '716px' }}
                 srcSet={getSrcSets(embed.resource_id, transformData)}
                 css={
                   showCopyOutline && {

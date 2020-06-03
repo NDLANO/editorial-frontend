@@ -198,6 +198,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feilet.',
     loginLink: 'Klikk for å prøve igjen.',
+    userNotRegistered:
+      'Vi kjente ikke igjen epostadressen din. Har du logget inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',
@@ -457,6 +459,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveAsNewVersion: 'Lagre som ny versjon',
     saveDraft: 'Lagre utkast',
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
@@ -470,7 +473,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
-      introduction: 'Introduksjon',
+      introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
       processors: 'Bearbeider',
@@ -491,7 +494,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
-      competences: 'Læreplankobling',
+      grepCodes: 'Læreplankobling',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -578,6 +581,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
+      remove: 'Fjern metabilde',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -603,7 +607,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Hva er forskjellen på ulike statuser?',
       statusLabel: 'Status',
-      published: 'Artikkelen har en publisert versjon.',
+      published: 'Det finnes en publisert versjon av dette elementet.',
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
     },
     status: {
@@ -636,6 +640,12 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
+      },
+      learningpath_statuses: {
+        private: 'Kladd',
+        published: 'Offentlig',
+        unlisted: 'Lenkedelt',
+        submitted: 'Bedt om offentliggjøring',
       },
     },
     validDate: {
@@ -716,7 +726,12 @@ const phrases = {
       createOption: 'Opprett nytt nøkkelord',
       searchPlaceholder: 'Søk etter nøkkelord',
     },
-    competences: {
+    categories: {
+      label: 'Liste og filter',
+      description: 'Format: liste:filter1:filter2',
+      searchPlaceholder: 'Søk etter lister',
+    },
+    grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
@@ -902,8 +917,8 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
-    competences:
-      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
+    grepCodes:
+      'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',
@@ -964,6 +979,7 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    copyResources: 'Kopier ressurser fra emne',
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserer ressurser',
@@ -1006,7 +1022,13 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    grepCodes: {
+      edit: 'Endre læreplankobling',
+      empty: 'Ingen registerte koder',
+      addNew: 'Legg til ny læreplankobling',
+    },
     goTo: 'Åpne i stukturredigering',
+    missingResourceType: 'Mangler ressurstype',
   },
   detailBox: {
     label: 'Endre overskrift',
@@ -1064,6 +1086,11 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+  },
+  metadata: {
+    visible: 'er synlig',
+    notVisible: 'er ikke synlig',
+    changeVisibility: 'Endre synlighet',
   },
 };
 

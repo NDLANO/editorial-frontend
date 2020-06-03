@@ -80,7 +80,6 @@ const rules = {
 class AudioForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       savedToServer: false,
     };
@@ -93,9 +92,10 @@ class AudioForm extends Component {
     }
   }
 
-  async handleSubmit(values, actions) {
+  handleSubmit = async (values, actions) => {
     const { licenses, onUpdate, revision, applicationError } = this.props;
     try {
+      actions.setSubmitting(true);
       const audioMetaData = {
         id: values.id,
         revision,
@@ -118,10 +118,10 @@ class AudioForm extends Component {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
-  }
+  };
 
   render() {
-    const { t, tags, licenses, audio } = this.props;
+    const { t, licenses, audio, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
     const panels = ({ values, errors, touched, setFieldValue }) => [
       {
@@ -133,7 +133,6 @@ class AudioForm extends Component {
         component: (
           <AudioContent
             classes={formClasses}
-            tags={tags}
             setFieldValue={setFieldValue}
             values={values}
           />
@@ -152,8 +151,9 @@ class AudioForm extends Component {
         component: (
           <AudioMetaData
             classes={formClasses}
-            tags={tags}
             licenses={licenses}
+            audioLanguage={audio.language}
+            audioTags={audio.tags}
           />
         ),
       },
@@ -166,7 +166,7 @@ class AudioForm extends Component {
         enableReinitialize
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting } = formikProps;
+          const { values, dirty, isSubmitting, submitForm } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -217,7 +217,11 @@ class AudioForm extends Component {
                   {...formClasses}
                   isSaving={isSubmitting}
                   formIsDirty={formIsDirty}
-                  showSaved={savedToServer && !formIsDirty}
+                  showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                  onClick={evt => {
+                    evt.preventDefault();
+                    submitForm();
+                  }}
                 />
               </Field>
               <FormikAlertModalWrapper
@@ -245,12 +249,12 @@ AudioForm.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   onUpdate: PropTypes.func.isRequired,
   revision: PropTypes.number,
   audio: AudioShape,
   applicationError: PropTypes.func.isRequired,
   audioLanguage: PropTypes.string,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default compose(

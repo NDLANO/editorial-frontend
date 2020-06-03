@@ -118,6 +118,16 @@ export const textRule = {
       return null;
     }
     if (
+      el.nodeName.toLowerCase() === '#text' &&
+      el.parentNode?.tagName.toLowerCase() === 'section'
+    ) {
+      // handle text nodes directly inside section
+      return {
+        object: 'text',
+        text: el.data,
+      };
+    }
+    if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
       (el.parentNode && el.parentNode.tagName.toLowerCase() !== 'section')
@@ -199,9 +209,7 @@ export const paragraphRule = {
     const type = parent === 'li' ? 'list-text' : 'paragraph';
     return {
       object: 'block',
-      data: {
-        ...reduceElementDataAttributes(el),
-      },
+      data: reduceElementDataAttributes(el, ['align', 'data-align']),
       type,
       nodes: next(el.childNodes),
     };
@@ -462,11 +470,30 @@ export const tableRules = {
     const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
 
-    const attributes = reduceElementDataAttributes(el);
+    let data = {
+      isHeader: tagName === 'th',
+    };
+    if (tagName === 'th' || tagName === 'td') {
+      const filter = [
+        'rowspan',
+        'colspan',
+        'align',
+        'data-align',
+        'valign',
+        'data-valign',
+        'class',
+        'data-class',
+      ];
+      const attrs = reduceElementDataAttributes(el, filter);
+      data = {
+        isHeader: tagName === 'th',
+        ...attrs,
+      };
+    }
     return {
       object: 'block',
       type: tableTag,
-      data: { isHeader: tagName === 'th', ...attributes },
+      data,
       nodes: next(el.childNodes),
     };
   },

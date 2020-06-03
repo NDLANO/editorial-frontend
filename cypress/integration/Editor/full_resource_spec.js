@@ -43,7 +43,7 @@ describe('Edit article with everything', () => {
       `/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@tags', '@licenses', '@draftFull']);
+    cy.apiwait(['@licenses', '@draftFull']);
   });
 
   it('Can change language and fetch the new article', () => {
@@ -58,13 +58,13 @@ describe('Edit article with everything', () => {
 
   it('Can edit the published date', () => {
     // check that article is not dirty
-    cy.get('[data-testid=saveLearningResourceButton]').should('be.disabled');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().should('be.disabled');
     cy.get('span[name=published] > button').click();
     cy.get('.flatpickr-day ')
       .first()
       .click();
     
-    cy.get('[data-testid=saveLearningResourceButton]').click();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
     cy.apiwait('@saveLearningResource');
   });
 });

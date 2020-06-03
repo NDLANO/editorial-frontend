@@ -24,6 +24,11 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
+import {
+  StructureShape,
+  AvailableFiltersShape,
+  TopicShape,
+} from '../../../shapes';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -42,9 +47,10 @@ const Resource = ({
   showFilterPicker,
   toggleFilterPicker,
   onFilterChange,
+  availableFilters,
   activeFilters,
-  currentTopic,
-  currentSubject,
+  breadCrumbs,
+  structure,
   onFilterSubmit,
   onDelete,
   id,
@@ -57,7 +63,6 @@ const Resource = ({
 }) => {
   // because topic-article icon is wrongly named "subject" in frontend-packages:
   const iconType = contentType === 'topic-article' ? 'subject' : contentType;
-
   return (
     <div
       data-testid={`resource-type-${contentType}`}
@@ -75,7 +80,8 @@ const Resource = ({
           name={name}
         />
       </div>
-      {status === PUBLISHED && (
+      {(status?.current === PUBLISHED ||
+        status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />
         </Tooltip>
@@ -96,18 +102,18 @@ const Resource = ({
           title={t('taxonomy.resource.chooseFilter')}
           onClose={() => toggleFilterPicker(id)}>
           <FilterConnections
-            topics={[currentTopic]}
+            breadCrumbs={breadCrumbs}
             activeFilters={activeFilters}
             resourceId={id}
-            structure={[currentSubject]}
-            availableFilters={{ [currentSubject.id]: currentTopic.filters }}
+            structure={structure}
+            availableFilters={availableFilters}
             updateFilter={onFilterChange}
           />
           <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
         </TaxonomyLightbox>
       )}
       {onDelete && (
-        <Button onClick={() => onDelete(connectionId)} stripped>
+        <Button onClick={() => onDelete(connectionId, id)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
       )}
@@ -127,6 +133,7 @@ Resource.propTypes = {
   showFilterPicker: PropTypes.bool,
   toggleFilterPicker: PropTypes.func,
   onFilterChange: PropTypes.func,
+  availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(PropTypes.object),
   currentTopic: PropTypes.shape({
     filters: PropTypes.array,
@@ -135,14 +142,19 @@ Resource.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   onFilterSubmit: PropTypes.func,
   id: PropTypes.string,
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
   contentUri: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
   locale: PropTypes.string.isRequired,
+  breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
 };
 
 export default injectT(Resource);

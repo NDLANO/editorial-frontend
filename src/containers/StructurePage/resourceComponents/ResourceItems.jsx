@@ -25,6 +25,7 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -41,10 +42,11 @@ class ResourceItems extends React.PureComponent {
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-  async onDelete(id) {
+  async onDelete(deleteId, resourceId) {
     try {
       this.setState({ deleteId: '', error: '' });
-      await deleteTopicResource(id);
+      await deleteTopicResource(deleteId);
+      await this.deleteFilters(resourceId);
       this.props.refreshResources();
     } catch (e) {
       handleError(e);
@@ -52,6 +54,18 @@ class ResourceItems extends React.PureComponent {
         error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
       });
     }
+  }
+
+  async deleteFilters(id) {
+    const resourceFilters = await fetchResourceFilter(id);
+    const topicFilterIds = this.props.currentTopic.filters.map(
+      filter => filter.id,
+    );
+    resourceFilters.forEach(resourceFilter => {
+      if (topicFilterIds.includes(resourceFilter.id)) {
+        deleteResourceFilter(resourceFilter.connectionId);
+      }
+    });
   }
 
   async onDragEnd({ destination, source }) {
@@ -115,8 +129,8 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  toggleDelete(id) {
-    this.setState({ deleteId: id });
+  toggleDelete(deleteId, resourceId) {
+    this.setState({ deleteId, resourceId });
   }
 
   async toggleFilterPicker(id) {
@@ -162,13 +176,16 @@ class ResourceItems extends React.PureComponent {
       contentType,
       resources,
       t,
+      availableFilters,
       currentTopic,
       currentSubject,
+      structure,
       locale,
     } = this.props;
 
     const {
       deleteId,
+      resourceId,
       error,
       filterPickerId,
       activeFilters,
@@ -190,11 +207,13 @@ class ResourceItems extends React.PureComponent {
               contentType={contentType}
               showFilterPicker={filterPickerId === resource.id}
               currentSubject={currentSubject}
+              structure={structure}
               onFilterChange={this.updateFilter}
               onFilterSubmit={this.onFilterSubmit}
               toggleFilterPicker={this.toggleFilterPicker}
               onDelete={this.toggleDelete}
               currentTopic={currentTopic}
+              availableFilters={availableFilters}
               activeFilters={activeFilters[resource.id]}
               {...resource}
               locale={locale}
@@ -218,7 +237,7 @@ class ResourceItems extends React.PureComponent {
             },
             {
               text: t('alertModal.delete'),
-              onClick: () => this.onDelete(deleteId),
+              onClick: () => this.onDelete(deleteId, resourceId),
             },
           ]}
           onCancel={() => this.toggleDelete('')}
@@ -233,14 +252,16 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
+  availableFilters: AvailableFiltersShape,
   activeFilter: PropTypes.string,
   currentTopic: PropTypes.shape({
-    filter: PropTypes.array,
+    filters: PropTypes.array,
   }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

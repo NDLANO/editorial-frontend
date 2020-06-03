@@ -119,7 +119,7 @@ class LearningResourceTaxonomy extends Component {
     }
     try {
       this.updateSubject(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid);
+      const allTopics = await fetchSubjectTopics(subjectid, this.props.locale);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectid, { loading: false, topics: groupedTopics });
     } catch (err) {
@@ -413,6 +413,21 @@ class LearningResourceTaxonomy extends Component {
       );
     }
 
+    const breadCrumbs = [];
+    topics.forEach(topic => {
+      if (topic.paths) {
+        topic.paths.forEach(path =>
+          breadCrumbs.push(
+            retriveBreadCrumbs({ topicPath: path, allTopics, structure }),
+          ),
+        );
+      } else {
+        breadCrumbs.push(
+          retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }),
+        );
+      }
+    });
+
     return (
       <Fragment>
         <ResourceTypeSelect
@@ -435,7 +450,7 @@ class LearningResourceTaxonomy extends Component {
         />
         {topics.length > 0 && (
           <FilterConnections
-            topics={topics}
+            breadCrumbs={breadCrumbs}
             activeFilters={filter}
             structure={structure}
             availableFilters={availableFilters}
@@ -452,7 +467,7 @@ class LearningResourceTaxonomy extends Component {
           <SaveButton
             isSaving={status === 'loading'}
             showSaved={status === 'success' && !isDirty}
-            disabled={!isDirty}
+            disabled={!isDirty || !resourceTypes.length}
             onClick={this.handleSubmit}
             defaultText="saveTax"
           />
@@ -464,6 +479,7 @@ class LearningResourceTaxonomy extends Component {
 
 LearningResourceTaxonomy.propTypes = {
   language: PropTypes.string,
+  locale: PropTypes.string,
   closePanel: PropTypes.func,
   revision: PropTypes.number,
   article: PropTypes.shape({

@@ -12,7 +12,7 @@ const fetch = require('isomorphic-fetch');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const { diffHTML } = require('../../src/util/diffHTML');
-const { getNdlaApiUrl } = require('../../src/config');
+const { getNdlaApiUrl, getAuth0Hostname } = require('../../src/config');
 const {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
@@ -40,7 +40,7 @@ function sleep(ms) {
 }
 
 async function fetchSystemAccessToken() {
-  token = await fetch(`https://ndla.eu.auth0.com/oauth/token`, {
+  token = await fetch(`https://${getAuth0Hostname()}/oauth/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

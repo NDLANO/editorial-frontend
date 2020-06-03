@@ -13,16 +13,25 @@ describe('Resource listing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true',
+      '/taxonomy/v1/subjects?includeMetadata=true&language=nb',
+      'allSubjects',
+    );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?includeMetadata=true&recursive=true&language=nb',
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
       '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
+    );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/filters/?language=nb',
+      'allFilters'
     );
     cy.apiroute(
       'GET',
@@ -33,6 +42,16 @@ describe('Resource listing', () => {
       'GET',
       '/taxonomy/v1/topics/**/resources/?language=nb',
       'coreResources',
+    );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/topics/urn:topic:1:183043',
+      'topic:183043',
+    );
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/topics/urn:topic:1:183437',
+      'topic:183437',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
     cy.apiroute(
@@ -48,8 +67,11 @@ describe('Resource listing', () => {
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');
+    cy.apiwait('@allFilters');
     cy.apiwait('@coreResources');
     cy.apiwait('@article');
+    cy.apiwait('@topic:183043');
+    cy.apiwait('@topic:183437');
   });
 
   it('should open filter picker and have functioning buttons', () => {

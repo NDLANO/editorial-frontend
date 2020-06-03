@@ -32,25 +32,36 @@ const fetchKompetansemaal = async (code: string) =>
 const fetchTverrfagligeTemaer = async (code: string) =>
   fetch(grepUrl(`/tverrfaglige-temaer-lk20/${code}`));
 
-const doCompetenceRequest = async (code: string) => {
+const fetchKompetansemaalsett = async (code: string) =>
+  fetch(grepUrl(`/kompetansemaalsett-lk20/${code}`));
+
+const fetchLaereplaner = async (code: string) =>
+  fetch(grepUrl(`/laereplaner-lk20/${code}`));
+
+const doGrepCodeRequest = async (code: string) => {
   if (code.startsWith('KE')) {
     return fetchKjerneelementer(code);
   } else if (code.startsWith('KM')) {
     return fetchKompetansemaal(code);
   } else if (code.startsWith('TT')) {
     return fetchTverrfagligeTemaer(code);
+  } else if (code.startsWith('KV')) {
+    return fetchKompetansemaalsett(code);
+  } else {
+    return fetchLaereplaner(code);
   }
 };
 
-export const fetchCompetenceTitle = async (competenceCode: string) => {
-  const res = await doCompetenceRequest(competenceCode);
+export const fetchGrepCodeTitle = async (grepCode: string) => {
+  const res = await doGrepCodeRequest(grepCode);
   try {
     if (res?.status === 404) {
       return null;
     }
     const jsonResponse = await resolveJsonOrRejectWithError(res);
     const titlesObj = getTitlesObject(jsonResponse?.tittel);
-    return getDefaultLang(titlesObj);
+    const titleInLanguage = getDefaultLang(titlesObj);
+    return titleInLanguage;
   } catch (error) {
     handleError(error);
   }

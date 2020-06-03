@@ -21,14 +21,24 @@ import CreateConcept from './CreateConcept';
 import EditConcept from './EditConcept';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getLocale } from '../../modules/locale/locale';
-import { LicensesArrayOf } from '../../shapes';
+import { LicensesArrayOf, LocationShape } from '../../shapes';
 import Footer from '../App/components/Footer';
 
 class ConceptPage extends PureComponent {
+  state = {
+    previousLocation: '',
+  };
+
   componentDidMount() {
     const { fetchLicenses, licenses } = this.props;
     if (!licenses.length) {
       fetchLicenses();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setState({ previousLocation: prevProps.location.pathname });
     }
   }
 
@@ -49,6 +59,9 @@ class ConceptPage extends PureComponent {
                   licenses={licenses}
                   conceptId={routeProps.match.params.conceptId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
+                  isNewlyCreated={
+                    this.state.previousLocation === '/concept/new'
+                  }
                   {...rest}
                 />
               )}
@@ -73,11 +86,13 @@ ConceptPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
+  location: LocationShape,
 };
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
   applicationError: messageActions.applicationError,
+  createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
 const mapStateToProps = state => ({

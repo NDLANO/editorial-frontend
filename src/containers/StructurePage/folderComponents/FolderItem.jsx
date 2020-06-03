@@ -47,6 +47,7 @@ const FolderItem = ({
   filters,
   t,
   userAccess,
+  metadata,
   ...rest
 }) => {
   const type = id.includes('subject') ? 'subject' : 'topic';
@@ -66,6 +67,7 @@ const FolderItem = ({
           showAllOptions={
             userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE)
           }
+          metadata={metadata}
           {...rest}
         />
       )}
@@ -117,6 +119,10 @@ FolderItem.propTypes = {
     }),
   ),
   userAccess: string,
+  metadata: shape({
+    grepCodes: arrayOf(string),
+    visible: bool,
+  }),
 };
 
 export default withRouter(injectT(FolderItem));

@@ -8,18 +8,21 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
 import {
   fetchAllResourceTypes,
   fetchTopicResources,
+  fetchTopic,
 } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -53,14 +56,22 @@ export class StructureResources extends React.PureComponent {
     const {
       currentTopic: { id, contentUri },
       activeFilters,
+      resourcesUpdated,
+      setResourcesUpdated,
+      locale,
     } = this.props;
-    if (id !== prevProps.currentTopic.id) {
-      this.getTopicResources();
-    } else if (activeFilters.length !== prevProps.activeFilters.length) {
+    if (
+      id !== prevProps.currentTopic.id ||
+      activeFilters.length !== prevProps.activeFilters.length ||
+      resourcesUpdated
+    ) {
       this.getTopicResources();
     }
     if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
-      this.getArticle(contentUri);
+      this.getArticle(contentUri, locale);
+    }
+    if (resourcesUpdated) {
+      setResourcesUpdated(false);
     }
   }
 
@@ -73,9 +84,12 @@ export class StructureResources extends React.PureComponent {
     return null;
   }
 
-  async getArticle(contentUri) {
+  async getArticle(contentUri, locale) {
     try {
-      const article = await fetchDraft(contentUri.replace('urn:article:', ''));
+      const article = await fetchDraft(
+        contentUri.replace('urn:article:', ''),
+        locale,
+      );
       this.setState({ topicDescription: article.title && article.title.title });
     } catch (error) {
       handleError(error);
@@ -83,8 +97,14 @@ export class StructureResources extends React.PureComponent {
   }
 
   async getAllResourceTypes() {
+    const { t } = this.props;
     try {
       const resourceTypes = await fetchAllResourceTypes(this.props.locale);
+      resourceTypes.push({
+        id: 'missing',
+        name: t('taxonomy.missingResourceType'),
+        disabled: true,
+      });
       this.setState({ resourceTypes });
     } catch (error) {
       handleError(error);
@@ -102,19 +122,31 @@ export class StructureResources extends React.PureComponent {
     if (topicId) {
       try {
         this.setState({ loading: true });
-        const allTopicResources = await fetchTopicResources(
+        const initialTopicResources = await fetchTopicResources(
           topicId,
           locale,
           undefined,
           activeFilters.join(','),
         );
+        const allTopicResources = await Promise.all(
+          initialTopicResources.map(async r => {
+            const breadCrumbs = await this.getCrumbsFromPath(r);
+            if (r.resourceTypes.length > 0) {
+              return { ...r, breadCrumbs };
+            } else {
+              return { ...r, resourceTypes: [{ id: 'missing' }], breadCrumbs };
+            }
+          }),
+        );
 
         if (currentTopic.contentUri) {
-          fetchDraft(currentTopic.contentUri.replace('urn:article:', '')).then(
-            article =>
-              this.setState({
-                topicStatus: article.status.current,
-              }),
+          fetchDraft(
+            currentTopic.contentUri.replace('urn:article:', ''),
+            locale,
+          ).then(article =>
+            this.setState({
+              topicStatus: article.status,
+            }),
           );
         }
         this.getResourceStatuses(allTopicResources);
@@ -138,32 +170,62 @@ export class StructureResources extends React.PureComponent {
       if (resource.contentUri) {
         const [, resourceType, id] = resource.contentUri.split(':');
         if (resourceType === 'article') {
-          const article = await fetchDraft(id);
-          resource.status = article.status.current;
+          const article = await fetchDraft(id, this.props.locale);
+          resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
-          const learningpath = await fetchLearningpath(id);
-          resource.status = learningpath.status;
+          const learningpath = await fetchLearningpath(id, this.props.locale);
+          resource.status = { current: learningpath.status };
           return learningpath;
         }
       }
     });
     await Promise.all(resourcePromises);
-    const topicResources = groupSortResourceTypesFromTopicResources(
-      this.state.resourceTypes,
-      allTopicResources,
-    );
-    this.setState({ topicResources });
+  }
+
+  async getCrumbsFromPath(resource) {
+    const breadCrumbs = [];
+    if (resource.paths) {
+      resource.paths.forEach(async path => {
+        breadCrumbs.push([
+          this.props.structure.find(
+            structureItem => structureItem.id === `urn:${path.split('/')[1]}`,
+          ),
+          ...(await Promise.all(
+            path
+              .split('/')
+              .slice(2, -1)
+              .map(topicId => fetchTopic(`urn:${topicId}`)),
+          )),
+        ]);
+      });
+    } else {
+      breadCrumbs.push([
+        this.props.structure.find(
+          structureItem =>
+            structureItem.id === `urn:${resource.path.split('/')[1]}`,
+        ),
+        ...(await Promise.all(
+          resource.path
+            .split('/')
+            .slice(2, -1)
+            .map(topicId => fetchTopic(`urn:${topicId}`)),
+        )),
+      ]);
+    }
+    return breadCrumbs;
   }
 
   render() {
     const {
+      availableFilters,
       activeFilters,
       locale,
       refreshTopics,
       currentTopic,
       resourceRef,
       currentSubject,
+      structure,
     } = this.props;
     const {
       topicDescription,
@@ -196,10 +258,13 @@ export class StructureResources extends React.PureComponent {
               topicResource={topicResource}
               params={this.props.params}
               refreshResources={this.getTopicResources}
+              availableFilters={availableFilters}
               activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={structure}
+              disable={resourceType.disabled}
             />
           );
         })}
@@ -219,12 +284,16 @@ StructureResources.propTypes = {
     contentUri: PropTypes.string,
   }).isRequired,
   refreshTopics: PropTypes.func,
+  availableFilters: AvailableFiltersShape,
   activeFilters: PropTypes.arrayOf(PropTypes.string),
   resourceRef: PropTypes.object,
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
+  resourcesUpdated: PropTypes.bool,
+  setResourcesUpdated: PropTypes.func,
 };
 
-export default StructureResources;
+export default injectT(StructureResources);

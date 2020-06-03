@@ -29,7 +29,6 @@ const ConceptModal = ({
   id,
   onClose,
   isOpen,
-  tags,
   subjects,
   t,
   locale,
@@ -39,6 +38,8 @@ const ConceptModal = ({
   updateConcept,
   createConcept,
   concept,
+  fetchStatusStateMachine,
+  fetchSearchTags,
 }) => {
   const [searchObject, updateSearchObject] = useState({
     page: 1,
@@ -170,11 +171,12 @@ const ConceptModal = ({
                       <ConceptForm
                         inModal
                         onClose={onClose}
-                        tags={tags}
                         subjects={subjects}
                         licenses={licenses}
                         onUpdate={onConceptUpsert}
                         locale={locale}
+                        fetchStateStatuses={fetchStatusStateMachine}
+                        fetchConceptTags={fetchSearchTags}
                         concept={
                           id
                             ? { ...concept, language: locale }
@@ -205,7 +207,8 @@ ConceptModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleRemove: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchStatusStateMachine: PropTypes.func,
+  fetchSearchTags: PropTypes.func,
 };
 
 export default injectT(ConceptModal);

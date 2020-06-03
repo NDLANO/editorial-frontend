@@ -16,7 +16,13 @@ const baseUrl = apiResourceUrl('/taxonomy/v1');
 const resolveTaxonomyResponse = res => resolveJsonOrRejectWithError(res, true);
 
 function fetchTopics(locale) {
-  return fetchAuthorized(`${baseUrl}/topics/?language=${locale}`).then(
+  return fetchAuthorized(
+    `${baseUrl}/topics?includeMetadata=true&language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+function fetchTopic(id) {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`).then(
     resolveJsonOrRejectWithError,
   );
 }
@@ -129,9 +135,17 @@ function fetchTopicConnections(id) {
     resolveJsonOrRejectWithError,
   );
 }
+function updateTopicMetadata(subjectId, body) {
+  return fetchAuthorized(`${baseUrl}/topics/${subjectId}/metadata`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
 
 export {
   fetchTopics,
+  fetchTopic,
   addTopic,
   updateTopic,
   deleteTopic,
@@ -146,4 +160,5 @@ export {
   fetchTopicConnections,
   updateTopicSubtopic,
   fetchTopicResourceTypes,
+  updateTopicMetadata,
 };

@@ -125,7 +125,15 @@ export interface ArticleType {
   };
   status: Status;
   content: string;
-  competences: string[];
+  grepCodes: string[];
+}
+
+export interface Topic {
+  contentUri: string;
+  id: string;
+  name: string;
+  path: string;
+  paths: string[];
 }
 
 export interface Resource {
@@ -204,4 +212,19 @@ export interface Learningpath {
     title: string;
     language: string;
   };
+}
+
+export interface Filter {
+  id: string;
+  connectionId: string;
+  relevanceId: string;
+  name: string;
+}
+
+export interface SearchResult {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: string[];
 }

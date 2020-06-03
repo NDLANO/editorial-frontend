@@ -14,8 +14,12 @@ import {
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
-export const fetchLearningpath = id =>
-  fetchAuthorized(`${baseUrl}/${id}`).then(resolveJsonOrRejectWithError);
+export const fetchLearningpath = (id, locale) => {
+  const language = locale ? `?language=${locale}&fallback=true` : '';
+  fetchAuthorized(`${baseUrl}/${id}${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
+};
 
 export const updateStatusLearningpath = (id, status, message) =>
   fetchAuthorized(`${baseUrl}/${id}/status/`, {

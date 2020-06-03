@@ -14,7 +14,7 @@ import {
   FormikMetadata,
 } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
-import FormikCompetences from '../../FormikForm/FormikCompetences';
+import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
 
 const panels = [
   {
@@ -48,11 +48,11 @@ const panels = [
     component: props => <FormikMetadata {...props} />,
   },
   {
-    id: 'learning-resource-competences',
-    title: 'form.name.competences',
+    id: 'learning-resource-grepCodes',
+    title: 'form.name.grepCodes',
     className: 'u-6/6',
-    errorFields: ['competences'],
-    component: props => <FormikCompetences {...props} />,
+    errorFields: ['grepCodes'],
+    component: props => <FormikGrepCodes {...props} />,
   },
   {
     id: 'learning-resource-workflow',
@@ -70,6 +70,7 @@ const LearningResourcePanels = ({
   userAccess,
   errors,
   touched,
+  fetchSearchTags,
   ...rest
 }) => (
   <Accordion openIndexes={['learning-resource-content']}>
@@ -103,6 +104,7 @@ const LearningResourcePanels = ({
                       userAccess,
                       values,
                       closePanel: () => handleItemClick(panel.id),
+                      fetchSearchTags,
                       ...rest,
                     })}
                   </div>
@@ -125,8 +127,9 @@ LearningResourcePanels.propTypes = {
   touched: PropTypes.object.isRequired,
   userAccess: PropTypes.string,
   article: PropTypes.shape({
-    competences: PropTypes.arrayOf(PropTypes.string),
+    grepCodes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  fetchSearchTags: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourcePanels);

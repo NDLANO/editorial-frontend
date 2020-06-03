@@ -92,7 +92,7 @@ class TopicArticleTaxonomy extends Component {
     }
     try {
       this.updateSubject(subjectId, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectId);
+      const allTopics = await fetchSubjectTopics(subjectId, this.prop.locale);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectId, { loading: false, topics: groupedTopics });
     } catch (e) {
@@ -551,6 +551,21 @@ class TopicArticleTaxonomy extends Component {
       );
     }
 
+    const breadCrumbs = [];
+    stagedTopicChanges.forEach(topic => {
+      if (topic.paths) {
+        topic.paths.forEach(path =>
+          breadCrumbs.push(
+            retriveBreadCrumbs({ topicPath: path, allTopics, structure }),
+          ),
+        );
+      } else {
+        breadCrumbs.push(
+          retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }),
+        );
+      }
+    });
+
     return (
       <Fragment>
         {showResourceType && (
@@ -574,7 +589,7 @@ class TopicArticleTaxonomy extends Component {
         {stagedTopicChanges.length > 0 &&
           !stagedTopicChanges.find(topic => topic.id === 'staged') && (
             <FilterConnections
-              topics={stagedTopicChanges}
+              breadCrumbs={breadCrumbs}
               activeFilters={stagedFilterChanges}
               structure={structure}
               availableFilters={availableFilters}
@@ -603,6 +618,7 @@ class TopicArticleTaxonomy extends Component {
 
 TopicArticleTaxonomy.propTypes = {
   language: PropTypes.string,
+  locale: PropTypes.string,
   closePanel: PropTypes.func.isRequired,
   article: PropTypes.shape({
     title: PropTypes.string,

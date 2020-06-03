@@ -25,7 +25,7 @@ export const fetchTags = language => {
 
 export const fetchSearchTags = async (input, language) => {
   const response = await fetchAuthorized(
-    `${baseUrl}/tag-search/?language=${language}&query=${input}`,
+    `${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
   return await resolveJsonOrRejectWithError(response);
 };
@@ -102,8 +102,8 @@ export const fetchAgreement = id =>
     resolveJsonOrRejectWithError,
   );
 
-export const fetchCompetences = query =>
-  fetchAuthorized(`${baseUrl}/competences/?query=${query}`).then(
+export const fetchGrepCodes = query =>
+  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(
     resolveJsonOrRejectWithError,
   );
 

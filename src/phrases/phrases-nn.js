@@ -199,6 +199,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feila.',
     loginLink: 'Klikk for å prøve igjen.',
+    userNotRegistered:
+      'Vi kjente ikkje igjen epostadressa di. Har du logga inn med riktig adresse?',
   },
   loginProviders: {
     description: 'Logg inn i produksjonssystem med',
@@ -462,6 +464,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
+    saveAsNewVersion: 'Lagre som ny versjon',
     saveDraft: 'Lagre utkast',
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
@@ -474,7 +477,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
-      introduction: 'Introduksjon',
+      introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
       processors: 'Bearbeider',
@@ -495,7 +498,7 @@ const phrases = {
       validTo: 'Gyldig til',
       description: 'Innhald',
       conceptContent: 'Skildring',
-      competences: 'Læreplankobling',
+      grepCodes: 'Læreplankobling',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -580,6 +583,7 @@ const phrases = {
       copyright: 'Opphav',
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
+      remove: 'Fjern metabilde',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -612,7 +616,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Kva er forskjella på dei ulike statusane?',
       statusLabel: 'Status',
-      published: 'Artikkelen har ein publisert versjon.',
+      published: 'Det finst ein publisert versjon av dettet elementet.',
       multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
     },
     status: {
@@ -645,6 +649,12 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
+      },
+      learningpath_statuses: {
+        private: 'Kladd',
+        published: 'Offentleg',
+        unlisted: 'Lenkedelt',
+        submitted: 'Bedt om offentleggjering',
       },
     },
     validDate: {
@@ -725,7 +735,12 @@ const phrases = {
       createOption: 'Opprett nytt nøkkelord',
       searchPlaceholder: 'Søk etter nøkkelord',
     },
-    competences: {
+    categories: {
+      label: 'Liste og filter',
+      description: 'Format: liste:filter1:filter2',
+      searchPlaceholder: 'Søk etter lister',
+    },
+    grepCodes: {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
@@ -897,8 +912,8 @@ const phrases = {
     minItems:
       '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
-    competences:
-      'Kompetansemålkoden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
+    grepCodes:
+      'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',
@@ -959,6 +974,7 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
+    copyResources: 'Kopier ressurser fra emne',
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserar ressurser',
@@ -980,7 +996,7 @@ const phrases = {
       title: 'Emnetilknytninger',
       topicPlacement: 'Emneplassering',
       subTitle: 'Kvar i taksonomien skal ressursen ligge?',
-      subTitleTopic: 'Hvor i taksonomien skal emnebeskrivelsen ligge?',
+      subTitleTopic: 'Kvar i taksonomien skal emneskildringa ligge?',
       filestructureButton: 'Opprett en emnetilknytning',
       chooseTaxonomyPlacement: 'Velg plassering i taksonomi',
       changeTaxonomyPlacement: 'Endre plassering i taksonomi',
@@ -998,7 +1014,13 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    grepCodes: {
+      edit: 'Endre læreplankobling',
+      empty: 'Ingen registerte koder',
+      addNew: 'Legg til ny læreplankobling',
+    },
     goTo: 'Åpne i stukturredigering',
+    missingResourceType: 'Mangler ressurstype',
   },
   notions: {
     edit: 'Rediger forklaring',
@@ -1052,6 +1074,11 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+  },
+  metadata: {
+    visible: 'er synleg',
+    notVisible: 'er ikkje synleg',
+    changeVisibility: 'Endre synlegheit',
   },
 };
 

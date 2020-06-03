@@ -14,15 +14,16 @@ import { FormikMetaImageSearch } from '../../FormikForm';
 import { SubjectShape, ConceptShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import ConceptMetaDataArticle from './ConceptMetaDataArticle';
-import ConceptTags from './ConceptTags';
+import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
-const ConceptMetaData = ({ t, subjects, locale, concept }) => (
+const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
   <Fragment>
     <FormikField name="metaImageId">
       {({ field, form }) => (
         <FormikMetaImageSearch
           metaImageId={field.value}
           setFieldTouched={form.setFieldTouched}
+          showRemoveButton
           {...field}
         />
       )}
@@ -38,13 +39,17 @@ const ConceptMetaData = ({ t, subjects, locale, concept }) => (
         />
       )}
     </FormikField>
-    <FormikField name="tags" label={t('form.tags.label')}>
+    <FormikField
+      name="tags"
+      label={t('form.categories.label')}
+      description={t('form.categories.description')}>
       {({ field, form }) => (
-        <ConceptTags
-          locale={locale}
-          concept={concept}
+        <AsyncSearchTags
+          language={concept.language}
+          initialTags={concept.tags}
           field={field}
           form={form}
+          fetchTags={fetchTags}
         />
       )}
     </FormikField>
@@ -65,6 +70,7 @@ ConceptMetaData.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
   locale: PropTypes.string.isRequired,
   concept: ConceptShape.isRequired,
+  fetchTags: PropTypes.func.isRequired,
 };
 
 export default injectT(ConceptMetaData);

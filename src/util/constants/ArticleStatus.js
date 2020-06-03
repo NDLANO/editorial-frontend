@@ -6,7 +6,6 @@
  *
  */
 
-export const CREATED = 'CREATED';
 export const PROPOSAL = 'PROPOSAL';
 export const AWAITING_QUALITY_ASSURANCE = 'AWAITING_QUALITY_ASSURANCE';
 export const DRAFT = 'DRAFT';

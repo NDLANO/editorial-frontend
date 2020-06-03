@@ -37,8 +37,13 @@ import {
   updateSubjectTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  fetchFilters,
 } from '../../modules/taxonomy';
-import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
+import {
+  groupTopics,
+  getCurrentTopic,
+  filterToSubjects,
+} from '../../util/taxonomyHelpers';
 import RoundIcon from '../../components/RoundIcon';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
@@ -50,9 +55,11 @@ export class StructureContainer extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
+      availableFilters: {},
       filters: {},
       jsPlumbConnections: [],
       activeConnections: [],
+      resourcesUpdated: false,
     };
     this.starButton = React.createRef();
     this.resourceSection = React.createRef();
@@ -72,16 +79,19 @@ export class StructureContainer extends React.PureComponent {
     this.toggleStructure = this.toggleStructure.bind(this);
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
   }
 
   async componentDidMount() {
-    await this.getAllSubjects();
+    this.getAllSubjects();
     const { subject } = this.props.match.params;
+    const locale = this.props.locale;
     if (subject) {
-      this.getSubjectTopics(subject);
+      this.getSubjectTopics(subject, locale);
       this.getFilters();
     }
     this.showLink();
+    this.getAvailableFilters();
   }
 
   componentDidUpdate({
@@ -94,6 +104,7 @@ export class StructureContainer extends React.PureComponent {
     const {
       location: { pathname },
       match: { params },
+      locale,
     } = this.props;
     if (pathname !== prevPathname) {
       this.deleteConnections();
@@ -103,7 +114,7 @@ export class StructureContainer extends React.PureComponent {
       }
       const currentSub = subjects.find(sub => sub.id === subject);
       if (currentSub) {
-        this.getSubjectTopics(subject);
+        this.getSubjectTopics(subject, locale);
       }
       if (pathname.includes('topic')) {
         this.showLink();
@@ -123,17 +134,17 @@ export class StructureContainer extends React.PureComponent {
     try {
       const subjects = await fetchSubjects(this.props.locale);
       this.setState({
-        subjects: subjects.sort((a, b) => a.name.localeCompare(b.name)),
+        subjects: subjects.sort((a, b) => a.name?.localeCompare(b.name)),
       });
     } catch (e) {
       handleError(e);
     }
   }
 
-  async getSubjectTopics(subjectid) {
+  async getSubjectTopics(subjectid, locale) {
     try {
       this.saveSubjectItems(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid);
+      const allTopics = await fetchSubjectTopics(subjectid, locale);
       const topics = groupTopics(allTopics);
       this.saveSubjectItems(subjectid, { topics, loading: false });
     } catch (e) {
@@ -164,6 +175,19 @@ export class StructureContainer extends React.PureComponent {
           [subject]: filters,
         },
       }));
+    } catch (e) {
+      handleError(e);
+    }
+  }
+
+  async getAvailableFilters() {
+    try {
+      const availableFilters = await fetchFilters(this.props.locale);
+      this.setState({
+        availableFilters: filterToSubjects(
+          availableFilters.filter(filter => filter.name),
+        ),
+      });
     } catch (e) {
       handleError(e);
     }
@@ -216,7 +240,7 @@ export class StructureContainer extends React.PureComponent {
         await deleteTopicConnection(connectionId);
       }
       this.deleteConnections();
-      this.getSubjectTopics(subjectId);
+      this.getSubjectTopics(subjectId, this.props.locale);
     } catch (e) {
       handleError(e);
     }
@@ -273,8 +297,9 @@ export class StructureContainer extends React.PureComponent {
   refreshTopics() {
     const {
       match: { params },
+      locale,
     } = this.props;
-    this.getSubjectTopics(params.subject);
+    this.getSubjectTopics(params.subject, locale);
   }
 
   toggleStructure() {
@@ -327,6 +352,12 @@ export class StructureContainer extends React.PureComponent {
       await updateSubjectTopic(draggableId, { rank: newRank });
     }
     this.refreshTopics();
+  }
+
+  setResourcesUpdated(updated) {
+    this.setState({
+      resourcesUpdated: updated,
+    });
   }
 
   render() {
@@ -402,6 +433,7 @@ export class StructureContainer extends React.PureComponent {
                     }
                     locale={locale}
                     userAccess={userAccess}
+                    setResourcesUpdated={this.setResourcesUpdated}
                   />
                 )}
               />
@@ -415,10 +447,14 @@ export class StructureContainer extends React.PureComponent {
               locale={locale}
               params={params}
               resourceRef={this.resourceSection}
+              availableFilters={this.state.availableFilters}
               activeFilters={activeFilters}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={subjects}
               refreshTopics={this.refreshTopics}
+              resourcesUpdated={this.state.resourcesUpdated}
+              setResourcesUpdated={this.setResourcesUpdated}
             />
           )}
         </OneColumn>

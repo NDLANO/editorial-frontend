@@ -15,7 +15,11 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import { FilterShape } from '../../../shapes';
+import {
+  FilterShape,
+  AvailableFiltersShape,
+  StructureShape,
+} from '../../../shapes';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({
@@ -50,18 +54,22 @@ class ResourceGroup extends PureComponent {
       t,
       params,
       refreshResources,
+      availableFilters,
       activeFilter,
       locale,
       currentTopic,
       currentSubject,
+      structure,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
-
     return (
       <React.Fragment>
         <Accordion
           addButton={
-            <AddTopicResourceButton stripped onClick={this.toggleAddModal}>
+            <AddTopicResourceButton
+              stripped
+              onClick={this.toggleAddModal}
+              disabled={resource.disabled}>
               <Plus />
               {t('taxonomy.addResource')}
             </AddTopicResourceButton>
@@ -75,10 +83,12 @@ class ResourceGroup extends PureComponent {
               resources={topicResource.resources}
               contentType={topicResource.contentType}
               refreshResources={refreshResources}
+              availableFilters={availableFilters}
               activeFilter={activeFilter}
               locale={locale}
               currentTopic={currentTopic}
               currentSubject={currentSubject}
+              structure={structure}
             />
           )}
         </Accordion>
@@ -105,12 +115,14 @@ ResourceGroup.propTypes = {
   resource: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
+    disabled: PropTypes.bool,
   }),
   params: PropTypes.shape({
     topic: PropTypes.string,
     subtopics: PropTypes.string,
   }),
   refreshResources: PropTypes.func,
+  availableFilters: AvailableFiltersShape,
   activeFilter: PropTypes.string,
   locale: PropTypes.string,
   currentTopic: PropTypes.shape({
@@ -120,6 +132,7 @@ ResourceGroup.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
 };
 
 export default injectT(ResourceGroup);

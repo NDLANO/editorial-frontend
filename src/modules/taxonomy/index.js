@@ -20,6 +20,7 @@ export {
   queryTopics,
   fetchResourceResourceType,
   fetchResourceFilter,
+  addFilterToResource,
   fetchFullResource,
   updateResourceRelevance,
   getFullResource,
@@ -58,11 +59,13 @@ export {
   fetchSubjectFilters,
   addSubjectTopic,
   updateSubjectTopic,
+  updateSubjectMetadata,
 } from './subjects';
 
 export {
   addTopic,
   fetchTopics,
+  fetchTopic,
   fetchTopicFilters,
   updateTopic,
   addTopicToTopic,
@@ -75,4 +78,5 @@ export {
   fetchTopicConnections,
   updateTopicSubtopic,
   deleteTopic,
+  updateTopicMetadata,
 } from './topics';

@@ -200,6 +200,8 @@ const phrases = {
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',
     loginLink: 'Click to try again.',
+    userNotRegistered:
+      'We did not recognize your email address. Did you use the correct email address?',
   },
   loginProviders: {
     description: 'Log in with',
@@ -442,6 +444,7 @@ const phrases = {
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     save: 'Save',
+    saveAsNewVersion: 'Save as new version',
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
@@ -454,7 +457,7 @@ const phrases = {
     },
     name: {
       title: 'Title',
-      introduction: 'Introduction',
+      introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
       processors: 'Processors',
@@ -475,7 +478,7 @@ const phrases = {
       validTo: 'Valid to',
       description: 'Content',
       conceptContent: 'Description',
-      competences: 'Curriculum connection',
+      grepCodes: 'Curriculum connection',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -560,6 +563,7 @@ const phrases = {
       label: 'Meta image',
       helpLabel: 'What is a meta image?',
       add: 'Choose meta image',
+      remove: 'Remove meta image',
     },
     markdown: {
       button: 'Click to view markdown',
@@ -592,7 +596,7 @@ const phrases = {
       },
       statusInfoTooltip: 'Whats the difference between statuses?',
       statusLabel: 'Status',
-      published: 'The article exists in a published version.',
+      published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
     },
     status: {
@@ -625,6 +629,12 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Archive',
+      },
+      learningpath_statuses: {
+        private: 'Draft',
+        published: 'Public',
+        unlisted: 'Link shared',
+        submitted: 'Requested publication',
       },
     },
     validDate: {
@@ -705,7 +715,12 @@ const phrases = {
       createOption: 'Create new tag',
       searchPlaceholder: 'Search for tags',
     },
-    competences: {
+    categories: {
+      label: 'List and filters',
+      description: 'Format: list:filter1:filter2',
+      searchPlaceholder: 'Search for lists',
+    },
+    grepCodes: {
       label: 'Competences and core elements',
       placeholder: 'Type code',
       description:
@@ -882,8 +897,8 @@ const phrases = {
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
     noEmptyNote: 'A note cannot be empty',
-    competences:
-      'Competences are in the wrong format. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
+    grepCodes:
+      'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -945,6 +960,7 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
+    copyResources: 'Copy resources from topic',
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',
@@ -981,6 +997,12 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+    grepCodes: {
+      edit: 'Edit grep codes',
+      empty: 'No existing grep codes',
+      addNew: 'Add new grep code',
+    },
+    missingResourceType: 'Missing resource type',
   },
   notions: {
     edit: 'Edit notions',
@@ -1033,6 +1055,11 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+  },
+  metadata: {
+    visible: 'is visible',
+    notVisible: 'is not visible',
+    changeVisibility: 'Change visibility',
   },
 };
 

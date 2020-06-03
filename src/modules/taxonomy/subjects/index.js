@@ -15,14 +15,14 @@ import {
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchSubjects(locale) {
-  return fetchAuthorized(`${baseUrl}/subjects/?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(
+    `${baseUrl}/subjects?includeMetadata=true&language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
 }
 
-function fetchSubjectTopics(subject) {
+function fetchSubjectTopics(subject, locale) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?recursive=true`,
+    `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true&language=${locale}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -64,6 +64,14 @@ function fetchSubjectFilters(id) {
   );
 }
 
+function updateSubjectMetadata(subjectId, body) {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 export {
   fetchSubjects,
   fetchSubjectTopics,
@@ -72,4 +80,5 @@ export {
   addSubjectTopic,
   fetchSubjectFilters,
   updateSubjectTopic,
+  updateSubjectMetadata,
 };

@@ -17,13 +17,13 @@ describe('Search', () => {
       '/taxonomy/v1/resource-types/?language=nb',
       'resourceTypes',
     );
-    cy.apiroute('GET', '/taxonomy/v1/subjects/?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy/v1/subjects?includeMetadata=true&language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.apiroute('GET', '/get_editors', 'editors');
+    cy.apiroute('GET', '/get_editors*', 'editors');
     cy.visit(
       '/search/content?page=1&page-size=10&sort=-relevance',
       visitOptions,

@@ -2,7 +2,7 @@ import handleError from './handleError';
 import { pathToUrnArray } from './taxonomyHelpers';
 
 type Input = {
-  topicPath: { name: string; id: string };
+  topicPath: string;
   structure: PathArray;
   allTopics: PathArray;
   title: string;

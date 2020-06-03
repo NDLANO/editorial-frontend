@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -28,11 +28,14 @@ import {
 } from '../../../util/formHelper';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../util/articleUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
+import Spinner from '../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -63,7 +66,7 @@ export const getInitialValues = (article = {}) => {
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
     visualElement: visualElement || {},
-    competences: article.competences || [],
+    grepCodes: article.grepCodes || [],
   };
 };
 
@@ -112,7 +115,7 @@ const getArticleFromSlate = ({
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined;
+    : nullOrUndefined(values?.metaImageId);
 
   const article = {
     articleType: 'topic-article',
@@ -135,7 +138,7 @@ const getArticleFromSlate = ({
     tags: values.tags,
     title: values.title,
     visualElement: visualElement,
-    competences: values.competences,
+    grepCodes: values.grepCodes,
   };
 
   return article;
@@ -148,11 +151,27 @@ const TopicArticleForm = props => {
     initialValues,
     setResetModal,
     handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
+    fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+  const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const [unsaved, setUnsaved] = useState(false);
+  usePreventWindowUnload(unsaved);
 
-  const { t, article, updateArticle, licenses, ...rest } = props;
+  const {
+    t,
+    article,
+    updateArticle,
+    translating,
+    translateArticle,
+    licenses,
+    isNewlyCreated,
+    ...rest
+  } = props;
   return (
     <Formik
+      enableReinitialize={translating}
       initialValues={initialValues}
       validateOnChange={false}
       ref={formikRef}
@@ -174,6 +193,7 @@ const TopicArticleForm = props => {
           initialValues,
           dirty,
         });
+        setUnsaved(formIsDirty);
         const getArticle = () =>
           getArticleFromSlate({ values, initialValues, licenses });
         return (
@@ -189,37 +209,52 @@ const TopicArticleForm = props => {
               getInitialValues={getInitialValues}
               setValues={setValues}
               isSubmitting={isSubmitting}
+              translateArticle={translateArticle}
+              setTranslateOnContinue={setTranslateOnContinue}
               {...rest}
             />
-            <TopicArticleAccordionPanels
-              values={values}
-              errors={errors}
-              updateNotes={updateArticle}
-              article={article}
-              touched={touched}
-              formIsDirty={formIsDirty}
-              getInitialValues={getInitialValues}
-              setValues={setValues}
-              licenses={licenses}
-              getArticle={getArticle}
-              {...rest}
-            />
+            {translating ? (
+              <Spinner withWrapper />
+            ) : (
+              <TopicArticleAccordionPanels
+                values={values}
+                errors={errors}
+                updateNotes={updateArticle}
+                article={article}
+                touched={touched}
+                formIsDirty={formIsDirty}
+                getInitialValues={getInitialValues}
+                setValues={setValues}
+                licenses={licenses}
+                getArticle={getArticle}
+                fetchSearchTags={fetchSearchTags}
+                {...rest}
+              />
+            )}
             <EditorFooter
               showSimpleFooter={!article.id}
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               savedToServer={savedToServer}
-              getArticle={getArticle}
+              getEntity={getArticle}
               showReset={() => setResetModal(true)}
               errors={errors}
               values={values}
-              onSaveClick={() => handleSubmit(formik)}
+              onSaveClick={saveAsNewVersion =>
+                handleSubmit(formik, saveAsNewVersion)
+              }
+              entityStatus={article.status}
+              getStateStatuses={fetchStatusStateMachine}
+              validateEntity={validateDraft}
+              isArticle
+              isNewlyCreated={isNewlyCreated}
               {...formikProps}
               {...rest}
             />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
+              onContinue={translateOnContinue ? translateArticle : () => {}}
               severity="danger"
               text={t('alertModal.notSaved')}
             />
@@ -231,7 +266,6 @@ const TopicArticleForm = props => {
 };
 
 TopicArticleForm.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   revision: PropTypes.number,
   updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
@@ -243,6 +277,9 @@ TopicArticleForm.propTypes = {
   updateArticleAndStatus: PropTypes.func,
   licenses: LicensesArrayOf,
   article: ArticleShape,
+  translating: PropTypes.bool,
+  translateArticle: PropTypes.func,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(TopicArticleForm);

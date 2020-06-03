@@ -82,8 +82,6 @@ const EditGrepCodes: FC<Props> = ({
         });
         setGrepCodes(codes);
         grepCodeDescriptionTitle();
-        getAllSubjects();
-        refreshTopics();
         break;
       }
 
@@ -94,7 +92,6 @@ const EditGrepCodes: FC<Props> = ({
         });
         setGrepCodes(codes);
         grepCodeDescriptionTitle();
-        refreshTopics();
         break;
       }
 

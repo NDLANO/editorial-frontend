@@ -54,10 +54,8 @@ const doGrepCodeRequest = async (code: string) => {
 
 export const fetchGrepCodeTitle = async (grepCode: string) => {
   const res = await doGrepCodeRequest(grepCode);
-  console.log(res);
   try {
     if (res?.status === 404) {
-      console.log(grepCode, 'finnes ikke');
       return null;
     }
     const jsonResponse = await resolveJsonOrRejectWithError(res);

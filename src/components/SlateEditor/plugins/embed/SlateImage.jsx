@@ -11,11 +11,17 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
+import { css } from '@emotion/core';
 import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import { getLocale } from '../../../../modules/locale/locale';
+
+const buttonStyle = css`
+  min-width: -webkit-fill-available;
+  min-width: -moz-available;
+`;
 
 class SlateImage extends React.Component {
   constructor() {
@@ -105,6 +111,7 @@ class SlateImage extends React.Component {
           })}
         {!(visualElement && editModus) && (
           <Button
+            css={buttonStyle}
             stripped
             data-label={t('imageEditor.editImage')}
             onClick={() => this.setEditModus(true)}>
@@ -112,7 +119,6 @@ class SlateImage extends React.Component {
               <img
                 src={src}
                 alt={embed.alt}
-                style={{ minWidth: '716px' }}
                 srcSet={getSrcSets(embed.resource_id, transformData)}
                 css={
                   showCopyOutline && {

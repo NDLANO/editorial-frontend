@@ -36,6 +36,8 @@ const ImageCropEdit = ({ embed, onCropComplete, transformData }) => {
 
   return (
     <ReactCrop
+      style={{ minWidth: '100%' }}
+      imageStyle={{ minWidth: '100%' }}
       src={src}
       onComplete={onCropComplete}
       crop={crop}

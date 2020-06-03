@@ -6,15 +6,15 @@
  *
  */
 
-import React, { Component, Fragment, useState, useEffect } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Node } from 'slate';
 import PropTypes from 'prop-types';
-import { injectT, TranslateProps } from '@ndla/i18n';
+import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { compose } from 'redux';
 import { connect as reduxConnect } from 'react-redux';
-import { connect as formikConnect, FormikProps, Formik } from 'formik';
+import { connect as formikConnect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
@@ -75,7 +75,7 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const findFootnotes = (/*content*/) =>
+const findFootnotes = content =>
   [];
   // content
   //   .reduce(
@@ -88,56 +88,16 @@ const findFootnotes = (/*content*/) =>
   //   .filter(footnote => footnote.data.size > 0)
   //   .map(footnoteNode => footnoteNode.data.toJS());
 
-interface Values {
-  id: number;
-  published: string;
-  title: string;
-  updatePublished: boolean;
-  content: any[];
-  language: string;
-  creators: any[];
-}
-
-interface Notes {
-  note: string;
-  user: string;
-  status: {
-    current: string;
-    other: string[];
-  }
-}
-
-interface Article {
-  id: number;
-  title: string;
-  notes: Notes[];
-  language: string;
-}
-
-interface Props {
-  locale: string;
-  userAccess: string;
-  formik: FormikProps<Values>;
-  article: Article;
-  t: any; // FIX THIS TO BE TRANSLATE FUNCTION
-}
-
-const LearningResourceContent = (props: Props) => {
-  const {
-    article,
-    t,
-    userAccess,
-    formik: {
-      setFieldValue,
-      handleBlur,
-      values: { id, language, creators, published },
-    },
-  } = props;
-  const [state, setState] = useState({preview: false})
-
-  const [plugins, setPlugins] = useState([]);
-
-    // this.plugins = [
+class LearningResourceContent extends Component {
+  constructor(props) {
+    super(props);
+    const {
+      article: { language },
+    } = props;
+    this.state = {
+      preview: false,
+    };
+    this.plugins = [
     //  footnotePlugin(),
     //  createEmbedPlugin(language),
     //  createBodyBoxPlugin(),
@@ -165,9 +125,16 @@ const LearningResourceContent = (props: Props) => {
     //  }),
     //  dndPlugin,
     //  toolbarPlugin(),
+    ];
+  }
 
-  useEffect(() => {
-    // createEmbedPlugin(language),
+  componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
+    const {
+      article: { id, language },
+    } = this.props;
+    if (prevLanguage !== language || prevId !== id) {
+      this.plugins = [
+        // createEmbedPlugin(language),
         // conceptPlugin(language),
         // blockPickerPlugin({
         //   articleLanguage: language,
@@ -176,11 +143,22 @@ const LearningResourceContent = (props: Props) => {
         //   },
         //   ...this.plugins,
         // }),
-    setPlugins([...plugins])
-  }, [article.id, article.language])
+      ];
+    }
+  }
 
+  render() {
+    const {
+      t,
+      userAccess,
+      formik: {
+        setFieldValue,
+        handleBlur,
+        values: { id, language, creators, published },
+      },
+    } = this.props;
     console.log('props.article');
-    console.log(article);
+    console.log(this.props.article);
 
     return (
       <Fragment>
@@ -193,24 +171,22 @@ const LearningResourceContent = (props: Props) => {
           placeholder={t('form.title.label')}
         />
         <FormikField name="published" css={byLineStyle}>
-          { 
-          //@ts-ignore
-          ({ field, form }) => (
+          {({ field, form }) => (
             <>
               <LastUpdatedLine
                 name={field.name}
                 creators={creators}
                 published={published}
-                onChange={(date: any) => {
+                onChange={date => {
                   form.setFieldValue(field.name, date);
                 }}
               />
               <IconContainer>
                 <Tooltip tooltip={t('form.markdown.button')}>
                   <ToggleButton
-                    active={state.preview}
+                    active={this.state.preview}
                     onClick={() =>
-                      setState(prevState => ({
+                      this.setState(prevState => ({
                         preview: !prevState.preview,
                       }))
                     }>
@@ -225,15 +201,13 @@ const LearningResourceContent = (props: Props) => {
             </>
           )}
         </FormikField>
-        <FormikIngress preview={state.preview} />
+        <FormikIngress preview={this.state.preview} />
         <FormikField
           name="content"
           label={t('form.content.label')}
           noBorder
           className={formikFieldClasses('', 'position-static').className}>
-          {({ 
-            //@ts-ignore
-            field: { value, name, onChange }, form: { isSubmitting } }) => {
+          {({ field: { value, name, onChange }, form: { isSubmitting } }) => {
             console.log('LEARNINGRESOURCECONTENT')
             console.log(value);
             return (
@@ -247,20 +221,19 @@ const LearningResourceContent = (props: Props) => {
                 )}
               </FieldHeader>
               <RichBlockTextEditor
-                // schema={schema}
-                children={value.children}  // ehh
-                removeSection={() => null}
+                schema={schema}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 submitted={isSubmitting}
                 placeholder={t('form.content.placeholder')}
                 data-cy="learning-resource-content"
-                plugins={plugins}
+                plugins={this.plugins}
                 setFieldValue={setFieldValue}
                 value={value}
                 name={name}
                 onChange={onChange}
-                onBlur={() => {
+                onBlur={(event, editor, next) => {
+                  // next();
                   // this is a hack since formik onBlur-handler interferes with slates
                   // related to: https://github.com/ianstormtaylor/slate/issues/2434
                   // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -272,7 +245,7 @@ const LearningResourceContent = (props: Props) => {
               />
               <LearningResourceFootnotes
                 t={t}
-                footnotes={findFootnotes(/*value*/)}
+                footnotes={findFootnotes(value)}
               />
             </Fragment>
           )}}
@@ -280,37 +253,35 @@ const LearningResourceContent = (props: Props) => {
       </Fragment>
     );
   }
+}
 
+LearningResourceContent.propTypes = {
+  locale: PropTypes.string.isRequired,
+  userAccess: PropTypes.string,
+  formik: PropTypes.shape({
+    validateField: PropTypes.func.isRequired,
+    handleBlur: PropTypes.func.isRequired,
+    values: PropTypes.shape({
+      id: PropTypes.number,
+      published: PropTypes.string,
+      title: PropTypes.string,
+      updatePublished: PropTypes.bool,
+      content: PropTypes.array,
+      language: PropTypes.string,
+      creators: PropTypes.array,
+    }),
+    initialValues: PropTypes.shape({
+      id: PropTypes.number,
+      published: PropTypes.string,
+      title: PropTypes.string,
+      updatePublished: PropTypes.bool,
+    }),
+    setFieldValue: PropTypes.func.isRequired,
+  }),
+  article: ArticleShape,
+};
 
-
-
-// LearningResourceContent.propTypes = {
-//   locale: PropTypes.string.isRequired,
-//   userAccess: PropTypes.string,
-//   formik: PropTypes.shape({
-//     validateField: PropTypes.func.isRequired,
-//     handleBlur: PropTypes.func.isRequired,
-//     values: PropTypes.shape({
-//       id: PropTypes.number,
-//       published: PropTypes.string,
-//       title: PropTypes.string,
-//       updatePublished: PropTypes.bool,
-//       content: PropTypes.array,
-//       language: PropTypes.string,
-//       creators: PropTypes.array,
-//     }),
-//     initialValues: PropTypes.shape({
-//       id: PropTypes.number,
-//       published: PropTypes.string,
-//       title: PropTypes.string,
-//       updatePublished: PropTypes.bool,
-//     }),
-//     setFieldValue: PropTypes.func.isRequired,
-//   }),
-//   article: ArticleShape,
-// };
-
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 

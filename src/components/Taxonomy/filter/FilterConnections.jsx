@@ -29,7 +29,7 @@ const FilterConnections = ({
   updateFilter,
   resourceId,
 }) => {
-  const availableSubjects = breadCrumbs.map(path => path[0].id);
+  const availableSubjects = breadCrumbs.map(path => path[0]?.id);
 
   return (
     <Fragment>

@@ -1,4 +1,4 @@
-import React, { FC, useState, SyntheticEvent } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, FieldSplitter, Input } from '@ndla/forms';
@@ -7,7 +7,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 
 import { TranslateType } from '../../../interfaces';
 import { isValidURL } from '../../../util/htmlHelpers';
-import StyledFilledButton from '../../StyledFilledButton';
+import StyledFilledButton from '../../../components/StyledFilledButton';
 
 interface Props {
   t: TranslateType;
@@ -20,13 +20,15 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
     'https://ed.test.ndla.no/search/1',
   ]);
 
+  useEffect(() => {}, [savedSearches]);
+
   const checkIsValidUrl = (url: string) =>
     // TODO: Check if editorial/intern/search link
     url !== '' && isValidURL(url) ? setIsValidUrl(true) : setIsValidUrl(false);
 
   const getWarningText = () => {
     if (!isValidUrl) {
-      return t('form.content.link.invalid');
+      return `${t('form.content.link.invalid')} - Lenken må være et søk`;
     }
     if (newSearchUrl === '') {
       return t('form.content.link.required');
@@ -53,7 +55,7 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
 
   const deleteSearch = (index: number) => {
     console.log('Vil du slette?', index);
-    savedSearches.splice(index, index + 1);
+    savedSearches.splice(index, 1);
     setSavedSearches(savedSearches);
     console.log(savedSearches);
   };
@@ -69,8 +71,13 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
         {!!savedSearches.length &&
           savedSearches.map((text, index) => (
             <li key={index}>
-                <StyledFilledButton type="button" deletable onClick={() => deleteSearch(index)}><DeleteForever /></StyledFilledButton>
-              {' '}
+              <StyledFilledButton
+                type="button"
+                deletable
+                onClick={() => deleteSearch(index)}>
+                <DeleteForever />
+              </StyledFilledButton>
+
               {text}
             </li>
           ))}

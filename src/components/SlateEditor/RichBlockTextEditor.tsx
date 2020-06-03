@@ -79,8 +79,6 @@ const RichBlockTextEditor = (props: Props) => {
       setFieldValue(name, newValue)
     }
   }
-  console.log('RICHBLOCKTEXTEDITOR');
-  console.log(value);
   return (
     <article>
       {value.map((blockValue, index) => (

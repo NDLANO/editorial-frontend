@@ -57,11 +57,11 @@ const FormikField = ({
         },
       }
     : {};
-  const hasFocus = isSlateValue ? values[name].selection.isFocused : focus;
+  // const hasFocus = isSlateValue ? values[name].selection?.isFocused : focus;
   return (
     <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
       <FormikFieldLabel
-        hasFocus={hasFocus}
+        // hasFocus={hasFocus}
         label={label}
         name={name}
         noBorder={noBorder}

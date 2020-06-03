@@ -208,6 +208,7 @@ class LearningResourceContent extends Component {
           noBorder
           className={formikFieldClasses('', 'position-static').className}>
           {({ field: { value, name, onChange }, form: { isSubmitting } }) => {
+            console.log('LEARNINGRESOURCECONTENT')
             console.log(value);
             return (
             <Fragment>

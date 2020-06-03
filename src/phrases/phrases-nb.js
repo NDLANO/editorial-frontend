@@ -1020,6 +1020,11 @@ const phrases = {
       additional: 'Tilleggsressurs',
       core: 'Kjerneressurs',
     },
+    grepCodes: {
+      edit: 'Endre læreplankobling',
+      empty: 'Ingen registerte koder',
+      addNew: 'Legg til ny læreplankobling',
+    },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
   },

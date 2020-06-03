@@ -995,6 +995,11 @@ const phrases = {
       additional: 'Additional resource',
       core: 'Core resource',
     },
+    grepCodes: {
+      edit: 'Edit grep codes',
+      empty: 'No existing grep codes',
+      addNew: 'Add new grep code',
+    },
     missingResourceType: 'Missing resource type',
   },
   notions: {

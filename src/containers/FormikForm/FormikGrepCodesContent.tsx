@@ -31,23 +31,24 @@ interface GrepCode {
   title: string | undefined | null;
 }
 
+export const convertGrepCodesToObject = async (grepCodes: string[]) => {
+  return Promise.all(
+    grepCodes.map(async c => {
+      const grepCodeTitle = await fetchGrepCodeTitle(c);
+      return {
+        code: c,
+        title: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
+      };
+    }),
+  );
+};
+
 const FormikGrepCodesContent = ({
   t,
   articleGrepCodes = [],
   field,
   form,
 }: Props) => {
-  const convertGrepCodesToObject = async (grepCodes: string[]) => {
-    return Promise.all(
-      grepCodes.map(async c => {
-        const grepCodeTitle = await fetchGrepCodeTitle(c);
-        return {
-          code: c,
-          title: grepCodeTitle ? `${c} - ${grepCodeTitle}` : c,
-        };
-      }),
-    );
-  };
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
 
   const searchForGrepCodes = async (inp: string) => {

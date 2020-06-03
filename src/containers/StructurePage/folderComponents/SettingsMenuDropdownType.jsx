@@ -8,14 +8,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ConnectFilterOption from './menuOptions/ConnectFilterOption';
-import DeleteTopic from './menuOptions/DeleteTopic';
-import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import EditFilterOption from './menuOptions/EditFilterOption';
+
 import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
-import PublishTopic from './menuOptions/PublishTopic';
+import ChangeSubjectName from './menuOptions/ChangeSubjectName';
+import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import CopyResources from './menuOptions/CopyResources';
+import DeleteTopic from './menuOptions/DeleteTopic';
+import EditFilterOption from './menuOptions/EditFilterOption';
+import EditGrepCodes from './menuOptions/EditGrepCodes';
+import PublishTopic from './menuOptions/PublishTopic';
 import ToggleVisibility from './menuOptions/ToggleVisibility';
 
 const SettingsMenuDropdownType = ({
@@ -33,6 +35,7 @@ const SettingsMenuDropdownType = ({
               <EditFilterOption {...rest} />
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
+              <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
         </>
@@ -47,6 +50,7 @@ const SettingsMenuDropdownType = ({
               <DeleteTopic {...rest} />
               <AddExistingToTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
+              <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
           {showAllOptions && <CopyResources {...rest} />}

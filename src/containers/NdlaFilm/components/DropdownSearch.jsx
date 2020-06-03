@@ -14,7 +14,9 @@ import config from '../../../config';
 
 const queryResources = async input => {
   const contextType =
-    config.ndlaEnvironment === 'ff' ? 'standard' : 'topic-article';
+    config.ndlaEnvironment === 'ff' || config.ndlaEnvironment === 'staging'
+      ? 'standard'
+      : 'topic-article';
   const query = {
     page: 1,
     subjects: 'urn:subject:20',

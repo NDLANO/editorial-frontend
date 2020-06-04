@@ -119,23 +119,23 @@ export async function getFullResource(resourceId, language) {
 
 export function queryResources(contentId, language, contentType = 'article') {
   return fetchAuthorized(
-    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+    `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
-    )}&?language=${language}`,
+    )}&includeMetadata=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
 export function queryTopics(contentId, language, contentType = 'article') {
   return fetchAuthorized(
-    `${baseUrl}/queries/topics/?contentURI=${encodeURIComponent(
+    `${baseUrl}/topics/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
-    )}&?language=${language}`,
+    )}&includeMetadata=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
 export function queryLearningPathResource(learningpathId) {
   return fetchAuthorized(
-    `${baseUrl}/queries/resources/?contentURI=${encodeURIComponent(
+    `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:learningpath:${learningpathId}`,
     )}`,
   ).then(resolveJsonOrRejectWithError);

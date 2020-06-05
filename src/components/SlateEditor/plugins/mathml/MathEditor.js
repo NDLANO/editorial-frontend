@@ -41,9 +41,12 @@ const buttonStyle = css`
 
 const getInfoFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
+  const innerHTML = data.innerHTML || `<mn>${he.encode(node.text)}</mn>`;
   return {
     model: {
-      innerHTML: data.innerHTML || `<mn>${he.encode(node.text)}</mn>`,
+      innerHTML: innerHTML.startsWith('<math')
+        ? innerHTML
+        : `<math>${innerHTML}</math>`,
       xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
     },
     isFirstEdit: data.innerHTML === undefined,

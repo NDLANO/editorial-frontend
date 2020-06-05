@@ -59,7 +59,7 @@
 
 /* Override @ndla/ui styles */
 .c-article {
-  font-family: var(--font);
+  font-family: var(--font-serif);
 }
 
 .article_introduction {

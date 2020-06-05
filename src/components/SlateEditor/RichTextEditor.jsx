@@ -120,7 +120,7 @@ const RichTextEditor = class extends React.PureComponent {
       <article>
         <div data-cy="slate-editor" css={slateEditorDivStyle}>
           <Editor
-            {...classes(undefined, undefined, className)}
+            {...classes('content', undefined, className)}
             onKeyDown={this.onKeyDown}
             ref={this.editorRef}
             value={value}

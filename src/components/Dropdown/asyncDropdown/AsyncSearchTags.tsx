@@ -9,7 +9,7 @@
 import React, { Fragment, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
-import { FormikHelpers, FieldProps, FormikValues } from 'formik';
+import { FormikHelpers, FieldInputProps } from 'formik';
 import { AsyncDropdown } from '../index';
 import { TranslateType, SearchResult } from '../../../interfaces';
 
@@ -17,10 +17,8 @@ interface Props {
   t: TranslateType;
   language: string;
   initialTags: string[];
-  field: FieldProps<string[]>['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
+  field: FieldInputProps<string[]>;
+  form: FormikHelpers<string[]>;
   fetchTags: (inp: string, language: string) => SearchResult;
 }
 
@@ -53,38 +51,30 @@ const AsyncSearchTags = ({
     return { ...response, results: tagsWithTitle };
   };
 
-  const updateFormik = (formikField: Props['field'], newData: string[]) => {
-    formikField.onChange({
-      target: {
-        name: formikField.name,
-        value: newData || null,
-      },
-    });
+  const updateField = (newData: string[]) => {
+    setTags(newData);
+    form.setFieldTouched(field.name, true, true);
+    form.setFieldValue(field.name, newData || null, true);
   };
 
   const addTag = (tag: TagWithTitle) => {
     if (tag && !tags.includes(tag.title)) {
       const temp = [...tags, tag.title];
-      setTags(temp);
-      updateFormik(field, temp);
-      form.setFieldTouched('tags', true, true);
+      updateField(temp);
     }
   };
 
   const createNewTag = (newTag: string) => {
     if (newTag && !tags.includes(newTag.trim())) {
       const temp = [...tags, newTag.trim()];
-      setTags(temp);
-      updateFormik(field, temp);
-      form.setFieldTouched('tags', true, true);
+      updateField(temp);
     }
   };
 
   const removeTag = (tag: string) => {
     const reduced_array = tags.filter(t => t !== tag);
     setTags(reduced_array);
-    updateFormik(field, reduced_array);
-    form.setFieldTouched('tags', true, true);
+    updateField(reduced_array);
   };
 
   const onKeyDown = (event: KeyboardEvent) => {

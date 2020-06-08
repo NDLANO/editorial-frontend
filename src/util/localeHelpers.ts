@@ -1,4 +1,3 @@
-import { LocationState } from 'history';
 import { appLocales } from '../i18n';
 
 interface appLocaleType {

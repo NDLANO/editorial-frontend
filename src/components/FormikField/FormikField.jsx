@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Field, connect, ErrorMessage } from 'formik';
+import { Field, connect } from 'formik';
 import { Value } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';

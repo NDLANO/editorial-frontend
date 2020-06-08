@@ -135,7 +135,7 @@ const VersionAndNotesPanel = ({
       <FormikField name="notes" showError={false}>
         {({ field, form: { errors, touched } }) => (
           <FormikAddNotes
-            showError={touched[field.name] && !!errors[field.name]}
+            showError={!!errors[field.name]}
             labelAddNote={t('form.notes.add')}
             labelRemoveNote={t('form.notes.remove')}
             labelWarningNote={errors[field.name]}

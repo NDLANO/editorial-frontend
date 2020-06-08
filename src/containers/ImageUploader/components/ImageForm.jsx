@@ -181,6 +181,7 @@ class ImageForm extends Component {
       <Formik
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
+        validateOnMount
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
         {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
@@ -203,7 +204,7 @@ class ImageForm extends Component {
                   <AccordionWrapper>
                     {panels.map(panel => {
                       const hasError = panel.errorFields.some(
-                        field => !!errors[field] && touched[field],
+                        field => !!errors[field],
                       );
                       return (
                         <React.Fragment key={panel.id}>

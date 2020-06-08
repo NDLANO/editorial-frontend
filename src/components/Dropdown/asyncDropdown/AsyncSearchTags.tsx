@@ -9,7 +9,7 @@
 import React, { Fragment, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
-import { FormikActions, FieldProps, FormikValues } from 'formik';
+import { FormikHelpers, FieldProps, FormikValues } from 'formik';
 import { AsyncDropdown } from '../index';
 import { TranslateType, SearchResult } from '../../../interfaces';
 
@@ -19,7 +19,7 @@ interface Props {
   initialTags: string[];
   field: FieldProps<string[]>['field'];
   form: {
-    setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
+    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
   fetchTags: (inp: string, language: string) => SearchResult;
 }
@@ -100,7 +100,6 @@ const AsyncSearchTags = ({
         idField={'title'}
         labelField={'title'}
         values={props.selectedItems}
-        removeItem={props.removeItem}
         testid="multiselect"
         {...props}
       />

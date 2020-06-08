@@ -89,14 +89,10 @@ const FormikField = ({
           value={isSlateValue ? values[name].document.text : values[name]}
         />
       )}
-      {showError && (
-        <ErrorMessage name={name}>
-          {error => (
-            <FormikFieldHelp error>
-              <StyledErrorPreLine>{error}</StyledErrorPreLine>
-            </FormikFieldHelp>
-          )}
-        </ErrorMessage>
+      {showError && errors[name] && (
+        <FormikFieldHelp error={errors[name]}>
+          <StyledErrorPreLine>{errors[name]}</StyledErrorPreLine>
+        </FormikFieldHelp>
       )}
     </div>
   );

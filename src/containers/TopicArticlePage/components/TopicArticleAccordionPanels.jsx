@@ -80,9 +80,7 @@ const TopicArticleAccordionPanels = ({
           if (panel.showPanel && !panel.showPanel(values, userAccess)) {
             return null;
           }
-          const hasError = panel.errorFields.some(
-            field => !!errors[field] && touched[field],
-          );
+          const hasError = panel.errorFields.some(field => !!errors[field]);
           return (
             <Fragment key={panel.id}>
               <AccordionBar

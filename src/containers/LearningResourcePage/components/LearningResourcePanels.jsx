@@ -69,7 +69,6 @@ const LearningResourcePanels = ({
   values,
   userAccess,
   errors,
-  touched,
   fetchSearchTags,
   ...rest
 }) => (
@@ -80,9 +79,7 @@ const LearningResourcePanels = ({
           if (panel.showPanel && !panel.showPanel(values, userAccess)) {
             return null;
           }
-          const hasError = panel.errorFields.some(
-            field => !!errors[field] && touched[field],
-          );
+          const hasError = panel.errorFields.some(field => !!errors[field]);
           return (
             <Fragment key={panel.id}>
               <AccordionBar
@@ -124,7 +121,6 @@ LearningResourcePanels.propTypes = {
     title: PropTypes.string,
   }).isRequired,
   errors: PropTypes.object.isRequired,
-  touched: PropTypes.object.isRequired,
   userAccess: PropTypes.string,
   article: PropTypes.shape({
     grepCodes: PropTypes.arrayOf(PropTypes.string),

@@ -210,3 +210,9 @@ export const personalAuthLogout = (federated, returnToLogin) => {
 
   return auth.logout(options);
 };
+
+// TODO: bruke auth0 Management så man kan kalle patch user_metadata
+export const authManagement = new auth0.Management({
+  domain: auth0Domain || '',
+  token: getAccessToken(), // TODO: bruk rett token
+});

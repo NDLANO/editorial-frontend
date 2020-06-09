@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
+import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, FieldSplitter, Input } from '@ndla/forms';
@@ -7,20 +8,31 @@ import { DeleteForever } from '@ndla/icons/editor';
 
 import { TranslateType } from '../../../interfaces';
 import { isValidURL } from '../../../util/htmlHelpers';
+import { patchUserMetadata } from '../../../util/htmlHelpers';
 import StyledFilledButton from '../../../components/StyledFilledButton';
+
+
 
 interface Props {
   t: TranslateType;
 }
 
+export const classes = new BEMHelper({
+  name: 'save-search',
+  prefix: 'c-',
+});
+
 const SaveSearchUrl: FC<Props> = ({ t }) => {
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [newSearchUrl, setNewSearchUrl] = useState('');
+  const [addingNew, setAddingNew] = useState(false);
   const [savedSearches, setSavedSearches] = useState<string[]>([
-    'https://ed.test.ndla.no/search/1',
-  ]);
+    'https://ed.test.ndla.no/search/',
+  ]); //'https://ed.test.ndla.no/search/1'
 
-  useEffect(() => {}, [savedSearches]);
+  useEffect(() => {
+    setSavedSearches(savedSearches);
+  }, [addingNew]);
 
   const checkIsValidUrl = (url: string) =>
     // TODO: Check if editorial/intern/search link
@@ -40,24 +52,23 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
     checkIsValidUrl(event.target.value);
   };
 
   const handleSaveUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     checkIsValidUrl(newSearchUrl);
+    const savedSearch = newSearchUrl.split('search');
     if (isValidUrl) {
-      setSavedSearches([...savedSearches, newSearchUrl]);
+      setSavedSearches([...savedSearches, savedSearch[1]]);
       setNewSearchUrl('');
     }
   };
 
-  const deleteSearch = (index: number) => {
-    console.log('Vil du slette?', index);
-    savedSearches.splice(index, 1);
-    setSavedSearches(savedSearches);
-    console.log(savedSearches);
+  const deleteSearch = () => {
+    console.log('slett');
+    // savedSearches.splice(index, 1);
+    // setSavedSearches(savedSearches);
   };
 
   const updateUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,21 +78,24 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
 
   return (
     <div>
-      <ul>
-        {!!savedSearches.length &&
-          savedSearches.map((text, index) => (
-            <li key={index}>
+      <div>
+        {!!savedSearches.length ? (
+          savedSearches.map(text => (
+            <div>
               <StyledFilledButton
                 type="button"
                 deletable
-                onClick={() => deleteSearch(index)}>
+                onClick={() => deleteSearch()}>
                 <DeleteForever />
               </StyledFilledButton>
 
               {text}
-            </li>
-          ))}
-      </ul>
+            </div>
+          ))
+        ) : (
+          <span>{t('welcomePage.emptySavedSearch')}</span>
+        )}
+      </div>
 
       <FieldHeader title={t('form.content.link.addTitle')} />
       <FieldSection>

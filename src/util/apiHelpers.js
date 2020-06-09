@@ -13,6 +13,7 @@ import {
   getAccessToken,
   isAccessTokenValid,
   renewAuth,
+  authManagement,
 } from './authHelpers';
 import {
   resolveJsonOrRejectWithError,
@@ -118,3 +119,17 @@ export const fetchExternalOembed = (url, options) =>
   fetchOembed(setOembedUrl({ url }), options);
 
 export { resolveJsonOrRejectWithError, createErrorPayload };
+
+// TODO: sjekk at dette blir rett, oppdater gjerne så det blir nyest mulig js
+export const patchUserMetadata = (userId, userMetadata) => {
+  authManagement.patchUserMetadata(userId, userMetadata, function(
+    err,
+    authResult,
+  ) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('patchUserMetadata succeeded: ' + JSON.stringify(authResult));
+    }
+  });
+};

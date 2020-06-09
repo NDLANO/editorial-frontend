@@ -1,4 +1,3 @@
-import { LocationState } from 'history';
 import { appLocales } from '../i18n';
 
 interface appLocaleType {
@@ -17,7 +16,7 @@ interface localeUrlsType {
 const getLocaleURL = (
   newLocale: string,
   locale: string,
-  location: LocationState,
+  location: Location,
 ): string => {
   const { pathname, search } = location;
   const basePath = pathname.startsWith(`/${locale}/`)
@@ -30,7 +29,7 @@ const getLocaleURL = (
 
 export const getLocaleUrls = (
   locale: string,
-  location: LocationState,
+  location: Location,
 ): localeUrlsType => {
   const localeUrls: localeUrlsType = {};
   appLocales.forEach((appLocale: appLocaleType) => {

@@ -13,17 +13,14 @@ const FormikContributors = ({ t, contributorTypes, width }) => {
         key={`formik_contributor_${contributorType}`}
         name={contributorType}>
         {({ field, form }) => {
-          const { errors, touched } = form;
-          const error =
-            touched[field.name] && errors[field.name] ? errors[field.name] : '';
+          const { errors } = form;
+          const error = errors[field.name] || '';
           return (
             <Contributors
               label={label}
               labelRemove={t(`form.${contributorType}.labelRemove`)}
               showError={!!errors[field.name]}
-              errorMessages={
-                touched[field.name] && errors[field.name] ? [error] : []
-              }
+              errorMessages={errors[field.name] ? [error] : []}
               width={width}
               {...field}
             />

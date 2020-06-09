@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
-import { FormikActions, FieldProps, FormikValues } from 'formik';
+import { FormikHelpers, FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
 import FormikGrepCodesContent from './FormikGrepCodesContent';
 import { TranslateType, ArticleType } from '../../interfaces';
@@ -18,7 +18,7 @@ interface Props {
   article: ArticleType;
   field: FieldProps<string[]>['field'];
   form: {
-    setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
+    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }
 

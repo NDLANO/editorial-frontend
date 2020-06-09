@@ -9,7 +9,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
-import { FieldProps, FormikActions, FormikValues } from 'formik';
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
 import { AsyncDropdown } from '../../components/Dropdown';
@@ -22,7 +22,7 @@ interface Props {
   articleGrepCodes: string[];
   field: FieldProps<string[]>['field'];
   form: {
-    setFieldTouched: FormikActions<FormikValues>['setFieldTouched'];
+    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }
 

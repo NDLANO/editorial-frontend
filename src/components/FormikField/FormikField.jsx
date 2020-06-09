@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { Field, connect, ErrorMessage } from 'formik';
+import { Field, connect } from 'formik';
 import { Value } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
@@ -89,14 +89,10 @@ const FormikField = ({
           value={isSlateValue ? values[name].document.text : values[name]}
         />
       )}
-      {showError && (
-        <ErrorMessage name={name}>
-          {error => (
-            <FormikFieldHelp error>
-              <StyledErrorPreLine>{error}</StyledErrorPreLine>
-            </FormikFieldHelp>
-          )}
-        </ErrorMessage>
+      {showError && errors[name] && (
+        <FormikFieldHelp error={errors[name]}>
+          <StyledErrorPreLine>{errors[name]}</StyledErrorPreLine>
+        </FormikFieldHelp>
       )}
     </div>
   );

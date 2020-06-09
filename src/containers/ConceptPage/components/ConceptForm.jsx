@@ -235,9 +235,7 @@ class ConceptForm extends Component {
         id: 'concept-content',
         title: t('form.contentSection'),
         className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: ['title', 'conceptContent'].some(
-          field => !!errors[field] && touched[field],
-        ),
+        hasError: ['title', 'conceptContent'].some(field => !!errors[field]),
 
         component: props => <ConceptContent classes={formClasses} {...props} />,
       },
@@ -245,9 +243,7 @@ class ConceptForm extends Component {
         id: 'concept-copyright',
         title: t('form.copyrightSection'),
         className: 'u-6/6',
-        hasError: ['creators', 'license'].some(
-          field => !!errors[field] && touched[field],
-        ),
+        hasError: ['creators', 'license'].some(field => !!errors[field]),
         component: ({ values }) => (
           <ConceptCopyright
             licenses={licenses}
@@ -261,9 +257,7 @@ class ConceptForm extends Component {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: ['tags', 'metaImageAlt'].some(
-          field => !!errors[field] && touched[field],
-        ),
+        hasError: ['tags', 'metaImageAlt'].some(field => !!errors[field]),
 
         component: props => (
           <ConceptMetaData
@@ -284,6 +278,7 @@ class ConceptForm extends Component {
         onSubmit={() => ({})}
         ref={this.formik}
         enableReinitialize
+        validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const {

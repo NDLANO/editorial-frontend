@@ -106,14 +106,10 @@ class NdlaFilmEditor extends React.Component {
   };
 
   fetchAllMovies = async () => {
-    const contextType =
-      config.ndlaEnvironment === 'ff' || config.ndlaEnvironment === 'staging'
-        ? 'standard'
-        : 'topic-article';
     const query = {
       page: 1,
       subjects: 'urn:subject:20',
-      'context-types': contextType,
+      'context-types': config.ndlaFilmArticleType,
       sort: '-relevance',
       'page-size': 10000,
     };
@@ -122,13 +118,9 @@ class NdlaFilmEditor extends React.Component {
   };
 
   queryArticles = async ids => {
-    const contextType =
-      config.ndlaEnvironment === 'ff' || config.ndlaEnvironment === 'staging'
-        ? 'standard'
-        : 'topic-article';
     const query = {
       page: 1,
-      'context-types': contextType,
+      'context-types': config.ndlaFilmArticleType,
       sort: '-relevance',
       'page-size': 10,
       ids: ids,

@@ -41,7 +41,7 @@ const StyledEditMode = styled('div')`
   margin-left: auto;
   position: absolute;
   right: 0;
-
+  
   & svg {
     height: 38px;
     width: 38px;
@@ -57,6 +57,7 @@ const StyledErrorMessage = styled('span')`
 
 const StyledInputField = styled('input')`
   margin: calc(${spacing.small} / 2);
+  width: 200px;
 `;
 
 const saveButtonStyle = css`
@@ -83,6 +84,9 @@ export class InlineAddButton extends PureComponent {
 
   async handleClick(e) {
     e.stopPropagation();
+    if (this.state.inputValue === '') {
+      return this.setState({ status: 'initial' });
+    }
     this.setState({ status: 'loading' });
     try {
       await this.props.action(this.state.inputValue);
@@ -115,17 +119,17 @@ export class InlineAddButton extends PureComponent {
 
     return status === 'edit' || status === 'loading' || status === 'error' ? (
       <Fragment>
+        <StyledInputField
+          type="text"
+          autoFocus //  eslint-disable-line
+          /* allow autofocus when it happens when clicking a dialog and not at page load
+         ref: https://w3c.github.io/html/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute */
+          data-testid="addSubjectInputField"
+          value={inputValue}
+          onChange={this.handleInputChange}
+          onKeyDown={this.handleKeyPress}
+        />
         <StyledEditMode>
-          <StyledInputField
-            type="text"
-            autoFocus //  eslint-disable-line
-            /* allow autofocus when it happens when clicking a dialog and not at page load
-           ref: https://w3c.github.io/html/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute */
-            data-testid="addSubjectInputField"
-            value={inputValue}
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleKeyPress}
-          />
           <Button
             stripped
             css={saveButtonStyle}

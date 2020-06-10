@@ -84,7 +84,7 @@ export class StructureContainer extends React.PureComponent {
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
-    this.handleFavorite = this.handleFavorite.bind(this);
+    this.toggleFavorite = this.toggleFavorite.bind(this);
     this.fetchFavoritesSubjectIds = this.fetchFavoritesSubjectIds.bind(this);
     this.fetchFavoriteSubjects = this.fetchFavoriteSubjects.bind(this);
     this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
@@ -368,12 +368,12 @@ export class StructureContainer extends React.PureComponent {
     });
   }
 
-  handleFavorite(subjectId) {
+  toggleFavorite(subjectId) {
     let cookie = getCookie('favorite_subjects', document.cookie);
     let favorites = [].concat(JSON.parse(cookie));
 
     if (favorites.includes(subjectId)) {
-        favorites = favorites.filter(id => id !== subjectId);
+      favorites = favorites.filter(id => id !== subjectId);
     } else {
       favorites.push(subjectId);
     }
@@ -445,7 +445,7 @@ export class StructureContainer extends React.PureComponent {
                 checked={showFavorites}
                 label={t('taxonomy.favorites')}
                 id={'favorite'}
-                style={{ color: colors.white, width:"15.2em"}}
+                style={{ color: colors.white, width: '15.2em' }}
               />
             }
             hidden={editStructureHidden}>
@@ -463,7 +463,7 @@ export class StructureContainer extends React.PureComponent {
                 toggleOpen={this.handleStructureToggle}
                 activeFilters={activeFilters}
                 highlightMainActive
-                toggleFavorite={this.handleFavorite}
+                toggleFavorite={this.toggleFavorite}
                 favoriteSubjectIds={favoriteSubjectIds}
                 renderListItems={listProps => (
                   <FolderItem

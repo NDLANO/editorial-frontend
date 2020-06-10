@@ -41,7 +41,7 @@ const StyledEditMode = styled('div')`
   margin-left: auto;
   position: absolute;
   right: 0;
-  
+
   & svg {
     height: 38px;
     width: 38px;

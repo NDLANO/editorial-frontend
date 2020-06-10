@@ -49,6 +49,8 @@ export const isNDLATaxonomyUrl = url =>
   );
 export const isNDLALearningPathUrl = url =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
+export const isNDLAEdPathUrl = url =>
+  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?subject-matter\/(.*)/.test(url);
 export const isPlainId = url => /^\d+/.test(url);
 
 const getIdAndTypeFromUrl = async href => {
@@ -80,6 +82,12 @@ const getIdAndTypeFromUrl = async href => {
     const resourceType = contentUriSplit.pop();
 
     return { resourceId, resourceType };
+  } else if (isNDLAEdPathUrl(href)) {
+    const splittedHref = href.split('/');
+    return {
+      resourceId: splittedHref[5],
+      resourceType: 'article',
+    };
   }
   return { resourceId: null };
 };

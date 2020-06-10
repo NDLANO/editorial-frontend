@@ -18,6 +18,7 @@ import FormikField from '../../components/FormikField';
 
 const markdown = new Remarkable({ breaks: true });
 markdown.inline.ruler.enable(['sub', 'sup']);
+markdown.block.ruler.disable(['list']);
 
 const renderMarkdown = text => {
   return markdown.render(text);

@@ -16,7 +16,7 @@ const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
 export const fetchLearningpath = (id, locale) => {
   const language = locale ? `?language=${locale}&fallback=true` : '';
-  fetchAuthorized(`${baseUrl}/${id}${language}`).then(
+  return fetchAuthorized(`${baseUrl}/${id}${language}`).then(
     resolveJsonOrRejectWithError,
   );
 };

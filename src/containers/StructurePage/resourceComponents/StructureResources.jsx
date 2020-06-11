@@ -149,7 +149,7 @@ export class StructureResources extends React.PureComponent {
             }),
           );
         }
-        this.getResourceStatuses(allTopicResources);
+        await this.getResourceStatuses(allTopicResources);
 
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,

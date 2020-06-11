@@ -85,8 +85,8 @@ export class StructureContainer extends React.PureComponent {
     this.onDragEnd = this.onDragEnd.bind(this);
     this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
     this.toggleFavorite = this.toggleFavorite.bind(this);
-    this.fetchFavoritesSubjectIds = this.fetchFavoritesSubjectIds.bind(this);
-    this.fetchFavoriteSubjects = this.fetchFavoriteSubjects.bind(this);
+    this.getFavoriteSubjectIds = this.getFavoriteSubjectIds.bind(this);
+    this.getFavoriteSubjects = this.getFavoriteSubjects.bind(this);
     this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
   }
 
@@ -369,8 +369,8 @@ export class StructureContainer extends React.PureComponent {
   }
 
   toggleFavorite(subjectId) {
-    let cookie = getCookie('favorite_subjects', document.cookie);
-    let favorites = [].concat(JSON.parse(cookie));
+    const cookie = getCookie('favorite_subjects', document.cookie);
+    let favorites = JSON.parse(cookie) || [];
 
     if (favorites.includes(subjectId)) {
       favorites = favorites.filter(id => id !== subjectId);
@@ -383,19 +383,16 @@ export class StructureContainer extends React.PureComponent {
     this.forceUpdate();
   }
 
-  fetchFavoritesSubjectIds() {
-    return [].concat(
-      JSON.parse(getCookie('favorite_subjects', document.cookie)),
-    );
+  getFavoriteSubjectIds() {
+    return JSON.parse(getCookie('favorite_subjects', document.cookie)) || [];
   }
 
-  fetchFavoriteSubjects(subjects, favoriteSubjectIds) {
+  getFavoriteSubjects(subjects, favoriteSubjectIds) {
     return subjects.filter(e => favoriteSubjectIds.includes(e.id));
   }
 
   toggleShowFavorites() {
-    const { showFavorites } = this.state;
-    this.setState({ showFavorites: !showFavorites });
+    this.setState(prevState => ({ showFavorites: !prevState.showFavorites }));
   }
 
   render() {
@@ -416,7 +413,7 @@ export class StructureContainer extends React.PureComponent {
       subject: currentSubject,
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
-    const favoriteSubjectIds = this.fetchFavoritesSubjectIds();
+    const favoriteSubjectIds = this.getFavoriteSubjectIds();
 
     return (
       <ErrorBoundary>
@@ -441,10 +438,10 @@ export class StructureContainer extends React.PureComponent {
             }
             toggleSwitch={
               <Switch
-                onChange={() => this.toggleShowFavorites()}
+                onChange={this.toggleShowFavorites}
                 checked={showFavorites}
                 label={t('taxonomy.favorites')}
-                id={'favorite'}
+                id={'favorites'}
                 style={{ color: colors.white, width: '15.2em' }}
               />
             }
@@ -456,7 +453,7 @@ export class StructureContainer extends React.PureComponent {
                 openedPaths={getPathsFromUrl(match.url)}
                 structure={
                   showFavorites
-                    ? this.fetchFavoriteSubjects(subjects, favoriteSubjectIds)
+                    ? this.getFavoriteSubjects(subjects, favoriteSubjectIds)
                     : subjects
                 }
                 filters={filters}

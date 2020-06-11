@@ -84,8 +84,8 @@ export class InlineAddButton extends PureComponent {
 
   async handleClick(e) {
     e.stopPropagation();
-    if (this.state.inputValue === '') {
-      return this.setState({ status: 'initial' });
+    if (this.state.inputValue.trim() === '') {
+      return this.setState({ inputValue: '', status: 'initial' });
     }
     this.setState({ status: 'loading' });
     try {
@@ -97,6 +97,7 @@ export class InlineAddButton extends PureComponent {
         status: 'error',
       });
     }
+    this.setState({ inputValue: '' });
   }
 
   handleInputChange(e) {

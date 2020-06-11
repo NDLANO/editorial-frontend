@@ -83,7 +83,7 @@ export class StructureContainer extends React.PureComponent {
   }
 
   async componentDidMount() {
-    this.getAllSubjects();
+    await this.getAllSubjects();
     const { subject } = this.props.match.params;
     const locale = this.props.locale;
     if (subject) {

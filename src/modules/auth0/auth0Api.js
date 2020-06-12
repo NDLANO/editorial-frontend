@@ -11,6 +11,8 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 
+// import { auth0Manage } from '../../util/authHelpers';
+
 export const fetchAuth0Users = uniqueUserIds =>
   fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(
     resolveJsonOrRejectWithError,

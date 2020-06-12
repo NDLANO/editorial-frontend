@@ -13,7 +13,7 @@ import {
   getAccessToken,
   isAccessTokenValid,
   renewAuth,
-  authManagement,
+  auth0Manage,
 } from './authHelpers';
 import {
   resolveJsonOrRejectWithError,
@@ -120,9 +120,9 @@ export const fetchExternalOembed = (url, options) =>
 
 export { resolveJsonOrRejectWithError, createErrorPayload };
 
-// TODO: sjekk at dette blir rett, oppdater gjerne så det blir nyest mulig js
+// TODO: sjekk at dette blir rett, oppdater gjerne, rett plassering - evt i auth0Api.js?
 export const patchUserMetadata = (userId, userMetadata) => {
-  authManagement.patchUserMetadata(userId, userMetadata, function(
+  auth0Manage.patchUserMetadata(userId, userMetadata, function(
     err,
     authResult,
   ) {
@@ -130,6 +130,6 @@ export const patchUserMetadata = (userId, userMetadata) => {
       console.log(err);
     } else {
       console.log('patchUserMetadata succeeded: ' + JSON.stringify(authResult));
-    }
+    } // resolveJsonOrRejectWithError
   });
 };

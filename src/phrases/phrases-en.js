@@ -146,6 +146,8 @@ const phrases = {
     emptyLastUsed: 'Empty last used list',
     savedSearch: 'Saved searches',
     emptySavedSearch: 'No saved searches',
+    deleteSavedSearch: 'Delete saved search',
+    mustBeSearch: 'Link must be a search url',
     guidelines: 'Guidelines',
     saveSearch: 'Save search',
     deleteSearch: 'Delete search',

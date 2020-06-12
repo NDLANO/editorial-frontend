@@ -95,7 +95,7 @@ export function getResourceIdFromPath(path) {
   if (typeof path !== 'string') return undefined;
   const learningPath = path.match(/learningpaths\/(\d+)/);
   if (learningPath && learningPath[1]) return learningPath[1];
-  const resource = path.match(/(resource:[:\d]+)\/?$/);
+  const resource = path.match(/(resource:[:\da-fA-F-]+)\/?$/);
   return resource ? `urn:${resource[1]}` : '';
 }
 

@@ -135,6 +135,7 @@ class VisualElementSearch extends Component {
                   handleVisualElementChange({
                     resource: 'external',
                     url: video.link,
+                    title: video.title,
                   });
                 } else {
                   handleVisualElementChange({
@@ -144,6 +145,7 @@ class VisualElementSearch extends Component {
                     account: config.brightCoveAccountId,
                     player: config.brightcovePlayerId,
                     metaData: video,
+                    title: video.name,
                   });
                 }
               }}
@@ -162,6 +164,7 @@ class VisualElementSearch extends Component {
               onSelect={h5p =>
                 handleVisualElementChange({
                   resource: 'external',
+                  title: h5p.title,
                   ...h5p,
                   metaData: {},
                 })

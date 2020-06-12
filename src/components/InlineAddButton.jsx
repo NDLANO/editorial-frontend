@@ -86,28 +86,27 @@ export class InlineAddButton extends PureComponent {
     e.stopPropagation();
 
     this.setState(
-        prevState => {
-          return prevState.inputValue.trim() === ''
-              ? { inputValue: '', status: 'initial' }
-              : { status: 'loading' };
-        },
-        async () => {
-          const { inputValue,status } = this.state;
-          if (status !== 'initial') {
-            try {
-              await this.props.action(inputValue);
-              this.setState({ status: 'success', inputValue: '' });
-            } catch (error) {
-              handleError(error);
-              this.setState({
-                status: 'error',
-                inputValue: '',
-              });
-            }
+      prevState => {
+        return prevState.inputValue.trim() === ''
+          ? { inputValue: '', status: 'initial' }
+          : { status: 'loading' };
+      },
+      async () => {
+        const { inputValue, status } = this.state;
+        if (status !== 'initial') {
+          try {
+            await this.props.action(inputValue);
+            this.setState({ status: 'success', inputValue: '' });
+          } catch (error) {
+            handleError(error);
+            this.setState({
+              status: 'error',
+              inputValue: '',
+            });
           }
-        },
+        }
+      },
     );
-
   }
 
   handleInputChange(e) {

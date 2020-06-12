@@ -127,9 +127,7 @@ class AudioForm extends Component {
       {
         id: 'audio-upload-content',
         title: t('form.contentSection'),
-        hasError: ['title', 'audioFile'].some(
-          field => !!errors[field] && touched[field],
-        ),
+        hasError: ['title', 'audioFile'].some(field => !!errors[field]),
         component: (
           <AudioContent
             classes={formClasses}
@@ -147,7 +145,7 @@ class AudioForm extends Component {
           'rightsholders',
           'processors',
           'license',
-        ].some(field => !!errors[field] && touched[field]),
+        ].some(field => !!errors[field]),
         component: (
           <AudioMetaData
             classes={formClasses}
@@ -164,6 +162,7 @@ class AudioForm extends Component {
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
         enableReinitialize
+        validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting, submitForm } = formikProps;

@@ -32,6 +32,10 @@ details {
 .c-editor {
   position: relative;
 
+  &__content {
+    font-family: var(--font-serif);
+  }
+
   &__p {
     font-family: var(--font-sans);
   }

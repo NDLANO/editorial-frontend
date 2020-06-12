@@ -94,11 +94,7 @@ const ImageContent = ({
             container="div"
             type="text"
             autoExpand
-            warningText={
-              touched[field.name] && errors[field.name]
-                ? errors[field.name]
-                : undefined
-            }
+            warningText={errors[field.name]}
             {...field}
           />
         )}
@@ -111,11 +107,7 @@ const ImageContent = ({
             container="div"
             type="text"
             autoExpand
-            warningText={
-              touched[field.name] && errors[field.name]
-                ? errors[field.name]
-                : undefined
-            }
+            warningText={errors[field.name]}
             {...field}
           />
         )}

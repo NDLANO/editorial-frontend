@@ -172,6 +172,7 @@ const TopicArticleForm = props => {
   return (
     <Formik
       enableReinitialize={translating}
+      validateOnMount
       initialValues={initialValues}
       validateOnChange={false}
       ref={formikRef}

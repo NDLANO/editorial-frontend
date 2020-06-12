@@ -7,10 +7,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from '@emotion/core';
 import { EmbedShape } from '../../shapes';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
 import { getSrcSets } from '../../util/imageEditorUtil';
+
+const imgStyle = css`
+  min-width: -webkit-fill-available;
+  min-width: -moz-available;
+`;
 
 const ImageTransformEditor = ({
   embed,
@@ -40,6 +46,7 @@ const ImageTransformEditor = ({
       return (
         <figure>
           <img
+            css={imgStyle}
             alt={embed.alt}
             srcSet={getSrcSets(embed.resource_id, transformData)}
           />

@@ -22,6 +22,8 @@ import { EmbedShape } from '../../shapes';
 
 const focalPointButtonStyle = css`
   cursor: crosshair;
+  min-width: -webkit-fill-available;
+  min-width: -moz-available;
 `;
 
 const StyledFocalPointMarker = styled('div')`
@@ -107,6 +109,7 @@ class ImageFocalPointEdit extends React.Component {
             onClick={this.onImageClick}
             css={focalPointButtonStyle}>
             <img
+              style={{ minWidth: 'inherit' }}
               alt={embed.alt}
               ref={focalImg => {
                 this.focalImg = focalImg;

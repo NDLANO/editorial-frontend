@@ -14,7 +14,7 @@ export default ARTICLE_ID => {
       'GET',
       `/draft-api/v1/drafts/${ARTICLE_ID}/history?language=nb&fallback=true`,
       `articleHistory:${ARTICLE_ID}`,
-    );    
+    );
     cy.apiroute(
       'PUT',
       `/draft-api/v1/drafts/${ARTICLE_ID}/validate/`,
@@ -30,17 +30,10 @@ export default ARTICLE_ID => {
     'statusMachine',
   );
 
-  cy.route(
-    'GET',
-    '/taxonomy/v1/queries/**',
-    '[]'
-  );
+  cy.route('GET', '/taxonomy/v1/resources/**', '[]');
+  cy.route('GET', '/taxonomy/v1/topics/**', '[]');
 
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
-  cy.apiroute(
-    'POST',
-    '/draft-api/v1/drafts/search/',
-    'relatedArticles',
-  );
+  cy.apiroute('POST', '/draft-api/v1/drafts/search/', 'relatedArticles');
   cy.apiroute('POST', '/draft-api/v1/drafts/', 'saveLearningResource');
 };

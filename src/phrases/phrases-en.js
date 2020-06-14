@@ -959,6 +959,7 @@ const phrases = {
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
     copyResources: 'Copy resources from topic',
+    favorites: 'Show favorites',
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',

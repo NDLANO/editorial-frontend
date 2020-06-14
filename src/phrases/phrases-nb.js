@@ -978,6 +978,7 @@ const phrases = {
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
     copyResources: 'Kopier ressurser fra emne',
+    favorites: 'Vis favoritter',
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserer ressurser',

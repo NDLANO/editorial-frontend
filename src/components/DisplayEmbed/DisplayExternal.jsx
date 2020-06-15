@@ -66,7 +66,7 @@ export class DisplayExternal extends Component {
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const url = domain+embed.path;
+        const url = domain + embed.path;
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {

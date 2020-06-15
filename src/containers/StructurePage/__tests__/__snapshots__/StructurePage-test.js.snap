@@ -104,19 +104,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-8 {
+.emotion-6 {
   margin: 0;
   padding: 0;
 }
 
-.emotion-170 {
+.emotion-146 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
   animation-name: fadeInTop;
 }
 
-.emotion-10 {
+.emotion-8 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -128,11 +128,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-10 > div > button {
+.emotion-8 > div > button {
   color: rgb(32,88,143,0.5);
 }
 
-.emotion-6 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -146,29 +146,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-6:hover {
+.emotion-4:hover {
   background: #f1f5f8;
 }
 
 .emotion-2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  border: 0;
-  background: transparent;
-}
-
-.emotion-2 svg:hover {
-  fill: #fcba03;
-  cursor: pointer;
-}
-
-.emotion-4 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -189,7 +171,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-4:before {
+.emotion-2:before {
   content: '';
   display: block;
   width: 0;
@@ -200,7 +182,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-4:before {
+.emotion-2:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -209,7 +191,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( 0deg );
 }
 
-.emotion-114 {
+.emotion-90 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -230,7 +212,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-114:before {
+.emotion-90:before {
   content: '';
   display: block;
   width: 0;
@@ -241,7 +223,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-114:before {
+.emotion-90:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -250,7 +232,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( 90deg );
 }
 
-.emotion-118 {
+.emotion-94 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -258,7 +240,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: auto;
 }
 
-.emotion-116 {
+.emotion-92 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.2 font-weight:600;
@@ -277,7 +259,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   white-space: nowrap;
 }
 
-.emotion-124 {
+.emotion-100 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -291,11 +273,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-124:hover {
+.emotion-100:hover {
   background: #f1f5f8;
 }
 
-.emotion-122 {
+.emotion-98 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -316,7 +298,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-122:before {
+.emotion-98:before {
   content: '';
   display: block;
   width: 8px;
@@ -328,7 +310,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 7px;
 }
 
-.emotion-122:before {
+.emotion-98:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -337,7 +319,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate( deg );
 }
 
-.emotion-152 {
+.emotion-128 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -351,11 +333,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-152:hover {
+.emotion-128:hover {
   background: #f1f5f8;
 }
 
-.emotion-173 {
+.emotion-149 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -367,7 +349,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-168 {
+.emotion-144 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -382,11 +364,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-168:hover {
+.emotion-144:hover {
   background: #ceddea;
 }
 
-.emotion-164 {
+.emotion-140 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -394,11 +376,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   display: flex;
 }
 
-.emotion-164 > button {
+.emotion-140 > button {
   outline: none;
 }
 
-.emotion-162 {
+.emotion-138 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -430,8 +412,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   font-weight: 400;
 }
 
-.emotion-162:hover,
-.emotion-162:focus {
+.emotion-138:hover,
+.emotion-138:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -440,13 +422,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-162:active {
+.emotion-138:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-162[disabled] {
+.emotion-138[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -456,14 +438,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-162:focus {
+.emotion-138:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-162:hover,
-.emotion-162:active,
-.emotion-162:disabled,
-.emotion-162:focus {
+.emotion-138:hover,
+.emotion-138:active,
+.emotion-138:disabled,
+.emotion-138:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
@@ -473,11 +455,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-162:focus {
+.emotion-138:focus {
   outline-width: medium;
 }
 
-.emotion-160 {
+.emotion-136 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -499,18 +481,18 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin: 0 calc(13px / 2);
 }
 
-.emotion-160 > svg {
+.emotion-136 > svg {
   height: 20px;
   width: 20px;
 }
 
-.emotion-160:hover,
-.emotion-160:focus {
+.emotion-136:hover,
+.emotion-136:focus {
   background-color: #4d4d4d;
   color: #f8f8f8;
 }
 
-.emotion-166 {
+.emotion-142 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -535,19 +517,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: 2px solid #20588f;
   font-weight: 700;
   box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  font-weight: 700;
-  box-shadow: none;
   margin: 3px 6.5px 3px auto;
   font-size: 14;
   font-size: 0.7777777777777778rem;
   line-height: 1.1;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-142:hover,
+.emotion-142:focus {
   color: white;
   background-color: #184673;
   border: 2px solid rgba(32,88,143,0);
@@ -556,13 +533,13 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(1px) translateX(1px);
 }
 
-.emotion-166:active {
+.emotion-142:active {
   -webkit-transform: translateY(2px) translateX(2px);
   -ms-transform: translateY(2px) translateX(2px);
   transform: translateY(2px) translateX(2px);
 }
 
-.emotion-166[disabled] {
+.emotion-142[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
@@ -572,12 +549,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-166:focus {
+.emotion-142:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-142:hover,
+.emotion-142:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
@@ -586,27 +563,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: translateY(0) translateX(0);
 }
 
-.emotion-166:disabled {
-  color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
-  cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
-}
-
-.emotion-166:hover,
-.emotion-166:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
-}
-
-.emotion-166:disabled {
+.emotion-142:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -679,51 +636,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="emotion-8 emotion-9"
+          class="emotion-6 emotion-7"
         >
           <div
-            class="emotion-170"
+            class="emotion-146"
           >
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:6"
                   type="button"
                 >
@@ -735,49 +660,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:11"
                   type="button"
                 >
@@ -789,49 +682,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:16"
                   type="button"
                 >
@@ -843,49 +704,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:17"
                   type="button"
                 >
@@ -897,49 +726,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:9"
                   type="button"
                 >
@@ -951,49 +748,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:2"
                   type="button"
                 >
@@ -1005,49 +770,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:18"
                   type="button"
                 >
@@ -1059,49 +792,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:7"
                   type="button"
                 >
@@ -1113,49 +814,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:10"
                   type="button"
                 >
@@ -1167,49 +836,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
                   type="button"
                 >
@@ -1221,49 +858,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:14"
                   type="button"
                 >
@@ -1275,49 +880,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
-                  class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-114 emotion-5"
+                  class="emotion-90 emotion-3"
                   id="urn:subject:1"
                   type="button"
                 >
@@ -1328,10 +901,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   data-cy="folderWrapper"
                 >
                   <div
-                    class="emotion-118 emotion-119"
+                    class="emotion-94 emotion-95"
                   >
                     <span
-                      class="emotion-116 emotion-117"
+                      class="emotion-92 emotion-93"
                     >
                       Filtrer emner
                       :
@@ -1340,19 +913,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 </div>
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               >
                 <div
-                  class="emotion-170"
+                  class="emotion-146"
                 >
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-122 emotion-5"
+                        class="emotion-98 emotion-3"
                         id="urn:subject:1/urn:topic:1:186401"
                         type="button"
                       >
@@ -1364,17 +937,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-4 emotion-5"
+                        class="emotion-2 emotion-3"
                         id="urn:subject:1/urn:topic:1:172416"
                         type="button"
                       >
@@ -1386,17 +959,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-4 emotion-5"
+                        class="emotion-2 emotion-3"
                         id="urn:subject:1/urn:topic:1:186460"
                         type="button"
                       >
@@ -1408,17 +981,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-114 emotion-5"
+                        class="emotion-90 emotion-3"
                         id="urn:subject:1/urn:topic:1:186479"
                         type="button"
                       >
@@ -1430,19 +1003,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     >
                       <div
-                        class="emotion-170"
+                        class="emotion-146"
                       >
                         <li
-                          class="emotion-10 emotion-11"
+                          class="emotion-8 emotion-9"
                         >
                           <div
-                            class="emotion-152 emotion-7"
+                            class="emotion-128 emotion-5"
                           >
                             <button
-                              class="emotion-122 emotion-5"
+                              class="emotion-98 emotion-3"
                               id="urn:topic:1:186479/urn:topic:1:186487"
                               type="button"
                             >
@@ -1454,17 +1027,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             />
                           </div>
                           <ul
-                            class="emotion-8 emotion-9"
+                            class="emotion-6 emotion-7"
                           />
                         </li>
                         <li
-                          class="emotion-173 emotion-11"
+                          class="emotion-149 emotion-9"
                         >
                           <div
-                            class="emotion-168 emotion-7"
+                            class="emotion-144 emotion-5"
                           >
                             <button
-                              class="emotion-122 emotion-5"
+                              class="emotion-98 emotion-3"
                               id="urn:topic:1:186479/urn:topic:1:172650"
                               type="button"
                             >
@@ -1475,15 +1048,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                               data-cy="folderWrapper"
                             >
                               <div
-                                class="emotion-164 emotion-165"
+                                class="emotion-140 emotion-141"
                               >
                                 <button
-                                  class="emotion-162 emotion-1"
+                                  class="emotion-138 emotion-1"
                                   data-cy="settings-button-topic"
                                   type="button"
                                 >
                                   <div
-                                    class="emotion-160 emotion-161"
+                                    class="emotion-136 emotion-137"
                                   >
                                     <svg
                                       class="c-icon"
@@ -1513,7 +1086,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
-                                class="emotion-166 emotion-1"
+                                class="emotion-142 emotion-1"
                                 type="button"
                               >
                                 Hopp til ressurser
@@ -1521,21 +1094,21 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             </div>
                           </div>
                           <ul
-                            class="emotion-8 emotion-9"
+                            class="emotion-6 emotion-7"
                           >
                             <div
-                              class="emotion-170"
+                              class="emotion-146"
                             />
                           </ul>
                         </li>
                         <li
-                          class="emotion-10 emotion-11"
+                          class="emotion-8 emotion-9"
                         >
                           <div
-                            class="emotion-152 emotion-7"
+                            class="emotion-128 emotion-5"
                           >
                             <button
-                              class="emotion-122 emotion-5"
+                              class="emotion-98 emotion-3"
                               id="urn:topic:1:186479/urn:topic:1:185606"
                               type="button"
                             >
@@ -1547,20 +1120,20 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             />
                           </div>
                           <ul
-                            class="emotion-8 emotion-9"
+                            class="emotion-6 emotion-7"
                           />
                         </li>
                       </div>
                     </ul>
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-4 emotion-5"
+                        class="emotion-2 emotion-3"
                         id="urn:subject:1/urn:topic:1:171906"
                         type="button"
                       >
@@ -1572,17 +1145,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-4 emotion-5"
+                        class="emotion-2 emotion-3"
                         id="urn:subject:1/urn:topic:1:172361"
                         type="button"
                       >
@@ -1594,17 +1167,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-4 emotion-5"
+                        class="emotion-2 emotion-3"
                         id="urn:subject:1/urn:topic:1:172362"
                         type="button"
                       >
@@ -1616,17 +1189,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                   <li
-                    class="emotion-10 emotion-11"
+                    class="emotion-8 emotion-9"
                   >
                     <div
-                      class="emotion-124 emotion-7"
+                      class="emotion-100 emotion-5"
                     >
                       <button
-                        class="emotion-4 emotion-5"
+                        class="emotion-2 emotion-3"
                         id="urn:subject:1/urn:topic:1:172568"
                         type="button"
                       >
@@ -1638,52 +1211,20 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       />
                     </div>
                     <ul
-                      class="emotion-8 emotion-9"
+                      class="emotion-6 emotion-7"
                     />
                   </li>
                 </div>
               </ul>
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:13"
                   type="button"
                 >
@@ -1695,49 +1236,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:3"
                   type="button"
                 >
@@ -1749,49 +1258,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:12"
                   type="button"
                 >
@@ -1803,49 +1280,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:15"
                   type="button"
                 >
@@ -1857,49 +1302,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:5"
                   type="button"
                 >
@@ -1911,49 +1324,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:8"
                   type="button"
                 >
@@ -1965,49 +1346,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
             <li
-              class="emotion-10 emotion-11"
+              class="emotion-8 emotion-9"
             >
               <div
-                class="emotion-6 emotion-7"
+                class="emotion-4 emotion-5"
               >
                 <button
                   class="emotion-2 emotion-3"
-                >
-                  <svg
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle; color: rgb(77, 77, 77);"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                  >
-                    <title>
-                      Star
-                    </title>
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </g>
-                  </svg>
-                </button>
-                <button
-                  class="emotion-4 emotion-5"
                   id="urn:subject:4"
                   type="button"
                 >
@@ -2019,7 +1368,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 />
               </div>
               <ul
-                class="emotion-8 emotion-9"
+                class="emotion-6 emotion-7"
               />
             </li>
           </div>

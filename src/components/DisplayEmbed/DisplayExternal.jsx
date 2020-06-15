@@ -16,10 +16,11 @@ import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
+import { getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
+import config from '../../config';
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -60,12 +61,13 @@ export class DisplayExternal extends Component {
 
   async getPropsFromEmbed() {
     const { embed } = this.props;
-    const domain = urlDomain(embed.url);
+    const domain = config.h5pApiUrl;
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const data = await fetchExternalOembed(embed.url);
+        const url = domain+embed.path;
+        const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {
           this.setState({
@@ -205,6 +207,7 @@ DisplayExternal.propTypes = {
   embed: PropTypes.shape({
     width: PropTypes.string,
     url: PropTypes.string,
+    path: PropTypes.string,
     height: PropTypes.string,
     resource: PropTypes.string,
   }),

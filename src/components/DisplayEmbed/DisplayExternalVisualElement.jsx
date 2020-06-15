@@ -16,11 +16,12 @@ import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
+import { getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
 import Overlay from '../Overlay';
+import config from '../../config';
 
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
@@ -43,12 +44,13 @@ export class DisplayExternalVisualElement extends Component {
 
   async getPropsFromEmbed() {
     const { embed } = this.props;
-    const domain = urlDomain(embed.url);
+    const domain = config.h5pApiUrl;
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const data = await fetchExternalOembed(embed.url);
+        const url = domain+embed.path;
+        const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {
           this.setState({
@@ -186,6 +188,7 @@ DisplayExternalVisualElement.propTypes = {
     width: PropTypes.string,
     heigth: PropTypes.string,
     url: PropTypes.string,
+    path: PropTypes.string,
     resource: PropTypes.string,
     height: PropTypes.number,
     caption: PropTypes.string,

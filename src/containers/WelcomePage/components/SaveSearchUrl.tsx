@@ -23,34 +23,39 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
+export const isNDLAEdSearchUrl = (url: string) =>
+  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?search\/\d*/.test(url);
+
 const SaveSearchUrl: FC<Props> = ({ t }) => {
-  const [isValidUrl, setIsValidUrl] = useState(false);
-  const [newSearchUrl, setNewSearchUrl] = useState('');
-  const [savedSearches, setSavedSearches] = useState<string[]>([
-    '/content?page=1&page-size=10&query=ndla&sort=-lastUpdated', // TODO remove - for testing
-  ]);
+  const [isValidUrl, setIsValidUrl] = useState(true);
+  const [newSearchUrl, setNewSearchUrl] = useState(''); // value of input field
+  const [savedSearches, setSavedSearches] = useState<string[]>([]);
 
   useEffect(() => {}, [savedSearches]);
 
   const checkIsValidUrl = (url: string) =>
-    // TODO: How to check if valid url?
-    url !== '' && isValidURL(url) && url.includes('/search/')
+    url !== '' && isValidURL(url) && isNDLAEdSearchUrl(url)
       ? setIsValidUrl(true)
       : setIsValidUrl(false);
 
   const getWarningText = () => {
     if (!isValidUrl) {
-      return `${t('form.content.link.invalid')} - ${t(
-        'welcomePage.mustBeSearch',
-      )}`;
-    }
-    if (newSearchUrl === '') {
-      return t('form.content.link.required');
-    }
-    if (!newSearchUrl.includes('/search/')) {
-      return t('welcomePage.mustBeSearch');
+      if (newSearchUrl === '') {
+        return t('form.content.link.required');
+      }
+      if (!isNDLAEdSearchUrl(newSearchUrl)) {
+        return `${t('form.content.link.invalid')} - ${t(
+          'welcomePage.mustBeSearch',
+        )}`;
+      }
     }
     return null;
+  };
+
+  const updateUserMetadata = async (searches: string[]) => {
+    // await patchUserMetadata({"savedSearches": savedSearches});
+    console.log('updated searches', searches);
+    setSavedSearches(searches);
   };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,15 +66,18 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
     event.preventDefault();
     checkIsValidUrl(newSearchUrl);
     const savedSearch = newSearchUrl.split('search');
-    if (isValidUrl) {
-      savedSearches.push(savedSearch[1]);
+    if (isValidUrl && newSearchUrl !== '') {
+      const searchUrl = savedSearch[1];
+      savedSearches.push(searchUrl);
+
       setNewSearchUrl('');
+      updateUserMetadata(savedSearches);
     }
   };
 
   const deleteSearch = (index: number) => {
-    const deletingSearch = savedSearches.splice(index, 1);
-    setSavedSearches(savedSearches);
+    savedSearches.splice(index, 1); // dette er den som "slettes"
+    updateUserMetadata(savedSearches);
   };
 
   const updateUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,8 +115,8 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
           type="text"
           name={t('welcomePage.saveSearch')}
           value={newSearchUrl}
+          warningText={getWarningText()}
           placeholder={t('form.content.link.href')}
-          warningText={getWarningText}
           iconRight={<LinkIcon />}
           container="div"
           onChange={updateUrl}

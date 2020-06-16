@@ -10,9 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
-import { fetchH5PiframeUrl, editH5PiframeUrl } from './h5pApi';
-import { getEnvironmentVariabel } from '../../config';
-import { resolveJsonOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
+import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PTitle } from './h5pApi';
 
 class H5PElement extends Component {
   constructor(props) {
@@ -22,7 +20,6 @@ class H5PElement extends Component {
       fetchFailed: false,
     };
     this.handleH5PChange = this.handleH5PChange.bind(this);
-    this.fetchH5PTitle = this.fetchH5PTitle.bind(this);
   }
 
   /* eslint-disable react/no-did-mount-set-state */
@@ -44,20 +41,6 @@ class H5PElement extends Component {
     window.removeEventListener('message', this.handleH5PChange);
   }
 
-  async fetchH5PTitle(resourceId) {
-    const getEnv = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
-    const env = getEnv !== 'prod' ? '-' + getEnv : '';
-    const url = `https://h5p${env}.ndla.no/v1/resource/${resourceId}/copyright`;
-    return await fetch(url)
-      .then(resolveJsonOrRejectWithError)
-      .then(values => {
-        return values.h5p.title;
-      })
-      .catch(() => {
-        return null;
-      });
-  }
-
   async handleH5PChange(event) {
     const { onSelect } = this.props;
     if (event.data.type !== 'h5p') {
@@ -66,7 +49,7 @@ class H5PElement extends Component {
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
     const { oembed_url: oembedUrl } = event.data;
     const url = oembedUrl.match(/url=([^&]*)/)[0].replace('url=', '');
-    const title = await this.fetchH5PTitle(event.data.embed_id);
+    const title = await fetchH5PTitle(event.data.embed_id);
     onSelect({ url, title });
   }
 

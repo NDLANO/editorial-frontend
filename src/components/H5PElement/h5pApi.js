@@ -6,7 +6,7 @@
  *
  */
 
-import config from '../../config';
+import config, { getEnvironmentVariabel } from '../../config';
 import {
   resolveJsonOrRejectWithError,
   fetchReAuthorized,
@@ -33,4 +33,18 @@ export const editH5PiframeUrl = async url => {
     },
   );
   return resolveJsonOrRejectWithError(response);
+};
+
+export const fetchH5PTitle = async resourceId => {
+  const getEnv = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
+  const env = getEnv !== 'prod' ? '-' + getEnv : '';
+  const url = `https://h5p${env}.ndla.no/v1/resource/${resourceId}/copyright`;
+  return await fetch(url)
+    .then(resolveJsonOrRejectWithError)
+    .then(values => {
+      return values.h5p.title;
+    })
+    .catch(() => {
+      return null;
+    });
 };

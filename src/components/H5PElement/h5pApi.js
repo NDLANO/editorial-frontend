@@ -36,9 +36,7 @@ export const editH5PiframeUrl = async url => {
 };
 
 export const fetchH5PTitle = async resourceId => {
-  const getEnv = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
-  const env = getEnv !== 'prod' ? '-' + getEnv : '';
-  const url = `https://h5p${env}.ndla.no/v1/resource/${resourceId}/copyright`;
+  const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
   return await fetch(url)
     .then(resolveJsonOrRejectWithError)
     .then(values => {

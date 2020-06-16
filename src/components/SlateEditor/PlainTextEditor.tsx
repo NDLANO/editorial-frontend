@@ -7,31 +7,31 @@
  */
 
 import React, { useState, useMemo } from 'react'
-import { createEditor } from 'slate'
+import { createEditor, Node } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 
 interface Props {
-  onChange: Function;
-  value: any;
+  onChange: (value: Node[]) => void;
+  value: Node[];
   id: String;
   placeholder: string,
   className: String,
   dataCy: String,
 }
 
-const PlainTextEditor = (props: Props): JSX.Element => {
-  const { value, id, onChange, placeholder } = props;
-  const editor = useMemo(() => withReact(createEditor()), []);
+const PlainTextEditor = (props: Props) => {
+  const { value, id, placeholder } = props;
+  const [val, setValue] = useState(value)
+  const editor = useMemo(() => withReact(createEditor()), [])
+  const onChange = (val: Node[]) => {
+    setValue(val);
+    props.onChange(val);
+  }
   return (
-    <Slate
-      id={id}
-      editor={editor} 
-      value={value} 
-      onChange={val => 
-        onChange(val)
-      }
-      >
-        <Editable placeholder={placeholder} />
+    <Slate id={id} editor={editor} value={val} onChange={onChange}>
+      <Editable 
+        placeholder={placeholder}
+      />
     </Slate>
   )
 }

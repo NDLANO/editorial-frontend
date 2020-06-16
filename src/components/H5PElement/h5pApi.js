@@ -6,7 +6,7 @@
  *
  */
 
-import config, { getEnvironmentVariabel } from '../../config';
+import config from '../../config';
 import {
   resolveJsonOrRejectWithError,
   fetchReAuthorized,

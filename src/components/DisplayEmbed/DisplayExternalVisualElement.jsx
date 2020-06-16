@@ -16,7 +16,7 @@ import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
+import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
@@ -37,19 +37,19 @@ export class DisplayExternalVisualElement extends Component {
 
   componentDidUpdate({ embed: prevEmbed }) {
     const { embed } = this.props;
-    if (prevEmbed.url !== embed.url) {
+    if (prevEmbed.url !== embed.url || prevEmbed.path !== embed.path) {
       this.getPropsFromEmbed();
     }
   }
 
   async getPropsFromEmbed() {
     const { embed } = this.props;
-    const domain = config.h5pApiUrl;
+    const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const url = domain + embed.path;
+        const url = embed.url || `${domain}${embed.path}`;
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {

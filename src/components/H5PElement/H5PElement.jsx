@@ -49,7 +49,8 @@ class H5PElement extends Component {
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
     const { oembed_url: oembedUrl } = event.data;
     const url = oembedUrl.match(/url=([^&]*)/)[0].replace('url=', '');
-    const title = await fetchH5PTitle(event.data.embed_id);
+    const metadata = await fetchH5PTitle(event.data.embed_id);
+    const title = metadata ? metadata.h5p.title : null;
     onSelect({ url, title });
   }
 

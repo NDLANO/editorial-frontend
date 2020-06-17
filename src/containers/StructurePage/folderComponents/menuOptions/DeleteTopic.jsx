@@ -18,11 +18,14 @@ import {
   fetchTopicConnections,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  fetchTopicArticle,
 } from '../../../../modules/taxonomy';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import MenuItemButton from './MenuItemButton';
 import { StyledErrorMessage } from './MenuItemEditField';
+import { updateStatusDraft } from '../../../../modules/draft/draftApi';
+import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
 
 class DeleteTopic extends PureComponent {
   constructor() {
@@ -30,6 +33,7 @@ class DeleteTopic extends PureComponent {
     this.state = { loading: false, error: '' };
     this.onDeleteTopic = this.onDeleteTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
+    this.setTopicArticleArchived = this.setTopicArticleArchived.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +52,7 @@ class DeleteTopic extends PureComponent {
       } else {
         await deleteTopicConnection(connectionId);
       }
+      await this.setTopicArticleArchived(id);
       await deleteTopic(id);
       refreshTopics();
       this.setState({ loading: false });
@@ -73,8 +78,14 @@ class DeleteTopic extends PureComponent {
     }));
   }
 
+  async setTopicArticleArchived(topicId) {
+    let article = await fetchTopicArticle(topicId, 'nb');
+    let articleId = article.contentUri.split(':')[2];
+    await updateStatusDraft(articleId, ARCHIVED);
+  }
+
   render() {
-    const { t, editMode } = this.props;
+    const { t, editMode, id } = this.props;
     const { error, loading, connections } = this.state;
     const isDisabled = connections && connections.length > 1;
     return (
@@ -86,6 +97,7 @@ class DeleteTopic extends PureComponent {
           <RoundIcon small icon={<DeleteForever />} />
           {t('alertModal.delete')}
         </MenuItemButton>
+        <button onClick={() => this.setTopicArticleArchived(id)} />
 
         <AlertModal
           show={editMode === 'deleteTopic'}

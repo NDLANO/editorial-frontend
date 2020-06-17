@@ -10,7 +10,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
-import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PTitle } from './h5pApi';
+import handleError from '../../util/handleError';
+import {
+  fetchH5PiframeUrl,
+  editH5PiframeUrl,
+  fetchH5PMetadata,
+} from './h5pApi';
 
 class H5PElement extends Component {
   constructor(props) {
@@ -49,9 +54,14 @@ class H5PElement extends Component {
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
     const { oembed_url: oembedUrl } = event.data;
     const url = oembedUrl.match(/url=([^&]*)/)[0].replace('url=', '');
-    const metadata = await fetchH5PTitle(event.data.embed_id);
-    const title = metadata ? metadata.h5p.title : null;
-    onSelect({ url, title });
+    try {
+      const metadata = await fetchH5PMetadata(event.data.embed_id);
+      const title = metadata.h5p.title;
+      onSelect({ url, title });
+    } catch (e) {
+      onSelect({ url });
+      handleError(e);
+    }
   }
 
   render() {

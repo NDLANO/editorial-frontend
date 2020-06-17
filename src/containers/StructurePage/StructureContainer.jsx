@@ -378,7 +378,7 @@ export class StructureContainer extends React.PureComponent {
       favorites.push(subjectId);
     }
 
-    setCookie('favorite_subjects', JSON.stringify(favorites), false);
+    setCookie('favorite_subjects', JSON.stringify(favorites), false, false);
 
     this.forceUpdate();
   }

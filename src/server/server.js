@@ -39,7 +39,7 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 if (config.ndlaEnvironment === 'ff') {
   app.get('*', (req, res) => {
     res.set('location', `https://ed.ndla.no${req.originalUrl}`);
-    res.status(301).send();
+    res.status(302).send();
   });
 }
 

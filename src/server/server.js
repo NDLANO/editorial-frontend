@@ -38,8 +38,8 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 // Temporal hack to send users to prod
 if (config.ndlaEnvironment === 'ff') {
   // proxy js request to handle web worker crossorgin issue (only necessary under development)
-  app.get('/*', (req, res) => {
-    res.set('location', 'https://ed.ndla.no');
+  app.get('*', (req, res) => {
+    res.set('location', `https://ed.ndla.no${req.originalUrl}`);
     res.status(301).send();
   });
 }

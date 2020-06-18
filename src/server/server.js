@@ -38,11 +38,12 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 // Temporal hack to send users to prod
 if (config.ndlaEnvironment === 'ff') {
   app.get('*', (req, res, next) => {
-    if (req.hostname === 'ed.ff.ndla.no') {
+    if (req.hostname.startsWith('editorial-frontend')) {
+      next();
+    } else {
       res.set('location', `https://ed.ndla.no${req.originalUrl}`);
       res.status(302).send();
     }
-    next();
   });
 }
 

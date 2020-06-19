@@ -41,7 +41,7 @@ class DeleteTopic extends PureComponent {
   }
 
   async onDeleteTopic() {
-    const { parent, toggleEditMode, refreshTopics, t, id , locale} = this.props;
+    const { parent, toggleEditMode, refreshTopics, t, id, locale } = this.props;
     toggleEditMode('deleteTopic');
     this.setState({ loading: true, error: '' });
     const subTopic = parent.includes('topic');
@@ -52,7 +52,7 @@ class DeleteTopic extends PureComponent {
       } else {
         await deleteTopicConnection(connectionId);
       }
-      await this.setTopicArticleArchived(id,locale);
+      await this.setTopicArticleArchived(id, locale);
       await deleteTopic(id);
       refreshTopics();
       this.setState({ loading: false });
@@ -78,14 +78,14 @@ class DeleteTopic extends PureComponent {
     }));
   }
 
-  async setTopicArticleArchived(topicId,locale) {
+  async setTopicArticleArchived(topicId, locale) {
     let article = await fetchTopicArticle(topicId, locale);
     let articleId = article.contentUri.split(':')[2];
     await updateStatusDraft(articleId, ARCHIVED);
   }
 
   render() {
-    const { t, editMode} = this.props;
+    const { t, editMode } = this.props;
     const { error, loading, connections } = this.state;
     const isDisabled = connections && connections.length > 1;
     return (

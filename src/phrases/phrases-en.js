@@ -23,6 +23,7 @@ const phrases = {
     imageUploaderPage: `Image ${titleTemplate}`,
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
+    ndlaFilmPage: `NDLA Film ${titleTemplate}`,
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
@@ -959,6 +960,7 @@ const phrases = {
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
     copyResources: 'Copy resources from topic',
+    favorites: 'Show favorites',
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',

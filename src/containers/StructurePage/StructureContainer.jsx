@@ -15,6 +15,9 @@ import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { Taxonomy, Star } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
+import { getCookie, setCookie } from '@ndla/util';
+import { Switch } from '@ndla/switch';
+import { colors } from '@ndla/core';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
@@ -60,6 +63,7 @@ export class StructureContainer extends React.PureComponent {
       jsPlumbConnections: [],
       activeConnections: [],
       resourcesUpdated: false,
+      showFavorites: false,
     };
     this.starButton = React.createRef();
     this.resourceSection = React.createRef();
@@ -80,10 +84,14 @@ export class StructureContainer extends React.PureComponent {
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
+    this.toggleFavorite = this.toggleFavorite.bind(this);
+    this.getFavoriteSubjectIds = this.getFavoriteSubjectIds.bind(this);
+    this.getFavoriteSubjects = this.getFavoriteSubjects.bind(this);
+    this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
   }
 
   async componentDidMount() {
-    this.getAllSubjects();
+    await this.getAllSubjects();
     const { subject } = this.props.match.params;
     const locale = this.props.locale;
     if (subject) {
@@ -360,6 +368,33 @@ export class StructureContainer extends React.PureComponent {
     });
   }
 
+  toggleFavorite(subjectId) {
+    const cookie = getCookie('favorite_subjects', document.cookie);
+    let favorites = JSON.parse(cookie) || [];
+
+    if (favorites.includes(subjectId)) {
+      favorites = favorites.filter(id => id !== subjectId);
+    } else {
+      favorites.push(subjectId);
+    }
+
+    setCookie('favorite_subjects', JSON.stringify(favorites), false, false);
+
+    this.forceUpdate();
+  }
+
+  getFavoriteSubjectIds() {
+    return JSON.parse(getCookie('favorite_subjects', document.cookie)) || [];
+  }
+
+  getFavoriteSubjects(subjects, favoriteSubjectIds) {
+    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
+  }
+
+  toggleShowFavorites() {
+    this.setState(prevState => ({ showFavorites: !prevState.showFavorites }));
+  }
+
   render() {
     const { match, t, locale, userAccess } = this.props;
     const {
@@ -367,6 +402,7 @@ export class StructureContainer extends React.PureComponent {
       jsPlumbConnections,
       subjects,
       editStructureHidden,
+      showFavorites,
     } = this.state;
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
@@ -377,6 +413,7 @@ export class StructureContainer extends React.PureComponent {
       subject: currentSubject,
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
+    const favoriteSubjectIds = this.getFavoriteSubjectIds();
 
     return (
       <ErrorBoundary>
@@ -399,17 +436,32 @@ export class StructureContainer extends React.PureComponent {
                 />
               )
             }
+            toggleSwitch={
+              <Switch
+                onChange={this.toggleShowFavorites}
+                checked={showFavorites}
+                label={t('taxonomy.favorites')}
+                id={'favorites'}
+                style={{ color: colors.white, width: '15.2em' }}
+              />
+            }
             hidden={editStructureHidden}>
             <div id="plumbContainer">
               <Structure
                 DND
                 onDragEnd={this.onDragEnd}
                 openedPaths={getPathsFromUrl(match.url)}
-                structure={subjects}
+                structure={
+                  showFavorites
+                    ? this.getFavoriteSubjects(subjects, favoriteSubjectIds)
+                    : subjects
+                }
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
                 activeFilters={activeFilters}
                 highlightMainActive
+                toggleFavorite={this.toggleFavorite}
+                favoriteSubjectIds={favoriteSubjectIds}
                 renderListItems={listProps => (
                   <FolderItem
                     {...listProps}

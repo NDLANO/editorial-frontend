@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 import {
   updateFilmFrontpage,
   fetchFilmFrontpage,
@@ -106,14 +107,10 @@ class NdlaFilmEditor extends React.Component {
   };
 
   fetchAllMovies = async () => {
-    const contextType =
-      config.ndlaEnvironment === 'ff' || config.ndlaEnvironment === 'staging'
-        ? 'standard'
-        : 'topic-article';
     const query = {
       page: 1,
       subjects: 'urn:subject:20',
-      'context-types': contextType,
+      'context-types': config.ndlaFilmArticleType,
       sort: '-relevance',
       'page-size': 10000,
     };
@@ -122,13 +119,9 @@ class NdlaFilmEditor extends React.Component {
   };
 
   queryArticles = async ids => {
-    const contextType =
-      config.ndlaEnvironment === 'ff' || config.ndlaEnvironment === 'staging'
-        ? 'standard'
-        : 'topic-article';
     const query = {
       page: 1,
-      'context-types': contextType,
+      'context-types': config.ndlaFilmArticleType,
       sort: '-relevance',
       'page-size': 10,
       ids: ids,
@@ -325,6 +318,7 @@ class NdlaFilmEditor extends React.Component {
 
     return (
       <OneColumn>
+        <HelmetWithTracker title={t('htmlTitles.ndlaFilmPage')} />
         <StyledSection data-cy="slideshow-section">
           <h1>{t('ndlaFilm.editor.slideshowHeader')}</h1>
           <SlideshowEditor

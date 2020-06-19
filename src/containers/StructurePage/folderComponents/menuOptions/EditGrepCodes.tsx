@@ -120,7 +120,6 @@ const EditGrepCodes: FC<Props> = ({
 
   const grepCodeDescriptionTitle = async () => {
     const withName = await convertGrepCodesToObject(grepCodes);
-    console.log(withName);
     setGrepCodesWithName(withName);
   };
 

@@ -81,7 +81,10 @@ TopicDescription.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
   }).isRequired,
-  status: PropTypes.string,
+  status: PropTypes.shape({
+    current: PropTypes.string,
+    other: PropTypes.arrayOf(PropTypes.string),
+  }),
   resourceRef: PropTypes.object,
 };
 

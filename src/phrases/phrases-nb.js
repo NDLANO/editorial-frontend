@@ -23,6 +23,7 @@ const phrases = {
     imageUploaderPage: `Bilde ${titleTemplate}`,
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
+    ndlaFilmPage: `NDLA Film ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {hits} treff`,
@@ -978,6 +979,7 @@ const phrases = {
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
     copyResources: 'Kopier ressurser fra emne',
+    favorites: 'Vis favoritter',
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserer ressurser',

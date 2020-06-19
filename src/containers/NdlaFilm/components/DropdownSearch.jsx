@@ -13,14 +13,10 @@ import { searchResources } from '../../../modules/search/searchApi';
 import config from '../../../config';
 
 const queryResources = async input => {
-  const contextType =
-    config.ndlaEnvironment === 'ff' || config.ndlaEnvironment === 'staging'
-      ? 'standard'
-      : 'topic-article';
   const query = {
     page: 1,
     subjects: 'urn:subject:20',
-    'context-types': contextType,
+    'context-types': config.ndlaFilmArticleType,
     sort: '-relevance',
     'page-size': 10,
     query: input,

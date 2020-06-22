@@ -57,7 +57,8 @@ class FormikAlertModalWrapper extends PureComponent {
   }
 
   onContinue() {
-    this.props.onContinue();
+    const { onContinue } = this.props;
+    if (onContinue) onContinue();
     this.setState({ discardChanges: true, openModal: false }, () => {
       const nextLocation =
         this.state.nextLocation.pathname +

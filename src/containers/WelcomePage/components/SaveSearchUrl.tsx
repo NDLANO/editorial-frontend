@@ -13,7 +13,8 @@ import Tooltip from '@ndla/tooltip';
 import { TranslateType } from '../../../interfaces';
 import { isValidURL } from '../../../util/htmlHelpers';
 // import { patchUserMetadata } from '../../../util/apiHelpers';
-// import { getNdlaId } from '../../../util/authHelpers';
+import { getNdlaId } from '../../../util/authHelpers';
+import { patchAuth0UserMetadata } from '../../../modules/auth0/auth0Api';
 import IconButton from '../../../components/IconButton';
 
 interface Props {
@@ -33,7 +34,7 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   const [newSearchUrl, setNewSearchUrl] = useState(''); // value of input field
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
 
-  // const ndlaIdAuth0 = getNdlaId();
+  const ndlaIdAuth0 = getNdlaId();
 
   useEffect(() => {}, [savedSearches]);
 
@@ -140,7 +141,16 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
         />
       </FieldSection>
       <Button onClick={handleSaveUrl}>{t('welcomePage.saveSearch')}</Button>
+      <button
+        onClick={() =>
+          patchAuth0UserMetadata(ndlaIdAuth0, {
+            user_metadata: `{ savedSearches: [${savedSearches}] }`,
+          })
+        }>
+        Endre bruker sin metadata
+      </button>
     </>
   );
 };
+
 export default injectT(SaveSearchUrl);

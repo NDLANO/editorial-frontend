@@ -27,4 +27,7 @@ export const fetchAuth0Editors = role =>
 // Only properties at the root level are merged into the object.
 // All lower-level properties will be replaced.
 // patching the metadata itself with an empty object removes the metadata completely
-export const patchAuth0UserMetadata = (uniqueUserId, userMetadata) => {};
+export const patchAuth0UserMetadata = (userId, userMetadata) =>
+  fetchAuthorized(
+    `/update_user_metadata?userId=${userId}&userMetadata=${userMetadata}`,
+  ).then(resolveJsonOrRejectWithError);

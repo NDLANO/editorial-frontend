@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
+import queryString from 'query-string';
 
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
@@ -12,6 +13,7 @@ import Tooltip from '@ndla/tooltip';
 import { TranslateType } from '../../../interfaces';
 import { isValidURL } from '../../../util/htmlHelpers';
 // import { patchUserMetadata } from '../../../util/apiHelpers';
+// import { getNdlaId } from '../../../util/authHelpers';
 import IconButton from '../../../components/IconButton';
 
 interface Props {
@@ -30,6 +32,8 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [newSearchUrl, setNewSearchUrl] = useState(''); // value of input field
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
+
+  // const ndlaIdAuth0 = getNdlaId();
 
   useEffect(() => {}, [savedSearches]);
 
@@ -53,7 +57,7 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   };
 
   const updateUserMetadata = async (searches: string[]) => {
-    // await patchUserMetadata({"savedSearches": savedSearches});
+    // await patchUserMetadata(id, {"savedSearches": savedSearches});
     console.log('updated searches', searches);
     setSavedSearches(searches);
   };
@@ -76,13 +80,25 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   };
 
   const deleteSearch = (index: number) => {
-    savedSearches.splice(index, 1); // dette er den som "slettes"
+    // TODO: fix this
+    savedSearches.splice(index, 1);
     updateUserMetadata(savedSearches);
   };
 
   const updateUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setNewSearchUrl(event.target.value);
+  };
+
+  const searchText = (search: string) => {
+    const searchObject = queryString.parse(search);
+    const query = searchObject.query || 'Empty search';
+    const resourcetype = searchObject['resource-types'] || '';
+    const status = searchObject['/content?draft-status'] || '';
+
+    const text = `${query} ${status && `- ${status}`} ${resourcetype &&
+      `- ${resourcetype}`}`;
+    return text;
   };
 
   return (
@@ -101,7 +117,7 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
             </Tooltip>
             {/* TODO: Link text should probably be replace with query text */}
             <Link {...classes('link')} to={`/search${search}`}>
-              {search}
+              {searchText(search)}
             </Link>
           </div>
         ))

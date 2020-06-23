@@ -37,10 +37,10 @@ class CreateImage extends Component {
     } = this.props;
 
     const onCreateImage = async (newImage, file) => {
-      const formData = await createFormData(file,newImage);
+      const formData = await createFormData(file, newImage);
       const createdImage = await imageApi.postImage(formData);
-      if(!newImage.id) {
-        history.push(toEditImage(createdImage.id,newImage.language))
+      if (!newImage.id) {
+        history.push(toEditImage(createdImage.id, newImage.language));
       }
     };
 

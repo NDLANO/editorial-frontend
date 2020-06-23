@@ -134,7 +134,7 @@ class ImageForm extends Component {
         rightsholders: values.rightsholders,
       },
     };
-
+    console.log(onUpdate);
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });
   };
@@ -248,10 +248,8 @@ class ImageForm extends Component {
                   formIsDirty={formIsDirty}
                   submit={!inModal}
                   onClick={evt => {
-                    if (inModal) {
                       evt.preventDefault();
                       submitForm();
-                    }
                   }}>
                   {t('form.save')} - {inModal}
                 </SaveButton>

@@ -17,6 +17,9 @@ import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
+import { createFormData } from '../../util/formDataHelper';
+import * as imageApi from '../../modules/image/imageApi';
+import { toEditImage } from '../../util/routeHelpers';
 
 class CreateImage extends Component {
   componentDidMount() {
@@ -33,12 +36,18 @@ class CreateImage extends Component {
       ...rest
     } = this.props;
 
+    const onCreateImage = async (newImage, file) => {
+      const formData = await createFormData(file,newImage);
+      const createdImage = await imageApi.postImage(formData);
+      if(!newImage.id) {
+        history.push(toEditImage(createdImage.id,newImage.language))
+      }
+    };
+
     return (
       <ImageForm
         image={{ language: locale }}
-        onUpdate={(image, file) => {
-          updateImage({ image, file, history, editingArticle });
-        }}
+        onUpdate={onCreateImage}
         closeModal={closeModal}
         {...rest}
       />

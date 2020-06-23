@@ -12,9 +12,7 @@ import Tooltip from '@ndla/tooltip';
 
 import { TranslateType } from '../../../interfaces';
 import { isValidURL } from '../../../util/htmlHelpers';
-// import { patchUserMetadata } from '../../../util/apiHelpers';
-import { getNdlaId } from '../../../util/authHelpers';
-import { patchAuth0UserMetadata } from '../../../modules/auth0/auth0Api';
+// import { getNdlaId } from '../../../util/authHelpers';
 import IconButton from '../../../components/IconButton';
 
 interface Props {
@@ -31,10 +29,10 @@ export const isNDLAEdSearchUrl = (url: string) =>
 
 const SaveSearchUrl: FC<Props> = ({ t }) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
-  const [newSearchUrl, setNewSearchUrl] = useState(''); // value of input field
+  const [newSearchUrl, setNewSearchUrl] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
 
-  const ndlaIdAuth0 = getNdlaId();
+  // const ndlaIdAuth0 = getNdlaId();
 
   useEffect(() => {}, [savedSearches]);
 
@@ -58,7 +56,7 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   };
 
   const updateUserMetadata = async (searches: string[]) => {
-    // await patchUserMetadata(id, {"savedSearches": savedSearches});
+    // TODO update user metadata
     console.log('updated searches', searches);
     setSavedSearches(searches);
   };
@@ -93,12 +91,16 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
 
   const searchText = (search: string) => {
     const searchObject = queryString.parse(search);
-    const query = searchObject.query || 'Empty search';
-    const resourcetype = searchObject['resource-types'] || '';
-    const status = searchObject['/content?draft-status'] || '';
+    const query = searchObject.query || t('welcomePage.emptySearchQuery');
+    const resourceType = searchObject['resource-types'] || '';
+    const draftStatus = searchObject['/content?draft-status'] || '';
+    const subjects = searchObject.subjects || '';
 
-    const text = `${query} ${status && `- ${status}`} ${resourcetype &&
-      `- ${resourcetype}`}`;
+    console.log('type:', resourceType);
+
+    const text = `${query} ${draftStatus &&
+      `- ${t(`form.status.${draftStatus.toLowerCase()}`)}`} ${resourceType &&
+      `- ${resourceType}`} ${subjects && `- ${subjects}`}`;
     return text;
   };
 
@@ -141,14 +143,6 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
         />
       </FieldSection>
       <Button onClick={handleSaveUrl}>{t('welcomePage.saveSearch')}</Button>
-      <button
-        onClick={() =>
-          patchAuth0UserMetadata(ndlaIdAuth0, {
-            user_metadata: `{ savedSearches: [${savedSearches}] }`,
-          })
-        }>
-        Endre bruker sin metadata
-      </button>
     </>
   );
 };

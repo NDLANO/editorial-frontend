@@ -142,15 +142,16 @@ const phrases = {
     change: 'Change to {language} version',
   },
   welcomePage: {
-    lastUsed: 'Last used',
-    emptyLastUsed: 'Empty last used list',
-    savedSearch: 'Saved searches',
-    emptySavedSearch: 'No saved searches',
     deleteSavedSearch: 'Delete saved search',
-    mustBeSearch: 'Link must be a search url',
-    guidelines: 'Guidelines',
-    saveSearch: 'Save search',
     deleteSearch: 'Delete search',
+    emptyLastUsed: 'Empty last used list',
+    emptySavedSearch: 'No saved searches',
+    emptySearchQuery: 'Empty search query',
+    guidelines: 'Guidelines',
+    mustBeSearch: 'Link must be a search url',
+    lastUsed: 'Last used',
+    savedSearch: 'Saved searches',
+    saveSearch: 'Save search',
   },
   searchPage: {
     header: {

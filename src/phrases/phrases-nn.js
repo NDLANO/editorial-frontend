@@ -140,15 +140,16 @@ const phrases = {
     change: 'Bytt til {language} versjon',
   },
   welcomePage: {
-    lastUsed: 'Sist brukt',
-    emptyLastUsed: 'Ingen sist brukte',
-    savedSearch: 'Lagra søk',
-    emptySavedSearch: 'Ingen lagra søk',
     deleteSavedSearch: 'Slett lagra søk',
-    mustBeSearch: 'Lenka må være til eit søk',
-    guidelines: 'Retningslinjer',
-    saveSearch: 'Lagre søk',
     deleteSearch: 'Slett søk',
+    emptyLastUsed: 'Ingen sist brukte',
+    emptySavedSearch: 'Ingen lagra søk',
+    emptySearchQuery: 'Ingen søketekst',
+    guidelines: 'Retningslinjer',
+    mustBeSearch: 'Lenka må være til eit søk',
+    lastUsed: 'Sist brukt',
+    savedSearch: 'Lagra søk',
+    saveSearch: 'Lagre søk',
   },
   searchPage: {
     header: {

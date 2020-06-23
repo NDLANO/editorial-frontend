@@ -323,6 +323,13 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
+  subjectFrontpageForm: {
+    title: 'Subject',
+    about: 'About subject',
+    subjectName: 'Subject name',
+    metadata: 'Metadata',
+    articles: 'Chosen articles',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Image title',
@@ -872,6 +879,7 @@ const phrases = {
       changeName: 'Change name',
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
+      editSubjectFrontPage: 'Edit subject frontpage',
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This files does not seem to exist on the server. It might have been deleted from another article.',

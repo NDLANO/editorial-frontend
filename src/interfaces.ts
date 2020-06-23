@@ -228,3 +228,33 @@ export interface SearchResult {
   language: string;
   results: string[];
 }
+
+export interface SubjectType {
+  id: string;
+  name: string;
+  filters: string[];
+  layout: string;
+  twitter: string;
+  facebook: string;
+  banner: {
+    mobileUrl: string;
+    mobileId: number;
+    desktopUrl: string;
+    desktopId: number;
+  };
+  about: {
+    title: string;
+    description: string;
+  };
+  visualElement: {
+    type: string;
+    url: string;
+    alt: string;
+  };
+  metaDescription: string;
+  topical: string;
+  mostRead: string[];
+  editorsChoices: string[];
+  latestContent: string[];
+  goTo: string[];
+}

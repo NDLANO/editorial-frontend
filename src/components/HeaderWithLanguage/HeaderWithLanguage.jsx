@@ -41,7 +41,7 @@ const HeaderWithLanguage = ({
   ...rest
 }) => {
   const { supportedLanguages, articleType } = values;
-  const { id, title, status, language } = content;
+  const { id, title, status, language, name } = content;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
   const statusText = status?.current
@@ -61,7 +61,7 @@ const HeaderWithLanguage = ({
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
-        title={title}
+        title={title ? title : name}
         published={published}
         hasMultipleTaxonomyEntries={hasMultipleTaxonomyPaths}
         {...rest}
@@ -97,6 +97,7 @@ HeaderWithLanguage.propTypes = {
     }),
     current: PropTypes.object,
     title: PropTypes.string,
+    name: PropTypes.string,
   }),
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,

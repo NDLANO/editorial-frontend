@@ -24,3 +24,8 @@ export const updateFilmFrontpage = filmfrontpage => {
     body: JSON.stringify(filmfrontpage),
   }).then(resolveJsonOrRejectWithError);
 };
+
+export const fetchSubjectFrontpage = id =>
+  fetchAuthorized(`${baseUrl}/subjectpage/${id}`).then(
+    resolveJsonOrRejectWithError,
+  );

@@ -69,6 +69,13 @@ export const types = {
       <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />
     ),
   },
+  'subject-frontpage': {
+    form: 'subjectFrontpageForm',
+    cssModifier: 'article',
+    icon: (
+      <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />
+    ),
+  },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
   audio: {
     form: 'audioForm',

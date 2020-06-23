@@ -322,6 +322,13 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
   },
+  subjectFrontpageForm: {
+    title: 'Fag',
+    about: 'Om faget',
+    subjectName: 'Fagnavn',
+    metadata: 'Metadata',
+    articles: 'Utvalgte artikler',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Bildetittel',
@@ -887,6 +894,7 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
+      editSubjectFrontPage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',

@@ -247,8 +247,10 @@ class ImageForm extends Component {
                   formIsDirty={formIsDirty}
                   submit={!inModal}
                   onClick={evt => {
-                    evt.preventDefault();
-                    submitForm();
+                    if (inModal) {
+                      evt.preventDefault();
+                      submitForm();
+                    }
                   }}>
                   {t('form.save')} - {inModal}
                 </SaveButton>

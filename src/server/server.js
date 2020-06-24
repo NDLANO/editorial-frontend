@@ -35,6 +35,18 @@ import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
+// Temporal hack to send users to prod
+if (config.ndlaEnvironment === 'ff') {
+  app.get('*', (req, res, next) => {
+    if (req.hostname.startsWith('editorial-frontend')) {
+      next();
+    } else {
+      res.set('location', `https://ed.ndla.no${req.originalUrl}`);
+      res.status(302).send();
+    }
+  });
+}
+
 app.use(compression());
 app.use(
   express.static(process.env.RAZZLE_PUBLIC_DIR, {

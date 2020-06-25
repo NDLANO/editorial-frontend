@@ -120,7 +120,6 @@ export function useArticleFormHooks({
       await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
-      formik.resetForm(formik);
 
       Object.keys(formik.values).map(fieldName =>
         formik.setFieldTouched(fieldName, true, true),
@@ -138,13 +137,13 @@ export function useArticleFormHooks({
       } else {
         applicationError(err);
       }
-      formik.setSubmitting(false);
       if (statusChange) {
         // if validation failed we need to set status back so it won't be saved as new status on next save
         formik.setFieldValue('status', { current: initialStatus });
       }
       setSavedToServer(false);
     }
+    formik.setSubmitting(false);
     await formik.validateForm();
   };
 

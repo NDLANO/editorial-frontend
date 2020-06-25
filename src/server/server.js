@@ -165,25 +165,17 @@ app.get(
   }),
   async (req, res) => {
     const {
-      user,
       query: { role },
     } = req;
 
-    const hasWriteAccess = user.scope.includes(role);
-    if (!hasWriteAccess) {
-      res
-        .status(FORBIDDEN)
-        .json({ status: FORBIDDEN, text: 'No access allowed' });
-    } else {
-      try {
-        const managementToken = await getToken(
-          `https://${config.auth0Domain}/api/v2/`,
-        );
-        const editors = await getEditors(managementToken, role);
-        res.status(OK).json(editors);
-      } catch (err) {
-        res.status(INTERNAL_SERVER_ERROR).send(err.message);
-      }
+    try {
+      const managementToken = await getToken(
+        `https://${config.auth0Domain}/api/v2/`,
+      );
+      const editors = await getEditors(managementToken, role);
+      res.status(OK).json(editors);
+    } catch (err) {
+      res.status(INTERNAL_SERVER_ERROR).send(err.message);
     }
   },
 );

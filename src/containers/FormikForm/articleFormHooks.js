@@ -120,7 +120,7 @@ export function useArticleFormHooks({
       await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
-      formik.resetForm();
+      formik.resetForm(formik);
 
       Object.keys(formik.values).map(fieldName =>
         formik.setFieldTouched(fieldName, true, true),

@@ -61,12 +61,14 @@ export function useFetchArticleData(articleId, locale) {
       updatedArticle.id,
       newStatus,
     );
-    setArticle({
+    const updated = {
       ...newArticle,
       notes: statusChangedDraft.notes,
       status: statusChangedDraft.status,
       revision: statusChangedDraft.revision,
-    });
+    };
+    setArticle(updated);
+    return updated;
   };
 
   const createArticle = async createdArticle => {

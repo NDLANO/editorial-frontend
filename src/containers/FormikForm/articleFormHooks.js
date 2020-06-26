@@ -78,8 +78,6 @@ export function useArticleFormHooks({
       ? { ...slateArticle, createNewVersion: true }
       : slateArticle;
 
-    let savedArticle = {};
-
     try {
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -90,7 +88,7 @@ export function useArticleFormHooks({
             initialValues,
             dirty: true,
           });
-        savedArticle = await updateArticleAndStatus({
+        await updateArticleAndStatus({
           updatedArticle: {
             ...newArticle,
             revision,
@@ -99,7 +97,7 @@ export function useArticleFormHooks({
           dirty: !skipSaving,
         });
       } else {
-        savedArticle = await updateArticle({
+        await updateArticle({
           ...newArticle,
           revision,
         });
@@ -122,9 +120,6 @@ export function useArticleFormHooks({
       await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
-      formik.resetForm({
-        values: getInitialValues(savedArticle),
-      });
 
       Object.keys(formik.values).map(fieldName =>
         formik.setFieldTouched(fieldName, true, true),

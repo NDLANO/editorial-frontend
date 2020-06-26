@@ -78,6 +78,7 @@ export function useArticleFormHooks({
       ? { ...slateArticle, createNewVersion: true }
       : slateArticle;
 
+    let savedArticle = {};
     try {
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -88,7 +89,7 @@ export function useArticleFormHooks({
             initialValues,
             dirty: true,
           });
-        await updateArticleAndStatus({
+        savedArticle = await updateArticleAndStatus({
           updatedArticle: {
             ...newArticle,
             revision,
@@ -97,7 +98,7 @@ export function useArticleFormHooks({
           dirty: !skipSaving,
         });
       } else {
-        await updateArticle({
+        savedArticle = await updateArticle({
           ...newArticle,
           revision,
         });
@@ -120,7 +121,7 @@ export function useArticleFormHooks({
       await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
-      formik.resetForm();
+      formik.resetForm({ values: getInitialValues(savedArticle) });
 
       Object.keys(formik.values).map(fieldName =>
         formik.setFieldTouched(fieldName, true, true),
@@ -138,13 +139,13 @@ export function useArticleFormHooks({
       } else {
         applicationError(err);
       }
-      formik.setSubmitting(false);
       if (statusChange) {
         // if validation failed we need to set status back so it won't be saved as new status on next save
         formik.setFieldValue('status', { current: initialStatus });
       }
       setSavedToServer(false);
     }
+    formik.setSubmitting(false);
     await formik.validateForm();
   };
 

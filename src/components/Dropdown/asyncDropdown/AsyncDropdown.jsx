@@ -206,7 +206,7 @@ AsyncDropDown.propTypes = {
   disableSelected: PropTypes.bool,
   onCreate: PropTypes.func,
   onKeyDown: PropTypes.func,
-  children: PropTypes.node,
+  children: PropTypes.func,
   removeItem: PropTypes.func,
   clearInputField: PropTypes.bool,
   customCreateButtonText: PropTypes.string,

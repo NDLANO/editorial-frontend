@@ -326,8 +326,14 @@ const phrases = {
     title: 'Fag',
     about: 'Om faget',
     subjectName: 'Fagnavn',
+    description: 'Beskrivelse',
     metadata: 'Metadata',
-    articles: 'Utvalgte artikler',
+    desktopBanner: 'Banner til desktop',
+    mobileBanner: 'Banner til mobil',
+    addBanner: 'Velg banner',
+    changeBanner: 'Bytt banner',
+    editorsChoices: 'Litt forskjellig fra faget',
+    articles: 'Artikler',
   },
   topicArticleForm: {
     visualElementTitle: {

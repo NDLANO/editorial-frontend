@@ -1,41 +1,44 @@
-import React, {FC} from 'react';
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
+import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
-import {SubjectType, TranslateType} from '../../../interfaces';
+import { TranslateType } from '../../../interfaces';
 import TopicArticleVisualElement from '../../TopicArticlePage/components/TopicArticleVisualElement';
-import {Formik} from "formik";
-import FormikField from '../../../components/FormikField'
-import validateFormik from '../../../components/formikValidationSchema';
-import { topicArticleRules } from '../../../util/formHelper';
+import FormikField from '../../../components/FormikField';
+import StyledFormContainer from '../../../components/SlateEditor/common/StyledFormContainer';
 
-interface Props{
-    t: TranslateType;
-    values: string;
-    formik: FormikProps;
+interface Props {
+  t: TranslateType;
 }
 
-interface FormikProps{
-    id: string,
-    name: string,
-    filters: string[],
-    visualElement: Object,
-}
-
-const SubjectFrontpageAbout : FC<Props> = ({
-    t,
-    values
-}) => {
-
-    return(<>
+const SubjectFrontpageAbout: FC<Props> = ({ t }) => {
+  return (
+    <>
+      <FormikField
+        label={t('subjectFrontpageForm.subjectName')}
+        name="aboutTitle"
+        title
+        noBorder
+        placeholder={t('subjectFrontpageForm.subjectName')}
+      />
+      <StyledFormContainer>
         <FormikField
-            label={t('form.title.label')}
-            name='name'
-            noBorder
-            placeholder={t('form.title.label')}>
-
-
-        </FormikField>
-        </>
-    )
-}
+          label={t('subjectFrontpageForm.description')}
+          name="description"
+          noBorder
+          placeholder={t('subjectFrontpageForm.description')}
+          maxLength={800}
+          multiline
+        />
+      </StyledFormContainer>
+      <TopicArticleVisualElement />
+    </>
+  );
+};
 
 export default injectT(SubjectFrontpageAbout);

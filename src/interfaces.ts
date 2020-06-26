@@ -243,13 +243,14 @@ export interface SubjectType {
     desktopId: number;
   };
   about: {
+    visualElement: {
+      type: string;
+      url: string;
+      alt: string;
+      caption: string;
+    };
     title: string;
     description: string;
-  };
-  visualElement: {
-    type: string;
-    url: string;
-    alt: string;
   };
   metaDescription: string;
   topical: string;

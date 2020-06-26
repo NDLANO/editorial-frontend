@@ -327,8 +327,14 @@ const phrases = {
     title: 'Subject',
     about: 'About subject',
     subjectName: 'Subject name',
+    description: 'Description',
     metadata: 'Metadata',
-    articles: 'Chosen articles',
+    desktopBanner: 'Desktop banner',
+    mobileBanner: 'Mobile banner',
+    addBanner: 'Choose banner image',
+    changeBanner: 'Change banner image',
+    editorsChoices: 'Editor choices from the subject',
+    articles: 'Articles',
   },
   topicArticleForm: {
     visualElementTitle: {

@@ -18,6 +18,10 @@ export function toEditArticle(articleId, articleType, locale) {
   return locale ? `${path}/${locale}` : path;
 }
 
+export function toEditFrontpage(subjectId, locale) {
+  return `/subject-frontpage/${subjectId}/edit/${locale}`;
+}
+
 export function toEditConcept(conceptId, locale) {
   return `/concept/${conceptId}/edit/${locale}`;
 }

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
+import { colors } from '@ndla/core';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { formClasses } from '../';
 import MetaInformation from '../../../components/MetaInformation';
@@ -45,6 +46,7 @@ const FormikMetaImage = ({
   onImageRemove,
   showRemoveButton,
   t,
+  banner,
 }) => {
   const copyright =
     image.copyright && image.copyright.creators
@@ -55,7 +57,9 @@ const FormikMetaImage = ({
   const imageAction = (
     <>
       <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
-        {t('form.metaImage.change')}
+        {!banner
+          ? t('form.metaImage.change')
+          : t('subjectFrontpageForm.changeBanner')}
       </Button>
       {showRemoveButton && (
         <Button css={metaImageDeleteButtonStyle} onClick={onImageRemove}>
@@ -71,7 +75,16 @@ const FormikMetaImage = ({
   return (
     <Fragment>
       <div {...formClasses('meta-image')}>
-        <img src={image.imageUrl} alt={alt} />
+        {banner ? (
+          <div
+            css={css`
+              background-color: ${colors.brand.primary};
+            `}>
+            <img src={image.imageUrl} style={{ width: '200%' }} alt={'banner'} />
+          </div>
+        ) : (
+          <img src={image.imageUrl} alt={alt} />
+        )}
         <MetaInformation
           title={title}
           copyright={copyright}
@@ -79,14 +92,15 @@ const FormikMetaImage = ({
           translations={metaInformationTranslations}
         />
       </div>
-
-      <FormikField
-        label={t('topicArticleForm.fields.alt.label')}
-        name="metaImageAlt"
-        noBorder
-        placeholder={t('topicArticleForm.fields.alt.placeholder')}
-        maxLength={300}
-      />
+      {!banner && (
+        <FormikField
+          label={t('topicArticleForm.fields.alt.label')}
+          name="metaImageAlt"
+          noBorder
+          placeholder={t('topicArticleForm.fields.alt.placeholder')}
+          maxLength={300}
+        />
+      )}
     </Fragment>
   );
 };
@@ -99,6 +113,7 @@ FormikMetaImage.propTypes = {
   onImageSelectOpen: PropTypes.func.isRequired,
   onImageRemove: PropTypes.func,
   showRemoveButton: PropTypes.bool,
+  banner: PropTypes.string,
 };
 
 export default injectT(FormikMetaImage);

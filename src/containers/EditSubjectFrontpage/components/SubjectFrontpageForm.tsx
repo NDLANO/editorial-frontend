@@ -1,17 +1,223 @@
-import React, {FC} from "react";
-import {injectT} from "@ndla/i18n";
-import { TranslateType } from '../../../interfaces';
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 
-interface Props{
-    t: TranslateType;
-    id: String;
+import React, { FC, Fragment, useState } from 'react';
+import { injectT } from '@ndla/i18n';
+import { Formik, Form } from 'formik';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from '@ndla/accordion';
+import { Footer } from '@ndla/editor';
+import { SubjectType, TranslateType } from '../../../interfaces';
+import SubjectFrontpageAbout from './SubjectFrontpageAbout';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
+import SubjectFrontpageMetadata from './SubjectFrontpageMetadata';
+import SubjectFrontpageArticles from './SubjectFrontpageArticles';
+import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import { toEditFrontpage } from '../../../util/routeHelpers';
+import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
+import SaveMultiButton from '../../../components/SaveMultiButton';
+
+interface Props {
+  t: TranslateType;
+  subject: SubjectType;
+  selectedLanguage: String;
+  subjectId: string;
 }
 
-const SubjectFrontPageForm : FC<Props> = ({
-    t,
-    id,
+interface ComponentProps {
+  hasError: boolean;
+  t: TranslateType;
+  closePanel: Function;
+  editorsChoices: string[];
+}
+
+interface AccordionProps {
+  openIndexes: string[];
+  handleItemClick: Function;
+}
+
+const SubjectFrontpageForm: FC<Props> = ({
+  t,
+  subjectId,
+  subject,
+  selectedLanguage,
 }) => {
-    return <div/>
-}
+  const [unsaved, setUnsaved] = useState(false);
+  usePreventWindowUnload(unsaved); //vil jeg ha denne?
 
-export default injectT(SubjectFrontPageForm);
+  const panels = [
+    {
+      id: 'subject-frontpage-about',
+      title: 'subjectFrontpageForm.about',
+      className: 'u-4/6@desktop u-push-1/6@desktop',
+      errorFields: ['title', 'description', 'visualElement'],
+      component: ({ t }: ComponentProps) => <SubjectFrontpageAbout />,
+    },
+    {
+      id: 'subject-frontpage-metadata',
+      title: 'subjectFrontpageForm.metadata',
+      className: 'u-6/6',
+      errorFields: ['metaDescription', 'banner'],
+      component: ({ t, hasError, closePanel }: ComponentProps) => (
+        <SubjectFrontpageMetadata t={t} />
+      ),
+    },
+    {
+      id: 'subject-frontpage-articles',
+      title: 'subjectFrontpageForm.articles',
+      className: 'u-6/6',
+      errorFields: ['editorChoices', 'mostRead'],
+      component: ({ editorsChoices }: ComponentProps) => (
+        <SubjectFrontpageArticles articles={editorsChoices} />
+      ),
+    },
+  ];
+
+  const getInitialValues = (subject: SubjectType) => {
+    const visualElementId = subject.about.visualElement.url.split('/').pop();
+    return {
+      articleType: 'subject-frontpage',
+      supportedLanguages: ['nb', 'nn'],
+      language: selectedLanguage,
+      description: subject.about.description,
+      aboutTitle: subject.about.title,
+      visualElement: {
+        resource: subject.about.visualElement.type,
+        url: subject.about.visualElement.url,
+        alt: subject.about.visualElement.alt,
+        resource_id: visualElementId,
+      },
+      visualElementAlt: subject.about.visualElement.alt,
+      visualElementCaption: subject.about.visualElement.caption,
+      image: subject.banner.desktopId,
+      bannerUrl: {
+        desktopUrl: subject.banner.desktopUrl,
+        mobileUrl: subject.banner.mobileUrl,
+      },
+      desktopBannerId: subject.banner.desktopId,
+      mobileBannerId: subject.banner.mobileId,
+      editorsChoices: subject.editorsChoices,
+      facebook: subject.facebook,
+      filters: subject.filters,
+      goTo: subject.goTo,
+      id: subject.id,
+      latestContent: subject.latestContent,
+      layout: subject.layout,
+      metaDescription: subject.metaDescription,
+      mostRead: subject.mostRead,
+      title: subject.name,
+      topical: subject.topical,
+      twitter: subject.twitter,
+      subjectId: subjectId,
+    };
+  };
+
+  const initialValues = getInitialValues(subject);
+  const editorsChoices = initialValues.editorsChoices;
+
+  return (
+    <Formik
+      enableReinitialize
+      initialValues={initialValues}
+      onSubmit={() => {}}>
+      {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+        const formIsDirty = isFormikFormDirty({
+          values,
+          initialValues,
+          dirty,
+        });
+
+        setUnsaved(formIsDirty);
+
+        var savedToServer = true;
+        const onSaveClick = () => {
+          savedToServer = true;
+        };
+
+        return (
+          <Form {...formClasses()}>
+            <HeaderWithLanguage
+              content={initialValues}
+              values={values}
+              editUrl={(lang: string) =>
+                toEditFrontpage(values.subjectId, lang)
+              }
+              formIsDirty={formIsDirty}
+              getInitialValues={getInitialValues}
+              setValues={setValues}
+              isSubmitting={isSubmitting}
+              //translateArticle + setTranslateOnContinue, vet ikke helt hva de gjør
+              noStatus
+            />
+            <Accordion openIndexes={['subject-frontpage-about']}>
+              {({ openIndexes, handleItemClick }: AccordionProps) => (
+                <AccordionWrapper>
+                  {panels.map(panel => {
+                    const hasError = false; //panel.errorFields.some(field => !!errors[field]);
+                    return (
+                      <Fragment key={panel.id}>
+                        <AccordionBar
+                          panelId={panel.id}
+                          ariaLabel={t(panel.title)}
+                          onClick={() => handleItemClick(panel.id)}
+                          title={t(panel.title)}
+                          hasError={hasError}
+                          isOpen={openIndexes.includes(panel.id)}
+                        />
+                        {openIndexes.includes(panel.id) && (
+                          <AccordionPanel
+                            id={panel.id}
+                            hasError={hasError}
+                            isOpen={openIndexes.includes(panel.id)}>
+                            <div className={panel.className}>
+                              {panel.component({
+                                hasError,
+                                t,
+                                editorsChoices,
+                                closePanel: () => handleItemClick(panel.id),
+                              })}
+                            </div>
+                          </AccordionPanel>
+                        )}
+                      </Fragment>
+                    );
+                  })}
+                  <Footer style={{ display: 'flex' }}>
+                    <SaveMultiButton
+                      large
+                      isSaving={isSubmitting}
+                      formIsDirty={formIsDirty}
+                      showSaved={!formIsDirty && savedToServer}
+                      onClick={() => {
+                        onSaveClick();
+                      }}
+                      hideSecondaryButton={true}
+                      style={{ marginLeft: 'auto' }}
+                      touched={touched}
+                    />
+                  </Footer>
+                </AccordionWrapper>
+              )}
+            </Accordion>
+            <FormikAlertModalWrapper
+              isSubmitting={isSubmitting}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
+
+export default injectT(SubjectFrontpageForm);

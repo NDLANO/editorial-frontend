@@ -9,35 +9,24 @@
 import React from 'react';
 import { injectT } from '@ndla/i18n';
 import { Pencil } from '@ndla/icons/action';
-import { Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
-import CreateConcept from '../../../ConceptPage/CreateConcept';
 import { toEditFrontpage } from '../../../../util/routeHelpers';
 import { TranslateType } from '../../../../interfaces';
 
 interface Props {
   t: TranslateType;
-  //onClose: function;
-  contentUri: string;
   id: string;
-  selectedLanguage: string;
+  locale: string;
 }
 
-const EditSubjectFrontpageOption = ({
-  t,
-  contentUri,
-  id,
-  selectedLanguage,
-}: Props) => {
+const EditSubjectFrontpageOption = ({ t, id, locale }: Props) => {
+  const subjectId = id.split(':').pop(); //finnes det en funksjon for dette?
   return (
     <>
-      <Link to={'/asd'}>
-        <MenuItemButton
-          stripped
-          data-testid="editSubjectPageButton"
-          onClick={() => {}}>
+      <Link to={toEditFrontpage(subjectId, locale)}>
+        <MenuItemButton stripped data-testid="editSubjectPageButton">
           <RoundIcon small icon={<Pencil />} />
           {t('form.file.editSubjectFrontPage')}
         </MenuItemButton>

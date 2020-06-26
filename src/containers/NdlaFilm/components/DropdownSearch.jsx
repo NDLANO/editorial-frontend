@@ -10,44 +10,51 @@ import PropTypes from 'prop-types';
 import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
-import config from '../../../config';
 
-const queryResources = async input => {
-  const query = {
-    page: 1,
-    subjects: 'urn:subject:20',
-    'context-types': config.ndlaFilmArticleType,
-    sort: '-relevance',
-    'page-size': 10,
-    query: input,
+const DropdownSearch = ({
+  selectedElements,
+  placeholder,
+  onChange,
+  subjectId,
+}) => {
+  const queryResources = async input => {
+    const query = {
+      page: 1,
+      subjects: `urn:subject:${subjectId || '20'}`,
+      sort: '-relevance',
+      'page-size': 10,
+      query: input,
+    };
+    const response = await searchResources(query);
+    console.log('response', response);
+    return response.results.map(result => ({
+      ...result,
+      title: result.title ? result.title.title : '',
+    }));
   };
-  const response = await searchResources(query);
-  return response.results.map(result => ({
-    ...result,
-    title: result.title ? result.title.title : '',
-  }));
+
+  return (
+    <AsyncDropdown
+      idField="id"
+      onChange={element => onChange(element)}
+      apiAction={input => queryResources(input)}
+      selectedItems={selectedElements.map(element => ({
+        ...element,
+        title: element.title ? element.title.title : '',
+      }))}
+      multiSelect
+      placeholder={placeholder}
+      labelField="title"
+      disableSelected
+    />
+  );
 };
 
-const DropdownSearch = ({ selectedMovies, placeholder, onChange }) => (
-  <AsyncDropdown
-    idField="id"
-    onChange={movie => onChange(movie)}
-    apiAction={input => queryResources(input)}
-    selectedItems={selectedMovies.map(movie => ({
-      ...movie,
-      title: movie.title ? movie.title.title : '',
-    }))}
-    multiSelect
-    placeholder={placeholder}
-    labelField="title"
-    disableSelected
-  />
-);
-
 DropdownSearch.propTypes = {
-  selectedMovies: PropTypes.arrayOf(ContentResultShape),
+  selectedElements: PropTypes.arrayOf(ContentResultShape),
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
+  subjectId: PropTypes.string,
 };
 
 export default DropdownSearch;

@@ -17,13 +17,13 @@ import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { ContentResultShape } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
 
-const MOVIE_HEIGHT = 69;
-const MOVIE_MARGIN = 4;
+const ELEMENT_HEIGHT = 69;
+const ELEMENT_MARGIN = 4;
 
-const MovieListItem = ({
-  movie,
+const ElementListItem = ({
+  element,
   deleteIndex,
-  messages: { removeFilm, dragFilm },
+  messages: { removeElement, dragElement },
   index,
   showDragTooptil,
   executeDeleteFile,
@@ -31,22 +31,22 @@ const MovieListItem = ({
   onDragStart,
   deleteFile,
 }) => (
-  <StyledMovieItem
-    key={movie.id}
+  <StyledListItem
+    key={element.id}
     delete={deleteIndex === index}
     onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
     <div>
-      <StyledMovieImage
-        src={movie.metaImage ? movie.metaImage.url : ''}
-        alt={movie.metaImage ? movie.metaImage.alt : ''}
+      <StyledElementImage
+        src={element.metaImage ? element.metaImage.url : ''}
+        alt={element.metaImage ? element.metaImage.alt : ''}
       />
-      <Link to={toEditArticle(movie.id, movie.learningReasourceType)}>
-        {movie.title.title}
+      <Link to={toEditArticle(element.id, element.learningReasourceType)}>
+        {element.title.title}
       </Link>
     </div>
     <div>
       {showDragTooptil ? (
-        <Tooltip tooltip={dragFilm}>
+        <Tooltip tooltip={dragElement}>
           <StyledButtonIcons
             draggable
             tabIndex={-1}
@@ -66,7 +66,7 @@ const MovieListItem = ({
           <DragHorizontal />
         </StyledButtonIcons>
       )}
-      <Tooltip tooltip={removeFilm}>
+      <Tooltip tooltip={removeElement}>
         <StyledButtonIcons
           tabIndex={-1}
           type="button"
@@ -76,17 +76,17 @@ const MovieListItem = ({
         </StyledButtonIcons>
       </Tooltip>
     </div>
-  </StyledMovieItem>
+  </StyledListItem>
 );
 
-const StyledMovieItem = styled.li`
-  margin: ${MOVIE_MARGIN}px 0 0;
+const StyledListItem = styled.li`
+  margin: ${ELEMENT_MARGIN}px 0 0;
   padding: 0;
   background: ${colors.brand.greyLighter};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: ${MOVIE_HEIGHT - MOVIE_MARGIN}px;
+  height: ${ELEMENT_HEIGHT - ELEMENT_MARGIN}px;
   max-width: 100%;
   box-sizing: border-box;
   ${fonts.sizes(18, 1.1)};
@@ -112,9 +112,9 @@ const StyledMovieItem = styled.li`
     `}
 `;
 
-const StyledMovieImage = styled.img`
-  width: ${MOVIE_HEIGHT * 1.33}px;
-  height: ${MOVIE_HEIGHT - spacing.spacingUnit / 2}px;
+const StyledElementImage = styled.img`
+  width: ${ELEMENT_HEIGHT * 1.33}px;
+  height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
   object-fit: cover;
   margin-right: ${spacing.small};
 `;
@@ -152,11 +152,11 @@ const StyledButtonIcons = styled.button`
     `};
 `;
 
-MovieListItem.propTypes = {
-  movie: ContentResultShape.isRequired,
+ElementListItem.propTypes = {
+  element: ContentResultShape.isRequired,
   deleteIndex: PropTypes.number,
-  removeFilm: PropTypes.string,
-  dragFilm: PropTypes.string,
+  removeElement: PropTypes.string,
+  dragElement: PropTypes.string,
   index: PropTypes.number,
   showDragTooptil: PropTypes.bool,
   executeDeleteFile: PropTypes.func.isRequired,
@@ -164,9 +164,9 @@ MovieListItem.propTypes = {
   onDragStart: PropTypes.func.isRequired,
   deleteFile: PropTypes.func.isRequired,
   messages: PropTypes.shape({
-    removeFilm: PropTypes.string.isRequired,
-    dragFilm: PropTypes.string.isRequired,
+    removeElement: PropTypes.string.isRequired,
+    dragElement: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default MovieListItem;
+export default ElementListItem;

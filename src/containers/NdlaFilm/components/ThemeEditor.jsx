@@ -19,7 +19,7 @@ import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { getLocale } from '../../../modules/locale/locale';
-import MovieList from './MovieList';
+import ElementList from './ElementList';
 import ThemeNameModal from './ThemeNameModal';
 import { ContentResultShape } from '../../../shapes';
 import { findName } from '../../../util/ndlaFilmHelpers';
@@ -116,16 +116,16 @@ const ThemeEditor = ({
               </button>
             </Tooltip>
           </FieldHeader>
-          <MovieList
-            movies={theme.movies}
+          <ElementList
+            elements={theme.movies}
             messages={{
-              dragFilm: t('ndlaFilm.editor.changeOrder'),
-              removeFilm: t('ndlaFilm.editor.removeMovieFromGroup'),
+              dragElement: t('ndlaFilm.editor.changeOrder'),
+              removeElement: t('ndlaFilm.editor.removeMovieFromGroup'),
             }}
-            onUpdateMovies={updates => updateMovieTheme(updates, index)}
+            onUpdateElements={updates => updateMovieTheme(updates, index)}
           />
           <DropdownSearch
-            selectedMovies={theme.movies}
+            selectedElements={theme.movies}
             onChange={evt => addMovieToTheme(evt, index)}
             placeholder={t('ndlaFilm.editor.addMovieToGroup', {
               name: findName(theme.name, locale),

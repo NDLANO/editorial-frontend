@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import MovieList from './MovieList';
+import ElementList from './ElementList';
 import DropdownSearch from './DropdownSearch';
 import { ContentResultShape } from '../../../shapes';
 
@@ -31,17 +31,17 @@ const SlideshowEditor = ({
         title={t('ndlaFilm.editor.slideshowTitle')}
         subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
       />
-      <MovieList
-        movies={slideshowMovies}
+      <ElementList
+        elements={slideshowMovies}
         data-cy="slideshow-movie-list"
         messages={{
-          dragFilm: t('ndlaFilm.editor.changeOrder'),
-          removeFilm: t('ndlaFilm.editor.removeMovieFromSlideshow'),
+          dragElements: t('ndlaFilm.editor.changeOrder'),
+          removeElements: t('ndlaFilm.editor.removeMovieFromSlideshow'),
         }}
-        onUpdateMovies={saveSlideshow}
+        onUpdateElements={saveSlideshow}
       />
       <DropdownSearch
-        selectedMovies={slideshowMovies}
+        selectedElements={slideshowMovies}
         onChange={onAddMovieToSlideshow}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
       />

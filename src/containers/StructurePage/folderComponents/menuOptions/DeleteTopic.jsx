@@ -18,11 +18,14 @@ import {
   fetchTopicConnections,
   deleteTopicConnection,
   deleteSubTopicConnection,
+  fetchTopicArticle,
 } from '../../../../modules/taxonomy';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import MenuItemButton from './MenuItemButton';
 import { StyledErrorMessage } from './MenuItemEditField';
+import { updateStatusDraft } from '../../../../modules/draft/draftApi';
+import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
 
 class DeleteTopic extends PureComponent {
   constructor() {
@@ -30,6 +33,7 @@ class DeleteTopic extends PureComponent {
     this.state = { loading: false, error: '' };
     this.onDeleteTopic = this.onDeleteTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
+    this.setTopicArticleArchived = this.setTopicArticleArchived.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +41,7 @@ class DeleteTopic extends PureComponent {
   }
 
   async onDeleteTopic() {
-    const { parent, toggleEditMode, refreshTopics, t, id } = this.props;
+    const { parent, toggleEditMode, refreshTopics, t, id, locale } = this.props;
     toggleEditMode('deleteTopic');
     this.setState({ loading: true, error: '' });
     const subTopic = parent.includes('topic');
@@ -48,6 +52,7 @@ class DeleteTopic extends PureComponent {
       } else {
         await deleteTopicConnection(connectionId);
       }
+      await this.setTopicArticleArchived(id, locale);
       await deleteTopic(id);
       refreshTopics();
       this.setState({ loading: false });
@@ -73,6 +78,12 @@ class DeleteTopic extends PureComponent {
     }));
   }
 
+  async setTopicArticleArchived(topicId, locale) {
+    let article = await fetchTopicArticle(topicId, locale);
+    let articleId = article.contentUri.split(':')[2];
+    await updateStatusDraft(articleId, ARCHIVED);
+  }
+
   render() {
     const { t, editMode } = this.props;
     const { error, loading, connections } = this.state;
@@ -86,7 +97,6 @@ class DeleteTopic extends PureComponent {
           <RoundIcon small icon={<DeleteForever />} />
           {t('alertModal.delete')}
         </MenuItemButton>
-
         <AlertModal
           show={editMode === 'deleteTopic'}
           actions={[
@@ -124,6 +134,7 @@ DeleteTopic.propTypes = {
   parent: PropTypes.string,
   id: PropTypes.string,
   refreshTopics: PropTypes.func.isRequired,
+  locale: PropTypes.string,
 };
 
 export default injectT(DeleteTopic);

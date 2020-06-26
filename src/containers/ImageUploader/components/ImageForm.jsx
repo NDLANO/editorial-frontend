@@ -134,7 +134,6 @@ class ImageForm extends Component {
         rightsholders: values.rightsholders,
       },
     };
-
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });
   };

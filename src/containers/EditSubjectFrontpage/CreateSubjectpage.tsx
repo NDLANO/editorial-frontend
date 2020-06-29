@@ -46,7 +46,10 @@ const CreateSubjectpage : FC<RouteComponentProps & Props> = ({t}) => {
         <>
 
             <HelmetWithTracker title={t('htmlTitles.createSubjectpage')}/>
-            <SubjectpageForm/>
+            <SubjectpageForm
+                subject={emptySubjectpage}
+
+            />
 
 
         </>);

@@ -5,52 +5,19 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import ElementList from '../../NdlaFilm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { ArticleType, TranslateType } from '../../../interfaces';
-import { getArticle } from '../../../modules/article/articleApi';
-import { fetchNewArticleId } from '../../../modules/draft/draftApi';
+import {ArticleType, TranslateType} from '../../../interfaces';
 
 interface Props {
   t: TranslateType;
-  articles: string[];
+  articles: ArticleType[];
 }
 
 const SubjectpageArticles: FC<Props> = ({ t, articles }) => {
-  const [content, setContent] = useState<ArticleType[]>([]);
-
-  useEffect(() => {
-    const fetchSubject = async () => {
-      const externalIds = articles.map((x: any) => x.split(':').pop());
-      var articleIds: any[] = [];
-      var articleList: any[] = [];
-
-      await Promise.all(
-        externalIds.map(async externalId => {
-          try {
-            const id = await fetchNewArticleId(externalId);
-            articleIds.push(id.id);
-          } catch (e) {}
-        }),
-      );
-
-      await Promise.all(
-        articleIds.map(async id => {
-          try {
-            const article = await getArticle(id);
-            articleList.push(article);
-          } catch (e) {}
-        }),
-      );
-
-      setContent(articleList);
-    };
-    fetchSubject();
-  }, []);
-
   return (
     <>
       <FieldHeader
@@ -58,17 +25,17 @@ const SubjectpageArticles: FC<Props> = ({ t, articles }) => {
         subTitle={t('subjectpageForm.articles')}
       />
       <ElementList
-    elements={content}
+    elements={articles}
     data-cy="editors-choices-article-list"
     messages={{
-        dragElements: t('ndlaFilm.editor.changeOrder'),
-        removeElements: t('ndlaFilm.editor.removeMovieFromSlideshow'),
+        dragElements: t('subjectpageForm.changeOrder'),
+        removeElements: t('subjectpageForm.removeArticle'),
     }}
     onUpdateElements={() => {
         console.log('nå lagrer den');
     }}/>
       <DropdownSearch
-        selectedElements={content}
+        selectedElements={articles}
         onChange={console.log('prøver å legge til?')}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={1}

@@ -229,7 +229,14 @@ export interface SearchResult {
   results: string[];
 }
 
-export interface SubjectType {
+export interface SubjectType{
+  id: string;
+  contentUri: string;
+  name: string;
+  path: string;
+}
+
+export interface SubjectpageType {
   id: string;
   name: string;
   filters: string[];
@@ -255,7 +262,7 @@ export interface SubjectType {
   metaDescription: string;
   topical: string;
   mostRead: string[];
-  editorsChoices: string[];
+  editorsChoices: ArticleType[];
   latestContent: string[];
   goTo: string[];
 }

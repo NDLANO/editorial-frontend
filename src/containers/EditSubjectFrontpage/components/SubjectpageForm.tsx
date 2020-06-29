@@ -14,7 +14,7 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import { Footer } from '@ndla/editor';
-import { SubjectType, TranslateType } from '../../../interfaces';
+import {ArticleType, SubjectpageType, TranslateType} from '../../../interfaces';
 import SubjectpageAbout from './SubjectpageAbout';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import SubjectpageMetadata from './SubjectpageMetadata';
@@ -27,7 +27,7 @@ import SaveMultiButton from '../../../components/SaveMultiButton';
 
 interface Props {
   t: TranslateType;
-  subject: SubjectType;
+  subject: SubjectpageType;
   selectedLanguage: String;
   subjectId: string;
 }
@@ -36,7 +36,7 @@ interface ComponentProps {
   hasError: boolean;
   t: TranslateType;
   closePanel: Function;
-  editorsChoices: string[];
+  editorsChoices: ArticleType[];
 }
 
 interface AccordionProps {
@@ -81,7 +81,7 @@ const SubjectpageForm: FC<Props> = ({
     },
   ];
 
-  const getInitialValues = (subject: SubjectType) => {
+  const getInitialValues = (subject: SubjectpageType) => {
     const visualElementId = subject.about.visualElement.url.split('/').pop();
     return {
       articleType: 'subjectpage',

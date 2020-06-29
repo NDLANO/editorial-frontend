@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect, FC } from 'react';
+import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { fetchSubjectFrontpage } from '../../modules/frontpage/frontpageApi';
-import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 import { TranslateType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
+import {useFetchSubjectpageData} from "../FormikForm/formikSubjectpageHooks";
+import Spinner from '../../components/Spinner';
 
 interface Props {
   t: TranslateType;
@@ -20,74 +20,18 @@ interface Props {
   selectedLanguage: string;
 }
 
-const emptySubjectpage = {
-  id: '',
-  name: '',
-  filters: [],
-  layout: '',
-  twitter: '',
-  facebook: '',
-  banner: {
-    mobileUrl: '',
-    mobileId: 0,
-    desktopUrl: '',
-    desktopId: 0,
-  },
-  about: {
-    visualElement: {
-      type: '',
-      url: '',
-      alt: '',
-      resource_id: '',
-    },
-    title: '',
-    description: '',
-  },
-  metaDescription: '',
-  topical: '',
-  mostRead: [],
-  editorsChoices: [],
-  latestContent: [],
-  goTo: [],
-};
-
-interface Subject {
-  id: string;
-  contentUri: string;
-  name: string;
-  path: string;
-}
-
-// @ts-ignore
 const EditSubjectpage : FC<RouteComponentProps & Props> = ({
   t,
   subjectId,
   selectedLanguage,
 }) => {
-  const [subjectpage, setSubjectpage] = useState(emptySubjectpage);
+  const { loading, subjectpage } = useFetchSubjectpageData(
+      subjectId,
+      selectedLanguage,
+      );
 
-  useEffect(() => {
-    const fetchSubjectData = async (subjectId: number) => {
-      try {
-        const subject: Subject = await fetchSubject(subjectId);
-        const subjectpageId = subject.contentUri.split(':').pop() || '';
-
-        fetchFrontpageData(subjectpageId);
-      } catch (e) {}
-    };
-
-    const fetchFrontpageData = async (subjectpageId: string) => {
-      try {
-        const subjectpage = await fetchSubjectFrontpage(subjectpageId);
-        setSubjectpage(subjectpage);
-      } catch (e) {}
-    };
-
-    fetchSubjectData(subjectId);
-  }, []);
-
-  if (subjectpage === undefined){
-    return;
+  if( loading || !subjectpage || !subjectpage.id){
+    return <Spinner withWrapper />
   }
 
   return (

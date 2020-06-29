@@ -15,13 +15,13 @@ import Accordion, {
 } from '@ndla/accordion';
 import { Footer } from '@ndla/editor';
 import { SubjectType, TranslateType } from '../../../interfaces';
-import SubjectFrontpageAbout from './SubjectFrontpageAbout';
+import SubjectpageAbout from './SubjectpageAbout';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import SubjectFrontpageMetadata from './SubjectFrontpageMetadata';
-import SubjectFrontpageArticles from './SubjectFrontpageArticles';
+import SubjectpageMetadata from './SubjectpageMetadata';
+import SubjectpageArticles  from './SubjectpageArticles';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { toEditFrontpage } from '../../../util/routeHelpers';
+import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SaveMultiButton from '../../../components/SaveMultiButton';
 
@@ -44,39 +44,39 @@ interface AccordionProps {
   handleItemClick: Function;
 }
 
-const SubjectFrontpageForm: FC<Props> = ({
+const SubjectpageForm: FC<Props> = ({
   t,
   subjectId,
   subject,
   selectedLanguage,
 }) => {
   const [unsaved, setUnsaved] = useState(false);
-  usePreventWindowUnload(unsaved); //vil jeg ha denne?
+  usePreventWindowUnload(unsaved);
 
   const panels = [
     {
-      id: 'subject-frontpage-about',
-      title: 'subjectFrontpageForm.about',
+      id: 'subjectpage-about',
+      title: 'subjectpageForm.about',
       className: 'u-4/6@desktop u-push-1/6@desktop',
       errorFields: ['title', 'description', 'visualElement'],
-      component: ({ t }: ComponentProps) => <SubjectFrontpageAbout />,
+      component: ({ t }: ComponentProps) => <SubjectpageAbout />,
     },
     {
-      id: 'subject-frontpage-metadata',
-      title: 'subjectFrontpageForm.metadata',
+      id: 'subjectpage-metadata',
+      title: 'subjectpageForm.metadata',
       className: 'u-6/6',
       errorFields: ['metaDescription', 'banner'],
       component: ({ t, hasError, closePanel }: ComponentProps) => (
-        <SubjectFrontpageMetadata t={t} />
+        <SubjectpageMetadata t={t} />
       ),
     },
     {
-      id: 'subject-frontpage-articles',
-      title: 'subjectFrontpageForm.articles',
+      id: 'subjectpage-articles',
+      title: 'subjectpageForm.articles',
       className: 'u-6/6',
       errorFields: ['editorChoices', 'mostRead'],
       component: ({ editorsChoices }: ComponentProps) => (
-        <SubjectFrontpageArticles articles={editorsChoices} />
+        <SubjectpageArticles articles={editorsChoices} />
       ),
     },
   ];
@@ -84,7 +84,7 @@ const SubjectFrontpageForm: FC<Props> = ({
   const getInitialValues = (subject: SubjectType) => {
     const visualElementId = subject.about.visualElement.url.split('/').pop();
     return {
-      articleType: 'subject-frontpage',
+      articleType: 'subjectpage',
       supportedLanguages: ['nb', 'nn'],
       language: selectedLanguage,
       description: subject.about.description,
@@ -148,7 +148,7 @@ const SubjectFrontpageForm: FC<Props> = ({
               content={initialValues}
               values={values}
               editUrl={(lang: string) =>
-                toEditFrontpage(values.subjectId, lang)
+                toEditSubjectpage(values.subjectId, lang)
               }
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
@@ -157,7 +157,7 @@ const SubjectFrontpageForm: FC<Props> = ({
               //translateArticle + setTranslateOnContinue, vet ikke helt hva de gjør
               noStatus
             />
-            <Accordion openIndexes={['subject-frontpage-about']}>
+            <Accordion openIndexes={['subjectpage-about']}>
               {({ openIndexes, handleItemClick }: AccordionProps) => (
                 <AccordionWrapper>
                   {panels.map(panel => {
@@ -220,4 +220,4 @@ const SubjectFrontpageForm: FC<Props> = ({
   );
 };
 
-export default injectT(SubjectFrontpageForm);
+export default injectT(SubjectpageForm);

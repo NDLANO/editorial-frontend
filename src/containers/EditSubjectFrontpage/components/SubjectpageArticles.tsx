@@ -19,7 +19,7 @@ interface Props {
   articles: string[];
 }
 
-const SubjectFrontpageArticles: FC<Props> = ({ t, articles }) => {
+const SubjectpageArticles: FC<Props> = ({ t, articles }) => {
   const [content, setContent] = useState<ArticleType[]>([]);
 
   useEffect(() => {
@@ -54,27 +54,27 @@ const SubjectFrontpageArticles: FC<Props> = ({ t, articles }) => {
   return (
     <>
       <FieldHeader
-        title={t('subjectFrontpageForm.editorsChoices')}
-        subTitle={t('subjectFrontpageForm.articles')}
+        title={t('subjectpageForm.editorsChoices')}
+        subTitle={t('subjectpageForm.articles')}
       />
       <ElementList
-        elements={content}
-        data-cy="editors-choices-article-list"
-        messages={{
-          dragElements: t('ndlaFilm.editor.changeOrder'),
-          removeElements: t('ndlaFilm.editor.removeMovieFromSlideshow'),
-        }}
-        onUpdateElements={() => {
-          console.log('nå lagrer den');
-        }}></ElementList>
+    elements={content}
+    data-cy="editors-choices-article-list"
+    messages={{
+        dragElements: t('ndlaFilm.editor.changeOrder'),
+        removeElements: t('ndlaFilm.editor.removeMovieFromSlideshow'),
+    }}
+    onUpdateElements={() => {
+        console.log('nå lagrer den');
+    }}/>
       <DropdownSearch
         selectedElements={content}
         onChange={console.log('prøver å legge til?')}
-        placeholder={t('subjectFrontpageForm.addArticle')}
+        placeholder={t('subjectpageForm.addArticle')}
         subjectId={1}
       />
     </>
   );
 };
 
-export default injectT(SubjectFrontpageArticles);
+export default injectT(SubjectpageArticles);

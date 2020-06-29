@@ -16,7 +16,7 @@ interface Props {
   t: TranslateType;
 }
 
-const SubjectFrontpageMetadata: FC<Props> = ({ t }) => {
+const SubjectpageMetadata: FC<Props> = ({ t }) => {
   return (
     <>
       <FormikField
@@ -53,4 +53,4 @@ const SubjectFrontpageMetadata: FC<Props> = ({ t }) => {
   );
 };
 
-export default injectT(SubjectFrontpageMetadata);
+export default injectT(SubjectpageMetadata);

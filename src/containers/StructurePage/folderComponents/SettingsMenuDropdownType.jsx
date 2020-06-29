@@ -19,7 +19,7 @@ import EditFilterOption from './menuOptions/EditFilterOption';
 import EditGrepCodes from './menuOptions/EditGrepCodes';
 import PublishTopic from './menuOptions/PublishTopic';
 import ToggleVisibility from './menuOptions/ToggleVisibility';
-import EditSubjectFrontPageOption from './menuOptions/EditSubjectFrontpageOption';
+import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -37,7 +37,7 @@ const SettingsMenuDropdownType = ({
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
-              <EditSubjectFrontPageOption {...rest} />
+              <EditSubjectpageOption {...rest} />
             </>
           )}
         </>

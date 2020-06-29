@@ -26,7 +26,6 @@ const DropdownSearch = ({
       query: input,
     };
     const response = await searchResources(query);
-    console.log('response', response);
     return response.results.map(result => ({
       ...result,
       title: result.title ? result.title.title : '',

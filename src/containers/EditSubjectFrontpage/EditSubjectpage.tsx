@@ -9,12 +9,10 @@ import React, { useState, useEffect, FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-// @ts-ignore
-import { OneColumn } from '@ndla/ui';
 import { fetchSubjectFrontpage } from '../../modules/frontpage/frontpageApi';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 import { TranslateType } from '../../interfaces';
-import SubjectFrontpageForm from './components/SubjectFrontpageForm';
+import SubjectpageForm from './components/SubjectpageForm';
 
 interface Props {
   t: TranslateType;
@@ -22,7 +20,7 @@ interface Props {
   selectedLanguage: string;
 }
 
-const emptyFrontpage = {
+const emptySubjectpage = {
   id: '',
   name: '',
   filters: [],
@@ -60,45 +58,50 @@ interface Subject {
   path: string;
 }
 
-const EditSubjectFrontpage: FC<RouteComponentProps<{}> & Props> = ({
+// @ts-ignore
+const EditSubjectpage : FC<RouteComponentProps & Props> = ({
   t,
   subjectId,
   selectedLanguage,
 }) => {
-  const [frontpage, setFrontpage] = useState(emptyFrontpage);
+  const [subjectpage, setSubjectpage] = useState(emptySubjectpage);
 
   useEffect(() => {
     const fetchSubjectData = async (subjectId: number) => {
       try {
         const subject: Subject = await fetchSubject(subjectId);
-        const frontpageId = subject.contentUri.split(':').pop() || '';
+        const subjectpageId = subject.contentUri.split(':').pop() || '';
 
-        fetchFrontpageData(frontpageId);
+        fetchFrontpageData(subjectpageId);
       } catch (e) {}
     };
 
-    const fetchFrontpageData = async (frontpageId: string) => {
+    const fetchFrontpageData = async (subjectpageId: string) => {
       try {
-        const frontpage = await fetchSubjectFrontpage(frontpageId);
-        setFrontpage(frontpage);
+        const subjectpage = await fetchSubjectFrontpage(subjectpageId);
+        setSubjectpage(subjectpage);
       } catch (e) {}
     };
 
     fetchSubjectData(subjectId);
   }, []);
 
+  if (subjectpage === undefined){
+    return;
+  }
+
   return (
-    <OneColumn>
-      <HelmetWithTracker
-        title={`${frontpage.name} ${t('htmlTitles.titleTemplate')}`}
-      />
-      <SubjectFrontpageForm
+    <>
+      { <HelmetWithTracker
+          title={`${subjectpage.name} ${t('htmlTitles.titleTemplate')}`}
+      />}
+      <SubjectpageForm
         subjectId={subjectId}
-        subject={frontpage}
+        subject={subjectpage}
         selectedLanguage={selectedLanguage}
       />
-    </OneColumn>
+    </>
   );
 };
 
-export default injectT(withRouter(EditSubjectFrontpage));
+export default injectT(withRouter(EditSubjectpage));

@@ -12,7 +12,7 @@ import { Pencil } from '@ndla/icons/action';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
-import { toEditFrontpage } from '../../../../util/routeHelpers';
+import { toEditSubjectpage } from '../../../../util/routeHelpers';
 import { TranslateType } from '../../../../interfaces';
 
 interface Props {
@@ -21,18 +21,18 @@ interface Props {
   locale: string;
 }
 
-const EditSubjectFrontpageOption = ({ t, id, locale }: Props) => {
+const EditSubjectpageOption = ({ t, id, locale }: Props) => {
   const subjectId = id.split(':').pop(); //finnes det en funksjon for dette?
   return (
     <>
-      <Link to={toEditFrontpage(subjectId, locale)}>
-        <MenuItemButton stripped data-testid="editSubjectPageButton">
+      <Link to={toEditSubjectpage(subjectId, locale)}>
+        <MenuItemButton stripped data-testid="editSubjectpageOption">
           <RoundIcon small icon={<Pencil />} />
-          {t('form.file.editSubjectFrontPage')}
+          {t('form.file.editSubjectpage')}
         </MenuItemButton>
       </Link>
     </>
   );
 };
 
-export default injectT(EditSubjectFrontpageOption);
+export default injectT(EditSubjectpageOption);

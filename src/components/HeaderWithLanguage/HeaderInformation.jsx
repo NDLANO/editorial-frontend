@@ -69,8 +69,8 @@ export const types = {
       <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />
     ),
   },
-  'subject-frontpage': {
-    form: 'subjectFrontpageForm',
+  'subjectpage': {
+    form: 'subjectpageForm',
     cssModifier: 'article',
     icon: (
       <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />

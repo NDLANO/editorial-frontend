@@ -16,22 +16,22 @@ interface Props {
   t: TranslateType;
 }
 
-const SubjectFrontpageAbout: FC<Props> = ({ t }) => {
+const SubjectpageAbout: FC<Props> = ({ t }) => {
   return (
     <>
       <FormikField
-        label={t('subjectFrontpageForm.subjectName')}
+        label={t('subjectpageForm.subjectName')}
         name="aboutTitle"
         title
         noBorder
-        placeholder={t('subjectFrontpageForm.subjectName')}
+        placeholder={t('subjectpageForm.subjectName')}
       />
       <StyledFormContainer>
         <FormikField
-          label={t('subjectFrontpageForm.description')}
+          label={t('subjectpageForm.description')}
           name="description"
           noBorder
-          placeholder={t('subjectFrontpageForm.description')}
+          placeholder={t('subjectpageForm.description')}
           maxLength={800}
           multiline
         />
@@ -41,4 +41,4 @@ const SubjectFrontpageAbout: FC<Props> = ({ t }) => {
   );
 };
 
-export default injectT(SubjectFrontpageAbout);
+export default injectT(SubjectpageAbout);

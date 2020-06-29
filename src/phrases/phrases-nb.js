@@ -13,6 +13,7 @@ const phrases = {
     titleTemplate,
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
+    createSubjectpage: `Fagforside ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     searchContentPage: `Søk innhold ${titleTemplate}`,
     searchMediaPage: `Søk media ${titleTemplate}`,
@@ -322,7 +323,7 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
   },
-  subjectFrontpageForm: {
+  subjectpageForm: {
     title: 'Fag',
     about: 'Om faget',
     subjectName: 'Fagnavn',
@@ -334,6 +335,7 @@ const phrases = {
     changeBanner: 'Bytt banner',
     editorsChoices: 'Litt forskjellig fra faget',
     articles: 'Artikler',
+    addArticle: 'Legg til artikkel',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -900,7 +902,7 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
-      editSubjectFrontPage: 'Rediger fagforside',
+      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',

@@ -25,7 +25,6 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         showMaxLength
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}
-        noBorder
       />
       <FormikField name="desktopBannerId">
         {({ field }: FieldProps) => {
@@ -33,7 +32,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
             <FormikMetaImageSearch
               metaImageId={field.value}
               showRemoveButton={false}
-              banner={t('subjectFrontpageForm.desktopBanner')}
+              banner={t('subjectpageForm.desktopBanner')}
             />
           );
         }}
@@ -44,7 +43,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
             <FormikMetaImageSearch
               metaImageId={field.value}
               showRemoveButton={false}
-              banner={t('subjectFrontpageForm.mobileBanner')}
+              banner={t('subjectpageForm.mobileBanner')}
             />
           );
         }}

@@ -154,7 +154,6 @@ const SubjectpageForm: FC<Props> = ({
               getInitialValues={getInitialValues}
               setValues={setValues}
               isSubmitting={isSubmitting}
-              //translateArticle + setTranslateOnContinue, vet ikke helt hva de gjør
               noStatus
             />
             <Accordion openIndexes={['subjectpage-about']}>

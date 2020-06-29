@@ -59,7 +59,7 @@ const FormikMetaImage = ({
       <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
         {!banner
           ? t('form.metaImage.change')
-          : t('subjectFrontpageForm.changeBanner')}
+          : t('subjectpageForm.changeBanner')}
       </Button>
       {showRemoveButton && (
         <Button css={metaImageDeleteButtonStyle} onClick={onImageRemove}>

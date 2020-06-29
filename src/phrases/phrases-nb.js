@@ -336,6 +336,8 @@ const phrases = {
     editorsChoices: 'Litt forskjellig fra faget',
     articles: 'Artikler',
     addArticle: 'Legg til artikkel',
+    changeOrder: 'Endre rekkefølge',
+    removeArticle: 'Fjern artikkel',
   },
   topicArticleForm: {
     visualElementTitle: {

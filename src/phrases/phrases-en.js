@@ -337,6 +337,8 @@ const phrases = {
     editorsChoices: 'Editor choices from the subject',
     articles: 'Articles',
     addArticle: 'Add article',
+    changeOrder: 'Change order',
+    removeArticle: 'Remove article',
   },
   topicArticleForm: {
     visualElementTitle: {

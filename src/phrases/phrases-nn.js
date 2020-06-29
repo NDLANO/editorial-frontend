@@ -337,6 +337,8 @@ const phrases = {
     editorsChoices: 'Litt forskjellig frå faget',
     articles: 'Artiklar',
     addArticle: 'Legg til artikkel',
+    changeOrder: 'Endre rekkefølgje',
+    removeArticle: 'Fjern artikkel',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -901,7 +903,7 @@ const phrases = {
       removeList: 'Fjern filliste',
       placeholder: 'Oppgi et filnavn',
       changeName: 'Endre navn',
-      changeOrder: 'Endre rekkefølge',
+      changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',
       editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',

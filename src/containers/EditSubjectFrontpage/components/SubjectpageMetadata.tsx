@@ -27,10 +27,12 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         description={t('form.metaDescription.description')}
       />
       <FormikField name="desktopBannerId">
-        {({ field }: FieldProps) => {
+        {({ field, form }: FieldProps) => {
           return (
             <FormikMetaImageSearch
               metaImageId={field.value}
+              onChange={field.onChange}
+              setFieldTouched={form.setFieldTouched}
               showRemoveButton={false}
               banner={t('subjectpageForm.desktopBanner')}
             />
@@ -38,10 +40,12 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         }}
       </FormikField>
       <FormikField name="mobileBannerId">
-        {({ field }: FieldProps) => {
+        {({ field, form }: FieldProps) => {
           return (
             <FormikMetaImageSearch
               metaImageId={field.value}
+              onChange={field.onChange}
+              setFieldTouched={form.setFieldTouched}
               showRemoveButton={false}
               banner={t('subjectpageForm.mobileBanner')}
             />

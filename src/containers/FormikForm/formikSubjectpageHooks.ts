@@ -11,38 +11,6 @@ export function useFetchSubjectpageData(subjectId: number, locale: string) {
   const [subjectpage, setSubjectpage] = useState<SubjectpageType>();
   const [loading, setLoading] = useState(false);
 
-  const fetchEditorsChoices = async (articleIds: string[]) => {
-    //TODO: Are all references from editors choices referenced with external ids?
-    const externalIds = articleIds.map((x: string) => x.split(':').pop());
-
-    var newIds: string[] = [];
-    var articleList: ArticleType[] = [];
-
-    await Promise.all(
-      externalIds.map(async externalId => {
-        try {
-          const id = await fetchNewArticleId(externalId);
-          newIds.push(id.id);
-        } catch (e) {
-          handleError(e);
-        }
-      }),
-    );
-
-    await Promise.all(
-      newIds.map(async newId => {
-        try {
-          const article: ArticleType = await articleApi.getArticle(newId);
-          articleList.push(article);
-        } catch (e) {
-          handleError(e);
-        }
-      }),
-    );
-
-    return articleList;
-  };
-
   const fetchSubject = async () => {
     if (subjectId) {
       setLoading(true);
@@ -52,12 +20,12 @@ export function useFetchSubjectpageData(subjectId: number, locale: string) {
         const subjectpage = await frontpageApi.fetchSubjectFrontpage(
           subjectpageId,
         );
-        const editorsChoices: ArticleType[] = await fetchEditorsChoices(
-          subjectpage.editorsChoices,
-        );
-
+        //TODO: Er alle idene fra editors choices externalids?
+        const externalIds = subjectpage.editorsChoices.map((x: string) => x.split(':').pop());
+        const articleIds = await fetchArticleIdsFromExternalIds(externalIds);
+        const editorsChoices: ArticleType[] = await fetchEditorsChoices(articleIds);
         setSubjectpage(
-          transformSubjectFromApiVersion(subjectpage, editorsChoices, subjectId),
+          transformSubjectFromApiVersion(subjectpage, articleIds, editorsChoices, subjectId),
         );
         setLoading(false);
       } catch (e) {
@@ -66,6 +34,36 @@ export function useFetchSubjectpageData(subjectId: number, locale: string) {
     }
   };
 
+  const fetchEditorsChoices = async (articleIds: number[]) => {
+    const articleList: ArticleType[] = [];
+    await Promise.all(
+        articleIds.map(async articleId => {
+          try {
+            const article: ArticleType = await articleApi.getArticle(articleId);
+            articleList.push(article);
+          } catch (e) {
+            handleError(e);
+          }
+        }),
+    );
+    return articleList;
+  };
+
+  const fetchArticleIdsFromExternalIds = async(externalIds: number[]) => {
+    const articleIds: number[] = [];
+    await Promise.all(
+        externalIds.map(async (externalId : number) => {
+          try {
+            const id = await fetchNewArticleId(externalId);
+            articleIds.push(id.id);
+          } catch (e) {
+            handleError(e);
+          }
+        }),
+    );
+    return articleIds;
+  }
+
   useEffect(() => {
     fetchSubject();
   }, [subjectId]);
@@ -73,5 +71,6 @@ export function useFetchSubjectpageData(subjectId: number, locale: string) {
   return {
     subjectpage,
     loading,
+    fetchEditorsChoices,
   };
 }

@@ -11,7 +11,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { TranslateType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
-import {useFetchSubjectpageData} from "../FormikForm/formikSubjectpageHooks";
+import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 
 interface Props {
@@ -20,25 +20,25 @@ interface Props {
   selectedLanguage: string;
 }
 
-const EditSubjectpage : FC<RouteComponentProps & Props> = ({
+const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   t,
   subjectId,
   selectedLanguage,
 }) => {
   const { loading, subjectpage } = useFetchSubjectpageData(
-      subjectId,
-      selectedLanguage,
-      );
+    subjectId,
+    selectedLanguage,
+  );
 
-  if( loading || !subjectpage || !subjectpage.id){
-    return <Spinner withWrapper />
+  if (loading || !subjectpage || !subjectpage.id) {
+    return <Spinner withWrapper />;
   }
 
   return (
     <>
-      { <HelmetWithTracker
-          title={`${subjectpage.name} ${t('htmlTitles.titleTemplate')}`}
-      />}
+      <HelmetWithTracker
+        title={`${subjectpage.name} ${t('htmlTitles.titleTemplate')}`}
+      />
       <SubjectpageForm
         subjectId={subjectId}
         subject={subjectpage}

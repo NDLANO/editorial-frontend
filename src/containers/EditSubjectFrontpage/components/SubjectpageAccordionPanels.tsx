@@ -9,10 +9,7 @@ import { FormikErrors, FormikTouched } from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import {
-  SubjectpageType,
-  TranslateType,
-} from '../../../interfaces';
+import { SubjectpageType, TranslateType } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 
 interface Props {
@@ -42,35 +39,29 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: ({}: ComponentProps) => <SubjectpageAbout />,
+    component: () => <SubjectpageAbout />,
   },
   {
     id: 'subjectpage-metadata',
     title: 'subjectpageForm.metadata',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'banner'],
-    component: ({}: ComponentProps) => <SubjectpageMetadata />,
+    component: () => <SubjectpageMetadata />,
   },
   {
     id: 'subjectpage-articles',
     title: 'subjectpageForm.articles',
     className: 'u-6/6',
     errorFields: ['editorChoices'],
-    component: ({values }: ComponentProps) => <SubjectpageArticles values={values}/>,
+    component: ({ values }: ComponentProps) => (
+      <SubjectpageArticles values={values} />
+    ),
   },
 ];
 
-const SubjectpageAccordionPanels: FC<Props> = ({
-  t,
-  values,
-  errors,
-  subject,
-  touched,
-  formIsDirty,
-  getInitialValues,
-}) => {
+const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
   return (
-    <Accordion openIndexes={['subjectpage-about']}>
+    <Accordion openIndexes={['subjectpage-metadata']}>
       {({ openIndexes, handleItemClick }: AccordionProps) => (
         <AccordionWrapper>
           {panels.map(panel => {
@@ -94,7 +85,7 @@ const SubjectpageAccordionPanels: FC<Props> = ({
                     <div className={panel.className}>
                       {panel.component({
                         hasError,
-                          values,
+                        values,
                         closePanel: () => handleItemClick(panel.id),
                       })}
                     </div>

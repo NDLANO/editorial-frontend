@@ -262,6 +262,7 @@ export interface SubjectpageType {
   metaDescription: string;
   topical: string;
   mostRead: string[];
+  editorsChoicesIds: number[];
   editorsChoices: ArticleType[];
   latestContent: string[];
   goTo: string[];

@@ -5,44 +5,72 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, Fragment, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form } from 'formik';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
-import { Footer } from '@ndla/editor';
-import {ArticleType, SubjectpageType, TranslateType} from '../../../interfaces';
-import SubjectpageAbout from './SubjectpageAbout';
+import {
+  SubjectpageType,
+  TranslateType,
+} from '../../../interfaces';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import SubjectpageMetadata from './SubjectpageMetadata';
-import SubjectpageArticles  from './SubjectpageArticles';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
-import { isFormikFormDirty } from '../../../util/formHelper';
+import validateFormik from '../../../components/formikValidationSchema';
+import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import SaveMultiButton from '../../../components/SaveMultiButton';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
+import { fetchStatusStateMachine } from '../../../modules/draft/draftApi';
+import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 
 interface Props {
   t: TranslateType;
   subject: SubjectpageType;
-  selectedLanguage: String;
-  subjectId: string;
+  selectedLanguage: string;
+  subjectId: number;
 }
 
-interface ComponentProps {
-  hasError: boolean;
-  t: TranslateType;
-  closePanel: Function;
-  editorsChoices: ArticleType[];
-}
-
-interface AccordionProps {
-  openIndexes: string[];
-  handleItemClick: Function;
-}
+const getInitialValues = (
+  subject: SubjectpageType,
+  subjectId: number,
+  selectedLanguage: string,
+) => {
+  const visualElementId = subject.about.visualElement.url.split('/').pop();
+  return {
+    articleType: 'subjectpage',
+    supportedLanguages: ['nb', 'nn'],
+    language: selectedLanguage,
+    description: subject.about.description,
+    aboutTitle: subject.about.title,
+    visualElement: {
+      resource: subject.about.visualElement.type,
+      url: subject.about.visualElement.url,
+      alt: subject.about.visualElement.alt,
+      resource_id: visualElementId,
+    },
+    visualElementAlt: subject.about.visualElement.alt,
+    visualElementCaption: subject.about.visualElement.caption,
+    image: subject.banner.desktopId,
+    bannerUrl: {
+      desktopUrl: subject.banner.desktopUrl,
+      mobileUrl: subject.banner.mobileUrl,
+    },
+    desktopBannerId: subject.banner.desktopId,
+    mobileBannerId: subject.banner.mobileId,
+    editorsChoices: subject.editorsChoices,
+    facebook: subject.facebook,
+    filters: subject.filters,
+    goTo: subject.goTo,
+    id: subject.id,
+    latestContent: subject.latestContent,
+    layout: subject.layout,
+    metaDescription: subject.metaDescription,
+    mostRead: subject.mostRead,
+    title: subject.name,
+    topical: subject.topical,
+    twitter: subject.twitter,
+    subjectId: subjectId,
+  };
+};
 
 const SubjectpageForm: FC<Props> = ({
   t,
@@ -53,83 +81,16 @@ const SubjectpageForm: FC<Props> = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const panels = [
-    {
-      id: 'subjectpage-about',
-      title: 'subjectpageForm.about',
-      className: 'u-4/6@desktop u-push-1/6@desktop',
-      errorFields: ['title', 'description', 'visualElement'],
-      component: ({ t }: ComponentProps) => <SubjectpageAbout />,
-    },
-    {
-      id: 'subjectpage-metadata',
-      title: 'subjectpageForm.metadata',
-      className: 'u-6/6',
-      errorFields: ['metaDescription', 'banner'],
-      component: ({ t, hasError, closePanel }: ComponentProps) => (
-        <SubjectpageMetadata t={t} />
-      ),
-    },
-    {
-      id: 'subjectpage-articles',
-      title: 'subjectpageForm.articles',
-      className: 'u-6/6',
-      errorFields: ['editorChoices', 'mostRead'],
-      component: ({ editorsChoices }: ComponentProps) => (
-        <SubjectpageArticles articles={editorsChoices} />
-      ),
-    },
-  ];
-
-  const getInitialValues = (subject: SubjectpageType) => {
-    const visualElementId = subject.about.visualElement.url.split('/').pop();
-    return {
-      articleType: 'subjectpage',
-      supportedLanguages: ['nb', 'nn'],
-      language: selectedLanguage,
-      description: subject.about.description,
-      aboutTitle: subject.about.title,
-      visualElement: {
-        resource: subject.about.visualElement.type,
-        url: subject.about.visualElement.url,
-        alt: subject.about.visualElement.alt,
-        resource_id: visualElementId,
-      },
-      visualElementAlt: subject.about.visualElement.alt,
-      visualElementCaption: subject.about.visualElement.caption,
-      image: subject.banner.desktopId,
-      bannerUrl: {
-        desktopUrl: subject.banner.desktopUrl,
-        mobileUrl: subject.banner.mobileUrl,
-      },
-      desktopBannerId: subject.banner.desktopId,
-      mobileBannerId: subject.banner.mobileId,
-      editorsChoices: subject.editorsChoices,
-      facebook: subject.facebook,
-      filters: subject.filters,
-      goTo: subject.goTo,
-      id: subject.id,
-      latestContent: subject.latestContent,
-      layout: subject.layout,
-      metaDescription: subject.metaDescription,
-      mostRead: subject.mostRead,
-      title: subject.name,
-      topical: subject.topical,
-      twitter: subject.twitter,
-      subjectId: subjectId,
-    };
-  };
-
-  const initialValues = getInitialValues(subject);
-  const editorsChoices = initialValues.editorsChoices;
+  const initialValues = getInitialValues(subject, subjectId, selectedLanguage);
 
   return (
     <Formik
       enableReinitialize
       initialValues={initialValues}
-      onSubmit={() => {}}>
+      onSubmit={() => {}}
+      validate={values => validateFormik(values, subjectpageRules, t)}>
       {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
-        const formIsDirty = isFormikFormDirty({
+        const formIsDirty: boolean = isFormikFormDirty({
           values,
           initialValues,
           dirty,
@@ -156,56 +117,25 @@ const SubjectpageForm: FC<Props> = ({
               isSubmitting={isSubmitting}
               noStatus
             />
-            <Accordion openIndexes={['subjectpage-about']}>
-              {({ openIndexes, handleItemClick }: AccordionProps) => (
-                <AccordionWrapper>
-                  {panels.map(panel => {
-                    const hasError = false; //panel.errorFields.some(field => !!errors[field]);
-                    return (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={t(panel.title)}
-                          onClick={() => handleItemClick(panel.id)}
-                          title={t(panel.title)}
-                          hasError={hasError}
-                          isOpen={openIndexes.includes(panel.id)}
-                        />
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            hasError={hasError}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className={panel.className}>
-                              {panel.component({
-                                hasError,
-                                t,
-                                editorsChoices,
-                                closePanel: () => handleItemClick(panel.id),
-                              })}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    );
-                  })}
-                  <Footer style={{ display: 'flex' }}>
-                    <SaveMultiButton
-                      large
-                      isSaving={isSubmitting}
-                      formIsDirty={formIsDirty}
-                      showSaved={!formIsDirty && savedToServer}
-                      onClick={() => {
-                        onSaveClick();
-                      }}
-                      hideSecondaryButton={true}
-                      style={{ marginLeft: 'auto' }}
-                      touched={touched}
-                    />
-                  </Footer>
-                </AccordionWrapper>
-              )}
-            </Accordion>
+            <SubjectpageAccordionPanels
+              values={values}
+              errors={errors}
+              subject={subject}
+              touched={touched}
+              formIsDirty={formIsDirty}
+              getInitialValues={getInitialValues}
+            />
+            <EditorFooter
+              showSimpleFooter
+              isSubmitting={isSubmitting}
+              formIsDirty={formIsDirty}
+              savedToServer={savedToServer}
+              getEntity={getInitialValues}
+              values={values}
+              onSaveClick={onSaveClick()}
+              getStateStatuses={fetchStatusStateMachine}
+              isArticle
+            />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}

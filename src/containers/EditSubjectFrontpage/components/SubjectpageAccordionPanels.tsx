@@ -1,0 +1,112 @@
+import React, { FC, Fragment } from 'react';
+import Accordion, {
+  AccordionWrapper,
+  AccordionBar,
+  AccordionPanel,
+} from '@ndla/accordion';
+import { injectT } from '@ndla/i18n';
+import { FormikErrors, FormikTouched } from 'formik';
+import SubjectpageAbout from './SubjectpageAbout';
+import SubjectpageMetadata from './SubjectpageMetadata';
+import SubjectpageArticles from './SubjectpageArticles';
+import {
+  SubjectpageType,
+  TranslateType,
+} from '../../../interfaces';
+import { Values } from '../../../components/SlateEditor/editorTypes';
+
+interface Props {
+  t: TranslateType;
+  values: Values;
+  errors: FormikErrors<Values>;
+  subject: SubjectpageType;
+  touched: FormikTouched<Values>;
+  formIsDirty: boolean;
+  getInitialValues: Function;
+}
+
+interface AccordionProps {
+  openIndexes: string[];
+  handleItemClick: Function;
+}
+
+interface ComponentProps {
+  hasError: boolean;
+  closePanel: Function;
+  values: Values;
+}
+
+const panels = [
+  {
+    id: 'subjectpage-about',
+    title: 'subjectpageForm.about',
+    className: 'u-4/6@desktop u-push-1/6@desktop',
+    errorFields: ['title', 'description', 'visualElement'],
+    component: ({}: ComponentProps) => <SubjectpageAbout />,
+  },
+  {
+    id: 'subjectpage-metadata',
+    title: 'subjectpageForm.metadata',
+    className: 'u-6/6',
+    errorFields: ['metaDescription', 'banner'],
+    component: ({}: ComponentProps) => <SubjectpageMetadata />,
+  },
+  {
+    id: 'subjectpage-articles',
+    title: 'subjectpageForm.articles',
+    className: 'u-6/6',
+    errorFields: ['editorChoices'],
+    component: ({values }: ComponentProps) => <SubjectpageArticles values={values}/>,
+  },
+];
+
+const SubjectpageAccordionPanels: FC<Props> = ({
+  t,
+  values,
+  errors,
+  subject,
+  touched,
+  formIsDirty,
+  getInitialValues,
+}) => {
+  return (
+    <Accordion openIndexes={['subjectpage-about']}>
+      {({ openIndexes, handleItemClick }: AccordionProps) => (
+        <AccordionWrapper>
+          {panels.map(panel => {
+            // @ts-ignore
+            const hasError = panel.errorFields.some(field => !!errors[field]);
+            return (
+              <Fragment key={panel.id}>
+                <AccordionBar
+                  panelId={panel.id}
+                  ariaLabel={t(panel.title)}
+                  onClick={() => handleItemClick(panel.id)}
+                  title={t(panel.title)}
+                  hasError={hasError}
+                  isOpen={openIndexes.includes(panel.id)}
+                />
+                {openIndexes.includes(panel.id) && (
+                  <AccordionPanel
+                    id={panel.id}
+                    hasError={hasError}
+                    isOpen={openIndexes.includes(panel.id)}>
+                    <div className={panel.className}>
+                      {panel.component({
+                        hasError,
+                          values,
+                        closePanel: () => handleItemClick(panel.id),
+                      })}
+                    </div>
+                  </AccordionPanel>
+                )}
+              </Fragment>
+            );
+          })}
+        </AccordionWrapper>
+      )}
+    </Accordion>
+  );
+};
+
+export default injectT(SubjectpageAccordionPanels);

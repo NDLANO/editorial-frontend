@@ -175,6 +175,32 @@ export const topicArticleRules = {
   },
 };
 
+export const subjectpageRules = {
+  aboutTitle: {
+    required: true,
+  },
+  description: {
+    maxLength: 300,
+  },
+  visualElementAlt: {
+    required: false,
+    onlyValidateIf: values =>
+      values.visualElement && values.visualElement.resource === 'image',
+  },
+  visualElementCaption: {
+    required: false,
+    onlyValidateIf: values =>
+      values.visualElement && values.visualElement.resource === 'image',
+  },
+  metaDescription: {
+    maxLength: 300,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: values => !!values.metaImageId,
+  },
+};
+
 export const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return '';

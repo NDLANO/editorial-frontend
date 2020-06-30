@@ -8,9 +8,9 @@
 import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { TranslateType } from '../../../interfaces';
-import TopicArticleVisualElement from '../../TopicArticlePage/components/TopicArticleVisualElement';
 import FormikField from '../../../components/FormikField';
 import StyledFormContainer from '../../../components/SlateEditor/common/StyledFormContainer';
+import FormikVisualElement from '../../FormikForm/FormikVisualElement';
 
 interface Props {
   t: TranslateType;
@@ -33,10 +33,9 @@ const SubjectpageAbout: FC<Props> = ({ t }) => {
           noBorder
           placeholder={t('subjectpageForm.description')}
           maxLength={800}
-          multiline
         />
       </StyledFormContainer>
-      <TopicArticleVisualElement />
+      <FormikVisualElement />
     </>
   );
 };

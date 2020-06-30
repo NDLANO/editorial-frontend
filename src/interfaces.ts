@@ -229,7 +229,7 @@ export interface SearchResult {
   results: string[];
 }
 
-export interface SubjectType{
+export interface SubjectType {
   id: string;
   contentUri: string;
   name: string;
@@ -265,4 +265,5 @@ export interface SubjectpageType {
   editorsChoices: ArticleType[];
   latestContent: string[];
   goTo: string[];
+  subjectId: number;
 }

@@ -80,7 +80,11 @@ const FormikMetaImage = ({
             css={css`
               background-color: ${colors.brand.primary};
             `}>
-            <img src={image.imageUrl} style={{ width: '200%' }} alt={'banner'} />
+            <img
+              src={image.imageUrl}
+              style={{ width: '200%' }}
+              alt={'banner'}
+            />
           </div>
         ) : (
           <img src={image.imageUrl} alt={alt} />

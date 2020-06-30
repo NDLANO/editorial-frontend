@@ -156,9 +156,7 @@ class FormikMetaImageSearch extends Component {
           />
         ) : (
           <Button onClick={this.onImageSelectOpen}>
-            {!banner
-              ? t('form.metaImage.add')
-              : t('subjectpageForm.addBanner')}
+            {!banner ? t('form.metaImage.add') : t('subjectpageForm.addBanner')}
           </Button>
         )}
       </div>

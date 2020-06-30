@@ -8,10 +8,7 @@
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form } from 'formik';
-import {
-  SubjectpageType,
-  TranslateType,
-} from '../../../interfaces';
+import { SubjectpageType, TranslateType } from '../../../interfaces';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -56,6 +53,7 @@ const getInitialValues = (
     },
     desktopBannerId: subject.banner.desktopId,
     mobileBannerId: subject.banner.mobileId,
+    editorsChoicesIds: subject.editorsChoicesIds,
     editorsChoices: subject.editorsChoices,
     facebook: subject.facebook,
     filters: subject.filters,

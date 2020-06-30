@@ -21,11 +21,20 @@ export function useFetchSubjectpageData(subjectId: number, locale: string) {
           subjectpageId,
         );
         //TODO: Er alle idene fra editors choices externalids?
-        const externalIds = subjectpage.editorsChoices.map((x: string) => x.split(':').pop());
+        const externalIds = subjectpage.editorsChoices.map((x: string) =>
+          x.split(':').pop(),
+        );
         const articleIds = await fetchArticleIdsFromExternalIds(externalIds);
-        const editorsChoices: ArticleType[] = await fetchEditorsChoices(articleIds);
+        const editorsChoices: ArticleType[] = await fetchEditorsChoices(
+          articleIds,
+        );
         setSubjectpage(
-          transformSubjectFromApiVersion(subjectpage, articleIds, editorsChoices, subjectId),
+          transformSubjectFromApiVersion(
+            subjectpage,
+            articleIds,
+            editorsChoices,
+            subjectId,
+          ),
         );
         setLoading(false);
       } catch (e) {
@@ -37,32 +46,32 @@ export function useFetchSubjectpageData(subjectId: number, locale: string) {
   const fetchEditorsChoices = async (articleIds: number[]) => {
     const articleList: ArticleType[] = [];
     await Promise.all(
-        articleIds.map(async articleId => {
-          try {
-            const article: ArticleType = await articleApi.getArticle(articleId);
-            articleList.push(article);
-          } catch (e) {
-            handleError(e);
-          }
-        }),
+      articleIds.map(async articleId => {
+        try {
+          const article: ArticleType = await articleApi.getArticle(articleId);
+          articleList.push(article);
+        } catch (e) {
+          handleError(e);
+        }
+      }),
     );
     return articleList;
   };
 
-  const fetchArticleIdsFromExternalIds = async(externalIds: number[]) => {
+  const fetchArticleIdsFromExternalIds = async (externalIds: number[]) => {
     const articleIds: number[] = [];
     await Promise.all(
-        externalIds.map(async (externalId : number) => {
-          try {
-            const id = await fetchNewArticleId(externalId);
-            articleIds.push(id.id);
-          } catch (e) {
-            handleError(e);
-          }
-        }),
+      externalIds.map(async (externalId: number) => {
+        try {
+          const id = await fetchNewArticleId(externalId);
+          articleIds.push(id.id);
+        } catch (e) {
+          handleError(e);
+        }
+      }),
     );
     return articleIds;
-  }
+  };
 
   useEffect(() => {
     fetchSubject();

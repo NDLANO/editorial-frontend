@@ -7,9 +7,9 @@ export const transformSubjectFromApiVersion = (
   subjectId: number,
 ) => {
   return {
-  ...subject,
-  editorsChoicesIds: editorsChoicesIds,
-  editorsChoices: editorsChoices,
-  subjectId: subjectId,
-  }
+    ...subject,
+    editorsChoicesIds: editorsChoicesIds,
+    editorsChoices: editorsChoices,
+    subjectId: subjectId,
+  };
 };

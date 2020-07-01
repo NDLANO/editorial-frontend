@@ -33,7 +33,7 @@ import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
-import { EditMarkupLink } from '../../LearningResourcePage/components/EditMarkupLink';
+import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';

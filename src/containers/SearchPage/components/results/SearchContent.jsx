@@ -16,14 +16,15 @@ import {
   getContentTypeFromResourceTypes,
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
-import { isLearningpath } from '../../../../util/routeHelpers';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
+import {isLearningpath, toEditMarkup} from '../../../../util/routeHelpers';
+import {DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH} from '../../../../constants';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import {EditMarkupLink} from "../../../../components/EditMarkupLink";
 
-const SearchContent = ({ content, locale, t }) => {
+const SearchContent = ({ content, locale, t, userAccess }) => {
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   let resourceType = {};
@@ -117,6 +118,12 @@ const SearchContent = ({ content, locale, t }) => {
             indentLeft
             fontSize={10}
           />
+          {content.id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+              <EditMarkupLink
+                  to={toEditMarkup(content.id, content.supportedLanguages.reduce(l => l === locale) ?? locale )}
+                  title={t('editMarkup.linkTitle')}
+              />
+          )}
         </div>
       </div>
     </div>
@@ -126,6 +133,7 @@ const SearchContent = ({ content, locale, t }) => {
 SearchContent.propTypes = {
   content: ContentResultShape,
   locale: PropTypes.string.isRequired,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(SearchContent);

@@ -23,6 +23,7 @@ const SearchList = ({
   searching,
   locale,
   subjects,
+  userAccess,
 }) => {
   if (searching) return <Spinner />;
   if (results.length === 0)
@@ -43,6 +44,7 @@ const SearchList = ({
               type={type}
               locale={locale || result.title.language}
               subjects={subjects}
+              userAccess={userAccess}
             />
           </CSSTransition>
         ))}
@@ -61,6 +63,7 @@ SearchList.propTypes = {
   searching: PropTypes.bool,
   locale: PropTypes.string,
   subjects: PropTypes.array,
+  userAccess: PropTypes.string,
 };
 
 SearchList.defaultProps = {

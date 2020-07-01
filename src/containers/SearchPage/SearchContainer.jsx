@@ -89,6 +89,7 @@ class SearchContainer extends Component {
       totalCount,
       type,
       t,
+      userAccess,
     } = this.props;
     const searchObject = queryString.parse(location.search);
     return (
@@ -124,6 +125,7 @@ class SearchContainer extends Component {
           type={type}
           locale={locale}
           subjects={this.state.subjects}
+          userAccess={userAccess}
         />
         <Pager
           page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
@@ -147,11 +149,13 @@ SearchContainer.propTypes = {
   search: PropTypes.func.isRequired,
   clearSearch: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
+  userAccess: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
   searching: getSearching(state),
+  userAccess: state.session.user.scope,
 });
 
 export default compose(connect(mapStateToProps), injectT)(SearchContainer);

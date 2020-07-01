@@ -11,24 +11,26 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import styled from "@emotion/styled"
+import styled from '@emotion/styled';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
-import {isLearningpath, toEditMarkup} from '../../../../util/routeHelpers';
-import {DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH} from '../../../../constants';
+import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
+import {
+  DRAFT_HTML_SCOPE,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../../../constants';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import {EditMarkupLink} from "../../../../components/EditMarkupLink";
+import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 
 const StyledHeaderDiv = styled.div`
   display: flex;
 `;
-
 
 const SearchContent = ({ content, locale, t, userAccess }) => {
   const { contexts, metaImage } = content;
@@ -79,33 +81,40 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
         <img src={url || '/placeholder.png'} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
-        <div {...searchClasses('header')} style={{display:'flex', justifyContent:'space-between'}}>
-            {linkProps && linkProps.href ? (
-              <a {...searchClasses('link')} {...linkProps}>
-                {contentTitle}
-              </a>
-            ) : (
-              <Link {...searchClasses('link')} to={linkProps.to}>
-                {contentTitle}
-              </Link>
-            )}
+        <div
+          {...searchClasses('header')}
+          style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {linkProps && linkProps.href ? (
+            <a {...searchClasses('link')} {...linkProps}>
+              {contentTitle}
+            </a>
+          ) : (
+            <Link {...searchClasses('link')} to={linkProps.to}>
+              {contentTitle}
+            </Link>
+          )}
           <StyledHeaderDiv>
-            {content.id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+            {content.id &&
+              userAccess &&
+              userAccess.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink
-                    to={toEditMarkup(content.id, langIsLocale ? locale : content.supportedLanguages[0])}
-                    title={t('editMarkup.linkTitle')}
-                    margin={true}
+                  to={toEditMarkup(
+                    content.id,
+                    langIsLocale ? locale : content.supportedLanguages[0],
+                  )}
+                  title={t('editMarkup.linkTitle')}
+                  margin={true}
                 />
-            )}
+              )}
           </StyledHeaderDiv>
         </div>
         {content.supportedLanguages.map(lang => (
-            <SearchContentLanguage
-                key={`${lang}_search_content`}
-                language={lang}
-                content={content}
-                contentType={resourceType.contentType}
-            />
+          <SearchContentLanguage
+            key={`${lang}_search_content`}
+            language={lang}
+            content={content}
+            contentType={resourceType.contentType}
+          />
         ))}
         <p {...searchClasses('description')}>
           {convertFieldWithFallback(content, 'metaDescription', '')}

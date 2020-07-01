@@ -13,9 +13,12 @@ import { css } from '@emotion/core';
 import { Code } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 
-const linkStyle = css`
-  box-shadow: none;
 
+export const EditMarkupLink = ({ title, to , margin}) => {
+
+  const linkStyle = css`
+  box-shadow: none;
+  
   svg {
     width: ${spacing.normal};
     height: ${spacing.normal};
@@ -37,11 +40,12 @@ const linkStyle = css`
         fill: ${colors.brand.primary};
       }
     }
+    margin: ${margin ? '1.3rem 0 0.3rem' : ''};
   }
 `;
-export const EditMarkupLink = ({ title, to }) => {
+
   return (
-    <Link css={linkStyle} to={to}>
+    <Link css={linkStyle} to={to} >
       <Code title={title} />
     </Link>
   );
@@ -50,4 +54,5 @@ export const EditMarkupLink = ({ title, to }) => {
 EditMarkupLink.propTypes = {
   to: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  margin: PropTypes.bool
 };

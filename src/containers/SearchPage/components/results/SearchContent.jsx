@@ -30,6 +30,8 @@ import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 
 const StyledHeaderDiv = styled.div`
   display: flex;
+  width:100%;
+  text-decoration: none;
 `;
 
 const SearchContent = ({ content, locale, t, userAccess }) => {
@@ -74,16 +76,14 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
       }`,
     );
   };
-  const langIsLocale = content.supportedLanguages.filter(l => l === locale);
+
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
         <img src={url || '/placeholder.png'} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
-        <div
-          {...searchClasses('header')}
-          style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <StyledHeaderDiv {...searchClasses('header')}>
           {linkProps && linkProps.href ? (
             <a {...searchClasses('link')} {...linkProps}>
               {contentTitle}
@@ -93,23 +93,22 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
               {contentTitle}
             </Link>
           )}
-          <StyledHeaderDiv>
-            {content.id &&
-              userAccess &&
-              userAccess.includes(DRAFT_HTML_SCOPE) && (
-                <EditMarkupLink
+          {content.id &&
+          userAccess &&
+          userAccess.includes(DRAFT_HTML_SCOPE) &&(
+              <EditMarkupLink
                   to={toEditMarkup(
-                    content.id,
-                    langIsLocale ? locale : content.supportedLanguages[0],
+                      content.id,
+                      content.supportedLanguages.includes(locale)
+                          ? locale
+                          : content.supportedLanguages[0],
                   )}
                   title={t('editMarkup.linkTitle')}
-                  margin={true}
-                />
-              )}
-          </StyledHeaderDiv>
-        </div>
+                  inHeader={true}
+              />)}
+        </StyledHeaderDiv>
         {content.supportedLanguages.map(lang => (
-          <SearchContentLanguage
+          <SearchContentLanguage style={{display: "flex"}}
             key={`${lang}_search_content`}
             language={lang}
             content={content}

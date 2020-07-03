@@ -13,9 +13,7 @@ import { css } from '@emotion/core';
 import { Code } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 
-
 export const EditMarkupLink = ({ title, to, inHeader }) => {
-
   const linkStyle = css`
     box-shadow: none;
 
@@ -40,7 +38,7 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
           fill: ${colors.brand.primary};
         }
       }
-      margin: ${inHeader ? '1.7rem 0.5em 0.3rem' : ''};
+      margin-left: ${inHeader ? '0.5em' : ''};
     }
   `;
 

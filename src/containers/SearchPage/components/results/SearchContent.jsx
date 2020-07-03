@@ -30,7 +30,7 @@ import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 
 const StyledHeaderDiv = styled.div`
   display: flex;
-  width:100%;
+  width: 100%;
   text-decoration: none;
 `;
 
@@ -52,12 +52,40 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
       ]);
     }
   }
-  const contentTitle = (
-    <h2 {...searchClasses('title')}>
+
+  const isContentTypeBadge = (
+    <>
       {resourceType?.contentType && (
         <ContentTypeBadge background type={resourceType.contentType} />
       )}{' '}
-      {content.title.title}
+    </>
+  );
+
+  const contentTitle = linkProps => (
+    <h2 {...searchClasses('title')}>
+      {linkProps && linkProps.href ? (
+        <a {...searchClasses('link')} {...linkProps}>
+          {isContentTypeBadge}
+          {content.title.title}
+        </a>
+      ) : (
+        <Link {...searchClasses('link')} to={linkProps.to}>
+          {isContentTypeBadge}
+          {content.title.title}
+        </Link>
+      )}
+      {content.id && userAccess?.includes(DRAFT_HTML_SCOPE) && (
+        <EditMarkupLink
+          to={toEditMarkup(
+            content.id,
+            content.supportedLanguages.includes(locale)
+              ? locale
+              : content.supportedLanguages[0],
+          )}
+          title={t('editMarkup.linkTitle')}
+          inHeader={true}
+        />
+      )}
     </h2>
   );
 
@@ -84,31 +112,11 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
       </div>
       <div {...searchClasses('content')}>
         <StyledHeaderDiv {...searchClasses('header')}>
-          {linkProps && linkProps.href ? (
-            <a {...searchClasses('link')} {...linkProps}>
-              {contentTitle}
-            </a>
-          ) : (
-            <Link {...searchClasses('link')} to={linkProps.to}>
-              {contentTitle}
-            </Link>
-          )}
-          {content.id &&
-          userAccess &&
-          userAccess.includes(DRAFT_HTML_SCOPE) &&(
-              <EditMarkupLink
-                  to={toEditMarkup(
-                      content.id,
-                      content.supportedLanguages.includes(locale)
-                          ? locale
-                          : content.supportedLanguages[0],
-                  )}
-                  title={t('editMarkup.linkTitle')}
-                  inHeader={true}
-              />)}
+          {contentTitle(linkProps)}
         </StyledHeaderDiv>
         {content.supportedLanguages.map(lang => (
-          <SearchContentLanguage style={{display: "flex"}}
+          <SearchContentLanguage
+            style={{ display: 'flex' }}
             key={`${lang}_search_content`}
             language={lang}
             content={content}

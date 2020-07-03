@@ -25,6 +25,8 @@ import {
 } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
+import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
+import {toEditMarkup} from "../../util/routeHelpers";
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -56,6 +58,10 @@ const Container = styled('div')`
   max-width: 1000px;
 `;
 
+const LanguageWrapper = styled.div`
+  display: flex;
+`;
+
 const ErrorMessage = ({ draftId, language, messageId }) => (
   <Trans>
     {({ t }) => (
@@ -82,7 +88,7 @@ export class EditMarkupPage extends Component {
   state = {
     // initial | edit | fetch-error | save-error | access-error | saving
     status: 'initial',
-    draft: undefined,
+    draft: undefined
   };
 
   async componentDidMount() {
@@ -96,10 +102,30 @@ export class EditMarkupPage extends Component {
     try {
       const { draftId, language } = this.props.match.params;
       const draft = await fetchDraft(draftId, language);
-      this.setState({ draft, status: 'edit' });
+      this.setState({ draft });
     } catch (e) {
       handleError(e);
       this.setState({ status: 'fetch-error' });
+    }
+  }
+
+  async componentDidUpdate(prevProps) {
+    if(prevProps.match.params.language !== this.props.match.params.language){
+      const session = getSessionStateFromLocalStorage();
+
+      if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
+        this.setState({ status: 'access-error' });
+        return;
+      }
+
+      try {
+        const { draftId, language } = this.props.match.params;
+        const draft = await fetchDraft(draftId, language);
+        this.setState({ draft });
+      } catch (e) {
+        handleError(e);
+        this.setState({ status: 'fetch-error' });
+      }
     }
   }
 
@@ -108,13 +134,12 @@ export class EditMarkupPage extends Component {
       const { draftId, language } = this.props.match.params;
       this.setState({ status: 'saving' });
       const content = standardizeContent(this.state.draft.content.content);
-      const draft = await updateDraft({
+      await updateDraft({
         id: parseInt(draftId, 10),
         content,
         revision: this.state.draft.revision,
         language,
       });
-      this.setState({ status: 'edit', draft });
     } catch (e) {
       handleError(e);
       this.setState({ status: 'save-error' });
@@ -124,13 +149,13 @@ export class EditMarkupPage extends Component {
   handleChange = value => {
     this.setState(prevState => ({
       draft: updateContentInDraft(prevState.draft, value),
+      status: 'edit',
     }));
   };
 
   render() {
     const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
-
     if (status === 'access-error') {
       return (
         <ErrorMessage
@@ -150,6 +175,10 @@ export class EditMarkupPage extends Component {
         />
       );
     }
+    const isDirty = status === 'edit';
+    const isSubmitting = status === 'saving';
+
+
 
     return (
       <Trans>
@@ -163,6 +192,9 @@ export class EditMarkupPage extends Component {
                 <p>{t('editMarkup.helpMessage.paragraph2')}</p>
               </HelpMessage>
             </FieldHeader>
+            <LanguageWrapper>
+              <HeaderSupportedLanguages supportedLanguages={draft?.supportedLanguages} language={language} editUrl={(lang) => toEditMarkup(draftId,lang)} id={draftId} isSubmitting={isSubmitting}/>
+            </LanguageWrapper>
             <Suspense fallback={<Spinner />}>
               <MonacoEditor
                 key={draft ? draft.id + draft.revision : 'draft'}

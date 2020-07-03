@@ -27,6 +27,7 @@ import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
 import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
 import {toEditMarkup} from "../../util/routeHelpers";
+import {FormikAlertModalWrapper} from "../FormikForm";
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -197,7 +198,7 @@ export class EditMarkupPage extends Component {
             </LanguageWrapper>
             <Suspense fallback={<Spinner />}>
               <MonacoEditor
-                key={draft ? draft.id + draft.revision : 'draft'}
+                key={draft ? draft.id + draft.revision + '-' + draft.title.language: 'draft'}
                 value={draft ? draft.content.content : ''}
                 onChange={this.handleChange}
               />
@@ -240,6 +241,12 @@ export class EditMarkupPage extends Component {
                 </Row>
               </Row>
             </Suspense>
+            <FormikAlertModalWrapper
+                isSubmitting={isSubmitting}
+                formIsDirty={isDirty}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+            />
           </Container>
         )}
       </Trans>

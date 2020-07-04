@@ -25,8 +25,8 @@ import {
 } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
-import HeaderSupportedLanguages from "../../components/HeaderWithLanguage/HeaderSupportedLanguages";
-import {toEditMarkup} from "../../util/routeHelpers";
+import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
+import { toEditMarkup } from '../../util/routeHelpers';
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -88,7 +88,7 @@ export class EditMarkupPage extends Component {
   state = {
     // initial | edit | fetch-error | save-error | access-error | saving
     status: 'initial',
-    draft: undefined
+    draft: undefined,
   };
 
   async componentDidMount() {
@@ -110,7 +110,7 @@ export class EditMarkupPage extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if(prevProps.match.params.language !== this.props.match.params.language){
+    if (prevProps.match.params.language !== this.props.match.params.language) {
       const session = getSessionStateFromLocalStorage();
 
       if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
@@ -175,10 +175,8 @@ export class EditMarkupPage extends Component {
         />
       );
     }
-    const isDirty = status === 'edit';
+    //const isDirty = status === 'edit';
     const isSubmitting = status === 'saving';
-
-
 
     return (
       <Trans>
@@ -193,7 +191,13 @@ export class EditMarkupPage extends Component {
               </HelpMessage>
             </FieldHeader>
             <LanguageWrapper>
-              <HeaderSupportedLanguages supportedLanguages={draft?.supportedLanguages} language={language} editUrl={(lang) => toEditMarkup(draftId,lang)} id={draftId} isSubmitting={isSubmitting}/>
+              <HeaderSupportedLanguages
+                supportedLanguages={draft?.supportedLanguages}
+                language={language}
+                editUrl={lang => toEditMarkup(draftId, lang)}
+                id={draftId}
+                isSubmitting={isSubmitting}
+              />
             </LanguageWrapper>
             <Suspense fallback={<Spinner />}>
               <MonacoEditor

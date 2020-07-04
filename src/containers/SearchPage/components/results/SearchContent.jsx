@@ -30,7 +30,7 @@ import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 
 const StyledHeaderDiv = styled.div`
   display: flex;
-  width:100%;
+  width: 100%;
   text-decoration: none;
 `;
 
@@ -94,21 +94,23 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
             </Link>
           )}
           {content.id &&
-          userAccess &&
-          userAccess.includes(DRAFT_HTML_SCOPE) &&(
+            userAccess &&
+            userAccess.includes(DRAFT_HTML_SCOPE) && (
               <EditMarkupLink
-                  to={toEditMarkup(
-                      content.id,
-                      content.supportedLanguages.includes(locale)
-                          ? locale
-                          : content.supportedLanguages[0],
-                  )}
-                  title={t('editMarkup.linkTitle')}
-                  inHeader={true}
-              />)}
+                to={toEditMarkup(
+                  content.id,
+                  content.supportedLanguages.includes(locale)
+                    ? locale
+                    : content.supportedLanguages[0],
+                )}
+                title={t('editMarkup.linkTitle')}
+                inHeader={true}
+              />
+            )}
         </StyledHeaderDiv>
         {content.supportedLanguages.map(lang => (
-          <SearchContentLanguage style={{display: "flex"}}
+          <SearchContentLanguage
+            style={{ display: 'flex' }}
             key={`${lang}_search_content`}
             language={lang}
             content={content}

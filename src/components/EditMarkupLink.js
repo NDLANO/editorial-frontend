@@ -13,9 +13,7 @@ import { css } from '@emotion/core';
 import { Code } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 
-
 export const EditMarkupLink = ({ title, to, inHeader }) => {
-
   const linkStyle = css`
     box-shadow: none;
 

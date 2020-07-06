@@ -9,14 +9,26 @@ import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import HeaderLanguagePill from './HeaderLanguagePill';
+
+const LinkWithReplace = ({ to, ...rest }) => {
+  let history = useHistory();
+  return (
+    <Link
+      to={{ pathname: to, state: history.location.state }}
+      replace
+      {...rest}
+    />
+  );
+};
 
 const HeaderSupportedLanguages = ({
   supportedLanguages,
   editUrl,
   isSubmitting,
   language,
+  replace,
   t,
 }) => {
   return supportedLanguages.map(supportedLanguage =>
@@ -33,7 +45,7 @@ const HeaderSupportedLanguages = ({
         })}>
         <HeaderLanguagePill
           to={editUrl(supportedLanguage)}
-          withComponent={Link}
+          withComponent={replace ? LinkWithReplace : Link}
           isSubmitting={isSubmitting}>
           {t(`language.${supportedLanguage}`)}
         </HeaderLanguagePill>
@@ -52,6 +64,10 @@ HeaderSupportedLanguages.propTypes = {
   editUrl: PropTypes.func.isRequired,
   supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   isSubmitting: PropTypes.bool,
+};
+
+LinkWithReplace.propTypes = {
+  to: PropTypes.string,
 };
 
 export default injectT(HeaderSupportedLanguages);

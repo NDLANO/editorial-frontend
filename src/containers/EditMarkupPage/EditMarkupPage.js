@@ -157,6 +157,7 @@ export class EditMarkupPage extends Component {
   render() {
     const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
+    const { state } = this.props.history.location;
     if (status === 'access-error') {
       return (
         <ErrorMessage
@@ -178,7 +179,6 @@ export class EditMarkupPage extends Component {
     }
     const isDirty = status === 'edit';
     const isSubmitting = status === 'saving';
-
     return (
       <Trans>
         {({ t }) => (
@@ -198,6 +198,7 @@ export class EditMarkupPage extends Component {
                 editUrl={lang => toEditMarkup(draftId, lang)}
                 id={draftId}
                 isSubmitting={isSubmitting}
+                replace={true}
               />
             </LanguageWrapper>
             <Suspense fallback={<Spinner />}>
@@ -238,7 +239,11 @@ export class EditMarkupPage extends Component {
                 />
                 <Row justifyContent="end" alignItems="baseline">
                   <Link
-                    to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+                    to={
+                      state
+                        ? state.backUrl
+                        : `/subject-matter/learning-resource/${draftId}/edit/${language}`
+                    }>
                     {t('editMarkup.back')}
                   </Link>
                   <Button
@@ -269,6 +274,14 @@ EditMarkupPage.propTypes = {
       language: PropTypes.string.isRequired,
     }),
   }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      state: PropTypes.shape({
+        backUrl: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
 };
 
 export default EditMarkupPage;

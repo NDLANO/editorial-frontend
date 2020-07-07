@@ -20,8 +20,8 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
     box-shadow: none;
 
     svg {
-      width: ${inHeader ? '16px' : spacing.normal};
-      height: ${inHeader ? '16px' : spacing.normal};
+      width: ${inHeader ? '18px' : spacing.normal};
+      height: ${inHeader ? '18px' : spacing.normal};
       padding: 2px;
       border-radius: 50%;
       border: 2px solid ${colors.brand.light};
@@ -41,7 +41,7 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
         }
       }
       margin-left: ${inHeader ? '0.4em' : ''};
-      margin-bottom: ${inHeader ? '0.12em' : ''};
+      margin-bottom: ${inHeader ? '0.18em' : ''};
     }
   `;
   return (

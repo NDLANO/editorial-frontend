@@ -157,7 +157,7 @@ export class EditMarkupPage extends Component {
   render() {
     const { draftId, language } = this.props.match.params;
     const { status, draft } = this.state;
-    const { state } = this.props.history.location;
+    const { location } = this.props.history;
     if (status === 'access-error') {
       return (
         <ErrorMessage
@@ -240,9 +240,8 @@ export class EditMarkupPage extends Component {
                 <Row justifyContent="end" alignItems="baseline">
                   <Link
                     to={
-                      state
-                        ? state.backUrl
-                        : `/subject-matter/learning-resource/${draftId}/edit/${language}`
+                      location.state?.backUrl ||
+                      `/subject-matter/learning-resource/${draftId}/edit/${language}`
                     }>
                     {t('editMarkup.back')}
                   </Link>

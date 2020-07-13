@@ -7,7 +7,7 @@
 
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
-import { Formik, Form } from 'formik';
+import {Formik, Form, FieldProps, FormikFormProps, FormikProps} from 'formik';
 import { SubjectpageType, TranslateType } from '../../../interfaces';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
@@ -18,6 +18,7 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { fetchStatusStateMachine } from '../../../modules/draft/draftApi';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
+import {useSubjectpageFormHooks} from "../../FormikForm/formikSubjectpageHooks";
 
 interface Props {
   t: TranslateType;
@@ -34,26 +35,25 @@ const getInitialValues = (
   const visualElementId = subject.about.visualElement.url.split('/').pop();
   return {
     articleType: 'subjectpage',
-    supportedLanguages: ['nb', 'nn'],
+    supportedLanguages: ['nb', 'nn'], //??
     language: selectedLanguage,
-    description: subject.about.description,
-    aboutTitle: subject.about.title,
-    visualElement: {
-      resource: subject.about.visualElement.type,
-      url: subject.about.visualElement.url,
-      alt: subject.about.visualElement.alt,
-      resource_id: visualElementId,
+    about: {
+      visualElement: {
+        resource: subject.about.visualElement.resource,
+        url: subject.about.visualElement.url,
+        alt: subject.about.visualElement.alt,
+        caption: subject.about.visualElement.caption,
+        resource_id: visualElementId,
+      },
+      description: subject.about.description,
+      title: subject.about.title,
     },
-    visualElementAlt: subject.about.visualElement.alt,
-    visualElementCaption: subject.about.visualElement.caption,
-    image: subject.banner.desktopId,
-    bannerUrl: {
+    banner: {
+      desktopId: subject.banner.desktopId,
       desktopUrl: subject.banner.desktopUrl,
       mobileUrl: subject.banner.mobileUrl,
+      mobileId: subject.banner.mobileId,
     },
-    desktopBannerId: subject.banner.desktopId,
-    mobileBannerId: subject.banner.mobileId,
-    editorsChoicesIds: subject.editorsChoicesIds,
     editorsChoices: subject.editorsChoices,
     facebook: subject.facebook,
     filters: subject.filters,
@@ -63,7 +63,7 @@ const getInitialValues = (
     layout: subject.layout,
     metaDescription: subject.metaDescription,
     mostRead: subject.mostRead,
-    title: subject.name,
+    name: subject.name,
     topical: subject.topical,
     twitter: subject.twitter,
     subjectId: subjectId,
@@ -76,6 +76,10 @@ const SubjectpageForm: FC<Props> = ({
   subject,
   selectedLanguage,
 }) => {
+  const{
+    savedToServer,
+    handleSubmit,
+  } = useSubjectpageFormHooks(subjectId, selectedLanguage, t);
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
@@ -87,7 +91,17 @@ const SubjectpageForm: FC<Props> = ({
       initialValues={initialValues}
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
-      {({ values, dirty, isSubmitting, setValues, errors, touched }) => {
+      {(formik: FormikProps<any>) => {
+        const{
+          values,
+          dirty,
+          isSubmitting,
+          setValues,
+          errors,
+          touched,
+          setFieldTouched
+        } = formik;
+
         const formIsDirty: boolean = isFormikFormDirty({
           values,
           initialValues,
@@ -95,11 +109,6 @@ const SubjectpageForm: FC<Props> = ({
         });
 
         setUnsaved(formIsDirty);
-
-        var savedToServer = true;
-        const onSaveClick = () => {
-          savedToServer = true;
-        };
 
         return (
           <Form {...formClasses()}>
@@ -120,6 +129,7 @@ const SubjectpageForm: FC<Props> = ({
               errors={errors}
               subject={subject}
               touched={touched}
+              setFieldTouched={setFieldTouched}
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
             />
@@ -130,7 +140,7 @@ const SubjectpageForm: FC<Props> = ({
               savedToServer={savedToServer}
               getEntity={getInitialValues}
               values={values}
-              onSaveClick={onSaveClick()}
+              onSaveClick={() => handleSubmit(formik)}
               getStateStatuses={fetchStatusStateMachine}
               isArticle
             />

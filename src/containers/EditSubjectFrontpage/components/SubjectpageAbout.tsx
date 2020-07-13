@@ -21,7 +21,7 @@ const SubjectpageAbout: FC<Props> = ({ t }) => {
     <>
       <FormikField
         label={t('subjectpageForm.subjectName')}
-        name="aboutTitle"
+        name="about.title"
         title
         noBorder
         placeholder={t('subjectpageForm.subjectName')}
@@ -29,13 +29,15 @@ const SubjectpageAbout: FC<Props> = ({ t }) => {
       <StyledFormContainer>
         <FormikField
           label={t('subjectpageForm.description')}
-          name="description"
+          name="about.description"
           noBorder
           placeholder={t('subjectpageForm.description')}
           maxLength={800}
         />
       </StyledFormContainer>
-      <FormikVisualElement />
+      <FormikVisualElement
+        name={"about.visualElement"}
+      />
     </>
   );
 };

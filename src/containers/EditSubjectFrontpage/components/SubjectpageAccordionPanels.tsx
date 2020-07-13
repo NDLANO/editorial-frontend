@@ -5,12 +5,13 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import { injectT } from '@ndla/i18n';
-import { FormikErrors, FormikTouched } from 'formik';
+import {FieldProps, FormikErrors, FormikHelpers, FormikTouched, FormikValues} from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import { SubjectpageType, TranslateType } from '../../../interfaces';
+import {ArticleType, SubjectpageType, TranslateType} from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
+import FormikField from '../../../components/FormikField';
 
 interface Props {
   t: TranslateType;
@@ -20,6 +21,7 @@ interface Props {
   touched: FormikTouched<Values>;
   formIsDirty: boolean;
   getInitialValues: Function;
+  setFieldTouched: boolean;
 }
 
 interface AccordionProps {
@@ -33,35 +35,55 @@ interface ComponentProps {
   values: Values;
 }
 
+interface FormikProps{
+  field: FieldProps<ArticleType[]>['field'];
+  form: {
+    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
+  }
+}
+
 const panels = [
   {
-    id: 'subjectpage-about',
+    id: 'about',
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
     component: () => <SubjectpageAbout />,
   },
   {
-    id: 'subjectpage-metadata',
+    id: 'metadata',
     title: 'subjectpageForm.metadata',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'banner'],
     component: () => <SubjectpageMetadata />,
   },
   {
-    id: 'subjectpage-articles',
+    id: 'articles',
     title: 'subjectpageForm.articles',
     className: 'u-6/6',
     errorFields: ['editorChoices'],
     component: ({ values }: ComponentProps) => (
-      <SubjectpageArticles values={values} />
+        <FormikField name={"editorChoices"}>
+            {({field, form}: FormikProps) => (
+                <SubjectpageArticles
+                  values={values}
+                  field={field}
+                  form={form}
+                />
+            )}
+        </FormikField>
+
     ),
   },
 ];
 
-const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
+const SubjectpageAccordionPanels: FC<Props> = ({
+  t,
+  values,
+  errors,
+                                               }) => {
   return (
-    <Accordion openIndexes={['subjectpage-metadata']}>
+    <Accordion openIndexes={['about']}>
       {({ openIndexes, handleItemClick }: AccordionProps) => (
         <AccordionWrapper>
           {panels.map(panel => {

@@ -17,6 +17,8 @@ const DropdownSearch = ({
   placeholder,
   onChange,
   subjectId,
+    clearInputField,
+    onClick,
 }) => {
   const queryResources = async input => {
     let query = {
@@ -54,6 +56,8 @@ const DropdownSearch = ({
       placeholder={placeholder}
       labelField="title"
       disableSelected
+      clearInputField={clearInputField}
+      onClick={onClick}
     />
   );
 };
@@ -63,6 +67,8 @@ DropdownSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
+  clearInputField: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default DropdownSearch;

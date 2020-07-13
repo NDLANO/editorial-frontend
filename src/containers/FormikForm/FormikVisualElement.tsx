@@ -10,20 +10,18 @@ import { TranslateType } from '../../interfaces';
 
 interface Props {
   t: TranslateType;
-  visualElementCaption: string;
-  visualElementAlt: string;
   language: string;
+  name: string,
 }
 
 const FormikVisualElement: FC<Props> = ({
   t,
-  visualElementCaption,
-  visualElementAlt,
   language,
+    name,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
-    <FormikField name="visualElement">
+    <FormikField name={name}>
       {({ field }: FieldProps) => (
         <div>
           <FieldHeader title={t('form.visualElement.title')} />
@@ -38,8 +36,8 @@ const FormikVisualElement: FC<Props> = ({
               {...field}
               value={{
                 ...field.value,
-                caption: visualElementCaption || field.value.caption,
-                alt: visualElementAlt || field.value.alt,
+                caption: field.value.caption,
+                alt: field.value.alt,
               }}
               language={language}
             />

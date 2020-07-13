@@ -41,7 +41,7 @@ const HeaderWithLanguage = ({
   ...rest
 }) => {
   const { supportedLanguages, articleType } = values;
-  const { id, title, status, language } = content;
+  const { id, title, name, status, language } = content;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
   const statusText = status?.current
@@ -61,7 +61,7 @@ const HeaderWithLanguage = ({
         noStatus={noStatus}
         statusText={statusText}
         isNewLanguage={isNewLanguage}
-        title={title}
+        title={title ? title : name}
         published={published}
         hasMultipleTaxonomyEntries={hasMultipleTaxonomyPaths}
         {...rest}

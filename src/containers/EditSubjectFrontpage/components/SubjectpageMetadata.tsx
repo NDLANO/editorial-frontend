@@ -26,7 +26,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}
       />
-      <FormikField name="desktopBannerId">
+      <FormikField name="banner.desktopId">
         {({ field, form }: FieldProps) => {
           return (
             <FormikMetaImageSearch
@@ -39,7 +39,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
           );
         }}
       </FormikField>
-      <FormikField name="mobileBannerId">
+      <FormikField name="banner.mobileId">
         {({ field, form }: FieldProps) => {
           return (
             <FormikMetaImageSearch

@@ -36,9 +36,8 @@ const TopicArticleVisualElement = ({
     <Fragment>
       <FormikVisualElement
         t={t}
-        visualElementCaption={visualElementCaption}
-        visualElementAlt={visualElementAlt}
         language={language}
+        name="visualElement"
       />
       {extraErrorFields.map(extraErrorField => (
         <ErrorMessage

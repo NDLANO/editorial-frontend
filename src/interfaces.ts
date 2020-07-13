@@ -251,7 +251,7 @@ export interface SubjectpageType {
   };
   about: {
     visualElement: {
-      type: string;
+      resource: string;
       url: string;
       alt: string;
       caption: string;
@@ -262,7 +262,6 @@ export interface SubjectpageType {
   metaDescription: string;
   topical: string;
   mostRead: string[];
-  editorsChoicesIds: number[];
   editorsChoices: ArticleType[];
   latestContent: string[];
   goTo: string[];

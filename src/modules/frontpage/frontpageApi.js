@@ -25,7 +25,7 @@ export const updateFilmFrontpage = filmfrontpage => {
   }).then(resolveJsonOrRejectWithError);
 };
 
-export const fetchSubjectFrontpage = id =>
+export const fetchSubjectpage = id =>
   fetchAuthorized(`${baseUrl}/subjectpage/${id}`).then(
     resolveJsonOrRejectWithError,
   );

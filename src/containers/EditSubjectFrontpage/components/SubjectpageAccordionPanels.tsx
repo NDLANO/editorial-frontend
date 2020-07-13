@@ -5,11 +5,21 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import { injectT } from '@ndla/i18n';
-import {FieldProps, FormikErrors, FormikHelpers, FormikTouched, FormikValues} from 'formik';
+import {
+  FieldProps,
+  FormikErrors,
+  FormikHelpers,
+  FormikTouched,
+  FormikValues,
+} from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import {ArticleType, SubjectpageType, TranslateType} from '../../../interfaces';
+import {
+  ArticleType,
+  SubjectpageType,
+  TranslateType,
+} from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import FormikField from '../../../components/FormikField';
 
@@ -35,11 +45,11 @@ interface ComponentProps {
   values: Values;
 }
 
-interface FormikProps{
+interface FormikProps {
   field: FieldProps<ArticleType[]>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  }
+  };
 }
 
 const panels = [
@@ -63,25 +73,16 @@ const panels = [
     className: 'u-6/6',
     errorFields: ['editorChoices'],
     component: ({ values }: ComponentProps) => (
-        <FormikField name={"editorChoices"}>
-            {({field, form}: FormikProps) => (
-                <SubjectpageArticles
-                  values={values}
-                  field={field}
-                  form={form}
-                />
-            )}
-        </FormikField>
-
+      <FormikField name={'editorChoices'}>
+        {({ field, form }: FormikProps) => (
+          <SubjectpageArticles values={values} field={field} form={form} />
+        )}
+      </FormikField>
     ),
   },
 ];
 
-const SubjectpageAccordionPanels: FC<Props> = ({
-  t,
-  values,
-  errors,
-                                               }) => {
+const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
   return (
     <Accordion openIndexes={['about']}>
       {({ openIndexes, handleItemClick }: AccordionProps) => (

@@ -1,5 +1,5 @@
 import { ArticleType, SubjectpageType } from '../interfaces';
-import {Article} from "../components/SlateEditor/editorTypes";
+// import { Article } from '../components/SlateEditor/editorTypes';
 
 export const transformSubjectFromApiVersion = (
   subject: SubjectpageType,
@@ -23,14 +23,14 @@ export const transformSubjectFromApiVersion = (
 
 //TODO: håndtere de feltene som ikke settes i formen, hvordan skal det gjøres for nye artikler?
 export const transformSubjectToApiVersion = (subject: SubjectpageType) => {
-  const editorsChoices = subject.editorsChoices.map((x : ArticleType) => x.id);
+  const editorsChoices = subject.editorsChoices.map((x: ArticleType) => x.id);
   return {
-    externalId: "", //??
+    externalId: '', //??
     name: subject.name,
-      filters: subject.filters, //??
-    layout: "single", //??
-      twitter: subject.twitter, //??
-      facebook: subject.facebook, //??
+    filters: subject.filters, //??
+    layout: 'single', //??
+    twitter: subject.twitter, //??
+    facebook: subject.facebook, //??
     bannerImage: {
       mobileImageId: subject.banner.mobileId,
       desktopImageId: subject.banner.desktopId,
@@ -41,21 +41,20 @@ export const transformSubjectToApiVersion = (subject: SubjectpageType) => {
       //language? er i domain-modellen, men ikke i api
       visualElement: {
         type: subject.about.visualElement.resource,
-        id: subject.about.visualElement.url.split("/").pop(),
+        id: subject.about.visualElement.url.split('/').pop(),
         alt: subject.about.visualElement.alt,
       },
     },
     metaDescription: [
       {
         metaDescription: subject.metaDescription,
-      language: "nb",
-      }
+        language: 'nb',
+      },
     ],
-      topical: subject.topical, //??
+    topical: subject.topical, //??
     mostRead: subject.mostRead, //??
     editorsChoices: editorsChoices,
-      latestContent: subject.latestContent, //??
+    latestContent: subject.latestContent, //??
     goTo: subject.goTo, //??
-  }
+  };
 };
-

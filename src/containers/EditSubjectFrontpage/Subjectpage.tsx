@@ -6,7 +6,7 @@
  */
 
 import React, { FC } from 'react';
-import {match, Route, Switch} from 'react-router';
+import { match, Route, Switch } from 'react-router';
 import { injectT } from '@ndla/i18n';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -21,29 +21,28 @@ interface Props {
 
 const Subjectpage: FC<Props> = ({ t, match }) => {
   return (
-      <OneColumn>
+    <OneColumn>
       <Switch>
-    <Route
-      path={`${match.url}/:subjectId/edit/:selectedLanguage`}
-      render={routeProps => (
-        <EditSubjectpage
-          subjectId={routeProps.match.params.subjectId}
-          selectedLanguage={routeProps.match.params.selectedLanguage}
+        <Route
+          path={`${match.url}/:subjectId/edit/:selectedLanguage`}
+          render={routeProps => (
+            <EditSubjectpage
+              subjectId={routeProps.match.params.subjectId}
+              selectedLanguage={routeProps.match.params.selectedLanguage}
+            />
+          )}
         />
-      )}
-    />
-          <Route
-              path={`${match.url}/new`}
-              render={routeProps => (
-                  <CreateSubjectpage
-                      subjectId={routeProps.match.params.subjectId}
-                      selectedLanguage={routeProps.match.params.selectedLanguage}
-                  />
-              )}
-          />
-
+        <Route
+          path={`${match.url}/new`}
+          render={routeProps => (
+            <CreateSubjectpage
+              subjectId={routeProps.match.params.subjectId}
+              selectedLanguage={routeProps.match.params.selectedLanguage}
+            />
+          )}
+        />
       </Switch>
-      </OneColumn>
+    </OneColumn>
   );
 };
 

@@ -28,7 +28,7 @@ const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   const { loading, subjectpage } = useSubjectpageFormHooks(
     subjectId,
     selectedLanguage,
-      t,
+    t,
   );
 
   if (loading || !subjectpage || !subjectpage.id) {

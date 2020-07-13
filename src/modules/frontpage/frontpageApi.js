@@ -35,11 +35,11 @@ export const updateSubjectpage = subjectpage => {
     method: 'PATCH',
     body: JSON.stringify(subjectpage),
   }).then(resolveJsonOrRejectWithError);
-}
+};
 
 export const createSubjectpage = subjectpage => {
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: 'POST',
     body: JSON.stringify(subjectpage),
   }).then(resolveJsonOrRejectWithError);
-}
+};

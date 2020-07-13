@@ -17,8 +17,8 @@ const DropdownSearch = ({
   placeholder,
   onChange,
   subjectId,
-    clearInputField,
-    onClick,
+  clearInputField,
+  onClick,
 }) => {
   const queryResources = async input => {
     let query = {

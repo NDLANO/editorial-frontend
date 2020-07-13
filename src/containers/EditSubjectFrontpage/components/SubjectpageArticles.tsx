@@ -8,7 +8,7 @@
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import {FieldProps, FormikHelpers, FormikValues} from 'formik';
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../NdlaFilm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
 import {
@@ -17,7 +17,7 @@ import {
   TranslateType,
 } from '../../../interfaces';
 import handleError from '../../../util/handleError';
-import * as articleApi from '../../../modules/article/articleApi'
+import * as articleApi from '../../../modules/article/articleApi';
 
 interface Props {
   t: TranslateType;
@@ -25,14 +25,10 @@ interface Props {
   field: FieldProps<ArticleType[]>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  }
+  };
 }
 
-const SubjectpageArticles: FC<Props> = ({
-  t,
-  values,
-  field,
-  form,}) => {
+const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
   const [articles, setArticles] = useState<ArticleType[]>(
     values.editorsChoices,
   );
@@ -52,15 +48,18 @@ const SubjectpageArticles: FC<Props> = ({
     updateFormik(field, articles);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ArticleType[]) => {
+  const updateFormik = (
+    formikField: Props['field'],
+    newData: ArticleType[],
+  ) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({
       target: {
         name: formikField.name,
         value: newData || null,
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <>

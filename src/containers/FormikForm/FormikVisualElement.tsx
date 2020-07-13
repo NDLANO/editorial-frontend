@@ -11,14 +11,10 @@ import { TranslateType } from '../../interfaces';
 interface Props {
   t: TranslateType;
   language: string;
-  name: string,
+  name: string;
 }
 
-const FormikVisualElement: FC<Props> = ({
-  t,
-  language,
-    name,
-}) => {
+const FormikVisualElement: FC<Props> = ({ t, language, name }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
     <FormikField name={name}>

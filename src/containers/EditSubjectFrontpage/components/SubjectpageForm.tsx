@@ -7,7 +7,7 @@
 
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
-import {Formik, Form, FieldProps, FormikFormProps, FormikProps} from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { SubjectpageType, TranslateType } from '../../../interfaces';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
@@ -18,7 +18,7 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { fetchStatusStateMachine } from '../../../modules/draft/draftApi';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
-import {useSubjectpageFormHooks} from "../../FormikForm/formikSubjectpageHooks";
+import { useSubjectpageFormHooks } from '../../FormikForm/formikSubjectpageHooks';
 
 interface Props {
   t: TranslateType;
@@ -76,10 +76,11 @@ const SubjectpageForm: FC<Props> = ({
   subject,
   selectedLanguage,
 }) => {
-  const{
-    savedToServer,
-    handleSubmit,
-  } = useSubjectpageFormHooks(subjectId, selectedLanguage, t);
+  const { savedToServer, handleSubmit } = useSubjectpageFormHooks(
+    subjectId,
+    selectedLanguage,
+    t,
+  );
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
@@ -92,14 +93,14 @@ const SubjectpageForm: FC<Props> = ({
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
       {(formik: FormikProps<any>) => {
-        const{
+        const {
           values,
           dirty,
           isSubmitting,
           setValues,
           errors,
           touched,
-          setFieldTouched
+          setFieldTouched,
         } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({

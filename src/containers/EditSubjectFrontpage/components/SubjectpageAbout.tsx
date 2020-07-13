@@ -35,9 +35,7 @@ const SubjectpageAbout: FC<Props> = ({ t }) => {
           maxLength={800}
         />
       </StyledFormContainer>
-      <FormikVisualElement
-        name={"about.visualElement"}
-      />
+      <FormikVisualElement name={'about.visualElement'} />
     </>
   );
 };

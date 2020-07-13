@@ -29,3 +29,17 @@ export const fetchSubjectFrontpage = id =>
   fetchAuthorized(`${baseUrl}/subjectpage/${id}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const updateSubjectpage = subjectpage => {
+  fetchAuthorized(`${baseUrl}/subjectpage/${subjectpage.subjectId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(subjectpage),
+  }).then(resolveJsonOrRejectWithError);
+}
+
+export const createSubjectpage = subjectpage => {
+  fetchAuthorized(`${baseUrl}/subjectpage/`, {
+    method: 'POST',
+    body: JSON.stringify(subjectpage),
+  }).then(resolveJsonOrRejectWithError);
+}

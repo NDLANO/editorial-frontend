@@ -46,7 +46,7 @@ const getInfoFromNode = node => {
     model: {
       innerHTML: innerHTML.startsWith('<math')
         ? innerHTML
-        : `<math>${innerHTML}</math>`,
+        : `<math xmlns="http://www.w3.org/1998/Math/MathML">${innerHTML}</math>`,
       xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
     },
     isFirstEdit: data.innerHTML === undefined,
@@ -85,7 +85,7 @@ class MathEditor extends Component {
 
   toggleEdit() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
-    if(window.MathJax) window.MathJax.typeset();
+    if (window.MathJax) window.MathJax.typeset();
   }
 
   onExit = () => {

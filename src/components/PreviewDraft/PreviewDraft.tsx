@@ -23,7 +23,7 @@ interface Props {
 
 class PreviewDraft extends Component<Props, {}> {
   componentDidMount() {
-      if(window.MathJax) window.MathJax.typeset();
+    if (window.MathJax) window.MathJax.typeset();
   }
 
   render() {

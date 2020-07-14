@@ -24,7 +24,7 @@ class RichBlockTextEditor extends PureComponent {
   }
 
   componentDidMount() {
-    if(window.MathJax) window.MathJax.typeset();
+    if (window.MathJax) window.MathJax.typeset();
   }
 
   onChange(evt, index) {

@@ -51,6 +51,10 @@ class EditMath extends Component {
     document.head.appendChild(script);
   }
 
+  componentDidUpdate() {
+    if (window.MathJax) window.MathJax.typeset();
+  }
+
   handleExit() {
     const { initialMathML } = this.state;
     const { onExit } = this.props;
@@ -84,7 +88,6 @@ class EditMath extends Component {
   render() {
     const { renderMathML, openDiscardModal } = this.state;
     const { handleRemove } = this.props;
-
     return (
       <EditMathModal
         handleExit={this.handleExit}

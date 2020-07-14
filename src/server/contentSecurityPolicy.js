@@ -25,7 +25,7 @@ const connectSrc = (() => {
     'https://mimir.nrk.no',
     'https://nynorsk.cloud',
     'https://data.udir.no',
-    'https://cdn.jsdelivr.net'
+    'https://cdn.jsdelivr.net',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

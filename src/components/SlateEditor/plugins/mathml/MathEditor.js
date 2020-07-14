@@ -85,6 +85,7 @@ class MathEditor extends Component {
 
   toggleEdit() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
+    if(window.MathJax) window.MathJax.typeset();
   }
 
   onExit = () => {

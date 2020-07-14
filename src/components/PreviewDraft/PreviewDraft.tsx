@@ -23,15 +23,7 @@ interface Props {
 
 class PreviewDraft extends Component<Props, {}> {
   componentDidMount() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
+      if(window.MathJax) window.MathJax.typeset();
   }
 
   render() {

@@ -24,7 +24,6 @@ class MathML extends Component {
       // get the MathJax script to render correctly after editing the MathML
       this.setState({ reRender: true });
       await setTimeout(() => {
-        window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
         this.setState({ reRender: false });
       }, 10);
     }
@@ -37,7 +36,6 @@ class MathML extends Component {
     }
 
     const { node, model, attributes } = this.props;
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     return (
       <span contentEditable={false} {...attributes}>
         {node.nodes.map(text => (

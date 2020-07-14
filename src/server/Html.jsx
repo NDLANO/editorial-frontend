@@ -94,25 +94,29 @@ const Html = props => {
         />
         <script
           type="text/x-mathjax-config"
+          defer
           dangerouslySetInnerHTML={{
             __html: `
-  MathJax.Hub.Config({
-    jax: ["input/MathML", "output/CommonHTML"],
-    extensions: ["mml2jax.js"],
-    showMathMenu: false,
-    showProcessingMessages: false,
-    menuSettings: {
-      zoom: "None"
-    }
-  });
+              MathJax = {
+                options: {
+                  renderActions: {
+                    addMenu: [],
+                    checkLoading: []
+                  },
+                  menuOptions: {
+                    settings: {
+                      zoom: "None"
+                    }
+                  }
+                }
+              };
         `,
           }}
         />
         <script
           type="text/javascript"
           defer
-          async
-          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js"
+          src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/mml-chtml.js"
         />
       </body>
     </html>

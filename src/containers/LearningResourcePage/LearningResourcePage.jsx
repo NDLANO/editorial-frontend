@@ -34,15 +34,9 @@ class LearningResourcePage extends PureComponent {
     if (!licenses.length) {
       fetchLicenses();
     }
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
   }
 
   componentDidUpdate(prevProps) {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setState({ previousLocation: prevProps.location.pathname });
     }

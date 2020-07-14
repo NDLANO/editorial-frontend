@@ -25,6 +25,7 @@ const connectSrc = (() => {
     'https://mimir.nrk.no',
     'https://nynorsk.cloud',
     'https://data.udir.no',
+    'https://cdn.jsdelivr.net'
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -80,7 +81,7 @@ const scriptSrc = (() => {
     '*.gallerysites.net',
     'ndla.no',
     '*.ndla.no',
-    'cdnjs.cloudflare.com',
+    'cdn.jsdelivr.net',
     'https://www.wiris.net',
     'https://*.auth0.com',
     'https://www.googletagmanager.com',
@@ -184,7 +185,7 @@ export default {
       'https://fonts.googleapis.com',
       'https://fonts.gstatic.com',
       'data:',
-      'cdnjs.cloudflare.com',
+      'cdn.jsdelivr.net',
       'https://www.wiris.net',
     ],
     imgSrc: [

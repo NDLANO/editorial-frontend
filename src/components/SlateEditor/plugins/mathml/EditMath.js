@@ -35,10 +35,6 @@ class EditMath extends Component {
     const { renderMathML } = this.state;
     const { locale } = this.props;
 
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
-
     const script = document.createElement('script');
     script.src = 'https://www.wiris.net/client/editor/editor';
 
@@ -53,12 +49,6 @@ class EditMath extends Component {
     script.onload = callback;
 
     document.head.appendChild(script);
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
   }
 
   handleExit() {

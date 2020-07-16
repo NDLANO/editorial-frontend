@@ -137,7 +137,7 @@
     "jsplumb": "^2.11.2",
     "jwks-rsa": "^1.6.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "monaco-editor": "^0.17.1",
     "ndla-slate-edit-list": "^0.13.2",
     "polished": "^3.4.1",

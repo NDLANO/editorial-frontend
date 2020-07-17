@@ -101,20 +101,3 @@ export const getEditors = async (managementToken, role) => {
   const results = await Promise.all(requests);
   return results.reduce((acc, res) => [...acc, ...res.users], []);
 };
-
-const patchUserMetadata = async (managementToken, userId, userMetadata) => {
-  const query = `users/${userId}`;
-  const url = `https://${getUniversalConfig().auth0Domain}/api/v2/${query}`;
-  console.log('inside patchUserMetadata');
-
-  fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user_metadata: userMetadata,
-    }),
-    json: true,
-  }).then(res => res.json());
-};

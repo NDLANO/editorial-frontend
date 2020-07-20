@@ -82,7 +82,7 @@ class TopicArticleTaxonomy extends Component {
     }
   }
 
-  getSubjectTopics = async subjectId => {
+  getSubjectTopics = async (subjectId, locale) => {
     if (
       this.state.structure.some(
         subject => subject.id === subjectId && subject.topics,
@@ -92,7 +92,7 @@ class TopicArticleTaxonomy extends Component {
     }
     try {
       this.updateSubject(subjectId, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectId, this.prop.locale);
+      const allTopics = await fetchSubjectTopics(subjectId, locale);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectId, { loading: false, topics: groupedTopics });
     } catch (e) {
@@ -529,6 +529,7 @@ class TopicArticleTaxonomy extends Component {
       t,
       userAccess,
       article: { title },
+      locale,
     } = this.props;
     const showResourceType =
       userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
@@ -583,6 +584,7 @@ class TopicArticleTaxonomy extends Component {
           retriveBreadCrumbs={topicPath =>
             retriveBreadCrumbs({ topicPath, allTopics, structure, title })
           }
+          locale={locale}
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
         />

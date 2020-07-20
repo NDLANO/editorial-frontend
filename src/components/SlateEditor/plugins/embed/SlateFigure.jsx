@@ -139,6 +139,7 @@ class SlateFigure extends React.Component {
         return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
       case 'external':
       case 'iframe':
+      case 'h5p':
         return (
           <DisplayExternal
             onRemoveClick={this.onRemoveClick}

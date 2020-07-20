@@ -20,6 +20,7 @@ import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
+import config from '../../config';
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -40,7 +41,10 @@ export class DisplayExternal extends Component {
 
   componentDidUpdate(prevProps) {
     const { embed } = this.props;
-    if (prevProps.embed.url !== embed.url) {
+    if (
+      prevProps.embed.url !== embed.url ||
+      prevProps.embed.path !== embed.path
+    ) {
       this.getPropsFromEmbed();
     }
   }
@@ -48,7 +52,7 @@ export class DisplayExternal extends Component {
   onEditEmbed(properties) {
     const { editor, node, embed } = this.props;
 
-    if (properties.url !== embed.url) {
+    if (properties.url !== embed.url || properties.path !== embed.path) {
       editor.setNodeByKey(node.key, {
         data: {
           ...properties,
@@ -60,12 +64,13 @@ export class DisplayExternal extends Component {
 
   async getPropsFromEmbed() {
     const { embed } = this.props;
-    const domain = urlDomain(embed.url);
+    const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     this.setState({ domain });
 
-    if (embed.resource === 'external') {
+    if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const data = await fetchExternalOembed(embed.url);
+        const url = embed.url || `${domain}${embed.path}`;
+        const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {
           this.setState({
@@ -205,6 +210,7 @@ DisplayExternal.propTypes = {
   embed: PropTypes.shape({
     width: PropTypes.string,
     url: PropTypes.string,
+    path: PropTypes.string,
     height: PropTypes.string,
     resource: PropTypes.string,
   }),

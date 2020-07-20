@@ -44,7 +44,7 @@ class TopicArticleConnections extends Component {
       if (index === -1) {
         // Has other subjects open and !allowMultipleSubjectsOpen?
         if (isSubject) {
-          getSubjectTopics(id);
+          getSubjectTopics(id, this.props.locale);
           if (!allowMultipleSubjectsOpen) {
             openedPaths = [];
           }
@@ -173,6 +173,7 @@ TopicArticleConnections.propTypes = {
   allowMultipleSubjectsOpen: PropTypes.bool,
   stageTaxonomyChanges: PropTypes.func,
   getSubjectTopics: PropTypes.func,
+  locale: PropTypes.string,
 };
 
 export default injectT(TopicArticleConnections);

@@ -24,10 +24,12 @@ class ChangeSubjectName extends Component {
 
   async onChangeSubjectName(name) {
     const { id, getAllSubjects, refreshTopics } = this.props;
-    const ok = await updateSubjectName(id, name);
-    getAllSubjects();
-    refreshTopics();
-    return ok;
+    if (name.trim() !== '') {
+      const ok = await updateSubjectName(id, name);
+      getAllSubjects();
+      refreshTopics();
+      return ok;
+    }
   }
 
   toggleEditMode() {

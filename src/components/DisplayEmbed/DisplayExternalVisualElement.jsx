@@ -21,6 +21,7 @@ import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
 import Overlay from '../Overlay';
+import config from '../../config';
 
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
@@ -36,19 +37,20 @@ export class DisplayExternalVisualElement extends Component {
 
   componentDidUpdate({ embed: prevEmbed }) {
     const { embed } = this.props;
-    if (prevEmbed.url !== embed.url) {
+    if (prevEmbed.url !== embed.url || prevEmbed.path !== embed.path) {
       this.getPropsFromEmbed();
     }
   }
 
   async getPropsFromEmbed() {
     const { embed } = this.props;
-    const domain = urlDomain(embed.url);
+    const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     this.setState({ domain });
 
-    if (embed.resource === 'external') {
+    if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const data = await fetchExternalOembed(embed.url);
+        const url = embed.url || `${domain}${embed.path}`;
+        const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {
           this.setState({
@@ -186,6 +188,7 @@ DisplayExternalVisualElement.propTypes = {
     width: PropTypes.string,
     heigth: PropTypes.string,
     url: PropTypes.string,
+    path: PropTypes.string,
     resource: PropTypes.string,
     height: PropTypes.number,
     caption: PropTypes.string,

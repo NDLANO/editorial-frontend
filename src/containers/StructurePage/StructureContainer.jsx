@@ -15,7 +15,6 @@ import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { Taxonomy, Star } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
-import { getCookie, setCookie } from '@ndla/util';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
@@ -369,22 +368,11 @@ export class StructureContainer extends React.PureComponent {
   }
 
   toggleFavorite(subjectId) {
-    const cookie = getCookie('favorite_subjects', document.cookie);
-    let favorites = JSON.parse(cookie) || [];
 
-    if (favorites.includes(subjectId)) {
-      favorites = favorites.filter(id => id !== subjectId);
-    } else {
-      favorites.push(subjectId);
-    }
-
-    setCookie('favorite_subjects', JSON.stringify(favorites), false, false);
-
-    this.forceUpdate();
   }
 
   getFavoriteSubjectIds() {
-    return JSON.parse(getCookie('favorite_subjects', document.cookie)) || [];
+
   }
 
   getFavoriteSubjects(subjects, favoriteSubjectIds) {

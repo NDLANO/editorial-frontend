@@ -32,7 +32,7 @@ const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 const TopicArticleVisualElement = ({
   t,
   formik: {
-    values: { visualElementCaption, visualElementAlt, language },
+    values: { visualElementCaption, visualElementAlt, language,visualElementStop, visualElementStart },
   },
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
@@ -55,6 +55,8 @@ const TopicArticleVisualElement = ({
                   ...field.value,
                   caption: visualElementCaption,
                   alt: visualElementAlt,
+                  start: visualElementStart,
+                  stop: visualElementStop
                 }}
                 language={language}
               />

@@ -65,6 +65,8 @@ export const getInitialValues = (article = {}) => {
     updatePublished: false,
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
+    visualElementStart: visualElement?.url.match('(?<=start=)[0-9]+') || '',
+    visualElementStop: visualElement?.url.match('(?<=end=)[0-9]+') || '',
     visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
   };
@@ -84,6 +86,19 @@ const getPublishedDate = (values, initialValues, preview = false) => {
   }
   return undefined;
 };
+
+const url = (visualElement,start,stop) => {
+  const youtube_video_code = visualElement.url.split('v=')[1];
+  const youtube_embed_url = visualElement.url.includes('embed') ? visualElement.url.split('?')[0] : `https://youtube.com/embed/${youtube_video_code}`
+  if(start && stop) {
+    return `${youtube_embed_url}?start=${start}&end=${stop}`
+  } else if(start) {
+    return `${youtube_embed_url}?start=${start}`
+  }else if(stop){
+    return `${youtube_embed_url}?end=${stop}`
+  }
+  return visualElement.url
+}
 
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({
@@ -107,6 +122,7 @@ const getArticleFromSlate = ({
             values.visualElementAlt && values.visualElementAlt.length > 0
               ? values.visualElementAlt
               : undefined,
+          url: url(values.visualElement,values.visualElementStart,values.visualElementStop)
         },
   );
   const content = topicArticleContentToHTML(values.content);

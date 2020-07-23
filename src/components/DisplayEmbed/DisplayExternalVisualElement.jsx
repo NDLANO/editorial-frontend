@@ -154,11 +154,36 @@ export class DisplayExternalVisualElement extends Component {
                 name="caption"
                 label={t(`form.${youtubeOrH5p}.caption.label`)}
                 value={embed.caption}
-                onChange={onFigureInputChange}
+                onChange={(e) => onFigureInputChange({
+                  target: { name: 'visualElementCaption', value:e.target.value}})}
                 container="div"
                 type="text"
                 autoExpand
                 placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
+                white
+              />
+              <Input
+                  name="start"
+                  label={t(`form.${youtubeOrH5p}.time.start`)}
+                  value={embed.start}
+                  onChange={(e)=>{onFigureInputChange({
+                    target: { name: 'visualElementStart', value:e.target.value}})}}
+                  container="div"
+                  type="text"
+                  autoExpand
+                  placeholder={'0'}
+                  white
+              />
+              <Input
+                name="stop"
+                label={t(`form.${youtubeOrH5p}.time.stop`)}
+                value={embed.stop}
+                onChange={(e)=>{onFigureInputChange({
+                target: { name: 'visualElementStop', value:e.target.value}})}}
+                container="div"
+                type="text"
+                autoExpand
+                placeholder={'0'}
                 white
               />
             </StyledInputWrapper>
@@ -192,8 +217,11 @@ DisplayExternalVisualElement.propTypes = {
     resource: PropTypes.string,
     height: PropTypes.number,
     caption: PropTypes.string,
+    start: PropTypes.number,
+    stop: PropTypes.number
   }),
   onFigureInputChange: PropTypes.func,
+  onFigureTimeChange:PropTypes.func,
   language: PropTypes.string,
 };
 

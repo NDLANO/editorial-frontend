@@ -104,18 +104,16 @@ class FormikMetaImageSearch extends Component {
   }
 
   render() {
-    const { t, locale, isSavingImage, showRemoveButton, banner } = this.props;
+    const { t, locale, isSavingImage, showRemoveButton } = this.props;
     const { image, showImageSelect } = this.state;
     const fetchImage = id => api.fetchImage(id, locale);
     return (
       <div>
-        <FieldHeader title={!banner ? t('form.metaImage.title') : banner}>
-          {!banner && (
-            <HowToHelper
-              pageId="MetaImage"
-              tooltip={t('form.metaImage.helpLabel')}
-            />
-          )}
+        <FieldHeader title={t('form.metaImage.title')}>
+          <HowToHelper
+            pageId="MetaImage"
+            tooltip={t('form.metaImage.helpLabel')}
+          />
         </FieldHeader>
         <Modal
           controllable
@@ -152,11 +150,10 @@ class FormikMetaImageSearch extends Component {
             onImageSelectOpen={this.onImageSelectOpen}
             onImageRemove={this.onImageRemove}
             showRemoveButton={showRemoveButton}
-            banner={banner}
           />
         ) : (
           <Button onClick={this.onImageSelectOpen}>
-            {!banner ? t('form.metaImage.add') : t('subjectpageForm.addBanner')}
+            {t('form.metaImage.add')}
           </Button>
         )}
       </div>
@@ -182,7 +179,6 @@ FormikMetaImageSearch.propTypes = {
   isSavingImage: PropTypes.bool,
   setFieldTouched: PropTypes.func.isRequired,
   showRemoveButton: PropTypes.bool,
-  banner: PropTypes.string,
 };
 
 const mapDispatchToProps = {

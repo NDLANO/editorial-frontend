@@ -38,7 +38,7 @@ interface Props {
   isArticle: boolean;
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
-  isValid: boolean;
+  hasErrors: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -69,7 +69,7 @@ const EditorFooter: React.FC<Props> = ({
   isArticle,
   hideSecondaryButton,
   isNewlyCreated,
-  isValid,
+  hasErrors,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
@@ -93,10 +93,6 @@ const EditorFooter: React.FC<Props> = ({
     }
   }, [values.status]);
 
-  //TODO: Fix for at det går an å lagre selv om formiken har error.
-  // Kan også bruke isValid fra formik, men må i så fall legges til fra alle som bruker editorfooter
-  const formikHasErrors = Object.keys(errors).length > 0;
-
   const saveButton = (
     <SaveMultiButton
       large
@@ -105,7 +101,7 @@ const EditorFooter: React.FC<Props> = ({
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
       onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
-      disabled={formikHasErrors}
+      disabled={hasErrors}
     />
   );
 

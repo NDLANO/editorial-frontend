@@ -181,7 +181,7 @@ const SubjectpageForm: FC<Props> = ({
               getEntity={getInitialValues}
               values={values}
               onSaveClick={() => handleSubmit(formik)}
-              isValid={isValid}
+              hasErrors={!isValid}
               errors={errors}
               isNewlyCreated={isNewlyCreated}
               //TODO: Skal fagforsider ha mulighet for å lage ulike statuser?

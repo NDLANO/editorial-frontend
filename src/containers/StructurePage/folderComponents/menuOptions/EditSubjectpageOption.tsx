@@ -6,14 +6,22 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Pencil } from '@ndla/icons/action';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
-import { toEditSubjectpage } from '../../../../util/routeHelpers';
-import { TranslateType } from '../../../../interfaces';
+import {
+  toEditSubjectpage,
+  toCreateSubjectpage,
+} from '../../../../util/routeHelpers';
+import { SubjectType, TranslateType } from '../../../../interfaces';
+import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
+import {
+  getIdFromUrn,
+  getSubjectIdFromUrn,
+} from '../../../../util/subjectHelpers';
 
 interface Props {
   t: TranslateType;
@@ -22,10 +30,35 @@ interface Props {
 }
 
 const EditSubjectpageOption = ({ t, id, locale }: Props) => {
-  const subjectId = id.split(':').pop(); //finnes det en funksjon for dette?
+  const [subject, setSubject] = useState<SubjectType>();
+  const subjectId = getSubjectIdFromUrn(id);
+
+  const fetchSubject = async () => {
+    const fetchedSubject = await taxonomyApi.fetchSubject(subjectId);
+    setSubject(fetchedSubject);
+  };
+
+  useEffect(() => {
+    fetchSubject();
+  }, []);
+
+  //TODO: Hvilken id vil vi ha i url? Subjectid eller subjectpage?
+  // Eventuelt urn i stedet for id? De som eventuelt ikke går i url, legges i location state til link
+  const link = subject?.contentUri
+    ? toEditSubjectpage(subjectId, locale, getIdFromUrn(subject.contentUri))
+    : toCreateSubjectpage(subjectId, locale);
+
   return (
     <>
-      <Link to={toEditSubjectpage(subjectId, locale)}>
+      <Link
+        to={{
+          pathname: link,
+          state: {
+            subjectName: subject?.name,
+            subjectpageId: getIdFromUrn(subject?.contentUri),
+            subjectId: subjectId,
+          },
+        }}>
         <MenuItemButton stripped data-testid="editSubjectpageOption">
           <RoundIcon small icon={<Pencil />} />
           {t('form.file.editSubjectpage')}

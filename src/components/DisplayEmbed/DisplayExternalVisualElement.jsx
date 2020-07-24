@@ -12,16 +12,24 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import './helpers/h5pResizer';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
+import { getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
 import Overlay from '../Overlay';
 import config from '../../config';
+
+const StyledInputTimeWrapper = styled.div`
+  display: flex;
+  flex-flow: row;
+  width: 80%;
+`;
 
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
@@ -121,8 +129,13 @@ export class DisplayExternalVisualElement extends Component {
         : whitelistProvider.name === providerName,
     );
 
-    const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
+    const hmsCSS = css`
+      width: 120px;
+      margin-top: 6.5px;
+      margin-right: 13px;
+    `;
 
+    const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
     return (
       <>
         {editModus && (
@@ -154,38 +167,56 @@ export class DisplayExternalVisualElement extends Component {
                 name="caption"
                 label={t(`form.${youtubeOrH5p}.caption.label`)}
                 value={embed.caption}
-                onChange={(e) => onFigureInputChange({
-                  target: { name: 'visualElementCaption', value:e.target.value}})}
+                onChange={e =>
+                  onFigureInputChange({
+                    target: {
+                      name: 'visualElementCaption',
+                      value: e.target.value,
+                    },
+                  })
+                }
                 container="div"
                 type="text"
                 autoExpand
                 placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
                 white
               />
-              <Input
+              <StyledInputTimeWrapper>
+                <Input
                   name="start"
                   label={t(`form.${youtubeOrH5p}.time.start`)}
                   value={embed.start}
-                  onChange={(e)=>{onFigureInputChange({
-                    target: { name: 'visualElementStart', value:e.target.value}})}}
+                  onChange={e => {
+                    onFigureInputChange({
+                      target: {
+                        name: 'visualElementStart',
+                        value: e.target.value,
+                      },
+                    });
+                  }}
                   container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={'0'}
+                  placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
                   white
-              />
-              <Input
-                name="stop"
-                label={t(`form.${youtubeOrH5p}.time.stop`)}
-                value={embed.stop}
-                onChange={(e)=>{onFigureInputChange({
-                target: { name: 'visualElementStop', value:e.target.value}})}}
-                container="div"
-                type="text"
-                autoExpand
-                placeholder={'0'}
-                white
-              />
+                  customCSS={hmsCSS}
+                />
+                <Input
+                  name="stop"
+                  label={t(`form.${youtubeOrH5p}.time.stop`)}
+                  value={embed.stop}
+                  onChange={e => {
+                    onFigureInputChange({
+                      target: {
+                        name: 'visualElementStop',
+                        value: e.target.value,
+                      },
+                    });
+                  }}
+                  container="div"
+                  placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
+                  white
+                  customCSS={hmsCSS}
+                />
+              </StyledInputTimeWrapper>
             </StyledInputWrapper>
           ) : (
             <Button
@@ -217,11 +248,11 @@ DisplayExternalVisualElement.propTypes = {
     resource: PropTypes.string,
     height: PropTypes.number,
     caption: PropTypes.string,
-    start: PropTypes.number,
-    stop: PropTypes.number
+    start: PropTypes.string,
+    stop: PropTypes.string,
   }),
   onFigureInputChange: PropTypes.func,
-  onFigureTimeChange:PropTypes.func,
+  onFigureTimeChange: PropTypes.func,
   language: PropTypes.string,
 };
 

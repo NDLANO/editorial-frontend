@@ -65,8 +65,9 @@ export const getInitialValues = (article = {}) => {
     updatePublished: false,
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
-    visualElementStart: visualElement?.url.match('(?<=start=)[0-9]+') || '',
-    visualElementStop: visualElement?.url.match('(?<=end=)[0-9]+') || '',
+    visualElementStart:
+      toHMS(visualElement?.url.match('(?<=start=)[0-9]+')) || '',
+    visualElementStop: toHMS(visualElement?.url.match('(?<=end=)[0-9]+')) || '',
     visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
   };
@@ -87,18 +88,40 @@ const getPublishedDate = (values, initialValues, preview = false) => {
   return undefined;
 };
 
-const url = (visualElement,start,stop) => {
-  const youtube_video_code = visualElement.url.split('v=')[1];
-  const youtube_embed_url = visualElement.url.includes('embed') ? visualElement.url.split('?')[0] : `https://youtube.com/embed/${youtube_video_code}`
-  if(start && stop) {
-    return `${youtube_embed_url}?start=${start}&end=${stop}`
-  } else if(start) {
-    return `${youtube_embed_url}?start=${start}`
-  }else if(stop){
-    return `${youtube_embed_url}?end=${stop}`
-  }
-  return visualElement.url
-}
+const toHMS = seconds => {
+  if (!seconds) return undefined;
+
+  const minute = Math.floor(seconds / 60) % 60;
+  const hour = Math.floor(minute / 60) % 60;
+  const second = seconds % 60;
+
+  const hours = hour > 0 ? hour + ':' : '';
+  const minutes = minute > 0 ? minute + ':' : '';
+  const secondos = second < 10 && second > 0 ? '0' + second : second;
+
+  return `${hours}${minutes}${secondos}`;
+};
+
+const calcSecondsFromHMS = hms => {
+  return hms
+    .split(':')
+    .reverse()
+    .map(a => parseInt(a, 10))
+    .filter(Number)
+    .reduce((acc, element, index) => acc + element * Math.pow(60, index));
+};
+
+const url = (url, start, stop) => {
+  if (!start && !stop) return url;
+  let youtube_embed_url = url.includes('embed')
+    ? `${url.split('?')[0]}?`
+    : `https://www.youtube.com/embed/${url.split('v=')[1]}?`;
+
+  if (start) youtube_embed_url += `&start=${calcSecondsFromHMS(start)}`;
+  if (stop) youtube_embed_url += `&end=${calcSecondsFromHMS(stop)}`;
+
+  return youtube_embed_url;
+};
 
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({
@@ -122,7 +145,11 @@ const getArticleFromSlate = ({
             values.visualElementAlt && values.visualElementAlt.length > 0
               ? values.visualElementAlt
               : undefined,
-          url: url(values.visualElement,values.visualElementStart,values.visualElementStop)
+          url: url(
+            values.visualElement.url,
+            values.visualElementStart,
+            values.visualElementStop,
+          ),
         },
   );
   const content = topicArticleContentToHTML(values.content);

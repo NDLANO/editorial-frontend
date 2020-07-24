@@ -1,61 +1,124 @@
-import { ArticleType, SubjectpageType } from '../interfaces';
-import {Article} from "../components/SlateEditor/editorTypes";
+import { SubjectpageApiType, SubjectpageEditType } from '../interfaces';
+
+export const getIdFromUrn = (urnId: string | undefined) =>
+  urnId?.replace('urn:frontpage:', '');
+
+export const getSubjectIdFromUrn = (urnId: string | undefined) =>
+  urnId?.replace('urn:subject:', '');
+
+export const getUrnFromId = (id: number) => `urn:frontpage:${id}`;
+
+export const getSubjectUrnFromId = (id: number) => `urn:subject:${id}`;
 
 export const transformSubjectFromApiVersion = (
-  subject: SubjectpageType,
-  visualElementType: string,
-  editorsChoices: ArticleType[],
+  subject: SubjectpageApiType,
   subjectId: number,
+  selectedLanguage: string,
 ) => {
-  return {
-    ...subject,
-    about: {
-      ...subject.about,
-      visualElement: {
-        ...subject.about.visualElement,
-        resource: visualElementType,
-      },
+  const visualElementId = subject.about.visualElement.url.split('/').pop();
+  const subjectpageEditType: SubjectpageEditType = {
+    id: subject.id,
+    filters: subject.filters,
+    layout: subject.layout,
+    twitter: subject.twitter,
+    facebook: subject.facebook,
+    mobileBanner: subject.banner.mobileId,
+    desktopBanner: subject.banner.desktopId,
+    name: subject.name,
+    description: subject.about.description,
+    title: subject.about.title,
+    visualElement: {
+      url: subject.about.visualElement.url,
+      resource: subject.about.visualElement.type,
+      resource_id: visualElementId || '',
     },
-    editorsChoices: editorsChoices,
+    visualElementAlt: subject.about.visualElement.alt,
+    metaDescription: subject.metaDescription,
+    topical: subject.topical,
+    mostRead: subject.mostRead,
+    latestContent: subject.latestContent,
+    goTo: subject.goTo,
+    language: selectedLanguage,
+    editorsChoices: subject.editorsChoices,
     subjectId: subjectId,
+    supportedLanguages: subject.supportedLanguages,
   };
+  return subjectpageEditType;
 };
 
 //TODO: håndtere de feltene som ikke settes i formen, hvordan skal det gjøres for nye artikler?
-export const transformSubjectToApiVersion = (subject: SubjectpageType) => {
-  const editorsChoices = subject.editorsChoices.map((x : ArticleType) => x.id);
+export const transformSubjectToApiVersion = (subject: SubjectpageEditType) => {
   return {
-    externalId: "", //??
+    externalId: '', //??
     name: subject.name,
-      filters: subject.filters, //??
-    layout: "single", //??
-      twitter: subject.twitter, //??
-      facebook: subject.facebook, //??
+    filters: subject.filters,
+    layout: subject.layout, //??
+    twitter: subject.twitter,
+    facebook: subject.facebook,
     bannerImage: {
-      mobileImageId: subject.banner.mobileId,
-      desktopImageId: subject.banner.desktopId,
+      mobileImageId: +subject.mobileBanner,
+      desktopImageId: +subject.desktopBanner,
     },
     about: {
-      title: subject.about.title,
-      description: subject.about.description,
-      //language? er i domain-modellen, men ikke i api
+      title: subject.title,
+      description: subject.description,
+      language: subject.language,
       visualElement: {
-        type: subject.about.visualElement.resource,
-        id: subject.about.visualElement.url.split("/").pop(),
-        alt: subject.about.visualElement.alt,
+        type: subject.visualElement.resource,
+        id: subject.visualElement.resource_id,
+        alt: subject.visualElementAlt,
       },
     },
+    metaDescription: {
+      metaDescription: subject.metaDescription,
+      language: subject.language,
+    },
+    topical: subject.topical,
+    mostRead: subject.mostRead,
+    editorsChoices: subject.editorsChoices,
+    latestContent: subject.latestContent,
+    goTo: subject.goTo,
+  };
+};
+
+//TODO NewSubjectFrontPageData api model har about og metadescription wrappa i seq, sikkert pga oppretting via csv-filer.
+//Må enten: fjerne seq fra new-model, legge til seq i update-model eller ha to metoder som dette.
+export const transformSubjectToNewApiVersion = (
+  subject: SubjectpageEditType,
+) => {
+  return {
+    externalId: '',
+    name: subject.name,
+    filters: subject.filters,
+    layout: 'single',
+    twitter: subject.twitter,
+    facebook: subject.facebook,
+    bannerImage: {
+      mobileImageId: subject.mobileBanner,
+      desktopImageId: subject.desktopBanner,
+    },
+    about: [
+      {
+        title: subject.title,
+        description: subject.description,
+        language: subject.language,
+        visualElement: {
+          type: subject.visualElement.resource,
+          id: subject.visualElement.resource_id,
+          alt: subject.visualElementAlt,
+        },
+      },
+    ],
     metaDescription: [
       {
         metaDescription: subject.metaDescription,
-      language: "nb",
-      }
+        language: subject.language,
+      },
     ],
-      topical: subject.topical, //??
-    mostRead: subject.mostRead, //??
-    editorsChoices: editorsChoices,
-      latestContent: subject.latestContent, //??
-    goTo: subject.goTo, //??
-  }
+    topical: subject.topical,
+    mostRead: subject.mostRead,
+    editorsChoices: subject.editorsChoices,
+    latestContent: subject.latestContent,
+    goTo: subject.goTo,
+  };
 };
-

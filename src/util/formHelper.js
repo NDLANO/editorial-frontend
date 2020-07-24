@@ -49,6 +49,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = [
+    'description',
     'introduction',
     'metaDescription',
     'content',
@@ -175,29 +176,33 @@ export const topicArticleRules = {
   },
 };
 
+//TODO: Må sette riktige regler her
 export const subjectpageRules = {
-  aboutTitle: {
+  title: {
     required: true,
   },
   description: {
+    required: true,
     maxLength: 300,
   },
-  visualElementAlt: {
-    required: false,
-    onlyValidateIf: values =>
-      values.visualElement && values.visualElement.resource === 'image',
-  },
-  visualElementCaption: {
-    required: false,
-    onlyValidateIf: values =>
-      values.visualElement && values.visualElement.resource === 'image',
+  visualElement: {
+    required: true,
+    test: values => {
+      const hasElement = values.resource_id === '';
+      return hasElement
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
+    },
   },
   metaDescription: {
+    required: true,
     maxLength: 300,
   },
-  metaImageAlt: {
+  mobileBanner: {
     required: true,
-    onlyValidateIf: values => !!values.metaImageId,
+  },
+  desktopBanner: {
+    required: true,
   },
 };
 

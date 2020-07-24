@@ -237,33 +237,101 @@ export interface SubjectType {
 }
 
 export interface SubjectpageType {
-  id: string;
-  name: string;
-  filters: string[];
-  layout: string;
-  twitter: string;
+  editorsChoices: string[];
   facebook: string;
+  filters: string[];
+  goTo: string[];
+  id: string;
+  latestContent: string[];
+  layout: string;
+  metaDescription: string;
+  mostRead: string[];
+  name: string;
+  topical: string;
+  twitter: string;
+  supportedLanguages: string[];
+}
+
+export interface SubjectpageApiType extends SubjectpageType {
+  about: {
+    visualElement: {
+      type: string;
+      url: string;
+      alt: string;
+      caption: string;
+      resource_id: string;
+    };
+    title: string;
+    description: string;
+  };
   banner: {
     mobileUrl: string;
     mobileId: number;
     desktopUrl: string;
     desktopId: number;
   };
-  about: {
-    visualElement: {
-      resource: string;
-      url: string;
-      alt: string;
-      caption: string;
-    };
-    title: string;
-    description: string;
-  };
-  metaDescription: string;
-  topical: string;
-  mostRead: string[];
-  editorsChoices: ArticleType[];
-  latestContent: string[];
-  goTo: string[];
+}
+
+export interface SubjectpageEditType extends SubjectpageType {
+  description: string;
+  desktopBanner: number;
+  language: string;
+  mobileBanner: number;
   subjectId: number;
+  title: string;
+  visualElement: {
+    resource: string;
+    url: string;
+    resource_id: string;
+  };
+  visualElementAlt: string;
+}
+
+export interface VisualElement {
+  resource: string;
+  resource_id: string;
+  size: string;
+  align: string;
+  alt: string;
+  caption: string;
+  metaData: Image;
+}
+
+export interface Image {
+  alttext: {
+    alttext: string;
+    language: string;
+  };
+  caption: {
+    caption: string;
+    language: string;
+  };
+  contentType: string;
+  copyright: {
+    creators: [
+      {
+        name: string;
+      },
+    ];
+    license: {
+      description: string;
+      license: string;
+      origin: string;
+      processors: string[];
+      rightsholders: string[];
+    };
+  };
+  id: string;
+  imageUrl: string;
+  metaUrl: string;
+  size: string;
+  supportedLanguages: string[];
+  tags: {
+    language: string;
+    tags: string[];
+  };
+  title: {
+    title: string;
+    language: string;
+  };
 }

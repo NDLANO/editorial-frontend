@@ -11,24 +11,28 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { TranslateType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
-import { useSubjectpageFormHooks } from '../FormikForm/formikSubjectpageHooks';
+import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 
 interface Props {
   t: TranslateType;
   subjectId: number;
   selectedLanguage: string;
+  subjectpageId: string;
+  isNewlyCreated: boolean;
 }
 
 const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   t,
   subjectId,
   selectedLanguage,
+  subjectpageId,
+  isNewlyCreated,
 }) => {
-  const { loading, subjectpage } = useSubjectpageFormHooks(
+  const { loading, subjectpage, updateSubjectpage } = useFetchSubjectpageData(
     subjectId,
     selectedLanguage,
-      t,
+    subjectpageId,
   );
 
   if (loading || !subjectpage || !subjectpage.id) {
@@ -38,12 +42,14 @@ const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   return (
     <>
       <HelmetWithTracker
-        title={`${subjectpage.name} ${t('htmlTitles.titleTemplate')}`}
+        title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`}
       />
       <SubjectpageForm
         subjectId={subjectId}
-        subject={subjectpage}
+        subjectpage={subjectpage}
         selectedLanguage={selectedLanguage}
+        updateSubjectpage={updateSubjectpage}
+        isNewlyCreated={isNewlyCreated}
       />
     </>
   );

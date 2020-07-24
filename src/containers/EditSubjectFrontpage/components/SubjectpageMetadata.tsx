@@ -6,14 +6,22 @@
  */
 
 import React, { FC } from 'react';
-import { FieldProps } from 'formik';
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../../components/FormikField';
-import { TranslateType } from '../../../interfaces';
-import { FormikMetaImageSearch } from '../../FormikForm';
+import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
+import { ArticleType, TranslateType } from '../../../interfaces';
+import SubjectpageBanner from './SubjectpageBanner';
 
 interface Props {
   t: TranslateType;
+}
+
+interface FormikProps {
+  field: FieldProps<ArticleType[]>['field'];
+  form: {
+    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
+  };
 }
 
 const SubjectpageMetadata: FC<Props> = ({ t }) => {
@@ -24,30 +32,35 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         maxLength={300}
         showMaxLength
         label={t('form.metaDescription.label')}
-        description={t('form.metaDescription.description')}
-      />
-      <FormikField name="banner.desktopId">
-        {({ field, form }: FieldProps) => {
+        description={t('form.metaDescription.description')}>
+        {({ field }: FormikProps) => (
+          <PlainTextEditor
+            id={field.name}
+            placeholder={t('form.metaDescription.label')}
+            {...field}
+          />
+        )}
+      </FormikField>
+      <FormikField name="desktopBanner">
+        {({ field, form }: FormikProps) => {
           return (
-            <FormikMetaImageSearch
-              metaImageId={field.value}
-              onChange={field.onChange}
-              setFieldTouched={form.setFieldTouched}
-              showRemoveButton={false}
-              banner={t('subjectpageForm.desktopBanner')}
+            <SubjectpageBanner
+              bannerId={field.value}
+              field={field}
+              form={form}
+              title={t('subjectpageForm.desktopBanner')}
             />
           );
         }}
       </FormikField>
-      <FormikField name="banner.mobileId">
-        {({ field, form }: FieldProps) => {
+      <FormikField name="mobileBanner">
+        {({ field, form }: FormikProps) => {
           return (
-            <FormikMetaImageSearch
-              metaImageId={field.value}
-              onChange={field.onChange}
-              setFieldTouched={form.setFieldTouched}
-              showRemoveButton={false}
-              banner={t('subjectpageForm.mobileBanner')}
+            <SubjectpageBanner
+              bannerId={field.value}
+              field={field}
+              form={form}
+              title={t('subjectpageForm.mobileBanner')}
             />
           );
         }}

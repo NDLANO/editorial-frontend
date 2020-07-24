@@ -7,37 +7,41 @@
 
 import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
-import { TranslateType } from '../../../interfaces';
+import { FieldProps } from 'formik';
+import { SubjectpageEditType, TranslateType } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
-import StyledFormContainer from '../../../components/SlateEditor/common/StyledFormContainer';
-import FormikVisualElement from '../../FormikForm/FormikVisualElement';
+import TopicArticleVisualElement from '../../TopicArticlePage/components/TopicArticleVisualElement';
+import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
   t: TranslateType;
+  values: SubjectpageEditType;
 }
 
-const SubjectpageAbout: FC<Props> = ({ t }) => {
+const SubjectpageAbout: FC<Props> = ({ t, values }) => {
   return (
     <>
       <FormikField
-        label={t('subjectpageForm.subjectName')}
-        name="about.title"
-        title
+        name="title"
         noBorder
-        placeholder={t('subjectpageForm.subjectName')}
+        title
+        placeholder={t('form.name.title')}
       />
-      <StyledFormContainer>
-        <FormikField
-          label={t('subjectpageForm.description')}
-          name="about.description"
-          noBorder
-          placeholder={t('subjectpageForm.description')}
-          maxLength={800}
-        />
-      </StyledFormContainer>
-      <FormikVisualElement
-        name={"about.visualElement"}
-      />
+      <FormikField
+        noBorder
+        label={t('subjectpageForm.description')}
+        name="description"
+        showMaxLength
+        maxLength={300}>
+        {({ field }: FieldProps) => (
+          <PlainTextEditor
+            id={field.name}
+            {...field}
+            placeholder={t('subjectpageForm.description')}
+          />
+        )}
+      </FormikField>
+      <TopicArticleVisualElement visualElement={values.visualElement} />
     </>
   );
 };

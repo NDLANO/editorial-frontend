@@ -186,6 +186,7 @@ const phrases = {
     film: 'Edit NDLA film',
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
+    newSubject: 'Create new subject',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -339,6 +340,7 @@ const phrases = {
     addArticle: 'Add article',
     changeOrder: 'Change order',
     removeArticle: 'Remove article',
+    missingVisualElement: 'Visual element is required',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -488,6 +490,7 @@ const phrases = {
       alttext: 'Alt-text',
       caption: 'Caption',
       imageFile: 'Imagefile',
+      visualElement: 'Visual element',
       visualElementCaption: 'Caption',
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
@@ -495,6 +498,8 @@ const phrases = {
       description: 'Content',
       conceptContent: 'Description',
       grepCodes: 'Curriculum connection',
+      desktopBanner: 'Banner til desktop',
+      mobileBanner: 'Banner til mobile',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -827,11 +832,11 @@ const phrases = {
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
+        noText: 'WCAG requires alt-text.',
       },
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
-        noText: 'WCAG requires alt-text.',
       },
       dragdrop: {
         main: 'Drag and drop',

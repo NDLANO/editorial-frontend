@@ -185,6 +185,7 @@ const phrases = {
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
+    newSubject: 'Opprett fag',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -339,6 +340,7 @@ const phrases = {
     addArticle: 'Legg til artikkel',
     changeOrder: 'Endre rekkefølgje',
     removeArticle: 'Fjern artikkel',
+    missingVisualElement: 'Visuelt element er påkrevd.',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -508,6 +510,7 @@ const phrases = {
       alttext: 'Alt-tekst',
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
+      visualElement: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
@@ -515,6 +518,8 @@ const phrases = {
       description: 'Innhald',
       conceptContent: 'Skildring',
       grepCodes: 'Læreplankobling',
+      desktopBanner: 'Banner til desktop',
+      mobileBanner: 'Banner til mobile',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

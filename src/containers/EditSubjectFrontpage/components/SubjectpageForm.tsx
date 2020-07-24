@@ -7,8 +7,8 @@
 
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
-import {Formik, Form, FieldProps, FormikFormProps, FormikProps} from 'formik';
-import { SubjectpageType, TranslateType } from '../../../interfaces';
+import { Formik, Form, FormikProps } from 'formik';
+import { SubjectpageEditType, TranslateType } from '../../../interfaces';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -18,88 +18,125 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import { fetchStatusStateMachine } from '../../../modules/draft/draftApi';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
-import {useSubjectpageFormHooks} from "../../FormikForm/formikSubjectpageHooks";
+import { useSubjectpageFormHooks } from '../../FormikForm/subjectpageFormHooks';
+import {
+  editorValueToPlainText,
+  plainTextToEditorValue,
+} from '../../../util/articleContentConverter';
 
 interface Props {
   t: TranslateType;
-  subject: SubjectpageType;
+  subjectpage: SubjectpageEditType;
+  updateSubjectpage: Function;
   selectedLanguage: string;
   subjectId: number;
+  isNewlyCreated: boolean;
 }
 
 const getInitialValues = (
-  subject: SubjectpageType,
+  subjectpage: SubjectpageEditType,
   subjectId: number,
   selectedLanguage: string,
 ) => {
-  const visualElementId = subject.about.visualElement.url.split('/').pop();
   return {
     articleType: 'subjectpage',
-    supportedLanguages: ['nb', 'nn'], //??
+    supportedLanguages: subjectpage.supportedLanguages || [],
     language: selectedLanguage,
-    about: {
-      visualElement: {
-        resource: subject.about.visualElement.resource,
-        url: subject.about.visualElement.url,
-        alt: subject.about.visualElement.alt,
-        caption: subject.about.visualElement.caption,
-        resource_id: visualElementId,
-      },
-      description: subject.about.description,
-      title: subject.about.title,
+    description: plainTextToEditorValue(subjectpage.description, true),
+    title: subjectpage.title || '',
+    mobileBanner: subjectpage.mobileBanner || undefined,
+    desktopBanner: subjectpage.desktopBanner || undefined,
+    visualElement: subjectpage.visualElement || {
+      resource: '',
+      url: '',
+      resource_id: '',
     },
-    banner: {
-      desktopId: subject.banner.desktopId,
-      desktopUrl: subject.banner.desktopUrl,
-      mobileUrl: subject.banner.mobileUrl,
-      mobileId: subject.banner.mobileId,
-    },
-    editorsChoices: subject.editorsChoices,
-    facebook: subject.facebook,
-    filters: subject.filters,
-    goTo: subject.goTo,
-    id: subject.id,
-    latestContent: subject.latestContent,
-    layout: subject.layout,
-    metaDescription: subject.metaDescription,
-    mostRead: subject.mostRead,
-    name: subject.name,
-    topical: subject.topical,
-    twitter: subject.twitter,
+    visualElementAlt: subjectpage.visualElementAlt || '',
+    editorsChoices: subjectpage.editorsChoices || [],
+    facebook: subjectpage.facebook || '',
+    filters: subjectpage.filters || [],
+    goTo: subjectpage.goTo || [],
+    id: subjectpage.id,
+    latestContent: subjectpage.latestContent || [],
+    layout: subjectpage.layout || '',
+    metaDescription: plainTextToEditorValue(subjectpage.metaDescription, true),
+    mostRead: subjectpage.mostRead || [],
+    name: subjectpage.name || '',
+    topical: subjectpage.topical || '',
+    twitter: subjectpage.twitter || '',
     subjectId: subjectId,
+  };
+};
+
+const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
+  return {
+    articleType: 'subjectpage',
+    supportedLanguages: values.supportedLanguages,
+    description: editorValueToPlainText(values.description),
+    title: values.title,
+    visualElement: {
+      resource: values.visualElement.resource,
+      url: values.visualElement.url,
+      resource_id: values.visualElement.resource_id,
+    },
+    language: values.language,
+    visualElementAlt: values.visualElementAlt,
+    mobileBanner: values.mobileBanner,
+    desktopBanner: values.desktopBanner,
+    editorsChoices: values.editorsChoices,
+    facebook: values.facebook,
+    filters: values.filters,
+    goTo: values.goTo,
+    id: values.id,
+    latestContent: values.latestContent,
+    layout: values.layout,
+    metaDescription: editorValueToPlainText(values.metaDescription),
+    mostRead: values.mostRead,
+    name: values.name,
+    topical: values.topical,
+    twitter: values.twitter,
   };
 };
 
 const SubjectpageForm: FC<Props> = ({
   t,
   subjectId,
-  subject,
+  subjectpage,
   selectedLanguage,
+  updateSubjectpage,
+  isNewlyCreated,
 }) => {
-  const{
+  const {
     savedToServer,
     handleSubmit,
-  } = useSubjectpageFormHooks(subjectId, selectedLanguage, t);
+    initialValues,
+  } = useSubjectpageFormHooks(
+    getSubjectpageFromSlate,
+    updateSubjectpage,
+    t,
+    subjectpage,
+    getInitialValues,
+    selectedLanguage,
+    subjectId,
+  );
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const initialValues = getInitialValues(subject, subjectId, selectedLanguage);
-
   return (
     <Formik
-      enableReinitialize
       initialValues={initialValues}
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
-      {(formik: FormikProps<any>) => {
-        const{
+      {(formik: FormikProps<SubjectpageEditType>) => {
+        const {
           values,
           dirty,
           isSubmitting,
           setValues,
           errors,
           touched,
-          setFieldTouched
+          setFieldTouched,
+          isValid,
         } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({
@@ -107,16 +144,19 @@ const SubjectpageForm: FC<Props> = ({
           initialValues,
           dirty,
         });
-
         setUnsaved(formIsDirty);
-
+        const headerContent = {
+          id: subjectpage.id,
+          title: subjectpage.name,
+          language: subjectpage.language,
+        };
         return (
           <Form {...formClasses()}>
             <HeaderWithLanguage
-              content={initialValues}
+              content={headerContent}
               values={values}
               editUrl={(lang: string) =>
-                toEditSubjectpage(values.subjectId, lang)
+                toEditSubjectpage(values.subjectId, lang, values.id)
               }
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
@@ -127,7 +167,7 @@ const SubjectpageForm: FC<Props> = ({
             <SubjectpageAccordionPanels
               values={values}
               errors={errors}
-              subject={subject}
+              subject={subjectpage}
               touched={touched}
               setFieldTouched={setFieldTouched}
               formIsDirty={formIsDirty}
@@ -141,12 +181,17 @@ const SubjectpageForm: FC<Props> = ({
               getEntity={getInitialValues}
               values={values}
               onSaveClick={() => handleSubmit(formik)}
+              isValid={isValid}
+              errors={errors}
+              isNewlyCreated={isNewlyCreated}
+              //TODO: Skal fagforsider ha mulighet for å lage ulike statuser?
               getStateStatuses={fetchStatusStateMachine}
-              isArticle
+              hideSecondaryButton
             />
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
+              onContinue={() => {}}
               severity="danger"
               text={t('alertModal.notSaved')}
             />

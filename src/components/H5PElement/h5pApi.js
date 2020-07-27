@@ -34,3 +34,9 @@ export const editH5PiframeUrl = async url => {
   );
   return resolveJsonOrRejectWithError(response);
 };
+
+export const fetchH5PMetadata = async resourceId => {
+  const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
+  const response = await fetch(url);
+  return resolveJsonOrRejectWithError(response);
+};

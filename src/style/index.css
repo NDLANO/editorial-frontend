@@ -48,13 +48,9 @@
 }
 
 /* Should be moved to Article component in @ndla/ui */
-.MJXc-display {
-  display: inline-block !important;
+mjx-container[jax="CHTML"][display="true"] {
   margin: 0;
-
-  & .mjx-chtml {
-    padding: 0;
-  }
+  display: inline-block !important;
 }
 
 /* Override @ndla/ui styles */

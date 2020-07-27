@@ -57,6 +57,7 @@ const StyledErrorMessage = styled('span')`
 
 const StyledInputField = styled('input')`
   margin: calc(${spacing.small} / 2);
+  width: 200px;
 `;
 
 const saveButtonStyle = css`
@@ -83,16 +84,29 @@ export class InlineAddButton extends PureComponent {
 
   async handleClick(e) {
     e.stopPropagation();
-    this.setState({ status: 'loading' });
-    try {
-      await this.props.action(this.state.inputValue);
-      this.setState({ status: 'success' });
-    } catch (error) {
-      handleError(error);
-      this.setState({
-        status: 'error',
-      });
-    }
+
+    this.setState(
+      prevState => {
+        return prevState.inputValue.trim() === ''
+          ? { inputValue: '', status: 'initial' }
+          : { status: 'loading' };
+      },
+      async () => {
+        const { inputValue, status } = this.state;
+        if (status !== 'initial') {
+          try {
+            await this.props.action(inputValue);
+            this.setState({ status: 'success', inputValue: '' });
+          } catch (error) {
+            handleError(error);
+            this.setState({
+              status: 'error',
+              inputValue: '',
+            });
+          }
+        }
+      },
+    );
   }
 
   handleInputChange(e) {
@@ -115,17 +129,17 @@ export class InlineAddButton extends PureComponent {
 
     return status === 'edit' || status === 'loading' || status === 'error' ? (
       <Fragment>
+        <StyledInputField
+          type="text"
+          autoFocus //  eslint-disable-line
+          /* allow autofocus when it happens when clicking a dialog and not at page load
+         ref: https://w3c.github.io/html/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute */
+          data-testid="addSubjectInputField"
+          value={inputValue}
+          onChange={this.handleInputChange}
+          onKeyDown={this.handleKeyPress}
+        />
         <StyledEditMode>
-          <StyledInputField
-            type="text"
-            autoFocus //  eslint-disable-line
-            /* allow autofocus when it happens when clicking a dialog and not at page load
-           ref: https://w3c.github.io/html/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute */
-            data-testid="addSubjectInputField"
-            value={inputValue}
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleKeyPress}
-          />
           <Button
             stripped
             css={saveButtonStyle}

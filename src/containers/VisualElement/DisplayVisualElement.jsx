@@ -51,6 +51,7 @@ const DisplayVisualElement = ({
       );
     case 'external':
     case 'iframe':
+    case 'h5p':
       return (
         <DisplayExternalVisualElement
           embed={embed}

@@ -40,6 +40,7 @@ const Accordion = ({
   className,
   addButton,
   appearance,
+  toggleSwitch,
   ...rest
 }) => {
   const contentModifiers = appearance
@@ -67,6 +68,7 @@ const Accordion = ({
           <Button css={buttonStyle} stripped onClick={handleToggle}>
             {title}
           </Button>
+          {toggleSwitch}
           {addButton}
           <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
             {arrow}
@@ -103,6 +105,7 @@ Accordion.propTypes = {
   handleToggle: PropTypes.func.isRequired,
   addButtonAction: PropTypes.func,
   appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']),
+  toggleSwitch: PropTypes.node,
 };
 
 export default Accordion;

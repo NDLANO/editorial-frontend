@@ -15,6 +15,8 @@ import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { Taxonomy, Star } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
+import { Switch } from '@ndla/switch';
+import { colors } from '@ndla/core';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import { getLocale } from '../../modules/locale/locale';
@@ -44,6 +46,7 @@ import {
   getCurrentTopic,
   filterToSubjects,
 } from '../../util/taxonomyHelpers';
+import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
@@ -60,6 +63,8 @@ export class StructureContainer extends React.PureComponent {
       jsPlumbConnections: [],
       activeConnections: [],
       resourcesUpdated: false,
+      showFavorites: false,
+      favoriteSubjects: [],
     };
     this.starButton = React.createRef();
     this.resourceSection = React.createRef();
@@ -80,6 +85,10 @@ export class StructureContainer extends React.PureComponent {
     this.handleStructureToggle = this.handleStructureToggle.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
+    this.toggleFavorite = this.toggleFavorite.bind(this);
+    this.fetchFavoriteSubjects = this.fetchFavoriteSubjects.bind(this);
+    this.getFavoriteSubjects = this.getFavoriteSubjects.bind(this);
+    this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
   }
 
   async componentDidMount() {
@@ -92,6 +101,7 @@ export class StructureContainer extends React.PureComponent {
     }
     this.showLink();
     this.getAvailableFilters();
+    this.fetchFavoriteSubjects();
   }
 
   componentDidUpdate({
@@ -360,6 +370,32 @@ export class StructureContainer extends React.PureComponent {
     });
   }
 
+  toggleFavorite(subjectId) {
+    let updatedFavorites;
+    const favSubjects = this.state.favoriteSubjects;
+    if (favSubjects.includes(subjectId)) {
+      updatedFavorites = favSubjects.filter(s => s !== subjectId);
+    } else {
+      updatedFavorites = [...favSubjects, subjectId];
+    }
+    this.setState({ favoriteSubjects: updatedFavorites });
+    updateUserData({ favoriteSubjects: updatedFavorites });
+  }
+
+  async fetchFavoriteSubjects() {
+    const result = await fetchUserData();
+    const favoriteSubjects = result.favoriteSubjects || [];
+    this.setState({ favoriteSubjects: favoriteSubjects });
+  }
+
+  getFavoriteSubjects(subjects, favoriteSubjectIds) {
+    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
+  }
+
+  toggleShowFavorites() {
+    this.setState(prevState => ({ showFavorites: !prevState.showFavorites }));
+  }
+
   render() {
     const { match, t, locale, userAccess } = this.props;
     const {
@@ -367,6 +403,8 @@ export class StructureContainer extends React.PureComponent {
       jsPlumbConnections,
       subjects,
       editStructureHidden,
+      showFavorites,
+      favoriteSubjects,
     } = this.state;
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
@@ -399,17 +437,32 @@ export class StructureContainer extends React.PureComponent {
                 />
               )
             }
+            toggleSwitch={
+              <Switch
+                onChange={this.toggleShowFavorites}
+                checked={showFavorites}
+                label={t('taxonomy.favorites')}
+                id={'favorites'}
+                style={{ color: colors.white, width: '15.2em' }}
+              />
+            }
             hidden={editStructureHidden}>
             <div id="plumbContainer">
               <Structure
                 DND
                 onDragEnd={this.onDragEnd}
                 openedPaths={getPathsFromUrl(match.url)}
-                structure={subjects}
+                structure={
+                  showFavorites
+                    ? this.getFavoriteSubjects(subjects, favoriteSubjects)
+                    : subjects
+                }
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
                 activeFilters={activeFilters}
                 highlightMainActive
+                toggleFavorite={this.toggleFavorite}
+                favoriteSubjectIds={favoriteSubjects}
                 renderListItems={listProps => (
                   <FolderItem
                     {...listProps}

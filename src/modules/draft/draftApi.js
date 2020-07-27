@@ -15,6 +15,7 @@ import {
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl = apiResourceUrl('/draft-api/v1/agreements');
 const baseFileUrl = apiResourceUrl('/draft-api/v1/files');
+const baseUserDataUrl = apiResourceUrl('/user-data');
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
@@ -106,6 +107,15 @@ export const fetchGrepCodes = query =>
   fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchUserData = () =>
+  fetchAuthorized(`${baseUserDataUrl}`).then(resolveJsonOrRejectWithError);
+
+export const updateUserData = userData =>
+  fetchAuthorized(`${baseUserDataUrl}`, {
+    method: 'PATCH',
+    body: JSON.stringify(userData),
+  }).then(resolveJsonOrRejectWithError);
 
 export const updateAgreement = agreement =>
   fetchAuthorized(`${baseAgreementsUrl}/${agreement.id}`, {

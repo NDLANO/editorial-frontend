@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { FC, useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
@@ -14,6 +22,7 @@ import { TranslateType } from '../../../interfaces';
 import { isValidURL } from '../../../util/htmlHelpers';
 // import { getNdlaId } from '../../../util/authHelpers';
 import IconButton from '../../../components/IconButton';
+import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
 
 interface Props {
   t: TranslateType;
@@ -25,28 +34,34 @@ export const classes = new BEMHelper({
 });
 
 export const isNDLAEdSearchUrl = (url: string) =>
-  /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?search\/\d*/.test(url);
+  /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);
 
 const SaveSearchUrl: FC<Props> = ({ t }) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
-  const [newSearchUrl, setNewSearchUrl] = useState('');
+  const [inputFieldValue, setInputFieldValue] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
 
-  // const ndlaIdAuth0 = getNdlaId();
+  useEffect(() => {
+    fetchSavedSearch();
+  }, []);
 
-  useEffect(() => {}, [savedSearches]);
+  const fetchSavedSearch = async () => {
+    const result = await fetchUserData();
+    const searches = result.savedSearches || [];
+    setSavedSearches(searches);
+  };
 
-  const checkIsValidUrl = (url: string) =>
-    url !== '' && isValidURL(url) && isNDLAEdSearchUrl(url)
-      ? setIsValidUrl(true)
-      : setIsValidUrl(false);
+  const updateUserMetadata = async (searches: string[]) => {
+    const userUpdatedMetadata = { savedSearches: searches };
+    updateUserData(userUpdatedMetadata);
+  };
 
   const getWarningText = () => {
     if (!isValidUrl) {
-      if (newSearchUrl === '') {
+      if (inputFieldValue === '') {
         return t('form.content.link.required');
       }
-      if (!isNDLAEdSearchUrl(newSearchUrl)) {
+      if (!isNDLAEdSearchUrl(inputFieldValue)) {
         return `${t('form.content.link.invalid')} - ${t(
           'welcomePage.mustBeSearch',
         )}`;
@@ -55,53 +70,53 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
     return null;
   };
 
-  const updateUserMetadata = async (searches: string[]) => {
-    // TODO update user metadata
-    console.log('updated searches', searches);
-    setSavedSearches(searches);
+  const handleBlur = () => {
+    isNDLAEdSearchUrl(inputFieldValue)
+      ? setIsValidUrl(true)
+      : setIsValidUrl(false);
   };
 
-  const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
-    checkIsValidUrl(event.target.value);
+  const getSavedSearchRelativeUrl = (inputValue: string) => {
+    const relativeUrl = inputValue.split('search')[1];
+    return '/search'.concat(relativeUrl);
   };
 
-  const handleSaveUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const createSaveSearchUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    checkIsValidUrl(newSearchUrl);
-    const savedSearch = newSearchUrl.split('search');
-    if (isValidUrl && newSearchUrl !== '') {
-      const searchUrl = savedSearch[1];
-      savedSearches.push(searchUrl);
-
-      setNewSearchUrl('');
-      updateUserMetadata(savedSearches);
+    if (
+      isNDLAEdSearchUrl(inputFieldValue) &&
+      inputFieldValue !== '' &&
+      !savedSearches.filter(
+        s => s === getSavedSearchRelativeUrl(inputFieldValue),
+      ).length
+    ) {
+      const savedSearchesUpdated = [
+        ...savedSearches,
+        getSavedSearchRelativeUrl(inputFieldValue),
+      ];
+      setSavedSearches(savedSearchesUpdated);
+      setInputFieldValue('');
+      updateUserMetadata(savedSearchesUpdated);
+    } else {
+      setIsValidUrl(false);
     }
   };
 
   const deleteSearch = (index: number) => {
-    // TODO: fix this
-    savedSearches.splice(index, 1);
-    updateUserMetadata(savedSearches);
+    const reduced_array = savedSearches.filter((_, idx) => idx !== index);
+    setSavedSearches(reduced_array);
+    updateUserMetadata(reduced_array);
   };
 
-  const updateUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setNewSearchUrl(event.target.value);
-  };
-
-  const searchText = (search: string) => {
+  const linkText = (search: string) => {
     const searchObject = queryString.parse(search);
     const query = searchObject.query || t('welcomePage.emptySearchQuery');
     const resourceType = searchObject['resource-types'] || '';
     const draftStatus = searchObject['/content?draft-status'] || '';
     const subjects = searchObject.subjects || '';
 
-    console.log('type:', resourceType);
-
-    const text = `${query} ${draftStatus &&
-      `- ${t(`form.status.${draftStatus.toLowerCase()}`)}`} ${resourceType &&
-      `- ${resourceType}`} ${subjects && `- ${subjects}`}`;
-    return text;
+    return `${query} ${status && `- ${status}`} ${resourcetype &&
+      `- ${resourcetype}`}`;
   };
 
   return (
@@ -118,9 +133,8 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
                 <DeleteForever />
               </IconButton>
             </Tooltip>
-            {/* TODO: Link text should probably be replace with query text */}
-            <Link {...classes('link')} to={`/search${search}`}>
-              {searchText(search)}
+            <Link {...classes('link')} to={search}>
+              {linkText(search)}
             </Link>
           </div>
         ))
@@ -133,16 +147,20 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
         <Input
           type="text"
           name={t('welcomePage.saveSearch')}
-          value={newSearchUrl}
+          value={inputFieldValue}
           warningText={getWarningText()}
           placeholder={t('form.content.link.href')}
           iconRight={<LinkIcon />}
           container="div"
-          onChange={updateUrl}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setInputFieldValue(event.target.value)
+          }
           onBlur={handleBlur}
         />
       </FieldSection>
-      <Button onClick={handleSaveUrl}>{t('welcomePage.saveSearch')}</Button>
+      <Button onClick={createSaveSearchUrl}>
+        {t('welcomePage.saveSearch')}
+      </Button>
     </>
   );
 };

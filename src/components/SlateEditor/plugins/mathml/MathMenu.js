@@ -40,7 +40,7 @@ class MathMenu extends PureComponent {
   };
 
   render() {
-    const { t, top, left, handleRemove,toggleEdit } = this.props;
+    const { t, top, left, handleRemove, toggleEdit } = this.props;
     return (
       <StyledMenu top={top} left={left} ref={node => (this.modal = node)}>
         <Button stripped css={buttonStyle} onClick={toggleEdit}>

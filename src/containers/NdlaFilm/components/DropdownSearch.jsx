@@ -27,7 +27,7 @@ const DropdownSearch = ({
       sort: '-relevance',
       'page-size': 10,
       query: input,
-        ...(!subjectId && { 'context-types': config.ndlaFilmArticleType }),
+      ...(!subjectId && { 'context-types': config.ndlaFilmArticleType }),
     };
     const response = await searchResources(query);
     return response.results.map(result => ({

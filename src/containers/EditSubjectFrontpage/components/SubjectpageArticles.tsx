@@ -5,16 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, {FC, useEffect, useState} from 'react';
-import {injectT} from '@ndla/i18n';
-import {FieldHeader} from '@ndla/forms';
-import {FieldProps, FormikHelpers, FormikValues} from 'formik';
+import React, { FC, useEffect, useState } from 'react';
+import { injectT } from '@ndla/i18n';
+import { FieldHeader } from '@ndla/forms';
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../NdlaFilm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import {fetchNewArticleId} from '../../../modules/draft/draftApi';
-import {ArticleType, SubjectpageEditType, TranslateType,} from '../../../interfaces';
+import { fetchNewArticleId } from '../../../modules/draft/draftApi';
+import {
+  ArticleType,
+  SubjectpageEditType,
+  TranslateType,
+} from '../../../interfaces';
 import handleError from '../../../util/handleError';
-import {getArticle} from '../../../modules/article/articleApi';
+import { getArticle } from '../../../modules/article/articleApi';
 
 interface Props {
   t: TranslateType;
@@ -25,20 +29,18 @@ interface Props {
   };
 }
 
-const fetchArticleIdsFromExternalIds = async (
-  externalUrns: string[],
-) => {
-  const externalIds = externalUrns.map((x: string) => x.replace('urn:resource:1:', ''));
+const fetchArticleIdsFromExternalIds = async (externalUrns: string[]) => {
+  const externalIds = externalUrns.map((x: string) =>
+    x.replace('urn:resource:1:', ''),
+  );
   const articleIds = await Promise.all(
-    externalIds.map(externalId => fetchNewArticleId(externalId))
+    externalIds.map(externalId => fetchNewArticleId(externalId)),
   );
   return articleIds.map(id => id.id);
 };
 
 const fetchEditorsChoices = async (articleIds: string[]) => {
-  return await Promise.all(
-      articleIds.map(articleId => getArticle(articleId))
-  );
+  return await Promise.all(articleIds.map(articleId => getArticle(articleId)));
 };
 
 const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {

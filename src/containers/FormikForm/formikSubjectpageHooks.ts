@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
-import handleError from '../../util/handleError';
 import {
   transformSubjectFromApiVersion,
   transformSubjectToApiVersion,
@@ -20,22 +19,18 @@ export function useFetchSubjectpageData(
   const fetchSubjectpage = async () => {
     if (subjectpageId) {
       setLoading(true);
-      try {
-        const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
-          subjectpageId,
+      const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
+        subjectpageId,
+        selectedLanguage,
+      );
+      setSubjectpage(
+        transformSubjectFromApiVersion(
+          subjectpage,
+          subjectId,
           selectedLanguage,
-        );
-        setSubjectpage(
-          transformSubjectFromApiVersion(
-            subjectpage,
-            subjectId,
-            selectedLanguage,
-          ),
-        );
-        setLoading(false);
-      } catch (e) {
-        handleError(e);
-      }
+        ),
+      );
+      setLoading(false);
     }
   };
 

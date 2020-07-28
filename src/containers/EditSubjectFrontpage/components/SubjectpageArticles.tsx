@@ -5,21 +5,16 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
-import { FieldHeader } from '@ndla/forms';
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import React, {FC, useEffect, useState} from 'react';
+import {injectT} from '@ndla/i18n';
+import {FieldHeader} from '@ndla/forms';
+import {FieldProps, FormikHelpers, FormikValues} from 'formik';
 import ElementList from '../../NdlaFilm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { fetchNewArticleId } from '../../../modules/draft/draftApi';
-import {
-  ArticleType,
-  SubjectpageEditType,
-  TranslateType,
-} from '../../../interfaces';
+import {fetchNewArticleId} from '../../../modules/draft/draftApi';
+import {ArticleType, SubjectpageEditType, TranslateType,} from '../../../interfaces';
 import handleError from '../../../util/handleError';
-import * as articleApi from '../../../modules/article/articleApi';
-import { getIdFromUrn } from '../../../util/ndlaFilmHelpers';
+import {getArticle} from '../../../modules/article/articleApi';
 
 interface Props {
   t: TranslateType;
@@ -30,37 +25,20 @@ interface Props {
   };
 }
 
-export const fetchArticleIdsFromExternalIds = async (
+const fetchArticleIdsFromExternalIds = async (
   externalUrns: string[],
 ) => {
-  const externalIds = externalUrns.map((x: string) => getIdFromUrn(x));
-  const articleIds: string[] = [];
-  await Promise.all(
-    externalIds.map(async (externalId: string | undefined) => {
-      try {
-        const id = await fetchNewArticleId(externalId);
-        articleIds.push(id.id);
-      } catch (e) {
-        handleError(e);
-      }
-    }),
+  const externalIds = externalUrns.map((x: string) => x.replace('urn:resource:1:', ''));
+  const articleIds = await Promise.all(
+    externalIds.map(externalId => fetchNewArticleId(externalId))
   );
-  return articleIds;
+  return articleIds.map(id => id.id);
 };
 
-export const fetchEditorsChoices = async (articleIds: string[]) => {
-  const articleList: ArticleType[] = [];
-  await Promise.all(
-    articleIds.map(async articleId => {
-      try {
-        const article: ArticleType = await articleApi.getArticle(articleId);
-        articleList.push(article);
-      } catch (e) {
-        handleError(e);
-      }
-    }),
+const fetchEditorsChoices = async (articleIds: string[]) => {
+  return await Promise.all(
+      articleIds.map(articleId => getArticle(articleId))
   );
-  return articleList;
 };
 
 const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
@@ -85,7 +63,7 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
 
   const onAddArticleToList = async (article: ArticleType) => {
     try {
-      const newArticle = await articleApi.getArticle(article.id);
+      const newArticle = await getArticle(article.id);
       const temp = [...articles, newArticle];
       setArticles(temp);
       updateFormik(field, getUrnForList(temp));

@@ -8,6 +8,7 @@
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
+import { Footer } from '@ndla/editor';
 import { SubjectpageEditType, TranslateType } from '../../../interfaces';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
@@ -15,14 +16,13 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import EditorFooter from '../../../components/SlateEditor/EditorFooter';
-import { fetchStatusStateMachine } from '../../../modules/draft/draftApi';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import { useSubjectpageFormHooks } from '../../FormikForm/subjectpageFormHooks';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
+import SaveButton from '../../../components/SaveButton';
 
 interface Props {
   t: TranslateType;
@@ -166,21 +166,16 @@ const SubjectpageForm: FC<Props> = ({
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
             />
-            <EditorFooter
-              showSimpleFooter
-              isSubmitting={isSubmitting}
-              formIsDirty={formIsDirty}
-              savedToServer={savedToServer}
-              getEntity={getInitialValues}
-              values={values}
-              onSaveClick={() => handleSubmit(formik)}
-              hasErrors={!isValid}
-              errors={errors}
-              isNewlyCreated={isNewlyCreated}
-              //TODO: Skal fagforsider ha mulighet for å lage ulike statuser?
-              getStateStatuses={fetchStatusStateMachine}
-              hideSecondaryButton
-            />
+            <Footer>
+              <SaveButton
+                large
+                isSaving={isSubmitting}
+                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                formIsDirty={formIsDirty}
+                onClick={() => handleSubmit(formik)}
+                disabled={!isValid}
+              />
+            </Footer>
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}

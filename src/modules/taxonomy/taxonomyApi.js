@@ -42,8 +42,8 @@ function fetchRelevances(locale) {
   );
 }
 
-function fetchSubject(subjectId) {
-  return fetchAuthorized(`${baseUrl}/subjects/urn:subject:${subjectId}`).then(
+function fetchSubject(subjectUrn) {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectUrn}`).then(
     resolveJsonOrRejectWithError,
   );
 }

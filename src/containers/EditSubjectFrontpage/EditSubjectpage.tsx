@@ -16,7 +16,7 @@ import Spinner from '../../components/Spinner';
 
 interface Props {
   t: TranslateType;
-  subjectId: number;
+  subjectId: string;
   selectedLanguage: string;
   subjectpageId: string;
   isNewlyCreated: boolean;

@@ -39,7 +39,6 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
       <OneColumn>
         <Switch>
           <Route
-            //TODO: Hvordan skal pathen se ut?
             path={`${match.url}/:subjectId/:subjectpageId/edit/:selectedLanguage`}
             render={routeProps => {
               return (

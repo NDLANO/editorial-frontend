@@ -18,10 +18,7 @@ import {
 } from '../../../../util/routeHelpers';
 import { SubjectType, TranslateType } from '../../../../interfaces';
 import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
-import {
-  getIdFromUrn,
-  getSubjectIdFromUrn,
-} from '../../../../util/subjectHelpers';
+import {getIdFromUrn} from "../../../../util/subjectHelpers";
 
 interface Props {
   t: TranslateType;
@@ -31,22 +28,19 @@ interface Props {
 
 const EditSubjectpageOption = ({ t, id, locale }: Props) => {
   const [subject, setSubject] = useState<SubjectType>();
-  const subjectId = getSubjectIdFromUrn(id);
 
   const fetchSubject = async () => {
-    const fetchedSubject = await taxonomyApi.fetchSubject(subjectId);
+    const fetchedSubject = await taxonomyApi.fetchSubject(id);
     setSubject(fetchedSubject);
   };
 
   useEffect(() => {
     fetchSubject();
   }, []);
-
-  //TODO: Hvilken id vil vi ha i url? Subjectid eller subjectpage?
-  // Eventuelt urn i stedet for id? De som eventuelt ikke går i url, legges i location state til link
+  
   const link = subject?.contentUri
-    ? toEditSubjectpage(subjectId, locale, getIdFromUrn(subject.contentUri))
-    : toCreateSubjectpage(subjectId, locale);
+    ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))
+    : toCreateSubjectpage(id, locale);
 
   return (
     <>
@@ -55,8 +49,6 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
           pathname: link,
           state: {
             subjectName: subject?.name,
-            subjectpageId: getIdFromUrn(subject?.contentUri),
-            subjectId: subjectId,
           },
         }}>
         <MenuItemButton stripped data-testid="editSubjectpageOption">

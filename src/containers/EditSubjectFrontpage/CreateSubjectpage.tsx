@@ -12,7 +12,7 @@ interface Props {
   t: TranslateType;
   selectedLanguage: string;
   history: RouteComponentProps['history'];
-  subjectId: number;
+  subjectId: string;
   subjectName: string;
 }
 

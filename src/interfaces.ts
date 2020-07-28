@@ -277,7 +277,7 @@ export interface SubjectpageEditType extends SubjectpageType {
   desktopBanner: number;
   language: string;
   mobileBanner: number;
-  subjectId: number;
+  subjectId: string;
   title: string;
   visualElement: {
     resource: string;

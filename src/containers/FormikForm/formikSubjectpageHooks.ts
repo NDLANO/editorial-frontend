@@ -4,15 +4,13 @@ import handleError from '../../util/handleError';
 import {
   transformSubjectFromApiVersion,
   transformSubjectToApiVersion,
-  transformSubjectToNewApiVersion,
   getUrnFromId,
-  getSubjectUrnFromId,
 } from '../../util/subjectHelpers';
 import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import { updateSubjectContentUri } from '../../modules/taxonomy/subjects';
 
 export function useFetchSubjectpageData(
-  subjectId: number,
+  subjectId: string,
   selectedLanguage: string,
   subjectpageId: string | undefined,
 ) {
@@ -58,10 +56,10 @@ export function useFetchSubjectpageData(
 
   const createSubjectpage = async (createdSubjectpage: SubjectpageEditType) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(
-      transformSubjectToNewApiVersion(createdSubjectpage),
+      transformSubjectToApiVersion(createdSubjectpage),
     );
     await updateSubjectContentUri(
-      getSubjectUrnFromId(subjectId),
+      subjectId,
       savedSubjectpage.name,
       getUrnFromId(savedSubjectpage.id),
     );

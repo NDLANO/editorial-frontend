@@ -21,19 +21,14 @@ const DropdownSearch = ({
   onClick,
 }) => {
   const queryResources = async input => {
-    let query = {
+    const query = {
       page: 1,
       subjects: `urn:subject:${subjectId || '20'}`,
       sort: '-relevance',
       'page-size': 10,
       query: input,
+      ...(subjectId && { 'context-types': config.ndlaFilmArticleType }),
     };
-    subjectId
-      ? (query = { ...query })
-      : (query = {
-          ...query,
-          'context-types': config.ndlaFilmArticleType,
-        });
     const response = await searchResources(query);
     return response.results.map(result => ({
       ...result,

@@ -32,6 +32,8 @@ class EditMath extends Component {
   }
 
   componentDidMount() {
+    // force set state to trigger rerender.
+    this.setState({});
     const { renderMathML } = this.state;
     const { locale } = this.props;
 

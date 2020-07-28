@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
@@ -29,19 +29,17 @@ import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/H
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 
 const FlexBoxWrapper = styled.div`
-    display:flex;
-    flex-flow:row;
-    margin-right:.2rem;
-    box-shadow:none;
-    align-items:center;
-
-  `;
+  display: flex;
+  flex-flow: row;
+  margin-right: 0.2rem;
+  box-shadow: none;
+  align-items: center;
+`;
 
 const ContentTypeWrapper = styled.div`
-    margin-right:0.2em;
-    margin-top:10px;
-  `;
-
+  margin-right: 0.2em;
+  margin-top: 10px;
+`;
 
 const SearchContent = ({ content, locale, t, userAccess }) => {
   const { contexts, metaImage } = content;
@@ -77,31 +75,32 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
       }`,
     );
   };
-  const EditMarkup =
-      (<>
-        {content.id && userAccess?.includes(DRAFT_HTML_SCOPE) && (
-            <EditMarkupLink
-                to={toEditMarkup(
-                    content.id,
-                    content.supportedLanguages.includes(locale)
-                        ? locale
-                        : content.supportedLanguages[0],
-                )}
-                title={t('editMarkup.linkTitle')}
-                inHeader={true}
-            />
-        )}
-      </>)
+  const EditMarkup = (
+    <>
+      {content.id && userAccess?.includes(DRAFT_HTML_SCOPE) && (
+        <EditMarkupLink
+          to={toEditMarkup(
+            content.id,
+            content.supportedLanguages.includes(locale)
+              ? locale
+              : content.supportedLanguages[0],
+          )}
+          title={t('editMarkup.linkTitle')}
+          inHeader={true}
+        />
+      )}
+    </>
+  );
 
   const ContentType = (
-      <>
-        {resourceType?.contentType && (
-            <ContentTypeWrapper>
-              <ContentTypeBadge background type={resourceType.contentType} />
-            </ContentTypeWrapper>
-        )}{' '}
-      </>
-  )
+    <>
+      {resourceType?.contentType && (
+        <ContentTypeWrapper>
+          <ContentTypeBadge background type={resourceType.contentType} />
+        </ContentTypeWrapper>
+      )}{' '}
+    </>
+  );
 
   return (
     <div {...searchClasses('result')}>
@@ -114,13 +113,13 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
             {ContentType}
             <h2 {...searchClasses('title')}>
               {linkProps && linkProps.href ? (
-                  <a {...searchClasses('link-no-shadow')} {...linkProps}>
-                    {content.title.title}
-                  </a>
+                <a {...searchClasses('link-no-shadow')} {...linkProps}>
+                  {content.title.title}
+                </a>
               ) : (
-                  <Link {...searchClasses('link-no-shadow')} to={linkProps.to}>
-                    {content.title.title}
-                  </Link>
+                <Link {...searchClasses('link-no-shadow')} to={linkProps.to}>
+                  {content.title.title}
+                </Link>
               )}
               {EditMarkup}
             </h2>

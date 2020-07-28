@@ -31,9 +31,10 @@
 
   &__link-no-shadow {
     &:any-link {
-       color: var(--brand-color);
+      color: var(--brand-color);
     }
-    box-shadow:none;
+
+    box-shadow: none;
   }
 
   &__other-link:not(:last-child) {

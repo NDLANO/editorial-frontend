@@ -19,7 +19,8 @@ class MathML extends Component {
   async componentDidUpdate(prevProps) {
     const { model } = this.props;
     const { innerHTML } = model;
-    if (window.MathJax && prevProps.model.innerHTML !== innerHTML) {
+    if (window.MathJax) window.MathJax.typeset();
+    if (prevProps.model.innerHTML !== innerHTML) {
       // Note: a small delay before a 're-render" is required in order to
       // get the MathJax script to render correctly after editing the MathML
       this.setState({ reRender: true });
@@ -34,7 +35,6 @@ class MathML extends Component {
     if (reRender) {
       return null;
     }
-
     const { node, model, attributes } = this.props;
     return (
       <span contentEditable={false} {...attributes}>

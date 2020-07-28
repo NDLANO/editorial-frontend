@@ -34,10 +34,10 @@ const SubjectpageBanner: FC<Props> = ({
   const [image, setImage] = useState<Image>();
 
   useEffect(() => {
-    onImageFetch();
+    fetchImage();
   }, []);
 
-  const onImageFetch = async () => {
+  const fetchImage = async () => {
     if (bannerId) {
       const fetchedImage = await api.fetchImage(bannerId, locale);
       setImage(fetchedImage);

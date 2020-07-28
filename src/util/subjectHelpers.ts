@@ -51,8 +51,8 @@ export const transformSubjectToApiVersion = (subject: SubjectpageEditType) => {
     twitter: subject.twitter,
     facebook: subject.facebook,
     bannerImage: {
-      mobileImageId: +subject.mobileBanner,
-      desktopImageId: +subject.desktopBanner,
+      mobileImageId: subject.mobileBanner,
+      desktopImageId: subject.desktopBanner,
     },
     about: [{
       title: subject.title,

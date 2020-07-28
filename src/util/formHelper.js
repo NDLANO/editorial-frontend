@@ -176,7 +176,6 @@ export const topicArticleRules = {
   },
 };
 
-//TODO: Må sette riktige regler her
 export const subjectpageRules = {
   title: {
     required: true,
@@ -197,9 +196,6 @@ export const subjectpageRules = {
   metaDescription: {
     required: true,
     maxLength: 300,
-  },
-  mobileBanner: {
-    required: true,
   },
   desktopBanner: {
     required: true,

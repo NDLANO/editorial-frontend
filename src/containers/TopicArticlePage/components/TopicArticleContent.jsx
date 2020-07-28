@@ -17,7 +17,7 @@ import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
-import TopicArticleVisualElement from './TopicArticleVisualElement';
+import TopicArticleVisualElement from '../../FormikForm/components/FormikVisualElement';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import ToggleButton from '../../../components/ToggleButton';

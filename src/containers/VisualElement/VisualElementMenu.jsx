@@ -13,7 +13,7 @@ import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
 import { H5P, Camera, Video, Link } from '@ndla/icons/editor';
-import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
+import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
 
 const visualElementButtonStyle = css`
   height: 40px;

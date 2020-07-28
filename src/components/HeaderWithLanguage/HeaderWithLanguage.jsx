@@ -14,7 +14,7 @@ import { injectT } from '@ndla/i18n';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
 
-const StyledLanguageWrapper = styled.div`
+export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
   margin: 0 0 ${spacing.normal};
   display: flex;
@@ -97,7 +97,6 @@ HeaderWithLanguage.propTypes = {
     }),
     current: PropTypes.object,
     title: PropTypes.string,
-    name: PropTypes.string,
   }),
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,

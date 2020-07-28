@@ -33,36 +33,23 @@ const HeaderActions = ({
 }) => {
   const { id, language, supportedLanguages, articleType } = values;
 
-  const subjectpage = articleType === 'subjectpage';
-
-  const possibleLanguages = [
+  const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
-    { key: 'en', title: t('language.en'), include: !subjectpage },
+    { key: 'en', title: t('language.en'), include: true },
     { key: 'nb', title: t('language.nb'), include: true },
-    { key: 'sma', title: t('language.sma'), include: !subjectpage },
+    { key: 'sma', title: t('language.sma'), include: true },
     { key: 'se', title: t('language.se'), include: false },
     { key: 'unknown', title: t('language.unknown'), include: false },
     { key: 'de', title: t('language.de'), include: false },
   ];
-  const emptyLanguages = possibleLanguages.filter(
+  const emptyLanguages = languages.filter(
     lang =>
       lang.key !== language &&
       !supportedLanguages.includes(lang.key) &&
       lang.include,
   );
-  if (!id) {
-    return (
-      <Fragment>
-        <div>
-          <HeaderLanguagePill current>
-            <Check />
-            {t(`language.${language}`)}
-          </HeaderLanguagePill>
-        </div>
-        <div />
-      </Fragment>
-    );
-  } else if (subjectpage) {
+
+  if (id) {
     return (
       <Fragment>
         <HeaderSupportedLanguages
@@ -79,58 +66,52 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
+        {!noStatus && (
+          <Fragment>
+            <PreviewDraftLightbox
+              label={t(`articleType.${articleType}`)}
+              typeOfPreview="previewLanguageArticle"
+              getArticle={getArticle}>
+              {openPreview => (
+                <StyledFilledButton type="button" onClick={openPreview}>
+                  <FileCompare />
+                  {t(`form.previewLanguageArticle.button`)}
+                </StyledFilledButton>
+              )}
+            </PreviewDraftLightbox>
+            <StyledSplitter />
+          </Fragment>
+        )}
         <HeaderLanguagePicker
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
+        {articleType &&
+          language === 'nb' &&
+          !supportedLanguages.includes('nn') && (
+            <Fragment>
+              <StyledSplitter />
+              <TranslateNbToNn
+                translateArticle={translateArticle}
+                editUrl={editUrl}
+                formIsDirty={formIsDirty}
+                setTranslateOnContinue={setTranslateOnContinue}
+              />
+            </Fragment>
+          )}
+        <DeleteLanguageVersion values={values} type={type} />
       </Fragment>
     );
   }
   return (
     <Fragment>
-      <HeaderSupportedLanguages
-        id={id}
-        editUrl={editUrl}
-        language={language}
-        supportedLanguages={supportedLanguages}
-        isSubmitting={isSubmitting}
-      />
-      {isNewLanguage && (
-        <HeaderLanguagePill current key={`types_${language}`}>
+      <div>
+        <HeaderLanguagePill current>
           <Check />
           {t(`language.${language}`)}
         </HeaderLanguagePill>
-      )}
-      <StyledSplitter />
-      {!noStatus && (
-        <Fragment>
-          <PreviewDraftLightbox
-            label={t(`articleType.${articleType}`)}
-            typeOfPreview="previewLanguageArticle"
-            getArticle={getArticle}>
-            {openPreview => (
-              <StyledFilledButton type="button" onClick={openPreview}>
-                <FileCompare />
-                {t(`form.previewLanguageArticle.button`)}
-              </StyledFilledButton>
-            )}
-          </PreviewDraftLightbox>
-          <StyledSplitter />
-        </Fragment>
-      )}
-      <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
-      {articleType && language === 'nb' && !supportedLanguages.includes('nn') && (
-        <Fragment>
-          <StyledSplitter />
-          <TranslateNbToNn
-            translateArticle={translateArticle}
-            editUrl={editUrl}
-            formIsDirty={formIsDirty}
-            setTranslateOnContinue={setTranslateOnContinue}
-          />
-        </Fragment>
-      )}
-      <DeleteLanguageVersion values={values} type={type} />
+      </div>
+      <div />
     </Fragment>
   );
 };

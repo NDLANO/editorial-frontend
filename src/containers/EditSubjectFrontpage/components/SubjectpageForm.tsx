@@ -9,7 +9,7 @@ import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
 import { SubjectpageEditType, TranslateType } from '../../../interfaces';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
+import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
@@ -132,7 +132,6 @@ const SubjectpageForm: FC<Props> = ({
           values,
           dirty,
           isSubmitting,
-          setValues,
           errors,
           touched,
           setFieldTouched,
@@ -146,23 +145,17 @@ const SubjectpageForm: FC<Props> = ({
         });
         setUnsaved(formIsDirty);
         const headerContent = {
-          id: subjectpage.id,
-          title: subjectpage.name,
-          language: subjectpage.language,
+          ...values,
+          title: values.name,
         };
         return (
           <Form {...formClasses()}>
-            <HeaderWithLanguage
-              content={headerContent}
-              values={values}
+            <SimpleLanguageHeader
+              values={headerContent}
               editUrl={(lang: string) =>
                 toEditSubjectpage(values.subjectId, lang, values.id)
               }
-              formIsDirty={formIsDirty}
-              getInitialValues={getInitialValues}
-              setValues={setValues}
               isSubmitting={isSubmitting}
-              noStatus
             />
             <SubjectpageAccordionPanels
               values={values}

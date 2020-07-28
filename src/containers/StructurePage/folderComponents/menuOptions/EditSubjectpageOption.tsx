@@ -18,7 +18,7 @@ import {
 } from '../../../../util/routeHelpers';
 import { SubjectType, TranslateType } from '../../../../interfaces';
 import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
-import {getIdFromUrn} from "../../../../util/subjectHelpers";
+import { getIdFromUrn } from '../../../../util/subjectHelpers';
 
 interface Props {
   t: TranslateType;
@@ -37,7 +37,7 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
   useEffect(() => {
     fetchSubject();
   }, []);
-  
+
   const link = subject?.contentUri
     ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))
     : toCreateSubjectpage(id, locale);

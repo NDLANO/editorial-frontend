@@ -23,7 +23,7 @@ const DropdownSearch = ({
   const queryResources = async input => {
     const query = {
       page: 1,
-      subjects: `urn:subject:${subjectId || '20'}`,
+      subjects: subjectId || 'urn:subject:20',
       sort: '-relevance',
       'page-size': 10,
       query: input,

@@ -54,20 +54,24 @@ export const transformSubjectToApiVersion = (subject: SubjectpageEditType) => {
       mobileImageId: subject.mobileBanner,
       desktopImageId: subject.desktopBanner,
     },
-    about: [{
-      title: subject.title,
-      description: subject.description,
-      language: subject.language,
-      visualElement: {
-        type: subject.visualElement.resource,
-        id: subject.visualElement.resource_id,
-        alt: subject.visualElementAlt,
+    about: [
+      {
+        title: subject.title,
+        description: subject.description,
+        language: subject.language,
+        visualElement: {
+          type: subject.visualElement.resource,
+          id: subject.visualElement.resource_id,
+          alt: subject.visualElementAlt,
+        },
       },
-    }],
-    metaDescription: [{
-      metaDescription: subject.metaDescription,
-      language: subject.language,
-    }],
+    ],
+    metaDescription: [
+      {
+        metaDescription: subject.metaDescription,
+        language: subject.language,
+      },
+    ],
     topical: subject.topical,
     mostRead: subject.mostRead,
     editorsChoices: subject.editorsChoices,

@@ -28,14 +28,14 @@ export const updateFilmFrontpage = filmfrontpage => {
 
 export const fetchSubjectpage = (id, language) => {
   const query = queryString.stringify({ language });
-  const url = `http://localhost:1339/frontpage-api/v1/subjectpage/${id}`;
+  const url = `${baseUrl}/subjectpage/${id}`;
   const urlLang = language ? url + `?${query}&fallback=true` : url;
   return fetchAuthorized(urlLang).then(resolveJsonOrRejectWithError);
 };
 
 export const updateSubjectpage = (subjectpage, subjectpageId) => {
   return fetchAuthorized(
-    `http://localhost:1339/frontpage-api/v1/subjectpage/${subjectpageId}`,
+    `${baseUrl}/subjectpage/${subjectpageId}`,
     {
       method: 'PATCH',
       body: JSON.stringify(subjectpage),
@@ -44,7 +44,7 @@ export const updateSubjectpage = (subjectpage, subjectpageId) => {
 };
 
 export const createSubjectpage = subjectpage =>
-  fetchAuthorized(`http://localhost:1339/frontpage-api/v1/subjectpage/`, {
+  fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: 'POST',
     body: JSON.stringify(subjectpage),
   }).then(resolveJsonOrRejectWithError);

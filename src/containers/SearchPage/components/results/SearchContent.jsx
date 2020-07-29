@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
+import styled from '@emotion/styled';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
@@ -26,6 +27,19 @@ import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+
+const FlexBoxWrapper = styled.div`
+  display: flex;
+  flex-flow: row;
+  margin-right: 0.2rem;
+  box-shadow: none;
+  align-items: center;
+`;
+
+const ContentTypeWrapper = styled.div`
+  margin-right: 0.2em;
+  margin-top: 10px;
+`;
 
 const SearchContent = ({ content, locale, t, userAccess }) => {
   const { contexts, metaImage } = content;
@@ -46,27 +60,6 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
     }
   }
 
-  const contentTitle = (
-    <h2 {...searchClasses('title')}>
-      {resourceType?.contentType && (
-        <ContentTypeBadge background type={resourceType.contentType} />
-      )}{' '}
-      {content.title.title}
-      {content.id && userAccess?.includes(DRAFT_HTML_SCOPE) && (
-        <EditMarkupLink
-          to={toEditMarkup(
-            content.id,
-            content.supportedLanguages.includes(locale)
-              ? locale
-              : content.supportedLanguages[0],
-          )}
-          title={t('editMarkup.linkTitle')}
-          inHeader={true}
-        />
-      )}
-    </h2>
-  );
-
   const linkProps = resourceToLinkProps(
     content,
     resourceType.contentType,
@@ -82,6 +75,32 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
       }`,
     );
   };
+  const EditMarkup = (
+    <>
+      {content.id && userAccess?.includes(DRAFT_HTML_SCOPE) && (
+        <EditMarkupLink
+          to={toEditMarkup(
+            content.id,
+            content.supportedLanguages.includes(locale)
+              ? locale
+              : content.supportedLanguages[0],
+          )}
+          title={t('editMarkup.linkTitle')}
+          inHeader={true}
+        />
+      )}
+    </>
+  );
+
+  const ContentType = (
+    <>
+      {resourceType?.contentType && (
+        <ContentTypeWrapper>
+          <ContentTypeBadge background type={resourceType.contentType} />
+        </ContentTypeWrapper>
+      )}{' '}
+    </>
+  );
 
   return (
     <div {...searchClasses('result')}>
@@ -90,15 +109,21 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
       </div>
       <div {...searchClasses('content')}>
         <div {...searchClasses('header')}>
-          {linkProps && linkProps.href ? (
-            <a {...searchClasses('link')} {...linkProps}>
-              {contentTitle}
-            </a>
-          ) : (
-            <Link {...searchClasses('link')} to={linkProps.to}>
-              {contentTitle}
-            </Link>
-          )}
+          <FlexBoxWrapper>
+            {ContentType}
+            <h2 {...searchClasses('title')}>
+              {linkProps && linkProps.href ? (
+                <a {...searchClasses('link-no-shadow')} {...linkProps}>
+                  {content.title.title}
+                </a>
+              ) : (
+                <Link {...searchClasses('link-no-shadow')} to={linkProps.to}>
+                  {content.title.title}
+                </Link>
+              )}
+              {EditMarkup}
+            </h2>
+          </FlexBoxWrapper>
           {content.supportedLanguages.map(lang => (
             <SearchContentLanguage
               style={{ display: 'flex' }}

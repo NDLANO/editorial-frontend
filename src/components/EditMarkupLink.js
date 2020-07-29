@@ -18,7 +18,20 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
 
   const linkStyle = css`
     box-shadow: none;
-
+    
+    width: ${inHeader ? '25px;' : ''}
+    padding-left: ${inHeader ? '0.4em' : ''};
+    padding-right: ${inHeader ? '1.2em' : ''};
+    
+    &:hover svg,
+    &:focus svg {
+      border-color: ${colors.brand.primary};
+      path:last-child {
+        stroke: ${colors.brand.primary};
+        fill: ${colors.brand.primary};
+      }
+    }
+    
     svg {
       width: ${inHeader ? '18px' : spacing.normal};
       height: ${inHeader ? '18px' : spacing.normal};
@@ -31,16 +44,6 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
         fill: ${colors.brand.light};
       }
 
-      &:hover,
-      &:focus {
-        border-color: ${colors.brand.primary};
-
-        path:last-child {
-          stroke: ${colors.brand.primary};
-          fill: ${colors.brand.primary};
-        }
-      }
-      margin-left: ${inHeader ? '0.4em' : ''};
       margin-bottom: ${inHeader ? '0.18em' : ''};
     }
   `;

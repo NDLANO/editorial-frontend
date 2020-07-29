@@ -24,6 +24,7 @@ const phrases = {
     imageUploaderPage: `Image ${titleTemplate}`,
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
+    ndlaFilmPage: `NDLA Film ${titleTemplate}`,
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',

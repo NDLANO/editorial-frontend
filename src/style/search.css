@@ -29,6 +29,14 @@
     }
   }
 
+  &__link-no-shadow {
+    &:any-link {
+      color: var(--brand-color);
+    }
+
+    box-shadow: none;
+  }
+
   &__other-link:not(:last-child) {
     &::after {
       content: ' / ';

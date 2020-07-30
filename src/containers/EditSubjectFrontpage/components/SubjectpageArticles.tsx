@@ -83,7 +83,7 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
         elements={articles}
         data-cy="editors-choices-article-list"
         messages={{
-          dragElement: t('subjectpageForm.changeOrder'),
+          dragElement: t('form.file.changeOrder'),
           removeElement: t('subjectpageForm.removeArticle'),
         }}
         onUpdateElements={onUpdateElements}

@@ -40,7 +40,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
               bannerId={field.value}
               field={field}
               form={form}
-              title={t('subjectpageForm.desktopBanner')}
+              title={t('form.name.desktopBanner')}
             />
           );
         }}
@@ -52,7 +52,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
               bannerId={field.value}
               field={field}
               form={form}
-              title={t('subjectpageForm.mobileBanner')}
+              title={t('form.name.mobileBanner')}
             />
           );
         }}

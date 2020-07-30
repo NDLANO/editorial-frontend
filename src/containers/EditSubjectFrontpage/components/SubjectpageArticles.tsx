@@ -5,20 +5,21 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../NdlaFilm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import {
   ArticleType,
+  ContentResultType,
   SubjectpageEditType,
   TranslateType,
 } from '../../../interfaces';
 import handleError from '../../../util/handleError';
-import { getArticle } from '../../../modules/article/articleApi';
+import { fetchDraft } from '../../../modules/draft/draftApi';
+import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 interface Props {
   t: TranslateType;
@@ -29,46 +30,26 @@ interface Props {
   };
 }
 
-const fetchArticleIdsFromExternalIds = async (externalUrns: string[]) => {
-  const externalIds = externalUrns.map((x: string) =>
-    x.replace('urn:resource:1:', ''),
-  );
-  const articleIds = await Promise.all(
-    externalIds.map(externalId => fetchNewArticleId(externalId)),
-  );
-  return articleIds.map(id => id.id);
-};
-
-const fetchEditorsChoices = async (articleIds: string[]) => {
-  return await Promise.all(articleIds.map(articleId => getArticle(articleId)));
-};
-
 const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
-  const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [articles, setArticles] = useState<ArticleType[]>(
+    values.editorsChoices,
+  );
 
-  useEffect(() => {
-    (async () => {
-      const articleIds = await fetchArticleIdsFromExternalIds(
-        values.editorsChoices,
-      );
-      const comp = await fetchEditorsChoices(articleIds);
-      setArticles(comp);
-    })();
-  }, []);
-
-  const getUrnForList = (list: ArticleType[]) => {
-    return list.map(
-      (article: ArticleType) =>
-        'urn:resource:1:' + article.oldNdlaUrl.split('/').pop(),
-    );
-  };
-
-  const onAddArticleToList = async (article: ArticleType) => {
+  const onAddArticleToList = async (article: ContentResultType) => {
     try {
-      const newArticle = await getArticle(article.id);
+      let newArticle = undefined;
+      if (article.learningResourceType === 'learningpath') {
+        newArticle = await fetchLearningpath(article.id);
+        newArticle = { ...newArticle, metaImage: article.metaImage };
+      }
+      else{
+        newArticle = await fetchDraft(article.id);
+      }
       const temp = [...articles, newArticle];
-      setArticles(temp);
-      updateFormik(field, getUrnForList(temp));
+      if (newArticle !== undefined) {
+        setArticles(temp);
+        updateFormik(field, temp);
+      }
     } catch (e) {
       handleError(e);
     }
@@ -76,10 +57,13 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
 
   const onUpdateElements = (articleList: ArticleType[]) => {
     setArticles(articleList);
-    updateFormik(field, getUrnForList(articleList));
+    updateFormik(field, articleList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: string[]) => {
+  const updateFormik = (
+    formikField: Props['field'],
+    newData: ArticleType[],
+  ) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({
       target: {
@@ -107,7 +91,7 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
       <DropdownSearch
         selectedElements={articles}
         onClick={(e: Event) => e.stopPropagation()}
-        onChange={(a: ArticleType) => onAddArticleToList(a)}
+        onChange={(a: ContentResultType) => onAddArticleToList(a)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={values.subjectId}
         clearInputField

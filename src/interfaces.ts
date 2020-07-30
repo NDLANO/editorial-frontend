@@ -36,6 +36,7 @@ export interface ContentResultType {
       resourceTypes: ResourceType[];
     },
   ];
+  learningResourceType: string;
 }
 
 export interface ArticleType {
@@ -237,7 +238,6 @@ export interface SubjectType {
 }
 
 export interface SubjectpageType {
-  editorsChoices: string[];
   facebook: string;
   filters: string[];
   goTo: string[];
@@ -270,11 +270,13 @@ export interface SubjectpageApiType extends SubjectpageType {
     desktopUrl: string;
     desktopId: number;
   };
+  editorsChoices: string[];
 }
 
 export interface SubjectpageEditType extends SubjectpageType {
   description: string;
   desktopBanner: number;
+  editorsChoices: ArticleType[];
   language: string;
   mobileBanner: number;
   subjectId: string;

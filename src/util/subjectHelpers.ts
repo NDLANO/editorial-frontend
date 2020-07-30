@@ -1,4 +1,8 @@
-import { SubjectpageApiType, SubjectpageEditType } from '../interfaces';
+import {
+  ArticleType,
+  SubjectpageApiType,
+  SubjectpageEditType,
+} from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) =>
   urnId?.replace('urn:frontpage:', '');
@@ -9,6 +13,7 @@ export const transformSubjectFromApiVersion = (
   subject: SubjectpageApiType,
   subjectId: string,
   selectedLanguage: string,
+  editorsChoices: ArticleType[],
 ) => {
   const visualElementId = subject.about.visualElement.url.split('/').pop();
   const subjectpageEditType: SubjectpageEditType = {
@@ -34,7 +39,7 @@ export const transformSubjectFromApiVersion = (
     latestContent: subject.latestContent,
     goTo: subject.goTo,
     language: selectedLanguage,
-    editorsChoices: subject.editorsChoices,
+    editorsChoices: editorsChoices,
     subjectId: subjectId,
     supportedLanguages: subject.supportedLanguages,
   };
@@ -42,7 +47,10 @@ export const transformSubjectFromApiVersion = (
 };
 
 //TODO: håndtere de feltene som ikke settes i formen, hvordan skal det gjøres for nye artikler?
-export const transformSubjectToApiVersion = (subject: SubjectpageEditType) => {
+export const transformSubjectToApiVersion = (
+  subject: SubjectpageEditType,
+  editorsChoices: string[],
+) => {
   return {
     externalId: '', //??
     name: subject.name,
@@ -74,7 +82,7 @@ export const transformSubjectToApiVersion = (subject: SubjectpageEditType) => {
     ],
     topical: subject.topical,
     mostRead: subject.mostRead,
-    editorsChoices: subject.editorsChoices,
+    editorsChoices: editorsChoices,
     latestContent: subject.latestContent,
     goTo: subject.goTo,
   };

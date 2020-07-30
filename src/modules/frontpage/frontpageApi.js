@@ -34,13 +34,10 @@ export const fetchSubjectpage = (id, language) => {
 };
 
 export const updateSubjectpage = (subjectpage, subjectpageId) => {
-  return fetchAuthorized(
-    `${baseUrl}/subjectpage/${subjectpageId}`,
-    {
-      method: 'PATCH',
-      body: JSON.stringify(subjectpage),
-    },
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(subjectpage),
+  }).then(resolveJsonOrRejectWithError);
 };
 
 export const createSubjectpage = subjectpage =>

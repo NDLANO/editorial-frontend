@@ -6,17 +6,15 @@ import Accordion, {
 } from '@ndla/accordion';
 import { injectT } from '@ndla/i18n';
 import {
-  FieldProps,
   FormikErrors,
-  FormikHelpers,
   FormikTouched,
-  FormikValues,
 } from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
 import {
-  ArticleType,
+  AccordionProps,
+  FormikProps,
   SubjectpageType,
   TranslateType,
 } from '../../../interfaces';
@@ -34,20 +32,8 @@ interface Props {
   setFieldTouched: boolean;
 }
 
-interface AccordionProps {
-  openIndexes: string[];
-  handleItemClick: Function;
-}
-
 interface ComponentProps {
   values: Values;
-}
-
-interface FormikProps {
-  field: FieldProps<ArticleType[]>['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
 }
 
 const panels = [

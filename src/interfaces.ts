@@ -4,6 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {FieldProps, FormikHelpers, FormikValues} from "formik";
+
 export interface TranslateType {
   (
     key: string,
@@ -335,5 +337,17 @@ export interface Image {
   title: {
     title: string;
     language: string;
+  };
+}
+
+export interface AccordionProps {
+  openIndexes: string[];
+  handleItemClick: Function;
+}
+
+export interface FormikProps {
+  field: FieldProps<ArticleType[]>['field'];
+  form: {
+    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }

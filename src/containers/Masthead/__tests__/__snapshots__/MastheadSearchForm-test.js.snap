@@ -92,16 +92,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 .emotion-0:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-0:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-0[disabled] {
@@ -109,9 +100,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-0:focus {
@@ -125,9 +113,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -271,16 +256,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 .emotion-0:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-0:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-0[disabled] {
@@ -288,9 +264,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-0:focus {
@@ -304,9 +277,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -450,16 +420,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 .emotion-0:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-0:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-0[disabled] {
@@ -467,9 +428,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-0:focus {
@@ -483,9 +441,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -629,16 +584,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 .emotion-0:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-0:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-0[disabled] {
@@ -646,9 +592,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-0:focus {
@@ -662,9 +605,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -808,16 +748,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 .emotion-0:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-0:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-0[disabled] {
@@ -825,9 +756,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-0:focus {
@@ -841,9 +769,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 

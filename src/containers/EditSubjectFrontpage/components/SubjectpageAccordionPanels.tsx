@@ -11,10 +11,7 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import { injectT } from '@ndla/i18n';
-import {
-  FormikErrors,
-  FormikTouched,
-} from 'formik';
+import { FormikErrors, FormikTouched } from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';

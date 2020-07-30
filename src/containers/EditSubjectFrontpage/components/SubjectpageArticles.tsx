@@ -41,8 +41,7 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
       if (article.learningResourceType === 'learningpath') {
         newArticle = await fetchLearningpath(article.id);
         newArticle = { ...newArticle, metaImage: article.metaImage };
-      }
-      else{
+      } else {
         newArticle = await fetchDraft(article.id);
       }
       const temp = [...articles, newArticle];

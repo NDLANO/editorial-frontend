@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {FieldProps, FormikHelpers, FormikValues} from "formik";
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 
 export interface TranslateType {
   (

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';

@@ -36,15 +36,40 @@ export function useFetchArticleData(articleId, locale) {
     }
   };
 
+  const updateLastEditedArticles = async articleId => {
+    // const result = await draftApi.fetchUserData();
+    // const latestEditedArticles = result.lastEditedArticles || [];
+    const latestEditedArticles = [];
+
+    if (!latestEditedArticles.includes(articleId)) {
+      latestEditedArticles.push(articleId);
+      const userUpdatedMetadata = {
+        latestEditedArticles: latestEditedArticles,
+      };
+      console.log('userUpdatedMetadata', userUpdatedMetadata); // TODO remove
+
+      draftApi.updateUserData(userUpdatedMetadata);
+    }
+  };
+
   const updateArticle = async updatedArticle => {
     const savedArticle = await draftApi.updateDraft(updatedArticle);
     const taxonomy = await fetchTaxonomy(articleId, locale);
+    // updateLastEditedArticles(articleId); // TODO: test at kallet virker
+
     const updated = transformArticleFromApiVersion(
       { taxonomy, ...savedArticle },
       locale,
     );
     setArticle(updated);
     return updated;
+  };
+
+  const createArticle = async createdArticle => {
+    const savedArticle = await draftApi.createDraft(createdArticle);
+    setArticle(transformArticleFromApiVersion(savedArticle, locale));
+    // updateLastEditedArticles(savedArticle.id);  TODO: test at kallet virker
+    return savedArticle;
   };
 
   const updateArticleAndStatus = async ({
@@ -69,12 +94,6 @@ export function useFetchArticleData(articleId, locale) {
     };
     setArticle(updated);
     return updated;
-  };
-
-  const createArticle = async createdArticle => {
-    const savedArticle = await draftApi.createDraft(createdArticle);
-    setArticle(transformArticleFromApiVersion(savedArticle, locale));
-    return savedArticle;
   };
 
   useEffect(() => {

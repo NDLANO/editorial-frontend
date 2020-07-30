@@ -18,13 +18,12 @@ import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import {
-  getNdlaId,
   getAccessToken,
   getAccessTokenPersonal,
 } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { search } from '../../modules/search/searchApi';
-import { ContentResultType, TranslateType } from '../../interfaces';
+import { fetchUserData } from '../../modules/draft/draftApi';
+import { TranslateType } from '../../interfaces';
 
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
@@ -47,18 +46,30 @@ interface Props {
 }
 
 export const WelcomePage: FC<Props> = ({ locale, t }) => {
-  const [lastUsed, setLastUsed] = useState<ContentResultType[]>([]);
+  const [lastUsed, setLastUsed] = useState<string[]>([]);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
 
   const fetchLastUsed = async () => {
     if (isValid(token) && isAccessTokenPersonal) {
-      const lastUsed = await search({
-        users: getNdlaId(),
-        sort: '-lastUpdated',
-      });
-      setLastUsed(lastUsed.results);
+      // const result = await fetchUserData();
+      // const lastUsed = result.latestEditedArticles || [];
+      const lastUsed = [
+        '14989',
+        '21047',
+        '21030',
+        '21054',
+        '21058',
+        '21052',
+        '21058',
+        '21057',
+        '21056',
+        '21055',
+        '21050',
+        '21058',
+      ];
+      setLastUsed(lastUsed);
     }
   };
 
@@ -90,15 +101,18 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
+              {console.log('lastUsed', lastUsed)} // TODO remove
+
               {lastUsed.length ? (
-                lastUsed.map((result: ContentResultType) => (
-                  <LastUsedContent
-                    key={result.id}
-                    articleId={result.id}
-                    content={result}
-                    locale={locale}
-                  />
-                ))
+                lastUsed.map((result: string) => {
+                  return (
+                    <LastUsedContent
+                      key={result}
+                      articleId={result}
+                      locale={locale}
+                    />
+                  );
+                })
               ) : (
                 <span>{t('welcomePage.emptyLastUsed')}</span>
               )}

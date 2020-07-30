@@ -35,7 +35,7 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
   }, []);
 
   return (
-    <div>
+    <>
       <OneColumn>
         <Switch>
           <Route
@@ -68,7 +68,7 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
         </Switch>
       </OneColumn>
       <Footer showLocaleSelector={false} />
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -46,7 +46,7 @@ const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
     copyright: t('form.metaImage.copyright'),
   };
   return (
-    <Fragment>
+    <>
       <img
         src={image.imageUrl}
         style={{ width: 1500, background: colors.brand.primary }}
@@ -59,7 +59,7 @@ const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
         action={imageAction}
         translations={metaInformationTranslations}
       />
-    </Fragment>
+    </>
   );
 };
 

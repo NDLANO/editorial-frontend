@@ -103,8 +103,8 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .reply(200, []);
   nock('http://ndla-api')
     .persist()
-    .get('/user-data')
-    .reply(200, []);
+    .get('/draft-api/v1/user-data')
+    .reply(200, {});
   const { container, getByText } = wrapper();
 
   await wait(() => getByText('Fortelleteknikker og virkemidler'));

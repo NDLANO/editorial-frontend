@@ -77,7 +77,6 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const createArticle = async createdArticle => {
-    console.log('ny artikkel');
     const savedArticle = await draftApi.createDraft(createdArticle);
     setArticle(transformArticleFromApiVersion(savedArticle, locale));
     console.log(savedArticle.id);

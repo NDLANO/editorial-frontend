@@ -30,3 +30,6 @@ export const isValidURL = (string: string) =>
   string.match(
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
   ) || false;
+
+export const isNDLAEdSearchUrl = (url: string) =>
+  /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);

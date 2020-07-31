@@ -21,6 +21,7 @@ import Tooltip from '@ndla/tooltip';
 import { TranslateType } from '../../../interfaces';
 import IconButton from '../../../components/IconButton';
 import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
+import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 
 interface Props {
   t: TranslateType;
@@ -30,9 +31,6 @@ export const classes = new BEMHelper({
   name: 'save-search',
   prefix: 'c-',
 });
-
-export const isNDLAEdSearchUrl = (url: string) =>
-  /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);
 
 const SaveSearchUrl: FC<Props> = ({ t }) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
@@ -69,9 +67,7 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
   };
 
   const handleBlur = () => {
-    isNDLAEdSearchUrl(inputFieldValue)
-      ? setIsValidUrl(true)
-      : setIsValidUrl(false);
+    setIsValidUrl(isNDLAEdSearchUrl(inputFieldValue));
   };
 
   const getSavedSearchRelativeUrl = (inputValue: string) => {

@@ -47,7 +47,7 @@ export function useFetchArticleData(articleId, locale) {
       { taxonomy, ...savedArticle },
       locale,
     );
-    updateUsersLatestEditedArticles(articleId);
+    updateUserData(articleId);
     setArticle(updated);
     return updated;
   };
@@ -79,34 +79,27 @@ export function useFetchArticleData(articleId, locale) {
   const createArticle = async createdArticle => {
     const savedArticle = await draftApi.createDraft(createdArticle);
     setArticle(transformArticleFromApiVersion(savedArticle, locale));
-    updateUsersLatestEditedArticles(savedArticle.id);
+    updateUserData(savedArticle.id);
     return savedArticle;
   };
 
-  const updateUsersLatestEditedArticles = async articleId => {
+  const updateUserData = async articleId => {
     const result = await draftApi.fetchUserData();
     const latestEditedArticles = result.latestEditedArticles || [];
-    let userUpdatedMetadata;
 
     if (!latestEditedArticles.includes(articleId)) {
       if (latestEditedArticles.length >= 10) {
-        // burde dette tallet være en variabel?
         latestEditedArticles.pop();
       }
       latestEditedArticles.splice(0, 0, articleId);
-      userUpdatedMetadata = {
-        latestEditedArticles: latestEditedArticles,
-      };
     } else {
       const indexArticleId = latestEditedArticles.indexOf(articleId);
-      const reduced_array = latestEditedArticles.filter(
-        (_, idx) => idx !== indexArticleId,
-      );
-      reduced_array.splice(0, 0, articleId);
-      userUpdatedMetadata = {
-        latestEditedArticles: reduced_array,
-      };
+      latestEditedArticles.splice(indexArticleId, 0);
+      latestEditedArticles.splice(0, 0, articleId);
     }
+    const userUpdatedMetadata = {
+      latestEditedArticles: latestEditedArticles,
+    };
 
     draftApi.updateUserData(userUpdatedMetadata);
   };

@@ -15,7 +15,7 @@ import {
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl = apiResourceUrl('/draft-api/v1/agreements');
 const baseFileUrl = apiResourceUrl('/draft-api/v1/files');
-const baseUserDataUrl = apiResourceUrl('/user-data');
+const baseUserDataUrl = apiResourceUrl('/draft-api/v1/user-data');
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });

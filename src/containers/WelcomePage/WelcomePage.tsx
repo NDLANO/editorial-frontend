@@ -17,10 +17,7 @@ import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
-import {
-  getAccessToken,
-  getAccessTokenPersonal,
-} from '../../util/authHelpers';
+import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { fetchUserData } from '../../modules/draft/draftApi';
 import { TranslateType } from '../../interfaces';
@@ -53,22 +50,8 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
 
   const fetchLastUsed = async () => {
     if (isValid(token) && isAccessTokenPersonal) {
-      // const result = await fetchUserData();
-      // const lastUsed = result.latestEditedArticles || [];
-      const lastUsed = [
-        '14989',
-        '21047',
-        '21030',
-        '21054',
-        '21058',
-        '21052',
-        '21058',
-        '21057',
-        '21056',
-        '21055',
-        '21050',
-        '21058',
-      ];
+      const result = await fetchUserData();
+      const lastUsed = result.latestEditedArticles || [];
       setLastUsed(lastUsed);
     }
   };
@@ -101,8 +84,6 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
-              {console.log('lastUsed', lastUsed)} // TODO remove
-
               {lastUsed.length ? (
                 lastUsed.map((result: string) => {
                   return (

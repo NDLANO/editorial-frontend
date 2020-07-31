@@ -19,7 +19,6 @@ import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import { TranslateType } from '../../../interfaces';
-import { isValidURL } from '../../../util/htmlHelpers';
 import IconButton from '../../../components/IconButton';
 import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
 

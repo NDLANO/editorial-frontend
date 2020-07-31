@@ -10,10 +10,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 
-import {
-  ArticleType,
-  TranslateType,
-} from '../../../interfaces';
+import { ArticleType, TranslateType } from '../../../interfaces';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { classes } from '../WelcomePage';

@@ -29,6 +29,12 @@ const StyledInputTimeWrapper = styled.div`
   display: flex;
   flex-flow: row;
   width: 80%;
+  margin-top: 6.5px;
+`;
+
+const hmsCSS = css`
+  width: 120px;
+  margin-right: 13px;
 `;
 
 export class DisplayExternalVisualElement extends Component {
@@ -129,12 +135,6 @@ export class DisplayExternalVisualElement extends Component {
         : whitelistProvider.name === providerName,
     );
 
-    const hmsCSS = css`
-      width: 120px;
-      margin-top: 6.5px;
-      margin-right: 13px;
-    `;
-
     const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
     return (
       <>
@@ -182,40 +182,44 @@ export class DisplayExternalVisualElement extends Component {
                 white
               />
               <StyledInputTimeWrapper>
-                <Input
-                  name="start"
-                  label={t(`form.${youtubeOrH5p}.time.start`)}
-                  value={embed.start}
-                  onChange={e => {
-                    onFigureInputChange({
-                      target: {
-                        name: 'visualElementStart',
-                        value: e.target.value,
-                      },
-                    });
-                  }}
-                  container="div"
-                  placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
-                  white
-                  customCSS={hmsCSS}
-                />
-                <Input
-                  name="stop"
-                  label={t(`form.${youtubeOrH5p}.time.stop`)}
-                  value={embed.stop}
-                  onChange={e => {
-                    onFigureInputChange({
-                      target: {
-                        name: 'visualElementStop',
-                        value: e.target.value,
-                      },
-                    });
-                  }}
-                  container="div"
-                  placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
-                  white
-                  customCSS={hmsCSS}
-                />
+                <div>
+                  <Input
+                    name="start"
+                    label={t(`form.${youtubeOrH5p}.time.start`)}
+                    value={embed.start}
+                    onChange={e => {
+                      onFigureInputChange({
+                        target: {
+                          name: 'visualElementStart',
+                          value: e.target.value,
+                        },
+                      });
+                    }}
+                    container="div"
+                    placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
+                    white
+                    customCSS={hmsCSS}
+                  />
+                </div>
+                <div>
+                  <Input
+                    name="stop"
+                    label={t(`form.${youtubeOrH5p}.time.stop`)}
+                    value={embed.stop}
+                    onChange={e => {
+                      onFigureInputChange({
+                        target: {
+                          name: 'visualElementStop',
+                          value: e.target.value,
+                        },
+                      });
+                    }}
+                    container="div"
+                    placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
+                    white
+                    customCSS={hmsCSS}
+                  />
+                </div>
               </StyledInputTimeWrapper>
             </StyledInputWrapper>
           ) : (

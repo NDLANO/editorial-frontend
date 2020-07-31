@@ -54,7 +54,7 @@ import {
   editTablePlugin,
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
-import { EditMarkupLink } from './EditMarkupLink';
+import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { FormikIngress } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';

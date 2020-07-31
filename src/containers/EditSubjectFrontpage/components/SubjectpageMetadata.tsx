@@ -45,18 +45,6 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
           );
         }}
       </FormikField>
-      <FormikField name="mobileBanner">
-        {({ field, form }: FormikProps) => {
-          return (
-            <SubjectpageBanner
-              bannerId={field.value}
-              field={field}
-              form={form}
-              title={t('form.name.mobileBanner')}
-            />
-          );
-        }}
-      </FormikField>
     </>
   );
 };

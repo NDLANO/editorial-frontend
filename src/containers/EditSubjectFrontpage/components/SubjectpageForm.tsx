@@ -58,7 +58,7 @@ const getInitialValues = (
     goTo: subjectpage.goTo || [],
     id: subjectpage.id,
     latestContent: subjectpage.latestContent || [],
-    layout: subjectpage.layout || '',
+    layout: subjectpage.layout || 'single',
     metaDescription: plainTextToEditorValue(subjectpage.metaDescription, true),
     mostRead: subjectpage.mostRead || [],
     name: subjectpage.name || '',

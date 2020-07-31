@@ -46,19 +46,17 @@ export const transformSubjectFromApiVersion = (
   return subjectpageEditType;
 };
 
-//TODO: håndtere de feltene som ikke settes i formen, hvordan skal det gjøres for nye artikler?
 export const transformSubjectToApiVersion = (
   subject: SubjectpageEditType,
   editorsChoices: string[],
 ) => {
   return {
-    externalId: '', //??
     name: subject.name,
     filters: subject.filters,
-    layout: subject.layout, //??
+    layout: subject.layout,
     twitter: subject.twitter,
     facebook: subject.facebook,
-    bannerImage: {
+    banner: {
       mobileImageId: subject.mobileBanner,
       desktopImageId: subject.desktopBanner,
     },

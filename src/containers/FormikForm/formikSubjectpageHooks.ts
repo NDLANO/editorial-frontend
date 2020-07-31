@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 import { useEffect, useState } from 'react';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import {
@@ -47,22 +53,22 @@ export function useFetchSubjectpageData(
     }
   };
 
-  const fetchEditorsChoices = async (resourceUrn: string[]) => {
-    const taxonomyResources = await Promise.all(
-      resourceUrn.map(urn => {
+  const fetchEditorsChoices = async (taxonomyUrn: string[]) => {
+    const taxonomyElements = await Promise.all(
+      taxonomyUrn.map(urn => {
         if (urn.split(':')[1] === 'topic') {
           return fetchTopic(urn);
         }
         return fetchResource(urn);
       }),
     );
-    const articleIds = taxonomyResources.map(resource =>
-      resource.contentUri.split(':'),
+    const elementIds = taxonomyElements.map(element =>
+      element.contentUri.split(':'),
     );
     return await Promise.all(
-      articleIds.map(async articleId => {
-        if (articleId[1] === 'learningpath') {
-          const learningpath = await fetchLearningpath(articleId.pop());
+      elementIds.map(async elementId => {
+        if (elementId[1] === 'learningpath') {
+          const learningpath = await fetchLearningpath(elementId.pop());
           return {
             ...learningpath,
             metaImage: {
@@ -70,21 +76,20 @@ export function useFetchSubjectpageData(
             },
           };
         }
-        return fetchDraft(articleId.pop());
+        return fetchDraft(elementId.pop());
       }),
     );
   };
 
-  const fetchTaxonomyUrns = async (articleList: any[], language: string) => {
-    console.log(articleList);
+  const fetchTaxonomyUrns = async (elementList: any[], language: string) => {
     return await Promise.all(
-      articleList.map(article => {
-        if (article.articleType === 'topic-article') {
-          return queryTopics(article.id, language);
-        } else if (article.learningsteps) {
-          return queryLearningPathResource(article.id);
+      elementList.map(element => {
+        if (element.articleType === 'topic-article') {
+          return queryTopics(element.id, language);
+        } else if (element.learningsteps) {
+          return queryLearningPathResource(element.id);
         }
-        return queryResources(article.id, language);
+        return queryResources(element.id, language);
       }),
     );
   };

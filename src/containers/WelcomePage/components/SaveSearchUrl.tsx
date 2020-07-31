@@ -108,12 +108,13 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
 
   const linkText = (search: string) => {
     const searchObject = queryString.parse(search);
-    const query = searchObject.query || 'Empty search'; // TODO: use translated string
-    const resourcetype = searchObject['resource-types'] || ''; // TODO: convert to "readable" value
+    const query = searchObject.query || t('welcomePage.emptySearchQuery');
+    const subjects = searchObject['subjects'] || ''; // TODO: convert to "readable" value
     const status = searchObject['/search/content?draft-status'] || '';
 
-    return `${query} ${status && `- ${status}`} ${resourcetype &&
-      `- ${resourcetype}`}`;
+    return `${query} ${status &&
+      `- ${t(`form.status.${status.toLowerCase()}`)}`} ${subjects &&
+      `- ${subjects}`}`;
   };
 
   return (

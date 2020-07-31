@@ -10,6 +10,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 
+import formatDate from '../../../util/formatDate';
 import { ArticleType, TranslateType } from '../../../interfaces';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
@@ -41,7 +42,8 @@ const LastUsedContent: FC<Props> = ({ articleId, locale, t }) => {
         <Link
           {...classes('link')}
           to={toEditArticle(article.id, article.articleType, locale)}>
-          {article.title.title}
+          {article.title.title} ({t('article.lastUpdated')}{' '}
+          {article && formatDate(article.updated)})
         </Link>
       )}
     </div>

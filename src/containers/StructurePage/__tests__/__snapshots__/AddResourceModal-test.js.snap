@@ -102,16 +102,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 .emotion-3:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-3:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-3[disabled] {
@@ -119,9 +110,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-3:focus {
@@ -135,9 +123,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -318,16 +303,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 .emotion-14:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-14:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-14[disabled] {
@@ -335,9 +311,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-14:focus {
@@ -351,9 +324,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -582,16 +552,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 .emotion-3:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-3:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-3[disabled] {
@@ -599,9 +560,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-3:focus {
@@ -615,9 +573,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -839,16 +794,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 .emotion-87:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-87:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-87[disabled] {
@@ -856,9 +802,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-87:focus {
@@ -872,9 +815,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -1383,16 +1323,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
 .emotion-3:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-3:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-3[disabled] {
@@ -1400,9 +1331,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-3:focus {
@@ -1416,9 +1344,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 
@@ -1611,16 +1536,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
 .emotion-21:focus {
   color: white;
   background-color: #184673;
-  border: 2px solid rgba(32,88,143,0);
-  -webkit-transform: translateY(1px) translateX(1px);
-  -ms-transform: translateY(1px) translateX(1px);
-  transform: translateY(1px) translateX(1px);
-}
-
-.emotion-21:active {
-  -webkit-transform: translateY(2px) translateX(2px);
-  -ms-transform: translateY(2px) translateX(2px);
-  transform: translateY(2px) translateX(2px);
+  border: 2px solid #184673;
 }
 
 .emotion-21[disabled] {
@@ -1628,9 +1544,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
-  -webkit-transform: translateY(0) translateX(0);
-  -ms-transform: translateY(0) translateX(0);
-  transform: translateY(0) translateX(0);
 }
 
 .emotion-21:focus {
@@ -1644,9 +1557,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
   border: none;
 }
 

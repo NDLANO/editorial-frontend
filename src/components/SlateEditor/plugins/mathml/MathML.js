@@ -19,12 +19,12 @@ class MathML extends Component {
   async componentDidUpdate(prevProps) {
     const { model } = this.props;
     const { innerHTML } = model;
-    if (window.MathJax && prevProps.model.innerHTML !== innerHTML) {
+    if (window.MathJax) window.MathJax.typeset();
+    if (prevProps.model.innerHTML !== innerHTML) {
       // Note: a small delay before a 're-render" is required in order to
       // get the MathJax script to render correctly after editing the MathML
       this.setState({ reRender: true });
       await setTimeout(() => {
-        window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
         this.setState({ reRender: false });
       }, 10);
     }
@@ -35,9 +35,7 @@ class MathML extends Component {
     if (reRender) {
       return null;
     }
-
     const { node, model, attributes } = this.props;
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
     return (
       <span contentEditable={false} {...attributes}>
         {node.nodes.map(text => (

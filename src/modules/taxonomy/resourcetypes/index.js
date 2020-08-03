@@ -16,10 +16,10 @@ import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function fetchAllResourceTypes(locale) {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+function fetchAllResourceTypes(language) {
+  return fetchAuthorized(
+    `${baseUrl}/resource-types/?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
 }
 
 function createResourceResourceType(resourceType) {

@@ -17,27 +17,27 @@ import { createDeleteUpdateTopicResources } from './topicresouces';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function fetchTopicArticle(topicId, locale) {
+function fetchTopicArticle(topicId, language) {
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/?language=${locale}`,
+    `${baseUrl}/topics/${topicId}/?language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
 /* Option items */
-function fetchResourceTypes(locale) {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${locale}`).then(
+function fetchResourceTypes(language) {
+  return fetchAuthorized(
+    `${baseUrl}/resource-types/?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
+function fetchFilters(language) {
+  return fetchAuthorized(`${baseUrl}/filters/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 }
 
-function fetchFilters(locale) {
-  return fetchAuthorized(`${baseUrl}/filters/?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
-function fetchRelevances(locale) {
-  return fetchAuthorized(`${baseUrl}/relevances/?language=${locale}`).then(
+function fetchRelevances(language) {
+  return fetchAuthorized(`${baseUrl}/relevances/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 }

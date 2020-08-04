@@ -151,7 +151,7 @@ const phrases = {
     emptySearchQuery: 'Empty search query',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
-    lastUsed: 'Last used',
+    lastUsed: 'Last edited',
     savedSearch: 'Saved searches',
     saveSearch: 'Save search',
   },

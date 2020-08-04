@@ -149,7 +149,7 @@ const phrases = {
     emptySearchQuery: 'Ingen søketekst',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
-    lastUsed: 'Sist brukt',
+    lastUsed: 'Sist redigert',
     savedSearch: 'Lagrede søk',
     saveSearch: 'Lagre søk',
   },

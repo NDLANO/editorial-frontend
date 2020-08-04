@@ -257,7 +257,7 @@ export class StructureContainer extends React.PureComponent {
   async showLink() {
     const paths = this.props.match.url.split('/');
 
-    if (paths.length < 2) return;
+    if (paths.length < 3) return;
     const topicId = paths.pop();
     const parentId = paths.pop();
     try {

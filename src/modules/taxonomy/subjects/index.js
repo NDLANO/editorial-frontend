@@ -65,11 +65,14 @@ function fetchSubjectFilters(id) {
 }
 
 function updateSubjectMetadata(subjectId, body) {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  return fetchAuthorized(
+    `${baseUrl}/subjects/${subjectId}/metadata-recursive?applyToResources=true`,
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(body),
+    },
+  ).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
 export {

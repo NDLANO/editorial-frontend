@@ -308,3 +308,8 @@ export const FormikShape = PropTypes.shape({
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
 });
+
+export const MetadataShape = PropTypes.shape({
+  grepCodes: PropTypes.arrayOf(PropTypes.string),
+  visible: PropTypes.bool,
+});

@@ -34,6 +34,7 @@ interface Props {
   menuType: MenuType;
   metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: Function;
+  setResourcesUpdated: Function;
   t: TranslateType;
   toggleEditMode: Function;
 }
@@ -54,6 +55,7 @@ const ToggleVisibility: FC<Props> = ({
   menuType,
   metadata,
   refreshTopics,
+  setResourcesUpdated,
   t,
   toggleEditMode,
 }) => {
@@ -69,6 +71,7 @@ const ToggleVisibility: FC<Props> = ({
         setVisible(!visible);
         getAllSubjects();
         refreshTopics();
+        setResourcesUpdated(true);
         break;
       }
 
@@ -79,6 +82,7 @@ const ToggleVisibility: FC<Props> = ({
         });
         setVisible(!visible);
         refreshTopics();
+        setResourcesUpdated(true);
         break;
       }
 

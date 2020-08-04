@@ -146,7 +146,7 @@ const phrases = {
     addSearch: 'Add new search',
     deleteSavedSearch: 'Delete saved search',
     deleteSearch: 'Delete search',
-    emptyLastUsed: 'Empty last used list',
+    emptyLastUsed: 'Empty last edited list',
     emptySavedSearch: 'No saved searches',
     emptySearchQuery: 'Empty search query',
     guidelines: 'Guidelines',

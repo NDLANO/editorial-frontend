@@ -144,7 +144,7 @@ const phrases = {
     addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagret søk',
     deleteSearch: 'Slett søk',
-    emptyLastUsed: 'Ingen sist brukte',
+    emptyLastUsed: 'Ingen sist redigerte',
     emptySavedSearch: 'Ingen lagrede søk',
     emptySearchQuery: 'Ingen søketekst',
     guidelines: 'Retningslinjer',

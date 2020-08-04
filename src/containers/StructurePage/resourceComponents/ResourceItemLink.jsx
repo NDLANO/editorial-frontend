@@ -37,7 +37,11 @@ const ResourceItemLink = ({
         target: '_blank',
         rel: 'noopener noreferrer',
       };
-      return <a {...linkProps}>{name}</a>;
+      return (
+        <StyledH1 isVisible={isVisible} {...classes('title')}>
+          <a {...linkProps}>{name}</a>
+        </StyledH1>
+      );
     }
     return (
       <Link to={toEditArticle(linkTo, contentType)}>

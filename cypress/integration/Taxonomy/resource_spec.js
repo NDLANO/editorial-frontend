@@ -28,11 +28,7 @@ describe('Resource listing', () => {
       '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/filters/?language=nb',
-      'allFilters'
-    );
+    cy.apiroute('GET', '/taxonomy/v1/filters/?language=nb', 'allFilters');
     cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
@@ -40,7 +36,7 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb',
+      '/taxonomy/v1/topics/**/resources/?language=nb&includeMetadata=true',
       'coreResources',
     );
     cy.apiroute(

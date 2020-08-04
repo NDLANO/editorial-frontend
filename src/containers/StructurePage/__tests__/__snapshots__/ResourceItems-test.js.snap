@@ -2,8 +2,7 @@
 
 exports[`matches snapshot 1`] = `
 .emotion-0 {
-  font-style: italic;
-  color: #777777;
+  color: #20588f;
 }
 
 .emotion-2 {

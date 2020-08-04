@@ -20,6 +20,12 @@ function fetchSubjects(locale) {
   ).then(resolveJsonOrRejectWithError);
 }
 
+function fetchSubject(id, locale) {
+  return fetchAuthorized(
+    `${baseUrl}/subjects/${id}?includeMetadata=true&language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function fetchSubjectTopics(subject, locale) {
   return fetchAuthorized(
     `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true&language=${locale}`,
@@ -74,6 +80,7 @@ function updateSubjectMetadata(subjectId, body) {
 
 export {
   fetchSubjects,
+  fetchSubject,
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,

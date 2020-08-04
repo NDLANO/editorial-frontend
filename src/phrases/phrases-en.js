@@ -143,6 +143,7 @@ const phrases = {
     change: 'Change to {language} version',
   },
   welcomePage: {
+    addSearch: 'Add new search',
     deleteSavedSearch: 'Delete saved search',
     deleteSearch: 'Delete search',
     emptyLastUsed: 'Empty last used list',

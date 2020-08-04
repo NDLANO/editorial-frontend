@@ -8,22 +8,19 @@
 
 import React, { FC, useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
-import { Link } from 'react-router-dom';
-import queryString from 'query-string';
 
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import { DeleteForever } from '@ndla/icons/editor';
-import Tooltip from '@ndla/tooltip';
 
+import SavedSearch from './SavedSearch';
 import { TranslateType } from '../../../interfaces';
-import IconButton from '../../../components/IconButton';
 import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 
 interface Props {
+  locale: string;
   t: TranslateType;
 }
 
@@ -32,7 +29,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SaveSearchUrl: FC<Props> = ({ t }) => {
+const SaveSearchUrl: FC<Props> = ({ locale, t }) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
@@ -88,8 +85,8 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
         ...savedSearches,
         getSavedSearchRelativeUrl(inputFieldValue),
       ];
-      setSavedSearches(savedSearchesUpdated);
       setInputFieldValue('');
+      setSavedSearches(savedSearchesUpdated);
       updateUserMetadata(savedSearchesUpdated);
     } else {
       setIsValidUrl(false);
@@ -102,41 +99,22 @@ const SaveSearchUrl: FC<Props> = ({ t }) => {
     updateUserMetadata(reduced_array);
   };
 
-  const linkText = (search: string) => {
-    const searchObject = queryString.parse(search);
-    const query = searchObject.query || t('welcomePage.emptySearchQuery');
-    const subjects = searchObject['subjects'] || ''; // TODO: convert to "readable" value
-    const status = searchObject['/search/content?draft-status'] || '';
-
-    return `${query} ${status &&
-      `- ${t(`form.status.${status.toLowerCase()}`)}`} ${subjects &&
-      `- ${subjects}`}`;
-  };
-
   return (
     <>
       {!!savedSearches.length ? (
         savedSearches.map((search, index) => (
-          <div style={{ display: 'flex' }} key={index}>
-            <Tooltip tooltip={t('welcomePage.deleteSavedSearch')} align="left">
-              <IconButton
-                color="red"
-                type="button"
-                onClick={() => deleteSearch(index)}
-                data-cy="remove-element">
-                <DeleteForever />
-              </IconButton>
-            </Tooltip>
-            <Link {...classes('link')} to={search}>
-              {linkText(search)}
-            </Link>
-          </div>
+          <SavedSearch
+            deleteSearch={deleteSearch}
+            locale={locale}
+            search={search}
+            index={index}
+          />
         ))
       ) : (
         <span>{t('welcomePage.emptySavedSearch')}</span>
       )}
 
-      <FieldHeader title={t('form.content.link.addTitle')} />
+      <FieldHeader title={t('welcomePage.addSearch')} />
       <FieldSection>
         <Input
           type="text"

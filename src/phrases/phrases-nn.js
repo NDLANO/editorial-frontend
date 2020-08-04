@@ -141,6 +141,7 @@ const phrases = {
     change: 'Bytt til {language} versjon',
   },
   welcomePage: {
+    addSearch: 'Legg til nytt søk',
     deleteSavedSearch: 'Slett lagra søk',
     deleteSearch: 'Slett søk',
     emptyLastUsed: 'Ingen sist brukte',

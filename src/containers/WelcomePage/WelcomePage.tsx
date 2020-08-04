@@ -103,7 +103,7 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <SearchFolder className="c-icon--medium" />
                 <span>{t('welcomePage.savedSearch')}</span>
               </div>
-              <SaveSearchUrl />
+              <SaveSearchUrl locale={locale} />
             </div>
           </div>
         </OneColumn>

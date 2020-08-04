@@ -18,6 +18,7 @@ import Tooltip from '@ndla/tooltip';
 import { TranslateType } from '../../../interfaces';
 import IconButton from '../../../components/IconButton';
 import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
+import { transformQuery } from '../../../util/searchHelpers';
 
 interface Props {
   deleteSearch: Function;
@@ -36,7 +37,7 @@ const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
 
-  const searchObject = queryString.parse(search);
+  const searchObject = transformQuery(queryString.parse(search));
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
 
@@ -62,10 +63,12 @@ const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
   const linkText = (search: string) => {
     const query = searchObject.query || t('welcomePage.emptySearchQuery');
     const status = searchObject['/search/content?draft-status'] || '';
+    const contextType = searchObject['context-types'] || '';
 
     return `${query} ${status &&
       `- ${t(`form.status.${status.toLowerCase()}`)}`} ${subject &&
-      `- ${subjectName}`} ${resourceType && `- ${resourceTypeName}`}
+      `- ${subjectName}`} ${resourceType &&
+      `- ${resourceTypeName}`} ${contextType && `- ${t(`contextTypes.topic`)}`}
       `;
   };
 

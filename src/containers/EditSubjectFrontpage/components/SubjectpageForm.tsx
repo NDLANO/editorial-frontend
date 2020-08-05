@@ -8,8 +8,8 @@
 import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
-import { Footer } from '@ndla/editor';
 import { SubjectpageEditType, TranslateType } from '../../../interfaces';
+import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -166,7 +166,7 @@ const SubjectpageForm: FC<Props> = ({
               formIsDirty={formIsDirty}
               getInitialValues={getInitialValues}
             />
-            <Footer>
+            <Field right>
               <SaveButton
                 large
                 isSaving={isSubmitting}
@@ -175,7 +175,7 @@ const SubjectpageForm: FC<Props> = ({
                 onClick={() => handleSubmit(formik)}
                 disabled={!isValid}
               />
-            </Footer>
+            </Field>
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}

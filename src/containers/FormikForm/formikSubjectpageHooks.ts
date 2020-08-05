@@ -38,9 +38,7 @@ export function useFetchSubjectpageData(
         subjectpageId,
         selectedLanguage,
       );
-      const editorsChoices = await fetchEditorsChoices(
-        subjectpage.editorsChoices,
-      );
+      const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
       setSubjectpage(
         transformSubjectFromApiVersion(
           subjectpage,
@@ -53,9 +51,9 @@ export function useFetchSubjectpageData(
     }
   };
 
-  const fetchEditorsChoices = async (taxonomyUrn: string[]) => {
+  const fetchElementList = async (taxonomyUrns: string[]) => {
     const taxonomyElements = await Promise.all(
-      taxonomyUrn.map(urn => {
+      taxonomyUrns.map(urn => {
         if (urn.split(':')[1] === 'topic') {
           return fetchTopic(urn);
         }

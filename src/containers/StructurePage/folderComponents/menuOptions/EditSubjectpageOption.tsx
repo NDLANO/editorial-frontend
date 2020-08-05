@@ -46,7 +46,7 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
   return (
     <>
       <Link
-        className={"link"}
+        className={'link'}
         to={{
           pathname: link,
           state: {

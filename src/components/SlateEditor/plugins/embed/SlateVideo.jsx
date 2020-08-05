@@ -11,23 +11,11 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Figure } from '@ndla/ui';
-import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
-
-const getIframeProps = ({ account, videoid, player = 'default' }, sources) => {
-  const sortedSources = sources
-    .filter(s => s.width && s.height)
-    .sort((a, b) => a.height < b.height);
-  const source = sortedSources.length > 0 ? sortedSources[0] : {};
-  return {
-    src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
-    height: source.height || '480',
-    width: source.width || '640',
-  };
-};
+import { fetchExternalOembed } from '../../../../util/apiHelpers';
+import { getIframeSrcFromHtmlString } from '../../../../util/htmlHelpers';
 
 const videoStyle = {
   width: '100%',
@@ -41,19 +29,25 @@ const videoStyle = {
 class SlateVideo extends React.PureComponent {
   constructor() {
     super();
-    this.state = { editMode: false, iframeData: {} };
+    this.state = { editMode: false };
     this.toggleEditModus = this.toggleEditModus.bind(this);
   }
 
   async componentDidMount() {
-    const { embed } = this.props;
-    const sources = await visualElementApi.fetchVideoSources(
-      embed.videoid,
-      config.brightCoveAccountId,
-    );
-
-    const iframeData = getIframeProps(embed, sources);
-    this.setState({ iframeData });
+    const { embed: {
+      resource,
+      account,
+      videoid,
+      url,
+      player = 'default'
+    } } = this.props;
+    if (resource === 'brightcove') {
+      this.setState({ src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}` });
+    }
+    else {
+      const data = await fetchExternalOembed(url);
+      this.setState({ src: getIframeSrcFromHtmlString(data.html) });
+    }
   }
 
   toggleEditModus() {
@@ -70,7 +64,7 @@ class SlateVideo extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const { iframeData, editMode } = this.state;
+    const { src, editMode } = this.state;
 
     return (
       <div className="c-figure" draggable="true" {...attributes}>
@@ -100,7 +94,7 @@ class SlateVideo extends React.PureComponent {
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
-                src={iframeData.src}
+                src={src}
                 allowFullScreen
                 css={videoStyle}
               />

@@ -89,8 +89,8 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
       />
       <DropdownSearch
         selectedElements={articles}
-        onClick={(e: Event) => e.stopPropagation()}
-        onChange={(a: ContentResultType) => onAddArticleToList(a)}
+        onClick={(event: Event) => event.stopPropagation()}
+        onChange={(article: ContentResultType) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={values.subjectId}
         clearInputField

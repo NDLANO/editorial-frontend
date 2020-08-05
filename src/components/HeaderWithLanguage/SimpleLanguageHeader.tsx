@@ -71,17 +71,14 @@ const SimpleLanguageHeader: FC<Props> = ({
             <HeaderLanguagePicker
               emptyLanguages={emptyLanguages}
               editUrl={editUrl}
-            />{' '}
+            />
           </>
         ) : (
           <>
-            <div>
-              <HeaderLanguagePill current>
-                <Check />
-                {t(`language.${language}`)}
-              </HeaderLanguagePill>
-            </div>
-            <div />
+            <HeaderLanguagePill current>
+              <Check />
+              {t(`language.${language}`)}
+            </HeaderLanguagePill>
           </>
         )}
       </StyledLanguageWrapper>

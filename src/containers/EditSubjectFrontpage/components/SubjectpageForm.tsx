@@ -179,7 +179,6 @@ const SubjectpageForm: FC<Props> = ({
             <FormikAlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
-              onContinue={() => {}}
               severity="danger"
               text={t('alertModal.notSaved')}
             />

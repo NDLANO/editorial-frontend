@@ -44,21 +44,19 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
     : toCreateSubjectpage(id, locale);
 
   return (
-    <>
-      <Link
-        className={'link'}
-        to={{
-          pathname: link,
-          state: {
-            subjectName: subject?.name,
-          },
-        }}>
-        <MenuItemButton stripped data-testid="editSubjectpageOption">
-          <RoundIcon small icon={<Pencil />} />
-          {t('form.file.editSubjectpage')}
-        </MenuItemButton>
-      </Link>
-    </>
+    <Link
+      className={'link'}
+      to={{
+        pathname: link,
+        state: {
+          subjectName: subject?.name,
+        },
+      }}>
+      <MenuItemButton stripped data-testid="editSubjectpageOption">
+        <RoundIcon small icon={<Pencil />} />
+        {t('form.file.editSubjectpage')}
+      </MenuItemButton>
+    </Link>
   );
 };
 

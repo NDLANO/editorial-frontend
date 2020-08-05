@@ -40,12 +40,12 @@ export function useSubjectpageFormHooks(
         formik.setFieldTouched(fieldName, true, true),
       );
     } catch (err) {
-      if (err && err.status && err.status === 409) {
+      if (err?.status === 409) {
         messageActions.addMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
-      } else if (err && err.json && err.json.messages) {
+      } else if (err?.json?.messages) {
         messageActions.addMessage(formatErrorMessage(err));
       } else {
         messageActions.applicationError(err);

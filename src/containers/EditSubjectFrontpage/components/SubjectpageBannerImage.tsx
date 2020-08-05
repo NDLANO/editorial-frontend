@@ -35,11 +35,9 @@ const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
   const title = convertFieldWithFallback(image, 'title', '');
   const alt = convertFieldWithFallback(image, 'alttext', '');
   const imageAction = (
-    <>
-      <Button css={bannerImageButtonStyle} onClick={onImageSelectOpen}>
-        {t('subjectpageForm.changeBanner')}
-      </Button>
-    </>
+    <Button css={bannerImageButtonStyle} onClick={onImageSelectOpen}>
+      {t('subjectpageForm.changeBanner')}
+    </Button>
   );
   const metaInformationTranslations = {
     title: t('form.metaImage.imageTitle'),
@@ -49,7 +47,7 @@ const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
     <>
       <img
         src={image.imageUrl}
-        style={{ width: 1500, background: colors.brand.primary }}
+        style={{ background: colors.brand.primary }}
         alt={alt}
       />
       <div style={{ height: 5 }} />

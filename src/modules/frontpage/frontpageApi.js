@@ -33,8 +33,10 @@ export const fetchSubjectpage = (id, language) => {
   return fetchAuthorized(urlLang).then(resolveJsonOrRejectWithError);
 };
 
-export const updateSubjectpage = (subjectpage, subjectpageId) => {
-  return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}`, {
+export const updateSubjectpage = (subjectpage, subjectpageId, language) => {
+  const query = queryString.stringify({language});
+  console.log(query);
+  return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
     method: 'PATCH',
     body: JSON.stringify(subjectpage),
   }).then(resolveJsonOrRejectWithError);

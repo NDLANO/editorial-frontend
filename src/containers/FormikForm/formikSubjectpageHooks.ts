@@ -105,6 +105,7 @@ export function useFetchSubjectpageData(
         editorsChoices.map(resource => resource[0].id),
       ),
       updatedSubjectpage.id,
+      selectedLanguage,
     );
     setSubjectpage(
       transformSubjectFromApiVersion(

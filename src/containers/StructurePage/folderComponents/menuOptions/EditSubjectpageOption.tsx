@@ -19,6 +19,7 @@ import {
 import { SubjectType, TranslateType } from '../../../../interfaces';
 import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
+import '../../../../style/link.css';
 
 interface Props {
   t: TranslateType;
@@ -45,6 +46,7 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
   return (
     <>
       <Link
+        className={"link"}
         to={{
           pathname: link,
           state: {

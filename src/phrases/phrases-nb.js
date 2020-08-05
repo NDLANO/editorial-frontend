@@ -141,11 +141,17 @@ const phrases = {
     change: 'Bytt til {language} versjon',
   },
   welcomePage: {
-    lastUsed: 'Sist brukt',
-    emptyLastUsed: 'Ingen sist brukte',
-    savedSearch: 'Lagrede søk',
+    addSearch: 'Legg til nytt søk',
+    deleteSavedSearch: 'Slett lagret søk',
+    deleteSearch: 'Slett søk',
+    emptyLastUsed: 'Ingen sist redigerte',
     emptySavedSearch: 'Ingen lagrede søk',
+    emptySearchQuery: 'Ingen søketekst',
     guidelines: 'Retningslinjer',
+    mustBeSearch: 'Lenken må være til et søk',
+    lastUsed: 'Sist redigert',
+    savedSearch: 'Lagrede søk',
+    saveSearch: 'Lagre søk',
   },
   searchPage: {
     header: {

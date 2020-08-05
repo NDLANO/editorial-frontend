@@ -29,6 +29,7 @@ export {
 } from './resources';
 export {
   fetchAllResourceTypes,
+  fetchResourceType,
   createResourceResourceType,
   deleteResourceResourceType,
   createDeleteResourceTypes,
@@ -53,6 +54,7 @@ export {
 
 export {
   fetchSubjects,
+  fetchSubject,
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,

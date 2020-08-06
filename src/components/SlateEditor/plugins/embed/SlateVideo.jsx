@@ -14,8 +14,7 @@ import { Figure } from '@ndla/ui';
 import { EmbedShape } from '../../../../shapes';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import { fetchExternalOembed } from '../../../../util/apiHelpers';
-import { getIframeSrcFromHtmlString } from '../../../../util/htmlHelpers';
+import { getYoutubeEmbedUrl, addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const videoStyle = {
   width: '100%',
@@ -33,7 +32,7 @@ class SlateVideo extends React.PureComponent {
     this.toggleEditModus = this.toggleEditModus.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { embed: {
       resource,
       account,
@@ -45,8 +44,7 @@ class SlateVideo extends React.PureComponent {
       this.setState({ src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}` });
     }
     else {
-      const data = await fetchExternalOembed(url);
-      this.setState({ src: getIframeSrcFromHtmlString(data.html) });
+      this.setState({ src: getYoutubeEmbedUrl(url) });
     }
   }
 
@@ -64,7 +62,8 @@ class SlateVideo extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const { src, editMode } = this.state;
+    const { src, editMode, start, stop } = this.state;
+    const editedSrc = addYoutubeTimeStamps(src, start, stop);
 
     return (
       <div className="c-figure" draggable="true" {...attributes}>
@@ -81,6 +80,10 @@ class SlateVideo extends React.PureComponent {
             embed={embed}
             toggleEditModus={this.toggleEditModus}
             figureClass={figureClass}
+            start={start}
+            stop={stop}
+            setStart={start => this.setState({ start })}
+            setStop={stop => this.setState({ stop })}
             {...rest}
           />
         ) : (
@@ -94,7 +97,7 @@ class SlateVideo extends React.PureComponent {
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
-                src={src}
+                src={editedSrc}
                 allowFullScreen
                 css={videoStyle}
               />

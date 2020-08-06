@@ -6,6 +6,7 @@ import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { EmbedShape } from '../../../../shapes';
 import { StyledInputWrapper } from './FigureInput';
+import EditVideoTime from './EditVideoTime';
 
 const videoStyle = {
   width: '100%',
@@ -42,6 +43,10 @@ class EditVideo extends Component {
       figureClass,
       t,
       changes,
+      start,
+      stop,
+      setStart,
+      setStop
     } = this.props;
     return (
       <React.Fragment>
@@ -79,6 +84,12 @@ class EditVideo extends Component {
                   placeholder={t('form.video.caption.placeholder')}
                   white
                 />
+                <EditVideoTime 
+                  start={start}
+                  stop={stop}
+                  setStart={setStart}
+                  setStop={setStop}
+                />
               </StyledInputWrapper>
             </div>
           </Portal>
@@ -96,6 +107,10 @@ EditVideo.propTypes = {
   changes: PropTypes.shape({
     caption: PropTypes.string,
   }),
+  start: PropTypes.string,
+  stop: PropTypes.string,
+  setStart: PropTypes.func,
+  setStop: PropTypes.func,
 };
 
 export default injectT(EditVideo);

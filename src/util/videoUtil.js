@@ -30,13 +30,14 @@ export const calcSecondsFromHMS = hms => {
 };
 
 export const getYoutubeEmbedUrl = (url, start, stop) => {
-  if (!start && !stop) return url;
-  let youtubeEmbedUrl = url.includes('embed')
+  const youtubeEmbedUrl = url.includes('embed')
     ? `${url.split('?')[0]}?`
     : `https://www.youtube.com/embed/${url.split('v=')[1]}?`;
-
-  if (start) youtubeEmbedUrl += `&start=${calcSecondsFromHMS(start)}`;
-  if (stop) youtubeEmbedUrl += `&end=${calcSecondsFromHMS(stop)}`;
-
-  return youtubeEmbedUrl;
+  return addYoutubeTimeStamps(youtubeEmbedUrl, start, stop);
 };
+
+export const addYoutubeTimeStamps = (url, start, stop) => {
+  if (start) url += `&start=${calcSecondsFromHMS(start)}`;
+  if (stop) url += `&end=${calcSecondsFromHMS(stop)}`;
+  return url;
+}

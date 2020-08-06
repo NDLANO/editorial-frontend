@@ -41,7 +41,7 @@ const SubjectpageAbout: FC<Props> = ({ t, values }) => {
           />
         )}
       </FormikField>
-      <FormikVisualElement visualElement={values.visualElement} />
+      <FormikVisualElement />
     </>
   );
 };

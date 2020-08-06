@@ -25,17 +25,19 @@ function FigureInput({
 }) {
   return (
     <StyledInputWrapper>
-      {caption !== undefined && <Input
-        name="caption"
-        label={`${t('form.image.caption.label')}:`}
-        value={caption}
-        onChange={onChange}
-        container="div"
-        type="text"
-        autoExpand
-        placeholder={t('form.image.caption.placeholder')}
-        white
-      />}
+      {caption !== undefined && (
+        <Input
+          name="caption"
+          label={`${t('form.image.caption.label')}:`}
+          value={caption}
+          onChange={onChange}
+          container="div"
+          type="text"
+          autoExpand
+          placeholder={t('form.image.caption.placeholder')}
+          white
+        />
+      )}
       <Input
         name="alt"
         label={`${t('form.image.alt.label')}:`}

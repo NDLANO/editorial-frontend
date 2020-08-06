@@ -9,12 +9,10 @@ import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import Button from '@ndla/button';
-import { FormikProps, TranslateType, VisualElement } from '../../../interfaces';
-import { Image } from '../../../interfaces';
+import { TranslateType, VisualElement } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
-import FormikField from '../../../components/FormikField';
 
 interface Props {
   t: TranslateType;

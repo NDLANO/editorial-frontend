@@ -15,6 +15,10 @@ export function useFetchArticleData(articleId, locale) {
   const [article, setArticle] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    fetchArticle();
+  }, [articleId, locale]);
+
   const fetchTaxonomy = async (id, language) => {
     const [resources, topics] = await Promise.all([
       queryResources(id, language, 'article'),
@@ -43,6 +47,7 @@ export function useFetchArticleData(articleId, locale) {
       { taxonomy, ...savedArticle },
       locale,
     );
+    updateUserData(articleId);
     setArticle(updated);
     return updated;
   };
@@ -74,12 +79,30 @@ export function useFetchArticleData(articleId, locale) {
   const createArticle = async createdArticle => {
     const savedArticle = await draftApi.createDraft(createdArticle);
     setArticle(transformArticleFromApiVersion(savedArticle, locale));
+    updateUserData(savedArticle.id);
     return savedArticle;
   };
 
-  useEffect(() => {
-    fetchArticle();
-  }, [articleId, locale]);
+  const updateUserData = async articleId => {
+    const result = await draftApi.fetchUserData();
+    const latestEditedArticles = result.latestEditedArticles || [];
+
+    if (!latestEditedArticles.includes(articleId)) {
+      if (latestEditedArticles.length >= 10) {
+        latestEditedArticles.pop();
+      }
+      latestEditedArticles.splice(0, 0, articleId);
+    } else {
+      const indexArticleId = latestEditedArticles.indexOf(articleId);
+      latestEditedArticles.splice(indexArticleId, 0);
+      latestEditedArticles.splice(0, 0, articleId);
+    }
+    const userUpdatedMetadata = {
+      latestEditedArticles: latestEditedArticles,
+    };
+
+    draftApi.updateUserData(userUpdatedMetadata);
+  };
 
   return {
     article,

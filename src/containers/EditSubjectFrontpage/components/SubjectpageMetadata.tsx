@@ -37,7 +37,6 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         {({ field, form }: FormikProps) => {
           return (
             <SubjectpageBanner
-              bannerId={field.value}
               field={field}
               form={form}
               title={t('form.name.desktopBanner')}

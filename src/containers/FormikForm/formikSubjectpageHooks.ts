@@ -11,7 +11,11 @@ import {
   transformSubjectToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
-import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
+import {
+  Image,
+  SubjectpageApiType,
+  SubjectpageEditType,
+} from '../../interfaces';
 import { updateSubjectContentUri } from '../../modules/taxonomy/subjects';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
@@ -22,6 +26,8 @@ import {
 } from '../../modules/taxonomy/resources';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
+import * as visualElementApi from '../VisualElement/visualElementApi';
+import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 
 export function useFetchSubjectpageData(
   subjectId: string,
@@ -39,16 +45,34 @@ export function useFetchSubjectpageData(
         selectedLanguage,
       );
       const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
+      const banner = await visualElementApi.fetchImage(
+        subjectpage.banner.desktopId,
+        selectedLanguage,
+      );
       setSubjectpage(
         transformSubjectFromApiVersion(
           subjectpage,
           subjectId,
           selectedLanguage,
           editorsChoices,
+          imageToVisualElement(banner),
         ),
       );
       setLoading(false);
     }
+  };
+
+  const imageToVisualElement = (image: Image) => {
+    return {
+      resource: 'image',
+      resource_id: image.id,
+      size: image.size,
+      align: '',
+      alt: convertFieldWithFallback(image, 'alttext', ''),
+      caption: convertFieldWithFallback(image, 'caption', ''),
+      url: image.metaUrl,
+      metaData: image,
+    };
   };
 
   const fetchElementList = async (taxonomyUrns: string[]) => {
@@ -111,6 +135,7 @@ export function useFetchSubjectpageData(
         subjectId,
         selectedLanguage,
         updatedSubjectpage.editorsChoices,
+        updatedSubjectpage.desktopBanner,
       ),
     );
     return savedSubjectpage;
@@ -135,6 +160,7 @@ export function useFetchSubjectpageData(
         subjectId,
         selectedLanguage,
         createdSubjectpage.editorsChoices,
+        createdSubjectpage.desktopBanner,
       ),
     );
     return savedSubjectpage;

@@ -13,7 +13,8 @@ import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
-import { Image, TranslateType } from '../../../interfaces';
+import { TranslateType, VisualElement } from '../../../interfaces';
+import config from '../../../config';
 
 const bannerImageButtonStyle = css`
   display: block;
@@ -22,18 +23,14 @@ const bannerImageButtonStyle = css`
 `;
 
 interface Props {
-  image: Image;
+  image: VisualElement;
   onImageSelectOpen: Function;
   t: TranslateType;
 }
 
 const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
-  const copyright =
-    image.copyright && image.copyright.creators
-      ? image.copyright.creators.map(creator => creator.name).join(', ')
-      : undefined;
-  const title = convertFieldWithFallback(image, 'title', '');
-  const alt = convertFieldWithFallback(image, 'alttext', '');
+  const title = convertFieldWithFallback(image.metaData, 'title', '');
+  const alt = convertFieldWithFallback(image, 'alt', '');
   const imageAction = (
     <Button css={bannerImageButtonStyle} onClick={onImageSelectOpen}>
       {t('subjectpageForm.changeBanner')}
@@ -43,17 +40,13 @@ const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
   };
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.resource_id}`;
   return (
     <>
-      <img
-        src={image.imageUrl}
-        style={{ background: colors.brand.primary }}
-        alt={alt}
-      />
+      <img src={src} style={{ background: colors.brand.primary }} alt={alt} />
       <div style={{ height: 5 }} />
       <MetaInformation
         title={title}
-        copyright={copyright}
         action={imageAction}
         translations={metaInformationTranslations}
       />

@@ -4,64 +4,43 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import Button from '@ndla/button';
-import { TranslateType, VisualElement } from '../../../interfaces';
-import * as api from '../../../modules/image/imageApi';
+import { FormikProps, TranslateType, VisualElement } from '../../../interfaces';
 import { Image } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
+import Lightbox from '../../../components/Lightbox';
+import FormikField from '../../../components/FormikField';
 
 interface Props {
   t: TranslateType;
-  field: FieldProps<Image>['field'];
+  field: FieldProps<VisualElement>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
-  bannerId: string;
   locale: string;
   isSavingImage: boolean;
   title: string;
 }
 
-const SubjectpageBanner: FC<Props> = ({
-  t,
-  field,
-  form,
-  bannerId,
-  locale,
-  title,
-}) => {
+const SubjectpageBanner: FC<Props> = ({ t, field, form, title }) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
-  const [image, setImage] = useState<Image>();
-
-  useEffect(() => {
-    fetchImage();
-  }, []);
-
-  const fetchImage = async () => {
-    if (bannerId) {
-      const fetchedImage = await api.fetchImage(bannerId, locale);
-      setImage(fetchedImage);
-    }
-  };
 
   const onImageChange = (image: VisualElement) => {
-    setImage(image.metaData);
-    updateFormik(image.metaData);
+    updateFormik(image);
     onImageSelectClose();
   };
 
-  const updateFormik = (value: Image | undefined) => {
+  const updateFormik = (value: VisualElement | undefined) => {
     form.setFieldTouched(field.name, true, false);
     field.onChange({
       target: {
         name: field.name,
-        value: value?.id || null,
+        value: value || null,
       },
     });
   };
@@ -77,36 +56,18 @@ const SubjectpageBanner: FC<Props> = ({
   return (
     <>
       <FieldHeader title={title} />
-      <Modal
-        controllable
-        isOpen={showImageSelect}
-        onClose={onImageSelectClose}
-        size="large"
-        backgroundColor="white"
-        minHeight="90vh">
-        {() => (
-          <Fragment>
-            <ModalHeader>
-              <ModalCloseButton
-                title={t('dialog.close')}
-                onClick={onImageSelectClose}
-              />
-            </ModalHeader>
-            <ModalBody>
-              <VisualElementSearch
-                //TODO Upload image funker ikke, noe jeg mangler med redux?
-                // Staten med uploaded image blir borte i stedet for å lagres når den rerendrer
-                selectedResource={'image'}
-                handleVisualElementChange={onImageChange}
-                closeModal={onImageSelectClose}
-              />
-            </ModalBody>
-          </Fragment>
-        )}
-      </Modal>
-      {image ? (
+      {showImageSelect && (
+        <Lightbox display appearance={'big'} onClose={onImageSelectClose}>
+          <VisualElementSearch
+            selectedResource={'image'}
+            handleVisualElementChange={onImageChange}
+            closeModal={onImageSelectClose}
+          />
+        </Lightbox>
+      )}
+      {field.value ? (
         <SubjectpageBannerImage
-          image={image}
+          image={field.value}
           onImageSelectOpen={onImageSelectOpen}
         />
       ) : (

@@ -277,7 +277,7 @@ export interface SubjectpageApiType extends SubjectpageType {
 
 export interface SubjectpageEditType extends SubjectpageType {
   description: string;
-  desktopBanner: number;
+  desktopBanner: VisualElement;
   editorsChoices: ArticleType[];
   language: string;
   mobileBanner: number;
@@ -298,6 +298,7 @@ export interface VisualElement {
   align: string;
   alt: string;
   caption: string;
+  url: string;
   metaData: Image;
 }
 

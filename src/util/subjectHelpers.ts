@@ -2,6 +2,7 @@ import {
   ArticleType,
   SubjectpageApiType,
   SubjectpageEditType,
+  VisualElement,
 } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) =>
@@ -14,6 +15,7 @@ export const transformSubjectFromApiVersion = (
   subjectId: string,
   selectedLanguage: string,
   editorsChoices: ArticleType[],
+  banner: VisualElement,
 ) => {
   const visualElementId = subject.about.visualElement.url.split('/').pop();
   const subjectpageEditType: SubjectpageEditType = {
@@ -23,7 +25,7 @@ export const transformSubjectFromApiVersion = (
     twitter: subject.twitter,
     facebook: subject.facebook,
     mobileBanner: subject.banner.mobileId,
-    desktopBanner: subject.banner.desktopId,
+    desktopBanner: banner,
     name: subject.name,
     description: subject.about.description,
     title: subject.about.title,
@@ -58,7 +60,7 @@ export const transformSubjectToApiVersion = (
     facebook: subject.facebook,
     banner: {
       mobileImageId: subject.mobileBanner,
-      desktopImageId: subject.desktopBanner,
+      desktopImageId: subject.desktopBanner.resource_id,
     },
     about: [
       {

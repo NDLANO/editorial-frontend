@@ -10,7 +10,7 @@ import { injectT } from '@ndla/i18n';
 import { FieldProps } from 'formik';
 import { SubjectpageEditType, TranslateType } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
-import TopicArticleVisualElement from '../../FormikForm/components/FormikVisualElement';
+import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
@@ -41,7 +41,7 @@ const SubjectpageAbout: FC<Props> = ({ t, values }) => {
           />
         )}
       </FormikField>
-      <TopicArticleVisualElement visualElement={values.visualElement} />
+      <FormikVisualElement visualElement={values.visualElement} />
     </>
   );
 };

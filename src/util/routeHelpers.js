@@ -19,6 +19,9 @@ export function toEditArticle(articleId, articleType, locale) {
 }
 
 export function toEditSubjectpage(subjectId, locale, subjectpageId) {
+  if (subjectId === 'urn:subject:20') {
+    return '/film';
+  }
   return `/subjectpage/${subjectId}/${subjectpageId}/edit/${locale}`;
 }
 
@@ -39,6 +42,9 @@ export function toCreateTopicArticle() {
 }
 
 export function toCreateSubjectpage(subjectId, locale) {
+  if (subjectId === 'urn:subject:20') {
+    return '/film';
+  }
   return `/subjectpage/${subjectId}/new/${locale}`;
 }
 

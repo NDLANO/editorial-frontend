@@ -38,6 +38,7 @@ import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
 import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
 import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
+import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 
 export const FirstLoadContext = React.createContext(true);
 
@@ -92,6 +93,7 @@ export class App extends React.Component {
                 />
                 <Route path="/login" component={Login} />
                 <Route path="/logout" component={Logout} />
+                <PrivateRoute path="/subjectpage" component={Subjectpage} />
                 <PrivateRoute path="/search" component={SearchPage} />
                 <PrivateRoute
                   path="/subject-matter"

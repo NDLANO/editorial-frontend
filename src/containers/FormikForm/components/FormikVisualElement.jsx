@@ -29,7 +29,7 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const TopicArticleVisualElement = ({
+const FormikVisualElement = ({
   t,
   formik: {
     values: { visualElementCaption, visualElementAlt, language },
@@ -82,8 +82,8 @@ const TopicArticleVisualElement = ({
   );
 };
 
-TopicArticleVisualElement.propTypes = {
+FormikVisualElement.propTypes = {
   formik: FormikShape,
 };
 
-export default injectT(connect(TopicArticleVisualElement));
+export default injectT(connect(FormikVisualElement));

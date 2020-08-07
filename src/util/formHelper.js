@@ -49,6 +49,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = [
+    'description',
     'introduction',
     'metaDescription',
     'content',
@@ -73,6 +74,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
             dirtyFields.push(value);
           }
         } else if (
+          typeof initialValues[value] === 'object' &&
           !isEqual(currentValue.toJSON(), initialValues[value].toJSON())
         ) {
           dirtyFields.push(value);
@@ -171,6 +173,32 @@ export const topicArticleRules = {
       values.visualElement &&
       (values.visualElement.resource === 'image' ||
         values.visualElement.resource === 'brightcove'),
+  },
+};
+
+export const subjectpageRules = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+    maxLength: 300,
+  },
+  visualElement: {
+    required: true,
+    test: values => {
+      const hasElement = values.resource_id === '';
+      return hasElement
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
+    },
+  },
+  metaDescription: {
+    required: true,
+    maxLength: 300,
+  },
+  desktopBanner: {
+    required: true,
   },
 };
 

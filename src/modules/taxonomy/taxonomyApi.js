@@ -42,6 +42,12 @@ function fetchRelevances(locale) {
   );
 }
 
+function fetchSubject(subjectUrn) {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectUrn}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 function resolveUrls(path) {
   return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(
     resolveJsonOrRejectWithError,
@@ -93,6 +99,7 @@ export {
   fetchFilters,
   fetchTopicArticle,
   fetchRelevances,
+  fetchSubject,
   updateTaxonomy,
   resolveUrls,
 };

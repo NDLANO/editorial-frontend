@@ -14,7 +14,7 @@ import { Figure } from '@ndla/ui';
 import { EmbedShape } from '../../../../shapes';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import { getYoutubeEmbedUrl, addYoutubeTimeStamps } from '../../../../util/videoUtil';
+import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 
 const videoStyle = {
   width: '100%',
@@ -44,7 +44,7 @@ class SlateVideo extends React.PureComponent {
       this.setState({ src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}` });
     }
     else {
-      this.setState({ src: getYoutubeEmbedUrl(url) });
+      this.setState({ src: url.includes('embed') ? url : getYoutubeEmbedUrl(url) });
     }
   }
 
@@ -62,8 +62,7 @@ class SlateVideo extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const { src, editMode, start, stop } = this.state;
-    const editedSrc = addYoutubeTimeStamps(src, start, stop);
+    const { src, editMode } = this.state;
 
     return (
       <div className="c-figure" draggable="true" {...attributes}>
@@ -80,10 +79,7 @@ class SlateVideo extends React.PureComponent {
             embed={embed}
             toggleEditModus={this.toggleEditModus}
             figureClass={figureClass}
-            start={start}
-            stop={stop}
-            setStart={start => this.setState({ start })}
-            setStop={stop => this.setState({ stop })}
+            src={src}
             {...rest}
           />
         ) : (
@@ -97,7 +93,7 @@ class SlateVideo extends React.PureComponent {
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
-                src={editedSrc}
+                src={src}
                 allowFullScreen
                 css={videoStyle}
               />

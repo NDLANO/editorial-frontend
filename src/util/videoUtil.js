@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import queryString from 'query-string'; 
 
 export const toHMS = seconds => {
   if (!seconds) return undefined;
@@ -37,7 +38,16 @@ export const getYoutubeEmbedUrl = (url, start, stop) => {
 };
 
 export const addYoutubeTimeStamps = (url, start, stop) => {
-  if (start) url += `&start=${calcSecondsFromHMS(start)}`;
-  if (stop) url += `&end=${calcSecondsFromHMS(stop)}`;
-  return url;
+  const [baseUrl, query] = url.split('?');
+  const params = queryString.parse(query);
+
+  const startSeconds = start ? calcSecondsFromHMS(start) : params.start;
+  const stopSeconds = stop ? calcSecondsFromHMS(stop) : params.stop;
+
+  const updatedQuery = queryString.stringify({
+    ...(startSeconds && {start: startSeconds}),
+    ...(stopSeconds && {end: stopSeconds}),
+  })
+
+  return `${baseUrl}?${updatedQuery}`; 
 }

@@ -6,12 +6,13 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { TranslateType } from '../../../../interfaces';
+import { addYoutubeTimeStamps, getYoutubeEmbedUrl  } from '../../../../util/videoUtil';
 
 const StyledInputTimeWrapper = styled.div`
   display: flex;
@@ -26,10 +27,8 @@ const hmsCSS = css`
 `;
 
 interface Props {
-  start: string;
-  stop: string;
-  setStart: (e: string) => void;
-  setStop: (e: string) => void;
+  src: string;
+  onFigureInputChange: (e: Event) => void;
   t: TranslateType;
 }
 
@@ -39,15 +38,22 @@ interface Event {
   }
 }
 
-const EditVideoTime = ({ start, stop, setStart, setStop, t} : Props) => {
+const EditVideoTime = ({ src, onFigureInputChange, t} : Props) => {
+  const [start, setStart] = useState('');
+  const [stop, setStop] = useState('');
+
   return (
     <StyledInputTimeWrapper>
       <div>
         <Input
-          name="start"
+          name="url"
           label={t(`form.video.time.start`)}
           value={start}
-          onChange={(e: Event) => setStart(e.target.value)}
+          onChange={(e: Event) => {
+            setStart(e.target.value);
+            e.target.value = addYoutubeTimeStamps(src, e.target.value, stop);
+            onFigureInputChange(e);
+          }}
           container="div"
           placeholder={t(`form.video.time.hms`)}
           white
@@ -56,10 +62,14 @@ const EditVideoTime = ({ start, stop, setStart, setStop, t} : Props) => {
       </div>
       <div>
         <Input
-          name="stop"
+          name="url"
           label={t(`form.video.time.stop`)}
           value={stop}
-          onChange={(e: Event) => setStop(e.target.value)}
+          onChange={(e: Event) => {
+            setStop(e.target.value);
+            e.target.value = addYoutubeTimeStamps(src, start, e.target.value);
+            onFigureInputChange(e);
+          }}
           container="div"
           placeholder={t(`form.video.time.hms`)}
           white

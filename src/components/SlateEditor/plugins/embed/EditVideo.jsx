@@ -43,10 +43,7 @@ class EditVideo extends Component {
       figureClass,
       t,
       changes,
-      start,
-      stop,
-      setStart,
-      setStop
+      src
     } = this.props;
     return (
       <React.Fragment>
@@ -84,11 +81,10 @@ class EditVideo extends Component {
                   placeholder={t('form.video.caption.placeholder')}
                   white
                 />
-                <EditVideoTime 
-                  start={start}
-                  stop={stop}
-                  setStart={setStart}
-                  setStop={setStop}
+                <EditVideoTime
+                  embed={embed}
+                  onFigureInputChange={onFigureInputChange}
+                  src={src}
                 />
               </StyledInputWrapper>
             </div>
@@ -107,10 +103,7 @@ EditVideo.propTypes = {
   changes: PropTypes.shape({
     caption: PropTypes.string,
   }),
-  start: PropTypes.string,
-  stop: PropTypes.string,
-  setStart: PropTypes.func,
-  setStop: PropTypes.func,
+  src: PropTypes.string,
 };
 
 export default injectT(EditVideo);

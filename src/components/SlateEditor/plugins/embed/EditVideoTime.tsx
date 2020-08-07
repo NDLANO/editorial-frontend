@@ -12,7 +12,7 @@ import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { TranslateType } from '../../../../interfaces';
-import { addYoutubeTimeStamps, getYoutubeEmbedUrl  } from '../../../../util/videoUtil';
+import { addYoutubeTimeStamps, getStartTime, getStopTime } from '../../../../util/videoUtil';
 
 const StyledInputTimeWrapper = styled.div`
   display: flex;
@@ -39,8 +39,8 @@ interface Event {
 }
 
 const EditVideoTime = ({ src, onFigureInputChange, t} : Props) => {
-  const [start, setStart] = useState('');
-  const [stop, setStop] = useState('');
+  const [start, setStart] = useState(getStartTime(src));
+  const [stop, setStop] = useState(getStopTime(src));
 
   return (
     <StyledInputTimeWrapper>

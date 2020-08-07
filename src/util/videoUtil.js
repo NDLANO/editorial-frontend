@@ -51,3 +51,13 @@ export const addYoutubeTimeStamps = (url, start, stop) => {
 
   return `${baseUrl}?${updatedQuery}`; 
 }
+
+export const getStartTime = url => {
+  const params = queryString.parse(url.split('?')[1]);
+  return toHMS(params.start);
+}
+
+export const getStopTime = url => {
+  const params = queryString.parse(url.split('?')[1]);
+  return toHMS(params.end);
+}

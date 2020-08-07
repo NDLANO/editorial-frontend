@@ -94,7 +94,7 @@ export function useFetchArticleData(articleId, locale) {
       latestEditedArticles.splice(0, 0, articleId);
     } else {
       const indexArticleId = latestEditedArticles.indexOf(articleId);
-      latestEditedArticles.splice(indexArticleId, 0);
+      latestEditedArticles.splice(indexArticleId, 1);
       latestEditedArticles.splice(0, 0, articleId);
     }
     const userUpdatedMetadata = {

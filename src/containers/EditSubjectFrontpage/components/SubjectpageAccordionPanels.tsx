@@ -45,9 +45,7 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: ({ values }: ComponentProps) => (
-      <SubjectpageAbout values={values} />
-    ),
+    component: () => <SubjectpageAbout />,
   },
   {
     id: 'metadata',

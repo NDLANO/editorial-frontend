@@ -14,6 +14,7 @@ import EditSubjectpage from './EditSubjectpage';
 import { TranslateType } from '../../interfaces';
 import CreateSubjectpage from './CreateSubjectpage';
 import Footer from '../App/components/Footer';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   t: TranslateType;
@@ -65,6 +66,7 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
               );
             }}
           />
+          <Route component={NotFoundPage} />
         </Switch>
       </OneColumn>
       <Footer showLocaleSelector={false} />

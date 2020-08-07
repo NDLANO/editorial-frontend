@@ -36,28 +36,35 @@ export function useFetchSubjectpageData(
 ) {
   const [subjectpage, setSubjectpage] = useState<SubjectpageEditType>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(undefined);
 
   const fetchSubjectpage = async () => {
     if (subjectpageId) {
       setLoading(true);
-      const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
-        subjectpageId,
-        selectedLanguage,
-      );
-      const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
-      const banner = await visualElementApi.fetchImage(
-        subjectpage.banner.desktopId,
-        selectedLanguage,
-      );
-      setSubjectpage(
-        transformSubjectFromApiVersion(
-          subjectpage,
-          subjectId,
+      try {
+        const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
+          subjectpageId,
           selectedLanguage,
-          editorsChoices,
-          imageToVisualElement(banner),
-        ),
-      );
+        );
+        const editorsChoices = await fetchElementList(
+          subjectpage.editorsChoices,
+        );
+        const banner = await visualElementApi.fetchImage(
+          subjectpage.banner.desktopId,
+          selectedLanguage,
+        );
+        setSubjectpage(
+          transformSubjectFromApiVersion(
+            subjectpage,
+            subjectId,
+            selectedLanguage,
+            editorsChoices,
+            imageToVisualElement(banner),
+          ),
+        );
+      } catch (err) {
+        setError(err);
+      }
       setLoading(false);
     }
   };
@@ -175,5 +182,6 @@ export function useFetchSubjectpageData(
     loading,
     updateSubjectpage,
     createSubjectpage,
+    error,
   };
 }

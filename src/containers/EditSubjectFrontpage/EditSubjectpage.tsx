@@ -13,6 +13,7 @@ import { TranslateType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   t: TranslateType;
@@ -29,11 +30,16 @@ const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   subjectpageId,
   isNewlyCreated,
 }) => {
-  const { loading, subjectpage, updateSubjectpage } = useFetchSubjectpageData(
-    subjectId,
-    selectedLanguage,
-    subjectpageId,
-  );
+  const {
+    loading,
+    subjectpage,
+    updateSubjectpage,
+    error,
+  } = useFetchSubjectpageData(subjectId, selectedLanguage, subjectpageId);
+
+  if (error !== undefined) {
+    return <NotFoundPage />;
+  }
 
   if (loading || !subjectpage || !subjectpage.id) {
     return <Spinner withWrapper />;

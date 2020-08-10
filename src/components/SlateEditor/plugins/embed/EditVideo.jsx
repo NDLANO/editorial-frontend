@@ -7,6 +7,7 @@ import Overlay from '../../../Overlay';
 import { EmbedShape } from '../../../../shapes';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
+import { ResourceGroup } from '@ndla/ui';
 
 const videoStyle = {
   width: '100%',
@@ -81,11 +82,13 @@ class EditVideo extends Component {
                   placeholder={t('form.video.caption.placeholder')}
                   white
                 />
-                <EditVideoTime
-                  embed={embed}
-                  onFigureInputChange={onFigureInputChange}
-                  src={src}
-                />
+                {embed.resource === 'external' && 
+                  <EditVideoTime
+                    embed={embed}
+                    onFigureInputChange={onFigureInputChange}
+                    src={src}
+                  />
+                }
               </StyledInputWrapper>
             </div>
           </Portal>

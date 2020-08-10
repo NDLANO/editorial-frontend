@@ -12,8 +12,6 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import './helpers/h5pResizer';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -22,20 +20,10 @@ import { getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
+import EditVideoTime from '../SlateEditor/plugins/embed/EditVideoTime';
+import { removeParams } from '../../util/videoUtil';
 import Overlay from '../Overlay';
 import config from '../../config';
-
-const StyledInputTimeWrapper = styled.div`
-  display: flex;
-  flex-flow: row;
-  width: 80%;
-  margin-top: 6.5px;
-`;
-
-const hmsCSS = css`
-  width: 120px;
-  margin-right: 13px;
-`;
 
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
@@ -154,7 +142,7 @@ export class DisplayExternalVisualElement extends Component {
             ref={iframe => {
               this.iframe = iframe;
             }}
-            src={src}
+            src={editModus ? removeParams(src) : src}
             height={allowedProvider.height || height}
             title={title}
             scrolling={type === 'iframe' ? 'no' : undefined}
@@ -181,46 +169,11 @@ export class DisplayExternalVisualElement extends Component {
                 placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
                 white
               />
-              <StyledInputTimeWrapper>
-                <div>
-                  <Input
-                    name="start"
-                    label={t(`form.${youtubeOrH5p}.time.start`)}
-                    value={embed.start}
-                    onChange={e => {
-                      onFigureInputChange({
-                        target: {
-                          name: 'visualElementStart',
-                          value: e.target.value,
-                        },
-                      });
-                    }}
-                    container="div"
-                    placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
-                    white
-                    customCSS={hmsCSS}
-                  />
-                </div>
-                <div>
-                  <Input
-                    name="stop"
-                    label={t(`form.${youtubeOrH5p}.time.stop`)}
-                    value={embed.stop}
-                    onChange={e => {
-                      onFigureInputChange({
-                        target: {
-                          name: 'visualElementStop',
-                          value: e.target.value,
-                        },
-                      });
-                    }}
-                    container="div"
-                    placeholder={t(`form.${youtubeOrH5p}.time.hms`)}
-                    white
-                    customCSS={hmsCSS}
-                  />
-                </div>
-              </StyledInputTimeWrapper>
+              <EditVideoTime
+                name='visualElementUrl'
+                src={src}
+                onFigureInputChange={onFigureInputChange}
+              />
             </StyledInputWrapper>
           ) : (
             <Button

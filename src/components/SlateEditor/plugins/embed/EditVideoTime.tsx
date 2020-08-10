@@ -27,6 +27,7 @@ const hmsCSS = css`
 `;
 
 interface Props {
+  name: string;
   src: string;
   onFigureInputChange: (e: Event) => void;
   t: TranslateType;
@@ -38,7 +39,7 @@ interface Event {
   }
 }
 
-const EditVideoTime = ({ src, onFigureInputChange, t} : Props) => {
+const EditVideoTime = ({ src, onFigureInputChange, name, t} : Props) => {
   const [start, setStart] = useState(getStartTime(src));
   const [stop, setStop] = useState(getStopTime(src));
 
@@ -46,7 +47,7 @@ const EditVideoTime = ({ src, onFigureInputChange, t} : Props) => {
     <StyledInputTimeWrapper>
       <div>
         <Input
-          name="url"
+          name={name}
           label={t(`form.video.time.start`)}
           value={start}
           onChange={(e: Event) => {
@@ -62,7 +63,7 @@ const EditVideoTime = ({ src, onFigureInputChange, t} : Props) => {
       </div>
       <div>
         <Input
-          name="url"
+          name={name}
           label={t(`form.video.time.stop`)}
           value={stop}
           onChange={(e: Event) => {

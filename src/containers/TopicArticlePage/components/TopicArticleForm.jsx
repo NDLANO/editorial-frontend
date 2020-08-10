@@ -66,6 +66,7 @@ export const getInitialValues = (article = {}) => {
     updatePublished: false,
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
+    visualElementUrl: visualElement?.url || '',
     visualElementStart:
       toHMS(visualElement?.url.match('(?<=start=)[0-9]+')) || '',
     visualElementStop: toHMS(visualElement?.url.match('(?<=end=)[0-9]+')) || '',
@@ -111,11 +112,7 @@ const getArticleFromSlate = ({
             values.visualElementAlt && values.visualElementAlt.length > 0
               ? values.visualElementAlt
               : undefined,
-          url: getYoutubeEmbedUrl(
-            values.visualElement.url,
-            values.visualElementStart,
-            values.visualElementStop,
-          ),
+          url: values.visualElementUrl,
         },
   );
   const content = topicArticleContentToHTML(values.content);

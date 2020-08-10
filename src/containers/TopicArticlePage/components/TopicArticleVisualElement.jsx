@@ -36,8 +36,7 @@ const TopicArticleVisualElement = ({
       visualElementCaption,
       visualElementAlt,
       language,
-      visualElementStop,
-      visualElementStart,
+      visualElementUrl
     },
   },
 }) => {
@@ -61,8 +60,7 @@ const TopicArticleVisualElement = ({
                   ...field.value,
                   caption: visualElementCaption,
                   alt: visualElementAlt,
-                  start: visualElementStart,
-                  stop: visualElementStop,
+                  url: visualElementUrl,
                 }}
                 language={language}
               />

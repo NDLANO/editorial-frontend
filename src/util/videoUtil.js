@@ -61,3 +61,7 @@ export const getStopTime = url => {
   const params = queryString.parse(url.split('?')[1]);
   return toHMS(params.end);
 }
+
+export const removeParams = url => {
+  return url.split('?')[0];
+}

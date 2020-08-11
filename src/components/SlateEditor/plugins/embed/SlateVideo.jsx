@@ -33,18 +33,17 @@ class SlateVideo extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { embed: {
-      resource,
-      account,
-      videoid,
-      url,
-      player = 'default'
-    } } = this.props;
+    const {
+      embed: { resource, account, videoid, url, player = 'default' },
+    } = this.props;
     if (resource === 'brightcove') {
-      this.setState({ src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}` });
-    }
-    else {
-      this.setState({ src: url.includes('embed') ? url : getYoutubeEmbedUrl(url) });
+      this.setState({
+        src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
+      });
+    } else {
+      this.setState({
+        src: url.includes('embed') ? url : getYoutubeEmbedUrl(url),
+      });
     }
   }
 

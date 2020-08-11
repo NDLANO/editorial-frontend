@@ -44,7 +44,7 @@ class EditVideo extends Component {
       figureClass,
       t,
       changes,
-      src
+      src,
     } = this.props;
     return (
       <React.Fragment>
@@ -82,13 +82,13 @@ class EditVideo extends Component {
                   placeholder={t('form.video.caption.placeholder')}
                   white
                 />
-                {embed.resource === 'external' && 
+                {embed.resource === 'external' && (
                   <EditVideoTime
-                    name='url'
+                    name="url"
                     src={src}
                     onFigureInputChange={onFigureInputChange}
                   />
-                }
+                )}
               </StyledInputWrapper>
             </div>
           </Portal>

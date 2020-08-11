@@ -29,7 +29,7 @@ import {
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../util/articleUtil';
-import { getYoutubeEmbedUrl, toHMS} from '../../../util/videoUtil';
+import { getYoutubeEmbedUrl, toHMS } from '../../../util/videoUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';

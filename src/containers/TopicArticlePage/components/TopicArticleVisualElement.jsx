@@ -36,7 +36,7 @@ const TopicArticleVisualElement = ({
       visualElementCaption,
       visualElementAlt,
       language,
-      visualElementUrl
+      visualElementUrl,
     },
   },
 }) => {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import queryString from 'query-string'; 
+import queryString from 'query-string';
 
 export const toHMS = seconds => {
   if (!seconds) return undefined;
@@ -22,7 +22,10 @@ export const toHMS = seconds => {
 };
 
 export const calcSecondsFromHMS = hms => {
-  const hmsArray = hms.split(':').reverse().filter(Number);
+  const hmsArray = hms
+    .split(':')
+    .reverse()
+    .filter(Number);
   if (!hmsArray.length) return;
   return hmsArray
     .map(a => parseInt(a, 10))
@@ -44,23 +47,23 @@ export const addYoutubeTimeStamps = (url, start, stop) => {
   const stopSeconds = stop ? calcSecondsFromHMS(stop) : params.stop;
 
   const updatedQuery = queryString.stringify({
-    ...(startSeconds && {start: startSeconds}),
-    ...(stopSeconds && {end: stopSeconds}),
-  })
+    ...(startSeconds && { start: startSeconds }),
+    ...(stopSeconds && { end: stopSeconds }),
+  });
 
-  return `${baseUrl}?${updatedQuery}`; 
-}
+  return `${baseUrl}?${updatedQuery}`;
+};
 
 export const getStartTime = url => {
   const params = queryString.parse(url.split('?')[1]);
   return toHMS(params.start);
-}
+};
 
 export const getStopTime = url => {
   const params = queryString.parse(url.split('?')[1]);
   return toHMS(params.end);
-}
+};
 
 export const removeParams = url => {
   return url.split('?')[0];
-}
+};

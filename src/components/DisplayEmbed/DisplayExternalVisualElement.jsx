@@ -28,7 +28,7 @@ import config from '../../config';
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
     super(props);
-    this.state = { editModus: false };
+    this.state = { editMode: false };
     this.handleChangeVisualElement = this.handleChangeVisualElement.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
@@ -101,7 +101,7 @@ export class DisplayExternalVisualElement extends Component {
       provider,
       domain,
       error,
-      editModus,
+      editMode,
     } = this.state;
 
     if (error) {
@@ -126,8 +126,8 @@ export class DisplayExternalVisualElement extends Component {
     const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
     return (
       <>
-        {editModus && (
-          <Overlay onExit={() => this.setState({ editModus: false })} />
+        {editMode && (
+          <Overlay onExit={() => this.setState({ editMode: false })} />
         )}
         <div className="c-figure">
           <FigureButtons
@@ -142,14 +142,14 @@ export class DisplayExternalVisualElement extends Component {
             ref={iframe => {
               this.iframe = iframe;
             }}
-            src={editModus ? removeParams(src) : src}
+            src={editMode ? removeParams(src) : src}
             height={allowedProvider.height || height}
             title={title}
             scrolling={type === 'iframe' ? 'no' : undefined}
             allowFullScreen={allowedProvider.fullscreen || true}
             frameBorder="0"
           />
-          {youtubeOrH5p === 'video' && editModus ? (
+          {youtubeOrH5p === 'video' && editMode ? (
             <StyledInputWrapper>
               <Input
                 name="caption"
@@ -179,7 +179,7 @@ export class DisplayExternalVisualElement extends Component {
             <Button
               stripped
               style={{ width: '100%' }}
-              onClick={() => this.setState({ editModus: true })}>
+              onClick={() => this.setState({ editMode: true })}>
               <figcaption className="c-figure__caption">
                 <div className="c-figure__info">{embed.caption}</div>
               </figcaption>

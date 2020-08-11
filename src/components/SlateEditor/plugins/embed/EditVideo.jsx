@@ -67,22 +67,23 @@ class EditVideo extends Component {
                 />
               </figure>
               <StyledInputWrapper>
-                <Input
-                  name="caption"
-                  label={t('form.video.caption.label')}
-                  value={changes?.caption || embed.caption}
-                  onChange={onFigureInputChange}
-                  container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={t('form.video.caption.placeholder')}
-                  white
-                />
-                {embed.resource === 'external' && (
+                {embed.resource === 'external' ? (
                   <EditVideoTime
                     name="url"
                     src={src}
                     onFigureInputChange={onFigureInputChange}
+                  />
+                ) : (
+                  <Input
+                    name="caption"
+                    label={t('form.video.caption.label')}
+                    value={changes?.caption || embed.caption}
+                    onChange={onFigureInputChange}
+                    container="div"
+                    type="text"
+                    autoExpand
+                    placeholder={t('form.video.caption.placeholder')}
+                    white
                   />
                 )}
               </StyledInputWrapper>

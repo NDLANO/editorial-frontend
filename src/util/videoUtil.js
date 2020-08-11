@@ -22,11 +22,10 @@ export const toHMS = seconds => {
 };
 
 export const calcSecondsFromHMS = hms => {
-  return hms
-    .split(':')
-    .reverse()
+  const hmsArray = hms.split(':').reverse().filter(Number);
+  if (!hmsArray.length) return;
+  return hmsArray
     .map(a => parseInt(a, 10))
-    .filter(Number)
     .reduce((acc, element, index) => acc + element * Math.pow(60, index));
 };
 

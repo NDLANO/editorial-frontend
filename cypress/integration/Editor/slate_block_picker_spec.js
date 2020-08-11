@@ -102,7 +102,6 @@ describe("can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="YouTube-video-tab"]').click();
     cy.apiwait('@editor/videos/videoListYoutube');
     cy.get('[data-cy="use-video"]').first().click();
-    cy.apiwait('@editor/videos/videoYoutube');
     cy.get('[data-cy="remove-element"]').click();
   });
 

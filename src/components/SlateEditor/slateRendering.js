@@ -72,6 +72,8 @@ export const renderMark = (props, editor, next) => {
       return <sup>{children}</sup>;
     case 'sub':
       return <sub>{children}</sub>;
+    case 'code':
+      return <code>{children}</code>;
     default:
       return next();
   }

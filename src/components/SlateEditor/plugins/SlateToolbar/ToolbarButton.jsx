@@ -12,19 +12,20 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import {
   Bold,
-  Italic,
-  ListCircle,
-  ListNumbered,
-  ListAlphabetical,
-  Quote,
-  Underline,
-  Link,
+  Code,
+  Concept,
   Heading3,
   Heading2,
   Heading1,
-  Section,
+  Italic,
+  Link,
+  ListCircle,
+  ListNumbered,
+  ListAlphabetical,
   Math,
-  Concept,
+  Quote,
+  Section,
+  Underline,
 } from '@ndla/icons/editor';
 
 import { css } from '@emotion/core';
@@ -47,6 +48,8 @@ const toolbarIcon = t => ({
   footnote: <Section title={t('editorToolbar.footnote')} />,
   mathml: <Math title={t('editorToolbar.mathml')} />,
   concept: <Concept title={t('editorToolbar.concept')} />,
+  code: <Code title="Ikke formatert kodeblokk" />, // todo fix
+  'code-block': <Code title="Kodeblokk" />,
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 

@@ -7,7 +7,6 @@ import Overlay from '../../../Overlay';
 import { EmbedShape } from '../../../../shapes';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { ResourceGroup } from '@ndla/ui';
 
 const videoStyle = {
   width: '100%',

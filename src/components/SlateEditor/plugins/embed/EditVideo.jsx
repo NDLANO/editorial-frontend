@@ -58,16 +58,13 @@ class EditVideo extends Component {
                 this.embedEl = embedEl;
               }}>
               <figure css={{ paddingTop: '56.25%' }} {...figureClass}>
-                <video
+                <iframe
+                  title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
+                  frameBorder="0"
+                  src={src}
+                  allowFullScreen
                   css={videoStyle}
-                  data-video-id={embed.videoid}
-                  data-account={embed.account}
-                  data-player={embed.player}
-                  data-embed="default"
-                  className="video-js"
-                  controls>
-                  <track kind="captions" label={embed.caption} />
-                </video>
+                />
               </figure>
               <StyledInputWrapper>
                 <Input

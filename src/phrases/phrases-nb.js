@@ -13,6 +13,7 @@ const phrases = {
     titleTemplate,
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
+    createSubjectpage: `Fagforside ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     searchContentPage: `Søk innhold ${titleTemplate}`,
     searchMediaPage: `Søk media ${titleTemplate}`,
@@ -141,11 +142,17 @@ const phrases = {
     change: 'Bytt til {language} versjon',
   },
   welcomePage: {
-    lastUsed: 'Sist brukt',
-    emptyLastUsed: 'Ingen sist brukte',
-    savedSearch: 'Lagrede søk',
+    addSearch: 'Legg til nytt søk',
+    deleteSavedSearch: 'Slett lagret søk',
+    deleteSearch: 'Slett søk',
+    emptyLastUsed: 'Ingen sist redigerte',
     emptySavedSearch: 'Ingen lagrede søk',
+    emptySearchQuery: 'Ingen søketekst',
     guidelines: 'Retningslinjer',
+    mustBeSearch: 'Lenken må være til et søk',
+    lastUsed: 'Sist redigert',
+    savedSearch: 'Lagrede søk',
+    saveSearch: 'Lagre søk',
   },
   searchPage: {
     header: {
@@ -184,6 +191,7 @@ const phrases = {
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
+    newSubject: 'Opprett fag',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -322,6 +330,19 @@ const phrases = {
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
+  },
+  subjectpageForm: {
+    title: 'Fag',
+    about: 'Om faget',
+    description: 'Beskrivelse',
+    metadata: 'Metadata',
+    addBanner: 'Velg banner',
+    changeBanner: 'Bytt banner',
+    editorsChoices: 'Litt forskjellig fra faget',
+    articles: 'Artikler',
+    addArticle: 'Legg til artikkel',
+    removeArticle: 'Fjern artikkel',
+    missingVisualElement: 'Visuelt element er påkrevd.',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -472,6 +493,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
+      aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -487,6 +509,7 @@ const phrases = {
       alttext: 'Alt-tekst',
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
+      visualElement: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt-tekst',
       validFrom: 'Gyldig fra',
@@ -494,6 +517,8 @@ const phrases = {
       description: 'Innhold',
       conceptContent: 'Beskrivelse',
       grepCodes: 'Læreplankobling',
+      desktopBanner: 'Banner til desktop',
+      mobileBanner: 'Banner til mobil',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -893,6 +918,7 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
+      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',

@@ -32,12 +32,10 @@ class EditMath extends Component {
   }
 
   componentDidMount() {
+    // force set state to trigger rerender.
+    this.setState({});
     const { renderMathML } = this.state;
     const { locale } = this.props;
-
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
 
     const script = document.createElement('script');
     script.src = 'https://www.wiris.net/client/editor/editor';
@@ -56,9 +54,7 @@ class EditMath extends Component {
   }
 
   componentDidUpdate() {
-    if (window.MathJax) {
-      window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-    }
+    if (window.MathJax) window.MathJax.typeset();
   }
 
   handleExit() {
@@ -94,7 +90,6 @@ class EditMath extends Component {
   render() {
     const { renderMathML, openDiscardModal } = this.state;
     const { handleRemove } = this.props;
-
     return (
       <EditMathModal
         handleExit={this.handleExit}

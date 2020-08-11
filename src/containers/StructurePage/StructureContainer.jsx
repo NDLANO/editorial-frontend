@@ -15,7 +15,6 @@ import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { Taxonomy, Star } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
-import { getCookie, setCookie } from '@ndla/util';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
@@ -47,6 +46,7 @@ import {
   getCurrentTopic,
   filterToSubjects,
 } from '../../util/taxonomyHelpers';
+import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
@@ -64,6 +64,7 @@ export class StructureContainer extends React.PureComponent {
       activeConnections: [],
       resourcesUpdated: false,
       showFavorites: false,
+      favoriteSubjects: [],
     };
     this.starButton = React.createRef();
     this.resourceSection = React.createRef();
@@ -85,7 +86,7 @@ export class StructureContainer extends React.PureComponent {
     this.onDragEnd = this.onDragEnd.bind(this);
     this.setResourcesUpdated = this.setResourcesUpdated.bind(this);
     this.toggleFavorite = this.toggleFavorite.bind(this);
-    this.getFavoriteSubjectIds = this.getFavoriteSubjectIds.bind(this);
+    this.fetchFavoriteSubjects = this.fetchFavoriteSubjects.bind(this);
     this.getFavoriteSubjects = this.getFavoriteSubjects.bind(this);
     this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
   }
@@ -100,6 +101,7 @@ export class StructureContainer extends React.PureComponent {
     }
     this.showLink();
     this.getAvailableFilters();
+    this.fetchFavoriteSubjects();
   }
 
   componentDidUpdate({
@@ -369,22 +371,21 @@ export class StructureContainer extends React.PureComponent {
   }
 
   toggleFavorite(subjectId) {
-    const cookie = getCookie('favorite_subjects', document.cookie);
-    let favorites = JSON.parse(cookie) || [];
-
-    if (favorites.includes(subjectId)) {
-      favorites = favorites.filter(id => id !== subjectId);
+    let updatedFavorites;
+    const favSubjects = this.state.favoriteSubjects;
+    if (favSubjects.includes(subjectId)) {
+      updatedFavorites = favSubjects.filter(s => s !== subjectId);
     } else {
-      favorites.push(subjectId);
+      updatedFavorites = [...favSubjects, subjectId];
     }
-
-    setCookie('favorite_subjects', JSON.stringify(favorites), false, false);
-
-    this.forceUpdate();
+    this.setState({ favoriteSubjects: updatedFavorites });
+    updateUserData({ favoriteSubjects: updatedFavorites });
   }
 
-  getFavoriteSubjectIds() {
-    return JSON.parse(getCookie('favorite_subjects', document.cookie)) || [];
+  async fetchFavoriteSubjects() {
+    const result = await fetchUserData();
+    const favoriteSubjects = result.favoriteSubjects || [];
+    this.setState({ favoriteSubjects: favoriteSubjects });
   }
 
   getFavoriteSubjects(subjects, favoriteSubjectIds) {
@@ -403,6 +404,7 @@ export class StructureContainer extends React.PureComponent {
       subjects,
       editStructureHidden,
       showFavorites,
+      favoriteSubjects,
     } = this.state;
     const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
@@ -413,7 +415,6 @@ export class StructureContainer extends React.PureComponent {
       subject: currentSubject,
     });
     const linkViewOpen = jsPlumbConnections.length > 0;
-    const favoriteSubjectIds = this.getFavoriteSubjectIds();
 
     return (
       <ErrorBoundary>
@@ -453,7 +454,7 @@ export class StructureContainer extends React.PureComponent {
                 openedPaths={getPathsFromUrl(match.url)}
                 structure={
                   showFavorites
-                    ? this.getFavoriteSubjects(subjects, favoriteSubjectIds)
+                    ? this.getFavoriteSubjects(subjects, favoriteSubjects)
                     : subjects
                 }
                 filters={filters}
@@ -461,7 +462,7 @@ export class StructureContainer extends React.PureComponent {
                 activeFilters={activeFilters}
                 highlightMainActive
                 toggleFavorite={this.toggleFavorite}
-                favoriteSubjectIds={favoriteSubjectIds}
+                favoriteSubjectIds={favoriteSubjects}
                 renderListItems={listProps => (
                   <FolderItem
                     {...listProps}

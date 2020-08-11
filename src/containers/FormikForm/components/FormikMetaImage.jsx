@@ -79,7 +79,6 @@ const FormikMetaImage = ({
           translations={metaInformationTranslations}
         />
       </div>
-
       <FormikField
         label={t('topicArticleForm.fields.alt.label')}
         name="metaImageAlt"

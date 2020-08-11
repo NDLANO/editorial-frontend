@@ -8,10 +8,6 @@
 
 import React, { Fragment, createRef, Component } from 'react';
 import { injectT } from '@ndla/i18n';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
-import Button from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
 import Types from 'slate-prop-types';
 import he from 'he';
 import { Portal } from '../../../Portal';
@@ -19,25 +15,7 @@ import EditMath from './EditMath';
 import MathML from './MathML';
 import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
-
-const StyledMenu = styled('span')`
-  cursor: pointer;
-  position: absolute;
-  padding: ${spacing.xsmall};
-  background-color: white;
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border: 1px solid ${colors.brand.greyLight};
-  z-index: 1;
-  ${p => (p.left ? `left: ${p.left}px;` : '')};
-  ${p => (p.top ? `top: ${p.top}px;` : '')};
-`;
-
-const buttonStyle = css`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  margin: 0 ${spacing.xsmall};
-`;
+import MathMenu from './MathMenu';
 
 const getInfoFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
@@ -46,7 +24,7 @@ const getInfoFromNode = node => {
     model: {
       innerHTML: innerHTML.startsWith('<math')
         ? innerHTML
-        : `<math>${innerHTML}</math>`,
+        : `<math xmlns="http://www.w3.org/1998/Math/MathML">${innerHTML}</math>`,
       xlmns: data.xlmns || 'xmlns="http://www.w3.org/1998/Math/MathML',
     },
     isFirstEdit: data.innerHTML === undefined,
@@ -85,6 +63,7 @@ class MathEditor extends Component {
 
   toggleEdit() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
+    if (window.MathJax) window.MathJax.typeset();
   }
 
   onExit = () => {
@@ -131,15 +110,14 @@ class MathEditor extends Component {
             {...this.props}
           />
           <Portal isOpened={showMenu}>
-            <StyledMenu top={top} left={left}>
-              <Button stripped css={buttonStyle} onClick={this.toggleEdit}>
-                {t('form.edit')}
-              </Button>
-              |
-              <Button stripped css={buttonStyle} onClick={this.handleRemove}>
-                {t('form.remove')}
-              </Button>
-            </StyledMenu>
+            <MathMenu
+              top={top}
+              left={left}
+              t={t}
+              toggleMenu={this.toggleMenu}
+              handleRemove={this.handleRemove}
+              toggleEdit={this.toggleEdit}
+            />
           </Portal>
         </span>
         {editMode && (

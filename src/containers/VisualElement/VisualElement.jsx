@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DisplayVisualElement from './DisplayVisualElement';
-import { visualElementClasses } from '../TopicArticlePage/components/TopicArticleVisualElement';
+import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
 
 class VisualElement extends Component {
   constructor(props) {

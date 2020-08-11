@@ -10,7 +10,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
-import { fetchH5PiframeUrl, editH5PiframeUrl } from './h5pApi';
+import handleError from '../../util/handleError';
+import {
+  fetchH5PiframeUrl,
+  editH5PiframeUrl,
+  fetchH5PMetadata,
+} from './h5pApi';
 
 class H5PElement extends Component {
   constructor(props) {
@@ -41,7 +46,7 @@ class H5PElement extends Component {
     window.removeEventListener('message', this.handleH5PChange);
   }
 
-  handleH5PChange(event) {
+  async handleH5PChange(event) {
     const { onSelect } = this.props;
     if (event.data.type !== 'h5p') {
       return;
@@ -51,7 +56,14 @@ class H5PElement extends Component {
     const { oembed_url: oembedUrl } = event.data;
     const url = oembedUrl.match(/url=([^&]*)/)[0].replace('url=', '');
     const path = url.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
-    onSelect({ path });
+    try {
+      const metadata = await fetchH5PMetadata(event.data.embed_id);
+      const title = metadata.h5p.title;
+      onSelect({ path, title });
+    } catch (e) {
+      onSelect({ path });
+      handleError(e);
+    }
   }
 
   render() {

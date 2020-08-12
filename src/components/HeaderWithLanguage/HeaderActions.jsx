@@ -42,13 +42,13 @@ const HeaderActions = ({
     { key: 'unknown', title: t('language.unknown'), include: false },
     { key: 'de', title: t('language.de'), include: false },
   ];
-
   const emptyLanguages = languages.filter(
     lang =>
       lang.key !== language &&
       !supportedLanguages.includes(lang.key) &&
       lang.include,
   );
+
   if (id) {
     return (
       <Fragment>
@@ -103,7 +103,6 @@ const HeaderActions = ({
       </Fragment>
     );
   }
-
   return (
     <Fragment>
       <div>

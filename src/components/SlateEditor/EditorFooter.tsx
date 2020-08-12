@@ -38,6 +38,7 @@ interface Props {
   isArticle: boolean;
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
+  hasErrors: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -68,6 +69,7 @@ const EditorFooter: React.FC<Props> = ({
   isArticle,
   hideSecondaryButton,
   isNewlyCreated,
+  hasErrors,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
@@ -99,6 +101,7 @@ const EditorFooter: React.FC<Props> = ({
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
       onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
+      disabled={hasErrors}
     />
   );
 

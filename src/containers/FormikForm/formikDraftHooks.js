@@ -86,20 +86,25 @@ export function useFetchArticleData(articleId, locale) {
   const updateUserData = async articleId => {
     const result = await draftApi.fetchUserData();
     const latestEditedArticles = result.latestEditedArticles || [];
+    let userUpdatedMetadata;
 
     if (!latestEditedArticles.includes(articleId)) {
       if (latestEditedArticles.length >= 10) {
         latestEditedArticles.pop();
       }
       latestEditedArticles.splice(0, 0, articleId);
+      userUpdatedMetadata = {
+        latestEditedArticles: latestEditedArticles,
+      };
     } else {
-      const indexArticleId = latestEditedArticles.indexOf(articleId);
-      latestEditedArticles.splice(indexArticleId, 0);
-      latestEditedArticles.splice(0, 0, articleId);
+      const latestEditedFiltered = latestEditedArticles.filter(
+        id => id !== articleId,
+      );
+      latestEditedFiltered.splice(0, 0, articleId);
+      userUpdatedMetadata = {
+        latestEditedArticles: latestEditedFiltered,
+      };
     }
-    const userUpdatedMetadata = {
-      latestEditedArticles: latestEditedArticles,
-    };
 
     draftApi.updateUserData(userUpdatedMetadata);
   };

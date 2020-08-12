@@ -41,7 +41,7 @@ const LastUsedContent: FC<Props> = ({ articleId, locale, t }) => {
       {article && (
         <Link
           {...classes('link')}
-          to={toEditArticle(article.id, article.articleType, locale)}>
+          to={toEditArticle(article.id, article.articleType)}>
           {article.title.title} ({t('article.lastUpdated')}{' '}
           {article && formatDate(article.updated)})
         </Link>

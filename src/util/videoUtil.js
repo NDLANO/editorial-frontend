@@ -11,7 +11,7 @@ export const toHMS = seconds => {
   if (!seconds) return undefined;
 
   const minute = Math.floor(seconds / 60) % 60;
-  const hour = Math.floor(minute / 60) % 60;
+  const hour = Math.floor(seconds / 3600) % 60;
   const second = seconds % 60;
 
   const hours = hour > 0 ? hour + ':' : '';

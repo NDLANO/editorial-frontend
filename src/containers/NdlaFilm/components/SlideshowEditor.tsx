@@ -5,25 +5,46 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from './ElementList';
 import DropdownSearch from './DropdownSearch';
-import { ContentResultShape } from '../../../shapes';
+import { ContentResultType, TranslateType } from '../../../interfaces';
 
-const SlideshowEditor = ({
+interface Props {
+  t: TranslateType;
+  onUpdateSlideshow: Function;
+  onAddMovieToSlideshow: Function;
+  allMovies: ContentResultType[];
+  loading: boolean;
+  field: FieldProps<ContentResultType[]>['field'];
+  form: FormikHelpers<FormikValues>;
+}
+
+const SlideshowEditor: FC<Props> = ({
   t,
-  slideshowMovies,
-  saveSlideshow,
-  onAddMovieToSlideshow,
+  onUpdateSlideshow,
+  allMovies,
   loading,
+  field,
+  form,
 }) => {
   if (loading) {
     return <Spinner />;
   }
+
+  const slideshowMovies = field.value;
+  const onAddMovieToSlideshow = (newMovie: ContentResultType) => {
+    const movie = allMovies.find(movie => movie.id === newMovie.id);
+    if (movie) {
+      const temp = slideshowMovies.slice();
+      temp.push(movie);
+      onUpdateSlideshow(field, form, temp);
+    }
+  };
 
   return (
     <>
@@ -38,23 +59,17 @@ const SlideshowEditor = ({
           dragElements: t('ndlaFilm.editor.changeOrder'),
           removeElements: t('ndlaFilm.editor.removeMovieFromSlideshow'),
         }}
-        onUpdateElements={saveSlideshow}
+        onUpdateElements={(movies: ContentResultType[]) =>
+          onUpdateSlideshow(field, form, movies)
+        }
       />
       <DropdownSearch
         selectedElements={slideshowMovies}
-        onChange={onAddMovieToSlideshow}
+        onChange={(movie: ContentResultType) => onAddMovieToSlideshow(movie)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
       />
     </>
   );
-};
-
-SlideshowEditor.propTypes = {
-  slideshowMovies: PropTypes.arrayOf(ContentResultShape),
-  allMovies: PropTypes.arrayOf(ContentResultShape),
-  saveSlideshow: PropTypes.func.isRequired,
-  onAddMovieToSlideshow: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
 };
 
 export default injectT(SlideshowEditor);

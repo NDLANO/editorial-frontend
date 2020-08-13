@@ -6,25 +6,117 @@
  *
  */
 
-export const restructureFilmFrontpage = filmFrontpage => {
-  const newAbout = filmFrontpage.about.map(about =>
-    convertVisualElement(about),
+import {
+  editorValueToPlainText,
+  plainTextToEditorValue,
+} from './articleContentConverter';
+
+export const getInitialValues = (
+  filmFrontpage,
+  slideshowMovies,
+  themes,
+  language,
+) => {
+  const supportedLanguages = filmFrontpage.about.map(about => about.language);
+  let selectedLanguage = language;
+  if (!supportedLanguages.find(lan => lan === language)) {
+    selectedLanguage = supportedLanguages[0];
+  }
+  const aboutInSelectedLanguage = filmFrontpage.about.find(
+    about => about.language === selectedLanguage,
   );
-  return { ...filmFrontpage, about: newAbout };
+  const visualElement = convertVisualElement(
+    aboutInSelectedLanguage.visualElement,
+  );
+  return {
+    articleType: 'subjectpage',
+    name: filmFrontpage.name,
+    title: aboutInSelectedLanguage.title,
+    description: plainTextToEditorValue(aboutInSelectedLanguage.description),
+    visualElement: visualElement,
+    visualElementAlt: aboutInSelectedLanguage.visualElement.alt,
+    language: language,
+    supportedLanguages: supportedLanguages,
+    slideShow: slideshowMovies,
+    themes: themes,
+  };
 };
 
-const convertVisualElement = about => {
-  const { visualElement } = about;
+const convertVisualElement = visualElement => {
+  const id = getVisualElementId(visualElement);
+  let newVisualElement = {
+    url: visualElement.url,
+    resource: visualElement.type,
+    resource_id: id,
+  };
+  if (visualElement.type === 'brightcove') {
+    const splittedUrl = visualElement.url.split('/');
+    const account = splittedUrl[3];
+    const player = splittedUrl[4].split('_')[0];
+    newVisualElement = {
+      ...newVisualElement,
+      videoid: id,
+      account: account,
+      player: player,
+    };
+  }
+  return newVisualElement;
+};
+
+const getVisualElementId = visualElement => {
   const splitter = visualElement.type === 'brightcove' ? '=' : '/';
   const splittedUrl = visualElement.url.split(splitter);
-  const lastElement = splittedUrl.pop();
-  const newVisualElement = {
-    alt: visualElement.alt,
-    type: visualElement.type,
-    id: lastElement,
-  };
+  return splittedUrl.pop();
+};
 
-  return { ...about, visualElement: newVisualElement };
+export const getNdlaFilmFromSlate = (
+  oldFilmFrontpage,
+  newFilmFrontpage,
+  selectedLanguage,
+) => {
+  const editedAbout = {
+    description: editorValueToPlainText(newFilmFrontpage.description),
+    language: selectedLanguage,
+    title: newFilmFrontpage.title,
+    visualElement: {
+      alt: newFilmFrontpage.visualElementAlt,
+      id: newFilmFrontpage.visualElement.resource_id,
+      type: newFilmFrontpage.visualElement.resource,
+    },
+  };
+  let newLanguage = true;
+  const newAbout = oldFilmFrontpage.about.map(about => {
+    if (about.language === selectedLanguage) {
+      newLanguage = false;
+      return editedAbout;
+    }
+    return {
+      ...about,
+      visualElement: {
+        alt: about.visualElement.alt,
+        type: about.visualElement.type,
+        id: getVisualElementId(about.visualElement),
+      },
+    };
+  });
+  if (newLanguage) {
+    newAbout.push(editedAbout);
+  }
+  const newSlideShow = newFilmFrontpage.slideShow.map(movie =>
+    getUrnFromId(movie.id),
+  );
+  const newThemes = newFilmFrontpage.themes.map(theme => {
+    return {
+      name: theme.name,
+      movies: theme.movies.map(movie => getUrnFromId(movie.id)),
+    };
+  });
+  return {
+    name: newFilmFrontpage.name,
+    about: newAbout,
+    movieThemes: newThemes,
+    slideShow: newSlideShow,
+  };
 };
 
 export const getIdFromUrn = urnId => {

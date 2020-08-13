@@ -202,6 +202,25 @@ export const subjectpageRules = {
   },
 };
 
+export const ndlaFilmRules = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+    maxLength: 300,
+  },
+  visualElement: {
+    required: true,
+    test: values => {
+      const hasElement = values.resource_id === '';
+      return hasElement
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
+    },
+  },
+};
+
 export const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return '';

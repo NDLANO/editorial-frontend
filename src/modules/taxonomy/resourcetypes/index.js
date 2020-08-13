@@ -22,6 +22,12 @@ function fetchAllResourceTypes(locale) {
   );
 }
 
+function fetchResourceType(id, locale) {
+  return fetchAuthorized(
+    `${baseUrl}/resource-types/${id}?language=${locale}`,
+  ).then(resolveJsonOrRejectWithError);
+}
+
 function createResourceResourceType(resourceType) {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
     headers: {
@@ -90,6 +96,7 @@ async function createDeleteResourceTypes(
 
 export {
   fetchAllResourceTypes,
+  fetchResourceType,
   createResourceResourceType,
   deleteResourceResourceType,
   createDeleteResourceTypes,

@@ -13,7 +13,6 @@ import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
-import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
@@ -68,10 +67,10 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
         <OneColumn>
           <div {...classes('header')}>
-            <a href="#guidelines" {...classes('header-link')}>
+            {/* <a href="#guidelines" {...classes('header-link')}>
               {t('welcomePage.guidelines')}
               <RightArrow className="c-icon--large" />
-            </a>
+            </a> */}
             <img
               {...classes('header-image')}
               src="/welcome-image.jpg"

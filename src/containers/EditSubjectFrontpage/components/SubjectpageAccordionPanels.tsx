@@ -17,7 +17,7 @@ import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
 import {
   AccordionProps,
-  FormikProps,
+  FormikProperties,
   SubjectpageType,
   TranslateType,
 } from '../../../interfaces';
@@ -61,7 +61,7 @@ const panels = [
     errorFields: ['editorsChoices'],
     component: ({ values }: ComponentProps) => (
       <FormikField name={'editorsChoices'}>
-        {({ field, form }: FormikProps) => (
+        {({ field, form }: FormikProperties) => (
           <SubjectpageArticles values={values} field={field} form={form} />
         )}
       </FormikField>

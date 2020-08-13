@@ -41,7 +41,7 @@ export function toCreateLearningResource() {
   return '/subject-matter/learning-resource/new';
 }
 
-export function toCreateTopfilmicArticle() {
+export function toCreateTopicArticle() {
   return '/subject-matter/topic-article/new';
 }
 

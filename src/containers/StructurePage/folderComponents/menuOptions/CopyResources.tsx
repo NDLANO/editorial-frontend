@@ -18,7 +18,12 @@ import {
   createTopicResource,
   fetchTopicFilters,
   addFilterToResource,
+  fetchResource,
+  createResource,
+  createResourceResourceType,
 } from '../../../../modules/taxonomy';
+import { cloneDraft } from '../../../../modules/draft/draftApi';
+import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import { Topic, Resource, TranslateType, Filter } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -114,12 +119,63 @@ const CopyResources = ({
     );
   };
 
+  const cloneResourceResourceTypes = async (
+    resource: Resource,
+    resourceId: String,
+  ) => {
+    resource.resourceTypes.forEach(
+      async resourceType =>
+        await createResourceResourceType({
+          resourceId: `${resourceId}`,
+          resourceTypeId: `${resourceType.id}`,
+        }),
+    );
+  };
+
+  const cloneResources = async (resources: Resource[]) => {
+    return Promise.all(
+      resources.map(async resource => {
+        const resourceType = resource.contentUri?.split(':')[1];
+        const resourceId = resource.contentUri?.split(':')[2];
+
+        if (resourceType === 'article') {
+          const clonedArticle = await cloneDraft(resourceId);
+          const newResourceUrl = await createResource({
+            contentUri: `urn:article:${clonedArticle.id}`,
+            name: resource.name,
+          });
+          const newResourceId = newResourceUrl.split('/').pop();
+          cloneResourceResourceTypes(resource, newResourceId);
+          return await fetchResource(newResourceId, locale);
+        } else if (resourceType === 'learningpath') {
+          const body = {
+            title: resource.name,
+            language: locale,
+          };
+          const clonedLearningpathUrl = await learningpathCopy(
+            resourceId,
+            body,
+          );
+          const newLearningpathId = clonedLearningpathUrl.split('/').pop();
+          const newResourceUrl = await createResource({
+            contentUri: `urn:learningpath:${newLearningpathId}`,
+            name: resource.name,
+          });
+          const newResourceId = newResourceUrl.split('/').pop();
+          cloneResourceResourceTypes(resource, newResourceId);
+          return await fetchResource(newResourceId, locale);
+        }
+      }),
+    );
+  };
+
   const handleSubmit = async (topic: Topic) => {
     try {
       const resources: Resource[] = await fetchTopicResources(topic.id);
-      addResourcesToTopic(resources);
+      const clonedResources = await cloneResources(resources);
+      addResourcesToTopic(clonedResources);
       const filters: Filter[] = await fetchTopicFilters(id);
-      addTopicFiltersToResources(resources, filters);
+      addTopicFiltersToResources(clonedResources, filters);
     } catch (e) {
       handleError(e);
     }

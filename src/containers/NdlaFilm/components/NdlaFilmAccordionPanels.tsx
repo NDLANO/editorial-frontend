@@ -45,6 +45,13 @@ interface PanelProps extends Props {
 
 const panels = [
   {
+    id: 'about',
+    title: 'subjectpageForm.about',
+    className: 'u-4/6@desktop u-push-1/6@desktop',
+    errorFields: ['title', 'description', 'visualElement'],
+    component: () => <SubjectpageAbout />,
+  },
+  {
     id: 'slideshow',
     title: 'ndlaFilm.editor.slideshowHeader',
     className: 'u-6/6',
@@ -87,13 +94,6 @@ const panels = [
         )}
       </FormikField>
     ),
-  },
-  {
-    id: 'about',
-    title: 'subjectpageForm.about',
-    className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: ['title', 'description', 'visualElement'],
-    component: () => <SubjectpageAbout />,
   },
 ];
 

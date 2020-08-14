@@ -48,6 +48,9 @@ const convertVisualElement = visualElement => {
     url: visualElement.url,
     resource: visualElement.type,
     resource_id: id,
+    metaData: {
+      id: id,
+    },
   };
   if (visualElement.type === 'brightcove') {
     const splittedUrl = visualElement.url.split('/');
@@ -80,7 +83,7 @@ export const getNdlaFilmFromSlate = (
     title: newFilmFrontpage.title,
     visualElement: {
       alt: newFilmFrontpage.visualElementAlt,
-      id: newFilmFrontpage.visualElement.resource_id,
+      id: newFilmFrontpage.visualElement.metaData.id,
       type: newFilmFrontpage.visualElement.resource,
     },
   };

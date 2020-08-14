@@ -61,7 +61,7 @@ const NdlaFilmForm: FC<Props> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={() => {}}
-      validate={values => validateFormik(values, ndlaFilmRules)}
+      validate={values => validateFormik(values, ndlaFilmRules, t)}
       enableReinitialize={enableReinitialize}>
       {formik => {
         const {

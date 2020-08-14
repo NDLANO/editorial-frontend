@@ -40,7 +40,7 @@ const SubjectpageAbout: FC<Props> = ({ t }) => {
           />
         )}
       </FormikField>
-      <FormikVisualElement />
+      <FormikVisualElement types={['image', 'video']} />
     </>
   );
 };

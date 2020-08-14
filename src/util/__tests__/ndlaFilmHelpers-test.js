@@ -59,6 +59,9 @@ const filmFrontPageAfterTransformation = {
   slideShow: [],
   title: 'Om film',
   visualElement: {
+    metaData: {
+      id: '37',
+    },
     resource: 'image',
     resource_id: '37',
     url: 'https://test.api.ndla.no/image-api/raw/id/37',

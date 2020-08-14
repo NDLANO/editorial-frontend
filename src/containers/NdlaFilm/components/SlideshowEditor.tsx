@@ -67,6 +67,7 @@ const SlideshowEditor: FC<Props> = ({
         selectedElements={slideshowMovies}
         onChange={(movie: ContentResultType) => onAddMovieToSlideshow(movie)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
+        clearInputField
       />
     </>
   );

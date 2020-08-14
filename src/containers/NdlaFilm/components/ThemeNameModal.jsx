@@ -38,10 +38,14 @@ const ThemeNameModal = props => {
     messages,
     onSaveTheme,
     createTheme,
+    wrapperFunctionForButton,
   } = props;
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
   return (
-    <Modal narrow activateButton={activateButton}>
+    <Modal
+      narrow
+      activateButton={activateButton}
+      wrapperFunctionForButton={wrapperFunctionForButton}>
       {onCloseModal => (
         <NdlaFilmThemeEditorModal
           onClose={() => {
@@ -90,6 +94,7 @@ ThemeNameModal.propTypes = {
     title: PropTypes.string,
   }),
   createTheme: PropTypes.bool,
+  wrapperFunctionForButton: PropTypes.func,
 };
 
 export default injectT(ThemeNameModal);

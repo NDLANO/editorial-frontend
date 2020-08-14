@@ -331,17 +331,21 @@ export interface NdlaFilmEditType extends NdlaFilmType {
 
 export interface NdlaFilmThemesApiType {
   movies: string[];
-  name: {
-    name: string;
-    language: string;
-  };
+  name: [
+    {
+      name: string;
+      language: string;
+    },
+  ];
 }
 export interface NdlaFilmThemesEditType {
   movies: ContentResultType[];
-  name: {
-    name: string;
-    language: string;
-  };
+  name: [
+    {
+      name: string;
+      language: string;
+    },
+  ];
 }
 
 export interface VisualElement {

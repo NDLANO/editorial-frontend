@@ -36,6 +36,7 @@ const FormikVisualElement = ({
     values: { visualElementCaption, visualElementAlt, language },
   },
   types,
+  videoTypes,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
@@ -63,6 +64,7 @@ const FormikVisualElement = ({
               <VisualElementSelectField
                 selectedResource={selectedResource}
                 resetSelectedResource={() => setSelectedResource(undefined)}
+                videoTypes={videoTypes}
                 {...field}
               />
             </Fragment>
@@ -87,6 +89,7 @@ const FormikVisualElement = ({
 FormikVisualElement.propTypes = {
   formik: FormikShape,
   types: PropTypes.arrayOf(PropTypes.string),
+  videoTypes: PropTypes.array,
 };
 
 export default injectT(connect(FormikVisualElement));

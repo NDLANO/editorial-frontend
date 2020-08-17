@@ -56,8 +56,8 @@ const SlideshowEditor: FC<Props> = ({
         elements={slideshowMovies}
         data-cy="slideshow-movie-list"
         messages={{
-          dragElements: t('ndlaFilm.editor.changeOrder'),
-          removeElements: t('ndlaFilm.editor.removeMovieFromSlideshow'),
+          dragElement: t('ndlaFilm.editor.changeOrder'),
+          removeElement: t('ndlaFilm.editor.removeMovieFromSlideshow'),
         }}
         onUpdateElements={(movies: ContentResultType[]) =>
           onUpdateSlideshow(field, form, movies)

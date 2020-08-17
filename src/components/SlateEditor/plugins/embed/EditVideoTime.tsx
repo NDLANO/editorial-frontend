@@ -38,8 +38,10 @@ interface Props {
 }
 
 interface Event {
+  preventDefault: Function;
   target: {
     value: string;
+    name: string;
   };
 }
 
@@ -56,8 +58,14 @@ const EditVideoTime = ({ src, onFigureInputChange, name, t }: Props) => {
           value={start}
           onChange={(e: Event) => {
             setStart(e.target.value);
-            e.target.value = addYoutubeTimeStamps(src, e.target.value, stop);
-            onFigureInputChange(e);
+            const event = {
+              preventDefault: e.preventDefault,
+              target: {
+                value: addYoutubeTimeStamps(src, e.target.value, stop),
+                name: e.target.name,
+              },
+            };
+            onFigureInputChange(event);
           }}
           container="div"
           placeholder={t(`form.video.time.hms`)}
@@ -72,8 +80,14 @@ const EditVideoTime = ({ src, onFigureInputChange, name, t }: Props) => {
           value={stop}
           onChange={(e: Event) => {
             setStop(e.target.value);
-            e.target.value = addYoutubeTimeStamps(src, start, e.target.value);
-            onFigureInputChange(e);
+            const event = {
+              preventDefault: e.preventDefault,
+              target: {
+                value: addYoutubeTimeStamps(src, start, e.target.value),
+                name: e.target.name,
+              },
+            };
+            onFigureInputChange(event);
           }}
           container="div"
           placeholder={t(`form.video.time.hms`)}

@@ -1000,6 +1000,7 @@ const phrases = {
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
     copyResources: 'Kopier ressurser fra emne',
+    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favorittar',
     publish: {
       button: 'Publiser alt',

@@ -986,6 +986,7 @@ const phrases = {
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
     copyResources: 'Copy resources from topic',
+    copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {
       button: 'Publish all',

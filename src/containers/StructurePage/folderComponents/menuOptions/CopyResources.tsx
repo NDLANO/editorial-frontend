@@ -61,7 +61,8 @@ const CopyResources = ({
   setResourcesUpdated,
 }: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
-  const [showSearch, setShowSearch] = useState(false);
+  const [showCopySearch, setShowCopySearch] = useState(false);
+  const [showCloneSearch, setShowCloneSearch] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -169,7 +170,18 @@ const CopyResources = ({
     );
   };
 
-  const handleSubmit = async (topic: Topic) => {
+  const copyResources = async (topic: Topic) => {
+    try {
+      const resources: Resource[] = await fetchTopicResources(topic.id);
+      addResourcesToTopic(resources);
+      const filters: Filter[] = await fetchTopicFilters(id);
+      addTopicFiltersToResources(resources, filters);
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
+  const copyAndCloneResources = async (topic: Topic) => {
     try {
       const resources: Resource[] = await fetchTopicResources(topic.id);
       const clonedResources = await cloneResources(resources);
@@ -181,20 +193,49 @@ const CopyResources = ({
     }
   };
 
-  return showSearch ? (
-    <MenuItemDropdown
-      placeholder={t('taxonomy.existingTopic')}
-      searchResult={topics}
-      onClose={onClose}
-      onSubmit={handleSubmit}
-      icon={<Copy />}
-      smallIcon
-    />
-  ) : (
-    <MenuItemButton stripped onClick={() => setShowSearch(true)}>
-      <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-      {t('taxonomy.copyResources')}
-    </MenuItemButton>
+  return (
+    <>
+      {!showCopySearch ? (
+        <MenuItemButton
+          stripped
+          onClick={() => {
+            setShowCopySearch(true);
+            setShowCloneSearch(false);
+          }}>
+          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+          {t('taxonomy.copyResources')}
+        </MenuItemButton>
+      ) : (
+        <MenuItemDropdown
+          placeholder={t('taxonomy.existingTopic')}
+          searchResult={topics}
+          onClose={onClose}
+          onSubmit={copyResources}
+          icon={<Copy />}
+          smallIcon
+        />
+      )}
+      {!showCloneSearch ? (
+        <MenuItemButton
+          stripped
+          onClick={() => {
+            setShowCopySearch(false);
+            setShowCloneSearch(true);
+          }}>
+          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+          {t('taxonomy.copyAndCloneResources')}
+        </MenuItemButton>
+      ) : (
+        <MenuItemDropdown
+          placeholder={t('taxonomy.existingTopic')}
+          searchResult={topics}
+          onClose={onClose}
+          onSubmit={copyAndCloneResources}
+          icon={<Copy />}
+          smallIcon
+        />
+      )}
+    </>
   );
 };
 

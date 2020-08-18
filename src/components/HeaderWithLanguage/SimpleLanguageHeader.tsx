@@ -55,7 +55,7 @@ const SimpleLanguageHeader: FC<Props> = ({
         {id ? (
           <>
             <HeaderSupportedLanguages
-              id={id}
+              id={parseInt(id.toString())}
               editUrl={editUrl}
               language={language}
               supportedLanguages={supportedLanguages}

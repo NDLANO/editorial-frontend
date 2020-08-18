@@ -20,7 +20,7 @@ export const fetchFilmFrontpage = () =>
   );
 
 export const updateFilmFrontpage = filmfrontpage => {
-  fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
+  return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),
   }).then(resolveJsonOrRejectWithError);

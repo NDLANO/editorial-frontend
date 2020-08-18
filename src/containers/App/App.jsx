@@ -35,7 +35,7 @@ import StructurePage from '../StructurePage/StructurePage';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import EditMarkupPage from '../EditMarkupPage/EditMarkupPage';
 import PreviewDraftPage from '../PreviewDraftPage/PreviewDraftPage';
-import NdlaFilmEditor from '../NdlaFilm/NdlaFilmEditor';
+import NdlaFilm from '../NdlaFilm/NdlaFilm';
 import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
@@ -111,7 +111,7 @@ export class App extends React.Component {
                 />
                 <PrivateRoute path="/media" component={MediaPage} />
                 <PrivateRoute path="/agreement" component={AgreementPage} />
-                <PrivateRoute path="/film" component={NdlaFilmEditor} />
+                <PrivateRoute path="/film" component={NdlaFilm} />
                 <PrivateRoute path="/h5p" component={H5PPage} />
                 <PrivateRoute
                   path="/structure/:subject?/:topic?/:subtopics(.*)?"

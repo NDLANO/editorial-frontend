@@ -1069,10 +1069,10 @@ const phrases = {
   },
   ndlaFilm: {
     editor: {
-      slideshowHeader: 'Slideshow:',
+      slideshowHeader: 'Slideshow',
       slideshowTitle: 'Filmer i slideshow',
       slideshowSubTitle: 'på forsiden',
-      movieGroupHeader: 'Filmgrupperinger:',
+      movieGroupHeader: 'Filmgrupperinger',
       addMovieToSlideshow: 'Legg til film i slideshow',
       addMovieToGroup: 'Legg til film i "{name}"',
       editMovieGroupName: 'Endre navnene til filmgruppen',

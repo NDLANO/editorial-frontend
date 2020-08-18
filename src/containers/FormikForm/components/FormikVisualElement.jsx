@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage, connect } from 'formik';
@@ -34,6 +35,8 @@ const FormikVisualElement = ({
   formik: {
     values: { visualElementCaption, visualElementAlt, language },
   },
+  types,
+  videoTypes,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
@@ -43,7 +46,7 @@ const FormikVisualElement = ({
           <div>
             <FieldHeader title={t('form.visualElement.title')} />
             {!field.value.resource && (
-              <VisualElementMenu onSelect={setSelectedResource} />
+              <VisualElementMenu onSelect={setSelectedResource} types={types} />
             )}
             <Fragment>
               <VisualElement
@@ -61,6 +64,7 @@ const FormikVisualElement = ({
               <VisualElementSelectField
                 selectedResource={selectedResource}
                 resetSelectedResource={() => setSelectedResource(undefined)}
+                videoTypes={videoTypes}
                 {...field}
               />
             </Fragment>
@@ -84,6 +88,8 @@ const FormikVisualElement = ({
 
 FormikVisualElement.propTypes = {
   formik: FormikShape,
+  types: PropTypes.arrayOf(PropTypes.string),
+  videoTypes: PropTypes.array,
 };
 
 export default injectT(connect(FormikVisualElement));

@@ -985,7 +985,7 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
-    copyResources: 'Copy resources from topic',
+    copyResources: 'Reuse resources from topic',
     copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {

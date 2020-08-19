@@ -372,6 +372,42 @@ export const footnoteRule = {
   },
 };
 
+export const codeBlockRule = {
+  deserialize(el) {
+    if (!el.tagName.toLowerCase().startsWith('pre')) return;
+    const embed = reduceElementDataAttributes(el);
+    if (embed.resource !== 'code-block') return;
+    return {
+      object: 'inline',
+      type: 'code-block',
+      nodes: [
+        {
+          object: 'text',
+          text: '$$$$',
+          marks: [],
+        },
+      ],
+      data: {
+        ...embed,
+        authors: embed.code ? embed.code : '',
+      },
+    };
+  },
+  serialize(slateObject) {
+    const { type } = slateObject;
+
+    if (type !== 'code-block') return;
+
+    const data = slateObject.data.toJS();
+    console.log('data: ', slateObject.data, data);
+    const props = createDataProps({
+      ...data,
+      code: data.code ? data.code : '',
+    });
+    return <pre {...props} />;
+  },
+};
+
 export const blockRules = {
   deserialize(el, next) {
     const block = BLOCK_TAGS[el.tagName.toLowerCase()];
@@ -773,6 +809,7 @@ const RULES = [
   brRule,
   markRules,
   footnoteRule,
+  codeBlockRule,
   linkRules,
 ];
 

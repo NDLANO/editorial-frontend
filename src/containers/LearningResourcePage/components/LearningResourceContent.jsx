@@ -33,6 +33,7 @@ import {
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../util/slateHelpers';
+import codeBlockPlugin from '../../../components/SlateEditor/plugins/codeBlock';
 import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
@@ -49,6 +50,7 @@ import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../components/SlateEditor/plugins/DND';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+
 import {
   editListPlugin,
   editTablePlugin,
@@ -115,6 +117,7 @@ class LearningResourceContent extends Component {
       relatedPlugin(),
       filePlugin(),
       mathmlPlugin(),
+      codeBlockPlugin(),
       blockPickerPlugin({
         articleLanguage: language,
         actionsToShowInAreas: {

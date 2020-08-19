@@ -10,18 +10,27 @@
 //     <link rel="stylesheet" href="../dist/enlighterjs.min.css" />
 
 import React from 'react';
+import CodeBlock from './CodeBlock';
 
-const schema = {}; // er dette en slate-ting?
+const schema = {
+  document: {},
+  blocks: {
+    codeBlock: {
+      data: {},
+    },
+  },
+}; // dette er en slate-ting
 
 export const TYPE = 'code-block';
 
-export default function mathmlPlugin() {
+export default function codeBlockPlugin() {
   const renderInline = (props, editor, next) => {
     const { node } = props;
+    console.log('hva er Node, codeBlock: ', node, 'typen:', node.type); // TODO 19. august hvorfor blir ikke denne lik som i matte?
 
     switch (node.type) {
       case TYPE:
-        return <TODO {...props} />;
+        return <CodeBlock {...props} />;
       default:
         return next();
     }

@@ -13,10 +13,9 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-
+import { CodeBlockEditor } from '@ndla/editor';
 import AlertModal from '../../../AlertModal';
 import { TranslateType } from '../../../../interfaces';
-
 
 const StyledCodeBlockPreviewWrapper = styled('div')`
   padding: ${spacing.small} 0;
@@ -65,7 +64,7 @@ const EditCodeBlockModal: FC<Props> = ({
     backgroundColor="white"
     onClose={handleExit}
     minHeight="90vh">
-    {onCloseModal => (
+    {(onCloseModal: any) => (
       <>
         <ModalHeader>
           <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
@@ -73,7 +72,7 @@ const EditCodeBlockModal: FC<Props> = ({
         <ModalBody>
           <h1>Rediger kodeblokk</h1> {/* TODO phrases */}
           <hr />
-          <div id="programmingLanguageSelector" />
+          {/* <div id="programmingLanguageSelector" />
           <div id="codeBlockEditorContainer" />
           <StyledButtonWrapper>
             <Button outline css={buttonStyle} onClick={previewCodeBlock}>
@@ -88,7 +87,7 @@ const EditCodeBlockModal: FC<Props> = ({
             <Button outline css={buttonStyle} onClick={handleRemove}>
               {t('form.remove')}
             </Button>
-          </StyledButtonWrapper>
+          </StyledButtonWrapper> */}
           <h3>{t('mathEditor.preview')}</h3>
           <hr />
           <StyledCodeBlockPreviewWrapper

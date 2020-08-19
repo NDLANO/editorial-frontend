@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
-import EditCodeBlockModal from './EditCodeBlockModal'
+import EditCodeBlockModal from './EditCodeBlockModal';
 
 //     <script type="text/javascript" src="../dist/enlighterjs.min.js"></script>
 //     <link rel="stylesheet" href="../dist/enlighterjs.min.css" />
@@ -8,20 +8,27 @@ import EditCodeBlockModal from './EditCodeBlockModal'
 const emptyTag = '<pre/>';
 let codeBlockEditor;
 
+interface CodeBlockType {
+  programmingLanguage: string;
+  code: string;
+}
+
 interface Props {
-  handleRemove: Function;
-  handleSave: Function;
-  isEditMode: boolean;
   locale: string;
-  model: { innerHTML: string; };
+  existingCodeBlock: CodeBlockType;
+  model: { innerHTML: string };
   onExit: Function;
 }
 
-const EditCodeBlock: FC<Props> = ({handleRemove, handleSave, isEditMode, locale, model, onExit}) => {
-  const innerHTML = model // TODO skal denne være model.innerHTMl?
+const EditCodeBlock: FC<Props> = ({ locale, model, onExit }) => {
+  const innerHTML = model; // TODO skal denne være model.innerHTMl?
 
-  const [initialCodeBlock, setInitialCodeBlock] = useState<any>(innerHTML ? innerHTML : emptyTag);
-  const [renderCodeBlock, setRenderCodeBlock] = useState<any>(innerHTML ? innerHTML : emptyTag);
+  const [initialCodeBlock, setInitialCodeBlock] = useState<any>(
+    innerHTML ? innerHTML : emptyTag,
+  );
+  const [renderCodeBlock, setRenderCodeBlock] = useState<any>(
+    innerHTML ? innerHTML : emptyTag,
+  );
   const [openDiscartModal, setOpenDiscartModal] = useState(false);
 
   useEffect(() => {
@@ -31,44 +38,46 @@ const EditCodeBlock: FC<Props> = ({handleRemove, handleSave, isEditMode, locale,
   }, []);
 
   // TODO insert input field for codeBlock og get text from Modals' codeBlock input field.
-  handleSave = () => {
-    handleSave(mathEditor.getMathML()); // TODO bytt ut mathEditor.getMathML()
+  const handleSave = () => {
+    const codeBlock = ''; // TODO bytt ut mathEditor.getMathML()
   };
 
   const handleExit = () => {
     // TODO!! Hent koden i kodeblokk fra inputfelt. const mathML = mathEditor.getMathML();
-    if (initialCodeBlock !== mathML) { // TODO se over ^^^^
-      setOpenDiscartModal(true);
-    } else {
-      onExit();
-    }
-  }
+    // if (initialCodeBlock !== mathML) { // TODO se over ^^^^
+    //   setOpenDiscartModal(true);
+    // } else {
+    //   onExit();  // Hva skal denne være, er det rett å få den fra nivået over, eller bare få en verdi og gjøre noe med den
+    // }
+  };
 
   const previewCodeBlock = () => {
-    const codeBlock = mathEditor.getMathML();  // TODO bytt ut mathEditor.getMathML()
-    setRenderCodeBlock(codeBlock);
-  }
+    //    const (codeBlock: CodeBlockType) = {programmingLanguage= '', code= ''};
+    //    setRenderCodeBlock(codeBlock);
+    const hei = 'hei';
+    console.log('yo');
+  };
 
   const handleCancelDiscard = () => {
     setOpenDiscartModal(false);
-  }
+  };
 
   const handleContinue = () => {
     onExit();
-  }
+  };
+
+  const handleRemove = () => {};
 
   return (
-    <EditCodeBlockModal 
+    <EditCodeBlockModal
       handleCancelDiscard={handleCancelDiscard}
       handleContinue={handleContinue}
       handleExit={handleExit}
-      handleRemove={handleRemove}
-      handleSave={handleSave}
       openDiscardModal={openDiscartModal}
       previewCodeBlock={previewCodeBlock}
       renderCodeBlock={renderCodeBlock}
     />
-  )
+  );
 };
 
 export default EditCodeBlock;

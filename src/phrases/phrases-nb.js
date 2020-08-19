@@ -860,6 +860,11 @@ const phrases = {
         placeholder: 'Videotekst',
       },
       remove: 'Fjern video',
+      time: {
+        start: 'Start',
+        stop: 'Stopp',
+        hms: 'h:m:s',
+      },
     },
     audio: {
       file: 'Lydfil',

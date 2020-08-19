@@ -853,6 +853,11 @@ const phrases = {
         placeholder: 'Video caption',
       },
       remove: 'Remove video',
+      time: {
+        start: 'Start',
+        stop: 'Stop',
+        hms: 'h:m:s',
+      },
     },
     audio: {
       file: 'Audio file',

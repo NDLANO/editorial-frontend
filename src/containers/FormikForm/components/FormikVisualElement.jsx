@@ -33,7 +33,12 @@ const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 const FormikVisualElement = ({
   t,
   formik: {
-    values: { visualElementCaption, visualElementAlt, language },
+    values: {
+      visualElementCaption,
+      visualElementAlt,
+      language,
+      visualElementUrl,
+    },
   },
   types,
   videoTypes,
@@ -58,6 +63,7 @@ const FormikVisualElement = ({
                   ...field.value,
                   caption: visualElementCaption,
                   alt: visualElementAlt,
+                  url: visualElementUrl,
                 }}
                 language={language}
               />

@@ -8,17 +8,16 @@
 import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import { FieldProps } from 'formik';
-import { SubjectpageEditType, TranslateType } from '../../../interfaces';
+import { TranslateType } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
   t: TranslateType;
-  values: SubjectpageEditType;
 }
 
-const SubjectpageAbout: FC<Props> = ({ t, values }) => {
+const SubjectpageAbout: FC<Props> = ({ t }) => {
   return (
     <>
       <FormikField
@@ -41,7 +40,10 @@ const SubjectpageAbout: FC<Props> = ({ t, values }) => {
           />
         )}
       </FormikField>
-      <FormikVisualElement />
+      <FormikVisualElement
+        types={['image', 'video']}
+        videoTypes={['Brightcove']}
+      />
     </>
   );
 };

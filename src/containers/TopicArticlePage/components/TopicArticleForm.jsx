@@ -29,6 +29,7 @@ import {
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../util/articleUtil';
+import { toHMS } from '../../../util/videoUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -65,6 +66,10 @@ export const getInitialValues = (article = {}) => {
     updatePublished: false,
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
+    visualElementUrl: visualElement?.url || '',
+    visualElementStart:
+      toHMS(visualElement?.url.match('(?<=start=)[0-9]+')) || '',
+    visualElementStop: toHMS(visualElement?.url.match('(?<=end=)[0-9]+')) || '',
     visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
   };
@@ -107,6 +112,7 @@ const getArticleFromSlate = ({
             values.visualElementAlt && values.visualElementAlt.length > 0
               ? values.visualElementAlt
               : undefined,
+          url: values.visualElementUrl,
         },
   );
   const content = topicArticleContentToHTML(values.content);

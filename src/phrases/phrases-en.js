@@ -853,6 +853,11 @@ const phrases = {
         placeholder: 'Video caption',
       },
       remove: 'Remove video',
+      time: {
+        start: 'Start',
+        stop: 'Stop',
+        hms: 'h:m:s',
+      },
     },
     audio: {
       file: 'Audio file',
@@ -1039,10 +1044,10 @@ const phrases = {
   },
   ndlaFilm: {
     editor: {
-      slideshowHeader: 'Slideshow:',
+      slideshowHeader: 'Slideshow',
       slideshowTitle: 'Movies on slideshow',
       slideshowSubTitle: 'on frontpage',
-      movieGroupHeader: 'Movies themes:',
+      movieGroupHeader: 'Movies themes',
       addMovieToSlideshow: 'Add movie to slideshow',
       addMovieToGroup: 'Add a movie to "{name}"',
       editMovieGroupName: 'Change the names on this movie group',

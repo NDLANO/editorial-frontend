@@ -11,32 +11,36 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import { injectT } from '@ndla/i18n';
-import { FormikErrors, FormikTouched } from 'formik';
-import SubjectpageAbout from './SubjectpageAbout';
-import SubjectpageMetadata from './SubjectpageMetadata';
-import SubjectpageArticles from './SubjectpageArticles';
+import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
+import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import {
   AccordionProps,
+  ContentResultType,
   FormikProperties,
-  SubjectpageType,
   TranslateType,
 } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
+import ThemeEditor from './ThemeEditor';
+import SlideshowEditor from './SlideshowEditor';
 import FormikField from '../../../components/FormikField';
 
 interface Props {
+  allMovies: Array<ContentResultType>;
+  loading: boolean;
+  selectedLanguage: string;
+}
+
+interface ComponentProps extends Props {
   t: TranslateType;
-  values: Values;
   errors: FormikErrors<Values>;
-  subject: SubjectpageType;
-  touched: FormikTouched<Values>;
   formIsDirty: boolean;
   getInitialValues: Function;
   setFieldTouched: boolean;
+  saveFilmFrontpage: Function;
 }
 
-interface ComponentProps {
-  values: Values;
+interface PanelProps extends Props {
+  onUpdateMovieList: Function;
 }
 
 const panels = [
@@ -48,30 +52,74 @@ const panels = [
     component: () => <SubjectpageAbout />,
   },
   {
-    id: 'metadata',
-    title: 'subjectpageForm.metadata',
+    id: 'slideshow',
+    title: 'ndlaFilm.editor.slideshowHeader',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'mobileBannerId'],
-    component: () => <SubjectpageMetadata />,
+    component: ({ allMovies, onUpdateMovieList, loading }: PanelProps) => (
+      <FormikField name={'slideShow'}>
+        {({ field, form }: FormikProperties) => (
+          <SlideshowEditor
+            field={field}
+            form={form}
+            allMovies={allMovies}
+            onUpdateSlideshow={onUpdateMovieList}
+            loading={loading}
+          />
+        )}
+      </FormikField>
+    ),
   },
   {
-    id: 'articles',
-    title: 'subjectpageForm.articles',
+    id: 'themes',
+    title: 'ndlaFilm.editor.movieGroupHeader',
     className: 'u-6/6',
     errorFields: ['editorsChoices'],
-    component: ({ values }: ComponentProps) => (
-      <FormikField name={'editorsChoices'}>
+    component: ({
+      allMovies,
+      onUpdateMovieList,
+      loading,
+      selectedLanguage,
+    }: PanelProps) => (
+      <FormikField name={'themes'}>
         {({ field, form }: FormikProperties) => (
-          <SubjectpageArticles values={values} field={field} form={form} />
+          <ThemeEditor
+            field={field}
+            form={form}
+            allMovies={allMovies}
+            onUpdateMovieTheme={onUpdateMovieList}
+            loading={loading}
+            selectedLanguage={selectedLanguage}
+          />
         )}
       </FormikField>
     ),
   },
 ];
 
-const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
+const SubjectpageAccordionPanels: FC<ComponentProps> = ({
+  t,
+  errors,
+  allMovies,
+  loading,
+  selectedLanguage,
+}) => {
+  const onUpdateMovieList = (
+    field: FieldProps<FormikValues>['field'],
+    form: FormikHelpers<FormikValues>,
+    movieList: ContentResultType[],
+  ) => {
+    form.setFieldTouched(field.name, true, false);
+    field.onChange({
+      target: {
+        name: field.name,
+        value: movieList || [],
+      },
+    });
+  };
+
   return (
-    <Accordion openIndexes={['about']}>
+    <Accordion openIndexes={['slideshow', 'themes']}>
       {({ openIndexes, handleItemClick }: AccordionProps) => (
         <AccordionWrapper>
           {panels.map(panel => {
@@ -93,7 +141,10 @@ const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
                     isOpen={openIndexes.includes(panel.id)}>
                     <div className={panel.className}>
                       {panel.component({
-                        values,
+                        allMovies,
+                        loading,
+                        onUpdateMovieList,
+                        selectedLanguage,
                       })}
                     </div>
                   </AccordionPanel>

@@ -6,36 +6,52 @@
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
-import { SubjectpageEditType, TranslateType } from '../../interfaces';
+import {
+  ContentResultType,
+  NdlaFilmApiType,
+  NdlaFilmThemesEditType,
+  SubjectpageEditType,
+  TranslateType,
+} from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
+import { updateFilmFrontpage } from '../../modules/frontpage/frontpageApi';
+import { getInitialValues } from '../../util/ndlaFilmHelpers';
+import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 
-export function useSubjectpageFormHooks(
-  getSubjectpageFromSlate: Function,
-  updateSubjectpage: Function,
+export function useNdlaFilmFormHooks(
   t: TranslateType,
-  subjectpage: SubjectpageEditType,
-  getInitialValues: Function,
+  filmFrontpage: NdlaFilmApiType,
+  updateEditorState: Function,
+  slideshowMovies: ContentResultType[],
+  themes: NdlaFilmThemesEditType,
   selectedLanguage: string,
-  subjectId: number,
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
+
   const initialValues = getInitialValues(
-    subjectpage,
-    subjectId,
+    filmFrontpage,
+    slideshowMovies,
+    themes,
     selectedLanguage,
   );
 
   const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
     formik.setSubmitting(true);
-    const newSubjectpage = getSubjectpageFromSlate(formik.values);
+    const newNdlaFilm = getNdlaFilmFromSlate(
+      filmFrontpage,
+      formik.values,
+      selectedLanguage,
+    );
 
     try {
-      await updateSubjectpage(newSubjectpage);
+      const updated = await updateFilmFrontpage(newNdlaFilm);
+      await updateEditorState(updated);
 
       Object.keys(formik.values).map(fieldName =>
         formik.setFieldTouched(fieldName, true, true),
       );
+
       formik.resetForm(initialValues);
       setSavedToServer(true);
     } catch (err) {

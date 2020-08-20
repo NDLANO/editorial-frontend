@@ -9,7 +9,7 @@ import React, { FC } from 'react';
 import { injectT } from '@ndla/i18n';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { TranslateType, FormikProps } from '../../../interfaces';
+import { TranslateType, FormikProperties } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
 interface Props {
@@ -25,7 +25,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         showMaxLength
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}>
-        {({ field }: FormikProps) => (
+        {({ field }: FormikProperties) => (
           <PlainTextEditor
             id={field.name}
             placeholder={t('form.metaDescription.label')}
@@ -34,7 +34,7 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         )}
       </FormikField>
       <FormikField name="desktopBanner">
-        {({ field, form }: FormikProps) => {
+        {({ field, form }: FormikProperties) => {
           return (
             <SubjectpageBanner
               field={field}

@@ -79,6 +79,7 @@ class VisualElementSearch extends Component {
       handleVisualElementChange,
       closeModal,
       articleLanguage,
+      videoTypes,
       locale,
       t,
     } = this.props;
@@ -126,7 +127,7 @@ class VisualElementSearch extends Component {
           <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <VideoSearch
-              enabledSources={['Brightcove', 'YouTube']}
+              enabledSources={videoTypes || ['Brightcove', 'YouTube']}
               searchVideos={(query, type) => api.searchVideos(query, type)}
               locale={locale}
               translations={videoTranslations}
@@ -267,6 +268,7 @@ VisualElementSearch.propTypes = {
   image: ImageShape,
   clearUploadedImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
+  videoTypes: PropTypes.array,
 };
 
 const mapDispatchToProps = {

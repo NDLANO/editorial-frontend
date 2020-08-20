@@ -13,6 +13,7 @@ import {
   toCreateConcept,
   toCreateImage,
   toCreateAudioFile,
+  toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 
 const OpenMenu = ({ t, close }) => {
@@ -43,7 +44,7 @@ const OpenMenu = ({ t, close }) => {
             <StyledLink to="/structure" onClick={close}>
               <span>{t('subNavigation.structure')}</span>
             </StyledLink>
-            <StyledLink to="/film" onClick={close}>
+            <StyledLink to={toEditNdlaFilm()} onClick={close}>
               <span>{t('subNavigation.film')}</span>
             </StyledLink>
             <StyledLink to="/h5p" onClick={close}>

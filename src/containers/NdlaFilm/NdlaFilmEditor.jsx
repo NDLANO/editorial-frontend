@@ -6,60 +6,59 @@
  */
 
 import React from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import PropTypes from 'prop-types';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import {
-  updateFilmFrontpage,
-  fetchFilmFrontpage,
-} from '../../modules/frontpage/frontpageApi';
+import { fetchFilmFrontpage } from '../../modules/frontpage/frontpageApi';
 import { searchResources } from '../../modules/search/searchApi';
 import handleError from '../../util/handleError';
-import ThemeEditor from './components/ThemeEditor';
-import SlideshowEditor from './components/SlideshowEditor';
-import {
-  restructureFilmFrontpage,
-  getIdFromUrn,
-  getUrnFromId,
-  changeThemeNames,
-  changeMoviesInTheme,
-  addMovieToTheme,
-  convertThemeNames,
-} from '../../util/ndlaFilmHelpers';
+import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
 import config from '../../config';
+import NdlaFilmForm from './components/NdlaFilmForm';
+import Spinner from '../../components/Spinner';
 
 class NdlaFilmEditor extends React.Component {
   state = {
+    filmFrontpage: undefined,
     slideshowMovies: undefined,
     themes: undefined,
-    filmFrontpage: undefined,
     allMovies: undefined,
-    loadingThemes: true,
-    loadingSlideshow: true,
+    selectedLanguage: this.props.selectedLanguage,
+    loading: true,
   };
 
   async componentDidMount() {
     try {
-      const fetchedFilmFrontpage = await fetchFilmFrontpage();
-      const filmFrontpage = restructureFilmFrontpage(fetchedFilmFrontpage);
+      const filmFrontpage = await fetchFilmFrontpage();
       const allMovies = await this.fetchAllMovies();
-      const { slideShow, movieThemes } = fetchedFilmFrontpage;
-      const slideshowMovies = await this.getSlideshow(slideShow);
-      const themes = await this.getThemes(movieThemes);
+      await this.fetchMovies(filmFrontpage);
       this.setState({
-        allMovies,
         filmFrontpage,
-        slideshowMovies,
-        themes,
-        loadingThemes: false,
-        loadingSlideshow: false,
+        allMovies,
+        loading: false,
       });
     } catch (err) {
       handleError(err);
     }
   }
+
+  updateFilmFrontpage = async filmFrontpage => {
+    await this.fetchMovies(filmFrontpage);
+    this.setState({
+      filmFrontpage,
+    });
+  };
+
+  fetchMovies = async filmFrontpage => {
+    const { slideShow, movieThemes } = filmFrontpage;
+    const slideshowMovies = await this.getSlideshow(slideShow);
+    const themes = await this.getThemes(movieThemes);
+    this.setState({
+      slideshowMovies,
+      themes,
+    });
+  };
 
   getSlideshow = async slideShowUrnIds => {
     if (slideShowUrnIds.length === 0) return [];
@@ -130,227 +129,44 @@ class NdlaFilmEditor extends React.Component {
     return response.results;
   };
 
-  onAddMovieToSlideshow = newMovie => {
-    this.setState(
-      prevState => ({
-        slideshowMovies: [
-          ...prevState.slideshowMovies,
-          prevState.allMovies.find(movie => movie.id === newMovie.id),
-        ],
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          slideShow: [
-            ...prevState.filmFrontpage.slideShow,
-            getUrnFromId(newMovie.id),
-          ],
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
-  saveSlideshow = slideshowMovies => {
-    this.setState(
-      prevState => ({
-        slideshowMovies,
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          slideShow: slideshowMovies.map(movie => getUrnFromId(movie.id)),
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
-  saveFilmFrontpage = async () => {
-    try {
-      const { filmFrontpage } = this.state;
-      await updateFilmFrontpage(filmFrontpage);
-    } catch (err) {
-      handleError(err);
-    }
-  };
-
-  onSaveThemeName = (newNames, index) => {
-    const newThemeNames = convertThemeNames(newNames);
-    this.updateThemeName(newThemeNames, index);
-  };
-
-  updateThemeName = (newThemeNames, index) => {
-    this.setState(
-      prevState => ({
-        themes: changeThemeNames(prevState.themes, newThemeNames, index),
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          movieThemes: changeThemeNames(
-            prevState.filmFrontpage.movieThemes,
-            newThemeNames,
-            index,
-          ),
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
-  updateMovieTheme = (updatedThemeMovies, index) => {
-    const movieIds = updatedThemeMovies.map(movie => getUrnFromId(movie.id));
-    this.setState(
-      prevState => ({
-        themes: changeMoviesInTheme(
-          prevState.themes,
-          index,
-          updatedThemeMovies,
-        ),
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          movieThemes: changeMoviesInTheme(
-            prevState.filmFrontpage.movieThemes,
-            index,
-            movieIds,
-          ),
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
-  addMovieToTheme = (newMovie, index) => {
-    this.setState(
-      prevState => ({
-        themes: addMovieToTheme(
-          prevState.themes,
-          index,
-          prevState.allMovies.find(movie => movie.id === newMovie.id),
-        ),
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          movieThemes: addMovieToTheme(
-            prevState.filmFrontpage.movieThemes,
-            index,
-            getUrnFromId(newMovie.id),
-          ),
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
-  onMoveTheme = (index, direction) => {
-    this.setState(prevState => {
-      const { filmFrontpage } = prevState;
-      if (
-        index + direction >= 0 &&
-        filmFrontpage.movieThemes.length > index + direction
-      ) {
-        const desiredNewIndex = index + direction;
-        const { movieThemes } = filmFrontpage;
-
-        const newMovieThemes = this.rearrangeTheme(
-          movieThemes,
-          index,
-          desiredNewIndex,
-        );
-
-        const newFilmFrontpage = {
-          ...filmFrontpage,
-          movieThemes: newMovieThemes,
-        };
-        return {
-          themes: this.rearrangeTheme(prevState.themes, index, desiredNewIndex),
-          filmFrontpage: newFilmFrontpage,
-        };
-      }
-      return prevState;
-    }, this.saveFilmFrontpage);
-  };
-
-  rearrangeTheme = (themes, index, desiredNewIndex) => {
-    return themes.map((theme, i) => {
-      if (i === index) {
-        return themes[desiredNewIndex];
-      } else if (i === desiredNewIndex) {
-        return themes[index];
-      }
-      return theme;
-    });
-  };
-
-  onDeleteTheme = index => {
-    this.setState(
-      prevState => ({
-        themes: prevState.themes.filter((theme, i) => i !== index),
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          movieThemes: prevState.filmFrontpage.movieThemes.filter(
-            (theme, i) => i !== index,
-          ),
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
-  onAddTheme = theme => {
-    const newTheme = { name: convertThemeNames(theme), movies: [] };
-
-    this.setState(
-      prevState => ({
-        themes: [...prevState.themes, newTheme],
-        filmFrontpage: {
-          ...prevState.filmFrontpage,
-          movieThemes: [...prevState.filmFrontpage.movieThemes, newTheme],
-        },
-      }),
-      this.saveFilmFrontpage,
-    );
-  };
-
   render() {
-    const { t } = this.props;
+    const { t, selectedLanguage } = this.props;
+    if (selectedLanguage !== this.state.selectedLanguage) {
+      this.setState({
+        selectedLanguage: selectedLanguage,
+      });
+    }
     const {
+      allMovies,
+      loading,
+      filmFrontpage,
       slideshowMovies,
       themes,
-      allMovies,
-      loadingThemes,
-      loadingSlideshow,
     } = this.state;
+
+    if (loading || !filmFrontpage) {
+      return <Spinner withWrapper />;
+    }
 
     return (
       <OneColumn>
         <HelmetWithTracker title={t('htmlTitles.ndlaFilmPage')} />
-        <StyledSection data-cy="slideshow-section">
-          <h1>{t('ndlaFilm.editor.slideshowHeader')}</h1>
-          <SlideshowEditor
-            slideshowMovies={slideshowMovies}
-            allMovies={allMovies}
-            saveSlideshow={this.saveSlideshow}
-            onAddMovieToSlideshow={this.onAddMovieToSlideshow}
-            loading={loadingSlideshow}
-          />
-        </StyledSection>
-        <StyledSection>
-          <h1>{t('ndlaFilm.editor.movieGroupHeader')}</h1>
-          <ThemeEditor
-            themes={themes}
-            allMovies={allMovies}
-            updateMovieTheme={this.updateMovieTheme}
-            addMovieToTheme={this.addMovieToTheme}
-            onMoveTheme={this.onMoveTheme}
-            onDeleteTheme={this.onDeleteTheme}
-            onAddTheme={this.onAddTheme}
-            updateThemeName={this.updateThemeName}
-            onSaveThemeName={this.onSaveThemeName}
-            loading={loadingThemes}
-          />
-        </StyledSection>
+        <NdlaFilmForm
+          filmFrontpage={filmFrontpage}
+          updateFilmFrontpage={this.updateFilmFrontpage}
+          slideshowMovies={slideshowMovies}
+          themes={themes}
+          selectedLanguage={selectedLanguage}
+          allMovies={allMovies}
+          loading={loading}
+        />
       </OneColumn>
     );
   }
 }
 
-const StyledSection = styled('section')`
-  margin-top: ${spacing.spacingUnit * 4}px;
-`;
+NdlaFilmEditor.propTypes = {
+  selectedLanguage: PropTypes.string,
+};
 
 export default injectT(NdlaFilmEditor);

@@ -39,6 +39,7 @@ export interface ContentResultType {
     },
   ];
   learningResourceType: string;
+  supportedLanguages?: string[];
 }
 
 export interface ArticleType {
@@ -291,6 +292,62 @@ export interface SubjectpageEditType extends SubjectpageType {
   visualElementAlt: string;
 }
 
+export interface NdlaFilmType {
+  name: string;
+}
+
+export interface NdlaFilmApiType extends NdlaFilmType {
+  about: [
+    {
+      description: string;
+      language: string;
+      title: string;
+      visualElement: {
+        alt: string;
+        id: string;
+        type: string;
+      };
+    },
+  ];
+  themes: NdlaFilmThemesApiType[];
+  slideShow: string[];
+}
+
+export interface NdlaFilmEditType extends NdlaFilmType {
+  articleType: string;
+  title: string;
+  description: string;
+  visualElement: {
+    resource: string;
+    videoid: string;
+    url: string;
+  };
+  visualElementAlt: string;
+  language: string;
+  supportedLanguages: string[];
+  themes: NdlaFilmThemesEditType[];
+  slideShow: ContentResultType[];
+}
+
+export interface NdlaFilmThemesApiType {
+  movies: string[];
+  name: [
+    {
+      name: string;
+      language: string;
+    },
+  ];
+}
+export interface NdlaFilmThemesEditType {
+  movies: ContentResultType[];
+  name: [
+    {
+      name: string;
+      language: string;
+    },
+  ];
+}
+
 export interface VisualElement {
   resource: string;
   resource_id: string;
@@ -346,9 +403,7 @@ export interface AccordionProps {
   handleItemClick: Function;
 }
 
-export interface FormikProps {
-  field: FieldProps<ArticleType[]>['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
+export interface FormikProperties {
+  field: FieldProps<FormikValues>['field'];
+  form: FormikHelpers<FormikValues>;
 }

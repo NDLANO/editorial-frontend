@@ -1920,15 +1920,15 @@
   dependencies:
     defined "1.0.0"
 
-"@ndla/video-search@^0.8.40":
-  version "0.8.40"
-  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-0.8.40.tgz#038d715ad0a44170c9fd5669fb4084a2d054ac93"
-  integrity sha512-y+qitsrq8YwBNKHLRgYC9E8p7RBbTz7Z8e2x7WBv4wV7ujlW2v02l7iNogH7piuHr28X9+ePIeMZZsOu0qPDGg==
+"@ndla/video-search@^0.8.46":
+  version "0.8.46"
+  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-0.8.46.tgz#27485f712e6709980674c4ad37a51dbf5da89092"
+  integrity sha512-mm/0apKKwvAAO0miCED5pf1G077JL3UZXnXG7/dhFPV0szdm6+hcIKlhD9msb5CBSdWUGPtTknyckvk2Ph1RvQ==
   dependencies:
-    "@ndla/button" "^0.3.31"
-    "@ndla/core" "^0.6.26"
-    "@ndla/licenses" "^0.6.29"
-    "@ndla/tabs" "^0.11.30"
+    "@ndla/button" "^0.3.33"
+    "@ndla/core" "^0.6.27"
+    "@ndla/licenses" "^0.6.33"
+    "@ndla/tabs" "^0.11.31"
     "@ndla/util" "^0.4.0"
     react-bem-helper "^1.4.1"
 

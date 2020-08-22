@@ -192,6 +192,15 @@ const CopyResources = ({
           );
           await cloneResourceTranslations(resourceTranslations, newResourceId);
           return await fetchResource(newResourceId, locale);
+        } else {
+          const newResourceUrl = await createResource({
+            name: resource.name,
+          });
+          const newResourceId = newResourceUrl.split('/').pop();
+          await cloneResourceResourceTypes(resource, newResourceId);
+          const resourceTranslations = await fetchResourceTranslations(resource.id);
+          await cloneResourceTranslations(resourceTranslations, newResourceId)
+          return await fetchResource(newResourceId, locale);
         }
       }),
     );

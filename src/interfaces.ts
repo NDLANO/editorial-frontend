@@ -26,6 +26,11 @@ export interface ResourceType {
   resources?: Resource[];
 }
 
+export interface ResourceTranslation {
+  name: string;
+  language: string;
+}
+
 export interface ContentResultType {
   id: number;
   title: { title: string };

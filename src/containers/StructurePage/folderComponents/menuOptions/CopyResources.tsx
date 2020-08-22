@@ -21,10 +21,18 @@ import {
   fetchResource,
   createResource,
   createResourceResourceType,
+  fetchResourceTranslations,
+  createResourceTranslation,
 } from '../../../../modules/taxonomy';
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
-import { Topic, Resource, TranslateType, Filter } from '../../../../interfaces';
+import {
+  Topic,
+  Resource,
+  TranslateType,
+  Filter,
+  ResourceTranslation,
+} from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -133,6 +141,17 @@ const CopyResources = ({
     );
   };
 
+  const cloneResourceTranslations = (
+    resourceTranslations: ResourceTranslation[],
+    resourceId: String,
+  ) => {
+    resourceTranslations.map(translation =>
+      createResourceTranslation(resourceId, translation.language, {
+        name: translation.name,
+      }),
+    );
+  };
+
   const cloneResources = async (resources: Resource[]) => {
     return Promise.all(
       resources.map(async resource => {
@@ -147,6 +166,10 @@ const CopyResources = ({
           });
           const newResourceId = newResourceUrl.split('/').pop();
           cloneResourceResourceTypes(resource, newResourceId);
+          const resourceTranslations = await fetchResourceTranslations(
+            resource.id,
+          );
+          await cloneResourceTranslations(resourceTranslations, newResourceId);
           return await fetchResource(newResourceId, locale);
         } else if (resourceType === 'learningpath') {
           const body = {
@@ -164,6 +187,10 @@ const CopyResources = ({
           });
           const newResourceId = newResourceUrl.split('/').pop();
           cloneResourceResourceTypes(resource, newResourceId);
+          const resourceTranslations = await fetchResourceTranslations(
+            resource.id,
+          );
+          await cloneResourceTranslations(resourceTranslations, newResourceId);
           return await fetchResource(newResourceId, locale);
         }
       }),

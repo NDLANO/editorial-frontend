@@ -159,7 +159,7 @@ const CopyResources = ({
         const resourceId = resource.contentUri?.split(':')[2];
 
         if (resourceType === 'article') {
-          const clonedArticle = await cloneDraft(resourceId);
+          const clonedArticle = await cloneDraft(resourceId, undefined, false);
           const newResourceUrl = await createResource({
             contentUri: `urn:article:${clonedArticle.id}`,
             name: resource.name,

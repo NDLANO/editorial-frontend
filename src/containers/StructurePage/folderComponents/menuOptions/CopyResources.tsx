@@ -32,6 +32,7 @@ import {
   TranslateType,
   Filter,
   ResourceTranslation,
+  ResourceType,
 } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -102,15 +103,16 @@ const CopyResources = ({
   };
 
   const addResourcesToTopic = async (resources: Resource[]) => {
-    const promises = resources.map(resource =>
-      createTopicResource({
-        primary: resource.isPrimary,
-        rank: resource.rank,
-        resourceId: resource.id,
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resources.length; i++) {
+      await createTopicResource({
+        primary: resources[i].isPrimary,
+        rank: resources[i].rank,
+        resourceId: resources[i].id,
         topicid: id,
-      }),
-    );
-    await Promise.all(promises);
+      });
+    }
     setResourcesUpdated(true);
   };
 
@@ -118,92 +120,101 @@ const CopyResources = ({
     resources: Resource[],
     filters: Filter[],
   ) => {
-    resources.forEach(resource =>
-      filters.forEach(filter =>
-        addFilterToResource({
-          filterId: filter.id,
-          resourceId: resource.id,
-        }),
-      ),
-    );
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resources.length; i++) {
+      for (let j = 0; j < filters.length; j++) {
+        await addFilterToResource({
+          filterId: filters[j].id,
+          resourceId: resources[i].id,
+        });
+      }
+    }
   };
 
   const cloneResourceResourceTypes = async (
-    resource: Resource,
+    resourceTypes: ResourceType[],
     resourceId: String,
   ) => {
-    resource.resourceTypes.forEach(
-      async resourceType =>
-        await createResourceResourceType({
-          resourceId: `${resourceId}`,
-          resourceTypeId: `${resourceType.id}`,
-        }),
-    );
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resourceTypes.length; i++) {
+      await createResourceResourceType({
+        resourceId: `${resourceId}`,
+        resourceTypeId: `${resourceTypes[i].id}`,
+      });
+    }
   };
 
-  const cloneResourceTranslations = (
+  const cloneResourceTranslations = async (
     resourceTranslations: ResourceTranslation[],
     resourceId: String,
   ) => {
-    resourceTranslations.map(translation =>
-      createResourceTranslation(resourceId, translation.language, {
-        name: translation.name,
-      }),
-    );
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resourceTranslations.length; i++) {
+      await createResourceTranslation(
+        resourceId,
+        resourceTranslations[i].language,
+        {
+          name: resourceTranslations[i].name,
+        },
+      );
+    }
+  };
+
+  const cloneResource = async (resource: Resource) => {
+    const resourceType = resource.contentUri?.split(':')[1];
+    const resourceId = resource.contentUri?.split(':')[2];
+
+    if (resourceType === 'article') {
+      const clonedArticle = await cloneDraft(resourceId, undefined, false);
+      const newResourceUrl = await createResource({
+        contentUri: `urn:article:${clonedArticle.id}`,
+        name: resource.name,
+      });
+      const newResourceId = newResourceUrl.split('/').pop();
+      cloneResourceResourceTypes(resource.resourceTypes, newResourceId);
+      const resourceTranslations = await fetchResourceTranslations(resource.id);
+      await cloneResourceTranslations(resourceTranslations, newResourceId);
+      return await fetchResource(newResourceId, locale);
+    } else if (resourceType === 'learningpath') {
+      const body = {
+        title: resource.name,
+        language: locale,
+      };
+      const clonedLearningpathUrl = await learningpathCopy(resourceId, body);
+      const newLearningpathId = clonedLearningpathUrl.split('/').pop();
+      const newResourceUrl = await createResource({
+        contentUri: `urn:learningpath:${newLearningpathId}`,
+        name: resource.name,
+      });
+      const newResourceId = newResourceUrl.split('/').pop();
+      cloneResourceResourceTypes(resource.resourceTypes, newResourceId);
+      const resourceTranslations = await fetchResourceTranslations(resource.id);
+      await cloneResourceTranslations(resourceTranslations, newResourceId);
+      return await fetchResource(newResourceId, locale);
+    } else {
+      const newResourceUrl = await createResource({
+        name: resource.name,
+      });
+      const newResourceId = newResourceUrl.split('/').pop();
+      await cloneResourceResourceTypes(resource.resourceTypes, newResourceId);
+      const resourceTranslations = await fetchResourceTranslations(resource.id);
+      await cloneResourceTranslations(resourceTranslations, newResourceId);
+      return await fetchResource(newResourceId, locale);
+    }
   };
 
   const cloneResources = async (resources: Resource[]) => {
-    return Promise.all(
-      resources.map(async resource => {
-        const resourceType = resource.contentUri?.split(':')[1];
-        const resourceId = resource.contentUri?.split(':')[2];
-
-        if (resourceType === 'article') {
-          const clonedArticle = await cloneDraft(resourceId, undefined, false);
-          const newResourceUrl = await createResource({
-            contentUri: `urn:article:${clonedArticle.id}`,
-            name: resource.name,
-          });
-          const newResourceId = newResourceUrl.split('/').pop();
-          cloneResourceResourceTypes(resource, newResourceId);
-          const resourceTranslations = await fetchResourceTranslations(
-            resource.id,
-          );
-          await cloneResourceTranslations(resourceTranslations, newResourceId);
-          return await fetchResource(newResourceId, locale);
-        } else if (resourceType === 'learningpath') {
-          const body = {
-            title: resource.name,
-            language: locale,
-          };
-          const clonedLearningpathUrl = await learningpathCopy(
-            resourceId,
-            body,
-          );
-          const newLearningpathId = clonedLearningpathUrl.split('/').pop();
-          const newResourceUrl = await createResource({
-            contentUri: `urn:learningpath:${newLearningpathId}`,
-            name: resource.name,
-          });
-          const newResourceId = newResourceUrl.split('/').pop();
-          cloneResourceResourceTypes(resource, newResourceId);
-          const resourceTranslations = await fetchResourceTranslations(
-            resource.id,
-          );
-          await cloneResourceTranslations(resourceTranslations, newResourceId);
-          return await fetchResource(newResourceId, locale);
-        } else {
-          const newResourceUrl = await createResource({
-            name: resource.name,
-          });
-          const newResourceId = newResourceUrl.split('/').pop();
-          await cloneResourceResourceTypes(resource, newResourceId);
-          const resourceTranslations = await fetchResourceTranslations(resource.id);
-          await cloneResourceTranslations(resourceTranslations, newResourceId)
-          return await fetchResource(newResourceId, locale);
-        }
-      }),
-    );
+    const clonedResources = [];
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resources.length; i++) {
+      const clonedResource = await cloneResource(resources[i]);
+      clonedResources.push(clonedResource);
+    }
+    return clonedResources;
   };
 
   const copyResources = async (topic: Topic) => {

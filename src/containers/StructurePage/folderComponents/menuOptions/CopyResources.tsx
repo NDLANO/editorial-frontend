@@ -163,46 +163,54 @@ const CopyResources = ({
     }
   };
 
+  const clonedResource = async (
+    newResourceBody: { contentUri?: String; name: String },
+    oldResource: Resource,
+  ) => {
+    const newResourcePath = await createResource(newResourceBody);
+    const newResourceUrn = newResourcePath.split('/').pop();
+    cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
+    const resourceTranslations = await fetchResourceTranslations(
+      oldResource.id,
+    );
+    await cloneResourceTranslations(resourceTranslations, newResourceUrn);
+    return await fetchResource(newResourceUrn, locale);
+  };
+
   const cloneResource = async (resource: Resource) => {
     const resourceType = resource.contentUri?.split(':')[1];
     const resourceId = resource.contentUri?.split(':')[2];
 
     if (resourceType === 'article') {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);
-      const newResourceUrl = await createResource({
+      const newResourceBody = {
         contentUri: `urn:article:${clonedArticle.id}`,
         name: resource.name,
-      });
-      const newResourceId = newResourceUrl.split('/').pop();
-      cloneResourceResourceTypes(resource.resourceTypes, newResourceId);
-      const resourceTranslations = await fetchResourceTranslations(resource.id);
-      await cloneResourceTranslations(resourceTranslations, newResourceId);
-      return await fetchResource(newResourceId, locale);
+      };
+      return await clonedResource(newResourceBody, resource);
     } else if (resourceType === 'learningpath') {
-      const body = {
+      const newLearningpathBody = {
         title: resource.name,
         language: locale,
       };
-      const clonedLearningpathUrl = await learningpathCopy(resourceId, body);
+      const clonedLearningpathUrl = await learningpathCopy(
+        resourceId,
+        newLearningpathBody,
+      );
       const newLearningpathId = clonedLearningpathUrl.split('/').pop();
-      const newResourceUrl = await createResource({
+      const newResourceBody = {
         contentUri: `urn:learningpath:${newLearningpathId}`,
         name: resource.name,
-      });
-      const newResourceId = newResourceUrl.split('/').pop();
-      cloneResourceResourceTypes(resource.resourceTypes, newResourceId);
-      const resourceTranslations = await fetchResourceTranslations(resource.id);
-      await cloneResourceTranslations(resourceTranslations, newResourceId);
-      return await fetchResource(newResourceId, locale);
+      };
+      return await clonedResource(newResourceBody, resource);
     } else {
-      const newResourceUrl = await createResource({
-        name: resource.name,
-      });
-      const newResourceId = newResourceUrl.split('/').pop();
-      await cloneResourceResourceTypes(resource.resourceTypes, newResourceId);
-      const resourceTranslations = await fetchResourceTranslations(resource.id);
-      await cloneResourceTranslations(resourceTranslations, newResourceId);
-      return await fetchResource(newResourceId, locale);
+      // Edge-case for resources without contentUri
+      return await clonedResource(
+        {
+          name: resource.name,
+        },
+        resource,
+      );
     }
   };
 

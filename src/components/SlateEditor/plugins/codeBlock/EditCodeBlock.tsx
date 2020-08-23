@@ -2,32 +2,30 @@ import React, { FC, useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import EditCodeBlockModal from './EditCodeBlockModal';
 
-//     <script type="text/javascript" src="../dist/enlighterjs.min.js"></script>
-//     <link rel="stylesheet" href="../dist/enlighterjs.min.css" />
 
 const emptyTag = '<pre/>';
 let codeBlockEditor;
 
 interface CodeBlockType {
-  programmingLanguage: string;
   code: string;
+  title: string;
+  format: string;
 }
 
 interface Props {
   locale: string;
-  existingCodeBlock: CodeBlockType;
-  model: { innerHTML: string };
+  model: CodeBlockType;
   onExit: Function;
 }
 
 const EditCodeBlock: FC<Props> = ({ locale, model, onExit }) => {
-  const innerHTML = model; // TODO skal denne være model.innerHTMl?
+  const codeBlock = model; // TODO skal denne være model.innerHTMl?
 
   const [initialCodeBlock, setInitialCodeBlock] = useState<any>(
-    innerHTML ? innerHTML : emptyTag,
+    codeBlock ? codeBlock : emptyTag,
   );
   const [renderCodeBlock, setRenderCodeBlock] = useState<any>(
-    innerHTML ? innerHTML : emptyTag,
+    codeBlock ? codeBlock : emptyTag,
   );
   const [openDiscartModal, setOpenDiscartModal] = useState(false);
 
@@ -51,12 +49,7 @@ const EditCodeBlock: FC<Props> = ({ locale, model, onExit }) => {
     // }
   };
 
-  const previewCodeBlock = () => {
-    //    const (codeBlock: CodeBlockType) = {programmingLanguage= '', code= ''};
-    //    setRenderCodeBlock(codeBlock);
-    const hei = 'hei';
-    console.log('yo');
-  };
+
 
   const handleCancelDiscard = () => {
     setOpenDiscartModal(false);
@@ -74,8 +67,9 @@ const EditCodeBlock: FC<Props> = ({ locale, model, onExit }) => {
       handleContinue={handleContinue}
       handleExit={handleExit}
       openDiscardModal={openDiscartModal}
-      previewCodeBlock={previewCodeBlock}
       renderCodeBlock={renderCodeBlock}
+      model={model}
+      handleSave={handleSave}
     />
   );
 };

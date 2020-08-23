@@ -92,7 +92,6 @@ class MathEditor extends Component {
     const { t, node } = this.props;
     const { editMode, showMenu } = this.state;
     const { model } = getInfoFromNode(node);
-
     const { top, left } = this.getMenuPosition();
 
     return (

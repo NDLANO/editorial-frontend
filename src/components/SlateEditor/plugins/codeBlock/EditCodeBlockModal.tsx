@@ -7,8 +7,6 @@
  */
 
 import React, { FC } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
@@ -17,21 +15,11 @@ import { CodeBlockEditor } from '@ndla/editor';
 import AlertModal from '../../../AlertModal';
 import { TranslateType } from '../../../../interfaces';
 
-const StyledCodeBlockPreviewWrapper = styled('div')`
-  padding: ${spacing.small} 0;
-  display: flex;
-  overflow: auto;
-`;
-
-const StyledButtonWrapper = styled('div')`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-const buttonStyle = css`
-  margin-right: ${spacing.small};
-`;
+interface CodeBlockType {
+  code: string;
+  title: string;
+  format: string;
+}
 
 interface Props {
   handleCancelDiscard: Function;
@@ -39,8 +27,8 @@ interface Props {
   handleExit: Function;
   handleRemove: Function;
   handleSave: Function;
+  model: CodeBlockType;
   openDiscardModal: boolean;
-  previewCodeBlock: Function;
   renderCodeBlock: string;
   t: TranslateType;
 }
@@ -51,8 +39,8 @@ const EditCodeBlockModal: FC<Props> = ({
   handleExit,
   handleRemove,
   handleSave,
+  model,
   openDiscardModal,
-  previewCodeBlock,
   renderCodeBlock,
   t,
 }) => (
@@ -70,31 +58,9 @@ const EditCodeBlockModal: FC<Props> = ({
           <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
         </ModalHeader>
         <ModalBody>
-          <h1>Rediger kodeblokk</h1> {/* TODO phrases */}
-          <hr />
-          {/* <div id="programmingLanguageSelector" />
-          <div id="codeBlockEditorContainer" />
-          <StyledButtonWrapper>
-            <Button outline css={buttonStyle} onClick={previewCodeBlock}>
-              {t('form.preview.button')}
-            </Button>
-            <Button outline css={buttonStyle} onClick={handleSave}>
-              {t('form.save')}
-            </Button>
-            <Button outline css={buttonStyle} onClick={onCloseModal}>
-              {t('form.abort')}
-            </Button>
-            <Button outline css={buttonStyle} onClick={handleRemove}>
-              {t('form.remove')}
-            </Button>
-          </StyledButtonWrapper> */}
-          <h3>{t('mathEditor.preview')}</h3>
-          <hr />
-          <StyledCodeBlockPreviewWrapper
-            dangerouslySetInnerHTML={{
-              __html: renderCodeBlock,
-            }}
-          />
+
+          <CodeBlockEditor content={model} onSave={handleSave}/>
+          
           <AlertModal
             show={openDiscardModal}
             text={t('mathEditor.continue')}

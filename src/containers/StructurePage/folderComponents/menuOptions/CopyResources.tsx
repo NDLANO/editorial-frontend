@@ -22,7 +22,7 @@ import {
   createResource,
   createResourceResourceType,
   fetchResourceTranslations,
-  createResourceTranslation,
+  setResourceTranslation,
 } from '../../../../modules/taxonomy';
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
@@ -155,7 +155,7 @@ const CopyResources = ({
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTranslations.length; i++) {
-      await createResourceTranslation(
+      await setResourceTranslation(
         resourceId,
         resourceTranslations[i].language,
         {

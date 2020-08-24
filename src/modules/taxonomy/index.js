@@ -27,7 +27,7 @@ export {
   getResourceId, // fetchTopicResource,
   queryLearningPathResource,
   fetchResourceTranslations,
-  createResourceTranslation,
+  setResourceTranslation,
 } from './resources';
 export {
   fetchAllResourceTypes,

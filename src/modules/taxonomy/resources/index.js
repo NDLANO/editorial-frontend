@@ -163,7 +163,7 @@ export const fetchResourceTranslations = id => {
   );
 };
 
-export const createResourceTranslation = (id, language, body) => {
+export const setResourceTranslation = (id, language, body) => {
   const url = `${baseUrl}/resources/${id}/translations/${language}`;
   return fetchAuthorized(url, {
     headers: {

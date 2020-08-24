@@ -136,7 +136,16 @@ function fetchTopicConnections(id) {
     resolveJsonOrRejectWithError,
   );
 }
+
 function updateTopicMetadata(subjectId, body) {
+  return fetchAuthorized(`${baseUrl}/topics/${subjectId}/metadata`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+function updateTopicMetadataRecursive(subjectId, body) {
   return fetchAuthorized(
     `${baseUrl}/topics/${subjectId}/metadata-recursive?applyToResources=true`,
     {
@@ -165,4 +174,5 @@ export {
   updateTopicSubtopic,
   fetchTopicResourceTypes,
   updateTopicMetadata,
+  updateTopicMetadataRecursive,
 };

@@ -88,7 +88,6 @@ const EditGrepCodes: FC<Props> = ({
       case 'topic': {
         await updateTopicMetadata(id, {
           grepCodes: codes,
-          visible: metadata.visible,
         });
         setGrepCodes(codes);
         grepCodeDescriptionTitle();

@@ -53,6 +53,7 @@ interface Props {
   structure: PathArray;
   onClose: Function;
   setResourcesUpdated: Function;
+  setShowAlertModal: Function;
 }
 
 const iconCss = css`
@@ -68,6 +69,7 @@ const CopyResources = ({
   structure,
   onClose,
   setResourcesUpdated,
+  setShowAlertModal,
 }: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
@@ -228,10 +230,11 @@ const CopyResources = ({
   const copyResources = async (topic: Topic) => {
     try {
       const resources: Resource[] = await fetchTopicResources(topic.id);
-      addResourcesToTopic(resources);
+      await addResourcesToTopic(resources);
       const filters: Filter[] = await fetchTopicFilters(id);
-      addTopicFiltersToResources(resources, filters);
+      await addTopicFiltersToResources(resources, filters);
     } catch (e) {
+      setShowAlertModal(true);
       handleError(e);
     }
   };
@@ -240,10 +243,11 @@ const CopyResources = ({
     try {
       const resources: Resource[] = await fetchTopicResources(topic.id);
       const clonedResources = await cloneResources(resources);
-      addResourcesToTopic(clonedResources);
+      await addResourcesToTopic(clonedResources);
       const filters: Filter[] = await fetchTopicFilters(id);
-      addTopicFiltersToResources(clonedResources, filters);
+      await addTopicFiltersToResources(clonedResources, filters);
     } catch (e) {
+      setShowAlertModal(true);
       handleError(e);
     }
   };

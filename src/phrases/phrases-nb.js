@@ -1017,6 +1017,8 @@ const phrases = {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
       chooseFilter: 'Koble til filter',
+      copyError:
+        'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressurser og prøv å fikse mangler manuelt eller slett de kopierte ressurser og prøv å kopiere på nytt',
     },
     removeLink: 'Fjern link',
     resourceTypes: {

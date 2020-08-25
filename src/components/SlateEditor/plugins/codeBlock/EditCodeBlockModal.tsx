@@ -58,9 +58,8 @@ const EditCodeBlockModal: FC<Props> = ({
           <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
         </ModalHeader>
         <ModalBody>
+          <CodeBlockEditor content={model} onSave={handleSave} />
 
-          <CodeBlockEditor content={model} onSave={handleSave}/>
-          
           <AlertModal
             show={openDiscardModal}
             text={t('mathEditor.continue')}

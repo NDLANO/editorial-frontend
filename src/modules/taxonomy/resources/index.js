@@ -156,3 +156,20 @@ export async function queryContent(id, language, contentType) {
   }
   return undefined;
 }
+
+export const fetchResourceTranslations = id => {
+  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(
+    resolveTaxonomyJsonOrRejectWithError,
+  );
+};
+
+export const setResourceTranslation = (id, language, body) => {
+  const url = `${baseUrl}/resources/${id}/translations/${language}`;
+  return fetchAuthorized(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify(body),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+};

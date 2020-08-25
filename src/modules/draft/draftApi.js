@@ -42,11 +42,18 @@ export const fetchDraft = (id, language) => {
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
-export const cloneDraft = (id, language) => {
-  const query = queryString.stringify({ language });
-  const url = language
-    ? `${baseUrl}/clone/${id}?${query}&fallback=true`
-    : `${baseUrl}/clone/${id}`;
+export const cloneDraft = (
+  id,
+  language,
+  addCopyPostfixToArticleTitle = true,
+) => {
+  const query = queryString.stringify({
+    language,
+    'copied-title-postfix': addCopyPostfixToArticleTitle,
+    fallback: true,
+  });
+  const url = `${baseUrl}/clone/${id}?${query}`;
+
   return fetchAuthorized(url, { method: 'POST' }).then(
     resolveJsonOrRejectWithError,
   );

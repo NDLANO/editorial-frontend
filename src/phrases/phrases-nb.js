@@ -1009,7 +1009,8 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    copyResources: 'Kopier ressurser fra emne',
+    copyResources: 'Gjenbruk ressurser fra emne',
+    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favoritter',
     publish: {
       button: 'Publiser alt',
@@ -1021,6 +1022,8 @@ const phrases = {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
       chooseFilter: 'Koble til filter',
+      copyError:
+        'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
     },
     removeLink: 'Fjern link',
     resourceTypes: {

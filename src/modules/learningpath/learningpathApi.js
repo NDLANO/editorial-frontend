@@ -35,3 +35,9 @@ export const learningpathSearch = query =>
     method: 'POST',
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);
+
+export const learningpathCopy = (id, query) =>
+  fetchAuthorized(`${baseUrl}/${id}/copy/`, {
+    method: 'POST',
+    body: JSON.stringify(query),
+  }).then(resolveJsonOrRejectWithError);

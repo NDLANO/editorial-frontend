@@ -990,7 +990,8 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
-    copyResources: 'Copy resources from topic',
+    copyResources: 'Reuse resources from topic',
+    copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {
       button: 'Publish all',
@@ -1002,6 +1003,8 @@ const phrases = {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       chooseFilter: 'Connect to filters',
+      copyError:
+        'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
     resourceTypes: {
       title: 'Content type',

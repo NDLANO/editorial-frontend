@@ -61,15 +61,22 @@ const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
   };
 
   const linkText = (search: string) => {
-    const query = searchObject.query || t('welcomePage.emptySearchQuery');
-    const status = searchObject['/search/content?draft-status'] || '';
-    const contextType = searchObject['context-types'] || '';
+    const query = searchObject.query || undefined;
+    const status = searchObject['/search/content?draft-status'] || undefined;
+    const contextType = searchObject['context-types'] || undefined;
 
-    return `${query} ${status &&
-      `- ${t(`form.status.${status.toLowerCase()}`)}`} ${subject &&
-      `- ${subjectName}`} ${resourceType &&
-      `- ${resourceTypeName}`} ${contextType && `- ${t(`contextTypes.topic`)}`}
-      `;
+    const results = [];
+    results.push(query);
+    results.push(status && t(`form.status.${status.toLowerCase()}`));
+    results.push(subject && subjectName);
+    results.push(resourceType && resourceTypeName);
+    results.push(contextType && t(`contextTypes.topic`));
+
+    return results
+      .filter(function(e) {
+        return e;
+      })
+      .join(' + ');
   };
 
   return (

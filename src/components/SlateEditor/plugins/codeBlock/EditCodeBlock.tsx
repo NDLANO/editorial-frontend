@@ -14,6 +14,7 @@ interface CodeBlockType {
 interface Props {
   locale: string;
   handleSave: Function;
+  handleRemove: Function;
   model: CodeBlockType;
   onExit: Function;
 }
@@ -53,8 +54,6 @@ const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
   const handleContinue = () => {
     onExit();
   };
-
-  const handleRemove = () => {};
 
   return (
     <EditCodeBlockModal

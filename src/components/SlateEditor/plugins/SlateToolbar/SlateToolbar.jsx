@@ -24,8 +24,8 @@ const DEFAULT_NODE = 'paragraph';
 
 const learningResourceElements = {
   mark: ['bold', 'italic', 'code'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: ['link', 'footnote', 'mathml', 'concept', 'code-block'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three', 'code-block'],
+  inline: ['link', 'footnote', 'mathml', 'concept'],
 };
 
 export const toolbarClasses = new BEMHelper({

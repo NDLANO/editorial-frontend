@@ -17,7 +17,7 @@ import EditCodeBlock from './EditCodeBlock';
 
 const getInfoFromNode = node => {
   const data = node?.data ? node.data.toJS() : {};
-  const codeBlock = data.codeBlock || node.text; // he.encode ???
+  const codeBlock = data.codeBlock || node.text;
   return {
     model: {
       code: codeBlock?.code ? codeBlock.code : codeBlock,
@@ -37,6 +37,7 @@ class CodeBlock extends Component {
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   getMenuPosition() {
@@ -54,7 +55,6 @@ class CodeBlock extends Component {
   }
 
   toggleEditMode() {
-    console.log('hei!')
     this.setState(prevState => ({ editMode: !prevState.editMode }));
   }
 
@@ -69,7 +69,12 @@ class CodeBlock extends Component {
     };
     editor.setNodeByKey(node.key, properties);
     this.setState({ isFirstEdit: false, editMode: false });
-    console.log('handle save!!', codeBlock);
+  }
+
+  handleRemove() {
+    const { editor, node } = this.props;
+    editor.removeNodeByKey(node.key);
+    editor.focus();
   }
 
   onExit = () => {
@@ -79,19 +84,11 @@ class CodeBlock extends Component {
     }
   };
 
-  handleRemove() {
-    const { editor, node } = this.props;
-    editor.unwrapInlineByKey(node.key, 'code-block'); // TODO HVA GJØR DENNE
-    editor.focus();
-  }
-
   render() {
     const { t, editor, node } = this.props;
     const { editMode, showMenu } = this.state;
     const { model } = getInfoFromNode(node);
     const { top, left } = this.getMenuPosition();
-
-    console.log('editMode', editMode);
 
     return (
       <>
@@ -102,6 +99,7 @@ class CodeBlock extends Component {
           tabIndex={0}
           role="button">
           <Codeblock code={model.code} format={model.format} />
+
           <Portal isOpened={showMenu}>
             <MathMenu
               top={top}

@@ -21,7 +21,19 @@ const schema = {
 export const TYPE = 'code-block';
 
 export default function codeBlockPlugin() {
-  const renderInline = (props, editor, next) => {
+  // const renderInline = (props, editor, next) => {
+  //   console.log('innenfor renderInline');
+  //   const { node } = props;
+
+  //   switch (node.type) {
+  //     case TYPE:
+  //       return <CodeBlock {...props} />;
+  //     default:
+  //       return next();
+  //   }
+  // };
+
+  const renderBlock = (props, editor, next) => {
     const { node } = props;
 
     switch (node.type) {
@@ -34,6 +46,6 @@ export default function codeBlockPlugin() {
 
   return {
     schema,
-    renderInline,
+    renderBlock,
   };
 }

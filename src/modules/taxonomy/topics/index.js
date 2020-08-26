@@ -15,14 +15,16 @@ import {
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 const resolveTaxonomyResponse = res => resolveJsonOrRejectWithError(res, true);
 
-function fetchTopics(locale) {
-  return fetchAuthorized(
-    `${baseUrl}/topics?includeMetadata=true&language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+function fetchTopics(language) {
+  const lang = language ? `&language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/topics?includeMetadata=true${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
-function fetchTopic(id) {
-  return fetchAuthorized(`${baseUrl}/topics/${id}`).then(
+function fetchTopic(id, language) {
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/topics/${id}${lang}`).then(
     resolveJsonOrRejectWithError,
   );
 }
@@ -33,15 +35,16 @@ function fetchTopicFilters(id) {
   );
 }
 
-function fetchTopicResourceTypes(locale) {
-  return fetchAuthorized(
-    `${baseUrl}/topic-resourcetypes/?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+function fetchTopicResourceTypes(language) {
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
-function fetchTopicResources(topicId, locale, relevance, filters) {
+function fetchTopicResources(topicId, language, relevance, filters) {
   const query = [];
-  if (locale) query.push(`language=${locale}`);
+  if (language) query.push(`language=${language}`);
   if (relevance) query.push(`relevance=${relevance}`);
   if (filters) query.push(`filters=${filters}`);
   return fetchAuthorized(

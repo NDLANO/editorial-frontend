@@ -16,16 +16,18 @@ import { fetchTopicArticle } from '../taxonomyApi';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-export function fetchResource(id, locale) {
-  return fetchAuthorized(`${baseUrl}/resources/${id}?language=${locale}`).then(
+export function fetchResource(id, language) {
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(
     resolveJsonOrRejectWithError,
   );
 }
 
-export function fetchFullResource(id, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/resources/${id}/full?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+export function fetchFullResource(id, language) {
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 export function createResource(resource) {
@@ -38,16 +40,18 @@ export function createResource(resource) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-export function fetchResourceResourceType(id, locale) {
+export function fetchResourceResourceType(id, language) {
+  const lang = language ? `?language=${language}` : '';
   return fetchAuthorized(
-    `${baseUrl}/resources/${id}/resource-types?language=${locale}`,
+    `${baseUrl}/resources/${id}/resource-types/${lang}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-export function fetchResourceFilter(id, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/resources/${id}/filters?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+export function fetchResourceFilter(id, language) {
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/resources/${id}/filters${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 export function addFilterToResource({
@@ -156,3 +160,20 @@ export async function queryContent(id, language, contentType) {
   }
   return undefined;
 }
+
+export const fetchResourceTranslations = id => {
+  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(
+    resolveTaxonomyJsonOrRejectWithError,
+  );
+};
+
+export const setResourceTranslation = (id, language, body) => {
+  const url = `${baseUrl}/resources/${id}/translations/${language}`;
+  return fetchAuthorized(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify(body),
+  }).then(resolveTaxonomyJsonOrRejectWithError);
+};

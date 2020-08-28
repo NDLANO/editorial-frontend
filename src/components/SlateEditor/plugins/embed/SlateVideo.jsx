@@ -11,23 +11,14 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Figure } from '@ndla/ui';
-import config from '../../../../config';
 import { EmbedShape } from '../../../../shapes';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
-
-const getIframeProps = ({ account, videoid, player = 'default' }, sources) => {
-  const sortedSources = sources
-    .filter(s => s.width && s.height)
-    .sort((a, b) => a.height < b.height);
-  const source = sortedSources.length > 0 ? sortedSources[0] : {};
-  return {
-    src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
-    height: source.height || '480',
-    width: source.width || '640',
-  };
-};
+import {
+  getYoutubeEmbedUrl,
+  getStartTime,
+  getStopTime,
+} from '../../../../util/videoUtil';
 
 const videoStyle = {
   width: '100%',
@@ -41,23 +32,39 @@ const videoStyle = {
 class SlateVideo extends React.PureComponent {
   constructor() {
     super();
-    this.state = { editMode: false, iframeData: {} };
+    this.state = { editMode: false };
     this.toggleEditModus = this.toggleEditModus.bind(this);
+    this.setStartTime = this.setStartTime.bind(this);
+    this.setStopTime = this.setStopTime.bind(this);
   }
 
-  async componentDidMount() {
-    const { embed } = this.props;
-    const sources = await visualElementApi.fetchVideoSources(
-      embed.videoid,
-      config.brightCoveAccountId,
-    );
-
-    const iframeData = getIframeProps(embed, sources);
-    this.setState({ iframeData });
+  componentDidMount() {
+    const {
+      embed: { resource, account, videoid, url, player = 'default' },
+    } = this.props;
+    if (resource === 'brightcove') {
+      this.setState({
+        src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
+      });
+    } else {
+      this.setState({
+        src: url.includes('embed') ? url : getYoutubeEmbedUrl(url),
+        startTime: getStartTime(url),
+        stopTime: getStopTime(url),
+      });
+    }
   }
 
   toggleEditModus() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
+  }
+
+  setStartTime(startTime) {
+    this.setState({ startTime: startTime });
+  }
+
+  setStopTime(stopTime) {
+    this.setState({ stopTime: stopTime });
   }
 
   render() {
@@ -70,7 +77,7 @@ class SlateVideo extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const { iframeData, editMode } = this.state;
+    const { src, editMode, startTime, stopTime } = this.state;
 
     return (
       <div className="c-figure" draggable="true" {...attributes}>
@@ -87,6 +94,11 @@ class SlateVideo extends React.PureComponent {
             embed={embed}
             toggleEditModus={this.toggleEditModus}
             figureClass={figureClass}
+            src={src}
+            startTime={startTime}
+            stopTime={stopTime}
+            setStartTime={this.setStartTime}
+            setStopTime={this.setStopTime}
             {...rest}
           />
         ) : (
@@ -100,7 +112,7 @@ class SlateVideo extends React.PureComponent {
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
-                src={iframeData.src}
+                src={src}
                 allowFullScreen
                 css={videoStyle}
               />

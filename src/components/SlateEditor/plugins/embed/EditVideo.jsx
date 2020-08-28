@@ -6,6 +6,7 @@ import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { EmbedShape } from '../../../../shapes';
 import { StyledInputWrapper } from './FigureInput';
+import EditVideoTime from './EditVideoTime';
 
 const videoStyle = {
   width: '100%',
@@ -42,6 +43,11 @@ class EditVideo extends Component {
       figureClass,
       t,
       changes,
+      src,
+      startTime,
+      stopTime,
+      setStartTime,
+      setStopTime,
     } = this.props;
     return (
       <React.Fragment>
@@ -56,29 +62,38 @@ class EditVideo extends Component {
                 this.embedEl = embedEl;
               }}>
               <figure css={{ paddingTop: '56.25%' }} {...figureClass}>
-                <video
+                <iframe
+                  title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
+                  frameBorder="0"
+                  src={src}
+                  allowFullScreen
                   css={videoStyle}
-                  data-video-id={embed.videoid}
-                  data-account={embed.account}
-                  data-player={embed.player}
-                  data-embed="default"
-                  className="video-js"
-                  controls>
-                  <track kind="captions" label={embed.caption} />
-                </video>
+                />
               </figure>
               <StyledInputWrapper>
-                <Input
-                  name="caption"
-                  label={t('form.video.caption.label')}
-                  value={changes?.caption || embed.caption}
-                  onChange={onFigureInputChange}
-                  container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={t('form.video.caption.placeholder')}
-                  white
-                />
+                {embed.resource === 'external' ? (
+                  <EditVideoTime
+                    name="url"
+                    src={src}
+                    onFigureInputChange={onFigureInputChange}
+                    startTime={startTime}
+                    stopTime={stopTime}
+                    setStartTime={setStartTime}
+                    setStopTime={setStopTime}
+                  />
+                ) : (
+                  <Input
+                    name="caption"
+                    label={t('form.video.caption.label')}
+                    value={changes?.caption || embed.caption}
+                    onChange={onFigureInputChange}
+                    container="div"
+                    type="text"
+                    autoExpand
+                    placeholder={t('form.video.caption.placeholder')}
+                    white
+                  />
+                )}
               </StyledInputWrapper>
             </div>
           </Portal>
@@ -96,6 +111,11 @@ EditVideo.propTypes = {
   changes: PropTypes.shape({
     caption: PropTypes.string,
   }),
+  src: PropTypes.string,
+  startTime: PropTypes.string,
+  stopTime: PropTypes.string,
+  setStartTime: PropTypes.func,
+  setStopTime: PropTypes.func,
 };
 
 export default injectT(EditVideo);

@@ -13,20 +13,16 @@ import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
-import { RightArrow } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import Footer from '../App/components/Footer';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
-import {
-  getNdlaId,
-  getAccessToken,
-  getAccessTokenPersonal,
-} from '../../util/authHelpers';
+import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { search } from '../../modules/search/searchApi';
-import { ContentResultType, TranslateType } from '../../interfaces';
+import { fetchUserData } from '../../modules/draft/draftApi';
+import { TranslateType } from '../../interfaces';
 
 import LastUsedContent from './components/LastUsedContent';
+import SaveSearchUrl from './components/SaveSearchUrl';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -46,18 +42,16 @@ interface Props {
 }
 
 export const WelcomePage: FC<Props> = ({ locale, t }) => {
-  const [lastUsed, setLastUsed] = useState<ContentResultType[]>([]);
+  const [lastUsed, setLastUsed] = useState<string[]>([]);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
 
   const fetchLastUsed = async () => {
     if (isValid(token) && isAccessTokenPersonal) {
-      const lastUsed = await search({
-        users: getNdlaId(),
-        sort: '-lastUpdated',
-      });
-      setLastUsed(lastUsed.results);
+      const result = await fetchUserData();
+      const lastUsed = result.latestEditedArticles || [];
+      setLastUsed(lastUsed);
     }
   };
 
@@ -73,10 +67,10 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
         <OneColumn>
           <div {...classes('header')}>
-            <a href="#guidelines" {...classes('header-link')}>
+            {/* <a href="#guidelines" {...classes('header-link')}>
               {t('welcomePage.guidelines')}
               <RightArrow className="c-icon--large" />
-            </a>
+            </a> */}
             <img
               {...classes('header-image')}
               src="/welcome-image.jpg"
@@ -89,15 +83,16 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <LastUsed className="c-icon--medium" />
                 <span>{t('welcomePage.lastUsed')}</span>
               </div>
-              {false && lastUsed.length ? (
-                lastUsed.map((result: ContentResultType) => (
-                  <LastUsedContent
-                    key={result.id}
-                    articleId={result.id}
-                    content={result}
-                    locale={locale}
-                  />
-                ))
+              {lastUsed.length ? (
+                lastUsed.map((result: string) => {
+                  return (
+                    <LastUsedContent
+                      key={result}
+                      articleId={result}
+                      locale={locale}
+                    />
+                  );
+                })
               ) : (
                 <span>{t('welcomePage.emptyLastUsed')}</span>
               )}
@@ -107,7 +102,7 @@ export const WelcomePage: FC<Props> = ({ locale, t }) => {
                 <SearchFolder className="c-icon--medium" />
                 <span>{t('welcomePage.savedSearch')}</span>
               </div>
-              <span>{t('welcomePage.emptySavedSearch')}</span>
+              <SaveSearchUrl locale={locale} />
             </div>
           </div>
         </OneColumn>

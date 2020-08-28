@@ -13,6 +13,7 @@ const phrases = {
     titleTemplate,
     createLearningResourcePage: `Learning resource ${titleTemplate}`,
     createTopicArticlePage: `Topic ${titleTemplate}`,
+    createSubjectpage: `Subjectpage ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     searchContentPage: `Search content ${titleTemplate}`,
     searchMediaPage: `Search media ${titleTemplate}`,
@@ -143,11 +144,16 @@ const phrases = {
     change: 'Change to {language} version',
   },
   welcomePage: {
-    lastUsed: 'Last used',
-    emptyLastUsed: 'Empty last used list',
-    savedSearch: 'Saved searches',
+    addSearch: 'Add new search',
+    deleteSavedSearch: 'Delete saved search',
+    deleteSearch: 'Delete search',
+    emptyLastUsed: 'Empty last edited list',
     emptySavedSearch: 'No saved searches',
     guidelines: 'Guidelines',
+    mustBeSearch: 'Link must be a search url',
+    lastUsed: 'Last edited',
+    savedSearch: 'Saved searches',
+    saveSearch: 'Save search',
   },
   searchPage: {
     header: {
@@ -186,6 +192,7 @@ const phrases = {
     film: 'Edit NDLA film',
     h5p: 'Edit H5P',
     newConcept: 'Create new concept',
+    newSubject: 'Create new subject',
   },
   logo: {
     altText: 'The Norwegian Digital Learning Arena',
@@ -324,6 +331,19 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
+  subjectpageForm: {
+    title: 'Subject',
+    about: 'About subject',
+    description: 'Description',
+    metadata: 'Metadata',
+    addBanner: 'Choose banner image',
+    changeBanner: 'Change banner image',
+    editorsChoices: 'Editor choices from the subject',
+    articles: 'Articles',
+    addArticle: 'Add article',
+    removeArticle: 'Remove article',
+    missingVisualElement: 'Visual element is required',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Image title',
@@ -456,6 +476,7 @@ const phrases = {
     },
     name: {
       title: 'Title',
+      aboutTitle: 'Title',
       introduction: 'Ingress',
       creators: 'Creators',
       rightsholders: 'Rightsholders',
@@ -471,6 +492,7 @@ const phrases = {
       alttext: 'Alt-text',
       caption: 'Caption',
       imageFile: 'Imagefile',
+      visualElement: 'Visual element',
       visualElementCaption: 'Caption',
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
@@ -478,6 +500,8 @@ const phrases = {
       description: 'Content',
       conceptContent: 'Description',
       grepCodes: 'Curriculum connection',
+      desktopBanner: 'Desktop banner',
+      mobileBanner: 'Mobile banner',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -810,11 +834,11 @@ const phrases = {
       alt: {
         label: 'Alt-text',
         placeholder: 'Alt-text',
+        noText: 'WCAG requires alt-text.',
       },
       caption: {
         label: 'Image caption',
         placeholder: 'Image caption',
-        noText: 'WCAG requires alt-text.',
       },
       dragdrop: {
         main: 'Drag and drop',
@@ -828,6 +852,11 @@ const phrases = {
         placeholder: 'Video caption',
       },
       remove: 'Remove video',
+      time: {
+        start: 'Start',
+        stop: 'Stop',
+        hms: 'h:m:s',
+      },
     },
     audio: {
       file: 'Audio file',
@@ -873,6 +902,7 @@ const phrases = {
       changeName: 'Change name',
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
+      editSubjectpage: 'Edit subjectpage',
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This files does not seem to exist on the server. It might have been deleted from another article.',
@@ -959,7 +989,8 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
-    copyResources: 'Copy resources from topic',
+    copyResources: 'Reuse resources from topic',
+    copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {
       button: 'Publish all',
@@ -971,6 +1002,8 @@ const phrases = {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       chooseFilter: 'Connect to filters',
+      copyError:
+        'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
     resourceTypes: {
       title: 'Content type',
@@ -1013,10 +1046,10 @@ const phrases = {
   },
   ndlaFilm: {
     editor: {
-      slideshowHeader: 'Slideshow:',
+      slideshowHeader: 'Slideshow',
       slideshowTitle: 'Movies on slideshow',
       slideshowSubTitle: 'on frontpage',
-      movieGroupHeader: 'Movies themes:',
+      movieGroupHeader: 'Movies themes',
       addMovieToSlideshow: 'Add movie to slideshow',
       addMovieToGroup: 'Add a movie to "{name}"',
       editMovieGroupName: 'Change the names on this movie group',

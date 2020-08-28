@@ -65,6 +65,7 @@ class SettingsMenu extends React.Component {
               {...this.props}
               toggleEditMode={this.toggleEditMode}
               editMode={editMode}
+              setShowAlertModal={this.props.setShowAlertModal}
             />
           </Fragment>
         )}
@@ -75,6 +76,7 @@ class SettingsMenu extends React.Component {
 
 SettingsMenu.propTypes = {
   type: PropTypes.string,
+  setShowAlertModal: PropTypes.func,
 };
 
 export default SettingsMenu;

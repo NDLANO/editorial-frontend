@@ -18,8 +18,22 @@ import {
   createTopicResource,
   fetchTopicFilters,
   addFilterToResource,
+  fetchResource,
+  createResource,
+  createResourceResourceType,
+  fetchResourceTranslations,
+  setResourceTranslation,
 } from '../../../../modules/taxonomy';
-import { Topic, Resource, TranslateType, Filter } from '../../../../interfaces';
+import { cloneDraft } from '../../../../modules/draft/draftApi';
+import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
+import {
+  Topic,
+  Resource,
+  TranslateType,
+  Filter,
+  ResourceTranslation,
+  ResourceType,
+} from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -39,6 +53,7 @@ interface Props {
   structure: PathArray;
   onClose: Function;
   setResourcesUpdated: Function;
+  setShowAlertModal: Function;
 }
 
 const iconCss = css`
@@ -54,9 +69,11 @@ const CopyResources = ({
   structure,
   onClose,
   setResourcesUpdated,
+  setShowAlertModal,
 }: Props) => {
   const [topics, setTopics] = useState<Topic[]>([]);
-  const [showSearch, setShowSearch] = useState(false);
+  const [showCopySearch, setShowCopySearch] = useState(false);
+  const [showCloneSearch, setShowCloneSearch] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -88,15 +105,16 @@ const CopyResources = ({
   };
 
   const addResourcesToTopic = async (resources: Resource[]) => {
-    const promises = resources.map(resource =>
-      createTopicResource({
-        primary: resource.isPrimary,
-        rank: resource.rank,
-        resourceId: resource.id,
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resources.length; i++) {
+      await createTopicResource({
+        primary: resources[i].isPrimary,
+        rank: resources[i].rank,
+        resourceId: resources[i].id,
         topicid: id,
-      }),
-    );
-    await Promise.all(promises);
+      });
+    }
     setResourcesUpdated(true);
   };
 
@@ -104,41 +122,179 @@ const CopyResources = ({
     resources: Resource[],
     filters: Filter[],
   ) => {
-    resources.forEach(resource =>
-      filters.forEach(filter =>
-        addFilterToResource({
-          filterId: filter.id,
-          resourceId: resource.id,
-        }),
-      ),
-    );
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resources.length; i++) {
+      for (let j = 0; j < filters.length; j++) {
+        await addFilterToResource({
+          filterId: filters[j].id,
+          resourceId: resources[i].id,
+        });
+      }
+    }
   };
 
-  const handleSubmit = async (topic: Topic) => {
+  const cloneResourceResourceTypes = async (
+    resourceTypes: ResourceType[],
+    resourceId: String,
+  ) => {
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resourceTypes.length; i++) {
+      await createResourceResourceType({
+        resourceId: `${resourceId}`,
+        resourceTypeId: `${resourceTypes[i].id}`,
+      });
+    }
+  };
+
+  const cloneResourceTranslations = async (
+    resourceTranslations: ResourceTranslation[],
+    resourceId: String,
+  ) => {
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resourceTranslations.length; i++) {
+      await setResourceTranslation(
+        resourceId,
+        resourceTranslations[i].language,
+        {
+          name: resourceTranslations[i].name,
+        },
+      );
+    }
+  };
+
+  const clonedResource = async (
+    newResourceBody: { contentUri?: String; name: String },
+    oldResource: Resource,
+  ) => {
+    const newResourcePath = await createResource(newResourceBody);
+    const newResourceUrn = newResourcePath.split('/').pop();
+    cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
+    const resourceTranslations = await fetchResourceTranslations(
+      oldResource.id,
+    );
+    await cloneResourceTranslations(resourceTranslations, newResourceUrn);
+    return await fetchResource(newResourceUrn, locale);
+  };
+
+  const cloneResource = async (resource: Resource) => {
+    const resourceType = resource.contentUri?.split(':')[1];
+    const resourceId = resource.contentUri?.split(':')[2];
+
+    if (resourceType === 'article') {
+      const clonedArticle = await cloneDraft(resourceId, undefined, false);
+      const newResourceBody = {
+        contentUri: `urn:article:${clonedArticle.id}`,
+        name: resource.name,
+      };
+      return await clonedResource(newResourceBody, resource);
+    } else if (resourceType === 'learningpath') {
+      const newLearningpathBody = {
+        title: resource.name,
+        language: locale,
+      };
+      const clonedLearningpathUrl = await learningpathCopy(
+        resourceId,
+        newLearningpathBody,
+      );
+      const newLearningpathId = clonedLearningpathUrl.split('/').pop();
+      const newResourceBody = {
+        contentUri: `urn:learningpath:${newLearningpathId}`,
+        name: resource.name,
+      };
+      return await clonedResource(newResourceBody, resource);
+    } else {
+      // Edge-case for resources without contentUri
+      return await clonedResource(
+        {
+          name: resource.name,
+        },
+        resource,
+      );
+    }
+  };
+
+  const cloneResources = async (resources: Resource[]) => {
+    const clonedResources = [];
+    // This is made so the code runs sequentially and not cause server overflow
+    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resources.length; i++) {
+      const clonedResource = await cloneResource(resources[i]);
+      clonedResources.push(clonedResource);
+    }
+    return clonedResources;
+  };
+
+  const copyResources = async (topic: Topic) => {
     try {
       const resources: Resource[] = await fetchTopicResources(topic.id);
-      addResourcesToTopic(resources);
+      await addResourcesToTopic(resources);
       const filters: Filter[] = await fetchTopicFilters(id);
-      addTopicFiltersToResources(resources, filters);
+      await addTopicFiltersToResources(resources, filters);
     } catch (e) {
+      setShowAlertModal(true);
       handleError(e);
     }
   };
 
-  return showSearch ? (
-    <MenuItemDropdown
-      placeholder={t('taxonomy.existingTopic')}
-      searchResult={topics}
-      onClose={onClose}
-      onSubmit={handleSubmit}
-      icon={<Copy />}
-      smallIcon
-    />
-  ) : (
-    <MenuItemButton stripped onClick={() => setShowSearch(true)}>
-      <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-      {t('taxonomy.copyResources')}
-    </MenuItemButton>
+  const copyAndCloneResources = async (topic: Topic) => {
+    try {
+      const resources: Resource[] = await fetchTopicResources(topic.id);
+      const clonedResources = await cloneResources(resources);
+      await addResourcesToTopic(clonedResources);
+      const filters: Filter[] = await fetchTopicFilters(id);
+      await addTopicFiltersToResources(clonedResources, filters);
+    } catch (e) {
+      setShowAlertModal(true);
+      handleError(e);
+    }
+  };
+
+  return (
+    <>
+      {!showCopySearch ? (
+        <MenuItemButton
+          stripped
+          onClick={() => {
+            setShowCopySearch(true);
+            setShowCloneSearch(false);
+          }}>
+          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+          {t('taxonomy.copyResources')}
+        </MenuItemButton>
+      ) : (
+        <MenuItemDropdown
+          placeholder={t('taxonomy.existingTopic')}
+          searchResult={topics}
+          onClose={onClose}
+          onSubmit={copyResources}
+          icon={<Copy />}
+          smallIcon
+        />
+      )}
+      {!showCloneSearch ? (
+        <MenuItemButton
+          stripped
+          onClick={() => {
+            setShowCopySearch(false);
+            setShowCloneSearch(true);
+          }}>
+          <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
+          {t('taxonomy.copyAndCloneResources')}
+        </MenuItemButton>
+      ) : (
+        <MenuItemDropdown
+          placeholder={t('taxonomy.existingTopic')}
+          searchResult={topics}
+          onClose={onClose}
+          onSubmit={copyAndCloneResources}
+          icon={<Copy />}
+          smallIcon
+        />
+      )}
+    </>
   );
 };
 

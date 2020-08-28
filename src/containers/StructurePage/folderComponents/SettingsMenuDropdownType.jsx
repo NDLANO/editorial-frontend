@@ -19,10 +19,12 @@ import EditFilterOption from './menuOptions/EditFilterOption';
 import EditGrepCodes from './menuOptions/EditGrepCodes';
 import PublishTopic from './menuOptions/PublishTopic';
 import ToggleVisibility from './menuOptions/ToggleVisibility';
+import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
   showAllOptions,
+  setShowAlertModal,
   ...rest
 }) => {
   switch (settingsMenuType) {
@@ -36,6 +38,7 @@ const SettingsMenuDropdownType = ({
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
+              <EditSubjectpageOption {...rest} />
             </>
           )}
         </>
@@ -53,7 +56,9 @@ const SettingsMenuDropdownType = ({
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
-          {showAllOptions && <CopyResources {...rest} />}
+          {showAllOptions && (
+            <CopyResources {...rest} setShowAlertModal={setShowAlertModal} />
+          )}
         </>
       );
     default:
@@ -71,6 +76,7 @@ SettingsMenuDropdownType.propTypes = {
   type: PropTypes.string,
   settingsMenuType: PropTypes.oneOf(['topic', 'subject']),
   showAllOptions: PropTypes.bool,
+  setShowAlertModal: PropTypes.func,
 };
 
 export default SettingsMenuDropdownType;

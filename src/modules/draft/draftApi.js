@@ -15,6 +15,7 @@ import {
 const baseUrl = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl = apiResourceUrl('/draft-api/v1/agreements');
 const baseFileUrl = apiResourceUrl('/draft-api/v1/files');
+const baseUserDataUrl = apiResourceUrl('/draft-api/v1/user-data');
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
@@ -41,11 +42,18 @@ export const fetchDraft = (id, language) => {
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
-export const cloneDraft = (id, language) => {
-  const query = queryString.stringify({ language });
-  const url = language
-    ? `${baseUrl}/clone/${id}?${query}&fallback=true`
-    : `${baseUrl}/clone/${id}`;
+export const cloneDraft = (
+  id,
+  language,
+  addCopyPostfixToArticleTitle = true,
+) => {
+  const query = queryString.stringify({
+    language,
+    'copied-title-postfix': addCopyPostfixToArticleTitle,
+    fallback: true,
+  });
+  const url = `${baseUrl}/clone/${id}?${query}`;
+
   return fetchAuthorized(url, { method: 'POST' }).then(
     resolveJsonOrRejectWithError,
   );
@@ -106,6 +114,15 @@ export const fetchGrepCodes = query =>
   fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchUserData = () =>
+  fetchAuthorized(`${baseUserDataUrl}`).then(resolveJsonOrRejectWithError);
+
+export const updateUserData = userData =>
+  fetchAuthorized(`${baseUserDataUrl}`, {
+    method: 'PATCH',
+    body: JSON.stringify(userData),
+  }).then(resolveJsonOrRejectWithError);
 
 export const updateAgreement = agreement =>
   fetchAuthorized(`${baseAgreementsUrl}/${agreement.id}`, {

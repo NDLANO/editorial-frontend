@@ -4,6 +4,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+
 export interface TranslateType {
   (
     key: string,
@@ -24,6 +26,11 @@ export interface ResourceType {
   resources?: Resource[];
 }
 
+export interface ResourceTranslation {
+  name: string;
+  language: string;
+}
+
 export interface ContentResultType {
   id: number;
   title: { title: string };
@@ -36,6 +43,8 @@ export interface ContentResultType {
       resourceTypes: ResourceType[];
     },
   ];
+  learningResourceType: string;
+  supportedLanguages?: string[];
 }
 
 export interface ArticleType {
@@ -227,4 +236,179 @@ export interface SearchResult {
   pageSize: number;
   language: string;
   results: string[];
+}
+
+export interface SubjectType {
+  id: string;
+  contentUri: string;
+  name: string;
+  path: string;
+}
+
+export interface SubjectpageType {
+  facebook: string;
+  filters: string[];
+  goTo: string[];
+  id: string;
+  latestContent: string[];
+  layout: string;
+  metaDescription: string;
+  mostRead: string[];
+  name: string;
+  topical: string;
+  twitter: string;
+  supportedLanguages: string[];
+}
+
+export interface SubjectpageApiType extends SubjectpageType {
+  about: {
+    visualElement: {
+      type: string;
+      url: string;
+      alt: string;
+      caption: string;
+      resource_id: string;
+    };
+    title: string;
+    description: string;
+  };
+  banner: {
+    mobileUrl: string;
+    mobileId: number;
+    desktopUrl: string;
+    desktopId: number;
+  };
+  editorsChoices: string[];
+}
+
+export interface SubjectpageEditType extends SubjectpageType {
+  description: string;
+  desktopBanner: VisualElement;
+  editorsChoices: ArticleType[];
+  language: string;
+  mobileBanner: number;
+  subjectId: string;
+  title: string;
+  visualElement: {
+    resource: string;
+    url: string;
+    resource_id: string;
+  };
+  visualElementAlt: string;
+}
+
+export interface NdlaFilmType {
+  name: string;
+}
+
+export interface NdlaFilmApiType extends NdlaFilmType {
+  about: [
+    {
+      description: string;
+      language: string;
+      title: string;
+      visualElement: {
+        alt: string;
+        id: string;
+        type: string;
+      };
+    },
+  ];
+  themes: NdlaFilmThemesApiType[];
+  slideShow: string[];
+}
+
+export interface NdlaFilmEditType extends NdlaFilmType {
+  articleType: string;
+  title: string;
+  description: string;
+  visualElement: {
+    resource: string;
+    videoid: string;
+    url: string;
+  };
+  visualElementAlt: string;
+  language: string;
+  supportedLanguages: string[];
+  themes: NdlaFilmThemesEditType[];
+  slideShow: ContentResultType[];
+}
+
+export interface NdlaFilmThemesApiType {
+  movies: string[];
+  name: [
+    {
+      name: string;
+      language: string;
+    },
+  ];
+}
+export interface NdlaFilmThemesEditType {
+  movies: ContentResultType[];
+  name: [
+    {
+      name: string;
+      language: string;
+    },
+  ];
+}
+
+export interface VisualElement {
+  resource: string;
+  resource_id: string;
+  size: string;
+  align: string;
+  alt: string;
+  caption: string;
+  url: string;
+  metaData: Image;
+}
+
+export interface Image {
+  alttext: {
+    alttext: string;
+    language: string;
+  };
+  caption: {
+    caption: string;
+    language: string;
+  };
+  contentType: string;
+  copyright: {
+    creators: [
+      {
+        name: string;
+      },
+    ];
+    license: {
+      description: string;
+      license: string;
+      origin: string;
+      processors: string[];
+      rightsholders: string[];
+    };
+  };
+  id: string;
+  imageUrl: string;
+  metaUrl: string;
+  size: string;
+  supportedLanguages: string[];
+  tags: {
+    language: string;
+    tags: string[];
+  };
+  title: {
+    title: string;
+    language: string;
+  };
+}
+
+export interface AccordionProps {
+  openIndexes: string[];
+  handleItemClick: Function;
+}
+
+export interface FormikProperties {
+  field: FieldProps<FormikValues>['field'];
+  form: FormikHelpers<FormikValues>;
 }

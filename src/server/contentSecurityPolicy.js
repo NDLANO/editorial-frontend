@@ -153,6 +153,7 @@ const frameSrc = (() => {
     'lab.concord.org',
     'worldbank.org',
     '*.worldbank.org',
+    'embed.molview.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

@@ -57,11 +57,7 @@ const DisplayVisualElement = ({
           embed={embed}
           changeVisualElement={changeVisualElement}
           onRemoveClick={onRemoveClick}
-          onFigureInputChange={e =>
-            onChange({
-              target: { name: 'visualElementCaption', value: e.target.value },
-            })
-          }
+          onFigureInputChange={onChange}
           language={language}
         />
       );

@@ -26,9 +26,12 @@ export {
   getFullResource,
   getResourceId, // fetchTopicResource,
   queryLearningPathResource,
+  fetchResourceTranslations,
+  setResourceTranslation,
 } from './resources';
 export {
   fetchAllResourceTypes,
+  fetchResourceType,
   createResourceResourceType,
   deleteResourceResourceType,
   createDeleteResourceTypes,
@@ -53,6 +56,7 @@ export {
 
 export {
   fetchSubjects,
+  fetchSubject,
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
@@ -60,6 +64,7 @@ export {
   addSubjectTopic,
   updateSubjectTopic,
   updateSubjectMetadata,
+  updateSubjectMetadataRecursive,
 } from './subjects';
 
 export {
@@ -79,4 +84,5 @@ export {
   updateTopicSubtopic,
   deleteTopic,
   updateTopicMetadata,
+  updateTopicMetadataRecursive,
 } from './topics';

@@ -123,10 +123,6 @@ export function useArticleFormHooks({
       setSavedToServer(true);
       formik.resetForm({ values: getInitialValues(savedArticle) });
 
-      Object.keys(formik.values).map(fieldName =>
-        formik.setFieldTouched(fieldName, true, true),
-      );
-
       formik.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {

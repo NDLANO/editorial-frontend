@@ -16,17 +16,19 @@ import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
-import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
+import { getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import { StyledInputWrapper } from '../SlateEditor/plugins/embed/FigureInput';
+import EditVideoTime from '../SlateEditor/plugins/embed/EditVideoTime';
+import { removeParams } from '../../util/videoUtil';
 import Overlay from '../Overlay';
 import config from '../../config';
 
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
     super(props);
-    this.state = { editModus: false };
+    this.state = { editMode: false };
     this.handleChangeVisualElement = this.handleChangeVisualElement.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
@@ -99,7 +101,7 @@ export class DisplayExternalVisualElement extends Component {
       provider,
       domain,
       error,
-      editModus,
+      editMode,
     } = this.state;
 
     if (error) {
@@ -122,11 +124,10 @@ export class DisplayExternalVisualElement extends Component {
     );
 
     const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
-
     return (
       <>
-        {editModus && (
-          <Overlay onExit={() => this.setState({ editModus: false })} />
+        {editMode && (
+          <Overlay onExit={() => this.setState({ editMode: false })} />
         )}
         <div className="c-figure">
           <FigureButtons
@@ -141,32 +142,44 @@ export class DisplayExternalVisualElement extends Component {
             ref={iframe => {
               this.iframe = iframe;
             }}
-            src={src}
+            src={editMode ? removeParams(src) : src}
             height={allowedProvider.height || height}
             title={title}
             scrolling={type === 'iframe' ? 'no' : undefined}
             allowFullScreen={allowedProvider.fullscreen || true}
             frameBorder="0"
           />
-          {youtubeOrH5p === 'video' && editModus ? (
+          {youtubeOrH5p === 'video' && editMode ? (
             <StyledInputWrapper>
               <Input
                 name="caption"
                 label={t(`form.${youtubeOrH5p}.caption.label`)}
                 value={embed.caption}
-                onChange={onFigureInputChange}
+                onChange={e =>
+                  onFigureInputChange({
+                    target: {
+                      name: 'visualElementCaption',
+                      value: e.target.value,
+                    },
+                  })
+                }
                 container="div"
                 type="text"
                 autoExpand
                 placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
                 white
               />
+              <EditVideoTime
+                name="visualElementUrl"
+                src={src}
+                onFigureInputChange={onFigureInputChange}
+              />
             </StyledInputWrapper>
           ) : (
             <Button
               stripped
               style={{ width: '100%' }}
-              onClick={() => this.setState({ editModus: true })}>
+              onClick={() => this.setState({ editMode: true })}>
               <figcaption className="c-figure__caption">
                 <div className="c-figure__info">{embed.caption}</div>
               </figcaption>
@@ -192,8 +205,11 @@ DisplayExternalVisualElement.propTypes = {
     resource: PropTypes.string,
     height: PropTypes.number,
     caption: PropTypes.string,
+    start: PropTypes.string,
+    stop: PropTypes.string,
   }),
   onFigureInputChange: PropTypes.func,
+  onFigureTimeChange: PropTypes.func,
   language: PropTypes.string,
 };
 

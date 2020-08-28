@@ -93,12 +93,10 @@ test('Can paste a valid url and add it to topic', async () => {
     .get(`/article-api/v2/articles/24?language=nb&fallback=true`)
     .reply(200, articleMock);
   nock('http://ndla-api')
-    .get(`/taxonomy/v1/resources/urn:resource:1:168388?language=undefined`)
+    .get(`/taxonomy/v1/resources/urn:resource:1:168388`)
     .reply(200, resourceMock);
   nock('http://ndla-api')
-    .get(
-      `/taxonomy/v1/resources/urn:resource:1:168388/resource-types?language=undefined`,
-    )
+    .get(`/taxonomy/v1/resources/urn:resource:1:168388/resource-types/`)
     .reply(200, resourceTypeMock);
   nock('http://ndla-api')
     .post(

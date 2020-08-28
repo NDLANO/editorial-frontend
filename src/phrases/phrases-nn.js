@@ -13,6 +13,7 @@ const phrases = {
     titleTemplate,
     createLearningResourcePage: `Fagstoff ${titleTemplate}`,
     createTopicArticlePage: `Emne ${titleTemplate}`,
+    createSubjectpage: `Fagforside ${titleTemplate}`,
     agreementPage: `Avtale ${titleTemplate}`,
     searchContentPage: `Søk innhald ${titleTemplate}`,
     searchMediaPage: `Søk media ${titleTemplate}`,
@@ -141,11 +142,16 @@ const phrases = {
     change: 'Bytt til {language} versjon',
   },
   welcomePage: {
-    lastUsed: 'Sist brukt',
-    emptyLastUsed: 'Ingen sist brukte',
-    savedSearch: 'Lagra søk',
+    addSearch: 'Legg til nytt søk',
+    deleteSavedSearch: 'Slett lagra søk',
+    deleteSearch: 'Slett søk',
+    emptyLastUsed: 'Ingen sist redigerte',
     emptySavedSearch: 'Ingen lagra søk',
     guidelines: 'Retningslinjer',
+    mustBeSearch: 'Lenka må være til eit søk',
+    lastUsed: 'Sist redigert',
+    savedSearch: 'Lagra søk',
+    saveSearch: 'Lagre søk',
   },
   searchPage: {
     header: {
@@ -185,6 +191,7 @@ const phrases = {
     film: 'Rediger NDLA film',
     h5p: 'Rediger H5P',
     newConcept: 'Opprett forklaring',
+    newSubject: 'Opprett fag',
   },
   logo: {
     altText: 'Nasjonal digital læringsarena',
@@ -323,6 +330,19 @@ const phrases = {
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjerna ved lagring.',
+  },
+  subjectpageForm: {
+    title: 'Fag',
+    about: 'Om faget',
+    description: 'Beskrivelse',
+    metadata: 'Metadata',
+    addBanner: 'Velg banner',
+    changeBanner: 'Bytt banner',
+    editorsChoices: 'Litt forskjellig frå faget',
+    articles: 'Artiklar',
+    addArticle: 'Legg til artikkel',
+    removeArticle: 'Fjern artikkel',
+    missingVisualElement: 'Visuelt element er påkrevd.',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -476,6 +496,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
+      aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
       rightsholders: 'Rettighetshaver',
@@ -491,6 +512,7 @@ const phrases = {
       alttext: 'Alt-tekst',
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
+      visualElement: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
@@ -498,6 +520,8 @@ const phrases = {
       description: 'Innhald',
       conceptContent: 'Skildring',
       grepCodes: 'Læreplankobling',
+      desktopBanner: 'Banner til desktop',
+      mobileBanner: 'Banner til mobil',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -844,6 +868,11 @@ const phrases = {
         placeholder: 'Videotekst',
       },
       remove: 'Fjern video',
+      time: {
+        start: 'Start',
+        stop: 'Stopp',
+        hms: 'h:m:s',
+      },
     },
     audio: {
       file: 'Lydfil',
@@ -887,8 +916,9 @@ const phrases = {
       removeList: 'Fjern filliste',
       placeholder: 'Oppgi et filnavn',
       changeName: 'Endre navn',
-      changeOrder: 'Endre rekkefølge',
+      changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',
+      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
@@ -973,7 +1003,8 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    copyResources: 'Kopier ressurser fra emne',
+    copyResources: 'Gjenbruk ressurser fra emne',
+    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favorittar',
     publish: {
       button: 'Publiser alt',
@@ -985,6 +1016,8 @@ const phrases = {
       confirmDelete:
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
       chooseFilter: 'Koble til filter',
+      copyError:
+        'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
     },
     removeLink: 'Fjern lenke',
     resourceTypes: {
@@ -1031,10 +1064,10 @@ const phrases = {
   },
   ndlaFilm: {
     editor: {
-      slideshowHeader: 'Slideshow:',
+      slideshowHeader: 'Slideshow',
       slideshowTitle: 'Filmer i slideshow',
       slideshowSubTitle: 'på forsida',
-      movieGroupHeader: 'Filmgrupperinger:',
+      movieGroupHeader: 'Filmgrupperinger',
       addMovieToSlideshow: 'Legg til film i slideshow',
       addMovieToGroup: 'Legg til film i "{name}"',
       editMovieGroupName: 'Endre navna til filmgruppa',

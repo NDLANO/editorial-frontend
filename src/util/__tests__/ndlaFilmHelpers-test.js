@@ -6,7 +6,7 @@
  */
 
 import {
-  restructureFilmFrontpage,
+  getInitialValues,
   getIdFromUrn,
   getUrnFromId,
 } from '../ndlaFilmHelpers';
@@ -15,8 +15,8 @@ const filmFrontPage = {
   name: 'Film',
   about: [
     {
-      title: 'film',
-      description: 'film fag',
+      title: 'Om film',
+      description: '',
       visualElement: {
         type: 'image',
         url: 'https://test.api.ndla.no/image-api/raw/id/37',
@@ -40,20 +40,9 @@ const filmFrontPage = {
 };
 
 const filmFrontPageAfterTransformation = {
-  name: 'Film',
-  about: [
-    {
-      title: 'film',
-      description: 'film fag',
-      visualElement: {
-        type: 'image',
-        id: '37',
-        alt: 'Et bilde Foto.',
-      },
-      language: 'nb',
-    },
-  ],
-  movieThemes: [
+  articleType: 'subjectpage',
+  description: undefined,
+  themes: [
     {
       name: [
         {
@@ -61,16 +50,44 @@ const filmFrontPageAfterTransformation = {
           language: 'nb',
         },
       ],
-      movies: ['urn:article:288'],
+      movies: [],
     },
   ],
+  name: 'Film',
+  language: 'nb',
+  supportedLanguages: ['nb'],
   slideShow: [],
+  title: 'Om film',
+  visualElement: {
+    metaData: {
+      id: '37',
+    },
+    resource: 'image',
+    resource_id: '37',
+    url: 'https://test.api.ndla.no/image-api/raw/id/37',
+  },
+  visualElementAlt: 'Et bilde Foto.',
 };
 
-test('util/ndlaFilmHelpers restructureFilmFrontpage', () => {
-  expect(restructureFilmFrontpage(filmFrontPage)).toEqual(
-    filmFrontPageAfterTransformation,
-  );
+test('util/ndlaFilmHelpers getInitialValues', () => {
+  expect(
+    getInitialValues(
+      filmFrontPage,
+      [],
+      [
+        {
+          name: [
+            {
+              name: 'eksempel 2',
+              language: 'nb',
+            },
+          ],
+          movies: [],
+        },
+      ],
+      'nb',
+    ),
+  ).toEqual(filmFrontPageAfterTransformation);
 });
 
 const numberId = '1987';

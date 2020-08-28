@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage, connect } from 'formik';
@@ -29,11 +30,18 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const TopicArticleVisualElement = ({
+const FormikVisualElement = ({
   t,
   formik: {
-    values: { visualElementCaption, visualElementAlt, language },
+    values: {
+      visualElementCaption,
+      visualElementAlt,
+      language,
+      visualElementUrl,
+    },
   },
+  types,
+  videoTypes,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
@@ -43,7 +51,7 @@ const TopicArticleVisualElement = ({
           <div>
             <FieldHeader title={t('form.visualElement.title')} />
             {!field.value.resource && (
-              <VisualElementMenu onSelect={setSelectedResource} />
+              <VisualElementMenu onSelect={setSelectedResource} types={types} />
             )}
             <Fragment>
               <VisualElement
@@ -55,12 +63,14 @@ const TopicArticleVisualElement = ({
                   ...field.value,
                   caption: visualElementCaption,
                   alt: visualElementAlt,
+                  url: visualElementUrl,
                 }}
                 language={language}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}
                 resetSelectedResource={() => setSelectedResource(undefined)}
+                videoTypes={videoTypes}
                 {...field}
               />
             </Fragment>
@@ -82,8 +92,10 @@ const TopicArticleVisualElement = ({
   );
 };
 
-TopicArticleVisualElement.propTypes = {
+FormikVisualElement.propTypes = {
   formik: FormikShape,
+  types: PropTypes.arrayOf(PropTypes.string),
+  videoTypes: PropTypes.array,
 };
 
-export default injectT(connect(TopicArticleVisualElement));
+export default injectT(connect(FormikVisualElement));

@@ -17,7 +17,11 @@ import { connect } from 'react-redux';
 import { css } from '@emotion/core';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
-import { fetchTopicArticle } from '../../../modules/taxonomy';
+import {
+  fetchResource,
+  fetchTopic,
+  fetchTopicArticle,
+} from '../../../modules/taxonomy';
 
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
@@ -101,6 +105,22 @@ export class MastheadSearchForm extends Component {
     }
   }
 
+  async handleTaxonomyId(taxId) {
+    const { history } = this.props;
+    let taxonomyFunction = fetchTopic;
+    if (taxId.includes('urn:resource:')) {
+      taxonomyFunction = fetchResource;
+    }
+    try {
+      const taxElement = await taxonomyFunction(taxId);
+      const arr = taxElement.contentUri.split(':');
+      const id = arr[arr.length - 1];
+      history.push(toEditArticle(id, 'standard'));
+    } catch (error) {
+      history.push(to404());
+    }
+  }
+
   handleUrlPaste(frontendUrl) {
     const { history } = this.props;
 
@@ -169,10 +189,15 @@ export class MastheadSearchForm extends Component {
       /#\d+/g.test(query) &&
       !Number.isNaN(parseFloat(query.substring(1)));
 
+    const isTaxonomyId =
+      query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
+
     if (isNDLAUrl) {
       this.handleUrlPaste(query);
     } else if (isNodeId) {
       this.handleNodeId(query.substring(1));
+    } else if (isTaxonomyId) {
+      this.handleTaxonomyId(query.substring(1));
     } else {
       this.props.onSearchQuerySubmit(query);
     }

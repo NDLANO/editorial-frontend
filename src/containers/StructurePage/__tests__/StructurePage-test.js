@@ -101,6 +101,10 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .persist()
     .get('/taxonomy/v1/filters/?language=nb')
     .reply(200, []);
+  nock('http://ndla-api')
+    .persist()
+    .get('/draft-api/v1/user-data')
+    .reply(200, {});
   const { container, getByText } = wrapper();
 
   await wait(() => getByText('Fortelleteknikker og virkemidler'));

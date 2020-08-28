@@ -18,6 +18,17 @@ export function toEditArticle(articleId, articleType, locale) {
   return locale ? `${path}/${locale}` : path;
 }
 
+export function toEditSubjectpage(subjectId, locale, subjectpageId) {
+  if (subjectId === 'urn:subject:20') {
+    return toEditNdlaFilm(locale);
+  }
+  return `/subjectpage/${subjectId}/${subjectpageId}/edit/${locale}`;
+}
+
+export function toEditNdlaFilm(language) {
+  return `/film/${language ? language : 'nb'}`;
+}
+
 export function toEditConcept(conceptId, locale) {
   return `/concept/${conceptId}/edit/${locale}`;
 }
@@ -32,6 +43,13 @@ export function toCreateLearningResource() {
 
 export function toCreateTopicArticle() {
   return '/subject-matter/topic-article/new';
+}
+
+export function toCreateSubjectpage(subjectId, locale) {
+  if (subjectId === 'urn:subject:20') {
+    return '/film';
+  }
+  return `/subjectpage/${subjectId}/new/${locale}`;
 }
 
 export function toCreateConcept() {

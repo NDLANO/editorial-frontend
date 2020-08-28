@@ -64,6 +64,7 @@ export {
   addSubjectTopic,
   updateSubjectTopic,
   updateSubjectMetadata,
+  updateSubjectMetadataRecursive,
 } from './subjects';
 
 export {
@@ -83,4 +84,5 @@ export {
   updateTopicSubtopic,
   deleteTopic,
   updateTopicMetadata,
+  updateTopicMetadataRecursive,
 } from './topics';

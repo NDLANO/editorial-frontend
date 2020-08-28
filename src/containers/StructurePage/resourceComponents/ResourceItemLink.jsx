@@ -9,11 +9,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import config from '../../../config';
 import { classes } from './ResourceGroup';
 import { toEditArticle } from '../../../util/routeHelpers';
 
-const ResourceItemLink = ({ contentType, contentUri, locale, name }) => {
+const StyledH1 = styled.h1`
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+`;
+
+const ResourceItemLink = ({
+  contentType,
+  contentUri,
+  locale,
+  name,
+  isVisible = true,
+}) => {
   const linkTo = contentUri && contentUri.split(':').pop();
 
   if (linkTo) {
@@ -23,15 +37,25 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name }) => {
         target: '_blank',
         rel: 'noopener noreferrer',
       };
-      return <a {...linkProps}>{name}</a>;
+      return (
+        <StyledH1 isVisible={isVisible} {...classes('title')}>
+          <a {...linkProps}>{name}</a>
+        </StyledH1>
+      );
     }
     return (
       <Link to={toEditArticle(linkTo, contentType)}>
-        <h1 {...classes('title')}>{name}</h1>
+        <StyledH1 isVisible={isVisible} {...classes('title')}>
+          {name}
+        </StyledH1>
       </Link>
     );
   }
-  return <h1 {...classes('title')}>{name}</h1>;
+  return (
+    <StyledH1 isVisible={isVisible} {...classes('title')}>
+      {name}
+    </StyledH1>
+  );
 };
 
 ResourceItemLink.propTypes = {
@@ -39,6 +63,7 @@ ResourceItemLink.propTypes = {
   contentUri: PropTypes.string,
   locale: PropTypes.string.isRequired,
   name: PropTypes.string,
+  isVisible: PropTypes.bool,
 };
 
 export default ResourceItemLink;

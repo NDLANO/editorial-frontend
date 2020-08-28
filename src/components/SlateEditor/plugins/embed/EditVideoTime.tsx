@@ -6,17 +6,13 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { TranslateType } from '../../../../interfaces';
-import {
-  addYoutubeTimeStamps,
-  getStartTime,
-  getStopTime,
-} from '../../../../util/videoUtil';
+import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const StyledInputTimeWrapper = styled.div`
   display: flex;
@@ -35,6 +31,10 @@ interface Props {
   src: string;
   onFigureInputChange: (e: Event) => void;
   t: TranslateType;
+  startTime: string;
+  stopTime: string;
+  setStartTime: (startTime: string) => void;
+  setStopTime: (stopTime: string) => void;
 }
 
 interface Event {
@@ -45,9 +45,17 @@ interface Event {
   };
 }
 
-const EditVideoTime = ({ src, onFigureInputChange, name, t }: Props) => {
-  const [start, setStart] = useState(getStartTime(src));
-  const [stop, setStop] = useState(getStopTime(src));
+const EditVideoTime = (props: Props) => {
+  const {
+    src,
+    onFigureInputChange,
+    name,
+    t,
+    startTime,
+    stopTime,
+    setStartTime,
+    setStopTime,
+  } = props;
 
   return (
     <StyledInputTimeWrapper>
@@ -55,13 +63,13 @@ const EditVideoTime = ({ src, onFigureInputChange, name, t }: Props) => {
         <Input
           name={name}
           label={t(`form.video.time.start`)}
-          value={start}
+          value={startTime}
           onChange={(e: Event) => {
-            setStart(e.target.value);
+            setStartTime(e.target.value);
             const event = {
               preventDefault: e.preventDefault,
               target: {
-                value: addYoutubeTimeStamps(src, e.target.value, stop),
+                value: addYoutubeTimeStamps(src, e.target.value, stopTime),
                 name: e.target.name,
               },
             };
@@ -77,13 +85,13 @@ const EditVideoTime = ({ src, onFigureInputChange, name, t }: Props) => {
         <Input
           name={name}
           label={t(`form.video.time.stop`)}
-          value={stop}
+          value={stopTime}
           onChange={(e: Event) => {
-            setStop(e.target.value);
+            setStopTime(e.target.value);
             const event = {
               preventDefault: e.preventDefault,
               target: {
-                value: addYoutubeTimeStamps(src, start, e.target.value),
+                value: addYoutubeTimeStamps(src, startTime, e.target.value),
                 name: e.target.name,
               },
             };

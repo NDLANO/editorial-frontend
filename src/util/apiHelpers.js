@@ -32,7 +32,7 @@ export function apiResourceUrl(path) {
 }
 
 export function grepUrl(path = '') {
-  return 'https://data.udir.no/kl06/v201906' + path;
+  return `${config.grepUrl}/kl06/v201906${path}`;
 }
 
 export function brightcoveApiResourceUrl(path) {

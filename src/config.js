@@ -123,6 +123,7 @@ const config = {
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
+  grepUrl: getEnvironmentVariabel('NDLA_GREP_URL', 'https://data.udir.no'),
   googleSearchApiUrl: getEnvironmentVariabel(
     'NDLA_GOOGLE_API_URL',
     'https://www.googleapis.com',

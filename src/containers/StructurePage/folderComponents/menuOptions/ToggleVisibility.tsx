@@ -13,8 +13,8 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
 import {
-  updateSubjectMetadataRecursive,
-  updateTopicMetadataRecursive,
+  updateSubjectMetadata,
+  updateTopicMetadata,
 } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
@@ -64,7 +64,8 @@ const ToggleVisibility: FC<Props> = ({
   const updateMetadata = async (visible: boolean) => {
     switch (menuType) {
       case 'subject': {
-        await updateSubjectMetadataRecursive(id, {
+        await updateSubjectMetadata(id, {
+          grepCodes: metadata.grepCodes,
           visible: !visible,
         });
         setVisible(!visible);
@@ -75,7 +76,8 @@ const ToggleVisibility: FC<Props> = ({
       }
 
       case 'topic': {
-        await updateTopicMetadataRecursive(id, {
+        await updateTopicMetadata(id, {
+          grepCodes: metadata.grepCodes,
           visible: !visible,
         });
         setVisible(!visible);

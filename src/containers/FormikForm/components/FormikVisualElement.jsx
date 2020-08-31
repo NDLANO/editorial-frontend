@@ -30,19 +30,7 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const FormikVisualElement = ({
-  t,
-  formik: {
-    values: {
-      visualElementCaption,
-      visualElementAlt,
-      language,
-      visualElementUrl,
-    },
-  },
-  types,
-  videoTypes,
-}) => {
+const FormikVisualElement = ({ t, formik, types, videoTypes }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
     <Fragment>
@@ -61,11 +49,11 @@ const FormikVisualElement = ({
                 {...field}
                 value={{
                   ...field.value,
-                  caption: visualElementCaption,
-                  alt: visualElementAlt,
-                  url: visualElementUrl,
+                  caption: formik.values.visualElementCaption,
+                  alt: formik.values.visualElement.alt,
+                  url: formik.values.visualElement.url,
                 }}
-                language={language}
+                language={formik.values.language}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}

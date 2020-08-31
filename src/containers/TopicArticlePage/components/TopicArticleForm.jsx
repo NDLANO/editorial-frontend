@@ -66,7 +66,6 @@ export const getInitialValues = (article = {}) => {
     updatePublished: false,
     visualElementAlt: visualElement?.alt || '',
     visualElementCaption: visualElement?.caption || '',
-    visualElementUrl: visualElement?.url || '',
     visualElementStart:
       toHMS(visualElement?.url?.match('(?<=start=)[0-9]+')) || '',
     visualElementStop:
@@ -113,7 +112,7 @@ const getArticleFromSlate = ({
             values.visualElementAlt && values.visualElementAlt.length > 0
               ? values.visualElementAlt
               : undefined,
-          url: values.visualElementUrl,
+          url: values.visualElement?.url,
         },
   );
   const content = topicArticleContentToHTML(values.content);

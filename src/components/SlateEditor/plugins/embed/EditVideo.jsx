@@ -73,7 +73,7 @@ class EditVideo extends Component {
               <StyledInputWrapper>
                 {embed.resource === 'external' ? (
                   <EditVideoTime
-                    name="visualElementUrl"
+                    name="url"
                     src={src}
                     onFigureInputChange={onFigureInputChange}
                     startTime={startTime}

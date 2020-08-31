@@ -61,7 +61,7 @@ const DisplayVisualElement = ({
             figureClass={{ className: 'c-editor__figure' }}
             onFigureInputChange={e =>
               onChange({
-                target: { name: 'visualElementUrl', value: e.target.value },
+                target: { name: 'visualElement.url', value: e.target.value },
               })
             }
             language={language}

@@ -52,7 +52,7 @@ const DisplayVisualElement = ({
     case 'iframe':
     case 'h5p':
     case 'external':
-      if (embed.url.includes('youtu'))
+      if (embed.url?.includes('youtu'))
         return (
           <SlateVideo
             embed={embed}

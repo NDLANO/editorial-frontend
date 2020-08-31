@@ -34,7 +34,7 @@ export const getInitialValues = (
     title: aboutInSelectedLanguage.title,
     description: plainTextToEditorValue(aboutInSelectedLanguage.description),
     visualElement: visualElement,
-    visualElementCaption: aboutInSelectedLanguage.visualElement.alt,
+    visualElementCaption: aboutInSelectedLanguage.visualElement?.alt,
     language: language,
     supportedLanguages: supportedLanguages,
     slideShow: slideshowMovies,

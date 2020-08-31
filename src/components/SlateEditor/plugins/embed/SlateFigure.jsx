@@ -140,7 +140,7 @@ class SlateFigure extends React.Component {
       case 'external':
       case 'iframe':
       case 'h5p':
-        if (embed.url.includes('youtu')) {
+        if (embed.url?.includes('youtu')) {
           return <SlateVideo onRemoveClick={this.onRemoveClick} {...props} />;
         }
         return (

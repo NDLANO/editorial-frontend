@@ -68,8 +68,9 @@ export const getInitialValues = (article = {}) => {
     visualElementCaption: visualElement?.caption || '',
     visualElementUrl: visualElement?.url || '',
     visualElementStart:
-      toHMS(visualElement?.url.match('(?<=start=)[0-9]+')) || '',
-    visualElementStop: toHMS(visualElement?.url.match('(?<=end=)[0-9]+')) || '',
+      toHMS(visualElement?.url?.match('(?<=start=)[0-9]+')) || '',
+    visualElementStop:
+      toHMS(visualElement?.url?.match('(?<=end=)[0-9]+')) || '',
     visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
   };

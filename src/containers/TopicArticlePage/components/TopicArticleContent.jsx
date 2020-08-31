@@ -17,7 +17,7 @@ import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
-import TopicArticleVisualElement from '../../FormikForm/components/FormikVisualElement';
+import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import { schema } from '../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../components/LastUpdatedLine';
 import ToggleButton from '../../../components/ToggleButton';
@@ -118,7 +118,7 @@ const TopicArticleContent = props => {
         )}
       </FormikField>
       <FormikIngress preview={preview} />
-      <TopicArticleVisualElement visualElement={visualElement} />
+      <FormikVisualElement visualElement={visualElement} {...props} />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
           <Fragment>

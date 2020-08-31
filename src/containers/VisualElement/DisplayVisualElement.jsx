@@ -49,9 +49,24 @@ const DisplayVisualElement = ({
           language={language}
         />
       );
-    case 'external':
     case 'iframe':
     case 'h5p':
+    case 'external':
+      if (embed.url.includes('youtu'))
+        return (
+          <SlateVideo
+            embed={embed}
+            className={className}
+            onRemoveClick={onRemoveClick}
+            figureClass={{ className: 'c-editor__figure' }}
+            onFigureInputChange={e =>
+              onChange({
+                target: { name: 'visualElementUrl', value: e.target.value },
+              })
+            }
+            language={language}
+          />
+        );
       return (
         <DisplayExternalVisualElement
           embed={embed}

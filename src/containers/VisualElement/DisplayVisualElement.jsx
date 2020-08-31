@@ -21,6 +21,7 @@ const DisplayVisualElement = ({
   className,
   onChange,
   language,
+  visualElementCaptionName,
 }) => {
   switch (embed.resource) {
     case 'image':
@@ -43,7 +44,10 @@ const DisplayVisualElement = ({
           figureClass={{ className: 'c-editor__figure' }}
           onFigureInputChange={e =>
             onChange({
-              target: { name: 'visualElementCaption', value: e.target.value },
+              target: {
+                name: visualElementCaptionName || 'visualElementCaption',
+                value: e.target.value,
+              },
             })
           }
           language={language}
@@ -88,6 +92,7 @@ DisplayVisualElement.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   language: PropTypes.string,
+  visualElementCaptionName: PropTypes.string,
 };
 
 DisplayVisualElement.defaultProps = {

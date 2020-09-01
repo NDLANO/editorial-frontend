@@ -92,10 +92,13 @@ const Link = props => {
 
     const contentType = data['content-type'] || 'article';
 
-    const resourcePath = await fetchResourcePath(data, language, contentType);
     const href =
       data.resource === 'content-link'
-        ? `${config.editorialFrontendDomain}/${resourcePath}`
+        ? `${config.editorialFrontendDomain}/${await fetchResourcePath(
+            data,
+            language,
+            contentType,
+          )}`
         : data.href;
 
     const checkbox =

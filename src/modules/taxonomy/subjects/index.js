@@ -86,6 +86,17 @@ function updateSubjectMetadata(subjectId, body) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function updateSubjectMetadataRecursive(subjectId, body) {
+  return fetchAuthorized(
+    `${baseUrl}/subjects/${subjectId}/metadata-recursive?applyToResources=true`,
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(body),
+    },
+  ).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 export {
   fetchSubjects,
   fetchSubject,
@@ -96,5 +107,6 @@ export {
   fetchSubjectFilters,
   updateSubjectTopic,
   updateSubjectMetadata,
+  updateSubjectMetadataRecursive,
   updateSubjectContentUri,
 };

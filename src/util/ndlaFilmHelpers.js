@@ -34,7 +34,7 @@ export const getInitialValues = (
     title: aboutInSelectedLanguage.title,
     description: plainTextToEditorValue(aboutInSelectedLanguage.description),
     visualElement: visualElement,
-    visualElementAlt: aboutInSelectedLanguage.visualElement.alt,
+    visualElementAlt: aboutInSelectedLanguage.visualElement?.alt,
     language: language,
     supportedLanguages: supportedLanguages,
     slideShow: slideshowMovies,
@@ -96,7 +96,7 @@ export const getNdlaFilmFromSlate = (
     return {
       ...about,
       visualElement: {
-        alt: about.visualElement.alt,
+        alt: about.visualElementAlt,
         type: about.visualElement.type,
         id: getVisualElementId(about.visualElement),
       },

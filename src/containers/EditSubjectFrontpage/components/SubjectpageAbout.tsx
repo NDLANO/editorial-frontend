@@ -43,6 +43,7 @@ const SubjectpageAbout: FC<Props> = ({ t }) => {
       <FormikVisualElement
         types={['image', 'video']}
         videoTypes={['Brightcove']}
+        visualElementCaptionName={'visualElementAlt'}
       />
     </>
   );

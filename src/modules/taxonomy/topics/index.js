@@ -47,6 +47,7 @@ function fetchTopicResources(topicId, language, relevance, filters) {
   if (language) query.push(`language=${language}`);
   if (relevance) query.push(`relevance=${relevance}`);
   if (filters) query.push(`filters=${filters}`);
+  query.push('includeMetadata=true');
   return fetchAuthorized(
     `${baseUrl}/topics/${topicId}/resources/${
       query.length ? `?${query.join('&')}` : ''
@@ -138,12 +139,24 @@ function fetchTopicConnections(id) {
     resolveJsonOrRejectWithError,
   );
 }
+
 function updateTopicMetadata(subjectId, body) {
   return fetchAuthorized(`${baseUrl}/topics/${subjectId}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
+function updateTopicMetadataRecursive(subjectId, body) {
+  return fetchAuthorized(
+    `${baseUrl}/topics/${subjectId}/metadata-recursive?applyToResources=true`,
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(body),
+    },
+  ).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
 export {
@@ -164,4 +177,5 @@ export {
   updateTopicSubtopic,
   fetchTopicResourceTypes,
   updateTopicMetadata,
+  updateTopicMetadataRecursive,
 };

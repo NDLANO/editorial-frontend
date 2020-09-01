@@ -28,6 +28,7 @@ import {
   StructureShape,
   AvailableFiltersShape,
   TopicShape,
+  MetadataShape,
 } from '../../../shapes';
 
 const filterButtonStyle = css`
@@ -58,6 +59,7 @@ const Resource = ({
   dragHandleProps,
   contentUri,
   status,
+  metadata,
   locale,
   t,
 }) => {
@@ -78,6 +80,7 @@ const Resource = ({
           contentUri={contentUri}
           locale={locale}
           name={name}
+          isVisible={metadata?.visible}
         />
       </div>
       {(status?.current === PUBLISHED ||
@@ -153,6 +156,7 @@ Resource.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  metadata: MetadataShape,
   locale: PropTypes.string.isRequired,
   breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
 };

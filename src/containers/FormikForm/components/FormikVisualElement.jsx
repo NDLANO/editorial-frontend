@@ -32,16 +32,10 @@ const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
 const FormikVisualElement = ({
   t,
-  formik: {
-    values: {
-      visualElementCaption,
-      visualElementAlt,
-      language,
-      visualElementUrl,
-    },
-  },
+  formik,
   types,
   videoTypes,
+  visualElementCaptionName,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
   return (
@@ -61,11 +55,14 @@ const FormikVisualElement = ({
                 {...field}
                 value={{
                   ...field.value,
-                  caption: visualElementCaption,
-                  alt: visualElementAlt,
-                  url: visualElementUrl,
+                  caption: visualElementCaptionName
+                    ? `${formik.values.visualElementAlt}`
+                    : formik.values.visualElementCaption,
+                  alt: formik.values.visualElement.alt,
+                  url: formik.values.visualElement.url,
                 }}
-                language={language}
+                language={formik.values.language}
+                visualElementCaptionName={visualElementCaptionName}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}
@@ -96,6 +93,7 @@ FormikVisualElement.propTypes = {
   formik: FormikShape,
   types: PropTypes.arrayOf(PropTypes.string),
   videoTypes: PropTypes.array,
+  visualElementCaptionName: PropTypes.string,
 };
 
 export default injectT(connect(FormikVisualElement));

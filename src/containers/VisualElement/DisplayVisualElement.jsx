@@ -21,6 +21,7 @@ const DisplayVisualElement = ({
   className,
   onChange,
   language,
+  visualElementCaptionName,
 }) => {
   switch (embed.resource) {
     case 'image':
@@ -43,15 +44,33 @@ const DisplayVisualElement = ({
           figureClass={{ className: 'c-editor__figure' }}
           onFigureInputChange={e =>
             onChange({
-              target: { name: 'visualElementCaption', value: e.target.value },
+              target: {
+                name: visualElementCaptionName || 'visualElementCaption',
+                value: e.target.value,
+              },
             })
           }
           language={language}
         />
       );
-    case 'external':
     case 'iframe':
     case 'h5p':
+    case 'external':
+      if (embed.url?.includes('youtu'))
+        return (
+          <SlateVideo
+            embed={embed}
+            className={className}
+            onRemoveClick={onRemoveClick}
+            figureClass={{ className: 'c-editor__figure' }}
+            onFigureInputChange={e =>
+              onChange({
+                target: { name: 'visualElement.url', value: e.target.value },
+              })
+            }
+            language={language}
+          />
+        );
       return (
         <DisplayExternalVisualElement
           embed={embed}
@@ -73,6 +92,7 @@ DisplayVisualElement.propTypes = {
   onRemoveClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   language: PropTypes.string,
+  visualElementCaptionName: PropTypes.string,
 };
 
 DisplayVisualElement.defaultProps = {

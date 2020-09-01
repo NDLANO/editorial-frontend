@@ -33,6 +33,7 @@ class VisualElement extends Component {
         embed={visualElement}
         changeVisualElement={changeVisualElement}
         onRemoveClick={this.removeVisualElement}
+        visualElementCaptionName={this.props.visualElementCaptionName}
         {...visualElementClasses(visualElement.resource)}
         {...rest}
       />
@@ -50,6 +51,7 @@ VisualElement.propTypes = {
   }).isRequired,
   resetSelectedResource: PropTypes.func.isRequired,
   changeVisualElement: PropTypes.func.isRequired,
+  visualElementCaptionName: PropTypes.string,
 };
 
 export default VisualElement;

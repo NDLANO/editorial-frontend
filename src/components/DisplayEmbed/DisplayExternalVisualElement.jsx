@@ -149,45 +149,6 @@ export class DisplayExternalVisualElement extends Component {
             allowFullScreen={allowedProvider.fullscreen || true}
             frameBorder="0"
           />
-<<<<<<< HEAD
-          {youtubeOrH5p === 'video' &&
-            (isEditMode ? (
-              <StyledInputWrapper>
-                <Input
-                  name="caption"
-                  label={t(`form.${youtubeOrH5p}.caption.label`)}
-                  value={embed.caption}
-                  onChange={e =>
-                    onFigureInputChange({
-                      target: {
-                        name: 'visualElementCaption',
-                        value: e.target.value,
-                      },
-                    })
-                  }
-                  container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
-                  white
-                />
-                <EditVideoTime
-                  name="url"
-                  src={src}
-                  onFigureInputChange={onFigureInputChange}
-                />
-              </StyledInputWrapper>
-            ) : (
-              <Button
-                stripped
-                style={{ width: '100%' }}
-                onClick={() => this.setState({ isEditMode: true })}>
-                <figcaption className="c-figure__caption">
-                  <div className="c-figure__info">{embed.caption}</div>
-                </figcaption>
-              </Button>
-            ))}
-=======
           {youtubeOrH5p === 'video' && editMode ? (
             <StyledInputWrapper>
               <Input
@@ -209,7 +170,7 @@ export class DisplayExternalVisualElement extends Component {
                 white
               />
               <EditVideoTime
-                name="visualElementUrl"
+                name="url"
                 src={src}
                 onFigureInputChange={onFigureInputChange}
               />
@@ -224,7 +185,6 @@ export class DisplayExternalVisualElement extends Component {
               </figcaption>
             </Button>
           )}
->>>>>>> parent of 650e9c30... Add edit button for H5P
         </div>
       </>
     );

@@ -28,7 +28,7 @@ import config from '../../config';
 export class DisplayExternalVisualElement extends Component {
   constructor(props) {
     super(props);
-    this.state = { isEditMode: false };
+    this.state = { editMode: false };
     this.handleChangeVisualElement = this.handleChangeVisualElement.bind(this);
     this.getPropsFromEmbed = this.getPropsFromEmbed.bind(this);
   }
@@ -85,12 +85,6 @@ export class DisplayExternalVisualElement extends Component {
     }
   }
 
-  openEditEmbed(evt, providerName) {
-    evt.preventDefault();
-    this.handleChangeVisualElement(providerName);
-    this.setState({ isEditMode: true });
-  }
-
   render() {
     const {
       onRemoveClick,
@@ -107,7 +101,7 @@ export class DisplayExternalVisualElement extends Component {
       provider,
       domain,
       error,
-      isEditMode,
+      editMode,
     } = this.state;
 
     if (error) {
@@ -132,8 +126,8 @@ export class DisplayExternalVisualElement extends Component {
     const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
     return (
       <>
-        {isEditMode && youtubeOrH5p === 'video' && (
-          <Overlay onExit={() => this.setState({ isEditMode: false })} />
+        {editMode && (
+          <Overlay onExit={() => this.setState({ editMode: false })} />
         )}
         <div className="c-figure">
           <FigureButtons
@@ -143,24 +137,19 @@ export class DisplayExternalVisualElement extends Component {
             language={language}
             t={t}
             figureType="external"
-            onEdit={
-              allowedProvider.name
-                ? evt =>
-                    this.openEditEmbed(evt, allowedProvider.name.toLowerCase())
-                : undefined
-            }
           />
           <iframe
             ref={iframe => {
               this.iframe = iframe;
             }}
-            src={isEditMode ? removeParams(src) : src}
+            src={editMode ? removeParams(src) : src}
             height={allowedProvider.height || height}
             title={title}
             scrolling={type === 'iframe' ? 'no' : undefined}
             allowFullScreen={allowedProvider.fullscreen || true}
             frameBorder="0"
           />
+<<<<<<< HEAD
           {youtubeOrH5p === 'video' &&
             (isEditMode ? (
               <StyledInputWrapper>
@@ -198,6 +187,44 @@ export class DisplayExternalVisualElement extends Component {
                 </figcaption>
               </Button>
             ))}
+=======
+          {youtubeOrH5p === 'video' && editMode ? (
+            <StyledInputWrapper>
+              <Input
+                name="caption"
+                label={t(`form.${youtubeOrH5p}.caption.label`)}
+                value={embed.caption}
+                onChange={e =>
+                  onFigureInputChange({
+                    target: {
+                      name: 'visualElementCaption',
+                      value: e.target.value,
+                    },
+                  })
+                }
+                container="div"
+                type="text"
+                autoExpand
+                placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
+                white
+              />
+              <EditVideoTime
+                name="visualElementUrl"
+                src={src}
+                onFigureInputChange={onFigureInputChange}
+              />
+            </StyledInputWrapper>
+          ) : (
+            <Button
+              stripped
+              style={{ width: '100%' }}
+              onClick={() => this.setState({ editMode: true })}>
+              <figcaption className="c-figure__caption">
+                <div className="c-figure__info">{embed.caption}</div>
+              </figcaption>
+            </Button>
+          )}
+>>>>>>> parent of 650e9c30... Add edit button for H5P
         </div>
       </>
     );

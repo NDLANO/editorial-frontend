@@ -97,10 +97,7 @@ export class DisplayExternal extends Component {
   }
 
   handleChangeVisualElement(providerName) {
-    const { changeVisualElement } = this.props;
-    if (changeVisualElement) {
-      changeVisualElement(providerName);
-    }
+    
   }
 
   openEditEmbed(evt, providerName) {

@@ -18,6 +18,7 @@ import Tooltip from '@ndla/tooltip';
 import { TranslateType } from '../../../interfaces';
 import IconButton from '../../../components/IconButton';
 import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
+import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { transformQuery } from '../../../util/searchHelpers';
 
 interface Props {
@@ -36,10 +37,12 @@ export const classes = new BEMHelper({
 const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
+  const [userName, setUserName] = useState('');
 
   const searchObject = transformQuery(queryString.parse(search));
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
+  const userId = searchObject['users'] || '';
 
   useEffect(() => {
     if (subject) {
@@ -48,7 +51,10 @@ const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
     if (resourceType) {
       fetchResourceTypeName(resourceType, locale);
     }
-  }, [subject, resourceType]);
+    if (userId) {
+      fetchUser(userId);
+    }
+  }, [subject, resourceType, userId]);
 
   const fetchSubjectName = async (id: string, locale: string) => {
     const result = await fetchSubject(id, locale);
@@ -58,6 +64,11 @@ const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
   const fetchResourceTypeName = async (id: string, locale: string) => {
     const result = await fetchResourceType(id, locale);
     setResourceTypeName(result.name);
+  };
+
+  const fetchUser = async (userId: string) => {
+    const user = await fetchAuth0Users(userId);
+    setUserName(user?.[0].name);
   };
 
   const linkText = (search: string) => {
@@ -71,6 +82,7 @@ const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
     results.push(subject && subjectName);
     results.push(resourceType && resourceTypeName);
     results.push(contextType && t(`contextTypes.topic`));
+    results.push(userName);
 
     return results
       .filter(function(e) {

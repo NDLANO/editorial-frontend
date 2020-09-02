@@ -56,7 +56,7 @@ const FormikVisualElement = ({
                 value={{
                   ...field.value,
                   caption: visualElementCaptionName
-                    ? `${formik.values.visualElementAlt}`
+                    ? formik.values.visualElementAlt
                     : formik.values.visualElementCaption,
                   alt: formik.values.visualElement.alt,
                   url: formik.values.visualElement.url,

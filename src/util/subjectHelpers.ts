@@ -17,7 +17,11 @@ export const transformSubjectFromApiVersion = (
   editorsChoices: ArticleType[],
   banner: VisualElement,
 ) => {
-  const visualElementId = subject.about.visualElement.url.split('/').pop();
+  const visualElementVideoId = subject.about.visualElement.url
+    .split('videoId=')
+    .pop();
+  const visualElementImageId = subject.about.visualElement.url.split('/').pop();
+
   const subjectpageEditType: SubjectpageEditType = {
     id: subject.id,
     filters: subject.filters,
@@ -30,11 +34,12 @@ export const transformSubjectFromApiVersion = (
     description: subject.about.description,
     title: subject.about.title,
     visualElement: {
-      url: subject.about.visualElement.url,
-      resource: subject.about.visualElement.type,
-      resource_id: visualElementId || '',
+      url: subject.about.visualElement?.url,
+      resource: subject.about.visualElement?.type,
+      resource_id: visualElementImageId || '',
+      videoid: visualElementVideoId || '',
     },
-    visualElementAlt: subject.about.visualElement.alt,
+    visualElementAlt: subject.about.visualElement?.alt,
     metaDescription: subject.metaDescription,
     topical: subject.topical,
     mostRead: subject.mostRead,
@@ -52,6 +57,7 @@ export const transformSubjectToApiVersion = (
   subject: SubjectpageEditType,
   editorsChoices: string[],
 ) => {
+  const id = subject.visualElement.videoid || subject.visualElement.resource_id;
   return {
     name: subject.name,
     filters: subject.filters,
@@ -60,7 +66,7 @@ export const transformSubjectToApiVersion = (
     facebook: subject.facebook,
     banner: {
       mobileImageId: subject.mobileBanner,
-      desktopImageId: subject.desktopBanner.resource_id,
+      desktopImageId: parseInt(subject.desktopBanner.resource_id),
     },
     about: [
       {
@@ -69,7 +75,7 @@ export const transformSubjectToApiVersion = (
         language: subject.language,
         visualElement: {
           type: subject.visualElement.resource,
-          id: subject.visualElement.resource_id,
+          id: id,
           alt: subject.visualElementAlt,
         },
       },

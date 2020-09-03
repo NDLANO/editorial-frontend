@@ -39,7 +39,7 @@ const getInitialValues = (
   selectedLanguage: string,
 ) => {
   return {
-    articleType: 'subjectpage',
+    articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
     supportedLanguages: subjectpage.supportedLanguages || [],
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage.description, true),

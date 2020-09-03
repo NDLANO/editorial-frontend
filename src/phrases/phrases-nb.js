@@ -343,6 +343,9 @@ const phrases = {
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
   },
+  filterform: {
+    title: 'Filter',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Bildetittel',

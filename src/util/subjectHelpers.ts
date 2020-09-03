@@ -20,7 +20,9 @@ export const transformSubjectpageFromApiVersion = (
   const visualElementVideoId = subjectpage.about.visualElement.url
     .split('videoId=')
     .pop();
-  const visualElementImageId = subjectpage.about.visualElement.url.split('/').pop();
+  const visualElementImageId = subjectpage.about.visualElement.url
+    .split('/')
+    .pop();
 
   const subjectpageEditType: SubjectpageEditType = {
     id: subjectpage.id,

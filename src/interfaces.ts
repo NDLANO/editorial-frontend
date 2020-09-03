@@ -292,7 +292,8 @@ export interface SubjectpageEditType extends SubjectpageType {
   visualElement: {
     resource: string;
     url: string;
-    resource_id: string;
+    resource_id?: string;
+    videoid?: string;
   };
   visualElementAlt: string;
 }

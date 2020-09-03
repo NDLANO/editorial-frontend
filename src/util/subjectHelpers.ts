@@ -17,7 +17,11 @@ export const transformSubjectpageFromApiVersion = (
   editorsChoices: ArticleType[],
   banner: VisualElement,
 ) => {
-  const visualElementId = subjectpage.about.visualElement.url.split('/').pop();
+  const visualElementVideoId = subjectpage.about.visualElement.url
+    .split('videoId=')
+    .pop();
+  const visualElementImageId = subjectpage.about.visualElement.url.split('/').pop();
+
   const subjectpageEditType: SubjectpageEditType = {
     id: subjectpage.id,
     filters: subjectpage.filters,
@@ -30,11 +34,12 @@ export const transformSubjectpageFromApiVersion = (
     description: subjectpage.about.description,
     title: subjectpage.about.title,
     visualElement: {
-      url: subjectpage.about.visualElement.url,
-      resource: subjectpage.about.visualElement.type,
-      resource_id: visualElementId || '',
+      url: subjectpage.about.visualElement?.url,
+      resource: subjectpage.about.visualElement?.type,
+      resource_id: visualElementImageId || '',
+      videoid: visualElementVideoId || '',
     },
-    visualElementAlt: subjectpage.about.visualElement.alt,
+    visualElementAlt: subjectpage.about.visualElement?.alt,
     metaDescription: subjectpage.metaDescription,
     topical: subjectpage.topical,
     mostRead: subjectpage.mostRead,
@@ -52,6 +57,10 @@ export const transformSubjectpageToApiVersion = (
   subjectpage: SubjectpageEditType,
   editorsChoices: string[],
 ) => {
+  const id =
+    subjectpage.visualElement.resource === 'image'
+      ? subjectpage.visualElement.resource_id
+      : subjectpage.visualElement.videoid;
   return {
     name: subjectpage.name,
     filters: subjectpage.filters,
@@ -60,7 +69,7 @@ export const transformSubjectpageToApiVersion = (
     facebook: subjectpage.facebook,
     banner: {
       mobileImageId: subjectpage.mobileBanner,
-      desktopImageId: subjectpage.desktopBanner.resource_id,
+      desktopImageId: parseInt(subjectpage.desktopBanner.resource_id),
     },
     about: [
       {
@@ -69,7 +78,7 @@ export const transformSubjectpageToApiVersion = (
         language: subjectpage.language,
         visualElement: {
           type: subjectpage.visualElement.resource,
-          id: subjectpage.visualElement.resource_id,
+          id: id,
           alt: subjectpage.visualElementAlt,
         },
       },

@@ -344,6 +344,9 @@ const phrases = {
     removeArticle: 'Remove article',
     missingVisualElement: 'Visual element is required',
   },
+  filterform: {
+    title: 'Filter',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Image title',

@@ -64,7 +64,7 @@ function updateSubjectTopic(connectionId, body) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
-function updateSubjectContentUri(id, name, contentUri) {
+function updateSubject(id, name, contentUri) {
   return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -108,5 +108,5 @@ export {
   updateSubjectTopic,
   updateSubjectMetadata,
   updateSubjectMetadataRecursive,
-  updateSubjectContentUri,
+  updateSubject,
 };

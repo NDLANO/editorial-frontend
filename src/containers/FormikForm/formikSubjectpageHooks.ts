@@ -27,7 +27,7 @@ import {
   queryTopics,
   queryLearningPathResource,
 } from '../../modules/taxonomy/resources';
-import { updateSubjectContentUri } from '../../modules/taxonomy/subjects';
+import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import * as visualElementApi from '../VisualElement/visualElementApi';
@@ -180,7 +180,7 @@ export function useFetchSubjectpageData(
         subjectId,
       );
     } else {
-      await updateSubjectContentUri(
+      await updateSubject(
         elementId,
         savedSubjectpage.name,
         getUrnFromId(savedSubjectpage.id),

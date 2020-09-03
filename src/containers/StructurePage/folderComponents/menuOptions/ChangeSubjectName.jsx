@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemEditField from './MenuItemEditField';
-import { updateSubjectContentUri } from '../../../../modules/taxonomy';
+import { updateSubject } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 
 class ChangeSubjectName extends Component {
@@ -25,7 +25,7 @@ class ChangeSubjectName extends Component {
   async onChangeSubjectName(name) {
     const { id, contentUri, getAllSubjects, refreshTopics } = this.props;
     if (name.trim() !== '') {
-      const ok = await updateSubjectContentUri(id, name, contentUri);
+      const ok = await updateSubject(id, name, contentUri);
       getAllSubjects();
       refreshTopics();
       return ok;

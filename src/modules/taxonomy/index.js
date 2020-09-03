@@ -61,7 +61,7 @@ export {
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
-  updateSubjectContentUri,
+  updateSubject,
   fetchSubjectFilters,
   addSubjectTopic,
   updateSubjectTopic,

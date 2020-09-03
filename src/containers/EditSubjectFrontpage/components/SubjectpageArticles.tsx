@@ -92,7 +92,7 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
-        subjectId={values.subjectId}
+        subjectId={values.elementId}
         clearInputField
       />
     </>

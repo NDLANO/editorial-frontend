@@ -17,12 +17,12 @@ export function useSubjectpageFormHooks(
   subjectpage: SubjectpageEditType,
   getInitialValues: Function,
   selectedLanguage: string,
-  subjectId: number,
+  elementId: string,
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
   const initialValues = getInitialValues(
     subjectpage,
-    subjectId,
+    elementId,
     selectedLanguage,
   );
 

@@ -975,6 +975,7 @@ const phrases = {
   },
   taxonomy: {
     editStructure: 'Rediger struktur',
+    editSubjectpage: 'Rediger fagforside',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     newSubject: 'Nytt fag',
@@ -988,6 +989,7 @@ const phrases = {
     emptyFilter: 'Ingen treff',
     editFilter: 'Rediger filter',
     addFilter: 'Nytt filter',
+    deleteFilter: 'Slett filter',
     connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',

@@ -8,7 +8,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
-import { Pencil } from '@ndla/icons/action';
+import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
@@ -49,12 +49,12 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
       to={{
         pathname: link,
         state: {
-          subjectName: subject?.name,
+          elementName: subject?.name,
         },
       }}>
       <MenuItemButton stripped data-testid="editSubjectpageOption">
-        <RoundIcon small icon={<Pencil />} />
-        {t('form.file.editSubjectpage')}
+        <RoundIcon small icon={<Home />} />
+        {t('taxonomy.editSubjectpage')}
       </MenuItemButton>
     </Link>
   );

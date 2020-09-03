@@ -917,7 +917,6 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
-      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
@@ -979,7 +978,8 @@ const phrases = {
     loginAgain: 'Logg inn på nytt',
   },
   taxonomy: {
-    editStructure: '  Rediger struktur',
+    editStructure: 'Rediger struktur',
+    editSubjectpage: 'Rediger fagforside',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     newSubject: 'Nytt fag',
@@ -993,6 +993,7 @@ const phrases = {
     emptyFilter: 'Ingen treff',
     editFilter: 'Rediger filter',
     addFilter: 'Nytt filter',
+    deleteFilter: 'Slett filter',
     connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',

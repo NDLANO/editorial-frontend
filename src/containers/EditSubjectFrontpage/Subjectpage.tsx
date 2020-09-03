@@ -40,11 +40,11 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
       <OneColumn>
         <Switch>
           <Route
-            path={`${match.url}/:subjectId/:subjectpageId/edit/:selectedLanguage`}
+            path={`${match.url}/:elementId/:subjectpageId/edit/:selectedLanguage`}
             render={routeProps => {
               return (
                 <EditSubjectpage
-                  subjectId={routeProps.match.params.subjectId}
+                  elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
                   subjectpageId={routeProps.match.params.subjectpageId}
                   isNewlyCreated={isNewlyCreated}
@@ -53,14 +53,14 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
             }}
           />
           <Route
-            path={`${match.url}/:subjectId/new/:selectedLanguage`}
+            path={`${match.url}/:elementId/new/:selectedLanguage`}
             render={routeProps => {
-              const { subjectName } = routeProps.location.state;
+              const { elementName } = routeProps.location.state;
               return (
                 <CreateSubjectpage
-                  subjectId={routeProps.match.params.subjectId}
+                  elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
-                  subjectName={subjectName}
+                  elementName={elementName}
                   history={routeProps.history}
                 />
               );

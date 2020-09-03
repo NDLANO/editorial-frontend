@@ -29,13 +29,13 @@ interface Props {
   subjectpage: SubjectpageEditType;
   updateSubjectpage: Function;
   selectedLanguage: string;
-  subjectId: number;
+  elementId: string;
   isNewlyCreated: boolean;
 }
 
 const getInitialValues = (
   subjectpage: SubjectpageEditType,
-  subjectId: number,
+  elementId: string,
   selectedLanguage: string,
 ) => {
   return {
@@ -64,7 +64,7 @@ const getInitialValues = (
     name: subjectpage.name || '',
     topical: subjectpage.topical || '',
     twitter: subjectpage.twitter || '',
-    subjectId: subjectId,
+    elementId: elementId,
   };
 };
 
@@ -100,7 +100,7 @@ const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
 
 const SubjectpageForm: FC<Props> = ({
   t,
-  subjectId,
+  elementId,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
@@ -117,7 +117,7 @@ const SubjectpageForm: FC<Props> = ({
     subjectpage,
     getInitialValues,
     selectedLanguage,
-    subjectId,
+    elementId,
   );
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
@@ -153,7 +153,7 @@ const SubjectpageForm: FC<Props> = ({
             <SimpleLanguageHeader
               values={headerContent}
               editUrl={(lang: string) =>
-                toEditSubjectpage(values.subjectId, lang, values.id)
+                toEditSubjectpage(values.elementId, lang, values.id)
               }
               isSubmitting={isSubmitting}
             />

@@ -33,3 +33,8 @@ export const isValidURL = (string: string) =>
 
 export const isNDLAEdSearchUrl = (url: string) =>
   /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);
+
+export const isBrightcoveUrl = (url: string) =>
+  /https:\/\/players\.brightcove\.net\/[A-Za-z0-9]+\/[A-Za-z0-9]+_default\/index\.html\?videoId=[A-Za-z0-9]+/.test(
+    url,
+  );

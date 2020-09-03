@@ -19,6 +19,7 @@ import {
   getStartTime,
   getStopTime,
 } from '../../../../util/videoUtil';
+import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 
 const videoStyle = {
   width: '100%',
@@ -43,9 +44,13 @@ class SlateVideo extends React.PureComponent {
       embed: { resource, account, videoid, url, player = 'default' },
     } = this.props;
     if (resource === 'brightcove') {
-      this.setState({
-        src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
-      });
+      if (isBrightcoveUrl(url)) {
+        this.setState({ src: url });
+      } else {
+        this.setState({
+          src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
+        });
+      }
     } else {
       this.setState({
         src: url.includes('embed') ? url : getYoutubeEmbedUrl(url),

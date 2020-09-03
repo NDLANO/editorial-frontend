@@ -57,7 +57,10 @@ export const transformSubjectToApiVersion = (
   subject: SubjectpageEditType,
   editorsChoices: string[],
 ) => {
-  const id = subject.visualElement.videoid || subject.visualElement.resource_id;
+  const id =
+    subject.visualElement.resource === 'image'
+      ? subject.visualElement.resource_id
+      : subject.visualElement.videoid;
   return {
     name: subject.name,
     filters: subject.filters,

@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DisplayVisualElement from './DisplayVisualElement';
 import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
+import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 
 class VisualElement extends Component {
   constructor(props) {
@@ -24,10 +25,18 @@ class VisualElement extends Component {
   }
 
   render() {
-    const { value: visualElement, changeVisualElement, ...rest } = this.props;
+    const { value: visualElement, changeVisualElement, types, content, language, ...rest } = this.props;
     if (!visualElement.resource) {
       return null;
     }
+    return (
+      <VisualElementEditor
+        value={content}
+        onSelect={changeVisualElement}
+        types={types}
+        language={language}
+      />
+    );
     return (
       <DisplayVisualElement
         embed={visualElement}

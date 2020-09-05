@@ -146,7 +146,9 @@ export function useFetchSubjectpageData(
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
       transformSubjectpageToApiVersion(
         updatedSubjectpage,
-        editorsChoices.map(resource => resource[0].id),
+        editorsChoices
+          .map(resource => resource?.[0]?.id)
+          .filter(e => e !== undefined),
       ),
       updatedSubjectpage.id,
       selectedLanguage,

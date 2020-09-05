@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
-import config from '../../../config';
 
 const DropdownSearch = ({
   selectedElements,

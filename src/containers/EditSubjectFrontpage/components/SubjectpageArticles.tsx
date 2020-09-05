@@ -31,24 +31,18 @@ interface Props {
   };
 }
 
+const getSubjectOrFilter = (elementId: string) => {
+  if (elementId.includes('subject')) {
+    return [elementId, undefined];
+  }
+  return [undefined, elementId];
+};
+
 const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
   const [articles, setArticles] = useState<ArticleType[]>(
     values.editorsChoices,
   );
-  const [subjectId, setSubjectId] = useState('');
-
-  useEffect(() => {
-    async function fetchSubject(elementId: string, language: string) {
-      if (elementId.includes('filter')) {
-        const filter = await fetchSubjectFilter(elementId, language);
-        setSubjectId(filter.subjectId);
-      } else {
-        setSubjectId(elementId);
-      }
-    }
-
-    fetchSubject(values.elementId, values.language);
-  }, [values.elementId]);
+  const [subjectId, filterId] = getSubjectOrFilter(values.elementId);
 
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
@@ -108,6 +102,7 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={subjectId}
+        filterId={filterId}
         clearInputField
       />
     </>

@@ -32,6 +32,7 @@ import {
   NdlaFilmThemesEditType,
   TranslateType,
 } from '../../../interfaces';
+import config from '../../../config';
 
 interface Props {
   t: TranslateType;
@@ -229,6 +230,8 @@ const ThemeEditor: FC<Props> = ({
               onChange={(movie: ContentResultType) =>
                 onAddMovieToTheme(movie, index)
               }
+              subjectId={'urn:subject:20'}
+              contextTypes={config.ndlaFilmArticleType}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {
                 name: findName(theme.name, selectedLanguage),
               })}

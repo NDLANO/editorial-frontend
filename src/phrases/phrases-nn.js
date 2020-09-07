@@ -917,7 +917,7 @@ const phrases = {
       },
       addFile: 'Legg til fil',
       removeList: 'Fjern filliste',
-      placeholder: 'Oppgi et filnamn',
+      placeholder: 'Oppgi eit filnamn',
       changeName: 'Endre namn',
       changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',

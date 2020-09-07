@@ -343,6 +343,9 @@ const phrases = {
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
   },
+  filterform: {
+    title: 'Filter',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Bildetittel',
@@ -917,7 +920,6 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
-      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
@@ -979,7 +981,8 @@ const phrases = {
     loginAgain: 'Logg inn på nytt',
   },
   taxonomy: {
-    editStructure: '  Rediger struktur',
+    editStructure: 'Rediger struktur',
+    editSubjectpage: 'Rediger fagforside',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     newSubject: 'Nytt fag',
@@ -992,7 +995,9 @@ const phrases = {
     errorMessage: 'En feil oppsto',
     emptyFilter: 'Ingen treff',
     editFilter: 'Rediger filter',
+    editFilterName: 'Rediger filternavn',
     addFilter: 'Nytt filter',
+    deleteFilter: 'Slett filter',
     connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',

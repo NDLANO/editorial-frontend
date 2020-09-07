@@ -10,24 +10,26 @@ import PropTypes from 'prop-types';
 import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
-import config from '../../../config';
 
 const DropdownSearch = ({
   selectedElements,
   placeholder,
   onChange,
   subjectId,
+  filterId,
+  contextTypes,
   clearInputField,
   onClick,
 }) => {
   const queryResources = async input => {
     const query = {
       page: 1,
-      subjects: subjectId || 'urn:subject:20',
+      subjects: subjectId,
+      levels: filterId,
       sort: '-relevance',
       'page-size': 10,
       query: input,
-      ...(!subjectId && { 'context-types': config.ndlaFilmArticleType }),
+      'context-types': contextTypes,
     };
     const response = await searchResources(query);
     return response.results.map(result => ({
@@ -62,6 +64,8 @@ DropdownSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
+  filterId: PropTypes.string,
+  contextTypes: PropTypes.string,
   clearInputField: PropTypes.bool,
   onClick: PropTypes.func,
 };

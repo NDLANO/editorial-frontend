@@ -10,89 +10,91 @@ export const getIdFromUrn = (urnId: string | undefined) =>
 
 export const getUrnFromId = (id: number) => `urn:frontpage:${id}`;
 
-export const transformSubjectFromApiVersion = (
-  subject: SubjectpageApiType,
-  subjectId: string,
+export const transformSubjectpageFromApiVersion = (
+  subjectpage: SubjectpageApiType,
+  elementId: string,
   selectedLanguage: string,
   editorsChoices: ArticleType[],
   banner: VisualElement,
 ) => {
-  const visualElementVideoId = subject.about.visualElement.url
+  const visualElementVideoId = subjectpage.about.visualElement.url
     .split('videoId=')
     .pop();
-  const visualElementImageId = subject.about.visualElement.url.split('/').pop();
+  const visualElementImageId = subjectpage.about.visualElement.url
+    .split('/')
+    .pop();
 
   const subjectpageEditType: SubjectpageEditType = {
-    id: subject.id,
-    filters: subject.filters,
-    layout: subject.layout,
-    twitter: subject.twitter,
-    facebook: subject.facebook,
-    mobileBanner: subject.banner.mobileId,
+    id: subjectpage.id,
+    filters: subjectpage.filters,
+    layout: subjectpage.layout,
+    twitter: subjectpage.twitter,
+    facebook: subjectpage.facebook,
+    mobileBanner: subjectpage.banner.mobileId,
     desktopBanner: banner,
-    name: subject.name,
-    description: subject.about.description,
-    title: subject.about.title,
+    name: subjectpage.name,
+    description: subjectpage.about.description,
+    title: subjectpage.about.title,
     visualElement: {
-      url: subject.about.visualElement?.url,
-      resource: subject.about.visualElement?.type,
+      url: subjectpage.about.visualElement?.url,
+      resource: subjectpage.about.visualElement?.type,
       resource_id: visualElementImageId || '',
       videoid: visualElementVideoId || '',
     },
-    visualElementAlt: subject.about.visualElement?.alt,
-    metaDescription: subject.metaDescription,
-    topical: subject.topical,
-    mostRead: subject.mostRead,
-    latestContent: subject.latestContent,
-    goTo: subject.goTo,
+    visualElementAlt: subjectpage.about.visualElement?.alt,
+    metaDescription: subjectpage.metaDescription,
+    topical: subjectpage.topical,
+    mostRead: subjectpage.mostRead,
+    latestContent: subjectpage.latestContent,
+    goTo: subjectpage.goTo,
     language: selectedLanguage,
     editorsChoices: editorsChoices,
-    subjectId: subjectId,
-    supportedLanguages: subject.supportedLanguages,
+    elementId: elementId,
+    supportedLanguages: subjectpage.supportedLanguages,
   };
   return subjectpageEditType;
 };
 
-export const transformSubjectToApiVersion = (
-  subject: SubjectpageEditType,
+export const transformSubjectpageToApiVersion = (
+  subjectpage: SubjectpageEditType,
   editorsChoices: string[],
 ) => {
   const id =
-    subject.visualElement.resource === 'image'
-      ? subject.visualElement.resource_id
-      : subject.visualElement.videoid;
+    subjectpage.visualElement.resource === 'image'
+      ? subjectpage.visualElement.resource_id
+      : subjectpage.visualElement.videoid;
   return {
-    name: subject.name,
-    filters: subject.filters,
-    layout: subject.layout,
-    twitter: subject.twitter,
-    facebook: subject.facebook,
+    name: subjectpage.name,
+    filters: subjectpage.filters,
+    layout: subjectpage.layout,
+    twitter: subjectpage.twitter,
+    facebook: subjectpage.facebook,
     banner: {
-      mobileImageId: subject.mobileBanner,
-      desktopImageId: parseInt(subject.desktopBanner.resource_id),
+      mobileImageId: subjectpage.mobileBanner,
+      desktopImageId: parseInt(subjectpage.desktopBanner.resource_id),
     },
     about: [
       {
-        title: subject.title,
-        description: subject.description,
-        language: subject.language,
+        title: subjectpage.title,
+        description: subjectpage.description,
+        language: subjectpage.language,
         visualElement: {
-          type: subject.visualElement.resource,
+          type: subjectpage.visualElement.resource,
           id: id,
-          alt: subject.visualElementAlt,
+          alt: subjectpage.visualElementAlt,
         },
       },
     ],
     metaDescription: [
       {
-        metaDescription: subject.metaDescription,
-        language: subject.language,
+        metaDescription: subjectpage.metaDescription,
+        language: subjectpage.language,
       },
     ],
-    topical: subject.topical,
-    mostRead: subject.mostRead,
+    topical: subjectpage.topical,
+    mostRead: subjectpage.mostRead,
     editorsChoices: editorsChoices,
-    latestContent: subject.latestContent,
-    goTo: subject.goTo,
+    latestContent: subjectpage.latestContent,
+    goTo: subjectpage.goTo,
   };
 };

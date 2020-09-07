@@ -344,6 +344,9 @@ const phrases = {
     removeArticle: 'Remove article',
     missingVisualElement: 'Visual element is required',
   },
+  filterform: {
+    title: 'Filter',
+  },
   topicArticleForm: {
     visualElementTitle: {
       image: 'Image title',
@@ -959,13 +962,16 @@ const phrases = {
     loginAgain: 'Login again',
   },
   taxonomy: {
-    editStructure: '  Edit structure',
+    editStructure: 'Edit structure',
+    editSubjectpage: 'Edit subjectpage',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
     editFilter: 'Edit filter',
+    editFilterName: 'Edit filter name',
+    deleteFilter: 'Delete filter',
     emptyFilter: 'No hits',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',

@@ -15,7 +15,6 @@ import {
   fetchTopics,
   addTopicToTopic,
   addFilterToTopic,
-  fetchSubjectTopics,
   fetchTopicConnections,
   deleteSubTopicConnection,
   deleteTopicConnection,
@@ -36,12 +35,17 @@ class AddExistingToTopic extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { locale, subjectId } = this.props;
-    const topics = await fetchTopics(locale || 'nb');
-    const subjectTopics = await fetchSubjectTopics(subjectId, locale);
+    const { locale, subjectId, path } = this.props;
+    // TODO: Should rather be fetching subjectTopics, but that endpoint does not return paths.
+    const topics = await fetchTopics(locale);
     this.setState({
       topics: topics
-        .filter(topic => !subjectTopics.some(t => t.id === topic.id))
+        .filter(topic =>
+          topic.paths.find(
+            path => path.split('/')[1] === subjectId.replace('urn:', ''),
+          ),
+        )
+        .filter(topic => !topic.paths?.find(p => path.includes(p)))
         .map(topic => ({
           ...topic,
           description: this.getTopicBreadcrumb(topic, topics),

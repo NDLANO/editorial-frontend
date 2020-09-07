@@ -969,7 +969,7 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
-    editFilter: 'Edit filter',
+    editFilter: 'Edit filter name',
     deleteFilter: 'Delete filter',
     emptyFilter: 'No hits',
     errorMessage: 'An error occurred',

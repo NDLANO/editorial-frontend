@@ -994,7 +994,7 @@ const phrases = {
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
     emptyFilter: 'Ingen treff',
-    editFilter: 'Rediger filter',
+    editFilter: 'Rediger filternavn',
     addFilter: 'Nytt filter',
     deleteFilter: 'Slett filter',
     connectFilters: 'Koble til filter',

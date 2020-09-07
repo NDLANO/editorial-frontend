@@ -66,7 +66,7 @@ const EditFilterList = ({
               stripped
               data-testid={`editFilter${filter.id}`}
               onClick={() => setEditState(filter.id)}>
-              <Tooltip tooltip={t('taxonomy.editFilter')}>
+              <Tooltip tooltip={t('taxonomy.editFilterName')}>
                 <RoundIcon small icon={<Pencil />} />
               </Tooltip>
             </Button>

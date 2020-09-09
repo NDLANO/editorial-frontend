@@ -66,7 +66,7 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && (
+        {!noStatus && getArticle && (
           <Fragment>
             <PreviewDraftLightbox
               label={t(`articleType.${articleType}`)}

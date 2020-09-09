@@ -37,6 +37,11 @@ describe('Topic editing', () => {
     );
     cy.apiroute(
       'GET',
+      `/taxonomy/v1/topics?includeMetadata=true&recursive=true&language=nb`,
+      'allTopics',
+    );
+    cy.apiroute(
+      'GET',
       `/taxonomy/v1/subjects/${selectSubject}/filters`,
       'allSubjectFilters',
     );
@@ -78,11 +83,6 @@ describe('Topic editing', () => {
       response: '',
       alias: 'addFilter',
     });
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/topics?includeMetadata=true&language=nb',
-      'allTopics',
-    );
     cy.apiroute(
       'GET',
       `/taxonomy/v1/topics/${selectTopic}/filters`,
@@ -127,7 +127,7 @@ describe('Topic editing', () => {
     cy.wait('@allSubjectTopics');
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@addFilter', '@allSubjectTopics']);
+    cy.apiwait(['@addFilter']);
     cy.wait(500);
   });
 });

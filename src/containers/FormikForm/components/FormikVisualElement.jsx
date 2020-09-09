@@ -38,6 +38,7 @@ const FormikVisualElement = ({
   visualElementCaptionName,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
+  console.log(selectedResource)
   return (
     <Fragment>
       <FormikField name="visualElement">

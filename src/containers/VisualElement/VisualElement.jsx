@@ -11,10 +11,34 @@ import PropTypes from 'prop-types';
 import DisplayVisualElement from './DisplayVisualElement';
 import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
+import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
+import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
+import { renderBlock } from '../../components/SlateEditor/slateRendering';
 
 class VisualElement extends Component {
   constructor(props) {
     super(props);
+
+    const {
+      value: embed,
+      changeVisualElement: onSelect,
+      types,
+      language
+    } = this.props;
+
+    this.plugins = [
+      visualElementPickerPlugin({
+        onSelect,
+        types
+      }),
+      visualElementPlugin({
+        embed,
+        onSelect,
+        language
+      }),
+      
+    ];
+
     this.removeVisualElement = this.removeVisualElement.bind(this);
   }
 
@@ -32,9 +56,8 @@ class VisualElement extends Component {
     return (
       <VisualElementEditor
         value={content}
-        onSelect={changeVisualElement}
-        types={types}
-        language={language}
+        plugins={this.plugins}
+        renderBlock={renderBlock}
       />
     );
     return (

@@ -49,6 +49,8 @@ export default function createEmbedPlugin(language) {
       editor.removeNodeByKey(node.key);
     };
 
+    console.log(props)
+
     switch (node.type) {
       case 'embed':
         return (

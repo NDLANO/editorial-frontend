@@ -6,31 +6,29 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, } from 'react';
 import { Editor } from 'slate-react';
 
-import createEmbedPlugin from './plugins/embed';
+import createSlateStore from './createSlateStore';
+import visualElementPlugin from './plugins/visualElement';
 import visualElementPickerPlugin from './plugins/visualElementPicker';
+
+const slateStore = createSlateStore();
 
 const VisualElementEditor = ({
   value,
-  onSelect,
-  types,
-  language
+  plugins,
+  renderBlock
 }) => {
 
-  const plugins = [
-    createEmbedPlugin(language),
-    visualElementPickerPlugin({
-      onSelect,
-      types
-    })
-  ]
+  console.log(value)
 
   return (
     <Editor
       value={value}
       plugins={plugins}
+      slateStore={slateStore}
+      renderBlock={renderBlock}
     />
   );
 }

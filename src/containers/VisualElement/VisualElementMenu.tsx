@@ -13,6 +13,7 @@ import { colors } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
 import { H5P, Camera, Video, Link } from '@ndla/icons/editor';
 import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
+import { defaultBlocks } from '../../components/SlateEditor/utils';
 
 const visualElementButtonStyle = css`
   height: 40px;
@@ -33,16 +34,24 @@ const visualElementButtonStyle = css`
 interface Props {
   types: string[];
   onSelect: Function;
+  editor: any;
+  visualElement: any;
 }
 
 const VisualElementMenu: FC<Props> = ({
   onSelect,
   types = ['image', 'video', 'h5p', 'url'],
+  editor,
+  visualElement
 }) => {
   const [isOpen, setOpen] = useState(false);
   const typeClassName = isOpen ? '' : 'hidden';
 
   const handleSelect = (type: string) => {
+    console.log(visualElement)
+    const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
+    console.log(blockToInsert)
+    editor.insertBlock(blockToInsert)
     setOpen(false);
     onSelect(type);
   };

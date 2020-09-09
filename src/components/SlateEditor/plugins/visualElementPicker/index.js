@@ -12,10 +12,14 @@ import VisualELementMenu from '../../../../containers/VisualElement/VisualElemen
 export default function visualElementPickerPlugin(options = {}) {
   const schema = {};
   const renderEditor = (props, editor, next) => {
+
+    console.log(options)
     return (
       <VisualELementMenu
         onSelect={options.onSelect}
         types={options.types}
+        editor={editor}
+        visualElement={options.embed}
       />
     );
   };

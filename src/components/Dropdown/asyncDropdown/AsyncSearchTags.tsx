@@ -46,7 +46,7 @@ const AsyncSearchTags = ({
   const [tags, setTags] = useState(initialTags || []);
 
   useEffect(() => {
-    setTags(initialTags)
+    setTags(initialTags);
   }, [initialTags]);
 
   const searchForTags = async (inp: string) => {

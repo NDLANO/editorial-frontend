@@ -111,7 +111,6 @@ const AsyncSearchTags = ({
         apiAction={searchForTags}
         onChange={addTag}
         selectedItems={convertToTagsWithTitle(tags)}
-        tags={tags}
         multiSelect
         disableSelected
         onCreate={createNewTag}

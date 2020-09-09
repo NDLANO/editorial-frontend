@@ -66,7 +66,7 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && (
+        {!noStatus && getArticle && (
           <Fragment>
             <PreviewDraftLightbox
               label={t(`articleType.${articleType}`)}
@@ -131,7 +131,7 @@ HeaderActions.propTypes = {
   translateArticle: PropTypes.func,
   setTranslateOnContinue: PropTypes.func,
   isSubmitting: PropTypes.bool,
-  formIsDirty: PropTypes.bool.isRequired,
+  formIsDirty: PropTypes.bool,
 };
 
 export default injectT(HeaderActions);

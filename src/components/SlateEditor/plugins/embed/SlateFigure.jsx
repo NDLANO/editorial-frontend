@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
@@ -25,152 +25,115 @@ export const editorClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-class SlateFigure extends React.Component {
-  constructor(props) {
-    super();
-    this.state = {
-      submitted: props.editor.props.submitted,
-    };
-    this.isSelected = this.isSelected.bind(this);
-    this.onFigureInputChange = this.onFigureInputChange.bind(this);
-    this.saveEmbedUpdates = this.saveEmbedUpdates.bind(this);
-    this.onSubmittedChange = this.onSubmittedChange.bind(this);
-    this.onRemoveClick = this.onRemoveClick.bind(this);
-  }
+const SlateFigure = ({
+  t,
+  language,
+  isSelected,
+  node,
+  attributes,
+  editor,
+  onRemoveClick,
+  className,
+}) => {
+  const [submitted, setSubmitted] = useState(editor.props.submitted);
+  const [changes, setChanges] = useState({});
 
-  componentDidMount() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-    } = this.props;
-    this.unsubscribe = slateStore.subscribe(this.onSubmittedChange);
-  }
+  const onSubmittedChange = () => {
+    const slateStore = editor.props.slateStore;
+    setSubmitted(slateStore.getState().submitted);
+  };
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
+  useEffect(() => {
+    const slateStore = editor.props.slateStore;
+    const unsubscribe = slateStore.subscribe(onSubmittedChange);
 
-  onSubmittedChange() {
-    const {
-      editor: {
-        props: { slateStore },
-      },
-    } = this.props;
-    this.setState({
-      submitted: slateStore.getState().submitted,
-    });
-  }
+    // ComponentWillUnmount
+    return () => unsubscribe();
+  }, []);
 
-  onFigureInputChange(e) {
+  const onFigureInputChange = e => {
     e.preventDefault();
     const { value, name } = e.target;
     const change = { [name]: value };
 
-    this.setState({
-      changes: change,
-    });
+    setChanges(change);
+    saveEmbedUpdates(change);
+  };
 
-    this.saveEmbedUpdates(change);
-  }
-
-  saveEmbedUpdates(updates) {
-    const { node, editor } = this.props;
+  const saveEmbedUpdates = updates => {
     const properties = {
       data: { ...getSchemaEmbed(node), ...updates },
     };
     editor.setNodeByKey(node.key, properties);
+  };
+
+  const active = isSelected;
+  const figureClass = editorClasses('figure', active ? 'active' : '');
+  const embed = getSchemaEmbed(node);
+  const props = {
+    embed,
+    onFigureInputChange: onFigureInputChange,
+    saveEmbedUpdates: saveEmbedUpdates,
+    figureClass,
+    attributes,
+    submitted: submitted,
+    language,
+    isSelected,
+    active,
+    changes: changes,
+  };
+
+  switch (embed.resource) {
+    case 'image':
+      return (
+        <SlateImage
+          node={node}
+          editor={editor}
+          onRemoveClick={onRemoveClick}
+          language={language}
+          renderEditComponent={props => (
+            <EditImage imageLanguage={language} {...props} />
+          )}
+          {...props}
+        />
+      );
+    case 'brightcove':
+      return <SlateVideo onRemoveClick={onRemoveClick} {...props} />;
+    case 'audio':
+      return <SlateAudio onRemoveClick={onRemoveClick} {...props} />;
+    case 'external':
+    case 'iframe':
+    case 'h5p':
+      if (embed.url?.includes('youtu')) {
+        return <SlateVideo onRemoveClick={onRemoveClick} {...props} />;
+      }
+      return (
+        <DisplayExternal
+          onRemoveClick={onRemoveClick}
+          editor={editor}
+          node={node}
+          embed={embed}
+        />
+      );
+    case 'error':
+      return (
+        <EditorErrorMessage
+          onRemoveClick={onRemoveClick}
+          attributes={attributes}
+          msg={embed.message}
+        />
+      );
+    default:
+      return (
+        <EditorErrorMessage
+          attributes={attributes}
+          msg={t('form.content.figure.notSupported', {
+            mediaType: embed.resource,
+          })}
+        />
+      );
   }
-
-  onRemoveClick(e) {
-    e.stopPropagation();
-    const { node, editor } = this.props;
-    editor.removeNodeByKey(node.key);
-  }
-
-  isSelected() {
-    const { node, editor } = this.props;
-    const isSelected = editor.value.selection.anchor.isInNode(node);
-    return isSelected;
-  }
-
-  render() {
-    const active = this.isSelected();
-    const figureClass = editorClasses('figure', active ? 'active' : '');
-    const {
-      node,
-      attributes,
-      editor,
-      language,
-      isSelected: isSelectedForCopy,
-    } = this.props;
-
-    const embed = getSchemaEmbed(node);
-
-    const props = {
-      embed,
-      onFigureInputChange: this.onFigureInputChange,
-      saveEmbedUpdates: this.saveEmbedUpdates,
-      figureClass,
-      attributes,
-      submitted: this.state.submitted,
-      language,
-      isSelectedForCopy,
-      active,
-      changes: this.state.changes,
-    };
-    switch (embed.resource) {
-      case 'image':
-        return (
-          <SlateImage
-            node={node}
-            editor={editor}
-            onRemoveClick={this.onRemoveClick}
-            language={language}
-            renderEditComponent={props => (
-              <EditImage imageLanguage={language} {...props} />
-            )}
-            {...props}
-          />
-        );
-      case 'brightcove':
-        return <SlateVideo onRemoveClick={this.onRemoveClick} {...props} />;
-      case 'audio':
-        return <SlateAudio onRemoveClick={this.onRemoveClick} {...props} />;
-      case 'external':
-      case 'iframe':
-      case 'h5p':
-        if (embed.url?.includes('youtu')) {
-          return <SlateVideo onRemoveClick={this.onRemoveClick} {...props} />;
-        }
-        return (
-          <DisplayExternal
-            onRemoveClick={this.onRemoveClick}
-            editor={editor}
-            node={node}
-            embed={embed}
-          />
-        );
-      case 'error':
-        return (
-          <EditorErrorMessage
-            onRemoveClick={this.onRemoveClick}
-            attributes={this.props.attributes}
-            msg={embed.message}
-          />
-        );
-      default:
-        return (
-          <EditorErrorMessage
-            attributes={this.props.attributes}
-            msg={this.props.t('form.content.figure.notSupported', {
-              mediaType: embed.resource,
-            })}
-          />
-        );
-    }
-  }
-}
+};
 
 SlateFigure.propTypes = {
   className: PropTypes.string,
@@ -181,6 +144,7 @@ SlateFigure.propTypes = {
   }),
   language: PropTypes.string.isRequired,
   isSelected: PropTypes.bool,
+  onRemoveClick: PropTypes.func,
 };
 
 SlateFigure.defaultProps = {

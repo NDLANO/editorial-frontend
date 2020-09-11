@@ -7,15 +7,12 @@
  */
 
 import React, { useState } from 'react';
-import { injectT } from '@ndla/i18n';
-import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
-import { getLocale } from '../../../../modules/locale/locale';
 import { Embed, SlateEditor, TranslateType } from '../../../../interfaces';
 
 const buttonStyle = css`
@@ -35,7 +32,6 @@ interface Props {
   figureClass: { className: string };
   isSelectedForCopy: boolean;
   language: string;
-  locale: string;
   node: {
     key: string;
   };
@@ -54,11 +50,10 @@ const SlateImage: React.FC<Props> = ({
   figureClass,
   isSelectedForCopy,
   language,
-  locale,
   node,
   onRemoveClick,
-                                       saveEmbedUpdates,
-                                       submitted,
+  saveEmbedUpdates,
+  submitted,
   visualElement,
 }) => {
   const [editMode, setEditMode] = useState(false);
@@ -138,8 +133,4 @@ const SlateImage: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  locale: getLocale(state),
-});
-
-export default injectT(connect(mapStateToProps)(SlateImage));
+export default SlateImage;

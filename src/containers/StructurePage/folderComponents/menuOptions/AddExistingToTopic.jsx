@@ -18,6 +18,7 @@ import {
   fetchTopicConnections,
   deleteSubTopicConnection,
   deleteTopicConnection,
+  fetchTopicFilters,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -65,7 +66,12 @@ class AddExistingToTopic extends React.PureComponent {
   };
 
   async onAddExistingSubTopic(topic) {
-    const { id, numberOfSubtopics, refreshTopics, topicFilters } = this.props;
+    const {
+      id,
+      numberOfSubtopics = 0,
+      refreshTopics,
+      topicFilters,
+    } = this.props;
     const connections = await fetchTopicConnections(topic.id);
 
     if (connections && connections.length > 0) {
@@ -77,6 +83,8 @@ class AddExistingToTopic extends React.PureComponent {
       }
     }
 
+    const filters = await fetchTopicFilters(topic.id);
+
     await Promise.all([
       addTopicToTopic({
         subtopicid: topic.id,
@@ -84,12 +92,16 @@ class AddExistingToTopic extends React.PureComponent {
         primary: false,
         rank: numberOfSubtopics + 1,
       }),
-      topicFilters[0] &&
-        addFilterToTopic({
-          filterId: topicFilters[0].id,
-          relevanceId: topicFilters[0].relevanceId,
-          topicId: topic.id,
-        }),
+      topicFilters.map(filter => {
+        if (!filters.map(f => f.id).includes(filter.id)) {
+          addFilterToTopic({
+            filterId: filter.id,
+            relevanceId: filter.relevanceId,
+            topicId: topic.id,
+          });
+        }
+        return filter;
+      }),
     ]);
     refreshTopics();
   }

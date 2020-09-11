@@ -7,36 +7,61 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { injectT } from '@ndla/i18n';
-import Types from 'slate-prop-types';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import { EditorShape } from '../../../../shapes';
 import EditImage from './EditImage';
+import { SlateEditor, TranslateType } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
 
-const SlateFigure = ({
+interface Props {
+  t: TranslateType;
+  attributes: {
+    'data-key': String;
+    'data-slate-object': String;
+  };
+  editor: SlateEditor;
+  isSelected: boolean;
+  language: String;
+  node: {
+    key: string;
+  };
+}
+
+interface Event {
+  preventDefault: Function;
+  target: {
+    value: string;
+    name: string;
+  };
+}
+
+interface ChangesProp {
+  // This way we can use generic name as the variable name.
+  // The name can vary depending on which component uses this function.
+  [x: string]: string;
+}
+
+const SlateFigure: React.FC<Props> = ({
   t,
-  language,
-  isSelected,
-  node,
   attributes,
   editor,
-  onRemoveClick,
-  className,
+  isSelected,
+  language,
+  node,
 }) => {
-  const [submitted, setSubmitted] = useState(editor.props.submitted);
-  const [changes, setChanges] = useState({});
+  const embed = getSchemaEmbed(node);
+  const [submitted, setSubmitted] = useState<boolean>(editor.props.submitted);
+  const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
   const onSubmittedChange = () => {
     const slateStore = editor.props.slateStore;
@@ -51,36 +76,44 @@ const SlateFigure = ({
     return () => unsubscribe();
   }, []);
 
-  const onFigureInputChange = e => {
-    e.preventDefault();
-    const { value, name } = e.target;
+  const onFigureInputChange = (event: Event) => {
+    event.preventDefault();
+    const { value, name } = event.target;
     const change = { [name]: value };
 
     setChanges(change);
     saveEmbedUpdates(change);
   };
 
-  const saveEmbedUpdates = updates => {
+  const saveEmbedUpdates = (updates: ChangesProp) => {
     const properties = {
       data: { ...getSchemaEmbed(node), ...updates },
     };
     editor.setNodeByKey(node.key, properties);
   };
 
-  const active = isSelected;
-  const figureClass = editorClasses('figure', active ? 'active' : '');
-  const embed = getSchemaEmbed(node);
+  const isActive = () => {
+    return editor.value.selection.anchor.isInNode(node);
+  };
+
+  const onRemoveClick = (e: any) => {
+    e.stopPropagation();
+    editor.removeNodeByKey(node.key);
+  };
+
   const props = {
+    t,
+    active: isActive(),
+    attributes,
+    changes: changes,
     embed,
+    figureClass: editorClasses('figure', isActive() ? 'active' : ''),
+    isSelectedForCopy: isSelected,
+    language,
     onFigureInputChange: onFigureInputChange,
     saveEmbedUpdates: saveEmbedUpdates,
-    figureClass,
-    attributes,
     submitted: submitted,
-    language,
-    isSelected,
-    active,
-    changes: changes,
+    onRemoveClick: onRemoveClick,
   };
 
   switch (embed.resource) {
@@ -89,23 +122,25 @@ const SlateFigure = ({
         <SlateImage
           node={node}
           editor={editor}
-          onRemoveClick={onRemoveClick}
           language={language}
-          renderEditComponent={props => (
-            <EditImage imageLanguage={language} {...props} />
+          renderEditComponent={(props: any) => (
+            <EditImage imageLanguage={language} {...props}>
+              {console.log('renderEditComponent Props: ', props)}
+            </EditImage>
           )}
+          {...console.log('rest props: ', { ...props })}
           {...props}
         />
       );
     case 'brightcove':
-      return <SlateVideo onRemoveClick={onRemoveClick} {...props} />;
+      return <SlateVideo {...props} />;
     case 'audio':
-      return <SlateAudio onRemoveClick={onRemoveClick} {...props} />;
+      return <SlateAudio {...props} />;
     case 'external':
     case 'iframe':
     case 'h5p':
       if (embed.url?.includes('youtu')) {
-        return <SlateVideo onRemoveClick={onRemoveClick} {...props} />;
+        return <SlateVideo {...props} />;
       }
       return (
         <DisplayExternal
@@ -133,22 +168,6 @@ const SlateFigure = ({
         />
       );
   }
-};
-
-SlateFigure.propTypes = {
-  className: PropTypes.string,
-  node: Types.node.isRequired,
-  editor: EditorShape,
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
-  language: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool,
-  onRemoveClick: PropTypes.func,
-};
-
-SlateFigure.defaultProps = {
-  className: '',
 };
 
 export default injectT(SlateFigure);

@@ -13,7 +13,7 @@ import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
-import { Embed, SlateEditor, TranslateType } from '../../../../interfaces';
+import { Embed, TranslateType } from '../../../../interfaces';
 
 const buttonStyle = css`
   min-width: -webkit-fill-available;
@@ -27,14 +27,10 @@ interface Props {
     'data-key': string;
     'data-slate-object': string;
   };
-  editor: SlateEditor;
   embed: Embed;
   figureClass: { className: string };
   isSelectedForCopy: boolean;
   language: string;
-  node: {
-    key: string;
-  };
   onRemoveClick: Function;
   saveEmbedUpdates: Function;
   submitted: boolean;
@@ -45,12 +41,10 @@ const SlateImage: React.FC<Props> = ({
   t,
   active,
   attributes,
-  editor,
   embed,
   figureClass,
   isSelectedForCopy,
   language,
-  node,
   onRemoveClick,
   saveEmbedUpdates,
   submitted,
@@ -98,9 +92,8 @@ const SlateImage: React.FC<Props> = ({
       />
       {editMode && (
         <EditImage
-          editor={editor}
+          t={t}
           embed={embed}
-          node={node}
           saveEmbedUpdates={saveEmbedUpdates}
           setEditModus={setEditMode}
           submitted={submitted}

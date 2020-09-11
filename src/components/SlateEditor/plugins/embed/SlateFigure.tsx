@@ -115,18 +115,17 @@ const SlateFigure: React.FC<Props> = ({
     case 'image':
       return (
         <SlateImage
+          t={t}
           active={isActive()}
           attributes={attributes}
-          changes={changes}
-          editor={editor}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           isSelectedForCopy={isSelected}
           language={language}
-          node={node}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           submitted={submitted}
+          visualElement={false}
         />
       );
     case 'brightcove':

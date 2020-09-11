@@ -15,8 +15,11 @@ import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import EditImage from './EditImage';
-import { SlateEditor, TranslateType } from '../../../../interfaces';
+import {
+  FormikInputEvent,
+  SlateEditor,
+  TranslateType,
+} from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -26,22 +29,14 @@ export const editorClasses = new BEMHelper({
 interface Props {
   t: TranslateType;
   attributes: {
-    'data-key': String;
-    'data-slate-object': String;
+    'data-key': string;
+    'data-slate-object': string;
   };
   editor: SlateEditor;
   isSelected: boolean;
-  language: String;
+  language: string;
   node: {
     key: string;
-  };
-}
-
-interface Event {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
   };
 }
 
@@ -76,7 +71,7 @@ const SlateFigure: React.FC<Props> = ({
     return () => unsubscribe();
   }, []);
 
-  const onFigureInputChange = (event: Event) => {
+  const onFigureInputChange = (event: FormikInputEvent) => {
     event.preventDefault();
     const { value, name } = event.target;
     const change = { [name]: value };
@@ -120,22 +115,34 @@ const SlateFigure: React.FC<Props> = ({
     case 'image':
       return (
         <SlateImage
-          node={node}
+          active={isActive()}
+          attributes={attributes}
+          changes={changes}
           editor={editor}
+          embed={embed}
+          figureClass={editorClasses('figure', isActive() ? 'active' : '')}
+          isSelectedForCopy={isSelected}
           language={language}
-          renderEditComponent={(props: any) => (
-            <EditImage imageLanguage={language} {...props}>
-              {console.log('renderEditComponent Props: ', props)}
-            </EditImage>
-          )}
-          {...console.log('rest props: ', { ...props })}
-          {...props}
+          node={node}
+          onRemoveClick={onRemoveClick}
+          saveEmbedUpdates={saveEmbedUpdates}
+          submitted={submitted}
         />
       );
     case 'brightcove':
       return <SlateVideo {...props} />;
     case 'audio':
-      return <SlateAudio {...props} />;
+      return (
+        <SlateAudio
+          attributes={attributes}
+          changes={changes}
+          embed={embed}
+          language={language}
+          onRemoveClick={onRemoveClick}
+          onFigureInputChange={onFigureInputChange}
+          submitted={submitted}
+        />
+      );
     case 'external':
     case 'iframe':
     case 'h5p':

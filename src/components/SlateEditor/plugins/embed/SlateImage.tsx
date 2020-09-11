@@ -14,6 +14,7 @@ import { css } from '@emotion/core';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
+import EditImage from './EditImage';
 import { getLocale } from '../../../../modules/locale/locale';
 import { Embed, SlateEditor, TranslateType } from '../../../../interfaces';
 
@@ -26,8 +27,8 @@ interface Props {
   t: TranslateType;
   active: boolean;
   attributes: {
-    'data-key': String;
-    'data-slate-object': String;
+    'data-key': string;
+    'data-slate-object': string;
   };
   editor: SlateEditor;
   embed: Embed;
@@ -39,7 +40,8 @@ interface Props {
     key: string;
   };
   onRemoveClick: Function;
-  renderEditComponent: Function;
+  saveEmbedUpdates: Function;
+  submitted: boolean;
   visualElement: boolean;
 }
 
@@ -55,7 +57,8 @@ const SlateImage: React.FC<Props> = ({
   locale,
   node,
   onRemoveClick,
-  renderEditComponent,
+                                       saveEmbedUpdates,
+                                       submitted,
   visualElement,
 }) => {
   const [editMode, setEditMode] = useState(false);
@@ -84,22 +87,6 @@ const SlateImage: React.FC<Props> = ({
     };
   };
 
-  const props = {
-    t,
-    active,
-    attributes,
-    editor,
-    embed,
-    figureClass,
-    isSelectedForCopy,
-    language,
-    locale,
-    node,
-    onRemoveClick,
-    renderEditComponent,
-    visualElement,
-  };
-
   return (
     <div
       {...attributes}
@@ -114,12 +101,16 @@ const SlateImage: React.FC<Props> = ({
         figureType="image"
         language={language}
       />
-      {editMode &&
-        renderEditComponent({
-          embed,
-          setEditModus: setEditMode,
-          ...props,
-        })}
+      {editMode && (
+        <EditImage
+          editor={editor}
+          embed={embed}
+          node={node}
+          saveEmbedUpdates={saveEmbedUpdates}
+          setEditModus={setEditMode}
+          submitted={submitted}
+        />
+      )}
       {!(visualElement && editMode) && (
         <Button
           css={buttonStyle}

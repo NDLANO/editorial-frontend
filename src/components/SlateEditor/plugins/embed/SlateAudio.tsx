@@ -1,0 +1,110 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React, { useEffect, useState } from 'react';
+// @ts-ignore
+import { Figure } from '@ndla/ui';
+
+import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
+
+import EditAudio from './EditAudio';
+import AudioPlayerMounter from './AudioPlayerMounter';
+import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
+
+interface Props {
+  attributes: {
+    'data-key': String;
+    'data-slate-object': String;
+  };
+  changes: { [x: string]: string };
+  embed: Embed;
+  language: string;
+  onRemoveClick: Function;
+  onFigureInputChange: Function;
+  submitted: boolean;
+}
+
+const SlateAudio: React.FC<Props> = ({
+  attributes,
+  changes,
+  embed,
+  language,
+  onRemoveClick,
+  onFigureInputChange,
+  submitted,
+}) => {
+  const speech = embed.type === 'minimal';
+  const [editMode, setEditMode] = useState(false);
+  const [audio, setAudio] = useState<Audio>({} as Audio);
+
+  const getAudio = async () => {
+    try {
+      const audio = await visualElementApi.fetchAudio(
+        embed.resource_id,
+        language,
+      );
+      setAudio({
+        ...audio,
+        caption: embed.caption,
+        title: audio.title.title || '',
+      });
+    } catch (error) {
+      visualElementApi.onError(error);
+    }
+  };
+
+  useEffect(() => {
+    getAudio();
+  }, []);
+
+  const onAudioFigureInputChange = (e: FormikInputEvent) => {
+    const { value, name } = e.target;
+    setAudio({
+      ...audio,
+      [name]: value,
+    });
+    onFigureInputChange(e);
+  };
+
+  const toggleEdit = (event: React.KeyboardEvent | React.MouseEvent) => {
+    event.stopPropagation();
+    setEditMode(!editMode);
+  };
+
+  return (
+    <Figure id={`${audio.id}`} draggable="true" {...attributes}>
+      {editMode ? (
+        <EditAudio
+          onExit={toggleEdit}
+          type={embed.type || 'standard'}
+          onChange={onFigureInputChange}
+          onAudioFigureInputChange={onAudioFigureInputChange}
+          language={language}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          audio={audio}
+          speech={speech}
+          submitted={submitted}
+          changes={changes}
+        />
+      ) : (
+        <div
+          role="button"
+          draggable
+          className="c-placeholder-editmode"
+          tabIndex={0}
+          onKeyPress={toggleEdit}
+          onClick={toggleEdit}>
+          {audio.id && <AudioPlayerMounter audio={audio} speech={speech} />}
+        </div>
+      )}
+    </Figure>
+  );
+};
+
+export default SlateAudio;

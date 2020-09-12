@@ -125,7 +125,6 @@ const ImageEditor: React.FC<Props> = ({
   };
 
   const onEditorTypeSet = (evt: MouseEvent, type: StateProp) => {
-    // evt.preventdefault / stopPropagation?
     setEditType(type);
   };
 
@@ -135,7 +134,7 @@ const ImageEditor: React.FC<Props> = ({
     onUpdatedImageSettings({
       transformData: {
         ...imageUpdates?.transformData,
-        ...defaultData[field as 'crop' | 'focalPoint'],
+        ...defaultData[field as NonNullable<StateProp>],
       },
     });
   };

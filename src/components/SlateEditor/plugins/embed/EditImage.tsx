@@ -95,12 +95,14 @@ const EditImage: React.FC<Props> = ({
       spacing.spacingUnit * 2}px`;
   }, []);
 
-  const onUpdatedImageSettings = (imageUpdates2: any) => {
+  const onUpdatedImageSettings = (
+    transformedData: NonNullable<StateProps['imageUpdates']>,
+  ) => {
     setState({
       ...state,
       imageUpdates: {
-        ...imageUpdates,
-        ...imageUpdates2,
+        ...state.imageUpdates,
+        ...transformedData,
       },
       madeChanges: true,
     });
@@ -109,11 +111,11 @@ const EditImage: React.FC<Props> = ({
   const onSave = () => {
     saveEmbedUpdates({
       ...state,
-      ...imageUpdates?.transformData,
-      align: imageUpdates?.align,
-      size: imageUpdates?.size,
-      caption,
-      alt,
+      ...state.imageUpdates?.transformData,
+      align: state.imageUpdates?.align,
+      size: state.imageUpdates?.size,
+      caption: state.caption,
+      alt: state.alt,
     });
 
     setEditModus(false);
@@ -135,7 +137,6 @@ const EditImage: React.FC<Props> = ({
     });
   };
 
-  const { caption, madeChanges, alt, imageUpdates } = state;
   return (
     <div
       css={imageEditorWrapperStyle}
@@ -158,17 +159,18 @@ const EditImage: React.FC<Props> = ({
               embedElement = embedEl;
             }}>
             <ImageEditor
+              t={t}
               embed={embed}
               toggleEditModus={setEditModus}
               onUpdatedImageSettings={onUpdatedImageSettings}
-              imageUpdates={imageUpdates}
+              imageUpdates={state.imageUpdates}
             />
             <FigureInput
               t={t}
-              caption={caption}
-              alt={alt}
+              caption={state.caption}
+              alt={state.alt}
               submitted={submitted}
-              madeChanges={madeChanges}
+              madeChanges={state.madeChanges}
               onChange={onChange}
               onAbort={onAbort}
               onSave={onSave}

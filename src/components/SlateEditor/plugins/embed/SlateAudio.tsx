@@ -51,7 +51,7 @@ const SlateAudio: React.FC<Props> = ({
       setAudio({
         ...audio,
         caption: embed.caption,
-        title: audio.title.title || '',
+        title: audio.title?.title || '',
       });
     } catch (error) {
       visualElementApi.onError(error);
@@ -80,17 +80,17 @@ const SlateAudio: React.FC<Props> = ({
     <Figure id={`${audio.id}`} draggable="true" {...attributes}>
       {editMode ? (
         <EditAudio
+          audio={audio}
+          changes={changes}
+          embed={embed}
+          language={language}
           onExit={toggleEdit}
-          type={embed.type || 'standard'}
           onChange={onFigureInputChange}
           onAudioFigureInputChange={onAudioFigureInputChange}
-          language={language}
           onRemoveClick={onRemoveClick}
-          embed={embed}
-          audio={audio}
           speech={speech}
           submitted={submitted}
-          changes={changes}
+          type={embed.type || 'standard'}
         />
       ) : (
         <div

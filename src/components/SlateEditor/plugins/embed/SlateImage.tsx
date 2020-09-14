@@ -13,6 +13,7 @@ import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
+import EditVisualElementImage from '../../../../containers/VisualElement/EditVisualElementImage';
 import { Embed, TranslateType } from '../../../../interfaces';
 
 const buttonStyle = css`
@@ -22,17 +23,18 @@ const buttonStyle = css`
 
 interface Props {
   t: TranslateType;
-  active: boolean;
-  attributes: {
+  active?: boolean;
+  attributes?: {
     'data-key': string;
     'data-slate-object': string;
   };
   embed: Embed;
-  figureClass: { className: string };
-  isSelectedForCopy: boolean;
+  figureClass?: { className: string };
+  isSelectedForCopy?: boolean;
+  isSlate: boolean;
   language: string;
   onRemoveClick: Function;
-  saveEmbedUpdates: Function;
+  saveEmbedUpdates?: Function;
   submitted: boolean;
   visualElement: boolean;
 }
@@ -44,6 +46,7 @@ const SlateImage: React.FC<Props> = ({
   embed,
   figureClass,
   isSelectedForCopy,
+  isSlate,
   language,
   onRemoveClick,
   saveEmbedUpdates,
@@ -90,15 +93,23 @@ const SlateImage: React.FC<Props> = ({
         figureType="image"
         language={language}
       />
-      {editMode && (
-        <EditImage
-          t={t}
-          embed={embed}
-          saveEmbedUpdates={saveEmbedUpdates}
-          setEditModus={setEditMode}
-          submitted={submitted}
-        />
-      )}
+      {editMode &&
+        (isSlate ? (
+          <EditImage
+            t={t}
+            embed={embed}
+            saveEmbedUpdates={saveEmbedUpdates as Function}
+            setEditModus={setEditMode}
+            submitted={submitted}
+          />
+        ) : (
+          <EditVisualElementImage
+            setEditModus={setEditMode}
+            t={t}
+            submitted={submitted}
+            embed={embed}
+          />
+        ))}
       {!(visualElement && editMode) && (
         <Button
           css={buttonStyle}

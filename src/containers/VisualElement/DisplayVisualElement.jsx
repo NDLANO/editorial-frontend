@@ -8,13 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import { EmbedShape } from '../../shapes';
 import SlateImage from '../../components/SlateEditor/plugins/embed/SlateImage';
-import EditVisualElementImage from './EditVisualElementImage';
 import DisplayExternalVisualElement from '../../components/DisplayEmbed/DisplayExternalVisualElement';
 import SlateVideo from '../../components/SlateEditor/plugins/embed/SlateVideo';
 
 const DisplayVisualElement = ({
+  t,
   embed,
   changeVisualElement,
   onRemoveClick,
@@ -27,12 +28,13 @@ const DisplayVisualElement = ({
     case 'image':
       return (
         <SlateImage
+          t={t}
           embed={embed}
-          className={className}
-          onRemoveClick={onRemoveClick}
-          renderEditComponent={props => <EditVisualElementImage {...props} />}
-          visualElement
+          isSlate={false}
           language={language}
+          onRemoveClick={onRemoveClick}
+          submitted={false}
+          visualElement
         />
       );
     case 'brightcove':
@@ -99,4 +101,4 @@ DisplayVisualElement.defaultProps = {
   className: '',
 };
 
-export default DisplayVisualElement;
+export default injectT(DisplayVisualElement);

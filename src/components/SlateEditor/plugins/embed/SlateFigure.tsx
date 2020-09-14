@@ -96,6 +96,7 @@ const SlateFigure: React.FC<Props> = ({
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           isSelectedForCopy={isSelected}
+          isSlate
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
@@ -151,6 +152,7 @@ const SlateFigure: React.FC<Props> = ({
           editor={editor}
           node={node}
           embed={embed}
+          language={language}
         />
       );
     case 'error':

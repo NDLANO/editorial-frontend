@@ -9,6 +9,7 @@
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
+    'http://api-gateway.ndla-local',
     'https://*.ndla.no',
     'https://logs-01.loggly.com',
     'https://edge.api.brightcove.com',
@@ -45,6 +46,7 @@ const scriptSrc = (() => {
     "'unsafe-inline'",
     " 'unsafe-eval'",
     'blob:',
+    'http://api-gateway.ndla-local',
     'https://*.ndlah5p.com',
     'https://h5p.org',
     'https://*.ndla.no',
@@ -102,6 +104,7 @@ const scriptSrc = (() => {
 
 const frameSrc = (() => {
   const defaultFrameSrc = [
+    'http://api-gateway.ndla-local',
     '*.nrk.no',
     'nrk.no',
     '*.vg.no',
@@ -154,6 +157,7 @@ const frameSrc = (() => {
     'worldbank.org',
     '*.worldbank.org',
     'embed.molview.org',
+    'embed.ted.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -191,6 +195,7 @@ export default {
     ],
     imgSrc: [
       "'self'",
+      'http://api-gateway.ndla-local',
       'https://*.ndla.no',
       'http://metrics.brightcove.com',
       'https://httpsak-a.akamaihd.net',
@@ -209,6 +214,7 @@ export default {
     mediaSrc: [
       "'self'",
       'blob:',
+      'http://api-gateway.ndla-local',
       'https://*.ndla.no',
       '*.brightcove.com',
       'brightcove.com',

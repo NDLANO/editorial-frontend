@@ -17,7 +17,7 @@ import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
 import {
   FormikInputEvent,
-  SlateEditor,
+  SlateFigureProps,
   TranslateType,
 } from '../../../../interfaces';
 
@@ -26,18 +26,8 @@ export const editorClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-interface Props {
+interface Props extends SlateFigureProps {
   t: TranslateType;
-  attributes: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  editor: SlateEditor;
-  isSelected: boolean;
-  language: string;
-  node: {
-    key: string;
-  };
 }
 
 interface ChangesProp {

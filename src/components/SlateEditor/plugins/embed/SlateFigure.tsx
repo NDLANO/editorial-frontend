@@ -96,21 +96,6 @@ const SlateFigure: React.FC<Props> = ({
     editor.removeNodeByKey(node.key);
   };
 
-  const props = {
-    t,
-    active: isActive(),
-    attributes,
-    changes: changes,
-    embed,
-    figureClass: editorClasses('figure', isActive() ? 'active' : ''),
-    isSelectedForCopy: isSelected,
-    language,
-    onFigureInputChange: onFigureInputChange,
-    saveEmbedUpdates: saveEmbedUpdates,
-    submitted: submitted,
-    onRemoveClick: onRemoveClick,
-  };
-
   switch (embed.resource) {
     case 'image':
       return (
@@ -129,7 +114,18 @@ const SlateFigure: React.FC<Props> = ({
         />
       );
     case 'brightcove':
-      return <SlateVideo {...props} />;
+      return (
+        <SlateVideo
+          t={t}
+          attributes={attributes}
+          changes={changes}
+          embed={embed}
+          figureClass={editorClasses('figure', isActive() ? 'active' : '')}
+          language={language}
+          onFigureInputChange={onFigureInputChange}
+          onRemoveClick={onRemoveClick}
+        />
+      );
     case 'audio':
       return (
         <SlateAudio
@@ -146,7 +142,18 @@ const SlateFigure: React.FC<Props> = ({
     case 'iframe':
     case 'h5p':
       if (embed.url?.includes('youtu')) {
-        return <SlateVideo {...props} />;
+        return (
+          <SlateVideo
+            t={t}
+            attributes={attributes}
+            changes={changes}
+            embed={embed}
+            figureClass={editorClasses('figure', isActive() ? 'active' : '')}
+            language={language}
+            onFigureInputChange={onFigureInputChange}
+            onRemoveClick={onRemoveClick}
+          />
+        );
       }
       return (
         <DisplayExternal

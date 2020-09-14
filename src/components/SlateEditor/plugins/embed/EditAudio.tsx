@@ -6,8 +6,9 @@
  *
  */
 
-import { css } from '@emotion/core';
-import React, { useEffect } from 'react';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import React, { useEffect, Fragment } from 'react';
 import { injectT } from '@ndla/i18n';
 import { initAudioPlayers } from '@ndla/article-scripts';
 import { Input } from '@ndla/forms';
@@ -71,7 +72,7 @@ const EditAudio: React.FC<Props> = ({
   }, []);
 
   return (
-    <>
+    <Fragment>
       <Overlay onExit={onExit} key="audioOverlay" />
       <div
         key="audioPlaceholder"
@@ -136,7 +137,7 @@ const EditAudio: React.FC<Props> = ({
           />
         </div>
       </Portal>
-    </>
+    </Fragment>
   );
 };
 

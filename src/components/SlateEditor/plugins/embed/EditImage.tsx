@@ -6,8 +6,9 @@
  *
  */
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/core';
 import FocusTrapReact from 'focus-trap-react';
 import { spacing, shadows } from '@ndla/core';
 import FigureInput from './FigureInput';

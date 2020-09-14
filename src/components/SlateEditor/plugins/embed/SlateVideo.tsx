@@ -33,11 +33,11 @@ const videoStyle = css`
 
 interface Props {
   t: TranslateType;
-  attributes: {
+  attributes?: {
     'data-key': string;
     'data-slate-object': string;
   };
-  changes: { [x: string]: string };
+  changes?: { [x: string]: string };
   embed: Embed;
   figureClass: any;
   language: string;

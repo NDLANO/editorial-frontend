@@ -6,9 +6,10 @@
  *
  */
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import React, { useState } from 'react';
 import Button from '@ndla/button';
-import { css } from '@emotion/core';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';

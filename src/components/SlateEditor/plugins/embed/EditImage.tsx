@@ -162,7 +162,6 @@ const EditImage: React.FC<Props> = ({
             <ImageEditor
               t={t}
               embed={embed}
-              toggleEditModus={setEditModus}
               onUpdatedImageSettings={onUpdatedImageSettings}
               imageUpdates={state.imageUpdates}
             />

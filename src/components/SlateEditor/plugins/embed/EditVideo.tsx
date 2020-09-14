@@ -27,7 +27,7 @@ const videoStyle = css`
 
 interface Props {
   t: TranslateType;
-  changes: { [x: string]: string };
+  changes?: { [x: string]: string };
   embed: Embed;
   figureClass: any;
   onFigureInputChange: Function;

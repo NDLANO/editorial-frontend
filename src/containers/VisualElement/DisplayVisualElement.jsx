@@ -40,6 +40,7 @@ const DisplayVisualElement = ({
     case 'brightcove':
       return (
         <SlateVideo
+          t={t}
           embed={embed}
           className={className}
           onRemoveClick={onRemoveClick}
@@ -61,6 +62,7 @@ const DisplayVisualElement = ({
       if (embed.url?.includes('youtu'))
         return (
           <SlateVideo
+            t={t}
             embed={embed}
             className={className}
             onRemoveClick={onRemoveClick}

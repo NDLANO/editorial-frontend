@@ -60,7 +60,6 @@ const defaultData = {
 interface Props {
   t: TranslateType;
   embed: Embed;
-  toggleEditModus: Function;
   onUpdatedImageSettings: Function;
   imageUpdates:
     | {
@@ -83,7 +82,6 @@ type StateProp = 'crop' | 'focalPoint' | undefined;
 const ImageEditor: React.FC<Props> = ({
   t,
   embed,
-  toggleEditModus,
   onUpdatedImageSettings,
   imageUpdates,
 }) => {

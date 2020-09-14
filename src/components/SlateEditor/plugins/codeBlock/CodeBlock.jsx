@@ -21,7 +21,7 @@ const getInfoFromNode = node => {
   return {
     model: {
       code: codeBlock?.code ? codeBlock.code : codeBlock,
-      title: codeBlock.title || 'Text', // pure text w/o highlighting
+      title: codeBlock.title || 'Text',
       format: codeBlock.format || 'text',
     },
     isFirstEdit: data.codeBlock === undefined,
@@ -38,6 +38,8 @@ class CodeBlock extends Component {
     this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleUndo = this.handleUndo.bind(this);
+    this.onExit = this.onExit.bind(this);
   }
 
   getMenuPosition() {
@@ -77,12 +79,19 @@ class CodeBlock extends Component {
     editor.focus();
   }
 
-  onExit = () => {
+  handleUndo() {
+    const { editor, node } = this.props;
+    editor.unwrapBlockByKey(node.key, 'code-block'); // TODO not working
+    editor.focus();
+  }
+
+  onExit() {
     this.setState(prevState => ({ editMode: false }));
+
     if (this.state.isFirstEdit) {
-      this.handleRemove();
+      this.handleUndo();
     }
-  };
+  }
 
   render() {
     const { t, editor, node } = this.props;
@@ -115,12 +124,13 @@ class CodeBlock extends Component {
         {editMode && (
           <EditCodeBlock
             blur={editor.blur}
-            closeDialog={this.toggleEditMode}
             editor={editor}
+            onChange={editor.onChange}
+            node={node}
+            closeDialog={this.toggleEditMode}
             handleSave={this.handleSave}
             model={model}
-            node={node}
-            onChange={editor.onChange}
+            onExit={this.onExit}
           />
         )}
       </>

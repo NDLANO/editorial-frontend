@@ -275,7 +275,9 @@ export const unorderListRules = {
 export const mathRules = {
   deserialize(el) {
     const tagName = el.tagName.toLowerCase();
+    console.log('test inni deserialize mathRules', tagName);
     if (tagName !== 'math') return;
+    console.log('hva er el:', el);
     return {
       object: canParentElementContainBlock(el) ? 'block' : 'inline',
       type: 'mathml',
@@ -302,6 +304,57 @@ export const mathRules = {
       />
     );
   },
+};
+
+export const codeBlockRule = {
+  deserialize(el) {
+    const tagName = el.tagName.toLowerCase();
+
+    if (tagName !== 'pre') return;
+
+    // const embed = reduceElementDataAttributes(el);
+    // if (embed.resource !== 'code-block') return;
+    return {
+      object: 'block',
+      type: 'code-block',
+      data: { ...reduceElementDataAttributes(el) },
+      nodes: [
+        {
+          object: 'text',
+          text: 'c', // TODO, hva er denne
+          marks: [],
+        },
+      ],
+    };
+  },
+  serialize(slateObject) {
+    // TODO lagre som <pre model=...
+    const { type } = slateObject;
+
+    if (type !== 'code-block') return;
+
+    const data = slateObject.data.toJS();
+    console.log('data i serialize: ', data.codeBlock, data?.codeBlock?.code);
+    const props = createDataProps({
+      ...data,
+      content: data.codeBlock ? data.codeBlock.code : '',
+      format: data.codeBlock ? data.codeBlock.format : 'text',
+    });
+
+    console.log('hva er props?? ', props);
+    return <pre {...props} />;
+  },
+  // const { type, data } = slateObject;
+  // if (type !== 'mathml') return;
+  // const { innerHTML, ...mathAttributes } = data.toJS();
+  // return (
+  //   <math
+  //     {...mathAttributes}
+  //     dangerouslySetInnerHTML={{
+  //       __html: innerHTML,
+  //     }}
+  //   />
+  // );
 };
 
 export const orderListRules = {
@@ -370,42 +423,6 @@ export const footnoteRule = {
       authors: data.authors ? data.authors.join(';') : '',
     });
     return <embed {...props} />;
-  },
-};
-
-export const codeBlockRule = {
-  deserialize(el) {
-    if (!el.tagName.toLowerCase().startsWith('pre')) return;
-    const embed = reduceElementDataAttributes(el);
-    if (embed.resource !== 'code-block') return;
-    return {
-      object: 'inline',
-      type: 'code-block',
-      nodes: [
-        {
-          object: 'text',
-          text: '$$$$',
-          marks: [],
-        },
-      ],
-      data: {
-        ...embed,
-        authors: embed.code ? embed.code : '',
-      },
-    };
-  },
-  serialize(slateObject) {
-    const { type } = slateObject;
-
-    if (type !== 'code-block') return;
-
-    const data = slateObject.data.toJS();
-    console.log('data: ', slateObject.data, data);
-    const props = createDataProps({
-      ...data,
-      code: data.code ? data.code : '',
-    });
-    return <pre {...props} />;
   },
 };
 

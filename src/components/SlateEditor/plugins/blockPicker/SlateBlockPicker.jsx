@@ -14,6 +14,7 @@ import { Portal } from '../../../Portal';
 import { defaultBlocks, checkSelectionForType } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
+import { defaultCodeBlockBlock } from '../codeBlock';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
 import { getLocaleObject } from '../../../../i18n';
@@ -96,6 +97,10 @@ class SlateBlockPicker extends Component {
       }
       case 'related': {
         this.onInsertBlock(defaultRelatedBlock());
+        break;
+      }
+      case 'code-block': {
+        this.onInsertBlock(defaultCodeBlockBlock());
         break;
       }
       default:

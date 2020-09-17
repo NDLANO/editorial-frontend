@@ -470,6 +470,7 @@ const phrases = {
       url: 'Ressurs fra lenke',
       related: 'Relatert artikkel',
       file: 'Fil',
+      code: 'Kodevisning',
     },
   },
   form: {

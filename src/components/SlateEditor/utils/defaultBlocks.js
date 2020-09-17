@@ -52,6 +52,12 @@ export const defaultRelatedBlock = () =>
     data: {},
   });
 
+export const defaultCodeBlock = () =>
+  Block.create({
+    type: 'code-block',
+    data: {},
+  });
+
 export default {
   defaultBlock,
   defaultBlockWithText,

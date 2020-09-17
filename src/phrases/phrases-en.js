@@ -455,6 +455,7 @@ const phrases = {
       url: 'Resource from link',
       related: 'Related article',
       file: 'File',
+      code: 'Codeblock',
     },
   },
   form: {

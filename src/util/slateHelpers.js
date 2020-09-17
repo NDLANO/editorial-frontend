@@ -295,6 +295,7 @@ export const mathRules = {
     const { type, data } = slateObject;
     if (type !== 'mathml') return;
     const { innerHTML, ...mathAttributes } = data.toJS();
+    console.log('test:', innerHTML);
     return (
       <math
         {...mathAttributes}

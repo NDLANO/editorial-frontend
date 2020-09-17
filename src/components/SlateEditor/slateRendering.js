@@ -54,6 +54,8 @@ export const renderInline = (props, editor, next) => {
   switch (node.type) {
     case 'span':
       return <span {...attributes}>{children}</span>;
+    case 'code':
+      return <code>{children}</code>;
     default:
       return next();
   }
@@ -72,8 +74,6 @@ export const renderMark = (props, editor, next) => {
       return <sup>{children}</sup>;
     case 'sub':
       return <sub>{children}</sub>;
-    case 'code':
-      return <code>{children}</code>;
     default:
       return next();
   }

@@ -17,7 +17,13 @@ import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import CrossButton from '../../../components/CrossButton';
 
-const SettingsMenuDropdown = ({ onClose, t, id, ...rest }) => {
+const SettingsMenuDropdown = ({
+  onClose,
+  t,
+  id,
+  setShowAlertModal,
+  ...rest
+}) => {
   const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
   return (
     <StyledDivWrapper>
@@ -36,6 +42,7 @@ const SettingsMenuDropdown = ({ onClose, t, id, ...rest }) => {
         id={id}
         {...rest}
         settingsMenuType={settingsMenuType}
+        setShowAlertModal={setShowAlertModal}
       />
     </StyledDivWrapper>
   );
@@ -71,6 +78,7 @@ SettingsMenuDropdown.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
+  setShowAlertModal: PropTypes.func,
 };
 
 export default injectT(SettingsMenuDropdown);

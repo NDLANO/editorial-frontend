@@ -24,6 +24,7 @@ import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
 const SettingsMenuDropdownType = ({
   settingsMenuType,
   showAllOptions,
+  setShowAlertModal,
   ...rest
 }) => {
   switch (settingsMenuType) {
@@ -55,7 +56,9 @@ const SettingsMenuDropdownType = ({
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
-          {showAllOptions && <CopyResources {...rest} />}
+          {showAllOptions && (
+            <CopyResources {...rest} setShowAlertModal={setShowAlertModal} />
+          )}
         </>
       );
     default:
@@ -73,6 +76,7 @@ SettingsMenuDropdownType.propTypes = {
   type: PropTypes.string,
   settingsMenuType: PropTypes.oneOf(['topic', 'subject']),
   showAllOptions: PropTypes.bool,
+  setShowAlertModal: PropTypes.func,
 };
 
 export default SettingsMenuDropdownType;

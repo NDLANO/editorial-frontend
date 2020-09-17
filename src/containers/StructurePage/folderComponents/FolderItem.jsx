@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { string, bool, arrayOf, shape, func } from 'prop-types';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
@@ -18,6 +18,7 @@ import SettingsMenu from './SettingsMenu';
 import FilterView from './FilterView';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import AlertModal from '../../../components/AlertModal';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -55,6 +56,8 @@ const FolderItem = ({
   const showSubjectFilters = isOpen && type === 'subject';
   const showJumpToResources = isMainActive && type === 'topic';
 
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
       {isMainActive && (
@@ -68,6 +71,7 @@ const FolderItem = ({
             userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE)
           }
           metadata={metadata}
+          setShowAlertModal={setShowAlertModal}
           {...rest}
         />
       )}
@@ -87,6 +91,23 @@ const FolderItem = ({
           {t('taxonomy.jumpToResources')}
         </Button>
       )}
+      {
+        <AlertModal
+          show={showAlertModal}
+          text={t('taxonomy.resource.copyError')}
+          actions={[
+            {
+              text: t('alertModal.continue'),
+              onClick: () => {
+                setShowAlertModal(false);
+              },
+            },
+          ]}
+          onCancel={() => {
+            setShowAlertModal(false);
+          }}
+        />
+      }
     </div>
   );
 };

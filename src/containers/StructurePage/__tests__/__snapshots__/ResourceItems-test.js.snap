@@ -2,6 +2,10 @@
 
 exports[`matches snapshot 1`] = `
 .emotion-0 {
+  color: #20588f;
+}
+
+.emotion-2 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -33,35 +37,35 @@ exports[`matches snapshot 1`] = `
   font-weight: 400;
 }
 
-.emotion-0:hover,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-0[disabled] {
+.emotion-2[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-0:hover,
-.emotion-0:active,
-.emotion-0:disabled,
-.emotion-0:focus {
+.emotion-2:hover,
+.emotion-2:active,
+.emotion-2:disabled,
+.emotion-2:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-0:focus {
+.emotion-2:focus {
   outline-width: medium;
 }
 
@@ -133,13 +137,13 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title"
+            class="c-topic-resource__title emotion-0 emotion-1"
           >
             Kontrast og balanse i grafisk design
           </h1>
         </div>
         <button
-          class="emotion-0 emotion-1"
+          class="emotion-2 emotion-3"
           type="button"
         >
           <svg
@@ -234,14 +238,14 @@ exports[`matches snapshot 1`] = `
             href="/subject-matter/topic-article/89/edit"
           >
             <h1
-              class="c-topic-resource__title"
+              class="c-topic-resource__title emotion-0 emotion-1"
             >
               Hvorfor bruker vi mediene?
             </h1>
           </a>
         </div>
         <button
-          class="emotion-0 emotion-1"
+          class="emotion-2 emotion-3"
           type="button"
         >
           <svg
@@ -336,14 +340,14 @@ exports[`matches snapshot 1`] = `
             href="/subject-matter/topic-article/78/edit"
           >
             <h1
-              class="c-topic-resource__title"
+              class="c-topic-resource__title emotion-0 emotion-1"
             >
               Medieundersøkelser og mediebruk
             </h1>
           </a>
         </div>
         <button
-          class="emotion-0 emotion-1"
+          class="emotion-2 emotion-3"
           type="button"
         >
           <svg
@@ -438,14 +442,14 @@ exports[`matches snapshot 1`] = `
             href="/subject-matter/topic-article/813/edit"
           >
             <h1
-              class="c-topic-resource__title"
+              class="c-topic-resource__title emotion-0 emotion-1"
             >
               Mediebruk og statistikk
             </h1>
           </a>
         </div>
         <button
-          class="emotion-0 emotion-1"
+          class="emotion-2 emotion-3"
           type="button"
         >
           <svg
@@ -540,14 +544,14 @@ exports[`matches snapshot 1`] = `
             href="/subject-matter/topic-article/508/edit"
           >
             <h1
-              class="c-topic-resource__title"
+              class="c-topic-resource__title emotion-0 emotion-1"
             >
               Identitet og mediebruk
             </h1>
           </a>
         </div>
         <button
-          class="emotion-0 emotion-1"
+          class="emotion-2 emotion-3"
           type="button"
         >
           <svg
@@ -642,14 +646,14 @@ exports[`matches snapshot 1`] = `
             href="/subject-matter/topic-article/401/edit"
           >
             <h1
-              class="c-topic-resource__title"
+              class="c-topic-resource__title emotion-0 emotion-1"
             >
               Mediepåvirkning
             </h1>
           </a>
         </div>
         <button
-          class="emotion-0 emotion-1"
+          class="emotion-2 emotion-3"
           type="button"
         >
           <svg

@@ -4,6 +4,7 @@ import { injectT } from '@ndla/i18n';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
+import { MetadataShape } from '../../../shapes';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -57,6 +58,7 @@ class TopicDescription extends Component {
               locale={locale}
               contentUri={currentTopic.contentUri}
               status={status}
+              metadata={currentTopic.metadata}
             />
           )}
         </Accordion>
@@ -80,6 +82,7 @@ TopicDescription.propTypes = {
   currentTopic: PropTypes.shape({
     id: PropTypes.string,
     contentUri: PropTypes.string,
+    metadata: MetadataShape,
   }).isRequired,
   status: PropTypes.shape({
     current: PropTypes.string,

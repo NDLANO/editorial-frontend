@@ -44,6 +44,10 @@ class EditVideo extends Component {
       t,
       changes,
       src,
+      startTime,
+      stopTime,
+      setStartTime,
+      setStopTime,
     } = this.props;
     return (
       <React.Fragment>
@@ -72,6 +76,10 @@ class EditVideo extends Component {
                     name="url"
                     src={src}
                     onFigureInputChange={onFigureInputChange}
+                    startTime={startTime}
+                    stopTime={stopTime}
+                    setStartTime={setStartTime}
+                    setStopTime={setStopTime}
                   />
                 ) : (
                   <Input
@@ -104,6 +112,10 @@ EditVideo.propTypes = {
     caption: PropTypes.string,
   }),
   src: PropTypes.string,
+  startTime: PropTypes.string,
+  stopTime: PropTypes.string,
+  setStartTime: PropTypes.func,
+  setStopTime: PropTypes.func,
 };
 
 export default injectT(EditVideo);

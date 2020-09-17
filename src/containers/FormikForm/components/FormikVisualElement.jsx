@@ -32,18 +32,26 @@ const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
 const FormikVisualElement = ({
   t,
-  formik: {
-    values: {
-      visualElementCaption,
-      visualElementAlt,
-      language,
-      visualElementUrl,
-    },
-  },
+  formik,
   types,
   videoTypes,
+  visualElementCaptionName,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
+
+  let caption;
+  // if visualElementCaptionName is true, that means that it was sent from SubjectPageAbout (ndlaFilm or SubjectPage)
+  // and they don't use caption, only visualElementAlt, hence ternary in the else statement
+  if (
+    formik.values.visualElement.resource === 'image' &&
+    visualElementCaptionName
+  ) {
+    caption = undefined;
+  } else {
+    caption = visualElementCaptionName
+      ? formik.values.visualElementAlt
+      : formik.values.visualElementCaption;
+  }
   return (
     <Fragment>
       <FormikField name="visualElement">
@@ -61,11 +69,12 @@ const FormikVisualElement = ({
                 {...field}
                 value={{
                   ...field.value,
-                  caption: visualElementCaption,
-                  alt: visualElementAlt,
-                  url: visualElementUrl,
+                  caption: caption,
+                  alt: formik.values.visualElementAlt,
+                  url: formik.values.visualElement.url,
                 }}
-                language={language}
+                language={formik.values.language}
+                visualElementCaptionName={visualElementCaptionName}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}
@@ -96,6 +105,7 @@ FormikVisualElement.propTypes = {
   formik: FormikShape,
   types: PropTypes.arrayOf(PropTypes.string),
   videoTypes: PropTypes.array,
+  visualElementCaptionName: PropTypes.string,
 };
 
 export default injectT(connect(FormikVisualElement));

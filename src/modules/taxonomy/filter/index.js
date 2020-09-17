@@ -79,6 +79,12 @@ export async function createDeleteUpdateFilters(
   }
 }
 
+export function fetchSubjectFilter(id, language) {
+  return fetchAuthorized(`${baseUrl}/filters/${id}?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 export function createSubjectFilter(id, name) {
   return fetchAuthorized(`${baseUrl}/filters`, {
     headers: {
@@ -89,14 +95,12 @@ export function createSubjectFilter(id, name) {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
-export function editSubjectFilter(filterId, subjectId, name) {
-  return fetchAuthorized(`${baseUrl}/filters/${filterId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export function updateSubjectFilter(id, name, contentUri, subjectId) {
+  return fetchAuthorized(`${baseUrl}/filters/${id}`, {
     method: 'PUT',
-    body: JSON.stringify({ subjectId, name }),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ name, contentUri, subjectId }),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
 export function deleteFilter(id) {

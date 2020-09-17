@@ -170,7 +170,7 @@ export class DisplayExternalVisualElement extends Component {
                 white
               />
               <EditVideoTime
-                name="visualElementUrl"
+                name="url"
                 src={src}
                 onFigureInputChange={onFigureInputChange}
               />

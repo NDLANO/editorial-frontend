@@ -14,7 +14,7 @@ import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
-import { Camera, SquareAudio, Concept } from '@ndla/icons/editor';
+import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -86,6 +86,11 @@ export const types = {
     form: 'conceptform',
     cssModifier: 'concept',
     icon: <Concept />,
+  },
+  filter: {
+    form: 'filterform',
+    cssModifier: 'filter',
+    icon: <Filter />,
   },
 };
 

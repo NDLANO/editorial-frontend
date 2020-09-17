@@ -18,19 +18,19 @@ interface Props {
   t: TranslateType;
   selectedLanguage: string;
   history: RouteComponentProps['history'];
-  subjectId: string;
-  subjectName: string;
+  elementId: string;
+  elementName: string;
 }
 
 const CreateSubjectpage: FC<RouteComponentProps & Props> = ({
   t,
   selectedLanguage,
   history,
-  subjectId,
-  subjectName,
+  elementId,
+  elementName,
 }) => {
   const { createSubjectpage } = useFetchSubjectpageData(
-    subjectId,
+    elementId,
     selectedLanguage,
     undefined,
   );
@@ -40,7 +40,7 @@ const CreateSubjectpage: FC<RouteComponentProps & Props> = ({
   ) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
     history.push(
-      toEditSubjectpage(subjectId, selectedLanguage, savedSubjectpage.id),
+      toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id),
     );
   };
 
@@ -48,10 +48,10 @@ const CreateSubjectpage: FC<RouteComponentProps & Props> = ({
     <>
       <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />
       <SubjectpageForm
-        subjectpage={{ language: selectedLanguage, name: subjectName }}
+        subjectpage={{ language: selectedLanguage, name: elementName }}
         selectedLanguage={selectedLanguage}
         updateSubjectpage={createSubjectpageAndPushRoute}
-        subjectId={subjectId}
+        elementId={elementId}
       />
     </>
   );

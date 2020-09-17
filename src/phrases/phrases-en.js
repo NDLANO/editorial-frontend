@@ -149,7 +149,6 @@ const phrases = {
     deleteSearch: 'Delete search',
     emptyLastUsed: 'Empty last edited list',
     emptySavedSearch: 'No saved searches',
-    emptySearchQuery: 'Empty search query',
     guidelines: 'Guidelines',
     mustBeSearch: 'Link must be a search url',
     lastUsed: 'Last edited',
@@ -344,6 +343,9 @@ const phrases = {
     addArticle: 'Add article',
     removeArticle: 'Remove article',
     missingVisualElement: 'Visual element is required',
+  },
+  filterform: {
+    title: 'Filter',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -961,13 +963,16 @@ const phrases = {
     loginAgain: 'Login again',
   },
   taxonomy: {
-    editStructure: '  Edit structure',
+    editStructure: 'Edit structure',
+    editSubjectpage: 'Edit subjectpage',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
     editFilter: 'Edit filter',
+    editFilterName: 'Edit filter name',
+    deleteFilter: 'Delete filter',
     emptyFilter: 'No hits',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
@@ -991,7 +996,8 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
-    copyResources: 'Copy resources from topic',
+    copyResources: 'Reuse resources from topic',
+    copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {
       button: 'Publish all',
@@ -1003,6 +1009,8 @@ const phrases = {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       chooseFilter: 'Connect to filters',
+      copyError:
+        'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
     resourceTypes: {
       title: 'Content type',

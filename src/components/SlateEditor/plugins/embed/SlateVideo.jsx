@@ -14,7 +14,12 @@ import { Figure } from '@ndla/ui';
 import { EmbedShape } from '../../../../shapes';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
+import {
+  getYoutubeEmbedUrl,
+  getStartTime,
+  getStopTime,
+} from '../../../../util/videoUtil';
+import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 
 const videoStyle = {
   width: '100%',
@@ -30,6 +35,8 @@ class SlateVideo extends React.PureComponent {
     super();
     this.state = { editMode: false };
     this.toggleEditModus = this.toggleEditModus.bind(this);
+    this.setStartTime = this.setStartTime.bind(this);
+    this.setStopTime = this.setStopTime.bind(this);
   }
 
   componentDidMount() {
@@ -37,18 +44,32 @@ class SlateVideo extends React.PureComponent {
       embed: { resource, account, videoid, url, player = 'default' },
     } = this.props;
     if (resource === 'brightcove') {
-      this.setState({
-        src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
-      });
+      if (isBrightcoveUrl(url)) {
+        this.setState({ src: url });
+      } else {
+        this.setState({
+          src: `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
+        });
+      }
     } else {
       this.setState({
         src: url.includes('embed') ? url : getYoutubeEmbedUrl(url),
+        startTime: getStartTime(url),
+        stopTime: getStopTime(url),
       });
     }
   }
 
   toggleEditModus() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
+  }
+
+  setStartTime(startTime) {
+    this.setState({ startTime: startTime });
+  }
+
+  setStopTime(stopTime) {
+    this.setState({ stopTime: stopTime });
   }
 
   render() {
@@ -61,7 +82,7 @@ class SlateVideo extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const { src, editMode } = this.state;
+    const { src, editMode, startTime, stopTime } = this.state;
 
     return (
       <div className="c-figure" draggable="true" {...attributes}>
@@ -79,6 +100,10 @@ class SlateVideo extends React.PureComponent {
             toggleEditModus={this.toggleEditModus}
             figureClass={figureClass}
             src={src}
+            startTime={startTime}
+            stopTime={stopTime}
+            setStartTime={this.setStartTime}
+            setStopTime={this.setStopTime}
             {...rest}
           />
         ) : (

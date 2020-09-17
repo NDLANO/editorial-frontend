@@ -29,17 +29,17 @@ interface Props {
   subjectpage: SubjectpageEditType;
   updateSubjectpage: Function;
   selectedLanguage: string;
-  subjectId: number;
+  elementId: string;
   isNewlyCreated: boolean;
 }
 
 const getInitialValues = (
   subjectpage: SubjectpageEditType,
-  subjectId: number,
+  elementId: string,
   selectedLanguage: string,
 ) => {
   return {
-    articleType: 'subjectpage',
+    articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
     supportedLanguages: subjectpage.supportedLanguages || [],
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage.description, true),
@@ -50,6 +50,7 @@ const getInitialValues = (
       resource: '',
       url: '',
       resource_id: '',
+      videoid: '',
     },
     visualElementAlt: subjectpage.visualElementAlt || '',
     editorsChoices: subjectpage.editorsChoices || [],
@@ -64,7 +65,7 @@ const getInitialValues = (
     name: subjectpage.name || '',
     topical: subjectpage.topical || '',
     twitter: subjectpage.twitter || '',
-    subjectId: subjectId,
+    elementId: elementId,
   };
 };
 
@@ -78,6 +79,7 @@ const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
       resource: values.visualElement.resource,
       url: values.visualElement.url,
       resource_id: values.visualElement.resource_id,
+      videoid: values.visualElement.videoid,
     },
     language: values.language,
     visualElementAlt: values.visualElementAlt,
@@ -100,7 +102,7 @@ const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
 
 const SubjectpageForm: FC<Props> = ({
   t,
-  subjectId,
+  elementId,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
@@ -117,7 +119,7 @@ const SubjectpageForm: FC<Props> = ({
     subjectpage,
     getInitialValues,
     selectedLanguage,
-    subjectId,
+    elementId,
   );
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
@@ -153,7 +155,7 @@ const SubjectpageForm: FC<Props> = ({
             <SimpleLanguageHeader
               values={headerContent}
               editUrl={(lang: string) =>
-                toEditSubjectpage(values.subjectId, lang, values.id)
+                toEditSubjectpage(values.elementId, lang, values.id)
               }
               isSubmitting={isSubmitting}
             />

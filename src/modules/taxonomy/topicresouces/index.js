@@ -16,10 +16,10 @@ import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
-function fetchAllTopicResource(locale) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+function fetchAllTopicResource(language) {
+  return fetchAuthorized(
+    `${baseUrl}/topic-resources/?language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
 }
 
 function fetchSingleTopicResource(id) {

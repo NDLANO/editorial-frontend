@@ -16,7 +16,7 @@ import handleError from '../../../util/handleError';
 import MenuItemEditField from './menuOptions/MenuItemEditField';
 import {
   createSubjectFilter,
-  editSubjectFilter,
+  updateSubjectFilter,
   deleteFilter,
 } from '../../../modules/taxonomy';
 import AlertModal from '../../../components/AlertModal';
@@ -32,7 +32,7 @@ class EditFilters extends React.Component {
     this.addFilter = this.addFilter.bind(this);
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
-    this.editFilter = this.editFilter.bind(this);
+    this.updateFilter = this.updateFilter.bind(this);
     this.setEditMode = this.setEditMode.bind(this);
   }
 
@@ -40,9 +40,9 @@ class EditFilters extends React.Component {
     this.setState({ editMode: name });
   }
 
-  async editFilter(id, name) {
+  async updateFilter(id, name, contentUri) {
     try {
-      await editSubjectFilter(id, this.props.id, name);
+      await updateSubjectFilter(id, name, contentUri, this.props.id);
       this.props.getFilters();
     } catch (e) {
       handleError(e);
@@ -76,7 +76,7 @@ class EditFilters extends React.Component {
   }
 
   render() {
-    const { t, filters } = this.props;
+    const { t, filters, ...rest } = this.props;
     const { editMode, showDelete, error } = this.state;
 
     return (
@@ -86,7 +86,8 @@ class EditFilters extends React.Component {
           editMode={editMode}
           setEditState={this.setEditMode}
           showDeleteWarning={this.showDeleteWarning}
-          editFilter={this.editFilter}
+          editFilter={this.updateFilter}
+          {...rest}
         />
         {editMode === 'addFilter' ? (
           <MenuItemEditField

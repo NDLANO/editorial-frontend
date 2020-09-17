@@ -147,7 +147,6 @@ const phrases = {
     deleteSearch: 'Slett søk',
     emptyLastUsed: 'Ingen sist redigerte',
     emptySavedSearch: 'Ingen lagra søk',
-    emptySearchQuery: 'Ingen søketekst',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenka må være til eit søk',
     lastUsed: 'Sist redigert',
@@ -344,6 +343,9 @@ const phrases = {
     addArticle: 'Legg til artikkel',
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
+  },
+  filterform: {
+    title: 'Filter',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -916,12 +918,12 @@ const phrases = {
       },
       addFile: 'Legg til fil',
       removeList: 'Fjern filliste',
-      placeholder: 'Oppgi et filnavn',
-      changeName: 'Endre navn',
+      placeholder: 'Oppgi eit filnamn',
+      changeName: 'Endre namn',
       changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',
       editSubjectpage: 'Rediger fagforside',
-      missingTitle: '[Mangler filnavn]',
+      missingTitle: '[Mangler filnamn]',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
     },
@@ -977,6 +979,7 @@ const phrases = {
   },
   taxonomy: {
     editStructure: 'Rediger struktur',
+    editSubjectpage: 'Rediger fagforside',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     newSubject: 'Nytt fag',
@@ -989,7 +992,9 @@ const phrases = {
     errorMessage: 'Ein feil oppsto',
     emptyFilter: 'Ingen treff',
     editFilter: 'Rediger filter',
+    editFilterName: 'Rediger filternamn',
     addFilter: 'Nytt filter',
+    deleteFilter: 'Slett filter',
     connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
@@ -1005,7 +1010,8 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    copyResources: 'Kopier ressurser fra emne',
+    copyResources: 'Gjenbruk ressurser fra emne',
+    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favorittar',
     publish: {
       button: 'Publiser alt',
@@ -1017,6 +1023,8 @@ const phrases = {
       confirmDelete:
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
       chooseFilter: 'Koble til filter',
+      copyError:
+        'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
     },
     removeLink: 'Fjern lenke',
     resourceTypes: {
@@ -1069,7 +1077,7 @@ const phrases = {
       movieGroupHeader: 'Filmgrupperinger',
       addMovieToSlideshow: 'Legg til film i slideshow',
       addMovieToGroup: 'Legg til film i "{name}"',
-      editMovieGroupName: 'Endre navna til filmgruppa',
+      editMovieGroupName: 'Endre namna til filmgruppa',
       deleteMovieGroup: 'Slett "{name}"',
       moveMovieGroupUp: 'Flytt opp',
       moveMovieGroupDown: 'Flytt ned',
@@ -1079,8 +1087,8 @@ const phrases = {
       createThemeGroup: 'Opprett gruppe',
       saveNameChanges: 'Lagre endringer',
       cancel: 'Avbryt',
-      groupNamePlaceholder: 'Skriv navn på {lang}',
-      editGroupTitle: 'Endre navn(a) på filmgruppa:',
+      groupNamePlaceholder: 'Skriv namn på {lang}',
+      editGroupTitle: 'Endre namn(a) på filmgruppa:',
       newGroupTitle: 'Kva skal gruppa heite?',
       notFound: 'Vi finn ikkje metadata for denne filmen...',
     },

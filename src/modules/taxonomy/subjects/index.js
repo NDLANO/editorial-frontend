@@ -20,15 +20,15 @@ function fetchSubjects(locale) {
   ).then(resolveJsonOrRejectWithError);
 }
 
-function fetchSubject(id, locale) {
+function fetchSubject(id, language) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${id}?includeMetadata=true&language=${locale}`,
+    `${baseUrl}/subjects/${id}?includeMetadata=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
-function fetchSubjectTopics(subject, locale) {
+function fetchSubjectTopics(subject, language) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true&language=${locale}`,
+    `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -64,7 +64,7 @@ function updateSubjectTopic(connectionId, body) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
-function updateSubjectContentUri(id, name, contentUri) {
+function updateSubject(id, name, contentUri) {
   return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -86,6 +86,17 @@ function updateSubjectMetadata(subjectId, body) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
+function updateSubjectMetadataRecursive(subjectId, body) {
+  return fetchAuthorized(
+    `${baseUrl}/subjects/${subjectId}/metadata-recursive?applyToResources=true`,
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(body),
+    },
+  ).then(res => resolveJsonOrRejectWithError(res, true));
+}
+
 export {
   fetchSubjects,
   fetchSubject,
@@ -96,5 +107,6 @@ export {
   fetchSubjectFilters,
   updateSubjectTopic,
   updateSubjectMetadata,
-  updateSubjectContentUri,
+  updateSubjectMetadataRecursive,
+  updateSubject,
 };

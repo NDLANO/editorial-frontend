@@ -17,7 +17,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   t: TranslateType;
-  subjectId: string;
+  elementId: string;
   selectedLanguage: string;
   subjectpageId: string;
   isNewlyCreated: boolean;
@@ -25,7 +25,7 @@ interface Props {
 
 const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   t,
-  subjectId,
+  elementId,
   selectedLanguage,
   subjectpageId,
   isNewlyCreated,
@@ -35,7 +35,7 @@ const EditSubjectpage: FC<RouteComponentProps & Props> = ({
     subjectpage,
     updateSubjectpage,
     error,
-  } = useFetchSubjectpageData(subjectId, selectedLanguage, subjectpageId);
+  } = useFetchSubjectpageData(elementId, selectedLanguage, subjectpageId);
 
   if (error !== undefined) {
     return <NotFoundPage />;
@@ -51,7 +51,7 @@ const EditSubjectpage: FC<RouteComponentProps & Props> = ({
         title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`}
       />
       <SubjectpageForm
-        subjectId={subjectId}
+        elementId={elementId}
         subjectpage={subjectpage}
         selectedLanguage={selectedLanguage}
         updateSubjectpage={updateSubjectpage}

@@ -7,8 +7,8 @@
 import { useEffect, useState } from 'react';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import {
-  transformSubjectFromApiVersion,
-  transformSubjectToApiVersion,
+  transformSubjectpageFromApiVersion,
+  transformSubjectpageToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
 import {
@@ -16,27 +16,42 @@ import {
   SubjectpageApiType,
   SubjectpageEditType,
 } from '../../interfaces';
-import { updateSubjectContentUri } from '../../modules/taxonomy/subjects';
 import { fetchDraft } from '../../modules/draft/draftApi';
+import {
+  fetchSubjectFilter,
+  updateSubjectFilter,
+} from '../../modules/taxonomy/filter';
 import {
   fetchResource,
   queryResources,
   queryTopics,
   queryLearningPathResource,
 } from '../../modules/taxonomy/resources';
+import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import * as visualElementApi from '../VisualElement/visualElementApi';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 
 export function useFetchSubjectpageData(
-  subjectId: string,
+  elementId: string,
   selectedLanguage: string,
   subjectpageId: string | undefined,
 ) {
   const [subjectpage, setSubjectpage] = useState<SubjectpageEditType>();
+  const [subjectId, setSubjectId] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
+
+  const fetchSubjectId = async (
+    elementId: string,
+    selectedLanguage: string,
+  ) => {
+    if (elementId.includes('filter')) {
+      const filter = await fetchSubjectFilter(elementId, selectedLanguage);
+      setSubjectId(filter.subjectId);
+    }
+  };
 
   const fetchSubjectpage = async () => {
     if (subjectpageId) {
@@ -54,9 +69,9 @@ export function useFetchSubjectpageData(
           selectedLanguage,
         );
         setSubjectpage(
-          transformSubjectFromApiVersion(
+          transformSubjectpageFromApiVersion(
             subjectpage,
-            subjectId,
+            elementId,
             selectedLanguage,
             editorsChoices,
             imageToVisualElement(banner),
@@ -129,17 +144,19 @@ export function useFetchSubjectpageData(
       updatedSubjectpage.language,
     );
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
-      transformSubjectToApiVersion(
+      transformSubjectpageToApiVersion(
         updatedSubjectpage,
-        editorsChoices.map(resource => resource[0].id),
+        editorsChoices
+          .map(resource => resource?.[0]?.id)
+          .filter(e => e !== undefined),
       ),
       updatedSubjectpage.id,
       selectedLanguage,
     );
     setSubjectpage(
-      transformSubjectFromApiVersion(
+      transformSubjectpageFromApiVersion(
         savedSubjectpage,
-        subjectId,
+        elementId,
         selectedLanguage,
         updatedSubjectpage.editorsChoices,
         updatedSubjectpage.desktopBanner,
@@ -154,17 +171,27 @@ export function useFetchSubjectpageData(
       createdSubjectpage.language,
     );
     const savedSubjectpage = await frontpageApi.createSubjectpage(
-      transformSubjectToApiVersion(createdSubjectpage, editorsChoices),
+      transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices),
     );
-    await updateSubjectContentUri(
-      subjectId,
-      savedSubjectpage.name,
-      getUrnFromId(savedSubjectpage.id),
-    );
-    setSubjectpage(
-      transformSubjectFromApiVersion(
-        savedSubjectpage,
+    if (subjectId) {
+      // filter
+      await updateSubjectFilter(
+        elementId,
+        savedSubjectpage.name,
+        getUrnFromId(savedSubjectpage.id),
         subjectId,
+      );
+    } else {
+      await updateSubject(
+        elementId,
+        savedSubjectpage.name,
+        getUrnFromId(savedSubjectpage.id),
+      );
+    }
+    setSubjectpage(
+      transformSubjectpageFromApiVersion(
+        savedSubjectpage,
+        elementId,
         selectedLanguage,
         createdSubjectpage.editorsChoices,
         createdSubjectpage.desktopBanner,
@@ -175,7 +202,8 @@ export function useFetchSubjectpageData(
 
   useEffect(() => {
     fetchSubjectpage();
-  }, [subjectId, selectedLanguage]);
+    fetchSubjectId(elementId, selectedLanguage);
+  }, [elementId, selectedLanguage]);
 
   return {
     subjectpage,

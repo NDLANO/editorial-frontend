@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import EditFilters from '../folderComponents/EditFilters';
@@ -30,15 +31,17 @@ const filterMock = [
 
 const wrapper = () =>
   render(
-    <IntlWrapper>
-      <EditFilters
-        id="test"
-        classes={() => {}}
-        t={() => 'Errormelding'}
-        filters={filterMock}
-        getFilters={() => {}}
-      />
-    </IntlWrapper>,
+    <MemoryRouter>
+      <IntlWrapper>
+        <EditFilters
+          id="test"
+          classes={() => {}}
+          t={() => 'Errormelding'}
+          filters={filterMock}
+          getFilters={() => {}}
+        />
+      </IntlWrapper>
+    </MemoryRouter>,
   );
 
 it('maps out filters', async () => {

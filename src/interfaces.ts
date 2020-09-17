@@ -26,6 +26,11 @@ export interface ResourceType {
   resources?: Resource[];
 }
 
+export interface ResourceTranslation {
+  name: string;
+  language: string;
+}
+
 export interface ContentResultType {
   id: number;
   title: { title: string };
@@ -282,12 +287,13 @@ export interface SubjectpageEditType extends SubjectpageType {
   editorsChoices: ArticleType[];
   language: string;
   mobileBanner: number;
-  subjectId: string;
+  elementId: string;
   title: string;
   visualElement: {
     resource: string;
     url: string;
-    resource_id: string;
+    resource_id?: string;
+    videoid?: string;
   };
   visualElementAlt: string;
 }

@@ -147,7 +147,6 @@ const phrases = {
     deleteSearch: 'Slett søk',
     emptyLastUsed: 'Ingen sist redigerte',
     emptySavedSearch: 'Ingen lagrede søk',
-    emptySearchQuery: 'Ingen søketekst',
     guidelines: 'Retningslinjer',
     mustBeSearch: 'Lenken må være til et søk',
     lastUsed: 'Sist redigert',
@@ -343,6 +342,9 @@ const phrases = {
     addArticle: 'Legg til artikkel',
     removeArticle: 'Fjern artikkel',
     missingVisualElement: 'Visuelt element er påkrevd.',
+  },
+  filterform: {
+    title: 'Filter',
   },
   topicArticleForm: {
     visualElementTitle: {
@@ -919,7 +921,6 @@ const phrases = {
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
       removeFile: 'Ta bort fil',
-      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
@@ -981,7 +982,8 @@ const phrases = {
     loginAgain: 'Logg inn på nytt',
   },
   taxonomy: {
-    editStructure: '  Rediger struktur',
+    editStructure: 'Rediger struktur',
+    editSubjectpage: 'Rediger fagforside',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     newSubject: 'Nytt fag',
@@ -994,7 +996,9 @@ const phrases = {
     errorMessage: 'En feil oppsto',
     emptyFilter: 'Ingen treff',
     editFilter: 'Rediger filter',
+    editFilterName: 'Rediger filternavn',
     addFilter: 'Nytt filter',
+    deleteFilter: 'Slett filter',
     connectFilters: 'Koble til filter',
     confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
@@ -1010,7 +1014,8 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    copyResources: 'Kopier ressurser fra emne',
+    copyResources: 'Gjenbruk ressurser fra emne',
+    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favoritter',
     publish: {
       button: 'Publiser alt',
@@ -1022,6 +1027,8 @@ const phrases = {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
       chooseFilter: 'Koble til filter',
+      copyError:
+        'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
     },
     removeLink: 'Fjern link',
     resourceTypes: {

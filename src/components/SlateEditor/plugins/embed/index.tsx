@@ -9,8 +9,9 @@
 import React from 'react';
 import SlateFigure from './SlateFigure';
 import defaultBlocks from '../../utils/defaultBlocks';
+import { SlateEditor, SlateFigureProps } from '../../../../interfaces';
 
-export default function createEmbedPlugin(language) {
+export default function createEmbedPlugin(language: string, locale: string) {
   const schema = {
     blocks: {
       embed: {
@@ -23,7 +24,10 @@ export default function createEmbedPlugin(language) {
           { type: 'heading-two' },
           { type: 'heading-three' },
         ],
-        normalize: (editor, error) => {
+        normalize: (
+          editor: SlateEditor,
+          error: { code: string; child: any },
+        ) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
@@ -42,20 +46,21 @@ export default function createEmbedPlugin(language) {
   };
 
   /* eslint-disable react/prop-types */
-  const renderBlock = (props, editor, next) => {
-    const { node } = props;
-    const onRemoveClick = e => {
-      e.stopPropagation();
-      editor.removeNodeByKey(node.key);
-    };
-
-    switch (node.type) {
+  const renderBlock = (
+    props: SlateFigureProps,
+    editor: SlateEditor,
+    next: any,
+  ) => {
+    switch (props.node.type) {
       case 'embed':
         return (
           <SlateFigure
-            onRemoveClick={onRemoveClick}
+            attributes={props.attributes}
+            editor={props.editor}
+            isSelected={props.isSelected}
             language={language}
-            {...props}
+            node={props.node}
+            locale={locale}
           />
         );
       default:

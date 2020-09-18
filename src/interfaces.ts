@@ -15,6 +15,38 @@ export interface TranslateType {
   ): string;
 }
 
+interface Copyright {
+  license: {
+    license: string;
+    description: string;
+    url: string;
+  };
+  processors: [
+    {
+      name: string;
+      type: string;
+    },
+  ];
+  origin: [
+    {
+      name: string;
+      type: string;
+    },
+  ];
+  rightsholders: [
+    {
+      type: string;
+      name: string;
+    },
+  ];
+  creators: [
+    {
+      type: string;
+      name: string;
+    },
+  ];
+}
+
 interface Status {
   current: string;
   other: string[];
@@ -62,37 +94,7 @@ export interface ArticleType {
   metaDescription: string;
   tags: string[];
   published: string;
-  copyright: {
-    license: {
-      license: string;
-      description: string;
-      url: string;
-    };
-    processors: [
-      {
-        name: string;
-        type: string;
-      },
-    ];
-    origin: [
-      {
-        name: string;
-        type: string;
-      },
-    ];
-    rightsholders: [
-      {
-        type: string;
-        name: string;
-      },
-    ];
-    creators: [
-      {
-        type: string;
-        name: string;
-      },
-    ];
-  };
+  copyright: Copyright;
   metaImage: {
     url: string;
     alt: string;
@@ -401,6 +403,87 @@ export interface Image {
   title: {
     title: string;
     language: string;
+  };
+}
+
+export interface SlateFigureProps {
+  attributes: {
+    'data-key': string;
+    'data-slate-object': string;
+  };
+  editor: SlateEditor;
+  isSelected: boolean;
+  language: string;
+  node: {
+    key: string;
+    type: string;
+  };
+}
+
+export interface SlateEditor {
+  removeNodeByKey: Function;
+  setNodeByKey: Function;
+  onChange: Function;
+  value: any;
+  props: {
+    submitted: boolean;
+    slateStore: {
+      getState: Function;
+      subscribe: Function;
+    };
+  };
+  moveToEndOfNode: Function;
+  withoutSaving: Function;
+}
+
+export interface Embed {
+  account?: string;
+  align: string;
+  alt: string;
+  caption: string;
+  metaData?: {
+    name: string;
+  };
+  player?: string;
+  resource: string;
+  resource_id: string;
+  size: string;
+  type: string;
+  url: string;
+  videoid: string;
+
+  'focal-x': string;
+  'focal-y': string;
+  'upper-left-x': string;
+  'upper-left-y': string;
+  'lower-right-x': string;
+  'lower-right-y': string;
+}
+
+export interface Audio {
+  audioFile: {
+    filesize: number;
+    language: string;
+    mimeType: string;
+    url: string;
+  };
+  caption: string;
+  copyright: Copyright;
+  id: number;
+  revision: number;
+  supportedLanguages: string[];
+  tags: {
+    language: string;
+    tags: string[];
+  };
+  title: string;
+}
+
+export interface FormikInputEvent {
+  preventDefault: Function;
+  target: {
+    value: string;
+    name: string;
   };
 }
 

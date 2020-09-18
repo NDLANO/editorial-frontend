@@ -30,6 +30,7 @@ const connectSrc = (() => {
   if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultConnectSrc,
+      'http://api-gateway.ndla-local',
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3100',
@@ -92,6 +93,7 @@ const scriptSrc = (() => {
   if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultScriptSrc,
+      'http://api-gateway.ndla-local',
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3000',
@@ -154,10 +156,12 @@ const frameSrc = (() => {
     'worldbank.org',
     '*.worldbank.org',
     'embed.molview.org',
+    'embed.ted.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultFrameSrc,
+      'http://api-gateway.ndla-local',
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3000',
@@ -191,6 +195,7 @@ export default {
     ],
     imgSrc: [
       "'self'",
+      'http://api-gateway.ndla-local',
       'https://*.ndla.no',
       'http://metrics.brightcove.com',
       'https://httpsak-a.akamaihd.net',
@@ -209,6 +214,7 @@ export default {
     mediaSrc: [
       "'self'",
       'blob:',
+      'http://api-gateway.ndla-local',
       'https://*.ndla.no',
       '*.brightcove.com',
       'brightcove.com',

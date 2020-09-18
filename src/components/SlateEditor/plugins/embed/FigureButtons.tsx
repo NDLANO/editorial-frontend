@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
@@ -15,8 +14,8 @@ import { spacing } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link } from 'react-router-dom';
-import { EmbedShape } from '../../../../shapes';
 import IconButton from '../../../IconButton';
+import { Embed, TranslateType } from '../../../../interfaces';
 
 const centerAdjustedStyle = css`
   right: -${spacing.xsmall};
@@ -30,12 +29,18 @@ const leftAdjustedStyle = css`
   left: -${spacing.spacingUnit * 1.25}px;
 `;
 
+interface StyledFigureButtonsProps {
+  align: string;
+  withMargin: boolean | undefined;
+}
+
 const StyledFigureButtons = styled('div')`
   position: absolute;
   top: 0;
   z-index: 1;
 
-  ${p => p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
+  ${(p: StyledFigureButtonsProps) =>
+    p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
   ${p => p.align === 'left' && leftAdjustedStyle}
   ${p => p.align === 'right' && rightAdjustedStyle}
   > * {
@@ -48,16 +53,28 @@ const StyledFigureButtons = styled('div')`
     `}
 `;
 
-const FigureButtons = ({
+interface Props {
+  t: TranslateType;
+  embed: Embed;
+  figureType: string;
+  language: string;
+  onEdit?: Function;
+  onRemoveClick: Function;
+  providerName?: string;
+  tooltip: string;
+  withMargin?: boolean;
+}
+
+const FigureButtons: React.FC<Props> = ({
   t,
   embed,
-  language,
-  tooltip,
   figureType,
-  onRemoveClick,
-  withMargin,
-  providerName,
+  language,
   onEdit,
+  onRemoveClick,
+  providerName,
+  tooltip,
+  withMargin,
 }) => {
   const url = {
     audio: {
@@ -71,7 +88,7 @@ const FigureButtons = ({
   };
 
   return (
-    <StyledFigureButtons align={embed.align} withMargin={withMargin}>
+    <StyledFigureButtons align={embed.align} theme={{}} withMargin={withMargin}>
       <Tooltip tooltip={tooltip} align="right">
         <IconButton
           color="red"
@@ -107,17 +124,6 @@ const FigureButtons = ({
       )}
     </StyledFigureButtons>
   );
-};
-
-FigureButtons.propTypes = {
-  onRemoveClick: PropTypes.func.isRequired,
-  embed: EmbedShape.isRequired,
-  tooltip: PropTypes.string.isRequired,
-  figureType: PropTypes.string.isRequired,
-  language: PropTypes.string,
-  withMargin: PropTypes.bool,
-  onEdit: PropTypes.func,
-  providerName: PropTypes.string,
 };
 
 export default FigureButtons;

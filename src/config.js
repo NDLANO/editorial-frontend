@@ -17,7 +17,7 @@ const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
 export const getNdlaApiUrl = env => {
   switch (env) {
     case 'local':
-      return 'http://proxy.ndla-local';
+      return 'http://api-gateway.ndla-local';
     case 'prod':
       return 'https://api.ndla.no';
     default:

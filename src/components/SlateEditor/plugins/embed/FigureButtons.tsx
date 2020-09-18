@@ -29,12 +29,17 @@ const leftAdjustedStyle = css`
   left: -${spacing.spacingUnit * 1.25}px;
 `;
 
+interface StyledFigureButtonsProps {
+  align: string;
+  withMargin: boolean | undefined;
+}
+
 const StyledFigureButtons = styled('div')`
   position: absolute;
   top: 0;
   z-index: 1;
 
-  ${(p: any) =>
+  ${(p: StyledFigureButtonsProps) =>
     p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
   ${p => p.align === 'left' && leftAdjustedStyle}
   ${p => p.align === 'right' && rightAdjustedStyle}
@@ -83,7 +88,7 @@ const FigureButtons: React.FC<Props> = ({
   };
 
   return (
-    <StyledFigureButtons align={embed.align} withMargin={withMargin}>
+    <StyledFigureButtons align={embed.align} theme={{}} withMargin={withMargin}>
       <Tooltip tooltip={tooltip} align="right">
         <IconButton
           color="red"

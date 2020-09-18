@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
 import { initAudioPlayers } from '@ndla/article-scripts';
 // @ts-ignore
@@ -49,7 +49,7 @@ const AudioPlayerMounter: React.FC<Props> = ({ t, audio, locale, speech }) => {
         speech={speech}
       />
       {!speech && (
-        <Fragment>
+        <>
           <FigureCaption
             id={figureLicenseDialogId}
             figureId={`figure-${audio.id}`}
@@ -67,7 +67,7 @@ const AudioPlayerMounter: React.FC<Props> = ({ t, audio, locale, speech }) => {
             messages={messages}
             locale={locale}
           />
-        </Fragment>
+        </>
       )}
     </div>
   );

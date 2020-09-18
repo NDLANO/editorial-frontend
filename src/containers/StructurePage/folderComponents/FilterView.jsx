@@ -41,6 +41,7 @@ const FilterView = ({
             ? 'checkboxItem--checked'
             : ''
         }
+        isVisible={filter.metadata?.visible || true}
         onClick={() => toggleFilter(filter.id)}>
         <span />
         <span>{filter.name}</span>

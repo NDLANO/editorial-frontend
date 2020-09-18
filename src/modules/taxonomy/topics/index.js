@@ -30,9 +30,9 @@ function fetchTopic(id, language) {
 }
 
 function fetchTopicFilters(id) {
-  return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(
+    `${baseUrl}/topics/${id}/filters?includeMetadata=true`,
+  ).then(resolveJsonOrRejectWithError);
 }
 
 function fetchTopicResourceTypes(language) {

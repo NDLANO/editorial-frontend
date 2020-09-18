@@ -38,6 +38,7 @@ const FilterItem = ({
     <StyledFilterListTableRow key={currentFilter.id} active={active}>
       <td>
         <StyledFilterCheckBox
+          isVisible={currentFilter.metadata?.visible || true}
           type="button"
           data-testid={`useFilterCheckbox-${currentFilter.id}`}
           onClick={() =>

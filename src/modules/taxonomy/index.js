@@ -45,6 +45,7 @@ export {
   createSubjectFilter,
   updateSubjectFilter,
   deleteFilter,
+  updateFilterMetadata,
 } from './filter';
 export {
   fetchAllTopicResource,

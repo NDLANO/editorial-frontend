@@ -80,9 +80,9 @@ export async function createDeleteUpdateFilters(
 }
 
 export function fetchSubjectFilter(id, language) {
-  return fetchAuthorized(`${baseUrl}/filters/${id}?language=${language}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(
+    `${baseUrl}/filters/${id}?includeMetadata=true&language=${language}`,
+  ).then(resolveJsonOrRejectWithError);
 }
 
 export function createSubjectFilter(id, name) {
@@ -107,4 +107,12 @@ export function deleteFilter(id) {
   return fetchAuthorized(`${baseUrl}/filters/${id}`, {
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
+}
+
+export function updateFilterMetadata(id, body) {
+  return fetchAuthorized(`${baseUrl}/filter/${id}/metadata`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
 }

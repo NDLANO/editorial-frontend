@@ -18,6 +18,7 @@ import {
   createSubjectFilter,
   updateSubjectFilter,
   deleteFilter,
+  updateFilterMetadata,
 } from '../../../modules/taxonomy';
 import AlertModal from '../../../components/AlertModal';
 import EditFilterList from './EditFilterList';
@@ -34,6 +35,7 @@ class EditFilters extends React.Component {
     this.deleteFilter = this.deleteFilter.bind(this);
     this.updateFilter = this.updateFilter.bind(this);
     this.setEditMode = this.setEditMode.bind(this);
+    this.toggleVisibility = this.toggleVisibility.bind(this);
   }
 
   setEditMode(name) {
@@ -75,6 +77,16 @@ class EditFilters extends React.Component {
     }
   }
 
+  async toggleVisibility(id, visible) {
+    try {
+      await updateFilterMetadata(id, { visible: !visible });
+      this.props.getFilters();
+    } catch (e) {
+      handleError(e);
+      this.setState({ error: e.message });
+    }
+  }
+
   render() {
     const { t, filters, ...rest } = this.props;
     const { editMode, showDelete, error } = this.state;
@@ -87,6 +99,7 @@ class EditFilters extends React.Component {
           setEditState={this.setEditMode}
           showDeleteWarning={this.showDeleteWarning}
           editFilter={this.updateFilter}
+          toggleVisibility={this.toggleVisibility}
           {...rest}
         />
         {editMode === 'addFilter' ? (

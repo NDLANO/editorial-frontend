@@ -73,9 +73,9 @@ function updateSubject(id, name, contentUri) {
 }
 
 function fetchSubjectFilters(id) {
-  return fetchAuthorized(`${baseUrl}/subjects/${id}/filters`).then(res =>
-    resolveJsonOrRejectWithError(res),
-  );
+  return fetchAuthorized(
+    `${baseUrl}/subjects/${id}/filters?includeMetadata=true`,
+  ).then(res => resolveJsonOrRejectWithError(res));
 }
 
 function updateSubjectMetadata(subjectId, body) {

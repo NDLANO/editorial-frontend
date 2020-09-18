@@ -15,20 +15,21 @@ import {
   RESOURCE_FILTER_CORE,
   RESOURCE_FILTER_SUPPLEMENTARY,
 } from '../../../constants';
+import { MetadataShape } from '../../../shapes';
 
-const ConnectFilterItem = ({ id, name, inputValues, onChange }) => {
+const ConnectFilterItem = ({ id, name, metadata, inputValues, onChange }) => {
   const relevance =
     inputValues.relevance === undefined
       ? true
       : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
     <StyledFilterItem>
-      <StyledLabel>
+      <StyledLabel isVisible={metadata?.visible || true}>
         <StyledCheckbox
           type="checkbox"
           data-testid="connectFilterItem"
           name={`${id}-active`}
-          checked={inputValues.active || false}
+          checked={inputValues.active || true}
           onChange={() => onChange({ active: !inputValues.active })}
         />
         {name}
@@ -59,7 +60,9 @@ const StyledLabel = styled('label')`
   display: flex;
   margin: calc(${spacing.small} / 2);
   align-items: center;
-  color: ${colors.grey};
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.brand.primary};
 `;
 
 const StyledCheckbox = styled('input')`
@@ -73,6 +76,7 @@ const StyledCheckbox = styled('input')`
 ConnectFilterItem.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
+  metadata: MetadataShape,
   active: PropTypes.bool,
   relevanceId: PropTypes.string,
   inputValues: PropTypes.shape({

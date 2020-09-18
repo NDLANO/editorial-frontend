@@ -48,10 +48,10 @@ export function fetchResourceResourceType(id, language) {
 }
 
 export function fetchResourceFilter(id, language) {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/filters${lang}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  const lang = language ? `&language=${language}` : '';
+  return fetchAuthorized(
+    `${baseUrl}/resources/${id}/filters?includeMetadata=true${lang}`,
+  ).then(resolveJsonOrRejectWithError);
 }
 
 export function addFilterToResource({

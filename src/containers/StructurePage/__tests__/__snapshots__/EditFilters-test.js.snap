@@ -8,6 +8,7 @@ exports[`calls add filter 1`] = `
 }
 
 .emotion-29 {
+  color: #20588f;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1209,6 +1210,7 @@ exports[`maps out filters 1`] = `
 }
 
 .emotion-29 {
+  color: #20588f;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

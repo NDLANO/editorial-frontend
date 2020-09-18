@@ -33,6 +33,7 @@ exports[`maps out filters 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: #20588f;
 }
 
 .emotion-0 {
@@ -188,6 +189,7 @@ exports[`maps out filters 1`] = `
       class="emotion-2 emotion-3"
     >
       <input
+        checked=""
         class="emotion-0 emotion-1"
         data-testid="connectFilterItem"
         name="urn:filter:f102710e-973e-4999-9daf-f1536d41188a-active"
@@ -215,6 +217,7 @@ exports[`maps out filters 1`] = `
       class="emotion-2 emotion-3"
     >
       <input
+        checked=""
         class="emotion-0 emotion-1"
         data-testid="connectFilterItem"
         name="urn:filter:fc0a6fc5-4ed3-4aec-ade7-381ac51c446e-active"
@@ -242,6 +245,7 @@ exports[`maps out filters 1`] = `
       class="emotion-2 emotion-3"
     >
       <input
+        checked=""
         class="emotion-0 emotion-1"
         data-testid="connectFilterItem"
         name="urn:filter:fd6893b9-c02a-4016-b64e-1b6533ff9ba2-active"
@@ -269,6 +273,7 @@ exports[`maps out filters 1`] = `
       class="emotion-2 emotion-3"
     >
       <input
+        checked=""
         class="emotion-0 emotion-1"
         data-testid="connectFilterItem"
         name="urn:filter:a583772c-4c71-401c-807d-6cb676dcf523-active"

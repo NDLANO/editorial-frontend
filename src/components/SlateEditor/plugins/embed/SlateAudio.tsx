@@ -24,6 +24,7 @@ interface Props {
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
+  locale: string;
   onRemoveClick: Function;
   onFigureInputChange: Function;
   submitted: boolean;
@@ -34,6 +35,7 @@ const SlateAudio: React.FC<Props> = ({
   changes,
   embed,
   language,
+  locale,
   onRemoveClick,
   onFigureInputChange,
   submitted,
@@ -100,7 +102,9 @@ const SlateAudio: React.FC<Props> = ({
           tabIndex={0}
           onKeyPress={toggleEdit}
           onClick={toggleEdit}>
-          {audio.id && <AudioPlayerMounter audio={audio} speech={speech} />}
+          {audio.id && (
+            <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
+          )}
         </div>
       )}
     </Figure>

@@ -17,15 +17,15 @@ import { Audio, TranslateType } from '../../../../interfaces';
 interface Props {
   t: TranslateType;
   audio: Audio;
+  locale: string;
   speech: boolean;
 }
 
-const AudioPlayerMounter: React.FC<Props> = ({ t, audio, speech }) => {
+const AudioPlayerMounter: React.FC<Props> = ({ t, audio, locale, speech }) => {
   useEffect(() => {
     initAudioPlayers();
   }, []);
 
-  const locale = 'nb';
   const license = getLicenseByAbbreviation(
     audio.copyright.license.license,
     locale,

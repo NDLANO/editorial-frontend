@@ -11,7 +11,7 @@ import SlateFigure from './SlateFigure';
 import defaultBlocks from '../../utils/defaultBlocks';
 import { SlateEditor, SlateFigureProps } from '../../../../interfaces';
 
-export default function createEmbedPlugin(language: string) {
+export default function createEmbedPlugin(language: string, locale: string) {
   const schema = {
     blocks: {
       embed: {
@@ -60,6 +60,7 @@ export default function createEmbedPlugin(language: string) {
             isSelected={props.isSelected}
             language={language}
             node={props.node}
+            locale={locale}
           />
         );
       default:

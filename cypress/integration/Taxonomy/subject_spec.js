@@ -34,7 +34,7 @@ describe('Subject editing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters',
+      '/taxonomy/v1/subjects/urn:subject:12/filters?includeMetadata=true',
       'allSubjectFilters',
     );
     cy.route({

@@ -24,7 +24,7 @@ describe('Test filter functionality', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters',
+      '/taxonomy/v1/subjects/urn:subject:12/filters?includeMetadata=true',
       'allSubjectFilters',
     );
     cy.visit('/structure/urn:subject:12', visitOptions);

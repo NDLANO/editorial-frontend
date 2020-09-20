@@ -25,10 +25,14 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters',
+      '/taxonomy/v1/subjects/urn:subject:12/filters?includeMetadata=true',
       'allSubjectFilters',
     );
-    cy.apiroute('GET', '/taxonomy/v1/filters/?language=nb', 'allFilters');
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/filters/?includeMetadata=true&language=nb',
+      'allFilters',
+    );
     cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
@@ -73,7 +77,7 @@ describe('Resource listing', () => {
   it('should open filter picker and have functioning buttons', () => {
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/resources/urn:resource:1:167902/filters?language=nb',
+      '/taxonomy/v1/resources/urn:resource:1:167902/filters?includeMetadata=true&language=nb',
       'resourceFilters',
     );
 

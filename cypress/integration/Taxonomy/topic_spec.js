@@ -42,7 +42,7 @@ describe('Topic editing', () => {
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/subjects/${selectSubject}/filters`,
+      `/taxonomy/v1/subjects/${selectSubject}/filters?includeMetadata=true`,
       'allSubjectFilters',
     );
     cy.apiroute(
@@ -85,7 +85,7 @@ describe('Topic editing', () => {
     });
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/filters`,
+      `/taxonomy/v1/topics/${selectTopic}/filters?includeMetadata=true`,
       'topicFilters',
     );
 

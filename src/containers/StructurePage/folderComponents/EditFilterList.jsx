@@ -107,7 +107,7 @@ const EditFilterList = ({
                   toggleVisibility(filter.id, !filter.metadata?.visible)
                 }
                 checked={filter.metadata?.visible || true}
-                label="Synlighet"
+                label=""
                 id={'visible'}
               />
             )}

@@ -8,24 +8,17 @@
 
 import React from 'react';
 import CodeBlock from './CodeBlock';
-import { Block } from 'slate';
-import { defaultBlocks, textBlockValidationRules } from '../../utils';
-
-const { defaultCodeBlock } = defaultBlocks;
+import { defaultBlocks } from '../../utils';
 
 export const TYPE = 'code-block';
 
-export const defaultCodeBlockBlock = () =>
-  // TODO: bedre nav
-  Block.create({
-    type: 'code-block',
-    nodes: Block.createList([defaultCodeBlock]),
-  });
-
-export default function codeBlockPlugin() {
+export default () => {
   const schema = {
+    document: {},
     blocks: {
-      codeBlock: textBlockValidationRules,
+      codeBlock: {
+        data: {},
+      },
     },
   };
 
@@ -43,4 +36,4 @@ export default function codeBlockPlugin() {
     schema,
     renderBlock,
   };
-}
+};

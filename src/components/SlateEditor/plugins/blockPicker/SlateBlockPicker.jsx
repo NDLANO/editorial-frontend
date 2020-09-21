@@ -14,12 +14,15 @@ import { Portal } from '../../../Portal';
 import { defaultBlocks, checkSelectionForType } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
 import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
-import { defaultCodeBlockBlock } from '../codeBlock';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
 import { getLocaleObject } from '../../../../i18n';
 
-const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
+const {
+  defaultAsideBlock,
+  defaultRelatedBlock,
+  defaultCodeBlock,
+} = defaultBlocks;
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -100,7 +103,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'code-block': {
-        this.onInsertBlock(defaultCodeBlockBlock());
+        this.onInsertBlock(defaultCodeBlock());
         break;
       }
       default:

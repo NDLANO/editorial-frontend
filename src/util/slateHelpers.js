@@ -33,6 +33,7 @@ const BLOCK_TAGS = {
 
 export const INLINE_TAGS = {
   span: 'span',
+  //  code: 'code',
 };
 
 export const TABLE_TAGS = {
@@ -46,9 +47,9 @@ export const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
   u: 'underlined',
-  code: 'code',
   sup: 'sup',
   sub: 'sub',
+  code: 'code',
 };
 
 const ListText = ({ children }) => children;
@@ -275,7 +276,6 @@ export const unorderListRules = {
 export const mathRules = {
   deserialize(el) {
     const tagName = el.tagName.toLowerCase();
-    console.log('test inni deserialize mathRules', tagName);
     if (tagName !== 'math') return;
     console.log('hva er el:', el);
     return {
@@ -329,7 +329,7 @@ export const codeBlockRule = {
     };
   },
   serialize(slateObject) {
-    // TODO lagre som <pre model=...
+    // TODO lagre som <embed data-code-format, data-code-content, data-resouce='code-block'...
     const { type } = slateObject;
 
     if (type !== 'code-block') return;

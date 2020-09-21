@@ -15,7 +15,7 @@ import { hasNodeOfType } from '../../utils';
 import { listTypes } from '../externalPlugins';
 
 const topicArticleElements = {
-  mark: ['bold', 'italic', 'code'],
+  mark: ['bold', 'italic'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link'],
 };
@@ -24,7 +24,7 @@ const DEFAULT_NODE = 'paragraph';
 
 const learningResourceElements = {
   mark: ['bold', 'italic', 'code'],
-  block: ['quote', ...listTypes, 'heading-two', 'heading-three', 'code-block'],
+  block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link', 'footnote', 'mathml', 'concept'],
 };
 

@@ -77,7 +77,7 @@ const actions = [
   {
     data: { type: 'code-block', object: 'code' },
     icon: <Code />,
-    helpIcon: renderArticleInModal('Code'),
+    helpIcon: renderArticleInModal('CodeBlock'),
   },
 ];
 

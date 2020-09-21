@@ -28,12 +28,10 @@ const BLOCK_TAGS = {
   h5: 'heading-three',
   h6: 'heading-three',
   summary: 'summary',
-  // codeBlock: 'code-block'
 };
 
 export const INLINE_TAGS = {
   span: 'span',
-  //  code: 'code',
 };
 
 export const TABLE_TAGS = {

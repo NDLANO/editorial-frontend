@@ -40,6 +40,12 @@ const StyledLink = styled(Link)`
   box-shadow: inset 0 0px;
 `;
 
+const StyledSwitch = styled(Switch)`
+  height: 18px;
+  top: 4px;
+  display: flex;
+`;
+
 const EditFilterList = ({
   filters,
   editMode,
@@ -101,15 +107,17 @@ const EditFilterList = ({
               </Tooltip>
             </Button>
             {filter.metadata && (
-              <Switch
-                stripped
-                onChange={() =>
-                  toggleVisibility(filter.id, !filter.metadata?.visible)
-                }
-                checked={filter.metadata?.visible || true}
-                label=""
-                id={'visible'}
-              />
+              <Tooltip tooltip={t('metadata.changeVisibility')}>
+                <StyledSwitch
+                  stripped
+                  onChange={() =>
+                    toggleVisibility(filter.id, !filter.metadata?.visible)
+                  }
+                  checked={filter.metadata?.visible || true}
+                  label=""
+                  id={'visible'}
+                />
+              </Tooltip>
             )}
           </div>
         </StyledFilterItem>

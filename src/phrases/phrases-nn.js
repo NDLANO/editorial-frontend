@@ -921,7 +921,6 @@ const phrases = {
       changeName: 'Endre namn',
       changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',
-      editSubjectpage: 'Rediger fagforside',
       missingTitle: '[Mangler filnamn]',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',

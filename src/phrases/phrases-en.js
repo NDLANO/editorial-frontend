@@ -905,7 +905,6 @@ const phrases = {
       changeName: 'Change name',
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
-      editSubjectpage: 'Edit subjectpage',
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This files does not seem to exist on the server. It might have been deleted from another article.',

@@ -79,35 +79,41 @@ const SlateAudio: React.FC<Props> = ({
   };
 
   return (
-    <Figure id={`${audio.id}`} draggable="true" {...attributes}>
-      {editMode ? (
-        <EditAudio
-          audio={audio}
-          changes={changes}
-          embed={embed}
-          language={language}
-          onExit={toggleEdit}
-          onChange={onFigureInputChange}
-          onAudioFigureInputChange={onAudioFigureInputChange}
-          onRemoveClick={onRemoveClick}
-          speech={speech}
-          submitted={submitted}
-          type={embed.type || 'standard'}
-        />
-      ) : (
-        <div
-          role="button"
-          draggable
-          className="c-placeholder-editmode"
-          tabIndex={0}
-          onKeyPress={toggleEdit}
-          onClick={toggleEdit}>
-          {audio.id && (
-            <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
-          )}
-        </div>
-      )}
-    </Figure>
+    <div draggable {...attributes}>
+      <Figure id={`${audio.id}`}>
+        {editMode ? (
+          <EditAudio
+            audio={audio}
+            changes={changes}
+            embed={embed}
+            language={language}
+            onExit={toggleEdit}
+            onChange={onFigureInputChange}
+            onAudioFigureInputChange={onAudioFigureInputChange}
+            onRemoveClick={onRemoveClick}
+            speech={speech}
+            submitted={submitted}
+            type={embed.type || 'standard'}
+          />
+        ) : (
+          <div
+            role="button"
+            draggable
+            className="c-placeholder-editmode"
+            tabIndex={0}
+            onKeyPress={toggleEdit}
+            onClick={toggleEdit}>
+            {audio.id && (
+              <AudioPlayerMounter
+                audio={audio}
+                locale={locale}
+                speech={speech}
+              />
+            )}
+          </div>
+        )}
+      </Figure>
+    </div>
   );
 };
 

@@ -914,6 +914,10 @@ const phrases = {
       label: 'Article',
       add: 'Add article',
     },
+    layout: {
+      title: 'Layout',
+      label: 'Interdisiplinary topics',
+    },
   },
   validation: {
     isRequired: '{label} is required.',

@@ -11,6 +11,7 @@ import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { TranslateType, FormikProperties } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
+import SubjectpageLayoutPicker from './SubjectpageLayoutPicker';
 
 interface Props {
   t: TranslateType;
@@ -40,6 +41,18 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
               field={field}
               form={form}
               title={t('form.name.desktopBanner')}
+            />
+          );
+        }}
+      </FormikField>
+      <FormikField name="layout">
+        {({ field, form }: FormikProperties) => {
+          return (
+            <SubjectpageLayoutPicker
+              value={field.value}
+              setFieldValue={form.setFieldValue}
+              title={t('form.layout.title')}
+              label={t('form.layout.label')}
             />
           );
         }}

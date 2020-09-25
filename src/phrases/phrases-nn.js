@@ -930,6 +930,10 @@ const phrases = {
       label: 'Artikkel',
       add: 'Legg til artikkel',
     },
+    layout: {
+      title: 'Layout',
+      label: 'Tverrfaglege temaer',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

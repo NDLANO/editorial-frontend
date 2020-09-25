@@ -139,20 +139,27 @@ export interface ArticleType {
   grepCodes: string[];
 }
 
-export interface Topic {
-  contentUri: string;
+export interface TaxonomyMetadata {
+  grepCodes: string[];
+  visible: boolean;
+}
+
+export interface TaxonomyElement {
   id: string;
   name: string;
+  metadata?: TaxonomyMetadata;
+}
+
+export interface Topic extends TaxonomyElement {
+  contentUri: string;
   path: string;
   paths: string[];
 }
 
-export interface Resource {
+export interface Resource extends TaxonomyElement {
   connectionId: string;
   contentUri?: string;
-  id: string;
   isPrimary: boolean;
-  name: string;
   path: string;
   paths: string[];
   rank: number;

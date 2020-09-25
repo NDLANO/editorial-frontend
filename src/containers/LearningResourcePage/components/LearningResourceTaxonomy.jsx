@@ -19,6 +19,7 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   fetchTopicConnections,
+  fetchResourceMetadata,
   updateTaxonomy,
   getFullResource,
   createResource,
@@ -36,11 +37,13 @@ import FilterConnections from '../../../components/Taxonomy/filter/FilterConnect
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
+import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 
 const emptyTaxonomy = {
   resourceTypes: [],
   filter: [],
   topics: [],
+  metadata: undefined,
 };
 
 class LearningResourceTaxonomy extends Component {
@@ -297,10 +300,13 @@ class LearningResourceTaxonomy extends Component {
       ...topic,
     }));
 
+    const metadata = await fetchResourceMetadata(resourceId);
+
     return {
       resourceTypes,
       filter: filters,
       topics: topicsWithConnections,
+      metadata,
     };
   };
 
@@ -373,6 +379,14 @@ class LearningResourceTaxonomy extends Component {
     });
   };
 
+  updateMetadata = visible => {
+    const metadata = this.state.resourceTaxonomy.metadata;
+    metadata.visible = visible;
+    /*this.stageTaxonomyChanges({
+      metadata: metadata,
+    });*/
+  };
+
   onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
@@ -387,7 +401,8 @@ class LearningResourceTaxonomy extends Component {
   render() {
     const {
       taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
-      taxonomyChanges: { resourceTypes, topics, filter },
+      taxonomyChanges: { resourceTypes, topics, filter, metadata },
+      resourceId,
       structure,
       status,
       isDirty,
@@ -430,6 +445,10 @@ class LearningResourceTaxonomy extends Component {
 
     return (
       <Fragment>
+        <TaxonomyInfo
+          taxonomyElement={{ id: resourceId, metadata: metadata }}
+          updateMetadata={this.updateMetadata}
+        />
         <ResourceTypeSelect
           availableResourceTypes={availableResourceTypes}
           resourceTypes={resourceTypes}

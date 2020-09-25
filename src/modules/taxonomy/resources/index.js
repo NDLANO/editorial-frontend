@@ -54,6 +54,12 @@ export function fetchResourceFilter(id, language) {
   );
 }
 
+export function fetchResourceMetadata(id) {
+  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 export function addFilterToResource({
   filterId,
   relevanceId = 'urn:relevance:core',

@@ -1008,6 +1008,10 @@ const phrases = {
       done: 'Resources published',
       error: 'The following resources were not published:',
     },
+    info: {
+      title: 'Information',
+      subTitle: 'Information and visibility for the element',
+    },
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',

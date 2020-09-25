@@ -156,18 +156,18 @@ const StyledFilterCheckBox = styled('button')`
   padding: ${spacing.xsmall};
   color: ${colors.text.primary};
   ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
-  > span:first-child {
+  > span:first-of-type {
     ${checkboxItemStyle};
     margin-right: ${spacing.small};
   }
   &:hover,
   &:focus {
-    > span:first-child {
+    > span:first-of-type {
       ${checkboxItemHoverStyle};
     }
   }
   &.checkboxItem--checked {
-    > span:first-child {
+    > span:first-of-type {
       ${checkboxItemSelectedStyle};
     }
   }

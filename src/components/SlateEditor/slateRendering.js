@@ -73,7 +73,11 @@ export const renderMark = (props, editor, next) => {
     case 'sub':
       return <sub>{children}</sub>;
     case 'code':
-      return <code>{children}</code>; // TODO: ikke inline
+      return (
+        <code className="c-inline__code" {...attributes}>
+          {children}
+        </code>
+      );
     default:
       return next();
   }

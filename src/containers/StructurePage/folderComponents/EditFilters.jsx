@@ -77,9 +77,12 @@ class EditFilters extends React.Component {
     }
   }
 
-  async toggleVisibility(id, visible) {
+  async toggleVisibility(id, metadata) {
     try {
-      await updateFilterMetadata(id, { visible: !visible });
+      await updateFilterMetadata(id, {
+        ...metadata,
+        visible: !metadata.visible,
+      });
       this.props.getFilters();
     } catch (e) {
       handleError(e);

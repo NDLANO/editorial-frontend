@@ -71,9 +71,7 @@ const EditFilterList = ({
           onSubmit={e => editFilter(filter.id, e, filter.contentUri)}
         />
       ) : (
-        <StyledFilterItem
-          key={filter.id}
-          isVisible={filter.metadata?.visible || true}>
+        <StyledFilterItem key={filter.id} isVisible={filter.metadata?.visible}>
           {filter.name}
           <div style={{ display: 'flex' }}>
             <Button
@@ -110,12 +108,10 @@ const EditFilterList = ({
               <Tooltip tooltip={t('metadata.changeVisibility')}>
                 <StyledSwitch
                   stripped
-                  onChange={() =>
-                    toggleVisibility(filter.id, !filter.metadata?.visible)
-                  }
-                  checked={filter.metadata?.visible || true}
+                  onChange={() => toggleVisibility(filter.id, filter.metadata)}
+                  checked={filter.metadata?.visible}
                   label=""
-                  id={'visible'}
+                  id={filter.id}
                 />
               </Tooltip>
             )}

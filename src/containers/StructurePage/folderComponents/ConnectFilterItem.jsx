@@ -24,12 +24,12 @@ const ConnectFilterItem = ({ id, name, metadata, inputValues, onChange }) => {
       : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
     <StyledFilterItem>
-      <StyledLabel isVisible={metadata?.visible || true}>
+      <StyledLabel isVisible={metadata?.visible}>
         <StyledCheckbox
           type="checkbox"
           data-testid="connectFilterItem"
           name={`${id}-active`}
-          checked={inputValues.active || true}
+          checked={inputValues.active || false}
           onChange={() => onChange({ active: !inputValues.active })}
         />
         {name}

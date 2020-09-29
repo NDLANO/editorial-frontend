@@ -110,7 +110,7 @@ export function deleteFilter(id) {
 }
 
 export function updateFilterMetadata(id, body) {
-  return fetchAuthorized(`${baseUrl}/filter/${id}/metadata`, {
+  return fetchAuthorized(`${baseUrl}/filters/${id}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),

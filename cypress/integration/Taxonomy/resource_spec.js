@@ -13,26 +13,18 @@ describe('Resource listing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
+    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects?includeMetadata=true&language=nb',
-      'allSubjects',
-    );
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?includeMetadata=true&recursive=true&language=nb',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters?includeMetadata=true',
+      '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/filters/?includeMetadata=true&language=nb',
-      'allFilters',
-    );
+    cy.apiroute('GET', '/taxonomy/v1/filters/?language=nb', 'allFilters');
     cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
@@ -40,7 +32,7 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb&includeMetadata=true',
+      '/taxonomy/v1/topics/**/resources/?language=nb',
       'coreResources',
     );
     cy.apiroute(
@@ -77,17 +69,17 @@ describe('Resource listing', () => {
   it('should open filter picker and have functioning buttons', () => {
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/resources/urn:resource:1:167902/filters?includeMetadata=true&language=nb',
+      '/taxonomy/v1/resources/urn:resource:1:167841/filters?language=nb',
       'resourceFilters',
     );
 
     cy.get(`[data-testid="openFilterPicker-${coreResources[0].id}"]`).click();
     cy.apiwait('@resourceFilters');
     cy.get(
-      '[data-testid="useFilterCheckbox-urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce"]',
+      '[data-testid="useFilterCheckbox-urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29"]',
     ).click();
     cy.get(
-      '[data-testid="selectCoreRelevance-urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce"]',
+      '[data-testid="selectCoreRelevance-urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29"]',
     ).click();
   });
 });

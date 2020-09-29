@@ -44,8 +44,10 @@ class EditFilters extends React.Component {
 
   async updateFilter(id, name, contentUri) {
     try {
-      await updateSubjectFilter(id, name, contentUri, this.props.id);
-      this.props.getFilters();
+      if (name && name.trim() !== '') {
+        await updateSubjectFilter(id, name, contentUri, this.props.id);
+        this.props.getFilters();
+      }
     } catch (e) {
       handleError(e);
       this.setState({ error: e.message });

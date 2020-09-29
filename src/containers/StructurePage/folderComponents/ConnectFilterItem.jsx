@@ -60,9 +60,9 @@ const StyledLabel = styled('label')`
   display: flex;
   margin: calc(${spacing.small} / 2);
   align-items: center;
-  font-style: ${props => !props.isVisible && 'italic'};
+  font-style: ${props => props && !props.isVisible && 'italic'};
   color: ${props =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+    props && !props.isVisible ? colors.brand.grey : colors.brand.primary};
 `;
 
 const StyledCheckbox = styled('input')`

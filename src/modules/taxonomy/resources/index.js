@@ -48,10 +48,10 @@ export function fetchResourceResourceType(id, language) {
 }
 
 export function fetchResourceFilter(id, language) {
-  const lang = language ? `&language=${language}` : '';
-  return fetchAuthorized(
-    `${baseUrl}/resources/${id}/filters?includeMetadata=true${lang}`,
-  ).then(resolveJsonOrRejectWithError);
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/resources/${id}/filters${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 export function addFilterToResource({
@@ -125,7 +125,7 @@ export function queryResources(contentId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
-    )}&includeMetadata=true&language=${language}`,
+    )}&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -133,7 +133,7 @@ export function queryTopics(contentId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/topics/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
-    )}&includeMetadata=true&language=${language}`,
+    )}&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

@@ -61,7 +61,7 @@ beforeEach(() => {
     .reply(200, resourceTypesMock);
 
   nock('http://ndla-api')
-    .get('/taxonomy/v1/subjects?includeMetadata=true&language=nb')
+    .get('/taxonomy/v1/subjects?language=nb')
     .reply(200, subjectsMock);
 });
 
@@ -69,7 +69,7 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
   nock('http://ndla-api')
     .persist()
     .get(
-      `/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?includeMetadata=true&recursive=true&language=nb`,
+      `/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true&language=nb`,
     )
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
@@ -78,19 +78,17 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
   nock('http://ndla-api')
     .persist()
     .get(
-      '/taxonomy/v1/topics/urn:topic:1:172650/resources?includeMetadata=true&language=nb&relevance=urn:relevance:core&filter=',
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources?language=nb&relevance=urn:relevance:core&filter=',
     )
     .reply(200, []);
   nock('http://ndla-api')
     .persist()
-    .get(
-      `/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?includeMetadata=true&recursive=true`,
-    )
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true`)
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
     .persist()
     .get(
-      '/taxonomy/v1/topics/urn:topic:1:172650/resources?includeMetadata=true&language=nb&relevance=urn:relevance:supplementary&filter=',
+      '/taxonomy/v1/topics/urn:topic:1:172650/resources?language=nb&relevance=urn:relevance:supplementary&filter=',
     )
     .reply(200, []);
   nock('http://ndla-api')

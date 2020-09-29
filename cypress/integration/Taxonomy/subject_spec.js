@@ -22,19 +22,15 @@ describe('Subject editing', () => {
       },
     });
 
+    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects?includeMetadata=true&language=nb',
-      'allSubjects',
-    );
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?includeMetadata=true&recursive=true&language=nb',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters?includeMetadata=true',
+      '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
     cy.route({
@@ -74,22 +70,18 @@ describe('Subject editing', () => {
     cy.route({
       method: 'PUT',
       url:
-        '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
+        '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
       status: 204,
       response: '',
     }).as('editFilter');
     cy.route({
       method: 'DELETE',
       url:
-        '/taxonomy/v1/filters/urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554ce',
+        '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
       response: '',
       status: 204,
     }).as('deleteFilter');
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/topics?includeMetadata=true&language=nb',
-      'allTopics',
-    );
+    cy.apiroute('GET', '/taxonomy/v1/topics?language=nb', 'allTopics');
     cy.route({
       method: 'POST',
       url: '/taxonomy/v1/topic-filters',

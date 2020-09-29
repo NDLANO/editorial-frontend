@@ -80,9 +80,9 @@ export async function createDeleteUpdateFilters(
 }
 
 export function fetchSubjectFilter(id, language) {
-  return fetchAuthorized(
-    `${baseUrl}/filters/${id}?includeMetadata=true&language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/filters/${id}?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 export function createSubjectFilter(id, name) {

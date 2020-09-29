@@ -12,19 +12,15 @@ describe('Test filter functionality', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
+    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects?includeMetadata=true&language=nb',
-      'allSubjects',
-    );
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?includeMetadata=true&recursive=true&language=nb',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters?includeMetadata=true',
+      '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
     cy.visit('/structure/urn:subject:12', visitOptions);
@@ -38,7 +34,7 @@ describe('Test filter functionality', () => {
       .click();
     cy.url().should(
       'contain',
-      'filters=urn:filter:d9bdcc01-b727-4b5a-abdb-3e4936e554',
+      'filters=urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
     );
   });
 });

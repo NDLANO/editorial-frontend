@@ -31,9 +31,9 @@ function fetchResourceTypes(language) {
 }
 
 function fetchFilters(language) {
-  return fetchAuthorized(
-    `${baseUrl}/filters/?includeMetadata=true&language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/filters/?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchRelevances(language) {

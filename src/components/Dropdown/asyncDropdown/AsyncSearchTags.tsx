@@ -46,7 +46,7 @@ const AsyncSearchTags = ({
   const [tags, setTags] = useState(initialTags || []);
 
   useEffect(() => {
-    setTags(initialTags);
+    setTags(initialTags || []);
   }, [initialTags]);
 
   const searchForTags = async (inp: string) => {
@@ -56,7 +56,7 @@ const AsyncSearchTags = ({
   };
 
   const updateField = (newData: string[]) => {
-    setTags(newData);
+    setTags(newData || []);
     form.setFieldTouched(field.name, true, true);
     form.setFieldValue(field.name, newData || null, true);
   };

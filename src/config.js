@@ -134,7 +134,7 @@ const config = {
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
-  zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
+  zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
 };
 
 export function getUniversalConfig() {

@@ -20,7 +20,7 @@ interface Props {
 }
 
 const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
-  const codeBlock = model; // TODO skal denne være model.innerHTMl?
+  const codeBlock = model;
 
   const [initialCodeBlock] = useState<any>(codeBlock ? codeBlock : emptyTag);
   const [renderCodeBlock, setRenderCodeBlock] = useState<any>(
@@ -30,7 +30,6 @@ const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
 
   const handleExit = () => {
     if (initialCodeBlock !== model) {
-      // TODO få tak i dataen som endrer seg
       setOpenDiscartModal(true);
     } else {
       onExit();
@@ -39,7 +38,6 @@ const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
 
   const handleCancelDiscard = () => {
     setOpenDiscartModal(false);
-    console.log(openDiscartModal);
   };
 
   const handleContinue = () => {

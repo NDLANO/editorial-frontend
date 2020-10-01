@@ -275,7 +275,6 @@ export const mathRules = {
   deserialize(el) {
     const tagName = el.tagName.toLowerCase();
     if (tagName !== 'math') return;
-    console.log('hva er el:', el);
     return {
       object: canParentElementContainBlock(el) ? 'block' : 'inline',
       type: 'mathml',
@@ -293,7 +292,6 @@ export const mathRules = {
     const { type, data } = slateObject;
     if (type !== 'mathml') return;
     const { innerHTML, ...mathAttributes } = data.toJS();
-    console.log('test:', innerHTML);
     return (
       <math
         {...mathAttributes}
@@ -306,21 +304,20 @@ export const mathRules = {
 };
 
 export const codeBlockRule = {
+  // TODO er noe her som ikke virker. format blir ikke lagret.
   deserialize(el) {
-    const tagName = el.tagName.toLowerCase();
-
-    if (tagName !== 'pre') return;
-
-    // const embed = reduceElementDataAttributes(el);
-    // if (embed.resource !== 'code-block') return;
+    if (!el.tagName.toLowerCase().startsWith('embed')) return;
+    const embed = reduceElementDataAttributes(el);
+    if (embed.resource !== 'code-block') return;
+    console.log('embed i deserialize: ', el, embed);
     return {
       object: 'block',
       type: 'code-block',
-      data: { ...reduceElementDataAttributes(el) },
+      data: { ...embed },
       nodes: [
         {
           object: 'text',
-          text: 'c', // TODO, hva er denne
+          text: embed['code-content'], // TODO, hva er denne
           marks: [],
         },
       ],
@@ -328,32 +325,19 @@ export const codeBlockRule = {
   },
   serialize(slateObject) {
     // TODO lagre som <embed data-code-format, data-code-content, data-resouce='code-block'...
-    const { type } = slateObject;
+    const { object, type } = slateObject;
 
+    if (object !== 'block') return;
     if (type !== 'code-block') return;
 
     const data = slateObject.data.toJS();
-    console.log('data i serialize: ', data.codeBlock, data?.codeBlock?.code);
     const props = createDataProps({
-      ...data,
-      content: data.codeBlock ? data.codeBlock.code : '',
-      format: data.codeBlock ? data.codeBlock.format : 'text',
+      resource: 'code-block',
+      'code-content': data?.codeBlock?.code,
+      'code-format': data?.codeBlock?.format,
     });
-
-    console.log('hva er props?? ', props);
-    return <pre {...props} />;
+    return <embed {...props} />;
   },
-  // const { type, data } = slateObject;
-  // if (type !== 'mathml') return;
-  // const { innerHTML, ...mathAttributes } = data.toJS();
-  // return (
-  //   <math
-  //     {...mathAttributes}
-  //     dangerouslySetInnerHTML={{
-  //       __html: innerHTML,
-  //     }}
-  //   />
-  // );
 };
 
 export const orderListRules = {

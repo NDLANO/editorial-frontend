@@ -1,13 +1,9 @@
 import React, { Component, createRef } from 'react';
-// import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
-import he from 'he';
 
-import { css } from '@emotion/core';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
 import { Codeblock } from '@ndla/ui';
+import { getTitleFromFormat } from '@ndla/editor';
 
 import MathMenu from '../mathml/MathMenu';
 import { Portal } from '../../../Portal';
@@ -18,11 +14,12 @@ import EditCodeBlock from './EditCodeBlock';
 const getInfoFromNode = node => {
   const data = node?.data ? node.data.toJS() : {};
   const codeBlock = data.codeBlock || node.text;
-  return {
+
+  return { // TODO fiks
     model: {
-      code: codeBlock?.code ? codeBlock.code : codeBlock,
-      title: codeBlock.title || 'Text',
-      format: codeBlock.format || 'text',
+      code: codeBlock.code || data['code-content'] || '',
+      title: codeBlock.title ? codeBlock.title : 'Text',
+      format: codeBlock.format || data['code-format'] || 'text',
     },
     isFirstEdit: data.codeBlock === undefined,
   };
@@ -31,8 +28,8 @@ const getInfoFromNode = node => {
 class CodeBlock extends Component {
   constructor(props) {
     super(props);
-    const { isFirstEdit } = getInfoFromNode(props.node);
-    this.state = { isFirstEdit, editMode: isFirstEdit, showMenu: false };
+    const { isFirstEdit, model } = getInfoFromNode(props.node);
+    this.state = { isFirstEdit, editMode: !model.code, showMenu: false };
     this.codeBlockRef = createRef();
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -64,7 +61,7 @@ class CodeBlock extends Component {
     this.setState(prevState => ({ showMenu: !prevState.showMenu }));
   }
 
-  handleSave(codeBlock) {
+  handleSave(codeBlock) { // TODO er det her noe ikke virker
     const { node, editor } = this.props;
     const properties = {
       data: { ...getSchemaEmbed(node), codeBlock: codeBlock },
@@ -81,7 +78,7 @@ class CodeBlock extends Component {
 
   handleUndo() {
     const { editor, node } = this.props;
-    editor.unwrapBlockByKey(node.key, 'code-block'); // TODO not working
+    editor.unwrapBlockByKey(node.key, 'code-block');
     editor.focus();
   }
 
@@ -107,7 +104,11 @@ class CodeBlock extends Component {
           onKeyPress={this.toggleMenu}
           tabIndex={0}
           role="button">
-          <Codeblock code={model.code} format={model.format} />
+          <Codeblock
+            code={model.code}
+            format={model.format}
+            title={getTitleFromFormat(model.format)}
+          />
 
           <Portal isOpened={showMenu}>
             <MathMenu

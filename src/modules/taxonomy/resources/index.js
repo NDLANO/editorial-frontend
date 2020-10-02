@@ -125,7 +125,7 @@ export function queryResources(contentId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
-    )}&includeMetadata=true&language=${language}`,
+    )}&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -133,7 +133,7 @@ export function queryTopics(contentId, language, contentType = 'article') {
   return fetchAuthorized(
     `${baseUrl}/topics/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
-    )}&includeMetadata=true&language=${language}`,
+    )}&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

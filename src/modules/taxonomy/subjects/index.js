@@ -15,20 +15,20 @@ import {
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchSubjects(locale) {
-  return fetchAuthorized(
-    `${baseUrl}/subjects?includeMetadata=true&language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchSubject(id, language) {
-  return fetchAuthorized(
-    `${baseUrl}/subjects/${id}?includeMetadata=true&language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/subjects/${id}?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchSubjectTopics(subject, language) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true&language=${language}`,
+    `${baseUrl}/subjects/${subject}/topics?recursive=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

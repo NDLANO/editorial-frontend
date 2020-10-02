@@ -16,6 +16,8 @@ import { Pencil } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
+import { colors } from '@ndla/core';
+import { Switch } from '@ndla/switch';
 import RoundIcon from '../../../components/RoundIcon';
 import MenuItemEditField from './menuOptions/MenuItemEditField';
 import MenuItemButton from './menuOptions/MenuItemButton';
@@ -26,6 +28,9 @@ import {
 import { getIdFromUrn } from '../../../util/subjectHelpers';
 
 const StyledFilterItem = styled('div')`
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.brand.primary};
   display: flex;
   justify-content: space-between;
   margin: calc(var(--spacing--small) / 2);
@@ -35,6 +40,12 @@ const StyledLink = styled(Link)`
   box-shadow: inset 0 0px;
 `;
 
+const StyledSwitch = styled(Switch)`
+  height: 18px;
+  top: 4px;
+  display: flex;
+`;
+
 const EditFilterList = ({
   filters,
   editMode,
@@ -42,6 +53,7 @@ const EditFilterList = ({
   setEditState,
   showDeleteWarning,
   editFilter,
+  toggleVisibility,
   locale,
   history,
 }) => (
@@ -59,7 +71,7 @@ const EditFilterList = ({
           onSubmit={e => editFilter(filter.id, e, filter.contentUri)}
         />
       ) : (
-        <StyledFilterItem key={filter.id}>
+        <StyledFilterItem key={filter.id} isVisible={filter.metadata?.visible}>
           {filter.name}
           <div style={{ display: 'flex' }}>
             <Button
@@ -92,6 +104,17 @@ const EditFilterList = ({
                 <RoundIcon small icon={<DeleteForever />} />
               </Tooltip>
             </Button>
+            {filter.metadata && (
+              <Tooltip tooltip={t('metadata.changeVisibility')}>
+                <StyledSwitch
+                  stripped
+                  onChange={() => toggleVisibility(filter.id, filter.metadata)}
+                  checked={filter.metadata?.visible}
+                  label=""
+                  id={filter.id}
+                />
+              </Tooltip>
+            )}
           </div>
         </StyledFilterItem>
       );
@@ -103,6 +126,7 @@ EditFilterList.propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
   editMode: PropTypes.string,
   setEditState: PropTypes.func,
+  toggleVisibility: PropTypes.func,
   showDeleteWarning: PropTypes.func,
   editFilter: PropTypes.func,
   locale: PropTypes.string,

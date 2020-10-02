@@ -20,6 +20,12 @@ interface Status {
   other: string[];
 }
 
+export interface CodeBlockType {
+  code: string;
+  title: string;
+  format: string;
+}
+
 export interface ResourceType {
   id: string;
   name: string;

@@ -1,15 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import EditCodeBlockModal from './EditCodeBlockModal';
+import { CodeBlockType } from '../../../../interfaces';
 
 const emptyTag = '<pre/>';
 let codeBlockEditor;
-
-interface CodeBlockType {
-  code: string;
-  title: string;
-  format: string;
-}
 
 interface Props {
   locale: string;

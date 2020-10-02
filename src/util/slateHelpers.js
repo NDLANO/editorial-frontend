@@ -309,7 +309,6 @@ export const codeBlockRule = {
     if (!el.tagName.toLowerCase().startsWith('embed')) return;
     const embed = reduceElementDataAttributes(el);
     if (embed.resource !== 'code-block') return;
-    console.log('embed i deserialize: ', el, embed);
     return {
       object: 'block',
       type: 'code-block',
@@ -324,17 +323,16 @@ export const codeBlockRule = {
     };
   },
   serialize(slateObject) {
-    // TODO lagre som <embed data-code-format, data-code-content, data-resouce='code-block'...
     const { object, type } = slateObject;
 
     if (object !== 'block') return;
     if (type !== 'code-block') return;
-
     const data = slateObject.data.toJS();
+
     const props = createDataProps({
       resource: 'code-block',
-      'code-content': data?.codeBlock?.code,
-      'code-format': data?.codeBlock?.format,
+      'code-content': data?.codeBlock?.code || data['code-content'],
+      'code-format': data?.codeBlock?.format || data['code-format'],
     });
     return <embed {...props} />;
   },

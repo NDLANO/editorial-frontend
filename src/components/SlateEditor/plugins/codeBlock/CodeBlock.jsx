@@ -15,7 +15,12 @@ const getInfoFromNode = node => {
   const data = node?.data ? node.data.toJS() : {};
   const codeBlock = data.codeBlock || node.text;
 
-  return { // TODO fiks
+  return {
+    // TODO er veldig usikker på denne, her har jeg basert meg på matte komponenten, se kommentar under
+    // Dataen kommer på to ulike formater.
+    // Frontend-packages forventer et Kode object med {code, title, format},
+    // men noen data-* attributter (data-format, data-content) er alt definert på embed (???),
+    // derfor lagres dataen som data-code-format og data-code-content i embed taggen
     model: {
       code: codeBlock.code || data['code-content'] || '',
       title: codeBlock.title ? codeBlock.title : 'Text',
@@ -61,7 +66,7 @@ class CodeBlock extends Component {
     this.setState(prevState => ({ showMenu: !prevState.showMenu }));
   }
 
-  handleSave(codeBlock) { // TODO er det her noe ikke virker
+  handleSave(codeBlock) {
     const { node, editor } = this.props;
     const properties = {
       data: { ...getSchemaEmbed(node), codeBlock: codeBlock },

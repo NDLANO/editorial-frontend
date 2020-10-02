@@ -13,13 +13,7 @@ import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { CodeBlockEditor } from '@ndla/editor';
 import AlertModal from '../../../AlertModal';
-import { TranslateType } from '../../../../interfaces';
-
-interface CodeBlockType {
-  code: string;
-  title: string;
-  format: string;
-}
+import { CodeBlockType, TranslateType } from '../../../../interfaces';
 
 interface Props {
   handleCancelDiscard: Function;

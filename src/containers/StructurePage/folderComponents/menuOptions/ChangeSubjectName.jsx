@@ -24,7 +24,7 @@ class ChangeSubjectName extends Component {
 
   async onChangeSubjectName(name) {
     const { id, contentUri, getAllSubjects, refreshTopics } = this.props;
-    if (name.trim() !== '') {
+    if (name && name.trim() !== '') {
       const ok = await updateSubject(id, name, contentUri);
       getAllSubjects();
       refreshTopics();

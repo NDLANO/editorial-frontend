@@ -9,8 +9,6 @@
 import React, { FC } from 'react';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
 import { CodeBlockEditor } from '@ndla/editor';
 import AlertModal from '../../../AlertModal';
 import { CodeBlockType, TranslateType } from '../../../../interfaces';
@@ -23,7 +21,6 @@ interface Props {
   handleSave: Function;
   model: CodeBlockType;
   openDiscardModal: boolean;
-  renderCodeBlock: string;
   t: TranslateType;
 }
 
@@ -35,7 +32,6 @@ const EditCodeBlockModal: FC<Props> = ({
   handleSave,
   model,
   openDiscardModal,
-  renderCodeBlock,
   t,
 }) => (
   <Modal

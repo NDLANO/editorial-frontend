@@ -8,7 +8,6 @@
 
 import React from 'react';
 import CodeBlock from './CodeBlock';
-import { defaultBlocks } from '../../utils';
 
 export const TYPE = 'code-block';
 

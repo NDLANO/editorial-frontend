@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import React, { FC, useState } from 'react';
 import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
 
@@ -15,7 +14,6 @@ const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
   const codeBlock = model;
 
   const [initialCodeBlock] = useState<any>(codeBlock);
-  const [renderCodeBlock, setRenderCodeBlock] = useState<any>(codeBlock);
   const [openDiscartModal, setOpenDiscartModal] = useState(false);
 
   const handleExit = () => {
@@ -40,7 +38,6 @@ const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
       handleContinue={handleContinue}
       handleExit={handleExit}
       openDiscardModal={openDiscartModal}
-      renderCodeBlock={renderCodeBlock}
       model={model}
       handleSave={handleSave}
     />

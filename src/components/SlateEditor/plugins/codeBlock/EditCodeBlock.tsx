@@ -3,9 +3,6 @@ import { injectT } from '@ndla/i18n';
 import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
 
-const emptyTag = '<pre/>';
-let codeBlockEditor;
-
 interface Props {
   locale: string;
   handleSave: Function;
@@ -17,10 +14,8 @@ interface Props {
 const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
   const codeBlock = model;
 
-  const [initialCodeBlock] = useState<any>(codeBlock ? codeBlock : emptyTag);
-  const [renderCodeBlock, setRenderCodeBlock] = useState<any>(
-    codeBlock ? codeBlock : emptyTag,
-  );
+  const [initialCodeBlock] = useState<any>(codeBlock);
+  const [renderCodeBlock, setRenderCodeBlock] = useState<any>(codeBlock);
   const [openDiscartModal, setOpenDiscartModal] = useState(false);
 
   const handleExit = () => {

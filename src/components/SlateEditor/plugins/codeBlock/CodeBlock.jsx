@@ -23,7 +23,10 @@ const getInfoFromNode = node => {
     // derfor lagres dataen som data-code-format og data-code-content i embed taggen
     model: {
       code: codeBlock.code || data['code-content'] || '',
-      title: codeBlock.title ? codeBlock.title : 'Text',
+      title:
+        codeBlock.title ||
+        getTitleFromFormat(codeBlock.format || data['code-format']) ||
+        'Text', // TODO tar gjerne i mot forslag for å forbedre denne
       format: codeBlock.format || data['code-format'] || 'text',
     },
     isFirstEdit: data.codeBlock === undefined,
@@ -112,7 +115,7 @@ class CodeBlock extends Component {
           <Codeblock
             code={model.code}
             format={model.format}
-            title={getTitleFromFormat(model.format)}
+            title={model.title}
           />
 
           <Portal isOpened={showMenu}>

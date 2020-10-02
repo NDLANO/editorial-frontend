@@ -41,7 +41,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'NRK', url: ['static.nrk.no'], height: '398px' },
   { name: 'Vimeo', url: ['vimeo.no', 'vimeopro.com'], height: '486px' },
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
-  { name: 'TED', url: ['ted.com'] },
+  { name: 'TED', url: ['ted.com', 'embed.ted.com'] },
   { name: 'TV2 Skole', url: ['www.tv2skole.no'], height: '431px' },
   { name: 'Khan Academy', url: ['nb.khanacademy.org'], height: '486px' },
   { name: 'Prezi', url: ['prezi.com'] },

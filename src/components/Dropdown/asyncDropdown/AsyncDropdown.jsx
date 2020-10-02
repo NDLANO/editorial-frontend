@@ -62,8 +62,8 @@ class AsyncDropDown extends React.Component {
     this.setState({ loading: true });
     const apiOutput = await apiAction(query);
     const items =
-      (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
-    const totalCount = apiOutput.totalCount || null;
+      (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
+    const totalCount = apiOutput?.totalCount || null;
     this.setState({
       totalCount: totalCount,
       items: items

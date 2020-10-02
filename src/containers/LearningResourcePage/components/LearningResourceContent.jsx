@@ -99,7 +99,7 @@ class LearningResourceContent extends Component {
     };
     this.plugins = [
       footnotePlugin(),
-      createEmbedPlugin(language),
+      createEmbedPlugin(language, props.locale),
       createBodyBoxPlugin(),
       createAsidePlugin(),
       createDetailsPlugin(),

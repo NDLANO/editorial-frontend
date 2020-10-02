@@ -1,10 +1,18 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
 import { isEmpty } from '../../../validators';
+import { TranslateType } from '../../../../interfaces';
 
 export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
@@ -13,7 +21,18 @@ export const StyledInputWrapper = styled.div`
   z-index: 20;
 `;
 
-function FigureInput({
+interface Props {
+  t: TranslateType;
+  caption: string;
+  alt: string;
+  submitted: boolean;
+  madeChanges: boolean;
+  onChange: Function;
+  onAbort: Function;
+  onSave: Function;
+}
+
+const FigureInput: React.FC<Props> = ({
   t,
   caption,
   alt,
@@ -22,7 +41,7 @@ function FigureInput({
   onChange,
   onAbort,
   onSave,
-}) {
+}) => {
   return (
     <StyledInputWrapper>
       {caption !== undefined && (
@@ -62,17 +81,6 @@ function FigureInput({
       </StyledButtonWrapper>
     </StyledInputWrapper>
   );
-}
-
-FigureInput.propTypes = {
-  caption: PropTypes.string,
-  alt: PropTypes.string,
-  submitted: PropTypes.bool,
-  isEmpty: PropTypes.func,
-  madeChanges: PropTypes.bool,
-  onChange: PropTypes.func,
-  onAbort: PropTypes.func,
-  onSave: PropTypes.func,
 };
 
 export default FigureInput;

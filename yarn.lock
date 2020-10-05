@@ -1696,13 +1696,13 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.7.16":
-  version "0.7.16"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.16.tgz#48f2d6552ca15996e9e183bae33712ebac14460c"
-  integrity sha512-dP2iqGV7vy3sTChgum6eUvbSagnD1irjmMoFt6gwgl6tovI6uXx+zfpUpAdCKk18j1uBMu/PZ/yNMU1cF276gA==
+"@ndla/editor@^0.7.20":
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.7.20.tgz#b13cd8d8e6ba6badb435abacbc2cfe8d26541faf"
+  integrity sha512-fpPIFs1Ut6XhvuRDhkbrcNVQraaiScUzIuyvAMwjqVEQS52IzabZJ1wF1meIuw0KCq6Mb9dkNpP4W2DtwQS+dQ==
   dependencies:
-    "@ndla/core" "^0.6.26"
-    "@ndla/icons" "^0.6.23"
+    "@ndla/core" "^0.6.27"
+    "@ndla/icons" "^0.6.24"
     "@types/react-beautiful-dnd" "^11.0.3"
     prismjs "^1.20.0"
     react-beautiful-dnd "^12.0.0"

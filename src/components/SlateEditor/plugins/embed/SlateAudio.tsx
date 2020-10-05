@@ -14,9 +14,16 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
+import FigureButtons from './FigureButtons';
+import {
+  Audio,
+  Embed,
+  FormikInputEvent,
+  TranslateType,
+} from '../../../../interfaces';
 
 interface Props {
+  t: TranslateType;
   attributes: {
     'data-key': String;
     'data-slate-object': String;
@@ -31,6 +38,7 @@ interface Props {
 }
 
 const SlateAudio: React.FC<Props> = ({
+  t,
   attributes,
   changes,
   embed,
@@ -81,6 +89,14 @@ const SlateAudio: React.FC<Props> = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
+        <FigureButtons
+          tooltip={t('form.audio.remove')}
+          onRemoveClick={onRemoveClick}
+          embed={embed}
+          t={t}
+          figureType="audio"
+          language={language}
+        />
         {editMode ? (
           <EditAudio
             audio={audio}

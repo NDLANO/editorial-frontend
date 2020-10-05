@@ -89,14 +89,6 @@ const SlateAudio: React.FC<Props> = ({
   return (
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
-        <FigureButtons
-          tooltip={t('form.audio.remove')}
-          onRemoveClick={onRemoveClick}
-          embed={embed}
-          t={t}
-          figureType="audio"
-          language={language}
-        />
         {editMode ? (
           <EditAudio
             audio={audio}
@@ -112,21 +104,31 @@ const SlateAudio: React.FC<Props> = ({
             type={embed.type || 'standard'}
           />
         ) : (
-          <div
-            role="button"
-            draggable
-            className="c-placeholder-editmode"
-            tabIndex={0}
-            onKeyPress={toggleEdit}
-            onClick={toggleEdit}>
-            {audio.id && (
-              <AudioPlayerMounter
-                audio={audio}
-                locale={locale}
-                speech={speech}
-              />
-            )}
-          </div>
+          <>
+            <FigureButtons
+              tooltip={t('form.audio.remove')}
+              onRemoveClick={onRemoveClick}
+              embed={embed}
+              t={t}
+              figureType="audio"
+              language={language}
+            />
+            <div
+              role="button"
+              draggable
+              className="c-placeholder-editmode"
+              tabIndex={0}
+              onKeyPress={toggleEdit}
+              onClick={toggleEdit}>
+              {audio.id && (
+                <AudioPlayerMounter
+                  audio={audio}
+                  locale={locale}
+                  speech={speech}
+                />
+              )}
+            </div>
+          </>
         )}
       </Figure>
     </div>

@@ -15,7 +15,7 @@ import EditMath from './EditMath';
 import MathML from './MathML';
 import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
-import MathMenu from './MathMenu';
+import BlockMenu from './BlockMenu';
 
 const getInfoFromNode = node => {
   const data = node.data ? node.data.toJS() : {};
@@ -109,7 +109,7 @@ class MathEditor extends Component {
             {...this.props}
           />
           <Portal isOpened={showMenu}>
-            <MathMenu
+            <BlockMenu
               top={top}
               left={left}
               t={t}

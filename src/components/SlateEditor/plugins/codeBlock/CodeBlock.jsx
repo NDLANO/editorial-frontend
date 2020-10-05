@@ -5,7 +5,7 @@ import { injectT } from '@ndla/i18n';
 import { Codeblock } from '@ndla/ui';
 import { getTitleFromFormat } from '@ndla/editor';
 
-import MathMenu from '../mathml/MathMenu';
+import BlockMenu from '../mathml/BlockMenu';
 import { Portal } from '../../../Portal';
 import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
@@ -106,7 +106,7 @@ class CodeBlock extends Component {
 
     return (
       <>
-        <span
+        <div
           ref={this.codeBlockRef}
           onClick={this.toggleMenu}
           onKeyPress={this.toggleMenu}
@@ -119,7 +119,7 @@ class CodeBlock extends Component {
           />
 
           <Portal isOpened={showMenu}>
-            <MathMenu
+            <BlockMenu
               top={top}
               left={left}
               t={t}
@@ -128,7 +128,7 @@ class CodeBlock extends Component {
               toggleMenu={this.toggleMenu}
             />
           </Portal>
-        </span>
+        </div>
 
         {editMode && (
           <EditCodeBlock

@@ -24,7 +24,7 @@ const buttonStyle = css`
   margin: 0 ${spacing.xsmall};
 `;
 
-class MathMenu extends PureComponent {
+class BlockMenu extends PureComponent {
   componentDidMount() {
     document.addEventListener('click', this.closeModal, false);
   }
@@ -55,7 +55,7 @@ class MathMenu extends PureComponent {
   }
 }
 
-MathMenu.propTypes = {
+BlockMenu.propTypes = {
   top: PropTypes.number,
   left: PropTypes.number,
   t: PropTypes.func,
@@ -64,4 +64,4 @@ MathMenu.propTypes = {
   handleRemove: PropTypes.func,
 };
 
-export default MathMenu;
+export default BlockMenu;

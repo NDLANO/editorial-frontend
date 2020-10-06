@@ -8,10 +8,10 @@
 
 import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 
 import formatDate from '../../../util/formatDate';
-import { ArticleType, TranslateType } from '../../../interfaces';
+import { ArticleType } from '../../../interfaces';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { classes } from '../WelcomePage';
@@ -19,10 +19,9 @@ import { classes } from '../WelcomePage';
 interface Props {
   articleId: number;
   locale: string;
-  t: TranslateType;
 }
 
-const LastUsedContent: FC<Props> = ({ articleId, locale, t }) => {
+const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
   const [article, setArticle] = useState<ArticleType>();
 
   const fetchArticle = async (articleId: number, locale: string) => {

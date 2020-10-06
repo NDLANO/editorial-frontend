@@ -6,17 +6,14 @@
  */
 
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import { TranslateType, FormikProperties } from '../../../interfaces';
+import { FormikProperties, VisualElement } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
-interface Props {
-  t: TranslateType;
-}
-
-const SubjectpageMetadata: FC<Props> = ({ t }) => {
+const SubjectpageMetadata: FC<object & tType> = ({ t }) => {
   return (
     <>
       <FormikField
@@ -34,7 +31,10 @@ const SubjectpageMetadata: FC<Props> = ({ t }) => {
         )}
       </FormikField>
       <FormikField name="desktopBanner">
-        {({ field, form }: FormikProperties) => {
+        {(
+          field: FieldProps<VisualElement>['field'],
+          form: FormikProperties['form'],
+        ) => {
           return (
             <SubjectpageBanner
               field={field}

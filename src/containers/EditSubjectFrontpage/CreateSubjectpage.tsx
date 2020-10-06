@@ -6,23 +6,22 @@
  */
 import { withRouter } from 'react-router';
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { SubjectpageEditType, TranslateType } from '../../interfaces';
+import { SubjectpageEditType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
 interface Props {
-  t: TranslateType;
   selectedLanguage: string;
   history: RouteComponentProps['history'];
   elementId: string;
   elementName: string;
 }
 
-const CreateSubjectpage: FC<RouteComponentProps & Props> = ({
+const CreateSubjectpage: FC<RouteComponentProps & Props & tType> = ({
   t,
   selectedLanguage,
   history,
@@ -46,13 +45,16 @@ const CreateSubjectpage: FC<RouteComponentProps & Props> = ({
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />
-      <SubjectpageForm
-        subjectpage={{ language: selectedLanguage, name: elementName }}
-        selectedLanguage={selectedLanguage}
-        updateSubjectpage={createSubjectpageAndPushRoute}
-        elementId={elementId}
-      />
+      <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />{' '}
+      {
+        <SubjectpageForm
+          subjectpage={{ language: selectedLanguage, name: elementName }}
+          selectedLanguage={selectedLanguage}
+          updateSubjectpage={createSubjectpageAndPushRoute}
+          elementId={elementId}
+          isNewlyCreated={false}
+        />
+      }
     </>
   );
 };

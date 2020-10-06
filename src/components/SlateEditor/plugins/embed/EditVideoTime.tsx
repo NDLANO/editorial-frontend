@@ -10,8 +10,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
-import { injectT } from '@ndla/i18n';
-import { TranslateType } from '../../../../interfaces';
+import { injectT, tType } from '@ndla/i18n';
 import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const StyledInputTimeWrapper = styled.div`
@@ -30,7 +29,6 @@ interface Props {
   name: string;
   src: string;
   onFigureInputChange: (e: Event) => void;
-  t: TranslateType;
   startTime: string;
   stopTime: string;
   setStartTime: (startTime: string) => void;
@@ -45,7 +43,7 @@ interface Event {
   };
 }
 
-const EditVideoTime = (props: Props) => {
+const EditVideoTime = (props: Props & tType) => {
   const {
     src,
     onFigureInputChange,

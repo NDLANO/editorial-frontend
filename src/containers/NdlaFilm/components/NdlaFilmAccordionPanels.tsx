@@ -10,14 +10,14 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import {
   AccordionProps,
   ContentResultType,
   FormikProperties,
-  TranslateType,
+  NdlaFilmThemesEditType,
 } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
@@ -31,12 +31,8 @@ interface Props {
 }
 
 interface ComponentProps extends Props {
-  t: TranslateType;
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
-  getInitialValues: Function;
-  setFieldTouched: boolean;
-  saveFilmFrontpage: Function;
 }
 
 interface PanelProps extends Props {
@@ -58,7 +54,10 @@ const panels = [
     errorFields: ['metaDescription', 'mobileBannerId'],
     component: ({ allMovies, onUpdateMovieList, loading }: PanelProps) => (
       <FormikField name={'slideShow'}>
-        {({ field, form }: FormikProperties) => (
+        {(
+          field: FieldProps<ContentResultType[]>['field'],
+          form: FormikProperties['form'],
+        ) => (
           <SlideshowEditor
             field={field}
             form={form}
@@ -82,7 +81,10 @@ const panels = [
       selectedLanguage,
     }: PanelProps) => (
       <FormikField name={'themes'}>
-        {({ field, form }: FormikProperties) => (
+        {(
+          field: FieldProps<NdlaFilmThemesEditType[]>['field'],
+          form: FormikProperties['form'],
+        ) => (
           <ThemeEditor
             field={field}
             form={form}
@@ -97,7 +99,7 @@ const panels = [
   },
 ];
 
-const SubjectpageAccordionPanels: FC<ComponentProps> = ({
+const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
   t,
   errors,
   allMovies,

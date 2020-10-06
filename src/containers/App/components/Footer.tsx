@@ -25,7 +25,7 @@ const StyledFooterWrapper = styled.div`
 
 interface Props {
   location: Location;
-  locale: string;
+  locale: 'nb' | 'nn' | 'en';
   t: TranslateType;
   showLocaleSelector?: boolean;
 }

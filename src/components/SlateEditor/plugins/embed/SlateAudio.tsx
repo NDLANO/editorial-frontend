@@ -105,14 +105,16 @@ const SlateAudio: React.FC<Props> = ({
           />
         ) : (
           <>
-            <FigureButtons
-              tooltip={t('form.audio.remove')}
-              onRemoveClick={onRemoveClick}
-              embed={embed}
-              t={t}
-              figureType="audio"
-              language={language}
-            />
+            {!speech && (
+              <FigureButtons
+                tooltip={t('form.audio.remove')}
+                onRemoveClick={onRemoveClick}
+                embed={embed}
+                t={t}
+                figureType="audio"
+                language={language}
+              />
+            )}
             <div
               role="button"
               draggable

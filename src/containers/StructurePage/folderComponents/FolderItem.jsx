@@ -67,7 +67,7 @@ const FolderItem = ({
   const type = id.includes('subject') ? 'subject' : 'topic';
 
   const showSubjectFilters = isOpen && type === 'subject';
-  const showTopicFilters = isOpen && type !== 'subject';
+  const showTopicFilters = type !== 'subject';
   const showJumpToResources = isMainActive && type === 'topic';
 
   const [showAlertModal, setShowAlertModal] = useState(false);

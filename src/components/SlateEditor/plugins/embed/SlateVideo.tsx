@@ -1,0 +1,136 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import React, { Fragment, useEffect, useState } from 'react';
+import Button from '@ndla/button';
+// @ts-ignore
+import { Figure } from '@ndla/ui';
+import FigureButtons from './FigureButtons';
+import EditVideo from './EditVideo';
+import {
+  getYoutubeEmbedUrl,
+  getStartTime,
+  getStopTime,
+} from '../../../../util/videoUtil';
+import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
+import { Embed, TranslateType } from '../../../../interfaces';
+
+const videoStyle = css`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+`;
+
+interface Props {
+  t: TranslateType;
+  attributes?: {
+    'data-key': string;
+    'data-slate-object': string;
+  };
+  changes?: { [x: string]: string };
+  embed: Embed;
+  figureClass: any;
+  language: string;
+  onFigureInputChange: Function;
+  onRemoveClick: Function;
+}
+
+const SlateVideo: React.FC<Props> = ({
+  t,
+  attributes,
+  changes,
+  embed,
+  figureClass,
+  language,
+  onFigureInputChange,
+  onRemoveClick,
+}) => {
+  const [editMode, setEditMode] = useState(false);
+  const [src, setSrc] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [stopTime, setStopTime] = useState('');
+
+  useEffect(() => {
+    const { resource, account, videoid, url, player = 'default' } = embed;
+    if (resource === 'brightcove') {
+      if (isBrightcoveUrl(url)) {
+        setSrc(url);
+      } else {
+        setSrc(
+          `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
+        );
+      }
+    } else {
+      const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);
+      setSrc(tempUrl);
+      setStartTime(getStartTime(url));
+      setStopTime(getStopTime(url));
+    }
+  }, []);
+
+  const toggleEditModus = () => {
+    setEditMode(!editMode);
+  };
+
+  return (
+    <div className="c-figure" draggable="true" {...attributes}>
+      <FigureButtons
+        tooltip={t('form.video.remove')}
+        onRemoveClick={onRemoveClick}
+        embed={embed}
+        figureType="video"
+        language={language}
+        t={t}
+      />
+      {editMode ? (
+        <EditVideo
+          t={t}
+          changes={changes}
+          embed={embed}
+          toggleEditModus={toggleEditModus}
+          figureClass={figureClass}
+          src={src}
+          startTime={startTime}
+          stopTime={stopTime}
+          setStartTime={setStartTime}
+          setStopTime={setStopTime}
+          onFigureInputChange={onFigureInputChange}
+        />
+      ) : (
+        <Fragment>
+          <Figure
+            draggable
+            style={{ paddingTop: '57%' }}
+            {...figureClass}
+            id={embed.videoid}
+            resizeIframe>
+            <iframe
+              title={`Video: ${embed.metaData ? embed.metaData?.name : ''}`}
+              frameBorder="0"
+              src={src}
+              allowFullScreen
+              css={videoStyle}
+            />
+          </Figure>
+          <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
+            <figcaption className="c-figure__caption">
+              <div className="c-figure__info">{embed.caption}</div>
+            </figcaption>
+          </Button>
+        </Fragment>
+      )}
+    </div>
+  );
+};
+
+export default SlateVideo;

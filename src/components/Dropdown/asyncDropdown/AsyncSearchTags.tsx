@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { injectT } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
 import { FormikHelpers, FieldInputProps } from 'formik';
@@ -45,6 +45,10 @@ const AsyncSearchTags = ({
 
   const [tags, setTags] = useState(initialTags || []);
 
+  useEffect(() => {
+    setTags(initialTags || []);
+  }, [initialTags]);
+
   const searchForTags = async (inp: string) => {
     const response = await fetchTags(inp, language);
     const tagsWithTitle = convertToTagsWithTitle(response.results);
@@ -52,7 +56,7 @@ const AsyncSearchTags = ({
   };
 
   const updateField = (newData: string[]) => {
-    setTags(newData);
+    setTags(newData || []);
     form.setFieldTouched(field.name, true, true);
     form.setFieldValue(field.name, newData || null, true);
   };

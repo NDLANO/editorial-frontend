@@ -30,10 +30,18 @@ interface Props {
   };
 }
 
+const getSubjectOrFilter = (elementId: string) => {
+  if (elementId.includes('subject')) {
+    return [elementId, undefined];
+  }
+  return [undefined, elementId];
+};
+
 const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
   const [articles, setArticles] = useState<ArticleType[]>(
     values.editorsChoices,
   );
+  const [subjectId, filterId] = getSubjectOrFilter(values.elementId);
 
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
@@ -92,7 +100,8 @@ const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
-        subjectId={values.subjectId}
+        subjectId={subjectId}
+        filterId={filterId}
         clearInputField
       />
     </>

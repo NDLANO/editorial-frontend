@@ -7,19 +7,43 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { DeleteForever } from '@ndla/icons/editor';
+import { Home } from '@ndla/icons/common';
 import { Pencil } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
-import { DeleteForever } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+import { colors } from '@ndla/core';
+import { Switch } from '@ndla/switch';
 import RoundIcon from '../../../components/RoundIcon';
 import MenuItemEditField from './menuOptions/MenuItemEditField';
+import MenuItemButton from './menuOptions/MenuItemButton';
+import {
+  toEditSubjectpage,
+  toCreateSubjectpage,
+} from '../../../util/routeHelpers';
+import { getIdFromUrn } from '../../../util/subjectHelpers';
 
 const StyledFilterItem = styled('div')`
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.brand.primary};
   display: flex;
   justify-content: space-between;
   margin: calc(var(--spacing--small) / 2);
+`;
+
+const StyledLink = styled(Link)`
+  box-shadow: inset 0 0px;
+`;
+
+const StyledSwitch = styled(Switch)`
+  height: 18px;
+  top: 4px;
+  display: flex;
 `;
 
 const EditFilterList = ({
@@ -29,37 +53,72 @@ const EditFilterList = ({
   setEditState,
   showDeleteWarning,
   editFilter,
+  toggleVisibility,
+  locale,
+  history,
 }) => (
   <React.Fragment>
-    {filters.map(filter =>
-      editMode === filter.id ? (
+    {filters.map(filter => {
+      const link = filter?.contentUri
+        ? toEditSubjectpage(filter.id, locale, getIdFromUrn(filter.contentUri))
+        : toCreateSubjectpage(filter.id, locale);
+      return editMode === filter.id ? (
         <MenuItemEditField
           key={filter.id}
           messages={{ errorMessage: t('taxonomy.errorMessage') }}
           currentVal={filter.name}
           onClose={() => setEditState('')}
-          onSubmit={e => editFilter(filter.id, e)}
+          onSubmit={e => editFilter(filter.id, e, filter.contentUri)}
         />
       ) : (
-        <StyledFilterItem key={filter.id}>
+        <StyledFilterItem key={filter.id} isVisible={filter.metadata?.visible}>
           {filter.name}
           <div style={{ display: 'flex' }}>
             <Button
               stripped
               data-testid={`editFilter${filter.id}`}
               onClick={() => setEditState(filter.id)}>
-              <RoundIcon small icon={<Pencil />} />
+              <Tooltip tooltip={t('taxonomy.editFilterName')}>
+                <RoundIcon small icon={<Pencil />} />
+              </Tooltip>
             </Button>
+            <StyledLink
+              className={'link'}
+              to={{
+                pathname: link,
+                state: {
+                  elementName: filter?.name,
+                },
+              }}>
+              <MenuItemButton stripped>
+                <Tooltip tooltip={t('taxonomy.editSubjectpage')}>
+                  <RoundIcon small icon={<Home />} />
+                </Tooltip>
+              </MenuItemButton>
+            </StyledLink>
             <Button
               stripped
               data-testid="deleteFilter"
               onClick={() => showDeleteWarning(filter.id)}>
-              <RoundIcon small icon={<DeleteForever />} />
+              <Tooltip tooltip={t('taxonomy.deleteFilter')}>
+                <RoundIcon small icon={<DeleteForever />} />
+              </Tooltip>
             </Button>
+            {filter.metadata && (
+              <Tooltip tooltip={t('metadata.changeVisibility')}>
+                <StyledSwitch
+                  stripped
+                  onChange={() => toggleVisibility(filter.id, filter.metadata)}
+                  checked={filter.metadata?.visible}
+                  label=""
+                  id={filter.id}
+                />
+              </Tooltip>
+            )}
           </div>
         </StyledFilterItem>
-      ),
-    )}
+      );
+    })}
   </React.Fragment>
 );
 
@@ -67,8 +126,11 @@ EditFilterList.propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object),
   editMode: PropTypes.string,
   setEditState: PropTypes.func,
+  toggleVisibility: PropTypes.func,
   showDeleteWarning: PropTypes.func,
   editFilter: PropTypes.func,
+  locale: PropTypes.string,
+  history: PropTypes.shape({ push: PropTypes.func }),
 };
 
 export default injectT(EditFilterList);

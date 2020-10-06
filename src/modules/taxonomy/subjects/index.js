@@ -15,20 +15,20 @@ import {
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchSubjects(locale) {
-  return fetchAuthorized(
-    `${baseUrl}/subjects?includeMetadata=true&language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchSubject(id, language) {
-  return fetchAuthorized(
-    `${baseUrl}/subjects/${id}?includeMetadata=true&language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/subjects/${id}?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchSubjectTopics(subject, language) {
   return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?includeMetadata=true&recursive=true&language=${language}`,
+    `${baseUrl}/subjects/${subject}/topics?recursive=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -64,7 +64,7 @@ function updateSubjectTopic(connectionId, body) {
   }).then(res => resolveJsonOrRejectWithError(res, true));
 }
 
-function updateSubjectContentUri(id, name, contentUri) {
+function updateSubject(id, name, contentUri) {
   return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -108,5 +108,5 @@ export {
   updateSubjectTopic,
   updateSubjectMetadata,
   updateSubjectMetadataRecursive,
-  updateSubjectContentUri,
+  updateSubject,
 };

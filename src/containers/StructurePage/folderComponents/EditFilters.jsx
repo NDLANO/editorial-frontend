@@ -16,8 +16,9 @@ import handleError from '../../../util/handleError';
 import MenuItemEditField from './menuOptions/MenuItemEditField';
 import {
   createSubjectFilter,
-  editSubjectFilter,
+  updateSubjectFilter,
   deleteFilter,
+  updateFilterMetadata,
 } from '../../../modules/taxonomy';
 import AlertModal from '../../../components/AlertModal';
 import EditFilterList from './EditFilterList';
@@ -32,18 +33,21 @@ class EditFilters extends React.Component {
     this.addFilter = this.addFilter.bind(this);
     this.showDeleteWarning = this.showDeleteWarning.bind(this);
     this.deleteFilter = this.deleteFilter.bind(this);
-    this.editFilter = this.editFilter.bind(this);
+    this.updateFilter = this.updateFilter.bind(this);
     this.setEditMode = this.setEditMode.bind(this);
+    this.toggleVisibility = this.toggleVisibility.bind(this);
   }
 
   setEditMode(name) {
     this.setState({ editMode: name });
   }
 
-  async editFilter(id, name) {
+  async updateFilter(id, name, contentUri) {
     try {
-      await editSubjectFilter(id, this.props.id, name);
-      this.props.getFilters();
+      if (name && name.trim() !== '') {
+        await updateSubjectFilter(id, name, contentUri, this.props.id);
+        this.props.getFilters();
+      }
     } catch (e) {
       handleError(e);
       this.setState({ error: e.message });
@@ -75,8 +79,21 @@ class EditFilters extends React.Component {
     }
   }
 
+  async toggleVisibility(id, metadata) {
+    try {
+      await updateFilterMetadata(id, {
+        ...metadata,
+        visible: !metadata.visible,
+      });
+      this.props.getFilters();
+    } catch (e) {
+      handleError(e);
+      this.setState({ error: e.message });
+    }
+  }
+
   render() {
-    const { t, filters } = this.props;
+    const { t, filters, ...rest } = this.props;
     const { editMode, showDelete, error } = this.state;
 
     return (
@@ -86,7 +103,9 @@ class EditFilters extends React.Component {
           editMode={editMode}
           setEditState={this.setEditMode}
           showDeleteWarning={this.showDeleteWarning}
-          editFilter={this.editFilter}
+          editFilter={this.updateFilter}
+          toggleVisibility={this.toggleVisibility}
+          {...rest}
         />
         {editMode === 'addFilter' ? (
           <MenuItemEditField

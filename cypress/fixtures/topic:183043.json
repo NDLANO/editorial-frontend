@@ -3,5 +3,9 @@
   "name": "Administrasjon",
   "contentUri": "urn:article:15391",
   "path": null,
-  "paths": []
+  "paths": [],
+  "metadata": {
+    "grepCodes": [],
+    "visible": true
+  }
 }

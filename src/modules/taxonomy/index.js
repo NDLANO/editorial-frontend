@@ -40,10 +40,12 @@ export {
   createResourceFilter,
   updateResourceFilter,
   deleteResourceFilter,
-  createSubjectFilter,
+  fetchSubjectFilter,
   createDeleteUpdateFilters,
-  editSubjectFilter,
+  createSubjectFilter,
+  updateSubjectFilter,
   deleteFilter,
+  updateFilterMetadata,
 } from './filter';
 export {
   fetchAllTopicResource,
@@ -60,6 +62,7 @@ export {
   fetchSubjectTopics,
   addSubject,
   updateSubjectName,
+  updateSubject,
   fetchSubjectFilters,
   addSubjectTopic,
   updateSubjectTopic,

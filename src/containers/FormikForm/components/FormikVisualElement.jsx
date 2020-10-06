@@ -38,7 +38,20 @@ const FormikVisualElement = ({
   visualElementCaptionName,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
-  console.log(selectedResource)
+
+  let caption;
+  // if visualElementCaptionName is true, that means that it was sent from SubjectPageAbout (ndlaFilm or SubjectPage)
+  // and they don't use caption, only visualElementAlt, hence ternary in the else statement
+  if (
+    formik.values.visualElement.resource === 'image' &&
+    visualElementCaptionName
+  ) {
+    caption = undefined;
+  } else {
+    caption = visualElementCaptionName
+      ? formik.values.visualElementAlt
+      : formik.values.visualElementCaption;
+  }
   return (
     <Fragment>
       <FormikField name="visualElement">
@@ -54,10 +67,8 @@ const FormikVisualElement = ({
                 {...field}
                 value={{
                   ...field.value,
-                  caption: visualElementCaptionName
-                    ? `${formik.values.visualElementAlt}`
-                    : formik.values.visualElementCaption,
-                  alt: formik.values.visualElement.alt,
+                  caption: caption,
+                  alt: formik.values.visualElementAlt,
                   url: formik.values.visualElement.url,
                 }}
                 content={formik.values.content}

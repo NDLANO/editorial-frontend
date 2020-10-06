@@ -78,6 +78,7 @@ export class DisplayExternal extends Component {
             src,
             type: data.type,
             provider: data.providerName,
+            height: data.height || '486px',
           });
         } else {
           this.setState({ error: true });
@@ -115,7 +116,7 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, t } = this.props;
+    const { onRemoveClick, embed, t, language } = this.props;
     const {
       isEditMode,
       title,
@@ -162,6 +163,7 @@ export class DisplayExternal extends Component {
     return (
       <div className="c-figure">
         <FigureButtons
+          language={language}
           tooltip={t('form.external.remove', {
             type: providerName || t('form.external.title'),
           })}
@@ -214,6 +216,7 @@ DisplayExternal.propTypes = {
     height: PropTypes.string,
     resource: PropTypes.string,
   }),
+  language: PropTypes.string,
 };
 
 export default injectT(DisplayExternal);

@@ -190,11 +190,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
           role="tooltip"
           style={Object {}}
         >
-          
+          Fjern eksternt element
         </span>
       </div>
       <div
-        aria-label=""
+        aria-label="Fjern eksternt element"
         className=""
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
@@ -254,11 +254,11 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
           role="tooltip"
           style={Object {}}
         >
-          
+          Rediger eksternt element
         </span>
       </div>
       <div
-        aria-label=""
+        aria-label="Rediger eksternt element"
         className=""
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}

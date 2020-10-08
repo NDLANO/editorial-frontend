@@ -17,6 +17,7 @@ const connectSrc = (() => {
     'https://hlsak-a.akamaihd.net',
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
+    'https://static.zdassets.com',
     'https://*.boltdns.net',
     'https://www.google-analytics.com',
     'https://www.googleapis.com/customsearch/',
@@ -26,6 +27,8 @@ const connectSrc = (() => {
     'https://nynorsk.cloud',
     'https://data.udir.no',
     'https://cdn.jsdelivr.net',
+    'https://widget-mediator.zopim.com',
+    'wss://widget-mediator.zopim.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -89,6 +92,9 @@ const scriptSrc = (() => {
     'https://www.google-analytics.com',
     'https://tagmanager.google.com',
     'http://www.google-analytics.com',
+    'https://*.zendesk.com',
+    'https://static.zdassets.com',
+    'widget-mediator.zopim.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -207,6 +213,7 @@ export default {
       'https://www.google-analytics.com',
       'https://stats.g.doubleclick.net',
       'https://ndla.zendesk.com',
+      'https://edndla.zendesk.com',
       ' data:',
       'blob:',
       'https://www.wiris.net',
@@ -216,6 +223,7 @@ export default {
       'blob:',
       'http://api-gateway.ndla-local',
       'https://*.ndla.no',
+      'https://static.zdassets.com',
       '*.brightcove.com',
       'brightcove.com',
     ],

@@ -44,8 +44,6 @@ const gaTrackingId = () => {
   switch (ndlaEnvironment) {
     case 'prod':
       return 'UA-9036010-36';
-    case 'ff':
-      return 'UA-9036010-36';
     case 'staging':
       return 'UA-9036010-36';
     default:
@@ -70,8 +68,6 @@ const h5pApiUrl = () => {
       return 'https://h5p-test.ndla.no';
     case 'test':
       return 'https://h5p-test.ndla.no';
-    case 'ff':
-      return 'https://h5p-ff.ndla.no';
     case 'staging':
       return 'https://h5p-staging.ndla.no';
     default:
@@ -82,8 +78,6 @@ const h5pApiUrl = () => {
 export const getAuth0Hostname = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'prod':
-      return 'ndla.eu.auth0.com';
-    case 'ff':
       return 'ndla.eu.auth0.com';
     case 'staging':
       return 'ndla-staging.eu.auth0.com';
@@ -134,6 +128,7 @@ const config = {
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
+  zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
 };
 
 export function getUniversalConfig() {

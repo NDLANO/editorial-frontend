@@ -11,13 +11,13 @@ import { injectT } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { Switch } from '@ndla/switch';
 
 import {
   updateSubjectMetadata,
   updateTopicMetadata,
 } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
 
@@ -61,7 +61,7 @@ const ToggleVisibility: FC<Props> = ({
 }) => {
   const [visible, setVisible] = useState(metadata?.visible);
 
-  const updateMetadata = async (visible: boolean) => {
+  const toggleVisibility = async () => {
     switch (menuType) {
       case 'subject': {
         await updateSubjectMetadata(id, {
@@ -97,26 +97,24 @@ const ToggleVisibility: FC<Props> = ({
 
   useEffect(() => {}, [editMode]);
 
-  const ToggleMenu = visible ? (
+  const toggle = visible ? (
     <DropDownWrapper>
       {name} {t('metadata.visible')}
-      <ToggleSwitch
-        onClick={() => updateMetadata(visible)}
-        on={visible}
-        testId="toggleVisible"
-        offLabel=""
-        onLabel=""
+      <Switch
+        onChange={toggleVisibility}
+        checked={metadata?.visible}
+        label=""
+        id={'visible'}
       />
     </DropDownWrapper>
   ) : (
     <DropDownWrapper>
       {name} {t('metadata.notVisible')}
-      <ToggleSwitch
-        onClick={() => updateMetadata(visible)}
-        on={visible}
-        testId="toggleVisible"
-        offLabel=""
-        onLabel=""
+      <Switch
+        onChange={toggleVisibility}
+        checked={metadata?.visible}
+        label=""
+        id={'visible'}
       />
     </DropDownWrapper>
   );
@@ -130,7 +128,7 @@ const ToggleVisibility: FC<Props> = ({
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}
       </MenuItemButton>
-      {editMode === 'toggleMetadataVisibility' && ToggleMenu}
+      {editMode === 'toggleMetadataVisibility' && toggle}
     </>
   );
 };

@@ -154,7 +154,9 @@ const StyledFilterCheckBox = styled('button')`
   justify-content: center;
   text-align: left;
   padding: ${spacing.xsmall};
-  color: ${colors.text.primary};
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.text.primary};
   ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
   > span:first-child {
     ${checkboxItemStyle};
@@ -258,7 +260,9 @@ const StyledFilterButton = styled('button')`
   justify-content: center;
   text-align: left;
   padding: ${spacing.xsmall};
-  color: ${colors.brand.primary};
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.brand.primary};
   ${fonts.sizes(14, 1.2)} white-space: no-wrap;
   &:disabled {
     color: ${colors.brand.light};

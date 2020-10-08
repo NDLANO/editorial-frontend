@@ -14,9 +14,16 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
+import FigureButtons from './FigureButtons';
+import {
+  Audio,
+  Embed,
+  FormikInputEvent,
+  TranslateType,
+} from '../../../../interfaces';
 
 interface Props {
+  t: TranslateType;
   attributes: {
     'data-key': String;
     'data-slate-object': String;
@@ -31,6 +38,7 @@ interface Props {
 }
 
 const SlateAudio: React.FC<Props> = ({
+  t,
   attributes,
   changes,
   embed,
@@ -79,35 +87,53 @@ const SlateAudio: React.FC<Props> = ({
   };
 
   return (
-    <Figure id={`${audio.id}`} draggable="true" {...attributes}>
-      {editMode ? (
-        <EditAudio
-          audio={audio}
-          changes={changes}
-          embed={embed}
-          language={language}
-          onExit={toggleEdit}
-          onChange={onFigureInputChange}
-          onAudioFigureInputChange={onAudioFigureInputChange}
-          onRemoveClick={onRemoveClick}
-          speech={speech}
-          submitted={submitted}
-          type={embed.type || 'standard'}
-        />
-      ) : (
-        <div
-          role="button"
-          draggable
-          className="c-placeholder-editmode"
-          tabIndex={0}
-          onKeyPress={toggleEdit}
-          onClick={toggleEdit}>
-          {audio.id && (
-            <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />
-          )}
-        </div>
-      )}
-    </Figure>
+    <div draggable {...attributes}>
+      <Figure id={`${audio.id}`}>
+        {editMode ? (
+          <EditAudio
+            audio={audio}
+            changes={changes}
+            embed={embed}
+            language={language}
+            onExit={toggleEdit}
+            onChange={onFigureInputChange}
+            onAudioFigureInputChange={onAudioFigureInputChange}
+            onRemoveClick={onRemoveClick}
+            speech={speech}
+            submitted={submitted}
+            type={embed.type || 'standard'}
+          />
+        ) : (
+          <>
+            {!speech && (
+              <FigureButtons
+                tooltip={t('form.audio.remove')}
+                onRemoveClick={onRemoveClick}
+                embed={embed}
+                t={t}
+                figureType="audio"
+                language={language}
+              />
+            )}
+            <div
+              role="button"
+              draggable
+              className="c-placeholder-editmode"
+              tabIndex={0}
+              onKeyPress={toggleEdit}
+              onClick={toggleEdit}>
+              {audio.id && (
+                <AudioPlayerMounter
+                  audio={audio}
+                  locale={locale}
+                  speech={speech}
+                />
+              )}
+            </div>
+          </>
+        )}
+      </Figure>
+    </div>
   );
 };
 

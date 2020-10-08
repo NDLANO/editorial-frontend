@@ -108,3 +108,11 @@ export function deleteFilter(id) {
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
 }
+
+export function updateFilterMetadata(id, body) {
+  return fetchAuthorized(`${baseUrl}/filters/${id}/metadata`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(res => resolveJsonOrRejectWithError(res, true));
+}

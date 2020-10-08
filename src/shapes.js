@@ -254,6 +254,11 @@ export const HistoryShape = PropTypes.shape({
   replace: PropTypes.func.isRequired,
 });
 
+export const MetadataShape = PropTypes.shape({
+  grepCodes: PropTypes.arrayOf(PropTypes.string),
+  visible: PropTypes.bool,
+});
+
 export const TopicConnectionShape = PropTypes.shape({
   connectionId: PropTypes.string.isRequired,
   isPrimary: PropTypes.bool,
@@ -277,6 +282,7 @@ export const FilterShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   relevanceId: PropTypes.string,
+  metadata: MetadataShape,
 });
 
 export const AvailableFiltersShape = PropTypes.objectOf(
@@ -307,9 +313,4 @@ export const FormikShape = PropTypes.shape({
   handleBlur: PropTypes.func,
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
-});
-
-export const MetadataShape = PropTypes.shape({
-  grepCodes: PropTypes.arrayOf(PropTypes.string),
-  visible: PropTypes.bool,
 });

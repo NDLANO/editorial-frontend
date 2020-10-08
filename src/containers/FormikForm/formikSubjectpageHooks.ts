@@ -125,8 +125,11 @@ export function useFetchSubjectpageData(
     );
   };
 
-  const fetchTaxonomyUrns = async (elementList: any[], language: string) => {
-    return await Promise.all(
+  const fetchTaxonomyUrns = async (
+    elementList: any[],
+    language: string,
+  ): Promise<string[]> => {
+    const fetched = await Promise.all(
       elementList.map(element => {
         if (element.articleType === 'topic-article') {
           return queryTopics(element.id, language);
@@ -136,6 +139,10 @@ export function useFetchSubjectpageData(
         return queryResources(element.id, language);
       }),
     );
+
+    return fetched
+      .map(resource => resource?.[0]?.id)
+      .filter(e => e !== undefined);
   };
 
   const updateSubjectpage = async (updatedSubjectpage: SubjectpageEditType) => {
@@ -144,12 +151,7 @@ export function useFetchSubjectpageData(
       updatedSubjectpage.language,
     );
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
-      transformSubjectpageToApiVersion(
-        updatedSubjectpage,
-        editorsChoices
-          .map(resource => resource?.[0]?.id)
-          .filter(e => e !== undefined),
-      ),
+      transformSubjectpageToApiVersion(updatedSubjectpage, editorsChoices),
       updatedSubjectpage.id,
       selectedLanguage,
     );
@@ -170,6 +172,7 @@ export function useFetchSubjectpageData(
       createdSubjectpage.editorsChoices!,
       createdSubjectpage.language,
     );
+
     const savedSubjectpage = await frontpageApi.createSubjectpage(
       transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices),
     );

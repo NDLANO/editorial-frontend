@@ -39,6 +39,16 @@ interface PanelProps extends Props {
   onUpdateMovieList: Function;
 }
 
+interface FormikSlideshowProps {
+  field: FieldProps<ContentResultType[]>['field'];
+  form: FormikProperties['form'];
+}
+
+interface FormikThemeProps {
+  field: FieldProps<NdlaFilmThemesEditType[]>['field'];
+  form: FormikProperties['form'];
+}
+
 const panels = [
   {
     id: 'about',
@@ -54,10 +64,7 @@ const panels = [
     errorFields: ['metaDescription', 'mobileBannerId'],
     component: ({ allMovies, onUpdateMovieList, loading }: PanelProps) => (
       <FormikField name={'slideShow'}>
-        {(
-          field: FieldProps<ContentResultType[]>['field'],
-          form: FormikProperties['form'],
-        ) => (
+        {({ field, form }: FormikSlideshowProps) => (
           <SlideshowEditor
             field={field}
             form={form}
@@ -81,10 +88,7 @@ const panels = [
       selectedLanguage,
     }: PanelProps) => (
       <FormikField name={'themes'}>
-        {(
-          field: FieldProps<NdlaFilmThemesEditType[]>['field'],
-          form: FormikProperties['form'],
-        ) => (
+        {({ field, form }: FormikThemeProps) => (
           <ThemeEditor
             field={field}
             form={form}

@@ -45,16 +45,14 @@ const CreateSubjectpage: FC<RouteComponentProps & Props & tType> = ({
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />{' '}
-      {
-        <SubjectpageForm
-          subjectpage={{ language: selectedLanguage, name: elementName }}
-          selectedLanguage={selectedLanguage}
-          updateSubjectpage={createSubjectpageAndPushRoute}
-          elementId={elementId}
-          isNewlyCreated={false}
-        />
-      }
+      <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />
+      <SubjectpageForm
+        subjectpage={{ language: selectedLanguage, name: elementName }}
+        selectedLanguage={selectedLanguage}
+        updateSubjectpage={createSubjectpageAndPushRoute}
+        elementId={elementId}
+        isNewlyCreated={false}
+      />
     </>
   );
 };

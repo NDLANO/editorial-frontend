@@ -13,6 +13,11 @@ import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { FormikProperties, VisualElement } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
+interface FormikProps {
+  field: FieldProps<VisualElement>['field'];
+  form: FormikProperties['form'];
+}
+
 const SubjectpageMetadata: FC<object & tType> = ({ t }) => {
   return (
     <>
@@ -31,10 +36,7 @@ const SubjectpageMetadata: FC<object & tType> = ({ t }) => {
         )}
       </FormikField>
       <FormikField name="desktopBanner">
-        {(
-          field: FieldProps<VisualElement>['field'],
-          form: FormikProperties['form'],
-        ) => {
+        {({ field, form }: FormikProps) => {
           return (
             <SubjectpageBanner
               field={field}

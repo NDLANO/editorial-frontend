@@ -8,18 +8,14 @@
 
 import React, { useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import {
-  FormikInputEvent,
-  SlateFigureProps,
-  TranslateType,
-} from '../../../../interfaces';
+import { FormikInputEvent, SlateFigureProps } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -27,7 +23,6 @@ export const editorClasses = new BEMHelper({
 });
 
 interface Props extends SlateFigureProps {
-  t: TranslateType;
   locale: string;
 }
 
@@ -37,7 +32,7 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure: React.FC<Props> = ({
+const SlateFigure: React.FC<Props & tType> = ({
   t,
   attributes,
   editor,
@@ -92,7 +87,6 @@ const SlateFigure: React.FC<Props> = ({
     case 'image':
       return (
         <SlateImage
-          t={t}
           active={isActive()}
           attributes={attributes}
           embed={embed}
@@ -109,7 +103,6 @@ const SlateFigure: React.FC<Props> = ({
     case 'brightcove':
       return (
         <SlateVideo
-          t={t}
           attributes={attributes}
           changes={changes}
           embed={embed}
@@ -122,6 +115,7 @@ const SlateFigure: React.FC<Props> = ({
     case 'audio':
       return (
         <SlateAudio
+          t={t}
           attributes={attributes}
           changes={changes}
           embed={embed}
@@ -138,7 +132,6 @@ const SlateFigure: React.FC<Props> = ({
       if (embed.url?.includes('youtu')) {
         return (
           <SlateVideo
-            t={t}
             attributes={attributes}
             changes={changes}
             embed={embed}

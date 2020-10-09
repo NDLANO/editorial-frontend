@@ -14,9 +14,16 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
-import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
+import FigureButtons from './FigureButtons';
+import {
+  Audio,
+  Embed,
+  FormikInputEvent,
+  TranslateType,
+} from '../../../../interfaces';
 
 interface Props {
+  t: TranslateType;
   attributes: {
     'data-key': String;
     'data-slate-object': String;
@@ -31,6 +38,7 @@ interface Props {
 }
 
 const SlateAudio: React.FC<Props> = ({
+  t,
   attributes,
   changes,
   embed,
@@ -96,21 +104,32 @@ const SlateAudio: React.FC<Props> = ({
             type={embed.type || 'standard'}
           />
         ) : (
-          <div
-            role="button"
-            draggable
-            className="c-placeholder-editmode"
-            tabIndex={0}
-            onKeyPress={toggleEdit}
-            onClick={toggleEdit}>
-            {audio.id && (
-              <AudioPlayerMounter
-                audio={audio}
-                locale={locale}
-                speech={speech}
+          <>
+            {!speech && (
+              <FigureButtons
+                tooltip={t('form.audio.remove')}
+                onRemoveClick={onRemoveClick}
+                embed={embed}
+                figureType="audio"
+                language={language}
               />
             )}
-          </div>
+            <div
+              role="button"
+              draggable
+              className="c-placeholder-editmode"
+              tabIndex={0}
+              onKeyPress={toggleEdit}
+              onClick={toggleEdit}>
+              {audio.id && (
+                <AudioPlayerMounter
+                  audio={audio}
+                  locale={locale}
+                  speech={speech}
+                />
+              )}
+            </div>
+          </>
         )}
       </Figure>
     </div>

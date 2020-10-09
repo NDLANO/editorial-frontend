@@ -10,7 +10,13 @@ interface Props {
   onExit: Function;
 }
 
-const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
+const EditCodeBlock: FC<Props> = ({
+  locale,
+  handleSave,
+  handleRemove,
+  model,
+  onExit,
+}) => {
   const codeBlock = model;
 
   const [initialCodeBlock] = useState<any>(codeBlock);
@@ -37,6 +43,7 @@ const EditCodeBlock: FC<Props> = ({ locale, handleSave, model, onExit }) => {
       handleCancelDiscard={handleCancelDiscard}
       handleContinue={handleContinue}
       handleExit={handleExit}
+      handleRemove={handleRemove}
       openDiscardModal={openDiscartModal}
       model={model}
       handleSave={handleSave}

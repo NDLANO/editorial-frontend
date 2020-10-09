@@ -13,11 +13,12 @@ import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
+import { injectT, tType } from '@ndla/i18n';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
-import { Embed, TranslateType } from '../../interfaces';
+import { Embed } from '../../interfaces';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -58,7 +59,6 @@ const defaultData = {
 };
 
 interface Props {
-  t: TranslateType;
   embed: Embed;
   onUpdatedImageSettings: Function;
   imageUpdates:
@@ -79,7 +79,7 @@ interface Props {
 
 type StateProp = 'crop' | 'focalPoint' | undefined;
 
-const ImageEditor: React.FC<Props> = ({
+const ImageEditor: React.FC<Props & tType> = ({
   t,
   embed,
   onUpdatedImageSettings,
@@ -207,4 +207,4 @@ const ImageEditor: React.FC<Props> = ({
   );
 };
 
-export default ImageEditor;
+export default injectT(ImageEditor);

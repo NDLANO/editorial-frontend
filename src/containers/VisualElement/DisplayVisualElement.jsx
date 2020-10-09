@@ -15,7 +15,6 @@ import DisplayExternalVisualElement from '../../components/DisplayEmbed/DisplayE
 import SlateVideo from '../../components/SlateEditor/plugins/embed/SlateVideo';
 
 const DisplayVisualElement = ({
-  t,
   embed,
   changeVisualElement,
   onRemoveClick,
@@ -28,7 +27,6 @@ const DisplayVisualElement = ({
     case 'image':
       return (
         <SlateImage
-          t={t}
           embed={embed}
           isSlate={false}
           language={language}
@@ -40,7 +38,6 @@ const DisplayVisualElement = ({
     case 'brightcove':
       return (
         <SlateVideo
-          t={t}
           embed={embed}
           className={className}
           onRemoveClick={onRemoveClick}
@@ -62,7 +59,6 @@ const DisplayVisualElement = ({
       if (embed.url?.includes('youtu'))
         return (
           <SlateVideo
-            t={t}
             embed={embed}
             className={className}
             onRemoveClick={onRemoveClick}

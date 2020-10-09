@@ -12,11 +12,12 @@ import React, { useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import { shadows } from '@ndla/core';
 import { connect } from 'formik';
+import { FormikContextType } from 'formik/dist/types';
 import Overlay from '../../components/Overlay';
 import FigureInput from '../../components/SlateEditor/plugins/embed/FigureInput';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import config from '../../config';
-import { Embed, FormikInputEvent, TranslateType } from '../../interfaces';
+import { Embed, FormikInputEvent } from '../../interfaces';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -27,16 +28,17 @@ const imageEditorWrapperStyle = css`
   background-color: white;
 `;
 
+interface FormikProps {
+  formik: FormikContextType<Function>;
+}
+
 interface Props {
-  t: TranslateType;
   embed: Embed;
-  formik: { handleChange: Function };
   setEditModus: Function;
   submitted: boolean;
 }
 
-const EditVisualElementImage: React.FC<Props> = ({
-  t,
+const EditVisualElementImage: React.FC<Props & FormikProps> = ({
   embed,
   formik,
   submitted,
@@ -90,7 +92,6 @@ const EditVisualElementImage: React.FC<Props> = ({
             />
           </figure>
           <FigureInput
-            t={t}
             caption={state.caption}
             alt={state.alt}
             submitted={submitted}
@@ -105,5 +106,4 @@ const EditVisualElementImage: React.FC<Props> = ({
   );
 };
 
-// @ts-ignore
-export default connect(EditVisualElementImage);
+export default connect<Props, Function>(EditVisualElementImage);

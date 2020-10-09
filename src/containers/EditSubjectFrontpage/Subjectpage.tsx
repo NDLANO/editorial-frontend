@@ -7,22 +7,19 @@
 
 import React, { FC, useEffect, useState } from 'react';
 import { match, Route, RouteComponentProps, Switch } from 'react-router';
-import { injectT } from '@ndla/i18n';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import EditSubjectpage from './EditSubjectpage';
-import { TranslateType } from '../../interfaces';
 import CreateSubjectpage from './CreateSubjectpage';
 import Footer from '../App/components/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
-  t: TranslateType;
   match: match;
   location: RouteComponentProps['location'];
 }
 
-const Subjectpage: FC<Props> = ({ t, match, location }) => {
+const Subjectpage: FC<Props> = ({ match, location }) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 
@@ -61,6 +58,7 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
                   elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
                   elementName={elementName}
+                  // @ts-ignore
                   history={routeProps.history}
                 />
               );
@@ -74,4 +72,4 @@ const Subjectpage: FC<Props> = ({ t, match, location }) => {
   );
 };
 
-export default injectT(Subjectpage);
+export default Subjectpage;

@@ -254,18 +254,18 @@ export interface SubjectType {
 }
 
 export interface SubjectpageType {
-  facebook: string;
-  filters: string[];
-  goTo: string[];
-  id: string;
-  latestContent: string[];
-  layout: string;
-  metaDescription: string;
-  mostRead: string[];
+  facebook?: string;
+  filters?: string[];
+  goTo?: string[];
+  id?: string;
+  latestContent?: string[];
+  layout?: string;
+  metaDescription?: string;
+  mostRead?: string[];
   name: string;
-  topical: string;
-  twitter: string;
-  supportedLanguages: string[];
+  topical?: string;
+  twitter?: string;
+  supportedLanguages?: string[];
 }
 
 export interface SubjectpageApiType extends SubjectpageType {
@@ -290,20 +290,21 @@ export interface SubjectpageApiType extends SubjectpageType {
 }
 
 export interface SubjectpageEditType extends SubjectpageType {
-  description: string;
-  desktopBanner: VisualElement;
-  editorsChoices: ArticleType[];
+  articleType?: string;
+  description?: string;
+  desktopBanner?: VisualElement;
+  editorsChoices?: ArticleType[];
   language: string;
-  mobileBanner: number;
-  elementId: string;
-  title: string;
-  visualElement: {
+  mobileBanner?: number;
+  elementId?: string;
+  title?: string;
+  visualElement?: {
     resource: string;
     url: string;
     resource_id?: string;
     videoid?: string;
   };
-  visualElementAlt: string;
+  visualElementAlt?: string;
 }
 
 export interface NdlaFilmType {

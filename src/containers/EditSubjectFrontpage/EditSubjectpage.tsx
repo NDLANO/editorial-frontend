@@ -6,24 +6,22 @@
  */
 
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { TranslateType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
-  t: TranslateType;
   elementId: string;
   selectedLanguage: string;
   subjectpageId: string;
   isNewlyCreated: boolean;
 }
 
-const EditSubjectpage: FC<RouteComponentProps & Props> = ({
+const EditSubjectpage: FC<RouteComponentProps & Props & tType> = ({
   t,
   elementId,
   selectedLanguage,
@@ -61,4 +59,4 @@ const EditSubjectpage: FC<RouteComponentProps & Props> = ({
   );
 };
 
-export default injectT(withRouter(EditSubjectpage));
+export default withRouter(injectT(EditSubjectpage));

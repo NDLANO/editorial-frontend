@@ -7,19 +7,16 @@
 
 import React, { FC } from 'react';
 import { match, Route, Switch } from 'react-router';
-import { injectT } from '@ndla/i18n';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { TranslateType } from '../../interfaces';
 import NdlaFilmEditor from './NdlaFilmEditor';
 import Footer from '../App/components/Footer';
 
 interface Props {
-  t: TranslateType;
   match: match;
 }
 
-const NdlaFilm: FC<Props> = ({ t, match }) => {
+const NdlaFilm: FC<Props> = ({ match }) => {
   return (
     <>
       <OneColumn>
@@ -47,4 +44,4 @@ const NdlaFilm: FC<Props> = ({ t, match }) => {
   );
 };
 
-export default injectT(NdlaFilm);
+export default NdlaFilm;

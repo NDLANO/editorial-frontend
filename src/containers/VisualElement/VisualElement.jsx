@@ -8,30 +8,32 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DisplayVisualElement from './DisplayVisualElement';
-import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import createEmbedPlugin from '../../components/SlateEditor/plugins/embed';
 import { renderBlock } from '../../components/SlateEditor/slateRendering';
 
 class VisualElement extends Component {
   constructor(props) {
     super(props);
 
-    const { onChange, name, resetSelectedResource } = this.props;
+    this.removeVisualElement = this.removeVisualElement.bind(this);
+  }
+
+  componentDidUpdate() {
+    const { onChange, name, resetSelectedResource, value } = this.props;
+    const empty = !value.resource;
 
     this.plugins = [
-      visualElementPlugin({
-        onChange,
-        name,
-        resetSelectedResource
-      }),
-      visualElementPickerPlugin()
+      empty ?
+        visualElementPickerPlugin()
+        :
+        visualElementPlugin({
+          onChange,
+          name,
+          resetSelectedResource
+        }),
     ];
-
-    this.removeVisualElement = this.removeVisualElement.bind(this);
   }
 
   removeVisualElement() {
@@ -41,26 +43,13 @@ class VisualElement extends Component {
   }
 
   render() {
-    const { value: visualElement, changeVisualElement, visualElementValue, ...rest } = this.props;
-    if (!visualElement.resource) {
-      return null;
-    }
+    const { changeVisualElement, visualElementValue } = this.props;
     return (
       <VisualElementEditor
         value={visualElementValue}
         plugins={this.plugins}
         renderBlock={renderBlock}
         onChange={changeVisualElement}
-      />
-    );
-    return (
-      <DisplayVisualElement
-        embed={visualElement}
-        changeVisualElement={changeVisualElement}
-        onRemoveClick={this.removeVisualElement}
-        visualElementCaptionName={this.props.visualElementCaptionName}
-        {...visualElementClasses(visualElement.resource)}
-        {...rest}
       />
     );
   }

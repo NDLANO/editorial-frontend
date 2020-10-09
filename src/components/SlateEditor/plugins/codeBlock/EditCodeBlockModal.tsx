@@ -11,7 +11,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT, tType } from '@ndla/i18n';
 import { CodeBlockEditor } from '@ndla/editor';
 import AlertModal from '../../../AlertModal';
-import { CodeBlockType, TranslateType } from '../../../../interfaces';
+import { CodeBlockType } from '../../../../interfaces';
 
 interface Props {
   handleCancelDiscard: Function;

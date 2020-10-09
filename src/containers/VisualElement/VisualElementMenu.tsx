@@ -48,10 +48,6 @@ const VisualElementMenu: FC<Props> = ({
   const typeClassName = isOpen ? '' : 'hidden';
 
   const handleSelect = (type: string) => {
-    console.log(visualElement)
-    const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
-    console.log(blockToInsert)
-    editor.insertBlock(blockToInsert)
     setOpen(false);
     onSelect(type);
   };

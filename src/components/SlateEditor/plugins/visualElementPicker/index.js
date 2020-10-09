@@ -7,19 +7,21 @@
  */
 
 import React from 'react';
-import VisualELementMenu from '../../../../containers/VisualElement/VisualElementMenu';
+import VisualElementPicker from './VisualElementPicker';
 
 export default function visualElementPickerPlugin(options = {}) {
   const schema = {};
   const renderEditor = (props, editor, next) => {
 
     console.log(options)
+    const { onSelect, types, language} = options;
     return (
-      <VisualELementMenu
-        onSelect={options.onSelect}
-        types={options.types}
+      <VisualElementPicker
+        onSelect={onSelect}
+        types={types}
         editor={editor}
         visualElement={options.embed}
+        language={language}
       />
     );
   };

@@ -11,11 +11,10 @@ import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { TranslateType } from '../../../interfaces';
 import IconButton from '../../../components/IconButton';
 import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
@@ -26,7 +25,6 @@ interface Props {
   locale: string;
   search: string;
   index: number;
-  t: TranslateType;
 }
 
 export const classes = new BEMHelper({
@@ -34,7 +32,13 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SavedSearch: FC<Props> = ({ deleteSearch, locale, search, index, t }) => {
+const SavedSearch: FC<Props & tType> = ({
+  deleteSearch,
+  locale,
+  search,
+  index,
+  t,
+}) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');

@@ -60,9 +60,9 @@ export const transformSubjectpageToApiVersion = (
   editorsChoices: string[],
 ) => {
   const id =
-    subjectpage.visualElement.resource === 'image'
-      ? subjectpage.visualElement.resource_id
-      : subjectpage.visualElement.videoid;
+    subjectpage.visualElement?.resource === 'image'
+      ? subjectpage.visualElement?.resource_id
+      : subjectpage.visualElement?.videoid;
   return {
     name: subjectpage.name,
     filters: subjectpage.filters,
@@ -71,7 +71,7 @@ export const transformSubjectpageToApiVersion = (
     facebook: subjectpage.facebook,
     banner: {
       mobileImageId: subjectpage.mobileBanner,
-      desktopImageId: parseInt(subjectpage.desktopBanner.resource_id),
+      desktopImageId: parseInt(subjectpage.desktopBanner!.resource_id),
     },
     about: [
       {
@@ -79,7 +79,7 @@ export const transformSubjectpageToApiVersion = (
         description: subjectpage.description,
         language: subjectpage.language,
         visualElement: {
-          type: subjectpage.visualElement.resource,
+          type: subjectpage.visualElement?.resource,
           id: id,
           alt: subjectpage.visualElementAlt,
         },

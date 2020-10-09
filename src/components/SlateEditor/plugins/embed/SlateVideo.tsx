@@ -12,6 +12,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
+import { injectT, tType } from '@ndla/i18n';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import {
@@ -20,7 +21,7 @@ import {
   getStopTime,
 } from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
-import { Embed, TranslateType } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 
 const videoStyle = css`
   width: 100%;
@@ -32,7 +33,6 @@ const videoStyle = css`
 `;
 
 interface Props {
-  t: TranslateType;
   attributes?: {
     'data-key': string;
     'data-slate-object': string;
@@ -41,11 +41,19 @@ interface Props {
   embed: Embed;
   figureClass: any;
   language: string;
-  onFigureInputChange: Function;
+  onFigureInputChange: (e: Event) => void;
   onRemoveClick: Function;
 }
 
-const SlateVideo: React.FC<Props> = ({
+interface Event {
+  preventDefault: Function;
+  target: {
+    value: string;
+    name: string;
+  };
+}
+
+const SlateVideo: React.FC<Props & tType> = ({
   t,
   attributes,
   changes,
@@ -90,11 +98,9 @@ const SlateVideo: React.FC<Props> = ({
         embed={embed}
         figureType="video"
         language={language}
-        t={t}
       />
       {editMode ? (
         <EditVideo
-          t={t}
           changes={changes}
           embed={embed}
           toggleEditModus={toggleEditModus}
@@ -115,7 +121,7 @@ const SlateVideo: React.FC<Props> = ({
             id={embed.videoid}
             resizeIframe>
             <iframe
-              title={`Video: ${embed.metaData ? embed.metaData?.name : ''}`}
+              title={`Video: ${embed?.metaData?.name || ''}`}
               frameBorder="0"
               src={src}
               allowFullScreen
@@ -133,4 +139,4 @@ const SlateVideo: React.FC<Props> = ({
   );
 };
 
-export default SlateVideo;
+export default injectT(SlateVideo);

@@ -6,7 +6,7 @@
  */
 
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
@@ -27,15 +27,10 @@ import {
   changeThemeNames,
 } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
-import {
-  ContentResultType,
-  NdlaFilmThemesEditType,
-  TranslateType,
-} from '../../../interfaces';
+import { ContentResultType, NdlaFilmThemesEditType } from '../../../interfaces';
 import config from '../../../config';
 
 interface Props {
-  t: TranslateType;
   allMovies: ContentResultType[];
   field: FieldProps<NdlaFilmThemesEditType[]>['field'];
   form: FormikHelpers<FormikValues>;
@@ -57,7 +52,7 @@ interface ThemeNames {
   };
 }
 
-const ThemeEditor: FC<Props> = ({
+const ThemeEditor: FC<Props & tType> = ({
   t,
   allMovies,
   field,

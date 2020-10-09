@@ -8,13 +8,14 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { injectT, tType } from '@ndla/i18n';
 import React, { Fragment, useEffect } from 'react';
 import { Input } from '@ndla/forms';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { Embed, TranslateType } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 
 const videoStyle = css`
   width: 100%;
@@ -26,20 +27,27 @@ const videoStyle = css`
 `;
 
 interface Props {
-  t: TranslateType;
   changes?: { [x: string]: string };
   embed: Embed;
   figureClass: any;
-  onFigureInputChange: Function;
+  onFigureInputChange: (e: Event) => void;
   src: string;
   startTime: string;
   stopTime: string;
-  setStartTime: Function;
-  setStopTime: Function;
+  setStartTime: (startTime: string) => void;
+  setStopTime: (stopTime: string) => void;
   toggleEditModus: Function;
 }
 
-const EditVideo: React.FC<Props> = ({
+interface Event {
+  preventDefault: Function;
+  target: {
+    value: string;
+    name: string;
+  };
+}
+
+const EditVideo: React.FC<Props & tType> = ({
   t,
   changes,
   embed,
@@ -127,4 +135,4 @@ const EditVideo: React.FC<Props> = ({
   );
 };
 
-export default EditVideo;
+export default injectT(EditVideo);

@@ -10,33 +10,28 @@ import Accordion, {
   AccordionBar,
   AccordionPanel,
 } from '@ndla/accordion';
-import { injectT } from '@ndla/i18n';
-import { FormikErrors, FormikTouched } from 'formik';
+import { injectT, tType } from '@ndla/i18n';
+import { FormikErrors } from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
 import {
   AccordionProps,
+  ArticleType,
   FormikProperties,
-  SubjectpageType,
-  TranslateType,
 } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import FormikField from '../../../components/FormikField';
 
 interface Props {
-  t: TranslateType;
-  values: Values;
+  editorsChoices: ArticleType[];
+  elementId: string;
   errors: FormikErrors<Values>;
-  subject: SubjectpageType;
-  touched: FormikTouched<Values>;
-  formIsDirty: boolean;
-  getInitialValues: Function;
-  setFieldTouched: boolean;
 }
 
 interface ComponentProps {
-  values: Values;
+  editorsChoices: ArticleType[];
+  elementId: string;
 }
 
 const panels = [
@@ -59,17 +54,27 @@ const panels = [
     title: 'subjectpageForm.articles',
     className: 'u-6/6',
     errorFields: ['editorsChoices'],
-    component: ({ values }: ComponentProps) => (
+    component: ({ editorsChoices, elementId }: ComponentProps) => (
       <FormikField name={'editorsChoices'}>
         {({ field, form }: FormikProperties) => (
-          <SubjectpageArticles values={values} field={field} form={form} />
+          <SubjectpageArticles
+            editorsChoices={editorsChoices}
+            elementId={elementId}
+            field={field}
+            form={form}
+          />
         )}
       </FormikField>
     ),
   },
 ];
 
-const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
+const SubjectpageAccordionPanels: FC<Props & tType> = ({
+  t,
+  editorsChoices,
+  elementId,
+  errors,
+}) => {
   return (
     <Accordion openIndexes={['about']}>
       {({ openIndexes, handleItemClick }: AccordionProps) => (
@@ -92,9 +97,7 @@ const SubjectpageAccordionPanels: FC<Props> = ({ t, values, errors }) => {
                     hasError={hasError}
                     isOpen={openIndexes.includes(panel.id)}>
                     <div className={panel.className}>
-                      {panel.component({
-                        values,
-                      })}
+                      {panel.component({ editorsChoices, elementId })}
                     </div>
                   </AccordionPanel>
                 )}

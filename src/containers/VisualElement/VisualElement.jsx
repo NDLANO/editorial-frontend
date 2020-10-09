@@ -20,15 +20,15 @@ class VisualElement extends Component {
   constructor(props) {
     super(props);
 
-    const {
-      value,
-      changeVisualElement: onSelect,
-      types,
-      language
-    } = this.props;
+    const { onChange, name, resetSelectedResource } = this.props;
 
     this.plugins = [
-      createEmbedPlugin(language),
+      visualElementPlugin({
+        onChange,
+        name,
+        resetSelectedResource
+      }),
+      visualElementPickerPlugin()
     ];
 
     this.removeVisualElement = this.removeVisualElement.bind(this);
@@ -41,15 +41,16 @@ class VisualElement extends Component {
   }
 
   render() {
-    const { value: visualElement, changeVisualElement, types, content, language, ...rest } = this.props;
+    const { value: visualElement, changeVisualElement, visualElementValue, ...rest } = this.props;
     if (!visualElement.resource) {
       return null;
     }
     return (
       <VisualElementEditor
-        value={visualElement}
+        value={visualElementValue}
         plugins={this.plugins}
         renderBlock={renderBlock}
+        onChange={changeVisualElement}
       />
     );
     return (

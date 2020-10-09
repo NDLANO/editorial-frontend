@@ -71,6 +71,7 @@ export const getInitialValues = (article = {}) => {
     visualElementStop:
       toHMS(visualElement?.url?.match('(?<=end=)[0-9]+')) || '',
     visualElement: visualElement || {},
+    visualElementValue: topicArticleContentToEditorValue(article.visualElement),
     grepCodes: article.grepCodes || [],
   };
 };

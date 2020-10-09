@@ -74,6 +74,7 @@ const FormikVisualElement = ({
                 content={formik.values.content}
                 language={formik.values.language}
                 visualElementCaptionName={visualElementCaptionName}
+                visualElementValue={formik.values.visualElementValue}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}

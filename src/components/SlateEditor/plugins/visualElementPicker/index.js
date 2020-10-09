@@ -12,10 +12,10 @@ import VisualElementPicker from './VisualElementPicker';
 export default function visualElementPickerPlugin(options = {}) {
   const schema = {};
   const renderEditor = (props, editor, next) => {
-
-    console.log(options)
+    const children = next();
     const { onSelect, types, language} = options;
     return (
+      <>
       <VisualElementPicker
         onSelect={onSelect}
         types={types}
@@ -23,6 +23,8 @@ export default function visualElementPickerPlugin(options = {}) {
         visualElement={options.embed}
         language={language}
       />
+      {children}
+      </>
     );
   };
 

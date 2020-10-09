@@ -18,7 +18,8 @@ const slateStore = createSlateStore();
 const VisualElementEditor = ({
   value,
   plugins,
-  renderBlock
+  renderBlock,
+  changeVisualElement
 }) => {
 
   console.log(value)
@@ -29,6 +30,7 @@ const VisualElementEditor = ({
       plugins={plugins}
       slateStore={slateStore}
       renderBlock={renderBlock}
+      onChange={changeVisualElement}
     />
   );
 }

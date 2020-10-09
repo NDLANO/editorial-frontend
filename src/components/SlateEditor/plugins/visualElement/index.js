@@ -8,16 +8,9 @@
 
 import React from 'react';
 import DisplayVisualElement from '../../../../containers/VisualElement/DisplayVisualElement';
-
+import { getSchemaEmbed } from '../../editorSchema';
 export default function visualElementPlugin(options = {}) {
-  const schema = {
-    blocks: {
-      embed: {
-        isVoid: true,
-        data: {},
-      }
-    },
-  };
+  const schema = {};
   
   /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
@@ -25,15 +18,19 @@ export default function visualElementPlugin(options = {}) {
     const onRemoveClick = e => {
       e.stopPropagation();
       editor.removeNodeByKey(node.key);
+      
+      const { onChange, name, resetSelectedResource } = options;
+      onChange({ target: { name, value: {} } });
+      resetSelectedResource();
     };
 
-    console.log(props)
+    const embed = getSchemaEmbed(node);
 
     switch (node.type) {
       case 'embed':
         return (
           <DisplayVisualElement
-            embed={options.embed}
+            embed={embed}
             onRemoveClick={onRemoveClick}
             changeVisualElement={options.onSelect}
             language={options.language}

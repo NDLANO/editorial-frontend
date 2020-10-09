@@ -1,11 +1,18 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { colors, spacing, fonts } from '@ndla/core';
-import { TranslateType } from '../interfaces';
 
 interface AppearanceMap {
   [index: string]: SerializedStyles;
@@ -53,16 +60,15 @@ const largerButtonStyle = css`
 interface Props {
   isSaving: boolean;
   showSaved: boolean;
-  defaultText: string;
+  defaultText?: string;
   formIsDirty: boolean;
   large: boolean;
   disabled: boolean;
   onClick: () => void;
-  t: TranslateType;
   clippedButton?: boolean;
 }
 
-const SaveButton: React.FC<Props> = ({
+const SaveButton: React.FC<Props & tType> = ({
   isSaving,
   showSaved,
   t,

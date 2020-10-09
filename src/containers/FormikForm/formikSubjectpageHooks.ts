@@ -147,7 +147,7 @@ export function useFetchSubjectpageData(
 
   const updateSubjectpage = async (updatedSubjectpage: SubjectpageEditType) => {
     const editorsChoices = await fetchTaxonomyUrns(
-      updatedSubjectpage.editorsChoices,
+      updatedSubjectpage.editorsChoices!,
       updatedSubjectpage.language,
     );
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
@@ -160,8 +160,8 @@ export function useFetchSubjectpageData(
         savedSubjectpage,
         elementId,
         selectedLanguage,
-        updatedSubjectpage.editorsChoices,
-        updatedSubjectpage.desktopBanner,
+        updatedSubjectpage.editorsChoices!,
+        updatedSubjectpage.desktopBanner!,
       ),
     );
     return savedSubjectpage;
@@ -169,7 +169,7 @@ export function useFetchSubjectpageData(
 
   const createSubjectpage = async (createdSubjectpage: SubjectpageEditType) => {
     const editorsChoices = await fetchTaxonomyUrns(
-      createdSubjectpage.editorsChoices,
+      createdSubjectpage.editorsChoices!,
       createdSubjectpage.language,
     );
 
@@ -196,8 +196,8 @@ export function useFetchSubjectpageData(
         savedSubjectpage,
         elementId,
         selectedLanguage,
-        createdSubjectpage.editorsChoices,
-        createdSubjectpage.desktopBanner,
+        createdSubjectpage.editorsChoices!,
+        createdSubjectpage.desktopBanner!,
       ),
     );
     return savedSubjectpage;

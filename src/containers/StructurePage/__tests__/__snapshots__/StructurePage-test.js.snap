@@ -511,12 +511,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   color: #20588f;
   background-color: transparent;
   border: 2px solid #20588f;
-  font-weight: 700;
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: 2px solid #20588f;
-  font-weight: 700;
   box-shadow: none;
   margin: 3px 6.5px 3px auto;
   font-size: 14;

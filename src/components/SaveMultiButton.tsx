@@ -1,10 +1,9 @@
 import React from 'react';
 import { MultiButton } from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { TranslateType } from '../interfaces';
 import { saveButtonAppearances } from './SaveButton';
 
 const StyledSpan = styled('span')`
@@ -28,17 +27,15 @@ const checkStyle = css`
 interface Props {
   isSaving: boolean;
   showSaved: boolean;
-  defaultText: string;
   formIsDirty: boolean;
   large: boolean;
   disabled: boolean;
   onClick: (saveAsNew: boolean) => void;
-  t: TranslateType;
   clippedButton?: boolean;
   hideSecondaryButton?: boolean;
 }
 
-const SaveMultiButton: React.FC<Props> = ({
+const SaveMultiButton: React.FC<Props & tType> = ({
   isSaving,
   showSaved,
   t,

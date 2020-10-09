@@ -110,7 +110,6 @@ const SlateAudio: React.FC<Props> = ({
                 tooltip={t('form.audio.remove')}
                 onRemoveClick={onRemoveClick}
                 embed={embed}
-                t={t}
                 figureType="audio"
                 language={language}
               />

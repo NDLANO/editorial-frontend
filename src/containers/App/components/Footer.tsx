@@ -14,23 +14,27 @@ import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
 //@ts-ignore
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { getLocale } from '../../../modules/locale/locale';
-import { TranslateType } from '../../../interfaces';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
 `;
 
+enum lang {
+  NB = 'nb',
+  NN = 'nn',
+  EN = 'en',
+}
+
 interface Props {
   location: Location;
-  locale: string;
-  t: TranslateType;
+  locale: lang;
   showLocaleSelector?: boolean;
 }
 
-export const FooterWrapper: FC<Props> = ({
+export const FooterWrapper: FC<Props & tType> = ({
   location,
   locale,
   showLocaleSelector,

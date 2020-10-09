@@ -7,13 +7,13 @@
  */
 
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
-import { TranslateType, VisualElement } from '../../../interfaces';
+import { VisualElement } from '../../../interfaces';
 import config from '../../../config';
 
 const bannerImageButtonStyle = css`
@@ -25,10 +25,13 @@ const bannerImageButtonStyle = css`
 interface Props {
   image: VisualElement;
   onImageSelectOpen: Function;
-  t: TranslateType;
 }
 
-const SubjectpageBannerImage: FC<Props> = ({ image, onImageSelectOpen, t }) => {
+const SubjectpageBannerImage: FC<Props & tType> = ({
+  image,
+  onImageSelectOpen,
+  t,
+}) => {
   const title = convertFieldWithFallback(image.metaData, 'title', '');
   const alt = convertFieldWithFallback(image, 'alt', '');
   const imageAction = (

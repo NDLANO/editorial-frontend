@@ -7,6 +7,7 @@
  */
 
 import { expectSaga } from 'redux-saga-test-plan';
+import 'regenerator-runtime/runtime';
 
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)

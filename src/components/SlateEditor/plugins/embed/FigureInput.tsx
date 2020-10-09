@@ -11,8 +11,8 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
+import { injectT, tType } from '@ndla/i18n';
 import { isEmpty } from '../../../validators';
-import { TranslateType } from '../../../../interfaces';
 
 export const StyledInputWrapper = styled.div`
   background: ${colors.brand.greyLightest};
@@ -22,7 +22,6 @@ export const StyledInputWrapper = styled.div`
 `;
 
 interface Props {
-  t: TranslateType;
   caption: string;
   alt: string;
   submitted: boolean;
@@ -32,7 +31,7 @@ interface Props {
   onSave: Function;
 }
 
-const FigureInput: React.FC<Props> = ({
+const FigureInput: React.FC<Props & tType> = ({
   t,
   caption,
   alt,
@@ -83,4 +82,4 @@ const FigureInput: React.FC<Props> = ({
   );
 };
 
-export default FigureInput;
+export default injectT(FigureInput);

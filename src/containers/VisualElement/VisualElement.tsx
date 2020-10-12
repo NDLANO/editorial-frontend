@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
@@ -18,9 +18,26 @@ interface Props {
   resetSelectedResource: Function,
   name: string,
   types: string[],
+  language: string,
   value: any,
   visualElementValue: any,
 }
+
+const createPlugins = (empty: boolean, types: string[], onRemove: Function, onSelect: Function, language: string) => {
+  return [
+    visualElementPickerPlugin({
+      types,
+      onSelect,
+      empty,
+      language,
+    }),
+    visualElementPlugin({
+      onRemove,
+      onSelect,
+      language,
+    }),
+  ]
+} 
 
 const VisualElement = ({
   onChange,
@@ -28,23 +45,17 @@ const VisualElement = ({
   resetSelectedResource,
   name,
   types,
+  language,
   value,
   visualElementValue
 }: Props) => {
-  const empty = !value.resource;
-  const plugins = [
-    empty ? 
-      visualElementPickerPlugin({
-        onSelect: changeVisualElement,
-        types,
-      })
-      :
-      visualElementPlugin({
-        onChange,
-        name,
-        resetSelectedResource
-      }),
-  ];
+  const onRemove = () => {
+    onChange({ target: { name, value: {} } });
+    resetSelectedResource();
+  }
+  const plugins = useMemo(() => {
+    return createPlugins(!value.resource, types, onRemove, changeVisualElement, language);
+  }, [value, language]);
 
   return (
     <VisualElementEditor

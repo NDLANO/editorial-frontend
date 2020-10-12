@@ -15,13 +15,12 @@ export default function visualElementPlugin(options = {}) {
   /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
     const { node } = props;
+    const { onRemove, onSelect, language } = options;
+
     const onRemoveClick = e => {
       e.stopPropagation();
       editor.removeNodeByKey(node.key);
-      
-      const { onChange, name, resetSelectedResource } = options;
-      onChange({ target: { name, value: {} } });
-      resetSelectedResource();
+      onRemove();
     };
 
     const embed = getSchemaEmbed(node);
@@ -32,8 +31,8 @@ export default function visualElementPlugin(options = {}) {
           <DisplayVisualElement
             embed={embed}
             onRemoveClick={onRemoveClick}
-            changeVisualElement={options.onSelect}
-            language={options.language}
+            changeVisualElement={onSelect}
+            language={language}
           />
         );
       default:

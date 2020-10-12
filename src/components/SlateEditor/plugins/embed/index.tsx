@@ -51,7 +51,6 @@ export default function createEmbedPlugin(language: string, locale: string) {
     editor: SlateEditor,
     next: any,
   ) => {
-    console.log(props.node.key)
     switch (props.node.type) {
       case 'embed':
         return (

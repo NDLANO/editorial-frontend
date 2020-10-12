@@ -11,7 +11,7 @@ import DisplayVisualElement from '../../../../containers/VisualElement/DisplayVi
 import { getSchemaEmbed } from '../../editorSchema';
 export default function visualElementPlugin(options = {}) {
   const schema = {};
-  
+
   /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
     const { node } = props;

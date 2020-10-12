@@ -36,7 +36,7 @@ const FormikVisualElement = ({
   types,
   videoTypes,
   visualElementCaptionName,
-  getArticle
+  getArticle,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 
@@ -76,7 +76,9 @@ const FormikVisualElement = ({
                 content={formik.values.content}
                 language={formik.values.language}
                 visualElementCaptionName={visualElementCaptionName}
-                visualElementValue={topicArticleContentToEditorValue(article.visualElement)}
+                visualElementValue={topicArticleContentToEditorValue(
+                  article.visualElement,
+                )}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}

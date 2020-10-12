@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, } from 'react';
+import React, { useEffect } from 'react';
 import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
@@ -19,11 +19,8 @@ const VisualElementEditor = ({
   value,
   plugins,
   renderBlock,
-  changeVisualElement
+  changeVisualElement,
 }) => {
-
-  console.log(value)
-
   return (
     <Editor
       value={value}
@@ -33,6 +30,6 @@ const VisualElementEditor = ({
       onChange={changeVisualElement}
     />
   );
-}
+};
 
 export default VisualElementEditor;

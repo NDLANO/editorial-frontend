@@ -231,7 +231,6 @@ class SlateBlockPicker extends Component {
               }))}
               onToggleOpen={this.toggleIsOpen}
               clickItem={data => {
-                console.log(data)
                 this.onElementAdd(data);
               }}
             />

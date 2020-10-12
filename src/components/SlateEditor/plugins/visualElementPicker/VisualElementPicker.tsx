@@ -14,16 +14,16 @@ import VisualElementMenu from '../../../../containers/VisualElement/VisualElemen
 import { Portal } from '../../../Portal';
 
 interface Props {
-  editor: Editor
-  language: string
-  onSelect: Function,
-  types: any,
-  visualElement: any,
+  editor: Editor;
+  language: string;
+  onSelect: Function;
+  types: any;
+  visualElement: any;
 }
 
 interface VisualElementSelect {
-  isOpen: boolean,
-  type: string,
+  isOpen: boolean;
+  type: string;
 }
 
 const VisualElementPicker = ({
@@ -31,42 +31,44 @@ const VisualElementPicker = ({
   language,
   onSelect,
   types,
-  visualElement
+  visualElement,
 }: Props) => {
-  const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
+  const [visualElementSelect, setVisualElementSelect] = useState<
+    VisualElementSelect
+  >({
     isOpen: false,
-    type: ''
+    type: '',
   });
 
   const onVisualElementClose = () => {
     setVisualElementSelect({
       isOpen: false,
-      type: ''
-    })
-  }
+      type: '',
+    });
+  };
 
   const onInsertBlock = (block: Block) => {
     editor.insertBlock(block);
-  }
+  };
 
   return (
     <>
-      {visualElementSelect.isOpen &&
+      {visualElementSelect.isOpen && (
         <SlateVisualElementPicker
           articleLanguage={language}
           resource={visualElementSelect.type}
           onVisualElementClose={onVisualElementClose}
           onInsertBlock={onInsertBlock}
         />
-      }
-        <VisualElementMenu
-          onSelect={onSelect}
-          types={types}
-          editor={editor}
-          visualElement={visualElement}
-        />
+      )}
+      <VisualElementMenu
+        onSelect={onSelect}
+        types={types}
+        editor={editor}
+        visualElement={visualElement}
+      />
     </>
-  )
-}
+  );
+};
 
 export default VisualElementPicker;

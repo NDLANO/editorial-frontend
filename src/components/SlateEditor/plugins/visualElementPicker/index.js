@@ -14,17 +14,16 @@ export default function visualElementPickerPlugin(options = {}) {
   const renderEditor = (props, editor, next) => {
     const children = next();
     const { types, language, empty, onSelect } = options;
-    return (
-      empty ?
-        <VisualElementPicker
-          onSelect={onSelect}
-          types={types}
-          editor={editor}
-          visualElement={options.embed}
-          language={language}
-        />
-        :
-        children
+    return empty ? (
+      <VisualElementPicker
+        onSelect={onSelect}
+        types={types}
+        editor={editor}
+        visualElement={options.embed}
+        language={language}
+      />
+    ) : (
+      children
     );
   };
 

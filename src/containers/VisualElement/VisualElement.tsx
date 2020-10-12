@@ -13,17 +13,23 @@ import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visu
 import { renderBlock } from '../../components/SlateEditor/slateRendering';
 
 interface Props {
-  onChange: Function,
-  changeVisualElement: Function,
-  resetSelectedResource: Function,
-  name: string,
-  types: string[],
-  language: string,
-  value: any,
-  visualElementValue: any,
+  onChange: Function;
+  changeVisualElement: Function;
+  resetSelectedResource: Function;
+  name: string;
+  types: string[];
+  language: string;
+  value: any;
+  visualElementValue: any;
 }
 
-const createPlugins = (empty: boolean, types: string[], onRemove: Function, onSelect: Function, language: string) => {
+const createPlugins = (
+  empty: boolean,
+  types: string[],
+  onRemove: Function,
+  onSelect: Function,
+  language: string,
+) => {
   return [
     visualElementPickerPlugin({
       types,
@@ -36,8 +42,8 @@ const createPlugins = (empty: boolean, types: string[], onRemove: Function, onSe
       onSelect,
       language,
     }),
-  ]
-} 
+  ];
+};
 
 const VisualElement = ({
   onChange,
@@ -47,14 +53,20 @@ const VisualElement = ({
   types,
   language,
   value,
-  visualElementValue
+  visualElementValue,
 }: Props) => {
   const onRemove = () => {
     onChange({ target: { name, value: {} } });
     resetSelectedResource();
-  }
+  };
   const plugins = useMemo(() => {
-    return createPlugins(!value.resource, types, onRemove, changeVisualElement, language);
+    return createPlugins(
+      !value.resource,
+      types,
+      onRemove,
+      changeVisualElement,
+      language,
+    );
   }, [value, language]);
 
   return (
@@ -64,7 +76,7 @@ const VisualElement = ({
       onChange={changeVisualElement}
       renderBlock={renderBlock}
     />
-  )
-}
+  );
+};
 
 export default VisualElement;

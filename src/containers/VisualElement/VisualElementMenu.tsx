@@ -42,7 +42,7 @@ const VisualElementMenu: FC<Props> = ({
   onSelect,
   types = ['image', 'video', 'h5p', 'url'],
   editor,
-  visualElement
+  visualElement,
 }) => {
   const [isOpen, setOpen] = useState(false);
   const typeClassName = isOpen ? '' : 'hidden';

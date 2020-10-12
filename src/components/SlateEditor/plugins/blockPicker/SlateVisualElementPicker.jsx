@@ -13,7 +13,6 @@ const SlateVisualElementPicker = ({
   t,
 }) => {
   const onVisualElementAdd = (visualElement, type = 'embed') => {
-    console.log(visualElement)
     if (type === 'embed') {
       const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
       onInsertBlock(blockToInsert);

@@ -14,10 +14,10 @@ import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
 import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
-import VisualElementMenu from '../../VisualElement/VisualElementMenu';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import { FormikShape } from '../../../shapes';
+import { topicArticleContentToEditorValue } from '../../../util/articleContentConverter';
 
 export const visualElementClasses = new BEMHelper({
   name: 'visual-element',
@@ -36,6 +36,7 @@ const FormikVisualElement = ({
   types,
   videoTypes,
   visualElementCaptionName,
+  getArticle
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 
@@ -52,6 +53,7 @@ const FormikVisualElement = ({
       ? formik.values.visualElementAlt
       : formik.values.visualElementCaption;
   }
+  const article = getArticle();
   return (
     <Fragment>
       <FormikField name="visualElement">
@@ -74,7 +76,7 @@ const FormikVisualElement = ({
                 content={formik.values.content}
                 language={formik.values.language}
                 visualElementCaptionName={visualElementCaptionName}
-                visualElementValue={formik.values.visualElementValue}
+                visualElementValue={topicArticleContentToEditorValue(article.visualElement)}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}
@@ -106,6 +108,7 @@ FormikVisualElement.propTypes = {
   types: PropTypes.arrayOf(PropTypes.string),
   videoTypes: PropTypes.array,
   visualElementCaptionName: PropTypes.string,
+  getArticle: PropTypes.func,
 };
 
 export default injectT(connect(FormikVisualElement));

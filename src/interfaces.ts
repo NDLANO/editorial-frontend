@@ -63,19 +63,27 @@ export interface ResourceTranslation {
   language: string;
 }
 
+export interface MetaImage {
+  alt: string;
+  url: string;
+  language: string;
+}
+
 export interface ContentResultType {
+  articleType: string;
   id: number;
   title: { title: string };
   url?: string;
   metaDescription?: { metaDescription: string };
-  metaImage?: { alt: string; url: string; language: string };
+  metaImage?: MetaImage;
+  metaUrl?: string;
   contexts: [
     {
       learningResourceType: string;
       resourceTypes: ResourceType[];
     },
   ];
-  learningResourceType: string;
+  learningResourceType?: string;
   supportedLanguages?: string[];
 }
 
@@ -95,11 +103,7 @@ export interface ArticleType {
   tags: string[];
   published: string;
   copyright: Copyright;
-  metaImage: {
-    url: string;
-    alt: string;
-    language: string;
-  };
+  metaImage: MetaImage;
   oldNdlaUrl: string;
   revision: number;
   updated: string;

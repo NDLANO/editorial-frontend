@@ -9,7 +9,7 @@
 import React, { FC } from 'react';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT, tType } from '@ndla/i18n';
-import { CodeBlockEditor } from '@ndla/editor';
+import { CodeBlockEditor } from '@ndla/code';
 import AlertModal from '../../../AlertModal';
 import { CodeBlockType } from '../../../../interfaces';
 

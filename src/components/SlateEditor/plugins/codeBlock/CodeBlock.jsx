@@ -2,8 +2,7 @@ import React, { Component, createRef } from 'react';
 import Types from 'slate-prop-types';
 
 import { injectT } from '@ndla/i18n';
-import { Codeblock } from '@ndla/ui';
-import { getTitleFromFormat } from '@ndla/editor';
+import { Codeblock, getTitleFromFormat } from '@ndla/code';
 
 import BlockMenu from '../mathml/BlockMenu';
 import { Portal } from '../../../Portal';

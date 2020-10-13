@@ -10,7 +10,6 @@ import React, { useMemo } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import { renderBlock } from '../../components/SlateEditor/slateRendering';
 
 interface Props {
   onChange: Function;
@@ -73,8 +72,6 @@ const VisualElement = ({
     <VisualElementEditor
       value={visualElementValue}
       plugins={plugins}
-      onChange={changeVisualElement}
-      renderBlock={renderBlock}
     />
   );
 };

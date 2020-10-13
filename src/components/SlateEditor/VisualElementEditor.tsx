@@ -6,28 +6,29 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
-import visualElementPlugin from './plugins/visualElement';
-import visualElementPickerPlugin from './plugins/visualElementPicker';
+import { renderBlock } from './slateRendering'
+
+interface Props {
+  value: any,
+  plugins: any[],
+}
 
 const slateStore = createSlateStore();
 
 const VisualElementEditor = ({
   value,
   plugins,
-  renderBlock,
-  changeVisualElement,
-}) => {
+}: Props) => {
   return (
     <Editor
       value={value}
       plugins={plugins}
       slateStore={slateStore}
       renderBlock={renderBlock}
-      onChange={changeVisualElement}
     />
   );
 };

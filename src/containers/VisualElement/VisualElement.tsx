@@ -58,6 +58,7 @@ const VisualElement = ({
     onChange({ target: { name, value: {} } });
     resetSelectedResource();
   };
+
   const plugins = useMemo(() => {
     return createPlugins(
       !value.resource,
@@ -72,6 +73,7 @@ const VisualElement = ({
     <VisualElementEditor
       value={visualElementValue}
       plugins={plugins}
+      onChange={onChange}
     />
   );
 };

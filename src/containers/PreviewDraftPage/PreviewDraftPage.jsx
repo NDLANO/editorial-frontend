@@ -8,7 +8,7 @@
 
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n'
+import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Hero, OneColumn } from '@ndla/ui';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -22,7 +22,7 @@ const PreviewDraftPage = ({
   match: {
     params: { draftId, language },
   },
-  t
+  t,
 }) => {
   const [draft, setDraft] = useState(undefined);
   const [resource, setResource] = useState(undefined);
@@ -65,7 +65,9 @@ const PreviewDraftPage = ({
       <Hero contentType={contentType}>
         <LanguageSelector supportedLanguages={draft.supportedLanguages} />
       </Hero>
-      <HelmetWithTracker title={`${draft.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker
+        title={`${draft.title} ${t('htmlTitles.titleTemplate')}`}
+      />
       <OneColumn>
         <PreviewDraft
           article={draft}

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, shadows } from '@ndla/core';
 import { ContentResultShape } from '../../../shapes';
+import { LocaleContext } from '../../App/App';
 
 import ElementListItem from './ElementListItem';
 
@@ -160,24 +161,31 @@ class ElementList extends Component {
     const { draggingIndex, deleteIndex } = this.state;
     return (
       <StyledWrapper>
-        <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
-          {elements
-            .filter(element => !!element)
-            .map((element, index) => (
-              <ElementListItem
-                key={element.id}
-                element={element}
-                deleteIndex={deleteIndex}
-                messages={messages}
-                index={index}
-                executeDeleteFile={this.executeDeleteFile}
-                showDragTooltip={elements.length > 1 && draggingIndex === -1}
-                onDragEnd={this.onDragEnd}
-                onDragStart={this.onDragStart}
-                deleteFile={this.deleteFile}
-              />
-            ))}
-        </StyledList>
+        <LocaleContext.Consumer>
+          {locale => (
+            <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
+              {elements
+                .filter(element => !!element)
+                .map((element, index) => (
+                  <ElementListItem
+                    key={element.id}
+                    element={element}
+                    deleteIndex={deleteIndex}
+                    messages={messages}
+                    index={index}
+                    locale={locale}
+                    executeDeleteFile={this.executeDeleteFile}
+                    showDragTooltip={
+                      elements.length > 1 && draggingIndex === -1
+                    }
+                    onDragEnd={this.onDragEnd}
+                    onDragStart={this.onDragStart}
+                    deleteFile={this.deleteFile}
+                  />
+                ))}
+            </StyledList>
+          )}
+        </LocaleContext.Consumer>
       </StyledWrapper>
     );
   }

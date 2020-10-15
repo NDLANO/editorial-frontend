@@ -1715,10 +1715,10 @@
     "@ndla/core" "^0.6.30"
     react-swipeable "^5.0.1"
 
-"@ndla/code@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.1.tgz#31f261c0d743369212da2f7e999613791c32f73e"
-  integrity sha512-/nAq6diAK3IS2t5pvpDviYWT9XXbWRtmuffqaRCyAKkNfPurbVfSCDY7aQ1XSciBeI+Pbek6ucCacQkX7ZPP/Q==
+"@ndla/code@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.2.tgz#6ee9f860454416ac9145c87aba2fde85465a3ae3"
+  integrity sha512-cU560Di5StXYohdbuwnONQIuKjsn9/nrWy9GAECM3EmjmOCPbDYEu+MT2lUin6J+phgiruwV30sTCgPpj2hdCw==
   dependencies:
     "@ndla/button" "^0.3.40"
     "@ndla/core" "^0.6.30"
@@ -1787,10 +1787,10 @@
     "@ndla/util" "^0.4.4"
     lodash "^4.17.14"
 
-"@ndla/hooks@^0.1.15":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.15.tgz#a633ba086dc7c4647d236e9f51532e6978e6f25e"
-  integrity sha512-nKR0mwL1hCffmGnoLbo4PU1ClVYqOhvOO21+A11/Syo/tRUIVsRAe+u/ysixu5Rq4bVmm2tlUz7E9TNJn6ZQ9g==
+"@ndla/hooks@^0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.16.tgz#99d79d9783bcc46c474b3e05a4d0c6541eb3b7d2"
+  integrity sha512-zOU9+5PKzAxowWSqZGLEfgnywCQOVRj08m04y8VtcckW8+ebEYj0jEgPZPzYuDKf1GALnEd3eHxQDHkyVG6HdA==
   dependencies:
     "@ndla/util" "^0.4.4"
     lodash "^4.17.20"
@@ -2005,15 +2005,15 @@
     react-syntax-highlighter "15.1.0"
     react-transition-group "^2.5.3"
 
-"@ndla/ui@^0.28.0":
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.28.0.tgz#1383ef1e2c146adb7d612b083b49dad1000db08b"
-  integrity sha512-AMekzJP8JqQpcYTduyE6HHvHagIDw6tFtZiEmNcxhfkdUkaUXTT+zceMaL+u9d07bOkRn2lLwaclFOFT0mnGzA==
+"@ndla/ui@^0.28.1":
+  version "0.28.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.28.1.tgz#268ceb711871dc7553430b332825d9688ec067e5"
+  integrity sha512-Eq7gbTD6PYwwknmo38KNhylLKnX1ziTwoAJWMUERFoM8y+L5pItQCn1c8l2Gxgs+fq+XeLnLd0HXIDmWgtbxqw==
   dependencies:
     "@ndla/button" "^0.3.40"
     "@ndla/carousel" "^0.3.30"
     "@ndla/core" "^0.6.30"
-    "@ndla/hooks" "^0.1.15"
+    "@ndla/hooks" "^0.1.16"
     "@ndla/i18n" "^0.5.1"
     "@ndla/icons" "^0.6.25"
     "@ndla/licenses" "^0.6.36"

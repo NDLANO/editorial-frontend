@@ -1,14 +1,19 @@
 import React, { Component, createRef } from 'react';
 import Types from 'slate-prop-types';
+import styled from '@emotion/styled';
 
+import Button from '@ndla/button';
+import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import { Codeblock, getTitleFromFormat } from '@ndla/code';
 
-import BlockMenu from '../mathml/BlockMenu';
-import { Portal } from '../../../Portal';
 import { getSchemaEmbed } from '../../editorSchema';
 import { EditorShape } from '../../../../shapes';
 import EditCodeBlock from './EditCodeBlock';
+
+const CodeDiv = styled.div`
+  cursor: pointer;
+`;
 
 const getInfoFromNode = node => {
   const data = node?.data ? node.data.toJS() : {};
@@ -36,10 +41,9 @@ class CodeBlock extends Component {
   constructor(props) {
     super(props);
     const { isFirstEdit, model } = getInfoFromNode(props.node);
-    this.state = { isFirstEdit, editMode: !model.code, showMenu: false };
+    this.state = { isFirstEdit, editMode: !model.code };
     this.codeBlockRef = createRef();
     this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.toggleMenu = this.toggleMenu.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
@@ -62,10 +66,6 @@ class CodeBlock extends Component {
 
   toggleEditMode() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
-  }
-
-  toggleMenu() {
-    this.setState(prevState => ({ showMenu: !prevState.showMenu }));
   }
 
   handleSave(codeBlock) {
@@ -98,36 +98,31 @@ class CodeBlock extends Component {
   }
 
   render() {
-    const { t, editor, node } = this.props;
-    const { editMode, showMenu } = this.state;
+    const { editor, node } = this.props;
+    const { editMode } = this.state;
     const { model } = getInfoFromNode(node);
-    const { top, left } = this.getMenuPosition();
+
+    const removeCodeblock = (
+      <Button stripped onClick={this.handleRemove}>
+        <Cross />
+      </Button>
+    );
 
     return (
       <>
-        <div
+        <CodeDiv
+          draggable
           ref={this.codeBlockRef}
-          onClick={this.toggleMenu}
-          onKeyPress={this.toggleMenu}
+          onClick={this.toggleEditMode}
           tabIndex={0}
           role="button">
           <Codeblock
+            actionButton={removeCodeblock}
             code={model.code}
             format={model.format}
             title={model.title}
           />
-
-          <Portal isOpened={showMenu}>
-            <BlockMenu
-              top={top}
-              left={left}
-              t={t}
-              handleRemove={this.handleRemove}
-              toggleEdit={this.toggleEditMode}
-              toggleMenu={this.toggleMenu}
-            />
-          </Portal>
-        </div>
+        </CodeDiv>
 
         {editMode && (
           <EditCodeBlock

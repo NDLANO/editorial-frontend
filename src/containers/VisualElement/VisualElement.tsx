@@ -67,7 +67,7 @@ const VisualElement = ({
       changeVisualElement,
       language,
     );
-  }, [value, language]);
+  }, [value.resource, language]);
 
   return (
     <VisualElementEditor

@@ -54,6 +54,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
     'metaDescription',
     'content',
     'conceptContent',
+    'visualElementValue'
   ];
   // and skipping fields that only changes on the server
   const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];

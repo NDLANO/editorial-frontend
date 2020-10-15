@@ -28,7 +28,6 @@ const VisualElementEditor = ({
 
   const onVisualElementChange = useMemo(() => 
     (change: any) => {
-      console.log(change)
       return onChange({
         target: {
           name,

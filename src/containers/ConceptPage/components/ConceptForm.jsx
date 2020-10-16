@@ -308,7 +308,7 @@ class ConceptForm extends Component {
                 getConcept={() => this.getConcept(values)}
                 translateArticle={translateConcept}
                 type="concept"
-                setTranslateOnContinue={this.setTranslateOnContinue} // TODO se at denne er rett
+                setTranslateOnContinue={this.setTranslateOnContinue}
                 values={values}
               />
               <Accordion openIndexes={['concept-content']}>

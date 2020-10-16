@@ -110,8 +110,8 @@ HeaderWithLanguage.propTypes = {
   ]),
   translateArticle: PropTypes.func,
   values: PropTypes.shape({
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     articleType: PropTypes.string,
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
 };
 

@@ -7,7 +7,6 @@
  */
 
 import { useState } from 'react';
-
 import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
 export function useTranslateForm(article, setArticle) {
@@ -34,5 +33,30 @@ export function useTranslateForm(article, setArticle) {
   return {
     translating,
     translateArticle,
+  };
+}
+
+export function useConceptTranslateForm(concept, setConcept) {
+  const [translating, setTranslating] = useState(false);
+
+  const translateConcept = async () => {
+    setTranslating(true);
+    const { id, title, content } = concept;
+    const translatedConceptContents = await fetchNnTranslation({
+      id,
+      title,
+      content,
+    });
+    setConcept({
+      ...concept,
+      ...translatedConceptContents,
+      language: 'nn',
+    });
+    setTranslating(false);
+  };
+
+  return {
+    translating,
+    translateConcept,
   };
 }

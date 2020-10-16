@@ -313,13 +313,6 @@ export const codeBlockRule = {
       object: 'block',
       type: 'code-block',
       data: { ...embed },
-      nodes: [
-        {
-          object: 'text',
-          text: embed['code-content'], // TODO, hva er denne
-          marks: [],
-        },
-      ],
     };
   },
   serialize(slateObject) {
@@ -331,8 +324,8 @@ export const codeBlockRule = {
 
     const props = createDataProps({
       resource: 'code-block',
-      'code-content': data?.codeBlock?.code || data['code-content'],
-      'code-format': data?.codeBlock?.format || data['code-format'],
+      'code-content': data['code-block']?.code || data['code-content'],
+      'code-format': data['code-block']?.format || data['code-format'],
     });
     return <embed {...props} />;
   },

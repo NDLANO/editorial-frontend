@@ -48,8 +48,8 @@ const toolbarIcon = t => ({
   footnote: <Section title={t('editorToolbar.footnote')} />,
   mathml: <Math title={t('editorToolbar.mathml')} />,
   concept: <Concept title={t('editorToolbar.concept')} />,
-  code: <Code title="Ikke formatert kodeblokk" />,
-  'code-block': <Code title="Kodeblokk" />,
+  code: <Code title={t('editorToolbar.code')} />,
+  'code-block': <Code title={t('editorToolbar.codeblock')} />,
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 

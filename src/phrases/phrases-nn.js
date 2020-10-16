@@ -456,6 +456,8 @@ const phrases = {
     footnote: 'Fotnote',
     mathml: 'Matte',
     concept: 'Forklaring',
+    code: 'Kode',
+    codeblock: 'Kodeblokk',
   },
   editorBlockpicker: {
     heading: 'Legg til',

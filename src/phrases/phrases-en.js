@@ -440,6 +440,8 @@ const phrases = {
     footnote: 'Footnote',
     mathml: 'Math',
     concept: 'Concept',
+    code: 'Inline code',
+    codeblock: 'Code',
   },
   editorBlockpicker: {
     heading: 'Add',

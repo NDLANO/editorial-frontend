@@ -17,7 +17,7 @@ const CodeDiv = styled.div`
 
 const getInfoFromNode = node => {
   const data = node.data?.toJS() || {};
-  const codeBlock = data.codeBlock || node.text;
+  const codeBlock = data['code-block'] || node.text;
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
@@ -33,7 +33,7 @@ const getInfoFromNode = node => {
       title: codeBlock.title || getTitleFromFormat(format),
       format,
     },
-    isFirstEdit: data.codeBlock === undefined,
+    isFirstEdit: data['code-block'] === undefined,
   };
 };
 
@@ -57,10 +57,10 @@ class CodeBlock extends Component {
   handleSave(codeBlock) {
     const { node, editor } = this.props;
     const properties = {
-      data: { ...getSchemaEmbed(node), codeBlock: codeBlock },
+      data: { ...getSchemaEmbed(node), 'code-block': codeBlock },
     };
-    editor.setNodeByKey(node.key, properties);
     this.setState({ isFirstEdit: false, editMode: false });
+    editor.setNodeByKey(node.key, properties);
   }
 
   handleRemove() {
@@ -97,10 +97,9 @@ class CodeBlock extends Component {
     return (
       <>
         <CodeDiv
-          draggable
+          draggable={!editMode}
           ref={this.codeBlockRef}
           onClick={this.toggleEditMode}
-          tabIndex={0}
           role="button">
           <Codeblock
             actionButton={removeCodeblock}

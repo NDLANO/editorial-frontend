@@ -13,12 +13,13 @@ import { injectT } from '@ndla/i18n';
 import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
+import { useConceptTranslateForm } from '../FormikForm/translateFormHooks';
 
 const EditConcept = ({
   conceptId,
+  isNewlyCreated,
   selectedLanguage,
   t,
-  isNewlyCreated,
   ...rest
 }) => {
   const {
@@ -30,6 +31,11 @@ const EditConcept = ({
     fetchSearchTags,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
+  const { translating, translateConcept } = useConceptTranslateForm(
+    concept,
+    updateConcept,
+  );
+
   if (!concept) {
     return null;
   }
@@ -40,13 +46,15 @@ const EditConcept = ({
         title={`${concept.title} ${t('htmlTitles.titleTemplate')}`}
       />
       <ConceptForm
-        onUpdate={updateConcept}
-        updateConceptAndStatus={updateConceptAndStatus}
-        fetchStateStatuses={fetchStatusStateMachine}
-        fetchConceptTags={fetchSearchTags}
         concept={concept}
-        subjects={subjects}
+        fetchConceptTags={fetchSearchTags}
+        fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
+        onUpdate={updateConcept}
+        subjects={subjects}
+        translateConcept={translateConcept}
+        translating={translating}
+        updateConceptAndStatus={updateConceptAndStatus}
         {...rest}
       />
     </Fragment>

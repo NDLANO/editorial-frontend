@@ -105,6 +105,7 @@ class ConceptForm extends Component {
     super(props);
     this.state = {
       savedToServer: false,
+      translateOnContinue: false,
     };
     this.formik = React.createRef();
   }
@@ -122,6 +123,10 @@ class ConceptForm extends Component {
     }
     this.formik = React.createRef();
   }
+
+  setTranslateOnContinue = translateOnContinue => {
+    this.setState({ translateOnContinue: translateOnContinue });
+  };
 
   getCreatedDate = values => {
     if (isEmpty(values.created)) {
@@ -215,21 +220,22 @@ class ConceptForm extends Component {
 
   render() {
     const {
-      t,
-      licenses,
-      history,
       concept,
-      onUpdate,
-      onClose,
-      inModal,
-      subjects,
       createMessage,
-      fetchStateStatuses,
       fetchConceptTags,
+      fetchStateStatuses,
+      history,
+      inModal,
       isNewlyCreated,
+      licenses,
+      onClose,
+      onUpdate,
+      subjects,
+      t,
+      translateConcept,
       ...rest
     } = this.props;
-    const { savedToServer } = this.state;
+    const { savedToServer, translateOnContinue } = this.state;
     const panels = ({ errors, touched }) => [
       {
         id: 'concept-content',
@@ -297,13 +303,14 @@ class ConceptForm extends Component {
           return (
             <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
-                values={values}
-                type="concept"
                 content={concept}
-                getConcept={() => this.getConcept(values)}
                 editUrl={lang => toEditConcept(values.id, lang)}
+                getConcept={() => this.getConcept(values)}
+                translateArticle={translateConcept}
+                type="concept"
+                setTranslateOnContinue={this.setTranslateOnContinue} // TODO se at denne er rett
+                values={values}
               />
-
               <Accordion openIndexes={['concept-content']}>
                 {({ openIndexes, handleItemClick }) => (
                   <AccordionWrapper>
@@ -381,8 +388,9 @@ class ConceptForm extends Component {
               )}
               {!inModal && (
                 <FormikAlertModalWrapper
-                  isSubmitting={isSubmitting}
                   formIsDirty={formIsDirty}
+                  isSubmitting={isSubmitting}
+                  onContinue={translateOnContinue ? translateConcept : () => {}}
                   severity="danger"
                   text={t('alertModal.notSaved')}
                 />
@@ -396,22 +404,23 @@ class ConceptForm extends Component {
 }
 
 ConceptForm.propTypes = {
-  concept: ConceptShape,
-  inModal: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    goBack: PropTypes.func,
-  }).isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  onClose: PropTypes.func,
   applicationError: PropTypes.func.isRequired,
-  licenses: LicensesArrayOf,
-  subjects: PropTypes.arrayOf(SubjectShape),
+  concept: ConceptShape,
   createMessage: PropTypes.func.isRequired,
-  updateConceptAndStatus: PropTypes.func,
-  fetchStateStatuses: PropTypes.func,
   fetchConceptTags: PropTypes.func.isRequired,
+  fetchStateStatuses: PropTypes.func,
+  history: PropTypes.shape({
+    goBack: PropTypes.func,
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  inModal: PropTypes.bool,
   isNewlyCreated: PropTypes.bool,
+  licenses: LicensesArrayOf,
+  onClose: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
+  subjects: PropTypes.arrayOf(SubjectShape),
+  translateConcept: PropTypes.func,
+  updateConceptAndStatus: PropTypes.func,
 };
 
 const mapDispatchToProps = {

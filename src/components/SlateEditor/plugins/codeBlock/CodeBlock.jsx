@@ -16,8 +16,9 @@ const CodeDiv = styled.div`
 `;
 
 const getInfoFromNode = node => {
-  const data = node?.data ? node.data.toJS() : {};
+  const data = node.data?.toJS() || {};
   const codeBlock = data.codeBlock || node.text;
+  const format = codeBlock.format || data['code-format'] || 'text';
 
   return {
     // TODO er veldig usikker på denne, her har jeg basert meg på matte komponenten, se kommentar under
@@ -27,11 +28,8 @@ const getInfoFromNode = node => {
     // derfor lagres dataen som data-code-format og data-code-content i embed taggen
     model: {
       code: codeBlock.code || data['code-content'] || '',
-      title:
-        codeBlock.title ||
-        getTitleFromFormat(codeBlock.format || data['code-format']) ||
-        'Text', // TODO tar gjerne i mot forslag for å forbedre denne
-      format: codeBlock.format || data['code-format'] || 'text',
+      title: codeBlock.title || getTitleFromFormat(format),
+      format,
     },
     isFirstEdit: data.codeBlock === undefined,
   };

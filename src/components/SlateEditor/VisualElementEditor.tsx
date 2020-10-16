@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
@@ -15,7 +15,6 @@ import { renderBlock } from './slateRendering'
 interface Props {
   value: any,
   plugins: any[],
-  onChange: Function,
 }
 
 const slateStore = createSlateStore();
@@ -23,19 +22,7 @@ const slateStore = createSlateStore();
 const VisualElementEditor = ({
   value,
   plugins,
-  onChange
 }: Props) => {
-
-  const onVisualElementChange = useMemo(() => 
-    (change: any) => {
-      return onChange({
-        target: {
-          name,
-          value: change.value,
-          type: 'VisualElementValue'
-        }
-      })
-    }, []);
 
   return (
     <Editor
@@ -43,7 +30,6 @@ const VisualElementEditor = ({
       plugins={plugins}
       slateStore={slateStore}
       renderBlock={renderBlock}
-      onChange={onVisualElementChange}
     />
   );
 };

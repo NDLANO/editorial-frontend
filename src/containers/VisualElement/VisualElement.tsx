@@ -73,7 +73,6 @@ const VisualElement = ({
     <VisualElementEditor
       value={visualElementValue}
       plugins={plugins}
-      onChange={onChange}
     />
   );
 };

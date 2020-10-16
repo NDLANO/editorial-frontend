@@ -49,7 +49,7 @@ export function useConceptTranslateForm(concept, setConcept) {
     });
     setConcept({
       ...concept,
-      ...translatedConceptContents,
+      ...translatedConceptContents.document,
       language: 'nn',
     });
     setTranslating(false);

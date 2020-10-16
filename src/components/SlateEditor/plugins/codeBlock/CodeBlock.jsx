@@ -18,6 +18,8 @@ const CodeDiv = styled.div`
 const getInfoFromNode = node => {
   const data = node.data?.toJS() || {};
   const codeBlock = data.codeBlock || node.text;
+
+  const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
 
   return {
@@ -27,7 +29,7 @@ const getInfoFromNode = node => {
     // men noen data-* attributter (data-format, data-content) er alt definert på embed (???),
     // derfor lagres dataen som data-code-format og data-code-content i embed taggen
     model: {
-      code: codeBlock.code || data['code-content'] || '',
+      code,
       title: codeBlock.title || getTitleFromFormat(format),
       format,
     },
@@ -46,20 +48,6 @@ class CodeBlock extends Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.handleUndo = this.handleUndo.bind(this);
     this.onExit = this.onExit.bind(this);
-  }
-
-  getMenuPosition() {
-    if (this.codeBlockRef.current) {
-      const rect = this.codeBlockRef.current.getBoundingClientRect();
-      return {
-        top: window.scrollY + rect.top + rect.height,
-        left: rect.left,
-      };
-    }
-    return {
-      top: 0,
-      left: 0,
-    };
   }
 
   toggleEditMode() {

@@ -1,4 +1,5 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import styled from '@emotion/styled';
 
@@ -42,7 +43,6 @@ class CodeBlock extends Component {
     super(props);
     const { isFirstEdit, model } = getInfoFromNode(props.node);
     this.state = { isFirstEdit, editMode: !model.code };
-    this.codeBlockRef = createRef();
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
@@ -84,7 +84,7 @@ class CodeBlock extends Component {
   }
 
   render() {
-    const { editor, node } = this.props;
+    const { attributes, editor, node } = this.props;
     const { editMode } = this.state;
     const { model } = getInfoFromNode(node);
 
@@ -95,20 +95,17 @@ class CodeBlock extends Component {
     );
 
     return (
-      <>
-        <CodeDiv
-          draggable={!editMode}
-          ref={this.codeBlockRef}
-          onClick={this.toggleEditMode}
-          role="button">
-          <Codeblock
-            actionButton={removeCodeblock}
-            code={model.code}
-            format={model.format}
-            title={model.title}
-          />
-        </CodeDiv>
-
+      <CodeDiv
+        draggable={!editMode}
+        onClick={this.toggleEditMode}
+        role="button"
+        {...attributes}>
+        <Codeblock
+          actionButton={removeCodeblock}
+          code={model.code}
+          format={model.format}
+          title={model.title}
+        />
         {editMode && (
           <EditCodeBlock
             blur={editor.blur}
@@ -121,12 +118,15 @@ class CodeBlock extends Component {
             onExit={this.onExit}
           />
         )}
-      </>
+      </CodeDiv>
     );
   }
 }
 
 CodeBlock.propTypes = {
+  attributes: PropTypes.shape({
+    'data-key': PropTypes.string.isRequired,
+  }),
   editor: EditorShape,
   node: Types.node.isRequired,
 };

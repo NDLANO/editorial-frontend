@@ -13,10 +13,10 @@ export default function visualElementPickerPlugin(options = {}) {
   const schema = {};
   const renderEditor = (props, editor, next) => {
     const children = next();
-    const { types, language, empty, onSelect, embed } = options;
+    const { types, language, empty, changeVisualElement, embed } = options;
     return empty ? (
       <VisualElementPicker
-        onSelect={onSelect}
+        onSelect={changeVisualElement}
         types={types}
         editor={editor}
         visualElement={embed}

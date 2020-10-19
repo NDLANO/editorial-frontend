@@ -10,12 +10,18 @@ import React from 'react';
 import DisplayVisualElement from '../../../../containers/VisualElement/DisplayVisualElement';
 import { getSchemaEmbed } from '../../editorSchema';
 export default function visualElementPlugin(options = {}) {
-  const schema = {};
+  const schema = {
+    blocks: {
+      embed: {
+        isVoid: true,
+      },
+    },
+  };
 
   /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
     const { node } = props;
-    const { onRemove, onSelect, language } = options;
+    const { onRemove, onChange, changeVisualElement, language } = options;
 
     const onRemoveClick = e => {
       e.stopPropagation();
@@ -31,7 +37,8 @@ export default function visualElementPlugin(options = {}) {
           <DisplayVisualElement
             embed={embed}
             onRemoveClick={onRemoveClick}
-            changeVisualElement={onSelect}
+            onChange={onChange}
+            changeVisualElement={changeVisualElement}
             language={language}
           />
         );

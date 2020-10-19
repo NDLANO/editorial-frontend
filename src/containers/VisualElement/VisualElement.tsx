@@ -26,19 +26,21 @@ const createPlugins = (
   empty: boolean,
   types: string[],
   onRemove: Function,
-  onSelect: Function,
+  onChange: Function,
+  changeVisualElement: Function,
   language: string,
 ) => {
   return [
     visualElementPickerPlugin({
       types,
-      onSelect,
+      changeVisualElement,
       empty,
       language,
     }),
     visualElementPlugin({
       onRemove,
-      onSelect,
+      onChange,
+      changeVisualElement,
       language,
     }),
   ];
@@ -64,6 +66,7 @@ const VisualElement = ({
       !value.resource,
       types,
       onRemove,
+      onChange,
       changeVisualElement,
       language,
     );

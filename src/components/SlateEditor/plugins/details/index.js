@@ -44,26 +44,24 @@ export default function createDetails() {
         ],
         parent: { type: 'details' },
         normalize: (editor, error) => {
-          switch(error.code) {
+          switch (error.code) {
             case 'parent_type_invalid': {
               // Pakker ut en summary som havner utenfor details og wrapper i en paragraph
               const summary = error.node.text;
               editor.withoutSaving(() => {
                 editor.wrapBlockByKey(error.node.key, 'paragraph');
-                const parent = editor.value.document.getParent(
-                  error.node.key,
-                );
+                const parent = editor.value.document.getParent(error.node.key);
                 const text = Text.create({
                   object: 'text',
                   text: summary,
                   marks: [],
-                },);
+                });
                 editor.insertNodeByKey(parent.key, 0, text);
               });
               break;
             }
-            default: 
-              break
+            default:
+              break;
           }
         },
       },

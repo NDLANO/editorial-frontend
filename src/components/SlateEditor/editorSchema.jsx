@@ -38,7 +38,6 @@ export const schema = {
             { type: 'letter-list' },
             { type: 'related' },
             { type: 'details' },
-            { type: 'solutionbox' },
             { type: 'bodybox' },
             { type: 'aside' },
             { type: 'quote' },

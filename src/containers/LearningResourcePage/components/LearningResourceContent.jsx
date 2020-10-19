@@ -119,7 +119,7 @@ class LearningResourceContent extends Component {
       blockPickerPlugin({
         articleLanguage: language,
         actionsToShowInAreas: {
-          solutionbox: ['table'],
+          details: ['table'],
         },
       }),
       dndPlugin,
@@ -139,7 +139,7 @@ class LearningResourceContent extends Component {
         blockPickerPlugin({
           articleLanguage: language,
           actionsToShowInAreas: {
-            solutionbox: ['table'],
+            details: ['table'],
           },
           ...this.plugins,
         }),

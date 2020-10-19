@@ -8,24 +8,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import { injectT } from '@ndla/i18n';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { EditorShape } from '../../../../shapes';
 import DeleteButton from '../../../DeleteButton';
-
-const solutionboxStyle = css`
-  background-color: ${colors.tableBg};
-  border: none;
-  width: 100%;
-`;
 
 const StyledDetailsDiv = styled.div`
   position: relative;
   margin: ${spacing.large} 0;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
-  ${p => p.isSolutionbox && solutionboxStyle}
   > *:last-child {
     margin-bottom: 0;
   }
@@ -37,19 +29,12 @@ const StyledContent = styled.div`
   padding-left: ${spacing.normal};
 `;
 
-const solutionboxSummaryStyle = css`
-  background-color: ${colors.brand.lightest};
-  width: 100%;
-`;
-
 const StyledSummary = styled.summary`
   color: ${colors.brand.primary};
   cursor: pointer;
   font-size: 20px;
   padding: ${spacing.normal};
   display: flex;
-
-  ${p => p.isSolutionbox && solutionboxSummaryStyle}
 
   &::before {
     content: '';
@@ -81,7 +66,7 @@ const StyledRow = styled.div`
 `;
 
 const Details = props => {
-  const { node, isSolutionbox, children, editor, editSummaryButton } = props;
+  const { node, children, editor, editSummaryButton } = props;
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
@@ -94,12 +79,9 @@ const Details = props => {
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv isSolutionbox={isSolutionbox}>
+    <StyledDetailsDiv>
       <StyledRow>
-        <StyledSummary
-          isSolutionbox={isSolutionbox}
-          isOpen={isOpen}
-          onClick={toggleOpen}>
+        <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
           {summaryNode}
         </StyledSummary>
         {isOpen && editSummaryButton}
@@ -121,7 +103,6 @@ Details.propTypes = {
   node: Types.node.isRequired,
   editor: EditorShape,
   editSummaryButton: PropTypes.node,
-  isSolutionbox: PropTypes.bool,
 };
 
 export default injectT(Details);

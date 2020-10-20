@@ -14,6 +14,7 @@ import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
+import Spinner from '../../components/Spinner';
 
 const EditConcept = ({
   conceptId,
@@ -26,6 +27,7 @@ const EditConcept = ({
     concept,
     fetchSearchTags,
     fetchStatusStateMachine,
+    loading,
     setConcept,
     subjects,
     updateConcept,
@@ -40,7 +42,9 @@ const EditConcept = ({
   if (!concept) {
     return null;
   }
-
+  if (loading) {
+    return <Spinner withWrapper />;
+  }
   return (
     <Fragment>
       <HelmetWithTracker

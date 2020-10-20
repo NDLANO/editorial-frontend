@@ -11,11 +11,15 @@ import handleError from '../../util/handleError';
 export function useFetchConceptData(conceptId, locale) {
   const [concept, setConcept] = useState(undefined);
   const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const fetchConcept = async () => {
     try {
       if (conceptId) {
+        setLoading(true);
         const concept = await conceptApi.fetchConcept(conceptId, locale);
         setConcept(transformConceptFromApiVersion(concept, locale));
+        setLoading(false);
       }
     } catch (e) {
       handleError(e);
@@ -69,6 +73,7 @@ export function useFetchConceptData(conceptId, locale) {
     createConcept,
     fetchSearchTags,
     fetchStatusStateMachine,
+    loading,
     setConcept,
     subjects,
     updateConcept,

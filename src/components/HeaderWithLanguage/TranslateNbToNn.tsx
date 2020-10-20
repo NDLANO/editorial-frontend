@@ -1,13 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
-
+import { injectT, tType } from '@ndla/i18n';
 import StyledFilledButton from '../../components/StyledFilledButton';
 
 const StyledLink = StyledFilledButton.withComponent(Link);
 
-const TranslateNbToNn = ({
+interface Props {
+  translateArticle: Function;
+  editUrl: (lang: string) => string;
+  setTranslateOnContinue: (translateOnContinue: Boolean) => void;
+  formIsDirty: Boolean;
+}
+
+const TranslateNbToNn: FC<Props & tType> = ({
   formIsDirty,
   translateArticle,
   setTranslateOnContinue,
@@ -23,13 +28,6 @@ const TranslateNbToNn = ({
       {t('form.variant.translate')}
     </StyledLink>
   );
-};
-
-TranslateNbToNn.propTypes = {
-  translateArticle: PropTypes.func.isRequired,
-  editUrl: PropTypes.func.isRequired,
-  setTranslateOnContinue: PropTypes.func.isRequired,
-  formIsDirty: PropTypes.bool.isRequired,
 };
 
 export default injectT(TranslateNbToNn);

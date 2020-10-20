@@ -67,10 +67,11 @@ export function useFetchConceptData(conceptId, locale) {
   return {
     concept,
     createConcept,
-    updateConcept,
-    subjects,
-    updateConceptAndStatus,
-    fetchStatusStateMachine,
     fetchSearchTags,
+    fetchStatusStateMachine,
+    setConcept,
+    subjects,
+    updateConcept,
+    updateConceptAndStatus,
   };
 }

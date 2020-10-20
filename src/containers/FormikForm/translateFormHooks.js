@@ -36,7 +36,7 @@ export function useTranslateForm(article, setArticle) {
   };
 }
 
-export function useConceptTranslateForm(concept, setConcept) {
+export function useTranslateConceptForm(concept, setConcept) {
   const [translating, setTranslating] = useState(false);
 
   const translateConcept = async () => {

@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
-import { useConceptTranslateForm } from '../FormikForm/translateFormHooks';
+import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
 
 const EditConcept = ({
   conceptId,
@@ -24,16 +24,17 @@ const EditConcept = ({
 }) => {
   const {
     concept,
-    updateConcept,
-    subjects,
-    updateConceptAndStatus,
-    fetchStatusStateMachine,
     fetchSearchTags,
+    fetchStatusStateMachine,
+    setConcept,
+    subjects,
+    updateConcept,
+    updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
-  const { translating, translateConcept } = useConceptTranslateForm(
+  const { translating, translateConcept } = useTranslateConceptForm(
     concept,
-    updateConcept,
+    setConcept,
   );
 
   if (!concept) {

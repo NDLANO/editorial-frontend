@@ -16,7 +16,7 @@ export default function createAside() {
       aside: {
         isVoid: false,
         ...textBlockValidationRules,
-      }
+      },
     },
   };
 

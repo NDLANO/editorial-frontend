@@ -25,7 +25,7 @@ export default function createBodyBox() {
       bodybox: {
         isVoid: false,
         ...textBlockValidationRules,
-      }
+      },
     },
   };
 

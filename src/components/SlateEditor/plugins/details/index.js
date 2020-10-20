@@ -69,9 +69,9 @@ export default function createDetails() {
         isVoid: false,
         nodes: [
           {
-            match: { type: 'summary' }, 
-              min: 1,
-              max: 1,
+            match: { type: 'summary' },
+            min: 1,
+            max: 1,
           },
           {
             match: [

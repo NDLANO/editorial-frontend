@@ -98,7 +98,6 @@ const FolderItem = ({
       )}
       {showTopicFilters && (
         <FilterLabel>
-          {t('form.filter.label')}:
           {filters.map(filter => (
             <FilterSpan>{filter.name}</FilterSpan>
           ))}

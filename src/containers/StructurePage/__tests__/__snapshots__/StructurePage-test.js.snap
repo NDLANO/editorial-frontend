@@ -1316,10 +1316,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1345,10 +1342,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1374,10 +1368,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1403,10 +1394,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1434,10 +1422,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             >
                               <div
                                 class="emotion-124 emotion-125"
-                              >
-                                Filter
-                                :
-                              </div>
+                              />
                             </div>
                           </div>
                           <ul
@@ -1501,10 +1486,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                               </div>
                               <div
                                 class="emotion-124 emotion-125"
-                              >
-                                Filter
-                                :
-                              </div>
+                              />
                               <button
                                 class="emotion-178 emotion-1"
                                 type="button"
@@ -1540,10 +1522,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             >
                               <div
                                 class="emotion-124 emotion-125"
-                              >
-                                Filter
-                                :
-                              </div>
+                              />
                             </div>
                           </div>
                           <ul
@@ -1572,10 +1551,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1601,10 +1577,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1630,10 +1603,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul
@@ -1659,10 +1629,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       >
                         <div
                           class="emotion-124 emotion-125"
-                        >
-                          Filter
-                          :
-                        </div>
+                        />
                       </div>
                     </div>
                     <ul

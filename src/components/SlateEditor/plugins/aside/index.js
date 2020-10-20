@@ -13,7 +13,10 @@ import SlateAside from './SlateAside';
 export default function createAside() {
   const schema = {
     blocks: {
-      aside: textBlockValidationRules,
+      aside: {
+        isVoid: false,
+        ...textBlockValidationRules,
+      }
     },
   };
 

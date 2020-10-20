@@ -22,7 +22,10 @@ export const defaultBodyBoxBlock = () =>
 export default function createBodyBox() {
   const schema = {
     blocks: {
-      bodybox: textBlockValidationRules,
+      bodybox: {
+        isVoid: false,
+        ...textBlockValidationRules,
+      }
     },
   };
 

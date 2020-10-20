@@ -15,9 +15,9 @@ function pasteHandler() {
       const transfer = getEventTransfer(event);
       if (transfer.type === 'fragment') {
         // Dersom path < 4 la slate håndtere innliming.
-        if (editor.value.selection.focus.path.size < 4) return next();
+        // if (editor.value.selection.focus.path.size < 4) return next();
         // Dersom du limer inn på et lavere, er du inne i en komponent og treng berre teksten.
-        return editor.insertText(transfer.text);
+        //return editor.insertText(transfer.text);
       }
       return next();
     },

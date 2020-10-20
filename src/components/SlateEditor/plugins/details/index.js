@@ -69,17 +69,23 @@ export default function createDetails() {
         isVoid: false,
         nodes: [
           {
+            match: { type: 'summary' }, 
+              min: 1,
+              max: 1,
+          },
+          {
             match: [
-              { type: 'summary' },
               { type: 'paragraph' },
               { type: 'heading-two' },
               { type: 'heading-three' },
+              { type: 'bulleted-list' },
+              { type: 'letter-list' },
+              { type: 'numbered-list' },
+              { type: 'quote' },
             ],
-            min: 1,
           },
         ],
         first: { type: 'summary' },
-        last: { type: 'paragraph' },
         next: [
           {
             type: 'paragraph',
@@ -119,6 +125,13 @@ export default function createDetails() {
                   Block.create(defaultBlocks.defaultBlock),
                 );
                 editor.unwrapBlockByKey(wrapper.key, 'section');
+              });
+              break;
+            }
+            case 'child_type_invalid': {
+              // Unwrap until valid node.
+              editor.withoutSaving(() => {
+                editor.unwrapBlockByKey(error.child.key, error.child.type);
               });
               break;
             }

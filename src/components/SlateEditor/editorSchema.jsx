@@ -58,7 +58,6 @@ export const schema = {
                 .insertNodeByKey(error.node.key, 0, block)
                 .moveToStartOfNode(editor.value.document);
             });
-
             break;
           }
           case 'last_child_type_invalid': {

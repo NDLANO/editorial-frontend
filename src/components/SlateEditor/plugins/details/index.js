@@ -86,6 +86,7 @@ export default function createDetails() {
           },
         ],
         first: { type: 'summary' },
+        last: { type: 'paragraph' },
         next: [
           {
             type: 'paragraph',

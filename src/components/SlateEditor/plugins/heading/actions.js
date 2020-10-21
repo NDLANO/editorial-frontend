@@ -27,11 +27,9 @@ export function onEnter(evt, value, options, editor, next) {
 }
 
 export function onBackspace(evt, value, options, editor, next) {
-  const { start, isCollapsed } = value.selection;
-  const currentHeading = getCurrentHeading(options, value, next);
-  if (!currentHeading || !isCollapsed) {
-    return next();
-  }
+  const { start } = value.selection;
+
+  // Block is empty, we exit the heading
   if (start.offset === 0) {
     evt.preventDefault();
     return setBlock(options, editor);

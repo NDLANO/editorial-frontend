@@ -10,29 +10,36 @@ import { Block, Document, Editor, Inline, Node, Point } from 'slate';
 
 type ParentNode = Document | Block | Inline | null;
 
-const shouldDeleteIfInsideOfElement = (blockNode: Node, editor: Editor, node: Node, paragraphNode: ParentNode, start:Point ): boolean => {
+const shouldDeleteIfInsideOfDetailsblock = (
+  blockNode: Node,
+  editor: Editor,
+  node: Node,
+  paragraphNode: ParentNode,
+  start: Point,
+): boolean => {
   const document = editor.value.document;
   const nextText = document.getNextText(node.key);
   if (nextText === null) return false;
-  const nextTextParent = document.getParent( nextText.key);
+  const nextTextParent = document.getParent(nextText.key);
   if (nextTextParent === null) return false;
-  const nextTextGrandparent = document.getParent(nextTextParent.key)
+  const nextTextGrandparent = document.getParent(nextTextParent.key);
   const isInTheMiddleOfText = start.offset < node.text.length;
 
   return (
     // 1. checks if the next textline is part of the same component
-    blockNode.text.includes(nextText.text) || isInTheMiddleOfText)
+    (blockNode.text.includes(nextText.text) || isInTheMiddleOfText) &&
     // 2. checks if the next textline shares the same grandparent
-  && (blockNode === nextTextGrandparent || isInTheMiddleOfText)
+    (blockNode === nextTextGrandparent || isInTheMiddleOfText) &&
     // 3. prevent delete if the cursor is at the end of the text solution/details element a.k.a
     // if the is nothing to delete in the current element.
     // we are preventing the text outside of current element from jumping in the current cursor position
-  && (start.offset !== 0 || node.text.length !== 0)
+    (start.offset !== 0 || node.text.length !== 0) &&
     // 4. do nothing if the cursor is in summary
-  && (paragraphNode?.type !== 'summary')
-}
+    paragraphNode?.type !== 'summary'
+  );
+};
 
-const onDelete = (editor: Editor, event: Event, next: () => void): void => {
+const onDelete = (editor: Editor, next: () => void): void => {
   const { value } = editor;
   const { start, isCollapsed } = value.selection;
   const node = value.document.getNode(value.selection.anchor.path);
@@ -48,20 +55,29 @@ const onDelete = (editor: Editor, event: Event, next: () => void): void => {
 
   // is the cursor inside another element?
   if (
-    (blockNode.type === 'details' || blockNode.type === 'solutionbox') ||
+    blockNode.type === 'details' ||
+    blockNode.type === 'solutionbox' ||
     !isCollapsed
   ) {
-    // delete if the next node is text node and the cursor is not at the end of the current element.
-    if (shouldDeleteIfInsideOfElement(blockNode, editor, node, paragraphNode, start)) {
+    if (
+      shouldDeleteIfInsideOfDetailsblock(
+        blockNode,
+        editor,
+        node,
+        paragraphNode,
+        start,
+      )
+    ) {
       return next();
     }
   } else {
-
     // only delete on text and if the next node is text node
     // or the cursor is in the middle of a text
-    if (nextNode?.type === 'paragraph'
-      || nextNode?.type === 'br'
-      || start.offset < node.text.length) {
+    if (
+      nextNode?.type === 'paragraph' ||
+      nextNode?.type === 'br' ||
+      start.offset < node.text.length
+    ) {
       return next();
     }
   }

@@ -22,7 +22,7 @@ function onDelete(event, editor, next) {
   }
   // Check if next sibling is a details. If not let slate handle.
   const blockNode = value.document.getNextSibling(parentNode.key);
-  if (blockNode.type !== 'details' || !isCollapsed) {
+  if (blockNode?.type !== 'details' || !isCollapsed) {
     return next();
   }
 

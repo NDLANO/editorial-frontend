@@ -29,7 +29,6 @@ const connectSrc = (() => {
     'https://cdn.jsdelivr.net',
     'https://widget-mediator.zopim.com',
     'wss://widget-mediator.zopim.com',
-    'https://cors-anywhere.herokuapp.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -38,6 +37,7 @@ const connectSrc = (() => {
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3100',
+      'https://cors-anywhere.herokuapp.com',
     ];
   }
 

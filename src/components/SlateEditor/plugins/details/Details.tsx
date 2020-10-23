@@ -4,13 +4,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
-import { injectT } from '@ndla/i18n';
+import React, { FC, ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { EditorShape } from '../../../../shapes';
+import { Editor, Node } from 'slate';
 import DeleteButton from '../../../DeleteButton';
 
 const StyledDetailsDiv = styled.div`
@@ -23,13 +20,13 @@ const StyledDetailsDiv = styled.div`
   }
 `;
 
-const StyledContent = styled.div`
+const StyledContent = styled.div<{ isOpen: boolean }>`
   display: ${p => (p.isOpen ? '' : 'none')};
   margin-top: calc(${spacing.small} * 1.5);
   padding-left: ${spacing.normal};
 `;
 
-const StyledSummary = styled.summary`
+const StyledSummary = styled.summary<{ isOpen: boolean }>`
   color: ${colors.brand.primary};
   cursor: pointer;
   font-size: 20px;
@@ -65,17 +62,22 @@ const StyledRow = styled.div`
   }
 `;
 
-const Details = props => {
-  const { node, children, editor, editSummaryButton } = props;
+interface Props {
+  children: ReactElement[];
+  editor: Editor;
+  editSummaryButton: ReactElement;
+  node: Node;
+}
 
-  const onRemoveClick = () => {
-    editor.removeNodeByKey(node.key);
-  };
-
+const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
+  const onRemoveClick = () => {
+    editor.removeNodeByKey(node.key);
+  };
+
   const [summaryNode, ...contentNodes] = children;
 
   return (
@@ -96,13 +98,4 @@ const Details = props => {
   );
 };
 
-Details.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
-  node: Types.node.isRequired,
-  editor: EditorShape,
-  editSummaryButton: PropTypes.node,
-};
-
-export default injectT(Details);
+export default Details;

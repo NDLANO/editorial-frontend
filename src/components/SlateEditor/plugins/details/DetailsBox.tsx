@@ -6,18 +6,15 @@
  *
  */
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
-import { injectT } from '@ndla/i18n';
-import { Text } from 'slate';
+import React, { FC, ReactElement, useState } from 'react';
+import { injectT, tType } from '@ndla/i18n';
+import { Block, Document, Editor, Inline, Node, Text } from 'slate';
 import { css } from '@emotion/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
-import { EditorShape } from '../../../../shapes';
 import { Portal } from '../../../Portal';
 import Details from './Details';
 
@@ -52,23 +49,36 @@ const editButtonStyle = css`
   }
 `;
 
-const DetailsBox = props => {
-  const { node, attributes, children, editor, t } = props;
+type ParentNode = Document | Block | Inline;
 
-  const summary = node.findDescendant(node => {
-    if (node.type === 'summary') {
-      return node;
-    }
-  });
+interface Props {
+  attributes: {
+    'data-key': string;
+    'data-slate-object': string;
+  };
+  children: ReactElement[];
+  editor: Editor;
+  node: Node;
+}
 
-  const [showEditModal, setShowEditModal] = useState(false);
+const DetailsBox: FC<Props & tType> = ({
+  t,
+  attributes,
+  children,
+  editor,
+  node,
+}) => {
+  const summary: Node | null = (node as ParentNode)?.findDescendant(
+    node => (node as ParentNode)?.type === 'summary',
+  );
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>(summary?.text || '');
 
-  const summaryTextNode = summary
-    ? summary.getLastText()
-    : Text.create({
-        text: '',
-      });
-  const [inputValue, setInputvalue] = useState(summary ? summary.text : '');
+  const summaryTextNode: Text =
+    summary?.getLastText() ||
+    Text.create({
+      text: '',
+    });
 
   const onChangeSummary = () => {
     const newTextNode = Text.create({
@@ -78,13 +88,13 @@ const DetailsBox = props => {
     setShowEditModal(false);
   };
 
-  const toggleShowEditModdal = evt => {
+  const toggleShowEditModal = (evt: MouseEvent) => {
     evt.preventDefault();
     setShowEditModal(!showEditModal);
   };
 
   const editSummaryButton = (
-    <Button css={editButtonStyle} onMouseDown={toggleShowEditModdal} stripped>
+    <Button css={editButtonStyle} onMouseDown={toggleShowEditModal} stripped>
       <Pencil />
     </Button>
   );
@@ -105,7 +115,7 @@ const DetailsBox = props => {
                 {' '}
                 <ModalCloseButton
                   title={t('dialog.close')}
-                  onClick={toggleShowEditModdal}
+                  onClick={toggleShowEditModal}
                 />
               </ModalHeader>
               <ModalBody>
@@ -115,11 +125,13 @@ const DetailsBox = props => {
                   label={t('detailBox.label')}
                   type="text"
                   value={inputValue}
-                  onChange={evt => setInputvalue(evt.target.value)}
+                  onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
+                    setInputValue(evt.target.value)
+                  }
                   placeholder={t('detailBox.placeholder')}
                 />
                 <StyledButtonWrapper paddingLeft>
-                  <Button onClick={toggleShowEditModdal} outline>
+                  <Button onClick={toggleShowEditModal} outline>
                     {t('form.abort')}
                   </Button>
                   <Button onClick={onChangeSummary}>{t('form.save')}</Button>
@@ -131,14 +143,6 @@ const DetailsBox = props => {
       </Portal>
     </div>
   );
-};
-
-DetailsBox.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
-  node: Types.node.isRequired,
-  editor: EditorShape,
 };
 
 export default injectT(DetailsBox);

@@ -7,7 +7,7 @@
  */
 import { findNodesByType } from '../../../../util/slateHelpers';
 
-function onDelete(event, editor, next) {
+const onDelete = (event, editor, next) => {
   const { value } = editor;
   const { anchor, isCollapsed } = value.selection;
   const node = value.document.getNode(anchor.path);

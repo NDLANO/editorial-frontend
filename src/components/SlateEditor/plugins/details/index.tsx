@@ -24,7 +24,6 @@ export const summaryBlock = {
   ],
 };
 
-/* eslint-disable react/prop-types */
 export const defaultDetailsBlock = () =>
   Block.create({
     type: 'details',
@@ -144,7 +143,6 @@ export default function createDetails() {
     },
   };
 
-  /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
     const { node } = props;
     switch (node.type) {

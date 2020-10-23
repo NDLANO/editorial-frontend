@@ -67,13 +67,7 @@ const FormikVisualElement = ({
                 types={types}
                 resetSelectedResource={() => setSelectedResource(undefined)}
                 {...field}
-                value={{
-                  ...field.value,
-                  caption: caption,
-                  alt: formik.values.visualElementAlt,
-                  url: formik.values.visualElement.url,
-                }}
-                content={formik.values.content}
+                resource={field.value.resource}
                 language={formik.values.language}
                 visualElementCaptionName={visualElementCaptionName}
                 visualElementValue={topicArticleContentToEditorValue(

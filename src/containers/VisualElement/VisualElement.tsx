@@ -18,7 +18,7 @@ interface Props {
   name: string;
   types: string[];
   language: string;
-  value: any;
+  resource: string;
   visualElementValue: any;
 }
 
@@ -53,7 +53,7 @@ const VisualElement = ({
   name,
   types,
   language,
-  value,
+  resource,
   visualElementValue,
 }: Props) => {
   const onRemove = () => {
@@ -63,14 +63,14 @@ const VisualElement = ({
 
   const plugins = useMemo(() => {
     return createPlugins(
-      !value.resource,
+      !resource,
       types,
       onRemove,
       onChange,
       changeVisualElement,
       language,
     );
-  }, [value.resource, language]);
+  }, [resource, language]);
 
   return (
     <VisualElementEditor

@@ -501,3 +501,9 @@ export interface FormikProperties {
   field: FieldProps<FormikValues>['field'];
   form: FormikHelpers<FormikValues>;
 }
+
+export interface License {
+  license: string;
+  description: string;
+  url: string;
+}

@@ -6,34 +6,24 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
+import { injectT } from '@ndla/i18n';
 import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { License } from '../../interfaces';
+import { LicensesArrayOf } from '../../shapes';
 import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
+
 import Spinner from '../../components/Spinner';
 
-interface Props {
-  conceptId?: string;
-  createMessage: Function;
-  inModal: Boolean;
-  isNewlyCreated: Boolean;
-  licenses: License[];
-  onClose?: Function;
-  selectedLanguage: string;
-}
-
-const EditConcept: FC<Props & tType> = ({
+const EditConcept = ({
   conceptId,
-  createMessage,
-  inModal,
   isNewlyCreated,
   licenses,
-  onClose,
   selectedLanguage,
   t,
+  ...rest
 }) => {
   const {
     concept,
@@ -54,7 +44,7 @@ const EditConcept: FC<Props & tType> = ({
   if (!concept) {
     return null;
   }
-  if (loading) {
+  if (loading && translating) {
     return <Spinner withWrapper />;
   }
   return (
@@ -64,21 +54,26 @@ const EditConcept: FC<Props & tType> = ({
       />
       <ConceptForm
         concept={concept}
-        createMessage={createMessage}
         fetchConceptTags={fetchSearchTags}
         fetchStateStatuses={fetchStatusStateMachine}
-        inModal={inModal}
         isNewlyCreated={isNewlyCreated}
         licenses={licenses}
-        onClose={onClose}
         onUpdate={updateConcept}
         subjects={subjects}
         translateConcept={translateConcept}
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
+        {...rest}
       />
     </>
   );
+};
+
+EditConcept.propTypes = {
+  conceptId: PropTypes.string,
+  selectedLanguage: PropTypes.string.isRequired,
+  licenses: LicensesArrayOf.isRequired,
+  isNewlyCreated: PropTypes.bool,
 };
 
 export default injectT(EditConcept);

@@ -1,3 +1,10 @@
+/**
+ * Copyright (C) 2020 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
@@ -6,10 +13,10 @@ import StyledFilledButton from '../../components/StyledFilledButton';
 const StyledLink = StyledFilledButton.withComponent(Link);
 
 interface Props {
-  translateArticle: Function;
+  translateArticle: () => void;
   editUrl: (lang: string) => string;
-  setTranslateOnContinue: (translateOnContinue: Boolean) => void;
-  formIsDirty: Boolean;
+  setTranslateOnContinue: (translateOnContinue: boolean) => void;
+  formIsDirty: boolean;
 }
 
 const TranslateNbToNn: FC<Props & tType> = ({

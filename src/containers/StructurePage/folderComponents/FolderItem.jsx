@@ -8,11 +8,12 @@
 
 import React, { useState } from 'react';
 import { string, bool, arrayOf, shape, func } from 'prop-types';
-import { spacing, fonts } from '@ndla/core';
+import { spacing, fonts, colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 import FilterView from './FilterView';
@@ -27,6 +28,18 @@ export const classes = new BEMHelper({
 
 const resourceButtonStyle = css`
   margin: 3px ${spacing.xsmall} 3px auto;
+  ${fonts.sizes(14, 1.1)};
+`;
+
+const FilterLabel = styled.div`
+  padding: 12px 6px;
+  color: ${colors.brand.grey};
+  ${fonts.sizes(14, 1.1)};
+`;
+
+const FilterSpan = styled.span`
+  padding: 0px 6px;
+  color: ${colors.brand.grey};
   ${fonts.sizes(14, 1.1)};
 `;
 
@@ -54,6 +67,7 @@ const FolderItem = ({
   const type = id.includes('subject') ? 'subject' : 'topic';
 
   const showSubjectFilters = isOpen && type === 'subject';
+  const showTopicFilters = type !== 'subject';
   const showJumpToResources = isMainActive && type === 'topic';
 
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -81,6 +95,13 @@ const FolderItem = ({
           activeFilters={activeFilters}
           toggleFilter={toggleFilter}
         />
+      )}
+      {showTopicFilters && (
+        <FilterLabel>
+          {filters.map(filter => (
+            <FilterSpan>{filter.name}</FilterSpan>
+          ))}
+        </FilterLabel>
       )}
       {showJumpToResources && (
         <Button

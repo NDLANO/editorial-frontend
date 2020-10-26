@@ -31,6 +31,8 @@ export default function visualElementPlugin(options = {}) {
 
     const embed = getSchemaEmbed(node);
 
+    console.log('renderBlock');
+
     switch (node.type) {
       case 'embed':
         return (

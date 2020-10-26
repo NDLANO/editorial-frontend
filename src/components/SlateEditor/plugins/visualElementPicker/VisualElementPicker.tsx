@@ -60,10 +60,7 @@ const VisualElementPicker = ({
           onInsertBlock={onInsertBlock}
         />
       )}
-      <VisualElementMenu
-        onSelect={onSelect}
-        types={types}
-      />
+      <VisualElementMenu onSelect={onSelect} types={types} />
     </>
   );
 };

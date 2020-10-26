@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { EmbedShape } from '../../shapes';
@@ -24,6 +24,9 @@ const DisplayVisualElement = ({
   language,
   visualElementCaptionName,
 }) => {
+  useEffect(() => {
+    console.log('mount');
+  }, []);
   switch (embed.resource) {
     case 'image':
       return (

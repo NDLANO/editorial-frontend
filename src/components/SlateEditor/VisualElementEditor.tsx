@@ -10,20 +10,16 @@ import React from 'react';
 import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
-import { renderBlock } from './slateRendering'
+import { renderBlock } from './slateRendering';
 
 interface Props {
-  value: any,
-  plugins: any[],
+  value: any;
+  plugins: any[];
 }
 
 const slateStore = createSlateStore();
 
-const VisualElementEditor = ({
-  value,
-  plugins,
-}: Props) => {
-
+const VisualElementEditor = ({ value, plugins }: Props) => {
   return (
     <Editor
       value={value}

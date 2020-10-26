@@ -72,12 +72,7 @@ const VisualElement = ({
     );
   }, [resource, language]);
 
-  return (
-    <VisualElementEditor
-      value={visualElementValue}
-      plugins={plugins}
-    />
-  );
+  return <VisualElementEditor value={visualElementValue} plugins={plugins} />;
 };
 
 export default VisualElement;

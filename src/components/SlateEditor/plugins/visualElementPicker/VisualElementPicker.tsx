@@ -63,8 +63,6 @@ const VisualElementPicker = ({
       <VisualElementMenu
         onSelect={onSelect}
         types={types}
-        editor={editor}
-        visualElement={visualElement}
       />
     </>
   );

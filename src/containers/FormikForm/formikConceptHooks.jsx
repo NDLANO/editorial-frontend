@@ -83,7 +83,6 @@ export function useFetchConceptData(conceptId, locale) {
     fetchStatusStateMachine,
     loading,
     setConcept,
-    setLoading,
     subjects,
     updateConcept,
     updateConceptAndStatus,

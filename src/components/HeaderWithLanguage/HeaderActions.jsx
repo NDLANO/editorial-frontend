@@ -31,13 +31,7 @@ const HeaderActions = ({
   translateArticle,
   values,
 }) => {
-  const {
-    articleType,
-    id,
-    language,
-    supportedLanguages,
-    conceptContent,
-  } = values;
+  const { articleType, id, language, supportedLanguages } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },

@@ -17,11 +17,11 @@ import Spinner from '../../components/Spinner';
 
 interface Props {
   conceptId?: string;
-  createMessage: Function; // TODO better typing
+  createMessage: Function;
   inModal: Boolean;
   isNewlyCreated: Boolean;
   licenses: License[];
-  onClose?: Function; // TODO better typing
+  onClose?: Function;
   selectedLanguage: string;
 }
 

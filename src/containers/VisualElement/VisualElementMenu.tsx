@@ -33,8 +33,6 @@ const visualElementButtonStyle = css`
 interface Props {
   types: string[];
   onSelect: Function;
-  editor: any;
-  visualElement: any;
 }
 
 const VisualElementMenu: FC<Props> = ({

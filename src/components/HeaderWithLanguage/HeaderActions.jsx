@@ -31,7 +31,13 @@ const HeaderActions = ({
   translateArticle,
   values,
 }) => {
-  const { articleType, id, language, supportedLanguages } = values;
+  const {
+    articleType,
+    conceptContent,
+    id,
+    language,
+    supportedLanguages,
+  } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -48,7 +54,7 @@ const HeaderActions = ({
       !supportedLanguages.includes(lang.key) &&
       lang.include,
   );
-  const translatableTypes = ['concept', 'standard', 'topic-article'];
+  // const translatableTypes = ['concept', 'standard', 'topic-article'];
 
   if (id) {
     return (
@@ -87,7 +93,7 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        {translatableTypes.includes(type) &&
+        {(articleType || conceptContent) &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (
             <Fragment>

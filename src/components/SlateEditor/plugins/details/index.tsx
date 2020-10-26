@@ -6,18 +6,32 @@
  *
  */
 
-import React from 'react';
-import { Block, Text } from 'slate';
+import React, { ReactElement } from 'react';
+import { Block, Document, Editor, Inline, Node, SlateError, Text } from 'slate';
 import DetailsBox from './DetailsBox';
 import { defaultBlocks } from '../../utils';
 import onKeyDown from './onKeyDown';
+
+type ParentNode = Document | Block | Inline | null;
+enum NodeType {
+  object = 'text',
+}
+
+interface Props {
+  attributes: {
+    'data-key': string;
+    'data-slate-object': string;
+  };
+  children: ReactElement[];
+  node: Node;
+}
 
 export const summaryBlock = {
   type: 'summary',
   data: {},
   nodes: [
     {
-      object: 'text',
+      object: NodeType.object,
       text: '',
       marks: [],
     },
@@ -30,7 +44,7 @@ export const defaultDetailsBlock = () =>
     nodes: Block.createList([summaryBlock, defaultBlocks.defaultBlock]),
   });
 
-export default function createDetails() {
+export const createDetails = () => {
   const schema = {
     blocks: {
       summary: {
@@ -42,7 +56,7 @@ export default function createDetails() {
           },
         ],
         parent: { type: 'details' },
-        normalize: (editor, error) => {
+        normalize: (editor: Editor, error: SlateError) => {
           switch (error.code) {
             case 'parent_type_invalid': {
               // Pakker ut en summary som havner utenfor details og wrapper i en paragraph
@@ -50,6 +64,7 @@ export default function createDetails() {
               editor.withoutSaving(() => {
                 editor.wrapBlockByKey(error.node.key, 'paragraph');
                 const parent = editor.value.document.getParent(error.node.key);
+                if (parent === null) return;
                 const text = Text.create({
                   object: 'text',
                   text: summary,
@@ -93,7 +108,7 @@ export default function createDetails() {
           { type: 'heading-two' },
           { type: 'heading-three' },
         ],
-        normalize: (editor, error) => {
+        normalize: (editor: Editor, error: SlateError) => {
           switch (error.code) {
             case 'first_child_type_invalid': {
               const block = Block.create(summaryBlock);
@@ -119,8 +134,9 @@ export default function createDetails() {
                 const wrapper = editor.value.document.getParent(
                   error.child.key,
                 );
+                if (wrapper === null) return;
                 editor.insertNodeByKey(
-                  wrapper.key,
+                  wrapper?.key,
                   1,
                   Block.create(defaultBlocks.defaultBlock),
                 );
@@ -143,13 +159,24 @@ export default function createDetails() {
     },
   };
 
-  const renderBlock = (props, editor, next) => {
-    const { node } = props;
-    switch (node.type) {
+  const renderBlock = (
+    props: Props,
+    editor: Editor,
+    next: () => void,
+  ): ReactElement | void => {
+    const { attributes, children, node } = props;
+    switch ((node as ParentNode)?.type) {
       case 'details':
-        return <DetailsBox {...props} editor={editor} />;
+        return (
+          <DetailsBox
+            attributes={attributes}
+            children={children}
+            editor={editor}
+            node={node}
+          />
+        );
       case 'summary':
-        return <span {...props.attributes}>{node.text}</span>;
+        return <span {...attributes}>{node.text}</span>;
       default:
         return next();
     }
@@ -160,4 +187,6 @@ export default function createDetails() {
     renderBlock,
     onKeyDown,
   };
-}
+};
+
+export default createDetails;

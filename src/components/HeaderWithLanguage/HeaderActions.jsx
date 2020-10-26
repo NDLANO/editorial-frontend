@@ -54,6 +54,7 @@ const HeaderActions = ({
       !supportedLanguages.includes(lang.key) &&
       lang.include,
   );
+  const translatableTypes = ['concept', 'standard', 'topic-article'];
 
   if (id) {
     return (
@@ -92,7 +93,7 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        {(articleType || conceptContent) &&
+        {translatableTypes.includes(type) &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (
             <Fragment>

@@ -11,7 +11,6 @@ import { Editor, Block } from 'slate';
 
 import SlateVisualElementPicker from '../blockPicker/SlateVisualElementPicker';
 import VisualElementMenu from '../../../../containers/VisualElement/VisualElementMenu';
-import { Portal } from '../../../Portal';
 
 interface Props {
   editor: Editor;

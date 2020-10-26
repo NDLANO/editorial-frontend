@@ -18,14 +18,11 @@ const onKeyDown = (
   editor: Editor,
   next: () => void,
 ): Editor | void => {
-  // Build arguments list
-  const args = [event, editor, next];
-
   switch (event.key) {
     case KEY_BACKSPACE:
-      return onBackspace(...args);
+      return onBackspace(editor, event, next);
     case KEY_DELETE:
-      return onDelete(event, editor, next);
+      return onDelete(editor, event, next);
     default:
       return next();
   }

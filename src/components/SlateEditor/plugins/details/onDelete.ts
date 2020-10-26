@@ -41,8 +41,8 @@ const shouldDeleteIfInsideOfDetailsblock = (
 };
 
 const onDelete = (
-  event: KeyboardEvent,
   editor: Editor,
+  event: KeyboardEvent,
   next: () => void,
 ): void | Editor => {
   const { value } = editor;

@@ -2,28 +2,30 @@
  * User pressed Delete in an editor:
  * Unwrap the blockquote if at the start of the inner block.
  */
-import { Point } from 'slate';
+import { Block, Document, Editor, Inline, Node, Point } from 'slate';
 import { findNodesByType } from '../../../../util/slateHelpers';
+
+type ParentNode = Document | Block | Inline | null;
 
 /*
    editor.value.document.getOffset(node.key) is the offset of the current node where the cursor is. Blocknode is the details block. 
    We also have to add the summary text length to see if we should jump out of the block or delete text.
   */
-function handleBackspaceAndCheckOffsetinDetailsblock(
-  editor,
-  next,
-  start,
-  node,
-  blockNode,
-  summaryTextLength,
-) {
+const handleBackspaceAndCheckOffsetInDetailsblock = (
+  blockNode: Node,
+  editor: Editor,
+  next: () => void,
+  node: Node,
+  start: Point,
+  summaryTextLength: number,
+) => {
   if (
     editor.value.document.getOffset(node.key) ===
       editor.value.document.getOffset(blockNode.key) + summaryTextLength &&
     start.offset === 0
   ) {
     const firstPosition = Point.create({
-      key: editor.value.document.getPreviousBlock(blockNode.key).key,
+      key: editor.value.document.getPreviousBlock(blockNode.key)?.key,
       offset: 0,
     });
 
@@ -34,14 +36,23 @@ function handleBackspaceAndCheckOffsetinDetailsblock(
     });
   }
   return next();
-}
+};
 
-function onBackspace(event, editor, next) {
+const onBackspace = (
+  editor: Editor,
+  event: KeyboardEvent,
+  next: () => void,
+): Editor | void => {
   const { value } = editor;
   const { start, isCollapsed } = value.selection;
   const node = value.document.getNode(value.selection.anchor.path);
+  if (node === null) return;
+
   const paragraphNode = value.document.getParent(node.key);
-  const blockNode = value.document.getParent(paragraphNode.key);
+  if (paragraphNode === null) return;
+
+  const blockNode = value.document.getParent(paragraphNode.key) as ParentNode;
+  if (blockNode === null) return;
 
   if (blockNode.type !== 'details' || !isCollapsed) {
     return next();
@@ -55,18 +66,18 @@ function onBackspace(event, editor, next) {
     blockNode.nodes.size > 0 &&
     blockNode.text.length - summaryTextLength > 0
   ) {
-    return handleBackspaceAndCheckOffsetinDetailsblock(
+    return handleBackspaceAndCheckOffsetInDetailsblock(
+      blockNode,
       editor,
       next,
-      start,
       node,
-      blockNode,
+      start,
       summaryTextLength,
     );
   }
 
   event.preventDefault();
   return editor.removeNodeByKey(blockNode.key);
-}
+};
 
 export default onBackspace;

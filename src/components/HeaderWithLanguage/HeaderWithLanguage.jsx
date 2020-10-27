@@ -24,10 +24,9 @@ export const StyledLanguageWrapper = styled.div`
 const getTaxonomyPathsFromTaxonomy = (taxonomy, articleId) => {
   const taxonomyObjects = Object.values(taxonomy || {});
   const flattenedObjects = [].concat.apply([], taxonomyObjects);
-  const primaryTaxonomyPaths = flattenedObjects.map(rt => rt?.path);
   const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
   const flattenedPaths = [].concat.apply(
-    primaryTaxonomyPaths,
+    [],
     nestedTaxonomyPaths.map(path => `/subjects${path}`),
   );
 

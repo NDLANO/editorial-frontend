@@ -304,7 +304,6 @@ export const mathRules = {
 };
 
 export const codeBlockRule = {
-  // TODO er noe her som ikke virker. format blir ikke lagret.
   deserialize(el) {
     if (!el.tagName.toLowerCase().startsWith('embed')) return;
     const embed = reduceElementDataAttributes(el);

@@ -9,7 +9,12 @@
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import config from '../../config';
 
-const baseUrl = 'https://nynorsk.cloud/translate';
+const corsAnywhereUrl = `${
+  config.ndlaEnvironment === 'test'
+    ? 'https://cors-anywhere.herokuapp.com/'
+    : ''
+}`;
+const baseUrl = corsAnywhereUrl + 'https://nynorsk.cloud/translate';
 
 export const fetchNnTranslation = ({ id, ...articleContents }) =>
   fetch(baseUrl, {

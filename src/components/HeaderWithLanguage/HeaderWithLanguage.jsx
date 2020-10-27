@@ -31,13 +31,14 @@ const getTaxonomyPathsFromTaxonomy = taxonomy => {
 };
 
 const HeaderWithLanguage = ({
-  t,
-  values,
-  noStatus,
   content,
-  type,
   isSubmitting,
+  noStatus,
+  setTranslateOnContinue,
+  t,
   translateArticle,
+  type,
+  values,
   ...rest
 }) => {
   const { supportedLanguages, articleType } = values;
@@ -75,6 +76,7 @@ const HeaderWithLanguage = ({
           title={title}
           isSubmitting={isSubmitting}
           translateArticle={translateArticle}
+          setTranslateOnContinue={setTranslateOnContinue}
           {...rest}
         />
       </StyledLanguageWrapper>
@@ -83,23 +85,21 @@ const HeaderWithLanguage = ({
 };
 
 HeaderWithLanguage.propTypes = {
-  noStatus: PropTypes.bool,
-  values: PropTypes.shape({
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    articleType: PropTypes.string,
-  }),
   content: PropTypes.shape({
+    current: PropTypes.object,
     id: PropTypes.number,
     language: PropTypes.string,
     status: PropTypes.shape({
       current: PropTypes.string,
       other: PropTypes.arrayOf(PropTypes.string),
     }),
-    current: PropTypes.object,
     title: PropTypes.string,
   }),
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  noStatus: PropTypes.bool,
+  setTranslateOnContinue: PropTypes.func.isRequired,
   type: PropTypes.oneOf([
     'image',
     'audio',
@@ -108,8 +108,11 @@ HeaderWithLanguage.propTypes = {
     'standard',
     'concept',
   ]),
-  isSubmitting: PropTypes.bool,
   translateArticle: PropTypes.func,
+  values: PropTypes.shape({
+    articleType: PropTypes.string,
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 export default injectT(HeaderWithLanguage);

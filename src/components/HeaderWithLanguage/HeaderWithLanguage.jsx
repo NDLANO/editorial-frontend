@@ -21,13 +21,17 @@ export const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-const getTaxonomyPathsFromTaxonomy = taxonomy => {
+const getTaxonomyPathsFromTaxonomy = (taxonomy, articleId) => {
   const taxonomyObjects = Object.values(taxonomy || {});
   const flattenedObjects = [].concat.apply([], taxonomyObjects);
+  const primaryTaxonomyPaths = flattenedObjects.map(rt => rt?.path);
   const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
-  const flattenedPaths = [].concat.apply([], nestedTaxonomyPaths);
+  const flattenedPaths = [].concat.apply(
+    primaryTaxonomyPaths,
+    nestedTaxonomyPaths.map(path => `/subjects${path}`),
+  );
 
-  return flattenedPaths;
+  return flattenedPaths.concat(`/article/${articleId}`);
 };
 
 const HeaderWithLanguage = ({
@@ -51,8 +55,7 @@ const HeaderWithLanguage = ({
     status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
 
-  const hasMultipleTaxonomyPaths =
-    getTaxonomyPathsFromTaxonomy(content?.taxonomy).length > 1;
+  const taxonomyPaths = getTaxonomyPathsFromTaxonomy(content?.taxonomy, id);
 
   return (
     <header>
@@ -63,7 +66,7 @@ const HeaderWithLanguage = ({
         isNewLanguage={isNewLanguage}
         title={title}
         published={published}
-        hasMultipleTaxonomyEntries={hasMultipleTaxonomyPaths}
+        taxonomyPaths={taxonomyPaths}
         {...rest}
       />
       <StyledLanguageWrapper>

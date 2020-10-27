@@ -6,12 +6,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
+import { injectT } from '@ndla/i18n';
+import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import HowToHelper from '../HowTo/HowToHelper';
+import config from '../../config';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -38,7 +40,7 @@ const HeaderStatusInformation = ({
   statusText,
   isNewLanguage,
   published,
-  hasMultipleTaxonomyEntries,
+  taxonomyPaths,
   noHelp,
   indentLeft,
   fontSize,
@@ -69,7 +71,11 @@ const HeaderStatusInformation = ({
     fill: ${colors.support.green};
   `;
 
-  const multipleTaxonomyIcon = hasMultipleTaxonomyEntries && (
+  const StyledLink = styled(SafeLink)`
+    box-shadow: inset 0 0px;
+  `;
+
+  const multipleTaxonomyIcon = taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
       <StyledWarnIcon title={t('form.taxonomySection')} />
     </Tooltip>
@@ -77,7 +83,11 @@ const HeaderStatusInformation = ({
 
   const publishedIcon = published && (
     <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledCheckIcon title={t('form.status.published')} />
+      <StyledLink
+        target="_blank"
+        to={`${config.editorialFrontendDomain}${taxonomyPaths?.[0]}`}>
+        <StyledCheckIcon title={t('form.status.published')} />
+      </StyledLink>
     </Tooltip>
   );
 
@@ -123,7 +133,7 @@ HeaderStatusInformation.propTypes = {
   statusText: PropTypes.string,
   isNewLanguage: PropTypes.bool,
   published: PropTypes.bool,
-  hasMultipleTaxonomyEntries: PropTypes.bool,
+  taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
   noHelp: PropTypes.bool,
   indentLeft: PropTypes.bool,
   fontSize: PropTypes.number,

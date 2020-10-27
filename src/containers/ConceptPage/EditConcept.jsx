@@ -44,7 +44,7 @@ const EditConcept = ({
   if (!concept) {
     return null;
   }
-  if (loading && translating) {
+  if (loading || translating) {
     return <Spinner withWrapper />;
   }
   return (

@@ -6,50 +6,66 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
+import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
+
+import Spinner from '../../components/Spinner';
 
 const EditConcept = ({
   conceptId,
+  isNewlyCreated,
+  licenses,
   selectedLanguage,
   t,
-  isNewlyCreated,
   ...rest
 }) => {
   const {
     concept,
-    updateConcept,
-    subjects,
-    updateConceptAndStatus,
-    fetchStatusStateMachine,
     fetchSearchTags,
+    fetchStatusStateMachine,
+    loading,
+    setConcept,
+    subjects,
+    updateConcept,
+    updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
+
+  const { translating, translateConcept } = useTranslateConceptForm(
+    concept,
+    setConcept,
+  );
 
   if (!concept) {
     return null;
   }
-
+  if (loading || translating) {
+    return <Spinner withWrapper />;
+  }
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker
         title={`${concept.title} ${t('htmlTitles.titleTemplate')}`}
       />
       <ConceptForm
-        onUpdate={updateConcept}
-        updateConceptAndStatus={updateConceptAndStatus}
-        fetchStateStatuses={fetchStatusStateMachine}
-        fetchConceptTags={fetchSearchTags}
         concept={concept}
-        subjects={subjects}
+        fetchConceptTags={fetchSearchTags}
+        fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
+        licenses={licenses}
+        onUpdate={updateConcept}
+        subjects={subjects}
+        translateConcept={translateConcept}
+        translating={translating}
+        updateConceptAndStatus={updateConceptAndStatus}
         {...rest}
       />
-    </Fragment>
+    </>
   );
 };
 

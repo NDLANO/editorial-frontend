@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
@@ -11,11 +19,23 @@ import handleError from '../../util/handleError';
 export function useFetchConceptData(conceptId, locale) {
   const [concept, setConcept] = useState(undefined);
   const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchConcept();
+  }, [conceptId, locale]);
+
+  useEffect(() => {
+    fetchSubjects();
+  }, []);
+
   const fetchConcept = async () => {
     try {
       if (conceptId) {
+        setLoading(true);
         const concept = await conceptApi.fetchConcept(conceptId, locale);
         setConcept(transformConceptFromApiVersion(concept, locale));
+        setLoading(false);
       }
     } catch (e) {
       handleError(e);
@@ -56,21 +76,15 @@ export function useFetchConceptData(conceptId, locale) {
     });
   };
 
-  useEffect(() => {
-    fetchConcept();
-  }, [conceptId, locale]);
-
-  useEffect(() => {
-    fetchSubjects();
-  }, []);
-
   return {
     concept,
     createConcept,
-    updateConcept,
-    subjects,
-    updateConceptAndStatus,
-    fetchStatusStateMachine,
     fetchSearchTags,
+    fetchStatusStateMachine,
+    loading,
+    setConcept,
+    subjects,
+    updateConcept,
+    updateConceptAndStatus,
   };
 }

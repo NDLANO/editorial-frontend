@@ -42,7 +42,7 @@ const FormikVisualElement = ({
 
   return (
     <Fragment>
-      <FormikField name="visualElement">
+      <FormikField name="visualElementValue">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')} />
@@ -51,14 +51,10 @@ const FormikVisualElement = ({
                 label={t('form.visualElement.label')}
                 changeVisualElement={setSelectedResource}
                 types={types}
-                resetSelectedResource={() => setSelectedResource(undefined)}
                 {...field}
                 resource={field.value.resource}
                 language={formik.values.language}
                 visualElementCaptionName={visualElementCaptionName}
-                visualElementValue={topicArticleContentToEditorValue(
-                  getArticle().visualElement,
-                )}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}

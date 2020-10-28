@@ -13,19 +13,36 @@ import createSlateStore from './createSlateStore';
 import { renderBlock } from './slateRendering';
 
 interface Props {
+  name: string;
   value: any;
   plugins: any[];
+  onChange: Function;
 }
 
 const slateStore = createSlateStore();
 
-const VisualElementEditor = ({ value, plugins }: Props) => {
+const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
+  const onChangeVisualElement = (change: any) => {
+    console.log(change.value)
+    onChange(
+      {
+        target: {
+          name,
+          value: change.value,
+          type: 'SlateEditorValue',
+        },
+      }
+    );
+  }
+
   return (
     <Editor
+      name={name}
       value={value}
       plugins={plugins}
       slateStore={slateStore}
       renderBlock={renderBlock}
+      onChange={onChangeVisualElement}
     />
   );
 };

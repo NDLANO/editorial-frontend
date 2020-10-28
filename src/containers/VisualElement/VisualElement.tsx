@@ -10,23 +10,21 @@ import React, { useMemo } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
+import { Value } from 'slate';
 
 interface Props {
   onChange: Function;
   changeVisualElement: Function;
-  resetSelectedResource: Function;
   name: string;
   types: string[];
   language: string;
   resource: string;
-  visualElementValue: any;
+  value: any;
 }
 
 const createPlugins = (
   empty: boolean,
   types: string[],
-  onRemove: Function,
-  onChange: Function,
   changeVisualElement: Function,
   language: string,
 ) => {
@@ -38,8 +36,6 @@ const createPlugins = (
       language,
     }),
     visualElementPlugin({
-      onRemove,
-      onChange,
       changeVisualElement,
       language,
     }),
@@ -49,30 +45,28 @@ const createPlugins = (
 const VisualElement = ({
   onChange,
   changeVisualElement,
-  resetSelectedResource,
   name,
   types,
   language,
   resource,
-  visualElementValue,
+  value,
 }: Props) => {
-  const onRemove = () => {
-    onChange({ target: { name, value: {} } });
-    resetSelectedResource();
-  };
 
   const plugins = useMemo(() => {
     return createPlugins(
-      !resource,
+      !value.toJSON().document.nodes[0].data.resource,
       types,
-      onRemove,
-      onChange,
       changeVisualElement,
       language,
     );
   }, [resource, language]);
 
-  return <VisualElementEditor value={visualElementValue} plugins={plugins} />;
+  return <VisualElementEditor
+    name={name}
+    value={value} 
+    plugins={plugins}
+    onChange={onChange}
+  />;
 };
 
 export default VisualElement;

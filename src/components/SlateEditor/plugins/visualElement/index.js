@@ -8,6 +8,7 @@
 
 import React from 'react';
 import DisplayVisualElement from '../../../../containers/VisualElement/DisplayVisualElement';
+import SlateFigure from '../embed/SlateFigure';
 import { getSchemaEmbed } from '../../editorSchema';
 export default function visualElementPlugin(options = {}) {
   const schema = {
@@ -20,28 +21,19 @@ export default function visualElementPlugin(options = {}) {
 
   /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
-    const { node } = props;
-    const { onRemove, onChange, changeVisualElement, language } = options;
+    const { node, attributes, isSelected } = props;
+    const { language } = options;
 
-    const onRemoveClick = e => {
-      e.stopPropagation();
-      editor.removeNodeByKey(node.key);
-      onRemove();
-    };
-
-    const embed = getSchemaEmbed(node);
-
-    console.log('renderBlock');
 
     switch (node.type) {
       case 'embed':
         return (
-          <DisplayVisualElement
-            embed={embed}
-            onRemoveClick={onRemoveClick}
-            onChange={onChange}
-            changeVisualElement={changeVisualElement}
+          <SlateFigure
+            attributes={attributes}
+            editor={props.editor}
+            isSelected={isSelected}
             language={language}
+            node={node}
           />
         );
       default:

@@ -91,6 +91,7 @@ class CodeBlock extends Component {
 
     return (
       <CodeDiv
+        className="c-figure"
         draggable={!editMode}
         onClick={this.toggleEditMode}
         role="button"

@@ -25,12 +25,9 @@ const getTaxonomyPathsFromTaxonomy = (taxonomy, articleId) => {
   const taxonomyObjects = Object.values(taxonomy || {});
   const flattenedObjects = [].concat.apply([], taxonomyObjects);
   const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
-  const flattenedPaths = [].concat.apply(
-    [],
-    nestedTaxonomyPaths.map(path => `/subjects${path}`),
-  );
-
-  return flattenedPaths.concat(`/article/${articleId}`);
+  const flattenedPaths = [].concat.apply([], nestedTaxonomyPaths);
+  const articlePaths = flattenedPaths.map(path => `/subjects${path}`);
+  return articlePaths.concat(`/article/${articleId}`);
 };
 
 const HeaderWithLanguage = ({

@@ -305,6 +305,9 @@ const phrases = {
     preview: 'Forhåndsvisning',
     continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
   },
+  code: {
+    continue: 'Du har ulagrede endringer i kodevisning. Vil du fortsette?',
+  },
   h5pElement: {
     fetchError:
       'Vi beklager, men en feil oppsto under lasting av H5P-klienten.',

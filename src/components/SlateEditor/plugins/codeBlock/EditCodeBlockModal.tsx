@@ -17,7 +17,6 @@ interface Props {
   handleCancelDiscard: Function;
   handleContinue: Function;
   handleExit: Function;
-  handleRemove: Function;
   handleSave: Function;
   model: CodeBlockType;
   openDiscardModal: boolean;
@@ -27,7 +26,6 @@ const EditCodeBlockModal: FC<Props & tType> = ({
   handleCancelDiscard,
   handleContinue,
   handleExit,
-  handleRemove,
   handleSave,
   model,
   openDiscardModal,
@@ -55,7 +53,7 @@ const EditCodeBlockModal: FC<Props & tType> = ({
 
           <AlertModal
             show={openDiscardModal}
-            text={t('mathEditor.continue')}
+            text={t('code.continue')}
             actions={[
               {
                 text: t('form.abort'),

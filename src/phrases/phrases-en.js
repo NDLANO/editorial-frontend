@@ -306,6 +306,10 @@ const phrases = {
     continue:
       'You have unsaved changes in the math editor. Do you want to continue?',
   },
+  code: {
+    continue:
+      'You have unsaved changes in the code editor. Do you want to continue?',
+  },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },

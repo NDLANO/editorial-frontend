@@ -3,35 +3,27 @@ import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
 
 interface Props {
-  locale: string;
   handleSave: Function;
-  handleRemove: Function;
   model: CodeBlockType;
   onExit: Function;
 }
 
-const EditCodeBlock: FC<Props> = ({
-  locale,
-  handleSave,
-  handleRemove,
-  model,
-  onExit,
-}) => {
+const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }) => {
   const codeBlock = model;
 
   const [initialCodeBlock] = useState<any>(codeBlock);
-  const [openDiscartModal, setOpenDiscartModal] = useState(false);
+  const [openDiscardModal, setOpenDiscardModal] = useState(false);
 
   const handleExit = () => {
     if (initialCodeBlock !== model) {
-      setOpenDiscartModal(true);
+      setOpenDiscardModal(true);
     } else {
       onExit();
     }
   };
 
   const handleCancelDiscard = () => {
-    setOpenDiscartModal(false);
+    setOpenDiscardModal(false);
   };
 
   const handleContinue = () => {
@@ -43,8 +35,7 @@ const EditCodeBlock: FC<Props> = ({
       handleCancelDiscard={handleCancelDiscard}
       handleContinue={handleContinue}
       handleExit={handleExit}
-      handleRemove={handleRemove}
-      openDiscardModal={openDiscartModal}
+      openDiscardModal={openDiscardModal}
       model={model}
       handleSave={handleSave}
     />

@@ -138,7 +138,7 @@ const phrases = {
     sma: 'Sørsamisk',
     unknown: 'Ukjent',
     de: 'Tysk',
-    empty: 'Ingen flere språk',
+    empty: 'Ingen fleire språk',
     change: 'Bytt til {language} versjon',
   },
   welcomePage: {
@@ -293,7 +293,7 @@ const phrases = {
   videoSearch: {
     searchPlaceholder: 'Søk i videoar',
     searchButtonTitle: 'Søk',
-    loadMoreVideos: 'Last flere videoar',
+    loadMoreVideos: 'Last fleire videoar',
     noResults: 'Ingen videoar funnet.',
     addVideo: 'Bruk video',
     previewVideo: 'Forhåndsvis',
@@ -304,11 +304,14 @@ const phrases = {
   mathEditor: {
     editMath: 'Rediger Matematikk',
     preview: 'Forhåndsvisning',
-    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
+    continue: 'Du har ulagra endringar i matteeditoren. Vil du fortsette?',
+  },
+  code: {
+    continue: 'Du har ulagra endringar i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
     fetchError:
-      'Vi beklager, men ein feil oppsto under lasting av H5P-klienten.',
+      'Vi beklagar, men ein feil oppsto under lasting av H5P-klienten.',
   },
   displayOembed: {
     errorMessage: 'Ein feil oppsto ved visning av oEmbed-innhald.',
@@ -905,7 +908,7 @@ const phrases = {
     },
     related: {
       title: 'Relaterte artikler',
-      showMore: 'Vis flere relaterte artikler',
+      showMore: 'Vis fleire relaterte artikler',
       showLess: 'Vis mindre',
     },
     file: {

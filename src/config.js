@@ -32,7 +32,7 @@ const editorialFrontendDomain = () => {
     case 'prod':
       return 'https://ndla.no';
     default:
-      return `https://www.${ndlaEnvironment}.ndla.no`;
+      return `https://${ndlaEnvironment}.ndla.no`;
   }
 };
 

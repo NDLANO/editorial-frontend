@@ -304,10 +304,10 @@ const phrases = {
   mathEditor: {
     editMath: 'Rediger Matematikk',
     preview: 'Forhåndsvisning',
-    continue: 'Du har ulagra endringar i matteeditoren. Vil du fortsette?',
+    continue: 'Du kan ha ulagra endringar i matteeditoren. Vil du fortsette?',
   },
   code: {
-    continue: 'Du har ulagra endringar i kodevisning. Vil du fortsette?',
+    continue: 'Du kan ha ulagra endringar i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
     fetchError:

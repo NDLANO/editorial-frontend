@@ -82,13 +82,13 @@ const HeaderStatusInformation = ({
   );
 
   const publishedIcon = published && (
-    <Tooltip tooltip={t('form.workflow.published')}>
-      <StyledLink
-        target="_blank"
-        to={`${config.editorialFrontendDomain}${taxonomyPaths?.[0]}`}>
+    <StyledLink
+      target="_blank"
+      to={`${config.editorialFrontendDomain}${taxonomyPaths?.[0]}`}>
+      <Tooltip tooltip={t('form.workflow.published')}>
         <StyledCheckIcon title={t('form.status.published')} />
-      </StyledLink>
-    </Tooltip>
+      </Tooltip>
+    </StyledLink>
   );
 
   const helperIcon = !noHelp && (

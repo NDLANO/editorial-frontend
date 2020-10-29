@@ -15,8 +15,6 @@ const CodeDiv = styled.div`
   cursor: pointer;
 `;
 
-// interface Props extends SlateFigureProps {}
-
 const getInfoFromNode = (node: Node) => {
   const data = node.data?.toJS() || {};
   const codeBlock = data['code-block'] || node.text;
@@ -34,31 +32,19 @@ const getInfoFromNode = (node: Node) => {
   };
 };
 
-// class CodeBlock extends Component {
-//   constructor(props) {
-//     super(props);
-//     const { isFirstEdit, model } = getInfoFromNode(props.node);
-//     this.state = { isFirstEdit, editMode: !model.code };
-//     this.toggleEditMode = this.toggleEditMode.bind(this);
-//     this.handleSave = this.handleSave.bind(this);
-//     this.handleRemove = this.handleRemove.bind(this);
-//     this.handleUndo = this.handleUndo.bind(this);
-//     this.onExit = this.onExit.bind(this);
-//   }
 
 const CodeBlock: React.FC<SlateFigureProps> = ({
   attributes,
   editor,
   node,
 }) => {
-  // const { editMode } = this.state;
   const { isFirstEdit, model } = getInfoFromNode(node);
   const [editMode, setEditMode] = useState<boolean>(!model.code);
   const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
-  }; // TODO: () => void
+  };
 
   const handleSave = (codeBlock: CodeBlockType) => {
     const properties = {
@@ -66,26 +52,25 @@ const CodeBlock: React.FC<SlateFigureProps> = ({
     };
     setEditMode(false);
     setFirstEdit(false);
-    // blir dette rett? this.setState({ isFirstEdit: false, editMode: false });
     editor.setNodeByKey(node.key, properties);
-  }; // TODO: (code: CodeBlockType) => void
+  };
 
   const handleRemove = () => {
     editor.removeNodeByKey(node.key);
     editor.focus();
-  }; // TODO: () => void
+  };
 
   const handleUndo = () => {
     editor.unwrapBlockByKey(node.key, 'code-block');
     editor.focus();
-  }; // TODO: () => void
+  };
 
   const onExit = () => {
     setEditMode(false);
     if (firstEdit) {
       handleUndo();
     }
-  }; // TODO: () => void
+  };
 
   const removeCodeblock = () => {
     <Button stripped onClick={handleRemove}>
@@ -121,13 +106,5 @@ const CodeBlock: React.FC<SlateFigureProps> = ({
     </CodeDiv>
   );
 };
-
-// CodeBlock.propTypes = {
-//   attributes: PropTypes.shape({
-//     'data-key': PropTypes.string.isRequired,
-//   }),
-//   editor: EditorShape,
-//   node: Types.node.isRequired,
-// };
 
 export default injectT(CodeBlock);

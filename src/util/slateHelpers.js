@@ -718,7 +718,8 @@ const topicArticeEmbedRule = [
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
       const embed = reduceElementDataAttributes(el);
-      if (embed.resource === 'concept' || embed.resource === 'content-link') return;
+      if (embed.resource === 'concept' || embed.resource === 'content-link')
+        return;
       return {
         object: 'block',
         type: 'embed',

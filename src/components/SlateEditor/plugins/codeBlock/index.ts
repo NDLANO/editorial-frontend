@@ -9,6 +9,7 @@
 import React from 'react';
 import CodeBlock from './CodeBlock';
 import defaultBlocks from '../../utils/defaultBlocks';
+import { SlateEditor, SlateFigureProps } from '../../../../interfaces';
 
 export const TYPE = 'code-block';
 
@@ -25,7 +26,10 @@ export default () => {
           { type: 'heading-two' },
           { type: 'heading-three' },
         ],
-        normalize: (editor, error) => {
+        normalize: (
+          editor: SlateEditor,
+          error: { code: string; child: any },
+        ) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
@@ -43,11 +47,22 @@ export default () => {
     },
   };
 
-  const renderBlock = (props, editor, next) => {
-    const { node } = props;
-    switch (node.type) {
+  const renderBlock = (
+    props: SlateFigureProps,
+    editor: SlateEditor,
+    next: () => void,
+  ) => {
+    switch (props.node.type) {
       case TYPE:
-        return <CodeBlock {...props} />;
+        return (
+          <CodeBlock // TODO: 'CodeBlock' refers to a value, but is being used as a type here.
+            attributes={props.attributes}
+            editor={props.editor}
+            isSelected={props.isSelected}
+            language={language}
+            node={props.node}
+          />
+        );
       default:
         return next();
     }

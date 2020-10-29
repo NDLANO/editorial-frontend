@@ -3,9 +3,9 @@ import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
 
 interface Props {
-  handleSave: Function;
+  handleSave: (code: CodeBlockType) => void;
   model: CodeBlockType;
-  onExit: Function;
+  onExit: () => void;
 }
 
 const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }) => {
@@ -35,9 +35,9 @@ const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }) => {
       handleCancelDiscard={handleCancelDiscard}
       handleContinue={handleContinue}
       handleExit={handleExit}
-      openDiscardModal={openDiscardModal}
-      model={model}
       handleSave={handleSave}
+      model={model}
+      openDiscardModal={openDiscardModal}
     />
   );
 };

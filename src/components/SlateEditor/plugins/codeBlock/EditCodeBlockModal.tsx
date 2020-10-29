@@ -14,10 +14,10 @@ import AlertModal from '../../../AlertModal';
 import { CodeBlockType } from '../../../../interfaces';
 
 interface Props {
-  handleCancelDiscard: Function;
-  handleContinue: Function;
-  handleExit: Function;
-  handleSave: Function;
+  handleCancelDiscard: () => void;
+  handleContinue: () => void;
+  handleExit: () => void;
+  handleSave: (code: CodeBlockType) => void;
   model: CodeBlockType;
   openDiscardModal: boolean;
 }

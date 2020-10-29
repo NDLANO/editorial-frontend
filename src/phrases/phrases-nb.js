@@ -303,10 +303,10 @@ const phrases = {
   mathEditor: {
     editMath: 'Rediger Matematikk',
     preview: 'Forhåndsvisning',
-    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
+    continue: 'Du kan ha ulagrede endringer i matteeditoren. Vil du fortsette?',
   },
   code: {
-    continue: 'Du har ulagrede endringer i kodevisning. Vil du fortsette?',
+    continue: 'Du kan ha ulagrede endringer i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
     fetchError:

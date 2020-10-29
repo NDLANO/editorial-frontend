@@ -45,11 +45,10 @@ export default function createEmbedPlugin(language: string, locale: string) {
     },
   };
 
-  /* eslint-disable react/prop-types */
   const renderBlock = (
     props: SlateFigureProps,
     editor: SlateEditor,
-    next: any,
+    next: () => void,
   ) => {
     switch (props.node.type) {
       case 'embed':

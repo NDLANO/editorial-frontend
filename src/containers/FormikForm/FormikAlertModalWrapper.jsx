@@ -9,7 +9,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
-import config from '../../config';
 import AlertModal from '../../components/AlertModal';
 
 class FormikAlertModalWrapper extends PureComponent {
@@ -35,17 +34,12 @@ class FormikAlertModalWrapper extends PureComponent {
           nextLocation,
         });
       } else {
-        window.onbeforeunload = null;
         this.setState({
           discardChanges: false,
         });
       }
       return this.canNavigate();
     });
-
-    if (config.isNdlaProdEnvironment) {
-      window.onbeforeunload = () => this.canNavigate();
-    }
   }
 
   componentWillUnmount() {

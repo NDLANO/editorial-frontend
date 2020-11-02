@@ -48,20 +48,17 @@ const VisualElement = ({
   value,
 }: Props) => {
   const plugins = useMemo(() => {
-    return createPlugins(
-      !value,
-      types,
-      changeVisualElement,
-      language,
-    );
+    return createPlugins(!value, types, changeVisualElement, language);
   }, [value, language]);
 
-  return <VisualElementEditor
-    name={name}
-    value={value} 
-    plugins={plugins}
-    onChange={onChange}
-  />;
+  return (
+    <VisualElementEditor
+      name={name}
+      value={value}
+      plugins={plugins}
+      onChange={onChange}
+    />
+  );
 };
 
 export default VisualElement;

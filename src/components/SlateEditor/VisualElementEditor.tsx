@@ -28,11 +28,11 @@ const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
       target: {
         name,
         value: change.value.toJSON().document.nodes[0]?.data,
-      }
-    })
-  }
+      },
+    });
+  };
 
-  const editorValue =  Value.fromJSON({
+  const editorValue = Value.fromJSON({
     document: {
       nodes: [
         {
@@ -44,8 +44,8 @@ const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
               marks: [],
               object: 'text',
               text: '',
-            }
-          ]
+            },
+          ],
         },
       ],
     },

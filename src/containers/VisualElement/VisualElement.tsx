@@ -10,7 +10,6 @@ import React, { useMemo } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import { Value } from 'slate';
 
 interface Props {
   onChange: Function;
@@ -18,7 +17,6 @@ interface Props {
   name: string;
   types: string[];
   language: string;
-  resource: string;
   value: any;
 }
 
@@ -36,7 +34,6 @@ const createPlugins = (
       language,
     }),
     visualElementPlugin({
-      changeVisualElement,
       language,
     }),
   ];
@@ -48,18 +45,16 @@ const VisualElement = ({
   name,
   types,
   language,
-  resource,
   value,
 }: Props) => {
-
   const plugins = useMemo(() => {
     return createPlugins(
-      !value.toJSON().document.nodes[0].data.resource,
+      !value,
       types,
       changeVisualElement,
       language,
     );
-  }, [resource, language]);
+  }, [value, language]);
 
   return <VisualElementEditor
     name={name}

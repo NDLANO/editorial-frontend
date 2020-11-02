@@ -7,9 +7,7 @@
  */
 
 import React from 'react';
-import DisplayVisualElement from '../../../../containers/VisualElement/DisplayVisualElement';
 import SlateFigure from '../embed/SlateFigure';
-import { getSchemaEmbed } from '../../editorSchema';
 export default function visualElementPlugin(options = {}) {
   const schema = {
     blocks: {
@@ -24,13 +22,12 @@ export default function visualElementPlugin(options = {}) {
     const { node, attributes, isSelected } = props;
     const { language } = options;
 
-
     switch (node.type) {
       case 'embed':
         return (
           <SlateFigure
             attributes={attributes}
-            editor={props.editor}
+            editor={editor}
             isSelected={isSelected}
             language={language}
             node={node}

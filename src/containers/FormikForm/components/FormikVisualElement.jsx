@@ -17,7 +17,6 @@ import VisualElementSelectField from '../../VisualElement/VisualElementSelectFie
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import { FormikShape } from '../../../shapes';
-import { topicArticleContentToEditorValue } from '../../../util/articleContentConverter';
 
 export const visualElementClasses = new BEMHelper({
   name: 'visual-element',
@@ -42,7 +41,7 @@ const FormikVisualElement = ({
 
   return (
     <Fragment>
-      <FormikField name="visualElementValue">
+      <FormikField name="visualElement">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')} />
@@ -52,7 +51,6 @@ const FormikVisualElement = ({
                 changeVisualElement={setSelectedResource}
                 types={types}
                 {...field}
-                resource={field.value.resource}
                 language={formik.values.language}
                 visualElementCaptionName={visualElementCaptionName}
               />

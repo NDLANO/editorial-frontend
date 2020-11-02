@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Value } from 'slate';
 import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
@@ -23,22 +24,37 @@ const slateStore = createSlateStore();
 
 const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
   const onChangeVisualElement = (change: any) => {
-    console.log(change.value)
-    onChange(
-      {
-        target: {
-          name,
-          value: change.value,
-          type: 'SlateEditorValue',
-        },
+    onChange({
+      target: {
+        name,
+        value: change.value.toJSON().document.nodes[0]?.data,
       }
-    );
+    })
   }
+
+  const editorValue =  Value.fromJSON({
+    document: {
+      nodes: [
+        {
+          object: 'block',
+          type: 'embed',
+          data: value,
+          nodes: [
+            {
+              marks: [],
+              object: 'text',
+              text: '',
+            }
+          ]
+        },
+      ],
+    },
+  });
 
   return (
     <Editor
       name={name}
-      value={value}
+      value={editorValue}
       plugins={plugins}
       slateStore={slateStore}
       renderBlock={renderBlock}

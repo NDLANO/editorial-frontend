@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
@@ -48,8 +48,13 @@ const VisualElement = ({
   value,
 }: Props) => {
   const plugins = useMemo(() => {
-    return createPlugins(!value, types, changeVisualElement, language);
-  }, [value, language]);
+    return createPlugins(
+      !value || Object.keys(value).length === 0,
+      types,
+      changeVisualElement,
+      language,
+    );
+  }, []);
 
   return (
     <VisualElementEditor

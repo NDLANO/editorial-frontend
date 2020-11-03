@@ -7,9 +7,12 @@
  */
 
 import React from 'react';
+import { Block, Document, Editor, Inline } from 'slate';
 import SlateFigure from './SlateFigure';
 import defaultBlocks from '../../utils/defaultBlocks';
 import { SlateEditor, SlateFigureProps } from '../../../../interfaces';
+
+type ParentNode = Document | Block | Inline;
 
 export default function createEmbedPlugin(language: string, locale: string) {
   const schema = {
@@ -47,10 +50,11 @@ export default function createEmbedPlugin(language: string, locale: string) {
 
   const renderBlock = (
     props: SlateFigureProps,
-    editor: SlateEditor,
+    editor: Editor,
     next: () => void,
   ) => {
-    switch (props.node.type) {
+    const { node } = props;
+    switch ((node as ParentNode)?.type) {
       case 'embed':
         return (
           <SlateFigure
@@ -58,7 +62,7 @@ export default function createEmbedPlugin(language: string, locale: string) {
             editor={props.editor}
             isSelected={props.isSelected}
             language={language}
-            node={props.node}
+            node={node}
             locale={locale}
           />
         );

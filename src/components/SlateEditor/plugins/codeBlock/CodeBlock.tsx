@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Node } from 'slate';
+import { Block, Document, Inline, Node } from 'slate';
 
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
@@ -8,15 +8,29 @@ import { injectT } from '@ndla/i18n';
 import { Codeblock, getTitleFromFormat } from '@ndla/code';
 
 import { getSchemaEmbed } from '../../editorSchema';
-import { CodeBlockType, SlateFigureProps } from '../../../../interfaces';
+import { CodeBlockType, CodeBlockProps } from '../../../../interfaces';
 import EditCodeBlock from './EditCodeBlock';
+
+type ParentNode = Document | Block | Inline;
 
 const CodeDiv = styled.div`
   cursor: pointer;
 `;
 
+interface RemoveCodeBlockProps {
+  handleRemove: () => void;
+}
+
+const RemoveCodeBlock: React.FC<RemoveCodeBlockProps> = ({ handleRemove }) => {
+  return (
+    <Button stripped onClick={handleRemove}>
+      <Cross />
+    </Button>
+  );
+}; // TODO:   Type 'Element' provides no match for the signature ...
+
 const getInfoFromNode = (node: Node) => {
-  const data = node.data?.toJS() || {};
+  const data = (node as ParentNode)?.data?.toJS() || {};
   const codeBlock = data['code-block'] || node.text;
 
   const code = codeBlock.code || data['code-content'] || '';
@@ -32,12 +46,7 @@ const getInfoFromNode = (node: Node) => {
   };
 };
 
-
-const CodeBlock: React.FC<SlateFigureProps> = ({
-  attributes,
-  editor,
-  node,
-}) => {
+const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
   const { isFirstEdit, model } = getInfoFromNode(node);
   const [editMode, setEditMode] = useState<boolean>(!model.code);
   const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
@@ -72,12 +81,6 @@ const CodeBlock: React.FC<SlateFigureProps> = ({
     }
   };
 
-  const removeCodeblock = () => {
-    <Button stripped onClick={handleRemove}>
-      <Cross />
-    </Button>
-  };
-
   return (
     <CodeDiv
       className="c-figure"
@@ -86,7 +89,7 @@ const CodeBlock: React.FC<SlateFigureProps> = ({
       role="button"
       {...attributes}>
       <Codeblock
-        actionButton={removeCodeblock}
+        actionButton={<RemoveCodeBlock handleRemove={handleRemove} />} // TODO:  actionButton?: FC | null;
         code={model.code}
         format={model.format}
         title={model.title}

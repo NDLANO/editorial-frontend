@@ -7,9 +7,12 @@
  */
 
 import React from 'react';
+import { Block, Document, Inline } from 'slate';
 import CodeBlock from './CodeBlock';
 import defaultBlocks from '../../utils/defaultBlocks';
-import { SlateEditor, SlateFigureProps } from '../../../../interfaces';
+import { SlateEditor, CodeBlockProps } from '../../../../interfaces';
+
+type ParentNode = Document | Block | Inline;
 
 export const TYPE = 'code-block';
 
@@ -48,19 +51,18 @@ export default () => {
   };
 
   const renderBlock = (
-    props: SlateFigureProps,
+    props: CodeBlockProps,
     editor: SlateEditor,
     next: () => void,
   ) => {
-    switch (props.node.type) {
+    const { node } = props;
+    switch ((node as ParentNode)?.type) {
       case TYPE:
         return (
-          <CodeBlock // TODO: 'CodeBlock' refers to a value, but is being used as a type here.
+          <CodeBlock
             attributes={props.attributes}
             editor={props.editor}
-            isSelected={props.isSelected}
-            language={language}
-            node={props.node}
+            node={node}
           />
         );
       default:

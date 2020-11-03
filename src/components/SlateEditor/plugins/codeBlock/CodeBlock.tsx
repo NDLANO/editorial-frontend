@@ -27,7 +27,7 @@ const RemoveCodeBlock: React.FC<RemoveCodeBlockProps> = ({ handleRemove }) => {
       <Cross />
     </Button>
   );
-}; // TODO:   Type 'Element' provides no match for the signature ...
+};
 
 const getInfoFromNode = (node: Node) => {
   const data = (node as ParentNode)?.data?.toJS() || {};
@@ -89,7 +89,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
       role="button"
       {...attributes}>
       <Codeblock
-        actionButton={<RemoveCodeBlock handleRemove={handleRemove} />} // TODO:  actionButton?: FC | null;
+        actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
         code={model.code}
         format={model.format}
         title={model.title}

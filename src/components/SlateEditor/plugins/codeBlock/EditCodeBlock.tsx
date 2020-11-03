@@ -1,11 +1,18 @@
 import React, { FC, useState } from 'react';
+import { Editor, Node } from 'slate';
+
 import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
 
 interface Props {
+  blur: () => Editor;
+  closeDialog: () => void;
+  editor: Editor;
   handleSave: (code: CodeBlockType) => void;
-  model: CodeBlockType;
   onExit: () => void;
+  onChange: Editor['onChange'];
+  node: Node;
+  model: CodeBlockType;
 }
 
 const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }) => {

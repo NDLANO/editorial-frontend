@@ -49,7 +49,7 @@ const VisualElement = ({
 }: Props) => {
   const plugins = useMemo(() => {
     return createPlugins(
-      !value || Object.keys(value).length === 0,
+      !value,
       types,
       changeVisualElement,
       language,

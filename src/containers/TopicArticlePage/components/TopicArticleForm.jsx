@@ -70,7 +70,7 @@ export const getInitialValues = (article = {}) => {
       toHMS(visualElement?.url?.match('(?<=start=)[0-9]+')) || '',
     visualElementStop:
       toHMS(visualElement?.url?.match('(?<=end=)[0-9]+')) || '',
-    visualElement: visualElement || {},
+    visualElement: visualElement,
     grepCodes: article.grepCodes || [],
   };
 };

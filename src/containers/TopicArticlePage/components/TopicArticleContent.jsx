@@ -32,6 +32,7 @@ import { editListPlugin } from '../../../components/SlateEditor/plugins/external
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
@@ -66,6 +67,7 @@ const createPlugins = language => {
     editListPlugin,
     conceptPlugin(language),
     paragraphPlugin(),
+    mathmlPlugin(),
     toolbarPlugin(),
   ];
 };

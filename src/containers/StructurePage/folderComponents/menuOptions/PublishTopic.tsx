@@ -103,24 +103,27 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
     }
   };
 
-  const publishResource = (resource: Resource): Promise<void> => {
+  const publishResource = async (resource: Resource): Promise<void> => {
     if (resource.contentUri) {
       const [, resourceType, id] = resource.contentUri.split(':');
+      const idNum = Number(id);
       if (resourceType === 'article') {
         return fetchDraft(id)
           .then((article: ArticleType) => {
-            return article.status.current !== PUBLISHED
-              ? updateStatusDraft(id, PUBLISHED)
-              : Promise.resolve();
+            if (article.status.current !== PUBLISHED) {
+              return updateStatusDraft(idNum, PUBLISHED);
+            }
+            return Promise.resolve();
           })
           .then(() => setPublishedCount(prevState => prevState + 1))
           .catch((e: Error) => handlePublishError(e, resource));
       } else if (resourceType === 'learningpath') {
-        return fetchLearningpath(id)
+        return fetchLearningpath(idNum)
           .then((learningpath: Learningpath) => {
-            return learningpath.status !== PUBLISHED
-              ? updateStatusLearningpath(id, PUBLISHED)
-              : Promise.resolve();
+            if (learningpath.status !== PUBLISHED) {
+              return updateStatusLearningpath(idNum, PUBLISHED).then(() => {});
+            }
+            return Promise.resolve();
           })
           .then(() => setPublishedCount(prevState => prevState + 1))
           .catch((e: Error) => handlePublishError(e, resource));

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
+import tType from '@ndla/i18n/lib/t';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
+  createResourceFilter,
   createTopicResource,
   fetchResource,
   fetchResourceResourceType,
   queryLearningPathResource,
-  createResourceFilter,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
@@ -22,7 +22,9 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { FilterShape } from '../../../shapes';
+import { Filter } from '../../../interfaces';
+import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
+import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -41,20 +43,60 @@ const StyledContent = styled.div`
     background-color: white;
   }
 `;
-class AddResourceModal extends Component {
-  constructor() {
-    super();
+
+interface Props {
+  onClose: () => void;
+  type: string;
+  allowPaste: boolean;
+  topicId: string;
+  topicFilters: Filter[];
+  refreshResources: () => void;
+}
+
+interface ContentType {
+  id: number;
+  metaDescription?: string;
+  title?: string;
+  imageUrl?: string;
+}
+
+interface SelectedType {
+  id: number;
+  paths?: string[];
+  title?: string;
+  url?: string;
+  metaUrl?: string;
+  description?: string;
+  coverPhotoUrl?: string;
+}
+
+interface State {
+  selected: SelectedType | null;
+  content: ContentType | null;
+  pastedUrl: string;
+  error: string | undefined | null;
+  loading: boolean;
+}
+
+type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
+
+class AddResourceModal extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
+    super(props);
+
     this.state = {
-      selected: {},
-      article: {},
+      selected: null,
+      content: null,
       pastedUrl: '',
+      error: undefined,
+      loading: false,
     };
   }
 
-  onSelect = selected => {
+  onSelect = (selected: SelectedType) => {
     if (selected) {
-      if (selected.url && !selected.url.includes('learningpaths')) {
-        const articleId = selected.url.split('/').pop();
+      if (selected?.url && !selected?.url?.includes('learningpaths')) {
+        const articleId = Number(selected?.url?.split('/')?.pop());
         this.articleToState(articleId);
       }
       if (selected.metaUrl && selected.metaUrl.includes('learningpaths')) {
@@ -62,11 +104,12 @@ class AddResourceModal extends Component {
       }
       this.setState({ selected });
     } else {
-      this.setState({ selected: {}, article: {} });
+      this.setState({ selected: null, content: null });
     }
+    this.setState({ selected });
   };
 
-  onPaste = async evt => {
+  onPaste = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const val = evt.target.value;
     const { type, t } = this.props;
     const resourceId = getResourceIdFromPath(val);
@@ -78,11 +121,12 @@ class AddResourceModal extends Component {
           fetchResourceResourceType(resourceId),
         ]);
         this.articleToState(resource.contentUri.split(':').pop());
+
         const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error =
           pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         this.setState({
-          selected: { id: val, paths: [val] },
+          selected: { id: Number(val), paths: [val] },
           pastedUrl: val,
           error,
         });
@@ -97,16 +141,18 @@ class AddResourceModal extends Component {
     }
   };
 
-  onInputSearch = async input => {
+  onInputSearch = async (input: string): Promise<SummaryTypes[]> => {
     try {
-      const result =
-        this.props.type === RESOURCE_TYPE_LEARNING_PATH
-          ? await this.searchLearningpath(input)
-          : await this.groupSearch(input);
-      return result.map(current => ({
-        ...current,
-        title: current.title ? current.title.title : '',
-      }));
+      if (this.props.type === RESOURCE_TYPE_LEARNING_PATH) {
+        const lps = await this.searchLearningpath(input);
+
+        return lps.map(lp => ({
+          ...lp,
+          metaDescription: lp.description.description,
+        }));
+      } else {
+        return await this.groupSearch(input);
+      }
     } catch (err) {
       handleError(err);
       this.setState({ error: err.message });
@@ -114,7 +160,9 @@ class AddResourceModal extends Component {
     }
   };
 
-  searchLearningpath = async input => {
+  searchLearningpath = async (
+    input: string,
+  ): Promise<LearningPathSearchSummary[]> => {
     const query = input
       ? {
           query: input,
@@ -133,31 +181,27 @@ class AddResourceModal extends Component {
     return res.results || [];
   };
 
-  groupSearch = async input => {
+  groupSearch = async (input: string) => {
     const res = await groupSearch(input, this.props.type);
-    return res.length > 0 ? res.pop().results : [];
+    return res?.pop()?.results || [];
   };
 
-  articleToState = async articleId => {
-    const {
-      id,
-      metaDescription = {},
-      title = {},
-      metaImage = {},
-    } = await getArticle(articleId);
+  articleToState = async (articleId: number) => {
+    const article = await getArticle(articleId);
+
     this.setState({
-      article: {
-        id,
-        metaDescription: metaDescription.metaDescription,
-        title: title.title,
-        imageUrl: metaImage.url,
+      content: {
+        id: article.id,
+        metaDescription: article.metaDescription.metaDescription,
+        title: article.title.title,
+        imageUrl: article?.metaImage?.url,
       },
     });
   };
 
-  learningpathToState = learningpath => {
+  learningpathToState = (learningpath: SelectedType) => {
     this.setState({
-      article: {
+      content: {
         id: learningpath.id,
         metaDescription: learningpath.description,
         title: learningpath.title,
@@ -169,13 +213,14 @@ class AddResourceModal extends Component {
   addSelected = async () => {
     const { topicId, refreshResources, onClose, topicFilters } = this.props;
     const { selected } = this.state;
-    if (selected.id) {
+    if (selected?.id) {
       try {
         this.setState({ loading: true });
         const resourceId =
           this.props.type === RESOURCE_TYPE_LEARNING_PATH
             ? await this.findResourceIdLearningPath(selected)
-            : getResourceIdFromPath(selected.paths[0]);
+            : getResourceIdFromPath(selected?.paths?.[0]);
+
         await createTopicResource({
           resourceId,
           topicid: topicId,
@@ -198,7 +243,7 @@ class AddResourceModal extends Component {
     }
   };
 
-  findResourceIdLearningPath = async learningpath => {
+  findResourceIdLearningPath = async (learningpath: { id: number }) => {
     await updateLearningPathTaxonomy(learningpath.id, true);
 
     try {
@@ -220,7 +265,7 @@ class AddResourceModal extends Component {
 
   render() {
     const { onClose, t, allowPaste } = this.props;
-    const { selected, article, loading, pastedUrl, error } = this.state;
+    const { selected, content, loading, pastedUrl, error } = this.state;
     return (
       <TaxonomyLightbox
         title={t('taxonomy.searchResource')}
@@ -256,20 +301,11 @@ class AddResourceModal extends Component {
               />
             </React.Fragment>
           )}
-          {selected.id && article.id && <ArticlePreview article={article} />}
+          {selected?.id && content?.id && <ArticlePreview article={content} />}
         </StyledContent>
       </TaxonomyLightbox>
     );
   }
 }
-
-AddResourceModal.propTypes = {
-  onClose: PropTypes.func,
-  type: PropTypes.string,
-  allowPaste: PropTypes.bool,
-  topicId: PropTypes.string.isRequired,
-  topicFilters: PropTypes.arrayOf(FilterShape),
-  refreshResources: PropTypes.func.isRequired,
-};
 
 export default injectT(AddResourceModal);

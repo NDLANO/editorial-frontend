@@ -11,17 +11,30 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import { Learningpath } from '../../interfaces';
+import {
+  CopyLearningPathBody,
+  LearningPathSearchResult,
+  SearchBody,
+} from './learningpathApiInterfaces';
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
-export const fetchLearningpath = (id, locale) => {
+export const fetchLearningpath = (
+  id: number,
+  locale?: string,
+): Promise<Learningpath> => {
   const language = locale ? `?language=${locale}&fallback=true` : '';
   return fetchAuthorized(`${baseUrl}/${id}${language}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-export const updateStatusLearningpath = (id, status, message) =>
+export const updateStatusLearningpath = (
+  id: number,
+  status: string,
+  message?: string,
+): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/status/`, {
     method: 'PUT',
     body: JSON.stringify({
@@ -30,7 +43,10 @@ export const updateStatusLearningpath = (id, status, message) =>
     }),
   }).then(resolveJsonOrRejectWithError);
 
-export const updateLearningPathTaxonomy = (id, createIfMissing = false) =>
+export const updateLearningPathTaxonomy = (
+  id: number,
+  createIfMissing: boolean = false,
+): Promise<Learningpath> =>
   fetchAuthorized(
     `${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`,
     {
@@ -38,13 +54,18 @@ export const updateLearningPathTaxonomy = (id, createIfMissing = false) =>
     },
   ).then(resolveJsonOrRejectWithError);
 
-export const learningpathSearch = query =>
+export const learningpathSearch = (
+  query: SearchBody,
+): Promise<LearningPathSearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);
 
-export const learningpathCopy = (id, query) =>
+export const learningpathCopy = (
+  id: string,
+  query: CopyLearningPathBody,
+): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),

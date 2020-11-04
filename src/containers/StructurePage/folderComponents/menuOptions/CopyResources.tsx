@@ -181,7 +181,7 @@ const CopyResources = ({
 
   const cloneResource = async (resource: Resource) => {
     const resourceType = resource.contentUri?.split(':')[1];
-    const resourceId = resource.contentUri?.split(':')[2];
+    const resourceId = resource.contentUri?.split(':')[2] || '';
 
     if (resourceType === 'article') {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);
@@ -195,11 +195,11 @@ const CopyResources = ({
         title: resource.name,
         language: locale,
       };
-      const clonedLearningpathUrl = await learningpathCopy(
+      const clonedLearningpath = await learningpathCopy(
         resourceId,
         newLearningpathBody,
       );
-      const newLearningpathId = clonedLearningpathUrl.split('/').pop();
+      const newLearningpathId = clonedLearningpath.id;
       const newResourceBody = {
         contentUri: `urn:learningpath:${newLearningpathId}`,
         name: resource.name,

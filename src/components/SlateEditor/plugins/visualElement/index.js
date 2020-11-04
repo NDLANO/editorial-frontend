@@ -22,12 +22,13 @@ export default function visualElementPlugin(options = {}) {
     const { node, attributes, isSelected } = props;
     const { language } = options;
 
+    console.log(attributes);
+
     switch (node.type) {
       case 'embed':
         return (
           <SlateFigure
-            attributes={attributes}
-            editor={editor}
+            editor={props.editor}
             isSelected={isSelected}
             language={language}
             node={node}

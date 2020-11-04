@@ -54,7 +54,7 @@ const VisualElement = ({
       changeVisualElement,
       language,
     );
-  }, []);
+  }, [value, language]);
 
   return (
     <VisualElementEditor

@@ -24,9 +24,11 @@ const handleBackspaceAndCheckOffsetInDetailsblock = (
       editor.value.document.getOffset(blockNode.key) + summaryTextLength &&
     start.offset === 0
   ) {
+    // Last position in previous node.
+    const previousNode = editor.value.document.getPreviousNode(blockNode.key);
     const firstPosition = Point.create({
-      key: editor.value.document.getPreviousBlock(blockNode.key)?.key,
-      offset: 0,
+      key: previousNode?.key,
+      offset: previousNode?.text.length,
     });
 
     return editor.select({

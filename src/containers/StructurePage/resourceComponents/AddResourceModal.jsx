@@ -12,14 +12,15 @@ import {
   fetchResource,
   fetchResourceResourceType,
   queryLearningPathResource,
-  createResource,
-  createResourceResourceType,
   createResourceFilter,
 } from '../../../modules/taxonomy';
 import { getResourceIdFromPath } from '../../../util/routeHelpers';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { getArticle } from '../../../modules/article/articleApi';
-import { learningpathSearch } from '../../../modules/learningpath/learningpathApi';
+import {
+  learningpathSearch,
+  updateLearningPathTaxonomy,
+} from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
 import { FilterShape } from '../../../shapes';
 
@@ -198,26 +199,22 @@ class AddResourceModal extends Component {
   };
 
   findResourceIdLearningPath = async learningpath => {
-    const resource = await queryLearningPathResource(learningpath.id);
-    if (resource.length > 0) {
-      return resource[0].id;
-    } else {
-      try {
-        await createResource({
-          contentUri: `urn:learningpath:${learningpath.id}`,
-          name: learningpath.title,
-        });
-        const resource = await queryLearningPathResource(learningpath.id);
-        const resourceId = resource[0].id;
-        await createResourceResourceType({
-          resourceId,
-          resourceTypeId: RESOURCE_TYPE_LEARNING_PATH,
-        });
+    await updateLearningPathTaxonomy(learningpath.id, true);
+
+    try {
+      const resource = await queryLearningPathResource(learningpath.id);
+      if (resource.length > 0) {
         return resource[0].id;
-      } catch (err) {
+      } else {
+        const err = Error(
+          `Could not find resource after updating for ${learningpath.id}`,
+        );
         handleError(err);
         this.setState({ loading: false, error: err.message });
       }
+    } catch (err) {
+      handleError(err);
+      this.setState({ loading: false, error: err.message });
     }
   };
 

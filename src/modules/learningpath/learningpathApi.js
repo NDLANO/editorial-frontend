@@ -30,6 +30,14 @@ export const updateStatusLearningpath = (id, status, message) =>
     }),
   }).then(resolveJsonOrRejectWithError);
 
+export const updateLearningPathTaxonomy = (id, createIfMissing = false) =>
+  fetchAuthorized(
+    `${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`,
+    {
+      method: 'POST',
+    },
+  ).then(resolveJsonOrRejectWithError);
+
 export const learningpathSearch = query =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',

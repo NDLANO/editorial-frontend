@@ -441,13 +441,6 @@ export const inlineRules = {
 export const detailsRules = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'details') return;
-    if (el.className === 'c-details--solution-box') {
-      return {
-        object: 'block',
-        type: 'solutionbox',
-        nodes: next(el.childNodes),
-      };
-    }
     return {
       object: 'block',
       type: 'details',
@@ -455,12 +448,10 @@ export const detailsRules = {
     };
   },
   serialize(object, children) {
-    if (object.type !== 'details' && object.type !== 'solutionbox') {
+    if (object.type !== 'details') {
       return;
     }
-    const className =
-      object.type === 'solutionbox' ? 'c-details--solution-box' : undefined;
-    return <details className={className}>{children}</details>;
+    return <details>{children}</details>;
   },
 };
 

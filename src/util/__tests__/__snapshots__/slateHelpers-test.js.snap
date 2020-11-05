@@ -815,49 +815,6 @@ Object {
 }
 `;
 
-exports[`deserializing solution box with summary element 1`] = `
-Object {
-  "document": Object {
-    "data": Object {},
-    "nodes": Array [
-      Object {
-        "data": Object {},
-        "nodes": Array [
-          Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "marks": Array [],
-                "object": "text",
-                "text": "Summary text",
-              },
-            ],
-            "object": "block",
-            "type": "summary",
-          },
-          Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "marks": Array [],
-                "object": "text",
-                "text": "Solution text",
-              },
-            ],
-            "object": "block",
-            "type": "paragraph",
-          },
-        ],
-        "object": "block",
-        "type": "solutionbox",
-      },
-    ],
-    "object": "document",
-  },
-  "object": "value",
-}
-`;
-
 exports[`deserializing table 1`] = `
 Object {
   "document": Object {
@@ -952,8 +909,6 @@ Object {
   "object": "value",
 }
 `;
-
-exports[`searlizing solution box with summary element 1`] = `"<details class=\\"c-details--solution-box\\"><summary>Summary text</summary><p>Details text</p></details>"`;
 
 exports[`serialize bodybox block 1`] = `
 <div

@@ -5,6 +5,8 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import { Editor, Node } from 'slate';
+import { Store } from 'redux';
 
 export interface TranslateType {
   (
@@ -419,26 +421,14 @@ export interface SlateFigureProps {
   editor: SlateEditor;
   isSelected: boolean;
   language: string;
-  node: {
-    key: string;
-    type: string;
-  };
+  node: Node;
 }
 
-export interface SlateEditor {
-  removeNodeByKey: Function;
-  setNodeByKey: Function;
-  onChange: Function;
-  value: any;
+export interface SlateEditor extends Editor {
   props: {
     submitted: boolean;
-    slateStore: {
-      getState: Function;
-      subscribe: Function;
-    };
+    slateStore: Store;
   };
-  moveToEndOfNode: Function;
-  withoutSaving: Function;
 }
 
 export interface Embed {

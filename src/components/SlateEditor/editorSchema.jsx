@@ -38,7 +38,6 @@ export const schema = {
             { type: 'letter-list' },
             { type: 'related' },
             { type: 'details' },
-            { type: 'solutionbox' },
             { type: 'bodybox' },
             { type: 'aside' },
             { type: 'quote' },
@@ -59,7 +58,6 @@ export const schema = {
                 .insertNodeByKey(error.node.key, 0, block)
                 .moveToStartOfNode(editor.value.document);
             });
-
             break;
           }
           case 'last_child_type_invalid': {

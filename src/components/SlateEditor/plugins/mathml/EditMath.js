@@ -32,6 +32,7 @@ class EditMath extends Component {
   }
 
   componentDidMount() {
+    if (window.MathJax) window.MathJax.typeset();
     // force set state to trigger rerender.
     this.setState({});
     const { renderMathML } = this.state;

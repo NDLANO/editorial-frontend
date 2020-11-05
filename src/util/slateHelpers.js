@@ -646,28 +646,71 @@ const asideRules = {
   },
 };
 
+const conceptRule = {
+  deserialize(el) {
+    if (el.tagName.toLowerCase() !== 'embed') return;
+    const embed = reduceElementDataAttributes(el);
+    if (embed.resource !== 'concept') return;
+    return {
+      object: 'inline',
+      type: 'concept',
+      data: embed,
+      nodes: [
+        {
+          object: 'text',
+          text: embed['link-text']
+            ? embed['link-text']
+            : 'Ukjent forklaringsstekst',
+          marks: [],
+        },
+      ],
+    };
+  },
+
+  serialize(object) {
+    if (!object.type?.startsWith('concept')) return;
+    const data = object.data.toJS();
+    const props = createDataProps(data);
+    return <embed {...props} />;
+  },
+};
+
+const contentLinkRule = {
+  deserialize(el) {
+    if (!el.tagName.toLowerCase().startsWith('embed')) return;
+    const embed = reduceElementDataAttributes(el);
+    if (embed.resource !== 'content-link') return;
+    return {
+      object: 'inline',
+      type: 'link',
+      data: embed,
+      nodes: [
+        {
+          object: 'text',
+          text: embed['link-text'] ? embed['link-text'] : 'Ukjent link tekst',
+          marks: [],
+        },
+      ],
+    };
+  },
+
+  serialize(object) {
+    if (!object.type?.startsWith('link')) return;
+    const data = object.data.toJS();
+    if (data.resource !== 'content-link') return;
+    const props = createDataProps(data);
+    return <embed {...props} />;
+  },
+};
+
 const topicArticeEmbedRule = [
   {
-    // Embeds handling
+    // Embeds handling. Only allow concept + content-link
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
       const embed = reduceElementDataAttributes(el);
-      if (embed.resource === 'content-link') {
-        return {
-          object: 'inline',
-          type: 'link',
-          data: embed,
-          nodes: [
-            {
-              object: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent link tekst',
-              marks: [],
-            },
-          ],
-        };
-      }
+      if (embed.resource === 'concept' || embed.resource === 'content-link')
+        return;
       return {
         object: 'block',
         type: 'embed',
@@ -675,11 +718,8 @@ const topicArticeEmbedRule = [
       };
     },
     serialize(object) {
-      if (object.object !== 'block') return;
-      if (object.type !== 'embed') return;
-      switch (object.type) {
-        case 'embed':
-          return <deleteme />;
+      if (object.type?.startsWith('embed')) {
+        return <deleteme />;
       }
     },
   },
@@ -691,40 +731,6 @@ export const learningResourceEmbedRule = [
       if (!el.tagName.toLowerCase().startsWith('embed')) return;
       const embed = reduceElementDataAttributes(el);
 
-      if (el.dataset.resource === 'related-content') return;
-      if (embed.resource === 'content-link') {
-        return {
-          object: 'inline',
-          type: 'link',
-          data: embed,
-          nodes: [
-            {
-              object: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent link tekst',
-              marks: [],
-            },
-          ],
-        };
-      }
-      if (embed.resource === 'concept') {
-        return {
-          object: 'inline',
-          type: 'concept',
-          data: embed,
-          nodes: [
-            {
-              object: 'text',
-              text: embed['link-text']
-                ? embed['link-text']
-                : 'Ukjent forklaringsstekst',
-              marks: [],
-            },
-          ],
-        };
-      }
-
       return {
         object: 'block',
         type: 'embed',
@@ -734,10 +740,7 @@ export const learningResourceEmbedRule = [
     },
 
     serialize(object) {
-      if (
-        (object.type && object.type.startsWith('embed')) ||
-        object.type === 'concept'
-      ) {
+      if (object.type?.startsWith('embed')) {
         const data = object.data.toJS();
         const props = createDataProps(data);
 
@@ -765,6 +768,8 @@ const RULES = [
   markRules,
   footnoteRule,
   linkRules,
+  conceptRule,
+  contentLinkRule,
 ];
 
 export const topicArticeRules = topicArticeEmbedRule.concat(RULES);

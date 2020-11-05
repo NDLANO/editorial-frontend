@@ -54,14 +54,14 @@ interface Props {
 }
 
 interface ContentType {
-  id: number;
+  id: string;
   metaDescription?: string;
   title?: string;
   imageUrl?: string;
 }
 
 interface SelectedType {
-  id: number;
+  id: string;
   paths?: string[];
   title?: string;
   url?: string;
@@ -126,7 +126,7 @@ class AddResourceModal extends Component<Props & tType, State> {
         const error =
           pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         this.setState({
-          selected: { id: Number(val), paths: [val] },
+          selected: { id: val, paths: [val] },
           pastedUrl: val,
           error,
         });
@@ -191,7 +191,7 @@ class AddResourceModal extends Component<Props & tType, State> {
 
     this.setState({
       content: {
-        id: article.id,
+        id: article.id.toString(),
         metaDescription: article.metaDescription.metaDescription,
         title: article.title.title,
         imageUrl: article?.metaImage?.url,
@@ -218,7 +218,7 @@ class AddResourceModal extends Component<Props & tType, State> {
         this.setState({ loading: true });
         const resourceId =
           this.props.type === RESOURCE_TYPE_LEARNING_PATH
-            ? await this.findResourceIdLearningPath(selected)
+            ? await this.findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
 
         await createTopicResource({
@@ -243,16 +243,16 @@ class AddResourceModal extends Component<Props & tType, State> {
     }
   };
 
-  findResourceIdLearningPath = async (learningpath: { id: number }) => {
-    await updateLearningPathTaxonomy(learningpath.id, true);
+  findResourceIdLearningPath = async (learningpathId: number) => {
+    await updateLearningPathTaxonomy(learningpathId, true);
 
     try {
-      const resource = await queryLearningPathResource(learningpath.id);
+      const resource = await queryLearningPathResource(learningpathId);
       if (resource.length > 0) {
         return resource[0].id;
       } else {
         const err = Error(
-          `Could not find resource after updating for ${learningpath.id}`,
+          `Could not find resource after updating for ${learningpathId}`,
         );
         handleError(err);
         this.setState({ loading: false, error: err.message });

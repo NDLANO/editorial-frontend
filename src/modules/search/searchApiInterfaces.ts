@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /** Type used to indicate that the api takes a string with comma separated values to
  *  simulate an array: ie 'item1,item2,item3' */
 type CommaSeparatedList = string;

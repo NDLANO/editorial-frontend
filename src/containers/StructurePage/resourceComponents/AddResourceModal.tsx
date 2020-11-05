@@ -1,8 +1,15 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import React, { Component } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
-import tType from '@ndla/i18n/lib/t';
+import { tType } from '@ndla/i18n';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
@@ -93,20 +100,28 @@ class AddResourceModal extends Component<Props & tType, State> {
     };
   }
 
+  setNoSelection = () => {
+    this.setState({ selected: null, content: null });
+  };
+
   onSelect = (selected: SelectedType) => {
     if (selected) {
-      if (selected?.url && !selected?.url?.includes('learningpaths')) {
-        const articleId = Number(selected?.url?.split('/')?.pop());
-        this.articleToState(articleId);
+      if (selected.url && !selected.url.includes('learningpaths')) {
+        const articleId = Number(selected.url.split('/')?.pop());
+
+        if (isNaN(articleId)) {
+          return this.setNoSelection();
+        }
+
+        this.articleToState(Number(articleId));
       }
       if (selected.metaUrl && selected.metaUrl.includes('learningpaths')) {
         this.learningpathToState(selected);
       }
       this.setState({ selected });
     } else {
-      this.setState({ selected: null, content: null });
+      this.setNoSelection();
     }
-    this.setState({ selected });
   };
 
   onPaste = async (evt: React.ChangeEvent<HTMLInputElement>) => {

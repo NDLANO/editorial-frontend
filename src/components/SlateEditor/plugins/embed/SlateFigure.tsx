@@ -111,12 +111,11 @@ const SlateFigure: React.FC<Props> = ({
         <SlateVideo
           t={t}
           attributes={attributes}
-          changes={changes}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
-          onFigureInputChange={onFigureInputChange}
           onRemoveClick={onRemoveClick}
+          saveEmbedUpdates={saveEmbedUpdates}
         />
       );
     case 'audio':
@@ -140,12 +139,11 @@ const SlateFigure: React.FC<Props> = ({
           <SlateVideo
             t={t}
             attributes={attributes}
-            changes={changes}
             embed={embed}
             figureClass={editorClasses('figure', isActive() ? 'active' : '')}
             language={language}
-            onFigureInputChange={onFigureInputChange}
             onRemoveClick={onRemoveClick}
+            saveEmbedUpdates={saveEmbedUpdates}
           />
         );
       }

@@ -866,6 +866,7 @@ const phrases = {
         placeholder: 'Videotekst',
       },
       remove: 'Fjern video',
+      save: 'Lagre video',
       time: {
         start: 'Start',
         stop: 'Stopp',

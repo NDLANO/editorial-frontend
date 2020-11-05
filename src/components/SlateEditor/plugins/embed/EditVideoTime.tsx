@@ -12,7 +12,6 @@ import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { TranslateType } from '../../../../interfaces';
-import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const StyledInputTimeWrapper = styled.div`
   display: flex;
@@ -28,8 +27,6 @@ const hmsCSS = css`
 
 interface Props {
   name: string;
-  src: string;
-  onFigureInputChange: (e: Event) => void;
   t: TranslateType;
   startTime: string;
   stopTime: string;
@@ -47,8 +44,6 @@ interface Event {
 
 const EditVideoTime = (props: Props) => {
   const {
-    src,
-    onFigureInputChange,
     name,
     t,
     startTime,
@@ -66,14 +61,6 @@ const EditVideoTime = (props: Props) => {
           value={startTime}
           onChange={(e: Event) => {
             setStartTime(e.target.value);
-            const event = {
-              preventDefault: e.preventDefault,
-              target: {
-                value: addYoutubeTimeStamps(src, e.target.value, stopTime),
-                name: e.target.name,
-              },
-            };
-            onFigureInputChange(event);
           }}
           container="div"
           placeholder={t(`form.video.time.hms`)}
@@ -88,14 +75,6 @@ const EditVideoTime = (props: Props) => {
           value={stopTime}
           onChange={(e: Event) => {
             setStopTime(e.target.value);
-            const event = {
-              preventDefault: e.preventDefault,
-              target: {
-                value: addYoutubeTimeStamps(src, startTime, e.target.value),
-                name: e.target.name,
-              },
-            };
-            onFigureInputChange(event);
           }}
           container="div"
           placeholder={t(`form.video.time.hms`)}

@@ -37,28 +37,27 @@ interface Props {
     'data-key': string;
     'data-slate-object': string;
   };
-  changes?: { [x: string]: string };
   embed: Embed;
   figureClass: any;
   language: string;
-  onFigureInputChange: Function;
   onRemoveClick: Function;
+  saveEmbedUpdates: Function;
 }
 
 const SlateVideo: React.FC<Props> = ({
   t,
   attributes,
-  changes,
   embed,
   figureClass,
   language,
-  onFigureInputChange,
   onRemoveClick,
+  saveEmbedUpdates,
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
+  const [caption, setCaption] = useState(embed.caption);
 
   useEffect(() => {
     const { resource, account, videoid, url, player = 'default' } = embed;
@@ -95,7 +94,6 @@ const SlateVideo: React.FC<Props> = ({
       {editMode ? (
         <EditVideo
           t={t}
-          changes={changes}
           embed={embed}
           toggleEditModus={toggleEditModus}
           figureClass={figureClass}
@@ -104,7 +102,9 @@ const SlateVideo: React.FC<Props> = ({
           stopTime={stopTime}
           setStartTime={setStartTime}
           setStopTime={setStopTime}
-          onFigureInputChange={onFigureInputChange}
+          caption={caption}
+          setCaption={setCaption}
+          saveEmbedUpdates={saveEmbedUpdates}
         />
       ) : (
         <Fragment>

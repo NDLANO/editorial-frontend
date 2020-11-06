@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
@@ -87,46 +87,48 @@ interface State {
 
 type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
 
-class AddResourceModal extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
-    super(props);
+const AddResourceModal: React.FC<Props & tType> = ({
+  onClose,
+  type,
+  allowPaste,
+  topicId,
+  topicFilters,
+  refreshResources,
+  t,
+}) => {
+  const [selected, setSelected] = useState<SelectedType | null>(null);
+  const [content, setContent] = useState<ContentType | null>(null);
+  const [pastedUrl, setPastedUrl] = useState('');
+  const [error, setError] = useState<string | undefined | null>(undefined);
+  const [loading, setLoading] = useState(false);
 
-    this.state = {
-      selected: null,
-      content: null,
-      pastedUrl: '',
-      error: undefined,
-      loading: false,
-    };
-  }
-
-  setNoSelection = () => {
-    this.setState({ selected: null, content: null });
+  const setNoSelection = () => {
+    setSelected(null);
+    setContent(null);
   };
 
-  onSelect = (selected: SelectedType) => {
+  const onSelect = (selected: SelectedType) => {
     if (selected) {
       if (selected.url && !selected.url.includes('learningpaths')) {
         const articleId = Number(selected.url.split('/')?.pop());
 
         if (isNaN(articleId)) {
-          return this.setNoSelection();
+          return setNoSelection();
         }
 
-        this.articleToState(Number(articleId));
+        articleToState(Number(articleId));
       }
       if (selected.metaUrl && selected.metaUrl.includes('learningpaths')) {
-        this.learningpathToState(selected);
+        learningpathToState(selected);
       }
-      this.setState({ selected });
+      setSelected(selected);
     } else {
-      this.setNoSelection();
+      setNoSelection();
     }
   };
 
-  onPaste = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onPaste = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const val = evt.target.value;
-    const { type, t } = this.props;
     const resourceId = getResourceIdFromPath(val);
 
     if (resourceId) {
@@ -135,47 +137,47 @@ class AddResourceModal extends Component<Props & tType, State> {
           fetchResource(resourceId),
           fetchResourceResourceType(resourceId),
         ]);
-        this.articleToState(resource.contentUri.split(':').pop());
+        articleToState(resource.contentUri.split(':').pop());
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error =
           pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
-        this.setState({
-          selected: { id: val, paths: [val] },
-          pastedUrl: val,
-          error,
-        });
+        setSelected({ id: val, paths: [val] });
+        setPastedUrl(val);
+        setError(error);
       } catch (error) {
         handleError(error);
-        this.setState({ error: error.message });
+        setError(error.message);
       }
     } else if (!val) {
-      this.setState({ error: '', pastedUrl: val });
+      setError('');
+      setPastedUrl(val);
     } else {
-      this.setState({ error: t('errorMessage.invalidUrl'), pastedUrl: val });
+      setError(t('errorMessage.invalidUrl'));
+      setPastedUrl(val);
     }
   };
 
-  onInputSearch = async (input: string): Promise<SummaryTypes[]> => {
+  const onInputSearch = async (input: string): Promise<SummaryTypes[]> => {
     try {
-      if (this.props.type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await this.searchLearningpath(input);
+      if (type === RESOURCE_TYPE_LEARNING_PATH) {
+        const lps = await searchLearningpath(input);
 
         return lps.map(lp => ({
           ...lp,
           metaDescription: lp.description.description,
         }));
       } else {
-        return await this.groupSearch(input);
+        return await searchGroups(input);
       }
     } catch (err) {
       handleError(err);
-      this.setState({ error: err.message });
+      setError(err.message);
       return [];
     }
   };
 
-  searchLearningpath = async (
+  const searchLearningpath = async (
     input: string,
   ): Promise<LearningPathSearchSummary[]> => {
     const query = input
@@ -196,44 +198,37 @@ class AddResourceModal extends Component<Props & tType, State> {
     return res.results || [];
   };
 
-  groupSearch = async (input: string) => {
-    const res = await groupSearch(input, this.props.type);
+  const searchGroups = async (input: string) => {
+    const res = await groupSearch(input, type);
     return res?.pop()?.results || [];
   };
 
-  articleToState = async (articleId: number) => {
+  const articleToState = async (articleId: number) => {
     const article = await getArticle(articleId);
-
-    this.setState({
-      content: {
-        id: article.id.toString(),
-        metaDescription: article.metaDescription.metaDescription,
-        title: article.title.title,
-        imageUrl: article?.metaImage?.url,
-      },
+    setContent({
+      id: article.id.toString(),
+      metaDescription: article.metaDescription.metaDescription,
+      title: article.title.title,
+      imageUrl: article?.metaImage?.url,
     });
   };
 
-  learningpathToState = (learningpath: SelectedType) => {
-    this.setState({
-      content: {
-        id: learningpath.id,
-        metaDescription: learningpath.description,
-        title: learningpath.title,
-        imageUrl: learningpath.coverPhotoUrl,
-      },
+  const learningpathToState = (learningpath: SelectedType) => {
+    setContent({
+      id: learningpath.id,
+      metaDescription: learningpath.description,
+      title: learningpath.title,
+      imageUrl: learningpath.coverPhotoUrl,
     });
   };
 
-  addSelected = async () => {
-    const { topicId, refreshResources, onClose, topicFilters } = this.props;
-    const { selected } = this.state;
+  const addSelected = async () => {
     if (selected?.id) {
       try {
-        this.setState({ loading: true });
+        setLoading(true);
         const resourceId =
-          this.props.type === RESOURCE_TYPE_LEARNING_PATH
-            ? await this.findResourceIdLearningPath(Number(selected.id))
+          type === RESOURCE_TYPE_LEARNING_PATH
+            ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
 
         await createTopicResource({
@@ -248,17 +243,18 @@ class AddResourceModal extends Component<Props & tType, State> {
           });
         }
         refreshResources();
-        this.setState({ loading: false });
+        setLoading(false);
 
         onClose();
       } catch (e) {
         handleError(e);
-        this.setState({ loading: false, error: e.message });
+        setLoading(false);
+        setError(e.message);
       }
     }
   };
 
-  findResourceIdLearningPath = async (learningpathId: number) => {
+  const findResourceIdLearningPath = async (learningpathId: number) => {
     await updateLearningPathTaxonomy(learningpathId, true);
 
     try {
@@ -270,57 +266,55 @@ class AddResourceModal extends Component<Props & tType, State> {
           `Could not find resource after updating for ${learningpathId}`,
         );
         handleError(err);
-        this.setState({ loading: false, error: err.message });
+        setLoading(false);
+        setError(err.message);
       }
     } catch (err) {
       handleError(err);
-      this.setState({ loading: false, error: err.message });
+      setLoading(false);
+      setError(err.message);
     }
   };
 
-  render() {
-    const { onClose, t, allowPaste } = this.props;
-    const { selected, content, loading, pastedUrl, error } = this.state;
-    return (
-      <TaxonomyLightbox
-        title={t('taxonomy.searchResource')}
-        onSelect={this.addSelected}
-        loading={loading}
-        onClose={onClose}>
-        <StyledContent>
-          {allowPaste && (
-            <Input
-              type="text"
-              data-testid="addResourceUrlInput"
-              value={pastedUrl}
-              onChange={this.onPaste}
-              placeholder={t('taxonomy.urlPlaceholder')}
-            />
-          )}
-          {error && <span className="c-errorMessage">{error}</span>}
+  return (
+    <TaxonomyLightbox
+      title={t('taxonomy.searchResource')}
+      onSelect={addSelected}
+      loading={loading}
+      onClose={onClose}>
+      <StyledContent>
+        {allowPaste && (
+          <Input
+            type="text"
+            data-testid="addResourceUrlInput"
+            value={pastedUrl}
+            onChange={onPaste}
+            placeholder={t('taxonomy.urlPlaceholder')}
+          />
+        )}
+        {error && <span className="c-errorMessage">{error}</span>}
 
-          {!pastedUrl && (
-            <React.Fragment>
-              {allowPaste && (
-                <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
-              )}
-              <AsyncDropdown
-                idField="id"
-                name="resourceSearch"
-                labelField="title"
-                placeholder={t('form.content.relatedArticle.placeholder')}
-                label="label"
-                apiAction={this.onInputSearch}
-                onChange={this.onSelect}
-                startOpen
-              />
-            </React.Fragment>
-          )}
-          {selected?.id && content?.id && <ArticlePreview article={content} />}
-        </StyledContent>
-      </TaxonomyLightbox>
-    );
-  }
-}
+        {!pastedUrl && (
+          <React.Fragment>
+            {allowPaste && (
+              <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
+            )}
+            <AsyncDropdown
+              idField="id"
+              name="resourceSearch"
+              labelField="title"
+              placeholder={t('form.content.relatedArticle.placeholder')}
+              label="label"
+              apiAction={onInputSearch}
+              onChange={onSelect}
+              startOpen
+            />
+          </React.Fragment>
+        )}
+        {selected?.id && content?.id && <ArticlePreview article={content} />}
+      </StyledContent>
+    </TaxonomyLightbox>
+  );
+};
 
 export default injectT(AddResourceModal);

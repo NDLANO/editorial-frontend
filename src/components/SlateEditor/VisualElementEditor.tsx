@@ -29,7 +29,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
     onChange({
       target: {
         name,
-        value: node?.data,
+        value: node?.data || {},
       },
     });
   };

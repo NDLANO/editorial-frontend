@@ -80,6 +80,7 @@ const VisualElementMenu: FC<Props> = ({
           .map(button => {
             return (
               <Button
+                key={button.type}
                 stripped
                 css={visualElementButtonStyle}
                 onClick={() => handleSelect(button.type)}>

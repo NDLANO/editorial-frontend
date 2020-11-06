@@ -63,7 +63,7 @@ export const getInitialValues = (article = {}) => {
     title: article.title || '',
     updated: article.updated,
     updatePublished: false,
-    visualElement: visualElement,
+    visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
   };
 };
@@ -173,6 +173,8 @@ const TopicArticleForm = props => {
           touched,
           ...formikProps
         } = formik;
+
+        console.log(dirty);
 
         const formIsDirty = isFormikFormDirty({
           values,

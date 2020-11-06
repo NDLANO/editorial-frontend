@@ -16,8 +16,7 @@ interface Props {
   editor: Editor;
   language: string;
   onSelect: Function;
-  types: any;
-  visualElement: any;
+  types: string[];
 }
 
 interface VisualElementSelect {
@@ -25,13 +24,7 @@ interface VisualElementSelect {
   type: string;
 }
 
-const VisualElementPicker = ({
-  editor,
-  language,
-  onSelect,
-  types,
-  visualElement,
-}: Props) => {
+const VisualElementPicker = ({ editor, language, onSelect, types }: Props) => {
   const [visualElementSelect, setVisualElementSelect] = useState<
     VisualElementSelect
   >({

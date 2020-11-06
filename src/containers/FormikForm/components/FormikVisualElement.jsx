@@ -35,7 +35,6 @@ const FormikVisualElement = ({
   types,
   videoTypes,
   visualElementCaptionName,
-  getArticle,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 

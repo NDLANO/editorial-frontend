@@ -7,27 +7,29 @@
  */
 
 import React from 'react';
-import { Value } from 'slate';
+import { Plugin, Value, DocumentJSON } from 'slate';
 import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
 import { renderBlock } from './slateRendering';
+import { Embed } from '../../interfaces';
 
 interface Props {
   name: string;
-  value: any;
-  plugins: any[];
+  value: Embed;
+  plugins: Plugin[];
   onChange: Function;
 }
 
 const slateStore = createSlateStore();
 
 const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
-  const onChangeVisualElement = (change: any) => {
+  const onChangeVisualElement = (change: { value: Value }) => {
+    const node = change.value.toJSON()?.document?.nodes?.[0] as DocumentJSON;
     onChange({
       target: {
         name,
-        value: change.value.toJSON().document.nodes[0]?.data,
+        value: node?.data,
       },
     });
   };

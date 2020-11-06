@@ -6,10 +6,11 @@
  *
  */
 
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
+import { Embed } from '../../interfaces';
 
 interface Props {
   onChange: Function;
@@ -17,7 +18,7 @@ interface Props {
   name: string;
   types: string[];
   language: string;
-  value: any;
+  value: Embed;
 }
 
 const createPlugins = (
@@ -48,12 +49,7 @@ const VisualElement = ({
   value,
 }: Props) => {
   const plugins = useMemo(() => {
-    return createPlugins(
-      !value,
-      types,
-      changeVisualElement,
-      language,
-    );
+    return createPlugins(!value, types, changeVisualElement, language);
   }, [value, language]);
 
   return (

@@ -29,7 +29,6 @@ import {
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../util/articleUtil';
-import { toHMS } from '../../../util/videoUtil';
 import validateFormik from '../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -64,10 +63,6 @@ export const getInitialValues = (article = {}) => {
     title: article.title || '',
     updated: article.updated,
     updatePublished: false,
-    visualElementStart:
-      toHMS(visualElement?.url?.match('(?<=start=)[0-9]+')) || '',
-    visualElementStop:
-      toHMS(visualElement?.url?.match('(?<=end=)[0-9]+')) || '',
     visualElement: visualElement,
     grepCodes: article.grepCodes || [],
   };
@@ -97,12 +92,7 @@ const getArticleFromSlate = ({
 }) => {
   const emptyField = values.id ? '' : undefined;
   const visualElement = createEmbedTag(
-    isEmpty(values.visualElement)
-      ? {}
-      : {
-          ...values.visualElement,
-          url: values.visualElement?.url,
-        },
+    isEmpty(values.visualElement) ? {} : values.visualElement,
   );
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId

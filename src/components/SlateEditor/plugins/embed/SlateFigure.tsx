@@ -98,7 +98,6 @@ const SlateFigure: React.FC<Props> = ({
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           isSelectedForCopy={isSelected}
-          isSlate
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}

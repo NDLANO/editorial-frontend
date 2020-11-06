@@ -76,7 +76,7 @@ const EditVideo: React.FC<Props> = ({
 
   const onCaptionChange = (e: FormikInputEvent) => {
     setCaption(e.target.value);
-  }
+  };
 
   const onSave = () => {
     saveEmbedUpdates({
@@ -84,10 +84,11 @@ const EditVideo: React.FC<Props> = ({
       url: addYoutubeTimeStamps(src, startTime, stopTime),
     });
     toggleEditModus();
-  }
+  };
 
-  const saveDisabled = embed.url === addYoutubeTimeStamps(src, startTime, stopTime)
-    && embed.caption === caption;
+  const saveDisabled =
+    embed.url === addYoutubeTimeStamps(src, startTime, stopTime) &&
+    embed.caption === caption;
 
   return (
     <Fragment>

@@ -32,10 +32,9 @@ interface Props {
   embed: Embed;
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
-  isSlate: boolean;
   language: string;
   onRemoveClick: Function;
-  saveEmbedUpdates?: Function;
+  saveEmbedUpdates: Function;
   submitted: boolean;
   visualElement: boolean;
 }
@@ -47,7 +46,6 @@ const SlateImage: React.FC<Props> = ({
   embed,
   figureClass,
   isSelectedForCopy,
-  isSlate,
   language,
   onRemoveClick,
   saveEmbedUpdates,
@@ -94,23 +92,15 @@ const SlateImage: React.FC<Props> = ({
         figureType="image"
         language={language}
       />
-      {editMode &&
-        (isSlate ? (
-          <EditImage
-            t={t}
-            embed={embed}
-            saveEmbedUpdates={saveEmbedUpdates as Function}
-            setEditModus={setEditMode}
-            submitted={submitted}
-          />
-        ) : (
-          <EditVisualElementImage
-            setEditModus={setEditMode}
-            t={t}
-            submitted={submitted}
-            embed={embed}
-          />
-        ))}
+      {editMode && (
+        <EditImage
+          t={t}
+          embed={embed}
+          saveEmbedUpdates={saveEmbedUpdates}
+          setEditModus={setEditMode}
+          submitted={submitted}
+        />
+      )}
       {!(visualElement && editMode) && (
         <Button
           css={buttonStyle}

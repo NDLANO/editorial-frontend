@@ -19,16 +19,14 @@ export default function visualElementPlugin(options = {}) {
 
   /* eslint-disable react/prop-types */
   const renderBlock = (props, editor, next) => {
-    const { node, attributes, isSelected } = props;
+    const { node, isSelected } = props;
     const { language } = options;
-
-    console.log(attributes);
 
     switch (node.type) {
       case 'embed':
         return (
           <SlateFigure
-            editor={props.editor}
+            editor={editor}
             isSelected={isSelected}
             language={language}
             node={node}

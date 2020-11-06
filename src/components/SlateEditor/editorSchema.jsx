@@ -25,6 +25,7 @@ export const schema = {
     section: {
       first: { type: 'paragraph' },
       last: { type: 'paragraph' },
+      parent: { object: 'document' },
       nodes: [
         {
           match: [
@@ -81,6 +82,16 @@ export const schema = {
           case 'child_type_invalid':
             editor.withoutSaving(() => {
               editor.wrapBlockByKey(error.child.key, 'paragraph');
+            });
+            break;
+          case 'parent_type_invalid':
+            editor.withoutSaving(() => {
+              editor.unwrapBlockByKey(error.node.key, error.node.type);
+            });
+            break;
+          case 'parent_object_invalid':
+            editor.withoutSaving(() => {
+              editor.unwrapBlockByKey(error.node.key, error.node.type);
             });
             break;
           default:

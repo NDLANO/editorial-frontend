@@ -16,6 +16,10 @@ class MathML extends Component {
     this.state = { reRender: false };
   }
 
+  async componentDidMount(prevProps) {
+    if (window.MathJax) window.MathJax.typeset();
+  }
+
   async componentDidUpdate(prevProps) {
     const { model } = this.props;
     const { innerHTML } = model;

@@ -102,6 +102,7 @@ const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
       {!!savedSearches.length ? (
         savedSearches.map((search, index) => (
           <SavedSearch
+            key={search}
             deleteSearch={deleteSearch}
             locale={locale}
             search={search}

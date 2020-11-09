@@ -99,7 +99,7 @@ const FolderItem = ({
       {showTopicFilters && (
         <FilterLabel>
           {filters.map(filter => (
-            <FilterSpan>{filter.name}</FilterSpan>
+            <FilterSpan key={filter.name}>{filter.name}</FilterSpan>
           ))}
         </FilterLabel>
       )}

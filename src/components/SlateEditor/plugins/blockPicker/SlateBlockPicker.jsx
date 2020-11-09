@@ -8,15 +8,14 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, formatNestedMessages } from '@ndla/i18n';
+import { injectT } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks, checkSelectionForType } from '../../utils';
 import { defaultBodyBoxBlock } from '../bodybox';
-import { defaultDetailsBlock, defaultSolutionboxBlock } from '../details';
+import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
-import { getLocaleObject } from '../../../../i18n';
 
 const {
   defaultAsideBlock,
@@ -38,7 +37,6 @@ class SlateBlockPicker extends Component {
     this.showPicker = this.showPicker.bind(this);
     this.onVisualElementClose = this.onVisualElementClose.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
-    this.getFactboxTitle = this.getFactboxTitle.bind(this);
     this.getActionsForArea = this.getActionsForArea.bind(this);
     this.slateBlockRef = React.createRef();
     this.slateBlockButtonRef = React.createRef();
@@ -70,10 +68,6 @@ class SlateBlockPicker extends Component {
     switch (block.type) {
       case 'bodybox': {
         this.onInsertBlock(defaultBodyBoxBlock());
-        break;
-      }
-      case 'solutionbox': {
-        this.onInsertBlock(defaultSolutionboxBlock(this.getFactboxTitle()));
         break;
       }
       case 'details': {
@@ -114,13 +108,6 @@ class SlateBlockPicker extends Component {
 
   toggleIsOpen(open) {
     this.setState({ isOpen: open });
-  }
-
-  getFactboxTitle() {
-    const { articleLanguage } = this.props;
-    const localeObject = getLocaleObject(articleLanguage);
-    const messages = formatNestedMessages(localeObject.messages);
-    return messages['editorBlockpicker.actions.solutionbox'];
   }
 
   async update() {

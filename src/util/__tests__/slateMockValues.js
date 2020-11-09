@@ -319,45 +319,6 @@ export const tableSlateValue = {
   object: 'value',
 };
 
-export const solutionBoxValue = {
-  document: {
-    data: {},
-    nodes: [
-      {
-        data: {},
-        nodes: [
-          {
-            data: {},
-            nodes: [
-              {
-                text: 'Summary text',
-                object: 'text',
-              },
-            ],
-            object: 'block',
-            type: 'summary',
-          },
-          {
-            data: {},
-            nodes: [
-              {
-                text: 'Details text',
-                object: 'text',
-              },
-            ],
-            object: 'block',
-            type: 'paragraph',
-          },
-        ],
-        object: 'block',
-        type: 'solutionbox',
-      },
-    ],
-    object: 'document',
-  },
-  object: 'value',
-};
-
 export const detailsBoxValue = {
   document: {
     data: {},

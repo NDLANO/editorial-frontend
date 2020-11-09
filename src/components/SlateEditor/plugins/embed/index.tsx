@@ -6,15 +6,15 @@
  *
  */
 
-import React from 'react';
-import { Block, Document, Editor, Inline } from 'slate';
+import React, { ReactElement } from 'react';
+import { Block, Document, Editor, Inline, SlateError } from 'slate';
 import SlateFigure from './SlateFigure';
 import defaultBlocks from '../../utils/defaultBlocks';
-import { SlateEditor, SlateFigureProps } from '../../../../interfaces';
+import { SlateFigureProps } from '../../../../interfaces';
 
 type ParentNode = Document | Block | Inline;
 
-export default function createEmbedPlugin(language: string, locale: string) {
+export const createEmbedPlugin = (language: string, locale: string) => {
   const schema = {
     blocks: {
       embed: {
@@ -27,10 +27,7 @@ export default function createEmbedPlugin(language: string, locale: string) {
           { type: 'heading-two' },
           { type: 'heading-three' },
         ],
-        normalize: (
-          editor: SlateEditor,
-          error: { code: string; child: any },
-        ) => {
+        normalize: (editor: Editor, error: SlateError) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
@@ -52,15 +49,15 @@ export default function createEmbedPlugin(language: string, locale: string) {
     props: SlateFigureProps,
     editor: Editor,
     next: () => void,
-  ) => {
-    const { node } = props;
+  ): ReactElement | void => {
+    const { attributes, isSelected, node } = props;
     switch ((node as ParentNode)?.type) {
       case 'embed':
         return (
           <SlateFigure
-            attributes={props.attributes}
+            attributes={attributes}
             editor={props.editor}
-            isSelected={props.isSelected}
+            isSelected={isSelected}
             language={language}
             node={node}
             locale={locale}
@@ -75,4 +72,6 @@ export default function createEmbedPlugin(language: string, locale: string) {
     schema,
     renderBlock,
   };
-}
+};
+
+export default createEmbedPlugin;

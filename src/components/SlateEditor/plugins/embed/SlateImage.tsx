@@ -15,7 +15,6 @@ import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
-import EditVisualElementImage from '../../../../containers/VisualElement/EditVisualElementImage';
 import { Embed } from '../../../../interfaces';
 
 const buttonStyle = css`

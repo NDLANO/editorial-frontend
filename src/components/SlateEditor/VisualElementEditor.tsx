@@ -12,11 +12,11 @@ import { Editor } from 'slate-react';
 
 import createSlateStore from './createSlateStore';
 import { renderBlock } from './slateRendering';
-import { Embed } from '../../interfaces';
+import { VisualElement } from '../../interfaces';
 
 interface Props {
   name: string;
-  value: Embed;
+  value: VisualElement;
   plugins: Plugin[];
   onChange: Function;
 }

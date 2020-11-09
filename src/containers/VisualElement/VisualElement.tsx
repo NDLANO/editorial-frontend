@@ -10,15 +10,16 @@ import React, { useMemo } from 'react';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import { Embed } from '../../interfaces';
+import { VisualElement } from '../../interfaces';
 
 interface Props {
   onChange: Function;
   changeVisualElement: Function;
   name: string;
+  isSubjectPage: boolean;
   types: string[];
   language: string;
-  value: Embed;
+  value: VisualElement;
 }
 
 const createPlugins = (
@@ -44,6 +45,7 @@ const VisualElement = ({
   onChange,
   changeVisualElement,
   name,
+  isSubjectPage,
   types,
   language,
   value,
@@ -56,6 +58,10 @@ const VisualElement = ({
       language,
     );
   }, [value, language]);
+
+  if (isSubjectPage && value.resource === 'image') {
+    delete value.caption;
+  }
 
   return (
     <VisualElementEditor

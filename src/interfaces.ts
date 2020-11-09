@@ -296,8 +296,9 @@ export interface SubjectpageEditType extends SubjectpageType {
     url: string;
     resource_id?: string;
     videoid?: string;
+    alt?: string;
+    caption?: string;
   };
-  visualElementAlt: string;
 }
 
 export interface NdlaFilmType {
@@ -330,7 +331,6 @@ export interface NdlaFilmEditType extends NdlaFilmType {
     videoid: string;
     url: string;
   };
-  visualElementAlt: string;
   language: string;
   supportedLanguages: string[];
   themes: NdlaFilmThemesEditType[];
@@ -361,8 +361,8 @@ export interface VisualElement {
   resource_id: string;
   size: string;
   align: string;
-  alt: string;
-  caption: string;
+  alt?: string;
+  caption?: string;
   url: string;
   metaData: Image;
 }

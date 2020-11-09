@@ -174,8 +174,6 @@ const TopicArticleForm = props => {
           ...formikProps
         } = formik;
 
-        console.log(dirty);
-
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,

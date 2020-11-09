@@ -32,9 +32,9 @@ const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 const FormikVisualElement = ({
   t,
   formik,
+  isSubjectPage,
   types,
   videoTypes,
-  visualElementCaptionName,
 }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 
@@ -46,12 +46,12 @@ const FormikVisualElement = ({
             <FieldHeader title={t('form.visualElement.title')} />
             <Fragment>
               <VisualElement
-                label={t('form.visualElement.label')}
                 changeVisualElement={setSelectedResource}
+                label={t('form.visualElement.label')}
+                language={formik.values.language}
+                isSubjectPage={isSubjectPage}
                 types={types}
                 {...field}
-                language={formik.values.language}
-                visualElementCaptionName={visualElementCaptionName}
               />
               <VisualElementSelectField
                 selectedResource={selectedResource}
@@ -80,6 +80,7 @@ const FormikVisualElement = ({
 
 FormikVisualElement.propTypes = {
   formik: FormikShape,
+  isSubjectPage: PropTypes.bool,
   types: PropTypes.arrayOf(PropTypes.string),
   videoTypes: PropTypes.array,
   visualElementCaptionName: PropTypes.string,

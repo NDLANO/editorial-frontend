@@ -34,7 +34,6 @@ export const getInitialValues = (
     title: aboutInSelectedLanguage.title,
     description: plainTextToEditorValue(aboutInSelectedLanguage.description),
     visualElement: visualElement,
-    visualElementAlt: aboutInSelectedLanguage.visualElement?.alt,
     language: language,
     supportedLanguages: supportedLanguages,
     slideShow: slideshowMovies,
@@ -48,6 +47,8 @@ const convertVisualElement = visualElement => {
     url: visualElement.url,
     resource: visualElement.type,
     resource_id: id,
+    ...(visualElement.type === 'brightcove' ? { caption: visualElement.alt} 
+      : { alt: visualElement.alt }),
     metaData: {
       id: id,
     },
@@ -82,7 +83,7 @@ export const getNdlaFilmFromSlate = (
     language: selectedLanguage,
     title: newFilmFrontpage.title,
     visualElement: {
-      alt: newFilmFrontpage.visualElementAlt,
+      alt: newFilmFrontpage.visualElement.alt || newFilmFrontpage.visualElement.caption,
       id: newFilmFrontpage.visualElement.metaData.id,
       type: newFilmFrontpage.visualElement.resource,
     },
@@ -96,7 +97,7 @@ export const getNdlaFilmFromSlate = (
     return {
       ...about,
       visualElement: {
-        alt: about.visualElementAlt,
+        alt: about.visualElement.alt || about.visualElement.caption,
         type: about.visualElement.type,
         id: getVisualElementId(about.visualElement),
       },

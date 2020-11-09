@@ -282,7 +282,7 @@ export const mathRules = {
       nodes: [
         {
           object: 'text',
-          text: 'm',
+          text: el.textContent,
           marks: [],
         },
       ],

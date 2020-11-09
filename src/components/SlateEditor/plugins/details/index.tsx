@@ -96,6 +96,7 @@ export const createDetails = () => {
               { type: 'letter-list' },
               { type: 'numbered-list' },
               { type: 'quote' },
+              { type: 'table' },
             ],
           },
         ],

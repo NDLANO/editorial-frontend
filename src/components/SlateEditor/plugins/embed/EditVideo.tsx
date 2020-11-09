@@ -8,6 +8,7 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { injectT, tType } from '@ndla/i18n';
 import React, { Fragment, useEffect } from 'react';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
@@ -15,7 +16,7 @@ import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { Embed, FormikInputEvent, TranslateType } from '../../../../interfaces';
+import { Embed, FormikInputEvent } from '../../../../interfaces';
 import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const videoStyle = css`
@@ -28,21 +29,28 @@ const videoStyle = css`
 `;
 
 interface Props {
-  t: TranslateType;
   caption: string;
   embed: Embed;
   figureClass: any;
   saveEmbedUpdates: Function;
+  setCaption: Function;
   src: string;
   startTime: string;
   stopTime: string;
-  setCaption: Function;
-  setStartTime: Function;
-  setStopTime: Function;
+  setStartTime: (startTime: string) => void;
+  setStopTime: (stopTime: string) => void;
   toggleEditModus: Function;
 }
 
-const EditVideo: React.FC<Props> = ({
+interface Event {
+  preventDefault: Function;
+  target: {
+    value: string;
+    name: string;
+  };
+}
+
+const EditVideo: React.FC<Props & tType> = ({
   t,
   caption,
   embed,
@@ -119,7 +127,6 @@ const EditVideo: React.FC<Props> = ({
               {embed.resource === 'external' ? (
                 <EditVideoTime
                   name="url"
-                  src={src}
                   startTime={startTime}
                   stopTime={stopTime}
                   setStartTime={setStartTime}
@@ -154,4 +161,4 @@ const EditVideo: React.FC<Props> = ({
   );
 };
 
-export default EditVideo;
+export default injectT(EditVideo);

@@ -11,11 +11,12 @@ import { css, jsx } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import { spacing, shadows } from '@ndla/core';
+import { injectT, tType } from '@ndla/i18n';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
-import { Embed, FormikInputEvent, TranslateType } from '../../../../interfaces';
+import { Embed, FormikInputEvent } from '../../../../interfaces';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -26,7 +27,6 @@ const imageEditorWrapperStyle = css`
 `;
 
 interface Props {
-  t: TranslateType;
   embed: Embed;
   saveEmbedUpdates: Function;
   setEditModus: Function;
@@ -53,7 +53,7 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage: React.FC<Props> = ({
+const EditImage: React.FC<Props & tType> = ({
   t,
   embed,
   saveEmbedUpdates,
@@ -160,13 +160,11 @@ const EditImage: React.FC<Props> = ({
               embedElement = embedEl;
             }}>
             <ImageEditor
-              t={t}
               embed={embed}
               onUpdatedImageSettings={onUpdatedImageSettings}
               imageUpdates={state.imageUpdates}
             />
             <FigureInput
-              t={t}
               caption={state.caption}
               alt={state.alt}
               submitted={submitted}
@@ -182,4 +180,4 @@ const EditImage: React.FC<Props> = ({
   );
 };
 
-export default EditImage;
+export default injectT(EditImage);

@@ -13,9 +13,10 @@ import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
+import { injectT, tType } from '@ndla/i18n';
 import { Link } from 'react-router-dom';
 import IconButton from '../../../IconButton';
-import { Embed, TranslateType } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 
 const centerAdjustedStyle = css`
   right: -${spacing.xsmall};
@@ -54,7 +55,6 @@ const StyledFigureButtons = styled('div')`
 `;
 
 interface Props {
-  t: TranslateType;
   embed: Embed;
   figureType: string;
   language: string;
@@ -65,7 +65,16 @@ interface Props {
   withMargin?: boolean;
 }
 
-const FigureButtons: React.FC<Props> = ({
+interface embedProps {
+  path: string;
+  editTitle: string;
+}
+
+interface urlProps {
+  [key: string]: embedProps;
+}
+
+const FigureButtons: React.FC<Props & tType> = ({
   t,
   embed,
   figureType,
@@ -76,7 +85,7 @@ const FigureButtons: React.FC<Props> = ({
   tooltip,
   withMargin,
 }) => {
-  const url = {
+  const url: urlProps = {
     audio: {
       path: '/media/audio-upload',
       editTitle: t('form.editAudio'),
@@ -126,4 +135,4 @@ const FigureButtons: React.FC<Props> = ({
   );
 };
 
-export default FigureButtons;
+export default injectT(FigureButtons);

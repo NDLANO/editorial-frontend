@@ -6,9 +6,9 @@
  */
 
 import React, { FC, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
-import { SubjectpageEditType, TranslateType } from '../../../interfaces';
+import { SubjectpageEditType } from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
@@ -25,7 +25,6 @@ import {
 import SaveButton from '../../../components/SaveButton';
 
 interface Props {
-  t: TranslateType;
   subjectpage: SubjectpageEditType;
   updateSubjectpage: Function;
   selectedLanguage: string;
@@ -75,11 +74,11 @@ const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
     description: editorValueToPlainText(values.description),
     title: values.title,
     visualElement: {
-      resource: values.visualElement.resource,
-      url: values.visualElement.url,
-      resource_id: values.visualElement.resource_id,
-      videoid: values.visualElement.videoid,
-      alt: values.visualElement.alt || values.visualElement.caption,
+      resource: values.visualElement?.resource,
+      url: values.visualElement?.url,
+      resource_id: values.visualElement?.resource_id,
+      videoid: values.visualElement?.videoid,
+      alt: values.visualElement?.alt || values.visualElement?.caption,
     },
     language: values.language,
     mobileBanner: values.mobileBanner,
@@ -99,7 +98,7 @@ const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
   };
 };
 
-const SubjectpageForm: FC<Props> = ({
+const SubjectpageForm: FC<Props & tType> = ({
   t,
   elementId,
   subjectpage,
@@ -129,15 +128,7 @@ const SubjectpageForm: FC<Props> = ({
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
       {(formik: FormikProps<SubjectpageEditType>) => {
-        const {
-          values,
-          dirty,
-          isSubmitting,
-          errors,
-          touched,
-          setFieldTouched,
-          isValid,
-        } = formik;
+        const { values, dirty, isSubmitting, errors, isValid } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({
           values,
@@ -145,27 +136,23 @@ const SubjectpageForm: FC<Props> = ({
           dirty,
         });
         setUnsaved(formIsDirty);
-        const headerContent = {
-          ...values,
-          title: values.name,
-        };
         return (
           <Form {...formClasses()}>
             <SimpleLanguageHeader
-              values={headerContent}
+              articleType={values.articleType!}
               editUrl={(lang: string) =>
                 toEditSubjectpage(values.elementId, lang, values.id)
               }
+              id={parseInt(values.id!)}
               isSubmitting={isSubmitting}
+              language={values.language}
+              supportedLanguages={values.supportedLanguages!}
+              title={values.name}
             />
             <SubjectpageAccordionPanels
-              values={values}
+              editorsChoices={values.editorsChoices!}
+              elementId={values.elementId!}
               errors={errors}
-              subject={subjectpage}
-              touched={touched}
-              setFieldTouched={setFieldTouched}
-              formIsDirty={formIsDirty}
-              getInitialValues={getInitialValues}
             />
             <Field right>
               <SaveButton

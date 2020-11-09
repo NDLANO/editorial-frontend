@@ -9,7 +9,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { initAudioPlayers } from '@ndla/article-scripts';
 import { Input } from '@ndla/forms';
 // @ts-ignore
@@ -18,7 +18,7 @@ import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed, TranslateType } from '../../../../interfaces';
+import { Audio, Embed } from '../../../../interfaces';
 
 const placeholderStyle = css`
   position: relative;
@@ -26,7 +26,6 @@ const placeholderStyle = css`
 `;
 
 interface Props {
-  t: TranslateType;
   audio: Audio;
   changes: { [x: string]: string };
   embed: Embed;
@@ -40,7 +39,7 @@ interface Props {
   type: string;
 }
 
-const EditAudio: React.FC<Props> = ({
+const EditAudio: React.FC<Props & tType> = ({
   embed,
   onChange,
   onAudioFigureInputChange,
@@ -128,7 +127,6 @@ const EditAudio: React.FC<Props> = ({
           />
           <FigureButtons
             figureType="audio"
-            t={t}
             tooltip={t('form.audio.remove')}
             onRemoveClick={onRemoveClick}
             embed={embed}

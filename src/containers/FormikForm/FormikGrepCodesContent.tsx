@@ -7,18 +7,16 @@
  */
 
 import React, { Fragment, useState, useEffect } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isGrepCodeValid } from '../../util/articleUtil';
-import { TranslateType } from '../../interfaces';
 import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 
 interface Props {
-  t: TranslateType;
   articleGrepCodes: string[];
   field: FieldProps<string[]>['field'];
   form: {
@@ -48,7 +46,7 @@ const FormikGrepCodesContent = ({
   articleGrepCodes = [],
   field,
   form,
-}: Props) => {
+}: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
 
   const searchForGrepCodes = async (inp: string) => {

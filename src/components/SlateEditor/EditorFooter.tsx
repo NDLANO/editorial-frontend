@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
@@ -16,11 +16,9 @@ import { Launch } from '@ndla/icons/common';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { TranslateType } from '../../interfaces';
 import SaveMultiButton from '../SaveMultiButton';
 
 interface Props {
-  t: TranslateType;
   isSubmitting: boolean;
   formIsDirty: boolean;
   savedToServer: boolean;
@@ -51,7 +49,7 @@ const StyledLine = styled.hr`
   }
 `;
 
-const EditorFooter: React.FC<Props> = ({
+const EditorFooter: React.FC<Props & tType> = ({
   t,
   isSubmitting,
   formIsDirty,

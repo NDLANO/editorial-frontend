@@ -6,18 +6,13 @@
  */
 
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
-import { TranslateType } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-interface Props {
-  t: TranslateType;
-}
-
-const SubjectpageAbout: FC<Props> = ({ t }) => {
+const SubjectpageAbout: FC<object & tType> = ({ t }) => {
   return (
     <>
       <FormikField

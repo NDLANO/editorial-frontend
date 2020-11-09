@@ -291,14 +291,7 @@ export interface SubjectpageEditType extends SubjectpageType {
   mobileBanner: number;
   elementId: string;
   title: string;
-  visualElement: {
-    resource: string;
-    url: string;
-    resource_id?: string;
-    videoid?: string;
-    alt?: string;
-    caption?: string;
-  };
+  visualElement: VisualElement;
 }
 
 export interface NdlaFilmType {
@@ -326,11 +319,7 @@ export interface NdlaFilmEditType extends NdlaFilmType {
   articleType: string;
   title: string;
   description: string;
-  visualElement: {
-    resource: string;
-    videoid: string;
-    url: string;
-  };
+  visualElement: VisualElement;
   language: string;
   supportedLanguages: string[];
   themes: NdlaFilmThemesEditType[];
@@ -359,12 +348,17 @@ export interface NdlaFilmThemesEditType {
 export interface VisualElement {
   resource: string;
   resource_id: string;
-  size: string;
-  align: string;
+  account?: string;
+  align?: string;
   alt?: string;
   caption?: string;
-  url: string;
-  metaData: Image;
+  metaData?: any;
+  path?: string;
+  player?: string;
+  title?: string;
+  size?: string;
+  url?: string;
+  videoid?: string;
 }
 
 export interface Image {

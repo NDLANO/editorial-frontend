@@ -47,7 +47,8 @@ const convertVisualElement = visualElement => {
     url: visualElement.url,
     resource: visualElement.type,
     resource_id: id,
-    ...(visualElement.type === 'brightcove' ? { caption: visualElement.alt} 
+    ...(visualElement.type === 'brightcove'
+      ? { caption: visualElement.alt }
       : { alt: visualElement.alt }),
     metaData: {
       id: id,
@@ -83,7 +84,9 @@ export const getNdlaFilmFromSlate = (
     language: selectedLanguage,
     title: newFilmFrontpage.title,
     visualElement: {
-      alt: newFilmFrontpage.visualElement.alt || newFilmFrontpage.visualElement.caption,
+      alt:
+        newFilmFrontpage.visualElement.alt ||
+        newFilmFrontpage.visualElement.caption,
       id: newFilmFrontpage.visualElement.metaData.id,
       type: newFilmFrontpage.visualElement.resource,
     },

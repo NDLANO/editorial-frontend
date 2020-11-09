@@ -17,8 +17,9 @@ export const transformSubjectpageFromApiVersion = (
   editorsChoices: ArticleType[],
   banner: VisualElement,
 ) => {
-  const visualElementVideoId = subjectpage.about.visualElement.url
-    .split('videoId=')?.[1];
+  const visualElementVideoId = subjectpage.about.visualElement.url.split(
+    'videoId=',
+  )?.[1];
   const visualElementImageId = subjectpage.about.visualElement.url
     .split('/')
     .pop();
@@ -39,9 +40,10 @@ export const transformSubjectpageFromApiVersion = (
       resource: subjectpage.about.visualElement?.type,
       resource_id: visualElementImageId || '',
       videoid: visualElementVideoId || '',
-      ...(visualElementVideoId ? { caption: subjectpage.about.visualElement.alt} 
+      ...(visualElementVideoId
+        ? { caption: subjectpage.about.visualElement.alt }
         : { alt: subjectpage.about.visualElement.alt }),
-      alt: subjectpage.about.visualElement.alt
+      alt: subjectpage.about.visualElement.alt,
     },
     metaDescription: subjectpage.metaDescription,
     topical: subjectpage.topical,
@@ -82,7 +84,9 @@ export const transformSubjectpageToApiVersion = (
         visualElement: {
           type: subjectpage.visualElement?.resource,
           id: id,
-          alt: subjectpage.visualElement?.alt ||  subjectpage.visualElement?.caption,
+          alt:
+            subjectpage.visualElement?.alt ||
+            subjectpage.visualElement?.caption,
         },
       },
     ],

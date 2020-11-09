@@ -89,13 +89,17 @@ const EditVideo: React.FC<Props & tType> = ({
   const onSave = () => {
     saveEmbedUpdates({
       caption,
-      url: embed.resource === 'brightcove' ? src : addYoutubeTimeStamps(src, startTime, stopTime),
+      url:
+        embed.resource === 'brightcove'
+          ? src
+          : addYoutubeTimeStamps(src, startTime, stopTime),
     });
     toggleEditModus();
   };
 
   const saveDisabled =
-    (embed.resource === 'brightcove' || embed.url === addYoutubeTimeStamps(src, startTime, stopTime)) &&
+    (embed.resource === 'brightcove' ||
+      embed.url === addYoutubeTimeStamps(src, startTime, stopTime)) &&
     embed.caption === caption;
 
   return (

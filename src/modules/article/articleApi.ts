@@ -12,25 +12,36 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import config from '../../config';
+import { ArticleApiType, ArticleSearchResult } from './articleApiInterfaces';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const searchArticles = (id, locale, queryString = '') =>
+export const searchArticles = (
+  locale: string,
+  queryString = '',
+): Promise<ArticleSearchResult> =>
   fetchAuthorized(
-    `${articleUrl}/${id}?language=${locale}&fallback=true${queryString}`,
+    `${articleUrl}/?language=${locale}&fallback=true${queryString}`,
   ).then(resolveJsonOrRejectWithError);
 
-export const searchRelatedArticles = async (input, locale, contentType) => {
+export const searchRelatedArticles = async (
+  input: string,
+  locale: string,
+  contentType: string,
+) => {
   await new Promise(resolve => setTimeout(resolve, 50));
   const query = `&type=articles&query=${input}${
     contentType ? `&content-type=${contentType}` : ''
   }`;
-  const response = await searchArticles('', locale, query);
+  const response = await searchArticles(locale, query);
 
   return response.results;
 };
 
-export const getArticle = (id, locale = 'nb') =>
+export const getArticle = (
+  id: number,
+  locale: string = 'nb',
+): Promise<ArticleApiType> =>
   fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then(
     resolveJsonOrRejectWithError,
   );
@@ -39,12 +50,12 @@ const articleConverterUrl = config.localConverter
   ? 'http://localhost:3100/article-converter'
   : apiResourceUrl('/article-converter');
 
-export const getArticleFromArticleConverter = (id, locale) =>
+export const getArticleFromArticleConverter = (id: number, locale: string) =>
   fetchAuthorized(`${articleConverterUrl}/json/${locale}/${id}`).then(
     resolveJsonOrRejectWithError,
   );
 
-export const getPreviewArticle = async (article, locale) => {
+export const getPreviewArticle = async (article: number, locale: string) => {
   const response = await fetchAuthorized(
     `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true`,
     {

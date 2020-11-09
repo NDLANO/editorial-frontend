@@ -45,9 +45,9 @@ export const MARK_TAGS = {
   strong: 'bold',
   em: 'italic',
   u: 'underlined',
-  code: 'code',
   sup: 'sup',
   sub: 'sub',
+  code: 'code',
 };
 
 const ListText = ({ children }) => children;
@@ -300,6 +300,33 @@ export const mathRules = {
         }}
       />
     );
+  },
+};
+
+export const codeBlockRule = {
+  deserialize(el) {
+    if (!el.tagName.toLowerCase().startsWith('embed')) return;
+    const embed = reduceElementDataAttributes(el);
+    if (embed.resource !== 'code-block') return;
+    return {
+      object: 'block',
+      type: 'code-block',
+      data: { ...embed },
+    };
+  },
+  serialize(slateObject) {
+    const { object, type } = slateObject;
+
+    if (object !== 'block') return;
+    if (type !== 'code-block') return;
+    const data = slateObject.data.toJS();
+
+    const props = createDataProps({
+      resource: 'code-block',
+      'code-content': data['code-block']?.code || data['code-content'],
+      'code-format': data['code-block']?.format || data['code-format'],
+    });
+    return <embed {...props} />;
   },
 };
 
@@ -767,6 +794,7 @@ const RULES = [
   brRule,
   markRules,
   footnoteRule,
+  codeBlockRule,
   linkRules,
   conceptRule,
   contentLinkRule,

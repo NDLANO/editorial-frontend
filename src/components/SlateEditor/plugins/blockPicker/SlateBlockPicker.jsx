@@ -17,7 +17,11 @@ import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
 
-const { defaultAsideBlock, defaultRelatedBlock } = defaultBlocks;
+const {
+  defaultAsideBlock,
+  defaultRelatedBlock,
+  defaultCodeBlock,
+} = defaultBlocks;
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -90,6 +94,10 @@ class SlateBlockPicker extends Component {
       }
       case 'related': {
         this.onInsertBlock(defaultRelatedBlock());
+        break;
+      }
+      case 'code-block': {
+        this.onInsertBlock(defaultCodeBlock());
         break;
       }
       default:

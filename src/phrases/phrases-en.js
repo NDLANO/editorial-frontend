@@ -304,7 +304,11 @@ const phrases = {
     editMath: 'Edit Math',
     preview: 'Preview',
     continue:
-      'You have unsaved changes in the math editor. Do you want to continue?',
+      'You might have unsaved changes in the math editor. Do you want to continue?',
+  },
+  code: {
+    continue:
+      'You might have unsaved changes in the code editor. Do you want to continue?',
   },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
@@ -440,6 +444,8 @@ const phrases = {
     footnote: 'Footnote',
     mathml: 'Math',
     concept: 'Concept',
+    code: 'Inline code',
+    codeblock: 'Code',
   },
   editorBlockpicker: {
     heading: 'Add',
@@ -456,6 +462,7 @@ const phrases = {
       url: 'Resource from link',
       related: 'Related article',
       file: 'File',
+      code: 'Codeblock',
     },
   },
   form: {

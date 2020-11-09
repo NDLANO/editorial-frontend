@@ -54,6 +54,12 @@ interface Status {
   other: string[];
 }
 
+export interface CodeBlockType {
+  code: string;
+  title: string;
+  format: string;
+}
+
 export interface ResourceType {
   id: string;
   name: string;
@@ -421,6 +427,15 @@ export interface SlateFigureProps {
   editor: SlateEditor;
   isSelected: boolean;
   language: string;
+  node: Node;
+}
+
+export interface CodeBlockProps {
+  attributes: {
+    'data-key': string;
+    'data-slate-object': string;
+  };
+  editor: SlateEditor;
   node: Node;
 }
 

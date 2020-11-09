@@ -303,7 +303,10 @@ const phrases = {
   mathEditor: {
     editMath: 'Rediger Matematikk',
     preview: 'Forhåndsvisning',
-    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
+    continue: 'Du kan ha ulagrede endringer i matteeditoren. Vil du fortsette?',
+  },
+  code: {
+    continue: 'Du kan ha ulagrede endringer i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
     fetchError:
@@ -455,6 +458,8 @@ const phrases = {
     footnote: 'Fotnote',
     mathml: 'Matte',
     concept: 'Forklaring',
+    code: 'Kode',
+    codeblock: 'Kodeblokk',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -471,6 +476,7 @@ const phrases = {
       url: 'Ressurs fra lenke',
       related: 'Relatert artikkel',
       file: 'Fil',
+      code: 'Kodevisning',
     },
   },
   form: {

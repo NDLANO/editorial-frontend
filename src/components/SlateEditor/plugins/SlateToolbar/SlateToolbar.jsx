@@ -23,7 +23,7 @@ const topicArticleElements = {
 const DEFAULT_NODE = 'paragraph';
 
 const learningResourceElements = {
-  mark: ['bold', 'italic'],
+  mark: ['bold', 'italic', 'code'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link', 'footnote', 'mathml', 'concept'],
 };

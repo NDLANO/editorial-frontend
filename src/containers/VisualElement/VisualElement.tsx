@@ -11,7 +11,7 @@ import { FormikHandlers } from 'formik';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import { VisualElement } from '../../interfaces';
+import { VisualElement as VisualElementType } from '../../interfaces';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -20,7 +20,7 @@ interface Props {
   isSubjectPage: boolean;
   types: string[];
   language: string;
-  value: VisualElement;
+  value: VisualElementType;
 }
 
 const createPlugins = (

@@ -44,6 +44,8 @@ const visualElementPlugin = (options: Options) => {
             node={node}
           />
         );
+      default:
+        return next();
     }
   };
 

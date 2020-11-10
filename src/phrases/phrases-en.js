@@ -1015,7 +1015,7 @@ const phrases = {
     },
     info: {
       title: 'Information',
-      subTitle: 'Information and visibility for the element',
+      subTitle: 'Id and visibility for the element',
     },
     resource: {
       confirmDelete:

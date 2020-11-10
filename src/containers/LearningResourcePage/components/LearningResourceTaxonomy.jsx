@@ -19,7 +19,6 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   fetchTopicConnections,
-  fetchResourceMetadata,
   updateTaxonomy,
   getFullResource,
   createResource,
@@ -43,7 +42,7 @@ const emptyTaxonomy = {
   resourceTypes: [],
   filter: [],
   topics: [],
-  metadata: undefined,
+  metadata: {},
 };
 
 class LearningResourceTaxonomy extends Component {
@@ -287,7 +286,7 @@ class LearningResourceTaxonomy extends Component {
   };
 
   fetchFullResource = async (resourceId, language) => {
-    const { resourceTypes, filters, topics } = await getFullResource(
+    const { resourceTypes, filters, metadata, topics } = await getFullResource(
       resourceId,
       language,
     );
@@ -299,8 +298,6 @@ class LearningResourceTaxonomy extends Component {
       topicConnections: topicConnections[index],
       ...topic,
     }));
-
-    const metadata = await fetchResourceMetadata(resourceId);
 
     return {
       resourceTypes,
@@ -380,11 +377,13 @@ class LearningResourceTaxonomy extends Component {
   };
 
   updateMetadata = visible => {
+    const updatedMetadata = {};
     const metadata = this.state.resourceTaxonomy.metadata;
-    metadata.visible = visible;
-    /*this.stageTaxonomyChanges({
-      metadata: metadata,
-    });*/
+    updatedMetadata.grepCodes = metadata.grepCodes;
+    updatedMetadata.visible = visible;
+    this.stageTaxonomyChanges({
+      metadata: updatedMetadata,
+    });
   };
 
   onCancel = () => {
@@ -445,10 +444,12 @@ class LearningResourceTaxonomy extends Component {
 
     return (
       <Fragment>
-        <TaxonomyInfo
-          taxonomyElement={{ id: resourceId, metadata: metadata }}
-          updateMetadata={this.updateMetadata}
-        />
+        {resourceId && (
+          <TaxonomyInfo
+            taxonomyElement={{ id: resourceId, metadata: metadata }}
+            updateMetadata={this.updateMetadata}
+          />
+        )}
         <ResourceTypeSelect
           availableResourceTypes={availableResourceTypes}
           resourceTypes={resourceTypes}

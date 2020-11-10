@@ -6,10 +6,10 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
 import { TaxonomyElement } from '../../../../interfaces';
@@ -35,10 +35,13 @@ const StyledId = styled.span`
 interface Props {
   taxonomyElement: TaxonomyElement;
   updateMetadata: Function;
-  t: Function;
 }
 
-const TaxonomyInfo = ({ taxonomyElement, updateMetadata, t }: Props) => {
+const TaxonomyInfo: FC<Props & tType> = ({
+  taxonomyElement,
+  updateMetadata,
+  t,
+}) => {
   return (
     <>
       <FieldHeader
@@ -52,7 +55,7 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata, t }: Props) => {
           {taxonomyElement.id}
         </StyledId>
         <StyledSwitch
-          onChange={updateMetadata(!taxonomyElement.metadata?.visible)}
+          onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
           checked={
             taxonomyElement.metadata ? taxonomyElement.metadata.visible : true
           }

@@ -1031,6 +1031,10 @@ const phrases = {
       done: 'Ressurser er publisert',
       error: 'Følgende ressurser ble ikke publisert:',
     },
+    info: {
+      title: 'Informasjon',
+      subTitle: 'Id og synlighet for elementet',
+    },
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',

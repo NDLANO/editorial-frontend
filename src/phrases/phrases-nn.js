@@ -1028,7 +1028,7 @@ const phrases = {
     },
     info: {
       title: 'Informasjon',
-      subTitle: 'Informasjon og synlighet om elementet',
+      subTitle: 'Id og synlighet for elementet',
     },
     resource: {
       confirmDelete:

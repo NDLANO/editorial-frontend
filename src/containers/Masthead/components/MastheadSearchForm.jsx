@@ -17,11 +17,7 @@ import { connect } from 'react-redux';
 import { css } from '@emotion/core';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
 
-import {
-  fetchResource,
-  fetchTopic,
-  fetchTopicArticle,
-} from '../../../modules/taxonomy';
+import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
 
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
@@ -155,7 +151,7 @@ export class MastheadSearchForm extends Component {
   async handleTopicUrl(urlId) {
     const { locale, history } = this.props;
     try {
-      const topicArticle = await fetchTopicArticle(urlId, locale);
+      const topicArticle = await fetchTopic(urlId, locale);
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
       history.push(toEditArticle(id, 'topic-article'));

@@ -11,17 +11,12 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import { updateResourceMetadata } from './resources';
 import { createDeleteResourceTypes } from './resourcetypes';
 import { createDeleteUpdateFilters } from './filter';
 import { createDeleteUpdateTopicResources } from './topicresouces';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
-
-function fetchTopicArticle(topicId, language) {
-  return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/?language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
-}
 
 /* Option items */
 function fetchResourceTypes(language) {
@@ -81,6 +76,8 @@ async function updateTaxonomy(
         originalFilters,
       ),
 
+      updateResourceMetadata(resourceId, taxonomyChanges.metadata),
+
       createDeleteUpdateTopicResources(
         resourceId,
         taxonomyChanges.topics,
@@ -97,7 +94,6 @@ async function updateTaxonomy(
 export {
   fetchResourceTypes,
   fetchFilters,
-  fetchTopicArticle,
   fetchRelevances,
   fetchSubject,
   updateTaxonomy,

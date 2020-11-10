@@ -8,7 +8,6 @@
 export {
   fetchResourceTypes,
   fetchFilters,
-  fetchTopicArticle,
   fetchRelevances,
   updateTaxonomy,
 } from './taxonomyApi';

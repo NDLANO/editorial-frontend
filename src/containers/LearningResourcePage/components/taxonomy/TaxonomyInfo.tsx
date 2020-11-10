@@ -24,8 +24,6 @@ const TaxonomyInfoDiv = styled.div`
   width: 100%;
 `;
 
-const StyledSwitch = styled(Switch)``;
-
 const StyledId = styled.span`
   font-style: ${(props: StyledIdProps) => !props.isVisible && 'italic'};
   color: ${(props: StyledIdProps) =>
@@ -34,7 +32,7 @@ const StyledId = styled.span`
 
 interface Props {
   taxonomyElement: TaxonomyElement;
-  updateMetadata: Function;
+  updateMetadata: (visible: boolean) => void;
 }
 
 const TaxonomyInfo: FC<Props & tType> = ({
@@ -54,7 +52,7 @@ const TaxonomyInfo: FC<Props & tType> = ({
           }>
           {taxonomyElement.id}
         </StyledId>
-        <StyledSwitch
+        <Switch
           onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
           checked={
             taxonomyElement.metadata ? taxonomyElement.metadata.visible : true

@@ -55,7 +55,7 @@ exports[`it goes in and out of edit mode 2`] = `
           class="c-related-articles__title"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background"
+            class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"

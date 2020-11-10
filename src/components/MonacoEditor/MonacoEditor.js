@@ -79,7 +79,7 @@ export function MonacoEditor({ value, onChange }) {
   return (
     <div
       css={css`
-        height: 80vh;
+        height: 75vh;
         margin: ${spacing.normal};
         border: 1px solid ${colors.brand.greyLight};
       `}

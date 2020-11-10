@@ -142,7 +142,7 @@ export function diffHTML(oldHtml, newHtml) {
   const cleanHtml = cleanUpHtml(cleanUpHtml(newHtml));
 
   const diffs = differ.diff_main(oldHtml, cleanHtml);
-  differ.diff_cleanupSemantic(diffs);
+  differ.diff_cleanupEfficiency(diffs);
   let diffString = '';
 
   let shouldWarn = false;

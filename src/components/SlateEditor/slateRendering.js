@@ -72,6 +72,12 @@ export const renderMark = (props, editor, next) => {
       return <sup>{children}</sup>;
     case 'sub':
       return <sub>{children}</sub>;
+    case 'code':
+      return (
+        <code className="c-inline__code" {...attributes}>
+          {children}
+        </code>
+      );
     default:
       return next();
   }

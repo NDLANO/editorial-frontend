@@ -19,19 +19,19 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 const HeaderActions = ({
-  isNewLanguage,
   editUrl,
+  formIsDirty,
   getArticle,
+  isNewLanguage,
+  isSubmitting,
   noStatus,
-  values,
+  setTranslateOnContinue,
   t,
   type,
   translateArticle,
-  setTranslateOnContinue,
-  isSubmitting,
-  formIsDirty,
+  values,
 }) => {
-  const { id, language, supportedLanguages, articleType } = values;
+  const { articleType, id, language, supportedLanguages } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -48,6 +48,7 @@ const HeaderActions = ({
       !supportedLanguages.includes(lang.key) &&
       lang.include,
   );
+  const translatableTypes = ['concept', 'standard', 'topic-article'];
 
   if (id) {
     return (
@@ -86,7 +87,7 @@ const HeaderActions = ({
           emptyLanguages={emptyLanguages}
           editUrl={editUrl}
         />
-        {articleType &&
+        {translatableTypes.includes(type) &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (
             <Fragment>
@@ -119,9 +120,10 @@ const HeaderActions = ({
 HeaderActions.propTypes = {
   noStatus: PropTypes.bool,
   values: PropTypes.shape({
+    articleType: PropTypes.string,
+    conceptContent: PropTypes.string,
     id: PropTypes.number,
     language: PropTypes.string,
-    articleType: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   editUrl: PropTypes.func.isRequired,

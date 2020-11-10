@@ -106,7 +106,7 @@ const HeaderInformation = ({
   createMessage,
   getArticle,
   history,
-  hasMultipleTaxonomyEntries,
+  taxonomyPaths,
 }) => {
   const [loading, setLoading] = useState(false);
   const onSaveAsNew = async () => {
@@ -165,7 +165,7 @@ const HeaderInformation = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         published={published}
-        hasMultipleTaxonomyEntries={hasMultipleTaxonomyEntries}
+        taxonomyPaths={taxonomyPaths}
       />
     </StyledHeader>
   );
@@ -183,7 +183,7 @@ HeaderInformation.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }),
   formIsDirty: PropTypes.bool,
   createMessage: PropTypes.func,
-  hasMultipleTaxonomyEntries: PropTypes.bool,
+  taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default injectT(HeaderInformation);

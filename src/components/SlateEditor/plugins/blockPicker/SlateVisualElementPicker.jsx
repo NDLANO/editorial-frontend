@@ -1,9 +1,17 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
+
+const StyledModal = styled(Modal)`
+  overflow: hidden;
+  .modal-body {
+    height: 90%;
+  }
+`;
 
 const SlateVisualElementPicker = ({
   articleLanguage,
@@ -26,9 +34,10 @@ const SlateVisualElementPicker = ({
     onVisualElementClose();
   };
   return (
-    <Modal
+    <StyledModal
       controllable
       isOpen
+      narrow
       onClose={onVisualElementClose}
       size={resource === 'h5p' ? 'fullscreen' : 'large'}
       backgroundColor="white"
@@ -51,7 +60,7 @@ const SlateVisualElementPicker = ({
           </ModalBody>
         </Fragment>
       )}
-    </Modal>
+    </StyledModal>
   );
 };
 

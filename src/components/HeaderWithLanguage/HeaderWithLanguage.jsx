@@ -21,23 +21,24 @@ export const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-const getTaxonomyPathsFromTaxonomy = taxonomy => {
+const getTaxonomyPathsFromTaxonomy = (taxonomy, articleId) => {
   const taxonomyObjects = Object.values(taxonomy || {});
   const flattenedObjects = [].concat.apply([], taxonomyObjects);
   const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
   const flattenedPaths = [].concat.apply([], nestedTaxonomyPaths);
-
-  return flattenedPaths;
+  const articlePaths = flattenedPaths.map(path => `/subjects${path}`);
+  return articlePaths.concat(`/article/${articleId}`);
 };
 
 const HeaderWithLanguage = ({
-  t,
-  values,
-  noStatus,
   content,
-  type,
   isSubmitting,
+  noStatus,
+  setTranslateOnContinue,
+  t,
   translateArticle,
+  type,
+  values,
   ...rest
 }) => {
   const { supportedLanguages, articleType } = values;
@@ -51,8 +52,7 @@ const HeaderWithLanguage = ({
     status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
 
-  const hasMultipleTaxonomyPaths =
-    getTaxonomyPathsFromTaxonomy(content?.taxonomy).length > 1;
+  const taxonomyPaths = getTaxonomyPathsFromTaxonomy(content?.taxonomy, id);
 
   return (
     <header>
@@ -63,7 +63,7 @@ const HeaderWithLanguage = ({
         isNewLanguage={isNewLanguage}
         title={title}
         published={published}
-        hasMultipleTaxonomyEntries={hasMultipleTaxonomyPaths}
+        taxonomyPaths={taxonomyPaths}
         {...rest}
       />
       <StyledLanguageWrapper>
@@ -75,6 +75,7 @@ const HeaderWithLanguage = ({
           title={title}
           isSubmitting={isSubmitting}
           translateArticle={translateArticle}
+          setTranslateOnContinue={setTranslateOnContinue}
           {...rest}
         />
       </StyledLanguageWrapper>
@@ -83,23 +84,21 @@ const HeaderWithLanguage = ({
 };
 
 HeaderWithLanguage.propTypes = {
-  noStatus: PropTypes.bool,
-  values: PropTypes.shape({
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    articleType: PropTypes.string,
-  }),
   content: PropTypes.shape({
+    current: PropTypes.object,
     id: PropTypes.number,
     language: PropTypes.string,
     status: PropTypes.shape({
       current: PropTypes.string,
       other: PropTypes.arrayOf(PropTypes.string),
     }),
-    current: PropTypes.object,
     title: PropTypes.string,
   }),
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,
+  isSubmitting: PropTypes.bool,
+  noStatus: PropTypes.bool,
+  setTranslateOnContinue: PropTypes.func.isRequired,
   type: PropTypes.oneOf([
     'image',
     'audio',
@@ -108,8 +107,11 @@ HeaderWithLanguage.propTypes = {
     'standard',
     'concept',
   ]),
-  isSubmitting: PropTypes.bool,
   translateArticle: PropTypes.func,
+  values: PropTypes.shape({
+    articleType: PropTypes.string,
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 export default injectT(HeaderWithLanguage);

@@ -73,7 +73,7 @@ const StyledLightbox = styled('div')`
 const StyledLightboxContent = styled('div')`
   overflow-x: auto;
   background-color: white;
-  margin: 10% auto 0;
+  margin: 52px auto 0;
   padding: 1em 2em 3em;
   max-width: ${p => p.maxWidth || '400px'};
   border-radius: 5px;

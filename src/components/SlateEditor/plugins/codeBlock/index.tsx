@@ -1,23 +1,25 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import React, { ReactElement } from 'react';
-import { Block, Document, Editor, Inline, SlateError } from 'slate';
-import SlateFigure from './SlateFigure';
+import React from 'react';
+import { Block, Document, Inline } from 'slate';
+import CodeBlock from './CodeBlock';
 import defaultBlocks from '../../utils/defaultBlocks';
-import { SlateFigureProps } from '../../../../interfaces';
+import { SlateEditor, CodeBlockProps } from '../../../../interfaces';
 
 type ParentNode = Document | Block | Inline;
 
-export const createEmbedPlugin = (language: string, locale: string) => {
+export const TYPE = 'code-block';
+
+export default () => {
   const schema = {
     blocks: {
-      embed: {
+      'code-block': {
         isVoid: true,
         data: {},
         next: [
@@ -27,7 +29,10 @@ export const createEmbedPlugin = (language: string, locale: string) => {
           { type: 'heading-two' },
           { type: 'heading-three' },
         ],
-        normalize: (editor: Editor, error: SlateError) => {
+        normalize: (
+          editor: SlateEditor,
+          error: { code: string; child: any },
+        ) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
@@ -46,21 +51,18 @@ export const createEmbedPlugin = (language: string, locale: string) => {
   };
 
   const renderBlock = (
-    props: SlateFigureProps,
-    editor: Editor,
+    props: CodeBlockProps,
+    editor: SlateEditor,
     next: () => void,
-  ): ReactElement | void => {
-    const { attributes, isSelected, node } = props;
+  ) => {
+    const { node } = props;
     switch ((node as ParentNode)?.type) {
-      case 'embed':
+      case TYPE:
         return (
-          <SlateFigure
-            attributes={attributes}
+          <CodeBlock
+            attributes={props.attributes}
             editor={props.editor}
-            isSelected={isSelected}
-            language={language}
             node={node}
-            locale={locale}
           />
         );
       default:
@@ -73,5 +75,3 @@ export const createEmbedPlugin = (language: string, locale: string) => {
     renderBlock,
   };
 };
-
-export default createEmbedPlugin;

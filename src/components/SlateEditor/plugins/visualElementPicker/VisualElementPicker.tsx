@@ -15,7 +15,7 @@ import VisualElementMenu from '../../../../containers/VisualElement/VisualElemen
 interface Props {
   editor: Editor;
   language: string;
-  onSelect: Function;
+  onSelect: (visualElement: string) => void;
   types: string[];
 }
 

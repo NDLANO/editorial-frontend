@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { FormikHandlers } from 'formik';
 import { Plugin, Value, DocumentJSON } from 'slate';
 import { Editor } from 'slate-react';
 
@@ -18,7 +19,7 @@ interface Props {
   name: string;
   value: VisualElement;
   plugins: Plugin[];
-  onChange: Function;
+  onChange: FormikHandlers['handleChange'];
 }
 
 const slateStore = createSlateStore();

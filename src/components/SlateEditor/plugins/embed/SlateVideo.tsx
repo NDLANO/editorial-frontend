@@ -41,15 +41,7 @@ interface Props {
   figureClass: any;
   language: string;
   onRemoveClick: Function;
-  saveEmbedUpdates: Function;
-}
-
-interface Event {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
-  };
+  saveEmbedUpdates: (change: { [x: string]: string }) => void;
 }
 
 const SlateVideo: React.FC<Props & tType> = ({

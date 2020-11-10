@@ -6,12 +6,24 @@
  *
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
+import { Editor } from 'slate';
 import VisualElementPicker from './VisualElementPicker';
 
-export default function visualElementPickerPlugin(options = {}) {
+interface Options {
+  changeVisualElement: (visualElement: string) => void;
+  empty: boolean;
+  language: string;
+  types: string[];
+}
+
+const visualElementPickerPlugin = (options: Options) => {
   const schema = {};
-  const renderEditor = (props, editor, next) => {
+  const renderEditor = (
+    props: any,
+    editor: Editor,
+    next: () => void,
+  ): ReactElement | void => {
     const children = next();
     const { changeVisualElement, empty, language, types } = options;
     return empty ? (
@@ -30,4 +42,6 @@ export default function visualElementPickerPlugin(options = {}) {
     schema,
     renderEditor,
   };
-}
+};
+
+export default visualElementPickerPlugin;

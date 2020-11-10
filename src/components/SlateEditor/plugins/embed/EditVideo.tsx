@@ -32,22 +32,14 @@ interface Props {
   caption: string;
   embed: Embed;
   figureClass: any;
-  saveEmbedUpdates: Function;
-  setCaption: Function;
+  saveEmbedUpdates: (change: { [x: string]: string }) => void;
+  setCaption: (caption: string) => void;
   src: string;
   startTime: string;
   stopTime: string;
   setStartTime: (startTime: string) => void;
   setStopTime: (stopTime: string) => void;
   toggleEditModus: Function;
-}
-
-interface Event {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
-  };
 }
 
 const EditVideo: React.FC<Props & tType> = ({

@@ -33,7 +33,7 @@ interface Props {
   isSelectedForCopy?: boolean;
   language: string;
   onRemoveClick: Function;
-  saveEmbedUpdates: Function;
+  saveEmbedUpdates: (change: { [x: string]: string }) => void;
   submitted: boolean;
   visualElement: boolean;
 }

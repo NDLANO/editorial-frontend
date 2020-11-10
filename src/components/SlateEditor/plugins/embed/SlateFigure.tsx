@@ -23,7 +23,7 @@ export const editorClasses = new BEMHelper({
 });
 
 interface Props extends SlateFigureProps {
-  locale: string;
+  locale?: string;
 }
 
 interface ChangesProp {
@@ -38,7 +38,7 @@ const SlateFigure: React.FC<Props & tType> = ({
   editor,
   isSelected,
   language,
-  locale,
+  locale = 'nb',
   node,
 }) => {
   const embed = getSchemaEmbed(node);

@@ -6,9 +6,18 @@
  *
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
+import { Block, Document, Editor, Inline } from 'slate';
 import SlateFigure from '../embed/SlateFigure';
-export default function visualElementPlugin(options = {}) {
+import { SlateFigureProps } from '../../../../interfaces';
+
+interface Options {
+  language: string;
+}
+
+type ParentNode = Document | Block | Inline;
+
+const visualElementPlugin = (options: Options) => {
   const schema = {
     blocks: {
       embed: {
@@ -17,23 +26,24 @@ export default function visualElementPlugin(options = {}) {
     },
   };
 
-  /* eslint-disable react/prop-types */
-  const renderBlock = (props, editor, next) => {
+  const renderBlock = (
+    props: SlateFigureProps,
+    editor: Editor,
+    next: () => void,
+  ): ReactElement | void => {
     const { node, isSelected } = props;
     const { language } = options;
 
-    switch (node.type) {
+    switch ((node as ParentNode)?.type) {
       case 'embed':
         return (
           <SlateFigure
-            editor={editor}
+            editor={props.editor}
             isSelected={isSelected}
             language={language}
             node={node}
           />
         );
-      default:
-        return next();
     }
   };
 
@@ -41,4 +51,6 @@ export default function visualElementPlugin(options = {}) {
     schema,
     renderBlock,
   };
-}
+};
+
+export default visualElementPlugin;

@@ -7,25 +7,26 @@
  */
 
 import React, { useMemo } from 'react';
+import { FormikHandlers } from 'formik';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import { VisualElement as VisualElementI } from '../../interfaces';
+import { VisualElement } from '../../interfaces';
 
 interface Props {
-  onChange: Function;
-  changeVisualElement: Function;
+  onChange: FormikHandlers['handleChange'];
+  changeVisualElement: (visualElement: string) => void;
   name: string;
   isSubjectPage: boolean;
   types: string[];
   language: string;
-  value: VisualElementI;
+  value: VisualElement;
 }
 
 const createPlugins = (
   empty: boolean,
   types: string[],
-  changeVisualElement: Function,
+  changeVisualElement: (visualElement: string) => void,
   language: string,
 ) => {
   return [

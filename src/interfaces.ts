@@ -414,7 +414,7 @@ export interface Image {
 }
 
 export interface SlateFigureProps {
-  attributes: {
+  attributes?: {
     'data-key': string;
     'data-slate-object': string;
   };

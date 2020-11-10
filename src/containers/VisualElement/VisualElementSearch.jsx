@@ -135,7 +135,7 @@ class VisualElementSearch extends Component {
                 if (type === 'youtube') {
                   handleVisualElementChange({
                     resource: 'external',
-                    url: video.link,
+                    url: video.pagemap?.videoobject?.[0]?.url || video.link,
                     title: video.title,
                   });
                 } else {

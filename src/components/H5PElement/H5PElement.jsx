@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
 import handleError from '../../util/handleError';
@@ -16,6 +17,16 @@ import {
   editH5PiframeUrl,
   fetchH5PMetadata,
 } from './h5pApi';
+
+const FlexWrapper = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
+const StyledIFrame = styled.iframe`
+  height: 100%;
+  min-height: 1000px;
+`;
 
 class H5PElement extends Component {
   constructor(props) {
@@ -70,7 +81,7 @@ class H5PElement extends Component {
     const { url, fetchFailed } = this.state;
     const { t } = this.props;
     return (
-      <div>
+      <FlexWrapper>
         {fetchFailed && (
           <ErrorMessage
             illustration={{
@@ -83,8 +94,8 @@ class H5PElement extends Component {
             }}
           />
         )}
-        {url && <iframe src={url} title="H5P" frameBorder="0" height="900" />}
-      </div>
+        {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
+      </FlexWrapper>
     );
   }
 }

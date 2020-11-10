@@ -29,8 +29,10 @@ import {
 } from '../../../components/SlateEditor/slateRendering';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
+import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
@@ -63,7 +65,9 @@ const createPlugins = language => {
     // unwrapping (jumping out of block) will not work.
     blockquotePlugin,
     editListPlugin,
+    conceptPlugin(language),
     paragraphPlugin(),
+    mathmlPlugin(),
     toolbarPlugin(),
   ];
 };

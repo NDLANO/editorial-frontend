@@ -52,10 +52,18 @@ export const defaultRelatedBlock = () =>
     data: {},
   });
 
+export const defaultCodeBlock = () =>
+  Block.create({
+    object: 'block',
+    type: 'code-block',
+    data: {},
+  });
+
 export default {
+  defaultAsideBlock,
   defaultBlock,
   defaultBlockWithText,
-  defaultAsideBlock,
+  defaultCodeBlock,
   defaultEmbedBlock,
   defaultFilesBlock,
   defaultRelatedBlock,

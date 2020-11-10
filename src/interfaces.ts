@@ -5,6 +5,8 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import { Editor, Node } from 'slate';
+import { Store } from 'redux';
 
 export interface TranslateType {
   (
@@ -52,6 +54,12 @@ interface Status {
   other: string[];
 }
 
+export interface CodeBlockType {
+  code: string;
+  title: string;
+  format: string;
+}
+
 export interface ResourceType {
   id: string;
   name: string;
@@ -63,19 +71,27 @@ export interface ResourceTranslation {
   language: string;
 }
 
+export interface MetaImage {
+  alt: string;
+  url: string;
+  language: string;
+}
+
 export interface ContentResultType {
+  articleType: string;
   id: number;
   title: { title: string };
   url?: string;
   metaDescription?: { metaDescription: string };
-  metaImage?: { alt: string; url: string; language: string };
+  metaImage?: MetaImage;
+  metaUrl?: string;
   contexts: [
     {
       learningResourceType: string;
       resourceTypes: ResourceType[];
     },
   ];
-  learningResourceType: string;
+  learningResourceType?: string;
   supportedLanguages?: string[];
 }
 
@@ -95,11 +111,7 @@ export interface ArticleType {
   tags: string[];
   published: string;
   copyright: Copyright;
-  metaImage: {
-    url: string;
-    alt: string;
-    language: string;
-  };
+  metaImage: MetaImage;
   oldNdlaUrl: string;
   revision: number;
   updated: string;
@@ -409,26 +421,23 @@ export interface SlateFigureProps {
   editor: SlateEditor;
   isSelected: boolean;
   language: string;
-  node: {
-    key: string;
-    type: string;
-  };
+  node: Node;
 }
 
-export interface SlateEditor {
-  removeNodeByKey: Function;
-  setNodeByKey: Function;
-  onChange: Function;
-  value: any;
+export interface CodeBlockProps {
+  attributes: {
+    'data-key': string;
+    'data-slate-object': string;
+  };
+  editor: SlateEditor;
+  node: Node;
+}
+
+export interface SlateEditor extends Editor {
   props: {
     submitted: boolean;
-    slateStore: {
-      getState: Function;
-      subscribe: Function;
-    };
+    slateStore: Store;
   };
-  moveToEndOfNode: Function;
-  withoutSaving: Function;
 }
 
 export interface Embed {

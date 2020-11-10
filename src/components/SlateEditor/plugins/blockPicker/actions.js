@@ -1,14 +1,15 @@
 import React from 'react';
 import {
-  Camera,
-  FactBoxMaterial,
-  Link as LinkIcon,
-  TableMaterial,
   ArrowExpand,
+  Camera,
+  Code,
+  FactBoxMaterial,
   Framed,
+  Link as LinkIcon,
   PlayBoxOutline,
   PresentationPlay,
   RelatedArticle,
+  TableMaterial,
 } from '@ndla/icons/editor';
 import { Download, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
@@ -72,6 +73,11 @@ const actions = [
     data: { type: 'related', object: 'related' },
     icon: <RelatedArticle />,
     helpIcon: renderArticleInModal('RelatedArticle'),
+  },
+  {
+    data: { type: 'code-block', object: 'code' },
+    icon: <Code />,
+    helpIcon: renderArticleInModal('CodeBlock'),
   },
 ];
 

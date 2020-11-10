@@ -9,7 +9,8 @@
 import nock from 'nock';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import { DisplayExternal } from '../DisplayExternal';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+import DisplayExternal from '../DisplayExternal';
 import { getIframeSrcFromHtmlString } from '../../../util/htmlHelpers';
 
 function createNodeMock(element) {
@@ -82,7 +83,9 @@ test('DisplayExternal renders iframe correctly', () => {
   };
 
   const component = TestRenderer.create(
-    <DisplayExternal onRemoveClick={() => ''} embed={embed} t={() => ''} />,
+    <IntlWrapper>
+      <DisplayExternal onRemoveClick={() => ''} embed={embed} />
+    </IntlWrapper>,
     options,
   );
 

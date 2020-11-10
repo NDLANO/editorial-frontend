@@ -16,8 +16,19 @@ export const textBlockValidationRules = {
     { type: 'heading-two' },
     { type: 'heading-three' },
   ],
-  nodes: [{ match: 'paragraph', min: 1 }],
-  last: { type: 'paragraph' },
+  nodes: [
+    {
+      match: [
+        { type: 'paragraph' },
+        { type: 'heading-two' },
+        { type: 'heading-three' },
+        { type: 'bulleted-list' },
+        { type: 'letter-list' },
+        { type: 'numbered-list' },
+        { type: 'quote' },
+      ],
+    },
+  ],
   next: [
     {
       type: 'paragraph',
@@ -58,6 +69,13 @@ export const textBlockValidationRules = {
             Block.create(defaultBlocks.defaultBlock),
           );
           editor.unwrapBlockByKey(wrapper.key, 'section');
+        });
+        break;
+      }
+      case 'child_type_invalid': {
+        // Unwrap until valid node.
+        editor.withoutSaving(() => {
+          editor.unwrapBlockByKey(error.child.key, error.child.type);
         });
         break;
       }

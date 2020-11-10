@@ -11,17 +11,16 @@ import { Remarkable } from 'remarkable';
 
 //@ts-ignore
 import { Article, ContentTypeBadge } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
-import { ArticleType, TranslateType } from '../../interfaces';
+import { injectT, tType } from '@ndla/i18n';
+import { ArticleType } from '../../interfaces';
 
 interface Props {
   article: ArticleType;
-  t: TranslateType;
   label: string;
   contentType?: string;
 }
 
-class PreviewDraft extends Component<Props, {}> {
+class PreviewDraft extends Component<Props & tType, {}> {
   componentDidMount() {
     if (window.MathJax) window.MathJax.typeset();
   }

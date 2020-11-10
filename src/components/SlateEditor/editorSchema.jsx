@@ -25,6 +25,7 @@ export const schema = {
     section: {
       first: { type: 'paragraph' },
       last: { type: 'paragraph' },
+      parent: { object: 'document' },
       nodes: [
         {
           match: [
@@ -38,7 +39,6 @@ export const schema = {
             { type: 'letter-list' },
             { type: 'related' },
             { type: 'details' },
-            { type: 'solutionbox' },
             { type: 'bodybox' },
             { type: 'aside' },
             { type: 'quote' },
@@ -47,6 +47,7 @@ export const schema = {
             { type: 'mathml' },
             { type: 'div' },
             { type: 'file' },
+            { type: 'code-block' },
           ],
         },
       ],
@@ -59,7 +60,6 @@ export const schema = {
                 .insertNodeByKey(error.node.key, 0, block)
                 .moveToStartOfNode(editor.value.document);
             });
-
             break;
           }
           case 'last_child_type_invalid': {
@@ -83,6 +83,16 @@ export const schema = {
           case 'child_type_invalid':
             editor.withoutSaving(() => {
               editor.wrapBlockByKey(error.child.key, 'paragraph');
+            });
+            break;
+          case 'parent_type_invalid':
+            editor.withoutSaving(() => {
+              editor.unwrapBlockByKey(error.node.key, error.node.type);
+            });
+            break;
+          case 'parent_object_invalid':
+            editor.withoutSaving(() => {
+              editor.unwrapBlockByKey(error.node.key, error.node.type);
             });
             break;
           default:

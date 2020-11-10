@@ -1,30 +1,41 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
-import { TranslateType } from '../../interfaces';
 import HeaderInformation from './HeaderInformation';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import { StyledSplitter } from './HeaderInformation';
 import { StyledLanguageWrapper } from './HeaderWithLanguage';
 import HeaderLanguagePicker from './HeaderLanguagePicker';
-import { Values } from '../SlateEditor/editorTypes';
 
 interface Props {
-  t: TranslateType;
-  values: Values;
+  articleType: string;
   editUrl: Function;
+  id: number;
   isSubmitting: Boolean;
+  language: string;
+  supportedLanguages: string[];
+  title: string;
 }
 
-const SimpleLanguageHeader: FC<Props> = ({
+const SimpleLanguageHeader: FC<Props & tType> = ({
   t,
-  values,
+  articleType,
   editUrl,
+  id,
   isSubmitting,
+  language,
+  supportedLanguages,
+  title,
 }) => {
-  const { id, title, supportedLanguages, language, articleType } = values;
-
   const isNewLanguage = id && !supportedLanguages.includes(language);
 
   const languages = [
@@ -55,7 +66,7 @@ const SimpleLanguageHeader: FC<Props> = ({
         {id ? (
           <>
             <HeaderSupportedLanguages
-              id={parseInt(id.toString())}
+              id={id}
               editUrl={editUrl}
               language={language}
               supportedLanguages={supportedLanguages}

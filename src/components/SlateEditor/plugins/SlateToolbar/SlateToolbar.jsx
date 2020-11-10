@@ -17,13 +17,13 @@ import { listTypes } from '../externalPlugins';
 const topicArticleElements = {
   mark: ['bold', 'italic'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: ['link'],
+  inline: ['link', 'mathml', 'concept'],
 };
 
 const DEFAULT_NODE = 'paragraph';
 
 const learningResourceElements = {
-  mark: ['bold', 'italic'],
+  mark: ['bold', 'italic', 'code'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link', 'footnote', 'mathml', 'concept'],
 };

@@ -5,27 +5,24 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import React, { FC, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import Button from '@ndla/button';
-import { TranslateType, VisualElement } from '../../../interfaces';
+import { VisualElement } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
 
 interface Props {
-  t: TranslateType;
   field: FieldProps<VisualElement>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
-  locale: string;
-  isSavingImage: boolean;
   title: string;
 }
 
-const SubjectpageBanner: FC<Props> = ({ t, field, form, title }) => {
+const SubjectpageBanner: FC<Props & tType> = ({ t, field, form, title }) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
 
   const onImageChange = (image: VisualElement) => {

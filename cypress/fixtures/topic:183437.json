@@ -1,7 +1,11 @@
 {
-    "id": "urn:topic:1:183437",
-    "name": "Administrative rutiner",
-    "contentUri": "urn:article:8785",
-    "path": null,
-    "paths": []
+  "id": "urn:topic:1:183437",
+  "name": "Administrative rutiner",
+  "contentUri": "urn:article:8785",
+  "path": null,
+  "paths": [],
+  "metadata": {
+    "grepCodes": [],
+    "visible": true
   }
+}

@@ -6,25 +6,24 @@
  */
 
 import React, { FC, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../NdlaFilm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
 import {
   ArticleType,
   ContentResultType,
-  SubjectpageEditType,
-  TranslateType,
+  FormikProperties,
 } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 interface Props {
-  t: TranslateType;
-  values: SubjectpageEditType;
-  field: FieldProps<ArticleType[]>['field'];
+  editorsChoices: ArticleType[];
+  elementId: string;
+  field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
@@ -37,11 +36,15 @@ const getSubjectOrFilter = (elementId: string) => {
   return [undefined, elementId];
 };
 
-const SubjectpageArticles: FC<Props> = ({ t, values, field, form }) => {
-  const [articles, setArticles] = useState<ArticleType[]>(
-    values.editorsChoices,
-  );
-  const [subjectId, filterId] = getSubjectOrFilter(values.elementId);
+const SubjectpageArticles: FC<Props & tType> = ({
+  t,
+  editorsChoices,
+  elementId,
+  field,
+  form,
+}) => {
+  const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
+  const [subjectId, filterId] = getSubjectOrFilter(elementId);
 
   const onAddArticleToList = async (article: ContentResultType) => {
     try {

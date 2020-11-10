@@ -16,8 +16,8 @@ const baseUrl = apiResourceUrl('/taxonomy/v1');
 const resolveTaxonomyResponse = res => resolveJsonOrRejectWithError(res, true);
 
 function fetchTopics(language) {
-  const lang = language ? `&language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics?includeMetadata=true${lang}`).then(
+  const lang = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(
     resolveJsonOrRejectWithError,
   );
 }
@@ -47,7 +47,6 @@ function fetchTopicResources(topicId, language, relevance, filters) {
   if (language) query.push(`language=${language}`);
   if (relevance) query.push(`relevance=${relevance}`);
   if (filters) query.push(`filters=${filters}`);
-  query.push('includeMetadata=true');
   return fetchAuthorized(
     `${baseUrl}/topics/${topicId}/resources/${
       query.length ? `?${query.join('&')}` : ''

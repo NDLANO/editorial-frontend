@@ -10,12 +10,13 @@
 import { css, jsx } from '@emotion/core';
 import React, { useState } from 'react';
 import Button from '@ndla/button';
+import { injectT, tType } from '@ndla/i18n';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
 import EditVisualElementImage from '../../../../containers/VisualElement/EditVisualElementImage';
-import { Embed, TranslateType } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 
 const buttonStyle = css`
   min-width: -webkit-fill-available;
@@ -23,7 +24,6 @@ const buttonStyle = css`
 `;
 
 interface Props {
-  t: TranslateType;
   active?: boolean;
   attributes?: {
     'data-key': string;
@@ -40,7 +40,7 @@ interface Props {
   visualElement: boolean;
 }
 
-const SlateImage: React.FC<Props> = ({
+const SlateImage: React.FC<Props & tType> = ({
   t,
   active,
   attributes,
@@ -90,14 +90,12 @@ const SlateImage: React.FC<Props> = ({
         tooltip={t('form.image.removeImage')}
         onRemoveClick={onRemoveClick}
         embed={embed}
-        t={t}
         figureType="image"
         language={language}
       />
       {editMode &&
         (isSlate ? (
           <EditImage
-            t={t}
             embed={embed}
             saveEmbedUpdates={saveEmbedUpdates as Function}
             setEditModus={setEditMode}
@@ -106,7 +104,6 @@ const SlateImage: React.FC<Props> = ({
         ) : (
           <EditVisualElementImage
             setEditModus={setEditMode}
-            t={t}
             submitted={submitted}
             embed={embed}
           />
@@ -138,4 +135,4 @@ const SlateImage: React.FC<Props> = ({
   );
 };
 
-export default SlateImage;
+export default injectT(SlateImage);

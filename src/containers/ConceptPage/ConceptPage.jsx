@@ -74,6 +74,7 @@ class ConceptPage extends PureComponent {
     );
   }
 }
+
 ConceptPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,

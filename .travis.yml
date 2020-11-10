@@ -10,7 +10,7 @@ env:
     - NODE_OPTIONS=--max-old-space-size=4096
 
 language: node_js
-node_js: "10"
+node_js: '10'
 addons:
   apt:
     packages:
@@ -19,13 +19,13 @@ addons:
 cache:
   yarn: true
   directories:
-    - "~/.cache"
-    - ".eslintcache"
+    - '~/.cache'
+    - '.eslintcache'
 
 matrix:
   fast_finish: true
   include:
-    - name: "Unit tests"
+    - name: 'Unit tests'
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH="$HOME/.yarn/bin:$PATH"
@@ -36,7 +36,7 @@ matrix:
         - yarn build
       after_success: travis_wait yarn ndla-scripts now-travis
 
-    - name: "Integration tests"
+    - name: 'Integration tests'
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH="$HOME/.yarn/bin:$PATH"
@@ -44,10 +44,10 @@ matrix:
         - yarn install --frozen-lockfile
       script:
         - yarn start &
-        - sleep 40
+        - sleep 60
         - yarn e2e-ci
 
-    - name: "Release"
+    - name: 'Release'
       language: python
       if: branch = master AND type = push
       python: 3.7
@@ -82,4 +82,4 @@ matrix:
         - docker push $DEPLOY_DOCKER_REPO:$DEPLOY_VERSION
 
   allow_failures:
-    - name: "Release"
+    - name: 'Release'

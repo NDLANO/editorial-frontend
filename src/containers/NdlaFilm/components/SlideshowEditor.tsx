@@ -6,26 +6,24 @@
  */
 
 import React, { FC } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from './ElementList';
 import DropdownSearch from './DropdownSearch';
-import { ContentResultType, TranslateType } from '../../../interfaces';
+import { ContentResultType } from '../../../interfaces';
 import config from '../../../config.js';
 
 interface Props {
-  t: TranslateType;
   onUpdateSlideshow: Function;
-  onAddMovieToSlideshow: Function;
   allMovies: ContentResultType[];
   loading: boolean;
   field: FieldProps<ContentResultType[]>['field'];
   form: FormikHelpers<FormikValues>;
 }
 
-const SlideshowEditor: FC<Props> = ({
+const SlideshowEditor: FC<Props & tType> = ({
   t,
   onUpdateSlideshow,
   allMovies,

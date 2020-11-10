@@ -303,7 +303,10 @@ const phrases = {
   mathEditor: {
     editMath: 'Rediger Matematikk',
     preview: 'Forhåndsvisning',
-    continue: 'Du har ulagrede endringer i matteeditoren. Vil du fortsette?',
+    continue: 'Du kan ha ulagrede endringer i matteeditoren. Vil du fortsette?',
+  },
+  code: {
+    continue: 'Du kan ha ulagrede endringer i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
     fetchError:
@@ -455,6 +458,8 @@ const phrases = {
     footnote: 'Fotnote',
     mathml: 'Matte',
     concept: 'Forklaring',
+    code: 'Kode',
+    codeblock: 'Kodeblokk',
   },
   editorBlockpicker: {
     heading: 'Legg til',
@@ -464,7 +469,6 @@ const phrases = {
       table: 'Tabell',
       bodybox: 'Tekst i ramme',
       details: 'Ekspanderende boks',
-      solutionbox: 'Fasitboks',
       image: 'Bilde',
       video: 'Video',
       audio: 'Lyd',
@@ -472,6 +476,7 @@ const phrases = {
       url: 'Ressurs fra lenke',
       related: 'Relatert artikkel',
       file: 'Fil',
+      code: 'Kodevisning',
     },
   },
   form: {
@@ -992,8 +997,8 @@ const phrases = {
     newSubject: 'Nytt fag',
     existingTopic: 'Eksisterende emne',
     newTopic: 'Nytt emne',
-    subjectSettings: 'Faginstillinger',
-    topicSettings: 'Emneinstillinger',
+    subjectSettings: 'Faginnstillinger',
+    topicSettings: 'Emneinnstillinger',
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',

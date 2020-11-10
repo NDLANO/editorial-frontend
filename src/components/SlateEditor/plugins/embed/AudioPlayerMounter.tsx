@@ -7,21 +7,25 @@
  */
 
 import React, { useEffect } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { initAudioPlayers } from '@ndla/article-scripts';
 // @ts-ignore
 import { AudioPlayer, FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { Audio, TranslateType } from '../../../../interfaces';
+import { Audio } from '../../../../interfaces';
 
 interface Props {
-  t: TranslateType;
   audio: Audio;
   locale: string;
   speech: boolean;
 }
 
-const AudioPlayerMounter: React.FC<Props> = ({ t, audio, locale, speech }) => {
+const AudioPlayerMounter: React.FC<Props & tType> = ({
+  t,
+  audio,
+  locale,
+  speech,
+}) => {
   useEffect(() => {
     initAudioPlayers();
   }, []);

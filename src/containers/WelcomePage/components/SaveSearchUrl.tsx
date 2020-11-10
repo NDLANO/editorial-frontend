@@ -9,19 +9,17 @@
 import React, { FC, useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 
 import SavedSearch from './SavedSearch';
-import { TranslateType } from '../../../interfaces';
 import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 
 interface Props {
   locale: string;
-  t: TranslateType;
 }
 
 export const classes = new BEMHelper({
@@ -29,7 +27,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SaveSearchUrl: FC<Props> = ({ locale, t }) => {
+const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
@@ -104,6 +102,7 @@ const SaveSearchUrl: FC<Props> = ({ locale, t }) => {
       {!!savedSearches.length ? (
         savedSearches.map((search, index) => (
           <SavedSearch
+            key={search}
             deleteSearch={deleteSearch}
             locale={locale}
             search={search}

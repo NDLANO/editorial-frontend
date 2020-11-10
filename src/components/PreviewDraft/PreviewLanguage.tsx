@@ -8,10 +8,10 @@
 
 import React, { Fragment, FC } from 'react';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
-import { ArticleType, TranslateType } from '../../interfaces';
+import { ArticleType } from '../../interfaces';
 
 const StyledPreviewHeader = styled.div`
   min-height: 6rem;
@@ -24,10 +24,9 @@ interface Props {
   secondArticle: ArticleType;
   previewLanguage: string;
   onChangePreviewLanguage(language: string): void;
-  t: TranslateType;
 }
 
-const PreviewLanguage: FC<Props> = props => {
+const PreviewLanguage: FC<Props & tType> = props => {
   const {
     firstArticle,
     secondArticle,

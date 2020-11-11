@@ -196,19 +196,19 @@ const ConceptModal = ({
 };
 
 ConceptModal.propTypes = {
+  addConcept: PropTypes.func.isRequired,
+  concept: ConceptShape,
+  createConcept: PropTypes.func.isRequired,
+  fetchSearchTags: PropTypes.func,
+  fetchStatusStateMachine: PropTypes.func,
+  handleRemove: PropTypes.func.isRequired,
   id: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   locale: PropTypes.string,
   selectedText: PropTypes.string,
-  addConcept: PropTypes.func.isRequired,
-  concept: ConceptShape,
   updateConcept: PropTypes.func.isRequired,
-  createConcept: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  handleRemove: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  fetchStatusStateMachine: PropTypes.func,
-  fetchSearchTags: PropTypes.func,
 };
 
 export default injectT(ConceptModal);

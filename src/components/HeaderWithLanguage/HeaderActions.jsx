@@ -22,6 +22,7 @@ const HeaderActions = ({
   editUrl,
   formIsDirty,
   getArticle,
+  inModal,
   isNewLanguage,
   isSubmitting,
   noStatus,
@@ -88,6 +89,7 @@ const HeaderActions = ({
           editUrl={editUrl}
         />
         {translatableTypes.includes(type) &&
+          !inModal &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (
             <Fragment>
@@ -118,7 +120,16 @@ const HeaderActions = ({
 };
 
 HeaderActions.propTypes = {
+  editUrl: PropTypes.func.isRequired,
+  formIsDirty: PropTypes.bool,
+  getArticle: PropTypes.func,
+  inModal: PropTypes.bool,
+  isNewLanguage: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
+  setTranslateOnContinue: PropTypes.func,
+  translateArticle: PropTypes.func,
+  type: PropTypes.string,
   values: PropTypes.shape({
     articleType: PropTypes.string,
     conceptContent: PropTypes.string,
@@ -126,14 +137,6 @@ HeaderActions.propTypes = {
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
-  editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func,
-  isNewLanguage: PropTypes.bool,
-  type: PropTypes.string,
-  translateArticle: PropTypes.func,
-  setTranslateOnContinue: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  formIsDirty: PropTypes.bool,
 };
 
 export default injectT(HeaderActions);

@@ -10,7 +10,11 @@ import 'isomorphic-fetch';
 import btoa from 'btoa';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
-import { getEnvironmentVariabel, getUniversalConfig, getZendeskWidgetSecret } from '../config';
+import {
+  getEnvironmentVariabel,
+  getUniversalConfig,
+  getZendeskWidgetSecret,
+} from '../config';
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel(
@@ -112,4 +116,4 @@ export const getZendeskToken = (name, email) => {
     jti: uuidv4(),
   };
   return jwt.sign(payload, getZendeskWidgetSecret());
-}
+};

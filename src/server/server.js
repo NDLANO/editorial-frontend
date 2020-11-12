@@ -124,7 +124,6 @@ jwt({
 }),
 async (req, res) => {
   const { user } = req;
-  console.log(user);
   const name = user['https://ndla.no/user_name'] || '';
   const email = user['https://ndla.no/user_email'] || '';
   const token = getZendeskToken(name, email)

@@ -19,7 +19,7 @@ import config from '../../config';
 const Zendesk = authenticated => {
   useEffect(() => {
     if (authenticated && isAccessTokenValid()) {
-      if(config.zendeskWidgetSecret) {
+      if (config.zendeskWidgetSecret) {
         const payload = {
           name: getNdlaUserName(),
           email: getNdlaUserEmail(),
@@ -27,7 +27,7 @@ const Zendesk = authenticated => {
           jti: uuidv4(),
         };
         const zendeskToken = jwt.sign(payload, config.zendeskWidgetSecret);
-  
+
         const zeSettings = document.createElement('script');
         zeSettings.type = 'text/javascript';
         zeSettings.innerHTML = `
@@ -44,7 +44,7 @@ const Zendesk = authenticated => {
         document.body.appendChild(zeSettings);
       }
 
-      if(config.zendeskWidgetKey) {
+      if (config.zendeskWidgetKey) {
         const zeScript = document.createElement('script');
         zeScript.id = 'ze-snippet';
         zeScript.src = `https://static.zdassets.com/ekr/snippet.js?key=${config.zendeskWidgetKey}`;

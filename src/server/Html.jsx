@@ -118,12 +118,6 @@ const Html = props => {
           defer
           src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/mml-chtml.js"
         />
-        {config.zendeskWidgetKey && (
-          <script
-            id="ze-snippet"
-            src={`https://static.zdassets.com/ekr/snippet.js?key=${config.zendeskWidgetKey}`}
-          />
-        )}
       </body>
     </html>
   );

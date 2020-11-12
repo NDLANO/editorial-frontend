@@ -18,6 +18,16 @@ export function ndlaId(token) {
   return decoded['https://ndla.no/ndla_id'];
 }
 
+export function ndlaUserName(token) {
+  const decoded = decode(token);
+  return decoded['https://ndla.no/user_name'];
+}
+
+export function ndlaUserEmail(token) {
+  const decoded = decode(token);
+  return decoded['https://ndla.no/user_email'];
+}
+
 export const decodeToken = accessToken => decode(accessToken);
 
 export const isValid = accessToken => {

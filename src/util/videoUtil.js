@@ -33,9 +33,11 @@ export const calcSecondsFromHMS = hms => {
 };
 
 export const getYoutubeEmbedUrl = (url, start, stop) => {
-  const youtubeEmbedUrl = url.includes('embed')
-    ? `${url.split('?')[0]}?`
-    : `https://www.youtube.com/embed/${url.split('v=')[1]}?`;
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${url
+    .split('/')
+    .pop()
+    .split('v=')
+    .pop()}?`;
   return addYoutubeTimeStamps(youtubeEmbedUrl, start, stop);
 };
 

@@ -24,7 +24,7 @@ import {
 
 interface Props {
   t: TranslateType;
-  attributes: {
+  attributes?: {
     'data-key': String;
     'data-slate-object': String;
   };

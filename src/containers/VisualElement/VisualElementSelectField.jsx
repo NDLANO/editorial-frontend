@@ -26,18 +26,6 @@ class VisualElementSelectField extends Component {
     const { name, onChange, resetSelectedResource } = this.props;
     onChange({
       target: {
-        name: 'visualElementCaption',
-        value: visualElement.caption,
-      },
-    });
-    onChange({
-      target: {
-        name: 'visualElementAlt',
-        value: visualElement.alt,
-      },
-    });
-    onChange({
-      target: {
         name,
         value: visualElement,
       },
@@ -70,10 +58,6 @@ VisualElementSelectField.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   selectedResource: PropTypes.string,
-  value: PropTypes.shape({
-    resource: PropTypes.string,
-    metaData: PropTypes.object,
-  }).isRequired,
   resetSelectedResource: PropTypes.func.isRequired,
   videoTypes: PropTypes.array,
 };

@@ -59,6 +59,7 @@ const filmFrontPageAfterTransformation = {
   slideShow: [],
   title: 'Om film',
   visualElement: {
+    alt: 'Et bilde Foto.',
     metaData: {
       id: '37',
     },
@@ -66,7 +67,6 @@ const filmFrontPageAfterTransformation = {
     resource_id: '37',
     url: 'https://test.api.ndla.no/image-api/raw/id/37',
   },
-  visualElementAlt: 'Et bilde Foto.',
 };
 
 test('util/ndlaFilmHelpers getInitialValues', () => {

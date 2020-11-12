@@ -19,33 +19,37 @@ import config from '../../config';
 const Zendesk = authenticated => {
   useEffect(() => {
     if (authenticated && isAccessTokenValid()) {
-      const payload = {
-        name: getNdlaUserName(),
-        email: getNdlaUserEmail(),
-        iat: Math.floor(Date.now() / 1000),
-        jti: uuidv4(),
-      };
-      const zendeskToken = jwt.sign(payload, config.zendeskWidgetSecret);
-
-      const zeSettings = document.createElement('script');
-      zeSettings.type = 'text/javascript';
-      zeSettings.innerHTML = `
-          window.zESettings = {
-            webWidget: {
-              authenticate: {
-                  jwtFn: function(callback) {
-                      callback('${zendeskToken}');
-                  }
-              }
-            }
+      if(config.zendeskWidgetSecret) {
+        const payload = {
+          name: getNdlaUserName(),
+          email: getNdlaUserEmail(),
+          iat: Math.floor(Date.now() / 1000),
+          jti: uuidv4(),
         };
-      `;
-      document.body.appendChild(zeSettings);
+        const zendeskToken = jwt.sign(payload, config.zendeskWidgetSecret);
+  
+        const zeSettings = document.createElement('script');
+        zeSettings.type = 'text/javascript';
+        zeSettings.innerHTML = `
+            window.zESettings = {
+              webWidget: {
+                authenticate: {
+                    jwtFn: function(callback) {
+                        callback('${zendeskToken}');
+                    }
+                }
+              }
+          };
+        `;
+        document.body.appendChild(zeSettings);
+      }
 
-      const zeScript = document.createElement('script');
-      zeScript.id = 'ze-snippet';
-      zeScript.src = `https://static.zdassets.com/ekr/snippet.js?key=${config.zendeskWidgetKey}`;
-      document.body.appendChild(zeScript);
+      if(config.zendeskWidgetKey) {
+        const zeScript = document.createElement('script');
+        zeScript.id = 'ze-snippet';
+        zeScript.src = `https://static.zdassets.com/ekr/snippet.js?key=${config.zendeskWidgetKey}`;
+        document.body.appendChild(zeScript);
+      }
     }
   }, []);
 

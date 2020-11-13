@@ -26,6 +26,8 @@ export const textBlockValidationRules = {
         { type: 'letter-list' },
         { type: 'numbered-list' },
         { type: 'quote' },
+        { type: 'table' },
+        { type: 'embed' },
       ],
     },
   ],

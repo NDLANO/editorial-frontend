@@ -97,6 +97,8 @@ export const createDetails = () => {
               { type: 'numbered-list' },
               { type: 'quote' },
               { type: 'table' },
+              { type: 'embed' },
+              { type: 'code-block' },
             ],
           },
         ],

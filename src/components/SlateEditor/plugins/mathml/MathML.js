@@ -16,14 +16,9 @@ class MathML extends Component {
     this.state = { reRender: false };
   }
 
-  async componentDidMount(prevProps) {
-    if (window.MathJax) window.MathJax.typeset();
-  }
-
   async componentDidUpdate(prevProps) {
     const { model } = this.props;
     const { innerHTML } = model;
-    if (window.MathJax) window.MathJax.typeset();
     if (prevProps.model.innerHTML !== innerHTML) {
       // Note: a small delay before a 're-render" is required in order to
       // get the MathJax script to render correctly after editing the MathML

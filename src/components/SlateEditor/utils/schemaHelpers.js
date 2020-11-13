@@ -28,6 +28,7 @@ export const textBlockValidationRules = {
         { type: 'quote' },
         { type: 'table' },
         { type: 'embed' },
+        { type: 'code-block' },
       ],
     },
   ],

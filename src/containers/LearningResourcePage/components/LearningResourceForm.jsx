@@ -152,7 +152,7 @@ const LearningResourceForm = props => {
     <Formik
       enableReinitialize={translating}
       initialValues={initialValues}
-      ref={formikRef}
+      innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount
       onSubmit={() => ({})}

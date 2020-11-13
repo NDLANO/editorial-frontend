@@ -284,7 +284,7 @@ class ConceptForm extends Component {
       <Formik
         initialValues={initialValues}
         onSubmit={() => ({})}
-        ref={this.formik}
+        innerRef={this.formik}
         enableReinitialize
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>

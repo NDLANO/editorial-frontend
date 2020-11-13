@@ -160,7 +160,7 @@ const TopicArticleForm = props => {
       validateOnMount
       initialValues={initialValues}
       validateOnChange={false}
-      ref={formikRef}
+      innerRef={formikRef}
       onSubmit={() => ({})}
       validate={values => validateFormik(values, topicArticleRules, t)}>
       {formik => {

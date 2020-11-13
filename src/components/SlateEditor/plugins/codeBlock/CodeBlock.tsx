@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Block, Document, Inline, Node } from 'slate';
+import he from 'he';
 
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
@@ -38,7 +39,7 @@ const getInfoFromNode = (node: Node) => {
 
   return {
     model: {
-      code,
+      code: he.decode(code),
       title: codeBlock.title || getTitleFromFormat(format),
       format,
     },
@@ -56,8 +57,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
   };
 
   const handleSave = (codeBlock: CodeBlockType) => {
+    const { code } = codeBlock;
     const properties = {
-      data: { ...getSchemaEmbed(node), 'code-block': codeBlock },
+      data: {
+        ...getSchemaEmbed(node),
+        'code-block': { ...codeBlock, code: he.encode(code) },
+      },
     };
     setEditMode(false);
     setFirstEdit(false);

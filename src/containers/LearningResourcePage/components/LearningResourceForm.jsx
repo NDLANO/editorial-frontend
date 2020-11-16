@@ -135,8 +135,87 @@ const LearningResourceForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
-  const [unsaved, setUnsaved] = useState(false);
-  usePreventWindowUnload(unsaved);
+
+  const FormikChild = formik => {
+    // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
+    const {
+      values,
+      dirty,
+      isSubmitting,
+      setValues,
+      errors,
+      touched,
+      ...formikProps
+    } = formik;
+    const formIsDirty = isFormikFormDirty({
+      values,
+      initialValues,
+      dirty,
+    });
+    usePreventWindowUnload(formIsDirty);
+    const getArticle = preview =>
+      getArticleFromSlate({ values, initialValues, licenses, preview });
+    return (
+      <Form {...formClasses()}>
+        <HeaderWithLanguage
+          values={values}
+          content={article}
+          editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
+          getArticle={getArticle}
+          formIsDirty={formIsDirty}
+          isSubmitting={isSubmitting}
+          translateArticle={translateArticle}
+          setTranslateOnContinue={setTranslateOnContinue}
+          {...rest}
+        />
+        {translating ? (
+          <Spinner withWrapper />
+        ) : (
+          <LearningResourcePanels
+            values={values}
+            errors={errors}
+            article={article}
+            touched={touched}
+            updateNotes={updateArticle}
+            formIsDirty={formIsDirty}
+            getInitialValues={getInitialValues}
+            setValues={setValues}
+            licenses={licenses}
+            getArticle={getArticle}
+            fetchSearchTags={fetchSearchTags}
+            {...rest}
+          />
+        )}
+
+        <EditorFooter
+          showSimpleFooter={!article.id}
+          isSubmitting={isSubmitting}
+          formIsDirty={formIsDirty}
+          savedToServer={savedToServer}
+          getEntity={getArticle}
+          errors={errors}
+          values={values}
+          onSaveClick={saveAsNewVersion => {
+            handleSubmit(formik, saveAsNewVersion);
+          }}
+          entityStatus={article.status}
+          getStateStatuses={fetchStatusStateMachine}
+          validateEntity={validateDraft}
+          isArticle
+          isNewlyCreated={isNewlyCreated}
+          {...formikProps}
+          {...rest}
+        />
+        <FormikAlertModalWrapper
+          isSubmitting={isSubmitting}
+          formIsDirty={formIsDirty}
+          onContinue={translateOnContinue ? translateArticle : () => {}}
+          severity="danger"
+          text={t('alertModal.notSaved')}
+        />
+      </Form>
+    );
+  };
 
   const {
     t,
@@ -157,87 +236,7 @@ const LearningResourceForm = props => {
       validateOnMount
       onSubmit={() => ({})}
       validate={values => validateFormik(values, learningResourceRules, t)}>
-      {formik => {
-        const {
-          values,
-          dirty,
-          isSubmitting,
-          setValues,
-          errors,
-          touched,
-          ...formikProps
-        } = formik;
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
-        setUnsaved(formIsDirty);
-        const getArticle = preview =>
-          getArticleFromSlate({ values, initialValues, licenses, preview });
-        return (
-          <Form {...formClasses()}>
-            <HeaderWithLanguage
-              values={values}
-              content={article}
-              editUrl={lang =>
-                toEditArticle(values.id, values.articleType, lang)
-              }
-              getArticle={getArticle}
-              formIsDirty={formIsDirty}
-              isSubmitting={isSubmitting}
-              translateArticle={translateArticle}
-              setTranslateOnContinue={setTranslateOnContinue}
-              {...rest}
-            />
-            {translating ? (
-              <Spinner withWrapper />
-            ) : (
-              <LearningResourcePanels
-                values={values}
-                errors={errors}
-                article={article}
-                touched={touched}
-                updateNotes={updateArticle}
-                formIsDirty={formIsDirty}
-                getInitialValues={getInitialValues}
-                setValues={setValues}
-                licenses={licenses}
-                getArticle={getArticle}
-                fetchSearchTags={fetchSearchTags}
-                {...rest}
-              />
-            )}
-
-            <EditorFooter
-              showSimpleFooter={!article.id}
-              isSubmitting={isSubmitting}
-              formIsDirty={formIsDirty}
-              savedToServer={savedToServer}
-              getEntity={getArticle}
-              errors={errors}
-              values={values}
-              onSaveClick={saveAsNewVersion => {
-                handleSubmit(formik, saveAsNewVersion);
-              }}
-              entityStatus={article.status}
-              getStateStatuses={fetchStatusStateMachine}
-              validateEntity={validateDraft}
-              isArticle
-              isNewlyCreated={isNewlyCreated}
-              {...formikProps}
-              {...rest}
-            />
-            <FormikAlertModalWrapper
-              isSubmitting={isSubmitting}
-              formIsDirty={formIsDirty}
-              onContinue={translateOnContinue ? translateArticle : () => {}}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </Form>
-        );
-      }}
+      {FormikChild}
     </Formik>
   );
 };

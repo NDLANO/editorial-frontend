@@ -43,8 +43,10 @@ import { toEditConcept } from '../../../util/routeHelpers.js';
 import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { createEmbedTag, parseEmbedTag } from '../../../util/embedTagHelpers';
 
 const getInitialValues = (concept = {}, subjects = []) => {
+  const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
   return {
     id: concept.id,
@@ -69,6 +71,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     tags: concept.tags || [],
     articleId: concept.articleId,
     status: concept.status || {},
+    visualElement: visualElement || {},
   };
 };
 
@@ -149,6 +152,9 @@ class ConceptForm extends Component {
           alt: values.metaImageAlt,
         }
       : nullOrUndefined(values?.metaImageId);
+    const visualElement = createEmbedTag(
+      isEmpty(values.visualElement) ? {} : values.visualElement,
+    );
 
     return {
       id: values.id,
@@ -169,6 +175,7 @@ class ConceptForm extends Component {
       created: this.getCreatedDate(values),
       articleId: values.articleId,
       metaImage,
+      visualElement,
     };
   };
 

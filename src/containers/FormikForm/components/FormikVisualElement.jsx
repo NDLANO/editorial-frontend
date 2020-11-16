@@ -57,6 +57,7 @@ const FormikVisualElement = ({
                 selectedResource={selectedResource}
                 resetSelectedResource={() => setSelectedResource(undefined)}
                 videoTypes={videoTypes}
+                articleLanguage={formik.values.language}
                 {...field}
               />
             </Fragment>

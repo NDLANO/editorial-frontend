@@ -26,7 +26,13 @@ import jwksRsa from 'jwks-rsa';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
-import { getToken, getBrightcoveToken, getUsers, getEditors } from './auth';
+import {
+  getToken,
+  getBrightcoveToken,
+  getUsers,
+  getEditors,
+  getZendeskToken,
+} from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
@@ -111,6 +117,26 @@ app.get('/get_brightcove_token', (req, res) => {
     })
     .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
 });
+
+app.get(
+  '/get_zendesk_token',
+  jwt({
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      jwksUri: `https://${config.auth0Domain}/.well-known/jwks.json`,
+    }),
+    audience: 'ndla_system',
+    issuer: `https://${config.auth0Domain}/`,
+    algorithms: ['RS256'],
+  }),
+  async (req, res) => {
+    const { user } = req;
+    const name = user['https://ndla.no/user_name'] || '';
+    const email = user['https://ndla.no/user_email'] || '';
+    const token = getZendeskToken(name, email);
+    res.send({ token });
+  },
+);
 
 app.get(
   '/get_note_users',

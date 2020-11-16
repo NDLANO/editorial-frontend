@@ -92,6 +92,10 @@ const ndlaFilmArticleType = getEnvironmentVariabel(
   'topic-article',
 );
 
+export const getZendeskWidgetSecret = () => {
+  return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
+};
+
 const config = {
   ndlaEnvironment,
   ndlaFilmArticleType,

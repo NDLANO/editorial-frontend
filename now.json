@@ -34,6 +34,8 @@
     "BRIGHTCOVE_ACCOUNT_ID": "@brightcove_account_id",
     "BRIGHTCOVE_API_CLIENT_ID": "@brightcove_api_client_id",
     "BRIGHTCOVE_API_CLIENT_SECRET": "@brightcove_api_client_secret",
-    "NPK_TOKEN": "@npk_token"
+    "NPK_TOKEN": "@npk_token",
+    "NDLA_ED_ZENDESK_WIDGET_KEY": "@ndla_ed_zendesk_widget_key",
+    "NDLA_ED_ZENDESK_WIDGET_SECRET": "@ndla_ed_zendesk_widget_secret"
   }
 }

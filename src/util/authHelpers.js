@@ -10,7 +10,7 @@ import 'isomorphic-fetch';
 import defined from 'defined';
 import auth0 from 'auth0-js';
 import config from '../config';
-import { expiresIn, ndlaId } from './jwtHelper';
+import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from './jwtHelper';
 import * as messageActions from '../containers/Messages/messagesActions';
 
 const client =
@@ -126,6 +126,8 @@ export const getAccessTokenExpiresAt = () =>
 export const getAccessToken = () => localStorage.getItem('access_token');
 
 export const getNdlaId = () => ndlaId(getAccessToken());
+export const getNdlaUserName = () => ndlaUserName(getAccessToken());
+export const getNdlaUserEmail = () => ndlaUserEmail(getAccessToken());
 
 export const isAccessTokenValid = () =>
   new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds

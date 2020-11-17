@@ -27,10 +27,6 @@ class RichBlockTextEditor extends PureComponent {
     if (window.MathJax) window.MathJax.typeset();
   }
 
-  componentDidUpdate() {
-    if (window.MathJax) window.MathJax.typeset();
-  }
-
   onChange(evt, index) {
     const { onChange, name, value } = this.props;
     const newValue = [].concat(value);

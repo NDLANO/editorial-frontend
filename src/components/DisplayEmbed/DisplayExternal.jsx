@@ -21,6 +21,7 @@ import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import DeleteButton from '../DeleteButton';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
+import { getH5pLocale } from '../H5PElement/h5pApi';
 
 export class DisplayExternal extends Component {
   constructor(props) {
@@ -63,13 +64,15 @@ export class DisplayExternal extends Component {
   }
 
   async getPropsFromEmbed() {
-    const { embed } = this.props;
+    const { embed, language } = this.props;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const url = embed.url || `${domain}${embed.path}`;
+        const url =
+          embed.url ||
+          `${domain}${embed.path}?locale=${getH5pLocale(language)}`;
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {

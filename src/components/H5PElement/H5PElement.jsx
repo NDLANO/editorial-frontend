@@ -7,13 +7,11 @@
  */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
 import handleError from '../../util/handleError';
-import { getLocale } from '../../modules/locale/locale';
 import {
   fetchH5PiframeUrl,
   editH5PiframeUrl,
@@ -108,11 +106,4 @@ H5PElement.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => {
-  const locale = getLocale(state);
-  return {
-    locale,
-  };
-};
-
-export default connect(mapStateToProps)(injectT(H5PElement));
+export default injectT(H5PElement);

@@ -216,7 +216,11 @@ export const paragraphRule = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    if (slateObject.type !== 'paragraph' && slateObject.type !== 'list-text')
+    if (
+      slateObject.type !== 'paragraph' &&
+      slateObject.type !== 'list-text' &&
+      slateObject.type !== 'line'
+    )
       return;
     if (slateObject.type === 'list-text') {
       return <ListText>{children}</ListText>;

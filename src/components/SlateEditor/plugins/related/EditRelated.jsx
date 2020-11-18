@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { searchDrafts } from '../../../../modules/draft/draftApi';
+import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
@@ -100,9 +100,9 @@ class EditRelated extends React.PureComponent {
   }
 
   async searchForArticles(inp) {
-    return await searchDrafts({
+    return await search({
       query: inp,
-      fallback: true,
+      'context-types': 'article',
     });
   }
 

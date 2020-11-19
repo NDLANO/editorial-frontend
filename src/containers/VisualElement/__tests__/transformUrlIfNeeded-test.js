@@ -9,7 +9,7 @@ import { transformUrlIfNeeded } from '../VisualElementUrlPreview';
 
 test('transformUrlIfNeeded returns static nrk url if correct nrk url is used', async () => {
   nock('http://nrk-api')
-    .get('/api/1.0/media/23618')
+    .get('/skole/api/media/23618')
     .reply(200, { psId: '33' });
   const url = await transformUrlIfNeeded(
     'https://www.nrk.no/skole/?mediaId=23618',
@@ -20,7 +20,7 @@ test('transformUrlIfNeeded returns static nrk url if correct nrk url is used', a
 
 test('transformUrlIfNeeded returns url sent in if nrk api should return undefined', async () => {
   nock('http://nrk-api')
-    .get('/api/1.0/media/23618')
+    .get('/skole/api/media/23618')
     .reply(200);
   const url = await transformUrlIfNeeded(
     'https://www.nrk.no/skole/?mediaId=23618',
@@ -31,7 +31,7 @@ test('transformUrlIfNeeded returns url sent in if nrk api should return undefine
 
 test('transformUrlIfNeeded returns url sent in if nrk api should return something else', async () => {
   nock('http://nrk-api')
-    .get('/api/1.0/media/23618')
+    .get('/skole/api/media/23618')
     .reply(200, { somethingElse: 'test' });
   const url = await transformUrlIfNeeded(
     'https://www.nrk.no/skole/?mediaId=23618',

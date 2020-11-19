@@ -23,7 +23,7 @@ const connectSrc = (() => {
     'https://www.googleapis.com/customsearch/',
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
-    'https://mimir.nrk.no',
+    'https://nrkno-skole-prod.kube.nrk.no',
     'https://nynorsk.cloud',
     'https://data.udir.no',
     'https://cdn.jsdelivr.net',

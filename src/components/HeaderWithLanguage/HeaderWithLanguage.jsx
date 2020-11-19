@@ -51,8 +51,11 @@ const HeaderWithLanguage = ({
   const published =
     status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
+  const isArticle = multiType === 'standard' || multiType === 'topic-article';
 
-  const taxonomyPaths = getTaxonomyPathsFromTaxonomy(content?.taxonomy, id);
+  const taxonomyPaths = isArticle
+    ? getTaxonomyPathsFromTaxonomy(content?.taxonomy, id)
+    : [];
 
   return (
     <header>

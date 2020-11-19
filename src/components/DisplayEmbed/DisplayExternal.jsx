@@ -70,9 +70,10 @@ export class DisplayExternal extends Component {
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const url =
-          embed.url ||
-          `${domain}${embed.path}?locale=${getH5pLocale(language)}`;
+        let url = embed.url || `${domain}${embed.path}`;
+        url = url.includes(config.h5pApiUrl)
+          ? `${url}?locale=${getH5pLocale(language)}`
+          : url;
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
         if (src) {

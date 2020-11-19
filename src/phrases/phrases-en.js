@@ -364,7 +364,7 @@ const phrases = {
     info: {
       lastUpdated: 'Last updated: ',
     },
-    title: 'Topic description | {title} ({key})',
+    title: 'Topic',
     fields: {
       caption: {
         label: {

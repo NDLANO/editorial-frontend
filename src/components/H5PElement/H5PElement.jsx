@@ -41,12 +41,12 @@ class H5PElement extends Component {
   /* eslint-disable react/no-did-mount-set-state */
   /* See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
   async componentDidMount() {
-    const { h5pUrl } = this.props;
+    const { h5pUrl, locale } = this.props;
     window.addEventListener('message', this.handleH5PChange);
     try {
       const data = h5pUrl
-        ? await editH5PiframeUrl(h5pUrl)
-        : await fetchH5PiframeUrl();
+        ? await editH5PiframeUrl(h5pUrl, locale)
+        : await fetchH5PiframeUrl(locale);
       this.setState(() => ({ url: data.url }));
     } catch (e) {
       this.setState({ fetchFailed: true });
@@ -103,6 +103,7 @@ class H5PElement extends Component {
 H5PElement.propTypes = {
   h5pUrl: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(H5PElement);

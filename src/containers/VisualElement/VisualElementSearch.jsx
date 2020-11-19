@@ -170,7 +170,7 @@ class VisualElementSearch extends Component {
                   metaData: {},
                 })
               }
-              label={t('form.visualElement.label')}
+              locale={locale}
             />
           </Fragment>
         );

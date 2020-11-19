@@ -12,17 +12,20 @@ import {
   fetchReAuthorized,
 } from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = async () => {
-  const response = await fetchReAuthorized(`${config.h5pApiUrl}/select`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer JWT-token` },
-  });
+export const fetchH5PiframeUrl = async (locale = '') => {
+  const response = await fetchReAuthorized(
+    `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer JWT-token` },
+    },
+  );
   return resolveJsonOrRejectWithError(response);
 };
 
-export const editH5PiframeUrl = async url => {
+export const editH5PiframeUrl = async (url, locale = '') => {
   const response = await fetchReAuthorized(
-    `${config.h5pApiUrl}/select/edit/byurl`,
+    `${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`,
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -33,6 +36,10 @@ export const editH5PiframeUrl = async url => {
     },
   );
   return resolveJsonOrRejectWithError(response);
+};
+
+export const getH5pLocale = language => {
+  return language === 'en' ? 'en-gb' : 'nb-no';
 };
 
 export const fetchH5PMetadata = async resourceId => {

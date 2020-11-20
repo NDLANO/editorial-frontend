@@ -27,13 +27,19 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
 );
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
+const corsAnywhereUrl = `${
+  config.ndlaEnvironment === 'test'
+    ? 'https://cors-anywhere.herokuapp.com/'
+    : ''
+}`;
+
 export const fetchNrkMedia = async mediaId => {
   const baseUrl =
     process.env.NODE_ENV === 'unittest'
       ? 'http://nrk-api'
-      : 'https://mimir.nrk.no';
+      : corsAnywhereUrl + 'https://nrkno-skole-prod.kube.nrk.no';
 
-  const nrkMediaJson = await fetch(`${baseUrl}/api/1.0/media/${mediaId}`);
+  const nrkMediaJson = await fetch(`${baseUrl}/skole/api/media/${mediaId}`);
   return resolveJsonOrRejectWithError(nrkMediaJson);
 };
 

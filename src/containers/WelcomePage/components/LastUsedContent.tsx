@@ -12,8 +12,9 @@ import { injectT, tType } from '@ndla/i18n';
 
 import formatDate from '../../../util/formatDate';
 import { ArticleType } from '../../../interfaces';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
 
 interface Props {
@@ -45,6 +46,11 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
           {article && formatDate(article.updated)})
         </Link>
       )}
+      <EditMarkupLink
+        to={toEditMarkup(articleId, locale)}
+        title={t('editMarkup.linkTitle')}
+        inHeader={true}
+      />
     </div>
   );
 };

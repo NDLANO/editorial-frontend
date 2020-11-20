@@ -109,9 +109,8 @@ const HeaderStatusInformation = ({
       <StyledStatusWrapper>
         {splitter}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-        {published && taxonomyPaths?.length > 0
-          ? publishedIconLink
-          : publishedIcon}
+        {published &&
+          (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
       </StyledStatusWrapper>
     );
@@ -125,9 +124,8 @@ const HeaderStatusInformation = ({
             ? t('form.status.new_language')
             : statusText || t('form.status.new')}
         </StyledStatus>
-        {published && taxonomyPaths?.length > 0
-          ? publishedIconLink
-          : publishedIcon}
+        {published &&
+          (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {helperIcon}
       </StyledStatusWrapper>

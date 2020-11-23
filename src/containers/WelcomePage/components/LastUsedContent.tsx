@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 
@@ -39,18 +39,25 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
   return (
     <div {...classes('result')}>
       {article && (
-        <Link
-          {...classes('link')}
-          to={toEditArticle(article.id, article.articleType)}>
-          {article.title.title} ({t('article.lastUpdated')}{' '}
-          {article && formatDate(article.updated)})
-        </Link>
+        <Fragment>
+          <Link
+            {...classes('link')}
+            to={toEditArticle(article.id, article.articleType)}>
+            {article.title.title} ({t('article.lastUpdated')}{' '}
+            {article && formatDate(article.updated)})
+          </Link>
+          <EditMarkupLink
+            to={toEditMarkup(
+              articleId,
+              article.supportedLanguages.includes(locale)
+                ? locale
+                : article.supportedLanguages[0],
+            )}
+            title={t('editMarkup.linkTitle')}
+            inHeader={true}
+          />
+        </Fragment>
       )}
-      <EditMarkupLink
-        to={toEditMarkup(articleId, locale)}
-        title={t('editMarkup.linkTitle')}
-        inHeader={true}
-      />
     </div>
   );
 };

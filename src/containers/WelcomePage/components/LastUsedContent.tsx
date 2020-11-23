@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState, Fragment } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 
@@ -39,7 +39,7 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
   return (
     <div {...classes('result')}>
       {article && (
-        <Fragment>
+        <>
           <Link
             {...classes('link')}
             to={toEditArticle(article.id, article.articleType)}>
@@ -56,7 +56,7 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
             title={t('editMarkup.linkTitle')}
             inHeader={true}
           />
-        </Fragment>
+        </>
       )}
     </div>
   );

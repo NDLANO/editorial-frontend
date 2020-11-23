@@ -12,8 +12,9 @@ import { injectT, tType } from '@ndla/i18n';
 
 import formatDate from '../../../util/formatDate';
 import { ArticleType } from '../../../interfaces';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
 
 interface Props {
@@ -38,12 +39,24 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
   return (
     <div {...classes('result')}>
       {article && (
-        <Link
-          {...classes('link')}
-          to={toEditArticle(article.id, article.articleType)}>
-          {article.title.title} ({t('article.lastUpdated')}{' '}
-          {article && formatDate(article.updated)})
-        </Link>
+        <>
+          <Link
+            {...classes('link')}
+            to={toEditArticle(article.id, article.articleType)}>
+            {article.title.title} ({t('article.lastUpdated')}{' '}
+            {article && formatDate(article.updated)})
+          </Link>
+          <EditMarkupLink
+            to={toEditMarkup(
+              articleId,
+              article.supportedLanguages.includes(locale)
+                ? locale
+                : article.supportedLanguages[0],
+            )}
+            title={t('editMarkup.linkTitle')}
+            inHeader={true}
+          />
+        </>
       )}
     </div>
   );

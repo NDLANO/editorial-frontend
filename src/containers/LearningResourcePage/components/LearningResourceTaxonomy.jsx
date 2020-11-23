@@ -37,6 +37,7 @@ import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 const emptyTaxonomy = {
   resourceTypes: [],
@@ -407,7 +408,7 @@ class LearningResourceTaxonomy extends Component {
       isDirty,
     } = this.state;
 
-    const { t } = this.props;
+    const { userAccess, t } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -444,7 +445,7 @@ class LearningResourceTaxonomy extends Component {
 
     return (
       <Fragment>
-        {resourceId && (
+        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && resourceId && (
           <TaxonomyInfo
             taxonomyElement={{ id: resourceId, metadata: metadata }}
             updateMetadata={this.updateMetadata}
@@ -508,6 +509,7 @@ LearningResourceTaxonomy.propTypes = {
     language: PropTypes.string,
   }),
   updateNotes: PropTypes.func,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(LearningResourceTaxonomy);

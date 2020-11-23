@@ -42,6 +42,7 @@ import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext('');
+export const UserAccessContext = React.createContext();
 
 export class App extends React.Component {
   constructor() {
@@ -76,57 +77,65 @@ export class App extends React.Component {
       messages,
       t,
       userName,
+      userAccess,
     } = this.props;
     return (
       <ErrorBoundary>
-        <LocaleContext.Provider value={locale}>
-          <FirstLoadContext.Provider value={this.state.firstLoad}>
-            <PageContainer background>
-              <Helmet
-                meta={[{ name: 'description', content: t('meta.description') }]}
-              />
-              <Content>
-                <Navigation authenticated={authenticated} userName={userName} />
-                <Switch>
-                  <Route
-                    path="/"
-                    exact
-                    component={() => <WelcomePage locale={locale} />}
+        <UserAccessContext.Provider value={userAccess}>
+          <LocaleContext.Provider value={locale}>
+            <FirstLoadContext.Provider value={this.state.firstLoad}>
+              <PageContainer background>
+                <Helmet
+                  meta={[
+                    { name: 'description', content: t('meta.description') },
+                  ]}
+                />
+                <Content>
+                  <Navigation
+                    authenticated={authenticated}
+                    userName={userName}
                   />
-                  <Route path="/login" component={Login} />
-                  <Route path="/logout" component={Logout} />
-                  <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                  <PrivateRoute path="/search" component={SearchPage} />
-                  <PrivateRoute
-                    path="/subject-matter"
-                    component={SubjectMatterPage}
-                  />
-                  <PrivateRoute
-                    path="/edit-markup/:draftId/:language"
-                    component={EditMarkupPage}
-                  />
-                  <PrivateRoute path="/concept" component={ConceptPage} />
+                  <Switch>
+                    <Route
+                      path="/"
+                      exact
+                      component={() => <WelcomePage locale={locale} />}
+                    />
+                    <Route path="/login" component={Login} />
+                    <Route path="/logout" component={Logout} />
+                    <PrivateRoute path="/subjectpage" component={Subjectpage} />
+                    <PrivateRoute path="/search" component={SearchPage} />
+                    <PrivateRoute
+                      path="/subject-matter"
+                      component={SubjectMatterPage}
+                    />
+                    <PrivateRoute
+                      path="/edit-markup/:draftId/:language"
+                      component={EditMarkupPage}
+                    />
+                    <PrivateRoute path="/concept" component={ConceptPage} />
 
-                  <Route
-                    path="/preview/:draftId/:language"
-                    component={PreviewDraftPage}
-                  />
-                  <PrivateRoute path="/media" component={MediaPage} />
-                  <PrivateRoute path="/agreement" component={AgreementPage} />
-                  <PrivateRoute path="/film" component={NdlaFilm} />
-                  <PrivateRoute path="/h5p" component={H5PPage} />
-                  <PrivateRoute
-                    path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                    component={StructurePage}
-                  />
-                  <Route path="/forbidden" component={ForbiddenPage} />
-                  <Route component={NotFoundPage} />
-                </Switch>
-              </Content>
-              <Messages dispatch={dispatch} messages={messages} />
-            </PageContainer>
-          </FirstLoadContext.Provider>
-        </LocaleContext.Provider>
+                    <Route
+                      path="/preview/:draftId/:language"
+                      component={PreviewDraftPage}
+                    />
+                    <PrivateRoute path="/media" component={MediaPage} />
+                    <PrivateRoute path="/agreement" component={AgreementPage} />
+                    <PrivateRoute path="/film" component={NdlaFilm} />
+                    <PrivateRoute path="/h5p" component={H5PPage} />
+                    <PrivateRoute
+                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                      component={StructurePage}
+                    />
+                    <Route path="/forbidden" component={ForbiddenPage} />
+                    <Route component={NotFoundPage} />
+                  </Switch>
+                </Content>
+                <Messages dispatch={dispatch} messages={messages} />
+              </PageContainer>
+            </FirstLoadContext.Provider>
+          </LocaleContext.Provider>
+        </UserAccessContext.Provider>
       </ErrorBoundary>
     );
   }
@@ -144,6 +153,7 @@ App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string,
+  userAccess: PropTypes.string,
   history: PropTypes.shape({
     listen: PropTypes.func.isRequired,
   }).isRequired,
@@ -158,6 +168,7 @@ const mapStateToProps = state => ({
   messages: getMessages(state),
   authenticated: state.session.authenticated,
   userName: state.session.user.name,
+  userAccess: state.session.user.scope,
 });
 
 export default withRouter(connect(mapStateToProps)(injectT(App)));

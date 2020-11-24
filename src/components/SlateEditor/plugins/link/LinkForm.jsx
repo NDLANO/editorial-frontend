@@ -14,6 +14,7 @@ import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Field from '../../../Field';
+import config from '../../../../config';
 import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
@@ -63,7 +64,13 @@ class LinkForm extends Component {
               type="text"
               label={t('form.content.link.text')}
             />
-            <FormikField name="href" label={t('form.content.link.href')} />
+            <FormikField
+              name="href"
+              description={`${t('form.content.link.description')} ${
+                config.ndlaFrontendDomain
+              }`}
+              label={t('form.content.link.href')}
+            />
             <FormikCheckbox
               name="checkbox"
               label={t('form.content.link.newTab')}

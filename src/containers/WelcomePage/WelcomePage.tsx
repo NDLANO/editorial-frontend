@@ -88,6 +88,7 @@ export const WelcomePage: FC<Props & tType> = ({ locale, t }) => {
                       key={result}
                       articleId={parseInt(result)}
                       locale={locale}
+                      t={t}
                     />
                   );
                 })

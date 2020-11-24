@@ -20,6 +20,7 @@ const getConceptDataAttributes = ({ id, title: { title } }) => ({
     'content-id': id,
     'link-text': title,
     resource: 'concept',
+    type: 'inline',
   },
 });
 

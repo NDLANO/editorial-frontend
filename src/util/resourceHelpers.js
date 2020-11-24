@@ -7,8 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
-import config from '../config';
-import { toEditArticle } from './routeHelpers';
+import { toEditArticle, toLearningpathFull } from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -67,7 +66,7 @@ const isLearningPathResourceType = contentType =>
 export const resourceToLinkProps = (content, contentType, locale) => {
   if (isLearningPathResourceType(contentType)) {
     return {
-      href: `${config.learningpathFrontendDomain}/${locale}/learningpaths/${content.id}/first-step`,
+      href: toLearningpathFull(content.id, locale),
       target: '_blank',
       rel: 'noopener noreferrer',
     };
@@ -75,14 +74,10 @@ export const resourceToLinkProps = (content, contentType, locale) => {
   return {
     to: toEditArticle(
       content.id,
-      content.contexts &&
-        content.contexts.length > 0 &&
-        content.contexts[0].learningResourceType
-        ? content.contexts[0].learningResourceType
-        : 'standard',
-      content.supportedLanguages.includes(locale)
+      content?.contexts?.[0]?.learningResourceType || 'standard',
+      content?.supportedLanguages?.includes(locale)
         ? locale
-        : content.supportedLanguages[0],
+        : content?.supportedLanguages?.[0],
     ),
   };
 };

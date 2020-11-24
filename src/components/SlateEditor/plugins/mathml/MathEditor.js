@@ -59,11 +59,11 @@ class MathEditor extends Component {
 
   toggleMenu() {
     this.setState(prevState => ({ showMenu: !prevState.showMenu }));
+    if (window.MathJax) window.MathJax.typesetPromise();
   }
 
   toggleEdit() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
-    if (window.MathJax) window.MathJax.typeset();
   }
 
   onExit = () => {
@@ -102,12 +102,7 @@ class MathEditor extends Component {
           tabIndex={0}
           onKeyPress={this.toggleMenu}
           onClick={this.toggleMenu}>
-          <MathML
-            mathRef={this.mathMLRef}
-            node={node}
-            model={model}
-            {...this.props}
-          />
+          <MathML node={node} model={model} {...this.props} />
           <Portal isOpened={showMenu}>
             <BlockMenu
               top={top}

@@ -10,12 +10,14 @@
 import { css, jsx } from '@emotion/core';
 import { injectT, tType } from '@ndla/i18n';
 import React, { Fragment, useEffect } from 'react';
-import { Input } from '@ndla/forms';
+import { Input, StyledButtonWrapper } from '@ndla/forms';
+import Button from '@ndla/button';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { Embed } from '../../../../interfaces';
+import { Embed, FormikInputEvent } from '../../../../interfaces';
+import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const videoStyle = css`
   width: 100%;
@@ -27,10 +29,11 @@ const videoStyle = css`
 `;
 
 interface Props {
-  changes?: { [x: string]: string };
+  caption: string;
   embed: Embed;
   figureClass: any;
-  onFigureInputChange: (e: Event) => void;
+  saveEmbedUpdates: (change: { [x: string]: string }) => void;
+  setCaption: (caption: string) => void;
   src: string;
   startTime: string;
   stopTime: string;
@@ -39,23 +42,16 @@ interface Props {
   toggleEditModus: Function;
 }
 
-interface Event {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
-  };
-}
-
 const EditVideo: React.FC<Props & tType> = ({
   t,
-  changes,
+  caption,
   embed,
   figureClass,
-  onFigureInputChange,
+  saveEmbedUpdates,
   src,
   startTime,
   stopTime,
+  setCaption,
   setStartTime,
   setStopTime,
   toggleEditModus,
@@ -77,6 +73,26 @@ const EditVideo: React.FC<Props & tType> = ({
 
     placeholderElement.style.height = `${embedRect.height}px`;
   }, []);
+
+  const onCaptionChange = (e: FormikInputEvent) => {
+    setCaption(e.target.value);
+  };
+
+  const onSave = () => {
+    saveEmbedUpdates({
+      caption,
+      url:
+        embed.resource === 'brightcove'
+          ? src
+          : addYoutubeTimeStamps(src, startTime, stopTime),
+    });
+    toggleEditModus();
+  };
+
+  const saveDisabled =
+    (embed.resource === 'brightcove' ||
+      embed.url === addYoutubeTimeStamps(src, startTime, stopTime)) &&
+    embed.caption === caption;
 
   return (
     <Fragment>
@@ -107,8 +123,6 @@ const EditVideo: React.FC<Props & tType> = ({
               {embed.resource === 'external' ? (
                 <EditVideoTime
                   name="url"
-                  src={src}
-                  onFigureInputChange={onFigureInputChange}
                   startTime={startTime}
                   stopTime={stopTime}
                   setStartTime={setStartTime}
@@ -118,8 +132,8 @@ const EditVideo: React.FC<Props & tType> = ({
                 <Input
                   name="caption"
                   label={t('form.video.caption.label')}
-                  value={changes?.caption || embed.caption}
-                  onChange={onFigureInputChange}
+                  value={caption}
+                  onChange={onCaptionChange}
                   container="div"
                   type="text"
                   autoExpand
@@ -127,6 +141,14 @@ const EditVideo: React.FC<Props & tType> = ({
                   white
                 />
               )}
+              <StyledButtonWrapper paddingLeft>
+                <Button onClick={toggleEditModus} outline>
+                  {t('form.abort')}
+                </Button>
+                <Button disabled={saveDisabled} onClick={onSave}>
+                  {t('form.video.save')}
+                </Button>
+              </StyledButtonWrapper>
             </StyledInputWrapper>
           </div>
         </Portal>

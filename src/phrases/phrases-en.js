@@ -364,7 +364,7 @@ const phrases = {
     info: {
       lastUpdated: 'Last updated: ',
     },
-    title: 'Topic description | {title} ({key})',
+    title: 'Topic',
     fields: {
       caption: {
         label: {
@@ -721,6 +721,8 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {type}',
+        description:
+          'Links to ndla-resources is handled by the system and is displayed correct on',
       },
       footnote: {
         title: 'Title',
@@ -865,6 +867,7 @@ const phrases = {
         placeholder: 'Video caption',
       },
       remove: 'Remove video',
+      save: 'Save video',
       time: {
         start: 'Start',
         stop: 'Stop',

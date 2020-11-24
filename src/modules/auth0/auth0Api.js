@@ -20,3 +20,6 @@ export const fetchAuth0Editors = role =>
   fetchAuthorized(`/get_editors?role=${role}`).then(
     resolveJsonOrRejectWithError,
   );
+
+export const fetchZendeskToken = () =>
+  fetchAuthorized('/get_zendesk_token').then(resolveJsonOrRejectWithError);

@@ -81,13 +81,17 @@ const HeaderStatusInformation = ({
     </Tooltip>
   );
 
-  const publishedIcon = published && (
+  const publishedIcon = (
+    <Tooltip tooltip={t('form.workflow.published')}>
+      <StyledCheckIcon title={t('form.status.published')} />
+    </Tooltip>
+  );
+
+  const publishedIconLink = (
     <StyledLink
       target="_blank"
-      to={`${config.editorialFrontendDomain}${taxonomyPaths?.[0]}`}>
-      <Tooltip tooltip={t('form.workflow.published')}>
-        <StyledCheckIcon title={t('form.status.published')} />
-      </Tooltip>
+      to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
+      {publishedIcon}
     </StyledLink>
   );
 
@@ -105,7 +109,8 @@ const HeaderStatusInformation = ({
       <StyledStatusWrapper>
         {splitter}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-        {publishedIcon}
+        {published &&
+          (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
       </StyledStatusWrapper>
     );
@@ -119,7 +124,8 @@ const HeaderStatusInformation = ({
             ? t('form.status.new_language')
             : statusText || t('form.status.new')}
         </StyledStatus>
-        {publishedIcon}
+        {published &&
+          (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {helperIcon}
       </StyledStatusWrapper>

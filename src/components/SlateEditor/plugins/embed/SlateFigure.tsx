@@ -23,7 +23,7 @@ export const editorClasses = new BEMHelper({
 });
 
 interface Props extends SlateFigureProps {
-  locale: string;
+  locale?: string;
 }
 
 interface ChangesProp {
@@ -38,7 +38,7 @@ const SlateFigure: React.FC<Props & tType> = ({
   editor,
   isSelected,
   language,
-  locale,
+  locale = 'nb',
   node,
 }) => {
   const embed = getSchemaEmbed(node);
@@ -92,7 +92,6 @@ const SlateFigure: React.FC<Props & tType> = ({
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           isSelectedForCopy={isSelected}
-          isSlate
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
@@ -104,12 +103,11 @@ const SlateFigure: React.FC<Props & tType> = ({
       return (
         <SlateVideo
           attributes={attributes}
-          changes={changes}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
-          onFigureInputChange={onFigureInputChange}
           onRemoveClick={onRemoveClick}
+          saveEmbedUpdates={saveEmbedUpdates}
         />
       );
     case 'audio':
@@ -133,12 +131,11 @@ const SlateFigure: React.FC<Props & tType> = ({
         return (
           <SlateVideo
             attributes={attributes}
-            changes={changes}
             embed={embed}
             figureClass={editorClasses('figure', isActive() ? 'active' : '')}
             language={language}
-            onFigureInputChange={onFigureInputChange}
             onRemoveClick={onRemoveClick}
+            saveEmbedUpdates={saveEmbedUpdates}
           />
         );
       }

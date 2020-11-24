@@ -32,7 +32,6 @@ class EditMath extends Component {
   }
 
   componentDidMount() {
-    if (window.MathJax) window.MathJax.typeset();
     // force set state to trigger rerender.
     this.setState({});
     const { renderMathML } = this.state;
@@ -52,10 +51,6 @@ class EditMath extends Component {
     script.onload = callback;
 
     document.head.appendChild(script);
-  }
-
-  componentDidUpdate() {
-    if (window.MathJax) window.MathJax.typeset();
   }
 
   handleExit() {

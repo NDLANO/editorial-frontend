@@ -11,9 +11,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import config from '../../../config';
 import { classes } from './ResourceGroup';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
 const StyledH1 = styled.h1`
   font-style: ${props => !props.isVisible && 'italic'};
@@ -33,7 +32,7 @@ const ResourceItemLink = ({
   if (linkTo) {
     if (contentType === 'learning-path') {
       const linkProps = {
-        href: `${config.learningpathFrontendDomain}/${locale}/learningpaths/${linkTo}/first-step`,
+        href: toLearningpathFull(linkTo, locale),
         target: '_blank',
         rel: 'noopener noreferrer',
       };

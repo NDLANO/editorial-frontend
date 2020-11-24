@@ -90,7 +90,7 @@ const HeaderStatusInformation = ({
   const publishedIconLink = (
     <StyledLink
       target="_blank"
-      to={`${config.editorialFrontendDomain}${taxonomyPaths?.[0]}`}>
+      to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
       {publishedIcon}
     </StyledLink>
   );

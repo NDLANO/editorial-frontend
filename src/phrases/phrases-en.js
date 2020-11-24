@@ -721,6 +721,8 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {type}',
+        description:
+          'Links to ndla-resources is handled by the system and is displayed correct on',
       },
       footnote: {
         title: 'Title',

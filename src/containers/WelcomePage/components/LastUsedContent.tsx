@@ -54,17 +54,18 @@ const LastUsedContent: FC<Props & tType> = ({
             {article.title.title} ({t('article.lastUpdated')}{' '}
             {article && formatDate(article.updated)})
           </Link>
-          {userAccess?.includes(DRAFT_HTML_SCOPE)}
-          <EditMarkupLink
-            to={toEditMarkup(
-              articleId,
-              article.supportedLanguages.includes(locale)
-                ? locale
-                : article.supportedLanguages[0],
-            )}
-            title={t('editMarkup.linkTitle')}
-            inHeader={true}
-          />
+          {userAccess?.includes(DRAFT_HTML_SCOPE) ? (
+            <EditMarkupLink
+              to={toEditMarkup(
+                articleId,
+                article.supportedLanguages.includes(locale)
+                  ? locale
+                  : article.supportedLanguages[0],
+              )}
+              title={t('editMarkup.linkTitle')}
+              inHeader={true}
+            />
+          ) : null}
         </>
       )}
     </div>

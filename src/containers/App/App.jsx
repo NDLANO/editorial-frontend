@@ -39,7 +39,6 @@ import NdlaFilm from '../NdlaFilm/NdlaFilm';
 import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
-import Zendesk from './Zendesk';
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext('');

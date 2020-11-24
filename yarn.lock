@@ -1699,10 +1699,10 @@
     "@ndla/core" "^0.6.31"
     react-swipeable "^5.0.1"
 
-"@ndla/code@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.4.tgz#1e0d1bd532bf63ae0b98e6eb78b3272a54992aac"
-  integrity sha512-BEqi7O7PNAgb/NEwq9UuDle3wgFRif1nENcMeoi7xuXGEFpUYSQkI13Eqoe2xK62FocLKptWenjUaaD7XxmKVQ==
+"@ndla/code@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.5.tgz#f86a63ef6b2c21977f60a5dd37d3ce48a3247efb"
+  integrity sha512-nFVhjJ/jR0gD0RIiJeS4KhfzhypPBHhB5+dxXNO5eEfLr7FZoBsxetBXUQ7GeTOuD+VrFnsdu7mLiHGEN3mlEg==
   dependencies:
     "@ndla/button" "^0.3.41"
     "@ndla/core" "^0.6.31"

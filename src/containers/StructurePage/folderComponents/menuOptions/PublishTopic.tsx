@@ -25,10 +25,7 @@ import {
   fetchLearningpath,
   updateStatusLearningpath,
 } from '../../../../modules/learningpath/learningpathApi';
-import {
-  fetchTopicArticle,
-  fetchTopicResources,
-} from '../../../../modules/taxonomy';
+import { fetchTopic, fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import {
   Resource,
@@ -85,7 +82,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
 
   const publishTopic = () => {
     if (!done) {
-      fetchTopicArticle(id, locale)
+      fetchTopic(id, locale)
         .then((resource: Resource) => publishResource(resource))
         .catch((e: Error) => handleError(e));
 

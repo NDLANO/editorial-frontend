@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
@@ -19,7 +18,6 @@ import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
-import { getLocale } from '../../modules/locale/locale';
 import StructureResources from './resourceComponents/StructureResources';
 import FolderItem from './folderComponents/FolderItem';
 import {
@@ -532,11 +530,4 @@ StructureContainer.propTypes = {
   userAccess: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-  userAccess: state.session.user.scope,
-});
-
-export default withRouter(
-  injectT(connect(mapStateToProps)(StructureContainer)),
-);
+export default withRouter(injectT(StructureContainer));

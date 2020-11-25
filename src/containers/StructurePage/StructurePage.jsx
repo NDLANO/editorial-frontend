@@ -6,16 +6,19 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import StructureContainer from './StructureContainer';
+import { LocaleContext, UserAccessContext } from '../App/App';
 
 const StructurePage = ({ t }) => {
+  const locale = useContext(LocaleContext);
+  const userAccess = useContext(UserAccessContext);
   return (
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.structurePage')} />
-      <StructureContainer />
+      <StructureContainer locale={locale} userAccess={userAccess} />
     </Fragment>
   );
 };

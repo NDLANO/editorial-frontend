@@ -8,7 +8,6 @@
 export {
   fetchResourceTypes,
   fetchFilters,
-  fetchTopicArticle,
   fetchRelevances,
   updateTaxonomy,
 } from './taxonomyApi';
@@ -20,6 +19,7 @@ export {
   queryTopics,
   fetchResourceResourceType,
   fetchResourceFilter,
+  fetchResourceMetadata,
   addFilterToResource,
   fetchFullResource,
   updateResourceRelevance,

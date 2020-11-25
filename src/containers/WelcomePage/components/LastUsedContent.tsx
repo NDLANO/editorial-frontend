@@ -7,9 +7,8 @@
  */
 
 import React, { FC, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { tType } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
@@ -72,8 +71,4 @@ const LastUsedContent: FC<Props & tType> = ({
   );
 };
 
-const mapStateToProps = (state: { session: { user: { scope: string } } }) => ({
-  userAccess: state.session.user.scope,
-});
-
-export default connect(mapStateToProps)(LastUsedContent);
+export default injectT(LastUsedContent);

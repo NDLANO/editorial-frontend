@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useContext, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -19,6 +19,7 @@ import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { fetchUserData } from '../../modules/draft/draftApi';
+import { LocaleContext, UserAccessContext } from '../App/App';
 
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
@@ -35,12 +36,10 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-interface Props {
-  locale: string;
-}
-
-export const WelcomePage: FC<Props & tType> = ({ locale, t }) => {
+export const WelcomePage: FC<tType> = ({ t }) => {
   const [lastUsed, setLastUsed] = useState<string[]>([]);
+  const locale: string = useContext(LocaleContext);
+  const userAccess: string = useContext(UserAccessContext);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
@@ -88,7 +87,7 @@ export const WelcomePage: FC<Props & tType> = ({ locale, t }) => {
                       key={result}
                       articleId={parseInt(result)}
                       locale={locale}
-                      t={t}
+                      userAccess={userAccess}
                     />
                   );
                 })

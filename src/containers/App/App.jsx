@@ -96,11 +96,7 @@ export class App extends React.Component {
                     userName={userName}
                   />
                   <Switch>
-                    <Route
-                      path="/"
-                      exact
-                      component={() => <WelcomePage locale={locale} />}
-                    />
+                    <Route path="/" exact component={WelcomePage} />
                     <Route path="/login" component={Login} />
                     <Route path="/logout" component={Logout} />
                     <PrivateRoute path="/subjectpage" component={Subjectpage} />

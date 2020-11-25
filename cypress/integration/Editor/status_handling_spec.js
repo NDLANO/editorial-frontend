@@ -37,7 +37,7 @@ describe('Status changes', () => {
       `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@licenses', `@draft:${ARTICLE_ID}`]);
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
     cy.wait(500);
   });
 
@@ -58,7 +58,7 @@ describe('Status changes', () => {
     cy.get('footer li > button')
       .contains('Til publisering')
       .click();
-    cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
+    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
     cy.apiwait(`@statusChange`);
 
     cy.get('footer button')

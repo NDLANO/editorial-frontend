@@ -44,7 +44,8 @@ const TaxonomyInfo: FC<Props & tType> = ({
     <>
       <FieldHeader
         title={t('taxonomy.info.title')}
-        subTitle={t('taxonomy.info.subTitle')}></FieldHeader>
+        subTitle={t('taxonomy.info.subTitle')}
+      />
       <TaxonomyInfoDiv>
         <StyledId
           isVisible={

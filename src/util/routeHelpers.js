@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import config from '../config';
 
 const articleTypes = {
   'topic-article': 'topic-article',
@@ -115,6 +116,10 @@ export function getResourceIdFromPath(path) {
   if (learningPath && learningPath[1]) return learningPath[1];
   const resource = path.match(/(resource:[:\da-fA-F-]+)\/?$/);
   return resource ? `urn:${resource[1]}` : '';
+}
+
+export function toLearningpathFull(id, locale) {
+  return `${config.learningpathFrontendDomain}/${locale}/learningpaths/${id}/first-step`;
 }
 
 export const removeLastItemFromUrl = url =>

@@ -740,6 +740,8 @@ const phrases = {
         unSupported: 'Innhaldstypen i lenka er ikkje støtta',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
+        description:
+          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på',
       },
       footnote: {
         title: 'Tittel',
@@ -1026,6 +1028,10 @@ const phrases = {
       waiting: 'Publiserar ressurser',
       done: 'Ressurser er publisert',
       error: 'Følgande ressurser blei ikkje publisert:',
+    },
+    info: {
+      title: 'Informasjon',
+      subTitle: 'Id og synlighet for elementet',
     },
     resource: {
       confirmDelete:

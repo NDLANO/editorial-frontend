@@ -32,12 +32,12 @@ describe('Workflow features', () => {
       `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
       visitOptions,
     );
-    cy.apiwait(['@licenses', `@draft:${ARTICLE_ID}`]);
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
     cy.wait(500);
     cy.get('button')
       .contains('Versjonslogg og merknader')
       .click();
-    cy.apiwait(`@articleHistory:${ARTICLE_ID}`);
+    cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
   });
 
   it('Can add notes and save', () => {
@@ -46,7 +46,7 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
+    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
   });
 
   it('Open previews', () => {
@@ -69,6 +69,6 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait(`@updateDraft:${ARTICLE_ID}`);
+    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
   });
 });

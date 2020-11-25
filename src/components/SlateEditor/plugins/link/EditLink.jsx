@@ -54,25 +54,27 @@ export const isNDLAEdPathUrl = url =>
 export const isPlainId = url => /^\d+/.test(url);
 
 const getIdAndTypeFromUrl = async href => {
-  if (isNDLAArticleUrl(href)) {
-    const splittedHref = href.split('/');
+  // Removes search queries before split
+  const baseHref = href.split(/\?/)[0];
+  if (isNDLAArticleUrl(baseHref)) {
+    const splittedHref = baseHref.split('/');
     return {
       resourceId: splittedHref.pop(),
       resourceType: 'article',
     };
-  } else if (isNDLALearningPathUrl(href)) {
-    const splittedHref = href.split('learningpaths/');
+  } else if (isNDLALearningPathUrl(baseHref)) {
+    const splittedHref = baseHref.split('learningpaths/');
     return {
       resourceId: splittedHref[1],
       resourceType: 'learningpath',
     };
-  } else if (isPlainId(href)) {
+  } else if (isPlainId(baseHref)) {
     return {
-      resourceId: href,
+      resourceId: baseHref,
       resourceType: 'article',
     };
-  } else if (isNDLATaxonomyUrl(href)) {
-    const taxonomyPath = href.split('subjects').pop();
+  } else if (isNDLATaxonomyUrl(baseHref)) {
+    const taxonomyPath = baseHref.split('subjects').pop();
     const resolvedTaxonomy = await resolveUrls(taxonomyPath);
 
     const contentUriSplit =
@@ -82,8 +84,8 @@ const getIdAndTypeFromUrl = async href => {
     const resourceType = contentUriSplit.pop();
 
     return { resourceId, resourceType };
-  } else if (isNDLAEdPathUrl(href)) {
-    const splittedHref = href.split('/');
+  } else if (isNDLAEdPathUrl(baseHref)) {
+    const splittedHref = baseHref.split('/');
     return {
       resourceId: splittedHref[5],
       resourceType: 'article',

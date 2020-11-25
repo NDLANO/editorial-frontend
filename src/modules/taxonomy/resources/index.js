@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
-import { fetchTopicArticle } from '../taxonomyApi';
+import { fetchTopic } from '../topics';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
@@ -54,6 +54,12 @@ export function fetchResourceFilter(id, language) {
   );
 }
 
+export function fetchResourceMetadata(id) {
+  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(
+    resolveJsonOrRejectWithError,
+  );
+}
+
 export function addFilterToResource({
   filterId,
   relevanceId = 'urn:relevance:core',
@@ -74,6 +80,14 @@ export function updateResourceRelevance(resourceFilterId, relevance) {
     method: 'PUT',
     body: JSON.stringify({ relevanceId: relevance }),
   }).then(resolveTaxonomyJsonOrRejectWithError);
+}
+
+export function updateResourceMetadata(resourceId, body) {
+  return fetchAuthorized(`${baseUrl}/resources/${resourceId}/metadata`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify(body),
+  }).then(resolveJsonOrRejectWithError);
 }
 
 // TODO: Rewrite once adjusted/updated taxonomy-API is available
@@ -98,15 +112,17 @@ export async function getResourceId({ id, language }) {
 }
 
 export async function getFullResource(resourceId, language) {
-  const { resourceTypes, filters, parentTopics } = await fetchFullResource(
-    resourceId,
-    language,
-  );
+  const {
+    resourceTypes,
+    filters,
+    parentTopics,
+    metadata,
+  } = await fetchFullResource(resourceId, language);
 
   const topics = await Promise.all(
     // Need to fetch each topic seperate because path is not returned in parentTopics
     parentTopics.map(async item => {
-      const topicArticle = await fetchTopicArticle(item.id, language);
+      const topicArticle = await fetchTopic(item.id, language);
       return {
         ...topicArticle,
         primary: item.isPrimary,
@@ -117,6 +133,7 @@ export async function getFullResource(resourceId, language) {
   return {
     resourceTypes,
     filters,
+    metadata,
     topics,
   };
 }

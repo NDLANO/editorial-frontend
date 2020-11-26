@@ -366,7 +366,6 @@ class ConceptForm extends Component {
                 </Field>
               ) : (
                 <EditorFooter
-                  t={t}
                   isSubmitting={isSubmitting}
                   formIsDirty={formIsDirty}
                   savedToServer={savedToServer}

@@ -135,7 +135,6 @@ export class DisplayExternalVisualElement extends Component {
             onRemoveClick={onRemoveClick}
             embed={embed}
             language={language}
-            t={t}
             figureType="external"
           />
           <iframe

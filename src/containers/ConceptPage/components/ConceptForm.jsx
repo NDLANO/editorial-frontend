@@ -228,6 +228,7 @@ class ConceptForm extends Component {
       inModal,
       isNewlyCreated,
       licenses,
+      locale,
       onClose,
       onUpdate,
       subjects,
@@ -270,7 +271,8 @@ class ConceptForm extends Component {
             classes={formClasses}
             concept={concept}
             fetchTags={fetchConceptTags}
-            {...props}
+            subjects={subjects}
+            locale={locale}
           />
         ),
       },

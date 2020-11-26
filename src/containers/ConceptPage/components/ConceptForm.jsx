@@ -417,6 +417,7 @@ ConceptForm.propTypes = {
   inModal: PropTypes.bool,
   isNewlyCreated: PropTypes.bool,
   licenses: LicensesArrayOf,
+  locale: PropTypes.string,
   onClose: PropTypes.func,
   onUpdate: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),

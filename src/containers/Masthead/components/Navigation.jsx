@@ -111,7 +111,7 @@ export class Navigation extends Component {
                 />
                 <StyledSplitter />
                 <div css={logoCSS}>
-                  <Logo to="/" label="Nasjonal digital læringsarena" />
+                  <Logo to="/" label={t('logo.altText')} />
                 </div>
               </div>
             </StyledHeaderItems>

@@ -110,7 +110,7 @@ const SlateVideo: React.FC<Props & tType> = ({
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={embed.videoid}
+            id={embed.videoid || embed.url}
             resizeIframe>
             <iframe
               title={`Video: ${embed?.metaData?.name || ''}`}

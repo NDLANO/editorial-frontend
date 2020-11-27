@@ -57,7 +57,6 @@ const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
       {({ field }) => (
         <ConceptMetaDataArticle
           locale={locale}
-          t={t}
           field={field}
           articleId={concept.articleId}
         />

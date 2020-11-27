@@ -101,7 +101,7 @@ export class Navigation extends Component {
               <div>
                 <MastheadButton onClick={this.toggleOpen} open={open} />
                 <StyledSplitter />
-                <MastheadSearch t={t} close={this.closeMenu} />
+                <MastheadSearch close={this.closeMenu} />
               </div>
               <div>
                 <SessionContainer
@@ -111,7 +111,7 @@ export class Navigation extends Component {
                 />
                 <StyledSplitter />
                 <div css={logoCSS}>
-                  <Logo to="/" label="Nasjonal digital læringsarena" />
+                  <Logo to="/" label={t('logo.altText')} />
                 </div>
               </div>
             </StyledHeaderItems>

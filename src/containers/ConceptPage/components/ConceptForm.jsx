@@ -228,6 +228,7 @@ class ConceptForm extends Component {
       inModal,
       isNewlyCreated,
       licenses,
+      locale,
       onClose,
       onUpdate,
       subjects,
@@ -270,7 +271,8 @@ class ConceptForm extends Component {
             classes={formClasses}
             concept={concept}
             fetchTags={fetchConceptTags}
-            {...props}
+            subjects={subjects}
+            locale={locale}
           />
         ),
       },
@@ -366,7 +368,6 @@ class ConceptForm extends Component {
                 </Field>
               ) : (
                 <EditorFooter
-                  t={t}
                   isSubmitting={isSubmitting}
                   formIsDirty={formIsDirty}
                   savedToServer={savedToServer}
@@ -416,6 +417,7 @@ ConceptForm.propTypes = {
   inModal: PropTypes.bool,
   isNewlyCreated: PropTypes.bool,
   licenses: LicensesArrayOf,
+  locale: PropTypes.string,
   onClose: PropTypes.func,
   onUpdate: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),

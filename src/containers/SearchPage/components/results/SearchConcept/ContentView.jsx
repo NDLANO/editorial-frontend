@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Button from '@ndla/button';
+import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { searchClasses } from '../../../SearchContainer';
@@ -14,15 +16,34 @@ const StyledInfo = styled.div`
   font-size: 0.7rem;
 `;
 
-const ContentView = ({ concept, locale, title, content, breadcrumbs, t }) => {
-  console.log('contentview 2');
+const ContentView = ({
+  concept,
+  locale,
+  title,
+  content,
+  breadcrumbs,
+  setShowForm,
+  t,
+}) => {
   return (
     <div {...searchClasses('content')}>
       <div {...searchClasses('header')}>
         <Link
           {...searchClasses('link')}
           to={toEditConcept(concept.id, concept.title.language)}>
-          <h2 {...searchClasses('title')}>{title}</h2>
+          <h2 {...searchClasses('title')}>
+            {title}
+            <Button
+              css={css`
+                line-height: 1;
+                font-size: 0.7rem;
+                padding: 4px 6px;
+                margin-left: 5px;
+              `}
+              onClick={setShowForm}>
+              Edit
+            </Button>
+          </h2>
           <StyledInfo>
             {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
               concept.lastUpdated,

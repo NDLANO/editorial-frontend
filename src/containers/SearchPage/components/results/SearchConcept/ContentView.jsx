@@ -65,7 +65,7 @@ const ContentView = ({
       <StyledBreadcrumbs>
         {breadcrumbs?.map(breadcrumb => (
           <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>
-        )) || <pCrumb />}
+        )) || <Crumb />}
         <HeaderStatusInformation
           statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
           published={

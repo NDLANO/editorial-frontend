@@ -29,6 +29,7 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
     t('conceptSearch.noContent'),
   );
   const breadcrumbs = subjects.filter(s => concept.subjectIds?.includes(s.id));
+
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
@@ -45,7 +46,7 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
           concept={concept}
           title={title}
           content={content}
-          bredcrumbs={breadcrumbs}
+          breadcrumbs={breadcrumbs}
           setShowForm={setShowForm}
           t={t}
         />

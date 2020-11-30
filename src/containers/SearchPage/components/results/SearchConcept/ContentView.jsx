@@ -1,20 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
-import { colors } from '@ndla/core';
-import styled from '@emotion/styled';
-import { searchClasses } from '../../../SearchContainer';
+import {
+  StyledInfo,
+  StyledConceptView,
+  StyledLink,
+  StyledDescription,
+  StyledBreadcrumbs,
+  Crumb,
+} from './SearchStyles';
 import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-
-const StyledInfo = styled.div`
-  color: ${colors.text.light};
-  line-height: 1rem;
-  font-size: 0.7rem;
-`;
 
 const ContentView = ({
   concept,
@@ -26,56 +24,48 @@ const ContentView = ({
   t,
 }) => {
   return (
-    <div {...searchClasses('content')}>
-      <div {...searchClasses('header')}>
-        <Link
-          {...searchClasses('link')}
+    <StyledConceptView>
+      <h2>
+        <StyledLink
+          noShadow
           to={toEditConcept(concept.id, concept.title.language)}>
-          <h2 {...searchClasses('title')}>
-            {title}
-            <Button
-              css={css`
-                line-height: 1;
-                font-size: 0.7rem;
-                padding: 4px 6px;
-                margin-left: 5px;
-              `}
-              onClick={setShowForm}>
-              Edit
-            </Button>
-          </h2>
-          <StyledInfo>
-            {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
-              concept.lastUpdated,
-            )}`}
-          </StyledInfo>
-        </Link>
+          {title}
+        </StyledLink>
+        <Button
+          css={css`
+            line-height: 1;
+            font-size: 0.7rem;
+            padding: 4px 6px;
+            margin-left: 5px;
+          `}
+          onClick={setShowForm}>
+          Edit
+        </Button>
+      </h2>
+      <StyledInfo>
+        {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
+          concept.lastUpdated,
+        )}`}
+      </StyledInfo>
+      <div>
         {concept.supportedLanguages.map(lang => {
           return lang !== locale ? (
-            <span
-              key={`${lang}_search_content`}
-              {...searchClasses('other-link')}>
-              <Link
-                {...searchClasses('link')}
-                to={toEditConcept(concept.id, lang)}>
-                {t(`language.${lang}`)}
-              </Link>
-            </span>
+            <StyledLink
+              other
+              key={`language_${lang}_${concept.id}`}
+              to={toEditConcept(concept.id, lang)}>
+              {t(`language.${lang}`)}
+            </StyledLink>
           ) : (
             ''
           );
         })}
       </div>
-      <p {...searchClasses('description')}>{content}</p>
-      <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-20px' }}>
+      <StyledDescription>{content}</StyledDescription>
+      <StyledBreadcrumbs>
         {breadcrumbs?.map(breadcrumb => (
-          <p
-            key={breadcrumb.id}
-            {...searchClasses('breadcrumb')}
-            style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-            {breadcrumb.name}
-          </p>
-        )) || <p {...searchClasses('breadcrumb')} />}
+          <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>
+        )) || <Crumb />}
         <HeaderStatusInformation
           statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
           published={
@@ -86,8 +76,8 @@ const ContentView = ({
           indentLeft
           fontSize={10}
         />
-      </div>
-    </div>
+      </StyledBreadcrumbs>
+    </StyledConceptView>
   );
 };
 
@@ -116,7 +106,8 @@ ContentView.propTypes = {
   locale: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
-  breadcrumbs: PropTypes.string,
+  breadcrumbs: PropTypes.arrayOf(PropTypes.string),
+  setShowForm: PropTypes.func,
 };
 
 export default ContentView;

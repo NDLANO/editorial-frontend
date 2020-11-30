@@ -53,14 +53,14 @@ export const StyledDescription = styled.p`
   margin: 0.2rem 0 1.2rem;
 `;
 
+export const Crumb = styled.p`
+  margin: auto 13px auto 0px;
+  font-size: 0.7rem;
+  color: black;
+  text-decoration: underline;
+`;
+
 export const StyledBreadcrumbs = styled.div`
   display: flex;
-  margin-top: '-20px';
-
-  p.crumb {
-    margin-right: calc(var(--spacing) / 2);
-    font-size: 0.7rem;
-    color: black;
-    text-decoration: underline;
-  }
+  margin-top: -20px;
 `;

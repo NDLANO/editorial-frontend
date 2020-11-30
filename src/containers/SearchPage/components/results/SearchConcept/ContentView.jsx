@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import {
@@ -9,8 +8,8 @@ import {
   StyledLink,
   StyledDescription,
   StyledBreadcrumbs,
+  Crumb,
 } from './SearchStyles';
-import { searchClasses } from '../../../SearchContainer';
 import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
@@ -65,13 +64,8 @@ const ContentView = ({
       <StyledDescription>{content}</StyledDescription>
       <StyledBreadcrumbs>
         {breadcrumbs?.map(breadcrumb => (
-          <p
-            key={breadcrumb.id}
-            classname="crumb"
-            style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-            {breadcrumb.name}
-          </p>
-        )) || <p classname="crumb" />}
+          <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>
+        )) || <pCrumb />}
         <HeaderStatusInformation
           statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
           published={
@@ -112,7 +106,8 @@ ContentView.propTypes = {
   locale: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
-  breadcrumbs: PropTypes.string,
+  breadcrumbs: PropTypes.arrayOf(PropTypes.string),
+  setShowForm: PropTypes.func,
 };
 
 export default ContentView;

@@ -23,7 +23,7 @@ export const StyledSplitter = styled.div`
 `;
 
 const StyledStatusWrapper = styled.div`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   white-space: nowrap;
 `;

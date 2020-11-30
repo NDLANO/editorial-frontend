@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
@@ -26,7 +27,9 @@ export const StyledConceptView = styled.div`
   }
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled(({ noShadow, other, ...rest }) => (
+  <Link {...rest} />
+))`
   &:any-link {
     color: ${colors.brand.primary};
   }

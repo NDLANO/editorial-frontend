@@ -14,6 +14,12 @@ import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 
+import {
+  getAccessToken,
+  getAccessTokenPersonal,
+} from '../../../util/authHelpers';
+import { isValid } from '../../../util/jwtHelper';
+
 import SavedSearch from './SavedSearch';
 import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
@@ -37,9 +43,14 @@ const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
   }, []);
 
   const fetchSavedSearch = async () => {
-    const result = await fetchUserData();
-    const searches = result.savedSearches || [];
-    setSavedSearches(searches);
+    const token = getAccessToken();
+    const isAccessTokenPersonal = getAccessTokenPersonal();
+
+    if (isValid(token) && isAccessTokenPersonal) {
+      const result = await fetchUserData();
+      const searches = result.savedSearches || [];
+      setSavedSearches(searches);
+    }
   };
 
   const updateUserMetadata = async (searches: string[]) => {

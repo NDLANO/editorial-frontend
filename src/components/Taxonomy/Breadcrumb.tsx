@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
-import { fonts } from '@ndla/core';
+import { colors, fonts } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/common';
+import { TaxonomyElement } from '../../interfaces';
 interface Props {
-  breadcrumb: Array<{
-    id: string;
-    name: string;
-  }>;
+  breadcrumb: Array<TaxonomyElement>;
   type?: string;
+}
+
+interface StyleProps {
+  isVisible?: boolean;
 }
 
 const StyledBreadCrumb = styled('div')`
@@ -16,6 +18,12 @@ const StyledBreadCrumb = styled('div')`
   span:last-of-type {
     font-weight: ${fonts.weight.semibold};
   }
+`;
+
+const StyledLink = styled(SafeLink)<StyleProps>`
+  font-style: ${props => !props.isVisible && 'italic'};
+  color: ${props =>
+    !props.isVisible ? colors.brand.grey : colors.brand.primary};
 `;
 
 export default function Breadcrumb({ breadcrumb, type }: Props) {
@@ -27,7 +35,11 @@ export default function Breadcrumb({ breadcrumb, type }: Props) {
         return (
           <Fragment key={`${path.name}_${index}`}>
             <span css={{ 'white-space': 'nowrap' }}>
-              <SafeLink to={url}>{path.name}</SafeLink>
+              <StyledLink
+                isVisible={path.metadata ? path.metadata.visible : true}
+                to={url}>
+                {path.name}
+              </StyledLink>
             </span>
             {type !== 'topic-article' && index + 1 !== breadcrumb.length && (
               <ChevronRight />

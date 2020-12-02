@@ -1,5 +1,6 @@
 import handleError from './handleError';
 import { pathToUrnArray } from './taxonomyHelpers';
+import { TaxonomyElement } from '../interfaces';
 
 type Input = {
   topicPath: string;
@@ -8,10 +9,7 @@ type Input = {
   title: string;
 };
 
-type PathArray = Array<{
-  name: string;
-  id: string;
-}>;
+type PathArray = Array<TaxonomyElement>;
 
 const retriveBreadCrumbs = ({
   topicPath,
@@ -30,6 +28,7 @@ const retriveBreadCrumbs = ({
       {
         name: subject.name,
         id: subject.id,
+        metadata: subject.metadata,
       },
     ];
     topicPaths.forEach((pathId: string) => {
@@ -38,9 +37,14 @@ const retriveBreadCrumbs = ({
         returnPaths.push({
           name: path.name,
           id: path.id,
+          metadata: path.metadata,
         });
       } else if (title) {
-        returnPaths.push({ name: title, id: pathId });
+        returnPaths.push({
+          name: title,
+          id: pathId,
+          metadata: { visible: true, grepCodes: [] },
+        });
       }
     });
     return returnPaths;

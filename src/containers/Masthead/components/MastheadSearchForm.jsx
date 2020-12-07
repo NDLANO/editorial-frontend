@@ -126,7 +126,9 @@ export class MastheadSearchForm extends Component {
     // Removes search queries before split
     const ndlaUrl = frontendUrl.split(/\?/)[0];
     // Strip / from end if topic
-    const cleanUrl = ndlaUrl.endsWith('/') ? ndlaUrl.replace('/subjects', '').slice(0, -1) : ndlaUrl.replace('/subjects', '');
+    const cleanUrl = ndlaUrl.endsWith('/')
+      ? ndlaUrl.replace('/subjects', '').slice(0, -1)
+      : ndlaUrl.replace('/subjects', '');
     const splittedNdlaUrl = cleanUrl.split('/');
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
@@ -134,7 +136,7 @@ export class MastheadSearchForm extends Component {
     if (
       !urlId.includes('urn:topic') &&
       Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.find( e => e.match(/subject:*/)) === undefined
+      !splittedNdlaUrl.find(e => e.match(/subject:*/)) === undefined
     ) {
       return;
     }
@@ -144,7 +146,7 @@ export class MastheadSearchForm extends Component {
       this.handleTopicUrl(urlId);
     } else if (splittedNdlaUrl.includes('node')) {
       this.handleNodeId(urlId);
-    } else if (splittedNdlaUrl.find( e => e.match(/subject:*/))) {
+    } else if (splittedNdlaUrl.find(e => e.match(/subject:*/))) {
       this.handleFrontendUrl(cleanUrl);
     } else {
       history.push(toEditArticle(urlId, 'standard'));

@@ -772,7 +772,7 @@ const phrases = {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
-        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet.',
+        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma.',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
@@ -976,6 +976,8 @@ const phrases = {
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
+    grepCodes:
+      'Noen av kodene har feil format eller eksisterer ikke. De vil ikke bli lagt til.',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

@@ -762,7 +762,7 @@ const phrases = {
       label: 'Competences and core elements',
       placeholder: 'Type code',
       description:
-        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created.',
+        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created. Separate multiple codes with comma.',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -957,6 +957,8 @@ const phrases = {
     statusCode: {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
+    grepCodes:
+      'Some of the codes you typed has wrong format or does not exist. They will not be added.',
   },
   notFound: {
     description: 'The page cannot be found',

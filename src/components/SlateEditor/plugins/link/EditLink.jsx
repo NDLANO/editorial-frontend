@@ -44,7 +44,7 @@ const createLinkData = (href, targetRel) => ({
 export const isNDLAArticleUrl = url =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
 export const isNDLATaxonomyUrl = url =>
-  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subjects\/(.*)\/topic(.*)/.test(
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(subjects\/)?(.*)\/topic(.*)/.test(
     url,
   );
 export const isNDLALearningPathUrl = url =>

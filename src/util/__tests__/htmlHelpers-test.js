@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { isValidURL } from '../htmlHelpers';
+import { isValidURL, isNDLAFrontendUrl } from '../htmlHelpers';
 
 test('util/htmlHelpers isValidUrl', () => {
   expect(
@@ -43,4 +43,28 @@ test('util/htmlHelpers isValidUrl', () => {
   ).toBeTruthy();
   expect(isValidURL('https://w')).toBeFalsy();
   expect(isValidURL('https://sdfasdp.ppppppppppp')).toBeFalsy();
+});
+
+test('util/isNDLAFrontendUrl', () => {
+  expect(isNDLAFrontendUrl('')).toBeFalsy();
+  expect(isNDLAFrontendUrl('http://knowit.no')).toBeFalsy();
+  expect(isNDLAFrontendUrl('http://vg.no/article/123')).toBeFalsy();
+  expect(
+    isNDLAFrontendUrl('https://www.test.ndla.no/article/123'),
+  ).toBeTruthy();
+  expect(
+    isNDLAFrontendUrl('https://www.test.ndla.no/nb/article/123'),
+  ).toBeTruthy();
+  expect(
+    isNDLAFrontendUrl(
+      'https://test.ndla.no/subjects/subject:6/topic:1:182849/topic:1:175043/resource:1:175253?filters=urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30',
+    ),
+  ).toBeTruthy();
+  expect(
+    isNDLAFrontendUrl('https://test.ndla.no/nb/subject:6/topic:1:182849'),
+  ).toBeTruthy();
+  expect(
+    isNDLAFrontendUrl('https://test.ndla.no/subject:6/topic:1:182849'),
+  ).toBeTruthy();
+  expect(isNDLAFrontendUrl('https://test.ndla.no/node/182849')).toBeTruthy();
 });

@@ -135,7 +135,6 @@ const LearningResourceForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
-  const [unsaved, setUnsaved] = useState(false);
 
   const FormikChild = formik => {
     const {
@@ -152,7 +151,7 @@ const LearningResourceForm = props => {
       initialValues,
       dirty,
     });
-    setUnsaved(formIsDirty);
+    usePreventWindowUnload(formIsDirty);
     const getArticle = preview =>
       getArticleFromSlate({ values, initialValues, licenses, preview });
     return (
@@ -216,7 +215,6 @@ const LearningResourceForm = props => {
       </Form>
     );
   };
-  usePreventWindowUnload(unsaved);
 
   const {
     t,

@@ -122,7 +122,7 @@ SearchConcept.propTypes = {
     lastUpdated: PropTypes.string,
     status: PropTypes.shape({
       current: PropTypes.string,
-      other: PropTypes.string,
+      other: PropTypes.arrayOf(PropTypes.string),
     }),
   }),
   locale: PropTypes.string,

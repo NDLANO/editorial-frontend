@@ -977,7 +977,7 @@ const phrases = {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
     grepCodes:
-      'Noen av kodene har feil format eller eksisterer ikke. De vil ikke bli lagt til.',
+      'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

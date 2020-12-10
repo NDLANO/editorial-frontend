@@ -54,7 +54,7 @@ const FormikGrepCodesContent = ({
   form,
 }: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
-  const [failedGrepCodes, setFailedGrepCodes] = useState<boolean>(false);
+  const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
   const searchForGrepCodes = async (inp: string) => {
     if (inp) {
@@ -84,24 +84,21 @@ const FormikGrepCodesContent = ({
     const newGrepCodeNames = [];
     for (const grepCode of newGrepCodes) {
       const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
-      if (
-        grepCodeTitle &&
-        !grepCodes.filter(c => c.code === grepCode).length &&
-        isGrepCodeValid(grepCode)
-      ) {
+      const savedGrepCode = grepCodes.filter(c => c.code === grepCode).length;
+      if (grepCodeTitle && !savedGrepCode && isGrepCodeValid(grepCode)) {
         newGrepCodeNames.push({
           code: grepCode,
           title: `${grepCode} - ${grepCodeTitle}`,
         });
-      } else {
-        setFailedGrepCodes(true);
+      } else if (!savedGrepCode) {
+        setFailedGrepCodes(prevState => [...prevState, grepCode]);
       }
     }
     return newGrepCodeNames;
   };
 
   const createNewGrepCodes = async (input: string) => {
-    setFailedGrepCodes(false);
+    setFailedGrepCodes([]);
     const newGrepCodes = input
       .toUpperCase()
       .split(',')
@@ -137,9 +134,11 @@ const FormikGrepCodesContent = ({
   return (
     <Fragment>
       <FormikFieldDescription description={t('form.grepCodes.description')} />
-      {failedGrepCodes && (
+      {!!failedGrepCodes.length && (
         <FormikFieldHelp error>
-          <StyledErrorPreLine>{t('errorMessage.grepCodes')}</StyledErrorPreLine>
+          <StyledErrorPreLine>
+            {`${t('errorMessage.grepCodes')}${failedGrepCodes.join(', ')}`}
+          </StyledErrorPreLine>
         </FormikFieldHelp>
       )}
       <AsyncDropdown

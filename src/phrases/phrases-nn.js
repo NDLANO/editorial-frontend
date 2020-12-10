@@ -972,7 +972,7 @@ const phrases = {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endra og last sida på nytt for å kunne lagre.',
     },
     grepCodes:
-      'Nokre av kodane har feil format eller eksisterer ikkje. Dei blir ikkje lagt til.',
+      'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
   },
   notFound: {
     description: 'Denne sida finnes ikkje.',

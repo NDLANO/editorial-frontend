@@ -958,7 +958,7 @@ const phrases = {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
     grepCodes:
-      'Some of the codes you typed has wrong format or does not exist. They will not be added.',
+      'The following codes have wrong format or does not exist, and will not be added: ',
   },
   notFound: {
     description: 'The page cannot be found',

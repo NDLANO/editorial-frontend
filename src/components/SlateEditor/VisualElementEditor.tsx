@@ -22,48 +22,62 @@ interface Props {
   onChange: FormikHandlers['handleChange'];
 }
 
-const slateStore = createSlateStore();
+const VisualElementEditor = class extends React.PureComponent<
+  Props,
+  { slateStore: object } // Since the redux-actions we are using doesn't have types
+> {
+  constructor(props: Props) {
+    super(props);
 
-const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
-  const onChangeVisualElement = (change: { value: Value }) => {
+    const slateStore = createSlateStore();
+    this.state = {
+      slateStore,
+    };
+
+    this.onChangeVisualElement = this.onChangeVisualElement.bind(this);
+  }
+
+  onChangeVisualElement = (change: { value: Value }) => {
     const node = change.value.toJSON()?.document?.nodes?.[0] as DocumentJSON;
-    onChange({
+    this.props.onChange({
       target: {
-        name,
+        name: this.props.name,
         value: node?.data || {},
       },
     });
   };
 
-  const editorValue = Value.fromJSON({
-    document: {
-      nodes: [
-        {
-          object: 'block',
-          type: 'embed',
-          data: value,
-          nodes: [
-            {
-              marks: [],
-              object: 'text',
-              text: '',
-            },
-          ],
-        },
-      ],
-    },
-  });
+  render() {
+    const editorValue = Value.fromJSON({
+      document: {
+        nodes: [
+          {
+            object: 'block',
+            type: 'embed',
+            data: this.props.value,
+            nodes: [
+              {
+                marks: [],
+                object: 'text',
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    });
 
-  return (
-    <Editor
-      name={name}
-      value={editorValue}
-      plugins={plugins}
-      slateStore={slateStore}
-      renderBlock={renderBlock}
-      onChange={onChangeVisualElement}
-    />
-  );
+    return (
+      <Editor
+        name={this.props.name}
+        value={editorValue}
+        plugins={this.props.plugins}
+        slateStore={this.state.slateStore}
+        renderBlock={renderBlock}
+        onChange={this.onChangeVisualElement}
+      />
+    );
+  }
 };
 
 export default VisualElementEditor;

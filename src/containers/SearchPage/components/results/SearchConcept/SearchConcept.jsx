@@ -45,6 +45,7 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
           concept={concept}
           content={content}
           cancel={() => setShowForm(false)}
+          subjects={subjects}
         />
       ) : (
         <ContentView

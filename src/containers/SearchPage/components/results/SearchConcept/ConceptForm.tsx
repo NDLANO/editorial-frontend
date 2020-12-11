@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Select } from '@ndla/forms';
 import Button from '@ndla/button';
+import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { SubjectType, SearchResult } from '../../../../../interfaces';
+import { SubjectType } from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
 
 interface License {
@@ -26,7 +27,6 @@ interface Props {
   onSubmit: () => void;
   licenses: License[];
   allSubjects: SubjectType[];
-  fetchSearchTags: (inp: string, language: string) => SearchResult;
   cancel: () => void;
 }
 
@@ -36,7 +36,6 @@ const ConceptForm = ({
   onSubmit,
   licenses,
   allSubjects,
-  fetchSearchTags,
   cancel,
 }: Props) => {
   const formik = useFormik<ConceptFormType>({

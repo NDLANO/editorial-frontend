@@ -3,8 +3,8 @@ import { ContentTypeResultType } from '@ndla/ui/lib/types';
 // @ts-ignore
 import { RadioButtonGroup } from '@ndla/ui';
 import { Spinner } from '@ndla/editor';
-import { useFetchConceptData } from '../../../../FormikForm/formikConceptHooks';
 import { fetchLicenses } from '../../../../../modules/draft/draftApi';
+import { fetchConcept } from '../../../../../modules/concept/conceptApi';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { ConceptFormType } from './ConceptForm';
 import { Concept } from '../../../../../components/SlateEditor/editorTypes';
@@ -20,9 +20,10 @@ interface Props {
   content: ContentTypeResultType;
   breadcrumbs: [];
   cancel: () => void;
+  subjects: SubjectType[];
 }
 
-const FormView = ({ title, concept, cancel }: Props) => {
+const FormView = ({ title, concept, cancel, subjects }: Props) => {
   const languageOptions = [
     { title: 'Bokmål', value: 'nb' },
     { title: 'Nynorsk', value: 'nn' },
@@ -32,12 +33,15 @@ const FormView = ({ title, concept, cancel }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<string>(concept.title.language);
   const [licenses, setLicenses] = useState<License[]>([]);
+  const [fullConcept, setFullConcept] = useState<Concept | undefined>();
 
-  const conceptData = useFetchConceptData(concept.id, language);
-  const { fetchSearchTags, subjects } = conceptData;
   useEffect(() => {
     fetchLicenses().then((licenses: License[]) => setLicenses(licenses));
   }, []);
+  useEffect(() => {
+    fetchConcept(concept.id, language).then((c: any) => setFullConcept(c));
+  }, [concept.id, language]);
+
   const [formValues, setFormValues] = useState<ConceptFormType>({
     title: title,
     license: undefined,
@@ -48,31 +52,27 @@ const FormView = ({ title, concept, cancel }: Props) => {
 
   useEffect(() => {
     if (subjects.length > 0) {
+      const subjectIds = concept.subjectIds;
       setFormValues(v => ({
         ...v,
-        subjects: concept.subjectIds
-          ? concept.subjectIds.map((id: string) =>
-              subjects.find((s: SubjectType) => s.id === id),
-            )
-          : [],
+        subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
       }));
       setLoading(false);
     }
   }, [subjects]);
 
-  const updatedConcept = conceptData.concept;
   useEffect(() => {
-    if (updatedConcept) {
-      const author = updatedConcept.copyright.creators.find(
-        (cr: { type: string; name: string }) => cr.type === 'Writer',
+    if (fullConcept) {
+      const author = fullConcept.copyright.creators.find(
+        cr => cr.type === 'Writer',
       );
       setFormValues(values => ({
         ...values,
-        title: updatedConcept.title,
+        title: fullConcept.title.title,
         author: author,
       }));
     }
-  }, [updatedConcept]);
+  }, [fullConcept]);
 
   return (
     <StyledConceptView border>
@@ -87,14 +87,13 @@ const FormView = ({ title, concept, cancel }: Props) => {
         uniqeIds
       />
 
-      {updatedConcept && !loading ? (
+      {fullConcept && !loading ? (
         <ConceptForm
           initialValues={formValues}
           language={language}
           onSubmit={() => {}}
           licenses={licenses}
           allSubjects={subjects}
-          fetchSearchTags={fetchSearchTags}
           cancel={cancel}
         />
       ) : (

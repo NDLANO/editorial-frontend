@@ -68,7 +68,7 @@ export interface PossibleStatuses {
 
 export interface Concept {
   id: number;
-  title: { language: string };
+  title: { language: string; title: string };
   tags?: { tags: Array<string> };
   content: string;
   metaImage: {
@@ -80,7 +80,7 @@ export interface Concept {
   copyright: {
     agreementId: number;
     license: string;
-    creators: Array<string>;
+    creators: Array<{ type: string; name: string }>;
     processors: Array<string>;
     rightsholders: Array<string>;
   };

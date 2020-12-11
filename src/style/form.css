@@ -6,7 +6,7 @@
  *
  */
 
-input,
+input:not([type='radio']),
 textarea {
   color: var(--brand-grey-dark);
   width: 100%;

@@ -30,13 +30,7 @@ const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
     </FormikField>
     <FormikField name="subjects" label={t('form.subjects.label')}>
       {({ field }) => (
-        <MultiSelectDropdown
-          idField="id"
-          labelField="name"
-          minSearchLength={1}
-          data={subjects}
-          {...field}
-        />
+        <MultiSelectDropdown minSearchLength={1} data={subjects} {...field} />
       )}
     </FormikField>
     <FormikField
@@ -47,6 +41,11 @@ const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
         <AsyncSearchTags
           language={concept.language}
           initialTags={concept.tags}
+          value={concept.tags}
+          updateValue={newValue => {
+            form.setFieldTouched('tags', true, true);
+            form.setFieldValue('tags', newValue || null, true);
+          }}
           field={field}
           form={form}
           fetchTags={fetchTags}

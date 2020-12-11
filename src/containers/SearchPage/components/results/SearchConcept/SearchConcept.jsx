@@ -40,7 +40,12 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
         )}
       </div>
       {showForm ? (
-        <FormView />
+        <FormView
+          title={title}
+          concept={concept}
+          content={content}
+          cancel={() => setShowForm(false)}
+        />
       ) : (
         <ContentView
           concept={concept}

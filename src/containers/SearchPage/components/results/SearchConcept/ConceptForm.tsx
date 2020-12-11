@@ -1,0 +1,127 @@
+import React, { useEffect } from 'react';
+import { useFormik } from 'formik';
+import { Select } from '@ndla/forms';
+import Button from '@ndla/button';
+import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
+import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
+import { SubjectType, SearchResult } from '../../../../../interfaces';
+import { InputField, InputPair } from './SearchStyles';
+
+interface License {
+  description: string;
+  license: string;
+}
+
+export interface ConceptFormType {
+  title: string;
+  author?: { name: string; type: string };
+  license?: License;
+  subjects: SubjectType[];
+  tags: string[];
+}
+
+interface Props {
+  initialValues: ConceptFormType;
+  language: string;
+  onSubmit: () => void;
+  licenses: License[];
+  allSubjects: SubjectType[];
+  fetchSearchTags: (inp: string, language: string) => SearchResult;
+  cancel: () => void;
+}
+
+const ConceptForm = ({
+  initialValues,
+  language,
+  onSubmit,
+  licenses,
+  allSubjects,
+  fetchSearchTags,
+  cancel,
+}: Props) => {
+  const formik = useFormik<ConceptFormType>({
+    initialValues,
+    onSubmit,
+  });
+  const { values, handleChange, setValues } = formik;
+  useEffect(() => {
+    setValues({ ...values, title: initialValues.title });
+  }, [initialValues.title]);
+
+  return (
+    <form>
+      <InputPair>
+        <InputField>
+          <label htmlFor="title">Tittel</label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            aria-label="Tittel"
+            value={values.title}
+            onChange={handleChange}
+          />
+        </InputField>
+        <InputField>
+          <label htmlFor="author">Forfatter</label>
+          <input
+            id="author"
+            name="author"
+            type="text"
+            aria-label="Forfatter"
+            value={values.author ? values.author.name : ''}
+            onChange={e => {
+              const { value } = e.target;
+              setValues({
+                ...values,
+                author: value ? { name: value, type: 'Writer' } : undefined,
+              });
+            }}
+          />
+        </InputField>
+      </InputPair>
+      <InputField>
+        <label htmlFor="license">Lisens</label>
+        <Select value={values.license} onChange={handleChange}>
+          {!values.license && <option>Velg e</option>}
+          {licenses.map(license => (
+            <option value={license.license} key={license.license}>
+              {license.description}
+            </option>
+          ))}
+        </Select>
+      </InputField>
+      <InputField>
+        <label htmlFor="subjects">Fag</label>
+        <MultiSelectDropdown
+          id="subjects"
+          name="subjects"
+          value={values.subjects}
+          onChange={handleChange}
+          minSearchLength={1}
+          data={allSubjects}
+        />
+      </InputField>
+      <InputField>
+        <label htmlFor="tags">Liste og filter</label>
+        <AsyncSearchTags
+          language={language}
+          value={values.tags}
+          updateValue={updatedValue => {
+            setValues({ ...values, tags: updatedValue });
+          }}
+          fetchTags={fetchSearchTags}
+        />
+      </InputField>
+      <div className="buttons">
+        <Button className="secondary" onClick={cancel}>
+          Avbryt
+        </Button>
+        <Button>Lagre</Button>
+        <Button>Publiser</Button>
+      </div>
+    </form>
+  );
+};
+
+export default ConceptForm;

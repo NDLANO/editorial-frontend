@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
- 
+
 import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -22,15 +22,40 @@ export const StyledConceptView = styled.div`
   display: inline-block;
   width: 90%;
   align-self: center;
-  padding-left: 1.3rem;
+  padding: 0.7rem 1.3rem;
+  margin: 0.3rem 0;
+  border: ${props => (props.border ? '1px solid black' : 'none')};
+  background-color: ${props => (props.border ? colors.brand.light : 'auto')};
 
   h2 {
     font-size: 1.2rem;
-    margin: 1.3rem 0 0.3rem;
+    margin: 0;
     font-weight: 600;
 
     svg {
       margin-right: 0.2rem;
+    }
+  }
+  .c-radio-button-group {
+    &__wrapper {
+      padding: 0;
+      height: 38.4px;
+    }
+    &__label {
+      margin-right: 20px;
+    }
+  }
+  .buttons {
+    button {
+      margin: 5px;
+      float: right;
+
+      &.secondary {
+        &:not(:hover) {
+          background-color: transparent;
+          color: ${colors.brand.primary};
+        }
+      }
     }
   }
 `;
@@ -74,4 +99,35 @@ export const Crumb = styled.p`
 export const StyledBreadcrumbs = styled.div`
   display: flex;
   margin-top: -20px;
+`;
+
+export const InputField = styled.div`
+  flex-grow: ${props => (props.ratio ? props.ratio : 1)};
+
+  label,
+  p {
+    margin: 0;
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+  input {
+    margin-bottom: 5px;
+    border-radius: 4px;
+
+    &[type='radio'] {
+      width: auto;
+      border-radius: auto;
+      padding: auto;
+    }
+  }
+`;
+
+export const InputPair = styled.div`
+  display: flex;
+
+  ${InputField} {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
 `;

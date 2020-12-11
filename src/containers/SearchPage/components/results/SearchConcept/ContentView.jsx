@@ -100,13 +100,13 @@ ContentView.propTypes = {
     lastUpdated: PropTypes.string,
     status: PropTypes.shape({
       current: PropTypes.string,
-      other: PropTypes.string,
+      other: PropTypes.arrayOf(PropTypes.string),
     }),
   }),
   locale: PropTypes.string,
   title: PropTypes.string,
   content: PropTypes.string,
-  breadcrumbs: PropTypes.arrayOf(PropTypes.string),
+  breadcrumbs: PropTypes.array,
   setShowForm: PropTypes.func,
 };
 

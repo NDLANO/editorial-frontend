@@ -68,8 +68,8 @@ export interface PossibleStatuses {
 
 export interface Concept {
   id: number;
-  title: string;
-  tags: Array<string>;
+  title: { language: string };
+  tags?: { tags: Array<string> };
   content: string;
   metaImage: {
     id: number;
@@ -91,7 +91,7 @@ export interface Concept {
   articleId: number;
   created: string;
   source: string;
-  subjectIds: Array<string>;
+  subjectIds?: Array<string>;
 }
 
 export type PreviewTypes =

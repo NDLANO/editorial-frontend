@@ -10,11 +10,13 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import styled from '@emotion/styled';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
 import { AsyncDropdown } from '../../components/Dropdown';
 import { isGrepCodeValid } from '../../util/articleUtil';
 import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
+import { FormikFieldHelp } from '../../components/FormikField';
 
 interface Props {
   articleGrepCodes: string[];
@@ -23,6 +25,10 @@ interface Props {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }
+
+const StyledErrorPreLine = styled.span`
+  white-space: pre-line;
+`;
 
 interface GrepCode {
   code: string;
@@ -48,6 +54,7 @@ const FormikGrepCodesContent = ({
   form,
 }: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
+  const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
   const searchForGrepCodes = async (inp: string) => {
     if (inp) {
@@ -73,28 +80,37 @@ const FormikGrepCodesContent = ({
     });
   };
 
-  const createNewGrepCode = async (newGrepCode: string) => {
-    const grepCode = newGrepCode.toUpperCase();
-    const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
-    if (
-      grepCodeTitle &&
-      !grepCodes.filter(c => c.code === grepCode).length &&
-      isGrepCodeValid(grepCode)
-    ) {
-      const temp = [
-        ...grepCodes,
-        {
+  const fetchGrepCodeTitles = async (newGrepCodes: string[]) => {
+    const newGrepCodeNames = [];
+    for (const grepCode of newGrepCodes) {
+      const grepCodeTitle = await fetchGrepCodeTitle(grepCode);
+      const savedGrepCode = grepCodes.filter(c => c.code === grepCode).length;
+      if (grepCodeTitle && !savedGrepCode && isGrepCodeValid(grepCode)) {
+        newGrepCodeNames.push({
           code: grepCode,
           title: `${grepCode} - ${grepCodeTitle}`,
-        },
-      ];
-      setGrepCodes(temp);
-      updateFormik(
-        field,
-        temp.map(c => c.code),
-      );
-      form.setFieldTouched('grepCodes', true, true);
+        });
+      } else if (!savedGrepCode) {
+        setFailedGrepCodes(prevState => [...prevState, grepCode]);
+      }
     }
+    return newGrepCodeNames;
+  };
+
+  const createNewGrepCodes = async (input: string) => {
+    setFailedGrepCodes([]);
+    const newGrepCodes = input
+      .toUpperCase()
+      .split(',')
+      .map(grepCode => grepCode.trim());
+    const newGrepCodeNames = await fetchGrepCodeTitles(newGrepCodes);
+    const temp = [...grepCodes].concat(newGrepCodeNames);
+    setGrepCodes(temp);
+    updateFormik(
+      field,
+      temp.map(c => c.code),
+    );
+    form.setFieldTouched('grepCodes', true, true);
   };
 
   const removeGrepCode = (index: string) => {
@@ -105,12 +121,6 @@ const FormikGrepCodesContent = ({
       reduced_array.map(c => c.code),
     );
     form.setFieldTouched('grepCodes', true, true);
-  };
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
   };
 
   const isTitleTooLong = (title: string | undefined | null) => {
@@ -124,6 +134,13 @@ const FormikGrepCodesContent = ({
   return (
     <Fragment>
       <FormikFieldDescription description={t('form.grepCodes.description')} />
+      {!!failedGrepCodes.length && (
+        <FormikFieldHelp error>
+          <StyledErrorPreLine>
+            {`${t('errorMessage.grepCodes')}${failedGrepCodes.join(', ')}`}
+          </StyledErrorPreLine>
+        </FormikFieldHelp>
+      )}
       <AsyncDropdown
         idField="title"
         name="GrepCodesSearch"
@@ -132,12 +149,11 @@ const FormikGrepCodesContent = ({
         label="label"
         apiAction={searchForGrepCodes}
         onClick={(e: Event) => e.stopPropagation()}
-        onChange={(c: GrepCode) => createNewGrepCode(c.code)}
+        onChange={(c: GrepCode) => createNewGrepCodes(c.code)}
         selectedItems={grepCodes}
         multiSelect
         disableSelected
-        onCreate={createNewGrepCode}
-        onKeyDown={onKeyDown}
+        onCreate={createNewGrepCodes}
         clearInputField
         customCreateButtonText="Legg til kode"
         hideTotalSearchCount

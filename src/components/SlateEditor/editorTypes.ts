@@ -70,7 +70,7 @@ export interface Concept {
   id: number;
   title: { language: string; title: string };
   tags?: { tags: Array<string> };
-  content: string;
+  content: { content: string; language: string };
   metaImage: {
     id: number;
     alt: string;
@@ -86,6 +86,7 @@ export interface Concept {
   };
   notes: Array<string>;
   language: string;
+  revision: number;
   published: string;
   supportedLanguages: Array<string>;
   articleId: number;

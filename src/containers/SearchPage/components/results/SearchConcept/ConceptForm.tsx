@@ -24,7 +24,7 @@ export interface ConceptFormType {
 interface Props {
   initialValues: ConceptFormType;
   language: string;
-  onSubmit: () => void;
+  onSubmit: (c: ConceptFormType) => void;
   licenses: License[];
   allSubjects: SubjectType[];
   cancel: () => void;
@@ -116,7 +116,7 @@ const ConceptForm = ({
         <Button className="secondary" onClick={cancel}>
           Avbryt
         </Button>
-        <Button>Lagre</Button>
+        <Button onClick={() => onSubmit(values)}>Lagre</Button>
         <Button>Publiser</Button>
       </div>
     </form>

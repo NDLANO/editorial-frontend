@@ -4,7 +4,10 @@ import { ContentTypeResultType } from '@ndla/ui/lib/types';
 import { RadioButtonGroup } from '@ndla/ui';
 import { Spinner } from '@ndla/editor';
 import { fetchLicenses } from '../../../../../modules/draft/draftApi';
-import { fetchConcept } from '../../../../../modules/concept/conceptApi';
+import {
+  fetchConcept,
+  updateConcept,
+} from '../../../../../modules/concept/conceptApi';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { ConceptFormType } from './ConceptForm';
 import { Concept } from '../../../../../components/SlateEditor/editorTypes';
@@ -91,7 +94,21 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
         <ConceptForm
           initialValues={formValues}
           language={language}
-          onSubmit={() => {}}
+          onSubmit={(c: ConceptFormType) => {
+            const newConcept = {
+              id: fullConcept.id,
+              supportedLanguages: fullConcept.supportedLanguages,
+              content: fullConcept.content.content,
+              revision: fullConcept.revision,
+              source: fullConcept.source,
+              language: language,
+              subjectIds: fullConcept.subjectIds,
+              tags: fullConcept.tags,
+              title: c.title,
+              copyright: { ...fullConcept.copyright },
+            };
+            updateConcept(newConcept);
+          }}
           licenses={licenses}
           allSubjects={subjects}
           cancel={cancel}

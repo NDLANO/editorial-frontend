@@ -13,6 +13,8 @@ import { Remarkable } from 'remarkable';
 import { Article, ContentTypeBadge } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import { ArticleType } from '../../interfaces';
+//@ts-ignore
+import { transformArticle } from '../../util/articleUtil';
 
 interface Props {
   article: ArticleType;
@@ -43,9 +45,11 @@ class PreviewDraft extends Component<Props & tType, {}> {
       <ContentTypeBadge type={contentType} background size="large" />
     ) : null;
 
+    const formatted = transformArticle(article);
+
     return (
       <Article
-        article={article}
+        article={formatted}
         icon={icon}
         contentType={contentType}
         messages={{

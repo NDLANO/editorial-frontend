@@ -31,7 +31,6 @@ const getTaxonomyPathsFromTaxonomy = (taxonomy, articleId) => {
 
 const HeaderWithLanguage = ({
   content,
-  inModal,
   isSubmitting,
   noStatus,
   setTranslateOnContinue,
@@ -73,7 +72,6 @@ const HeaderWithLanguage = ({
         <HeaderActions
           values={values}
           noStatus={noStatus}
-          inModal={inModal}
           isNewLanguage={isNewLanguage}
           type={multiType}
           title={title}
@@ -100,7 +98,6 @@ HeaderWithLanguage.propTypes = {
   }),
   editUrl: PropTypes.func.isRequired,
   getArticle: PropTypes.func,
-  inModal: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func.isRequired,

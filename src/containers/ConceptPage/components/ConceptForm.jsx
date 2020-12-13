@@ -308,7 +308,6 @@ class ConceptForm extends Component {
                 content={concept}
                 editUrl={lang => toEditConcept(values.id, lang)}
                 getConcept={() => this.getConcept(values)}
-                inModal={inModal}
                 translateArticle={translateConcept}
                 type="concept"
                 setTranslateOnContinue={this.setTranslateOnContinue}

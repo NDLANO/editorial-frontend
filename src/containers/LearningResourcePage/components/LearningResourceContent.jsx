@@ -242,10 +242,7 @@ class LearningResourceContent extends Component {
                   );
                 }}
               />
-              <LearningResourceFootnotes
-                t={t}
-                footnotes={findFootnotes(value)}
-              />
+              <LearningResourceFootnotes footnotes={findFootnotes(value)} />
             </Fragment>
           )}
         </FormikField>

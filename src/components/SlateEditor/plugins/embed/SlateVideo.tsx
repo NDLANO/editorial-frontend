@@ -37,36 +37,27 @@ interface Props {
     'data-key': string;
     'data-slate-object': string;
   };
-  changes?: { [x: string]: string };
   embed: Embed;
   figureClass: any;
   language: string;
-  onFigureInputChange: (e: Event) => void;
   onRemoveClick: Function;
-}
-
-interface Event {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
-  };
+  saveEmbedUpdates: (change: { [x: string]: string }) => void;
 }
 
 const SlateVideo: React.FC<Props & tType> = ({
   t,
   attributes,
-  changes,
   embed,
   figureClass,
   language,
-  onFigureInputChange,
   onRemoveClick,
+  saveEmbedUpdates,
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
+  const [caption, setCaption] = useState(embed.caption);
 
   useEffect(() => {
     const { resource, account, videoid, url, player = 'default' } = embed;
@@ -101,7 +92,6 @@ const SlateVideo: React.FC<Props & tType> = ({
       />
       {editMode ? (
         <EditVideo
-          changes={changes}
           embed={embed}
           toggleEditModus={toggleEditModus}
           figureClass={figureClass}
@@ -110,7 +100,9 @@ const SlateVideo: React.FC<Props & tType> = ({
           stopTime={stopTime}
           setStartTime={setStartTime}
           setStopTime={setStopTime}
-          onFigureInputChange={onFigureInputChange}
+          caption={caption}
+          setCaption={setCaption}
+          saveEmbedUpdates={saveEmbedUpdates}
         />
       ) : (
         <Fragment>
@@ -118,7 +110,7 @@ const SlateVideo: React.FC<Props & tType> = ({
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={embed.videoid}
+            id={embed.videoid || embed.url}
             resizeIframe>
             <iframe
               title={`Video: ${embed?.metaData?.name || ''}`}

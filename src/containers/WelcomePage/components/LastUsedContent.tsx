@@ -10,18 +10,26 @@ import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 
+import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
 import { ArticleType } from '../../../interfaces';
-import { toEditArticle } from '../../../util/routeHelpers';
+import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
 
 interface Props {
   articleId: number;
   locale: string;
+  userAccess: string;
 }
 
-const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
+const LastUsedContent: FC<Props & tType> = ({
+  articleId,
+  locale,
+  userAccess,
+  t,
+}) => {
   const [article, setArticle] = useState<ArticleType>();
 
   const fetchArticle = async (articleId: number, locale: string) => {
@@ -38,12 +46,26 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, t }) => {
   return (
     <div {...classes('result')}>
       {article && (
-        <Link
-          {...classes('link')}
-          to={toEditArticle(article.id, article.articleType)}>
-          {article.title.title} ({t('article.lastUpdated')}{' '}
-          {article && formatDate(article.updated)})
-        </Link>
+        <>
+          <Link
+            {...classes('link')}
+            to={toEditArticle(article.id, article.articleType)}>
+            {article.title.title} ({t('article.lastUpdated')}{' '}
+            {article && formatDate(article.updated)})
+          </Link>
+          {userAccess?.includes(DRAFT_HTML_SCOPE) ? (
+            <EditMarkupLink
+              to={toEditMarkup(
+                articleId,
+                article.supportedLanguages.includes(locale)
+                  ? locale
+                  : article.supportedLanguages[0],
+              )}
+              title={t('editMarkup.linkTitle')}
+              inHeader={true}
+            />
+          ) : null}
+        </>
       )}
     </div>
   );

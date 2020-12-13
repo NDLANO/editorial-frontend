@@ -6,13 +6,13 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { connect } from 'react-redux';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
-import { getLocale } from '../../../modules/locale/locale';
+import { LocaleContext } from '../../App/App';
+
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const FormikLicense = props => {
@@ -25,10 +25,10 @@ const FormikLicense = props => {
     onFocus,
     value,
     disabled,
-    locale,
     width,
     enableLicenseNA,
   } = props;
+  const locale = useContext(LocaleContext);
   const licensesWithTranslations = licenses
     .filter(license => license.license !== 'N/A' || enableLicenseNA)
     .map(license => ({
@@ -74,7 +74,6 @@ FormikLicense.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  locale: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
   value: PropTypes.string,
@@ -89,8 +88,4 @@ FormikLicense.defaultProps = {
   width: 3 / 4,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default connect(mapStateToProps)(injectT(FormikLicense));
+export default injectT(FormikLicense);

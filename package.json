@@ -92,7 +92,7 @@
     "@ndla/article-scripts": "^0.5.20",
     "@ndla/audio-search": "^0.6.52",
     "@ndla/button": "^0.3.41",
-    "@ndla/code": "^0.1.4",
+    "@ndla/code": "^0.1.5",
     "@ndla/editor": "^0.8.1",
     "@ndla/error-reporter": "^0.4.13",
     "@ndla/forms": "^0.3.139",

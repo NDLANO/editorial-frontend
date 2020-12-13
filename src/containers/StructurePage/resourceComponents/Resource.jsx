@@ -63,8 +63,7 @@ const Resource = ({
   locale,
   t,
 }) => {
-  // because topic-article icon is wrongly named "subject" in frontend-packages:
-  const iconType = contentType === 'topic-article' ? 'subject' : contentType;
+  const iconType = contentType === 'topic-article' ? 'topic' : contentType;
   return (
     <div
       data-testid={`resource-type-${contentType}`}

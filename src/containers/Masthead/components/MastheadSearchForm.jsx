@@ -9,19 +9,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import Url from 'url-parse';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { injectT } from '@ndla/i18n';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { css } from '@emotion/core';
+import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
+import { isNDLAFrontendUrl } from '../../../util/htmlHelpers';
 
-import {
-  fetchResource,
-  fetchTopic,
-  fetchTopicArticle,
-} from '../../../modules/taxonomy';
+import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
 
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
@@ -127,7 +126,9 @@ export class MastheadSearchForm extends Component {
     // Removes search queries before split
     const ndlaUrl = frontendUrl.split(/\?/)[0];
     // Strip / from end if topic
-    const cleanUrl = ndlaUrl.endsWith('/') ? ndlaUrl.slice(0, -1) : ndlaUrl;
+    const cleanUrl = ndlaUrl.endsWith('/')
+      ? ndlaUrl.replace('/subjects', '').slice(0, -1)
+      : ndlaUrl.replace('/subjects', '');
     const splittedNdlaUrl = cleanUrl.split('/');
 
     const urlId = splittedNdlaUrl[splittedNdlaUrl.length - 1];
@@ -135,7 +136,7 @@ export class MastheadSearchForm extends Component {
     if (
       !urlId.includes('urn:topic') &&
       Number.isNaN(parseFloat(urlId)) &&
-      !splittedNdlaUrl.includes('subjects')
+      !splittedNdlaUrl.find(e => e.match(/subject:*/)) === undefined
     ) {
       return;
     }
@@ -145,7 +146,7 @@ export class MastheadSearchForm extends Component {
       this.handleTopicUrl(urlId);
     } else if (splittedNdlaUrl.includes('node')) {
       this.handleNodeId(urlId);
-    } else if (splittedNdlaUrl.includes('subjects')) {
+    } else if (splittedNdlaUrl.find(e => e.match(/subject:*/))) {
       this.handleFrontendUrl(cleanUrl);
     } else {
       history.push(toEditArticle(urlId, 'standard'));
@@ -155,7 +156,7 @@ export class MastheadSearchForm extends Component {
   async handleTopicUrl(urlId) {
     const { locale, history } = this.props;
     try {
-      const topicArticle = await fetchTopicArticle(urlId, locale);
+      const topicArticle = await fetchTopic(urlId, locale);
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
       history.push(toEditArticle(id, 'topic-article'));
@@ -166,10 +167,12 @@ export class MastheadSearchForm extends Component {
 
   async handleFrontendUrl(url) {
     const { locale, history } = this.props;
-    const splitted = url.split('subjects');
-    const taxonomyUrl = splitted[splitted.length - 1];
+    const { pathname } = new Url(url);
+    const paths = pathname.split('/');
+    const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
+
     try {
-      const newArticle = await resolveUrls(taxonomyUrl, locale);
+      const newArticle = await resolveUrls(path, locale);
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
       history.push(toEditArticle(articleId, 'standard'));
@@ -181,9 +184,7 @@ export class MastheadSearchForm extends Component {
   handleSubmit(evt) {
     evt.preventDefault();
     const { query } = this.state;
-    const isNDLAUrl = /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)\/(node|\d*)(\/|\d*)/.test(
-      query,
-    );
+    const isNDLAUrl = isNDLAFrontendUrl(query);
     const isNodeId =
       query.length > 2 &&
       /#\d+/g.test(query) &&

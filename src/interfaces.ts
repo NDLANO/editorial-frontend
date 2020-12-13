@@ -151,20 +151,27 @@ export interface ArticleType {
   grepCodes: string[];
 }
 
-export interface Topic {
-  contentUri: string;
+export interface TaxonomyMetadata {
+  grepCodes: string[];
+  visible: boolean;
+}
+
+export interface TaxonomyElement {
   id: string;
   name: string;
+  metadata?: TaxonomyMetadata;
+}
+
+export interface Topic extends TaxonomyElement {
+  contentUri: string;
   path: string;
   paths: string[];
 }
 
-export interface Resource {
+export interface Resource extends TaxonomyElement {
   connectionId: string;
   contentUri?: string;
-  id: string;
   isPrimary: boolean;
-  name: string;
   path: string;
   paths: string[];
   rank: number;
@@ -304,13 +311,7 @@ export interface SubjectpageEditType extends SubjectpageType {
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElement?: {
-    resource: string;
-    url: string;
-    resource_id?: string;
-    videoid?: string;
-  };
-  visualElementAlt?: string;
+  visualElement?: VisualElement;
 }
 
 export interface NdlaFilmType {
@@ -338,12 +339,7 @@ export interface NdlaFilmEditType extends NdlaFilmType {
   articleType: string;
   title: string;
   description: string;
-  visualElement: {
-    resource: string;
-    videoid: string;
-    url: string;
-  };
-  visualElementAlt: string;
+  visualElement: VisualElement;
   language: string;
   supportedLanguages: string[];
   themes: NdlaFilmThemesEditType[];
@@ -372,12 +368,17 @@ export interface NdlaFilmThemesEditType {
 export interface VisualElement {
   resource: string;
   resource_id: string;
-  size: string;
-  align: string;
-  alt: string;
-  caption: string;
-  url: string;
-  metaData: Image;
+  account?: string;
+  align?: string;
+  alt?: string;
+  caption?: string;
+  metaData?: any;
+  path?: string;
+  player?: string;
+  title?: string;
+  size?: string;
+  url?: string;
+  videoid?: string;
 }
 
 export interface Image {
@@ -420,7 +421,7 @@ export interface Image {
 }
 
 export interface SlateFigureProps {
-  attributes: {
+  attributes?: {
     'data-key': string;
     'data-slate-object': string;
   };

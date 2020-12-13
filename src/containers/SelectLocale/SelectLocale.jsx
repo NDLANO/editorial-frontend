@@ -6,17 +6,16 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import { createBrowserHistory as createHistory } from 'history';
+import { LocaleContext } from '../App/App';
 
 import { appLocales } from '../../i18n';
-import { getLocale } from '../../modules/locale/locale';
 import { LocationShape } from '../../shapes';
 
-const SelectLocale = ({ locale, location: { pathname, search } }) => {
+const SelectLocale = ({ location: { pathname, search } }) => {
+  const locale = useContext(LocaleContext);
   const handleChange = newLocale => {
     const path = pathname.startsWith('/') ? pathname.substring(1) : pathname;
     createHistory().push(`/${newLocale}/${path}${search}`); // Need create new history or else basename is included
@@ -39,12 +38,7 @@ const SelectLocale = ({ locale, location: { pathname, search } }) => {
 };
 
 SelectLocale.propTypes = {
-  locale: PropTypes.string.isRequired,
   location: LocationShape,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default withRouter(connect(mapStateToProps)(SelectLocale));
+export default withRouter(SelectLocale);

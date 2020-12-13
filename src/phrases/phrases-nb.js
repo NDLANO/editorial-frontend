@@ -731,6 +731,8 @@ const phrases = {
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
+        description:
+          'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på',
       },
       footnote: {
         title: 'Tittel',
@@ -770,7 +772,7 @@ const phrases = {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
-        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet.',
+        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma.',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
@@ -871,6 +873,7 @@ const phrases = {
         placeholder: 'Videotekst',
       },
       remove: 'Fjern video',
+      save: 'Lagre video',
       time: {
         start: 'Start',
         stop: 'Stopp',
@@ -973,6 +976,8 @@ const phrases = {
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
+    grepCodes:
+      'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
@@ -1030,6 +1035,10 @@ const phrases = {
       waiting: 'Publiserer ressurser',
       done: 'Ressurser er publisert',
       error: 'Følgende ressurser ble ikke publisert:',
+    },
+    info: {
+      title: 'Informasjon',
+      subTitle: 'Id og synlighet for elementet',
     },
     resource: {
       confirmDelete:

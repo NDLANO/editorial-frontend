@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { connect } from 'react-redux';
-import { getLocale } from '../../../modules/locale/locale';
 import {
   FormikLicense,
   FormikDatePicker,
@@ -11,10 +9,12 @@ import {
 import FormikField, {
   classes as fieldsClasses,
 } from '../../../components/FormikField';
+import { LocaleContext } from '../../App/App';
 
 const contributorTypes = ['rightsholders', 'creators'];
 const AgreementFields = props => {
-  const { t, licenses, locale } = props;
+  const { t, licenses } = props;
+  const locale = useContext(LocaleContext);
 
   return (
     <div>
@@ -70,11 +70,6 @@ AgreementFields.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default injectT(connect(mapStateToProps)(AgreementFields));
+export default injectT(AgreementFields);

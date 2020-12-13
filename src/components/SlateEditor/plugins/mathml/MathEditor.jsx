@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment, createRef, Component } from 'react';
-import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import he from 'he';
 import { Portal } from '../../../Portal';
@@ -59,11 +58,11 @@ class MathEditor extends Component {
 
   toggleMenu() {
     this.setState(prevState => ({ showMenu: !prevState.showMenu }));
+    if (window.MathJax) window.MathJax.typesetPromise();
   }
 
   toggleEdit() {
     this.setState(prevState => ({ editMode: !prevState.editMode }));
-    if (window.MathJax) window.MathJax.typeset();
   }
 
   onExit = () => {
@@ -89,7 +88,7 @@ class MathEditor extends Component {
   }
 
   render() {
-    const { t, node } = this.props;
+    const { node } = this.props;
     const { editMode, showMenu } = this.state;
     const { model } = getInfoFromNode(node);
     const { top, left } = this.getMenuPosition();
@@ -102,17 +101,11 @@ class MathEditor extends Component {
           tabIndex={0}
           onKeyPress={this.toggleMenu}
           onClick={this.toggleMenu}>
-          <MathML
-            mathRef={this.mathMLRef}
-            node={node}
-            model={model}
-            {...this.props}
-          />
+          <MathML node={node} model={model} {...this.props} />
           <Portal isOpened={showMenu}>
             <BlockMenu
               top={top}
               left={left}
-              t={t}
               toggleMenu={this.toggleMenu}
               handleRemove={this.handleRemove}
               toggleEdit={this.toggleEdit}
@@ -138,4 +131,4 @@ MathEditor.propTypes = {
   node: Types.node.isRequired,
 };
 
-export default injectT(MathEditor);
+export default MathEditor;

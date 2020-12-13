@@ -15,7 +15,7 @@ const allowedConversions = [
   ['&#x27;', "'"],
   ['&quot;', '"'],
 ];
-const brWrappers = ['strong', 'em', 'u'];
+const brWrappers = ['strong', 'em', 'u', 'code'];
 
 /**
  * Get current, next and previous diff values. Return undefined if one of them is undefiend

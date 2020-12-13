@@ -25,7 +25,7 @@ export const getNdlaApiUrl = env => {
   }
 };
 
-const editorialFrontendDomain = () => {
+const ndlaFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
       return 'http://localhost:30017';
@@ -33,6 +33,17 @@ const editorialFrontendDomain = () => {
       return 'https://ndla.no';
     default:
       return `https://${ndlaEnvironment}.ndla.no`;
+  }
+};
+
+const editorialFrontendDomain = () => {
+  switch (ndlaEnvironment) {
+    case 'local':
+      return 'http://localhost:30019';
+    case 'prod':
+      return 'https://ed.ndla.no';
+    default:
+      return `https://ed.${ndlaEnvironment}.ndla.no`;
   }
 };
 
@@ -92,6 +103,10 @@ const ndlaFilmArticleType = getEnvironmentVariabel(
   'topic-article',
 );
 
+export const getZendeskWidgetSecret = () => {
+  return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
+};
+
 const config = {
   ndlaEnvironment,
   ndlaFilmArticleType,
@@ -106,6 +121,7 @@ const config = {
     'NDLA_API_URL',
     getNdlaApiUrl(ndlaEnvironment),
   ),
+  ndlaFrontendDomain: ndlaFrontendDomain(),
   editorialFrontendDomain: editorialFrontendDomain(),
   learningpathFrontendDomain: learningpathFrontendDomain(),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),

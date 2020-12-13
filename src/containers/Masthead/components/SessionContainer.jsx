@@ -28,16 +28,16 @@ const userIconCss = css`
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const AuthSiteNavItem = ({ t, onClick }) => (
+const AuthSiteNavItem = ({ logoutText, onClick }) => (
   <StyledDropdownOverlay withArrow>
     <StyledLink to={toLogoutSession()} onClick={onClick}>
-      {t('logoutProviders.localLogout')}
+      {logoutText}
     </StyledLink>
   </StyledDropdownOverlay>
 );
 
 AuthSiteNavItem.propTypes = {
-  name: PropTypes.string,
+  logoutText: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
 
@@ -91,8 +91,7 @@ export class SessionContainer extends Component {
               }}>
               <div>
                 <AuthSiteNavItem
-                  t={t}
-                  name={userName}
+                  logoutText={t('logoutProviders.localLogout')}
                   onClick={this.toggleOpen}
                 />
               </div>

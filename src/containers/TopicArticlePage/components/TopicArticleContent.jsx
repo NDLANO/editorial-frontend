@@ -77,7 +77,7 @@ const TopicArticleContent = props => {
     t,
     userAccess,
     formik: {
-      values: { id, language, creators, published, visualElement },
+      values: { id, language, creators, published },
     },
   } = props;
   const [preview, setPreview] = useState(false);
@@ -122,7 +122,7 @@ const TopicArticleContent = props => {
         )}
       </FormikField>
       <FormikIngress preview={preview} />
-      <FormikVisualElement visualElement={visualElement} {...props} />
+      <FormikVisualElement {...props} />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
           <Fragment>

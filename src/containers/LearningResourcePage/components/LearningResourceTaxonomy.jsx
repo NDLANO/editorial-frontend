@@ -36,11 +36,14 @@ import FilterConnections from '../../../components/Taxonomy/filter/FilterConnect
 import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
+import TaxonomyInfo from './taxonomy/TaxonomyInfo';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 const emptyTaxonomy = {
   resourceTypes: [],
   filter: [],
   topics: [],
+  metadata: {},
 };
 
 class LearningResourceTaxonomy extends Component {
@@ -284,7 +287,7 @@ class LearningResourceTaxonomy extends Component {
   };
 
   fetchFullResource = async (resourceId, language) => {
-    const { resourceTypes, filters, topics } = await getFullResource(
+    const { resourceTypes, filters, metadata, topics } = await getFullResource(
       resourceId,
       language,
     );
@@ -301,6 +304,7 @@ class LearningResourceTaxonomy extends Component {
       resourceTypes,
       filter: filters,
       topics: topicsWithConnections,
+      metadata,
     };
   };
 
@@ -373,6 +377,16 @@ class LearningResourceTaxonomy extends Component {
     });
   };
 
+  updateMetadata = visible => {
+    const updatedMetadata = {};
+    const metadata = this.state.resourceTaxonomy.metadata;
+    updatedMetadata.grepCodes = metadata.grepCodes;
+    updatedMetadata.visible = visible;
+    this.stageTaxonomyChanges({
+      metadata: updatedMetadata,
+    });
+  };
+
   onCancel = () => {
     const { isDirty } = this.state;
     const { closePanel } = this.props;
@@ -387,13 +401,14 @@ class LearningResourceTaxonomy extends Component {
   render() {
     const {
       taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
-      taxonomyChanges: { resourceTypes, topics, filter },
+      taxonomyChanges: { resourceTypes, topics, filter, metadata },
+      resourceId,
       structure,
       status,
       isDirty,
     } = this.state;
 
-    const { t } = this.props;
+    const { userAccess, t } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -430,6 +445,12 @@ class LearningResourceTaxonomy extends Component {
 
     return (
       <Fragment>
+        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && resourceId && (
+          <TaxonomyInfo
+            taxonomyElement={{ id: resourceId, metadata: metadata }}
+            updateMetadata={this.updateMetadata}
+          />
+        )}
         <ResourceTypeSelect
           availableResourceTypes={availableResourceTypes}
           resourceTypes={resourceTypes}
@@ -488,6 +509,7 @@ LearningResourceTaxonomy.propTypes = {
     language: PropTypes.string,
   }),
   updateNotes: PropTypes.func,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(LearningResourceTaxonomy);

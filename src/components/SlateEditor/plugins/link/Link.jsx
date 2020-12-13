@@ -14,8 +14,11 @@ import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
-import { queryContent } from '../../../../modules/taxonomy/resources';
 import config from '../../../../config';
+import {
+  toEditArticle,
+  toLearningpathFull,
+} from '../../../../util/routeHelpers';
 import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
@@ -38,21 +41,10 @@ const StyledLinkMenu = styled('span')`
 `;
 
 const fetchResourcePath = async (data, language, contentType) => {
-  const fallbackType =
-    contentType === 'learningpath' ? 'learningpaths' : 'article';
-  const fallbackPath = `${language}/${fallbackType}/${data['content-id']}`;
-  try {
-    const resource = await queryContent(
-      data['content-id'],
-      language,
-      contentType,
-    );
-    return resource.path
-      ? `${language}/subjects${resource.path}`
-      : fallbackPath;
-  } catch (error) {
-    return fallbackPath;
-  }
+  const id = data['content-id'];
+  return contentType === 'learningpath'
+    ? toLearningpathFull(id, language)
+    : `${config.editorialFrontendDomain}${toEditArticle(id, contentType)}`;
 };
 
 function hasHrefOrContentId(node) {
@@ -94,11 +86,7 @@ const Link = props => {
 
     const href =
       data.resource === 'content-link'
-        ? `${config.editorialFrontendDomain}/${await fetchResourcePath(
-            data,
-            language,
-            contentType,
-          )}`
+        ? `${await fetchResourcePath(data, language, contentType)}`
         : data.href;
 
     const checkbox =

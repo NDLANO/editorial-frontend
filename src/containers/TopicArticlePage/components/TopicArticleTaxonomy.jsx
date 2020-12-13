@@ -24,9 +24,7 @@ import {
   addSubjectTopic,
   deleteTopicFilter,
   updateTopicFilter,
-  deleteTopic,
   fetchTopicFilters,
-  fetchTopicResources,
   addTopic,
   fetchResourceTypes,
 } from '../../../modules/taxonomy';
@@ -61,7 +59,6 @@ class TopicArticleTaxonomy extends Component {
       status: 'loading',
       isDirty: false,
       stagedTopicChanges: [],
-      deletedTopics: [],
       stagedFilterChanges: [],
       taxonomyChoices: {
         availableFilters: {},
@@ -204,8 +201,7 @@ class TopicArticleTaxonomy extends Component {
       };
       this.setState(prevState => ({
         isDirty: true,
-        stagedTopicChanges: [newTopic],
-        deletedTopics: prevState.stagedTopicChanges,
+        stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
       }));
     }
     if (filter) {
@@ -219,8 +215,11 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  changeTopicPlacement = async stagedNewTopics => {
-    const { stagedTopicChanges, deletedTopics, structure } = this.state;
+  addNewTopic = async stagedNewTopics => {
+    const { stagedTopicChanges, originalFilters, structure } = this.state;
+    const existingTopics = stagedTopicChanges.filter(
+      t => !stagedNewTopics.includes(t),
+    );
     const {
       article: { id: articleId },
     } = this.props;
@@ -229,29 +228,15 @@ class TopicArticleTaxonomy extends Component {
         this.createAndPlaceTopic(topic, articleId, structure),
       ),
     );
-    const topicResources = await Promise.all(
-      deletedTopics.map(topic => fetchTopicResources(topic.id)),
-    );
-
-    deletedTopics.forEach((deletedTopic, i) => {
-      if (
-        deletedTopic.topicConnections.length < 2 &&
-        topicResources[i].length === 0
-      ) {
-        // topic has no subtopics or resources, we can safely delete topic
-        deleteTopic(deletedTopic.id);
-      }
-      // If topic was not deleted, article will be in both topics, but will not be not a shared topic. Not really a valid state..
-    });
     const topicFilters = await Promise.all(
       newTopics.map(topic => fetchTopicFilters(topic.id)),
     );
     const topicFiltersWithId = topicFilters.flatMap(curr => curr);
     this.setState({
       isDirty: false,
-      stagedTopicChanges: newTopics.length ? newTopics : stagedTopicChanges,
-      originalFilters: topicFiltersWithId,
-      stagedFilterChanges: topicFiltersWithId,
+      stagedTopicChanges: [...existingTopics, ...newTopics],
+      originalFilters: [...originalFilters, ...topicFiltersWithId],
+      stagedFilterChanges: [...originalFilters, ...topicFiltersWithId],
       status: 'success',
     });
   };
@@ -277,7 +262,7 @@ class TopicArticleTaxonomy extends Component {
     try {
       // we either update topic placement or update filters, never both
       if (stagedNewTopics.length > 0) {
-        await this.changeTopicPlacement(stagedNewTopics);
+        await this.addNewTopic(stagedNewTopics);
       } else {
         const [
           createFilter,

@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 const resourceType = 'urn:resourcetype:reviewResource';
 const ndlaUrl =
-  'https://beta.ndla.no/subjects/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/';
+  'https://beta.ndla.no/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/';
 const resourceMock = {
   id: 'urn:resource:1:168388',
   name: 'Oppgaver til utforskeren',

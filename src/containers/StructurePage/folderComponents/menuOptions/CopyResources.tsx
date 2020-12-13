@@ -27,12 +27,13 @@ import {
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import {
-  Topic,
-  Resource,
-  TranslateType,
   Filter,
+  Resource,
   ResourceTranslation,
   ResourceType,
+  TaxonomyElement,
+  Topic,
+  TranslateType,
 } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -40,10 +41,7 @@ import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 
-type PathArray = Array<{
-  name: string;
-  id: string;
-}>;
+type PathArray = Array<TaxonomyElement>;
 
 interface Props {
   t: TranslateType;

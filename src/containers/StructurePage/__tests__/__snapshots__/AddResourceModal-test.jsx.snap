@@ -402,7 +402,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
                 data-testid="addResourceUrlInput"
                 placeholder="Lim inn lenke fra ndla.no"
                 type="text"
-                value="https://beta.ndla.no/subjects/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/"
+                value="https://beta.ndla.no/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/"
               />
             </form>
           </div>

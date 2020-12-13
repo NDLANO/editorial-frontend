@@ -131,7 +131,7 @@ HeaderActions.propTypes = {
   type: PropTypes.string,
   values: PropTypes.shape({
     articleType: PropTypes.string,
-    conceptContent: PropTypes.string,
+    conceptContent: PropTypes.object,
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),

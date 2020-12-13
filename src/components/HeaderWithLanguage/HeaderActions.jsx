@@ -89,7 +89,6 @@ const HeaderActions = ({
           editUrl={editUrl}
         />
         {translatableTypes.includes(type) &&
-          !inModal &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (
             <Fragment>

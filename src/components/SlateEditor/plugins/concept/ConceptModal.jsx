@@ -15,13 +15,16 @@ import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
+
 import { searchConcepts } from '../../../../modules/search/searchApi';
-import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
+import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
+import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
+import { useTranslateConceptForm } from '../../../../containers/FormikForm/translateFormHooks';
 
 const type = 'concept';
 
@@ -59,6 +62,13 @@ const ConceptModal = ({
   });
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [searching, setSearching] = useState(false);
+
+  const { setConcept } = useFetchConceptData(id, 'nb');
+
+  const { translating, translateConcept } = useTranslateConceptForm(
+    concept,
+    setConcept,
+  );
 
   const updateSelectedTabIndex = index => {
     //Added function because of hooks second argument warning.
@@ -98,6 +108,7 @@ const ConceptModal = ({
   useEffect(() => {
     searchConcept(searchObject);
   }, []);
+
   return (
     <Portal isOpened>
       <Modal
@@ -182,6 +193,8 @@ const ConceptModal = ({
                             ? { ...concept, language: locale }
                             : { title: selectedText, language: locale }
                         }
+                        translateConcept={translateConcept}
+                        translating={translating}
                       />
                     ),
                   },

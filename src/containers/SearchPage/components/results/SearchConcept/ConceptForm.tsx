@@ -8,15 +8,16 @@ import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSel
 import { SubjectType } from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
 
-interface License {
+export interface License {
   description: string;
   license: string;
+  url?: string;
 }
 
 export interface ConceptFormType {
   title: string;
-  author?: { name: string; type: string };
-  license?: License;
+  author: string;
+  license?: string;
   subjects: SubjectType[];
   tags: string[];
 }
@@ -68,20 +69,23 @@ const ConceptForm = ({
             name="author"
             type="text"
             aria-label="Forfatter"
-            value={values.author ? values.author.name : ''}
-            onChange={e => {
-              const { value } = e.target;
-              setValues({
-                ...values,
-                author: value ? { name: value, type: 'Writer' } : undefined,
-              });
-            }}
+            value={values.author}
+            onChange={handleChange}
           />
         </InputField>
       </InputPair>
+
       <InputField>
         <label htmlFor="license">Lisens</label>
-        <Select value={values.license} onChange={handleChange}>
+        <Select
+          value={values.license}
+          onChange={(v: any) => {
+            const value = v.target.value;
+            setValues({
+              ...values,
+              license: value,
+            });
+          }}>
           {!values.license && <option>Velg e</option>}
           {licenses.map(license => (
             <option value={license.license} key={license.license}>

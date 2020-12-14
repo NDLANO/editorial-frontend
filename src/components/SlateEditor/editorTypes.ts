@@ -79,7 +79,11 @@ export interface Concept {
   articleType: string;
   copyright: {
     agreementId: number;
-    license: string;
+    license: {
+      description: string;
+      license: string;
+      url?: string;
+    };
     creators: Array<{ type: string; name: string }>;
     processors: Array<string>;
     rightsholders: Array<string>;

@@ -9,14 +9,10 @@ import {
   updateConcept,
 } from '../../../../../modules/concept/conceptApi';
 import { StyledConceptView } from './SearchStyles';
-import ConceptForm, { ConceptFormType } from './ConceptForm';
+import ConceptForm, { ConceptFormType, License } from './ConceptForm';
 import { Concept } from '../../../../../components/SlateEditor/editorTypes';
 import { SubjectType } from '../../../../../interfaces';
 
-interface License {
-  description: string;
-  license: string;
-}
 interface Props {
   title: string;
   concept: Concept;
@@ -33,9 +29,8 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
     { title: 'Engelsk', value: 'en' },
     { title: 'Sørsamisk', value: 'sma' },
   ].filter(op => concept.supportedLanguages.includes(op.value));
-  const [loading, setLoading] = useState<boolean>(true);
   const [language, setLanguage] = useState<string>(concept.title.language);
-  const [licenses, setLicenses] = useState<License[]>([]);
+  const [licenses, setLicenses] = useState<License[] | undefined>();
   const [fullConcept, setFullConcept] = useState<Concept | undefined>();
 
   useEffect(() => {
@@ -45,37 +40,27 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
     fetchConcept(concept.id, language).then((c: any) => setFullConcept(c));
   }, [concept.id, language]);
 
-  const [formValues, setFormValues] = useState<ConceptFormType>({
-    title: title,
-    license: undefined,
-    subjects: [],
-    tags: concept.tags ? concept.tags.tags : [],
-    author: undefined,
-  });
+  const [formValues, setFormValues] = useState<ConceptFormType | undefined>();
 
   useEffect(() => {
-    if (subjects.length > 0) {
+    if (fullConcept && licenses && subjects) {
       const subjectIds = concept.subjectIds;
-      setFormValues(v => ({
-        ...v,
-        subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
-      }));
-      setLoading(false);
-    }
-  }, [subjects]);
-
-  useEffect(() => {
-    if (fullConcept) {
+      console.log('full concept', fullConcept);
+      console.log('licenses', licenses);
       const author = fullConcept.copyright.creators.find(
         cr => cr.type === 'Writer',
       );
-      setFormValues(values => ({
-        ...values,
+      setFormValues({
         title: fullConcept.title.title,
-        author: author,
-      }));
+        author: author ? author.name : '',
+        subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
+        license: licenses.find(
+          l => l.license === fullConcept.copyright.license.license,
+        )?.license,
+        tags: concept.tags ? concept.tags.tags : [],
+      });
     }
-  }, [fullConcept]);
+  }, [fullConcept, licenses, subjects]);
 
   return (
     <StyledConceptView border>
@@ -90,11 +75,36 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
         uniqeIds
       />
 
-      {fullConcept && !loading ? (
+      {fullConcept && licenses && formValues ? (
         <ConceptForm
           initialValues={formValues}
           language={language}
           onSubmit={(c: ConceptFormType) => {
+            const getCreators = (
+              creators: { type: string; name: string }[],
+              newAuthor: string,
+            ) => {
+              const author = creators.find(cr => cr.type === 'Writer');
+              if (newAuthor !== '') {
+                if (author) {
+                  return creators.map(cr =>
+                    cr === author ? { ...cr, name: newAuthor } : cr,
+                  );
+                } else {
+                  return creators.concat({
+                    type: 'Writer',
+                    name: newAuthor,
+                  });
+                }
+              } else {
+                return creators.filter(cr => cr !== author);
+              }
+            };
+            const creators = getCreators(
+              fullConcept.copyright.creators,
+              c.author,
+            );
+
             const newConcept = {
               id: fullConcept.id,
               supportedLanguages: fullConcept.supportedLanguages,
@@ -102,12 +112,12 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
               revision: fullConcept.revision,
               source: fullConcept.source,
               language: language,
-              subjectIds: fullConcept.subjectIds,
-              tags: fullConcept.tags,
+              subjectIds: c.subjects.map(s => s.id),
+              tags: c.tags,
               title: c.title,
-              copyright: { ...fullConcept.copyright },
+              copyright: { ...fullConcept.copyright, creators },
             };
-            updateConcept(newConcept);
+            updateConcept(newConcept).then(() => cancel());
           }}
           licenses={licenses}
           allSubjects={subjects}

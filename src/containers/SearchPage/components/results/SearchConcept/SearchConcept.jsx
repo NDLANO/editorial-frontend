@@ -16,19 +16,22 @@ import ContentView from './ContentView';
 import FormView from './FormView';
 
 const SearchConcept = ({ concept, locale, subjects, t }) => {
+  const [localConcept, setLocalConcept] = useState(concept);
   const [showForm, setShowForm] = useState(false);
-  const { url: metaImageSrc, alt: metaImageAlt } = concept.metaImage || {};
+  const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
   const title = convertFieldWithFallback(
-    concept,
+    localConcept,
     'title',
     t('conceptSearch.noTitle'),
   );
   const content = convertFieldWithFallback(
-    concept,
+    localConcept,
     'content',
     t('conceptSearch.noContent'),
   );
-  const breadcrumbs = subjects.filter(s => concept.subjectIds?.includes(s.id));
+  const breadcrumbs = subjects.filter(s =>
+    localConcept.subjectIds?.includes(s.id),
+  );
 
   return (
     <div {...searchClasses('result')}>
@@ -41,15 +44,16 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
       </div>
       {showForm ? (
         <FormView
-          title={title}
-          concept={concept}
-          content={content}
+          concept={localConcept}
           cancel={() => setShowForm(false)}
           subjects={subjects}
+          updateLocalConcept={newConcept => {
+            setLocalConcept(newConcept);
+          }}
         />
       ) : (
         <ContentView
-          concept={concept}
+          concept={localConcept}
           title={title}
           content={content}
           breadcrumbs={breadcrumbs}

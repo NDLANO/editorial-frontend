@@ -14,15 +14,13 @@ import { Concept } from '../../../../../components/SlateEditor/editorTypes';
 import { SubjectType } from '../../../../../interfaces';
 
 interface Props {
-  title: string;
   concept: Concept;
-  content: ContentTypeResultType;
-  breadcrumbs: [];
   cancel: () => void;
   subjects: SubjectType[];
+  updateLocalConcept: (concept: Concept) => void;
 }
 
-const FormView = ({ title, concept, cancel, subjects }: Props) => {
+const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const languageOptions = [
     { title: 'Bokmål', value: 'nb' },
     { title: 'Nynorsk', value: 'nn' },
@@ -119,7 +117,10 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
                 license: licenses.find(l => l.license === c.license),
               },
             };
-            updateConcept(newConcept).then(() => cancel());
+            updateConcept(newConcept).then((updatedConcept: Concept) => {
+              updateLocalConcept(updatedConcept);
+              cancel();
+            });
           }}
           licenses={licenses}
           allSubjects={subjects}

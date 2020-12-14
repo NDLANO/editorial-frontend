@@ -17,11 +17,12 @@ import TranslateNbToNn from './TranslateNbToNn';
 import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
+import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
 const HeaderActions = ({
   editUrl,
   formIsDirty,
-  getArticle,
+  getEntity,
   isNewLanguage,
   isSubmitting,
   noStatus,
@@ -67,19 +68,26 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getArticle && (
+        {!noStatus && getEntity && (
           <Fragment>
-            <PreviewDraftLightbox
-              label={t(`articleType.${articleType}`)}
-              typeOfPreview="previewLanguageArticle"
-              getArticle={getArticle}>
-              {openPreview => (
-                <StyledFilledButton type="button" onClick={openPreview}>
-                  <FileCompare />
-                  {t(`form.previewLanguageArticle.button`)}
-                </StyledFilledButton>
-              )}
-            </PreviewDraftLightbox>
+            {type === 'concept' ? (
+              <PreviewConceptLightbox
+                label={t(`articleType.concept`)}
+                getConcept={getEntity}
+              />
+            ) : (
+              <PreviewDraftLightbox
+                label={t(`articleType.${articleType}`)}
+                typeOfPreview="previewLanguageArticle"
+                getArticle={getEntity}>
+                {openPreview => (
+                  <StyledFilledButton type="button" onClick={openPreview}>
+                    <FileCompare />
+                    {t(`form.previewLanguageArticle.button`)}
+                  </StyledFilledButton>
+                )}
+              </PreviewDraftLightbox>
+            )}
             <StyledSplitter />
           </Fragment>
         )}
@@ -127,7 +135,7 @@ HeaderActions.propTypes = {
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func,
+  getEntity: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   type: PropTypes.string,
   translateArticle: PropTypes.func,

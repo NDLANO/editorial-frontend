@@ -160,7 +160,7 @@ const LearningResourceForm = props => {
           values={values}
           content={article}
           editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
-          getArticle={getArticle}
+          getEntity={getArticle}
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
           translateArticle={translateArticle}

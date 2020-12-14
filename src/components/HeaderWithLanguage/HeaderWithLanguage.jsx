@@ -98,7 +98,7 @@ HeaderWithLanguage.propTypes = {
     title: PropTypes.string,
   }),
   editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func,
+  getEntity: PropTypes.func,
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func.isRequired,

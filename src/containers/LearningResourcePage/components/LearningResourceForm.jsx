@@ -137,6 +137,7 @@ const LearningResourceForm = props => {
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = formik => {
+    // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const {
       values,
       dirty,

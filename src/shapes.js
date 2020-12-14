@@ -32,12 +32,18 @@ export const SubjectShape = PropTypes.shape({
 
 export const AudioResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
 });
 
 export const ImageResultShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   metaUrl: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
 });

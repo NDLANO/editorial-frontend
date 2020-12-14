@@ -12,7 +12,7 @@ import FormikField from '../../../components/FormikField';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const SubjectpageAbout: FC<object & tType> = ({ t }) => {
+const SubjectpageAbout: FC<tType> = ({ t }) => {
   return (
     <>
       <FormikField

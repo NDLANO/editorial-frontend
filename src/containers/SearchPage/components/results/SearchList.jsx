@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -25,11 +25,13 @@ const SearchList = ({
   subjects,
   userAccess,
 }) => {
+  const editingState = useState(false);
   if (searching) return <Spinner />;
   if (results.length === 0)
     return (
       <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>
     );
+
   return (
     <div {...searchClasses('results')}>
       <TransitionGroup>
@@ -45,6 +47,7 @@ const SearchList = ({
               locale={locale || result.title.language}
               subjects={subjects}
               userAccess={userAccess}
+              editingState={editingState}
             />
           </CSSTransition>
         ))}

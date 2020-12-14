@@ -22,6 +22,7 @@ const ContentView = ({
   breadcrumbs,
   setShowForm,
   t,
+  editing,
 }) => {
   return (
     <StyledConceptView>
@@ -31,16 +32,18 @@ const ContentView = ({
           to={toEditConcept(concept.id, concept.title.language)}>
           {title}
         </StyledLink>
-        <Button
-          css={css`
-            line-height: 1;
-            font-size: 0.7rem;
-            padding: 4px 6px;
-            margin-left: 5px;
-          `}
-          onClick={setShowForm}>
-          Edit
-        </Button>
+        {!editing && (
+          <Button
+            css={css`
+              line-height: 1;
+              font-size: 0.7rem;
+              padding: 4px 6px;
+              margin-left: 5px;
+            `}
+            onClick={setShowForm}>
+            Edit
+          </Button>
+        )}
       </h2>
       <StyledInfo>
         {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
@@ -108,6 +111,7 @@ ContentView.propTypes = {
   content: PropTypes.string,
   breadcrumbs: PropTypes.array,
   setShowForm: PropTypes.func,
+  editing: PropTypes.bool,
 };
 
 export default ContentView;

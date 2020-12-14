@@ -15,9 +15,14 @@ import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFa
 import ContentView from './ContentView';
 import FormView from './FormView';
 
-const SearchConcept = ({ concept, locale, subjects, t }) => {
+const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
+  const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
   const [showForm, setShowForm] = useState(false);
+  const toggleShowForm = () => {
+    setEditing(true);
+    setShowForm(true);
+  };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
   const title = convertFieldWithFallback(
     localConcept,
@@ -45,7 +50,10 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
       {showForm ? (
         <FormView
           concept={localConcept}
-          cancel={() => setShowForm(false)}
+          cancel={() => {
+            setShowForm(false);
+            setEditing(false);
+          }}
           subjects={subjects}
           updateLocalConcept={newConcept => {
             setLocalConcept(newConcept);
@@ -57,8 +65,9 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
           title={title}
           content={content}
           breadcrumbs={breadcrumbs}
-          setShowForm={setShowForm}
+          setShowForm={toggleShowForm}
           t={t}
+          editing={editing}
         />
       )}
     </div>
@@ -89,6 +98,7 @@ SearchConcept.propTypes = {
   }),
   locale: PropTypes.string,
   subjects: PropTypes.array,
+  editingState: PropTypes.array,
 };
 
 export default injectT(SearchConcept);

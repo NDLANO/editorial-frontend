@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ContentTypeResultType } from '@ndla/ui/lib/types';
 // @ts-ignore
 import { RadioButtonGroup } from '@ndla/ui';
 import { Spinner } from '@ndla/editor';

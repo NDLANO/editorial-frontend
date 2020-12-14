@@ -1,0 +1,105 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React, { FC, useEffect, useState } from 'react';
+import { injectT, tType } from '@ndla/i18n';
+import styled from '@emotion/styled';
+import Concept from './Concept';
+import { TranslateType } from '../../interfaces';
+import { Concept as ConceptType } from '../SlateEditor/editorTypes';
+import { fetchImage } from '../../modules/image/imageApi';
+import StyledPreviewTwoArticles from '../PreviewDraft/StyledPreviewTwoArticles';
+import { StyledPreviewHeader } from '../PreviewDraft/PreviewLanguage';
+
+const StyledPreviewConcept = styled('div')`
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+
+  & .c-article {
+    padding-top: 0;
+    margin-top: 20px;
+  }
+`;
+
+interface Props {
+  t: TranslateType;
+  firstConcept: ConceptType;
+  secondConcept: ConceptType;
+  onChangePreviewLanguage: Function;
+  previewLanguage: string;
+}
+
+interface Image {
+  url: string;
+  alt: string;
+}
+
+const PreviewConcept: FC<Props & tType> = ({
+  t,
+  firstConcept,
+  secondConcept,
+  onChangePreviewLanguage,
+  previewLanguage,
+}) => {
+  const [image, setImage] = useState<Image | undefined>(undefined);
+
+  useEffect(() => {
+    getImage(firstConcept);
+  }, []);
+
+  const getImage = async (concept: ConceptType) => {
+    const imageId = concept.metaImage?.id;
+    if (imageId) {
+      const image = await fetchImage(imageId, concept.language);
+      setImage({
+        url: image.imageUrl,
+        alt: concept.metaImage?.alt,
+      });
+    }
+  };
+
+  return (
+    <>
+      <StyledPreviewConcept>
+        <StyledPreviewTwoArticles>
+          <StyledPreviewHeader>
+            <h2 className="u-4/6@desktop u-push-1/6@desktop">
+              {t('form.previewLanguageArticle.title', {
+                language: t(`language.${firstConcept.language}`).toLowerCase(),
+              })}
+            </h2>
+          </StyledPreviewHeader>
+          <Concept concept={firstConcept} image={image} t={t} />
+        </StyledPreviewTwoArticles>
+        <StyledPreviewTwoArticles>
+          <StyledPreviewHeader>
+            <h2 className="u-4/6@desktop u-push-1/6@desktop">
+              {t('form.previewLanguageArticle.title', {
+                language: t(`language.${previewLanguage}`).toLowerCase(),
+              })}
+            </h2>
+            <select
+              className="u-4/6@desktop u-push-1/6@desktop"
+              onChange={evt => onChangePreviewLanguage(evt.target.value)}
+              value={previewLanguage}>
+              {firstConcept.supportedLanguages.map(language => (
+                <option key={language} value={language}>
+                  {t(`language.${language}`)}
+                </option>
+              ))}
+            </select>
+          </StyledPreviewHeader>
+          <Concept concept={secondConcept} image={image} t={t} />
+        </StyledPreviewTwoArticles>
+      </StyledPreviewConcept>
+    </>
+  );
+};
+
+export default injectT(PreviewConcept);

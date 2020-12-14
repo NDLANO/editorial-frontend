@@ -13,7 +13,7 @@ import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 import { ArticleType } from '../../interfaces';
 
-const StyledPreviewHeader = styled.div`
+export const StyledPreviewHeader = styled.div`
   min-height: 6rem;
 `;
 

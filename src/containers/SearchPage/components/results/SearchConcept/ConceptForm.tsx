@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import { useFormik } from 'formik';
 import { Select } from '@ndla/forms';
 import Button from '@ndla/button';
@@ -38,7 +39,8 @@ const ConceptForm = ({
   licenses,
   allSubjects,
   cancel,
-}: Props) => {
+  t,
+}: Props & tType) => {
   const formik = useFormik<ConceptFormType>({
     initialValues,
     onSubmit,
@@ -86,7 +88,7 @@ const ConceptForm = ({
               license: value,
             });
           }}>
-          {!values.license && <option>Velg e</option>}
+          {!values.license && <option>{t('form.license.choose')}</option>}
           {licenses.map(license => (
             <option value={license.license} key={license.license}>
               {license.description}
@@ -127,4 +129,4 @@ const ConceptForm = ({
   );
 };
 
-export default ConceptForm;
+export default injectT(ConceptForm);

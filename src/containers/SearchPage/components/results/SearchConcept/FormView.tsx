@@ -45,8 +45,6 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
   useEffect(() => {
     if (fullConcept && licenses && subjects) {
       const subjectIds = concept.subjectIds;
-      console.log('full concept', fullConcept);
-      console.log('licenses', licenses);
       const author = fullConcept.copyright.creators.find(
         cr => cr.type === 'Writer',
       );
@@ -115,7 +113,11 @@ const FormView = ({ title, concept, cancel, subjects }: Props) => {
               subjectIds: c.subjects.map(s => s.id),
               tags: c.tags,
               title: c.title,
-              copyright: { ...fullConcept.copyright, creators },
+              copyright: {
+                ...fullConcept.copyright,
+                creators,
+                license: licenses.find(l => l.license === c.license),
+              },
             };
             updateConcept(newConcept).then(() => cancel());
           }}

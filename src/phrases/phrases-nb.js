@@ -39,21 +39,6 @@ const phrases = {
   menu: {
     title: 'Meny',
   },
-  article: {
-    lastUpdated: 'Sist oppdatert',
-    edition: 'Utgave',
-    publisher: 'Utgiver',
-    useContent: 'Bruk innhold',
-    closeLabel: 'Lukk',
-    additionalLabel: 'Tilleggsstoff',
-    urlContributionsLabel: 'Se hva {name} har bidratt med',
-    urlAuthorLabel: 'Les mer om {name}',
-    multipleAuthorsLabelAbbreviation: 'm. fl.',
-    multipleAuthorsLabel: 'Opphavere av artikkel:',
-    multipleAuthorsLabelAria: 'Opphavere av artikkelen er {names}',
-    multipleAuthorsLabelAriaConjunction: 'og',
-    singleAuthorsLabelAria: 'Opphaver av artikkelen er {name}',
-  },
   dialog: {
     close: 'Lukk',
     title: 'Tittel',
@@ -772,7 +757,7 @@ const phrases = {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
-        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet.',
+        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma.',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',
@@ -976,6 +961,8 @@ const phrases = {
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
+    grepCodes:
+      'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

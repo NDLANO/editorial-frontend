@@ -46,8 +46,10 @@ export const StyledConceptView = styled.div`
     }
   }
   .buttons {
+    margin-top: 10px;
+
     button {
-      margin: 5px;
+      margin-left: 5px;
       float: right;
 
       &.secondary {

@@ -50,7 +50,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
         license: licenses.find(
-          l => l.license === fullConcept.copyright.license.license,
+          l => l.license === fullConcept.copyright.license?.license,
         )?.license,
         tags: concept.tags ? concept.tags.tags : [],
       });

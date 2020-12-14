@@ -31,6 +31,11 @@ export const isValidURL = (string: string) =>
     /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
   ) || false;
 
+export const isNDLAFrontendUrl = (url: string) =>
+  /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)?\/?(node|\d*)(\/|\d*)/.test(
+    url,
+  );
+
 export const isNDLAEdSearchUrl = (url: string) =>
   /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);
 

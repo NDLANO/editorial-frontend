@@ -95,7 +95,7 @@ const AsyncSearchTags = ({
         labelField={'title'}
         values={props.selectedItems}
         testid="multiselect"
-        {...props}
+        removeItem={props.removeItem}
       />
     );
   };

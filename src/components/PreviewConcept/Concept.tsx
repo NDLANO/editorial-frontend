@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -14,12 +14,17 @@ import { Remarkable } from 'remarkable';
 import {
   NotionDialogContent,
   NotionHeaderWithoutExitButton,
-  NotionDialogImage,
   NotionDialogLicenses,
   NotionDialogText,
+  NotionDialogImage,
 } from '@ndla/notion';
-import { TranslateType } from '../../interfaces';
+import { TranslateType, VisualElement } from '../../interfaces';
 import { Concept as ConceptType } from '../SlateEditor/editorTypes';
+import { parseEmbedTag } from '../../util/embedTagHelpers';
+import { fetchImage } from '../../modules/image/imageApi';
+import config from '../../config';
+import {imageToVisualElement} from '../../util/visualElementHelper';
+import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -36,16 +41,15 @@ const StyledBody = styled.div`
 interface Props {
   t: TranslateType;
   concept: ConceptType;
-  image:
-    | {
-        url: string;
-        alt: string;
-      }
-    | undefined;
 }
 
-const Concept: FC<Props & tType> = ({ t, concept, image }) => {
+const Concept: FC<Props & tType> = ({ t, concept }) => {
+  const [visualElement, setVisualElement] = useState<VisualElement | undefined>(undefined);
   const markdown = new Remarkable({ breaks: true });
+
+  useEffect(() => {
+    getVisualElement();
+  }, []);
 
   const renderMarkdown = (text: string) => {
     const rendered = markdown.render(text);
@@ -56,6 +60,63 @@ const Concept: FC<Props & tType> = ({ t, concept, image }) => {
     );
   };
 
+  const getVisualElement = async () => {
+    const embedTag = parseEmbedTag(concept.visualElement);
+    switch (embedTag?.resource) {
+      case 'image':
+        const image = await fetchImage(embedTag.resource_id);
+        setVisualElement(imageToVisualElement(image));
+        break;
+      case 'video':
+      case 'brightcove':
+        setVisualElement({
+          ...embedTag,
+          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`
+        });
+        break;
+      case 'external':
+        setVisualElement({
+          ...embedTag,
+          url: embedTag?.url?.includes('youtube') ?
+              getYoutubeEmbedUrl(embedTag?.url) :
+              embedTag?.url,
+        });
+        break;
+      case 'h5p':
+        setVisualElement({
+          ...embedTag,
+          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`
+        });
+        break;
+      default:
+        setVisualElement(undefined);
+        break;
+    }
+  };
+
+  const VisualElement = () => {
+    switch (visualElement?.resource) {
+      case 'image':
+        return (
+            <NotionDialogImage alt={visualElement?.alt} src={visualElement?.url} />
+        );
+      case 'video':
+      case 'brightcove':
+      case 'external':
+      case 'h5p':
+        return <iframe
+            title={visualElement?.title}
+            src={visualElement?.url}
+            frameBorder="0"
+            scrolling="no"
+            width={600}
+            height={400}
+        />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <NotionHeaderWithoutExitButton
@@ -64,7 +125,7 @@ const Concept: FC<Props & tType> = ({ t, concept, image }) => {
       />
       <StyledBody>
         <NotionDialogContent>
-          {image ? <NotionDialogImage src={image.url} alt={image.alt} /> : null}
+          <VisualElement />
           <NotionDialogText>{renderMarkdown(concept.content)}</NotionDialogText>
         </NotionDialogContent>
         <NotionDialogLicenses

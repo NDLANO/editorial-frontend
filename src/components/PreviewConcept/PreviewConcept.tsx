@@ -6,25 +6,17 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import Concept from './Concept';
 import { TranslateType } from '../../interfaces';
 import { Concept as ConceptType } from '../SlateEditor/editorTypes';
-import { fetchImage } from '../../modules/image/imageApi';
 import StyledPreviewTwoArticles from '../PreviewDraft/StyledPreviewTwoArticles';
 import { StyledPreviewHeader } from '../PreviewDraft/PreviewLanguage';
 
 const StyledPreviewConcept = styled('div')`
-  width: 100%;
   display: inline-block;
-  text-align: left;
-
-  & .c-article {
-    padding-top: 0;
-    margin-top: 20px;
-  }
 `;
 
 interface Props {
@@ -35,11 +27,6 @@ interface Props {
   previewLanguage: string;
 }
 
-interface Image {
-  url: string;
-  alt: string;
-}
-
 const PreviewConcept: FC<Props & tType> = ({
   t,
   firstConcept,
@@ -47,23 +34,6 @@ const PreviewConcept: FC<Props & tType> = ({
   onChangePreviewLanguage,
   previewLanguage,
 }) => {
-  const [image, setImage] = useState<Image | undefined>(undefined);
-
-  useEffect(() => {
-    getImage(firstConcept);
-  }, []);
-
-  const getImage = async (concept: ConceptType) => {
-    const imageId = concept.metaImage?.id;
-    if (imageId) {
-      const image = await fetchImage(imageId, concept.language);
-      setImage({
-        url: image.imageUrl,
-        alt: concept.metaImage?.alt,
-      });
-    }
-  };
-
   return (
     <>
       <StyledPreviewConcept>
@@ -75,7 +45,7 @@ const PreviewConcept: FC<Props & tType> = ({
               })}
             </h2>
           </StyledPreviewHeader>
-          <Concept concept={firstConcept} image={image} t={t} />
+          <Concept concept={firstConcept} t={t} />
         </StyledPreviewTwoArticles>
         <StyledPreviewTwoArticles>
           <StyledPreviewHeader>
@@ -95,7 +65,7 @@ const PreviewConcept: FC<Props & tType> = ({
               ))}
             </select>
           </StyledPreviewHeader>
-          <Concept concept={secondConcept} image={image} t={t} />
+          <Concept concept={secondConcept} t={t} />
         </StyledPreviewTwoArticles>
       </StyledPreviewConcept>
     </>

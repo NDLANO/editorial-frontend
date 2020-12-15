@@ -14,10 +14,7 @@ import { FileCompare } from '@ndla/icons/action';
 import { TranslateType } from '../../interfaces';
 import { Concept } from '../SlateEditor/editorTypes';
 import { Portal } from '../Portal';
-import Lightbox, {
-  closeLightboxButtonStyle,
-  StyledCross,
-} from '../Lightbox';
+import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
 import PreviewConcept from './PreviewConcept';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
@@ -26,7 +23,6 @@ import StyledFilledButton from '../StyledFilledButton';
 interface Props {
   t: TranslateType;
   getConcept: Function;
-  label?: string;
 }
 
 const lightboxContentStyle = css`
@@ -44,45 +40,19 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const emptyConcept = {
-  id: 0,
-  title: '',
-  tags: [],
-  content: '',
-  metaImage: {
-    id: 0,
-    alt: '',
-  },
-  metaDescription: '',
-  articleType: '',
-  copyright: {
-    agreementId: 0,
-    license: {
-      license: '',
-    },
-    creators: [],
-    processors: [],
-    rightsholders: [],
-  },
-  notes: [],
-  language: '',
-  published: '',
-  supportedLanguages: [],
-  articleId: 0,
-  created: '',
-  source: '',
-  subjectIds: [],
-};
-
 const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
-  const [firstConcept, setFirstConcept] = useState<Concept>(emptyConcept);
-  const [secondConcept, setSecondConcept] = useState<Concept>(emptyConcept);
+  const [firstConcept, setFirstConcept] = useState<Concept | undefined>(
+    undefined,
+  );
+  const [secondConcept, setSecondConcept] = useState<Concept | undefined>(
+    undefined,
+  );
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const onClosePreview = () => {
-    setFirstConcept(emptyConcept);
-    setSecondConcept(emptyConcept);
+    setFirstConcept(undefined);
+    setSecondConcept(undefined);
     setPreviewLanguage('');
     setShowPreview(false);
   };
@@ -97,7 +67,11 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
     setPreviewLanguage(
       secondConceptLanguage ? secondConceptLanguage : concept.language,
     );
-    setSecondConcept(transformConceptFromApiVersion(secondConcept));
+    const transformed = transformConceptFromApiVersion(secondConcept);
+    setSecondConcept({
+      ...transformed,
+      visualElement: transformed.visualElement?.visualElement,
+    });
     setShowPreview(true);
   };
 
@@ -127,23 +101,26 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
     </Button>
   );
 
-  return (
-    <Portal isOpened>
-      <Lightbox
-        display
-        onClose={onClosePreview}
-        closeButton={closeButton}
-        contentCss={lightboxContentStyle}>
-        <PreviewConcept
-          firstConcept={firstConcept}
-          secondConcept={secondConcept}
-          onChangePreviewLanguage={onChangePreviewLanguage}
-          previewLanguage={previewLanguage}
-          t={t}
-        />
-      </Lightbox>
-    </Portal>
-  );
+  if (firstConcept && secondConcept) {
+    return (
+      <Portal isOpened>
+        <Lightbox
+          display
+          onClose={onClosePreview}
+          closeButton={closeButton}
+          contentCss={lightboxContentStyle}>
+          <PreviewConcept
+            firstConcept={firstConcept}
+            secondConcept={secondConcept}
+            onChangePreviewLanguage={onChangePreviewLanguage}
+            previewLanguage={previewLanguage}
+            t={t}
+          />
+        </Lightbox>
+      </Portal>
+    );
+  }
+  return null;
 };
 
 export default injectT(PreviewConceptLightbox);

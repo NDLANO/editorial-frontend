@@ -379,12 +379,12 @@ export interface VisualElement {
   size?: string;
   url?: string;
   videoid?: string;
-  "focal-x"?: string;
-  "focal-y"?: string;
-  "lower-right-y"?: string;
-  "lower-right-x"?: string;
-  "upper-left-y"?: string;
-  "upper-left-x"?: string;
+  'focal-x'?: string;
+  'focal-y'?: string;
+  'lower-right-y'?: string;
+  'lower-right-x'?: string;
+  'upper-left-y'?: string;
+  'upper-left-x'?: string;
 }
 
 export interface Image {

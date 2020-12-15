@@ -11,14 +11,19 @@ import React, { FC, useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { FileCompare } from '@ndla/icons/action';
-import { TranslateType } from '../../interfaces';
-import { Concept } from '../SlateEditor/editorTypes';
+import {TranslateType, VisualElement} from '../../interfaces';
+import {Concept} from '../SlateEditor/editorTypes';
 import { Portal } from '../Portal';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
 import PreviewConcept from './PreviewConcept';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import StyledFilledButton from '../StyledFilledButton';
+import { imageToVisualElement } from '../../util/visualElementHelper';
+import { getYoutubeEmbedUrl } from '../../util/videoUtil';
+import { fetchImage } from '../../modules/image/imageApi';
+import { parseEmbedTag } from '../../util/embedTagHelpers';
+import config from "../../config";
 
 interface Props {
   t: TranslateType;
@@ -59,19 +64,17 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
 
   const openPreview = async () => {
     const concept = getConcept();
+    const visualElement = await getVisualElement(concept.visualElement);
+    setFirstConcept({
+      ...concept,
+      visualElement: visualElement,
+    });
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);
-    const secondConcept = await previewLanguageConcept(secondConceptLanguage);
-    setFirstConcept(concept);
-    setPreviewLanguage(
-      secondConceptLanguage ? secondConceptLanguage : concept.language,
+    onChangePreviewLanguage(
+        secondConceptLanguage ? secondConceptLanguage : concept.language,
     );
-    const transformed = transformConceptFromApiVersion(secondConcept);
-    setSecondConcept({
-      ...transformed,
-      visualElement: transformed.visualElement?.visualElement,
-    });
     setShowPreview(true);
   };
 
@@ -82,11 +85,48 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
 
   const onChangePreviewLanguage = async (language: string) => {
     const secondConcept = await previewLanguageConcept(language);
+    const transformed = transformConceptFromApiVersion(secondConcept);
+    const secondVisualElement = await getVisualElement(transformed.visualElement?.visualElement);
     setPreviewLanguage(language);
-    setSecondConcept(transformConceptFromApiVersion(secondConcept));
+    setSecondConcept({
+      ...transformed,
+      visualElement: secondVisualElement,
+    });
   };
 
-  if (!showPreview) {
+  const getVisualElement = async (visualElementEmbed: string) => {
+    const embedTag = parseEmbedTag(visualElementEmbed);
+    switch (embedTag?.resource) {
+      case 'image':
+        const image = await fetchImage(embedTag.resource_id);
+        return imageToVisualElement(image);
+      case 'video':
+      case 'brightcove':
+        return {
+          ...embedTag,
+          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`,
+        };
+      case 'external':
+        return {
+          ...embedTag,
+          url: embedTag?.url?.includes('youtube')
+              ? getYoutubeEmbedUrl(embedTag?.url)
+              : embedTag?.url,
+        };
+      case 'h5p':
+        return {
+          ...embedTag,
+          url: embedTag?.url
+              ? embedTag.url
+              : `${config.h5pApiUrl}${embedTag?.path}`,
+        };
+      default:
+        return undefined;
+
+    }
+  };
+
+  if (!showPreview || !firstConcept || !secondConcept) {
     return (
       <StyledFilledButton type="button" onClick={openPreview}>
         <FileCompare />
@@ -101,26 +141,23 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
     </Button>
   );
 
-  if (firstConcept && secondConcept) {
-    return (
-      <Portal isOpened>
-        <Lightbox
-          display
-          onClose={onClosePreview}
-          closeButton={closeButton}
-          contentCss={lightboxContentStyle}>
-          <PreviewConcept
-            firstConcept={firstConcept}
-            secondConcept={secondConcept}
-            onChangePreviewLanguage={onChangePreviewLanguage}
-            previewLanguage={previewLanguage}
-            t={t}
-          />
-        </Lightbox>
-      </Portal>
-    );
-  }
-  return null;
+  return (
+    <Portal isOpened>
+      <Lightbox
+        display
+        onClose={onClosePreview}
+        closeButton={closeButton}
+        contentCss={lightboxContentStyle}>
+        <PreviewConcept
+          firstConcept={firstConcept}
+          secondConcept={secondConcept}
+          onChangePreviewLanguage={onChangePreviewLanguage}
+          previewLanguage={previewLanguage}
+          t={t}
+        />
+      </Lightbox>
+    </Portal>
+  );
 };
 
 export default injectT(PreviewConceptLightbox);

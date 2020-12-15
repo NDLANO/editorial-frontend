@@ -21,11 +21,6 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { VisualElement } from '../../interfaces';
 import { Concept as ConceptType } from '../SlateEditor/editorTypes';
-import { parseEmbedTag } from '../../util/embedTagHelpers';
-import { fetchImage } from '../../modules/image/imageApi';
-import config from '../../config';
-import { imageToVisualElement } from '../../util/visualElementHelper';
-import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -44,14 +39,7 @@ interface Props {
 }
 
 const Concept: FC<Props & tType> = ({ concept }) => {
-  const [visualElement, setVisualElement] = useState<VisualElement | undefined>(
-    undefined,
-  );
   const markdown = new Remarkable({ breaks: true });
-
-  useEffect(() => {
-    getVisualElement();
-  }, []);
 
   const renderMarkdown = (text: string) => {
     const rendered = markdown.render(text);
@@ -62,43 +50,8 @@ const Concept: FC<Props & tType> = ({ concept }) => {
     );
   };
 
-  const getVisualElement = async () => {
-    const embedTag = parseEmbedTag(concept.visualElement);
-    switch (embedTag?.resource) {
-      case 'image':
-        const image = await fetchImage(embedTag.resource_id);
-        setVisualElement(imageToVisualElement(image));
-        break;
-      case 'video':
-      case 'brightcove':
-        setVisualElement({
-          ...embedTag,
-          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`,
-        });
-        break;
-      case 'external':
-        setVisualElement({
-          ...embedTag,
-          url: embedTag?.url?.includes('youtube')
-            ? getYoutubeEmbedUrl(embedTag?.url)
-            : embedTag?.url,
-        });
-        break;
-      case 'h5p':
-        setVisualElement({
-          ...embedTag,
-          url: embedTag?.url
-            ? embedTag.url
-            : `${config.h5pApiUrl}${embedTag?.path}`,
-        });
-        break;
-      default:
-        setVisualElement(undefined);
-        break;
-    }
-  };
-
   const VisualElement = () => {
+    const visualElement = concept.visualElement;
     switch (visualElement?.resource) {
       case 'image':
         return (
@@ -117,8 +70,6 @@ const Concept: FC<Props & tType> = ({ concept }) => {
             src={visualElement?.url}
             frameBorder="0"
             scrolling="no"
-            width={600}
-            height={400}
           />
         );
       default:

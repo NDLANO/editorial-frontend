@@ -11,8 +11,8 @@ import React, { FC, useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { FileCompare } from '@ndla/icons/action';
-import {TranslateType, VisualElement} from '../../interfaces';
-import {Concept} from '../SlateEditor/editorTypes';
+import { TranslateType } from '../../interfaces';
+import { Concept } from '../SlateEditor/editorTypes';
 import { Portal } from '../Portal';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
@@ -23,7 +23,7 @@ import { imageToVisualElement } from '../../util/visualElementHelper';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import { fetchImage } from '../../modules/image/imageApi';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
-import config from "../../config";
+import config from '../../config';
 
 interface Props {
   t: TranslateType;
@@ -73,7 +73,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);
     onChangePreviewLanguage(
-        secondConceptLanguage ? secondConceptLanguage : concept.language,
+      secondConceptLanguage ? secondConceptLanguage : concept.language,
     );
     setShowPreview(true);
   };
@@ -86,7 +86,9 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
   const onChangePreviewLanguage = async (language: string) => {
     const secondConcept = await previewLanguageConcept(language);
     const transformed = transformConceptFromApiVersion(secondConcept);
-    const secondVisualElement = await getVisualElement(transformed.visualElement?.visualElement);
+    const secondVisualElement = await getVisualElement(
+      transformed.visualElement?.visualElement,
+    );
     setPreviewLanguage(language);
     setSecondConcept({
       ...transformed,
@@ -110,19 +112,18 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
         return {
           ...embedTag,
           url: embedTag?.url?.includes('youtube')
-              ? getYoutubeEmbedUrl(embedTag?.url)
-              : embedTag?.url,
+            ? getYoutubeEmbedUrl(embedTag?.url)
+            : embedTag?.url,
         };
       case 'h5p':
         return {
           ...embedTag,
           url: embedTag?.url
-              ? embedTag.url
-              : `${config.h5pApiUrl}${embedTag?.path}`,
+            ? embedTag.url
+            : `${config.h5pApiUrl}${embedTag?.path}`,
         };
       default:
         return undefined;
-
     }
   };
 

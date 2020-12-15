@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -70,6 +70,7 @@ const Concept: FC<Props & tType> = ({ concept }) => {
             src={visualElement?.url}
             frameBorder="0"
             scrolling="no"
+            height={400}
           />
         );
       default:

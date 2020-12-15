@@ -17,6 +17,7 @@ import { StyledPreviewHeader } from '../PreviewDraft/PreviewLanguage';
 
 const StyledPreviewConcept = styled('div')`
   display: inline-block;
+  width: 100%;
 `;
 
 interface Props {

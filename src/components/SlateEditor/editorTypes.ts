@@ -1,5 +1,5 @@
 import { Value } from 'slate';
-import {VisualElement} from "../../interfaces";
+import { VisualElement } from '../../interfaces';
 
 export interface Values {
   id: number;

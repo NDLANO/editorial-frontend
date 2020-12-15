@@ -36,3 +36,16 @@ export function getVisualElementInformation(element, type) {
       };
   }
 }
+
+export const imageToVisualElement = (image) => {
+  return {
+    resource: 'image',
+    resource_id: image.id,
+    size: image.size,
+    align: '',
+    alt: convertFieldWithFallback(image, 'alttext', ''),
+    caption: convertFieldWithFallback(image, 'caption', ''),
+    url: image.imageUrl,
+    metaData: image,
+  };
+};

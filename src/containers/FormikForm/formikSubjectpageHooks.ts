@@ -31,7 +31,7 @@ import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import * as visualElementApi from '../VisualElement/visualElementApi';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { imageToVisualElement } from '../../util/visualElementHelper';
 
 export function useFetchSubjectpageData(
   elementId: string,
@@ -82,19 +82,6 @@ export function useFetchSubjectpageData(
       }
       setLoading(false);
     }
-  };
-
-  const imageToVisualElement = (image: Image) => {
-    return {
-      resource: 'image',
-      resource_id: image.id,
-      size: image.size,
-      align: '',
-      alt: convertFieldWithFallback(image, 'alttext', ''),
-      caption: convertFieldWithFallback(image, 'caption', ''),
-      url: image.metaUrl,
-      metaData: image,
-    };
   };
 
   const fetchElementList = async (taxonomyUrns: string[]) => {

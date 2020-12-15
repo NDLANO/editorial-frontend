@@ -19,7 +19,6 @@ import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import {
-  transformArticle,
   transformArticleToApiVersion,
 } from '../../util/articleUtil';
 import { FormikActionButton } from '../../containers/FormikForm';
@@ -130,7 +129,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle: transformArticle(firstArticle),
+      firstArticle: firstArticle,
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -141,7 +140,7 @@ class PreviewDraftLightbox extends React.Component {
   async previewVersion(language) {
     const { version } = this.props;
     const article = await articleApi.getPreviewArticle(version, language);
-    return transformArticle(article);
+    return article;
   }
 
   async previewProductionArticle() {
@@ -151,7 +150,7 @@ class PreviewDraftLightbox extends React.Component {
       id,
       language,
     );
-    return transformArticle(article);
+    return article;
   }
 
   async previewLanguageArticle(language = undefined) {
@@ -165,7 +164,7 @@ class PreviewDraftLightbox extends React.Component {
       draftOtherLanguage,
       language,
     );
-    return transformArticle(article);
+    return article;
   }
 
   render() {

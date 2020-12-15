@@ -18,9 +18,7 @@ import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
-import {
-  transformArticleToApiVersion,
-} from '../../util/articleUtil';
+import { transformArticleToApiVersion } from '../../util/articleUtil';
 import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 import { Portal } from '../Portal';

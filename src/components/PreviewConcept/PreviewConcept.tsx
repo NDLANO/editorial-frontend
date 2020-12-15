@@ -45,7 +45,7 @@ const PreviewConcept: FC<Props & tType> = ({
               })}
             </h2>
           </StyledPreviewHeader>
-          <Concept concept={firstConcept} t={t} />
+          <Concept concept={firstConcept} />
         </StyledPreviewTwoArticles>
         <StyledPreviewTwoArticles>
           <StyledPreviewHeader>
@@ -65,7 +65,7 @@ const PreviewConcept: FC<Props & tType> = ({
               ))}
             </select>
           </StyledPreviewHeader>
-          <Concept concept={secondConcept} t={t} />
+          <Concept concept={secondConcept} />
         </StyledPreviewTwoArticles>
       </StyledPreviewConcept>
     </>

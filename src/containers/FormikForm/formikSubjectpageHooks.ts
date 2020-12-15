@@ -11,11 +11,7 @@ import {
   transformSubjectpageToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
-import {
-  Image,
-  SubjectpageApiType,
-  SubjectpageEditType,
-} from '../../interfaces';
+import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
   fetchSubjectFilter,

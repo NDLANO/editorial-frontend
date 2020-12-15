@@ -37,7 +37,7 @@ export function getVisualElementInformation(element, type) {
   }
 }
 
-export const imageToVisualElement = (image) => {
+export const imageToVisualElement = image => {
   return {
     resource: 'image',
     resource_id: image.id,

@@ -18,12 +18,13 @@ import {
   NotionDialogText,
   NotionDialogImage,
 } from '@ndla/notion';
-import { TranslateType, VisualElement } from '../../interfaces';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { VisualElement } from '../../interfaces';
 import { Concept as ConceptType } from '../SlateEditor/editorTypes';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { fetchImage } from '../../modules/image/imageApi';
 import config from '../../config';
-import {imageToVisualElement} from '../../util/visualElementHelper';
+import { imageToVisualElement } from '../../util/visualElementHelper';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 
 const StyledBody = styled.div`
@@ -39,12 +40,13 @@ const StyledBody = styled.div`
 `;
 
 interface Props {
-  t: TranslateType;
   concept: ConceptType;
 }
 
-const Concept: FC<Props & tType> = ({ t, concept }) => {
-  const [visualElement, setVisualElement] = useState<VisualElement | undefined>(undefined);
+const Concept: FC<Props & tType> = ({ concept }) => {
+  const [visualElement, setVisualElement] = useState<VisualElement | undefined>(
+    undefined,
+  );
   const markdown = new Remarkable({ breaks: true });
 
   useEffect(() => {
@@ -71,21 +73,23 @@ const Concept: FC<Props & tType> = ({ t, concept }) => {
       case 'brightcove':
         setVisualElement({
           ...embedTag,
-          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`
+          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`,
         });
         break;
       case 'external':
         setVisualElement({
           ...embedTag,
-          url: embedTag?.url?.includes('youtube') ?
-              getYoutubeEmbedUrl(embedTag?.url) :
-              embedTag?.url,
+          url: embedTag?.url?.includes('youtube')
+            ? getYoutubeEmbedUrl(embedTag?.url)
+            : embedTag?.url,
         });
         break;
       case 'h5p':
         setVisualElement({
           ...embedTag,
-          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`
+          url: embedTag?.url
+            ? embedTag.url
+            : `${config.h5pApiUrl}${embedTag?.path}`,
         });
         break;
       default:
@@ -98,20 +102,25 @@ const Concept: FC<Props & tType> = ({ t, concept }) => {
     switch (visualElement?.resource) {
       case 'image':
         return (
-            <NotionDialogImage alt={visualElement?.alt} src={visualElement?.url} />
+          <NotionDialogImage
+            alt={visualElement?.alt}
+            src={visualElement?.url}
+          />
         );
       case 'video':
       case 'brightcove':
       case 'external':
       case 'h5p':
-        return <iframe
+        return (
+          <iframe
             title={visualElement?.title}
             src={visualElement?.url}
             frameBorder="0"
             scrolling="no"
             width={600}
             height={400}
-        />;
+          />
+        );
       default:
         return null;
     }

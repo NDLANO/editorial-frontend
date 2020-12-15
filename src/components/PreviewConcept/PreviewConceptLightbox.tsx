@@ -19,7 +19,6 @@ import { fetchConcept } from '../../modules/concept/conceptApi';
 import PreviewConcept from './PreviewConcept';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import StyledFilledButton from '../StyledFilledButton';
-import { imageToVisualElement } from '../../util/visualElementHelper';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import { fetchImage } from '../../modules/image/imageApi';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
@@ -101,7 +100,10 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
     switch (embedTag?.resource) {
       case 'image':
         const image = await fetchImage(embedTag.resource_id);
-        return imageToVisualElement(image);
+        return {
+          ...embedTag,
+          url: image.imageUrl,
+        };
       case 'video':
       case 'brightcove':
         return {

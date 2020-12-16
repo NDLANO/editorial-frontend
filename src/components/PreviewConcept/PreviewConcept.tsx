@@ -10,10 +10,9 @@ import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import Concept from './Concept';
-import { TranslateType } from '../../interfaces';
-import { Concept as ConceptType } from '../SlateEditor/editorTypes';
-import StyledPreviewTwoArticles from '../PreviewDraft/StyledPreviewTwoArticles';
 import { StyledPreviewHeader } from '../PreviewDraft/PreviewLanguage';
+import StyledPreviewTwoArticles from '../PreviewDraft/StyledPreviewTwoArticles';
+import { Concept as ConceptType } from '../SlateEditor/editorTypes';
 
 const StyledPreviewConcept = styled('div')`
   display: inline-block;
@@ -21,7 +20,6 @@ const StyledPreviewConcept = styled('div')`
 `;
 
 interface Props {
-  t: TranslateType;
   firstConcept: ConceptType;
   secondConcept: ConceptType;
   onChangePreviewLanguage: Function;
@@ -36,40 +34,38 @@ const PreviewConcept: FC<Props & tType> = ({
   previewLanguage,
 }) => {
   return (
-    <>
-      <StyledPreviewConcept>
-        <StyledPreviewTwoArticles>
-          <StyledPreviewHeader>
-            <h2 className="u-4/6@desktop u-push-1/6@desktop">
-              {t('form.previewLanguageArticle.title', {
-                language: t(`language.${firstConcept.language}`).toLowerCase(),
-              })}
-            </h2>
-          </StyledPreviewHeader>
-          <Concept concept={firstConcept} />
-        </StyledPreviewTwoArticles>
-        <StyledPreviewTwoArticles>
-          <StyledPreviewHeader>
-            <h2 className="u-4/6@desktop u-push-1/6@desktop">
-              {t('form.previewLanguageArticle.title', {
-                language: t(`language.${previewLanguage}`).toLowerCase(),
-              })}
-            </h2>
-            <select
-              className="u-4/6@desktop u-push-1/6@desktop"
-              onChange={evt => onChangePreviewLanguage(evt.target.value)}
-              value={previewLanguage}>
-              {firstConcept.supportedLanguages.map(language => (
-                <option key={language} value={language}>
-                  {t(`language.${language}`)}
-                </option>
-              ))}
-            </select>
-          </StyledPreviewHeader>
-          <Concept concept={secondConcept} />
-        </StyledPreviewTwoArticles>
-      </StyledPreviewConcept>
-    </>
+    <StyledPreviewConcept>
+      <StyledPreviewTwoArticles>
+        <StyledPreviewHeader>
+          <h2 className="u-4/6@desktop u-push-1/6@desktop">
+            {t('form.previewLanguageArticle.title', {
+              language: t(`language.${firstConcept.language}`).toLowerCase(),
+            })}
+          </h2>
+        </StyledPreviewHeader>
+        <Concept concept={firstConcept} />
+      </StyledPreviewTwoArticles>
+      <StyledPreviewTwoArticles>
+        <StyledPreviewHeader>
+          <h2 className="u-4/6@desktop u-push-1/6@desktop">
+            {t('form.previewLanguageArticle.title', {
+              language: t(`language.${previewLanguage}`).toLowerCase(),
+            })}
+          </h2>
+          <select
+            className="u-4/6@desktop u-push-1/6@desktop"
+            onChange={evt => onChangePreviewLanguage(evt.target.value)}
+            value={previewLanguage}>
+            {firstConcept.supportedLanguages.map(language => (
+              <option key={language} value={language}>
+                {t(`language.${language}`)}
+              </option>
+            ))}
+          </select>
+        </StyledPreviewHeader>
+        <Concept concept={secondConcept} />
+      </StyledPreviewTwoArticles>
+    </StyledPreviewConcept>
   );
 };
 

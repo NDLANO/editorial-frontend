@@ -7,16 +7,16 @@
  */
 
 import React, { FC } from 'react';
-import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Remarkable } from 'remarkable';
+import { injectT, tType } from '@ndla/i18n';
 import {
   NotionDialogContent,
   NotionHeaderWithoutExitButton,
   NotionDialogLicenses,
   NotionDialogText,
 } from '@ndla/notion';
+import { Remarkable } from 'remarkable';
 import { Concept as ConceptType } from '../SlateEditor/editorTypes';
 import { getSrcSets } from '../../util/imageEditorUtil';
 

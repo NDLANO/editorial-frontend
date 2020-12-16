@@ -6,26 +6,24 @@
  *
  */
 
-import { injectT, tType } from '@ndla/i18n';
 import React, { FC, useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
+import { injectT, tType } from '@ndla/i18n';
 import { FileCompare } from '@ndla/icons/action';
-import { TranslateType } from '../../interfaces';
-import { Concept } from '../SlateEditor/editorTypes';
-import { Portal } from '../Portal';
+import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import PreviewConcept from './PreviewConcept';
-import { transformConceptFromApiVersion } from '../../util/conceptUtil';
-import StyledFilledButton from '../StyledFilledButton';
-import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import { fetchImage } from '../../modules/image/imageApi';
+import { Portal } from '../Portal';
+import PreviewConcept from './PreviewConcept';
+import { Concept } from '../SlateEditor/editorTypes';
+import StyledFilledButton from '../StyledFilledButton';
+import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
-import config from '../../config';
+import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 
 interface Props {
-  t: TranslateType;
   getConcept: Function;
 }
 
@@ -156,7 +154,6 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
           secondConcept={secondConcept}
           onChangePreviewLanguage={onChangePreviewLanguage}
           previewLanguage={previewLanguage}
-          t={t}
         />
       </Lightbox>
     </Portal>

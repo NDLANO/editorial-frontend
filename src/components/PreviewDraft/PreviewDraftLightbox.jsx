@@ -22,6 +22,7 @@ import { transformArticleToApiVersion } from '../../util/articleUtil';
 import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 import { Portal } from '../Portal';
+import PreviewDraft from './PreviewDraft';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -209,12 +210,19 @@ class PreviewDraftLightbox extends React.Component {
             closeButton={closeButton}
             contentCss={lightboxContentStyle(typeOfPreview)}>
             <PreviewLightboxContent
-              firstArticle={firstArticle}
-              secondArticle={secondArticle}
+              firstEntity={firstArticle}
+              secondEntity={secondArticle}
               label={label}
               typeOfPreview={typeOfPreview}
               onChangePreviewLanguage={this.onChangePreviewLanguage}
               previewLanguage={previewLanguage}
+              getEntityPreview={(article, label, contentType) => (
+                <PreviewDraft
+                  article={article}
+                  label={label}
+                  contentType={contentType}
+                />
+              )}
             />
           </Lightbox>
         </StyledPreviewDraft>

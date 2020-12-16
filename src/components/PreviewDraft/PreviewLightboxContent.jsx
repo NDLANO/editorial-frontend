@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import PreviewDraft from './PreviewDraft';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 import Spinner from '../Spinner';
@@ -22,13 +21,20 @@ const StyledPreviewSingleArticle = styled('div')`
 `;
 
 const PreviewLightboxContent = props => {
-  const { firstArticle, label, typeOfPreview, loading } = props;
+  const {
+    firstEntity,
+    label,
+    typeOfPreview,
+    loading,
+    contentType,
+    getEntityPreview,
+  } = props;
   if (loading) return <Spinner />;
   switch (typeOfPreview) {
     case 'preview':
       return (
-        <StyledPreviewSingleArticle>
-          <PreviewDraft article={firstArticle} label={label} />
+        <StyledPreviewSingleArticle contentType={contentType}>
+          {getEntityPreview(firstEntity, label, contentType)}
         </StyledPreviewSingleArticle>
       );
     case 'previewVersion':
@@ -42,7 +48,7 @@ const PreviewLightboxContent = props => {
 };
 
 PreviewLightboxContent.propTypes = {
-  firstArticle: PropTypes.shape({
+  firstEntity: PropTypes.shape({
     id: PropTypes.number,
     content: PropTypes.string,
     title: PropTypes.string,
@@ -64,6 +70,8 @@ PreviewLightboxContent.propTypes = {
   label: PropTypes.string.isRequired,
   onChangePreviewLanguage: PropTypes.func.isRequired,
   previewLanguage: PropTypes.string,
+  contentType: PropTypes.string,
+  getEntityPreview: PropTypes.func,
 };
 
 export default PreviewLightboxContent;

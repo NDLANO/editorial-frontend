@@ -38,15 +38,7 @@ interface Props {
 
 const Concept: FC<Props & tType> = ({ concept }) => {
   const markdown = new Remarkable({ breaks: true });
-
-  const renderMarkdown = (text: string) => {
-    const rendered = markdown.render(text);
-    return (
-      <>
-        <span dangerouslySetInnerHTML={{ __html: rendered }} />
-      </>
-    );
-  };
+  const renderedContent = markdown.render(concept.content);
 
   const VisualElement = () => {
     const visualElement = concept.visualElement;
@@ -87,7 +79,9 @@ const Concept: FC<Props & tType> = ({ concept }) => {
       <StyledBody>
         <NotionDialogContent>
           <VisualElement />
-          <NotionDialogText>{renderMarkdown(concept.content)}</NotionDialogText>
+          <NotionDialogText>
+            <span dangerouslySetInnerHTML={{ __html: renderedContent }} />
+          </NotionDialogText>
         </NotionDialogContent>
         <NotionDialogLicenses
           license={concept.copyright?.license?.license}

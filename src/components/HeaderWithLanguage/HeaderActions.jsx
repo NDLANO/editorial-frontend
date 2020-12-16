@@ -50,6 +50,28 @@ const HeaderActions = ({
       lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
+  const PreviewLightbox =
+    type === 'concept' ? (
+      supportedLanguages.length > 1 && (
+        <PreviewConceptLightbox
+          label={t(`articleType.concept`)}
+          typeOfPreview="previewLanguageArticle"
+          getConcept={getEntity}
+        />
+      )
+    ) : (
+      <PreviewDraftLightbox
+        label={t(`articleType.${articleType}`)}
+        typeOfPreview="previewLanguageArticle"
+        getArticle={getEntity}>
+        {openPreview => (
+          <StyledFilledButton type="button" onClick={openPreview}>
+            <FileCompare />
+            {t(`form.previewLanguageArticle.button`)}
+          </StyledFilledButton>
+        )}
+      </PreviewDraftLightbox>
+    );
 
   if (id) {
     return (
@@ -70,24 +92,7 @@ const HeaderActions = ({
         <StyledSplitter />
         {!noStatus && getEntity && (
           <Fragment>
-            {type === 'concept' ? (
-              <PreviewConceptLightbox
-                label={t(`articleType.concept`)}
-                getConcept={getEntity}
-              />
-            ) : (
-              <PreviewDraftLightbox
-                label={t(`articleType.${articleType}`)}
-                typeOfPreview="previewLanguageArticle"
-                getArticle={getEntity}>
-                {openPreview => (
-                  <StyledFilledButton type="button" onClick={openPreview}>
-                    <FileCompare />
-                    {t(`form.previewLanguageArticle.button`)}
-                  </StyledFilledButton>
-                )}
-              </PreviewDraftLightbox>
-            )}
+            {PreviewLightbox}
             <StyledSplitter />
           </Fragment>
         )}

@@ -99,6 +99,9 @@ const EditImage: React.FC<Props & tType> = ({
   const onUpdatedImageSettings = (
     transformedData: NonNullable<StateProps['imageUpdates']>,
   ) => {
+    if (transformedData.align === 'center') {
+      transformedData.size = 'fullwidth';
+    }
     setState({
       ...state,
       imageUpdates: {

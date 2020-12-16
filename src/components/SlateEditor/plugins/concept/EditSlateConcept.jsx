@@ -12,6 +12,7 @@ import Notion from '@ndla/notion';
 import PropTypes from 'prop-types';
 import { TYPE } from '.';
 import ConceptModal from './ConceptModal';
+import ConceptPreview from './ConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 
 const getConceptDataAttributes = ({ id, title: { title } }) => ({
@@ -28,12 +29,13 @@ const EditSlateConcept = props => {
   const { t, children, node, locale, editor, attributes } = props;
   const nodeText = node.text.trim();
 
-  const [isModalOpen, toggleIsModalOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
   const toggleConceptModal = evt => {
     if (evt) {
       evt.preventDefault();
     }
-    toggleIsModalOpen(!isModalOpen);
+    setEditMode(!editMode);
   };
 
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
@@ -75,7 +77,7 @@ const EditSlateConcept = props => {
 
   useEffect(() => {
     if (!node.data.get('content-id')) {
-      toggleIsModalOpen(true);
+      setEditMode(true);
     }
   }, []);
 
@@ -88,24 +90,36 @@ const EditSlateConcept = props => {
             title={nodeText}
             content={concept.content}
             ariaLabel={t('notions.edit')}>
-            {children}
+            {children} test
           </Notion>
         ) : (
           children
         )}
       </span>
-      <ConceptModal
-        id={conceptId}
-        isOpen={isModalOpen}
-        onClose={onClose}
-        addConcept={addConcept}
-        locale={locale}
-        concept={concept}
-        subjects={subjects}
-        handleRemove={handleRemove}
-        selectedText={nodeText}
-        {...conceptHooks}
-      />
+      {editMode && conceptId ? (
+        <ConceptPreview
+          concept={concept}
+          handleRemove={handleRemove}
+          id={conceptId}
+          isOpen={editMode}
+          onClose={onClose}
+          locale={locale}
+        />
+      ) : (
+        // TODO: fix seems to open twice, check isOpen in ConceptModal
+        <ConceptModal
+          id={conceptId}
+          isOpen={!conceptId && editMode}
+          onClose={onClose}
+          addConcept={addConcept}
+          locale={locale}
+          concept={concept}
+          subjects={subjects}
+          handleRemove={handleRemove}
+          selectedText={nodeText}
+          {...conceptHooks}
+        />
+      )}
     </span>
   );
 };

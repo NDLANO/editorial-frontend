@@ -25,6 +25,7 @@ import ConceptForm from '../../../../containers/ConceptPage/components/ConceptFo
 import { ConceptShape, SubjectShape } from '../../../../shapes';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 import { useTranslateConceptForm } from '../../../../containers/FormikForm/translateFormHooks';
+import ConceptContent from '../../../../containers/ConceptPage/components/ConceptForm';
 
 const type = 'concept';
 
@@ -175,6 +176,7 @@ const ConceptModal = ({
                     ),
                   },
                   {
+                    // TODO: Remove this
                     title: id
                       ? t('form.concept.edit')
                       : t('form.concept.create'),
@@ -193,8 +195,6 @@ const ConceptModal = ({
                             ? { ...concept, language: locale }
                             : { title: selectedText, language: locale }
                         }
-                        translateConcept={translateConcept}
-                        translating={translating}
                       />
                     ),
                   },

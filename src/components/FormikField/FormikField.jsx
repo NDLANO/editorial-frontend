@@ -90,7 +90,7 @@ const FormikField = ({
         />
       )}
       {showError && errors[name] && (
-        <FormikFieldHelp error={errors[name]}>
+        <FormikFieldHelp error={!!errors[name]}>
           <StyledErrorPreLine>{errors[name]}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}

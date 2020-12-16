@@ -39,21 +39,6 @@ const phrases = {
   menu: {
     title: 'Meny',
   },
-  article: {
-    lastUpdated: 'Sist oppdatert',
-    edition: 'Utgave',
-    publisher: 'Utgiver',
-    useContent: 'Bruk innhold',
-    closeLabel: 'Lukk',
-    additionalLabel: 'Tilleggsstoff',
-    urlContributionsLabel: 'Se hva {name} har bidratt med',
-    urlAuthorLabel: 'Les mer om {name}',
-    multipleAuthorsLabelAbbreviation: 'm. fl.',
-    multipleAuthorsLabel: 'Opphavere av artikkel:',
-    multipleAuthorsLabelAria: 'Opphavere av artikkelen er {names}',
-    multipleAuthorsLabelAriaConjunction: 'og',
-    singleAuthorsLabelAria: 'Opphaver av artikkelen er {name}',
-  },
   dialog: {
     close: 'Lukk',
     title: 'Tittel',

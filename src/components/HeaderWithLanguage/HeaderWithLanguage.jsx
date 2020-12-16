@@ -100,7 +100,7 @@ HeaderWithLanguage.propTypes = {
   getArticle: PropTypes.func,
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
-  setTranslateOnContinue: PropTypes.func.isRequired,
+  setTranslateOnContinue: PropTypes.func,
   type: PropTypes.oneOf([
     'image',
     'audio',

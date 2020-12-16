@@ -56,6 +56,7 @@ export const transformArticle = article => {
     ...article,
     created: formatDate(article.created),
     updated: formatDate(article.updated),
+    published: formatDate(article.published),
     footNotes,
     requiredLibraries: article.requiredLibraries
       ? article.requiredLibraries.map(lib => {

@@ -9,7 +9,6 @@
 import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
 import {
   NotionDialogContent,
   NotionHeaderWithoutExitButton,
@@ -36,7 +35,7 @@ interface Props {
   concept: Concept;
 }
 
-const PreviewConcept: FC<Props & tType> = ({ concept }) => {
+const PreviewConcept: FC<Props> = ({ concept }) => {
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
   markdown.block.ruler.disable(['list']);
@@ -98,4 +97,4 @@ const PreviewConcept: FC<Props & tType> = ({ concept }) => {
   );
 };
 
-export default injectT(PreviewConcept);
+export default PreviewConcept;

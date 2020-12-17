@@ -6,18 +6,22 @@
  *
  */
 
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, fonts, misc } from '@ndla/core';
+import {injectT, tType} from "@ndla/i18n";
 import {
   NotionDialogContent,
   NotionHeaderWithoutExitButton,
   NotionDialogLicenses,
   NotionDialogText,
+  NotionDialogTags,
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
 import { Concept } from '../SlateEditor/editorTypes';
 import { getSrcSets } from '../../util/imageEditorUtil';
+import { SubjectType } from '../../interfaces';
+import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -31,14 +35,48 @@ const StyledBody = styled.div`
   }
 `;
 
+const TagWrapper = styled.div`
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: ${spacing.small} 0;
+    > span {
+      padding-right: ${spacing.small};
+    }
+    .tag {
+      background: #f8f8f8;
+      margin-right: ${spacing.xsmall};
+      padding: 0 ${spacing.xsmall};
+      border-radius: ${misc.borderRadius};
+      ${fonts.sizes('12px', 1.2)};
+      font-family: ${fonts.sans};
+      font-weight: ${fonts.weight.semibold};
+      display: flex;
+      align-items: center;
+    }
+  }
+`;
+
 interface Props {
   concept: Concept;
 }
 
-const PreviewConcept: FC<Props> = ({ concept }) => {
+const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
+  const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
   markdown.block.ruler.disable(['list']);
+
+  useEffect(() => {
+    getSubjects();
+  }, [concept.id]);
+
+  const getSubjects = async () => {
+    const subjects = await Promise.all(
+      concept.subjectIds.map(id => fetchSubject(id)),
+    );
+    setSubjects(subjects);
+  };
 
   const VisualElement = () => {
     const visualElement = concept.visualElement;
@@ -87,6 +125,25 @@ const PreviewConcept: FC<Props> = ({ concept }) => {
             />
           </NotionDialogText>
         </NotionDialogContent>
+        {concept.tags?.length && (
+          <TagWrapper>
+            <div className={'tags'}>
+              <span>{t('form.previewConcept.listLabel')}</span>
+              {concept.tags.map(tag => (
+                <span className={'tag'} key={`key-${tag}`}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </TagWrapper>
+        )}
+        {concept.subjectIds?.length && (
+          <NotionDialogTags
+            tags={subjects
+              .filter(subject => concept.subjectIds?.includes(subject.id))
+              .map(s => s.name)}
+          />
+        )}
         <NotionDialogLicenses
           license={concept.copyright?.license?.license}
           source={concept.source}
@@ -97,4 +154,4 @@ const PreviewConcept: FC<Props> = ({ concept }) => {
   );
 };
 
-export default PreviewConcept;
+export default injectT(PreviewConcept);

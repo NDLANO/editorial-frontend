@@ -9,7 +9,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, fonts, misc } from '@ndla/core';
-import {injectT, tType} from "@ndla/i18n";
+import { injectT, tType } from '@ndla/i18n';
 import {
   NotionDialogContent,
   NotionHeaderWithoutExitButton,

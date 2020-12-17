@@ -618,6 +618,7 @@ const phrases = {
       addText: 'Velg ei forklaring under og trykk "koble til fagtekst", eller',
       edit: 'Rediger forklaring',
       addConcept: 'Legg til eksisterande forklaring',
+      removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
     },
     workflow: {

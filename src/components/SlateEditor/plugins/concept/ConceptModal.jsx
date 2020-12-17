@@ -23,9 +23,6 @@ import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
-import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
-import { useTranslateConceptForm } from '../../../../containers/FormikForm/translateFormHooks';
-import ConceptContent from '../../../../containers/ConceptPage/components/ConceptForm';
 
 const type = 'concept';
 
@@ -63,13 +60,6 @@ const ConceptModal = ({
   });
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [searching, setSearching] = useState(false);
-
-  const { setConcept } = useFetchConceptData(id, 'nb');
-
-  const { translating, translateConcept } = useTranslateConceptForm(
-    concept,
-    setConcept,
-  );
 
   const updateSelectedTabIndex = index => {
     //Added function because of hooks second argument warning.

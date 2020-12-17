@@ -12,7 +12,7 @@ import Notion from '@ndla/notion';
 import PropTypes from 'prop-types';
 import { TYPE } from '.';
 import ConceptModal from './ConceptModal';
-import ConceptPreview from './ConceptPreview';
+import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 
 const getConceptDataAttributes = ({ id, title: { title } }) => ({
@@ -89,11 +89,10 @@ const EditSlateConcept = props => {
             id={conceptId}
             title={nodeText}
             content={
-              <ConceptPreview
+              <SlateConceptPreview
                 concept={concept}
                 handleRemove={handleRemove}
                 id={conceptId}
-                isOpen={editMode}
                 onClose={onClose}
                 locale={locale}
               />
@@ -105,7 +104,6 @@ const EditSlateConcept = props => {
           children
         )}
       </span>
-      {/* // TODO: fix seems to open twice, check isOpen in ConceptModal */}
       <ConceptModal
         id={conceptId}
         isOpen={!conceptId && editMode}

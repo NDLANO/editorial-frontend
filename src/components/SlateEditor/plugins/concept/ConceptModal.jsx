@@ -166,10 +166,7 @@ const ConceptModal = ({
                     ),
                   },
                   {
-                    // TODO: Remove this
-                    title: id
-                      ? t('form.concept.edit')
-                      : t('form.concept.create'),
+                    title: t('form.concept.create'),
                     content: (
                       <ConceptForm
                         inModal

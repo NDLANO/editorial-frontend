@@ -88,38 +88,36 @@ const EditSlateConcept = props => {
           <Notion
             id={conceptId}
             title={nodeText}
-            content={concept.content}
+            content={
+              <ConceptPreview
+                concept={concept}
+                handleRemove={handleRemove}
+                id={conceptId}
+                isOpen={editMode}
+                onClose={onClose}
+                locale={locale}
+              />
+            }
             ariaLabel={t('notions.edit')}>
-            {children} test
+            {children}
           </Notion>
         ) : (
           children
         )}
       </span>
-      {editMode && conceptId ? (
-        <ConceptPreview
-          concept={concept}
-          handleRemove={handleRemove}
-          id={conceptId}
-          isOpen={editMode}
-          onClose={onClose}
-          locale={locale}
-        />
-      ) : (
-        // TODO: fix seems to open twice, check isOpen in ConceptModal
-        <ConceptModal
-          id={conceptId}
-          isOpen={!conceptId && editMode}
-          onClose={onClose}
-          addConcept={addConcept}
-          locale={locale}
-          concept={concept}
-          subjects={subjects}
-          handleRemove={handleRemove}
-          selectedText={nodeText}
-          {...conceptHooks}
-        />
-      )}
+      {/* // TODO: fix seems to open twice, check isOpen in ConceptModal */}
+      <ConceptModal
+        id={conceptId}
+        isOpen={!conceptId && editMode}
+        onClose={onClose}
+        addConcept={addConcept}
+        locale={locale}
+        concept={concept}
+        subjects={subjects}
+        handleRemove={handleRemove}
+        selectedText={nodeText}
+        {...conceptHooks}
+      />
     </span>
   );
 };

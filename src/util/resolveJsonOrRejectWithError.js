@@ -24,6 +24,7 @@ export function resolveJsonOrRejectWithError(
       return resolve(res.json());
     }
 
+    // Needed when showing status for learningpaths without admin-access.
     if (res.status === 403 && options.ignore403) {
       return resolve({});
     }

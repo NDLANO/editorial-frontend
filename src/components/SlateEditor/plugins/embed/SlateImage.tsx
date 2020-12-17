@@ -55,7 +55,7 @@ const SlateImage: React.FC<Props & tType> = ({
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   const constructFigureClassName = () => {
-    const isFullWidth = embed.size === 'fullwidth' && embed.align === 'center';
+    const isFullWidth = embed.align === 'center';
     const size = ['small', 'xsmall'].includes(embed.size)
       ? `-${embed.size}`
       : '';

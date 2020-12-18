@@ -30,7 +30,7 @@ class AsyncDropDown extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
-    this.handlePage = this.handlePage.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   async componentDidMount() {

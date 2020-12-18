@@ -533,9 +533,6 @@ const phrases = {
     contributor: {
       add: 'Legg til',
     },
-    previewConcept: {
-      listLabel: 'Liste og filter:',
-    },
     abort: 'Avbryt',
     edit: 'Rediger',
     remove: 'Fjern',

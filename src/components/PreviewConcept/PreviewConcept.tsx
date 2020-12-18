@@ -128,7 +128,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
         {concept.tags?.length && (
           <TagWrapper>
             <div className={'tags'}>
-              <span>{t('form.previewConcept.listLabel')}</span>
+              <span>{t('form.categories.label')}:</span>
               {concept.tags.map(tag => (
                 <span className={'tag'} key={`key-${tag}`}>
                   {tag}

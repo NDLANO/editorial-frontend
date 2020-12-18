@@ -507,9 +507,6 @@ const phrases = {
     contributor: {
       add: 'Add',
     },
-    previewConcept: {
-      listLabel: 'List and filter:',
-    },
     detailBox: {
       changeTitle: 'Change title',
       placeholder: 'Short summary',

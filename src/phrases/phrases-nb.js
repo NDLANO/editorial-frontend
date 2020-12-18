@@ -525,9 +525,6 @@ const phrases = {
     contributor: {
       add: 'Legg til',
     },
-    previewConcept: {
-      listLabel: 'Liste og filter:',
-    },
     concept: {
       create: 'Opprett ny forklaring',
       addText: 'Velg en forklaring under og trykk "koble til fagtekst", eller',

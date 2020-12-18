@@ -9,4 +9,4 @@
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
 export const resolveTaxonomyJsonOrRejectWithError = res =>
-  resolveJsonOrRejectWithError(res, true);
+  resolveJsonOrRejectWithError(res, { taxonomy: true });

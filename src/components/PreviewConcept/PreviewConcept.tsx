@@ -127,10 +127,10 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
         </NotionDialogContent>
         {concept.tags?.length && (
           <TagWrapper>
-            <div className={'tags'}>
+            <div className='tags'>
               <span>{t('form.categories.label')}:</span>
               {concept.tags.map(tag => (
-                <span className={'tag'} key={`key-${tag}`}>
+                <span className='tag' key={`key-${tag}`}>
                   {tag}
                 </span>
               ))}

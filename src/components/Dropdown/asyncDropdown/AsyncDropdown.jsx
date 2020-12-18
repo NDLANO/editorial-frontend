@@ -46,7 +46,7 @@ class AsyncDropDown extends React.Component {
 
   async handleInputChange(evt) {
     const { value } = evt.target;
-    const { currentDebounce } = this.state;
+    const { currentDebounce, page } = this.state;
 
     if (currentDebounce) {
       currentDebounce.cancel();
@@ -54,6 +54,7 @@ class AsyncDropDown extends React.Component {
     const debounced = debounce(() => this.handleSearch(value), 400);
     debounced();
     this.setState({
+      page: page ? 1 : undefined,
       inputValue: value,
       currentDebounce: debounced,
     });

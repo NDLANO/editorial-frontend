@@ -172,7 +172,8 @@ class AsyncDropDown extends React.Component {
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         initialIsOpen={startOpen}
-        selectedItem={this.state.selectedItem}>
+        selectedItem={this.state.selectedItem}
+        isOpen={this.state.page && this.state.inputValue}>
         {({ getInputProps, openMenu, ...downshiftProps }) => {
           const inpProps = getInputProps({ ...inputProps });
           return (

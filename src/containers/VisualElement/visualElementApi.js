@@ -96,7 +96,7 @@ export const searchGoogleCustomSearch = (query, filter) => {
 };
 
 export const fetchBrightcoveVideo = videoId =>
-  fetchAuthorized(`${baseBrightCoveUrlV3}/${videoId}`).then(
+  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}`).then(
     resolveJsonOrRejectWithError,
   );
 

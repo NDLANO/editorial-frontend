@@ -178,7 +178,7 @@ const TopicArticleForm = props => {
         <HeaderWithLanguage
           values={values}
           content={article}
-          getArticle={getArticle}
+          getEntity={getArticle}
           editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
           formIsDirty={formIsDirty}
           getInitialValues={getInitialValues}

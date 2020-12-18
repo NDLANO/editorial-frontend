@@ -314,7 +314,7 @@ class ConceptForm extends Component {
               <HeaderWithLanguage
                 content={concept}
                 editUrl={lang => toEditConcept(values.id, lang)}
-                getConcept={() => this.getConcept(values)}
+                getEntity={() => this.getConcept(values)}
                 translateArticle={translateConcept}
                 type="concept"
                 setTranslateOnContinue={this.setTranslateOnContinue}
@@ -381,7 +381,7 @@ class ConceptForm extends Component {
                   values={values}
                   error={error}
                   errors={errors}
-                  getEntity={this.getConcept}
+                  getEntity={() => this.getConcept(values)}
                   entityStatus={concept.status}
                   createMessage={createMessage}
                   showSimpleFooter={!concept.id}
@@ -391,6 +391,7 @@ class ConceptForm extends Component {
                   }}
                   getStateStatuses={fetchStateStatuses}
                   hideSecondaryButton
+                  isConcept
                   isNewlyCreated={isNewlyCreated}
                 />
               )}

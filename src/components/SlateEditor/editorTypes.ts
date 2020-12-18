@@ -1,4 +1,5 @@
 import { Value } from 'slate';
+import { VisualElement } from '../../interfaces';
 
 export interface Values {
   id: number;
@@ -79,8 +80,13 @@ export interface Concept {
   articleType: string;
   copyright: {
     agreementId: number;
-    license: string;
-    creators: Array<string>;
+    license: {
+      license: string;
+    };
+    creators: {
+      type: string;
+      name: string;
+    }[];
     processors: Array<string>;
     rightsholders: Array<string>;
   };
@@ -92,6 +98,7 @@ export interface Concept {
   created: string;
   source: string;
   subjectIds: Array<string>;
+  visualElement: VisualElement;
 }
 
 export type PreviewTypes =

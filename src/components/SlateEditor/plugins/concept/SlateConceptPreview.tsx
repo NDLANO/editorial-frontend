@@ -28,8 +28,8 @@ const StyledFigureButtons = styled('div')`
   top: 0;
   z-index: 1;
   right: -${spacing.spacingUnit * 1.5}px;
-  background-color: white;
-  margin: ${spacing.small};
+  margin-right: 40px;
+  margin-top: ${spacing.xsmall};
 
   > * {
     margin-bottom: ${spacing.xsmall};

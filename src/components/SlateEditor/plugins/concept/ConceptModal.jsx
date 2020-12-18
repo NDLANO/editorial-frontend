@@ -74,9 +74,6 @@ const ConceptModal = ({
     if (licenses.length === 0) {
       getAllLicenses();
     }
-    if (id) {
-      setSelectedTabIndex(1);
-    }
   }, [id]);
 
   const searchConcept = async searchParam => {
@@ -177,11 +174,7 @@ const ConceptModal = ({
                         locale={locale}
                         fetchStateStatuses={fetchStatusStateMachine}
                         fetchConceptTags={fetchSearchTags}
-                        concept={
-                          id
-                            ? { ...concept, language: locale }
-                            : { title: selectedText, language: locale }
-                        }
+                        concept={{ title: selectedText, language: locale }}
                       />
                     ),
                   },

@@ -8,14 +8,16 @@
 
 import {setToken, visitOptions} from "../../support";
 
+before(() => {
+  setToken();
+  cy.visit('/subject-matter/learning-resource/new', visitOptions);
+  cy.get('[cy="slate-block-picker-menu"]').should('not.be.visible');
+});
+
 describe("can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them", () => {
 
-  beforeEach(() => {
-    setToken();
+  beforeEach(() => {  
     cy.server({ force404: true });
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
-
-    cy.get('[cy="slate-block-picker-menu"]').should('not.be.visible');
     cy.get('[data-slate-object=block] > p').first().click();
     cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');

@@ -37,7 +37,7 @@ describe('Search', () => {
       '/search-api/v1/search/editorial/?page=1&page-size=10&query=Test&sort=-relevance',
       'search',
     );
-    cy.get('input[name="query"]').type('Test');
+    cy.get('input[name="query"]').type('Test').blur();
     cy.apiwait('@search');
   });
 });

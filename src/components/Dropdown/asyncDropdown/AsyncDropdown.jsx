@@ -23,12 +23,14 @@ class AsyncDropDown extends React.Component {
       items: [],
       inputValue: '',
       selectedItem: null,
+      page: this.props.page,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.handlePage = this.handlePage.bind(this);
   }
 
   async componentDidMount() {
@@ -57,10 +59,12 @@ class AsyncDropDown extends React.Component {
     });
   }
 
-  async handleSearch(query = '') {
+  async handleSearch(query = '', page = this.state.page) {
     const { apiAction } = this.props;
     this.setState({ loading: true });
-    const apiOutput = await apiAction(query);
+    const apiOutput = await apiAction(
+      page ? { query: query, page: page } : query,
+    );
     const items =
       (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
     const totalCount = apiOutput?.totalCount || null;
@@ -76,6 +80,14 @@ class AsyncDropDown extends React.Component {
           }))
         : [],
       loading: false,
+    });
+  }
+
+  async handlePageChange(page) {
+    const { inputValue } = this.state;
+    await this.handleSearch(inputValue, page.page);
+    this.setState({
+      page: page.page,
     });
   }
 
@@ -189,6 +201,8 @@ class AsyncDropDown extends React.Component {
                 onCreate={onCreate && handleCreate}
                 customCreateButtonText={customCreateButtonText}
                 hideTotalSearchCount={hideTotalSearchCount}
+                page={this.state.page}
+                handlePageChange={this.handlePageChange}
               />
             </div>
           );
@@ -218,6 +232,7 @@ AsyncDropDown.propTypes = {
   clearInputField: PropTypes.bool,
   customCreateButtonText: PropTypes.string,
   hideTotalSearchCount: PropTypes.bool,
+  page: PropTypes.number,
 };
 
 AsyncDropDown.defaultPropTypes = {
@@ -226,6 +241,7 @@ AsyncDropDown.defaultPropTypes = {
   multiSelect: false,
   selectedItems: [],
   disableSelected: false,
+  page: undefined,
 };
 
 export default injectT(AsyncDropDown);

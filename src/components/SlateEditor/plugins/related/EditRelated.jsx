@@ -99,9 +99,10 @@ class EditRelated extends React.PureComponent {
     }));
   }
 
-  async searchForArticles(inp) {
+  async searchForArticles(query) {
     return await search({
-      query: inp,
+      query: query.query,
+      page: query.query !== "" ? query.page : undefined,
       'context-types': 'article',
     });
   }
@@ -157,6 +158,7 @@ class EditRelated extends React.PureComponent {
                   onClick={e => e.stopPropagation()}
                   onChange={selected => selected && onInsertBlock(selected.id)}
                   positionAbsolute
+                  page={1}
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>
                 <Button

@@ -7,14 +7,13 @@
  */
 
 import React, { Fragment, useState, useEffect } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
 import { FormikHelpers, FieldInputProps } from 'formik';
 import { AsyncDropdown } from '../index';
-import { TranslateType, SearchResult } from '../../../interfaces';
+import { SearchResult } from '../../../interfaces';
 
 interface Props {
-  t: TranslateType;
   language: string;
   initialTags: string[];
   field: FieldInputProps<string[]>;
@@ -24,7 +23,11 @@ interface Props {
 
 interface AsyncDropdownProps {
   selectedItems: TagWithTitle[];
+  value: string;
   removeItem: (tag: string) => void;
+  onBlur: (event: any) => void;
+  onChange: (event: any) => void;
+  onKeyDown: (event: any) => void;
 }
 
 interface TagWithTitle {
@@ -38,7 +41,7 @@ const AsyncSearchTags = ({
   field,
   form,
   fetchTags,
-}: Props) => {
+}: Props & tType) => {
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
@@ -95,7 +98,11 @@ const AsyncSearchTags = ({
         labelField={'title'}
         values={props.selectedItems}
         testid="multiselect"
+        value={props.value}
         removeItem={props.removeItem}
+        onBlur={props.onBlur}
+        onChange={props.onChange}
+        onKeyDown={onKeyDown}
       />
     );
   };

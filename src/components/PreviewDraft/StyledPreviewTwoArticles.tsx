@@ -4,6 +4,7 @@ const StyledPreviewTwoArticles = styled('div')`
   width: 48%;
   display: inline-block;
   text-align: left;
+  vertical-align: top;
 
   & .c-article {
     padding-top: 0;

@@ -4,21 +4,29 @@ export function createErrorPayload(status, messages, json) {
   throw Object.assign(new Error(''), { status, json, messages }); // TODO: should be fixed in future
 }
 
-export function resolveJsonOrRejectWithError(res, taxonomy = false) {
+export function resolveJsonOrRejectWithError(
+  res,
+  options = { taxonomy: false, ignore403: false },
+) {
   return new Promise((resolve, reject) => {
     if (res.ok) {
       if (res.status === 204) {
-        return taxonomy ? resolve(true) : resolve();
+        return options.taxonomy ? resolve(true) : resolve();
       }
       // Temporary until API changes to return representation
       const location = res.headers.get('Location');
-      if (res.status === 201 && (location || taxonomy)) {
-        if (!location && taxonomy) {
+      if (res.status === 201 && (location || options.taxonomy)) {
+        if (!location && options.taxonomy) {
           resolve();
         }
         return resolve(location);
       }
       return resolve(res.json());
+    }
+
+    // Needed when showing status for learningpaths without admin-access.
+    if (res.status === 403 && options.ignore403) {
+      return resolve({});
     }
 
     res

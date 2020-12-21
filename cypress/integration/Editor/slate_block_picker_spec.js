@@ -18,6 +18,7 @@ describe("can enter both element types SlateBlockPicker and SlateVisualElementPi
 
   beforeEach(() => {  
     cy.server({ force404: true });
+    cy.get('[data-slate-object=block] > p').clear();
     cy.get('[data-slate-object=block] > p').first().click();
     cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');

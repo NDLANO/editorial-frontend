@@ -58,6 +58,7 @@ const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
           updateLocalConcept={newConcept => {
             setLocalConcept(newConcept);
           }}
+          t={t}
         />
       ) : (
         <ContentView

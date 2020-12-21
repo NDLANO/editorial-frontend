@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // @ts-ignore
 import { RadioButtonGroup } from '@ndla/ui';
+import { tType } from '@ndla/i18n';
 import { Spinner } from '@ndla/editor';
 import { fetchLicenses } from '../../../../../modules/draft/draftApi';
 import {
@@ -19,13 +20,17 @@ interface Props {
   updateLocalConcept: (concept: Concept) => void;
 }
 
-const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
-  const languageOptions = [
-    { title: 'Bokmål', value: 'nb' },
-    { title: 'Nynorsk', value: 'nn' },
-    { title: 'Engelsk', value: 'en' },
-    { title: 'Sørsamisk', value: 'sma' },
-  ].filter(op => concept.supportedLanguages.includes(op.value));
+const FormView = ({
+  concept,
+  cancel,
+  subjects,
+  updateLocalConcept,
+  t,
+}: Props & tType) => {
+  const languageOptions = concept.supportedLanguages.map(lan => ({
+    title: t(`language.${lan}`),
+    value: lan,
+  }));
   const [language, setLanguage] = useState<string>(concept.title.language);
   const [licenses, setLicenses] = useState<License[] | undefined>();
   const [fullConcept, setFullConcept] = useState<Concept | undefined>();

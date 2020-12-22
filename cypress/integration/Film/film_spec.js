@@ -8,16 +8,20 @@
 
 import { visitOptions, setToken } from '../../support';
 
+before(() => {
+  setToken();
+  cy.server({ force404: true });
+  cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
+  cy.apiroute('GET', '**/search-api/v1/search/**', 'allMovies');
+  cy.visit('/film', visitOptions);
+  cy.apiwait('@filmFrontpage');
+  cy.apiwait('@allMovies');
+});
+
 describe('Film editing', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
-    cy.apiroute('GET', '**/search-api/v1/search/**', 'allMovies');
-    cy.visit('/film', visitOptions);
-    cy.apiwait('@filmFrontpage');
-    cy.apiwait('@allMovies');
-    cy.route('POST', '**/filmfrontpage/', {});
   });
 
   it('Can add a movie to the slideshow', () => {
@@ -33,16 +37,6 @@ describe('Film editing', () => {
   });
 
   it('Can remove movie from slideshow', () => {
-    cy.get(`input[placeholder="Legg til film i slideshow"]`)
-      .click()
-      .type('Page One')
-      .parent()
-      .parent()
-      .parent()
-      .parent()
-      .contains('Page One')
-      .click();
-
     cy.get('ul > li > div')
       .contains('Page One')
       .parent()

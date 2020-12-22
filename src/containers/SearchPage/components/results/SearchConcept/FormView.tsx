@@ -73,7 +73,7 @@ const FormView = ({
 
   return (
     <StyledConceptView border>
-      <h2>Hurtigredigering</h2>
+      <h2>{t('form.inlineEdit')}</h2>
       <RadioButtonGroup
         options={languageOptions}
         selected={language}

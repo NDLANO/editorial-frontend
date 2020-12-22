@@ -49,7 +49,7 @@ const ContentView = ({
               margin-left: 5px;
             `}
             onClick={setShowForm}>
-            Edit
+            {t('form.edit')}
           </Button>
         )}
       </h2>

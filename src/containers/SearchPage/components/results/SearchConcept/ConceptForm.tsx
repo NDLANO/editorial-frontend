@@ -73,7 +73,7 @@ const ConceptForm = ({
     <form>
       <InputPair>
         <InputField>
-          <label htmlFor="title">Tittel</label>
+          <label htmlFor="title">{t('form.name.title')}</label>
           <input
             id="title"
             name="title"
@@ -84,7 +84,7 @@ const ConceptForm = ({
           />
         </InputField>
         <InputField>
-          <label htmlFor="author">Forfatter</label>
+          <label htmlFor="author">{t('license.creditType.writer')}</label>
           <input
             id="author"
             name="author"
@@ -97,7 +97,7 @@ const ConceptForm = ({
       </InputPair>
 
       <InputField>
-        <label htmlFor="license">Lisens</label>
+        <label htmlFor="license">{t('form.name.license')}</label>
         <Select
           value={values.license}
           onChange={(v: any) => {
@@ -116,7 +116,7 @@ const ConceptForm = ({
         </Select>
       </InputField>
       <InputField>
-        <label htmlFor="subjects">Fag</label>
+        <label htmlFor="subjects">{t('searchForm.tagType.subjects')}</label>
         <MultiSelectDropdown
           id="subjects"
           name="subjects"
@@ -127,7 +127,7 @@ const ConceptForm = ({
         />
       </InputField>
       <InputField>
-        <label htmlFor="tags">Liste og filter</label>
+        <label htmlFor="tags">{t('form.categories.label')}</label>
         <AsyncSearchTags
           language={language}
           value={values.tags}

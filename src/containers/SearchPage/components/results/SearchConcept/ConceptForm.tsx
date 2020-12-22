@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -139,7 +139,7 @@ const ConceptForm = ({
       </InputField>
       <div className="buttons">
         <Button className="form-button secondary" onClick={cancel}>
-          Avbryt
+          {t('editorFooter.cancelLabel')}
         </Button>
         <MultiButton
           disabled={!hasChanges}

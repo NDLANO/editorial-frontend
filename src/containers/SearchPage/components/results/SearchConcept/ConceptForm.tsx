@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { useFormik } from 'formik';
 import { Select } from '@ndla/forms';
-import Button from '@ndla/button';
+import Button, { MultiButton } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
@@ -29,10 +29,12 @@ export interface ConceptFormType {
   license?: string;
   subjects: SubjectType[];
   tags: string[];
+  newStatus?: string;
 }
 
 interface Props {
   initialValues: ConceptFormType;
+  status: string;
   language: string;
   onSubmit: (c: ConceptFormType) => void;
   licenses: License[];
@@ -42,6 +44,7 @@ interface Props {
 
 const ConceptForm = ({
   initialValues,
+  status,
   language,
   onSubmit,
   licenses,
@@ -57,6 +60,8 @@ const ConceptForm = ({
   useEffect(() => {
     setValues({ ...values, title: initialValues.title });
   }, [initialValues.title]);
+  const hidePublishButton =
+    status !== 'PUBLISHED' && status !== 'QUALITY_ASSURED';
 
   return (
     <form>
@@ -127,11 +132,37 @@ const ConceptForm = ({
         />
       </InputField>
       <div className="buttons">
-        <Button className="secondary" onClick={cancel}>
+        <Button className="form-button secondary" onClick={cancel}>
           Avbryt
         </Button>
-        <Button onClick={() => onSubmit(values)}>Lagre</Button>
-        <Button>Publiser</Button>
+        <MultiButton
+          className="form-button"
+          onClick={(value: string) => {
+            const getStatus = (v: string, s: string) => {
+              if (v === 'saveAndPublish') {
+                return 'PUBLISHED';
+              } else if (s === 'PUBLISHED') {
+                return 'QUALITY_ASSURED';
+              } else {
+                return undefined;
+              }
+            };
+            const newStatus = getStatus(value, status);
+            onSubmit({ ...values, newStatus });
+          }}
+          mainButton={{ value: 'save' }}
+          secondaryButtons={
+            hidePublishButton
+              ? []
+              : [
+                  {
+                    label: t('form.saveAndPublish'),
+                    value: 'saveAndPublish',
+                  },
+                ]
+          }>
+          <span>{t(`form.save`)}</span>
+        </MultiButton>
       </div>
     </form>
   );

@@ -473,6 +473,7 @@ const phrases = {
     copyrightSection: 'License and authors',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',
+    saveAndPublish: 'Save and publish',
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',

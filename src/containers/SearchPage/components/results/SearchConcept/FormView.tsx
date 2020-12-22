@@ -15,6 +15,7 @@ import { fetchLicenses } from '../../../../../modules/draft/draftApi';
 import {
   fetchConcept,
   updateConcept,
+  updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { ConceptFormType, License } from './ConceptForm';
@@ -86,8 +87,9 @@ const FormView = ({
       {fullConcept && licenses && formValues ? (
         <ConceptForm
           initialValues={formValues}
+          status={fullConcept.status.current}
           language={language}
-          onSubmit={(c: ConceptFormType) => {
+          onSubmit={(formConcept: ConceptFormType) => {
             const getCreators = (
               creators: { type: string; name: string }[],
               newAuthor: string,
@@ -110,7 +112,7 @@ const FormView = ({
             };
             const creators = getCreators(
               fullConcept.copyright.creators,
-              c.author,
+              formConcept.author,
             );
 
             const newConcept = {
@@ -120,16 +122,19 @@ const FormView = ({
               revision: fullConcept.revision,
               source: fullConcept.source,
               language: language,
-              subjectIds: c.subjects.map(s => s.id),
-              tags: c.tags,
-              title: c.title,
+              subjectIds: formConcept.subjects.map(s => s.id),
+              tags: formConcept.tags,
+              title: formConcept.title,
               copyright: {
                 ...fullConcept.copyright,
                 creators,
-                license: licenses.find(l => l.license === c.license),
+                license: licenses.find(l => l.license === formConcept.license),
               },
             };
             updateConcept(newConcept).then((updatedConcept: Concept) => {
+              if (formConcept.newStatus) {
+                updateConceptStatus(updatedConcept.id, formConcept.newStatus);
+              }
               updateLocalConcept(updatedConcept);
               cancel();
             });

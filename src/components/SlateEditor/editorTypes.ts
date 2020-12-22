@@ -75,6 +75,7 @@ export interface Concept {
     id: number;
     alt: string;
   };
+  status: { current: string };
   metaDescription: string;
   articleType: string;
   copyright: {

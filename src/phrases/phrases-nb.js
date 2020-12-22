@@ -487,6 +487,7 @@ const phrases = {
     copyrightSection: 'Lisens og bruker',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',
+    saveAndPublish: 'Lagre og publiser',
     saveDraft: 'Lagre utkast',
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',

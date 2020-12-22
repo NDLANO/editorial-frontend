@@ -48,10 +48,8 @@ export const StyledConceptView = styled.div`
   .buttons {
     margin-top: 10px;
 
-    button {
-      margin-left: 5px;
-      float: right;
-
+    .form-button {
+      margin-right: 5px;
       &.secondary {
         &:not(:hover) {
           background-color: transparent;

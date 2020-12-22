@@ -35,6 +35,7 @@ class PreviewDraft extends Component<Props & tType, {}> {
 
     const markdown = new Remarkable({ breaks: true });
     markdown.inline.ruler.enable(['sub', 'sup']);
+    markdown.block.ruler.disable(['list']);
 
     const renderMarkdown = (text: string) => {
       return markdown.render(text);

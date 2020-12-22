@@ -124,25 +124,21 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
             />
           </NotionDialogText>
         </NotionDialogContent>
-        {concept.tags?.length && (
-          <TagWrapper>
-            <div className="tags">
-              <span>{t('form.categories.label')}:</span>
-              {concept.tags.map(tag => (
-                <span className="tag" key={`key-${tag}`}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </TagWrapper>
-        )}
-        {concept.subjectIds?.length && (
-          <NotionDialogTags
-            tags={subjects
-              .filter(subject => concept.subjectIds?.includes(subject.id))
-              .map(s => s.name)}
-          />
-        )}
+        <TagWrapper>
+          <div className="tags">
+            <span>{t('form.categories.label')}:</span>
+            {concept.tags.map(tag => (
+              <span className="tag" key={`key-${tag}`}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        </TagWrapper>
+        <NotionDialogTags
+          tags={subjects
+            .filter(subject => concept.subjectIds?.includes(subject.id))
+            .map(s => s.name)}
+        />
         <NotionDialogLicenses
           license={concept.copyright?.license?.license}
           source={concept.source}

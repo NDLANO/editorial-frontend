@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect } from 'react';
+import isEqual from 'lodash/fp/isEqual';
 import { injectT, tType } from '@ndla/i18n';
 import { useFormik } from 'formik';
 import { Select } from '@ndla/forms';
@@ -62,6 +63,7 @@ const ConceptForm = ({
   }, [initialValues.title]);
   const hidePublishButton =
     status !== 'PUBLISHED' && status !== 'QUALITY_ASSURED';
+  const hasChanges = !isEqual(initialValues, values);
 
   return (
     <form>
@@ -136,6 +138,7 @@ const ConceptForm = ({
           Avbryt
         </Button>
         <MultiButton
+          disabled={!hasChanges}
           className="form-button"
           onClick={(value: string) => {
             const getStatus = (v: string, s: string) => {

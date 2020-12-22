@@ -6,12 +6,14 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import isEqual from 'lodash/fp/isEqual';
 import { injectT, tType } from '@ndla/i18n';
 import { useFormik } from 'formik';
 import { Select } from '@ndla/forms';
 import Button, { MultiButton } from '@ndla/button';
+import { DRAFT_PUBLISH_SCOPE } from '../../../../../constants';
+import { UserAccessContext } from '../../../../App/App';
 import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
@@ -61,8 +63,10 @@ const ConceptForm = ({
   useEffect(() => {
     setValues({ ...values, title: initialValues.title });
   }, [initialValues.title]);
+  const userAccess = useContext<string>(UserAccessContext);
+  const canPublish = userAccess.includes(DRAFT_PUBLISH_SCOPE);
   const hidePublishButton =
-    status !== 'PUBLISHED' && status !== 'QUALITY_ASSURED';
+    !canPublish || (status !== 'PUBLISHED' && status !== 'QUALITY_ASSURED');
   const hasChanges = !isEqual(initialValues, values);
 
   return (

@@ -196,6 +196,7 @@ class PreviewDraftLightbox extends React.Component {
       <Button
         css={closeButtonStyle(typeOfPreview)}
         stripped
+        data-testid="closePreview"
         onClick={this.onClosePreview}>
         <StyledCross />
       </Button>

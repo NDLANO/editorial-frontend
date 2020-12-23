@@ -104,7 +104,7 @@ const HeaderInformation = ({
   t,
   formIsDirty,
   createMessage,
-  getArticle,
+  getEntity,
   history,
   taxonomyPaths,
 }) => {
@@ -118,7 +118,7 @@ const HeaderInformation = ({
         });
       } else {
         setLoading(true);
-        const article = getArticle();
+        const article = getEntity();
         const newArticle = await draftApi.cloneDraft(
           article.id,
           article.language,
@@ -177,7 +177,7 @@ HeaderInformation.propTypes = {
   published: PropTypes.bool,
   type: PropTypes.string.isRequired,
   editUrl: PropTypes.func,
-  getArticle: PropTypes.func,
+  getEntity: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   title: PropTypes.string,
   history: PropTypes.shape({ push: PropTypes.func }),

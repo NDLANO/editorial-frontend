@@ -13,7 +13,6 @@ import FormikField from '../../../components/FormikField';
 import { FormikMetaImageSearch } from '../../FormikForm';
 import { SubjectShape, ConceptShape } from '../../../shapes';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
-import ConceptMetaDataArticle from './ConceptMetaDataArticle';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
 const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
@@ -50,15 +49,6 @@ const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
           field={field}
           form={form}
           fetchTags={fetchTags}
-        />
-      )}
-    </FormikField>
-    <FormikField name="articleId">
-      {({ field }) => (
-        <ConceptMetaDataArticle
-          locale={locale}
-          field={field}
-          articleId={concept.articleId}
         />
       )}
     </FormikField>

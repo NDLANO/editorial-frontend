@@ -465,6 +465,7 @@ const phrases = {
     },
   },
   form: {
+    articleSection: 'Artikler',
     metadataSection: 'Metadata',
     contentSection: 'Innhold',
     workflowSection: 'Versjonslogg og merknader',

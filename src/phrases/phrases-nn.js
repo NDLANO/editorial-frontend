@@ -470,6 +470,7 @@ const phrases = {
     placeholder: 'Kort sammendrag',
   },
   form: {
+    articleSection: 'Artikler',
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
     workflowSection: 'Versjonslogg og merknader',

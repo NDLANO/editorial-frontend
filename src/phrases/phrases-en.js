@@ -320,6 +320,8 @@ const phrases = {
   conceptpageForm: {
     articlesTitle: 'Related Articles',
     articlesSubtitle: 'Articles',
+    changeOrder: 'Change order',
+    removeArticle: 'Remove article',
   },
   subjectpageForm: {
     title: 'Subject',

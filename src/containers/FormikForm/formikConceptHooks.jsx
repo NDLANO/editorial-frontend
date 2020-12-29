@@ -8,7 +8,6 @@
 
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
-import * as taxonomyApi from '../../modules/taxonomy';
 import {
   fetchSearchTags,
   fetchStatusStateMachine,
@@ -22,24 +21,28 @@ import handleError from '../../util/handleError';
 
 export function useFetchConceptData(conceptId, locale) {
   const [concept, setConcept] = useState(undefined);
-  const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchConcept();
   }, [conceptId, locale]);
 
-  useEffect(() => {
-    fetchSubjects();
-  }, []);
-
   const fetchConcept = async () => {
     try {
       if (conceptId) {
         setLoading(true);
         const concept = await conceptApi.fetchConcept(conceptId, locale);
-        const articleIds = await fetchElementList(concept.articleIds);
-        setConcept(transformConceptFromApiVersion(concept, locale, articleIds));
+        const articleIds = concept.articleIds;
+
+        let convertedArticles = undefined;
+        if (articleIds) {
+          convertedArticles = await fetchElementList(concept.articleIds);
+        } else {
+          convertedArticles = [];
+        }
+        setConcept(
+          transformConceptFromApiVersion(concept, locale, convertedArticles),
+        );
         setLoading(false);
       }
     } catch (e) {
@@ -53,11 +56,6 @@ export function useFetchConceptData(conceptId, locale) {
         return fetchDraft(elementId);
       }),
     );
-  };
-
-  const fetchSubjects = async () => {
-    const fetchedSubjects = await taxonomyApi.fetchSubjects();
-    setSubjects(fetchedSubjects);
   };
 
   const updateConcept = async updatedConcept => {
@@ -105,7 +103,6 @@ export function useFetchConceptData(conceptId, locale) {
     fetchStatusStateMachine,
     loading,
     setConcept,
-    subjects,
     updateConcept,
     updateConceptAndStatus,
   };

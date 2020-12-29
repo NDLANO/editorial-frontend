@@ -321,6 +321,8 @@ const phrases = {
   conceptpageForm: {
     articlesTitle: 'Relaterte artikler',
     articlesSubtitle: 'Artikler',
+    changeOrder: 'Endre rekkefølge',
+    removeArticle: 'Fjern artikkel',
   },
   subjectpageForm: {
     title: 'Fag',

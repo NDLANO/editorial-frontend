@@ -84,12 +84,13 @@ const ConceptArticles: FC<Props & tType> = ({
         elements={articles}
         data-cy="article-ids-list"
         messages={{
-          dragElement: t('form.file.changeOrder'),
-          removeElement: t('form.file.removeArticle'),
+          dragElement: t('conceptpageForm.changeOrder'),
+          removeElement: t('conceptpageForm.removeArticle'),
         }}
         onUpdateElements={onUpdateElements}
       />
       <AsyncDropdown
+        selectedElements={articles}
         idField="id"
         name="relatedArticleSearch"
         labelField="title"

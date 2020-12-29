@@ -18,7 +18,6 @@ import {
 } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 interface Props {
   locale: String;
@@ -37,7 +36,6 @@ const ConceptArticles: FC<Props & tType> = ({
   form,
 }) => {
   const [articles, setArticles] = useState<ArticleType[]>(articleIds);
-
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
       let newArticle = await fetchDraft(article.id);
@@ -84,7 +82,7 @@ const ConceptArticles: FC<Props & tType> = ({
       />
       <ElementList
         elements={articles}
-        data-cy="editors-choices-article-list"
+        data-cy="article-ids-list"
         messages={{
           dragElement: t('form.file.changeOrder'),
           removeElement: t('subjectpageForm.removeArticle'),

@@ -29,7 +29,6 @@ export function useSubjectpageFormHooks(
   const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
     formik.setSubmitting(true);
     const newSubjectpage = getSubjectpageFromSlate(formik.values);
-
     try {
       await updateSubjectpage(newSubjectpage);
 

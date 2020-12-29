@@ -50,6 +50,7 @@ import ConceptArticles from './ConceptArticles';
 const getInitialValues = (concept = {}, subjects = []) => {
   const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
+
   return {
     id: concept.id,
     title: concept.title || '',
@@ -290,11 +291,11 @@ class ConceptForm extends Component {
         title: t('form.articles'),
         className: 'u-6/6',
         hasError: ['articleIds'].some(field => !!errors[field]),
-        component: ({ values }) => (
+        component: props => (
           <FormikField name={'articleIds'}>
             {({ field, form }) => (
               <ConceptArticles
-                articleIds={values.articleIds}
+                articleIds={props.values.articleIds}
                 field={field}
                 form={form}
               />

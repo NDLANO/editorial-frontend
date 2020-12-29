@@ -317,6 +317,10 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
+  conceptpageForm: {
+    articlesTitle: 'Related Articles',
+    articlesSubtitle: 'Articles',
+  },
   subjectpageForm: {
     title: 'Subject',
     about: 'About subject',

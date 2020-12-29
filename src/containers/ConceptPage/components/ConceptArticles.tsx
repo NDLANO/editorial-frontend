@@ -77,15 +77,15 @@ const ConceptArticles: FC<Props & tType> = ({
   return (
     <>
       <FieldHeader
-        title={t('subjectpageForm.editorsChoices')}
-        subTitle={t('subjectpageForm.articles')}
+        title={t('conceptpageForm.articlesTitle')}
+        subTitle={t('conceptpageForm.articlesSubtitle')}
       />
       <ElementList
         elements={articles}
         data-cy="article-ids-list"
         messages={{
           dragElement: t('form.file.changeOrder'),
-          removeElement: t('subjectpageForm.removeArticle'),
+          removeElement: t('form.file.removeArticle'),
         }}
         onUpdateElements={onUpdateElements}
       />
@@ -93,7 +93,7 @@ const ConceptArticles: FC<Props & tType> = ({
         idField="id"
         name="relatedArticleSearch"
         labelField="title"
-        placeholder={t('subjectpageForm.addArticle')}
+        placeholder={t('form.content.relatedArticle.placeholder')}
         label="label"
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}

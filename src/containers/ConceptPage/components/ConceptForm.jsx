@@ -288,7 +288,7 @@ class ConceptForm extends Component {
       },
       {
         id: 'concept-articles',
-        title: t('form.articles'),
+        title: t('form.articleSection'),
         className: 'u-6/6',
         hasError: ['articleIds'].some(field => !!errors[field]),
         component: props => (

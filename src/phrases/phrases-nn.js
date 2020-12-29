@@ -319,6 +319,10 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjerna ved lagring.',
   },
+  conceptpageForm: {
+    articlesTitle: 'Relaterte artiklar',
+    articlesSubtitle: 'Artiklar',
+  },
   subjectpageForm: {
     title: 'Fag',
     about: 'Om faget',
@@ -470,7 +474,7 @@ const phrases = {
     placeholder: 'Kort sammendrag',
   },
   form: {
-    articleSection: 'Artikler',
+    articleSection: 'Artiklar',
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
     workflowSection: 'Versjonslogg og merknader',

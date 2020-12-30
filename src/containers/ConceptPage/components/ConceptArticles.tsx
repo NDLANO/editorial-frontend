@@ -82,7 +82,6 @@ const ConceptArticles: FC<Props & tType> = ({
       />
       <ElementList
         elements={articles}
-        data-cy="article-ids-list"
         messages={{
           dragElement: t('conceptpageForm.changeOrder'),
           removeElement: t('conceptpageForm.removeArticle'),

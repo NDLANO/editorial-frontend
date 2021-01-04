@@ -23,7 +23,7 @@ import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import { Concept as ConceptType } from '../../editorTypes';
 import IconButton from '../../../IconButton';
 
-const StyledFigureButtons = styled('div')`
+const StyledFigureButtons = styled('span')`
   position: absolute;
   top: 0;
   z-index: 1;

@@ -72,7 +72,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     metaImageId,
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
-    articleIds: concept.articleIds || [],
+    articleIds: concept.articleIds,
     status: concept.status || {},
     visualElement: visualElement || {},
   };

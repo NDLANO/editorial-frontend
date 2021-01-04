@@ -32,14 +32,8 @@ export function useFetchConceptData(conceptId, locale) {
       if (conceptId) {
         setLoading(true);
         const concept = await conceptApi.fetchConcept(conceptId, locale);
-        const articleIds = concept.articleIds;
 
-        let convertedArticles = undefined;
-        if (articleIds) {
-          convertedArticles = await fetchElementList(concept.articleIds);
-        } else {
-          convertedArticles = [];
-        }
+        const convertedArticles = await fetchElementList(concept.articleIds);
         setConcept(
           transformConceptFromApiVersion(concept, locale, convertedArticles),
         );

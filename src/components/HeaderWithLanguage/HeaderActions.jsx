@@ -54,7 +54,6 @@ const HeaderActions = ({
     type === 'concept' ? (
       supportedLanguages.length > 1 && (
         <PreviewConceptLightbox
-          label={t(`articleType.concept`)}
           typeOfPreview="previewLanguageArticle"
           getConcept={getEntity}
         />

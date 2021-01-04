@@ -8,9 +8,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
+import Plain from 'slate-plain-serializer';
+import { injectT } from '@ndla/i18n';
 
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
@@ -41,7 +42,7 @@ const FormikIngress = ({
       {({ field }) =>
         preview ? (
           <p className="article_introduction">
-            {parse(renderMarkdown(field.value.document.text))}
+            {parse(renderMarkdown(Plain.serialize(field.value)))}
           </p>
         ) : (
           <PlainTextEditor

@@ -139,6 +139,7 @@ class Lightbox extends React.PureComponent {
             <Button
               css={closeLightboxButtonStyle}
               stripped
+              data-testid="closeAlert"
               onClick={this.onCloseButtonClick}>
               <StyledCross severity={severity} />
             </Button>

@@ -37,7 +37,7 @@ function addSubject(body) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function addSubjectTopic(body) {
@@ -45,7 +45,7 @@ function addSubjectTopic(body) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function updateSubjectName(id, name) {
@@ -53,7 +53,7 @@ function updateSubjectName(id, name) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ name }),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function updateSubjectTopic(connectionId, body) {
@@ -61,7 +61,7 @@ function updateSubjectTopic(connectionId, body) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function updateSubject(id, name, contentUri) {
@@ -69,7 +69,7 @@ function updateSubject(id, name, contentUri) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ name, contentUri }),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function fetchSubjectFilters(id) {
@@ -83,7 +83,7 @@ function updateSubjectMetadata(subjectId, body) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function updateSubjectMetadataRecursive(subjectId, body) {
@@ -94,7 +94,7 @@ function updateSubjectMetadataRecursive(subjectId, body) {
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify(body),
     },
-  ).then(res => resolveJsonOrRejectWithError(res, true));
+  ).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 export {

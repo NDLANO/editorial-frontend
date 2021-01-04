@@ -41,7 +41,7 @@ const StyledImageEditorEditMode = styled('div')`
 
 const alignments = ['left', 'center', 'right'];
 
-const sizes = ['xsmall', 'small', 'medium', 'fullwidth'];
+const sizes = ['xsmall', 'small', 'medium'];
 
 const defaultData = {
   focalPoint: {

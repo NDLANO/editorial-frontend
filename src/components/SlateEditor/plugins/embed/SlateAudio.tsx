@@ -65,7 +65,7 @@ const SlateAudio: React.FC<Props & tType> = ({
 
   useEffect(() => {
     getAudio();
-  }, []);
+  }, [embed.resource_id]);
 
   const onAudioFigureInputChange = (e: FormikInputEvent) => {
     const { value, name } = e.target;

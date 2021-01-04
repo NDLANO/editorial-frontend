@@ -29,6 +29,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - ${NAVIGATION_HEADER_MARGIN});
+  overflow: auto;
 `;
 
 export const classes = new BEMHelper({

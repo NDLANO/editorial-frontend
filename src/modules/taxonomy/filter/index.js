@@ -100,7 +100,7 @@ export function updateSubjectFilter(id, name, contentUri, subjectId) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ name, contentUri, subjectId }),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 export function deleteFilter(id) {
@@ -114,5 +114,5 @@ export function updateFilterMetadata(id, body) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }

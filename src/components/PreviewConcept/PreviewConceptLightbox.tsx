@@ -6,27 +6,28 @@
  *
  */
 
-import { injectT, tType } from '@ndla/i18n';
 import React, { FC, useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
+import { injectT, tType } from '@ndla/i18n';
+import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
-import { TranslateType } from '../../interfaces';
-import { Concept } from '../SlateEditor/editorTypes';
-import { Portal } from '../Portal';
+import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import PreviewConcept from './PreviewConcept';
-import { transformConceptFromApiVersion } from '../../util/conceptUtil';
-import StyledFilledButton from '../StyledFilledButton';
-import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import { fetchImage } from '../../modules/image/imageApi';
+import { Portal } from '../Portal';
+import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
+import { Concept } from '../SlateEditor/editorTypes';
+import StyledFilledButton from '../StyledFilledButton';
+import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
-import config from '../../config';
+import { getYoutubeEmbedUrl } from '../../util/videoUtil';
+import PreviewConcept from './PreviewConcept';
 
 interface Props {
-  t: TranslateType;
   getConcept: Function;
+  typeOfPreview: string;
 }
 
 const lightboxContentStyle = css`
@@ -44,7 +45,11 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
+const PreviewConceptLightbox: FC<Props & tType> = ({
+  t,
+  getConcept,
+  typeOfPreview,
+}) => {
   const [firstConcept, setFirstConcept] = useState<Concept | undefined>(
     undefined,
   );
@@ -130,6 +135,13 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
   };
 
   if (!showPreview || !firstConcept || !secondConcept) {
+    if (typeOfPreview === 'preview') {
+      return (
+        <FooterLinkButton bold onClick={openPreview}>
+          {t('form.preview.button')}
+        </FooterLinkButton>
+      );
+    }
     return (
       <StyledFilledButton type="button" onClick={openPreview}>
         <FileCompare />
@@ -151,12 +163,16 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept }) => {
         onClose={onClosePreview}
         closeButton={closeButton}
         contentCss={lightboxContentStyle}>
-        <PreviewConcept
-          firstConcept={firstConcept}
-          secondConcept={secondConcept}
+        <PreviewLightboxContent
+          firstEntity={firstConcept}
+          secondEntity={secondConcept}
           onChangePreviewLanguage={onChangePreviewLanguage}
           previewLanguage={previewLanguage}
-          t={t}
+          typeOfPreview={typeOfPreview}
+          contentType={'concept'}
+          getEntityPreview={(concept: Concept) => (
+            <PreviewConcept concept={concept} />
+          )}
         />
       </Lightbox>
     </Portal>

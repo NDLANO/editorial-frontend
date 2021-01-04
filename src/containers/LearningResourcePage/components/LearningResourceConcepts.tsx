@@ -100,7 +100,7 @@ const LearningResourceConcepts: FC<Props & tType> = ({
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(concept: ContentResultType) => onAddConceptToList(concept)}
-        multipleSelect
+        multiSelect
         clearInputField
       />
     </>

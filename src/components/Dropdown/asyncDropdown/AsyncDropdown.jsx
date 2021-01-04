@@ -24,6 +24,7 @@ class AsyncDropDown extends React.Component {
       inputValue: '',
       selectedItem: null,
       page: this.props.page,
+      keepOpen: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -81,6 +82,7 @@ class AsyncDropDown extends React.Component {
           }))
         : [],
       loading: false,
+      keepOpen: this.state.keepOpen || query,
     });
   }
 
@@ -155,6 +157,9 @@ class AsyncDropDown extends React.Component {
               event.preventDefault();
               handleCreate();
             }
+            if (event.key === 'ArrowDown') {
+              this.setState({ keepOpen: true });
+            }
           },
     };
 
@@ -173,7 +178,7 @@ class AsyncDropDown extends React.Component {
         onChange={this.handleChange}
         initialIsOpen={startOpen}
         selectedItem={this.state.selectedItem}
-        isOpen={this.state.page && this.state.inputValue}>
+        isOpen={this.state.page && this.state.keepOpen}>
         {({ getInputProps, openMenu, ...downshiftProps }) => {
           const inpProps = getInputProps({ ...inputProps });
           return (

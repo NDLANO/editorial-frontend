@@ -61,3 +61,9 @@ export const updateConceptStatus = (id, status) =>
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
+
+export const searchConcepts = query =>
+  fetchAuthorized(`${draftConceptUrl}/search/`, {
+    method: 'POST',
+    body: JSON.stringify(query),
+  }).then(resolveJsonOrRejectWithError);

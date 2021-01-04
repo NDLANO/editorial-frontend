@@ -15,7 +15,7 @@ export const isDraftPublished = (status = {}) =>
   (status.other && status.other.includes(articleStatuses.PUBLISHED)) ||
   status.current === articleStatuses.PUBLISHED;
 
-export const transformArticleToApiVersion = article => ({
+export const transformArticleToApiVersion = (article, conceptIds) => ({
   ...article,
   title: { title: article.title, language: article.language },
   introduction: { introduction: article.introduction },
@@ -30,9 +30,14 @@ export const transformArticleToApiVersion = article => ({
   metaDescription: {
     metaDescription: article.metaDescription,
   },
+  conceptIds: conceptIds,
 });
 
-export const transformArticleFromApiVersion = (article, locale) => ({
+export const transformArticleFromApiVersion = (
+  article,
+  locale,
+  conceptIds,
+) => ({
   ...article,
   title: convertFieldWithFallback(article, 'title', ''),
   introduction: convertFieldWithFallback(article, 'introduction', ''),
@@ -44,6 +49,7 @@ export const transformArticleFromApiVersion = (article, locale) => ({
       : undefined,
   metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
   tags: convertFieldWithFallback(article, 'tags', []),
+  conceptIds: conceptIds,
   ...(locale ? { language: locale } : {}),
 });
 

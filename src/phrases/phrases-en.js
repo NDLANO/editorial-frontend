@@ -388,6 +388,10 @@ const phrases = {
     title: 'Image',
   },
   learningResourceForm: {
+    articlesTitle: 'Related Concepts',
+    articlesSubtitle: 'Concepts',
+    changeOrder: 'Change order',
+    removeArticle: 'Remove concept',
     metaImage: {
       title: 'Image title',
       copyright: 'Copyright',
@@ -493,6 +497,7 @@ const phrases = {
       grepCodes: 'Curriculum connection',
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
+      concepts: 'Concepts',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',

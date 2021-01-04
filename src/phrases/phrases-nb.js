@@ -405,6 +405,10 @@ const phrases = {
     title: 'Bilde',
   },
   learningResourceForm: {
+    articlesTitle: 'Relaterte forklaringer',
+    articlesSubtitle: 'Forklaringer',
+    changeOrder: 'Endre rekkefølge',
+    removeArticle: 'Fjern forklaring',
     metaImage: {
       title: 'Bildetittel',
       copyright: 'Opphav',
@@ -511,6 +515,7 @@ const phrases = {
       grepCodes: 'Læreplankobling',
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
+      concepts: 'Forklaringer',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',

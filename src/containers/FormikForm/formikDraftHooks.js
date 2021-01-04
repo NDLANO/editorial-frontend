@@ -8,7 +8,11 @@
 
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
-import { transformArticleFromApiVersion } from '../../util/articleUtil';
+import { fetchConcept } from '../../modules/concept/conceptApi';
+import {
+  transformArticleFromApiVersion,
+  transformArticleToApiVersion,
+} from '../../util/articleUtil';
 import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
 export function useFetchArticleData(articleId, locale) {
@@ -32,24 +36,42 @@ export function useFetchArticleData(articleId, locale) {
     if (articleId) {
       setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
+
+      const convertedConcepts = await fetchElementList(article.conceptIds);
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
-        transformArticleFromApiVersion({ taxonomy, ...article }, locale),
+        transformArticleFromApiVersion(
+          { taxonomy, ...article },
+          locale,
+          convertedConcepts,
+        ),
       );
       setLoading(false);
     }
   };
 
   const updateArticle = async updatedArticle => {
-    const savedArticle = await draftApi.updateDraft(updatedArticle);
+    const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
+    const savedArticle = await draftApi.updateDraft(
+      transformArticleToApiVersion(updatedArticle, conceptIds),
+    );
     const taxonomy = await fetchTaxonomy(articleId, locale);
     const updated = transformArticleFromApiVersion(
       { taxonomy, ...savedArticle },
       locale,
+      conceptIds,
     );
     updateUserData(articleId);
     setArticle(updated);
     return updated;
+  };
+
+  const fetchElementList = async articleIds => {
+    return await Promise.all(
+      articleIds.map(async elementId => {
+        return fetchConcept(elementId);
+      }),
+    );
   };
 
   const updateArticleAndStatus = async ({
@@ -57,6 +79,7 @@ export function useFetchArticleData(articleId, locale) {
     newStatus,
     dirty,
   }) => {
+    console.log('her');
     let newArticle = updatedArticle;
     if (dirty) {
       const savedArticle = await draftApi.updateDraft(updatedArticle);

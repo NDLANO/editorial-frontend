@@ -102,7 +102,7 @@ class EditRelated extends React.PureComponent {
   async searchForArticles(query) {
     return await search({
       query: query.query,
-      page: query.query !== '' ? query.page : undefined,
+      page: query.page ? query.page : undefined,
       'context-types': 'article',
     });
   }

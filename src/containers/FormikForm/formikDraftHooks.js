@@ -79,7 +79,6 @@ export function useFetchArticleData(articleId, locale) {
     newStatus,
     dirty,
   }) => {
-    console.log('her');
     let newArticle = updatedArticle;
     if (dirty) {
       const savedArticle = await draftApi.updateDraft(updatedArticle);

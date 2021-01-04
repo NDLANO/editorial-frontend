@@ -65,7 +65,6 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
-  markdown.block.ruler.disable(['list']);
 
   useEffect(() => {
     getSubjects();
@@ -73,7 +72,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
 
   const getSubjects = async () => {
     const subjects = await Promise.all(
-      concept.subjectIds.map(id => fetchSubject(id)),
+      concept.subjectIds?.map(id => fetchSubject(id)),
     );
     setSubjects(subjects);
   };

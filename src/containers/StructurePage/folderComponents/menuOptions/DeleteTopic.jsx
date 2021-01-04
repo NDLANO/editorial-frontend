@@ -14,11 +14,12 @@ import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import AlertModal from '../../../../components/AlertModal';
 import {
-  fetchTopic,
-  deleteTopic,
-  fetchTopicConnections,
-  deleteTopicConnection,
   deleteSubTopicConnection,
+  deleteTopic,
+  deleteTopicConnection,
+  fetchTopic,
+  fetchTopicConnections,
+  queryTopics,
 } from '../../../../modules/taxonomy';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
@@ -81,7 +82,10 @@ class DeleteTopic extends PureComponent {
   async setTopicArticleArchived(topicId, locale) {
     let article = await fetchTopic(topicId, locale);
     let articleId = article.contentUri.split(':')[2];
-    await updateStatusDraft(articleId, ARCHIVED);
+    const topics = await queryTopics(articleId, locale);
+    if (topics.length === 1) {
+      await updateStatusDraft(articleId, ARCHIVED);
+    }
   }
 
   render() {

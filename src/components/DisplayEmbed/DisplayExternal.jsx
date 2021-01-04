@@ -174,7 +174,6 @@ export class DisplayExternal extends Component {
           onRemoveClick={onRemoveClick}
           embed={embed}
           providerName={providerName}
-          t={t}
           figureType="external"
           onEdit={
             allowedProvider.name

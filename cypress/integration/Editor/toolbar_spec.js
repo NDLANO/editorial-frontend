@@ -8,12 +8,14 @@
 
 import { visitOptions, setToken } from '../../support';
 
+before(() => {
+  setToken();
+  cy.server({ force404: true });
+  cy.visit('/subject-matter/learning-resource/new', visitOptions);
+});
+
+
 describe('Selecting text and using the toolbar', () => {
-  beforeEach(() => {
-    setToken();
-    cy.server({ force404: true });
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
-  });
 
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
@@ -43,6 +45,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .find('h3')
           .should('have.length', 1);
+        cy.wrap($el).type('{selectall}');
       });
   });
 
@@ -52,7 +55,7 @@ describe('Selecting text and using the toolbar', () => {
       .focus()
       .wait(500)
       .then($el => {
-        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}');
+        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}').blur();
         cy.wrap($el).type('{selectall}');
       });
 
@@ -69,6 +72,7 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
+    cy.get('a[href="http://www.vg.no"]').type('{selectall}');
   });
 
   it('All lists work properly', () => {
@@ -110,18 +114,21 @@ describe('Selecting text and using the toolbar', () => {
       .first()
       .focus()
       .wait(500)
-      .type('footnote');
+      .type('footnote')
+      .blur();
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
       .wait(500)
-      .type('{selectall}');
+      .type('{selectall}')
+      .blur();
     cy.get('[data-testid=toolbar-button-footnote]').click({ force: true });
     cy.get('input[name=title]')
       .last()
-      .type('Testnavn');
+      .type('Testnavn')
+      .blur();
     cy.get('input[name=year]').type('1984');
-    cy.get('[data-testid=multiselect]').type('Navn navnesen');
+    cy.get('[data-testid=multiselect]').type('Navn navnesen').blur();
     cy.get('button')
       .contains('Opprett ny')
       .click({ force: true });

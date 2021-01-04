@@ -52,7 +52,7 @@ describe('Learning resource editing', () => {
         cy.get('[data-cy=addContributor]').click({ force: true });
         cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
-        });
+        }).blur();
         cy.get('[data-cy="contributor-selector"]').select('Originator', {
           force: true,
         });
@@ -65,7 +65,7 @@ describe('Learning resource editing', () => {
         cy.get('[data-cy=addContributor]').click({ force: true });
         cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
-        });
+        }).blur();
         cy.get('[data-cy="contributor-selector"]').select('Rightsholder', {
           force: true,
         });
@@ -78,7 +78,7 @@ describe('Learning resource editing', () => {
         cy.get('[data-cy=addContributor]').click({ force: true });
         cy.get('input[type="text"]').type('Ola Nordmann', {
           force: true,
-        });
+        }).blur();
         cy.get('[data-cy="contributor-selector"]').select('Processor', {
           force: true,
         });

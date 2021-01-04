@@ -21,9 +21,6 @@ const icon = {
 const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }) => {
   const onChange = evt => {
     onFieldChange(evt, 'align', alignType);
-    if (alignType === 'center') {
-      onFieldChange(evt, 'size', 'fullwidth');
-    }
   };
 
   return (

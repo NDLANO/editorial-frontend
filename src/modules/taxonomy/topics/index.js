@@ -13,7 +13,8 @@ import {
 } from '../../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
-const resolveTaxonomyResponse = res => resolveJsonOrRejectWithError(res, true);
+const resolveTaxonomyResponse = res =>
+  resolveJsonOrRejectWithError(res, { taxonomy: true });
 
 function fetchTopics(language) {
   const lang = language ? `?language=${language}` : '';
@@ -144,7 +145,7 @@ function updateTopicMetadata(subjectId, body) {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(res => resolveJsonOrRejectWithError(res, true));
+  }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 function updateTopicMetadataRecursive(subjectId, body) {
@@ -155,7 +156,7 @@ function updateTopicMetadataRecursive(subjectId, body) {
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify(body),
     },
-  ).then(res => resolveJsonOrRejectWithError(res, true));
+  ).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
 export {

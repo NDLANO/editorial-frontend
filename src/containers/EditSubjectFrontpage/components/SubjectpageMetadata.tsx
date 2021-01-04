@@ -18,7 +18,7 @@ interface FormikProps {
   form: FormikProperties['form'];
 }
 
-const SubjectpageMetadata: FC<object & tType> = ({ t }) => {
+const SubjectpageMetadata: FC<tType> = ({ t }) => {
   return (
     <>
       <FormikField

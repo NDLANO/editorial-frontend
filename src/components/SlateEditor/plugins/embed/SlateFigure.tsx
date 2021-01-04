@@ -113,7 +113,6 @@ const SlateFigure: React.FC<Props & tType> = ({
     case 'audio':
       return (
         <SlateAudio
-          t={t}
           attributes={attributes}
           changes={changes}
           embed={embed}

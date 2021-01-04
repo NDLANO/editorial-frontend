@@ -23,10 +23,11 @@ const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 export const fetchLearningpath = (
   id: number,
   locale?: string,
+  ignore403: boolean = false,
 ): Promise<Learningpath> => {
   const language = locale ? `?language=${locale}&fallback=true` : '';
-  return fetchAuthorized(`${baseUrl}/${id}${language}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/${id}${language}`).then((res: any) =>
+    resolveJsonOrRejectWithError(res, { ignore403 }),
   );
 };
 

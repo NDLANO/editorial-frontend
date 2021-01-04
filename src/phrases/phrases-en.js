@@ -38,24 +38,6 @@ const phrases = {
     create: 'Create new',
     isSelectedItem: 'Added',
   },
-  article: {
-    author: 'Author',
-    published: 'Published',
-    edition: 'Edition',
-    publisher: 'Publisher',
-    created: 'Created',
-    lastUpdated: 'Last updated',
-    closeLabel: 'Close',
-    useContent: 'Cite or use',
-    additionalLabel: 'Additional content',
-    urlContributionsLabel: 'See {name}`s contributions',
-    urlAuthorLabel: 'Read more about {name}',
-    multipleAuthorsLabelAbbreviation: 'et al.',
-    multipleAuthorsLabel: 'Article authors:',
-    multipleAuthorsLabelAria: 'Authors of this article are {names}',
-    multipleAuthorsLabelAriaConjunction: 'og',
-    singleAuthorsLabelAria: 'The author of this article is {name}',
-  },
   dialog: {
     close: 'Close',
     title: 'Title',
@@ -764,7 +746,7 @@ const phrases = {
       label: 'Competences and core elements',
       placeholder: 'Type code',
       description:
-        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created.',
+        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created. Separate multiple codes with comma.',
     },
     resourceTypes: {
       label: 'Resource type and properties',
@@ -959,6 +941,8 @@ const phrases = {
     statusCode: {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
+    grepCodes:
+      'The following codes have wrong format or does not exist, and will not be added: ',
   },
   notFound: {
     description: 'The page cannot be found',

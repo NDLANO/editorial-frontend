@@ -43,8 +43,10 @@ import { toEditConcept } from '../../../util/routeHelpers.js';
 import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
+import { createEmbedTag, parseEmbedTag } from '../../../util/embedTagHelpers';
 
 const getInitialValues = (concept = {}, subjects = []) => {
+  const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
   return {
     id: concept.id,
@@ -69,6 +71,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     tags: concept.tags || [],
     articleId: concept.articleId,
     status: concept.status || {},
+    visualElement: visualElement || {},
   };
 };
 
@@ -149,6 +152,9 @@ class ConceptForm extends Component {
           alt: values.metaImageAlt,
         }
       : nullOrUndefined(values?.metaImageId);
+    const visualElement = createEmbedTag(
+      isEmpty(values.visualElement) ? {} : values.visualElement,
+    );
 
     return {
       id: values.id,
@@ -169,6 +175,7 @@ class ConceptForm extends Component {
       created: this.getCreatedDate(values),
       articleId: values.articleId,
       metaImage,
+      visualElement,
     };
   };
 
@@ -228,6 +235,7 @@ class ConceptForm extends Component {
       inModal,
       isNewlyCreated,
       licenses,
+      locale,
       onClose,
       onUpdate,
       subjects,
@@ -270,7 +278,8 @@ class ConceptForm extends Component {
             classes={formClasses}
             concept={concept}
             fetchTags={fetchConceptTags}
-            {...props}
+            subjects={subjects}
+            locale={locale}
           />
         ),
       },
@@ -282,7 +291,7 @@ class ConceptForm extends Component {
       <Formik
         initialValues={initialValues}
         onSubmit={() => ({})}
-        ref={this.formik}
+        innerRef={this.formik}
         enableReinitialize
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
@@ -305,7 +314,7 @@ class ConceptForm extends Component {
               <HeaderWithLanguage
                 content={concept}
                 editUrl={lang => toEditConcept(values.id, lang)}
-                getConcept={() => this.getConcept(values)}
+                getEntity={() => this.getConcept(values)}
                 translateArticle={translateConcept}
                 type="concept"
                 setTranslateOnContinue={this.setTranslateOnContinue}
@@ -366,14 +375,13 @@ class ConceptForm extends Component {
                 </Field>
               ) : (
                 <EditorFooter
-                  t={t}
                   isSubmitting={isSubmitting}
                   formIsDirty={formIsDirty}
                   savedToServer={savedToServer}
                   values={values}
                   error={error}
                   errors={errors}
-                  getEntity={this.getConcept}
+                  getEntity={() => this.getConcept(values)}
                   entityStatus={concept.status}
                   createMessage={createMessage}
                   showSimpleFooter={!concept.id}
@@ -383,6 +391,7 @@ class ConceptForm extends Component {
                   }}
                   getStateStatuses={fetchStateStatuses}
                   hideSecondaryButton
+                  isConcept
                   isNewlyCreated={isNewlyCreated}
                 />
               )}
@@ -416,6 +425,7 @@ ConceptForm.propTypes = {
   inModal: PropTypes.bool,
   isNewlyCreated: PropTypes.bool,
   licenses: LicensesArrayOf,
+  locale: PropTypes.string,
   onClose: PropTypes.func,
   onUpdate: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),

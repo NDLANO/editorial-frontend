@@ -20,6 +20,7 @@ import { FormikIngress } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
+import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 
 const byLineStyle = css`
   display: flex;
@@ -78,6 +79,7 @@ const ConceptContent = props => {
           </>
         )}
       </FormikField>
+      <FormikVisualElement />
 
       <FormikIngress
         name="conceptContent"

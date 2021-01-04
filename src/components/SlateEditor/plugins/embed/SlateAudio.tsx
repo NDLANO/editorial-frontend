@@ -9,21 +9,16 @@
 import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
+import { injectT, tType } from '@ndla/i18n';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import {
-  Audio,
-  Embed,
-  FormikInputEvent,
-  TranslateType,
-} from '../../../../interfaces';
+import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
 
 interface Props {
-  t: TranslateType;
   attributes?: {
     'data-key': String;
     'data-slate-object': String;
@@ -37,7 +32,7 @@ interface Props {
   submitted: boolean;
 }
 
-const SlateAudio: React.FC<Props> = ({
+const SlateAudio: React.FC<Props & tType> = ({
   t,
   attributes,
   changes,
@@ -70,7 +65,7 @@ const SlateAudio: React.FC<Props> = ({
 
   useEffect(() => {
     getAudio();
-  }, []);
+  }, [embed.resource_id]);
 
   const onAudioFigureInputChange = (e: FormikInputEvent) => {
     const { value, name } = e.target;
@@ -136,4 +131,4 @@ const SlateAudio: React.FC<Props> = ({
   );
 };
 
-export default SlateAudio;
+export default injectT(SlateAudio);

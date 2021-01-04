@@ -17,11 +17,12 @@ import TranslateNbToNn from './TranslateNbToNn';
 import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
+import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
 const HeaderActions = ({
   editUrl,
   formIsDirty,
-  getArticle,
+  getEntity,
   isNewLanguage,
   isSubmitting,
   noStatus,
@@ -49,6 +50,28 @@ const HeaderActions = ({
       lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
+  const PreviewLightbox =
+    type === 'concept' ? (
+      supportedLanguages.length > 1 && (
+        <PreviewConceptLightbox
+          label={t(`articleType.concept`)}
+          typeOfPreview="previewLanguageArticle"
+          getConcept={getEntity}
+        />
+      )
+    ) : (
+      <PreviewDraftLightbox
+        label={t(`articleType.${articleType}`)}
+        typeOfPreview="previewLanguageArticle"
+        getArticle={getEntity}>
+        {openPreview => (
+          <StyledFilledButton type="button" onClick={openPreview}>
+            <FileCompare />
+            {t(`form.previewLanguageArticle.button`)}
+          </StyledFilledButton>
+        )}
+      </PreviewDraftLightbox>
+    );
 
   if (id) {
     return (
@@ -67,19 +90,9 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getArticle && (
+        {!noStatus && getEntity && (
           <Fragment>
-            <PreviewDraftLightbox
-              label={t(`articleType.${articleType}`)}
-              typeOfPreview="previewLanguageArticle"
-              getArticle={getArticle}>
-              {openPreview => (
-                <StyledFilledButton type="button" onClick={openPreview}>
-                  <FileCompare />
-                  {t(`form.previewLanguageArticle.button`)}
-                </StyledFilledButton>
-              )}
-            </PreviewDraftLightbox>
+            {PreviewLightbox}
             <StyledSplitter />
           </Fragment>
         )}
@@ -121,13 +134,12 @@ HeaderActions.propTypes = {
   noStatus: PropTypes.bool,
   values: PropTypes.shape({
     articleType: PropTypes.string,
-    conceptContent: PropTypes.string,
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
   editUrl: PropTypes.func.isRequired,
-  getArticle: PropTypes.func,
+  getEntity: PropTypes.func,
   isNewLanguage: PropTypes.bool,
   type: PropTypes.string,
   translateArticle: PropTypes.func,

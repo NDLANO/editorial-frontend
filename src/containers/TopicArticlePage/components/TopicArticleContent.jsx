@@ -122,7 +122,7 @@ const TopicArticleContent = props => {
         )}
       </FormikField>
       <FormikIngress preview={preview} />
-      <FormikVisualElement {...props} />
+      <FormikVisualElement />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
           <Fragment>

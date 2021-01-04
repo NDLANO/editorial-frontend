@@ -61,7 +61,7 @@ interface Props {
 }
 
 interface ContentType {
-  id: string;
+  id: number;
   metaDescription?: string;
   title?: string;
   imageUrl?: string;
@@ -206,7 +206,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
   const articleToState = async (articleId: number) => {
     const article = await getArticle(articleId);
     setContent({
-      id: article.id.toString(),
+      id: article.id,
       metaDescription: article.metaDescription.metaDescription,
       title: article.title.title,
       imageUrl: article?.metaImage?.url,
@@ -215,7 +215,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
 
   const learningpathToState = (learningpath: SelectedType) => {
     setContent({
-      id: learningpath.id,
+      id: Number(learningpath.id),
       metaDescription: learningpath.description,
       title: learningpath.title,
       imageUrl: learningpath.coverPhotoUrl,

@@ -16,6 +16,7 @@ import { Launch } from '@ndla/icons/common';
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
+import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 
 interface Props {
@@ -34,6 +35,7 @@ interface Props {
   getStateStatuses: () => PossibleStatuses;
   validateEntity: (id: number, updatedEntity: Article | Concept) => void;
   isArticle: boolean;
+  isConcept: boolean;
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors: boolean;
@@ -65,6 +67,7 @@ const EditorFooter: React.FC<Props & tType> = ({
   getStateStatuses,
   validateEntity,
   isArticle,
+  isConcept,
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
@@ -155,6 +158,12 @@ const EditorFooter: React.FC<Props & tType> = ({
   return (
     <Footer>
       <div>
+        {values.id && isConcept && (
+          <PreviewConceptLightbox
+            getConcept={getEntity}
+            typeOfPreview={'preview'}
+          />
+        )}
         {values.id && isArticle && (
           <FooterLinkButton
             bold

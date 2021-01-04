@@ -21,22 +21,22 @@ test('urls are parsed correctly', async () => {
   ];
 
   const subjectUrls = [
-    'https://api.test.ndla.no/en/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://api.test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla-frontend.api.test.ndla.no/sma/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla-frontend.api.test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla-frontend.test.api.ndla.no/nn/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla.no/sma/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://test.ndla.no/nb/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://www.ndla.no/nn/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://www.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://www.staging.ndla.no/sma/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://www.staging.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://www.test.ndla.no/en/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://www.test.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
+    'https://api.test.ndla.no/en/subject:3/topic:1:2342/resource:1:64323',
+    'https://api.test.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla-frontend.api.test.ndla.no/sma/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla-frontend.api.test.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla-frontend.test.api.ndla.no/nn/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla-frontend.test.api.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla.no/sma/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://test.ndla.no/nb/subject:3/topic:1:2342/resource:1:64323',
+    'https://test.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://www.ndla.no/nn/subject:3/topic:1:2342/resource:1:64323',
+    'https://www.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://www.staging.ndla.no/sma/subject:3/topic:1:2342/resource:1:64323',
+    'https://www.staging.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://www.test.ndla.no/en/subject:3/topic:1:2342/resource:1:64323',
+    'https://www.test.ndla.no/subject:3/topic:1:2342/resource:1:64323',
   ];
 
   const learningPathUrls = [
@@ -48,9 +48,9 @@ test('urls are parsed correctly', async () => {
 
   const otherUrls = [
     'https://www.vg.no/',
-    'https://www.youtube.com/subjects/subject:3/topic:1:2342/resource:1:64323',
-    'https://test.ndla.no/en/subjects/subject:3/',
-    'https://ndla.no/en/subjects/subject:1/',
+    'https://www.youtube.com/subject:3/topic:1:2342/resource:1:64323',
+    'https://test.ndla.no/en/subject:3/',
+    'https://ndla.no/en/subject:1/',
   ];
 
   articleUrls.forEach(url => {

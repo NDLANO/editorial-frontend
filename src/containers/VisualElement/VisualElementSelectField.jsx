@@ -34,7 +34,7 @@ class VisualElementSelectField extends Component {
   }
 
   render() {
-    const { selectedResource, videoTypes } = this.props;
+    const { selectedResource, videoTypes, articleLanguage } = this.props;
     if (!selectedResource) {
       return null;
     }
@@ -48,6 +48,7 @@ class VisualElementSelectField extends Component {
           handleVisualElementChange={this.handleVisualElementChange}
           closeModal={this.onImageLightboxClose}
           videoTypes={videoTypes}
+          articleLanguage={articleLanguage}
         />
       </Lightbox>
     );
@@ -60,6 +61,7 @@ VisualElementSelectField.propTypes = {
   selectedResource: PropTypes.string,
   resetSelectedResource: PropTypes.func.isRequired,
   videoTypes: PropTypes.array,
+  articleLanguage: PropTypes.string.isRequired,
 };
 
 export default VisualElementSelectField;

@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
@@ -16,7 +15,7 @@ import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Contributor from './Contributor';
-import { getLocale } from '../../modules/locale/locale';
+import { LocaleContext } from '../../containers/App/App';
 
 const StyledFormWarningText = styled.p`
   font-family: ${fonts.sans};
@@ -31,7 +30,6 @@ const Contributors = props => {
   const {
     name,
     label,
-    locale,
     errorMessages,
     disabled,
     showError,
@@ -41,6 +39,7 @@ const Contributors = props => {
     width,
     ...rest
   } = props;
+  const locale = useContext(LocaleContext);
   const onContributorChange = newContributors => {
     onChange({
       target: {
@@ -111,7 +110,6 @@ const Contributors = props => {
 Contributors.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   errorMessages: PropTypes.arrayOf(PropTypes.string),
   showError: PropTypes.bool,
@@ -131,8 +129,4 @@ Contributors.defaultProps = {
   width: 3 / 4,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default injectT(connect(mapStateToProps)(Contributors));
+export default injectT(Contributors);

@@ -21,7 +21,11 @@ interface Props {
 
 interface AsyncDropdownProps {
   selectedItems: TagWithTitle[];
+  value: string;
   removeItem: (tag: string) => void;
+  onBlur: (event: any) => void;
+  onChange: (event: any) => void;
+  onKeyDown: (event: any) => void;
 }
 
 interface TagWithTitle {
@@ -87,7 +91,11 @@ const AsyncSearchTags = ({
         labelField={'title'}
         values={props.selectedItems}
         testid="multiselect"
-        {...props}
+        value={props.value}
+        removeItem={props.removeItem}
+        onBlur={props.onBlur}
+        onChange={props.onChange}
+        onKeyDown={onKeyDown}
       />
     );
   };

@@ -18,13 +18,11 @@ import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
-import {
-  transformArticle,
-  transformArticleToApiVersion,
-} from '../../util/articleUtil';
+import { transformArticleToApiVersion } from '../../util/articleUtil';
 import { FormikActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 import { Portal } from '../Portal';
+import PreviewDraft from './PreviewDraft';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -130,7 +128,7 @@ class PreviewDraftLightbox extends React.Component {
       : undefined;
 
     this.setState({
-      firstArticle: transformArticle(firstArticle),
+      firstArticle: firstArticle,
       secondArticle,
       showPreview: true,
       previewLanguage: secondArticleLanguage,
@@ -141,7 +139,7 @@ class PreviewDraftLightbox extends React.Component {
   async previewVersion(language) {
     const { version } = this.props;
     const article = await articleApi.getPreviewArticle(version, language);
-    return transformArticle(article);
+    return article;
   }
 
   async previewProductionArticle() {
@@ -151,7 +149,7 @@ class PreviewDraftLightbox extends React.Component {
       id,
       language,
     );
-    return transformArticle(article);
+    return article;
   }
 
   async previewLanguageArticle(language = undefined) {
@@ -165,7 +163,7 @@ class PreviewDraftLightbox extends React.Component {
       draftOtherLanguage,
       language,
     );
-    return transformArticle(article);
+    return article;
   }
 
   render() {
@@ -198,6 +196,7 @@ class PreviewDraftLightbox extends React.Component {
       <Button
         css={closeButtonStyle(typeOfPreview)}
         stripped
+        data-testid="closePreview"
         onClick={this.onClosePreview}>
         <StyledCross />
       </Button>
@@ -212,12 +211,19 @@ class PreviewDraftLightbox extends React.Component {
             closeButton={closeButton}
             contentCss={lightboxContentStyle(typeOfPreview)}>
             <PreviewLightboxContent
-              firstArticle={firstArticle}
-              secondArticle={secondArticle}
+              firstEntity={firstArticle}
+              secondEntity={secondArticle}
               label={label}
               typeOfPreview={typeOfPreview}
               onChangePreviewLanguage={this.onChangePreviewLanguage}
               previewLanguage={previewLanguage}
+              getEntityPreview={(article, label, contentType) => (
+                <PreviewDraft
+                  article={article}
+                  label={label}
+                  contentType={contentType}
+                />
+              )}
             />
           </Lightbox>
         </StyledPreviewDraft>

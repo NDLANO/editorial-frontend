@@ -1,0 +1,15 @@
+{
+  "totalCount": 1,
+  "page": 1,
+  "pageSize": 16,
+  "language": "all",
+  "results": [
+    {
+      "id": 1254,
+      "title": { "title": " Doctors warn British teens", "language": "en" },
+      "url": "https://api.test.ndla.no/audio-api/v1/audio/1254",
+      "license": "CC-BY-SA-4.0",
+      "supportedLanguages": ["en"]
+    }
+  ]
+}

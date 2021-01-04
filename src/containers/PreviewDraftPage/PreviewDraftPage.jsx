@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Hero, OneColumn } from '@ndla/ui';
+import { css } from '@emotion/core';
 import * as draftApi from '../../modules/draft/draftApi';
 import * as articleApi from '../../modules/article/articleApi';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
@@ -62,19 +63,24 @@ const PreviewDraftPage = ({
 
   return (
     <Fragment>
-      <Hero contentType={contentType}>
-        <LanguageSelector supportedLanguages={draft.supportedLanguages} />
-      </Hero>
-      <HelmetWithTracker
-        title={`${draft.title} ${t('htmlTitles.titleTemplate')}`}
-      />
-      <OneColumn>
-        <PreviewDraft
-          article={draft}
-          resource={resource}
-          contentType={contentType}
+      <div
+        css={css`
+          overflow: auto;
+        `}>
+        <Hero contentType={contentType}>
+          <LanguageSelector supportedLanguages={draft.supportedLanguages} />
+        </Hero>
+        <HelmetWithTracker
+          title={`${draft.title} ${t('htmlTitles.titleTemplate')}`}
         />
-      </OneColumn>
+        <OneColumn>
+          <PreviewDraft
+            article={draft}
+            resource={resource}
+            contentType={contentType}
+          />
+        </OneColumn>
+      </div>
     </Fragment>
   );
 };

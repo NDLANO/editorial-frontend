@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
+import { injectT } from '@ndla/i18n';
 import { FootnoteShape } from '../../../shapes';
 
 const classes = new BEMHelper({
@@ -53,4 +54,4 @@ LearningResourceFootnotes.propTypes = {
   footnotes: PropTypes.arrayOf(FootnoteShape),
 };
 
-export default LearningResourceFootnotes;
+export default injectT(LearningResourceFootnotes);

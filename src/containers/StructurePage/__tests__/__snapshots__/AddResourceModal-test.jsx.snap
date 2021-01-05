@@ -1646,7 +1646,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
           Eller
         </div>
         <div
-          aria-expanded=""
+          aria-expanded="false"
           aria-haspopup="listbox"
           aria-labelledby="downshift-0-label"
           role="combobox"

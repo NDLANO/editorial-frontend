@@ -82,7 +82,7 @@ class AsyncDropDown extends React.Component {
           }))
         : [],
       loading: false,
-      keepOpen: this.state.keepOpen || query,
+      keepOpen: this.state.keepOpen || !!query,
     });
   }
 

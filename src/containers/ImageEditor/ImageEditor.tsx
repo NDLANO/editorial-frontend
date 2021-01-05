@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -18,7 +18,8 @@ import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
-import { Embed } from '../../interfaces';
+import { Embed, Image } from '../../interfaces';
+import { fetchImage } from '../../modules/image/imageApi';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -86,6 +87,16 @@ const ImageEditor: React.FC<Props & tType> = ({
   imageUpdates,
 }) => {
   const [editType, setEditType] = useState<StateProp>(undefined);
+  const [image, setImage] = useState<Image | undefined>(undefined);
+
+  useEffect(() => {
+    getImage();
+  }, []);
+
+  const getImage = async () => {
+    const img = await fetchImage(embed.resource_id, 'nb');
+    setImage(img);
+  };
 
   const onFocalPointChange = (focalPoint: { x: number; y: number }) => {
     onUpdatedImageSettings({
@@ -135,6 +146,15 @@ const ImageEditor: React.FC<Props & tType> = ({
         ...defaultData[field as NonNullable<StateProp>],
       },
     });
+  };
+
+  const shouldCrop = () => {
+    if (image) {
+      return !(
+        image.copyright.license.license.includes('ND') ||
+        image.contentType.includes('svg')
+      );
+    }
   };
 
   const imageCancelButtonNeeded =
@@ -193,14 +213,16 @@ const ImageEditor: React.FC<Props & tType> = ({
               {t(`imageEditor.remove.${editType}`)}
             </Button>
           )}
-          <Tooltip tooltip={t('form.image.crop')}>
-            <ImageEditorButton
-              stripped
-              onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'crop')}
-              tabIndex={-1}>
-              <Crop />
-            </ImageEditorButton>
-          </Tooltip>
+          {shouldCrop() && (
+            <Tooltip tooltip={t('form.image.crop')}>
+              <ImageEditorButton
+                stripped
+                onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'crop')}
+                tabIndex={-1}>
+                <Crop />
+              </ImageEditorButton>
+            </Tooltip>
+          )}
         </StyledImageEditorMenu>
       </StyledImageEditorEditMode>
     </div>

@@ -95,6 +95,7 @@ HeaderWithLanguage.propTypes = {
       other: PropTypes.arrayOf(PropTypes.string),
     }),
     title: PropTypes.string,
+    taxonomy: PropTypes.object,
   }),
   editUrl: PropTypes.func.isRequired,
   getEntity: PropTypes.func,

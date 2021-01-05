@@ -48,7 +48,7 @@ export const transformArticleFromApiVersion = (
       : undefined,
   metaDescription: convertFieldWithFallback(article, 'metaDescription', ''),
   tags: convertFieldWithFallback(article, 'tags', []),
-  conceptIds: conceptIds || article.conceptIds,
+  conceptIds: conceptIds,
   ...(locale ? { language: locale } : {}),
 });
 

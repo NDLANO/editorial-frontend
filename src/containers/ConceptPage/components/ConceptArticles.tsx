@@ -89,7 +89,7 @@ const ConceptArticles: FC<Props & tType> = ({
         onUpdateElements={onUpdateElements}
       />
       <AsyncDropdown
-        selectedElements={articles}
+        selectedItems={articles}
         idField="id"
         name="relatedArticleSearch"
         labelField="title"

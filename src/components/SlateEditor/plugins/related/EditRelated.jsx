@@ -103,7 +103,7 @@ class EditRelated extends React.PureComponent {
     return await search({
       query: query.query,
       page: query.page ? query.page : undefined,
-      'context-types': 'article',
+      'context-types': 'standard, topic-article',
     });
   }
 

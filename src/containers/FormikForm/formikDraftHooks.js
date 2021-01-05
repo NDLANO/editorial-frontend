@@ -9,10 +9,7 @@
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import {
-  transformArticleFromApiVersion,
-  transformArticleToApiVersion,
-} from '../../util/articleUtil';
+import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
 export function useFetchArticleData(articleId, locale) {
@@ -52,15 +49,17 @@ export function useFetchArticleData(articleId, locale) {
 
   const updateArticle = async updatedArticle => {
     const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
-    const savedArticle = await draftApi.updateDraft(
-      transformArticleToApiVersion(updatedArticle, conceptIds),
-    );
+    const savedArticle = await draftApi.updateDraft({
+      ...updatedArticle,
+      conceptIds: conceptIds,
+    });
     const taxonomy = await fetchTaxonomy(articleId, locale);
     const updated = transformArticleFromApiVersion(
       { taxonomy, ...savedArticle },
       locale,
-      conceptIds,
+      updatedArticle.conceptIds,
     );
+    console.log(updated);
     updateUserData(articleId);
     setArticle(updated);
     return updated;
@@ -81,8 +80,16 @@ export function useFetchArticleData(articleId, locale) {
   }) => {
     let newArticle = updatedArticle;
     if (dirty) {
-      const savedArticle = await draftApi.updateDraft(updatedArticle);
-      newArticle = transformArticleFromApiVersion(savedArticle, locale);
+      const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
+      const savedArticle = await draftApi.updateDraft({
+        ...updatedArticle,
+        conceptIds: conceptIds,
+      });
+      newArticle = transformArticleFromApiVersion(
+        savedArticle,
+        locale,
+        updatedArticle.conceptIds,
+      );
     }
     const statusChangedDraft = await draftApi.updateStatusDraft(
       updatedArticle.id,
@@ -99,8 +106,18 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const createArticle = async createdArticle => {
-    const savedArticle = await draftApi.createDraft(createdArticle);
-    setArticle(transformArticleFromApiVersion(savedArticle, locale));
+    const conceptIds = createdArticle.conceptIds.map(concept => concept.id);
+    const savedArticle = await draftApi.createDraft({
+      ...createdArticle,
+      conceptIds: conceptIds,
+    });
+    setArticle(
+      transformArticleFromApiVersion(
+        savedArticle,
+        locale,
+        createdArticle.conceptIds,
+      ),
+    );
     updateUserData(savedArticle.id);
     return savedArticle;
   };

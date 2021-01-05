@@ -18,8 +18,9 @@ import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
-import { Embed, Image } from '../../interfaces';
+import { Embed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
+import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -87,7 +88,7 @@ const ImageEditor: React.FC<Props & tType> = ({
   imageUpdates,
 }) => {
   const [editType, setEditType] = useState<StateProp>(undefined);
-  const [image, setImage] = useState<Image | undefined>(undefined);
+  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 
   useEffect(() => {
     getImage();

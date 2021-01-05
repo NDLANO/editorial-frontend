@@ -1,13 +1,3 @@
-.h5p-dialogcards {
-  box-shadow: none;
-  background-color: blue;
-  color: pink;
-}
-
-.h5p-questions {
-  color: red;
-}
-
 .h5p-dialogcards li{
   text-align: left;
 }

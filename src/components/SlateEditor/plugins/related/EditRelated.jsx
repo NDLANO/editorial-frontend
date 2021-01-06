@@ -136,7 +136,7 @@ class EditRelated extends React.PureComponent {
               <h1 className="c-section-heading c-related-articles__component-title">
                 {t('form.related.title')}
               </h1>
-              <p>Dra artikkel for å endre rekkefølge</p>
+              <p>{t('form.related.subtitle')}</p>
               <StyledListWrapper>
                 <DragDropContext
                   onDragEnd={a => {

@@ -877,6 +877,7 @@ const phrases = {
     },
     related: {
       title: 'Related articles',
+      subtitle: 'Drag article to change the order',
       showMore: 'Show more related articles',
       showLess: 'Show less',
     },

@@ -132,6 +132,18 @@ export class DisplayExternal extends Component {
       domain,
     } = this.state;
 
+    const errorHolder = message => {
+      return (
+        <Fragment>
+          <DeleteButton stripped onClick={onRemoveClick} />
+          <EditorErrorMessage msg={message} />
+        </Fragment>
+      );
+    };
+
+    if (error) {
+      return errorHolder(t('displayOembed.errorMessage'));
+    }
     if (!type && !provider) {
       return null;
     }
@@ -147,23 +159,10 @@ export class DisplayExternal extends Component {
         : whitelistProvider.name === providerName,
     );
 
-    if (error || !allowedProvider) {
-      return (
-        <Fragment>
-          <DeleteButton stripped onClick={onRemoveClick} />
-          <EditorErrorMessage
-            msg={
-              error
-                ? t('displayOembed.errorMessage')
-                : t('displayOembed.notSupported', {
-                    type,
-                    provider,
-                  })
-            }
-          />
-        </Fragment>
-      );
+    if (!allowedProvider) {
+      return errorHolder(t('displayOembed.notSupported', { type, provider }));
     }
+
     return (
       <div className="c-figure">
         <FigureButtons

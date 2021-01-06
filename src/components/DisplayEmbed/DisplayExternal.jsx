@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
@@ -132,6 +132,26 @@ export class DisplayExternal extends Component {
       domain,
     } = this.state;
 
+    const errorHolder = () => (
+      <>
+        <DeleteButton stripped onClick={onRemoveClick} />
+        <EditorErrorMessage
+          msg={
+            error
+              ? t('displayOembed.errorMessage')
+              : t('displayOembed.notSupported', {
+                  type,
+                  provider,
+                })
+          }
+        />
+      </>
+    );
+
+    if (error) {
+      return errorHolder();
+    }
+
     if (!type && !provider) {
       return null;
     }
@@ -147,22 +167,8 @@ export class DisplayExternal extends Component {
         : whitelistProvider.name === providerName,
     );
 
-    if (error || !allowedProvider) {
-      return (
-        <Fragment>
-          <DeleteButton stripped onClick={onRemoveClick} />
-          <EditorErrorMessage
-            msg={
-              error
-                ? t('displayOembed.errorMessage')
-                : t('displayOembed.notSupported', {
-                    type,
-                    provider,
-                  })
-            }
-          />
-        </Fragment>
-      );
+    if (!allowedProvider) {
+      return errorHolder();
     }
     return (
       <div className="c-figure">

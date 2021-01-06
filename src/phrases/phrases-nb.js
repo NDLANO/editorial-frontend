@@ -530,6 +530,7 @@ const phrases = {
       addText: 'Velg en forklaring under og trykk "koble til fagtekst", eller',
       edit: 'Rediger forklaring',
       addConcept: 'Legg til eksisterende forklaring',
+      removeConcept: 'Ta bort forklaring',
       source: 'Kilde',
     },
     abort: 'Avbryt',

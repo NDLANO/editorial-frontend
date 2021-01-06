@@ -158,7 +158,7 @@ class EditRelated extends React.PureComponent {
                   onClick={e => e.stopPropagation()}
                   onChange={selected => selected && onInsertBlock(selected.id)}
                   positionAbsolute
-                  page={1}
+                  showPagination
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>
                 <Button

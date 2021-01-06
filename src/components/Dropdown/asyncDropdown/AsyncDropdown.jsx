@@ -23,7 +23,7 @@ class AsyncDropDown extends React.Component {
       items: [],
       inputValue: '',
       selectedItem: null,
-      page: this.props.page,
+      page: 1,
       keepOpen: false,
     };
 
@@ -55,7 +55,7 @@ class AsyncDropDown extends React.Component {
     const debounced = debounce(() => this.handleSearch(value), 400);
     debounced();
     this.setState({
-      page: page ? 1 : undefined,
+      page: 1,
       inputValue: value,
       currentDebounce: debounced,
     });
@@ -141,6 +141,7 @@ class AsyncDropDown extends React.Component {
       clearInputField,
       customCreateButtonText,
       hideTotalSearchCount,
+      showPagination,
       ...rest
     } = this.props;
 
@@ -209,7 +210,7 @@ class AsyncDropDown extends React.Component {
                 onCreate={onCreate && handleCreate}
                 customCreateButtonText={customCreateButtonText}
                 hideTotalSearchCount={hideTotalSearchCount}
-                page={this.state.page}
+                page={showPagination && this.state.page}
                 handlePageChange={this.handlePageChange}
               />
             </div>
@@ -242,6 +243,7 @@ AsyncDropDown.propTypes = {
   hideTotalSearchCount: PropTypes.bool,
   page: PropTypes.number,
   saveOnEnter: PropTypes.bool,
+  showPagination: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {

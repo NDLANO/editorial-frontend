@@ -29,13 +29,13 @@ const EditSlateConcept = props => {
   const { t, children, node, locale, editor, attributes } = props;
   const nodeText = node.text.trim();
 
-  const [editMode, setEditMode] = useState(false);
+  const [showConcept, setShowConcept] = useState(false);
 
   const toggleConceptModal = evt => {
     if (evt) {
       evt.preventDefault();
     }
-    setEditMode(!editMode);
+    setShowConcept(!showConcept);
   };
 
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
@@ -77,7 +77,7 @@ const EditSlateConcept = props => {
 
   useEffect(() => {
     if (!node.data.get('content-id')) {
-      setEditMode(true);
+      setShowConcept(true);
     }
   }, []);
 
@@ -107,7 +107,7 @@ const EditSlateConcept = props => {
       </span>
       <ConceptModal
         id={conceptId}
-        isOpen={!conceptId && editMode}
+        isOpen={!conceptId && showConcept}
         onClose={onClose}
         addConcept={addConcept}
         locale={locale}

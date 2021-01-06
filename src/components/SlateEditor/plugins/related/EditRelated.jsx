@@ -227,7 +227,7 @@ class EditRelated extends React.PureComponent {
               <DeleteButton
                 stripped
                 onClick={onRemoveClick}
-                aria-label="Slett alle relaterte artikler"
+                aria-label={t('topicArticleForm.removeVisualElement')}
               />
             </StyledBorderDiv>
             {this.state.showAddExternal && (

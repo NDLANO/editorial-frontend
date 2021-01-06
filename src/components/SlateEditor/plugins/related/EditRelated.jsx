@@ -140,6 +140,9 @@ class EditRelated extends React.PureComponent {
               <StyledListWrapper>
                 <DragDropContext
                   onDragEnd={a => {
+                    if (!a.destination) {
+                      return;
+                    }
                     const toIndex = a.destination.index;
                     const fromIndex = a.source.index;
                     const newArticles = [...articles];

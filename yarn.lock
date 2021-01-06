@@ -1761,10 +1761,10 @@
     "@ndla/icons" "^0.6.25"
     "@ndla/ui" "^0.29.9"
 
-"@ndla/forms@^0.3.154":
-  version "0.3.154"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.154.tgz#4953daf514b0b21d589b8dbf229ec2794d9b069e"
-  integrity sha512-LVtMSmGduBbC9tH8LBx7cwt/D7WFId0nwPOqnSilYz4DOtTGCwE7lDMJe+brIwIHi/kz7WruOWrpFtLFlYlNtQ==
+"@ndla/forms@^0.3.155":
+  version "0.3.155"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.3.155.tgz#a9a442cda45b8072bda642858c0ece9d3b38133b"
+  integrity sha512-qZlILXxjLvnrg+26el+I1XFP9IZoXI6Ps15ny+MP7jjqFthmVPLOGTv9q+gcAil16x5l4VQFJV5Ls9fZrpR0bg==
   dependencies:
     "@ndla/core" "^0.6.32"
     "@ndla/icons" "^0.6.26"

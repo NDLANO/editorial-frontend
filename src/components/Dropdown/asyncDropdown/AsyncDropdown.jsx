@@ -47,7 +47,7 @@ class AsyncDropDown extends React.Component {
 
   async handleInputChange(evt) {
     const { value } = evt.target;
-    const { currentDebounce, page } = this.state;
+    const { currentDebounce } = this.state;
 
     if (currentDebounce) {
       currentDebounce.cancel();
@@ -62,10 +62,11 @@ class AsyncDropDown extends React.Component {
   }
 
   async handleSearch(query = '', page = this.state.page) {
-    const { apiAction } = this.props;
+    const { apiAction, showPagination } = this.props;
+    const { keepOpen } = this.state;
     this.setState({ loading: true });
     const apiOutput = await apiAction(
-      page ? { query: query, page: page } : query,
+      showPagination ? { query: query, page: page } : query,
     );
     const items =
       (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
@@ -82,7 +83,7 @@ class AsyncDropDown extends React.Component {
           }))
         : [],
       loading: false,
-      keepOpen: this.state.keepOpen || !!query,
+      keepOpen: keepOpen || !!query,
     });
   }
 
@@ -145,12 +146,20 @@ class AsyncDropDown extends React.Component {
       ...rest
     } = this.props;
 
-    const { items, loading } = this.state;
+    const {
+      items,
+      loading,
+      page,
+      totalCount,
+      keepOpen,
+      selectedItem,
+      inputValue,
+    } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
       onClick,
-      value: this.state.inputValue,
+      value: inputValue,
       onKeyDown: event => {
         if (event.key === 'Enter') {
           event.preventDefault();
@@ -163,7 +172,7 @@ class AsyncDropDown extends React.Component {
     };
 
     const handleCreate = () => {
-      onCreate(this.state.inputValue);
+      onCreate(inputValue);
       if (children || clearInputField) {
         this.setState({ inputValue: '' });
       }
@@ -176,8 +185,8 @@ class AsyncDropDown extends React.Component {
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         initialIsOpen={startOpen}
-        selectedItem={this.state.selectedItem}
-        defaultIsOpen={this.state.keepOpen}
+        selectedItem={selectedItem}
+        defaultIsOpen={keepOpen}
         onOuterClick={() => {
           this.setState({ keepOpen: false });
         }}>
@@ -205,12 +214,12 @@ class AsyncDropDown extends React.Component {
                 disableSelected={disableSelected}
                 {...downshiftProps}
                 items={items}
-                totalCount={this.state.totalCount}
+                totalCount={totalCount}
                 positionAbsolute={positionAbsolute}
                 onCreate={onCreate && handleCreate}
                 customCreateButtonText={customCreateButtonText}
                 hideTotalSearchCount={hideTotalSearchCount}
-                page={showPagination && this.state.page}
+                page={showPagination && page}
                 handlePageChange={this.handlePageChange}
               />
             </div>
@@ -252,7 +261,7 @@ AsyncDropDown.defaultPropTypes = {
   multiSelect: false,
   selectedItems: [],
   disableSelected: false,
-  page: undefined,
+  showPagination: false,
 };
 
 export default injectT(AsyncDropDown);

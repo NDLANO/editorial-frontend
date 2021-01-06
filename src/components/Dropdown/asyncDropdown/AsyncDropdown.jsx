@@ -87,9 +87,9 @@ class AsyncDropDown extends React.Component {
     });
   }
 
-  async handlePageChange(page) {
+  handlePageChange(page) {
     const { inputValue } = this.state;
-    await this.handleSearch(inputValue, page.page);
+    this.handleSearch(inputValue, page.page);
     this.setState({
       page: page.page,
     });

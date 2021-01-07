@@ -121,7 +121,6 @@ const AsyncSearchTags = ({
         multiSelect
         disableSelected
         onCreate={createNewTag}
-        onKeyDown={onKeyDown}
         removeItem={removeTag}>
         {(props: AsyncDropdownProps) => <AsyncDropdownInput {...props} />}
       </AsyncDropdown>

@@ -18,7 +18,7 @@ import HeaderLanguagePicker from './HeaderLanguagePicker';
 
 interface Props {
   articleType: string;
-  editUrl: Function;
+  editUrl: (lang: string) => string;
   id: number;
   isSubmitting: Boolean;
   language: string;

@@ -157,6 +157,7 @@ const FormikGrepCodesContent = ({
         clearInputField
         customCreateButtonText="Legg til kode"
         hideTotalSearchCount
+        saveOnEnter
       />
 
       {grepCodes.map((grepCode, index) => (

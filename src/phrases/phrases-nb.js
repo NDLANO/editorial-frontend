@@ -531,6 +531,7 @@ const phrases = {
       addText: 'Velg en forklaring under og trykk "koble til fagtekst", eller',
       edit: 'Rediger forklaring',
       addConcept: 'Legg til eksisterende forklaring',
+      removeConcept: 'Ta bort forklaring',
       source: 'Kilde',
     },
     abort: 'Avbryt',
@@ -758,7 +759,7 @@ const phrases = {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
-        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma.',
+        'Skriv inn koder på formatet K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2. Koder som ikke finnes vil ikke bli opprettet. Separer flere koder med komma. Tekstene vises på bokmål i ed men korrekt i artikkelvisning.',
     },
     resourceTypes: {
       label: 'Innholdstype og egenskaper',

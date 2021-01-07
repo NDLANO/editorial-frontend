@@ -5,8 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { NewImageMetadata } from '../modules/image/imageApiInterfaces';
 
-export const createFormData = (file, metadata = undefined) =>
+export const createFormData = (
+  file: string | Blob,
+  metadata?: NewImageMetadata,
+): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();
     if (metadata) {

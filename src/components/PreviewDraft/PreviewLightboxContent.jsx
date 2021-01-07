@@ -54,7 +54,7 @@ PreviewLightboxContent.propTypes = {
     title: PropTypes.string,
     introduction: PropTypes.string,
   }),
-  second: PropTypes.shape({
+  secondEntity: PropTypes.shape({
     id: PropTypes.number,
     content: PropTypes.string,
     title: PropTypes.string,

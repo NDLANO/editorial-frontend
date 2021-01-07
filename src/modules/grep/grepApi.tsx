@@ -20,8 +20,13 @@ const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
   return (titles as Tekst)?.tekst || titles || [];
 };
 
-const getDefaultLang = (titles: Title[]) =>
-  titles?.find(t => t.spraak === 'default')?.verdi;
+// Uses nob, but falls back to default if missing.
+const getTitle = (titles: Title[]) => {
+  const title =
+    titles.find(t => t.spraak === 'nob') ||
+    titles.find(t => t.spraak === 'default');
+  return title?.verdi;
+};
 
 const fetchKjerneelementer = async (code: string) =>
   fetch(grepUrl(`/kjerneelementer-lk20/${code}`));
@@ -60,7 +65,7 @@ export const fetchGrepCodeTitle = async (grepCode: string) => {
     }
     const jsonResponse = await resolveJsonOrRejectWithError(res);
     const titlesObj = getTitlesObject(jsonResponse?.tittel);
-    const titleInLanguage = getDefaultLang(titlesObj);
+    const titleInLanguage = getTitle(titlesObj);
     return titleInLanguage;
   } catch (error) {
     handleError(error);

@@ -597,6 +597,7 @@ const phrases = {
       addText: 'Choose a concept and press "connect to topic", or',
       edit: 'Edit concept',
       addConcept: 'Add existing concept',
+      removeConcept: 'Remove concept',
       source: 'Source',
     },
     workflow: {
@@ -745,7 +746,7 @@ const phrases = {
       label: 'Competences and core elements',
       placeholder: 'Type code',
       description:
-        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created. Separate multiple codes with comma.',
+        'Type in codes using the format K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2. Non existing codes will not be created. Separate multiple codes with comma. Texts will be displayed in norwegian here but will be shown correct in frontend.',
     },
     resourceTypes: {
       label: 'Resource type and properties',

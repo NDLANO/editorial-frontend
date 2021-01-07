@@ -18,9 +18,8 @@ import {
   NotionDialogTags,
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
-import { Concept } from '../SlateEditor/editorTypes';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType } from '../../interfaces';
+import { SubjectType, Concept } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`

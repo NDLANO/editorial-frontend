@@ -17,13 +17,17 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
+import { transformConceptFromApiVersion } from '../../../../../util/conceptUtil';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { ConceptFormType, License } from './ConceptForm';
-import { Concept } from '../../../../../components/SlateEditor/editorTypes';
-import { SubjectType } from '../../../../../interfaces';
+import {
+  SubjectType,
+  Concept,
+  StrippedConcept,
+} from '../../../../../interfaces';
 
 interface Props {
-  concept: Concept;
+  concept: StrippedConcept;
   cancel: () => void;
   subjects: SubjectType[];
   updateLocalConcept: (concept: Concept) => void;
@@ -40,7 +44,9 @@ const FormView = ({
     title: t(`language.${lan}`),
     value: lan,
   }));
-  const [language, setLanguage] = useState<string>(concept.title.language);
+  const [language, setLanguage] = useState<string>(
+    concept.supportedLanguages[0],
+  );
   const [licenses, setLicenses] = useState<License[] | undefined>();
   const [fullConcept, setFullConcept] = useState<Concept | undefined>();
 
@@ -48,7 +54,9 @@ const FormView = ({
     fetchLicenses().then((licenses: License[]) => setLicenses(licenses));
   }, []);
   useEffect(() => {
-    fetchConcept(concept.id, language).then((c: any) => setFullConcept(c));
+    fetchConcept(concept.id, language).then((c: any) =>
+      setFullConcept(transformConceptFromApiVersion(c)),
+    );
   }, [concept.id, language]);
 
   const [formValues, setFormValues] = useState<ConceptFormType | undefined>();
@@ -60,13 +68,13 @@ const FormView = ({
         cr => cr.type === 'Writer',
       );
       setFormValues({
-        title: fullConcept.title.title,
+        title: fullConcept.title,
         author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
         license: licenses.find(
           l => l.license === fullConcept.copyright.license?.license,
         )?.license,
-        tags: concept.tags ? concept.tags.tags : [],
+        tags: concept.tags ? concept.tags : [],
       });
     }
   }, [fullConcept, licenses, subjects]);
@@ -118,7 +126,7 @@ const FormView = ({
             const newConcept = {
               id: fullConcept.id,
               supportedLanguages: fullConcept.supportedLanguages,
-              content: fullConcept.content.content,
+              content: fullConcept.content,
               revision: fullConcept.revision,
               source: fullConcept.source,
               language: language,

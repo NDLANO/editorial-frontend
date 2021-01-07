@@ -20,7 +20,7 @@ import {
 } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import { Concept as ConceptType } from '../../editorTypes';
+import { Concept as ConceptType } from '../../../../interfaces';
 import IconButton from '../../../IconButton';
 
 const StyledFigureButtons = styled('span')`

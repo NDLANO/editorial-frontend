@@ -10,8 +10,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
-import { ArticleType } from '../../interfaces';
-import { Concept } from '../SlateEditor/editorTypes';
+import { ArticleType, Concept } from '../../interfaces';
 
 export const StyledPreviewHeader = styled.div`
   min-height: 6rem;

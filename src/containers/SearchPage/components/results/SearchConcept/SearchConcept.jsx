@@ -15,9 +15,13 @@ import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFa
 import ContentView from './ContentView';
 import FormView from './FormView';
 
+import { transformConceptFromApiVersion } from '../../../../../util/conceptUtil';
+
 const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
   const [editing, setEditing] = editingState;
-  const [localConcept, setLocalConcept] = useState(concept);
+  const [localConcept, setLocalConcept] = useState(
+    transformConceptFromApiVersion(concept),
+  );
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => {
     setEditing(true);
@@ -56,7 +60,7 @@ const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
           }}
           subjects={subjects}
           updateLocalConcept={newConcept => {
-            setLocalConcept(newConcept);
+            setLocalConcept(transformConceptFromApiVersion(newConcept));
           }}
           t={t}
         />

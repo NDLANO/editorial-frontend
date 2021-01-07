@@ -14,7 +14,8 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { Article, Concept, PossibleStatuses, Values } from './editorTypes';
+import { Article, PossibleStatuses, Values } from './editorTypes';
+import { Concept } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';

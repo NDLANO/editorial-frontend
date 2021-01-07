@@ -67,40 +67,6 @@ export interface PossibleStatuses {
   QUEUED_FOR_PUBLISHING: Array<string>;
 }
 
-export interface Concept {
-  id: number;
-  title: { language: string; title: string };
-  tags?: { tags: Array<string> };
-  content: { content: string; language: string };
-  metaImage: {
-    id: number;
-    alt: string;
-  };
-  status: { current: string };
-  metaDescription: string;
-  articleType: string;
-  copyright: {
-    agreementId: number;
-    license?: {
-      description: string;
-      license: string;
-      url?: string;
-    };
-    creators: Array<{ type: string; name: string }>;
-    processors: Array<string>;
-    rightsholders: Array<string>;
-  };
-  notes: Array<string>;
-  language: string;
-  revision: number;
-  published: string;
-  supportedLanguages: Array<string>;
-  articleId: number;
-  created: string;
-  source: string;
-  subjectIds?: Array<string>;
-}
-
 export type PreviewTypes =
   | 'previewProductionArticle'
   | 'previewLanguageArticle'

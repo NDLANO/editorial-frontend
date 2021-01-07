@@ -480,3 +480,35 @@ export interface Licenses {
   description: string;
   url?: string;
 }
+
+export interface StrippedConcept {
+  id: number;
+  content: string;
+  subjectIds: string[];
+  tags: string[];
+  title: string;
+  metaDescription?: string;
+  status: { current: string; other: string[] };
+  supportedLanguages: string[];
+}
+export interface Concept extends StrippedConcept {
+  copyright: {
+    agreementId: number;
+    license?: {
+      description: string;
+      license: string;
+      url?: string;
+    };
+    creators: { type: string; name: string }[];
+    processors: string[];
+    rightsholders: string[];
+  };
+  visualElement: VisualElement;
+  language: string;
+  source: string;
+  revision: number;
+  notes: string[];
+  published: string;
+  articleId: number;
+  created: string;
+}

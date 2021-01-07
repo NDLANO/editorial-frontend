@@ -18,7 +18,7 @@ import { fetchConcept } from '../../modules/concept/conceptApi';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
-import { Concept } from '../SlateEditor/editorTypes';
+import { Concept } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
 import { transformConceptFromApiVersion } from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';

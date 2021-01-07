@@ -13,7 +13,7 @@ import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
 const PreviewProduction = props => {
-  const { firstArticle, secondArticle, label, contentType, t } = props;
+  const { firstEntity, secondEntity, label, contentType, t } = props;
   return (
     <Fragment>
       <StyledPreviewTwoArticles>
@@ -21,7 +21,7 @@ const PreviewProduction = props => {
           {t('form.previewProductionArticle.draft')}
         </h2>
         <PreviewDraft
-          article={firstArticle}
+          article={firstEntity}
           label={label}
           contentType={contentType}
         />
@@ -31,7 +31,7 @@ const PreviewProduction = props => {
           {t('form.previewProductionArticle.article')}
         </h2>
         <PreviewDraft
-          article={secondArticle}
+          article={secondEntity}
           label={label}
           contentType={contentType}
         />
@@ -41,13 +41,13 @@ const PreviewProduction = props => {
 };
 
 PreviewProduction.propTypes = {
-  firstArticle: PropTypes.shape({
+  firstEntity: PropTypes.shape({
     id: PropTypes.number,
     content: PropTypes.string,
     title: PropTypes.string,
     introduction: PropTypes.string,
   }),
-  secondArticle: PropTypes.shape({
+  secondEntity: PropTypes.shape({
     id: PropTypes.number,
     content: PropTypes.string,
     title: PropTypes.string,

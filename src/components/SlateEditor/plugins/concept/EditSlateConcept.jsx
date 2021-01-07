@@ -12,6 +12,7 @@ import Notion from '@ndla/notion';
 import PropTypes from 'prop-types';
 import { TYPE } from '.';
 import ConceptModal from './ConceptModal';
+import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 
 const getConceptDataAttributes = ({ id, title: { title } }) => ({
@@ -28,12 +29,13 @@ const EditSlateConcept = props => {
   const { t, children, node, locale, editor, attributes } = props;
   const nodeText = node.text.trim();
 
-  const [isModalOpen, toggleIsModalOpen] = useState(false);
+  const [showConcept, setShowConcept] = useState(false);
+
   const toggleConceptModal = evt => {
     if (evt) {
       evt.preventDefault();
     }
-    toggleIsModalOpen(!isModalOpen);
+    setShowConcept(!showConcept);
   };
 
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
@@ -75,7 +77,7 @@ const EditSlateConcept = props => {
 
   useEffect(() => {
     if (!node.data.get('content-id')) {
-      toggleIsModalOpen(true);
+      setShowConcept(true);
     }
   }, []);
 
@@ -85,8 +87,17 @@ const EditSlateConcept = props => {
         {conceptId ? (
           <Notion
             id={conceptId}
-            title={nodeText}
-            content={concept.content}
+            title={concept.title}
+            subTitle={t('conceptform.title')}
+            content={
+              <SlateConceptPreview
+                concept={concept}
+                handleRemove={handleRemove}
+                id={conceptId}
+                onClose={onClose}
+                locale={locale}
+              />
+            }
             ariaLabel={t('notions.edit')}>
             {children}
           </Notion>
@@ -96,7 +107,7 @@ const EditSlateConcept = props => {
       </span>
       <ConceptModal
         id={conceptId}
-        isOpen={isModalOpen}
+        isOpen={!conceptId && showConcept}
         onClose={onClose}
         addConcept={addConcept}
         locale={locale}

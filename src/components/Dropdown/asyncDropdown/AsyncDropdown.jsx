@@ -23,12 +23,15 @@ class AsyncDropDown extends React.Component {
       items: [],
       inputValue: '',
       selectedItem: null,
+      page: 1,
+      keepOpen: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   async componentDidMount() {
@@ -52,15 +55,19 @@ class AsyncDropDown extends React.Component {
     const debounced = debounce(() => this.handleSearch(value), 400);
     debounced();
     this.setState({
+      page: 1,
       inputValue: value,
       currentDebounce: debounced,
     });
   }
 
-  async handleSearch(query = '') {
-    const { apiAction } = this.props;
+  async handleSearch(query = '', page = this.state.page) {
+    const { apiAction, showPagination } = this.props;
+    const { keepOpen } = this.state;
     this.setState({ loading: true });
-    const apiOutput = await apiAction(query);
+    const apiOutput = await apiAction(
+      showPagination ? { query: query, page: page } : query,
+    );
     const items =
       (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
     const totalCount = apiOutput?.totalCount || null;
@@ -76,6 +83,15 @@ class AsyncDropDown extends React.Component {
           }))
         : [],
       loading: false,
+      keepOpen: keepOpen || !!query,
+    });
+  }
+
+  handlePageChange(page) {
+    const { inputValue } = this.state;
+    this.handleSearch(inputValue, page.page);
+    this.setState({
+      page: page.page,
     });
   }
 
@@ -126,27 +142,37 @@ class AsyncDropDown extends React.Component {
       clearInputField,
       customCreateButtonText,
       hideTotalSearchCount,
+      showPagination,
       ...rest
     } = this.props;
 
-    const { items, loading } = this.state;
+    const {
+      items,
+      loading,
+      page,
+      totalCount,
+      keepOpen,
+      selectedItem,
+      inputValue,
+    } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
       onClick,
-      value: this.state.inputValue,
-      onKeyDown: this.props.onKeyDown
-        ? this.props.onKeyDown
-        : event => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              handleCreate();
-            }
-          },
+      value: inputValue,
+      onKeyDown: event => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          this.props.saveOnEnter && handleCreate();
+        }
+        if (event.key === 'ArrowDown') {
+          this.setState({ keepOpen: true });
+        }
+      },
     };
 
     const handleCreate = () => {
-      onCreate(this.state.inputValue);
+      onCreate(inputValue);
       if (children || clearInputField) {
         this.setState({ inputValue: '' });
       }
@@ -159,7 +185,11 @@ class AsyncDropDown extends React.Component {
         onStateChange={this.handleStateChange}
         onChange={this.handleChange}
         initialIsOpen={startOpen}
-        selectedItem={this.state.selectedItem}>
+        selectedItem={selectedItem}
+        defaultIsOpen={keepOpen}
+        onOuterClick={() => {
+          this.setState({ keepOpen: false });
+        }}>
         {({ getInputProps, openMenu, ...downshiftProps }) => {
           const inpProps = getInputProps({ ...inputProps });
           return (
@@ -184,11 +214,13 @@ class AsyncDropDown extends React.Component {
                 disableSelected={disableSelected}
                 {...downshiftProps}
                 items={items}
-                totalCount={this.state.totalCount}
+                totalCount={totalCount}
                 positionAbsolute={positionAbsolute}
                 onCreate={onCreate && handleCreate}
                 customCreateButtonText={customCreateButtonText}
                 hideTotalSearchCount={hideTotalSearchCount}
+                page={showPagination && page}
+                handlePageChange={this.handlePageChange}
               />
             </div>
           );
@@ -218,6 +250,9 @@ AsyncDropDown.propTypes = {
   clearInputField: PropTypes.bool,
   customCreateButtonText: PropTypes.string,
   hideTotalSearchCount: PropTypes.bool,
+  page: PropTypes.number,
+  saveOnEnter: PropTypes.bool,
+  showPagination: PropTypes.bool,
 };
 
 AsyncDropDown.defaultPropTypes = {
@@ -226,6 +261,7 @@ AsyncDropDown.defaultPropTypes = {
   multiSelect: false,
   selectedItems: [],
   disableSelected: false,
+  showPagination: false,
 };
 
 export default injectT(AsyncDropDown);

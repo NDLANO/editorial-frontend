@@ -104,7 +104,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
     const embedTag = parseEmbedTag(visualElementEmbed);
     switch (embedTag?.resource) {
       case 'image':
-        const image = await fetchImage(embedTag.resource_id);
+        const image = await fetchImage(parseInt(embedTag.resource_id));
         return {
           ...embedTag,
           url: image.imageUrl,

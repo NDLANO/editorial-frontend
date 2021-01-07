@@ -19,9 +19,11 @@ import FormikField from '../../components/FormikField';
 
 const markdown = new Remarkable({ breaks: true });
 markdown.inline.ruler.enable(['sub', 'sup']);
-markdown.block.ruler.disable(['list']);
 
-const renderMarkdown = text => {
+const renderMarkdown = (text, concept) => {
+  if (!concept) {
+    markdown.block.ruler.disable(['list']);
+  }
   return markdown.render(text);
 };
 
@@ -31,6 +33,7 @@ const FormikIngress = ({
   maxLength,
   placeholder,
   preview = false,
+  concept = false,
 }) => (
   <StyledFormContainer>
     <FormikField
@@ -42,7 +45,7 @@ const FormikIngress = ({
       {({ field }) =>
         preview ? (
           <p className="article_introduction">
-            {parse(renderMarkdown(Plain.serialize(field.value)))}
+            {parse(renderMarkdown(Plain.serialize(field.value), concept))}
           </p>
         ) : (
           <PlainTextEditor
@@ -70,6 +73,7 @@ FormikIngress.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string,
   preview: PropTypes.bool,
+  concept: PropTypes.bool,
 };
 
 export default injectT(FormikIngress);

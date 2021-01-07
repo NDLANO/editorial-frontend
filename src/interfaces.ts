@@ -387,45 +387,6 @@ export interface VisualElement {
   'upper-left-x'?: string;
 }
 
-export interface Image {
-  alttext: {
-    alttext: string;
-    language: string;
-  };
-  caption: {
-    caption: string;
-    language: string;
-  };
-  contentType: string;
-  copyright: {
-    creators: [
-      {
-        name: string;
-      },
-    ];
-    license: {
-      description: string;
-      license: string;
-      origin: string;
-      processors: string[];
-      rightsholders: string[];
-    };
-  };
-  id: string;
-  imageUrl: string;
-  metaUrl: string;
-  size: string;
-  supportedLanguages: string[];
-  tags: {
-    language: string;
-    tags: string[];
-  };
-  title: {
-    title: string;
-    language: string;
-  };
-}
-
 export interface SlateFigureProps {
   attributes?: {
     'data-key': string;
@@ -463,7 +424,7 @@ export interface Embed {
   };
   player?: string;
   resource: string;
-  resource_id: string;
+  resource_id: number;
   size: string;
   type: string;
   url: string;
@@ -512,4 +473,10 @@ export interface AccordionProps {
 export interface FormikProperties {
   field: FieldProps<FormikValues>['field'];
   form: FormikHelpers<FormikValues>;
+}
+
+export interface Licenses {
+  license: string;
+  description: string;
+  url?: string;
 }

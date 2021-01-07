@@ -44,10 +44,13 @@ import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import { createEmbedTag, parseEmbedTag } from '../../../util/embedTagHelpers';
+import FormikField from '../../../components/FormikField';
+import ConceptArticles from './ConceptArticles';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
+
   return {
     id: concept.id,
     title: concept.title || '',
@@ -69,7 +72,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     metaImageId,
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
-    articleId: concept.articleId,
+    articleIds: concept.articleIds || [],
     status: concept.status || {},
     visualElement: visualElement || {},
   };
@@ -173,7 +176,7 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
-      articleId: values.articleId,
+      articleIds: values.articleIds,
       metaImage,
       visualElement,
     };
@@ -281,6 +284,23 @@ class ConceptForm extends Component {
             subjects={subjects}
             locale={locale}
           />
+        ),
+      },
+      {
+        id: 'concept-articles',
+        title: t('form.articleSection'),
+        className: 'u-6/6',
+        hasError: ['articleIds'].some(field => !!errors[field]),
+        component: props => (
+          <FormikField name={'articleIds'}>
+            {({ field, form }) => (
+              <ConceptArticles
+                articleIds={props.values.articleIds}
+                field={field}
+                form={form}
+              />
+            )}
+          </FormikField>
         ),
       },
     ];

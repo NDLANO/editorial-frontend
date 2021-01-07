@@ -131,7 +131,7 @@ export const ConceptShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
   content: PropTypes.string,
-  articleId: PropTypes.number,
+  articleIds: PropTypes.arrayOf(PropTypes.number),
 });
 
 export const ImageShape = PropTypes.shape({

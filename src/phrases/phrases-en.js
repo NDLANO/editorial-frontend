@@ -317,6 +317,12 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
+  conceptpageForm: {
+    articlesTitle: 'Related Articles',
+    articlesSubtitle: 'Articles',
+    changeOrder: 'Change order',
+    removeArticle: 'Remove article',
+  },
   subjectpageForm: {
     title: 'Subject',
     about: 'About subject',
@@ -448,6 +454,7 @@ const phrases = {
     },
   },
   form: {
+    articleSection: 'Articles',
     metadataSection: 'Metadata',
     contentSection: 'Content',
     workflowSection: 'Version log and notes',

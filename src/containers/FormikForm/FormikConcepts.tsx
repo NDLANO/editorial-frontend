@@ -9,18 +9,11 @@ import React, { FC, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
-import ElementList from '../../NdlaFilm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
-import {
-  Concept,
-  ContentResultType,
-  FormikProperties,
-} from '../../../interfaces';
-import handleError from '../../../util/handleError';
-import {
-  fetchConcept,
-  searchConcepts,
-} from '../../../modules/concept/conceptApi';
+import ElementList from '../NdlaFilm/components/ElementList';
+import { AsyncDropdown } from '../../components/Dropdown';
+import { Concept, ContentResultType, FormikProperties } from '../../interfaces';
+import handleError from '../../util/handleError';
+import { fetchConcept, searchConcepts } from '../../modules/concept/conceptApi';
 
 interface Props {
   locale: String;
@@ -33,7 +26,7 @@ interface Props {
   };
 }
 
-const LearningResourceConcepts: FC<Props & tType> = ({
+const FormikConcepts: FC<Props & tType> = ({
   locale,
   t,
   values,
@@ -79,14 +72,14 @@ const LearningResourceConcepts: FC<Props & tType> = ({
   return (
     <>
       <FieldHeader
-        title={t('learningResourceForm.articlesTitle')}
-        subTitle={t('learningResourceForm.articlesSubtitle')}
+        title={t('form.relatedConcepts.articlesTitle')}
+        subTitle={t('form.relatedConcepts.articlesSubtitle')}
       />
       <ElementList
         elements={concepts}
         messages={{
-          dragElement: t('learningResourceForm.changeOrder'),
-          removeElement: t('learningResourceForm.removeArticle'),
+          dragElement: t('form.relatedConcepts.changeOrder'),
+          removeElement: t('form.relatedConcepts.removeArticle'),
         }}
         onUpdateElements={onUpdateElements}
       />
@@ -95,7 +88,7 @@ const LearningResourceConcepts: FC<Props & tType> = ({
         idField="id"
         name="relatedConceptsSearch"
         labelField="title"
-        placeholder={t('form.content.relatedArticle.placeholder')}
+        placeholder={t('form.relatedConcepts.placeholder')}
         label="label"
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
@@ -107,4 +100,4 @@ const LearningResourceConcepts: FC<Props & tType> = ({
   );
 };
 
-export default injectT(LearningResourceConcepts);
+export default injectT(FormikConcepts);

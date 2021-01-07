@@ -406,10 +406,6 @@ const phrases = {
     title: 'Bilde ',
   },
   learningResourceForm: {
-    articlesTitle: 'Relaterte forklaringar',
-    articlesSubtitle: 'Forklaringar',
-    changeOrder: 'Endre rekkefølgje',
-    removeArticle: 'Fjern forklaring',
     metaImage: {
       title: 'Bildetittel',
       copyright: 'Opphav',
@@ -930,6 +926,13 @@ const phrases = {
     article: {
       label: 'Artikkel',
       add: 'Legg til artikkel',
+    },
+    relatedConcepts: {
+      placeholder: 'Søk på tittel',
+      articlesTitle: 'Relaterte forklaringar',
+      articlesSubtitle: 'Forklaringar',
+      changeOrder: 'Endre rekkefølgje',
+      removeArticle: 'Fjern forklaring',
     },
   },
   validation: {

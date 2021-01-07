@@ -388,10 +388,6 @@ const phrases = {
     title: 'Image',
   },
   learningResourceForm: {
-    articlesTitle: 'Related Concepts',
-    articlesSubtitle: 'Concepts',
-    changeOrder: 'Change order',
-    removeArticle: 'Remove concept',
     metaImage: {
       title: 'Image title',
       copyright: 'Copyright',
@@ -912,6 +908,13 @@ const phrases = {
     article: {
       label: 'Article',
       add: 'Add article',
+    },
+    relatedConcepts: {
+      placeholder: 'Search for title',
+      articlesTitle: 'Related Concepts',
+      articlesSubtitle: 'Concepts',
+      changeOrder: 'Change order',
+      removeArticle: 'Remove concept',
     },
   },
   validation: {

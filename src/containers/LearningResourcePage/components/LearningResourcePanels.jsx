@@ -8,7 +8,7 @@ import Accordion, {
 } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import LearningResourceConcepts from './LearningResourceConcepts';
+import FormikConcepts from '../../FormikForm/FormikConcepts';
 import {
   FormikCopyright,
   VersionAndNotesPanel,
@@ -65,7 +65,7 @@ const panels = [
       return (
         <FormikField name={'conceptIds'}>
           {({ field, form }) => (
-            <LearningResourceConcepts field={field} form={form} {...props} />
+            <FormikConcepts field={field} form={form} {...props} />
           )}
         </FormikField>
       );

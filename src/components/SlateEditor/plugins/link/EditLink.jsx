@@ -10,6 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
+import Url from 'url-parse';
+import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';
@@ -44,9 +46,7 @@ const createLinkData = (href, targetRel) => ({
 export const isNDLAArticleUrl = url =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
 export const isNDLATaxonomyUrl = url =>
-  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(subjects\/)?(.*)\/topic(.*)/.test(
-    url,
-  );
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(.*)\/topic(.*)/.test(url);
 export const isNDLALearningPathUrl = url =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
 export const isNDLAEdPathUrl = url =>
@@ -74,8 +74,10 @@ const getIdAndTypeFromUrl = async href => {
       resourceType: 'article',
     };
   } else if (isNDLATaxonomyUrl(baseHref)) {
-    const taxonomyPath = baseHref.split('subjects').pop();
-    const resolvedTaxonomy = await resolveUrls(taxonomyPath);
+    const { pathname } = new Url(baseHref.replace('/subjects', ''));
+    const paths = pathname.split('/');
+    const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
+    const resolvedTaxonomy = await resolveUrls(path);
 
     const contentUriSplit =
       resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');

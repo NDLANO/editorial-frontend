@@ -36,8 +36,7 @@ test('isDraftPublished status undefined', () => {
 });
 
 test('transformArticleFromApiVersion', () => {
-  const conceptIds = [{ test: 'test' }];
-  const transformed = transformArticleFromApiVersion(apiArticle, conceptIds);
+  const transformed = transformArticleFromApiVersion(apiArticle);
   expect(transformed).toMatchSnapshot();
 });
 

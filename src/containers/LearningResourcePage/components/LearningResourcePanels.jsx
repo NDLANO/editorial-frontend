@@ -8,7 +8,6 @@ import Accordion, {
 } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import FormikConcepts from '../../FormikForm/FormikConcepts';
 import {
   FormikCopyright,
   VersionAndNotesPanel,
@@ -16,7 +15,6 @@ import {
 } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
-import FormikField from '../../../components/FormikField';
 
 const panels = [
   {
@@ -55,21 +53,6 @@ const panels = [
     className: 'u-6/6',
     errorFields: ['grepCodes'],
     component: props => <FormikGrepCodes {...props} />,
-  },
-  {
-    id: 'learning-resource-concepts',
-    title: 'form.name.concepts',
-    className: 'u-6/6',
-    errorFields: ['conceptIds'],
-    component: props => {
-      return (
-        <FormikField name={'conceptIds'}>
-          {({ field, form }) => (
-            <FormikConcepts field={field} form={form} {...props} />
-          )}
-        </FormikField>
-      );
-    },
   },
   {
     id: 'learning-resource-workflow',

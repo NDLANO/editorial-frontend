@@ -51,7 +51,6 @@ export const apiArticle = {
   articleType: 'standard',
   supportedLanguages: ['nb', 'nn', 'en'],
   notes: [],
-  conceptIds: [],
 };
 
 export const transformedArticle = {
@@ -101,5 +100,4 @@ export const transformedArticle = {
   updated: '2019-05-15T08:45:46Z',
   updatedBy: 'test',
   visualElement: {},
-  conceptIds: [],
 };

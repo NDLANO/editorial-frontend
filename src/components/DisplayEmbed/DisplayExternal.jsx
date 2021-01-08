@@ -152,10 +152,6 @@ export class DisplayExternal extends Component {
       return errorHolder();
     }
 
-    if (!type && !provider) {
-      return null;
-    }
-
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 

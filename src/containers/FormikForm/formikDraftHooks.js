@@ -8,7 +8,6 @@
 
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
-import { fetchConcept } from '../../modules/concept/conceptApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
@@ -33,44 +32,24 @@ export function useFetchArticleData(articleId, locale) {
     if (articleId) {
       setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
-
-      const convertedConcepts = await fetchElementList(article.conceptIds);
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
-        transformArticleFromApiVersion(
-          { taxonomy, ...article },
-          locale,
-          convertedConcepts,
-        ),
+        transformArticleFromApiVersion({ taxonomy, ...article }, locale),
       );
       setLoading(false);
     }
   };
 
   const updateArticle = async updatedArticle => {
-    const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
-    const savedArticle = await draftApi.updateDraft({
-      ...updatedArticle,
-      conceptIds: conceptIds,
-    });
+    const savedArticle = await draftApi.updateDraft(updatedArticle);
     const taxonomy = await fetchTaxonomy(articleId, locale);
     const updated = transformArticleFromApiVersion(
       { taxonomy, ...savedArticle },
       locale,
-      updatedArticle.conceptIds,
     );
-    console.log(updated);
     updateUserData(articleId);
     setArticle(updated);
     return updated;
-  };
-
-  const fetchElementList = async articleIds => {
-    return await Promise.all(
-      articleIds.map(async elementId => {
-        return fetchConcept(elementId);
-      }),
-    );
   };
 
   const updateArticleAndStatus = async ({
@@ -80,16 +59,8 @@ export function useFetchArticleData(articleId, locale) {
   }) => {
     let newArticle = updatedArticle;
     if (dirty) {
-      const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
-      const savedArticle = await draftApi.updateDraft({
-        ...updatedArticle,
-        conceptIds: conceptIds,
-      });
-      newArticle = transformArticleFromApiVersion(
-        savedArticle,
-        locale,
-        updatedArticle.conceptIds,
-      );
+      const savedArticle = await draftApi.updateDraft(updatedArticle);
+      newArticle = transformArticleFromApiVersion(savedArticle, locale);
     }
     const statusChangedDraft = await draftApi.updateStatusDraft(
       updatedArticle.id,
@@ -106,18 +77,8 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const createArticle = async createdArticle => {
-    const conceptIds = createdArticle.conceptIds.map(concept => concept.id);
-    const savedArticle = await draftApi.createDraft({
-      ...createdArticle,
-      conceptIds: conceptIds,
-    });
-    setArticle(
-      transformArticleFromApiVersion(
-        savedArticle,
-        locale,
-        createdArticle.conceptIds,
-      ),
-    );
+    const savedArticle = await draftApi.createDraft(createdArticle);
+    setArticle(transformArticleFromApiVersion(savedArticle, locale));
     updateUserData(savedArticle.id);
     return savedArticle;
   };

@@ -67,7 +67,7 @@ export class DisplayExternal extends Component {
     const { embed, language } = this.props;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(
-      'https://ed.test.ndla.no/h5p-custom-css.css',
+      'https://test.ndla.no/static/h5p-custom-css.css', // TODO HOWTO make first part of link dynamic?
     );
     this.setState({ domain });
 

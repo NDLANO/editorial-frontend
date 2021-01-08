@@ -68,7 +68,9 @@ test('DisplayExternal renders external correctly', () => {
   };
 
   const component = TestRenderer.create(
-    <DisplayExternal embed={embed} t={() => ''} />,
+    <IntlWrapper>
+      <DisplayExternal embed={embed} />
+    </IntlWrapper>,
     options,
   );
   expect(component.toJSON()).toMatchSnapshot();
@@ -102,10 +104,9 @@ test('DisplayExternal display error on fetch fail', () => {
     });
 
   const component = TestRenderer.create(
-    <DisplayExternal
-      embed={{ url: 'https://ndla.no/oembed' }}
-      t={() => 'Error message'}
-    />,
+    <IntlWrapper>
+      <DisplayExternal embed={{ url: 'https://ndla.no/oembed' }} />
+    </IntlWrapper>,
     options,
   );
 

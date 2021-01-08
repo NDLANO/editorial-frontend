@@ -121,7 +121,9 @@ Array [
 <div
     className="emotion-0 emotion-1"
   >
-    <span />
+    <span>
+      oEmbed av type  og kilde  er ikke støttet.
+    </span>
   </div>,
 ]
 `;
@@ -247,7 +249,9 @@ Array [
 <div
     className="emotion-0 emotion-1"
   >
-    <span />
+    <span>
+      oEmbed av type  og kilde  er ikke støttet.
+    </span>
   </div>,
 ]
 `;

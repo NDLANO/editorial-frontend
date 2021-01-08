@@ -515,6 +515,7 @@ const phrases = {
       grepCodes: 'Læreplankobling',
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
+      subjects: 'Fag',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

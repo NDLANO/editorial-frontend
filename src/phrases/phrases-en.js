@@ -500,6 +500,7 @@ const phrases = {
       grepCodes: 'Curriculum connection',
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
+      concepts: 'Concepts',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -915,6 +916,13 @@ const phrases = {
     article: {
       label: 'Article',
       add: 'Add article',
+    },
+    relatedConcepts: {
+      placeholder: 'Search for title',
+      articlesTitle: 'Related Concepts',
+      articlesSubtitle: 'Concepts',
+      changeOrder: 'Change order',
+      removeArticle: 'Remove concept',
     },
   },
   validation: {

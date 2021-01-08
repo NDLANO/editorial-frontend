@@ -149,6 +149,7 @@ export interface ArticleType {
   status: Status;
   content: string;
   grepCodes: string[];
+  conceptIds: number[];
 }
 
 export interface TaxonomyMetadata {
@@ -473,6 +474,44 @@ export interface AccordionProps {
 export interface FormikProperties {
   field: FieldProps<FormikValues>['field'];
   form: FormikHelpers<FormikValues>;
+}
+
+export interface Concept {
+  id: number;
+  revision: number;
+  title: {
+    title: string;
+    language: string;
+  };
+  content: {
+    content: string;
+    language: string;
+  };
+  copyright: Copyright;
+  source: string;
+  metaImage: {
+    url: string;
+    alt: string;
+    language: string;
+  };
+  tags: {
+    tags: string[];
+    language: string;
+  };
+  subjectIds: string[];
+  created: string;
+  updated: string;
+  updatedBy: string[];
+  supportedLanguages: string[];
+  articleIds: number[];
+  status: {
+    current: string;
+    other: string[];
+  };
+  visualElement: {
+    visualElement: string;
+    language: string;
+  };
 }
 
 export interface Licenses {

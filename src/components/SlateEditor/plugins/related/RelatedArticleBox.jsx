@@ -110,21 +110,21 @@ export class RelatedArticleBox extends React.Component {
   }
 
   async fetchArticle(id) {
-    const { locale } = this.props;
-    const [article, resource] = await Promise.all([
-      fetchDraft(id, locale),
-      queryResources(id, locale),
-    ]);
-    if (article) {
-      return mapRelatedArticle(article, resource);
-    }
-  }
-  async fetchArticles(ids) {
     try {
-      return Promise.all(ids.map(id => this.fetchArticle(id)));
+      const { locale } = this.props;
+      const [article, resource] = await Promise.all([
+        fetchDraft(id, locale),
+        queryResources(id, locale),
+      ]);
+      if (article) {
+        return mapRelatedArticle(article, resource);
+      }
     } catch (error) {
       handleError(error);
     }
+  }
+  async fetchArticles(ids) {
+    return Promise.all(ids.map(id => this.fetchArticle(id)));
   }
 
   async fetchExternal(url, title, onMount = false) {

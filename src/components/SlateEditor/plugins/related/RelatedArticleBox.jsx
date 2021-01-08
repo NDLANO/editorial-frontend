@@ -37,8 +37,8 @@ export class RelatedArticleBox extends React.Component {
   constructor() {
     super();
     this.state = { articles: [], editMode: false };
+    this.fetchArticle = this.fetchArticle.bind(this);
     this.updateArticles = this.updateArticles.bind(this);
-    this.fetchRelated = this.fetchRelated.bind(this);
     this.fetchExternal = this.fetchExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.updateEmbedNode = this.updateEmbedNode.bind(this);
@@ -51,11 +51,12 @@ export class RelatedArticleBox extends React.Component {
       node: { data },
     } = this.props;
     if (data && data.get('nodes')) {
+      const articleIds = data.get('nodes').map(n => n['article-id']);
+
+      this.fetchArticles(articleIds).then(articles =>
+        this.setState({ articles }),
+      );
       data.get('nodes').forEach(article => {
-        const articleId = article['article-id'];
-        if (articleId) {
-          this.fetchRelated(articleId, true);
-        }
         if (article.title) {
           this.fetchExternal(article.url, article.title, true);
         }
@@ -75,7 +76,12 @@ export class RelatedArticleBox extends React.Component {
   onInsertBlock(newArticle) {
     if (!this.state.articles.find(it => it.id === parseInt(newArticle, 10))) {
       // get resource and add to state
-      this.fetchRelated(newArticle);
+      this.fetchArticle(newArticle).then(article => {
+        this.setState(oldState => ({
+          articles: [...oldState.articles, article],
+        }));
+        this.setNodeKey();
+      });
     }
   }
 
@@ -103,25 +109,19 @@ export class RelatedArticleBox extends React.Component {
     if (!onMount) this.setNodeKey();
   }
 
-  async fetchRelated(id, onMount = false) {
+  async fetchArticle(id) {
     const { locale } = this.props;
+    const [article, resource] = await Promise.all([
+      fetchDraft(id, locale),
+      queryResources(id, locale),
+    ]);
+    if (article) {
+      return mapRelatedArticle(article, resource);
+    }
+  }
+  async fetchArticles(ids) {
     try {
-      const [article, resource] = await Promise.all([
-        fetchDraft(id, locale),
-        queryResources(id, locale),
-      ]);
-      if (article) {
-        this.setState(
-          prevState => ({
-            articles: [
-              ...prevState.articles,
-              mapRelatedArticle(article, resource),
-            ],
-            editMode: false,
-          }),
-          () => this.updateEmbedNode(onMount),
-        );
-      }
+      return Promise.all(ids.map(id => this.fetchArticle(id)));
     } catch (error) {
       handleError(error);
     }

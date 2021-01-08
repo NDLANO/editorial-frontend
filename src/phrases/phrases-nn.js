@@ -522,6 +522,7 @@ const phrases = {
       grepCodes: 'Læreplankobling',
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
+      concepts: 'Forklaringar',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -933,6 +934,13 @@ const phrases = {
     article: {
       label: 'Artikkel',
       add: 'Legg til artikkel',
+    },
+    relatedConcepts: {
+      placeholder: 'Søk på tittel',
+      articlesTitle: 'Relaterte forklaringar',
+      articlesSubtitle: 'Forklaringar',
+      changeOrder: 'Endre rekkefølgje',
+      removeArticle: 'Fjern forklaring',
     },
   },
   validation: {

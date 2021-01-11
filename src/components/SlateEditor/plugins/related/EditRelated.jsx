@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { colors, spacing } from '@ndla/core';
 import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
@@ -99,35 +100,26 @@ class EditRelated extends React.PureComponent {
     }));
   }
 
-  async searchForArticles(inp) {
+  async searchForArticles(query) {
     return await search({
-      query: inp,
-      'context-types': 'article',
+      query: query.query,
+      page: query.page,
+      'context-types': 'standard, topic-article',
     });
   }
 
   render() {
     const {
       onRemoveClick,
-      removeArticle,
+      updateArticles,
       insertExternal,
-      items,
+      articles,
       onInsertBlock,
       onExit,
       t,
       ...rest
     } = this.props;
     const { title, url } = this.state;
-    const relatedArticles = items.map((relatedArticle, i) =>
-      !relatedArticle.id ? (
-        t('form.content.relatedArticle.invalidArticle')
-      ) : (
-        <StyledArticle key={relatedArticle.id}>
-          <RelatedArticle item={relatedArticle} />
-          <DeleteButton stripped onClick={e => removeArticle(i, e)} />
-        </StyledArticle>
-      ),
-    );
 
     return (
       <div>
@@ -145,7 +137,78 @@ class EditRelated extends React.PureComponent {
               <h1 className="c-section-heading c-related-articles__component-title">
                 {t('form.related.title')}
               </h1>
-              <StyledListWrapper>{relatedArticles}</StyledListWrapper>
+              <p>{t('form.related.subtitle')}</p>
+              <StyledListWrapper>
+                <DragDropContext
+                  onDragEnd={a => {
+                    if (!a.destination) {
+                      return;
+                    }
+                    const toIndex = a.destination.index;
+                    const fromIndex = a.source.index;
+                    const newArticles = [...articles];
+
+                    var element = newArticles[fromIndex];
+                    newArticles.splice(fromIndex, 1);
+                    newArticles.splice(toIndex, 0, element);
+                    updateArticles(newArticles);
+                  }}>
+                  <Droppable droppableId="relatedArticleDroppable">
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        className={
+                          snapshot.isDraggingOver
+                            ? 'drop-zone dragging'
+                            : 'drop-zone'
+                        }>
+                        {articles.map((article, index) => {
+                          if (!article) {
+                            return null;
+                          }
+                          return (
+                            <Draggable
+                              key={article.id}
+                              draggableId={article.id}
+                              index={index}>
+                              {(providedInner, snapshotInner) => (
+                                <div
+                                  className="drag-item"
+                                  ref={providedInner.innerRef}
+                                  {...providedInner.dragHandleProps}
+                                  {...providedInner.draggableProps}>
+                                  <StyledArticle
+                                    isDragging={snapshotInner.isDragging}
+                                    dragHandleProps={
+                                      providedInner.dragHandleProps
+                                    }
+                                    key={article.id}>
+                                    <RelatedArticle item={article} />
+                                    <DeleteButton
+                                      title="Fjern relaterte artikler"
+                                      stripped
+                                      onClick={e => {
+                                        e.stopPropagation();
+
+                                        const newArticles = articles.filter(
+                                          filterArticle =>
+                                            filterArticle.id !== article.id,
+                                        );
+                                        updateArticles(newArticles);
+                                      }}
+                                    />
+                                  </StyledArticle>
+                                </div>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </StyledListWrapper>
               <StyledArticle data-cy="styled-article-modal">
                 <AsyncDropdown
                   idField="id"
@@ -157,6 +220,7 @@ class EditRelated extends React.PureComponent {
                   onClick={e => e.stopPropagation()}
                   onChange={selected => selected && onInsertBlock(selected.id)}
                   positionAbsolute
+                  showPagination
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>
                 <Button
@@ -203,9 +267,9 @@ class EditRelated extends React.PureComponent {
 
 EditRelated.propTypes = {
   onRemoveClick: PropTypes.func,
-  removeArticle: PropTypes.func,
+  updateArticles: PropTypes.func,
   onExit: PropTypes.func,
-  items: PropTypes.arrayOf(PropTypes.object),
+  articles: PropTypes.arrayOf(PropTypes.object),
   onInsertBlock: PropTypes.func,
   insertExternal: PropTypes.func,
 };

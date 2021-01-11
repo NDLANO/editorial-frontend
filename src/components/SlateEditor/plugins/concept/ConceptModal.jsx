@@ -15,8 +15,9 @@ import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
+
 import { searchConcepts } from '../../../../modules/search/searchApi';
-import SearchForm from '../../../../../src/containers/SearchPage/components/form/SearchForm';
+import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
@@ -73,9 +74,6 @@ const ConceptModal = ({
     if (licenses.length === 0) {
       getAllLicenses();
     }
-    if (id) {
-      setSelectedTabIndex(1);
-    }
   }, [id]);
 
   const searchConcept = async searchParam => {
@@ -98,6 +96,7 @@ const ConceptModal = ({
   useEffect(() => {
     searchConcept(searchObject);
   }, []);
+
   return (
     <Portal isOpened>
       <Modal
@@ -164,9 +163,7 @@ const ConceptModal = ({
                     ),
                   },
                   {
-                    title: id
-                      ? t('form.concept.edit')
-                      : t('form.concept.create'),
+                    title: t('form.concept.create'),
                     content: (
                       <ConceptForm
                         inModal
@@ -177,11 +174,7 @@ const ConceptModal = ({
                         locale={locale}
                         fetchStateStatuses={fetchStatusStateMachine}
                         fetchConceptTags={fetchSearchTags}
-                        concept={
-                          id
-                            ? { ...concept, language: locale }
-                            : { title: selectedText, language: locale }
-                        }
+                        concept={{ title: selectedText, language: locale }}
                       />
                     ),
                   },
@@ -196,19 +189,19 @@ const ConceptModal = ({
 };
 
 ConceptModal.propTypes = {
+  addConcept: PropTypes.func.isRequired,
+  concept: ConceptShape,
+  createConcept: PropTypes.func.isRequired,
+  fetchSearchTags: PropTypes.func,
+  fetchStatusStateMachine: PropTypes.func,
+  handleRemove: PropTypes.func.isRequired,
   id: PropTypes.number,
+  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   locale: PropTypes.string,
   selectedText: PropTypes.string,
-  addConcept: PropTypes.func.isRequired,
-  concept: ConceptShape,
   updateConcept: PropTypes.func.isRequired,
-  createConcept: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  handleRemove: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  fetchStatusStateMachine: PropTypes.func,
-  fetchSearchTags: PropTypes.func,
 };
 
 export default injectT(ConceptModal);

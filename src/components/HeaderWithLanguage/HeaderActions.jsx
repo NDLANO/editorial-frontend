@@ -54,7 +54,6 @@ const HeaderActions = ({
     type === 'concept' ? (
       supportedLanguages.length > 1 && (
         <PreviewConceptLightbox
-          label={t(`articleType.concept`)}
           typeOfPreview="previewLanguageArticle"
           getConcept={getEntity}
         />
@@ -131,21 +130,21 @@ const HeaderActions = ({
 };
 
 HeaderActions.propTypes = {
+  editUrl: PropTypes.func.isRequired,
+  formIsDirty: PropTypes.bool,
+  getEntity: PropTypes.func,
+  isNewLanguage: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
+  setTranslateOnContinue: PropTypes.func,
+  translateArticle: PropTypes.func,
+  type: PropTypes.string,
   values: PropTypes.shape({
     articleType: PropTypes.string,
     id: PropTypes.number,
     language: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
   }),
-  editUrl: PropTypes.func.isRequired,
-  getEntity: PropTypes.func,
-  isNewLanguage: PropTypes.bool,
-  type: PropTypes.string,
-  translateArticle: PropTypes.func,
-  setTranslateOnContinue: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  formIsDirty: PropTypes.bool,
 };
 
 export default injectT(HeaderActions);

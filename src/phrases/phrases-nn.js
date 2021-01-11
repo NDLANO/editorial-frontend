@@ -319,6 +319,12 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjerna ved lagring.',
   },
+  conceptpageForm: {
+    articlesTitle: 'Relaterte artiklar',
+    articlesSubtitle: 'Artiklar',
+    changeOrder: 'Endre rekkefølgje',
+    removeArticle: 'Fjern artikkel',
+  },
   subjectpageForm: {
     title: 'Fag',
     about: 'Om faget',
@@ -470,6 +476,7 @@ const phrases = {
     placeholder: 'Kort sammendrag',
   },
   form: {
+    articleSection: 'Artiklar',
     metadataSection: 'Metadata',
     contentSection: 'Innhald',
     workflowSection: 'Versjonslogg og merknader',
@@ -619,6 +626,7 @@ const phrases = {
       addText: 'Velg ei forklaring under og trykk "koble til fagtekst", eller',
       edit: 'Rediger forklaring',
       addConcept: 'Legg til eksisterande forklaring',
+      removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
     },
     workflow: {
@@ -767,7 +775,7 @@ const phrases = {
       label: 'Kompetansemål og kjerneelementer',
       placeholder: 'Skriv inn kode',
       description:
-        'Skriv inn koder på formatet K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire kodar med komma.',
+        'Skriv inn koder på formatet K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2. Koder som ikkje eksisterer vil ikkje bli oppretta. Separer fleire kodar med komma. Tekstene visast på bokmål i ed, men korrekt i artikkelvisning.',
     },
     resourceTypes: {
       label: 'Innhaldstype og egenskaper',
@@ -896,6 +904,7 @@ const phrases = {
     },
     related: {
       title: 'Relaterte artikler',
+      subtitle: 'Dra artikkel for å endre rekkefølge',
       showMore: 'Vis fleire relaterte artikler',
       showLess: 'Vis mindre',
     },

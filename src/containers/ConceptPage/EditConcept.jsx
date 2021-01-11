@@ -14,7 +14,6 @@ import ConceptForm from './components/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
-
 import Spinner from '../../components/Spinner';
 
 const EditConcept = ({

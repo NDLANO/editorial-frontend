@@ -21,12 +21,12 @@ test('urls are parsed correctly', async () => {
   ];
 
   const subjectUrls = [
-    'https://api.test.ndla.no/en/subject:3/topic:1:2342/resource:1:64323',
+    'https://api.test.ndla.no/en/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://api.test.ndla.no/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla-frontend.api.test.ndla.no/sma/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla-frontend.api.test.ndla.no/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla-frontend.test.api.ndla.no/nn/subject:3/topic:1:2342/resource:1:64323',
-    'https://ndla-frontend.test.api.ndla.no/subject:3/topic:1:2342/resource:1:64323',
+    'https://ndla-frontend.test.api.ndla.no/subjects/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla.no/sma/subject:3/topic:1:2342/resource:1:64323',
     'https://ndla.no/subject:3/topic:1:2342/resource:1:64323',
     'https://test.ndla.no/nb/subject:3/topic:1:2342/resource:1:64323',

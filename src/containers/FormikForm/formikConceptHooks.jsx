@@ -43,7 +43,7 @@ export function useFetchConceptData(conceptId, locale) {
   };
 
   const fetchSubjects = async () => {
-    const fetchedSubjects = await taxonomyApi.fetchSubjects();
+    const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
     setSubjects(fetchedSubjects);
   };
 

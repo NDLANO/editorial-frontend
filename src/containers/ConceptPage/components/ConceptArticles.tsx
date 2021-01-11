@@ -98,6 +98,7 @@ const ConceptArticles: FC<Props & tType> = ({
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        disableSelected
         clearInputField
       />
     </>

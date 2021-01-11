@@ -94,6 +94,7 @@ const FormikConcepts: FC<Props & tType> = ({
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(concept: ContentResultType) => onAddConceptToList(concept)}
         multiSelect
+        disableSelected
         clearInputField
       />
     </>

@@ -199,14 +199,18 @@ const ImageEditor: React.FC<Props & tType> = ({
           editType={editType}
         />
         <StyledImageEditorMenu>
-          <Tooltip tooltip={t('form.image.focalPoint')}>
-            <ImageEditorButton
-              stripped
-              tabIndex={-1}
-              onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'focalPoint')}>
-              <FocalPoint />
-            </ImageEditorButton>
-          </Tooltip>
+          {shouldCrop() && (
+            <Tooltip tooltip={t('form.image.focalPoint')}>
+              <ImageEditorButton
+                stripped
+                tabIndex={-1}
+                onClick={(evt: MouseEvent) =>
+                  onEditorTypeSet(evt, 'focalPoint')
+                }>
+                <FocalPoint />
+              </ImageEditorButton>
+            </Tooltip>
+          )}
           {imageCancelButtonNeeded && (
             <Button
               onClick={(evt: MouseEvent) => onRemoveData(evt, editType)}

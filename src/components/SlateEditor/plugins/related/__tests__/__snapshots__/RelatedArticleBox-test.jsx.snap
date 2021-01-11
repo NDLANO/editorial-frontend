@@ -78,11 +78,16 @@ exports[`it goes in and out of edit mode 2`] = `
                 <g
                   fill="none"
                   fill-rule="evenodd"
+                  id="Page-1"
                   stroke="none"
                   stroke-width="1"
                 >
-                  <g>
-                    <g>
+                  <g
+                    id="delte-ressurser"
+                  >
+                    <g
+                      id="Shape"
+                    >
                       <polygon
                         points="0 0 24 0 24 24 0 24"
                       />

@@ -466,7 +466,7 @@ const phrases = {
       audio: 'Lyd',
       h5p: 'H5P',
       url: 'Ressurs fra lenke',
-      related: 'Relatert artikkel',
+      related: 'Relatert innhald',
       file: 'Fil',
       code: 'Kodevisning',
     },
@@ -902,9 +902,9 @@ const phrases = {
       remove: 'Fjern {type} element',
     },
     related: {
-      title: 'Relaterte artikler',
-      subtitle: 'Dra artikkel for å endre rekkefølge',
-      showMore: 'Vis fleire relaterte artikler',
+      title: 'Relatert innhald',
+      subtitle: 'Dra artikkel for å endra rekkefølgje',
+      showMore: 'Vis meir relatert innhald',
       showLess: 'Vis mindre',
     },
     file: {

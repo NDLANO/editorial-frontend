@@ -11,7 +11,6 @@ import React, { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
 import { tType } from '@ndla/i18n';
 import { Spinner } from '@ndla/editor';
-import { fetchLicenses } from '../../../../../modules/draft/draftApi';
 import {
   fetchConcept,
   updateConcept,

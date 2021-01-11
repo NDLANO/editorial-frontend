@@ -70,7 +70,6 @@ const isLearningPathResourceType = contentType =>
 const isConceptType = contentType => contentType === 'concept';
 
 export const resourceToLinkProps = (content, contentType, locale) => {
-  console.log(contentTypes.CONCEPT);
   if (isLearningPathResourceType(contentType)) {
     return {
       href: toLearningpathFull(content.id, locale),

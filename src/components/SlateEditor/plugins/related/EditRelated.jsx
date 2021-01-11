@@ -227,11 +227,7 @@ class EditRelated extends React.PureComponent {
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
               </StyledArticle>
-              <DeleteButton
-                stripped
-                onClick={onRemoveClick}
-                aria-label={t('topicArticleForm.removeVisualElement')}
-              />
+              <DeleteButton stripped onClick={onRemoveClick} />
             </StyledBorderDiv>
             {this.state.showAddExternal && (
               <TaxonomyLightbox

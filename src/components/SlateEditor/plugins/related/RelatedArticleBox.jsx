@@ -54,7 +54,7 @@ export class RelatedArticleBox extends React.Component {
       const articleIds = data.get('nodes').map(n => n['article-id']);
 
       this.fetchArticles(articleIds).then(articles =>
-        this.setState({ articles }),
+        this.setState({ articles: articles.filter(a => !!a) }),
       );
       data.get('nodes').forEach(article => {
         if (article.title) {
@@ -77,10 +77,12 @@ export class RelatedArticleBox extends React.Component {
     if (!this.state.articles.find(it => it.id === parseInt(newArticle, 10))) {
       // get resource and add to state
       this.fetchArticle(newArticle).then(article => {
-        this.setState(oldState => ({
-          articles: [...oldState.articles, article],
-        }));
-        this.setNodeKey();
+        if (article) {
+          this.setState(oldState => ({
+            articles: [...oldState.articles, article],
+          }));
+          this.setNodeKey();
+        }
       });
     }
   }

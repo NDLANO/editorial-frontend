@@ -31,6 +31,7 @@ interface Props {
   cancel: () => void;
   subjects: SubjectType[];
   updateLocalConcept: (concept: Concept) => void;
+  licenses: License[] | undefined;
 }
 
 const FormView = ({
@@ -38,6 +39,7 @@ const FormView = ({
   cancel,
   subjects,
   updateLocalConcept,
+  licenses,
   t,
 }: Props & tType) => {
   const languageOptions = concept.supportedLanguages.map(lan => ({
@@ -47,12 +49,8 @@ const FormView = ({
   const [language, setLanguage] = useState<string>(
     concept.supportedLanguages[0],
   );
-  const [licenses, setLicenses] = useState<License[] | undefined>();
   const [fullConcept, setFullConcept] = useState<Concept | undefined>();
 
-  useEffect(() => {
-    fetchLicenses().then((licenses: License[]) => setLicenses(licenses));
-  }, []);
   useEffect(() => {
     fetchConcept(concept.id, language).then((c: any) =>
       setFullConcept(transformConceptFromApiVersion(c)),

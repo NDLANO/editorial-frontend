@@ -27,6 +27,7 @@ const SearchResult = ({
   t,
   userAccess,
   editingState,
+  licenses,
 }) => {
   switch (type) {
     case 'content':
@@ -44,6 +45,7 @@ const SearchResult = ({
           locale={locale}
           subjects={subjects}
           editingState={editingState}
+          licenses={licenses}
         />
       );
     case 'media':
@@ -71,6 +73,7 @@ SearchResult.propTypes = {
   subjects: PropTypes.array,
   userAccess: PropTypes.string,
   editingState: PropTypes.array,
+  licenses: PropTypes.array,
 };
 
 export default injectT(SearchResult);

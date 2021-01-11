@@ -31,7 +31,10 @@ const ContentView = ({
   setShowForm,
   t,
   editing,
+  licenses,
 }) => {
+  const license = licenses && licenses.find(l => concept.license === l.license);
+
   return (
     <StyledConceptView>
       <h2>
@@ -73,6 +76,11 @@ const ContentView = ({
         })}
       </div>
       <StyledDescription>{content}</StyledDescription>
+      {license && (
+        <StyledDescription>
+          {t('form.name.license')}: {license.description}
+        </StyledDescription>
+      )}
       <StyledBreadcrumbs>
         {breadcrumbs?.map(breadcrumb => (
           <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>
@@ -113,6 +121,7 @@ ContentView.propTypes = {
       current: PropTypes.string,
       other: PropTypes.arrayOf(PropTypes.string),
     }),
+    license: PropTypes.string,
   }),
   locale: PropTypes.string,
   title: PropTypes.string,
@@ -120,6 +129,7 @@ ContentView.propTypes = {
   breadcrumbs: PropTypes.array,
   setShowForm: PropTypes.func,
   editing: PropTypes.bool,
+  licenses: PropTypes.array,
 };
 
 export default ContentView;

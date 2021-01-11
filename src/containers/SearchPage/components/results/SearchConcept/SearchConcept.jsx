@@ -17,7 +17,14 @@ import FormView from './FormView';
 
 import { transformConceptFromApiVersion } from '../../../../../util/conceptUtil';
 
-const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
+const SearchConcept = ({
+  concept,
+  locale,
+  subjects,
+  t,
+  editingState,
+  licenses,
+}) => {
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(
     transformConceptFromApiVersion(concept),
@@ -62,6 +69,7 @@ const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
           updateLocalConcept={newConcept => {
             setLocalConcept(transformConceptFromApiVersion(newConcept));
           }}
+          licenses={licenses}
           t={t}
         />
       ) : (
@@ -73,6 +81,7 @@ const SearchConcept = ({ concept, locale, subjects, t, editingState }) => {
           setShowForm={toggleShowForm}
           t={t}
           editing={editing}
+          licenses={licenses}
         />
       )}
     </div>
@@ -104,6 +113,7 @@ SearchConcept.propTypes = {
   locale: PropTypes.string,
   subjects: PropTypes.array,
   editingState: PropTypes.array,
+  licenses: PropTypes.array,
 };
 
 export default injectT(SearchConcept);

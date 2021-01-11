@@ -51,7 +51,7 @@ export function useFetchArticleData(articleId, locale) {
     const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
     const savedArticle = await draftApi.updateDraft({
       ...updatedArticle,
-      conceptIds: conceptIds,
+      conceptIds,
     });
     const taxonomy = await fetchTaxonomy(articleId, locale);
     const updated = transformArticleFromApiVersion(
@@ -59,7 +59,6 @@ export function useFetchArticleData(articleId, locale) {
       locale,
       updatedArticle.conceptIds,
     );
-    console.log(updated);
     updateUserData(articleId);
     setArticle(updated);
     return updated;
@@ -83,7 +82,7 @@ export function useFetchArticleData(articleId, locale) {
       const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
       const savedArticle = await draftApi.updateDraft({
         ...updatedArticle,
-        conceptIds: conceptIds,
+        conceptIds,
       });
       newArticle = transformArticleFromApiVersion(
         savedArticle,
@@ -109,7 +108,7 @@ export function useFetchArticleData(articleId, locale) {
     const conceptIds = createdArticle.conceptIds.map(concept => concept.id);
     const savedArticle = await draftApi.createDraft({
       ...createdArticle,
-      conceptIds: conceptIds,
+      conceptIds,
     });
     setArticle(
       transformArticleFromApiVersion(

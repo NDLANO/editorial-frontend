@@ -885,6 +885,7 @@ const phrases = {
     },
     related: {
       title: 'Related content',
+      subtitle: 'Drag article to change the order',
       showMore: 'Show more related content',
       showLess: 'Show less',
     },

@@ -899,6 +899,7 @@ const phrases = {
     },
     related: {
       title: 'Relatert innhold',
+      subtitle: 'Dra artikkel for å endre rekkefølge',
       showMore: 'Vis mer relatert innhold',
       showLess: 'Vis mindre',
     },

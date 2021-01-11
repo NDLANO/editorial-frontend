@@ -903,6 +903,7 @@ const phrases = {
     },
     related: {
       title: 'Relatert innhald',
+      subtitle: 'Dra artikkel for å endra rekkefølgje',
       showMore: 'Vis meir relatert innhald',
       showLess: 'Vis mindre',
     },

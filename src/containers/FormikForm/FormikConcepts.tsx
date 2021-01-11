@@ -36,9 +36,9 @@ const FormikConcepts: FC<Props & tType> = ({
   const [concepts, setConcepts] = useState<Concept[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
-      let newConcept = await fetchConcept(concept.id);
+      const newConcept = await fetchConcept(concept.id);
       const temp = [...concepts, newConcept];
-      if (newConcept !== undefined) {
+      if (newConcept) {
         setConcepts(temp);
         updateFormik(field, temp);
       }
@@ -63,7 +63,7 @@ const FormikConcepts: FC<Props & tType> = ({
   };
 
   const searchForConcepts = async (inp: String) => {
-    return await searchConcepts({
+    return searchConcepts({
       query: inp,
       language: locale,
     });

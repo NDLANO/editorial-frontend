@@ -34,7 +34,11 @@ export function useFetchArticleData(articleId, locale) {
       setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
 
-      const convertedConcepts = await fetchElementList(article.conceptIds);
+      let convertedConcepts = await fetchElementList(article.conceptIds);
+      convertedConcepts = convertedConcepts.map(e => ({
+        ...e,
+        articleType: 'concept',
+      }));
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
         transformArticleFromApiVersion(

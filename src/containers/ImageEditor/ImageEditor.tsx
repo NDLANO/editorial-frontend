@@ -149,7 +149,7 @@ const ImageEditor: React.FC<Props & tType> = ({
     });
   };
 
-  const shouldCrop = () => {
+  const isModifiable = () => {
     if (image) {
       return !(
         image.copyright.license.license.includes('ND') ||
@@ -199,7 +199,7 @@ const ImageEditor: React.FC<Props & tType> = ({
           editType={editType}
         />
         <StyledImageEditorMenu>
-          {shouldCrop() && (
+          {isModifiable() && (
             <Tooltip tooltip={t('form.image.focalPoint')}>
               <ImageEditorButton
                 stripped
@@ -218,7 +218,7 @@ const ImageEditor: React.FC<Props & tType> = ({
               {t(`imageEditor.remove.${editType}`)}
             </Button>
           )}
-          {shouldCrop() && (
+          {isModifiable() && (
             <Tooltip tooltip={t('form.image.crop')}>
               <ImageEditorButton
                 stripped

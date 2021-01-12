@@ -448,7 +448,7 @@ const phrases = {
       audio: 'Audio',
       h5p: 'H5P',
       url: 'Resource from link',
-      related: 'Related article',
+      related: 'Related content',
       file: 'File',
       code: 'Codeblock',
     },
@@ -501,6 +501,7 @@ const phrases = {
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
       concepts: 'Concepts',
+      subjects: 'Subject',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -885,8 +886,9 @@ const phrases = {
       remove: 'Remove {type} element',
     },
     related: {
-      title: 'Related articles',
-      showMore: 'Show more related articles',
+      title: 'Related content',
+      subtitle: 'Drag article to change the order',
+      showMore: 'Show more related content',
       showLess: 'Show less',
     },
     file: {

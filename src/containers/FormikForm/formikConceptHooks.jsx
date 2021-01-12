@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
+import * as taxonomyApi from '../../modules/taxonomy';
 import {
   fetchSearchTags,
   fetchStatusStateMachine,
@@ -22,10 +23,15 @@ import handleError from '../../util/handleError';
 export function useFetchConceptData(conceptId, locale) {
   const [concept, setConcept] = useState(undefined);
   const [loading, setLoading] = useState(false);
+  const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
     fetchConcept();
   }, [conceptId, locale]);
+
+  useEffect(() => {
+    fetchSubjects();
+  }, [locale]);
 
   const fetchConcept = async () => {
     try {
@@ -42,6 +48,11 @@ export function useFetchConceptData(conceptId, locale) {
     } catch (e) {
       handleError(e);
     }
+  };
+
+  const fetchSubjects = async () => {
+    const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
+    setSubjects(fetchedSubjects);
   };
 
   const fetchElementList = async articleIds => {
@@ -97,6 +108,7 @@ export function useFetchConceptData(conceptId, locale) {
     fetchStatusStateMachine,
     loading,
     setConcept,
+    subjects,
     updateConcept,
     updateConceptAndStatus,
   };

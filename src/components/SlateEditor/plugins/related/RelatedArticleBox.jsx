@@ -52,7 +52,7 @@ export class RelatedArticleBox extends React.Component {
     if (data && data.get('nodes')) {
       const articleNodes = data.get('nodes');
       this.fetchArticles(articleNodes).then(articles =>
-        this.setState({ articles: articles }),
+        this.setState({ articles: articles.filter(a => !!a) }),
       );
     } else {
       this.setState({ editMode: true });
@@ -149,7 +149,7 @@ export class RelatedArticleBox extends React.Component {
   }
 
   updateArticles(newArticles) {
-    this.setState({ articles: newArticles }, this.setNodeKey);
+    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeKey);
   }
 
   openEditMode(e) {

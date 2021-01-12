@@ -69,7 +69,7 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const fetchElementList = async articleIds => {
-    return await Promise.all(
+    return Promise.all(
       articleIds.map(async elementId => {
         return fetchConcept(elementId);
       }),

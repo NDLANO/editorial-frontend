@@ -56,7 +56,7 @@ export function useFetchConceptData(conceptId, locale) {
   };
 
   const fetchElementList = async articleIds => {
-    return await Promise.all(
+    return Promise.all(
       articleIds.map(async elementId => {
         return fetchDraft(elementId);
       }),

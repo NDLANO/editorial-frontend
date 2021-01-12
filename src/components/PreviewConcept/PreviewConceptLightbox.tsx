@@ -84,7 +84,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
 
   const previewLanguageConcept = async (language: string) => {
     const originalConcept = getConcept();
-    return await fetchConcept(originalConcept.id, language);
+    return fetchConcept(originalConcept.id, language);
   };
 
   const onChangePreviewLanguage = async (language: string) => {

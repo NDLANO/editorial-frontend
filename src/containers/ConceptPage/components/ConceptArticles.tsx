@@ -68,7 +68,7 @@ const ConceptArticles: FC<Props & tType> = ({
   };
 
   const searchForArticles = async (inp: String) => {
-    return await searchDrafts({
+    return searchDrafts({
       query: inp,
       language: locale,
     });

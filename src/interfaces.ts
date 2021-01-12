@@ -476,44 +476,6 @@ export interface FormikProperties {
   form: FormikHelpers<FormikValues>;
 }
 
-export interface ConceptApiType {
-  id: number;
-  revision: number;
-  title?: {
-    title: string;
-    language: string;
-  };
-  content?: {
-    content: string;
-    language: string;
-  };
-  copyright?: Copyright;
-  source?: string;
-  metaImage?: {
-    url: string;
-    alt: string;
-    language: string;
-  };
-  tags?: {
-    tags: string[];
-    language: string;
-  };
-  subjectIds?: string[];
-  created: string;
-  updated: string;
-  updatedBy?: string[];
-  supportedLanguages: string[];
-  articleIds: number[];
-  status: {
-    current: string;
-    other: string[];
-  };
-  visualElement?: {
-    visualElement: string;
-    language: string;
-  };
-}
-
 export interface Licenses {
   license: string;
   description: string;

@@ -11,16 +11,13 @@ import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from './components/ElementList';
 import { AsyncDropdown } from '../../components/Dropdown';
-import {
-  ConceptApiType,
-  ContentResultType,
-  FormikProperties,
-} from '../../interfaces';
+import { ContentResultType, FormikProperties } from '../../interfaces';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import handleError from '../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../modules/concept/conceptApi';
 
 interface Props {
-  locale: String;
+  locale: string;
   values: {
     conceptIds: ConceptApiType[];
   };
@@ -40,7 +37,7 @@ const FormikConcepts: FC<Props & tType> = ({
   const [concepts, setConcepts] = useState<ConceptApiType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
-      const newConcept = await fetchConcept(concept.id);
+      const newConcept = await fetchConcept(concept.id, '');
       const temp = [...concepts, newConcept];
       if (newConcept) {
         setConcepts(temp);
@@ -69,10 +66,15 @@ const FormikConcepts: FC<Props & tType> = ({
     });
   };
 
-  const searchForConcepts = async (inp: String) => {
+  const searchForConcepts = async (inp: string) => {
     return searchConcepts({
       query: inp,
       language: locale,
+      idList: [],
+      subjects: [],
+      tags: [],
+      status: [],
+      users: [],
     });
   };
 

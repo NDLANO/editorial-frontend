@@ -92,6 +92,9 @@ const rules = {
     required: true,
     onlyValidateIf: values => !!values.metaImageId,
   },
+  subjects: {
+    minItems: 1,
+  },
 };
 
 const FormWrapper = ({ inModal, children }) => {
@@ -196,7 +199,23 @@ class ConceptForm extends Component {
     const initialStatus = concept.status?.current;
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
-
+    if (
+      Object.keys(formik.errors).length > 0 &&
+      formik.errors.constructor === Object
+    ) {
+      // if formik has errors, we stop submitting and show the error message(s)
+      const e = Object.keys(formik.errors).map(
+        key => `${key}: ${formik.errors[key]}`,
+      );
+      this.props.createMessage({
+        message: e.join(' '),
+        severity: 'danger',
+        timeToLive: 0,
+      });
+      formik.setSubmitting(false);
+      this.setState({ savedToServer: false });
+      return;
+    }
     try {
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -274,7 +293,9 @@ class ConceptForm extends Component {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: ['tags', 'metaImageAlt'].some(field => !!errors[field]),
+        hasError: ['tags', 'metaImageAlt', 'subjects'].some(
+          field => !!errors[field],
+        ),
 
         component: props => (
           <ConceptMetaData

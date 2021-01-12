@@ -500,6 +500,7 @@ const phrases = {
       grepCodes: 'Curriculum connection',
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
+      subjects: 'Subject',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',

@@ -97,7 +97,7 @@ export interface Concept {
   created: string;
   source: string;
   subjectIds: Array<string>;
-  visualElement: VisualElement;
+  visualElement: {};
 }
 
 export type PreviewTypes =

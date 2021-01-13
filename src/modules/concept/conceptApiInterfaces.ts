@@ -6,6 +6,8 @@
  *
  */
 
+import { ArticleType } from '../../interfaces';
+
 interface Author {
   name: string;
   type: string;
@@ -151,6 +153,41 @@ export interface UpdatedConcept {
   articleIds?: number[];
   status?: string;
   visualElement?: string;
+}
+
+export interface ConceptFormikType {
+  id: number;
+  revision: number;
+  title?: {
+    title: string;
+    language: string;
+  };
+  content?: {
+    content: string;
+    language: string;
+  };
+  copyright?: Copyright;
+  source?: string;
+  metaImage?: {
+    url: string;
+    alt: string;
+    language: string;
+  };
+  tags?: {
+    tags: string[];
+    language: string;
+  };
+  subjectIds?: string[];
+  created: string;
+  updated: string;
+  updatedBy?: string[];
+  supportedLanguages: string[];
+  articleIds: ArticleType[];
+  status: Status;
+  visualElement?: {
+    visualElement: string;
+    language: string;
+  };
 }
 
 export interface ConceptStatusStateMashineType {

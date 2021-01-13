@@ -711,6 +711,7 @@ const phrases = {
         titlePlaceholder: 'Tittel',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
+        changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {

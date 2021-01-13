@@ -57,6 +57,7 @@ class EditRelated extends React.PureComponent {
     super();
     this.state = {
       showAddExternal: false,
+      index: undefined,
       url: '',
       title: '',
     };
@@ -183,6 +184,24 @@ class EditRelated extends React.PureComponent {
                                       providedInner.dragHandleProps
                                     }
                                     key={article.id}>
+                                    {article.id ===
+                                      'external-learning-resources' && (
+                                      <Button
+                                        stripped
+                                        data-testid="showAddExternal"
+                                        onClick={() => {
+                                          this.setState({
+                                            index,
+                                            url: article.url,
+                                            title: article.title,
+                                          });
+                                          this.toggleAddExternal();
+                                        }}>
+                                        {t(
+                                          'form.content.relatedArticle.changeExternal',
+                                        )}
+                                      </Button>
+                                    )}
                                     <RelatedArticle item={article} />
                                     <DeleteButton
                                       title="Fjern relaterte artikler"
@@ -233,7 +252,23 @@ class EditRelated extends React.PureComponent {
             </StyledBorderDiv>
             {this.state.showAddExternal && (
               <TaxonomyLightbox
-                onSelect={() => insertExternal(url, title)}
+                onSelect={() => {
+                  if (this.state.index) {
+                    updateArticles(
+                      articles.map((a, index) =>
+                        index === this.state.index ? { ...a, url, title } : a,
+                      ),
+                    );
+                    this.setState({
+                      showAddExternal: false,
+                      index: undefined,
+                      url: '',
+                      title: '',
+                    });
+                  } else {
+                    insertExternal(url, title);
+                  }
+                }}
                 title={t('form.content.relatedArticle.searchExternal')}
                 onClose={this.toggleAddExternal}>
                 <input

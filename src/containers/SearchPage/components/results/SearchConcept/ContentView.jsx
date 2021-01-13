@@ -38,9 +38,7 @@ const ContentView = ({
   return (
     <StyledConceptView>
       <h2>
-        <StyledLink
-          noShadow
-          to={toEditConcept(concept.id, concept.title.language)}>
+        <StyledLink noShadow to={toEditConcept(concept.id, locale)}>
           {title}
         </StyledLink>
         {!editing && (

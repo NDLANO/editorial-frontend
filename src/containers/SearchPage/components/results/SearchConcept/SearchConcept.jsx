@@ -77,6 +77,7 @@ const SearchConcept = ({
           concept={localConcept}
           title={title}
           content={content}
+          locale={locale}
           breadcrumbs={breadcrumbs}
           setShowForm={toggleShowForm}
           t={t}

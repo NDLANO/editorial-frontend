@@ -9,13 +9,15 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
+import { FormikHelpers, FieldInputProps } from 'formik';
 import { AsyncDropdown } from '../index';
 import { SearchResult } from '../../../interfaces';
 
 interface Props {
   language: string;
-  value: string[];
-  updateValue: (value: string[]) => void;
+  initialTags: string[];
+  field: FieldInputProps<string[]>;
+  form: FormikHelpers<string[]>;
   fetchTags: (inp: string, language: string) => SearchResult;
 }
 
@@ -35,19 +37,20 @@ interface TagWithTitle {
 const AsyncSearchTags = ({
   t,
   language,
-  value,
-  updateValue,
+  initialTags,
+  field,
+  form,
   fetchTags,
 }: Props & tType) => {
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
 
-  const [tags, setTags] = useState(value || []);
+  const [tags, setTags] = useState(initialTags || []);
 
   useEffect(() => {
-    setTags(value || []);
-  }, [value]);
+    setTags(initialTags || []);
+  }, [initialTags]);
 
   const searchForTags = async (inp: string) => {
     const response = await fetchTags(inp, language);
@@ -55,26 +58,30 @@ const AsyncSearchTags = ({
     return { ...response, results: tagsWithTitle };
   };
 
+  const updateField = (newData: string[]) => {
+    setTags(newData || []);
+    form.setFieldTouched(field.name, true, true);
+    form.setFieldValue(field.name, newData || null, true);
+  };
+
   const addTag = (tag: TagWithTitle) => {
     if (tag && !tags.includes(tag.title)) {
       const temp = [...tags, tag.title];
-      setTags(temp);
-      updateValue(temp);
+      updateField(temp);
     }
   };
 
   const createNewTag = (newTag: string) => {
     if (newTag && !tags.includes(newTag.trim())) {
       const temp = [...tags, newTag.trim()];
-      setTags(temp);
-      updateValue(temp);
+      updateField(temp);
     }
   };
 
   const removeTag = (tag: string) => {
     const reduced_array = tags.filter(t => t !== tag);
     setTags(reduced_array);
-    updateValue(reduced_array);
+    updateField(reduced_array);
   };
 
   const onKeyDown = (event: KeyboardEvent) => {

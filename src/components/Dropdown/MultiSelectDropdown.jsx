@@ -163,8 +163,6 @@ MultiSelectDropdown.propTypes = {
 };
 
 MultiSelectDropdown.defaultProps = {
-  idField: 'id',
-  labelField: 'name',
   data: [],
   minSearchLength: 2,
 };

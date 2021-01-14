@@ -66,16 +66,21 @@ export class DisplayExternal extends Component {
   async getPropsFromEmbed() {
     const { embed, language } = this.props;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
+    const cssUrl = encodeURIComponent(
+      `${config.ndlaFrontendDomain}/static/h5p-custom-css.css`,
+    );
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
         let url = embed.url || `${domain}${embed.path}`;
         url = url.includes(config.h5pApiUrl)
-          ? `${url}?locale=${getH5pLocale(language)}`
-          : url;
+          ? `${url}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`
+          : `${url}?cssUrl=${cssUrl}`;
+
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
+
         if (src) {
           this.setState({
             title: data.title,

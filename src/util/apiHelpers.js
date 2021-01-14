@@ -114,7 +114,9 @@ export const setOembedUrl = query =>
     query,
   )}`;
 
-export const fetchExternalOembed = (url, options) =>
-  fetchOembed(setOembedUrl({ url }), options);
+export const fetchExternalOembed = (url, options) => {
+  const setOembed = setOembedUrl({ url });
+  return fetchOembed(setOembed, options);
+};
 
 export { resolveJsonOrRejectWithError, createErrorPayload };

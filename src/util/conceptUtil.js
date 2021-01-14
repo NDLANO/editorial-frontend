@@ -11,7 +11,7 @@ export const transformConceptFromApiVersion = (
   content: convertFieldWithFallback(concept, 'content', ''),
   tags: convertFieldWithFallback(concept, 'tags', []),
   lastUpdated: concept.lastUpdated ? concept.lastUpdated : concept.updated,
-  ...(locale ? { language: locale | concept.title.language } : {}),
+  ...(locale ? { language: locale || concept.title.language } : {}),
 });
 
 export const transformConceptToApiVersion = (concept, articleIds) => ({

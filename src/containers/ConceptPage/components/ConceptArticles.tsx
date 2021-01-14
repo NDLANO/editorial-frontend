@@ -77,8 +77,8 @@ const ConceptArticles: FC<Props & tType> = ({
   return (
     <>
       <FieldHeader
-        title={t('conceptpageForm.articlesTitle')}
-        subTitle={t('conceptpageForm.articlesSubtitle')}
+        title={t('form.related.title')}
+        subTitle={t('subjectpageForm.articles')}
       />
       <ElementList
         elements={articles}

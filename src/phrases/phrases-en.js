@@ -453,6 +453,7 @@ const phrases = {
     workflowSection: 'Version log and notes',
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
+    articleSection: 'Articles',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',

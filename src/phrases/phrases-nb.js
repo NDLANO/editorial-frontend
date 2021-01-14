@@ -470,6 +470,7 @@ const phrases = {
     workflowSection: 'Versjonslogg og merknader',
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
+    articleSection: 'Artikler',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',

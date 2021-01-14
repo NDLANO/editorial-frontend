@@ -211,7 +211,7 @@ class EditRelated extends React.PureComponent {
                                     )}
                                     <RelatedArticle item={article} />
                                     <DeleteButton
-                                      title="Fjern relaterte artikler"
+                                      title={t('conceptpageForm.removeArticle')}
                                       stripped
                                       onClick={e => {
                                         e.stopPropagation();

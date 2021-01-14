@@ -18,3 +18,8 @@ export const transformConceptToApiVersion = (concept, articleIds) => ({
   ...concept,
   articleIds: articleIds,
 });
+
+export const transformConceptToApiVersion = (concept, articleIds) => ({
+  ...concept,
+  articleIds: articleIds,
+});

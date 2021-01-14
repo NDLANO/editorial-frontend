@@ -318,6 +318,12 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element av type {type} vil bli fjernet ved lagring.',
   },
+  conceptpageForm: {
+    articlesTitle: 'Relaterte artikler',
+    articlesSubtitle: 'Artikler',
+    changeOrder: 'Endre rekkefølge',
+    removeArticle: 'Fjern artikkel',
+  },
   subjectpageForm: {
     title: 'Fag',
     about: 'Om faget',
@@ -459,12 +465,13 @@ const phrases = {
       audio: 'Lyd',
       h5p: 'H5P',
       url: 'Ressurs fra lenke',
-      related: 'Relatert artikkel',
+      related: 'Relatert innhold',
       file: 'Fil',
       code: 'Kodevisning',
     },
   },
   form: {
+    articleSection: 'Artikler',
     metadataSection: 'Metadata',
     contentSection: 'Innhold',
     workflowSection: 'Versjonslogg og merknader',
@@ -514,6 +521,7 @@ const phrases = {
       grepCodes: 'Læreplankobling',
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
+      subjects: 'Fag',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -894,8 +902,9 @@ const phrases = {
       remove: 'Fjern {type} element',
     },
     related: {
-      title: 'Relaterte artikler',
-      showMore: 'Vis flere relaterte artikler',
+      title: 'Relatert innhold',
+      subtitle: 'Dra artikkel for å endre rekkefølge',
+      showMore: 'Vis mer relatert innhold',
       showLess: 'Vis mindre',
     },
     file: {

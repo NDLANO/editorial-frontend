@@ -317,6 +317,12 @@ const phrases = {
   noEmbedMessage: {
     deleteOnSave: 'Element of type {type} will be deleted on save.',
   },
+  conceptpageForm: {
+    articlesTitle: 'Related Articles',
+    articlesSubtitle: 'Articles',
+    changeOrder: 'Change order',
+    removeArticle: 'Remove article',
+  },
   subjectpageForm: {
     title: 'Subject',
     about: 'About subject',
@@ -442,12 +448,13 @@ const phrases = {
       audio: 'Audio',
       h5p: 'H5P',
       url: 'Resource from link',
-      related: 'Related article',
+      related: 'Related content',
       file: 'File',
       code: 'Codeblock',
     },
   },
   form: {
+    articleSection: 'Articles',
     metadataSection: 'Metadata',
     contentSection: 'Content',
     workflowSection: 'Version log and notes',
@@ -496,6 +503,7 @@ const phrases = {
       grepCodes: 'Curriculum connection',
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
+      subjects: 'Subject',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -881,6 +889,7 @@ const phrases = {
     },
     related: {
       title: 'Related content',
+      subtitle: 'Drag article to change the order',
       showMore: 'Show more related articles',
       showLess: 'Show less',
     },

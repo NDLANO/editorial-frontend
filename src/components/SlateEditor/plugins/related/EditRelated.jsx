@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
+import { Pencil } from '@ndla/icons/action';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { colors, spacing } from '@ndla/core';
 import { search } from '../../../../modules/search/searchApi';
@@ -20,6 +21,7 @@ import RelatedArticle from './RelatedArticle';
 import TaxonomyLightbox from '../../../Taxonomy/TaxonomyLightbox';
 import { Portal } from '../../../Portal';
 import DeleteButton from '../../../DeleteButton';
+import { ARTICLE_EXTERNAL } from '../../../../constants';
 
 const StyledBorderDiv = styled('div')`
   position: relative;
@@ -184,11 +186,11 @@ class EditRelated extends React.PureComponent {
                                       providedInner.dragHandleProps
                                     }
                                     key={article.id}>
-                                    {article.id ===
-                                      'external-learning-resources' && (
+                                    {article.id === ARTICLE_EXTERNAL && (
                                       <Button
                                         stripped
                                         data-testid="showAddExternal"
+                                        style={{ marginLeft: '32px' }}
                                         onClick={() => {
                                           this.setState({
                                             index,
@@ -197,6 +199,7 @@ class EditRelated extends React.PureComponent {
                                           });
                                           this.toggleAddExternal();
                                         }}>
+                                        <Pencil />
                                         {t(
                                           'form.content.relatedArticle.changeExternal',
                                         )}

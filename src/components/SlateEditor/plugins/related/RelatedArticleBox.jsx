@@ -36,12 +36,11 @@ const mapRelatedArticle = (article, resource) => ({
 export class RelatedArticleBox extends React.Component {
   constructor() {
     super();
-    this.state = { items: [], editMode: false };
-    this.removeArticle = this.removeArticle.bind(this);
-    this.fetchRelated = this.fetchRelated.bind(this);
-    this.fetchExternal = this.fetchExternal.bind(this);
+    this.state = { articles: [], editMode: false };
+    this.fetchArticle = this.fetchArticle.bind(this);
+    this.updateArticles = this.updateArticles.bind(this);
+    this.insertExternal = this.insertExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
-    this.updateEmbedNode = this.updateEmbedNode.bind(this);
     this.openEditMode = this.openEditMode.bind(this);
     this.setNodeKey = this.setNodeKey.bind(this);
   }
@@ -51,15 +50,10 @@ export class RelatedArticleBox extends React.Component {
       node: { data },
     } = this.props;
     if (data && data.get('nodes')) {
-      data.get('nodes').forEach(article => {
-        const articleId = article['article-id'];
-        if (articleId) {
-          this.fetchRelated(articleId, true);
-        }
-        if (article.title) {
-          this.fetchExternal(article.url, article.title, true);
-        }
-      });
+      const articleNodes = data.get('nodes');
+      this.fetchArticles(articleNodes).then(articles =>
+        this.setState({ articles: articles.filter(a => !!a) }),
+      );
     } else {
       this.setState({ editMode: true });
     }
@@ -67,88 +61,95 @@ export class RelatedArticleBox extends React.Component {
 
   componentDidUpdate() {
     // need to re-add eventhandler on button
-    if (!this.state.editMode && this.state.items.length > 2) {
+    if (!this.state.editMode && this.state.articles.length > 2) {
       toggleRelatedArticles();
     }
   }
 
   onInsertBlock(newArticle) {
-    if (!this.state.items.find(it => it.id === parseInt(newArticle, 10))) {
+    if (!this.state.articles.find(it => it.id === parseInt(newArticle, 10))) {
       // get resource and add to state
-      this.fetchRelated(newArticle);
+      this.fetchArticle(newArticle).then(article => {
+        if (article) {
+          this.setState(oldState => ({
+            articles: [...oldState.articles, article],
+          }));
+          this.setNodeKey();
+        }
+      });
     }
   }
 
   setNodeKey() {
     const { editor, node } = this.props;
-    const { items } = this.state;
+    const { articles } = this.state;
 
     editor.setNodeByKey(node.key, {
       data: {
-        nodes: items.map(
-          item =>
-            item.id === ARTICLE_EXTERNAL
+        nodes: articles.map(
+          article =>
+            article.id === ARTICLE_EXTERNAL
               ? {
                   resource: 'related-content',
-                  url: item.url,
-                  title: item.title,
+                  url: article.url,
+                  title: article.title,
                 }
-              : { resource: 'related-content', ['article-id']: item.id }, // eslint-disable-line
+              : { resource: 'related-content', ['article-id']: article.id }, // eslint-disable-line
         ),
       },
     });
   }
 
-  updateEmbedNode(onMount) {
-    if (!onMount) this.setNodeKey();
+  structureExternal(url, title) {
+    return {
+      id: ARTICLE_EXTERNAL,
+      url,
+      title,
+      description: '',
+    };
   }
 
-  async fetchRelated(id, onMount = false) {
-    const { locale } = this.props;
+  async fetchArticle(id) {
     try {
+      const { locale } = this.props;
       const [article, resource] = await Promise.all([
         fetchDraft(id, locale),
         queryResources(id, locale),
       ]);
       if (article) {
-        this.setState(
-          prevState => ({
-            items: [...prevState.items, mapRelatedArticle(article, resource)],
-            editMode: false,
-          }),
-          () => this.updateEmbedNode(onMount),
-        );
+        return mapRelatedArticle(article, resource);
       }
     } catch (error) {
       handleError(error);
     }
   }
-
-  async fetchExternal(url, title, onMount = false) {
-    // await get description meta data
-    this.setState(
-      prevState => ({
-        items: [
-          ...prevState.items,
-          {
-            id: ARTICLE_EXTERNAL,
-            url,
-            title,
-            description: '',
-          },
-        ],
-        editMode: false,
+  async fetchArticles(nodes) {
+    return Promise.all(
+      nodes.map(node => {
+        const articleId = node['article-id'];
+        if (articleId) {
+          return this.fetchArticle(articleId);
+        } else if (node.title) {
+          return this.structureExternal(node.url, node.title);
+        }
+        return undefined;
       }),
-      () => this.updateEmbedNode(onMount),
     );
   }
 
-  removeArticle(i, e) {
-    const { items } = this.state;
-    e.stopPropagation();
+  async insertExternal(url, title) {
+    // await get description meta data
+    this.setState(
+      prevState => ({
+        articles: [...prevState.articles, this.structureExternal(url, title)],
+        editMode: false,
+      }),
+      this.setNodeKey,
+    );
+  }
 
-    const newItems = items.filter((_, ind) => i !== ind);
-    this.setState({ items: newItems }, this.updateEmbedNode);
+  updateArticles(newArticles) {
+    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeKey);
   }
 
   openEditMode(e) {
@@ -158,17 +159,18 @@ export class RelatedArticleBox extends React.Component {
 
   render() {
     const { attributes, onRemoveClick, locale, t } = this.props;
-    const { editMode, items } = this.state;
+    const { editMode, articles } = this.state;
+
     if (editMode) {
       return (
         <EditRelated
           onRemoveClick={onRemoveClick}
-          items={items}
+          articles={articles}
           locale={locale}
-          insertExternal={this.fetchExternal}
+          insertExternal={this.insertExternal}
           onInsertBlock={this.onInsertBlock}
           onExit={() => this.setState({ editMode: false })}
-          removeArticle={this.removeArticle}
+          updateArticles={this.updateArticles}
           {...attributes}
         />
       );
@@ -194,7 +196,7 @@ export class RelatedArticleBox extends React.Component {
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
           }}>
-          {items.map((item, i) =>
+          {articles.map((item, i) =>
             !item.id ? (
               t('form.content.relatedArticle.invalidArticle')
             ) : (

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
@@ -66,16 +66,21 @@ export class DisplayExternal extends Component {
   async getPropsFromEmbed() {
     const { embed, language } = this.props;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
+    const cssUrl = encodeURIComponent(
+      `${config.ndlaFrontendDomain}/static/h5p-custom-css.css`,
+    );
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
         let url = embed.url || `${domain}${embed.path}`;
         url = url.includes(config.h5pApiUrl)
-          ? `${url}?locale=${getH5pLocale(language)}`
-          : url;
+          ? `${url}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`
+          : `${url}?cssUrl=${cssUrl}`;
+
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);
+
         if (src) {
           this.setState({
             title: data.title,
@@ -89,7 +94,6 @@ export class DisplayExternal extends Component {
         }
       } catch (err) {
         handleError(err);
-        this.setState({ error: true });
       }
     } else {
       this.setState({
@@ -132,8 +136,24 @@ export class DisplayExternal extends Component {
       domain,
     } = this.state;
 
-    if (!type && !provider) {
-      return null;
+    const errorHolder = () => (
+      <>
+        <DeleteButton stripped onClick={onRemoveClick} />
+        <EditorErrorMessage
+          msg={
+            error
+              ? t('displayOembed.errorMessage')
+              : t('displayOembed.notSupported', {
+                  type,
+                  provider,
+                })
+          }
+        />
+      </>
+    );
+
+    if (error) {
+      return errorHolder();
     }
 
     // H5P does not provide its name
@@ -147,22 +167,8 @@ export class DisplayExternal extends Component {
         : whitelistProvider.name === providerName,
     );
 
-    if (error || !allowedProvider) {
-      return (
-        <Fragment>
-          <DeleteButton stripped onClick={onRemoveClick} />
-          <EditorErrorMessage
-            msg={
-              error
-                ? t('displayOembed.errorMessage')
-                : t('displayOembed.notSupported', {
-                    type,
-                    provider,
-                  })
-            }
-          />
-        </Fragment>
-      );
+    if (!allowedProvider) {
+      return errorHolder();
     }
     return (
       <div className="c-figure">

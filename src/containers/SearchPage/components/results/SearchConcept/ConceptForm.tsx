@@ -130,7 +130,7 @@ const ConceptForm = ({
         <label htmlFor="tags">{t('form.categories.label')}</label>
         <AsyncSearchTags
           language={language}
-          value={values.tags}
+          initialTags={values.tags}
           updateValue={updatedValue => {
             setValues({ ...values, tags: updatedValue });
           }}

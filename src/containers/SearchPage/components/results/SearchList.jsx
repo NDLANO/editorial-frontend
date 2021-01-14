@@ -38,7 +38,6 @@ const SearchList = ({
     return (
       <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>
     );
-
   return (
     <div {...searchClasses('results')}>
       <TransitionGroup>

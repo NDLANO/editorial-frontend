@@ -879,7 +879,7 @@ const phrases = {
       remove: 'Remove {type} element',
     },
     related: {
-      title: 'Related articles',
+      title: 'Related content',
       showMore: 'Show more related articles',
       showLess: 'Show less',
     },

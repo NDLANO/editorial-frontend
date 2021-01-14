@@ -57,7 +57,7 @@ export const transformFormikToUpdatedApiVersion = (
   tags: convertFieldWithFallback(concept, 'tags', []),
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
-  status: concept.status.current,
+  status: concept.status?.current,
   visualElement: concept.visualElement?.visualElement,
 });
 

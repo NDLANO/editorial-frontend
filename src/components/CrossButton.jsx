@@ -7,12 +7,12 @@
  */
 
 import React from 'react';
-import { Cross } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 
 export const CrossButton = ({ children, ...rest }) => (
   <Button {...rest}>
-    <Cross />
+    <DeleteForever />
   </Button>
 );
 

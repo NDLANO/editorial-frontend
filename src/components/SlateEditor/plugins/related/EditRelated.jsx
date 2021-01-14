@@ -11,8 +11,10 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
-import { Pencil } from '@ndla/icons/action';
+import darken from 'polished/lib/color/darken';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Tooltip from '@ndla/tooltip';
+import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
 import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
@@ -52,6 +54,18 @@ const StyledArticle = styled('div')`
 
 const StyledOr = styled('div')`
   margin: 10px 0;
+`;
+
+const StyledEditButton = styled(Button)`
+  position: absolute;
+  top: 0.1rem;
+  right: 1.5rem;
+  color: ${colors.support.red};
+
+  &:hover,
+  &:focus {
+    color: ${darken(0.2, colors.support.red)};
+  }
 `;
 
 class EditRelated extends React.PureComponent {
@@ -190,11 +204,10 @@ class EditRelated extends React.PureComponent {
                                       providedInner.dragHandleProps
                                     }
                                     key={article.id}>
+                                    <RelatedArticle item={article} />
                                     {article.id === ARTICLE_EXTERNAL && (
-                                      <Button
+                                      <StyledEditButton
                                         stripped
-                                        data-testid="showAddExternal"
-                                        style={{ marginLeft: '32px' }}
                                         onClick={() => {
                                           this.setState({
                                             tempId: article.tempId,
@@ -203,13 +216,14 @@ class EditRelated extends React.PureComponent {
                                           });
                                           this.toggleAddExternal();
                                         }}>
-                                        <Pencil />
-                                        {t(
-                                          'form.content.relatedArticle.changeExternal',
-                                        )}
-                                      </Button>
+                                        <Tooltip
+                                          tooltip={t(
+                                            'form.content.relatedArticle.changeExternal',
+                                          )}>
+                                          <Pencil />
+                                        </Tooltip>
+                                      </StyledEditButton>
                                     )}
-                                    <RelatedArticle item={article} />
                                     <DeleteButton
                                       title={t('conceptpageForm.removeArticle')}
                                       stripped

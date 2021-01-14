@@ -59,7 +59,7 @@ class EditRelated extends React.PureComponent {
     super();
     this.state = {
       showAddExternal: false,
-      index: undefined,
+      tempId: undefined,
       url: '',
       title: '',
     };
@@ -169,10 +169,14 @@ class EditRelated extends React.PureComponent {
                           if (!article) {
                             return null;
                           }
+                          const articleKey =
+                            article.id === ARTICLE_EXTERNAL
+                              ? article.tempId
+                              : article.id;
                           return (
                             <Draggable
-                              key={article.id}
-                              draggableId={article.id}
+                              key={articleKey}
+                              draggableId={articleKey}
                               index={index}>
                               {(providedInner, snapshotInner) => (
                                 <div
@@ -193,7 +197,7 @@ class EditRelated extends React.PureComponent {
                                         style={{ marginLeft: '32px' }}
                                         onClick={() => {
                                           this.setState({
-                                            index,
+                                            tempId: article.tempId,
                                             url: article.url,
                                             title: article.title,
                                           });
@@ -214,7 +218,11 @@ class EditRelated extends React.PureComponent {
 
                                         const newArticles = articles.filter(
                                           filterArticle =>
-                                            filterArticle.id !== article.id,
+                                            filterArticle.id ===
+                                            ARTICLE_EXTERNAL
+                                              ? filterArticle.tempId !==
+                                                articleKey
+                                              : filterArticle.id !== articleKey,
                                         );
                                         updateArticles(newArticles);
                                       }}
@@ -256,15 +264,17 @@ class EditRelated extends React.PureComponent {
             {this.state.showAddExternal && (
               <TaxonomyLightbox
                 onSelect={() => {
-                  if (this.state.index) {
+                  if (this.state.tempId) {
                     updateArticles(
-                      articles.map((a, index) =>
-                        index === this.state.index ? { ...a, url, title } : a,
+                      articles.map(a =>
+                        a.tempId === this.state.tempId
+                          ? { ...a, url, title }
+                          : a,
                       ),
                     );
                     this.setState({
                       showAddExternal: false,
-                      index: undefined,
+                      tempId: undefined,
                       url: '',
                       title: '',
                     });

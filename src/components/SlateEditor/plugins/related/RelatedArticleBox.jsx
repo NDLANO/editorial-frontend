@@ -103,6 +103,7 @@ export class RelatedArticleBox extends React.Component {
   structureExternal(url, title) {
     return {
       id: ARTICLE_EXTERNAL,
+      tempId: uuid(),
       url,
       title,
       description: '',

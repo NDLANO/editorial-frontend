@@ -15,13 +15,20 @@ import {
 } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
-  transformConceptFromApiVersion,
-  transformConceptToApiVersion,
+  transformApiToFormikVersion,
+  transformFormikToUpdatedApiVersion,
+  transformFormikToNewApiVersion,
 } from '../../util/conceptUtil';
 import handleError from '../../util/handleError';
+import {
+  ConceptFormikType,
+  ConceptStatusType,
+  ConceptApiType,
+} from '../../modules/concept/conceptApiInterfaces';
+import { ArticleType } from '../../interfaces';
 
-export function useFetchConceptData(conceptId, locale) {
-  const [concept, setConcept] = useState(undefined);
+export function useFetchConceptData(conceptId: number, locale: string) {
+  const [concept, setConcept] = useState<ConceptFormikType>();
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
 
@@ -33,7 +40,7 @@ export function useFetchConceptData(conceptId, locale) {
     fetchSubjects();
   }, [locale]);
 
-  const fetchConcept = async () => {
+  const fetchConcept = async (): Promise<void> => {
     try {
       if (conceptId) {
         setLoading(true);
@@ -41,7 +48,7 @@ export function useFetchConceptData(conceptId, locale) {
 
         const convertedArticles = await fetchElementList(concept.articleIds);
         setConcept(
-          transformConceptFromApiVersion(concept, locale, convertedArticles),
+          transformApiToFormikVersion(concept, locale, convertedArticles),
         );
         setLoading(false);
       }
@@ -55,7 +62,9 @@ export function useFetchConceptData(conceptId, locale) {
     setSubjects(fetchedSubjects);
   };
 
-  const fetchElementList = async articleIds => {
+  const fetchElementList = async (
+    articleIds: number[],
+  ): Promise<ArticleType[]> => {
     return Promise.all(
       articleIds.map(async elementId => {
         return fetchDraft(elementId);
@@ -63,32 +72,51 @@ export function useFetchConceptData(conceptId, locale) {
     );
   };
 
-  const updateConcept = async updatedConcept => {
-    const articleIds = updatedConcept.articleIds.map(articleId => articleId.id);
+  const updateConcept = async (
+    updatedConcept: ConceptFormikType,
+  ): Promise<ConceptApiType> => {
     const savedConcept = await conceptApi.updateConcept(
-      transformConceptToApiVersion(updatedConcept, articleIds),
+      transformFormikToUpdatedApiVersion(updatedConcept, locale),
     );
-    setConcept(transformConceptFromApiVersion(savedConcept, locale));
+    setConcept(
+      transformApiToFormikVersion(
+        savedConcept,
+        locale,
+        updatedConcept.articleIds,
+      ),
+    );
     return savedConcept;
   };
 
-  const createConcept = async createdConcept => {
-    const articleIds = createdConcept.articleIds.map(articleId => articleId.id);
+  const createConcept = async (createdConcept: ConceptFormikType) => {
     const savedConcept = await conceptApi.addConcept(
-      transformConceptToApiVersion(createdConcept, articleIds),
+      transformFormikToNewApiVersion(createdConcept, locale),
     );
-    setConcept(transformConceptFromApiVersion(savedConcept, locale));
+    setConcept(
+      transformApiToFormikVersion(
+        savedConcept,
+        locale,
+        createdConcept.articleIds,
+      ),
+    );
     return savedConcept;
   };
 
-  const updateConceptAndStatus = async (updatedConcept, newStatus, dirty) => {
-    const articleIds = updatedConcept.articleIds.map(articleId => articleId.id);
+  const updateConceptAndStatus = async (
+    updatedConcept: ConceptFormikType,
+    newStatus: keyof typeof ConceptStatusType,
+    dirty: boolean,
+  ) => {
     let newConcept = updatedConcept;
     if (dirty) {
       const savedConcept = await conceptApi.updateConcept(
-        transformConceptToApiVersion(updatedConcept, articleIds),
+        transformFormikToUpdatedApiVersion(updatedConcept, locale),
       );
-      newConcept = transformConceptFromApiVersion(savedConcept, locale);
+      newConcept = transformApiToFormikVersion(
+        savedConcept,
+        locale,
+        updatedConcept.articleIds,
+      );
     }
     const conceptChangedStatus = await conceptApi.updateConceptStatus(
       updatedConcept.id,

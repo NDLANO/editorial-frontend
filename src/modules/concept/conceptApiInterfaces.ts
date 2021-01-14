@@ -6,7 +6,7 @@
  *
  */
 
-import { ArticleType } from '../../interfaces';
+import { ArticleType, VisualElement } from '../../interfaces';
 
 interface Author {
   name: string;
@@ -121,7 +121,7 @@ interface ConceptSearchSummaryApiType {
   license?: string;
 }
 
-export interface NewConcept {
+export interface NewConceptType {
   language: string;
   title: string;
   content?: string;
@@ -137,7 +137,7 @@ export interface NewConcept {
   visualElement?: string;
 }
 
-export interface UpdatedConcept {
+export interface UpdatedConceptType {
   id?: number; // Used only as id in endpoint-url. Discarded by backend. Should be removed from this interface in the future.
   language: string;
   title?: string;
@@ -168,11 +168,8 @@ export interface ConceptFormikType {
   };
   copyright?: Copyright;
   source?: string;
-  metaImage?: {
-    url: string;
-    alt: string;
-    language: string;
-  };
+  metaImageId?: string;
+  metaImageAlt?: string;
   tags?: {
     tags: string[];
     language: string;
@@ -188,6 +185,25 @@ export interface ConceptFormikType {
     visualElement: string;
     language: string;
   };
+}
+
+export interface ConceptPreviewType {
+  id: number;
+  title?: string;
+  tags: Array<string>;
+  content?: string;
+  metaImage?: {
+    id: number;
+    alt: string;
+  };
+  copyright?: Copyright;
+  language: string;
+  supportedLanguages: Array<string>;
+  articleIds: number[];
+  created: string;
+  source?: string;
+  subjectIds: string[];
+  visualElement?: VisualElement;
 }
 
 export interface ConceptStatusStateMashineType {
@@ -213,4 +229,9 @@ export interface ConceptQuery {
   tags: string[];
   status: string[];
   users: string[];
+}
+
+export interface PreviewMetaImage {
+  id: number;
+  alt: string;
 }

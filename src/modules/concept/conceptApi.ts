@@ -18,8 +18,8 @@ import {
   ConceptStatusType,
   ConceptTagsSearchResult,
   ConceptQuery,
-  NewConcept,
-  UpdatedConcept,
+  NewConceptType,
+  UpdatedConceptType,
 } from './conceptApiInterfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
@@ -54,7 +54,7 @@ export const fetchConcept = async (
 };
 
 export const addConcept = async (
-  concept: NewConcept,
+  concept: NewConceptType,
 ): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
@@ -62,7 +62,7 @@ export const addConcept = async (
   }).then(resolveJsonOrRejectWithError);
 
 export const updateConcept = async (
-  concept: UpdatedConcept,
+  concept: UpdatedConceptType,
 ): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
     method: 'PATCH',

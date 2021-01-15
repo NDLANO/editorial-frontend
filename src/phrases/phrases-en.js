@@ -454,7 +454,6 @@ const phrases = {
     },
   },
   form: {
-    articleSection: 'Articles',
     metadataSection: 'Metadata',
     contentSection: 'Content',
     workflowSection: 'Version log and notes',

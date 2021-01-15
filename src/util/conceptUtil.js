@@ -16,10 +16,5 @@ export const transformConceptFromApiVersion = (
 
 export const transformConceptToApiVersion = (concept, articleIds) => ({
   ...concept,
-  articleIds: articleIds,
-});
-
-export const transformConceptToApiVersion = (concept, articleIds) => ({
-  ...concept,
-  articleIds: articleIds,
+  articleIds,
 });

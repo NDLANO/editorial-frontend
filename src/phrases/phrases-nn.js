@@ -712,6 +712,8 @@ const phrases = {
         titlePlaceholder: 'Tittel',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
+        removeExternal: 'Slett ekstern artikkel',
+        changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {
@@ -943,6 +945,9 @@ const phrases = {
       articlesSubtitle: 'Forklaringar',
       changeOrder: 'Endre rekkefølgje',
       removeArticle: 'Fjern forklaring',
+    },
+    section: {
+      remove: 'Ta bort seksjon',
     },
   },
   validation: {

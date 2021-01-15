@@ -78,8 +78,6 @@ const FormikConcepts: FC<Props & tType> = ({
     });
   };
 
-  console.log(concepts);
-
   return (
     <>
       <FieldHeader

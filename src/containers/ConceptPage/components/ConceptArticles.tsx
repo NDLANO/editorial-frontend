@@ -74,7 +74,6 @@ const ConceptArticles: FC<Props & tType> = ({
     });
   };
 
-  console.log(articles);
   return (
     <>
       <FieldHeader

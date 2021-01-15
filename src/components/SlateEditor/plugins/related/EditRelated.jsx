@@ -226,7 +226,7 @@ class EditRelated extends React.PureComponent {
                                     )}
                                     <DeleteButton
                                       title={t(
-                                        'form.content.relatedArticle.addExternal',
+                                        'form.content.relatedArticle.removeExternal',
                                       )}
                                       stripped
                                       onClick={e => {

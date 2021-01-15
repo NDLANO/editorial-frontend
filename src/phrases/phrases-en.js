@@ -920,6 +920,9 @@ const phrases = {
       label: 'Article',
       add: 'Add article',
     },
+    section: {
+      remove: 'Remove section',
+    },
   },
   validation: {
     isRequired: '{label} is required.',

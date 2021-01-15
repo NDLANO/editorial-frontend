@@ -938,6 +938,9 @@ const phrases = {
       label: 'Artikkel',
       add: 'Legg til artikkel',
     },
+    section: {
+      remove: 'Ta bort seksjon',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',

@@ -74,6 +74,7 @@ const ConceptArticles: FC<Props & tType> = ({
     });
   };
 
+  console.log(articles);
   return (
     <>
       <FieldHeader
@@ -98,6 +99,7 @@ const ConceptArticles: FC<Props & tType> = ({
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        multiSelect
         disableSelected
         clearInputField
       />

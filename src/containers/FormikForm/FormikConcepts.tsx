@@ -38,7 +38,7 @@ const FormikConcepts: FC<Props & tType> = ({
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
       const newConcept = await fetchConcept(concept.id, '');
-      const temp = [...concepts, newConcept];
+      const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
       if (newConcept) {
         setConcepts(temp);
         updateFormik(field, temp);
@@ -77,6 +77,8 @@ const FormikConcepts: FC<Props & tType> = ({
       users: [],
     });
   };
+
+  console.log(concepts);
 
   return (
     <>

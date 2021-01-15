@@ -225,7 +225,9 @@ class EditRelated extends React.PureComponent {
                                       </StyledEditButton>
                                     )}
                                     <DeleteButton
-                                      title={t('conceptpageForm.removeArticle')}
+                                      title={t(
+                                        'form.content.relatedArticle.addExternal',
+                                      )}
                                       stripped
                                       onClick={e => {
                                         e.stopPropagation();

@@ -10,7 +10,7 @@ import React from 'react';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 
-export const CrossButton = ({ children, ...rest }) => (
+export const CrossButton = ({ ...rest }) => (
   <Button {...rest}>
     <Cross />
   </Button>

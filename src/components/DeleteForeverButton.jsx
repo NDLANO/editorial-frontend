@@ -10,10 +10,10 @@ import React from 'react';
 import { DeleteForever } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 
-export const CrossButton = ({ children, ...rest }) => (
+export const DeleteForeverButton = ({ ...rest }) => (
   <Button {...rest}>
     <DeleteForever />
   </Button>
 );
 
-export default CrossButton;
+export default DeleteForeverButton;

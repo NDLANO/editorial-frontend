@@ -174,7 +174,6 @@ const CopyResources = ({
       oldResource.id,
     );
     await cloneResourceTranslations(resourceTranslations, newResourceUrn);
-    // eslint-disable-next-line no-return-await
     return await fetchResource(newResourceUrn, locale);
   };
 
@@ -188,7 +187,6 @@ const CopyResources = ({
         contentUri: `urn:article:${clonedArticle.id}`,
         name: resource.name,
       };
-      // eslint-disable-next-line no-return-await
       return await clonedResource(newResourceBody, resource);
     } else if (resourceType === 'learningpath') {
       const newLearningpathBody = {
@@ -204,11 +202,9 @@ const CopyResources = ({
         contentUri: `urn:learningpath:${newLearningpathId}`,
         name: resource.name,
       };
-      // eslint-disable-next-line no-return-await
       return await clonedResource(newResourceBody, resource);
     } else {
       // Edge-case for resources without contentUri
-      // eslint-disable-next-line no-return-await
       return await clonedResource(
         {
           name: resource.name,

@@ -263,6 +263,7 @@ class ConceptForm extends Component {
       subjects,
       t,
       translateConcept,
+      translating,
       ...rest
     } = this.props;
     const { savedToServer, translateOnContinue } = this.state;
@@ -333,7 +334,7 @@ class ConceptForm extends Component {
         initialValues={initialValues}
         onSubmit={() => ({})}
         innerRef={this.formik}
-        enableReinitialize
+        enableReinitialize={translating}
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
@@ -472,6 +473,7 @@ ConceptForm.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   translateConcept: PropTypes.func,
   updateConceptAndStatus: PropTypes.func,
+  translating: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

@@ -18,7 +18,7 @@ import { fetchConcept } from '../../modules/concept/conceptApi';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptPreviewType } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
 import { transformApiToPreviewVersion } from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';

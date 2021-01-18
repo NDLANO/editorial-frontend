@@ -18,7 +18,7 @@ import {
   NotionDialogTags,
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptPreviewType } from '../../interfaces';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';

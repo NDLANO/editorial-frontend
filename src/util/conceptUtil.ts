@@ -6,13 +6,12 @@
  *
  */
 
-import { ArticleType, VisualElement } from '../interfaces';
+import { ArticleType, VisualElement, ConceptPreviewType } from '../interfaces';
 import {
   ConceptApiType,
   ConceptFormikType,
   NewConceptType,
   UpdatedConceptType,
-  ConceptPreviewType,
   PreviewMetaImage as ConceptPreviewMetaImage,
 } from '../modules/concept/conceptApiInterfaces';
 import { convertFieldWithFallback } from './convertFieldWithFallback';

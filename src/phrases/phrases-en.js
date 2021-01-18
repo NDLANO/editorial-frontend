@@ -689,6 +689,8 @@ const phrases = {
         urlLocation: 'Webpage at {domain}',
         invalidArticle: 'Invalid article',
         addExternal: 'Add external article',
+        removeExternal: 'Delete external article',
+        changeExternal: 'Edit external article',
         searchExternal: 'Write the url and title of the external article',
       },
       concept: {
@@ -917,6 +919,9 @@ const phrases = {
     article: {
       label: 'Article',
       add: 'Add article',
+    },
+    section: {
+      remove: 'Remove section',
     },
   },
   validation: {

@@ -13,12 +13,20 @@ import { Formik, Form } from 'formik';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
+import { colors } from '@ndla/core';
 import Field from '../../../Field';
 import config from '../../../../config';
 import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
 import { FormikCheckbox } from '../../../../containers/FormikForm';
+import {
+  isNDLAArticleUrl,
+  isNDLALearningPathUrl,
+  isPlainId,
+  isNDLATaxonomyUrl,
+  isNDLAEdPathUrl,
+} from './EditLink';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
@@ -27,6 +35,25 @@ const marginLeftStyle = css`
 const linkValidationRules = {
   text: { required: true },
   href: { required: true, urlOrNumber: true },
+};
+
+const getLinkFieldStyle = href => {
+  const baseHref = href.split(/\?/)[0];
+  if (
+    isNDLAArticleUrl(baseHref) ||
+    isPlainId(baseHref) ||
+    isNDLATaxonomyUrl(baseHref) ||
+    isNDLAEdPathUrl(baseHref) ||
+    isNDLALearningPathUrl(baseHref)
+  ) {
+    return css`
+      input {
+        background-color: ${colors.brand.light};
+      }
+    `;
+  } else {
+    return '';
+  }
 };
 
 export const getInitialValues = (link = {}) => ({
@@ -57,7 +84,7 @@ class LinkForm extends Component {
         validate={values =>
           validateFormik(values, linkValidationRules, t, 'linkForm')
         }>
-        {({ submitForm }) => (
+        {({ submitForm, values }) => (
           <Form data-cy="link_form">
             <FormikField
               name="text"
@@ -70,6 +97,7 @@ class LinkForm extends Component {
                 config.ndlaFrontendDomain
               }`}
               label={t('form.content.link.href')}
+              css={getLinkFieldStyle(values.href)}
             />
             <FormikCheckbox
               name="checkbox"

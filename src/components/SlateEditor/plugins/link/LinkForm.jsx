@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Formik, Form } from 'formik';
+import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -37,9 +38,25 @@ const linkValidationRules = {
   href: { required: true, urlOrNumber: true },
 };
 
-const getLinkFieldStyle = href => {
+const getLinkFieldStyle = (href, node) => {
   const baseHref = href.split(/\?/)[0];
-  if (
+  const data = node?.data?.toJS() || {};
+  const savedHref = data.href;
+
+  const isExternalLink = data.resource !== 'content-link';
+  console.log(isExternalLink, href, savedHref);
+  if (isExternalLink && href === savedHref) {
+    return css`
+      input {
+        background-color: ${colors.tasksAndActivities.background};
+      }
+      input::after {
+        display: block;
+        content: 'test';
+        color: ${colors.tasksAndActivities.background};
+      }
+    `;
+  } else if (
     isNDLAArticleUrl(baseHref) ||
     isPlainId(baseHref) ||
     isNDLATaxonomyUrl(baseHref) ||
@@ -76,7 +93,7 @@ class LinkForm extends Component {
   }
 
   render() {
-    const { t, isEdit, link, onRemove, onClose } = this.props;
+    const { t, isEdit, link, onRemove, onClose, node } = this.props;
     return (
       <Formik
         initialValues={getInitialValues(link)}
@@ -95,9 +112,9 @@ class LinkForm extends Component {
               name="href"
               description={`${t('form.content.link.description')} ${
                 config.ndlaFrontendDomain
-              }`}
+              }. ${t('form.content.link.descriptionPartTwo')}`}
               label={t('form.content.link.href')}
-              css={getLinkFieldStyle(values.href)}
+              css={getLinkFieldStyle(values.href, node)}
             />
             <FormikCheckbox
               name="checkbox"
@@ -133,6 +150,10 @@ LinkForm.propTypes = {
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
+  node: PropTypes.oneOfType([
+    Types.node,
+    PropTypes.shape({ type: PropTypes.string.isRequired }),
+  ]),
 };
 
 export default compose(injectT)(LinkForm);

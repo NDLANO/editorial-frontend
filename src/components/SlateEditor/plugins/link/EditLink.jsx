@@ -106,7 +106,7 @@ class EditLink extends React.Component {
   }
 
   onClose() {
-    const { editor, model } = this.props;
+    const { editor, model, node } = this.props;
     if (!model.href) {
       this.handleRemove();
     } else {
@@ -154,7 +154,7 @@ class EditLink extends React.Component {
   }
 
   render() {
-    const { t, model } = this.props;
+    const { t, model, node } = this.props;
     const isEdit = model !== undefined && model.href !== undefined;
 
     return (
@@ -166,6 +166,7 @@ class EditLink extends React.Component {
           <LinkForm
             onClose={this.onClose}
             link={model}
+            node={node}
             isEdit={isEdit}
             onRemove={this.handleRemove}
             onSave={this.handleSave}
@@ -184,7 +185,6 @@ EditLink.propTypes = {
   }).isRequired,
   closeEditMode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-
   editor: PropTypes.object.isRequired,
   node: PropTypes.oneOfType([
     Types.node,

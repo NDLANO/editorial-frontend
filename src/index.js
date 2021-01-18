@@ -13,14 +13,14 @@ let app = require('./server/server').default;
 
 if (module.hot) {
   module.hot.accept('./server/server', function() {
-    console.log('🔁  HMR Reloading `./server/server`...');
+    console.log('🔁  HMR Reloading `./server/server`...'); // eslint-disable-line no-console
     try {
       app = require('./server/server').default;
     } catch (error) {
       console.error(error);
     }
   });
-  console.info('✅  Server-side HMR Enabled!');
+  console.info('✅  Server-side HMR Enabled!'); // eslint-disable-line no-console
 }
 
 export default express()
@@ -30,5 +30,5 @@ export default express()
       console.error(err);
       return;
     }
-    console.log(`> Started on port ${config.port}`);
+    console.log(`> Started on port ${config.port}`); // eslint-disable-line no-console
   });

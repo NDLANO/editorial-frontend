@@ -5771,10 +5771,10 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-ndla@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-ndla/-/eslint-config-ndla-1.2.1.tgz#474d9b859207cffca77a1a235e98905ed7f1da14"
-  integrity sha512-YAP6l8Uqn5HQp7/ulM15CUwYNypHqM6HzP5tlwVp4OoP4UbYIhGp1IBsMyHSBhrf5BmrxPk08Op7ablSIyrDRg==
+eslint-config-ndla@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-ndla/-/eslint-config-ndla-2.0.1.tgz#cbd80c92f5b53d87a93a704421a7c59558540580"
+  integrity sha512-YRmjYsxVcg/UziPwiy7MHEwkyB4nOoFrvI0Iwr+5XaAxXLIzv3cqx+kpKJLpjTtgGUT/NiZQ2VB1msUpznOK4A==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^1.4.2"
     "@typescript-eslint/parser" "^1.4.2"

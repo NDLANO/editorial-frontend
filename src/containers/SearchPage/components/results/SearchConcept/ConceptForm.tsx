@@ -65,8 +65,7 @@ const ConceptForm = ({
   }, [initialValues.title]);
   const userAccess = useContext<string>(UserAccessContext);
   const canPublish = userAccess.includes(DRAFT_PUBLISH_SCOPE);
-  const hidePublishButton =
-    !canPublish || (status !== 'PUBLISHED' && status !== 'QUALITY_ASSURED');
+  const hidePublishButton = !canPublish;
   const hasChanges = !isEqual(initialValues, values);
 
   return (
@@ -131,7 +130,7 @@ const ConceptForm = ({
         <AsyncSearchTags
           language={language}
           initialTags={values.tags}
-          updateValue={updatedValue => {
+          updateValue={(updatedValue: string[]) => {
             setValues({ ...values, tags: updatedValue });
           }}
           fetchTags={fetchSearchTags}

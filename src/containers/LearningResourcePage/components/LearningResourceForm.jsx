@@ -38,7 +38,7 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
-  const metaImageId = parseImageUrl(article.metaImage) || article.metaImage?.id;
+  const metaImageId = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     articleType: 'standard',

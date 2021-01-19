@@ -106,7 +106,7 @@ class EditLink extends React.Component {
   }
 
   onClose() {
-    const { editor, model, node } = this.props;
+    const { editor, model } = this.props;
     if (!model.href) {
       this.handleRemove();
     } else {

@@ -50,6 +50,7 @@ import ConceptArticles from './ConceptArticles';
 const getInitialValues = (concept = {}, subjects = []) => {
   const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
+
   return {
     id: concept.id,
     title: concept.title || '',

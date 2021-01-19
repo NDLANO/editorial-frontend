@@ -28,6 +28,7 @@ import {
   isNDLATaxonomyUrl,
   isNDLAEdPathUrl,
 } from './EditLink';
+import { isUrl } from '../../../validators';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
@@ -42,35 +43,35 @@ const getLinkFieldStyle = (href, node) => {
   const baseHref = href.split(/\?/)[0];
   const data = node?.data?.toJS() || {};
   const savedHref = data.href;
-
   const isExternalLink = data.resource !== 'content-link';
-  console.log(isExternalLink, href, savedHref);
+
   if (isExternalLink && href === savedHref) {
     return css`
       input {
         background-color: ${colors.tasksAndActivities.background};
       }
-      input::after {
-        display: block;
-        content: 'test';
-        color: ${colors.tasksAndActivities.background};
-      }
     `;
   } else if (
-    isNDLAArticleUrl(baseHref) ||
     isPlainId(baseHref) ||
-    isNDLATaxonomyUrl(baseHref) ||
-    isNDLAEdPathUrl(baseHref) ||
-    isNDLALearningPathUrl(baseHref)
+    (isUrl(baseHref) &&
+      (isNDLAArticleUrl(baseHref) ||
+        isNDLATaxonomyUrl(baseHref) ||
+        isNDLAEdPathUrl(baseHref) ||
+        isNDLALearningPathUrl(baseHref)))
   ) {
     return css`
       input {
         background-color: ${colors.brand.light};
       }
     `;
-  } else {
-    return '';
+  } else if (isUrl(baseHref)) {
+    return css`
+      input {
+        background-color: ${colors.tasksAndActivities.background};
+      }
+    `;
   }
+  return '';
 };
 
 export const getInitialValues = (link = {}) => ({

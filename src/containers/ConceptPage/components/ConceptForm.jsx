@@ -50,7 +50,6 @@ import ConceptArticles from './ConceptArticles';
 const getInitialValues = (concept = {}, subjects = []) => {
   const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
-
   return {
     id: concept.id,
     title: concept.title || '',
@@ -175,6 +174,8 @@ class ConceptForm extends Component {
         rightsholders: values.rightsholders,
         agreementId: values.agreementId,
       },
+      metaImageAlt: values.metaImageAlt,
+      metaImageId: values.metaImageId,
       source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
@@ -216,6 +217,7 @@ class ConceptForm extends Component {
       this.setState({ savedToServer: false });
       return;
     }
+
     try {
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status

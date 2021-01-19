@@ -17,7 +17,7 @@ import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import ElementList from './ElementList';
+import ElementList from '../../FormikForm/components/ElementList';
 import ThemeNameModal from './ThemeNameModal';
 import {
   findName,

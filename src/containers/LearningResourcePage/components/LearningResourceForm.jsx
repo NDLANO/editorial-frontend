@@ -64,6 +64,7 @@ export const getInitialValues = (article = {}) => {
     updatePublished: false,
     updated: article.updated,
     grepCodes: article.grepCodes || [],
+    conceptIds: article.conceptIds || [],
   };
 };
 
@@ -119,6 +120,7 @@ const getArticleFromSlate = ({
     tags: values.tags,
     title: values.title,
     grepCodes: values.grepCodes,
+    conceptIds: values.conceptIds,
   };
 
   return article;

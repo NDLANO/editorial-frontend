@@ -92,7 +92,7 @@ export function useFetchSubjectpageData(
     const elementIds = taxonomyElements.map(element =>
       element.contentUri.split(':'),
     );
-    return await Promise.all(
+    return Promise.all(
       elementIds.map(async elementId => {
         if (elementId[1] === 'learningpath') {
           const learningpath = await fetchLearningpath(elementId.pop());

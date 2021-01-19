@@ -7,6 +7,7 @@ import Accordion, {
   AccordionPanel,
 } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
+import FormikConcepts from '../../FormikForm/FormikConcepts';
 import {
   FormikCopyright,
   VersionAndNotesPanel,
@@ -15,6 +16,7 @@ import {
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
+import FormikField from '../../../components/FormikField';
 
 const panels = [
   {
@@ -53,6 +55,21 @@ const panels = [
     className: 'u-6/6',
     errorFields: ['grepCodes'],
     component: props => <FormikGrepCodes {...props} />,
+  },
+  {
+    id: 'topic-article-concepts',
+    title: 'form.name.concepts',
+    className: 'u-6/6',
+    errorFields: ['conceptIds'],
+    component: props => {
+      return (
+        <FormikField name={'conceptIds'}>
+          {({ field, form }) => (
+            <FormikConcepts field={field} form={form} {...props} />
+          )}
+        </FormikField>
+      );
+    },
   },
   {
     id: 'topic-article-workflow',

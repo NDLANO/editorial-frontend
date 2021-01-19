@@ -9,7 +9,7 @@ import React, { FC, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
-import ElementList from '../../NdlaFilm/components/ElementList';
+import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
 import {
   ArticleType,

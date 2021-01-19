@@ -17,41 +17,29 @@ export interface TranslateType {
   ): string;
 }
 
-interface Copyright {
-  license: {
-    license: string;
-    description: string;
-    url: string;
-  };
-  processors: [
-    {
-      name: string;
-      type: string;
-    },
-  ];
-  origin: [
-    {
-      name: string;
-      type: string;
-    },
-  ];
-  rightsholders: [
-    {
-      type: string;
-      name: string;
-    },
-  ];
-  creators: [
-    {
-      type: string;
-      name: string;
-    },
-  ];
+interface Author {
+  name: string;
+  type: string;
 }
 
-interface Status {
+export interface Status {
   current: string;
   other: string[];
+}
+
+export interface Copyright {
+  license: {
+    license: string;
+    description?: string;
+    url?: string;
+  };
+  origin?: string;
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  agreementId?: number;
+  validFrom?: string;
+  validTo?: string;
 }
 
 export interface CodeBlockType {
@@ -149,6 +137,7 @@ export interface ArticleType {
   status: Status;
   content: string;
   grepCodes: string[];
+  conceptIds: number[];
 }
 
 export interface TaxonomyMetadata {
@@ -479,4 +468,23 @@ export interface Licenses {
   license: string;
   description: string;
   url?: string;
+}
+
+export interface ConceptPreviewType {
+  id: number;
+  title?: string;
+  tags: Array<string>;
+  content?: string;
+  metaImage?: {
+    id: number;
+    alt: string;
+  };
+  copyright?: Copyright;
+  language: string;
+  supportedLanguages: Array<string>;
+  articleIds: number[];
+  created: string;
+  source?: string;
+  subjectIds: string[];
+  visualElement?: VisualElement;
 }

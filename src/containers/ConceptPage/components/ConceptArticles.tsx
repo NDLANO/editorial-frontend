@@ -9,7 +9,7 @@ import React, { FC, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
-import ElementList from '../../NdlaFilm/components/ElementList';
+import ElementList from '../../FormikForm/components/ElementList';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import {
   ArticleType,
@@ -68,7 +68,7 @@ const ConceptArticles: FC<Props & tType> = ({
   };
 
   const searchForArticles = async (inp: String) => {
-    return await searchDrafts({
+    return searchDrafts({
       query: inp,
       language: locale,
     });
@@ -98,6 +98,8 @@ const ConceptArticles: FC<Props & tType> = ({
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        multiSelect
+        disableSelected
         clearInputField
       />
     </>

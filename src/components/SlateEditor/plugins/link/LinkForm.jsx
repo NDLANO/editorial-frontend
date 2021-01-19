@@ -111,9 +111,9 @@ class LinkForm extends Component {
             />
             <FormikField
               name="href"
-              description={`${t('form.content.link.description')} ${
-                config.ndlaFrontendDomain
-              }. ${t('form.content.link.descriptionPartTwo')}`}
+              description={t('form.content.link.description', {
+                url: config.ndlaFrontendDomain,
+              })}
               label={t('form.content.link.href')}
               css={getLinkFieldStyle(values.href, node)}
             />

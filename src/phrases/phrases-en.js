@@ -715,9 +715,7 @@ const phrases = {
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {type}',
         description:
-          'Links to ndla-resources is handled by the system and is displayed correct on',
-        descriptionPartTwo:
-          'Ndla-resources is shown with blue background and external links with yellow.',
+          'Links to ndla-resources is handled by the system and is displayed correct on {url}. Ndla-resources is shown with blue background and external links with yellow.',
       },
       footnote: {
         title: 'Title',

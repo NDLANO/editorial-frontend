@@ -737,9 +737,7 @@ const phrases = {
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
         description:
-          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på',
-        descriptionPartTwo:
-          'Ndla-ressursar vises med blå bakgrunn og eksterne lenker med gul.',
+          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {url}. Ndla-ressursar vises med blå bakgrunn og eksterne lenker med gul.',
       },
       footnote: {
         title: 'Tittel',

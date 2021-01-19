@@ -21,14 +21,6 @@ import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
 import { FormikCheckbox } from '../../../../containers/FormikForm';
-import {
-  isNDLAArticleUrl,
-  isNDLALearningPathUrl,
-  isPlainId,
-  isNDLATaxonomyUrl,
-  isNDLAEdPathUrl,
-} from './EditLink';
-import { isUrl } from '../../../validators';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;

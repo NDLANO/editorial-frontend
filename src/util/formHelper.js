@@ -223,7 +223,7 @@ export const ndlaFilmRules = {
 
 export const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
-    if (metaImage.id) {
+    if (metaImage?.id) {
       return metaImage.id;
     }
     return '';

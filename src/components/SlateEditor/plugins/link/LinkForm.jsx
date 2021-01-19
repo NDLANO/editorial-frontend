@@ -39,39 +39,28 @@ const linkValidationRules = {
   href: { required: true, urlOrNumber: true },
 };
 
-const getLinkFieldStyle = (href, node) => {
-  const baseHref = href.split(/\?/)[0];
+const getLinkFieldStyle = node => {
   const data = node?.data?.toJS() || {};
-  const savedHref = data.href;
-  const isExternalLink = data.resource !== 'content-link';
+  const isExternalResource = data.href;
+  const isNdlaResource = data.resource === 'content-link';
 
-  if (isExternalLink && href === savedHref) {
+  if (isNdlaResource) {
     return css`
       input {
         background-color: ${colors.tasksAndActivities.background};
-      }
-    `;
-  } else if (
-    isPlainId(baseHref) ||
-    (isUrl(baseHref) &&
-      (isNDLAArticleUrl(baseHref) ||
-        isNDLATaxonomyUrl(baseHref) ||
-        isNDLAEdPathUrl(baseHref) ||
-        isNDLALearningPathUrl(baseHref)))
-  ) {
-    return css`
-      input {
         background-color: ${colors.brand.light};
       }
     `;
-  } else if (isUrl(baseHref)) {
+  } else if (isExternalResource) {
     return css`
       input {
+        background-color: ${colors.brand.light};
         background-color: ${colors.tasksAndActivities.background};
       }
     `;
+  } else {
+    return '';
   }
-  return '';
 };
 
 export const getInitialValues = (link = {}) => ({
@@ -102,7 +91,7 @@ class LinkForm extends Component {
         validate={values =>
           validateFormik(values, linkValidationRules, t, 'linkForm')
         }>
-        {({ submitForm, values }) => (
+        {({ submitForm }) => (
           <Form data-cy="link_form">
             <FormikField
               name="text"
@@ -115,7 +104,7 @@ class LinkForm extends Component {
                 url: config.ndlaFrontendDomain,
               })}
               label={t('form.content.link.href')}
-              css={getLinkFieldStyle(values.href, node)}
+              css={getLinkFieldStyle(node)}
             />
             <FormikCheckbox
               name="checkbox"

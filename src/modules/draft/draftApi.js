@@ -28,7 +28,7 @@ export const fetchSearchTags = async (input, language) => {
   const response = await fetchAuthorized(
     `${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
-  return await resolveJsonOrRejectWithError(response);
+  return resolveJsonOrRejectWithError(response);
 };
 
 export const fetchLicenses = () =>

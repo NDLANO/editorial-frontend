@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
+import { fetchConcept } from '../../modules/concept/conceptApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
@@ -32,24 +33,47 @@ export function useFetchArticleData(articleId, locale) {
     if (articleId) {
       setLoading(true);
       const article = await draftApi.fetchDraft(articleId, locale);
+
+      let convertedConcepts = await fetchElementList(article.conceptIds);
+      convertedConcepts = convertedConcepts.map(e => ({
+        ...e,
+        articleType: 'concept',
+      }));
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
-        transformArticleFromApiVersion({ taxonomy, ...article }, locale),
+        transformArticleFromApiVersion(
+          { taxonomy, ...article },
+          locale,
+          convertedConcepts,
+        ),
       );
       setLoading(false);
     }
   };
 
   const updateArticle = async updatedArticle => {
-    const savedArticle = await draftApi.updateDraft(updatedArticle);
+    const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
+    const savedArticle = await draftApi.updateDraft({
+      ...updatedArticle,
+      conceptIds,
+    });
     const taxonomy = await fetchTaxonomy(articleId, locale);
     const updated = transformArticleFromApiVersion(
       { taxonomy, ...savedArticle },
       locale,
+      updatedArticle.conceptIds,
     );
     updateUserData(articleId);
     setArticle(updated);
     return updated;
+  };
+
+  const fetchElementList = async articleIds => {
+    return Promise.all(
+      articleIds.map(async elementId => {
+        return fetchConcept(elementId);
+      }),
+    );
   };
 
   const updateArticleAndStatus = async ({
@@ -59,8 +83,16 @@ export function useFetchArticleData(articleId, locale) {
   }) => {
     let newArticle = updatedArticle;
     if (dirty) {
-      const savedArticle = await draftApi.updateDraft(updatedArticle);
-      newArticle = transformArticleFromApiVersion(savedArticle, locale);
+      const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
+      const savedArticle = await draftApi.updateDraft({
+        ...updatedArticle,
+        conceptIds,
+      });
+      newArticle = transformArticleFromApiVersion(
+        savedArticle,
+        locale,
+        updatedArticle.conceptIds,
+      );
     }
     const statusChangedDraft = await draftApi.updateStatusDraft(
       updatedArticle.id,
@@ -77,8 +109,18 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const createArticle = async createdArticle => {
-    const savedArticle = await draftApi.createDraft(createdArticle);
-    setArticle(transformArticleFromApiVersion(savedArticle, locale));
+    const conceptIds = createdArticle.conceptIds.map(concept => concept.id);
+    const savedArticle = await draftApi.createDraft({
+      ...createdArticle,
+      conceptIds,
+    });
+    setArticle(
+      transformArticleFromApiVersion(
+        savedArticle,
+        locale,
+        createdArticle.conceptIds,
+      ),
+    );
     updateUserData(savedArticle.id);
     return savedArticle;
   };

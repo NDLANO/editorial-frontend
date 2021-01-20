@@ -48,7 +48,6 @@ import ConceptArticles from './ConceptArticles';
 
 const getInitialValues = (concept = {}, subjects = []) => {
   const metaImageId = parseImageUrl(concept.metaImage);
-  console.log(concept);
 
   return {
     id: concept.id,

@@ -6,6 +6,7 @@
  *
  */
 
+import isEmpty from 'lodash/fp/isEmpty';
 import { ArticleType, VisualElement, ConceptPreviewType } from '../interfaces';
 import {
   ConceptApiType,
@@ -15,6 +16,7 @@ import {
   PreviewMetaImage as ConceptPreviewMetaImage,
 } from '../modules/concept/conceptApiInterfaces';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
+import { createEmbedTag, parseEmbedTag } from './embedTagHelpers';
 
 export const transformApiToFormikVersion = (
   concept: ConceptApiType,
@@ -26,6 +28,7 @@ export const transformApiToFormikVersion = (
   title: convertFieldWithFallback(concept, 'title', ''),
   content: convertFieldWithFallback(concept, 'content', ''),
   tags: convertFieldWithFallback(concept, 'tags', []),
+  visualElement: parseEmbedTag(concept.visualElement?.visualElement),
   ...(language ? { language: language } : {}),
 });
 
@@ -34,6 +37,12 @@ export const transformFormikToApiVersion = (
 ): ConceptApiType => ({
   ...concept,
   articleIds: concept.articleIds.map(article => article.id),
+  visualElement: concept.visualElement && {
+    visualElement: createEmbedTag(
+      isEmpty(concept.visualElement) ? {} : concept.visualElement,
+    ),
+    language: concept.visualElement?.metaData?.language,
+  },
 });
 
 export const transformFormikToUpdatedApiVersion = (
@@ -57,7 +66,9 @@ export const transformFormikToUpdatedApiVersion = (
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
   status: concept.status?.current,
-  visualElement: concept.visualElement?.visualElement,
+  visualElement: createEmbedTag(
+    isEmpty(concept.visualElement) ? {} : concept.visualElement,
+  ),
 });
 
 export const transformFormikToNewApiVersion = (
@@ -79,7 +90,9 @@ export const transformFormikToNewApiVersion = (
   tags: convertFieldWithFallback(concept, 'tags', []),
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
-  visualElement: concept.visualElement?.visualElement,
+  visualElement: createEmbedTag(
+    isEmpty(concept.visualElement) ? {} : concept.visualElement,
+  ),
 });
 
 export const transformApiToPreviewVersion = (

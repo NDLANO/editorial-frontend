@@ -6,7 +6,12 @@
  *
  */
 
-import { ArticleType, Copyright, Status } from '../../interfaces';
+import {
+  ArticleType,
+  Copyright,
+  Status,
+  VisualElement,
+} from '../../interfaces';
 
 export enum ConceptStatusType {
   DRAFT,
@@ -156,10 +161,7 @@ export interface ConceptFormikType {
   supportedLanguages: string[];
   articleIds: ArticleType[];
   status: Status;
-  visualElement?: {
-    visualElement: string;
-    language: string;
-  };
+  visualElement?: VisualElement;
 }
 
 export interface ConceptStatusStateMashineType {

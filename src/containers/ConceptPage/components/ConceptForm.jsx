@@ -43,13 +43,12 @@ import { toEditConcept } from '../../../util/routeHelpers.js';
 import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import { createEmbedTag, parseEmbedTag } from '../../../util/embedTagHelpers';
 import FormikField from '../../../components/FormikField';
 import ConceptArticles from './ConceptArticles';
 
 const getInitialValues = (concept = {}, subjects = []) => {
-  const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
   const metaImageId = parseImageUrl(concept.metaImage);
+  console.log(concept);
 
   return {
     id: concept.id,
@@ -74,7 +73,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     tags: concept.tags || [],
     articleIds: concept.articleIds || [],
     status: concept.status || {},
-    visualElement: visualElement || {},
+    visualElement: concept.visualElement || {},
   };
 };
 
@@ -158,9 +157,6 @@ class ConceptForm extends Component {
           alt: values.metaImageAlt,
         }
       : nullOrUndefined(values?.metaImageId);
-    const visualElement = createEmbedTag(
-      isEmpty(values.visualElement) ? {} : values.visualElement,
-    );
 
     return {
       id: values.id,
@@ -183,7 +179,7 @@ class ConceptForm extends Component {
       created: this.getCreatedDate(values),
       articleIds: values.articleIds,
       metaImage,
-      visualElement,
+      visualElement: values.visualElement,
     };
   };
 

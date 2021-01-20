@@ -57,9 +57,7 @@ export const transformFormikToUpdatedApiVersion = (
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
   status: concept.status?.current,
-  visualElement: createEmbedTag(
-    isEmpty(concept.visualElement) ? {} : concept.visualElement,
-  ),
+  visualElement: createEmbedTag(concept.visualElement) || '',
 });
 
 export const transformFormikToNewApiVersion = (
@@ -81,9 +79,7 @@ export const transformFormikToNewApiVersion = (
   tags: concept.tags,
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
-  visualElement: createEmbedTag(
-    isEmpty(concept.visualElement) ? {} : concept.visualElement,
-  ),
+  visualElement: createEmbedTag(concept.visualElement) || '',
 });
 
 export const transformApiToPreviewVersion = (

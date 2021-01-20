@@ -6,7 +6,6 @@
  *
  */
 
-import isEmpty from 'lodash/fp/isEmpty';
 import { ArticleType, VisualElement, ConceptPreviewType } from '../interfaces';
 import {
   ConceptApiType,

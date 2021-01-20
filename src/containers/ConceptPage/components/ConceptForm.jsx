@@ -265,7 +265,6 @@ class ConceptForm extends Component {
       subjects,
       t,
       translateConcept,
-      translating,
       ...rest
     } = this.props;
     const { savedToServer, translateOnContinue } = this.state;
@@ -475,7 +474,6 @@ ConceptForm.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   translateConcept: PropTypes.func,
   updateConceptAndStatus: PropTypes.func,
-  translating: PropTypes.bool,
   setConcept: PropTypes.func,
 };
 

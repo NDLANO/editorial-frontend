@@ -69,13 +69,13 @@ export const transformFormikToNewApiVersion = (
   language: language,
   title: convertFieldWithFallback(concept, 'title', ''),
   content: convertFieldWithFallback(concept, 'content', ''),
-  ...(concept.metaImageId &&
-    concept.metaImageAlt && {
-      metaImage: {
-        id: concept.metaImageId,
-        alt: concept.metaImageAlt,
-      },
-    }),
+  metaImage:
+    concept.metaImageId && concept.metaImageAlt
+      ? {
+          id: concept.metaImageId,
+          alt: concept.metaImageAlt,
+        }
+      : nullOrUndefined(concept?.metaImageId),
   copyright: concept.copyright,
   source: concept.source,
   tags: concept.tags,

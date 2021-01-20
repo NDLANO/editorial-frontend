@@ -77,7 +77,7 @@ export const transformFormikToNewApiVersion = (
     }),
   copyright: concept.copyright,
   source: concept.source,
-  tags: convertFieldWithFallback(concept, 'tags', []),
+  tags: concept.tags,
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
   visualElement: createEmbedTag(

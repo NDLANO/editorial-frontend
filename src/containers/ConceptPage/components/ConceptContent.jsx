@@ -43,7 +43,7 @@ const ConceptContent = props => {
       values: { creators, created },
     },
   } = props;
-  console.log(props.formik.values);
+
   return (
     <>
       <FormikField

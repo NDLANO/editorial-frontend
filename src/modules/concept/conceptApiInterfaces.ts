@@ -150,10 +150,7 @@ export interface ConceptFormikType {
   source?: string;
   metaImageId?: string;
   metaImageAlt?: string;
-  tags?: {
-    tags: string[];
-    language: string;
-  };
+  tags?: string[];
   subjectIds?: string[];
   created: string;
   updated: string;

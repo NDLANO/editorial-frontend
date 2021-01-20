@@ -31,7 +31,6 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import {
   isFormikFormDirty,
   parseCopyrightContributors,
-  parseImageUrl,
 } from '../../../util/formHelper';
 import { FormikActionButton } from '../../FormikForm';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
@@ -47,8 +46,6 @@ import FormikField from '../../../components/FormikField';
 import ConceptArticles from './ConceptArticles';
 
 const getInitialValues = (concept = {}, subjects = []) => {
-  const metaImageId = parseImageUrl(concept.metaImage);
-
   return {
     id: concept.id,
     title: concept.title || '',
@@ -67,8 +64,8 @@ const getInitialValues = (concept = {}, subjects = []) => {
     processors: parseCopyrightContributors(concept, 'processors'),
     source: concept && concept.source ? concept.source : '',
     license: concept.copyright?.license?.license,
-    metaImageId,
-    metaImageAlt: concept.metaImage?.alt || '',
+    metaImageId: concept.metaImageId,
+    metaImageAlt: concept.metaImageAlt || '',
     tags: concept.tags || [],
     articleIds: concept.articleIds || [],
     status: concept.status || {},

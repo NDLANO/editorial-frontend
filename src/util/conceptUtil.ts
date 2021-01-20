@@ -17,6 +17,7 @@ import {
 } from '../modules/concept/conceptApiInterfaces';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import { createEmbedTag, parseEmbedTag } from './embedTagHelpers';
+import { parseImageUrl } from './formHelper';
 
 export const transformApiToFormikVersion = (
   concept: ConceptApiType,
@@ -28,21 +29,10 @@ export const transformApiToFormikVersion = (
   title: convertFieldWithFallback(concept, 'title', ''),
   content: convertFieldWithFallback(concept, 'content', ''),
   tags: convertFieldWithFallback(concept, 'tags', []),
+  metaImageId: parseImageUrl(concept.metaImage),
+  metaImageAlt: concept.metaImage?.alt || '',
   visualElement: parseEmbedTag(concept.visualElement?.visualElement),
   ...(language ? { language: language } : {}),
-});
-
-export const transformFormikToApiVersion = (
-  concept: ConceptFormikType,
-): ConceptApiType => ({
-  ...concept,
-  articleIds: concept.articleIds.map(article => article.id),
-  visualElement: concept.visualElement && {
-    visualElement: createEmbedTag(
-      isEmpty(concept.visualElement) ? {} : concept.visualElement,
-    ),
-    language: concept.visualElement?.metaData?.language,
-  },
 });
 
 export const transformFormikToUpdatedApiVersion = (
@@ -62,7 +52,7 @@ export const transformFormikToUpdatedApiVersion = (
     }),
   copyright: concept.copyright,
   source: concept.source,
-  tags: convertFieldWithFallback(concept, 'tags', []),
+  tags: concept.tags,
   subjectIds: concept.subjectIds,
   articleIds: concept.articleIds.map(article => article.id),
   status: concept.status?.current,

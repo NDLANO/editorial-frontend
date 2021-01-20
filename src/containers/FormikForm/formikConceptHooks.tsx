@@ -75,7 +75,6 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   const updateConcept = async (
     updatedConcept: ConceptFormikType,
   ): Promise<ConceptApiType> => {
-    console.log(updatedConcept);
     const savedConcept = await conceptApi.updateConcept(
       transformFormikToUpdatedApiVersion(updatedConcept, locale),
     );

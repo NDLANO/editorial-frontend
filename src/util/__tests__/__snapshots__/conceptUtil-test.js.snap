@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformConceptFromApiVersion 1`] = `
+exports[`transformApiToFormikVersion 1`] = `
 Object {
   "articleIds": undefined,
   "content": "Beskrivelse av testforklaring.",
@@ -30,5 +30,13 @@ Object {
   "tags": Array [],
   "title": "Testforklaring",
   "updated": "2019-05-15T08:45:46Z",
+  "visualElement": Object {
+    "align": "",
+    "alt": "Test data alt",
+    "caption": "",
+    "resource": "image",
+    "resource_id": "1234",
+    "size": "fullbredde",
+  },
 }
 `;

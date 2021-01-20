@@ -18,6 +18,7 @@ import {
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import { createEmbedTag, parseEmbedTag } from './embedTagHelpers';
 import { parseImageUrl } from './formHelper';
+import { nullOrUndefined } from './articleUtil';
 
 export const transformApiToFormikVersion = (
   concept: ConceptApiType,
@@ -43,13 +44,13 @@ export const transformFormikToUpdatedApiVersion = (
   language: language,
   title: convertFieldWithFallback(concept, 'title', ''),
   content: convertFieldWithFallback(concept, 'content', ''),
-  ...(concept.metaImageId &&
-    concept.metaImageAlt && {
-      metaImage: {
-        id: concept.metaImageId,
-        alt: concept.metaImageAlt,
-      },
-    }),
+  metaImage:
+    concept.metaImageId && concept.metaImageAlt
+      ? {
+          id: concept.metaImageId,
+          alt: concept.metaImageAlt,
+        }
+      : nullOrUndefined(concept?.metaImageId),
   copyright: concept.copyright,
   source: concept.source,
   tags: concept.tags,

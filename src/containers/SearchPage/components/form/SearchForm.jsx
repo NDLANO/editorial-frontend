@@ -20,7 +20,6 @@ export const searchFormClasses = new BEMHelper({
 });
 
 const SearchForm = ({ type, searchObject, ...rest }) => {
-  console.log(type);
   switch (type) {
     case 'content':
       return <SearchContentForm searchObject={searchObject} {...rest} />;

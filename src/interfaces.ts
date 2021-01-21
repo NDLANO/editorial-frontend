@@ -8,6 +8,15 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
 
+export type ConceptStatusType =
+  | 'DRAFT'
+  | 'QUALITY_ASSURED'
+  | 'PUBLISHED'
+  | 'QUEUED_FOR_LANGUAGE'
+  | 'ARCHIVED'
+  | 'TRANSLATED'
+  | 'UNPUBLISHED';
+
 export interface TranslateType {
   (
     key: string,

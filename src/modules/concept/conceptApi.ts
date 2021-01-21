@@ -14,12 +14,15 @@ import {
 import {
   ConceptApiType,
   ConceptStatusStateMashineType,
-  ConceptStatusType,
   ConceptTagsSearchResult,
   ConceptQuery,
   ConceptSearchResult,
 } from './conceptApiInterfaces';
-import { ConceptType, StrippedConceptType } from '../../interfaces';
+import {
+  ConceptType,
+  StrippedConceptType,
+  ConceptStatusType,
+} from '../../interfaces';
 
 import { transformApiToCleanConcept } from './conceptApiUtil';
 

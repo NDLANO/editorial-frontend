@@ -17,8 +17,11 @@ import { UserAccessContext } from '../../../../App/App';
 import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License } from '../../../../../interfaces';
+import {
+  SubjectType,
+  License,
+  ConceptStatusType,
+} from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
 
 export interface InlineFormConcept {

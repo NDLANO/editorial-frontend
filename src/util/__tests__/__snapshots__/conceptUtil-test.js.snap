@@ -22,7 +22,7 @@ Object {
   },
   "created": "2013-02-26T11:06:14Z",
   "id": 400,
-  "language": undefined,
+  "language": "nb",
   "subjectIds": Array [],
   "supportedLanguages": Array [
     "nb",

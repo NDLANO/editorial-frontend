@@ -8,15 +8,6 @@
 
 import { Copyright, Status } from '../../interfaces';
 
-export type ConceptStatusType =
-  | 'DRAFT'
-  | 'QUALITY_ASSURED'
-  | 'PUBLISHED'
-  | 'QUEUED_FOR_LANGUAGE'
-  | 'ARCHIVED'
-  | 'TRANSLATED'
-  | 'UNPUBLISHED';
-
 export type LanguageFieldType<T> = T & {
   language: string;
 };

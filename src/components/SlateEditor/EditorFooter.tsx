@@ -15,7 +15,7 @@ import { Launch } from '@ndla/icons/common';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, PossibleStatuses, Values } from './editorTypes';
-import { Concept } from '../../interfaces';
+import { ConceptType } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
@@ -27,14 +27,14 @@ interface Props {
   values: Values;
   error: string;
   errors: Object;
-  getEntity: () => Article | Concept;
+  getEntity: () => Article | ConceptType;
   entityStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
   showSimpleFooter: boolean;
   setFieldValue: (name: string, value: { current: string }) => void;
   onSaveClick: VoidFunction;
   getStateStatuses: () => PossibleStatuses;
-  validateEntity: (id: number, updatedEntity: Article | Concept) => void;
+  validateEntity: (id: number, updatedEntity: Article | ConceptType) => void;
   isArticle: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;

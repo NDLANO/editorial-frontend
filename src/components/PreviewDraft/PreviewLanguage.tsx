@@ -10,7 +10,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
-import { ArticleType, Concept } from '../../interfaces';
+import { ArticleType, ConceptType } from '../../interfaces';
 
 export const StyledPreviewHeader = styled.div`
   min-height: 6rem;
@@ -24,12 +24,12 @@ const StyledPreview = styled.div`
 interface Props {
   label: string;
   contentType: string;
-  firstEntity: ArticleType | Concept;
-  secondEntity: ArticleType | Concept;
+  firstEntity: ArticleType | ConceptType;
+  secondEntity: ArticleType | ConceptType;
   previewLanguage: string;
   onChangePreviewLanguage(language: string): void;
   getEntityPreview(
-    entity: ArticleType | Concept,
+    entity: ArticleType | ConceptType,
     label?: string,
     contentType?: string,
   ): Element;

@@ -13,14 +13,13 @@ import {
 } from '../../util/apiHelpers';
 import {
   ConceptApiType,
-  ConceptSearchResult,
   ConceptStatusStateMashineType,
   ConceptStatusType,
   ConceptTagsSearchResult,
   ConceptQuery,
-  ConceptType,
-  StrippedConceptType,
+  ConceptSearchResult,
 } from './conceptApiInterfaces';
+import { ConceptType, StrippedConceptType } from '../../interfaces';
 
 import { transformApiToCleanConcept } from './conceptApiUtil';
 
@@ -34,17 +33,6 @@ export const fetchSearchTags = async (
     `${draftConceptUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
   return resolveJsonOrRejectWithError(response);
-};
-
-export const fetchAllConcepts = async (
-  locale: string,
-): Promise<ConceptType> => {
-  const response = await fetchAuthorized(
-    `${draftConceptUrl}?language=${locale}`,
-  );
-  return resolveJsonOrRejectWithError(
-    transformApiToCleanConcept(response, locale),
-  );
 };
 
 export const fetchConcept = async (

@@ -6,12 +6,7 @@
  *
  */
 
-import {
-  Copyright,
-  Status,
-  ArticleType,
-  VisualElement,
-} from '../../interfaces';
+import { Copyright, Status } from '../../interfaces';
 
 export type ConceptStatusType =
   | 'DRAFT'
@@ -70,109 +65,7 @@ export interface ConceptSearchResult {
   page?: number;
   pageSize: number;
   language: string;
-  results: ConceptSearchSummaryApiType[];
-}
-
-export interface StrippedConceptType {
-  id: number;
-  title?: string;
-  content?: string;
-  visualElement?: string;
-  language: string;
-  copyright?: Copyright;
-  source?: string;
-  metaImage?: {
-    id?: string;
-    url: string;
-    alt: string;
-    language: string;
-  };
-  tags: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-}
-
-export interface ConceptType extends StrippedConceptType {
-  title: string;
-  content: string;
-  visualElement: string;
-  subjectIds: string[];
-  articleIds: number[];
-  lastUpdated?: string;
-  updatedBy: string[];
-  supportedLanguages: string[];
-  status: Status;
-  created: string;
-  updated: string;
-}
-
-export interface ConceptPreviewType extends ConceptType {
-  visualElementResources: VisualElement;
-}
-
-export interface ConceptFormType extends ConceptType {
-  articles: ArticleType[];
-}
-
-interface ConceptSearchSummaryApiType {
-  id: number;
-  title: {
-    title: string;
-    language: string;
-  };
-  content: {
-    content: string;
-    language: string;
-  };
-  metaImage?: {
-    url: string;
-    alt: string;
-    language: string;
-  };
-  tags?: {
-    tags: string[];
-    language: string;
-  };
-  subjectIds?: string[];
-  supportedLanguages: string[];
-  lastUpdated: string;
-  status: Status;
-  updatedBy: string[];
-  license?: string;
-}
-
-export interface NewConceptType {
-  language: string;
-  title: string;
-  content?: string;
-  copyright?: Copyright;
-  source?: string;
-  metaImage?: {
-    id: string;
-    alt: string;
-  };
-  tags?: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-  visualElement?: string;
-}
-
-export interface UpdatedConceptType {
-  id?: number; // Used only as id in endpoint-url. Discarded by backend. Should be removed from this interface in the future.
-  language: string;
-  title: string;
-  content?: string;
-  metaImage?: {
-    id: string;
-    alt: string;
-  };
-  copyright?: Copyright;
-  source?: string;
-  tags?: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-  status?: string;
-  visualElement?: string;
+  results: SearchConceptApiType[];
 }
 
 export interface ConceptStatusStateMashineType {
@@ -198,9 +91,4 @@ export interface ConceptQuery {
   tags: string[];
   status: string[];
   users: string[];
-}
-
-export interface PreviewMetaImage {
-  id: number;
-  alt: string;
 }

@@ -15,7 +15,7 @@ import { FileCompare } from '@ndla/icons/action';
 import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptPreviewType } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';

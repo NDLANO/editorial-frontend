@@ -462,81 +462,43 @@ export interface License {
   url?: string;
 }
 
-export interface StrippedConcept {
-  id: number;
-  content: string;
-  subjectIds: string[];
-  tags: string[];
-  title: string;
-  metaDescription?: string;
-  status: { current: string; other: string[] };
-  supportedLanguages: string[];
-}
-export interface Concept extends StrippedConcept {
-  copyright: {
-    agreementId: number;
-    license?: License;
-    creators: { type: string; name: string }[];
-    processors: string[];
-    rightsholders: string[];
-  };
-  visualElement: VisualElement;
-  language: string;
-  source: string;
-  revision: number;
-  notes: string[];
-  published: string;
-  articleId: number;
-  created: string;
-}
-
-export interface ConceptPreviewType {
+export interface StrippedConceptType {
   id: number;
   title?: string;
-  tags: Array<string>;
   content?: string;
-  metaImage?: {
-    id: number;
-    alt: string;
-  };
-  copyright?: Copyright;
+  visualElement?: string;
   language: string;
-  supportedLanguages: Array<string>;
-  articleIds: number[];
-  created: string;
+  copyright?: Copyright;
   source?: string;
-  subjectIds: string[];
-  visualElement?: VisualElement;
+  metaImage?: {
+    id?: string;
+    url: string;
+    alt: string;
+    language: string;
+  };
+  tags: string[];
+  subjectIds?: string[];
+  articleIds?: number[];
 }
 
-export interface ConceptFormikType {
-  id: number;
-  revision: number;
-  title: {
-    title: string;
-    language: string;
-  };
-  content: {
-    content: string;
-    language: string;
-  };
-  copyright: Copyright;
-  source?: string;
-  metaImageId?: string;
-  metaImageAlt?: string;
-  tags?: {
-    tags: string[];
-    language: string;
-  };
-  subjectIds?: string[];
-  created: string;
-  updated?: string;
-  updatedBy?: string[];
+export interface ConceptType extends StrippedConceptType {
+  title: string;
+  content: string;
+  visualElement: string;
+  subjectIds: string[];
+  articleIds: number[];
+  lastUpdated?: string;
+  updatedBy: string[];
   supportedLanguages: string[];
-  articleIds: ArticleType[];
   status: Status;
-  visualElement?: {
-    visualElement: string;
-    language: string;
-  };
+  created: string;
+  updated: string;
+}
+
+export interface ConceptPreviewType extends ConceptType {
+  visualElementResources: VisualElement;
+}
+
+export interface ConceptFormType extends ConceptType {
+  articles: ArticleType[];
 }

@@ -15,11 +15,8 @@ import {
 } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import {
-  ConceptStatusType,
-  ConceptFormType,
-} from '../../modules/concept/conceptApiInterfaces';
-import { ArticleType } from '../../interfaces';
+import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
+import { ArticleType, ConceptFormType } from '../../interfaces';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();

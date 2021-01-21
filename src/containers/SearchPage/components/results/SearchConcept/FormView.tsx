@@ -16,13 +16,10 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import {
-  ConceptType,
-  SearchConceptApiType,
-} from '../../../../../modules/concept/conceptApiInterfaces';
+import { SearchConceptApiType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { SubjectType, License } from '../../../../../interfaces';
+import { SubjectType, License, ConceptType } from '../../../../../interfaces';
 
 interface Props {
   concept: SearchConceptApiType;

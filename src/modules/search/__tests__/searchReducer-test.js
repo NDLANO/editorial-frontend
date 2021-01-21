@@ -11,17 +11,23 @@ import reducer, {
   search,
   searchError,
   setSearchResult,
-  setDraftSearchResult,
+  setAudioSearchResult,
+  setImageSearchResult,
   clearSearchResult,
 } from '../search';
-import { contentResults, mediaResults } from './_mockSearchResult';
+import {
+  contentResults,
+  audioResults,
+  imageResults,
+} from './_mockSearchResult';
 
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
     totalSearchResults: { results: [] },
-    totalDraftResults: { results: [] },
+    totalAudioResults: { results: [] },
+    totalImageResults: { results: [] },
     searching: false,
   });
 });
@@ -32,7 +38,8 @@ test('reducers/search search', () => {
   expect(nextState).toEqual({
     searching: true,
     totalSearchResults: { results: [] },
-    totalDraftResults: { results: [] },
+    totalAudioResults: { results: [] },
+    totalImageResults: { results: [] },
   });
 });
 
@@ -56,17 +63,31 @@ test('reducers/search handle set search result', () => {
   expect(nextState.searching).toBe(false);
 });
 
-test('reducers/search handle set searchDraft result', () => {
+test('reducers/search handle set searchAudio result', () => {
   const nextState = reducer(initalState, {
-    type: setDraftSearchResult,
-    payload: mediaResults,
+    type: setAudioSearchResult,
+    payload: audioResults,
   });
 
-  expect(nextState.totalDraftResults[0].totalCount).toBe(32);
-  expect(nextState.totalDraftResults[0].results.length).toBe(2);
-  expect(nextState.totalDraftResults[0].page).toBe(3);
-  expect(nextState.totalDraftResults[0].pageSize).toBe(2);
-  expect(nextState.totalDraftResults[0].language).toBe('all');
+  expect(nextState.totalAudioResults[0].totalCount).toBe(100);
+  expect(nextState.totalAudioResults[0].results.length).toBe(2);
+  expect(nextState.totalAudioResults[0].page).toBe(4);
+  expect(nextState.totalAudioResults[0].pageSize).toBe(2);
+  expect(nextState.totalAudioResults[0].language).toBe('all');
+  expect(nextState.searching).toBe(false);
+});
+
+test('reducers/search handle set searchImage result', () => {
+  const nextState = reducer(initalState, {
+    type: setImageSearchResult,
+    payload: imageResults,
+  });
+
+  expect(nextState.totalImageResults[0].totalCount).toBe(32);
+  expect(nextState.totalImageResults[0].results.length).toBe(2);
+  expect(nextState.totalImageResults[0].page).toBe(3);
+  expect(nextState.totalImageResults[0].pageSize).toBe(2);
+  expect(nextState.totalImageResults[0].language).toBe('all');
   expect(nextState.searching).toBe(false);
 });
 
@@ -78,8 +99,16 @@ test('reducers/search handle clear search result', () => {
   expect(nextState).toEqual(initalState);
 });
 
-test('reducers/search handle clear searchDraft result', () => {
-  const nextState = reducer(mediaResults, {
+test('reducers/search handle clear searchAudio result', () => {
+  const nextState = reducer(audioResults, {
+    type: clearSearchResult,
+  });
+
+  expect(nextState).toEqual(initalState);
+});
+
+test('reducers/search handle clear searchImage result', () => {
+  const nextState = reducer(imageResults, {
     type: clearSearchResult,
   });
 

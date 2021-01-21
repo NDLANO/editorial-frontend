@@ -178,7 +178,31 @@ export const contentResults = {
   ],
 };
 
-export const mediaResults = [
+export const audioResults = [
+  {
+    type: 'audios',
+    language: 'all',
+    totalCount: 100,
+    page: 4,
+    pageSize: 2,
+    results: [
+      {
+        id: 123,
+        title: 'Test audio 1',
+        url: 'https://testurl/123',
+        supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
+      },
+      {
+        id: 234,
+        title: 'Test audio 2',
+        url: 'https://testurl/234',
+        supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
+      },
+    ],
+  },
+];
+
+export const imageResults = [
   {
     type: 'images',
     language: 'all',

@@ -9,10 +9,16 @@
 import {
   getResults,
   getLastPage,
-  getDraftResults,
-  getDraftLastPage,
+  getAudioResults,
+  getImageResults,
+  getAudioLastPage,
+  getImageLastPage,
 } from '../searchSelectors';
-import { contentResults, mediaResults } from './_mockSearchResult';
+import {
+  contentResults,
+  audioResults,
+  imageResults,
+} from './_mockSearchResult';
 
 const lastPageTestState = {
   search: {
@@ -30,10 +36,28 @@ const lastPageTestState = {
   },
 };
 
-const lastPageTestMediaState = {
+const lastPageTestAudioState = {
   search: {
     searching: false,
-    totalDraftResults: {
+    totalAudioResults: {
+      results: [
+        {
+          totalCount: 3,
+          pageSize: 3,
+        },
+        {
+          totalCount: 30,
+          pageSize: 3,
+        },
+      ],
+    },
+  },
+};
+
+const lastPageTestImageState = {
+  search: {
+    searching: false,
+    totalImageResults: {
       results: [
         {
           totalCount: 3,
@@ -59,14 +83,26 @@ test('searchSelectors getLastPage', () => {
   expect(getLastPage(lastPageTestState)).toBe(10);
 });
 
-test('searchSelectors getDraftResults', () => {
+test('searchSelectors getAudioResults', () => {
   const state = {
-    search: { totalDraftResults: { results: mediaResults } },
+    search: { totalAudioResults: { results: audioResults } },
   };
 
-  expect(getDraftResults(state)).toMatchSnapshot();
+  expect(getAudioResults(state)).toMatchSnapshot();
 });
 
-test('searchSelectors getDraftLastPage', () => {
-  expect(getDraftLastPage(lastPageTestMediaState)).toBe(11);
+test('searchSelectors getImageResults', () => {
+  const state = {
+    search: { totalImageResults: { results: imageResults } },
+  };
+
+  expect(getImageResults(state)).toMatchSnapshot();
+});
+
+test('searchSelectors getAudioLastPage', () => {
+  expect(getAudioLastPage(lastPageTestAudioState)).toBe(11);
+});
+
+test('searchSelectors getImageLastPage', () => {
+  expect(getImageLastPage(lastPageTestImageState)).toBe(11);
 });

@@ -1,6 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`searchSelectors getDraftResults 1`] = `
+exports[`searchSelectors getAudioResults 1`] = `
+Object {
+  "results": Array [
+    Object {
+      "id": 123,
+      "supportedLanguages": Array [
+        "unknown",
+        "nb",
+        "nn",
+        "en",
+      ],
+      "title": "Test audio 1",
+      "type": "audios",
+      "url": "https://testurl/123",
+    },
+    Object {
+      "id": 234,
+      "supportedLanguages": Array [
+        "unknown",
+        "nb",
+        "nn",
+        "en",
+      ],
+      "title": "Test audio 2",
+      "type": "audios",
+      "url": "https://testurl/234",
+    },
+  ],
+  "totalCount": 100,
+}
+`;
+
+exports[`searchSelectors getImageResults 1`] = `
 Object {
   "results": Array [
     Object {

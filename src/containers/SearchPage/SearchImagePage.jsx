@@ -22,7 +22,7 @@ import SearchContainer from './SearchContainer';
 
 const SearchImagePage = ({ t, ...props }) => (
   <Fragment>
-    <HelmetWithTracker title={t('htmlTitles.searchMediaPage')} />
+    <HelmetWithTracker title={t('htmlTitles.searchImagePage')} />
     <SearchContainer type="image" {...props} />
   </Fragment>
 );

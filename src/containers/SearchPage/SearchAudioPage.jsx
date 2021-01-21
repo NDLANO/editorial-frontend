@@ -22,7 +22,7 @@ import SearchContainer from './SearchContainer';
 
 const SearchAudioPage = ({ t, ...props }) => (
   <Fragment>
-    <HelmetWithTracker title={t('htmlTitles.searchMediaPage')} />
+    <HelmetWithTracker title={t('htmlTitles.searchAudioPage')} />
     <SearchContainer type="audio" {...props} />
   </Fragment>
 );

@@ -9,7 +9,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
-import { FormikHelpers, FieldInputProps } from 'formik';
+import { FieldInputProps, FormikProps } from 'formik';
 import { AsyncDropdown } from '../index';
 import { SearchResult } from '../../../interfaces';
 
@@ -17,17 +17,17 @@ interface Props {
   language: string;
   initialTags: string[];
   field: FieldInputProps<string[]>;
-  form: FormikHelpers<string[]>;
-  fetchTags: (inp: string, language: string) => SearchResult;
+  form: FormikProps<string[]>;
+  fetchTags: (input: string, language: string) => Promise<SearchResult>;
 }
 
 interface AsyncDropdownProps {
   selectedItems: TagWithTitle[];
   value: string;
   removeItem: (tag: string) => void;
-  onBlur: (event: any) => void;
-  onChange: (event: any) => void;
-  onKeyDown: (event: any) => void;
+  onBlur: (event: Event) => void;
+  onChange: (event: Event) => void;
+  onKeyDown: (event: Event) => void;
 }
 
 interface TagWithTitle {

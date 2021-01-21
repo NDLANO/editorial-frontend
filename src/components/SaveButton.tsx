@@ -58,14 +58,15 @@ const largerButtonStyle = css`
 `;
 
 interface Props {
-  isSaving: boolean;
-  showSaved: boolean;
+  isSaving?: boolean;
+  showSaved?: boolean;
   defaultText?: string;
   formIsDirty: boolean;
-  large: boolean;
-  disabled: boolean;
-  onClick: () => void;
+  large?: boolean;
+  disabled?: boolean;
+  onClick: (evt: Event) => void;
   clippedButton?: boolean;
+  submit?: boolean;
 }
 
 const SaveButton: React.FC<Props & tType> = ({
@@ -78,6 +79,7 @@ const SaveButton: React.FC<Props & tType> = ({
   disabled,
   onClick,
   clippedButton,
+  submit,
   ...rest
 }) => {
   const getModifier = () => {
@@ -94,6 +96,7 @@ const SaveButton: React.FC<Props & tType> = ({
         disabled={disabledButton}
         onClick={onClick}
         clippedButton={clippedButton}
+        submit={submit}
         css={[
           large ? largerButtonStyle : null,
           saveButtonAppearances[modifier],

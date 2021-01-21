@@ -69,7 +69,6 @@ class EditImage extends Component {
 
 EditImage.propTypes = {
   imageId: PropTypes.string,
-  fetchTags: PropTypes.func.isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   fetchImage: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(

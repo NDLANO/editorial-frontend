@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -23,10 +23,15 @@ const obligatoryDescriptionStyle = css`
 const StyledFormikDescription = styled.p`
   margin: 0.2em 0;
   font-size: 0.75em;
-  ${p => (p.obligatory ? obligatoryDescriptionStyle : '')};
+  ${(p: Props) => (p.obligatory ? obligatoryDescriptionStyle : '')};
 `;
 
-const FormikFieldDescription = ({ description, obligatory }) => {
+interface Props {
+  description?: string;
+  obligatory?: boolean;
+}
+
+const FormikFieldDescription: FC<Props> = ({ description, obligatory }) => {
   if (!description) {
     return null;
   }

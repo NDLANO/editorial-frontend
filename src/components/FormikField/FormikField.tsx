@@ -6,10 +6,17 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import { Field, connect } from 'formik';
+import { injectT, tType } from '@ndla/i18n';
+import {
+  Field,
+  connect,
+  FormikContextType,
+  FieldAttributes,
+  FormikValues,
+  FieldProps,
+} from 'formik';
 import { Value } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
@@ -23,32 +30,50 @@ const StyledErrorPreLine = styled.span`
   white-space: pre-line;
 `;
 
-const FormikField = ({
+interface Props {
+  noBorder?: boolean;
+  right?: boolean;
+  title?: boolean;
+  name: string;
+  label?: string;
+  showError?: boolean;
+  obligatory?: boolean;
+  description?: string;
+  maxLength?: number;
+  showMaxLength?: boolean;
+  className?: string;
+  children?: (props: FieldProps & FieldAttributes<any>) => ReactElement;
+  placeholder?: string;
+}
+
+const FormikField: FC<Props &
+  tType & { formik: FormikContextType<FormikValues> }> = ({
   children,
   className,
   label,
   name,
   maxLength,
   showMaxLength,
-  noBorder,
-  title,
-  right,
+  noBorder = false,
+  title = false,
+  right = false,
   description,
   obligatory,
   showError,
   t,
   formik: { values, handleBlur, errors, touched },
+  placeholder,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false);
 
   const isSlateValue = Value.isValue(values[name]);
-  const fieldActions = !isSlateValue
+  const fieldActions: FieldAttributes<any> = !isSlateValue
     ? {
         onFocus: () => {
           setFocus(true);
         },
-        onBlur: (evt, editor, next) => {
+        onBlur: (evt: Event) => {
           handleBlur(evt);
           setFocus(false);
         },
@@ -69,7 +94,7 @@ const FormikField = ({
       />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
         {children
-          ? formikProps => {
+          ? (formikProps: FormikValues) => {
               return children({
                 ...formikProps,
                 field: {
@@ -105,12 +130,12 @@ FormikField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   showError: PropTypes.bool,
-  children: PropTypes.func,
   obligatory: PropTypes.bool,
   description: PropTypes.string,
   formik: FormikShape,
   maxLength: PropTypes.number,
   showMaxLength: PropTypes.bool,
+  children: PropTypes.func,
 };
 
 FormikField.defaultProps = {
@@ -119,4 +144,4 @@ FormikField.defaultProps = {
   showMaxLength: false,
 };
 
-export default injectT(connect(FormikField));
+export default injectT(connect<Props & tType, any>(FormikField));

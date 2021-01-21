@@ -6,25 +6,39 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, { FC, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
 import { FormikLicense, FormikContributors } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }) => (
+type LicenseType = { description: string; license: string };
+
+interface Props {
+  imageTags: string[];
+  licenses: LicenseType[];
+  imageLanguage?: string;
+}
+
+const ImageMetaData: FC<Props & tType> = ({
+  t,
+  imageTags,
+  licenses,
+  imageLanguage,
+}) => (
   <Fragment>
     <FormikField
       name="tags"
       label={t('form.tags.label')}
       obligatory
       description={t('form.tags.description')}>
-      {({ field, form }) => (
+      {({ field, form }: FieldProps<string[], string[]>) => (
         <AsyncSearchTags
-          language={imageLanguage}
+          language={imageLanguage || 'all'}
           initialTags={imageTags}
           field={field}
           form={form}
@@ -33,7 +47,9 @@ const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }) => (
       )}
     </FormikField>
     <FormikField name="license">
-      {({ field }) => <FormikLicense licenses={licenses} {...field} />}
+      {({ field }: { field: FieldInputProps<string> }) => (
+        <FormikLicense licenses={licenses} {...field} />
+      )}
     </FormikField>
     <FormikField label={t('form.origin.label')} name="origin" />
     <FormikContributors contributorTypes={contributorTypes} />
@@ -41,12 +57,12 @@ const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }) => (
 );
 
 ImageMetaData.propTypes = {
-  imageTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
+      description: PropTypes.string.isRequired,
+      license: PropTypes.string.isRequired,
+    }).isRequired,
   ).isRequired,
   imageLanguage: PropTypes.string,
 };

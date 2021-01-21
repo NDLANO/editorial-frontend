@@ -6,11 +6,10 @@
  *
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'formik';
+import React, { FC, Fragment } from 'react';
+import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -33,10 +32,12 @@ const StyledDeleteButtonContainer = styled.div`
   flex-direction: row;
 `;
 
-const ImageContent = ({
-  t,
-  formik: { values, touched, errors, setFieldValue },
-}) => {
+interface Props {
+  formik: FormikContextType<any>;
+}
+
+const ImageContent: FC<Props & tType> = ({ t, formik }) => {
+  const { values, errors, setFieldValue } = formik;
   return (
     <Fragment>
       <FormikField
@@ -56,14 +57,15 @@ const ImageContent = ({
             'image/jpg',
             'image/svg+xml',
           ]}
-          onAddedFiles={(files, evt) => {
+          onAddedFiles={(files: FileList, evt: InputEvent) => {
+            const target = evt.target as HTMLInputElement;
             setFieldValue(
               'filepath',
-              evt.target && evt.target.files[0]
-                ? URL.createObjectURL(evt.target.files[0])
+              target.files?.[0]
+                ? URL.createObjectURL(target.files[0])
                 : undefined,
             );
-            setFieldValue('imageFile', evt.target.files[0]);
+            setFieldValue('imageFile', target.files?.[0]);
           }}
           ariaLabel={t('form.image.dragdrop.ariaLabel')}>
           <strong>{t('form.image.dragdrop.main')}</strong>
@@ -87,7 +89,7 @@ const ImageContent = ({
         <StyledImage src={values.filepath || values.imageFile} alt="" />
       )}
       <FormikField name="caption" showError={false}>
-        {({ field }) => (
+        {({ field }: FieldProps) => (
           <Input
             placeholder={t('form.image.caption.placeholder')}
             label={t('form.image.caption.label')}
@@ -100,7 +102,7 @@ const ImageContent = ({
         )}
       </FormikField>
       <FormikField name="alttext" showError={false}>
-        {({ field }) => (
+        {({ field }: FieldProps) => (
           <Input
             placeholder={t('form.image.alt.placeholder')}
             label={t('form.image.alt.label')}
@@ -116,25 +118,4 @@ const ImageContent = ({
   );
 };
 
-ImageContent.propTypes = {
-  formik: PropTypes.shape({
-    values: PropTypes.shape({
-      alttext: PropTypes.string,
-      caption: PropTypes.string,
-      id: PropTypes.number,
-      imageFile: PropTypes.string,
-      filepath: PropTypes.string,
-    }),
-    errors: PropTypes.shape({
-      alttext: PropTypes.string,
-      caption: PropTypes.string,
-    }),
-    touched: PropTypes.shape({
-      alttext: PropTypes.bool,
-      caption: PropTypes.bool,
-    }),
-    setFieldValue: PropTypes.func.isRequired,
-  }),
-};
-
-export default injectT(connect(ImageContent));
+export default injectT(connect<tType, any>(ImageContent));

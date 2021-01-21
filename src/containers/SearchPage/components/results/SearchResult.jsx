@@ -33,15 +33,11 @@ const SearchResult = ({ result, locale, type, subjects, t, userAccess }) => {
       return (
         <SearchConcept concept={result} locale={locale} subjects={subjects} />
       );
-    case 'media':
-      switch (result.type) {
-        case 'images':
-          return <SearchImage image={result} locale={locale} />;
-        case 'audios':
-          return <SearchAudio audio={result} locale={locale} />;
-        default:
-          return <p>{t('searchForm.resultError', { type: result.type })}</p>;
-      }
+    case 'image':
+      return <SearchImage image={result} locale={locale} />;
+    case 'audio':
+      return <SearchAudio audio={result} locale={locale} />;
+
     default:
       return <p>{t('searchForm.resultError', { type })}</p>;
   }

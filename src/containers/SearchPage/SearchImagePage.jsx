@@ -20,10 +20,10 @@ import {
 
 import SearchContainer from './SearchContainer';
 
-const SearchMediaPage = ({ t, ...props }) => (
+const SearchImagePage = ({ t, ...props }) => (
   <Fragment>
     <HelmetWithTracker title={t('htmlTitles.searchMediaPage')} />
-    <SearchContainer type="media" {...props} />
+    <SearchContainer type="image" {...props} />
   </Fragment>
 );
 
@@ -44,4 +44,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(injectT(SearchMediaPage));
+)(injectT(SearchImagePage));

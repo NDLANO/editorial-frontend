@@ -10,7 +10,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import SearchContentForm from './SearchContentForm';
-import SearchMediaForm from './SearchMediaForm';
+import SearchAudioForm from './SearchAudioForm';
+import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 
 export const searchFormClasses = new BEMHelper({
@@ -19,11 +20,14 @@ export const searchFormClasses = new BEMHelper({
 });
 
 const SearchForm = ({ type, searchObject, ...rest }) => {
+  console.log(type);
   switch (type) {
     case 'content':
       return <SearchContentForm searchObject={searchObject} {...rest} />;
-    case 'media':
-      return <SearchMediaForm searchObject={searchObject} {...rest} />;
+    case 'audio':
+      return <SearchAudioForm searchObject={searchObject} {...rest} />;
+    case 'image':
+      return <SearchImageForm searchObject={searchObject} {...rest} />;
     case 'concept':
       return <SearchConceptForm searchObject={searchObject} {...rest} />;
     default:

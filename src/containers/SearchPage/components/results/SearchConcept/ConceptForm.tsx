@@ -17,29 +17,24 @@ import { UserAccessContext } from '../../../../App/App';
 import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { SubjectType } from '../../../../../interfaces';
+import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
+import { SubjectType, License } from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
 
-export interface License {
-  description: string;
-  license: string;
-  url?: string;
-}
-
-export interface ConceptFormType {
+export interface InlineFormConcept {
   title: string;
   author: string;
-  license?: string;
+  license: string;
   subjects: SubjectType[];
   tags: string[];
-  newStatus?: string;
+  newStatus?: ConceptStatusType;
 }
 
 interface Props {
-  initialValues: ConceptFormType;
+  initialValues: InlineFormConcept;
   status: string;
   language: string;
-  onSubmit: (c: ConceptFormType) => void;
+  onSubmit: (c: InlineFormConcept) => void;
   licenses: License[];
   allSubjects: SubjectType[];
   cancel: () => void;
@@ -55,7 +50,7 @@ const ConceptForm = ({
   cancel,
   t,
 }: Props & tType) => {
-  const formik = useFormik<ConceptFormType>({
+  const formik = useFormik<InlineFormConcept>({
     initialValues,
     onSubmit,
   });
@@ -127,6 +122,7 @@ const ConceptForm = ({
       </InputField>
       <InputField>
         <label htmlFor="tags">{t('form.categories.label')}</label>
+        {console.log('values tags', values.tags)}
         <AsyncSearchTags
           language={language}
           initialTags={values.tags}

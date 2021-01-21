@@ -19,7 +19,8 @@ import {
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType, Concept } from '../../interfaces';
+import { SubjectType } from '../../interfaces';
+import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`
@@ -57,7 +58,7 @@ const TagWrapper = styled.div`
 `;
 
 interface Props {
-  concept: Concept;
+  concept: ConceptPreviewType;
 }
 
 const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
@@ -77,7 +78,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   };
 
   const VisualElement = () => {
-    const visualElement = concept.visualElement;
+    const visualElement = concept.visualElementResources;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
@@ -108,10 +109,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
 
   return (
     <>
-      <NotionHeaderWithoutExitButton
-        title={concept.title}
-        subtitle={concept.metaDescription}
-      />
+      <NotionHeaderWithoutExitButton title={concept.title} />
       <StyledBody>
         <NotionDialogContent>
           <VisualElement />
@@ -126,7 +124,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
         <TagWrapper>
           <div className="tags">
             <span>{t('form.categories.label')}:</span>
-            {concept.tags.map(tag => (
+            {concept.tags?.map(tag => (
               <span className="tag" key={`key-${tag}`}>
                 {tag}
               </span>

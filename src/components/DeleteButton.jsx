@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
-import CrossButton from './CrossButton';
+import DeleteForeverButton from './DeleteForeverButton';
 
 const deleteButtonStyle = css`
   position: absolute;
@@ -26,7 +26,7 @@ const deleteButtonStyle = css`
 `;
 
 export const DeleteButton = ({ children, style, ...rest }) => (
-  <CrossButton
+  <DeleteForeverButton
     data-cy="close-related-button"
     stripped
     css={[deleteButtonStyle, style]}

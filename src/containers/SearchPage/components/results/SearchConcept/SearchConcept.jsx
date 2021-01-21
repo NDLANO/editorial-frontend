@@ -15,8 +15,6 @@ import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFa
 import ContentView from './ContentView';
 import FormView from './FormView';
 
-import { transformConceptFromApiVersion } from '../../../../../util/conceptUtil';
-
 const SearchConcept = ({
   concept,
   locale,
@@ -26,9 +24,7 @@ const SearchConcept = ({
   licenses,
 }) => {
   const [editing, setEditing] = editingState;
-  const [localConcept, setLocalConcept] = useState(
-    transformConceptFromApiVersion(concept),
-  );
+  const [localConcept, setLocalConcept] = useState(concept);
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => {
     setEditing(true);
@@ -67,7 +63,7 @@ const SearchConcept = ({
           }}
           subjects={subjects}
           updateLocalConcept={newConcept => {
-            setLocalConcept(transformConceptFromApiVersion(newConcept));
+            setLocalConcept({ ...newConcept, lastUpdated: newConcept.updated });
           }}
           licenses={licenses}
           t={t}
@@ -92,13 +88,8 @@ const SearchConcept = ({
 SearchConcept.propTypes = {
   concept: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    title: PropTypes.shape({
-      title: PropTypes.string,
-      language: PropTypes.string,
-    }),
-    content: PropTypes.shape({
-      content: PropTypes.string,
-    }),
+    title: PropTypes.string,
+    content: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     subjectIds: PropTypes.arrayOf(PropTypes.string),
     metaImage: PropTypes.shape({

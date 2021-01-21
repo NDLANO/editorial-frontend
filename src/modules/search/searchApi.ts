@@ -19,6 +19,7 @@ import {
   GroupSearchResult,
   MultiSearchApiQuery,
 } from './searchApiInterfaces';
+import { SearchConceptApiType } from '../concept/conceptApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
@@ -30,7 +31,12 @@ export const searchConcepts = async (query: ConceptSearchQuery) => {
   const response = await fetchAuthorized(
     `${conceptBaseUrl}?${queryString.stringify(transformQuery(query))}`,
   );
-  return resolveJsonOrRejectWithError(response);
+  return resolveJsonOrRejectWithError(response).then(
+    (resolved: SearchConceptApiType) => {
+      console.log('resolved searchConcepts', resolved);
+      return resolved;
+    },
+  );
 };
 
 export const search = async (query: MultiSearchApiQuery) => {

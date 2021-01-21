@@ -7,7 +7,11 @@
  */
 
 import { constants } from '@ndla/ui';
-import { toEditArticle, toLearningpathFull } from './routeHelpers';
+import {
+  toEditArticle,
+  toEditConcept,
+  toLearningpathFull,
+} from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -63,12 +67,24 @@ export const getContentTypeFromResourceTypes = resourceTypes => {
 const isLearningPathResourceType = contentType =>
   contentType === contentTypes.LEARNING_PATH;
 
+const isConceptType = contentType => contentType === 'concept';
+
 export const resourceToLinkProps = (content, contentType, locale) => {
   if (isLearningPathResourceType(contentType)) {
     return {
       href: toLearningpathFull(content.id, locale),
       target: '_blank',
       rel: 'noopener noreferrer',
+    };
+  }
+  if (isConceptType(contentType)) {
+    return {
+      to: toEditConcept(
+        content.id,
+        content?.supportedLanguages?.includes(locale)
+          ? locale
+          : content?.supportedLanguages?.[0],
+      ),
     };
   }
   return {

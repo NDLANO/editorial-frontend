@@ -1,7 +1,7 @@
-import { transformConceptFromApiVersion } from '../conceptUtil';
+import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
 import { apiConcept } from './conceptMocks';
 
 test('transformConceptFromApiVersion', () => {
-  const transformed = transformConceptFromApiVersion(apiConcept);
+  const transformed = transformApiToCleanConcept(apiConcept);
   expect(transformed).toMatchSnapshot();
 });

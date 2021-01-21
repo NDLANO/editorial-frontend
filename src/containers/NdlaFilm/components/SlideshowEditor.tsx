@@ -10,7 +10,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import ElementList from './ElementList';
+import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from './DropdownSearch';
 import { ContentResultType } from '../../../interfaces';
 import config from '../../../config.js';

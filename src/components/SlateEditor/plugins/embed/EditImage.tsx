@@ -110,11 +110,13 @@ const EditImage: React.FC<Props & tType> = ({
   };
 
   const onSave = () => {
+    const newAlignmentCenter = state.imageUpdates?.align === 'center';
+
     saveEmbedUpdates({
       ...state,
       ...state.imageUpdates?.transformData,
       align: state.imageUpdates?.align,
-      size: state.imageUpdates?.size,
+      size: newAlignmentCenter ? 'fullbredde' : state.imageUpdates?.size,
       caption: state.caption,
       alt: state.alt,
     });

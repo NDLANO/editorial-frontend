@@ -13,7 +13,7 @@ import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
 import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { Licenses } from '../../interfaces';
+import { License } from '../../interfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 
 interface Props {
@@ -28,7 +28,7 @@ const CreateImage = ({
   showSaved,
 }: Props & RouteComponentProps) => {
   const locale: string = useContext(LocaleContext);
-  const [licenses, setLicenses] = useState<Licenses[]>([]);
+  const [licenses, setLicenses] = useState<License[]>([]);
 
   useEffect(() => {
     getLicenses();

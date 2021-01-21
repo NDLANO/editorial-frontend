@@ -17,41 +17,25 @@ export interface TranslateType {
   ): string;
 }
 
-interface Copyright {
-  license: {
-    license: string;
-    description: string;
-    url: string;
-  };
-  processors: [
-    {
-      name: string;
-      type: string;
-    },
-  ];
-  origin: [
-    {
-      name: string;
-      type: string;
-    },
-  ];
-  rightsholders: [
-    {
-      type: string;
-      name: string;
-    },
-  ];
-  creators: [
-    {
-      type: string;
-      name: string;
-    },
-  ];
+interface Author {
+  name: string;
+  type: string;
 }
 
-interface Status {
+export interface Status {
   current: string;
   other: string[];
+}
+
+export interface Copyright {
+  license?: License;
+  origin?: string;
+  creators: Author[];
+  processors?: Author[];
+  rightsholders: Author[];
+  agreementId?: number;
+  validFrom?: string;
+  validTo?: string;
 }
 
 export interface CodeBlockType {
@@ -149,6 +133,7 @@ export interface ArticleType {
   status: Status;
   content: string;
   grepCodes: string[];
+  conceptIds: number[];
 }
 
 export interface TaxonomyMetadata {
@@ -186,11 +171,7 @@ export interface Resource extends TaxonomyElement {
 
 export interface Learningpath {
   copyright: {
-    license: {
-      license: string;
-      description: string;
-      url: string;
-    };
+    license: License;
     contributors: [
       {
         type: string;
@@ -475,7 +456,7 @@ export interface FormikProperties {
   form: FormikHelpers<FormikValues>;
 }
 
-export interface Licenses {
+export interface License {
   license: string;
   description: string;
   url?: string;
@@ -494,11 +475,7 @@ export interface StrippedConcept {
 export interface Concept extends StrippedConcept {
   copyright: {
     agreementId: number;
-    license?: {
-      description: string;
-      license: string;
-      url?: string;
-    };
+    license?: License;
     creators: { type: string; name: string }[];
     processors: string[];
     rightsholders: string[];
@@ -511,4 +488,55 @@ export interface Concept extends StrippedConcept {
   published: string;
   articleId: number;
   created: string;
+}
+
+export interface ConceptPreviewType {
+  id: number;
+  title?: string;
+  tags: Array<string>;
+  content?: string;
+  metaImage?: {
+    id: number;
+    alt: string;
+  };
+  copyright?: Copyright;
+  language: string;
+  supportedLanguages: Array<string>;
+  articleIds: number[];
+  created: string;
+  source?: string;
+  subjectIds: string[];
+  visualElement?: VisualElement;
+}
+
+export interface ConceptFormikType {
+  id: number;
+  revision: number;
+  title: {
+    title: string;
+    language: string;
+  };
+  content: {
+    content: string;
+    language: string;
+  };
+  copyright: Copyright;
+  source?: string;
+  metaImageId?: string;
+  metaImageAlt?: string;
+  tags?: {
+    tags: string[];
+    language: string;
+  };
+  subjectIds?: string[];
+  created: string;
+  updated?: string;
+  updatedBy?: string[];
+  supportedLanguages: string[];
+  articleIds: ArticleType[];
+  status: Status;
+  visualElement?: {
+    visualElement: string;
+    language: string;
+  };
 }

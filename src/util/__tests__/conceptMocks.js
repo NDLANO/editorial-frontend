@@ -19,6 +19,7 @@ export const apiConcept = {
   created: '2013-02-26T11:06:14Z',
   updated: '2019-05-15T08:45:46Z',
   supportedLanguages: ['nb', 'nn', 'en'],
+  articleIds: [],
 };
 
 export const transformedConcept = {
@@ -45,4 +46,5 @@ export const transformedConcept = {
   supportedLanguages: ['nb', 'nn', 'en'],
   title: 'Testforklaring',
   updated: '2019-05-15T08:45:46Z',
+  articleIds: [],
 };

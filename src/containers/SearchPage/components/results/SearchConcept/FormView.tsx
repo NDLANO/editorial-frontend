@@ -16,20 +16,19 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import { transformConceptFromApiVersion } from '../../../../../util/conceptUtil';
-import { StyledConceptView } from './SearchStyles';
-import ConceptForm, { ConceptFormType, License } from './ConceptForm';
 import {
-  SubjectType,
-  Concept,
-  StrippedConcept,
-} from '../../../../../interfaces';
+  ConceptType,
+  SearchConceptApiType,
+} from '../../../../../modules/concept/conceptApiInterfaces';
+import { StyledConceptView } from './SearchStyles';
+import ConceptForm, { InlineFormConcept } from './ConceptForm';
+import { SubjectType, License } from '../../../../../interfaces';
 
 interface Props {
-  concept: StrippedConcept;
+  concept: SearchConceptApiType;
   cancel: () => void;
   subjects: SubjectType[];
-  updateLocalConcept: (concept: Concept) => void;
+  updateLocalConcept: (concept: ConceptType) => void;
   licenses: License[] | undefined;
 }
 
@@ -48,30 +47,29 @@ const FormView = ({
   const [language, setLanguage] = useState<string>(
     concept.supportedLanguages[0],
   );
-  const [fullConcept, setFullConcept] = useState<Concept | undefined>();
+  const [fullConcept, setFullConcept] = useState<ConceptType | undefined>();
 
   useEffect(() => {
-    fetchConcept(concept.id, language).then((c: any) =>
-      setFullConcept(transformConceptFromApiVersion(c)),
-    );
+    fetchConcept(concept.id, language).then((c: any) => setFullConcept(c));
   }, [concept.id, language]);
 
-  const [formValues, setFormValues] = useState<ConceptFormType | undefined>();
+  const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();
 
   useEffect(() => {
     if (fullConcept && licenses && subjects) {
       const subjectIds = concept.subjectIds;
-      const author = fullConcept.copyright.creators.find(
+      const author = fullConcept.copyright?.creators.find(
         cr => cr.type === 'Writer',
       );
       setFormValues({
         title: fullConcept.title,
         author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
-        license: licenses.find(
-          l => l.license === fullConcept.copyright.license?.license,
-        )?.license,
-        tags: concept.tags ? concept.tags : [],
+        license:
+          licenses.find(
+            l => l.license === fullConcept.copyright?.license?.license,
+          )?.license || '',
+        tags: fullConcept.tags || [],
       });
     }
   }, [fullConcept, licenses, subjects]);
@@ -94,7 +92,7 @@ const FormView = ({
           initialValues={formValues}
           status={fullConcept.status.current}
           language={language}
-          onSubmit={(formConcept: ConceptFormType) => {
+          onSubmit={(formConcept: InlineFormConcept) => {
             const getCreators = (
               creators: { type: string; name: string }[],
               newAuthor: string,
@@ -116,7 +114,7 @@ const FormView = ({
               }
             };
             const creators = getCreators(
-              fullConcept.copyright.creators,
+              fullConcept.copyright?.creators || [],
               formConcept.author,
             );
 
@@ -124,7 +122,6 @@ const FormView = ({
               id: fullConcept.id,
               supportedLanguages: fullConcept.supportedLanguages,
               content: fullConcept.content,
-              revision: fullConcept.revision,
               source: fullConcept.source,
               language: language,
               subjectIds: formConcept.subjects.map(s => s.id),
@@ -134,9 +131,10 @@ const FormView = ({
                 ...fullConcept.copyright,
                 creators,
                 license: licenses.find(l => l.license === formConcept.license),
+                rightsholders: [],
               },
             };
-            updateConcept(newConcept).then((updatedConcept: Concept) => {
+            updateConcept(newConcept).then((updatedConcept: ConceptType) => {
               if (formConcept.newStatus) {
                 updateConceptStatus(updatedConcept.id, formConcept.newStatus);
               }

@@ -502,6 +502,7 @@ const phrases = {
       grepCodes: 'Curriculum connection',
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
+      concepts: 'Concepts',
       subjects: 'Subject',
     },
     previewProductionArticle: {
@@ -691,6 +692,8 @@ const phrases = {
         urlLocation: 'Webpage at {domain}',
         invalidArticle: 'Invalid article',
         addExternal: 'Add external article',
+        removeExternal: 'Delete external article',
+        changeExternal: 'Edit external article',
         searchExternal: 'Write the url and title of the external article',
       },
       concept: {
@@ -919,6 +922,16 @@ const phrases = {
     article: {
       label: 'Article',
       add: 'Add article',
+    },
+    relatedConcepts: {
+      placeholder: 'Search for title',
+      articlesTitle: 'Related Concepts',
+      articlesSubtitle: 'Concepts',
+      changeOrder: 'Change order',
+      removeArticle: 'Remove concept',
+    },
+    section: {
+      remove: 'Remove section',
     },
   },
   validation: {

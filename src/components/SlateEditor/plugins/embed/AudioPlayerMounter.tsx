@@ -31,7 +31,7 @@ const AudioPlayerMounter: React.FC<Props & tType> = ({
   }, []);
 
   const license = getLicenseByAbbreviation(
-    audio.copyright.license.license,
+    audio.copyright.license?.license,
     locale,
   );
   const figureLicenseDialogId = `edit-audio-${audio.id}`;

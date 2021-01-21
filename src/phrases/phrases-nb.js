@@ -520,6 +520,7 @@ const phrases = {
       grepCodes: 'Læreplankobling',
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
+      concepts: 'Forklaringer',
       subjects: 'Fag',
     },
     previewProductionArticle: {
@@ -704,6 +705,8 @@ const phrases = {
         titlePlaceholder: 'Tittel',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
+        removeExternal: 'Slett ekstern artikkel',
+        changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {
@@ -942,6 +945,16 @@ const phrases = {
     article: {
       label: 'Artikkel',
       add: 'Legg til artikkel',
+    },
+    relatedConcepts: {
+      placeholder: 'Søk på tittel',
+      articlesTitle: 'Relaterte forklaringer',
+      articlesSubtitle: 'Forklaringer',
+      changeOrder: 'Endre rekkefølge',
+      removeArticle: 'Fjern forklaring',
+    },
+    section: {
+      remove: 'Ta bort seksjon',
     },
   },
   validation: {

@@ -2,7 +2,7 @@
 
 exports[`transformConceptFromApiVersion 1`] = `
 Object {
-  "articleIds": undefined,
+  "articleIds": Array [],
   "content": "Beskrivelse av testforklaring.",
   "copyright": Object {
     "creators": Array [
@@ -22,7 +22,8 @@ Object {
   },
   "created": "2013-02-26T11:06:14Z",
   "id": 400,
-  "lastUpdated": "2019-05-15T08:45:46Z",
+  "language": undefined,
+  "subjectIds": Array [],
   "supportedLanguages": Array [
     "nb",
     "nn",
@@ -31,5 +32,6 @@ Object {
   "tags": Array [],
   "title": "Testforklaring",
   "updated": "2019-05-15T08:45:46Z",
+  "visualElement": "",
 }
 `;

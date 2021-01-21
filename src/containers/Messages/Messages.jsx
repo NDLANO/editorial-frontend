@@ -29,7 +29,7 @@ const StyledMessageAlertOverlay = styled('div')`
   top: 50px;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 200;
   margin: 0 auto;
   ${p => appearances[p.appearance]};
 `;

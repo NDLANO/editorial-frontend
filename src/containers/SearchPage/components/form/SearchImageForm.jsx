@@ -81,7 +81,6 @@ class SearchImageForm extends Component {
             labelKey="name"
             emptyField
             onChange={this.onFieldChange}
-            onBlur={this.onFieldChange}
             placeholder={t('searchForm.types.language')}
           />
         </div>

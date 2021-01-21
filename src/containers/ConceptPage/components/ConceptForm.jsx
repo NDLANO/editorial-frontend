@@ -28,11 +28,7 @@ import {
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import {
-  isFormikFormDirty,
-  parseCopyrightContributors,
-  parseImageUrl,
-} from '../../../util/formHelper';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { FormikActionButton } from '../../FormikForm';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
@@ -40,17 +36,12 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
-import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import { createEmbedTag, parseEmbedTag } from '../../../util/embedTagHelpers';
 import FormikField from '../../../components/FormikField';
 import ConceptArticles from './ConceptArticles';
 
 const getInitialValues = (concept = {}, subjects = []) => {
-  const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
-  const metaImageId = parseImageUrl(concept.metaImage);
-
   return {
     id: concept.id,
     title: concept.title || '',
@@ -64,17 +55,17 @@ const getInitialValues = (concept = {}, subjects = []) => {
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
-    creators: parseCopyrightContributors(concept, 'creators'),
-    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
-    processors: parseCopyrightContributors(concept, 'processors'),
+    creators: concept.creators || [],
+    rightsholders: concept.rightsholders || [],
+    processors: concept.processors || [],
     source: concept && concept.source ? concept.source : '',
-    license: concept.copyright?.license?.license,
-    metaImageId,
-    metaImageAlt: concept.metaImage?.alt || '',
+    license: concept.copyright?.license?.license || '',
+    metaImageId: concept.metaImageId,
+    metaImageAlt: concept.metaImageAlt || '',
     tags: concept.tags || [],
     articleIds: concept.articleIds || [],
     status: concept.status || {},
-    visualElement: visualElement || {},
+    visualElement: concept.visualElement || {},
   };
 };
 
@@ -152,36 +143,25 @@ class ConceptForm extends Component {
 
   getConcept = values => {
     const { licenses } = this.props;
-    const metaImage = values?.metaImageId
-      ? {
-          id: values.metaImageId,
-          alt: values.metaImageAlt,
-        }
-      : nullOrUndefined(values?.metaImageId);
-    const visualElement = createEmbedTag(
-      isEmpty(values.visualElement) ? {} : values.visualElement,
-    );
-
     return {
       id: values.id,
       title: values.title,
       content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
-      copyright: {
-        license: licenses.find(license => license.license === values.license),
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-        agreementId: values.agreementId,
-      },
+      license: licenses.find(license => license.license === values.license),
+      creators: values.creators,
+      processors: values.processors,
+      rightsholders: values.rightsholders,
+      agreementId: values.agreementId,
+      metaImageAlt: values.metaImageAlt,
+      metaImageId: values.metaImageId,
       source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
       articleIds: values.articleIds,
-      metaImage,
-      visualElement,
+      visualElement: values.visualElement,
     };
   };
 
@@ -216,6 +196,7 @@ class ConceptForm extends Component {
       this.setState({ savedToServer: false });
       return;
     }
+
     try {
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status

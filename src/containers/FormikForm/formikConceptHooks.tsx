@@ -78,6 +78,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     const savedConcept = await conceptApi.updateConcept(
       transformFormikToUpdatedApiVersion(updatedConcept, locale),
     );
+
     setConcept(
       transformApiToFormikVersion(
         savedConcept,

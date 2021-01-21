@@ -13,9 +13,9 @@ import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import * as actions from '../../modules/search/search';
 import {
-  getDraftResults,
-  getDraftLastPage,
-  getDraftTotalResultsCount,
+  getImageResults,
+  getImageLastPage,
+  getImageTotalResultsCount,
 } from '../../modules/search/searchSelectors';
 
 import SearchContainer from './SearchContainer';
@@ -28,16 +28,16 @@ const SearchImagePage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getDraftResults(
+  results: getImageResults(
     state,
     queryString.parse(ownProps.location.search).types,
   ),
-  totalCount: getDraftTotalResultsCount(state),
-  lastPage: getDraftLastPage(state),
+  totalCount: getImageTotalResultsCount(state),
+  lastPage: getImageLastPage(state),
 });
 
 const mapDispatchToProps = {
-  search: actions.searchDraft,
+  search: actions.searchImage,
   clearSearch: actions.clearSearchResult,
 };
 

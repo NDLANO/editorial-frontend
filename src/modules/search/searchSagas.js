@@ -36,10 +36,10 @@ export function* watchSearch() {
   }
 }
 
-export function* searchDraft(query) {
+export function* searchAudio(query) {
   try {
     const searchResult = yield call(api.searchDraft, query);
-    yield put(actions.setDraftSearchResult({ results: searchResult }));
+    yield put(actions.setAudioSearchResult({ results: searchResult }));
   } catch (error) {
     yield put(actions.searchError());
     // TODO: handle error
@@ -47,13 +47,33 @@ export function* searchDraft(query) {
   }
 }
 
-export function* watchSearchDraft() {
-  while (true) {
-    const {
-      payload: { query },
-    } = yield take(actions.searchDraft);
-    yield call(searchDraft, query);
+export function* searchImage(query) {
+  try {
+    const searchResult = yield call(api.searchDraft, query);
+    yield put(actions.setImageSearchResult({ results: searchResult }));
+  } catch (error) {
+    yield put(actions.searchError());
+    // TODO: handle error
+    console.error(error); // eslint-disable-line no-console
   }
 }
 
-export default [watchSearch, watchSearchDraft];
+export function* watchSearchAudio() {
+  while (true) {
+    const {
+      payload: { query },
+    } = yield take(actions.searchAudio);
+    yield call(searchAudio, query);
+  }
+}
+
+export function* watchSearchImage() {
+  while (true) {
+    const {
+      payload: { query },
+    } = yield take(actions.searchImage);
+    yield call(searchImage, query);
+  }
+}
+
+export default [watchSearch, watchSearchAudio, watchSearchImage];

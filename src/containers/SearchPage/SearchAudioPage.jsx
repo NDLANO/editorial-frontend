@@ -13,9 +13,9 @@ import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import * as actions from '../../modules/search/search';
 import {
-  getDraftResults,
-  getDraftLastPage,
-  getDraftTotalResultsCount,
+  getAudioResults,
+  getAudioLastPage,
+  getAudioTotalResultsCount,
 } from '../../modules/search/searchSelectors';
 
 import SearchContainer from './SearchContainer';
@@ -28,16 +28,16 @@ const SearchAudioPage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getDraftResults(
+  results: getAudioResults(
     state,
     queryString.parse(ownProps.location.search).types,
   ),
-  totalCount: getDraftTotalResultsCount(state),
-  lastPage: getDraftLastPage(state),
+  totalCount: getAudioTotalResultsCount(state),
+  lastPage: getAudioLastPage(state),
 });
 
 const mapDispatchToProps = {
-  search: actions.searchDraft,
+  search: actions.searchAudio,
   clearSearch: actions.clearSearchResult,
 };
 

@@ -109,13 +109,19 @@ export const fetchOembed = async (url, options) => {
   return resolveJsonOrRejectWithError(data);
 };
 
-export const setOembedUrl = query =>
+const setH5pOembedUrl = query =>
+  `${config.h5pApiUrl}/oembed/preview?${queryString.stringify(query)}`;
+
+const setOembedUrl = query =>
   `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(
     query,
   )}`;
 
 export const fetchExternalOembed = (url, options) => {
-  const setOembed = setOembedUrl({ url });
+  let setOembed = setOembedUrl({ url });
+  if (url.includes(config.h5pApiUrl)) {
+    setOembed = setH5pOembedUrl({ url });
+  }
   return fetchOembed(setOembed, options);
 };
 

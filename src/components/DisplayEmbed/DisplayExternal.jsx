@@ -76,7 +76,7 @@ export class DisplayExternal extends Component {
         let url = embed.url || `${domain}${embed.path}`;
         url = url.includes(config.h5pApiUrl)
           ? `${url}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`
-          : `${url}?cssUrl=${cssUrl}`;
+          : url;
 
         const data = await fetchExternalOembed(url);
         const src = getIframeSrcFromHtmlString(data.html);

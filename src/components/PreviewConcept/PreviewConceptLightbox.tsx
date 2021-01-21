@@ -67,11 +67,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
 
   const openPreview = async () => {
     const concept = getConcept();
-    const visualElement = await getVisualElement(concept.visualElement);
-    setFirstConcept({
-      ...concept,
-      visualElement: visualElement,
-    });
+    setFirstConcept(concept);
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);

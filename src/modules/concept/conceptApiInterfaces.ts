@@ -11,6 +11,7 @@ import {
   Copyright,
   Status,
   VisualElement,
+  Author,
 } from '../../interfaces';
 
 export enum ConceptStatusType {
@@ -138,15 +139,18 @@ export interface UpdatedConceptType {
 export interface ConceptFormikType {
   id: number;
   revision: number;
-  title?: {
-    title: string;
-    language: string;
+  title?: string;
+  content?: string;
+  license: {
+    license: string;
+    description?: string;
+    url?: string;
   };
-  content?: {
-    content: string;
-    language: string;
-  };
-  copyright?: Copyright;
+  language: string;
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  agreementId?: number;
   source?: string;
   metaImageId?: string;
   metaImageAlt?: string;

@@ -17,7 +17,7 @@ export interface TranslateType {
   ): string;
 }
 
-interface Author {
+export interface Author {
   name: string;
   type: string;
 }

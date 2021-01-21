@@ -28,10 +28,7 @@ import {
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import {
-  isFormikFormDirty,
-  parseCopyrightContributors,
-} from '../../../util/formHelper';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { FormikActionButton } from '../../FormikForm';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
@@ -58,11 +55,11 @@ const getInitialValues = (concept = {}, subjects = []) => {
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
-    creators: parseCopyrightContributors(concept, 'creators'),
-    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
-    processors: parseCopyrightContributors(concept, 'processors'),
+    creators: concept.creators || [],
+    rightsholders: concept.rightsholders || [],
+    processors: concept.processors || [],
     source: concept && concept.source ? concept.source : '',
-    license: concept.copyright?.license?.license,
+    license: concept.copyright?.license?.license || '',
     metaImageId: concept.metaImageId,
     metaImageAlt: concept.metaImageAlt || '',
     tags: concept.tags || [],
@@ -152,13 +149,11 @@ class ConceptForm extends Component {
       content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
-      copyright: {
-        license: licenses.find(license => license.license === values.license),
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-        agreementId: values.agreementId,
-      },
+      license: licenses.find(license => license.license === values.license),
+      creators: values.creators,
+      processors: values.processors,
+      rightsholders: values.rightsholders,
+      agreementId: values.agreementId,
       metaImageAlt: values.metaImageAlt,
       metaImageId: values.metaImageId,
       source: values.source,

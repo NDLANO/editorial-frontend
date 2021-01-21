@@ -16,7 +16,7 @@ import {
 } from '../modules/concept/conceptApiInterfaces';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import { createEmbedTag, parseEmbedTag } from './embedTagHelpers';
-import { parseImageUrl } from './formHelper';
+import { parseImageUrl, parseCopyrightContributors } from './formHelper';
 import { nullOrUndefined } from './articleUtil';
 
 export const transformApiToFormikVersion = (
@@ -26,6 +26,11 @@ export const transformApiToFormikVersion = (
 ): ConceptFormikType => ({
   ...concept,
   articleIds,
+  language: language,
+  creators: parseCopyrightContributors(concept, 'creators'),
+  rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
+  processors: parseCopyrightContributors(concept, 'processors'),
+  license: concept.copyright?.license || { license: '' },
   title: convertFieldWithFallback(concept, 'title', ''),
   content: convertFieldWithFallback(concept, 'content', ''),
   tags: convertFieldWithFallback(concept, 'tags', []),
@@ -50,7 +55,13 @@ export const transformFormikToUpdatedApiVersion = (
           alt: concept.metaImageAlt,
         }
       : nullOrUndefined(concept?.metaImageId),
-  copyright: concept.copyright,
+  copyright: {
+    license: concept.license,
+    creators: concept.creators,
+    processors: concept.processors,
+    rightsholders: concept.rightsholders,
+    agreementId: concept.agreementId,
+  },
   source: concept.source,
   tags: concept.tags,
   subjectIds: concept.subjectIds,
@@ -73,7 +84,13 @@ export const transformFormikToNewApiVersion = (
           alt: concept.metaImageAlt,
         }
       : nullOrUndefined(concept?.metaImageId),
-  copyright: concept.copyright,
+  copyright: {
+    license: concept.license,
+    creators: concept.creators,
+    processors: concept.processors,
+    rightsholders: concept.rightsholders,
+    agreementId: concept.agreementId,
+  },
   source: concept.source,
   tags: concept.tags,
   subjectIds: concept.subjectIds,
@@ -97,5 +114,30 @@ export const transformApiToPreviewVersion = (
     visualElement,
     language,
     metaImage,
+  };
+};
+
+export const transformFormikToPreviewVersion = (
+  concept: ConceptFormikType,
+): ConceptPreviewType => {
+  return {
+    id: concept.id,
+    title: concept.title,
+    tags: concept.tags || [],
+    content: concept.content,
+    copyright: {
+      license: concept.license,
+      creators: concept.creators,
+      processors: concept.processors,
+      rightsholders: concept.rightsholders,
+      agreementId: concept.agreementId,
+    },
+    language: concept.language,
+    supportedLanguages: concept.supportedLanguages,
+    articleIds: concept.articleIds.map(article => article.id),
+    created: concept.created,
+    source: concept.source,
+    subjectIds: concept.subjectIds || [],
+    visualElement: concept.visualElement,
   };
 };

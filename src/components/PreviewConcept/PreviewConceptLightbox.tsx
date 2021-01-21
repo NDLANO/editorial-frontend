@@ -20,7 +20,10 @@ import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import { ConceptPreviewType } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
-import { transformApiToPreviewVersion } from '../../util/conceptUtil';
+import {
+  transformApiToPreviewVersion,
+  transformFormikToPreviewVersion,
+} from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
@@ -68,11 +71,8 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
 
   const openPreview = async () => {
     const concept = getConcept();
-    const visualElement = await getVisualElement(concept.visualElement);
-    setFirstConcept({
-      ...concept,
-      visualElement: visualElement,
-    });
+    const transformed = transformFormikToPreviewVersion(concept);
+    setFirstConcept(transformed);
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);

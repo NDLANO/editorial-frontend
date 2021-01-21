@@ -12,14 +12,8 @@ import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import {
   getImage,
   getUploadedImage,
@@ -44,11 +38,7 @@ const titles = (t, resource = '') => ({
 
 class VisualElementSearch extends Component {
   componentDidUpdate() {
-    const {
-      uploadedImage,
-      selectedResource,
-      handleVisualElementChange,
-    } = this.props;
+    const { uploadedImage, selectedResource, handleVisualElementChange } = this.props;
     if (uploadedImage) {
       const image = getImage(uploadedImage.id, true);
       handleVisualElementChange({
@@ -84,9 +74,9 @@ class VisualElementSearch extends Component {
       t,
     } = this.props;
     const fetchImage = id => api.fetchImage(id, articleLanguage);
-    const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
-      provider => provider.name,
-    ).filter(name => name === selectedResource);
+    const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(provider => provider.name).filter(
+      name => name === selectedResource,
+    );
     switch (selectedResource) {
       case 'image':
         return (
@@ -290,7 +280,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(injectT(VisualElementSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(VisualElementSearch));

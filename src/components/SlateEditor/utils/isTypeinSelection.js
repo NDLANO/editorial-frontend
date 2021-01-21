@@ -6,7 +6,6 @@
  *
  */
 
-const isTypeinSelection = (value, type, edge = 'anchor') =>
-  value[`${edge}Block`].type === type;
+const isTypeinSelection = (value, type, edge = 'anchor') => value[`${edge}Block`].type === type;
 
 export default isTypeinSelection;

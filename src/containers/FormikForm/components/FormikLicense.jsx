@@ -38,10 +38,7 @@ const FormikLicense = props => {
   return (
     <Fragment>
       <FieldHeader title={t('form.license.label')} width={width}>
-        <HowToHelper
-          pageId="userLicense"
-          tooltip={t('form.license.helpLabel')}
-        />
+        <HowToHelper pageId="userLicense" tooltip={t('form.license.helpLabel')} />
       </FieldHeader>
       <FieldSection>
         <div>

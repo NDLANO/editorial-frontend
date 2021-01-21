@@ -51,9 +51,7 @@ const ImageSearchAndUploader = props => {
               onImageSelect={onImageSelect}
               noResults={
                 <Fragment>
-                  <StyledTitleDiv>
-                    {t('imageSearch.noResultsText')}
-                  </StyledTitleDiv>
+                  <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
                   <Button
                     submit
                     outline

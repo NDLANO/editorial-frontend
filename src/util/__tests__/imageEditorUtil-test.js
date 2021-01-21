@@ -43,9 +43,7 @@ test('util/getCrop returns crop string', () => {
     'lower-right-x': 50,
     'lower-right-y': 60,
   };
-  expect(getCrop(transformData)).toBe(
-    'cropStartX=30&cropStartY=40&cropEndX=50&cropEndY=60',
-  );
+  expect(getCrop(transformData)).toBe('cropStartX=30&cropStartY=40&cropEndX=50&cropEndY=60');
 });
 
 test('util/getCrop returns crop string even if crop start x is 0', () => {
@@ -56,9 +54,7 @@ test('util/getCrop returns crop string even if crop start x is 0', () => {
     'lower-right-x': 50,
     'lower-right-y': 60,
   };
-  expect(getCrop(transformData)).toBe(
-    'cropStartX=0&cropStartY=40&cropEndX=50&cropEndY=60',
-  );
+  expect(getCrop(transformData)).toBe('cropStartX=0&cropStartY=40&cropEndX=50&cropEndY=60');
 });
 
 test('util/getCrop returns undefined if missing transform data', () => {

@@ -63,10 +63,7 @@ const emptyNodes = [
 export const findNodesByType = (node, type, nodes = []) => {
   if (node.type === type) {
     nodes.push(node);
-  } else if (
-    node.object === 'document' ||
-    (node.object === 'block' && node.nodes.size > 0)
-  ) {
+  } else if (node.object === 'document' || (node.object === 'block' && node.nodes.size > 0)) {
     node.nodes.forEach(n => findNodesByType(n, type, nodes));
   }
   return nodes;
@@ -175,11 +172,7 @@ export const divRule = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    if (
-      slateObject.type !== 'div' &&
-      slateObject.type !== 'bodybox' &&
-      slateObject.type !== 'file'
-    )
+    if (slateObject.type !== 'div' && slateObject.type !== 'bodybox' && slateObject.type !== 'file')
       return;
     switch (slateObject.type) {
       case 'bodybox':
@@ -203,9 +196,7 @@ export const paragraphRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'p') return;
-    const parent = el.parentElement
-      ? el.parentElement.tagName.toLowerCase()
-      : '';
+    const parent = el.parentElement ? el.parentElement.tagName.toLowerCase() : '';
     const type = parent === 'li' ? 'list-text' : 'paragraph';
     return {
       object: 'block',
@@ -356,11 +347,7 @@ export const orderListRules = {
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    if (
-      slateObject.type !== 'numbered-list' &&
-      slateObject.type !== 'letter-list'
-    )
-      return;
+    if (slateObject.type !== 'numbered-list' && slateObject.type !== 'letter-list') return;
     if (slateObject.type === 'letter-list') {
       return <ol data-type="letters">{children}</ol>;
     }
@@ -553,9 +540,7 @@ const relatedRule = {
       return (
         <div data-type="related-content">
           {object.data.get('nodes') &&
-            object.data
-              .get('nodes')
-              .map(node => <embed key={uuid()} {...createDataProps(node)} />)}
+            object.data.get('nodes').map(node => <embed key={uuid()} {...createDataProps(node)} />)}
         </div>
       );
     }
@@ -648,11 +633,7 @@ const linkRules = {
     }
 
     return (
-      <a
-        href={data.href}
-        rel={data.rel}
-        target={data.target}
-        title={data.title}>
+      <a href={data.href} rel={data.rel} target={data.target} title={data.title}>
         {children}
       </a>
     );
@@ -689,9 +670,7 @@ const conceptRule = {
       nodes: [
         {
           object: 'text',
-          text: embed['link-text']
-            ? embed['link-text']
-            : 'Ukjent forklaringsstekst',
+          text: embed['link-text'] ? embed['link-text'] : 'Ukjent forklaringsstekst',
           marks: [],
         },
       ],
@@ -740,8 +719,7 @@ const topicArticeEmbedRule = [
     deserialize(el) {
       if (el.tagName.toLowerCase() !== 'embed') return;
       const embed = reduceElementDataAttributes(el);
-      if (embed.resource === 'concept' || embed.resource === 'content-link')
-        return;
+      if (embed.resource === 'concept' || embed.resource === 'content-link') return;
       return {
         object: 'block',
         type: 'embed',

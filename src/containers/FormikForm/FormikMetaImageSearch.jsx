@@ -110,10 +110,7 @@ class FormikMetaImageSearch extends Component {
     return (
       <div>
         <FieldHeader title={t('form.metaImage.title')}>
-          <HowToHelper
-            pageId="MetaImage"
-            tooltip={t('form.metaImage.helpLabel')}
-          />
+          <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
         </FieldHeader>
         <Modal
           controllable
@@ -125,10 +122,7 @@ class FormikMetaImageSearch extends Component {
           {() => (
             <Fragment>
               <ModalHeader>
-                <ModalCloseButton
-                  title={t('dialog.close')}
-                  onClick={this.onImageSelectClose}
-                />
+                <ModalCloseButton title={t('dialog.close')} onClick={this.onImageSelectClose} />
               </ModalHeader>
               <ModalBody>
                 <ImageSearchAndUploader
@@ -152,9 +146,7 @@ class FormikMetaImageSearch extends Component {
             showRemoveButton={showRemoveButton}
           />
         ) : (
-          <Button onClick={this.onImageSelectOpen}>
-            {t('form.metaImage.add')}
-          </Button>
+          <Button onClick={this.onImageSelectOpen}>{t('form.metaImage.add')}</Button>
         )}
       </div>
     );
@@ -191,7 +183,4 @@ const mapStateToProps = state => ({
   uploadedImage: getUploadedImage(state),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(injectT(FormikMetaImageSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(FormikMetaImageSearch));

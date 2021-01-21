@@ -57,16 +57,8 @@ const FormikField = ({
   const hasFocus = isSlateValue ? values[name].selection.isFocused : focus;
   return (
     <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
-      <FormikFieldLabel
-        hasFocus={hasFocus}
-        label={label}
-        name={name}
-        noBorder={noBorder}
-      />
-      <FormikFieldDescription
-        description={description}
-        obligatory={obligatory}
-      />
+      <FormikFieldLabel hasFocus={hasFocus} label={label} name={name} noBorder={noBorder} />
+      <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
         {children
           ? formikProps => {

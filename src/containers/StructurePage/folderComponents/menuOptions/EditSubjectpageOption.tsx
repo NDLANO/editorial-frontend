@@ -12,10 +12,7 @@ import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
-import {
-  toEditSubjectpage,
-  toCreateSubjectpage,
-} from '../../../../util/routeHelpers';
+import { toEditSubjectpage, toCreateSubjectpage } from '../../../../util/routeHelpers';
 import { SubjectType, TranslateType } from '../../../../interfaces';
 import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';

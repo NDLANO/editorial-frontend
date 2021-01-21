@@ -63,10 +63,7 @@ const EditMathModal = ({
       {onCloseModal => (
         <>
           <ModalHeader>
-            <ModalCloseButton
-              title={t('dialog.close')}
-              onClick={onCloseModal}
-            />
+            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>
             <h1>{t('mathEditor.editMath')}</h1>

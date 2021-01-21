@@ -4,10 +4,7 @@ export function createErrorPayload(status, messages, json) {
   throw Object.assign(new Error(''), { status, json, messages }); // TODO: should be fixed in future
 }
 
-export function resolveJsonOrRejectWithError(
-  res,
-  options = { taxonomy: false, ignore403: false },
-) {
+export function resolveJsonOrRejectWithError(res, options = { taxonomy: false, ignore403: false }) {
   return new Promise((resolve, reject) => {
     if (res.ok) {
       if (res.status === 204) {
@@ -32,13 +29,7 @@ export function resolveJsonOrRejectWithError(
     res
       .json()
       .then(json => {
-        reject(
-          createErrorPayload(
-            res.status,
-            defined(json.messages, res.statusText),
-            json,
-          ),
-        );
+        reject(createErrorPayload(res.status, defined(json.messages, res.statusText), json));
       })
       .catch(reject);
   });

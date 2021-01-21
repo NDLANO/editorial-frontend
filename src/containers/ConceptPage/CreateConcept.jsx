@@ -27,12 +27,10 @@ const CreateConcept = props => {
     addConceptInModal,
     ...rest
   } = props;
-  const {
-    subjects,
-    createConcept,
-    fetchStatusStateMachine,
-    fetchSearchTags,
-  } = useFetchConceptData(undefined, locale);
+  const { subjects, createConcept, fetchStatusStateMachine, fetchSearchTags } = useFetchConceptData(
+    undefined,
+    locale,
+  );
 
   const createConceptAndPushRoute = async createdConcept => {
     const savedConcept = await createConcept(createdConcept);

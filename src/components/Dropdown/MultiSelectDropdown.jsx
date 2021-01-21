@@ -51,9 +51,7 @@ export class MultiSelectDropdown extends Component {
         isOpen: true,
         inputValue: value,
         data: data.filter(potentialResult => {
-          const string = labelField
-            ? potentialResult[labelField]
-            : potentialResult;
+          const string = labelField ? potentialResult[labelField] : potentialResult;
           return string.toLowerCase().startsWith(value.toLowerCase());
         }),
       });
@@ -92,14 +90,7 @@ export class MultiSelectDropdown extends Component {
   };
 
   render() {
-    const {
-      value,
-      placeholder,
-      labelField,
-      idField,
-      showCreateOption,
-      ...rest
-    } = this.props;
+    const { value, placeholder, labelField, idField, showCreateOption, ...rest } = this.props;
     const { data, isOpen, inputValue } = this.state;
 
     return (
@@ -145,13 +136,9 @@ export class MultiSelectDropdown extends Component {
 }
 
 MultiSelectDropdown.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  ),
+  data: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])),
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  ).isRequired,
+  value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
   name: PropTypes.string.isRequired,
   disableCreate: PropTypes.bool,
   placeholder: PropTypes.string,

@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  ArticleType,
-  Copyright,
-  Status,
-  VisualElement,
-  Author,
-} from '../../interfaces';
+import { ArticleType, Copyright, Status, VisualElement, Author } from '../../interfaces';
 
 export enum ConceptStatusType {
   DRAFT,

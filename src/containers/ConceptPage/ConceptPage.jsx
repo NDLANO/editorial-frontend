@@ -12,10 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import * as messageActions from '../Messages/messagesActions';
 import CreateConcept from './CreateConcept';
 import EditConcept from './EditConcept';
@@ -59,9 +56,7 @@ class ConceptPage extends PureComponent {
                   licenses={licenses}
                   conceptId={routeProps.match.params.conceptId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
-                  isNewlyCreated={
-                    this.state.previousLocation === '/concept/new'
-                  }
+                  isNewlyCreated={this.state.previousLocation === '/concept/new'}
                   {...rest}
                 />
               )}
@@ -101,6 +96,4 @@ const mapStateToProps = state => ({
   licenses: getAllLicenses(state),
 });
 
-export default injectT(
-  connect(mapStateToProps, mapDispatchToProps)(ConceptPage),
-);
+export default injectT(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));

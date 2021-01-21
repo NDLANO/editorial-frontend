@@ -14,9 +14,7 @@ import {
 import { Download, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
 
-const renderArticleInModal = pageId => (
-  <HowToHelper pageId={pageId} extraIconPadding />
-);
+const renderArticleInModal = pageId => <HowToHelper pageId={pageId} extraIconPadding />;
 
 const actions = [
   {

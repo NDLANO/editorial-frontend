@@ -94,10 +94,7 @@ class DeleteTopic extends PureComponent {
     const isDisabled = connections && connections.length > 1;
     return (
       <React.Fragment>
-        <MenuItemButton
-          stripped
-          disabled={isDisabled}
-          onClick={this.toggleEditMode}>
+        <MenuItemButton stripped disabled={isDisabled} onClick={this.toggleEditMode}>
           <RoundIcon small icon={<DeleteForever />} />
           {t('alertModal.delete')}
         </MenuItemButton>
@@ -119,13 +116,9 @@ class DeleteTopic extends PureComponent {
         />
 
         {loading && <Spinner appearance="absolute" />}
-        {loading && (
-          <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />
-        )}
+        {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
         {error && (
-          <StyledErrorMessage data-testid="inlineEditErrorMessage">
-            {error}
-          </StyledErrorMessage>
+          <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
         )}
       </React.Fragment>
     );

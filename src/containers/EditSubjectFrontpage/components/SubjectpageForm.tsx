@@ -106,11 +106,7 @@ const SubjectpageForm: FC<Props & tType> = ({
   updateSubjectpage,
   isNewlyCreated,
 }) => {
-  const {
-    savedToServer,
-    handleSubmit,
-    initialValues,
-  } = useSubjectpageFormHooks(
+  const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
     updateSubjectpage,
     t,
@@ -140,9 +136,7 @@ const SubjectpageForm: FC<Props & tType> = ({
           <Form {...formClasses()}>
             <SimpleLanguageHeader
               articleType={values.articleType!}
-              editUrl={(lang: string) =>
-                toEditSubjectpage(values.elementId, lang, values.id)
-              }
+              editUrl={(lang: string) => toEditSubjectpage(values.elementId, lang, values.id)}
               id={parseInt(values.id!)}
               isSubmitting={isSubmitting}
               language={values.language}

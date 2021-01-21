@@ -44,17 +44,12 @@ const HeaderWithLanguage = ({
   const { id, title, status, language } = content;
 
   const isNewLanguage = id && !supportedLanguages.includes(language);
-  const statusText = status?.current
-    ? t(`form.status.${status.current.toLowerCase()}`)
-    : '';
-  const published =
-    status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
+  const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
+  const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
   const isArticle = multiType === 'standard' || multiType === 'topic-article';
 
-  const taxonomyPaths = isArticle
-    ? getTaxonomyPathsFromTaxonomy(content?.taxonomy, id)
-    : [];
+  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(content?.taxonomy, id) : [];
 
   return (
     <header>
@@ -102,14 +97,7 @@ HeaderWithLanguage.propTypes = {
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func,
-  type: PropTypes.oneOf([
-    'image',
-    'audio',
-    'iframe',
-    'topic-article',
-    'standard',
-    'concept',
-  ]),
+  type: PropTypes.oneOf(['image', 'audio', 'iframe', 'topic-article', 'standard', 'concept']),
   translateArticle: PropTypes.func,
   values: PropTypes.shape({
     articleType: PropTypes.string,

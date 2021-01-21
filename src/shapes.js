@@ -73,11 +73,7 @@ export const ArticleResultShape = PropTypes.shape({
 
 export const SearchResultShape = PropTypes.shape({
   results: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      ContentResultShape,
-      ImageResultShape,
-      AudioResultShape,
-    ]),
+    PropTypes.oneOfType([ContentResultShape, ImageResultShape, AudioResultShape]),
   ),
   totalCount: PropTypes.number,
   pageSize: PropTypes.number,

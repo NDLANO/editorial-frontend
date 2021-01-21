@@ -18,9 +18,7 @@ const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 export function fetchResource(id, language) {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(resolveJsonOrRejectWithError);
 }
 
 export function fetchFullResource(id, language) {
@@ -42,9 +40,9 @@ export function createResource(resource) {
 
 export function fetchResourceResourceType(id, language) {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(
-    `${baseUrl}/resources/${id}/resource-types/${lang}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 export function fetchResourceFilter(id, language) {
@@ -55,16 +53,10 @@ export function fetchResourceFilter(id, language) {
 }
 
 export function fetchResourceMetadata(id) {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(resolveJsonOrRejectWithError);
 }
 
-export function addFilterToResource({
-  filterId,
-  relevanceId = 'urn:relevance:core',
-  resourceId,
-}) {
+export function addFilterToResource({ filterId, relevanceId = 'urn:relevance:core', resourceId }) {
   return fetchAuthorized(`${baseUrl}/resource-filters`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -103,21 +95,17 @@ export async function getResourceId({ id, language }) {
   const resource = await queryResources(id, language);
   if (resource.length > 0) {
     if (resource.length > 1)
-      throw new Error(
-        'More than one resource with this articleId, unable to process taxonomy',
-      );
+      throw new Error('More than one resource with this articleId, unable to process taxonomy');
     resourceId = resource[0].id;
   }
   return resourceId;
 }
 
 export async function getFullResource(resourceId, language) {
-  const {
-    resourceTypes,
-    filters,
-    parentTopics,
-    metadata,
-  } = await fetchFullResource(resourceId, language);
+  const { resourceTypes, filters, parentTopics, metadata } = await fetchFullResource(
+    resourceId,
+    language,
+  );
 
   const topics = await Promise.all(
     // Need to fetch each topic seperate because path is not returned in parentTopics
@@ -156,9 +144,7 @@ export function queryTopics(contentId, language, contentType = 'article') {
 
 export function queryLearningPathResource(learningpathId) {
   return fetchAuthorized(
-    `${baseUrl}/resources/?contentURI=${encodeURIComponent(
-      `urn:learningpath:${learningpathId}`,
-    )}`,
+    `${baseUrl}/resources/?contentURI=${encodeURIComponent(`urn:learningpath:${learningpathId}`)}`,
   ).then(resolveJsonOrRejectWithError);
 }
 

@@ -32,9 +32,7 @@ const FormikFieldDescription = ({ description, obligatory }) => {
   }
   return (
     <StyledFormikDescriptionBlock>
-      <StyledFormikDescription obligatory={obligatory}>
-        {description}
-      </StyledFormikDescription>
+      <StyledFormikDescription obligatory={obligatory}>{description}</StyledFormikDescription>
     </StyledFormikDescriptionBlock>
   );
 };

@@ -58,9 +58,7 @@ const SlideshowEditor: FC<Props & tType> = ({
           dragElement: t('ndlaFilm.editor.changeOrder'),
           removeElement: t('ndlaFilm.editor.removeMovieFromSlideshow'),
         }}
-        onUpdateElements={(movies: ContentResultType[]) =>
-          onUpdateSlideshow(field, form, movies)
-        }
+        onUpdateElements={(movies: ContentResultType[]) => onUpdateSlideshow(field, form, movies)}
       />
       <DropdownSearch
         selectedElements={slideshowMovies}

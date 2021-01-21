@@ -1,18 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
 import FormikConcepts from '../../FormikForm/FormikConcepts';
-import {
-  FormikCopyright,
-  VersionAndNotesPanel,
-  FormikMetadata,
-} from '../../FormikForm';
+import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
@@ -30,8 +22,7 @@ const panels = [
     id: 'topic-article-taxonomy',
     title: 'form.taxonomySection',
     errorFields: [],
-    showPanel: (values, userAccess) =>
-      values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE),
+    showPanel: (values, userAccess) => values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE),
     className: 'u-6/6',
     component: props => <TopicArticleTaxonomy {...props} />,
   },
@@ -64,9 +55,7 @@ const panels = [
     component: props => {
       return (
         <FormikField name={'conceptIds'}>
-          {({ field, form }) => (
-            <FormikConcepts field={field} form={form} {...props} />
-          )}
+          {({ field, form }) => <FormikConcepts field={field} form={form} {...props} />}
         </FormikField>
       );
     },

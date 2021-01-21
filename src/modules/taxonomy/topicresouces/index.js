@@ -17,15 +17,13 @@ import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchAllTopicResource(language) {
-  return fetchAuthorized(
-    `${baseUrl}/topic-resources/?language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchSingleTopicResource(id) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(resolveJsonOrRejectWithError);
 }
 
 function createTopicResource(topicResource) {
@@ -57,12 +55,7 @@ function deleteTopicResource(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateTopicResources(
-  resourceId,
-  topics,
-  locale,
-  originalTopics,
-) {
+async function createDeleteUpdateTopicResources(resourceId, topics, locale, originalTopics) {
   try {
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
       changedItems: topics,
@@ -79,9 +72,7 @@ async function createDeleteUpdateTopicResources(
         }),
       ),
     );
-    await Promise.all(
-      deleteItems.map(item => deleteTopicResource(item.connectionId)),
-    );
+    await Promise.all(deleteItems.map(item => deleteTopicResource(item.connectionId)));
     updateItems.forEach(item => {
       // only update if changed to primary, previous primary is automatically unset
       if (item.primary)

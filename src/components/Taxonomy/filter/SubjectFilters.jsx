@@ -23,9 +23,7 @@ const SubjectFilters = ({
   filterSubjectKey,
   breadCrumb,
 }) => {
-  const subject = structure.find(
-    structureItem => structureItem.id === filterSubjectKey,
-  );
+  const subject = structure.find(structureItem => structureItem.id === filterSubjectKey);
 
   if (!subject || !availableFilters[filterSubjectKey]) {
     return null;
@@ -37,9 +35,7 @@ const SubjectFilters = ({
           {breadCrumb ? (
             <Breadcrumb breadcrumb={breadCrumb} />
           ) : (
-            <StyledSubjectName firstSubject={isFirstSubject}>
-              {subject.name}
-            </StyledSubjectName>
+            <StyledSubjectName firstSubject={isFirstSubject}>{subject.name}</StyledSubjectName>
           )}
         </td>
       </tr>

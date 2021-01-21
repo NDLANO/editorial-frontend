@@ -18,19 +18,13 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }) => {
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
-            {...classes(
-              'drop-zone',
-              snapshot.isDraggingOver ? 'dragging' : '',
-            )}>
+            {...classes('drop-zone', snapshot.isDraggingOver ? 'dragging' : '')}>
             {React.Children.map(children, (child, index) => {
               if (!child) {
                 return null;
               }
               return (
-                <Draggable
-                  key={child.props.id}
-                  draggableId={child.props.id}
-                  index={index}>
+                <Draggable key={child.props.id} draggableId={child.props.id} index={index}>
                   {(providedInner, snapshotInner) => (
                     <div
                       ref={providedInner.innerRef}

@@ -10,10 +10,7 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import EditLearningResource from './EditLearningResource';
@@ -55,9 +52,7 @@ class LearningResourcePage extends PureComponent {
           <Switch>
             <Route
               path={`${match.url}/new`}
-              render={() => (
-                <CreateLearningResource history={history} {...rest} />
-              )}
+              render={() => <CreateLearningResource history={history} {...rest} />}
             />
             <Route
               path={`${match.url}/:articleId/edit/:selectedLanguage`}
@@ -66,8 +61,7 @@ class LearningResourcePage extends PureComponent {
                   articleId={props.match.params.articleId}
                   selectedLanguage={props.match.params.selectedLanguage}
                   isNewlyCreated={
-                    this.state.previousLocation ===
-                    '/subject-matter/learning-resource/new'
+                    this.state.previousLocation === '/subject-matter/learning-resource/new'
                   }
                   {...rest}
                 />
@@ -79,17 +73,10 @@ class LearningResourcePage extends PureComponent {
                 this.getDraft(props.match.params.articleId);
                 const draft = this.state.draft;
                 const language =
-                  draft &&
-                  draft.supportedLanguages.find(
-                    lang => lang === this.props.locale,
-                  );
+                  draft && draft.supportedLanguages.find(lang => lang === this.props.locale);
                 draft &&
                   history.push(
-                    toEditArticle(
-                      draft.id,
-                      'standard',
-                      language || draft.supportedLanguages[0],
-                    ),
+                    toEditArticle(draft.id, 'standard', language || draft.supportedLanguages[0]),
                   );
               }}
             />
@@ -129,7 +116,4 @@ const mapStateToProps = state => ({
   userAccess: state.session.user.scope,
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LearningResourcePage);
+export default connect(mapStateToProps, mapDispatchToProps)(LearningResourcePage);

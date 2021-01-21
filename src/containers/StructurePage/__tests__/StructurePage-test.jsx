@@ -68,9 +68,7 @@ beforeEach(() => {
 test('fetches and renders a list of subjects and topics based on pathname', async () => {
   nock('http://ndla-api')
     .persist()
-    .get(
-      `/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true&language=nb`,
-    )
+    .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/topics?recursive=true&language=nb`)
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
     .get(`/taxonomy/v1/subjects/${subjectsMock[0].id}/filters`)

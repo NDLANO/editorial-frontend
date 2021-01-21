@@ -34,14 +34,7 @@ interface TagWithTitle {
   title: string;
 }
 
-const AsyncSearchTags = ({
-  t,
-  language,
-  initialTags,
-  field,
-  form,
-  fetchTags,
-}: Props & tType) => {
+const AsyncSearchTags = ({ t, language, initialTags, field, form, fetchTags }: Props & tType) => {
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
   };

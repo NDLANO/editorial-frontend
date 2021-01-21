@@ -112,11 +112,7 @@ const ConceptModal = ({
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              {id && (
-                <Button onClick={handleRemove}>
-                  {t('form.content.concept.remove')}
-                </Button>
-              )}
+              {id && <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>}
               <Tabs
                 onSelect={updateSelectedTabIndex}
                 selectedIndex={selectedTabIndex}
@@ -147,15 +143,9 @@ const ConceptModal = ({
                         />
                         <Pager
                           query={searchObject}
-                          page={
-                            searchObject.page
-                              ? parseInt(searchObject.page, 10)
-                              : 1
-                          }
+                          page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
                           pathname=""
-                          lastPage={Math.ceil(
-                            results.totalCount / results.pageSize,
-                          )}
+                          lastPage={Math.ceil(results.totalCount / results.pageSize)}
                           onClick={searchConcept}
                           pageItemComponentClass="button"
                         />

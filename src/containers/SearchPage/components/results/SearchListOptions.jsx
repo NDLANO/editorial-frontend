@@ -23,10 +23,7 @@ class SearchListOptions extends React.Component {
 
   handlePageSizeChange(evt) {
     this.setState({ pageSize: evt.target.value });
-    this.props.search(
-      { 'page-size': evt.target.value, page: 1 },
-      this.props.type,
-    );
+    this.props.search({ 'page-size': evt.target.value, page: 1 }, this.props.type);
   }
 
   render() {
@@ -38,9 +35,7 @@ class SearchListOptions extends React.Component {
           <span>
             {t('searchPage.totalCount')}: <b>{totalCount}</b>
           </span>
-          <select
-            onChange={this.handlePageSizeChange}
-            value={this.state.pageSize}>
+          <select onChange={this.handlePageSizeChange} value={this.state.pageSize}>
             {pageSizeOptions.map(size => (
               <option key={`pageSize_${size}`} value={size}>
                 {t('searchPage.pageSize', { pageSize: size })}

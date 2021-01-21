@@ -19,9 +19,7 @@ function normalizeNode(node, editor, next) {
 
   const { nodes } = node;
   const firstNode = nodes.first();
-  const headerNodes = firstNode.nodes.filter(
-    child => !!child.data.get('isHeader'),
-  );
+  const headerNodes = firstNode.nodes.filter(child => !!child.data.get('isHeader'));
 
   if (headerNodes.size !== firstNode.nodes.size) {
     return () =>
@@ -37,9 +35,7 @@ function normalizeNode(node, editor, next) {
     row.nodes
       .map(node => {
         if (node.type === 'table-cell') {
-          return node.data.get('colspan')
-            ? parseInt(node.data.get('colspan'))
-            : 1;
+          return node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1;
         }
         return 0;
       })
@@ -51,9 +47,7 @@ function normalizeNode(node, editor, next) {
   if (rowsMissingCols) {
     rowsMissingCols.forEach(row => {
       let cellCount = row.nodes
-        .map(node =>
-          node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1,
-        )
+        .map(node => (node.data.get('colspan') ? parseInt(node.data.get('colspan')) : 1))
         .reduce((a, b) => a + b);
       for (let i = rows.indexOf(row) - 1; i > 0; i--) {
         const rowSpan = rows
@@ -78,9 +72,7 @@ function normalizeNode(node, editor, next) {
                 nodes: [Block.create(defaultBlocks.defaultBlock)],
               }),
             )
-            .forEach(cell =>
-              editor.insertNodeByKey(row.key, row.nodes.size, cell),
-            ),
+            .forEach(cell => editor.insertNodeByKey(row.key, row.nodes.size, cell)),
         ),
       );
   }
@@ -103,11 +95,7 @@ const schema = {
             editor.withoutSaving(() => {
               editor.wrapBlockByKey(error.child.key, 'section');
               const wrapper = editor.value.document.getParent(error.child.key);
-              editor.insertNodeByKey(
-                wrapper.key,
-                1,
-                Block.create(defaultBlocks.defaultBlock),
-              );
+              editor.insertNodeByKey(wrapper.key, 1, Block.create(defaultBlocks.defaultBlock));
               editor.unwrapBlockByKey(wrapper.key, 'section');
             });
             break;

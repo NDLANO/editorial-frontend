@@ -11,12 +11,7 @@ import { renderToString } from 'react-dom/server';
 import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR,
-  NOT_ACCEPTABLE,
-  FORBIDDEN,
-} from 'http-status';
+import { OK, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, FORBIDDEN } from 'http-status';
 import bodyParser from 'body-parser';
 import prettier from 'prettier/standalone';
 import parseHTML from 'prettier/parser-html';
@@ -26,13 +21,7 @@ import jwksRsa from 'jwks-rsa';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
-import {
-  getToken,
-  getBrightcoveToken,
-  getUsers,
-  getEditors,
-  getZendeskToken,
-} from './auth';
+import { getToken, getBrightcoveToken, getUsers, getEditors, getZendeskToken } from './auth';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import errorLogger from '../util/logger';
 import config from '../config';
@@ -85,11 +74,7 @@ app.use(
 
 const renderHtmlString = (locale, userAgentString, state = {}) =>
   renderToString(
-    <Html
-      lang={locale}
-      state={state}
-      className={getConditionalClassnames(userAgentString)}
-    />,
+    <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
   );
 
 app.get('/robots.txt', (req, res) => {
@@ -157,18 +142,13 @@ app.get(
     const hasWriteAccess =
       user &&
       user.scope &&
-      (user.scope.includes(DRAFT_WRITE_SCOPE) ||
-        user.scope.includes(DRAFT_PUBLISH_SCOPE));
+      (user.scope.includes(DRAFT_WRITE_SCOPE) || user.scope.includes(DRAFT_PUBLISH_SCOPE));
 
     if (!hasWriteAccess) {
-      res
-        .status(FORBIDDEN)
-        .json({ status: FORBIDDEN, text: 'No access allowed' });
+      res.status(FORBIDDEN).json({ status: FORBIDDEN, text: 'No access allowed' });
     } else {
       try {
-        const managementToken = await getToken(
-          `https://${config.auth0Domain}/api/v2/`,
-        );
+        const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
         const users = await getUsers(managementToken, userIds);
         res.status(OK).json(users);
       } catch (err) {
@@ -195,9 +175,7 @@ app.get(
     } = req;
 
     try {
-      const managementToken = await getToken(
-        `https://${config.auth0Domain}/api/v2/`,
-      );
+      const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
       const editors = await getEditors(managementToken, role);
       res.status(OK).json(editors);
     } catch (err) {
@@ -214,9 +192,7 @@ app.post('/csp-report', (req, res) => {
     errorLogger.error(errorMessage, cspReport);
     res.status(OK).json({ status: OK, text: 'CSP Error recieved' });
   } else {
-    res
-      .status(NOT_ACCEPTABLE)
-      .json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
+    res.status(NOT_ACCEPTABLE).json({ status: NOT_ACCEPTABLE, text: 'CSP Error not recieved' });
   }
 });
 

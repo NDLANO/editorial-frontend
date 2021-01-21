@@ -20,19 +20,14 @@ const DisplayExternalModal = ({
     <Modal
       controllable
       isOpen={isEditMode}
-      size={
-        allowedProvider.name.toLowerCase() === 'h5p' ? 'fullscreen' : 'large'
-      }
+      size={allowedProvider.name.toLowerCase() === 'h5p' ? 'fullscreen' : 'large'}
       backgroundColor="white"
       onClose={onClose}
       minHeight="85vh">
       {onCloseModal => (
         <Fragment>
           <ModalHeader>
-            <ModalCloseButton
-              title={t('dialog.close')}
-              onClick={onCloseModal}
-            />
+            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>
             <VisualElementSearch

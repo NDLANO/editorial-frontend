@@ -6,10 +6,7 @@
  *
  */
 
-export const transformQuery = ({
-  'resource-types': resourceTypes,
-  ...rest
-}) => {
+export const transformQuery = ({ 'resource-types': resourceTypes, ...rest }) => {
   const query = { ...rest };
 
   if (resourceTypes === 'topic-article') {

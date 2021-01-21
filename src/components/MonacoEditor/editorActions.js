@@ -11,9 +11,7 @@ export function createFormatAction(monaco) {
     id: 'prettier-format',
     label: 'Format',
 
-    keybindings: [
-      monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F,
-    ],
+    keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KEY_F],
 
     contextMenuGroupId: 'modification',
     contextMenuOrder: 1.5,

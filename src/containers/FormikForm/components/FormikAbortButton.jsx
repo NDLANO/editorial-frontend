@@ -15,9 +15,7 @@ import { FirstLoadContext } from '../../App/App';
 const FormikAbortButton = ({ children, history, ...rest }) => {
   const isFirstLoad = useContext(FirstLoadContext);
   return (
-    <FormikActionButton
-      onClick={isFirstLoad ? () => history.push('/') : history.goBack}
-      {...rest}>
+    <FormikActionButton onClick={isFirstLoad ? () => history.push('/') : history.goBack} {...rest}>
       {children}
     </FormikActionButton>
   );

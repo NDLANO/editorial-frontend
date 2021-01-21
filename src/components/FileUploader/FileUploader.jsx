@@ -38,9 +38,7 @@ class FileUploader extends React.Component {
   async onSave(files) {
     try {
       this.setState({ saving: true });
-      const newFiles = await Promise.all(
-        files.map(file => this.saveFile(file)),
-      );
+      const newFiles = await Promise.all(files.map(file => this.saveFile(file)));
       this.props.onFileSave(
         newFiles.map((file, i) => ({
           path: file.path,
@@ -52,9 +50,7 @@ class FileUploader extends React.Component {
     } catch (err) {
       if (err && err.json && err.json.messages) {
         this.setState({
-          errorMessage: err.json.messages
-            .map(message => message.message)
-            .join(', '),
+          errorMessage: err.json.messages.map(message => message.message).join(', '),
         });
       }
       handleError(err);
@@ -104,8 +100,7 @@ class FileUploader extends React.Component {
           multiple
           loading={saving}
           ariaLabel={t('form.file.dragdrop.ariaLabel')}>
-          <strong>{t('form.file.dragdrop.main')}</strong>{' '}
-          {t('form.file.dragdrop.sub')}
+          <strong>{t('form.file.dragdrop.main')}</strong> {t('form.file.dragdrop.sub')}
         </UploadDropZone>
       </div>
     );

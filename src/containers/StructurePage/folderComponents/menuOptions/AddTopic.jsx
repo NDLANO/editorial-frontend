@@ -11,11 +11,7 @@ import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
 import RoundIcon from '../../../../components/RoundIcon';
-import {
-  addTopic,
-  addTopicToTopic,
-  addFilterToTopic,
-} from '../../../../modules/taxonomy';
+import { addTopic, addTopicToTopic, addFilterToTopic } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
 import { FilterShape } from '../../../../shapes';

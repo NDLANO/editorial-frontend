@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { fetchSearchTags } from '../../../modules/draft/draftApi';
+import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
 import { FormikLicense, FormikContributors } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';

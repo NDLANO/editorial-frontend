@@ -43,14 +43,6 @@ export const fetchNrkMedia = async mediaId => {
   return resolveJsonOrRejectWithError(nrkMediaJson);
 };
 
-export const searchImages = (query, page) =>
-  fetchAuthorized(
-    `${baseImageNdlaUrl}/?${queryString.stringify({
-      query,
-      page,
-    })}&page-size=16`,
-  ).then(resolveJsonOrRejectWithError);
-
 export const searchAudios = query =>
   fetchAuthorized(
     `${baseAudioNdlaUrl}/?${queryString.stringify({

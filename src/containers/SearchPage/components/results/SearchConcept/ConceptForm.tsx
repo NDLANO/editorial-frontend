@@ -12,6 +12,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { useFormik } from 'formik';
 import { Select } from '@ndla/forms';
 import Button, { MultiButton } from '@ndla/button';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { DRAFT_PUBLISH_SCOPE } from '../../../../../constants';
 import { UserAccessContext } from '../../../../App/App';
 import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
@@ -66,6 +67,13 @@ const ConceptForm = ({
   const hidePublishButton = !canPublish;
   const hasChanges = !isEqual(initialValues, values);
 
+  const licensesWithTranslations = licenses
+    .filter(license => license.license !== 'N/A')
+    .map(license => ({
+      ...license,
+      ...getLicenseByAbbreviation(license.license, language),
+    }));
+
   return (
     <form>
       <InputPair>
@@ -105,9 +113,9 @@ const ConceptForm = ({
             });
           }}>
           {!values.license && <option>{t('form.license.choose')}</option>}
-          {licenses.map(license => (
+          {licensesWithTranslations.map(license => (
             <option value={license.license} key={license.license}>
-              {license.description}
+              {license.title}
             </option>
           ))}
         </Select>

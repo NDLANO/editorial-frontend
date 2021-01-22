@@ -502,6 +502,8 @@ export interface ConceptType extends StrippedConceptType {
   status: Status;
   created: string;
   updated: string;
+  metaImageId: string;
+  parsedVisualElement: VisualElement;
 }
 
 export interface ConceptPreviewType extends ConceptType {

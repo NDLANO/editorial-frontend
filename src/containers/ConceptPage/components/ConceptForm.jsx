@@ -65,7 +65,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     tags: concept.tags || [],
     articleIds: concept.articleIds || [],
     status: concept.status || {},
-    visualElement: concept.visualElement || {},
+    visualElement: concept.parsedVisualElement || {},
   };
 };
 

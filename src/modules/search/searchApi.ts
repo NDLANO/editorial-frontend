@@ -48,13 +48,6 @@ export const searchResources = async (query: MultiSearchApiQuery) => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchAudio = async (query: MediaSearchQuery) => {
-  const response = await fetchAuthorized(
-    `${audioUrl}/?${searchApi.stringify(query)}`,
-  );
-  return resolveJsonOrRejectWithError(response);
-};
-
 export const groupSearch = (
   query: string,
   type: string,

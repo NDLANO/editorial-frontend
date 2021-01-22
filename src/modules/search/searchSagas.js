@@ -11,6 +11,7 @@ import { take, call, put } from 'redux-saga/effects';
 import * as actions from './search';
 import * as searchApi from './searchApi';
 import * as imageApi from '../image/imageApi';
+import * as audioApi from '../audio/audioApi';
 
 export function* search(query, type) {
   try {
@@ -39,7 +40,7 @@ export function* watchSearch() {
 
 export function* searchAudio(query) {
   try {
-    const searchResult = yield call(searchApi.searchAudio, query);
+    const searchResult = yield call(audioApi.searchAudio, query);
     yield put(actions.setAudioSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());

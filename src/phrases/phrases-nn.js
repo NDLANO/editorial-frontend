@@ -585,8 +585,7 @@ const phrases = {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
     },
-    remainingCharacters:
-      'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
+    remainingCharacters: 'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
     title: {
       label: 'Tittel',
     },

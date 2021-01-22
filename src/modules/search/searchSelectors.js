@@ -46,7 +46,7 @@ export const getImageTotalResultsCount = createSelector(
 );
 
 export const getAudioLastPage = createSelector(
-  [getSearchFromState, getTotalResultsCount],
+  [getSearchFromState, getAudioTotalResultsCount],
   (search, totalResultsCount) => {
     const largestPageSize = search.totalAudioResults.pageSize;
     return totalResultsCount
@@ -56,7 +56,7 @@ export const getAudioLastPage = createSelector(
 );
 
 export const getImageLastPage = createSelector(
-  [getSearchFromState, getTotalResultsCount],
+  [getSearchFromState, getImageTotalResultsCount],
   (search, totalResultsCount) => {
     const largestPageSize = search.totalImageResults.pageSize;
     return totalResultsCount

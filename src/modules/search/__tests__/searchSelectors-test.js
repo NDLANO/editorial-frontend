@@ -28,46 +28,15 @@ const lastPageTestState = {
       pageSize: 3,
       results: [],
     },
-    totalMediaResults: {
-      totalCount: 30,
+    totalAudioResults: {
+      totalCount: 27,
       pageSize: 3,
       results: [],
     },
-  },
-};
-
-const lastPageTestAudioState = {
-  search: {
-    searching: false,
-    totalAudioResults: {
-      results: [
-        {
-          totalCount: 3,
-          pageSize: 3,
-        },
-        {
-          totalCount: 30,
-          pageSize: 3,
-        },
-      ],
-    },
-  },
-};
-
-const lastPageTestImageState = {
-  search: {
-    searching: false,
     totalImageResults: {
-      results: [
-        {
-          totalCount: 3,
-          pageSize: 3,
-        },
-        {
-          totalCount: 30,
-          pageSize: 3,
-        },
-      ],
+      totalCount: 24,
+      pageSize: 3,
+      results: [],
     },
   },
 };
@@ -85,7 +54,7 @@ test('searchSelectors getLastPage', () => {
 
 test('searchSelectors getAudioResults', () => {
   const state = {
-    search: { totalAudioResults: { results: audioResults } },
+    search: { totalAudioResults: audioResults },
   };
 
   expect(getAudioResults(state)).toMatchSnapshot();
@@ -93,16 +62,16 @@ test('searchSelectors getAudioResults', () => {
 
 test('searchSelectors getImageResults', () => {
   const state = {
-    search: { totalImageResults: { results: imageResults } },
+    search: { totalImageResults: imageResults },
   };
 
   expect(getImageResults(state)).toMatchSnapshot();
 });
 
 test('searchSelectors getAudioLastPage', () => {
-  expect(getAudioLastPage(lastPageTestAudioState)).toBe(11);
+  expect(getAudioLastPage(lastPageTestState)).toBe(9);
 });
 
 test('searchSelectors getImageLastPage', () => {
-  expect(getImageLastPage(lastPageTestImageState)).toBe(11);
+  expect(getImageLastPage(lastPageTestState)).toBe(8);
 });

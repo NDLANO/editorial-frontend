@@ -45,16 +45,10 @@ export const updateImage = (
     body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);
 
-export const searchImages = (
-  query: string,
-  page: number,
-): Promise<ImageSearchResult> =>
-  fetchAuthorized(
-    `${baseUrl}/?${queryString.stringify({
-      query,
-      page,
-    })}&page-size=16`,
-  ).then(resolveJsonOrRejectWithError);
+export const searchImages = (query: string): Promise<ImageSearchResult> =>
+  fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
+    resolveJsonOrRejectWithError,
+  );
 
 export const onError = (err: Response & Error) => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);

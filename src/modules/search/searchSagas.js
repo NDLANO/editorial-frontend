@@ -9,15 +9,16 @@
 import { take, call, put } from 'redux-saga/effects';
 
 import * as actions from './search';
-import * as api from './searchApi';
+import * as searchApi from './searchApi';
+import * as imageApi from '../image/imageApi';
 
 export function* search(query, type) {
   try {
     let searchResult;
     if (type === 'concept') {
-      searchResult = yield call(api.searchConcepts, query);
+      searchResult = yield call(searchApi.searchConcepts, query);
     } else {
-      searchResult = yield call(api.search, query);
+      searchResult = yield call(searchApi.search, query);
     }
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
@@ -38,7 +39,7 @@ export function* watchSearch() {
 
 export function* searchAudio(query) {
   try {
-    const searchResult = yield call(api.searchAudio, query);
+    const searchResult = yield call(searchApi.searchAudio, query);
     yield put(actions.setAudioSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
@@ -49,7 +50,7 @@ export function* searchAudio(query) {
 
 export function* searchImage(query) {
   try {
-    const searchResult = yield call(api.searchImage, query);
+    const searchResult = yield call(imageApi.searchImages, query);
     yield put(actions.setImageSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());

@@ -6,7 +6,7 @@
  *
  */
 
-import queryString from 'query-string';
+import searchApi from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -22,7 +22,6 @@ import {
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const audioUrl = apiResourceUrl('/audio-api/v1/audio');
-const imageUrl = apiResourceUrl('/image-api/v2/images');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
 // Temporary solution, search-api should be used instead
@@ -30,35 +29,28 @@ const conceptBaseUrl = apiResourceUrl('/concept-api/v1/drafts');
 
 export const searchConcepts = async (query: ConceptSearchQuery) => {
   const response = await fetchAuthorized(
-    `${conceptBaseUrl}?${queryString.stringify(transformQuery(query))}`,
+    `${conceptBaseUrl}?${searchApi.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
 export const search = async (query: MultiSearchApiQuery) => {
   const response = await fetchAuthorized(
-    `${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`,
+    `${baseUrl}/editorial/?${searchApi.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
 export const searchResources = async (query: MultiSearchApiQuery) => {
   const response = await fetchAuthorized(
-    `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
+    `${baseUrl}/?${searchApi.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
 export const searchAudio = async (query: MediaSearchQuery) => {
   const response = await fetchAuthorized(
-    `${audioUrl}/?${queryString.stringify(query)}`,
-  );
-  return resolveJsonOrRejectWithError(response);
-};
-
-export const searchImage = async (query: MediaSearchQuery) => {
-  const response = await fetchAuthorized(
-    `${imageUrl}/?${queryString.stringify(query)}`,
+    `${audioUrl}/?${searchApi.stringify(query)}`,
   );
   return resolveJsonOrRejectWithError(response);
 };

@@ -162,6 +162,7 @@ class ConceptForm extends Component {
       created: this.getCreatedDate(values),
       articleIds: values.articleIds,
       visualElement: values.visualElement,
+      visualElementResources: values.visualElement,
     };
   };
 

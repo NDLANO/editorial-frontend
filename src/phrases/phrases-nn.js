@@ -962,7 +962,7 @@ const phrases = {
     dateBeforeInvalid: '{label} kan ikkje være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikkje være før {beforeLabel}.',
     minItems:
-      '{label} feltet må minst inneholde {minItems, plural, one{ein/eit} other{# ulike}} {labelLowerCase}.',
+      '{label} feltet må minst inneholde {minItems, plural, one{ein/eitt} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',

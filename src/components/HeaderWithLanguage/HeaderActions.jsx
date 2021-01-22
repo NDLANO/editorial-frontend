@@ -50,30 +50,31 @@ const HeaderActions = ({
       lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
-  const PreviewLightbox = () => {};
-  if (type === 'concept')
-    return (
-      supportedLanguages.length > 1 && (
-        <PreviewConceptLightbox
+  const PreviewLightbox = (() => {
+    if (type === 'concept')
+      return (
+        supportedLanguages.length > 1 && (
+          <PreviewConceptLightbox
+            typeOfPreview="previewLanguageArticle"
+            getConcept={getEntity}
+          />
+        )
+      );
+    else if (type === 'standard' || type === 'topic-article')
+      return (
+        <PreviewDraftLightbox
+          label={t(`articleType.${articleType}`)}
           typeOfPreview="previewLanguageArticle"
-          getConcept={getEntity}
-        />
-      )
-    );
-  else if (type === 'standard' || type === 'topic-article')
-    return (
-      <PreviewDraftLightbox
-        label={t(`articleType.${articleType}`)}
-        typeOfPreview="previewLanguageArticle"
-        getArticle={getEntity}>
-        {openPreview => (
-          <StyledFilledButton type="button" onClick={openPreview}>
-            <FileCompare />
-            {t(`form.previewLanguageArticle.button`)}
-          </StyledFilledButton>
-        )}
-      </PreviewDraftLightbox>
-    );
+          getArticle={getEntity}>
+          {openPreview => (
+            <StyledFilledButton type="button" onClick={openPreview}>
+              <FileCompare />
+              {t(`form.previewLanguageArticle.button`)}
+            </StyledFilledButton>
+          )}
+        </PreviewDraftLightbox>
+      );
+  })();
 
   if (id) {
     return (

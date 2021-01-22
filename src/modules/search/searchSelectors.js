@@ -37,26 +37,18 @@ export const getLastPage = createSelector(
 
 export const getAudioTotalResultsCount = createSelector(
   [getSearchFromState],
-  search =>
-    search.totalAudioResults.results
-      .map(t => t.totalCount)
-      .reduce((a, b) => a + b, 0),
+  search => search.totalAudioResults.totalCount,
 );
 
 export const getImageTotalResultsCount = createSelector(
   [getSearchFromState],
-  search =>
-    search.totalImageResults.results
-      .map(t => t.totalCount)
-      .reduce((a, b) => a + b, 0),
+  search => search.totalImageResults.totalCount,
 );
 
 export const getAudioLastPage = createSelector(
-  [getSearchFromState, getAudioTotalResultsCount],
+  [getSearchFromState, getTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.totalAudioResults.results
-      .map(t => t.pageSize)
-      .reduce((a, b) => Math.max(a, b), 1);
+    const largestPageSize = search.totalAudioResults.pageSize;
     return totalResultsCount
       ? Math.ceil(totalResultsCount / largestPageSize)
       : 1;
@@ -64,11 +56,9 @@ export const getAudioLastPage = createSelector(
 );
 
 export const getImageLastPage = createSelector(
-  [getSearchFromState, getImageTotalResultsCount],
+  [getSearchFromState, getTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.totalImageResults.results
-      .map(t => t.pageSize)
-      .reduce((a, b) => Math.max(a, b), 1);
+    const largestPageSize = search.totalImageResults.pageSize;
     return totalResultsCount
       ? Math.ceil(totalResultsCount / largestPageSize)
       : 1;
@@ -76,41 +66,11 @@ export const getImageLastPage = createSelector(
 );
 
 export const getAudioResults = createSelector(
-  [getSearchFromState, getAudioTotalResultsCount],
-  (search, totalCount) => {
-    const totalResults = {
-      results: [],
-      totalCount,
-    };
-    search.totalAudioResults.results.forEach(allResult => {
-      const results = allResult.results || [];
-      return totalResults.results.push(
-        ...results.map(result => ({
-          ...result,
-          type: allResult.type,
-        })),
-      );
-    });
-    return totalResults;
-  },
+  [getSearchFromState],
+  search => search.totalAudioResults,
 );
 
 export const getImageResults = createSelector(
-  [getSearchFromState, getImageTotalResultsCount],
-  (search, totalCount) => {
-    const totalResults = {
-      results: [],
-      totalCount,
-    };
-    search.totalImageResults.results.forEach(allResult => {
-      const results = allResult.results || [];
-      return totalResults.results.push(
-        ...results.map(result => ({
-          ...result,
-          type: allResult.type,
-        })),
-      );
-    });
-    return totalResults;
-  },
+  [getSearchFromState],
+  search => search.totalImageResults,
 );

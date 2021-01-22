@@ -30,9 +30,8 @@ export interface GroupSearchSummary {
   summaryType: 'groupsearch';
 }
 
-export interface DraftSearchQuery {
+export interface MediaSearchQuery {
   query?: string;
-  types?: CommaSeparatedList;
   page?: number;
   'page-size'?: number;
   language?: string;

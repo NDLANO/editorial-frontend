@@ -15,12 +15,14 @@ import {
 import { transformQuery } from '../../util/searchHelpers';
 import {
   ConceptSearchQuery,
-  DraftSearchQuery,
+  MediaSearchQuery,
   GroupSearchResult,
   MultiSearchApiQuery,
 } from './searchApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
+const audioUrl = apiResourceUrl('/audio-api/v1/audio');
+const imageUrl = apiResourceUrl('/image-api/v2/images');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
 // Temporary solution, search-api should be used instead
@@ -47,23 +49,17 @@ export const searchResources = async (query: MultiSearchApiQuery) => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchDraft = async (query: DraftSearchQuery) => {
-  let response;
-  if (query) {
-    const types = query.types ? query.types.split(',') : [];
-    const realPageSize =
-      types.length > 1
-        ? Math.ceil((query['page-size'] || 5) / types.length)
-        : query['page-size'];
-    response = await fetchAuthorized(
-      `${baseUrl}/draft/?${queryString.stringify({
-        ...query,
-        'page-size': realPageSize,
-      })}`,
-    );
-    return resolveJsonOrRejectWithError(response);
-  }
-  response = await fetchAuthorized(`${baseUrl}/draft/`);
+export const searchAudio = async (query: MediaSearchQuery) => {
+  const response = await fetchAuthorized(
+    `${audioUrl}/?${queryString.stringify(query)}`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};
+
+export const searchImage = async (query: MediaSearchQuery) => {
+  const response = await fetchAuthorized(
+    `${imageUrl}/?${queryString.stringify(query)}`,
+  );
   return resolveJsonOrRejectWithError(response);
 };
 

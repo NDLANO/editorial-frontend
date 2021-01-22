@@ -42,7 +42,6 @@ const SearchPage = ({ match, t }) => {
       type: 'audio',
       url: toSearch(
         {
-          types: 'audios',
           page: '1',
           sort: '-relevance',
           'page-size': 10,
@@ -56,7 +55,6 @@ const SearchPage = ({ match, t }) => {
       type: 'image',
       url: toSearch(
         {
-          types: 'images',
           page: '1',
           sort: '-relevance',
           'page-size': 10,

@@ -53,9 +53,8 @@ class SearchImageForm extends Component {
 
   emptySearch(evt) {
     evt.persist();
-    this.setState(
-      { search: { query: '', language: '', types: 'images' } },
-      () => this.handleSearch(evt),
+    this.setState({ search: { query: '', language: '' } }, () =>
+      this.handleSearch(evt),
     );
   }
 

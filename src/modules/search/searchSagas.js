@@ -38,8 +38,8 @@ export function* watchSearch() {
 
 export function* searchAudio(query) {
   try {
-    const searchResult = yield call(api.searchDraft, query);
-    yield put(actions.setAudioSearchResult({ results: searchResult }));
+    const searchResult = yield call(api.searchAudio, query);
+    yield put(actions.setAudioSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
     // TODO: handle error
@@ -49,8 +49,8 @@ export function* searchAudio(query) {
 
 export function* searchImage(query) {
   try {
-    const searchResult = yield call(api.searchDraft, query);
-    yield put(actions.setImageSearchResult({ results: searchResult }));
+    const searchResult = yield call(api.searchImage, query);
+    yield put(actions.setImageSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
     // TODO: handle error

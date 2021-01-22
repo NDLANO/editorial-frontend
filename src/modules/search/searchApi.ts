@@ -6,7 +6,7 @@
  *
  */
 
-import searchApi from 'query-string';
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -27,21 +27,21 @@ const conceptBaseUrl = apiResourceUrl('/concept-api/v1/drafts');
 
 export const searchConcepts = async (query: ConceptSearchQuery) => {
   const response = await fetchAuthorized(
-    `${conceptBaseUrl}?${searchApi.stringify(transformQuery(query))}`,
+    `${conceptBaseUrl}?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
 export const search = async (query: MultiSearchApiQuery) => {
   const response = await fetchAuthorized(
-    `${baseUrl}/editorial/?${searchApi.stringify(transformQuery(query))}`,
+    `${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
 export const searchResources = async (query: MultiSearchApiQuery) => {
   const response = await fetchAuthorized(
-    `${baseUrl}/?${searchApi.stringify(transformQuery(query))}`,
+    `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };

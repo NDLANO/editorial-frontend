@@ -14,6 +14,7 @@ import { spacing } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { injectT, tType } from '@ndla/i18n';
+import SafeLink from '@ndla/safelink';
 import { Link } from 'react-router-dom';
 import IconButton from '../../../IconButton';
 import { Embed } from '../../../../interfaces';
@@ -127,6 +128,18 @@ const FigureButtons: React.FC<Props & tType> = ({
           })}
           align="right">
           <IconButton type="button" tabIndex={-1} onClick={onEdit}>
+            <LinkIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+      {figureType === 'video' && embed.resource === 'brightcove' && (
+        <Tooltip tooltip={t('form.video.brightcove')} align="right">
+          <IconButton
+            as={SafeLink}
+            to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
+            target="_blank"
+            title={t('form.video.brightcove')}
+            tabIndex={-1}>
             <LinkIcon />
           </IconButton>
         </Tooltip>

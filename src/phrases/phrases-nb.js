@@ -867,6 +867,7 @@ const phrases = {
         stop: 'Stopp',
         hms: 'h:m:s',
       },
+      brightcove: 'Åpne i Brightcove',
     },
     audio: {
       file: 'Lydfil',
@@ -957,7 +958,7 @@ const phrases = {
     dateBeforeInvalid: '{label} kan ikke være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
-      '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+      '{label} feltet må minst inneholde {minItems, plural, one{en/ett} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',

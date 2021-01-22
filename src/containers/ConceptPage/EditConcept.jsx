@@ -50,6 +50,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
         translateConcept={translateConcept}
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
+        setConcept={setConcept}
         {...rest}
       />
     </>
@@ -61,6 +62,7 @@ EditConcept.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
   licenses: LicensesArrayOf.isRequired,
   isNewlyCreated: PropTypes.bool,
+  createMessage: PropTypes.func.isRequired,
 };
 
 export default injectT(EditConcept);

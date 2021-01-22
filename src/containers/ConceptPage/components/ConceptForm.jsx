@@ -159,7 +159,7 @@ class ConceptForm extends Component {
 
   handleSubmit = async formik => {
     formik.setSubmitting(true);
-    const { onUpdate, concept, applicationError, updateConceptAndStatus } = this.props;
+    const { onUpdate, concept, applicationError, updateConceptAndStatus, setConcept } = this.props;
     const { revision } = concept;
     const values = formik.values;
     const initialValues = formik.initialValues;
@@ -167,6 +167,7 @@ class ConceptForm extends Component {
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
     if (Object.keys(formik.errors).length > 0 && formik.errors.constructor === Object) {
+      setConcept({ status: concept.status, ...this.getConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
       const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
       this.props.createMessage({
@@ -418,6 +419,7 @@ ConceptForm.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   translateConcept: PropTypes.func,
   updateConceptAndStatus: PropTypes.func,
+  setConcept: PropTypes.func,
 };
 
 const mapDispatchToProps = {

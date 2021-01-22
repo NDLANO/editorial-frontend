@@ -593,7 +593,7 @@ const phrases = {
       translate: 'Oversett til nynorsk',
     },
     remainingCharacters:
-      'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+      'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
     title: {
       label: 'Tittel',
     },
@@ -885,6 +885,7 @@ const phrases = {
         stop: 'Stopp',
         hms: 'h:m:s',
       },
+      brightcove: 'Åpne i Brightcove',
     },
     audio: {
       file: 'Lydfil',
@@ -952,16 +953,16 @@ const phrases = {
   },
   validation: {
     isRequired: '{label} er påkrevd.',
-    bothFields: 'En {labelLowerCase} må inneholde alle felter.',
+    bothFields: 'Ein {labelLowerCase} må inneholde alle felt.',
     isNumeric: '{label} må inneholde tall.',
-    maxLength: '{label} kan ikkje ha meir enn {maxLength, number} tegn.',
-    minLength: '{label} må ha minst {minLength, number} tegn.',
+    maxLength: '{label} kan ikkje ha meir enn {maxLength, number} teikn.',
+    minLength: '{label} må ha minst {minLength, number} teikn.',
     url: '{label} må inneholde ei gyldig lenke.',
     urlOrNumber: '{label} må inneholde ei gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{label} kan ikkje være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikkje være før {beforeLabel}.',
     minItems:
-      '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+      '{label} feltet må minst inneholde {minItems, plural, one{ein/eitt} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',

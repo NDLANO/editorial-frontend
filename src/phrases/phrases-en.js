@@ -869,6 +869,7 @@ const phrases = {
         stop: 'Stop',
         hms: 'h:m:s',
       },
+      brightcove: 'Open in Brightcove',
     },
     audio: {
       file: 'Audio file',

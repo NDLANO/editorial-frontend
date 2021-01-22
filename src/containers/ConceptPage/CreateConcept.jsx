@@ -32,6 +32,7 @@ const CreateConcept = props => {
     createConcept,
     fetchStatusStateMachine,
     fetchSearchTags,
+    setConcept,
   } = useFetchConceptData(undefined, locale);
 
   const createConceptAndPushRoute = async createdConcept => {
@@ -55,6 +56,7 @@ const CreateConcept = props => {
         licenses={licenses}
         inModal={inModal}
         subjects={subjects}
+        setConcept={setConcept}
         {...rest}
       />
     </Fragment>

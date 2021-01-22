@@ -173,6 +173,7 @@ class ConceptForm extends Component {
       concept,
       applicationError,
       updateConceptAndStatus,
+      setConcept,
     } = this.props;
     const { revision } = concept;
     const values = formik.values;
@@ -184,6 +185,7 @@ class ConceptForm extends Component {
       Object.keys(formik.errors).length > 0 &&
       formik.errors.constructor === Object
     ) {
+      setConcept({ status: concept.status, ...this.getConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
       const e = Object.keys(formik.errors).map(
         key => `${key}: ${formik.errors[key]}`,
@@ -454,6 +456,7 @@ ConceptForm.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   translateConcept: PropTypes.func,
   updateConceptAndStatus: PropTypes.func,
+  setConcept: PropTypes.func,
 };
 
 const mapDispatchToProps = {

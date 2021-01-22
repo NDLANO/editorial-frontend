@@ -33,6 +33,11 @@ const ImageSearchAndUploader = props => {
     onError,
     t,
   } = props;
+
+  const searchImagesWithParameters = (query, page) => {
+    return searchImages({ query, page, 'page-size': 16 });
+  };
+
   return (
     <Tabs
       onSelect={setSelectedTabIndex}
@@ -43,7 +48,7 @@ const ImageSearchAndUploader = props => {
           content: (
             <ImageSearch
               fetchImage={fetchImage}
-              searchImages={searchImages}
+              searchImages={searchImagesWithParameters}
               locale={locale}
               searchPlaceholder={t('imageSearch.placeholder')}
               searchButtonTitle={t('imageSearch.buttonTitle')}

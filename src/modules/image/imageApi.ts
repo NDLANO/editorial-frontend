@@ -16,6 +16,7 @@ import {
 } from '../../util/apiHelpers';
 import {
   ImageApiType,
+  ImageSearchQuery,
   ImageSearchResult,
   UpdatedImageMetadata,
 } from './imageApiInterfaces';
@@ -45,10 +46,14 @@ export const updateImage = (
     body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);
 
-export const searchImages = (query: string): Promise<ImageSearchResult> =>
-  fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
-    resolveJsonOrRejectWithError,
-  );
+export const searchImages = (
+  query: ImageSearchQuery,
+): Promise<ImageSearchResult> => {
+  const response = fetchAuthorized(
+    `${baseUrl}/?${queryString.stringify(query)}`,
+  ).then(resolveJsonOrRejectWithError);
+  return response;
+};
 
 export const onError = (err: Response & Error) => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);

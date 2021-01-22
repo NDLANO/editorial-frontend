@@ -15,13 +15,11 @@ import {
 import { transformQuery } from '../../util/searchHelpers';
 import {
   ConceptSearchQuery,
-  MediaSearchQuery,
   GroupSearchResult,
   MultiSearchApiQuery,
 } from './searchApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
-const audioUrl = apiResourceUrl('/audio-api/v1/audio');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
 // Temporary solution, search-api should be used instead

@@ -30,14 +30,6 @@ export interface GroupSearchSummary {
   summaryType: 'groupsearch';
 }
 
-export interface MediaSearchQuery {
-  query?: string;
-  page?: number;
-  'page-size'?: number;
-  language?: string;
-  sort?: string;
-}
-
 export interface MultiSearchApiQuery {
   page?: number;
   'page-size'?: number;

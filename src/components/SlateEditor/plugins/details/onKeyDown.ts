@@ -13,11 +13,7 @@ import onDelete from './onDelete';
 const KEY_BACKSPACE = 'Backspace';
 const KEY_DELETE = 'Delete';
 
-const onKeyDown = (
-  event: KeyboardEvent,
-  editor: Editor,
-  next: () => void,
-): Editor | void => {
+const onKeyDown = (event: KeyboardEvent, editor: Editor, next: () => void): Editor | void => {
   switch (event.key) {
     case KEY_BACKSPACE:
       return onBackspace(editor, event, next);

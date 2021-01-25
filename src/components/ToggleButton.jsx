@@ -22,8 +22,7 @@ const StyledButton = styled.button`
   outline: none;
   text-decoration: none;
   box-shadow: none;
-  color: ${props =>
-    props.active ? colors.brand.primary : colors.brand.tertiary};
+  color: ${props => (props.active ? colors.brand.primary : colors.brand.tertiary)};
   width: ${spacing.normal};
   height: ${spacing.normal};
 

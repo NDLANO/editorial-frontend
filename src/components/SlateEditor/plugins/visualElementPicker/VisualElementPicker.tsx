@@ -25,9 +25,7 @@ interface VisualElementSelect {
 }
 
 const VisualElementPicker = ({ editor, language, onSelect, types }: Props) => {
-  const [visualElementSelect, setVisualElementSelect] = useState<
-    VisualElementSelect
-  >({
+  const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
     isOpen: false,
     type: '',
   });

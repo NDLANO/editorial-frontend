@@ -55,11 +55,7 @@ const ElementListItem = ({
   onDragStart,
   showDragTooltip,
 }: Props) => {
-  const linkProps = resourceToLinkProps(
-    element,
-    element.articleType || 'learning-path',
-    locale,
-  );
+  const linkProps = resourceToLinkProps(element, element.articleType || 'learning-path', locale);
 
   return (
     <StyledListItem
@@ -67,17 +63,11 @@ const ElementListItem = ({
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
-        <StyledElementImage
-          src={element.metaImage?.url || ''}
-          alt={element.metaImage?.alt || ''}
-        />
+        <StyledElementImage src={element.metaImage?.url || ''} alt={element.metaImage?.alt || ''} />
         {linkProps.to ? (
           <Link to={linkProps.to}>{element.title.title}</Link>
         ) : (
-          <a
-            href={linkProps.href}
-            target={linkProps.target}
-            rel={linkProps.rel}>
+          <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
             {element.title.title}
           </a>
         )}
@@ -105,11 +95,7 @@ const ElementListItem = ({
           </StyledButtonIcons>
         )}
         <Tooltip tooltip={removeElement}>
-          <StyledButtonIcons
-            tabIndex={-1}
-            type="button"
-            onClick={() => deleteFile(index)}
-            delete>
+          <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
             <DeleteForever />
           </StyledButtonIcons>
         </Tooltip>

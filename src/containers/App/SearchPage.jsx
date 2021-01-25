@@ -8,13 +8,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { SearchMedia, SearchContent, Concept } from '@ndla/icons/editor';
+import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import SearchContentPage from '../SearchPage/SearchContentPage';
-import SearchMediaPage from '../SearchPage/SearchMediaPage';
+import SearchAudioPage from '../SearchPage/SearchAudioPage';
+import SearchImagePage from '../SearchPage/SearchImagePage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
@@ -25,33 +26,39 @@ const SearchPage = ({ match, t }) => {
     {
       title: t('subNavigation.searchContent'),
       type: 'content',
-      url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10 },
-        'content',
-      ),
+      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'content'),
       icon: <SearchContent className="c-icon--large" />,
     },
     {
-      title: t('subNavigation.searchMedia'),
-      type: 'media',
+      title: t('subNavigation.searchAudio'),
+      type: 'audio',
       url: toSearch(
         {
-          types: 'images,audios',
           page: '1',
           sort: '-relevance',
           'page-size': 10,
         },
-        'media',
+        'audio',
+      ),
+      icon: <SquareAudio className="c-icon--large" />,
+    },
+    {
+      title: t('subNavigation.searchImage'),
+      type: 'image',
+      url: toSearch(
+        {
+          page: '1',
+          sort: '-relevance',
+          'page-size': 10,
+        },
+        'image',
       ),
       icon: <SearchMedia className="c-icon--large" />,
     },
     {
       title: t('subNavigation.searchConcepts'),
       type: 'concept',
-      url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10 },
-        'concept',
-      ),
+      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'concept'),
       icon: <Concept className="c-icon--large" />,
     },
   ];
@@ -60,15 +67,10 @@ const SearchPage = ({ match, t }) => {
     <Fragment>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
-        <PrivateRoute
-          path={`${match.url}/content`}
-          component={SearchContentPage}
-        />
-        <PrivateRoute path={`${match.url}/media`} component={SearchMediaPage} />
-        <PrivateRoute
-          path={`${match.url}/concept`}
-          component={SearchConceptPage}
-        />
+        <PrivateRoute path={`${match.url}/content`} component={SearchContentPage} />
+        <PrivateRoute path={`${match.url}/audio`} component={SearchAudioPage} />
+        <PrivateRoute path={`${match.url}/image`} component={SearchImagePage} />
+        <PrivateRoute path={`${match.url}/concept`} component={SearchConceptPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />

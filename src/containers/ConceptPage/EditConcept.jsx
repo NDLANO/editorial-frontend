@@ -16,14 +16,7 @@ import { LicensesArrayOf } from '../../shapes';
 import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
-const EditConcept = ({
-  conceptId,
-  isNewlyCreated,
-  licenses,
-  selectedLanguage,
-  t,
-  ...rest
-}) => {
+const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
   const {
     concept,
     fetchSearchTags,
@@ -35,10 +28,7 @@ const EditConcept = ({
     updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
-  const { translating, translateConcept } = useTranslateConceptForm(
-    concept,
-    setConcept,
-  );
+  const { translating, translateConcept } = useTranslateConceptForm(concept, setConcept);
 
   if (!concept) {
     return null;
@@ -48,9 +38,7 @@ const EditConcept = ({
   }
   return (
     <>
-      <HelmetWithTracker
-        title={`${concept.title} ${t('htmlTitles.titleTemplate')}`}
-      />
+      <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
       <ConceptForm
         concept={concept}
         fetchConceptTags={fetchSearchTags}
@@ -62,6 +50,7 @@ const EditConcept = ({
         translateConcept={translateConcept}
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
+        setConcept={setConcept}
         {...rest}
       />
     </>
@@ -73,6 +62,7 @@ EditConcept.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
   licenses: LicensesArrayOf.isRequired,
   isNewlyCreated: PropTypes.bool,
+  createMessage: PropTypes.func.isRequired,
 };
 
 export default injectT(EditConcept);

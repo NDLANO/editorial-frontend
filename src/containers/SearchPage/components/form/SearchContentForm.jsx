@@ -70,10 +70,7 @@ class SearchContentForm extends Component {
   async getExternalData() {
     const { locale } = this.props;
     const { t } = this.props;
-    const [resourceTypes, users] = await Promise.all([
-      fetchResourceTypes(locale),
-      this.getUsers(),
-    ]);
+    const [resourceTypes, users] = await Promise.all([fetchResourceTypes(locale), this.getUsers()]);
     this.setState({
       dropDown: {
         resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),

@@ -36,9 +36,7 @@ test('reducers/messages add message', () => {
 
   expect(nextState.messages.length).toBe(2);
   expect(nextState.messages[1].severity).toBe('warning');
-  expect(nextState.messages[1].message).toBe(
-    'Another somewhat less dangerous error',
-  );
+  expect(nextState.messages[1].message).toBe('Another somewhat less dangerous error');
 
   for (let i = 0; i < 8; i += 1) {
     nextState = reducer(nextState, {

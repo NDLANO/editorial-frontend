@@ -37,10 +37,7 @@ const ImageUploaderPage = ({ match, t, location, ...rest }) => {
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
       <Switch>
-        <Route
-          path={`${match.url}/new`}
-          render={() => <CreateImage {...rest} />}
-        />
+        <Route path={`${match.url}/new`} render={() => <CreateImage {...rest} />} />
         <Route
           path={`${match.url}/:imageId/edit/:imageLanguage`}
           render={props => (

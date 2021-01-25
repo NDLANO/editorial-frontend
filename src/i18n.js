@@ -18,11 +18,7 @@ function* entries(obj) {
   }
 }
 
-export const formatNestedMessages = (
-  phrases,
-  formattedMessages = {},
-  prefix = '',
-) => {
+export const formatNestedMessages = (phrases, formattedMessages = {}, prefix = '') => {
   const messages = formattedMessages;
 
   // eslint-disable-next-line no-restricted-syntax
@@ -59,9 +55,7 @@ export const appLocales = [NB, NN, EN];
 export const preferdLocales = [NB, NN, EN];
 
 export const getLocaleObject = localeAbbreviation => {
-  const locale = appLocales.find(
-    appLocale => appLocale.abbreviation === localeAbbreviation,
-  );
+  const locale = appLocales.find(appLocale => appLocale.abbreviation === localeAbbreviation);
 
   return locale || NB; // defaults to NB
 };

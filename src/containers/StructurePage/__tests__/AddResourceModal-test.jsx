@@ -12,16 +12,12 @@ import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AddResourceModal from '../resourceComponents/AddResourceModal';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import {
-  resourcesByType,
-  articleMock,
-} from '../../../util/__tests__/taxonomyMocks';
+import { resourcesByType, articleMock } from '../../../util/__tests__/taxonomyMocks';
 
 afterEach(cleanup);
 
 const resourceType = 'urn:resourcetype:reviewResource';
-const ndlaUrl =
-  'https://beta.ndla.no/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/';
+const ndlaUrl = 'https://beta.ndla.no/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/';
 const resourceMock = {
   id: 'urn:resource:1:168388',
   name: 'Oppgaver til utforskeren',
@@ -33,8 +29,7 @@ const resourceTypeMock = [
     id: 'urn:resourcetype:tasksAndActivities',
     parentId: null,
     name: 'Oppgaver og aktiviteter',
-    connectionId:
-      'urn:resource-resourcetype:9414c99b-73c4-4222-8b94-58a84aba02cd',
+    connectionId: 'urn:resource-resourcetype:9414c99b-73c4-4222-8b94-58a84aba02cd',
   },
 ];
 

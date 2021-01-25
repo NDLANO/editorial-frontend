@@ -149,9 +149,7 @@ export class InlineAddButton extends PureComponent {
           </Button>
         </StyledEditMode>
         {status === 'error' && (
-          <StyledErrorMessage>
-            {this.props.t('taxonomy.errorMessage')}
-          </StyledErrorMessage>
+          <StyledErrorMessage>{this.props.t('taxonomy.errorMessage')}</StyledErrorMessage>
         )}
       </Fragment>
     ) : (

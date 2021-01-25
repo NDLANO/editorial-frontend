@@ -18,7 +18,7 @@ import {
   NotionDialogTags,
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
-import { Concept } from '../SlateEditor/editorTypes';
+import { ConceptPreviewType } from '../../interfaces';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
@@ -58,7 +58,7 @@ const TagWrapper = styled.div`
 `;
 
 interface Props {
-  concept: Concept;
+  concept: ConceptPreviewType;
 }
 
 const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
@@ -71,9 +71,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   }, [concept.id]);
 
   const getSubjects = async () => {
-    const subjects = await Promise.all(
-      concept.subjectIds?.map(id => fetchSubject(id)),
-    );
+    const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
     setSubjects(subjects);
   };
 
@@ -82,13 +80,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
-        return (
-          <img
-            alt={visualElement?.alt}
-            src={visualElement?.url}
-            srcSet={srcSet}
-          />
-        );
+        return <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />;
       case 'video':
       case 'brightcove':
       case 'external':
@@ -109,10 +101,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
 
   return (
     <>
-      <NotionHeaderWithoutExitButton
-        title={concept.title}
-        subtitle={concept.metaDescription}
-      />
+      <NotionHeaderWithoutExitButton title={concept.title} />
       <StyledBody>
         <NotionDialogContent>
           <VisualElement />
@@ -127,7 +116,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
         <TagWrapper>
           <div className="tags">
             <span>{t('form.categories.label')}:</span>
-            {concept.tags.map(tag => (
+            {concept.tags?.map(tag => (
               <span className="tag" key={`key-${tag}`}>
                 {tag}
               </span>

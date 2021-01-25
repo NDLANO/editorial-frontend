@@ -54,27 +54,17 @@ export const types = {
   standard: {
     form: 'learningResourceForm',
     cssModifier: 'article',
-    icon: (
-      <ContentTypeBadge
-        type={contentTypes.SUBJECT_MATERIAL}
-        background
-        size="small"
-      />
-    ),
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="small" />,
   },
   'topic-article': {
     form: 'topicArticleForm',
     cssModifier: 'article',
-    icon: (
-      <ContentTypeBadge type={contentTypes.TOPIC} background size="small" />
-    ),
+    icon: <ContentTypeBadge type={contentTypes.TOPIC} background size="small" />,
   },
   subjectpage: {
     form: 'subjectpageForm',
     cssModifier: 'article',
-    icon: (
-      <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />
-    ),
+    icon: <ContentTypeBadge type={contentTypes.SUBJECT} background size="small" />,
   },
   image: { form: 'imageForm', cssModifier: 'multimedia', icon: <Camera /> },
   audio: {
@@ -119,18 +109,9 @@ const HeaderInformation = ({
       } else {
         setLoading(true);
         const article = getEntity();
-        const newArticle = await draftApi.cloneDraft(
-          article.id,
-          article.language,
-        );
+        const newArticle = await draftApi.cloneDraft(article.id, article.language);
         // we don't set loading to false as the redirect will unmount this component anyway
-        history.push(
-          toEditArticle(
-            newArticle.id,
-            newArticle.articleType,
-            article.language,
-          ),
-        );
+        history.push(toEditArticle(newArticle.id, newArticle.articleType, article.language));
       }
     } catch (e) {
       handleError(e);
@@ -143,9 +124,7 @@ const HeaderInformation = ({
       <StyledTitleHeaderWrapper>
         {types[type].icon}
         <h1>
-          {title
-            ? `${t(`${types[type].form}.title`)}: ${title}`
-            : t(`${types[type].form}.title`)}
+          {title ? `${t(`${types[type].form}.title`)}: ${title}` : t(`${types[type].form}.title`)}
         </h1>
         {(type === 'standard' || type === 'topic-article') && (
           <Button

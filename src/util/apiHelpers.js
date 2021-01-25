@@ -8,21 +8,11 @@
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
 import config from '../config';
-import {
-  apiBaseUrl,
-  getAccessToken,
-  isAccessTokenValid,
-  renewAuth,
-} from './authHelpers';
-import {
-  resolveJsonOrRejectWithError,
-  createErrorPayload,
-} from './resolveJsonOrRejectWithError';
+import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
+import { resolveJsonOrRejectWithError, createErrorPayload } from './resolveJsonOrRejectWithError';
 
 export const formatErrorMessage = error => ({
-  message: error.json.messages
-    .map(message => `${message.field}: ${message.message}`)
-    .join(', '),
+  message: error.json.messages.map(message => `${message.field}: ${message.message}`).join(', '),
   severity: 'danger',
   timeToLive: 0,
 });
@@ -48,9 +38,7 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
     await renewAuth();
   }
 
-  const contentType = config.headers
-    ? config.headers['Content-Type']
-    : 'text/plain';
+  const contentType = config.headers ? config.headers['Content-Type'] : 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
   const cacheControl = { 'Cache-Control': 'no-cache' };
 
@@ -64,8 +52,7 @@ export const fetchWithAuthorization = async (url, config = {}, forceAuth) => {
   });
 };
 
-export const fetchAuthorized = (url, config = {}) =>
-  fetchWithAuthorization(url, config, false);
+export const fetchAuthorized = (url, config = {}) => fetchWithAuthorization(url, config, false);
 
 export const fetchReAuthorized = async (url, config = {}) =>
   fetchWithAuthorization(url, config, true);
@@ -74,10 +61,7 @@ export const fetchBrightcoveAccessToken = () =>
   fetch('/get_brightcove_token').then(resolveJsonOrRejectWithError);
 
 export const setBrightcoveAccessTokenInLocalStorage = brightcoveAccessToken => {
-  localStorage.setItem(
-    'brightcove_access_token',
-    brightcoveAccessToken.access_token,
-  );
+  localStorage.setItem('brightcove_access_token', brightcoveAccessToken.access_token);
   localStorage.setItem(
     'brightcove_access_token_expires_at',
     brightcoveAccessToken.expires_in * 1000 + new Date().getTime(),
@@ -109,13 +93,17 @@ export const fetchOembed = async (url, options) => {
   return resolveJsonOrRejectWithError(data);
 };
 
-export const setOembedUrl = query =>
-  `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(
-    query,
-  )}`;
+const setH5pOembedUrl = query =>
+  `${config.h5pApiUrl}/oembed/preview?${queryString.stringify(query)}`;
+
+const setOembedUrl = query =>
+  `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(query)}`;
 
 export const fetchExternalOembed = (url, options) => {
-  const setOembed = setOembedUrl({ url });
+  let setOembed = setOembedUrl({ url });
+  if (url.includes(config.h5pApiUrl)) {
+    setOembed = setH5pOembedUrl({ url });
+  }
   return fetchOembed(setOembed, options);
 };
 

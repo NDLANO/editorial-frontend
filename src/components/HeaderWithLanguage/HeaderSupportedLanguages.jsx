@@ -14,13 +14,7 @@ import HeaderLanguagePill from './HeaderLanguagePill';
 
 const LinkWithReplace = ({ to, ...rest }) => {
   let history = useHistory();
-  return (
-    <Link
-      to={{ pathname: to, state: history.location.state }}
-      replace
-      {...rest}
-    />
-  );
+  return <Link to={{ pathname: to, state: history.location.state }} replace {...rest} />;
 };
 
 const HeaderSupportedLanguages = ({

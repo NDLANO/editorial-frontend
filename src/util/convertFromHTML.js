@@ -20,8 +20,7 @@ export function convertFromHTML(json) {
     node.nodes.forEach(wrapMixedChildren);
 
     const blockChildren = node.nodes.filter(n => n.object === 'block');
-    const mixed =
-      blockChildren.length > 0 && blockChildren.length !== node.nodes.length;
+    const mixed = blockChildren.length > 0 && blockChildren.length !== node.nodes.length;
     if (!mixed) {
       return;
     }
@@ -38,11 +37,7 @@ export function convertFromHTML(json) {
           // this node will close the wrapper block we've created and trigger a newline!
           // If this node is empty (was just a <br> or <p></p> to begin with) let's skip
           // it to avoid creating a double newline.
-          if (
-            child.type === 'paragraph' &&
-            child.nodes &&
-            child.nodes.length === 0
-          ) {
+          if (child.type === 'paragraph' && child.nodes && child.nodes.length === 0) {
             continue;
           }
         }

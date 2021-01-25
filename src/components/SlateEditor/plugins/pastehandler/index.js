@@ -7,7 +7,6 @@
  */
 
 import { getEventTransfer } from 'slate-react';
-import { getTopNode } from '../DND/utils';
 
 function pasteHandler() {
   return {
@@ -15,21 +14,7 @@ function pasteHandler() {
     onPaste(event, editor, next) {
       const transfer = getEventTransfer(event);
       if (transfer.type === 'fragment') {
-        const target = editor.findNode(event.target);
-        const topLevelTarget = getTopNode(target, editor);
-        if (topLevelTarget.type === 'paragraph') {
-          if (topLevelTarget.text === '') {
-            // Only support pasting fragment into empty p for now
-            return editor.insertFragmentByKey(
-              topLevelTarget.key,
-              0,
-              transfer.fragment,
-            );
-          } else {
-            // Extract text and append to p
-            return editor.insertText(transfer.text);
-          }
-        }
+        return editor.insertText(transfer.text);
       }
       return next();
     },

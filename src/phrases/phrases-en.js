@@ -16,7 +16,8 @@ const phrases = {
     createSubjectpage: `Subjectpage ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     searchContentPage: `Search content ${titleTemplate}`,
-    searchMediaPage: `Search media ${titleTemplate}`,
+    searchAudioPage: `Search audio files ${titleTemplate}`,
+    searchImagePage: `Search images ${titleTemplate}`,
     searchConceptPage: `Search concepts ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -57,29 +58,25 @@ const phrases = {
     },
     images: {
       heading: 'How to use images from the article',
-      description:
-        'Remember to copy the text to be attached to the image where you use it.',
+      description: 'Remember to copy the text to be attached to the image where you use it.',
       rules: 'Rules for use of image:',
       source: 'Source',
       title: 'Title',
     },
     text: {
       heading: 'How to use text from the article',
-      description:
-        'The article may be composed of several different texts, which are listed here.',
+      description: 'The article may be composed of several different texts, which are listed here.',
       rules: 'Rules for use of text:',
       published: 'Published',
     },
     audio: {
       heading: 'How to use audio files from the article',
-      description:
-        'Remember to copy the text to be attached to the audio where you use it.',
+      description: 'Remember to copy the text to be attached to the audio where you use it.',
       rules: 'Rules for use of audio file:',
     },
     video: {
       heading: 'How to use videos from the article',
-      description:
-        'Remember to copy the text to be attached to the video where you use it.',
+      description: 'Remember to copy the text to be attached to the video where you use it.',
       rules: 'Rules for use of audio file:',
     },
     learnMore: 'Learn more about open licenses',
@@ -140,7 +137,8 @@ const phrases = {
   searchPage: {
     header: {
       content: 'Search for content',
-      media: 'Search for media',
+      audio: 'Search for audio files',
+      image: 'Search for images',
       concept: 'Search for concepts',
     },
     searchButton: 'Search',
@@ -149,7 +147,8 @@ const phrases = {
     language: 'Language',
     contentNoHits: 'Your search - {query} - did not match any content.',
     conceptNoHits: 'Your search - {query} - did not match any concept.',
-    mediaNoHits: 'Your search - {query} - did not match any media.',
+    audioNoHits: 'Your search - {query} - did not match any audio files.',
+    imageNoHits: 'Your search - {query} - did not match any images.',
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
   },
@@ -169,7 +168,8 @@ const phrases = {
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',
-    searchMedia: 'Search media',
+    searchAudio: 'Search audio',
+    searchImage: 'Search image',
     searchConcepts: 'Search concepts',
     film: 'Edit NDLA film',
     h5p: 'Edit H5P',
@@ -198,15 +198,15 @@ const phrases = {
     localLogout: 'Logg ut av prouctionsystem',
     or: 'eller',
     federatedLogout: 'Log out of all providers',
-    description:
-      'N.B. All providers include the identityprovider (Google or Facebook).',
+    description: 'N.B. All providers include the identityprovider (Google or Facebook).',
   },
   searchForm: {
     placeholder: 'Search articles',
     types: {
       conceptQuery: 'Search for concept',
       contentQuery: 'Search for content',
-      mediaQuery: 'Search for media',
+      audioQuery: 'Search for audio files',
+      imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
       subjects: 'Select subject',
@@ -285,20 +285,17 @@ const phrases = {
   mathEditor: {
     editMath: 'Edit Math',
     preview: 'Preview',
-    continue:
-      'You might have unsaved changes in the math editor. Do you want to continue?',
+    continue: 'You might have unsaved changes in the math editor. Do you want to continue?',
   },
   code: {
-    continue:
-      'You might have unsaved changes in the code editor. Do you want to continue?',
+    continue: 'You might have unsaved changes in the code editor. Do you want to continue?',
   },
   h5pElement: {
     fetchError: 'Sorry, an error occurd while loading the H5P client.',
   },
   displayOembed: {
     errorMessage: 'An error occurd when displaying oEmbed.',
-    notSupported:
-      'oEmbed of type {type} and provider {provider} is not supported.',
+    notSupported: 'oEmbed of type {type} and provider {provider} is not supported.',
   },
   audioSearch: {
     searchPlaceholder: 'Search in audio files',
@@ -500,6 +497,7 @@ const phrases = {
       grepCodes: 'Curriculum connection',
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
+      concepts: 'Concepts',
       subjects: 'Subject',
     },
     previewProductionArticle: {
@@ -715,7 +713,7 @@ const phrases = {
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {type}',
         description:
-          'Links to ndla-resources is handled by the system and is displayed correct on {url}. Ndla-resources is shown with blue background and external links with yellow.',
+          'Links to ndla-resources are handled by the system and are displayed correct on {url}. Ndla-resources are shown with blue background and external links with yellow.',
       },
       footnote: {
         title: 'Title',
@@ -866,6 +864,7 @@ const phrases = {
         stop: 'Stop',
         hms: 'h:m:s',
       },
+      brightcove: 'Open in Brightcove',
     },
     audio: {
       file: 'Audio file',
@@ -920,6 +919,13 @@ const phrases = {
       label: 'Article',
       add: 'Add article',
     },
+    relatedConcepts: {
+      placeholder: 'Search for title',
+      articlesTitle: 'Related Concepts',
+      articlesSubtitle: 'Concepts',
+      changeOrder: 'Change order',
+      removeArticle: 'Remove concept',
+    },
     section: {
       remove: 'Remove section',
     },
@@ -932,8 +938,7 @@ const phrases = {
     urlOrNumber: '{label} must contain a valid link or article-id.',
     dateBeforeInvalid: '{label} can not be after {afterLabel}.',
     dateAfterInvalid: '{label} can not be before {beforeLabel}.',
-    maxLength:
-      '{label} must not have more than {maxLength, number} characters.',
+    maxLength: '{label} must not have more than {maxLength, number} characters.',
     minLength: '{length} must have at least {minLength, number} characters.',
     minItems:
       '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
@@ -954,8 +959,7 @@ const phrases = {
     statusCode: {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
-    grepCodes:
-      'The following codes have wrong format or does not exist, and will not be added: ',
+    grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
   },
   notFound: {
     description: 'The page cannot be found',

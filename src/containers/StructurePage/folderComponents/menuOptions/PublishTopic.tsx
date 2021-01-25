@@ -17,22 +17,14 @@ import { colors } from '@ndla/core';
 import AlertModal from '../../../../components/AlertModal/AlertModal';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
-import {
-  fetchDraft,
-  updateStatusDraft,
-} from '../../../../modules/draft/draftApi';
+import { fetchDraft, updateStatusDraft } from '../../../../modules/draft/draftApi';
 import {
   fetchLearningpath,
   updateStatusLearningpath,
 } from '../../../../modules/learningpath/learningpathApi';
 import { fetchTopic, fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
-import {
-  Resource,
-  ArticleType,
-  TranslateType,
-  Learningpath,
-} from '../../../../interfaces';
+import { Resource, ArticleType, TranslateType, Learningpath } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 
@@ -73,8 +65,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
 
   useEffect(() => {
     setShowAlert(
-      failedResources.length !== 0 &&
-        publishedCount + failedResources.length === articleCount,
+      failedResources.length !== 0 && publishedCount + failedResources.length === articleCount,
     );
   }, [failedResources, publishedCount]);
 
@@ -92,9 +83,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
           setShowDisplay(true);
           return resources.map(resource => publishResource(resource));
         })
-        .then((publishPromises: Promise<void>[]) =>
-          Promise.all(publishPromises),
-        )
+        .then((publishPromises: Promise<void>[]) => Promise.all(publishPromises))
         .then(() => setResourcesUpdated(true))
         .catch((e: Error) => handleError(e));
     }
@@ -147,11 +136,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
       </MenuItemButton>
       {showDisplay && (
         <StyledDiv>
-          {done ? (
-            <Done css={iconStyle} />
-          ) : (
-            <Spinner size="normal" margin="0px 4px" />
-          )}
+          {done ? <Done css={iconStyle} /> : <Spinner size="normal" margin="0px 4px" />}
           {t(done ? 'taxonomy.publish.done' : 'taxonomy.publish.waiting') +
             ` (${publishedCount}/${articleCount})`}
         </StyledDiv>
@@ -164,9 +149,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props) => {
           <LinkWrapper>
             <ResourceItemLink
               contentType={
-                resource.contentUri?.split(':')[1] === 'article'
-                  ? 'article'
-                  : 'learning-path'
+                resource.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-path'
               }
               contentUri={resource.contentUri}
               name={resource.name}

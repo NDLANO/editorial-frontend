@@ -13,10 +13,7 @@ import {
 } from '../../util/subjectHelpers';
 import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
-import {
-  fetchSubjectFilter,
-  updateSubjectFilter,
-} from '../../modules/taxonomy/filter';
+import { fetchSubjectFilter, updateSubjectFilter } from '../../modules/taxonomy/filter';
 import {
   fetchResource,
   queryResources,
@@ -39,10 +36,7 @@ export function useFetchSubjectpageData(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
 
-  const fetchSubjectId = async (
-    elementId: string,
-    selectedLanguage: string,
-  ) => {
+  const fetchSubjectId = async (elementId: string, selectedLanguage: string) => {
     if (elementId.includes('filter')) {
       const filter = await fetchSubjectFilter(elementId, selectedLanguage);
       setSubjectId(filter.subjectId);
@@ -57,9 +51,7 @@ export function useFetchSubjectpageData(
           subjectpageId,
           selectedLanguage,
         );
-        const editorsChoices = await fetchElementList(
-          subjectpage.editorsChoices,
-        );
+        const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
         const banner = await visualElementApi.fetchImage(
           subjectpage.banner.desktopId,
           selectedLanguage,
@@ -89,10 +81,8 @@ export function useFetchSubjectpageData(
         return fetchResource(urn);
       }),
     );
-    const elementIds = taxonomyElements.map(element =>
-      element.contentUri.split(':'),
-    );
-    return await Promise.all(
+    const elementIds = taxonomyElements.map(element => element.contentUri.split(':'));
+    return Promise.all(
       elementIds.map(async elementId => {
         if (elementId[1] === 'learningpath') {
           const learningpath = await fetchLearningpath(elementId.pop());
@@ -108,10 +98,7 @@ export function useFetchSubjectpageData(
     );
   };
 
-  const fetchTaxonomyUrns = async (
-    elementList: any[],
-    language: string,
-  ): Promise<string[]> => {
+  const fetchTaxonomyUrns = async (elementList: any[], language: string): Promise<string[]> => {
     const fetched = await Promise.all(
       elementList.map(element => {
         if (element.articleType === 'topic-article') {
@@ -123,9 +110,7 @@ export function useFetchSubjectpageData(
       }),
     );
 
-    return fetched
-      .map(resource => resource?.[0]?.id)
-      .filter(e => e !== undefined);
+    return fetched.map(resource => resource?.[0]?.id).filter(e => e !== undefined);
   };
 
   const updateSubjectpage = async (updatedSubjectpage: SubjectpageEditType) => {
@@ -168,11 +153,7 @@ export function useFetchSubjectpageData(
         subjectId,
       );
     } else {
-      await updateSubject(
-        elementId,
-        savedSubjectpage.name,
-        getUrnFromId(savedSubjectpage.id),
-      );
+      await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
     }
     setSubjectpage(
       transformSubjectpageFromApiVersion(

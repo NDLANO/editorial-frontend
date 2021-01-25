@@ -86,23 +86,8 @@ export class DisplayExternalVisualElement extends Component {
   }
 
   render() {
-    const {
-      onRemoveClick,
-      embed,
-      onFigureInputChange,
-      language,
-      t,
-    } = this.props;
-    const {
-      title,
-      src,
-      height,
-      type,
-      provider,
-      domain,
-      error,
-      editMode,
-    } = this.state;
+    const { onRemoveClick, embed, onFigureInputChange, language, t } = this.props;
+    const { title, src, height, type, provider, domain, error, editMode } = this.state;
 
     if (error) {
       return error;
@@ -115,9 +100,7 @@ export class DisplayExternalVisualElement extends Component {
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 
-    const [
-      allowedProvider,
-    ] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
+    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
       type === 'iframe'
         ? whitelistProvider.url.includes(domain)
         : whitelistProvider.name === providerName,
@@ -126,9 +109,7 @@ export class DisplayExternalVisualElement extends Component {
     const youtubeOrH5p = src.includes('youtube') ? 'video' : 'external';
     return (
       <>
-        {editMode && (
-          <Overlay onExit={() => this.setState({ editMode: false })} />
-        )}
+        {editMode && <Overlay onExit={() => this.setState({ editMode: false })} />}
         <div className="c-figure">
           <FigureButtons
             tooltip={t(`form.${youtubeOrH5p}.remove`, { type: providerName })}
@@ -168,11 +149,7 @@ export class DisplayExternalVisualElement extends Component {
                 placeholder={t(`form.${youtubeOrH5p}.caption.placeholder`)}
                 white
               />
-              <EditVideoTime
-                name="url"
-                src={src}
-                onFigureInputChange={onFigureInputChange}
-              />
+              <EditVideoTime name="url" src={src} onFigureInputChange={onFigureInputChange} />
             </StyledInputWrapper>
           ) : (
             <Button

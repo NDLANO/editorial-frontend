@@ -80,9 +80,7 @@ test('serialize bodybox block', () => {
 
 test('deserialize bodybox block', () => {
   const serializer = new Html({ rules: [divRule], parseHtml: fragment });
-  const deserialized = serializer.deserialize(
-    '<div class="c-bodybox">test</div>',
-  );
+  const deserialized = serializer.deserialize('<div class="c-bodybox">test</div>');
 
   expect(toJSON(deserialized)).toMatchSnapshot();
 });
@@ -253,13 +251,7 @@ test('serializing letter list', () => {
 
 test('deserializing list with paragraph inside li elements', () => {
   const serializer = new Html({
-    rules: [
-      blockRules,
-      unorderListRules,
-      orderListRules,
-      listItemRule,
-      paragraphRule,
-    ],
+    rules: [blockRules, unorderListRules, orderListRules, listItemRule, paragraphRule],
     parseHtml: fragment,
   });
   const listWithParagraphs =
@@ -351,8 +343,7 @@ test('deserializing a quote', () => {
     rules: [blockRules],
     parseHtml: fragment,
   });
-  const quote =
-    '<blockquote>This quote should be both smart and wise</blockquote>';
+  const quote = '<blockquote>This quote should be both smart and wise</blockquote>';
   const deserialized = serializer.deserialize(quote);
   expect(toJSON(deserialized)).toMatchSnapshot();
 });

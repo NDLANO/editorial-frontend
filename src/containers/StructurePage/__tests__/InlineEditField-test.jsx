@@ -15,12 +15,7 @@ afterEach(cleanup);
 it('Goes to edit mode, handles submit', async () => {
   const actionFunc = jest.fn();
   const { getByTestId, container } = render(
-    <MenuItemEditField
-      title="Test"
-      onClose={() => {}}
-      t={() => {}}
-      onSubmit={actionFunc}
-    />,
+    <MenuItemEditField title="Test" onClose={() => {}} t={() => {}} onSubmit={actionFunc} />,
   );
   expect(container.firstChild).toMatchSnapshot();
 
@@ -35,11 +30,7 @@ it('Goes to edit mode, handles submit', async () => {
 it('Goes to edit mode, handles submit and shows error', async () => {
   const actionFunc = () => Promise.reject(new Error('Test error'));
   const { getByTestId } = render(
-    <MenuItemEditField
-      title="Test"
-      t={() => 'Errormelding'}
-      onSubmit={actionFunc}
-    />,
+    <MenuItemEditField title="Test" t={() => 'Errormelding'} onSubmit={actionFunc} />,
   );
 
   const input = getByTestId('inlineEditInput');

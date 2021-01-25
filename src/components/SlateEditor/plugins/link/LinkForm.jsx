@@ -80,16 +80,10 @@ class LinkForm extends Component {
       <Formik
         initialValues={getInitialValues(link)}
         onSubmit={this.handleSave}
-        validate={values =>
-          validateFormik(values, linkValidationRules, t, 'linkForm')
-        }>
+        validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
         {({ submitForm }) => (
           <Form data-cy="link_form">
-            <FormikField
-              name="text"
-              type="text"
-              label={t('form.content.link.text')}
-            />
+            <FormikField name="text" type="text" label={t('form.content.link.text')} />
             <FormikField
               name="href"
               description={t('form.content.link.description', {
@@ -98,25 +92,14 @@ class LinkForm extends Component {
               label={t('form.content.link.href')}
               css={getLinkFieldStyle(node)}
             />
-            <FormikCheckbox
-              name="checkbox"
-              label={t('form.content.link.newTab')}
-            />
+            <FormikCheckbox name="checkbox" label={t('form.content.link.newTab')} />
             <Field right>
-              {isEdit ? (
-                <Button onClick={onRemove}>
-                  {t('form.content.link.remove')}
-                </Button>
-              ) : (
-                ''
-              )}
+              {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
               <Button css={marginLeftStyle} outline onClick={onClose}>
                 {t('form.abort')}
               </Button>
               <Button css={marginLeftStyle} onClick={submitForm}>
-                {isEdit
-                  ? t('form.content.link.update')
-                  : t('form.content.link.insert')}
+                {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
               </Button>
             </Field>
           </Form>
@@ -132,10 +115,7 @@ LinkForm.propTypes = {
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  node: PropTypes.oneOfType([
-    Types.node,
-    PropTypes.shape({ type: PropTypes.string.isRequired }),
-  ]),
+  node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
 };
 
 export default compose(injectT)(LinkForm);

@@ -69,11 +69,7 @@ export const WelcomePage: FC<tType> = ({ t }) => {
               {t('welcomePage.guidelines')}
               <RightArrow className="c-icon--large" />
             </a> */}
-            <img
-              {...classes('header-image')}
-              src="/welcome-image.jpg"
-              alt="illustration"
-            />
+            <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
           </div>
           <div {...classes('two-column')}>
             <div>

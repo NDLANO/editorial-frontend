@@ -9,10 +9,14 @@
 import {
   getResults,
   getLastPage,
-  getDraftResults,
-  getDraftLastPage,
+  getAudioResults,
+  getImageResults,
+  getAudioLastPage,
+  getConceptResults,
+  getImageLastPage,
+  getConceptLastPage,
 } from '../searchSelectors';
-import { contentResults, mediaResults } from './_mockSearchResult';
+import { contentResults, audioResults, conceptResults, imageResults } from './_mockSearchResult';
 
 const lastPageTestState = {
   search: {
@@ -22,28 +26,20 @@ const lastPageTestState = {
       pageSize: 3,
       results: [],
     },
-    totalMediaResults: {
-      totalCount: 30,
+    totalAudioResults: {
+      totalCount: 27,
       pageSize: 3,
       results: [],
     },
-  },
-};
-
-const lastPageTestMediaState = {
-  search: {
-    searching: false,
-    totalDraftResults: {
-      results: [
-        {
-          totalCount: 3,
-          pageSize: 3,
-        },
-        {
-          totalCount: 30,
-          pageSize: 3,
-        },
-      ],
+    totalConceptResults: {
+      totalCount: 21,
+      pageSize: 3,
+      results: [],
+    },
+    totalImageResults: {
+      totalCount: 24,
+      pageSize: 3,
+      results: [],
     },
   },
 };
@@ -59,14 +55,38 @@ test('searchSelectors getLastPage', () => {
   expect(getLastPage(lastPageTestState)).toBe(10);
 });
 
-test('searchSelectors getDraftResults', () => {
+test('searchSelectors getAudioResults', () => {
   const state = {
-    search: { totalDraftResults: { results: mediaResults } },
+    search: { totalAudioResults: audioResults },
   };
 
-  expect(getDraftResults(state)).toMatchSnapshot();
+  expect(getAudioResults(state)).toMatchSnapshot();
 });
 
-test('searchSelectors getDraftLastPage', () => {
-  expect(getDraftLastPage(lastPageTestMediaState)).toBe(11);
+test('searchSelectors getConceptResults', () => {
+  const state = {
+    search: { totalConceptResults: conceptResults },
+  };
+
+  expect(getConceptResults(state)).toMatchSnapshot();
+});
+
+test('searchSelectors getImageResults', () => {
+  const state = {
+    search: { totalImageResults: imageResults },
+  };
+
+  expect(getImageResults(state)).toMatchSnapshot();
+});
+
+test('searchSelectors getAudioLastPage', () => {
+  expect(getAudioLastPage(lastPageTestState)).toBe(9);
+});
+
+test('searchSelectors getConceptLastPage', () => {
+  expect(getConceptLastPage(lastPageTestState)).toBe(7);
+});
+
+test('searchSelectors getImageLastPage', () => {
+  expect(getImageLastPage(lastPageTestState)).toBe(8);
 });

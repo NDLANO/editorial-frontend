@@ -10,9 +10,7 @@ import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import config from '../../config';
 
 const corsAnywhereUrl = `${
-  config.ndlaEnvironment === 'test'
-    ? 'https://cors-anywhere.herokuapp.com/'
-    : ''
+  config.ndlaEnvironment === 'test' ? 'https://cors-anywhere.herokuapp.com/' : ''
 }`;
 const baseUrl = corsAnywhereUrl + 'https://nynorsk.cloud/translate';
 

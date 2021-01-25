@@ -104,10 +104,7 @@ class ImageFocalPointEdit extends React.Component {
     return (
       <div>
         <StyledFocalPointContainer>
-          <Button
-            stripped
-            onClick={this.onImageClick}
-            css={focalPointButtonStyle}>
+          <Button stripped onClick={this.onImageClick} css={focalPointButtonStyle}>
             <img
               style={{ minWidth: 'inherit' }}
               alt={embed.alt}

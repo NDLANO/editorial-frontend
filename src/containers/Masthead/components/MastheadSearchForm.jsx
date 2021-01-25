@@ -186,12 +186,9 @@ export class MastheadSearchForm extends Component {
     const { query } = this.state;
     const isNDLAUrl = isNDLAFrontendUrl(query);
     const isNodeId =
-      query.length > 2 &&
-      /#\d+/g.test(query) &&
-      !Number.isNaN(parseFloat(query.substring(1)));
+      query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
 
-    const isTaxonomyId =
-      query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
+    const isTaxonomyId = query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
 
     if (isNDLAUrl) {
       this.handleUrlPaste(query);
@@ -241,6 +238,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default withRouter(
-  connect(mapStateToProps)(injectT(MastheadSearchForm)),
-);
+export default withRouter(connect(mapStateToProps)(injectT(MastheadSearchForm)));

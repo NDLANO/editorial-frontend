@@ -9,12 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
-import {
-  ImageNormal,
-  ImageSmall,
-  ImageXsmall,
-  ImageXxSmall,
-} from '@ndla/icons/editor';
+import { ImageNormal, ImageSmall, ImageXsmall, ImageXxSmall } from '@ndla/icons/editor';
 import ImageEditorButton from './ImageEditorButton';
 
 const icon = {

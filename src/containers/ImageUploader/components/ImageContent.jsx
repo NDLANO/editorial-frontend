@@ -33,10 +33,7 @@ const StyledDeleteButtonContainer = styled.div`
   flex-direction: row;
 `;
 
-const ImageContent = ({
-  t,
-  formik: { values, touched, errors, setFieldValue },
-}) => {
+const ImageContent = ({ t, formik: { values, touched, errors, setFieldValue } }) => {
   return (
     <Fragment>
       <FormikField
@@ -49,13 +46,7 @@ const ImageContent = ({
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"
-          allowedFiles={[
-            'image/gif',
-            'image/png',
-            'image/jpeg',
-            'image/jpg',
-            'image/svg+xml',
-          ]}
+          allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']}
           onAddedFiles={(files, evt) => {
             setFieldValue(
               'filepath',
@@ -83,9 +74,7 @@ const ImageContent = ({
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}
-      {values.imageFile && (
-        <StyledImage src={values.filepath || values.imageFile} alt="" />
-      )}
+      {values.imageFile && <StyledImage src={values.filepath || values.imageFile} alt="" />}
       <FormikField name="caption" showError={false}>
         {({ field }) => (
           <Input

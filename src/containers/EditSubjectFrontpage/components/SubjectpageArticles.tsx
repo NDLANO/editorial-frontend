@@ -9,13 +9,9 @@ import React, { FC, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
-import ElementList from '../../NdlaFilm/components/ElementList';
+import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import {
-  ArticleType,
-  ContentResultType,
-  FormikProperties,
-} from '../../../interfaces';
+import { ArticleType, ContentResultType, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
@@ -36,13 +32,7 @@ const getSubjectOrFilter = (elementId: string) => {
   return [undefined, elementId];
 };
 
-const SubjectpageArticles: FC<Props & tType> = ({
-  t,
-  editorsChoices,
-  elementId,
-  field,
-  form,
-}) => {
+const SubjectpageArticles: FC<Props & tType> = ({ t, editorsChoices, elementId, field, form }) => {
   const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
   const [subjectId, filterId] = getSubjectOrFilter(elementId);
 
@@ -70,10 +60,7 @@ const SubjectpageArticles: FC<Props & tType> = ({
     updateFormik(field, articleList);
   };
 
-  const updateFormik = (
-    formikField: Props['field'],
-    newData: ArticleType[],
-  ) => {
+  const updateFormik = (formikField: Props['field'], newData: ArticleType[]) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({
       target: {

@@ -54,26 +54,21 @@ export const valueWithTwoImageEmbeds = {
                 id: '42159',
                 metaUrl: 'https://test.api.ndla.no/image-api/v1/images/42159',
                 titles: [{ title: 'Guinness is good for you', language: 'nb' }],
-                alttexts: [
-                  { alttext: 'Guinness is good for you', language: 'nb' },
-                ],
+                alttexts: [{ alttext: 'Guinness is good for you', language: 'nb' }],
                 imageUrl: 'https://test.api.ndla.no/image-api/raw/wyyP72x0.jpg',
                 size: 141132,
                 contentType: 'image/jpeg',
                 copyright: {
                   license: {
                     license: 'by-sa',
-                    description:
-                      'Creative Commons Attribution-ShareAlike 2.0 Generic',
+                    description: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
                     url: 'https://creativecommons.org/licenses/by-sa/2.0/',
                   },
                   origin: 'Origin',
                   authors: [{ type: 'Forfatter', name: 'Onkel Skrue' }],
                 },
                 tags: [{ tags: ['øl', 'guinness', 'good'], language: 'nb' }],
-                captions: [
-                  { caption: 'Guinness is good for you', language: 'nb' },
-                ],
+                captions: [{ caption: 'Guinness is good for you', language: 'nb' }],
               },
             },
             object: 'block',

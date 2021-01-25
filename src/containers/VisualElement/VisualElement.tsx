@@ -52,26 +52,14 @@ const VisualElement = ({
   value,
 }: Props) => {
   const plugins = useMemo(() => {
-    return createPlugins(
-      !Object.keys(value).length,
-      types,
-      changeVisualElement,
-      language,
-    );
+    return createPlugins(!Object.keys(value).length, types, changeVisualElement, language);
   }, [value, language]);
 
   if (isSubjectPage && value.resource === 'image') {
     delete value.caption;
   }
 
-  return (
-    <VisualElementEditor
-      name={name}
-      value={value}
-      plugins={plugins}
-      onChange={onChange}
-    />
-  );
+  return <VisualElementEditor name={name} value={value} plugins={plugins} onChange={onChange} />;
 };
 
 export default VisualElement;

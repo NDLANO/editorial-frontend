@@ -61,29 +61,12 @@ class FootnoteForm extends Component {
         validate={values => validateFormik(values, rules, t, 'footnoteForm')}>
         {({ submitForm }) => (
           <Form>
-            <FormikField
-              name="title"
-              type="text"
-              label={t('form.content.footnote.title')}
-            />
-            <FormikField
-              name="year"
-              type="text"
-              label={t('form.content.footnote.year')}
-            />
-            <FormikField
-              name="authors"
-              label={t('form.content.footnote.authors.label')}
-              obligatory>
-              {({ field }) => (
-                <MultiSelectDropdown showCreateOption {...field} />
-              )}
+            <FormikField name="title" type="text" label={t('form.content.footnote.title')} />
+            <FormikField name="year" type="text" label={t('form.content.footnote.year')} />
+            <FormikField name="authors" label={t('form.content.footnote.authors.label')} obligatory>
+              {({ field }) => <MultiSelectDropdown showCreateOption {...field} />}
             </FormikField>
-            <FormikField
-              name="edition"
-              type="text"
-              label={t('form.content.footnote.edition')}
-            />
+            <FormikField name="edition" type="text" label={t('form.content.footnote.edition')} />
 
             <FormikField
               name="publisher"
@@ -92,9 +75,7 @@ class FootnoteForm extends Component {
             />
             <Field right>
               {isEdit && (
-                <Button onClick={onRemove}>
-                  {t('form.content.footnote.removeFootnote')}
-                </Button>
+                <Button onClick={onRemove}>{t('form.content.footnote.removeFootnote')}</Button>
               )}
               <Button css={marginLeftStyle} outline onClick={onClose}>
                 {t('form.abort')}

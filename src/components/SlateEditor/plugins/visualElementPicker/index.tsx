@@ -19,11 +19,7 @@ interface Options {
 
 const visualElementPickerPlugin = (options: Options) => {
   const schema = {};
-  const renderEditor = (
-    props: any,
-    editor: Editor,
-    next: () => void,
-  ): ReactElement | void => {
+  const renderEditor = (props: any, editor: Editor, next: () => void): ReactElement | void => {
     const children = next();
     const { changeVisualElement, empty, language, types } = options;
     return empty ? (

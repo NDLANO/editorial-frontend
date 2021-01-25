@@ -24,12 +24,7 @@ interface Props {
   userAccess: string;
 }
 
-const LastUsedContent: FC<Props & tType> = ({
-  articleId,
-  locale,
-  userAccess,
-  t,
-}) => {
+const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }) => {
   const [article, setArticle] = useState<ArticleType>();
 
   const fetchArticle = async (articleId: number, locale: string) => {
@@ -47,9 +42,7 @@ const LastUsedContent: FC<Props & tType> = ({
     <div {...classes('result')}>
       {article && (
         <>
-          <Link
-            {...classes('link')}
-            to={toEditArticle(article.id, article.articleType)}>
+          <Link {...classes('link')} to={toEditArticle(article.id, article.articleType)}>
             {article.title.title} ({t('article.lastUpdated')}{' '}
             {article && formatDate(article.updated)})
           </Link>

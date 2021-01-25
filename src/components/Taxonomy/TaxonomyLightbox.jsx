@@ -17,14 +17,7 @@ import { spacing, colors } from '@ndla/core';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
 
-const TaxonomyLightbox = ({
-  children,
-  title,
-  onSelect,
-  t,
-  loading,
-  onClose,
-}) => (
+const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }) => (
   <StyledLightboxWrapper>
     <Overlay onExit={onClose} />
     <StyledContentWrapper>

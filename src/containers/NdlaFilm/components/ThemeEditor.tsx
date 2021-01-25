@@ -17,7 +17,7 @@ import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import ElementList from './ElementList';
+import ElementList from '../../FormikForm/components/ElementList';
 import ThemeNameModal from './ThemeNameModal';
 import {
   findName,
@@ -120,9 +120,7 @@ const ThemeEditor: FC<Props & tType> = ({
       <ThemeNameModal
         onSaveTheme={onAddTheme}
         createTheme={true}
-        activateButton={
-          <Button data-cy="add-theme-modal">Lag ny gruppe</Button>
-        }
+        activateButton={<Button data-cy="add-theme-modal">Lag ny gruppe</Button>}
         messages={{
           save: t('ndlaFilm.editor.createThemeGroup'),
           cancel: t('ndlaFilm.editor.cancel'),
@@ -169,9 +167,7 @@ const ThemeEditor: FC<Props & tType> = ({
               />
               <Tooltip
                 tooltip={t('ndlaFilm.editor.deleteMovieGroup', {
-                  name:
-                    theme.name.find(name => name.language === selectedLanguage)
-                      ?.name || '',
+                  name: theme.name.find(name => name.language === selectedLanguage)?.name || '',
                 })}>
                 <Button
                   stripped
@@ -213,18 +209,12 @@ const ThemeEditor: FC<Props & tType> = ({
                 removeElement: t('ndlaFilm.editor.removeMovieFromGroup'),
               }}
               onUpdateElements={(updates: any) =>
-                onUpdateMovieTheme(
-                  field,
-                  form,
-                  changeMoviesInTheme(themes, index, updates),
-                )
+                onUpdateMovieTheme(field, form, changeMoviesInTheme(themes, index, updates))
               }
             />
             <DropdownSearch
               selectedElements={theme.movies}
-              onChange={(movie: ContentResultType) =>
-                onAddMovieToTheme(movie, index)
-              }
+              onChange={(movie: ContentResultType) => onAddMovieToTheme(movie, index)}
               subjectId={'urn:subject:20'}
               contextTypes={config.ndlaFilmArticleType}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {

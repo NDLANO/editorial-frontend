@@ -24,17 +24,10 @@ const ObjectSelector = props => {
     ...rest
   } = props;
   return (
-    <select
-      onBlur={onBlur}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-      {...rest}>
+    <select onBlur={onBlur} onChange={onChange} value={value} disabled={disabled} {...rest}>
       {emptyField ? <option value="">{placeholder}</option> : ''}
       {options.map(option => (
-        <option
-          key={option[idKey] ? option[idKey] : uuid()}
-          value={option[idKey]}>
+        <option key={option[idKey] ? option[idKey] : uuid()} value={option[idKey]}>
           {option[labelKey]}
         </option>
       ))}

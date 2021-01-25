@@ -12,12 +12,7 @@ import { FieldHeader } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { StyledFilterTable } from '../../../style/LearningResourceTaxonomyStyles';
 import SubjectFilters from './SubjectFilters';
-import {
-  TopicShape,
-  FilterShape,
-  AvailableFiltersShape,
-  StructureShape,
-} from '../../../shapes';
+import { TopicShape, FilterShape, AvailableFiltersShape, StructureShape } from '../../../shapes';
 import HowToHelper from '../../HowTo/HowToHelper';
 
 const FilterConnections = ({
@@ -33,13 +28,8 @@ const FilterConnections = ({
 
   return (
     <Fragment>
-      <FieldHeader
-        title={t('taxonomy.filters.title')}
-        subTitle={t('taxonomy.filters.subTitle')}>
-        <HowToHelper
-          pageId="TaxonomySubjectFilters"
-          tooltip={t('taxonomy.filters.helpLabel')}
-        />
+      <FieldHeader title={t('taxonomy.filters.title')} subTitle={t('taxonomy.filters.subTitle')}>
+        <HowToHelper pageId="TaxonomySubjectFilters" tooltip={t('taxonomy.filters.helpLabel')} />
       </FieldHeader>
       <StyledFilterTable>
         <tbody>

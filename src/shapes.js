@@ -39,7 +39,7 @@ export const AudioResultShape = PropTypes.shape({
 });
 
 export const ImageResultShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.shape({
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
@@ -73,11 +73,7 @@ export const ArticleResultShape = PropTypes.shape({
 
 export const SearchResultShape = PropTypes.shape({
   results: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      ContentResultShape,
-      ImageResultShape,
-      AudioResultShape,
-    ]),
+    PropTypes.oneOfType([ContentResultShape, ImageResultShape, AudioResultShape]),
   ),
   totalCount: PropTypes.number,
   pageSize: PropTypes.number,
@@ -131,7 +127,7 @@ export const ConceptShape = PropTypes.shape({
   id: PropTypes.number,
   title: PropTypes.string,
   content: PropTypes.string,
-  articleIds: PropTypes.arrayOf(PropTypes.number),
+  articleIds: PropTypes.arrayOf(PropTypes.object),
 });
 
 export const ImageShape = PropTypes.shape({

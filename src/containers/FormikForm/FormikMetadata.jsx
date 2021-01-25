@@ -39,11 +39,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags }) => (
       label={t('form.metaDescription.label')}
       description={t('form.metaDescription.description')}>
       {({ field }) => (
-        <PlainTextEditor
-          id={field.name}
-          placeholder={t('form.metaDescription.label')}
-          {...field}
-        />
+        <PlainTextEditor id={field.name} placeholder={t('form.metaDescription.label')} {...field} />
       )}
     </FormikField>
     <FormikField name="metaImageId">

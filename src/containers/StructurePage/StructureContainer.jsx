@@ -20,10 +20,7 @@ import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import StructureResources from './resourceComponents/StructureResources';
 import FolderItem from './folderComponents/FolderItem';
-import {
-  removeLastItemFromUrl,
-  getPathsFromUrl,
-} from '../../util/routeHelpers';
+import { removeLastItemFromUrl, getPathsFromUrl } from '../../util/routeHelpers';
 import InlineAddButton from '../../components/InlineAddButton';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -39,11 +36,7 @@ import {
   deleteSubTopicConnection,
   fetchFilters,
 } from '../../modules/taxonomy';
-import {
-  groupTopics,
-  getCurrentTopic,
-  filterToSubjects,
-} from '../../util/taxonomyHelpers';
+import { groupTopics, getCurrentTopic, filterToSubjects } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
@@ -192,9 +185,7 @@ export class StructureContainer extends React.PureComponent {
     try {
       const availableFilters = await fetchFilters(this.props.locale);
       this.setState({
-        availableFilters: filterToSubjects(
-          availableFilters.filter(filter => filter.name),
-        ),
+        availableFilters: filterToSubjects(availableFilters.filter(filter => filter.name)),
       });
     } catch (e) {
       handleError(e);
@@ -291,9 +282,7 @@ export class StructureContainer extends React.PureComponent {
     const { history } = this.props;
     if (activeFilters.find(id => id === filterId)) {
       history.push({
-        search: `?filters=${activeFilters
-          .filter(id => id !== filterId)
-          .join(',')}`,
+        search: `?filters=${activeFilters.filter(id => id !== filterId).join(',')}`,
       });
     } else {
       history.push({
@@ -336,9 +325,7 @@ export class StructureContainer extends React.PureComponent {
     const {
       match: { params },
     } = this.props;
-    const currentSubject = this.state.subjects.find(
-      sub => sub.id === params.subject,
-    );
+    const currentSubject = this.state.subjects.find(sub => sub.id === params.subject);
 
     const currentTopic = getCurrentTopic({
       params,
@@ -347,8 +334,7 @@ export class StructureContainer extends React.PureComponent {
     const topics = currentTopic.subtopics || currentSubject.topics;
     const currentRank = topics[source.index].rank;
     const destinationRank = topics[destination.index].rank;
-    const newRank =
-      currentRank > destinationRank ? destinationRank : destinationRank + 1;
+    const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     if (currentRank === destinationRank) return;
     this.saveSubjectItems(params.subject, { loading: true });
 
@@ -429,10 +415,7 @@ export class StructureContainer extends React.PureComponent {
             addButton={
               userAccess &&
               userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (
-                <InlineAddButton
-                  title={t('taxonomy.addSubject')}
-                  action={this.addSubject}
-                />
+                <InlineAddButton title={t('taxonomy.addSubject')} action={this.addSubject} />
               )
             }
             toggleSwitch={
@@ -451,9 +434,7 @@ export class StructureContainer extends React.PureComponent {
                 onDragEnd={this.onDragEnd}
                 openedPaths={getPathsFromUrl(match.url)}
                 structure={
-                  showFavorites
-                    ? this.getFavoriteSubjects(subjects, favoriteSubjects)
-                    : subjects
+                  showFavorites ? this.getFavoriteSubjects(subjects, favoriteSubjects) : subjects
                 }
                 filters={filters}
                 toggleOpen={this.handleStructureToggle}
@@ -479,8 +460,7 @@ export class StructureContainer extends React.PureComponent {
                     deleteTopicLink={this.deleteTopicLink}
                     structure={subjects}
                     jumpToResources={() =>
-                      this.resourceSection &&
-                      this.resourceSection.current.scrollIntoView()
+                      this.resourceSection && this.resourceSection.current.scrollIntoView()
                     }
                     locale={locale}
                     userAccess={userAccess}
@@ -488,9 +468,7 @@ export class StructureContainer extends React.PureComponent {
                   />
                 )}
               />
-              <div ref={this.starButton}>
-                {linkViewOpen && <RoundIcon icon={<Star />} />}
-              </div>
+              <div ref={this.starButton}>{linkViewOpen && <RoundIcon icon={<Star />} />}</div>
             </div>
           </Accordion>
           {topicId && (

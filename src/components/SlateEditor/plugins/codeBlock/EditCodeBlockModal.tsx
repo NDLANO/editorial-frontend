@@ -45,11 +45,7 @@ const EditCodeBlockModal: FC<Props & tType> = ({
           <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
         </ModalHeader>
         <ModalBody>
-          <CodeBlockEditor
-            content={model}
-            onSave={handleSave}
-            onAbort={handleExit}
-          />
+          <CodeBlockEditor content={model} onSave={handleSave} onAbort={handleExit} />
 
           <AlertModal
             show={openDiscardModal}

@@ -28,8 +28,7 @@ class SearchSort extends Component {
     const { location } = this.props;
     const { sort: sortOrder } = queryString.parse(location.search);
     const splitSortOrder = sortOrder ? sortOrder.split('-') : '-';
-    const sort =
-      splitSortOrder.length > 1 ? splitSortOrder[1] : splitSortOrder[0];
+    const sort = splitSortOrder.length > 1 ? splitSortOrder[1] : splitSortOrder[0];
     const order = splitSortOrder.length > 1 ? 'desc' : 'asc';
     this.setState({ sort, order });
   }

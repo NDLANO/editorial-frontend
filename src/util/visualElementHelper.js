@@ -12,16 +12,12 @@ export function getVisualElementInformation(element, type) {
       };
     case 'brightcove': {
       const copyrightsKeys = element.custom_fields
-        ? Object.keys(element.custom_fields).filter(key =>
-            key.includes('licenseinfo'),
-          )
+        ? Object.keys(element.custom_fields).filter(key => key.includes('licenseinfo'))
         : [];
       const copyrights = copyrightsKeys
         .map(key => {
           const licenseinfo = element.custom_fields[key];
-          return licenseinfo.includes(':')
-            ? licenseinfo.split(':')[1]
-            : licenseinfo;
+          return licenseinfo.includes(':') ? licenseinfo.split(':')[1] : licenseinfo;
         })
         .join(', ');
       return {

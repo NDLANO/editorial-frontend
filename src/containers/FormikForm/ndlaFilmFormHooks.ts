@@ -29,28 +29,17 @@ export function useNdlaFilmFormHooks(
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
 
-  const initialValues = getInitialValues(
-    filmFrontpage,
-    slideshowMovies,
-    themes,
-    selectedLanguage,
-  );
+  const initialValues = getInitialValues(filmFrontpage, slideshowMovies, themes, selectedLanguage);
 
   const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
     formik.setSubmitting(true);
-    const newNdlaFilm = getNdlaFilmFromSlate(
-      filmFrontpage,
-      formik.values,
-      selectedLanguage,
-    );
+    const newNdlaFilm = getNdlaFilmFromSlate(filmFrontpage, formik.values, selectedLanguage);
 
     try {
       const updated = await updateFilmFrontpage(newNdlaFilm);
       await updateEditorState(updated);
 
-      Object.keys(formik.values).map(fieldName =>
-        formik.setFieldTouched(fieldName, true, true),
-      );
+      Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
 
       formik.resetForm(initialValues);
       setSavedToServer(true);

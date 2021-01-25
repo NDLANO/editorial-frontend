@@ -14,9 +14,7 @@ afterEach(cleanup);
 
 it('Goes to edit mode, handles input and calls action prop', async () => {
   const actionFunc = jest.fn();
-  const { getByTestId, container } = render(
-    <InlineAddButton title="Test" action={actionFunc} />,
-  );
+  const { getByTestId, container } = render(<InlineAddButton title="Test" action={actionFunc} />);
   expect(container.firstChild).toMatchSnapshot();
 
   fireEvent.click(getByTestId('AddSubjectButton'));

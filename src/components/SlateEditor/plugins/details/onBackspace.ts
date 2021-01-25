@@ -40,11 +40,7 @@ const handleBackspaceAndCheckOffsetInDetailsblock = (
   return next();
 };
 
-const onBackspace = (
-  editor: Editor,
-  event: KeyboardEvent,
-  next: () => void,
-): Editor | void => {
+const onBackspace = (editor: Editor, event: KeyboardEvent, next: () => void): Editor | void => {
   const { value } = editor;
   const { start, isCollapsed } = value.selection;
   const node = value.document.getNode(value.selection.anchor.path);
@@ -60,14 +56,10 @@ const onBackspace = (
     return next();
   }
   const summaryNode = findNodesByType(blockNode, 'summary');
-  const summaryTextLength =
-    summaryNode && summaryNode[0] ? summaryNode[0].text.length : 0;
+  const summaryTextLength = summaryNode && summaryNode[0] ? summaryNode[0].text.length : 0;
 
   // Detail block should be deleted if the text length (excluding summary) is 0 or there are no other elements in the block.
-  if (
-    blockNode.nodes.size > 0 &&
-    blockNode.text.length - summaryTextLength > 0
-  ) {
+  if (blockNode.nodes.size > 0 && blockNode.text.length - summaryTextLength > 0) {
     return handleBackspaceAndCheckOffsetInDetailsblock(
       blockNode,
       editor,

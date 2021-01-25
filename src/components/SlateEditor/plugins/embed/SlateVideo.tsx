@@ -15,11 +15,7 @@ import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import {
-  getYoutubeEmbedUrl,
-  getStartTime,
-  getStopTime,
-} from '../../../../util/videoUtil';
+import { getYoutubeEmbedUrl, getStartTime, getStopTime } from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 import { Embed } from '../../../../interfaces';
 

@@ -65,11 +65,8 @@ class AsyncDropDown extends React.Component {
     const { apiAction, showPagination } = this.props;
     const { keepOpen } = this.state;
     this.setState({ loading: true });
-    const apiOutput = await apiAction(
-      showPagination ? { query: query, page: page } : query,
-    );
-    const items =
-      (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
+    const apiOutput = await apiAction(showPagination ? { query: query, page: page } : query);
+    const items = (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
     const totalCount = apiOutput?.totalCount || null;
     this.setState({
       totalCount: totalCount,
@@ -103,9 +100,7 @@ class AsyncDropDown extends React.Component {
     } else {
       this.setState({
         selectedItem,
-        inputValue: labelField
-          ? itemToString(selectedItem, labelField)
-          : selectedItem.title,
+        inputValue: labelField ? itemToString(selectedItem, labelField) : selectedItem.title,
       });
       onChange(selectedItem);
     }
@@ -146,15 +141,7 @@ class AsyncDropDown extends React.Component {
       ...rest
     } = this.props;
 
-    const {
-      items,
-      loading,
-      page,
-      totalCount,
-      keepOpen,
-      selectedItem,
-      inputValue,
-    } = this.state;
+    const { items, loading, page, totalCount, keepOpen, selectedItem, inputValue } = this.state;
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
@@ -193,17 +180,14 @@ class AsyncDropDown extends React.Component {
         {({ getInputProps, openMenu, ...downshiftProps }) => {
           const inpProps = getInputProps({ ...inputProps });
           return (
-            <div
-              style={positionAbsolute ? { position: 'relative' } : undefined}>
+            <div style={positionAbsolute ? { position: 'relative' } : undefined}>
               {children ? (
                 children({ selectedItems, removeItem, ...inpProps })
               ) : (
                 <Input
                   {...inpProps}
                   data-testid={'dropdownInput'}
-                  iconRight={
-                    loading ? <Spinner size="normal" margin="0" /> : <Search />
-                  }
+                  iconRight={loading ? <Spinner size="normal" margin="0" /> : <Search />}
                 />
               )}
               <DropdownMenu

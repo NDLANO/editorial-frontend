@@ -35,10 +35,7 @@ interface Props {
   onSelect: Function;
 }
 
-const VisualElementMenu: FC<Props> = ({
-  onSelect,
-  types = ['image', 'video', 'h5p', 'url'],
-}) => {
+const VisualElementMenu: FC<Props> = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }) => {
   const [isOpen, setOpen] = useState(false);
   const typeClassName = isOpen ? '' : 'hidden';
 

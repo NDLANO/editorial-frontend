@@ -7,10 +7,7 @@
  */
 
 import config from '../../config';
-import {
-  resolveJsonOrRejectWithError,
-  fetchReAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, fetchReAuthorized } from '../../util/apiHelpers';
 
 export const fetchH5PiframeUrl = async (locale = '') => {
   const response = await fetchReAuthorized(

@@ -28,9 +28,7 @@ export default () => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
-                editor
-                  .moveToEndOfNode(error.child)
-                  .insertBlock(defaultBlocks.defaultBlock);
+                editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
               });
               break;
             }

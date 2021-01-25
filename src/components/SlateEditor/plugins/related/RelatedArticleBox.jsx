@@ -229,7 +229,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(
-  injectT,
-  connect(mapStateToProps, null),
-)(RelatedArticleBox);
+export default compose(injectT, connect(mapStateToProps, null))(RelatedArticleBox);

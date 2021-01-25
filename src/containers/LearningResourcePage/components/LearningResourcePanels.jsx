@@ -1,19 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import FormikConcepts from '../../FormikForm/FormikConcepts';
-import {
-  FormikCopyright,
-  VersionAndNotesPanel,
-  FormikMetadata,
-} from '../../FormikForm';
+import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
 import FormikField from '../../../components/FormikField';
@@ -64,9 +56,7 @@ const panels = [
     component: props => {
       return (
         <FormikField name={'conceptIds'}>
-          {({ field, form }) => (
-            <FormikConcepts field={field} form={form} {...props} />
-          )}
+          {({ field, form }) => <FormikConcepts field={field} form={form} {...props} />}
         </FormikField>
       );
     },
@@ -81,14 +71,7 @@ const panels = [
   },
 ];
 
-const LearningResourcePanels = ({
-  t,
-  values,
-  userAccess,
-  errors,
-  fetchSearchTags,
-  ...rest
-}) => (
+const LearningResourcePanels = ({ t, values, userAccess, errors, fetchSearchTags, ...rest }) => (
   <Accordion openIndexes={['learning-resource-content']}>
     {({ openIndexes, handleItemClick }) => (
       <AccordionWrapper>

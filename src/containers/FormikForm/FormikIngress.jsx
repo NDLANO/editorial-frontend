@@ -27,14 +27,7 @@ const renderMarkdown = (text, concept) => {
   return markdown.render(text);
 };
 
-const FormikIngress = ({
-  t,
-  name,
-  maxLength,
-  placeholder,
-  preview = false,
-  concept = false,
-}) => (
+const FormikIngress = ({ t, name, maxLength, placeholder, preview = false, concept = false }) => (
   <StyledFormContainer>
     <FormikField
       noBorder

@@ -47,12 +47,7 @@ export const convertGrepCodesToObject = async (grepCodes: string[]) => {
   );
 };
 
-const FormikGrepCodesContent = ({
-  t,
-  articleGrepCodes = [],
-  field,
-  form,
-}: Props & tType) => {
+const FormikGrepCodesContent = ({ t, articleGrepCodes = [], field, form }: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
   const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
@@ -124,11 +119,7 @@ const FormikGrepCodesContent = ({
   };
 
   const isTitleTooLong = (title: string | undefined | null) => {
-    return title
-      ? title.length >= 110
-        ? `${title.slice(0, 110)}...`
-        : title
-      : '';
+    return title ? (title.length >= 110 ? `${title.slice(0, 110)}...` : title) : '';
   };
 
   return (

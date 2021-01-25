@@ -15,9 +15,7 @@ import {
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
 
 export const fetchFilmFrontpage = () =>
-  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(resolveJsonOrRejectWithError);
 
 export const updateFilmFrontpage = filmfrontpage => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {

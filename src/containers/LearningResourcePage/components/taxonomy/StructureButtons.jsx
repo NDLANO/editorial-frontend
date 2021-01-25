@@ -109,10 +109,7 @@ const StructureButtons = ({
         </Button>
       ) : (
         <StyledChecked>
-          <Check
-            className="c-icon--22"
-            style={{ fill: colors.support.green }}
-          />{' '}
+          <Check className="c-icon--22" style={{ fill: colors.support.green }} />{' '}
           <span>{t('taxonomy.topics.addedTopic')}</span>
         </StyledChecked>
       )}

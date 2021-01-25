@@ -9,10 +9,7 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
-import {
-  fetchSearchTags,
-  fetchStatusStateMachine,
-} from '../../modules/concept/conceptApi';
+import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import {
@@ -57,9 +54,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     setSubjects(fetchedSubjects);
   };
 
-  const fetchElementList = async (
-    articleIds: number[],
-  ): Promise<ArticleType[]> => {
+  const fetchElementList = async (articleIds: number[]): Promise<ArticleType[]> => {
     return Promise.all(
       articleIds
         .filter(a => !!a)

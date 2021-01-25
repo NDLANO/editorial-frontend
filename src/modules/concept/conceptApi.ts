@@ -85,9 +85,7 @@ export const deleteLanguageVersionConcept = async (
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMashineType> =>
-  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(resolveJsonOrRejectWithError);
 
 export const updateConceptStatus = async (
   id: number,
@@ -97,9 +95,7 @@ export const updateConceptStatus = async (
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 
-export const searchConcepts = async (
-  query: ConceptQuery,
-): Promise<ConceptSearchResult> =>
+export const searchConcepts = async (query: ConceptQuery): Promise<ConceptSearchResult> =>
   fetchAuthorized(`${draftConceptUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),

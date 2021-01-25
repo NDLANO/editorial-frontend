@@ -1,12 +1,6 @@
-import {
-  ArticleType,
-  SubjectpageApiType,
-  SubjectpageEditType,
-  VisualElement,
-} from '../interfaces';
+import { ArticleType, SubjectpageApiType, SubjectpageEditType, VisualElement } from '../interfaces';
 
-export const getIdFromUrn = (urnId: string | undefined) =>
-  urnId?.replace('urn:frontpage:', '');
+export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
 export const getUrnFromId = (id: number) => `urn:frontpage:${id}`;
 
@@ -17,12 +11,8 @@ export const transformSubjectpageFromApiVersion = (
   editorsChoices: ArticleType[],
   banner: VisualElement,
 ) => {
-  const visualElementVideoId = subjectpage.about.visualElement.url.split(
-    'videoId=',
-  )?.[1];
-  const visualElementImageId = subjectpage.about.visualElement.url
-    .split('/')
-    .pop();
+  const visualElementVideoId = subjectpage.about.visualElement.url.split('videoId=')?.[1];
+  const visualElementImageId = subjectpage.about.visualElement.url.split('/').pop();
 
   const subjectpageEditType: SubjectpageEditType = {
     id: subjectpage.id,
@@ -84,9 +74,7 @@ export const transformSubjectpageToApiVersion = (
         visualElement: {
           type: subjectpage.visualElement?.resource,
           id: id,
-          alt:
-            subjectpage.visualElement?.alt ||
-            subjectpage.visualElement?.caption,
+          alt: subjectpage.visualElement?.alt || subjectpage.visualElement?.caption,
         },
       },
     ],

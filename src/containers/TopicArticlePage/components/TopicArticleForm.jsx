@@ -85,16 +85,9 @@ const getPublishedDate = (values, initialValues, preview = false) => {
 };
 
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
-const getArticleFromSlate = ({
-  values,
-  initialValues,
-  licenses,
-  preview = false,
-}) => {
+const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
   const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(
-    isEmpty(values.visualElement) ? {} : values.visualElement,
-  );
+  const visualElement = createEmbedTag(isEmpty(values.visualElement) ? {} : values.visualElement);
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {
@@ -157,15 +150,7 @@ const TopicArticleForm = props => {
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const {
-      values,
-      dirty,
-      isSubmitting,
-      setValues,
-      errors,
-      touched,
-      ...formikProps
-    } = formik;
+    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
 
     const formIsDirty = isFormikFormDirty({
       values,
@@ -173,8 +158,7 @@ const TopicArticleForm = props => {
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = () =>
-      getArticleFromSlate({ values, initialValues, licenses });
+    const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
@@ -217,9 +201,7 @@ const TopicArticleForm = props => {
           showReset={() => setResetModal(true)}
           errors={errors}
           values={values}
-          onSaveClick={saveAsNewVersion =>
-            handleSubmit(formik, saveAsNewVersion)
-          }
+          onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
           entityStatus={article.status}
           getStateStatuses={fetchStatusStateMachine}
           validateEntity={validateDraft}

@@ -23,8 +23,7 @@ export const reduceElementDataAttributes = (el, filter) => {
   let attrs = [].slice.call(el.attributes).filter(a => a.name !== 'style');
   if (filter) attrs = attrs.filter(a => filter.includes(a.name));
   const obj = attrs.reduce(
-    (all, attr) =>
-      Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
+    (all, attr) => Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
     {},
   );
   return obj;
@@ -92,9 +91,7 @@ export const createEmbedTag = visualElement => {
   }
   const embed = document.createElement('embed');
   Object.keys(visualElement)
-    .filter(
-      key => visualElement[key] !== undefined && !isObject(visualElement[key]),
-    )
+    .filter(key => visualElement[key] !== undefined && !isObject(visualElement[key]))
     .forEach(key => embed.setAttribute(`data-${key}`, visualElement[key]));
   return embed.outerHTML;
 };

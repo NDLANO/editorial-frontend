@@ -25,11 +25,7 @@ const RelatedArticle = ({ item, t, numberInList }) => (
   <RelatedArticleUI
     {...resourceTypeProps(item, numberInList)}
     title={convertFieldWithFallback(item, 'title', item.title)}
-    introduction={convertFieldWithFallback(
-      item,
-      'metaDescription',
-      item.description,
-    )}
+    introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
     to={item.url || toEditArticle(item.id, 'standard')}
     linkInfo={
       item.id === 'external-learning-resources'

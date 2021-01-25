@@ -65,11 +65,7 @@ export const schema = {
           case 'last_child_type_invalid': {
             const block = Block.create(defaultBlocks.defaultBlock);
             editor.withoutSaving(() => {
-              editor.insertNodeByKey(
-                error.node.key,
-                error.node.nodes.size,
-                block,
-              );
+              editor.insertNodeByKey(error.node.key, error.node.nodes.size, block);
             });
             break;
           }

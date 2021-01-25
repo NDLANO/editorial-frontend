@@ -39,15 +39,7 @@ class ToolTip extends Component {
 
   render() {
     const { showPopup } = this.state;
-    const {
-      direction,
-      name,
-      messages,
-      content,
-      children,
-      onPopupClick,
-      noPopup,
-    } = this.props;
+    const { direction, name, messages, content, children, onPopupClick, noPopup } = this.props;
 
     const popupModifier = {
       visible: showPopup,

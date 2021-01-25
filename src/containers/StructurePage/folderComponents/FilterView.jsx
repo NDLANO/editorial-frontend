@@ -21,25 +21,16 @@ const StyledFilterHeading = styled('span')`
   white-space: nowrap;
 `;
 
-const FilterView = ({
-  subjectFilters = [],
-  t,
-  activeFilters,
-  toggleFilter,
-}) => (
+const FilterView = ({ subjectFilters = [], t, activeFilters, toggleFilter }) => (
   <Wrapper>
-    <StyledFilterHeading show>
-      {t('taxonomy.topics.filterTopic')}:
-    </StyledFilterHeading>
+    <StyledFilterHeading show>{t('taxonomy.topics.filterTopic')}:</StyledFilterHeading>
     {subjectFilters.map(filter => (
       <StyledFilterButton
         type="button"
         key={filter.id}
         data-testid="filter-item"
         className={
-          activeFilters.find(filterId => filterId === filter.id)
-            ? 'checkboxItem--checked'
-            : ''
+          activeFilters.find(filterId => filterId === filter.id) ? 'checkboxItem--checked' : ''
         }
         isVisible={filter.metadata?.visible}
         onClick={() => toggleFilter(filter.id)}>

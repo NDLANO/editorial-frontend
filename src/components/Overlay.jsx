@@ -58,10 +58,7 @@ const Overlay = ({ onExit, modifiers }) =>
 
 Overlay.propTypes = {
   onExit: PropTypes.func,
-  modifiers: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]),
+  modifiers: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 };
 
 Overlay.defaultProps = {

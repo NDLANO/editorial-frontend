@@ -83,12 +83,7 @@ const getPublishedDate = (values, initialValues, preview = false) => {
   return undefined;
 };
 
-const getArticleFromSlate = ({
-  values,
-  licenses,
-  initialValues,
-  preview = false,
-}) => {
+const getArticleFromSlate = ({ values, licenses, initialValues, preview = false }) => {
   const content = learningResourceContentToHTML(values.content);
   const emptyContent = values.id ? '' : undefined;
 
@@ -140,23 +135,14 @@ const LearningResourceForm = props => {
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const {
-      values,
-      dirty,
-      isSubmitting,
-      setValues,
-      errors,
-      touched,
-      ...formikProps
-    } = formik;
+    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = preview =>
-      getArticleFromSlate({ values, initialValues, licenses, preview });
+    const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage

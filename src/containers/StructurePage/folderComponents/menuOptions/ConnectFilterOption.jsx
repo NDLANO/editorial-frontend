@@ -25,23 +25,11 @@ class ConnectFilterOption extends PureComponent {
   }
 
   render() {
-    const {
-      id,
-      path,
-      topicFilters,
-      refreshTopics,
-      subjectFilters,
-      editMode,
-      t,
-    } = this.props;
+    const { id, path, topicFilters, refreshTopics, subjectFilters, editMode, t } = this.props;
     return (
       <Fragment>
         <MenuItemButton stripped onClick={this.toggleEditMode}>
-          <RoundIcon
-            small
-            open={editMode === 'connectFilters'}
-            icon={<Filter />}
-          />
+          <RoundIcon small open={editMode === 'connectFilters'} icon={<Filter />} />
           {t('taxonomy.connectFilters')}
         </MenuItemButton>
         {editMode === 'connectFilters' && (

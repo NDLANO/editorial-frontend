@@ -9,11 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  ContentResultShape,
-  ImageResultShape,
-  AudioResultShape,
-} from '../../../../shapes';
+import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
@@ -31,13 +27,7 @@ const SearchResult = ({
 }) => {
   switch (type) {
     case 'content':
-      return (
-        <SearchContent
-          content={result}
-          locale={locale}
-          userAccess={userAccess}
-        />
-      );
+      return <SearchContent content={result} locale={locale} userAccess={userAccess} />;
     case 'concept':
       return (
         <SearchConcept
@@ -63,11 +53,7 @@ const SearchResult = ({
 };
 
 SearchResult.propTypes = {
-  result: PropTypes.oneOfType([
-    ContentResultShape,
-    ImageResultShape,
-    AudioResultShape,
-  ]),
+  result: PropTypes.oneOfType([ContentResultShape, ImageResultShape, AudioResultShape]),
   type: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   subjects: PropTypes.array,

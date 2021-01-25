@@ -11,11 +11,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -49,9 +45,8 @@ const getInitialValues = (concept = {}, subjects = []) => {
     updated: concept.updated,
     updateCreated: false,
     subjects:
-      concept.subjectIds?.map(subjectId =>
-        subjects.find(subject => subject.id === subjectId),
-      ) || [],
+      concept.subjectIds?.map(subjectId => subjects.find(subject => subject.id === subjectId)) ||
+      [],
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
@@ -112,10 +107,7 @@ class ConceptForm extends Component {
 
   componentDidUpdate({ concept: prevConcept }) {
     const { concept } = this.props;
-    if (
-      concept.language !== prevConcept.language ||
-      concept.id !== prevConcept.id
-    ) {
+    if (concept.language !== prevConcept.language || concept.id !== prevConcept.id) {
       this.setState({ savedToServer: false });
       if (this.formik.current) {
         this.formik.current.resetForm();
@@ -169,28 +161,17 @@ class ConceptForm extends Component {
 
   handleSubmit = async formik => {
     formik.setSubmitting(true);
-    const {
-      onUpdate,
-      concept,
-      applicationError,
-      updateConceptAndStatus,
-      setConcept,
-    } = this.props;
+    const { onUpdate, concept, applicationError, updateConceptAndStatus, setConcept } = this.props;
     const { revision } = concept;
     const values = formik.values;
     const initialValues = formik.initialValues;
     const initialStatus = concept.status?.current;
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
-    if (
-      Object.keys(formik.errors).length > 0 &&
-      formik.errors.constructor === Object
-    ) {
+    if (Object.keys(formik.errors).length > 0 && formik.errors.constructor === Object) {
       setConcept({ status: concept.status, ...this.getConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
-      const e = Object.keys(formik.errors).map(
-        key => `${key}: ${formik.errors[key]}`,
-      );
+      const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
       this.props.createMessage({
         message: e.join(' '),
         severity: 'danger',
@@ -211,11 +192,7 @@ class ConceptForm extends Component {
             initialValues,
             dirty: true,
           });
-        await updateConceptAndStatus(
-          this.getConcept(values),
-          newStatus,
-          !skipSaving,
-        );
+        await updateConceptAndStatus(this.getConcept(values), newStatus, !skipSaving);
       } else {
         await onUpdate({
           ...this.getConcept(values),
@@ -278,9 +255,7 @@ class ConceptForm extends Component {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: ['tags', 'metaImageAlt', 'subjects'].some(
-          field => !!errors[field],
-        ),
+        hasError: ['tags', 'metaImageAlt', 'subjects'].some(field => !!errors[field]),
 
         component: props => (
           <ConceptMetaData
@@ -322,14 +297,7 @@ class ConceptForm extends Component {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const {
-            values,
-            dirty,
-            isSubmitting,
-            error,
-            errors,
-            setFieldValue,
-          } = formikProps;
+          const { values, dirty, isSubmitting, error, errors, setFieldValue } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -464,8 +432,4 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-  connect(undefined, mapDispatchToProps),
-)(ConceptForm);
+export default compose(injectT, withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);

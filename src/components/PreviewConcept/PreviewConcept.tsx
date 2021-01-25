@@ -70,9 +70,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   }, [concept.id]);
 
   const getSubjects = async () => {
-    const subjects = await Promise.all(
-      concept.subjectIds?.map(id => fetchSubject(id)),
-    );
+    const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
     setSubjects(subjects);
   };
 
@@ -81,13 +79,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
-        return (
-          <img
-            alt={visualElement?.alt}
-            src={visualElement?.url}
-            srcSet={srcSet}
-          />
-        );
+        return <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />;
       case 'video':
       case 'brightcove':
       case 'external':

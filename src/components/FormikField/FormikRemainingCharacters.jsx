@@ -9,11 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormikFieldHelp from './FormikFieldHelp';
-export const FormikRemainingCharacters = ({
-  value,
-  maxLength,
-  getRemainingLabel,
-}) => {
+export const FormikRemainingCharacters = ({ value, maxLength, getRemainingLabel }) => {
   const currentLength = value ? value.length : 0;
   return (
     <FormikFieldHelp float="right">

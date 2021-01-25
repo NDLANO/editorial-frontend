@@ -62,9 +62,7 @@ export const searchDraft = async (query: DraftSearchQuery) => {
   if (query) {
     const types = query.types ? query.types.split(',') : [];
     const realPageSize =
-      types.length > 1
-        ? Math.ceil((query['page-size'] || 5) / types.length)
-        : query['page-size'];
+      types.length > 1 ? Math.ceil((query['page-size'] || 5) / types.length) : query['page-size'];
     response = await fetchAuthorized(
       `${baseUrl}/draft/?${queryString.stringify({
         ...query,
@@ -77,10 +75,7 @@ export const searchDraft = async (query: DraftSearchQuery) => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const groupSearch = (
-  query: string,
-  type: string,
-): Promise<GroupSearchResult[]> =>
+export const groupSearch = (query: string, type: string): Promise<GroupSearchResult[]> =>
   fetchAuthorized(`${groupUrl}?query=${query}&resource-types=${type}`).then(
     resolveJsonOrRejectWithError,
   );

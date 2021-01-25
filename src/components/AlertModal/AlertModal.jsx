@@ -42,11 +42,7 @@ const alertModalBodyIconStyle = css`
 
 const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
   show ? (
-    <Lightbox
-      display={show}
-      onClose={onCancel}
-      appearance="modal"
-      severity={severity}>
+    <Lightbox display={show} onClose={onCancel} appearance="modal" severity={severity}>
       <StyledAlertModal severity={severity}>
         <StyledAlertModalBody>
           <Warning css={alertModalBodyIconStyle} />

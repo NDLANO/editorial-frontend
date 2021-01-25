@@ -71,10 +71,7 @@ class FormikAgreementConnection extends Component {
     return (
       <Fragment>
         <FieldHeader title={t('form.agreement.label')} width={width}>
-          <HowToHelper
-            pageId="userAgreements"
-            tooltip={t('form.agreement.helpLabel')}
-          />
+          <HowToHelper pageId="userAgreements" tooltip={t('form.agreement.helpLabel')} />
         </FieldHeader>
         <FieldSection>
           <FormikField name="agreementId">
@@ -101,10 +98,7 @@ class FormikAgreementConnection extends Component {
           </FormikField>
         </FieldSection>
         {agreement && agreement.id && (
-          <Link
-            key="agreement-connection-link"
-            target="_blank"
-            to={toEditAgreement(agreement.id)}>
+          <Link key="agreement-connection-link" target="_blank" to={toEditAgreement(agreement.id)}>
             {agreement.title}
           </Link>
         )}

@@ -11,11 +11,7 @@ import { Block } from 'slate';
 import defaultBlocks from './defaultBlocks';
 
 export const textBlockValidationRules = {
-  first: [
-    { type: 'paragraph' },
-    { type: 'heading-two' },
-    { type: 'heading-three' },
-  ],
+  first: [{ type: 'paragraph' }, { type: 'heading-two' }, { type: 'heading-three' }],
   nodes: [
     {
       match: [
@@ -66,11 +62,7 @@ export const textBlockValidationRules = {
         editor.withoutSaving(() => {
           editor.wrapBlockByKey(error.child.key, 'section');
           const wrapper = editor.value.document.getParent(error.child.key);
-          editor.insertNodeByKey(
-            wrapper.key,
-            1,
-            Block.create(defaultBlocks.defaultBlock),
-          );
+          editor.insertNodeByKey(wrapper.key, 1, Block.create(defaultBlocks.defaultBlock));
           editor.unwrapBlockByKey(wrapper.key, 'section');
         });
         break;

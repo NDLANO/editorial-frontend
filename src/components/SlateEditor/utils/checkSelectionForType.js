@@ -1,11 +1,7 @@
 export const checkSelectionForType = ({ type, value, nodeKey }) => {
   const parent = value.document.getParent(nodeKey || value.selection.start.key);
 
-  if (
-    !parent ||
-    parent.get('type') === 'section' ||
-    parent.get('type') === 'document'
-  ) {
+  if (!parent || parent.get('type') === 'section' || parent.get('type') === 'document') {
     return false;
   }
   if (typeof type === 'string') {

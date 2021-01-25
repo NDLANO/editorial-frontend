@@ -39,13 +39,7 @@ const metaImageDeleteButtonStyle = css`
   }
 `;
 
-const FormikMetaImage = ({
-  image,
-  onImageSelectOpen,
-  onImageRemove,
-  showRemoveButton,
-  t,
-}) => {
+const FormikMetaImage = ({ image, onImageSelectOpen, onImageRemove, showRemoveButton, t }) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')

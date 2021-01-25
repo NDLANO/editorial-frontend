@@ -17,9 +17,7 @@ const {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } = require('../../src/util/articleContentConverter');
-const {
-  resolveJsonOrRejectWithError,
-} = require('../../src/util/resolveJsonOrRejectWithError');
+const { resolveJsonOrRejectWithError } = require('../../src/util/resolveJsonOrRejectWithError');
 
 const dom = new jsdom.JSDOM('<!DOCTYPE html></html>');
 
@@ -64,10 +62,7 @@ async function fetchArticles(url, query) {
     });
     return result.json();
   } catch (err) {
-    console.log(
-      `${chalk.red(`Search with query page ${query.page} is failing.`)}`,
-      err,
-    );
+    console.log(`${chalk.red(`Search with query page ${query.page} is failing.`)}`, err);
   }
 }
 
@@ -98,14 +93,9 @@ async function fetchAllArticles(url) {
   };
   const firstResult = await fetchArticles(url, query);
 
-  const numberOfPages = Math.min(
-    Math.ceil(firstResult.totalCount / firstResult.pageSize),
-    100,
-  );
+  const numberOfPages = Math.min(Math.ceil(firstResult.totalCount / firstResult.pageSize), 100);
   const requestQueries = [];
-  const estimatedTime = Math.ceil(
-    (numberOfPages * query['page-size'] * 0.5) / 60,
-  );
+  const estimatedTime = Math.ceil((numberOfPages * query['page-size'] * 0.5) / 60);
 
   console.log(
     `Fetching ${numberOfPages} pages with a page size of ${query['page-size']}. Estimated time is ${estimatedTime} minutes`,
@@ -114,20 +104,13 @@ async function fetchAllArticles(url) {
   for (let i = 1; i < numberOfPages + 1; i += 1) {
     requestQueries.push({ ...query, page: i });
 
-    console.log(
-      `${chalk.green(
-        `Fetching page ${i} with page size ${query['page-size']}`,
-      )}`,
-    );
+    console.log(`${chalk.green(`Fetching page ${i} with page size ${query['page-size']}`)}`);
   }
 
   const articleIds = [];
-  const results = await Promise.all(
-    requestQueries.map(reqQuery => fetchArticles(url, reqQuery)),
-  );
+  const results = await Promise.all(requestQueries.map(reqQuery => fetchArticles(url, reqQuery)));
   results.forEach(result => {
-    const articles =
-      result && result.results ? result.results.map(article => article.id) : [];
+    const articles = result && result.results ? result.results.map(article => article.id) : [];
     articleIds.push(...articles);
   });
   console.log(`fetched ${articleIds.length} number of article IDS`);
@@ -141,15 +124,9 @@ function testArticle(article) {
   }
 
   try {
-    const converted = learningResourceContentToEditorValue(
-      article.content.content,
-      fragment,
-    );
+    const converted = learningResourceContentToEditorValue(article.content.content, fragment);
 
-    const diffObject = diffHTML(
-      article.content.content,
-      learningResourceContentToHTML(converted),
-    );
+    const diffObject = diffHTML(article.content.content, learningResourceContentToHTML(converted));
 
     console.log(
       `${chalk.green(
@@ -157,17 +134,12 @@ function testArticle(article) {
       )}`,
     );
     if (diffObject.warn) {
-      console.log(
-        `${chalk.yellow(`WARN Diff detected:\n`)} ${diffObject.diff}`,
-      );
+      console.log(`${chalk.yellow(`WARN Diff detected:\n`)} ${diffObject.diff}`);
       return { hasDiff: true, diff: diffObject.diff };
     }
     return { hasDiff: false };
   } catch (err) {
-    console.log(
-      `${chalk.red(`Article with id ${article.id} failed to convert.`)}`,
-      err,
-    );
+    console.log(`${chalk.red(`Article with id ${article.id} failed to convert.`)}`, err);
     return { error: err, id: article.id, hasError: true };
   }
 }
@@ -177,14 +149,10 @@ function printResults(articles, results) {
   const diffs = results.filter(result => result.hasDiff);
   const passed = results.filter(result => !result.hasDiff && !result.hasError);
   const passedString = chalk.bold.green(` ${passed.length} passed`) + ',';
-  const errString =
-    errors.length > 0 ? chalk.bold.red(` ${errors.length} failed`) + ',' : '';
-  const diffString =
-    diffs.length > 0 ? chalk.bold.yellow(` ${diffs.length} diffs`) + ',' : '';
+  const errString = errors.length > 0 ? chalk.bold.red(` ${errors.length} failed`) + ',' : '';
+  const diffString = diffs.length > 0 ? chalk.bold.yellow(` ${diffs.length} diffs`) + ',' : '';
   console.log(
-    `${chalk.bold('Articles: ')}${passedString}${errString}${diffString} ${
-      articles.length
-    } total`,
+    `${chalk.bold('Articles: ')}${passedString}${errString}${diffString} ${articles.length} total`,
   );
   mkdirp.sync('./scripts/.cache');
   fs.writeFileSync(

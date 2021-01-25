@@ -16,10 +16,7 @@ import { fetchDraft } from '../../modules/draft/draftApi';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditArticle } from '../../util/routeHelpers';
 import { LocationShape } from '../../shapes';
 
@@ -61,10 +58,7 @@ class TopicArticlePage extends React.Component {
               <EditTopicArticle
                 articleId={routeProps.match.params.articleId}
                 selectedLanguage={routeProps.match.params.selectedLanguage}
-                isNewlyCreated={
-                  this.state.previousLocation ===
-                  '/subject-matter/topic-article/new'
-                }
+                isNewlyCreated={this.state.previousLocation === '/subject-matter/topic-article/new'}
                 {...rest}
               />
             )}
@@ -75,17 +69,10 @@ class TopicArticlePage extends React.Component {
               this.getDraft(routeProps.match.params.articleId);
               const draft = this.state.draft;
               const language =
-                draft &&
-                draft.supportedLanguages.find(
-                  lang => lang === this.props.locale,
-                );
+                draft && draft.supportedLanguages.find(lang => lang === this.props.locale);
               draft &&
                 history.push(
-                  toEditArticle(
-                    draft.id,
-                    'topic-article',
-                    language || draft.supportedLanguages[0],
-                  ),
+                  toEditArticle(draft.id, 'topic-article', language || draft.supportedLanguages[0]),
                 );
             }}
           />

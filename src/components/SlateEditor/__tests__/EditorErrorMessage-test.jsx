@@ -17,11 +17,7 @@ test('EditorErrorMessage renders', () => {
   };
 
   const component = TestRenderer.create(
-    <EditorErrorMessage
-      embed={embed}
-      msg={embed.message}
-      onRemoveClick={() => {}}
-    />,
+    <EditorErrorMessage embed={embed} msg={embed.message} onRemoveClick={() => {}} />,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

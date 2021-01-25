@@ -32,13 +32,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SavedSearch: FC<Props & tType> = ({
-  deleteSearch,
-  locale,
-  search,
-  index,
-  t,
-}) => {
+const SavedSearch: FC<Props & tType> = ({ deleteSearch, locale, search, index, t }) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');

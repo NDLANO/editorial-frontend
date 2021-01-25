@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {
-  getInitialValues,
-  getIdFromUrn,
-  getUrnFromId,
-} from '../ndlaFilmHelpers';
+import { getInitialValues, getIdFromUrn, getUrnFromId } from '../ndlaFilmHelpers';
 
 const filmFrontPage = {
   name: 'Film',

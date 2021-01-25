@@ -300,7 +300,7 @@ class ConceptForm extends Component {
           <FormikField name={'articleIds'}>
             {({ field, form }) => (
               <ConceptArticles
-                articleIds={props.values.articleIds}
+                initArticles={concept.articles}
                 field={field}
                 form={form}
               />

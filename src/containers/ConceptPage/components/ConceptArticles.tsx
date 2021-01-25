@@ -21,7 +21,7 @@ import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 
 interface Props {
   locale: String;
-  articleIds: ArticleType[];
+  initArticles: ArticleType[];
   field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
@@ -31,11 +31,11 @@ interface Props {
 const ConceptArticles: FC<Props & tType> = ({
   locale,
   t,
-  articleIds,
+  initArticles,
   field,
   form,
 }) => {
-  const [articles, setArticles] = useState<ArticleType[]>(articleIds);
+  const [articles, setArticles] = useState<ArticleType[]>(initArticles);
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
       let newArticle = await fetchDraft(article.id);

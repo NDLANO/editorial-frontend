@@ -133,7 +133,7 @@ class ConceptForm extends Component {
     return undefined;
   };
 
-  getConcept = values => {
+  getApiConcept = values => {
     const { licenses } = this.props;
     return {
       id: values.id,
@@ -141,10 +141,6 @@ class ConceptForm extends Component {
       content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
-      license: licenses.find(license => license.license === values.license),
-      creators: values.creators,
-      processors: values.processors,
-      rightsholders: values.rightsholders,
       copyright: {
         license: licenses.find(license => license.license === values.license),
         creators: values.creators,
@@ -152,8 +148,6 @@ class ConceptForm extends Component {
         rightsholders: values.rightsholders,
       },
       agreementId: values.agreementId,
-      metaImageAlt: values.metaImageAlt,
-      metaImageId: values.metaImageId,
       metaImage: values.metaImageId
         ? {
             id: values.metaImageId,
@@ -164,10 +158,8 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
-      articles: values.articles,
       articleIds: values.articles.map(a => a.id),
       visualElement: values.visualElement,
-      visualElementResources: values.visualElement,
     };
   };
 
@@ -181,7 +173,7 @@ class ConceptForm extends Component {
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
     if (Object.keys(formik.errors).length > 0 && formik.errors.constructor === Object) {
-      setConcept({ status: concept.status, ...this.getConcept(values) });
+      setConcept({ status: concept.status, ...this.getApiConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
       const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
       this.props.createMessage({
@@ -204,10 +196,10 @@ class ConceptForm extends Component {
             initialValues,
             dirty: true,
           });
-        await updateConceptAndStatus(this.getConcept(values), newStatus, !skipSaving);
+        await updateConceptAndStatus(this.getApiConcept(values), newStatus, !skipSaving);
       } else {
         await onUpdate({
-          ...this.getConcept(values),
+          ...this.getApiConcept(values),
           revision,
         });
       }
@@ -316,7 +308,7 @@ class ConceptForm extends Component {
               <HeaderWithLanguage
                 content={concept}
                 editUrl={lang => toEditConcept(values.id, lang)}
-                getEntity={() => this.getConcept(values)}
+                getEntity={() => this.getApiConcept(values)}
                 translateArticle={translateConcept}
                 type="concept"
                 setTranslateOnContinue={this.setTranslateOnContinue}
@@ -340,7 +332,7 @@ class ConceptForm extends Component {
                             id={panel.id}
                             updateNotes={this.onUpdate}
                             hasError={panel.hasError}
-                            getConcept={() => this.getConcept(values)}
+                            getConcept={() => this.getApiConcept(values)}
                             isOpen={openIndexes.includes(panel.id)}>
                             <div className={panel.className}>
                               {panel.component({
@@ -383,7 +375,7 @@ class ConceptForm extends Component {
                   values={values}
                   error={error}
                   errors={errors}
-                  getEntity={() => this.getConcept(values)}
+                  getEntity={() => this.getApiConcept(values)}
                   entityStatus={concept.status}
                   createMessage={createMessage}
                   showSimpleFooter={!concept.id}

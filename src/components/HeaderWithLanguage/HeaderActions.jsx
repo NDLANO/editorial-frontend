@@ -19,33 +19,28 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
-const PreviewLightBox = injectT(
-  ({ type, getEntity, articleType, supportedLanguages, t }) => {
-    if (type === 'concept')
-      return (
-        supportedLanguages.length > 1 && (
-          <PreviewConceptLightbox
-            typeOfPreview="previewLanguageArticle"
-            getConcept={getEntity}
-          />
-        )
-      );
-    else if (type === 'standard' || type === 'topic-article')
-      return (
-        <PreviewDraftLightbox
-          label={t(`articleType.${articleType}`)}
-          typeOfPreview="previewLanguageArticle"
-          getArticle={getEntity}>
-          {openPreview => (
-            <StyledFilledButton type="button" onClick={openPreview}>
-              <FileCompare />
-              {t(`form.previewLanguageArticle.button`)}
-            </StyledFilledButton>
-          )}
-        </PreviewDraftLightbox>
-      );
-  },
-);
+const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLanguages, t }) => {
+  if (type === 'concept')
+    return (
+      supportedLanguages.length > 1 && (
+        <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
+      )
+    );
+  else if (type === 'standard' || type === 'topic-article')
+    return (
+      <PreviewDraftLightbox
+        label={t(`articleType.${articleType}`)}
+        typeOfPreview="previewLanguageArticle"
+        getArticle={getEntity}>
+        {openPreview => (
+          <StyledFilledButton type="button" onClick={openPreview}>
+            <FileCompare />
+            {t(`form.previewLanguageArticle.button`)}
+          </StyledFilledButton>
+        )}
+      </PreviewDraftLightbox>
+    );
+});
 
 const HeaderActions = ({
   editUrl,
@@ -72,10 +67,7 @@ const HeaderActions = ({
     { key: 'de', title: t('language.de'), include: false },
   ];
   const emptyLanguages = languages.filter(
-    lang =>
-      lang.key !== language &&
-      !supportedLanguages.includes(lang.key) &&
-      lang.include,
+    lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
 
@@ -107,10 +99,7 @@ const HeaderActions = ({
             <StyledSplitter />
           </Fragment>
         )}
-        <HeaderLanguagePicker
-          emptyLanguages={emptyLanguages}
-          editUrl={editUrl}
-        />
+        <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (

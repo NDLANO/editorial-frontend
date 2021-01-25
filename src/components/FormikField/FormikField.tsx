@@ -46,8 +46,7 @@ interface Props {
   placeholder?: string;
 }
 
-const FormikField: FC<Props &
-  tType & { formik: FormikContextType<FormikValues> }> = ({
+const FormikField: FC<Props & tType & { formik: FormikContextType<FormikValues> }> = ({
   children,
   className,
   label,

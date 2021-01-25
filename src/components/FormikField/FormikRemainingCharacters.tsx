@@ -16,11 +16,7 @@ interface Props {
   getRemainingLabel: (maxLength: number, remaining: number) => ReactNode;
 }
 
-export const FormikRemainingCharacters: FC<Props> = ({
-  value,
-  maxLength,
-  getRemainingLabel,
-}) => {
+export const FormikRemainingCharacters: FC<Props> = ({ value, maxLength, getRemainingLabel }) => {
   const currentLength = value ? value.length : 0;
   return (
     <FormikFieldHelp float="right">

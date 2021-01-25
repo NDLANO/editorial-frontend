@@ -19,12 +19,7 @@ interface Props {
   formik: FormikContextType<any>;
 }
 
-const FocusLabel: FC<Props> = ({
-  name,
-  hasFocus,
-  children,
-  formik: { values },
-}) => {
+const FocusLabel: FC<Props> = ({ name, hasFocus, children, formik: { values } }) => {
   if (!hasFocus || isEmpty(values[name])) {
     return null;
   }

@@ -8,18 +8,11 @@
 import React, { Component, ReactNode } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikHelpers } from 'formik';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
-import {
-  isFormikFormDirty,
-  parseCopyrightContributors,
-} from '../../../util/formHelper';
+import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
@@ -81,9 +74,7 @@ interface ImageFormikType {
   license?: string;
 }
 
-export const getInitialValues = (
-  image: ImagePropType = {},
-): ImageFormikType => {
+export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
   return {
     id: image.id,
     language: image.language,
@@ -101,13 +92,7 @@ export const getInitialValues = (
   };
 };
 
-const FormWrapper = ({
-  inModal,
-  children,
-}: {
-  inModal?: boolean;
-  children: ReactNode;
-}) => {
+const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {
     return <div {...classes()}>{children}</div>;
   }
@@ -177,15 +162,10 @@ class ImageForm extends Component<Props & tType, State> {
     savedToServer: false,
   };
 
-  handleSubmit = async (
-    values: ImageFormikType,
-    actions: FormikHelpers<ImageFormikType>,
-  ) => {
+  handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
     const { licenses, onUpdate } = this.props;
 
-    const license = licenses.find(
-      license => license.license === values.license,
-    );
+    const license = licenses.find(license => license.license === values.license);
 
     if (
       !license ||
@@ -226,14 +206,7 @@ class ImageForm extends Component<Props & tType, State> {
   };
 
   render() {
-    const {
-      t,
-      image,
-      licenses,
-      inModal,
-      closeModal,
-      isNewlyCreated,
-    } = this.props;
+    const { t, image, licenses, inModal, closeModal, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
     type ErrorFields =
       | 'alttext'
@@ -260,13 +233,7 @@ class ImageForm extends Component<Props & tType, State> {
       {
         id: 'image-upload-metadataSection',
         title: t('form.metadataSection'),
-        errorFields: [
-          'tags',
-          'rightsholders',
-          'creators',
-          'processors',
-          'license',
-        ],
+        errorFields: ['tags', 'rightsholders', 'creators', 'processors', 'license'],
         component: (
           <ImageMetaData
             licenses={licenses}
@@ -303,9 +270,7 @@ class ImageForm extends Component<Props & tType, State> {
                 {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
                   <AccordionWrapper>
                     {panels.map(panel => {
-                      const hasError = panel.errorFields.some(
-                        field => !!errors[field],
-                      );
+                      const hasError = panel.errorFields.some(field => !!errors[field]);
                       return (
                         <React.Fragment key={panel.id}>
                           <AccordionBar

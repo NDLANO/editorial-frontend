@@ -50,20 +50,12 @@ const ImageContent: FC<Props & tType> = ({ t, formik }) => {
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"
-          allowedFiles={[
-            'image/gif',
-            'image/png',
-            'image/jpeg',
-            'image/jpg',
-            'image/svg+xml',
-          ]}
+          allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']}
           onAddedFiles={(files: FileList, evt: InputEvent) => {
             const target = evt.target as HTMLInputElement;
             setFieldValue(
               'filepath',
-              target.files?.[0]
-                ? URL.createObjectURL(target.files[0])
-                : undefined,
+              target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
             );
             setFieldValue('imageFile', target.files?.[0]);
           }}
@@ -85,9 +77,7 @@ const ImageContent: FC<Props & tType> = ({ t, formik }) => {
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}
-      {values.imageFile && (
-        <StyledImage src={values.filepath || values.imageFile} alt="" />
-      )}
+      {values.imageFile && <StyledImage src={values.filepath || values.imageFile} alt="" />}
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
           <Input

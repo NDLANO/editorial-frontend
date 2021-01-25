@@ -24,12 +24,7 @@ interface Props {
   imageLanguage?: string;
 }
 
-const ImageMetaData: FC<Props & tType> = ({
-  t,
-  imageTags,
-  licenses,
-  imageLanguage,
-}) => (
+const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguage }) => (
   <Fragment>
     <FormikField
       name="tags"

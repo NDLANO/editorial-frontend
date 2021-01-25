@@ -97,10 +97,7 @@ const SaveButton: React.FC<Props & tType> = ({
         onClick={onClick}
         clippedButton={clippedButton}
         submit={submit}
-        css={[
-          large ? largerButtonStyle : null,
-          saveButtonAppearances[modifier],
-        ]}
+        css={[large ? largerButtonStyle : null, saveButtonAppearances[modifier]]}
         {...rest}>
         <StyledSpan>
           {t(`form.${modifier}`)}

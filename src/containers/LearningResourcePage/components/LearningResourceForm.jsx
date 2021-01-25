@@ -172,8 +172,7 @@ const LearningResourceForm = props => {
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={saveAsNewVersion => {
-              if (formIsDirty && !isSubmitting)
-                handleSubmit(formik, saveAsNewVersion);
+              if (formIsDirty && !isSubmitting) handleSubmit(formik, saveAsNewVersion);
             }}
             {...rest}
           />

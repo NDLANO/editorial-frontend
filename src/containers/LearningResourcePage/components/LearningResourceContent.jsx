@@ -192,10 +192,7 @@ class LearningResourceContent extends Component {
             </>
           )}
         </FormikField>
-        <FormikIngress
-          preview={this.state.preview}
-          handleSubmit={handleSubmit}
-        />
+        <FormikIngress preview={this.state.preview} handleSubmit={handleSubmit} />
         <FormikField
           name="content"
           label={t('form.content.label')}

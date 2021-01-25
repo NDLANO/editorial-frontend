@@ -62,14 +62,16 @@ export function useFetchConceptData(conceptId: number, locale: string) {
 
   const updateConcept = async (updatedConcept: ConceptFormType): Promise<ConceptFormType> => {
     const savedConcept = await conceptApi.updateConcept(updatedConcept);
-    const formConcept = { ...savedConcept, articles: [] };
+    const convertedArticles = await fetchElementList(savedConcept.articleIds);
+    const formConcept = { ...savedConcept, articles: convertedArticles };
     setConcept(formConcept);
     return formConcept;
   };
 
   const createConcept = async (createdConcept: ConceptFormType) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
-    const formConcept = { ...savedConcept, articles: [] };
+    const convertedArticles = await fetchElementList(savedConcept.articleIds);
+    const formConcept = { ...savedConcept, articles: convertedArticles };
     setConcept(formConcept);
     return formConcept;
   };
@@ -80,11 +82,12 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     dirty: boolean,
   ) => {
     const newConcept = dirty ? await conceptApi.updateConcept(updatedConcept) : updatedConcept;
+    const convertedArticles = await fetchElementList(newConcept.articleIds);
     const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
     setConcept({
       ...newConcept,
       status: conceptChangedStatus.status,
-      articles: [],
+      articles: convertedArticles,
     });
   };
 

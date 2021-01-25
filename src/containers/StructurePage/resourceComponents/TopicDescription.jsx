@@ -14,9 +14,7 @@ class TopicDescription extends Component {
       showAddModal: false,
     };
     this.toggleAddModal = this.toggleAddModal.bind(this);
-    this.toggleDisplayTopicDescription = this.toggleDisplayTopicDescription.bind(
-      this,
-    );
+    this.toggleDisplayTopicDescription = this.toggleDisplayTopicDescription.bind(this);
   }
 
   toggleAddModal() {

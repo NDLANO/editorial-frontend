@@ -32,9 +32,7 @@ export const isValidURL = (string: string) =>
   ) || false;
 
 export const isNDLAFrontendUrl = (url: string) =>
-  /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)?\/?(node|\d*)(\/|\d*)/.test(
-    url,
-  );
+  /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)?\/?(node|\d*)(\/|\d*)/.test(url);
 
 export const isNDLAEdSearchUrl = (url: string) =>
   /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);

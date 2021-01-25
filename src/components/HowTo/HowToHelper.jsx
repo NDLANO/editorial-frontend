@@ -43,9 +43,7 @@ const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
   <ArticleInModal
     pageId={pageId}
     tooltip={tooltip}
-    activateButton={
-      <HelpIcon css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS]} />
-    }
+    activateButton={<HelpIcon css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS]} />}
   />
 );
 

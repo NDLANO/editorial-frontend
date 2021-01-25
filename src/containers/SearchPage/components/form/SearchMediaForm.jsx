@@ -53,9 +53,8 @@ class SearchMediaForm extends Component {
 
   emptySearch(evt) {
     evt.persist();
-    this.setState(
-      { search: { query: '', language: '', types: 'images,audios' } },
-      () => this.handleSearch(evt),
+    this.setState({ search: { query: '', language: '', types: 'images,audios' } }, () =>
+      this.handleSearch(evt),
     );
   }
 

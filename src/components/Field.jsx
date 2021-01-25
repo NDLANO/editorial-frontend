@@ -16,9 +16,7 @@ export const classes = new BEMHelper({
 });
 
 const Field = ({ children, className, noBorder, title, right }) => (
-  <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
-    {children}
-  </div>
+  <div {...classes('', { 'no-border': noBorder, right, title }, className)}>{children}</div>
 );
 
 Field.propTypes = {

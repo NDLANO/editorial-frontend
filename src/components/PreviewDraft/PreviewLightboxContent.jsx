@@ -21,14 +21,7 @@ const StyledPreviewSingleArticle = styled('div')`
 `;
 
 const PreviewLightboxContent = props => {
-  const {
-    firstEntity,
-    label,
-    typeOfPreview,
-    loading,
-    contentType,
-    getEntityPreview,
-  } = props;
+  const { firstEntity, label, typeOfPreview, loading, contentType, getEntityPreview } = props;
   if (loading) return <Spinner />;
   switch (typeOfPreview) {
     case 'preview':

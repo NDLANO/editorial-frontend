@@ -12,10 +12,7 @@ import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
@@ -44,19 +41,14 @@ class AudioUploaderPage extends Component {
         <OneColumn>
           <HelmetWithTracker title={t('htmlTitles.audioUploaderPage')} />
           <Switch>
-            <Route
-              path={`${match.url}/new`}
-              render={() => <CreateAudio {...rest} />}
-            />
+            <Route path={`${match.url}/new`} render={() => <CreateAudio {...rest} />} />
             <Route
               path={`${match.url}/:audioId/edit/:audioLanguage`}
               render={props => (
                 <EditAudio
                   audioId={props.match.params.audioId}
                   audioLanguage={props.match.params.audioLanguage}
-                  isNewlyCreated={
-                    this.state.previousLocation === '/media/audio-upload/new'
-                  }
+                  isNewlyCreated={this.state.previousLocation === '/media/audio-upload/new'}
                   {...rest}
                 />
               )}
@@ -99,6 +91,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default injectT(
-  connect(mapStateToProps, mapDispatchToProps)(AudioUploaderPage),
-);
+export default injectT(connect(mapStateToProps, mapDispatchToProps)(AudioUploaderPage));

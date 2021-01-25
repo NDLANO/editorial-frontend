@@ -10,8 +10,7 @@ const colorType = {
 };
 
 const isCurrentTab = (match, location, subtype) => {
-  const locations =
-    location && location.pathname ? location.pathname.split('/') : [];
+  const locations = location && location.pathname ? location.pathname.split('/') : [];
   if (locations.length > 2 && locations[2] === subtype.type) {
     return true;
   }

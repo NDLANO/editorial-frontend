@@ -17,15 +17,15 @@ import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 function fetchAllResourceTypes(language) {
-  return fetchAuthorized(
-    `${baseUrl}/resource-types/?language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchResourceType(id, locale) {
-  return fetchAuthorized(
-    `${baseUrl}/resource-types/${id}?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function createResourceResourceType(resourceType) {
@@ -66,11 +66,7 @@ function deleteTopicResourceType(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteResourceTypes(
-  resourceId,
-  resourceTypes,
-  originalResourceTypes,
-) {
+async function createDeleteResourceTypes(resourceId, resourceTypes, originalResourceTypes) {
   try {
     const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
       changedItems: resourceTypes,

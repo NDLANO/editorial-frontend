@@ -90,20 +90,12 @@ class TopicConnections extends Component {
   }
 
   render() {
-    const {
-      t,
-      structure,
-      availableFilters,
-      activeTopics,
-      ...rest
-    } = this.props;
+    const { t, structure, availableFilters, activeTopics, ...rest } = this.props;
     const { activeFilters, openedPaths } = this.state;
 
     return (
       <Fragment>
-        <FieldHeader
-          title={t('taxonomy.topics.title')}
-          subTitle={t('taxonomy.topics.subTitle')}>
+        <FieldHeader title={t('taxonomy.topics.title')} subTitle={t('taxonomy.topics.subTitle')}>
           <HowToHelper
             pageId="TaxonomySubjectConnections"
             tooltip={t('taxonomy.topics.helpLabel')}
@@ -116,9 +108,7 @@ class TopicConnections extends Component {
           size="large"
           narrow
           minHeight="85vh"
-          activateButton={
-            <Button>{t('taxonomy.topics.filestructureButton')}</Button>
-          }>
+          activateButton={<Button>{t('taxonomy.topics.filestructureButton')}</Button>}>
           {closeModal => (
             <Fragment>
               <ModalHeader>
@@ -128,9 +118,7 @@ class TopicConnections extends Component {
                 />
               </ModalHeader>
               <ModalBody>
-                <StyledTitleModal>
-                  {t('taxonomy.topics.filestructureHeading')}:
-                </StyledTitleModal>
+                <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
                 <hr />
                 <Structure
                   openedPaths={openedPaths}

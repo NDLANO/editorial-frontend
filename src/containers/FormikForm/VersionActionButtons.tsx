@@ -11,11 +11,7 @@ interface Props {
   showFromArticleApi: boolean;
   article: ArticleType;
   getArticle: VoidFunction;
-  resetVersion: (
-    version: ArticleType,
-    language: string,
-    showFromArticleApi: boolean,
-  ) => void;
+  resetVersion: (version: ArticleType, language: string, showFromArticleApi: boolean) => void;
   version: ArticleType;
   t: TranslateType;
   current: boolean;
@@ -37,9 +33,7 @@ const VersionActionButtons: React.FC<Props> = ({
     <>
       <PreviewDraftLightbox
         label={t(`articleType.${article.articleType}`)}
-        typeOfPreview={
-          showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'
-        }
+        typeOfPreview={showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'}
         getArticle={getArticle}
         version={version}>
         {(openPreview: VoidFunction) => (
@@ -58,9 +52,7 @@ const VersionActionButtons: React.FC<Props> = ({
         <StyledAccordionsPanelIconButton
           type="button"
           data-testid="resetToVersion"
-          onClick={() =>
-            resetVersion(version, article.language, showFromArticleApi)
-          }>
+          onClick={() => resetVersion(version, article.language, showFromArticleApi)}>
           <Restore />
         </StyledAccordionsPanelIconButton>
       </Tooltip>

@@ -6,7 +6,7 @@
  *
  */
 
-import { ArticleType, Copyright, Status } from '../../interfaces';
+import { ArticleType, Copyright, Status, VisualElement, Author } from '../../interfaces';
 
 export enum ConceptStatusType {
   DRAFT,
@@ -133,22 +133,22 @@ export interface UpdatedConceptType {
 export interface ConceptFormikType {
   id: number;
   revision: number;
-  title?: {
-    title: string;
-    language: string;
+  title?: string;
+  content?: string;
+  license: {
+    license: string;
+    description?: string;
+    url?: string;
   };
-  content?: {
-    content: string;
-    language: string;
-  };
-  copyright?: Copyright;
+  language: string;
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  agreementId?: number;
   source?: string;
   metaImageId?: string;
   metaImageAlt?: string;
-  tags?: {
-    tags: string[];
-    language: string;
-  };
+  tags?: string[];
   subjectIds?: string[];
   created: string;
   updated: string;
@@ -156,10 +156,7 @@ export interface ConceptFormikType {
   supportedLanguages: string[];
   articleIds: ArticleType[];
   status: Status;
-  visualElement?: {
-    visualElement: string;
-    language: string;
-  };
+  visualElement?: VisualElement;
 }
 
 export interface ConceptStatusStateMashineType {

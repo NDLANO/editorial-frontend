@@ -26,11 +26,7 @@ const FormikGrepCodes = ({ t, article }: Props & tType) => {
     <Fragment>
       <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
         {({ field, form }: FieldProps<string[], FormikValues>) => (
-          <FormikGrepCodesContent
-            articleGrepCodes={article.grepCodes}
-            field={field}
-            form={form}
-          />
+          <FormikGrepCodesContent articleGrepCodes={article.grepCodes} field={field} form={form} />
         )}
       </FormikField>
     </Fragment>

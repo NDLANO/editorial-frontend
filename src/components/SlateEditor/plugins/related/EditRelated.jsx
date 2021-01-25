@@ -174,24 +174,15 @@ class EditRelated extends React.PureComponent {
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
-                        className={
-                          snapshot.isDraggingOver
-                            ? 'drop-zone dragging'
-                            : 'drop-zone'
-                        }>
+                        className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}>
                         {articles.map((article, index) => {
                           if (!article) {
                             return null;
                           }
                           const articleKey =
-                            article.id === ARTICLE_EXTERNAL
-                              ? article.tempId
-                              : article.id;
+                            article.id === ARTICLE_EXTERNAL ? article.tempId : article.id;
                           return (
-                            <Draggable
-                              key={articleKey}
-                              draggableId={articleKey}
-                              index={index}>
+                            <Draggable key={articleKey} draggableId={articleKey} index={index}>
                               {(providedInner, snapshotInner) => (
                                 <div
                                   className="drag-item"
@@ -200,9 +191,7 @@ class EditRelated extends React.PureComponent {
                                   {...providedInner.draggableProps}>
                                   <StyledArticle
                                     isDragging={snapshotInner.isDragging}
-                                    dragHandleProps={
-                                      providedInner.dragHandleProps
-                                    }
+                                    dragHandleProps={providedInner.dragHandleProps}
                                     key={article.id}>
                                     <RelatedArticle item={article} />
                                     {article.id === ARTICLE_EXTERNAL && (
@@ -217,28 +206,21 @@ class EditRelated extends React.PureComponent {
                                           this.toggleAddExternal();
                                         }}>
                                         <Tooltip
-                                          tooltip={t(
-                                            'form.content.relatedArticle.changeExternal',
-                                          )}>
+                                          tooltip={t('form.content.relatedArticle.changeExternal')}>
                                           <Pencil />
                                         </Tooltip>
                                       </StyledEditButton>
                                     )}
                                     <DeleteButton
-                                      title={t(
-                                        'form.content.relatedArticle.removeExternal',
-                                      )}
+                                      title={t('form.content.relatedArticle.removeExternal')}
                                       stripped
                                       onClick={e => {
                                         e.stopPropagation();
 
-                                        const newArticles = articles.filter(
-                                          filterArticle =>
-                                            filterArticle.id ===
-                                            ARTICLE_EXTERNAL
-                                              ? filterArticle.tempId !==
-                                                articleKey
-                                              : filterArticle.id !== articleKey,
+                                        const newArticles = articles.filter(filterArticle =>
+                                          filterArticle.id === ARTICLE_EXTERNAL
+                                            ? filterArticle.tempId !== articleKey
+                                            : filterArticle.id !== articleKey,
                                         );
                                         updateArticles(newArticles);
                                       }}
@@ -269,9 +251,7 @@ class EditRelated extends React.PureComponent {
                   showPagination
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>
-                <Button
-                  data-testid="showAddExternal"
-                  onClick={this.toggleAddExternal}>
+                <Button data-testid="showAddExternal" onClick={this.toggleAddExternal}>
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
               </StyledArticle>
@@ -283,9 +263,7 @@ class EditRelated extends React.PureComponent {
                   if (this.state.tempId) {
                     updateArticles(
                       articles.map(a =>
-                        a.tempId === this.state.tempId
-                          ? { ...a, url, title }
-                          : a,
+                        a.tempId === this.state.tempId ? { ...a, url, title } : a,
                       ),
                     );
                     this.setState({
@@ -316,9 +294,7 @@ class EditRelated extends React.PureComponent {
                   value={title}
                   onChange={this.handleInputChange}
                   onClick={e => e.stopPropagation()}
-                  placeholder={t(
-                    'form.content.relatedArticle.titlePlaceholder',
-                  )}
+                  placeholder={t('form.content.relatedArticle.titlePlaceholder')}
                 />
               </TaxonomyLightbox>
             )}

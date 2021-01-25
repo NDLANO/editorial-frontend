@@ -13,9 +13,7 @@ global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
   ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
   : 100;
 
-const jestTimeout = process.env.JEST_TIMEOUT
-  ? parseInt(process.env.JEST_TIMEOUT, 10)
-  : 30000;
+const jestTimeout = process.env.JEST_TIMEOUT ? parseInt(process.env.JEST_TIMEOUT, 10) : 30000;
 
 jest.setTimeout(jestTimeout);
 

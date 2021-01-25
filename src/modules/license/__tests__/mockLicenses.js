@@ -29,14 +29,12 @@ export default [
   },
   {
     license: 'by-nc-sa',
-    description:
-      'Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Generic',
+    description: 'Creative Commons Attribution-NonCommercial-ShareAlike 2.0 Generic',
     url: 'https://creativecommons.org/licenses/by-nc-sa/2.0/',
   },
   {
     license: 'by-nc-nd',
-    description:
-      'Creative Commons Attribution-NonCommercial-NoDerivs 2.0 Generic',
+    description: 'Creative Commons Attribution-NonCommercial-NoDerivs 2.0 Generic',
     url: 'https://creativecommons.org/licenses/by-nc-nd/2.0/',
   },
   {

@@ -17,6 +17,5 @@ export const clearSaved = createAction('CLEAR_SAVED');
 export const addAuth0Message = createAction('ADD_AUTH0_MESSAGE');
 
 export function timeoutMessage(message) {
-  return dispatch =>
-    setTimeout(() => dispatch(clearMessage(message.id)), message.timeToLive);
+  return dispatch => setTimeout(() => dispatch(clearMessage(message.id)), message.timeToLive);
 }

@@ -101,8 +101,4 @@ export interface Concept {
   visualElement: VisualElement;
 }
 
-export type PreviewTypes =
-  | 'previewProductionArticle'
-  | 'previewLanguageArticle'
-  | 'preview'
-  | '';
+export type PreviewTypes = 'previewProductionArticle' | 'previewLanguageArticle' | 'preview' | '';

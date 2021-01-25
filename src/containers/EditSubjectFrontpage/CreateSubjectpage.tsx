@@ -28,19 +28,11 @@ const CreateSubjectpage: FC<RouteComponentProps & Props & tType> = ({
   elementId,
   elementName,
 }) => {
-  const { createSubjectpage } = useFetchSubjectpageData(
-    elementId,
-    selectedLanguage,
-    undefined,
-  );
+  const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
-  const createSubjectpageAndPushRoute = async (
-    createdSubjectpage: SubjectpageEditType,
-  ) => {
+  const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
-    history.push(
-      toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id),
-    );
+    history.push(toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id));
   };
 
   return (

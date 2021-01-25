@@ -22,9 +22,7 @@ export const postAudio = formData =>
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchAudio = (id, locale) =>
-  fetchAuthorized(`${baseUrl}/${id}?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/${id}?language=${locale}`).then(resolveJsonOrRejectWithError);
 
 export const updateAudio = (id, formData) =>
   fetchAuthorized(`${baseUrl}/${id}`, {

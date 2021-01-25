@@ -65,8 +65,7 @@ class SlateToolbar extends Component {
       }
     } else if (listTypes.includes(type)) {
       const isListTypeActive = blocks.some(
-        block =>
-          !!document.getClosest(block.key, parent => parent.type === type),
+        block => !!document.getClosest(block.key, parent => parent.type === type),
       );
       // Current list type is active
       if (isListTypeActive) {
@@ -137,8 +136,7 @@ class SlateToolbar extends Component {
     const rect = range.getBoundingClientRect();
 
     menu.style.opacity = 1;
-    const left =
-      rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
+    const left = rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
     menu.style.left = `${left}px`;
   }
@@ -146,9 +144,7 @@ class SlateToolbar extends Component {
   render() {
     const { editor } = this.props;
 
-    const toolbarElements = window.location.pathname.includes(
-      'learning-resource',
-    )
+    const toolbarElements = window.location.pathname.includes('learning-resource')
       ? learningResourceElements
       : topicArticleElements;
     const toolbarButtons = Object.keys(toolbarElements).map(kind =>

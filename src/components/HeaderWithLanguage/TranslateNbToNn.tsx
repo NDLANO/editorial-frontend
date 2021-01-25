@@ -29,9 +29,7 @@ const TranslateNbToNn: FC<Props & tType> = ({
   return (
     <StyledLink
       to={editUrl('nn')}
-      onClick={() =>
-        formIsDirty ? setTranslateOnContinue(true) : translateArticle()
-      }>
+      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateArticle())}>
       {t('form.variant.translate')}
     </StyledLink>
   );

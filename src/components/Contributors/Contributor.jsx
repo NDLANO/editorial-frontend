@@ -8,13 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  FieldSection,
-  FieldSplitter,
-  Input,
-  Select,
-  FieldRemoveButton,
-} from '@ndla/forms';
+import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
 
 const Contributor = ({
   labelRemove,

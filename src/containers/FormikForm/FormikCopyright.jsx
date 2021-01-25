@@ -24,12 +24,8 @@ const FormikCopyright = ({
   const disabled = !!values.agreementId;
   return (
     <Fragment>
-      <FormikContributors
-        contributorTypes={contributorTypesOverride || contributorTypes}
-      />
-      {disableAgreements || (
-        <FormikAgreementConnection values={values} width={3 / 4} />
-      )}
+      <FormikContributors contributorTypes={contributorTypesOverride || contributorTypes} />
+      {disableAgreements || <FormikAgreementConnection values={values} width={3 / 4} />}
       <FormikField name="license">
         {({ field }) => (
           <FormikLicense

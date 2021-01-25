@@ -15,10 +15,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
-import {
-  toEditArticle,
-  toLearningpathFull,
-} from '../../../../util/routeHelpers';
+import { toEditArticle, toLearningpathFull } from '../../../../util/routeHelpers';
 import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import { EditorShape } from '../../../../shapes';
@@ -89,8 +86,7 @@ const Link = props => {
         ? `${await fetchResourcePath(data, language, contentType)}`
         : data.href;
 
-    const checkbox =
-      data.target === '_blank' || data['open-in'] === 'new-context';
+    const checkbox = data.target === '_blank' || data['open-in'] === 'new-context';
 
     setModel({
       href,

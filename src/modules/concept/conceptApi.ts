@@ -34,36 +34,25 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchAllConcepts = async (
-  locale: string,
-): Promise<ConceptSearchResult> => {
-  const response = await fetchAuthorized(
-    `${draftConceptUrl}?language=${locale}`,
-  );
+export const fetchAllConcepts = async (locale: string): Promise<ConceptSearchResult> => {
+  const response = await fetchAuthorized(`${draftConceptUrl}?language=${locale}`);
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (
-  conceptId: number,
-  locale: string,
-): Promise<ConceptApiType> => {
+export const fetchConcept = async (conceptId: number, locale: string): Promise<ConceptApiType> => {
   const response = await fetchAuthorized(
     `${draftConceptUrl}/${conceptId}?language=${locale}&fallback=true`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
-export const addConcept = async (
-  concept: NewConceptType,
-): Promise<ConceptApiType> =>
+export const addConcept = async (concept: NewConceptType): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
   }).then(resolveJsonOrRejectWithError);
 
-export const updateConcept = async (
-  concept: UpdatedConceptType,
-): Promise<ConceptApiType> =>
+export const updateConcept = async (concept: UpdatedConceptType): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
@@ -78,9 +67,7 @@ export const deleteLanguageVersionConcept = async (
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMashineType> =>
-  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(resolveJsonOrRejectWithError);
 
 export const updateConceptStatus = async (
   id: number,
@@ -90,9 +77,7 @@ export const updateConceptStatus = async (
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 
-export const searchConcepts = async (
-  query: ConceptQuery,
-): Promise<ConceptSearchResult> =>
+export const searchConcepts = async (query: ConceptQuery): Promise<ConceptSearchResult> =>
   fetchAuthorized(`${draftConceptUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),

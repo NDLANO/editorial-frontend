@@ -29,13 +29,7 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const FormikVisualElement = ({
-  t,
-  formik,
-  isSubjectPage,
-  types,
-  videoTypes,
-}) => {
+const FormikVisualElement = ({ t, formik, isSubjectPage, types, videoTypes }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 
   return (
@@ -65,9 +59,7 @@ const FormikVisualElement = ({
         )}
       </FormikField>
       {extraErrorFields.map(extraErrorField => (
-        <ErrorMessage
-          key={`topic_article_visualelement_${extraErrorField}`}
-          name={extraErrorField}>
+        <ErrorMessage key={`topic_article_visualelement_${extraErrorField}`} name={extraErrorField}>
           {error => (
             <FormikFieldHelp error>
               <StyledErrorPreLine>{error}</StyledErrorPreLine>

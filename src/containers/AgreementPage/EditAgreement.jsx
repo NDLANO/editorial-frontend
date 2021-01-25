@@ -49,13 +49,7 @@ class EditAgreement extends Component {
     if (!agreement) {
       return null;
     }
-    return (
-      <AgreementForm
-        agreement={agreement}
-        onUpdate={upsertAgreement}
-        {...rest}
-      />
-    );
+    return <AgreementForm agreement={agreement} onUpdate={upsertAgreement} {...rest} />;
   }
 }
 

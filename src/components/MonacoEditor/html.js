@@ -31,9 +31,7 @@ export const conf = {
   onEnterRules: [
     {
       beforeText: new RegExp(
-        '<(?!(?:' +
-          EMPTY_ELEMENTS.join('|') +
-          '))([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$',
+        '<(?!(?:' + EMPTY_ELEMENTS.join('|') + '))([_:\\w][_:\\w-.\\d]*)([^/>]*(?!/)>)[^<]*$',
         'i',
       ),
       afterText: /^<\/([_:\w][_:\w-.\d]*)\s*>$/i,
@@ -41,9 +39,7 @@ export const conf = {
     },
     {
       beforeText: new RegExp(
-        '<(?!(?:' +
-          EMPTY_ELEMENTS.join('|') +
-          '))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$',
+        '<(?!(?:' + EMPTY_ELEMENTS.join('|') + '))(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$',
         'i',
       ),
       action: { indentAction: _monaco.languages.IndentAction.Indent },
@@ -64,26 +60,17 @@ function createLanguage(VALID_TAGS) {
     // The main tokenizer
     tokenizer: {
       root: [
-        [
-          /(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/,
-          ['delimiter', 'tag', '', 'delimiter'],
-        ],
+        [/(<)((?:[\w-]+:)?[\w-]+)(\s*)(\/>)/, ['delimiter', 'tag', '', 'delimiter']],
         [
           new RegExp('(<)(' + VALID_TAGS.join('|') + ')'),
           ['delimiter', { token: 'tag', next: '@otherTag' }],
         ],
-        [
-          /(<)((?:[\w-]+:)?[\w-]+)/,
-          ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
-        ],
+        [/(<)((?:[\w-]+:)?[\w-]+)/, ['delimiter', { token: 'invalidtag', next: '@otherTag' }]],
         [
           new RegExp('(</)(' + VALID_TAGS.join('|') + ')'),
           ['delimiter', { token: 'tag', next: '@otherTag' }],
         ],
-        [
-          /(<\/)((?:[\w-]+:)?[\w-]+)/,
-          ['delimiter', { token: 'invalidtag', next: '@otherTag' }],
-        ],
+        [/(<\/)((?:[\w-]+:)?[\w-]+)/, ['delimiter', { token: 'invalidtag', next: '@otherTag' }]],
         [/</, 'delimiter'],
         [/[^<]+/],
       ],
@@ -110,8 +97,7 @@ function regiserTagCompletion(tags) {
         label: tag,
         kind: _monaco.languages.CompletionItemKind.Keyword,
         insertText: isEmptyTag(tag) ? `<${tag}/>` : `<${tag}>$0<${tag}/>`,
-        insertTextRules:
-          _monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        insertTextRules: _monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
       }));
       return { suggestions };
     },

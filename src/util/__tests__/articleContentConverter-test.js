@@ -30,27 +30,18 @@ test('articleContentConverter convert topic article content to and from editorVa
 });
 
 test('articleContentConverter convert learningresource content to and from editorValue', () => {
-  const editorValue = learningResourceContentToEditorValue(
-    contentHTML,
-    fragment,
-  );
+  const editorValue = learningResourceContentToEditorValue(contentHTML, fragment);
   const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content', () => {
-  const editorValue = learningResourceContentToEditorValue(
-    contentHTML,
-    fragment,
-  );
+  const editorValue = learningResourceContentToEditorValue(contentHTML, fragment);
   expect(editorValue[0].toJSON()).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {
-  const editorValue = learningResourceContentToEditorValue(
-    contentHTMLWithSections,
-    fragment,
-  );
+  const editorValue = learningResourceContentToEditorValue(contentHTMLWithSections, fragment);
   const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();
 });
@@ -70,10 +61,7 @@ test('util/domOperations trippleNestedSections into array', () => {
 });
 
 test('articleContentConverter convert article that is a mix of inline and block object by wrapping the inline', () => {
-  const editorValue = learningResourceContentToEditorValue(
-    mustBeWrappedHtml,
-    fragment,
-  );
+  const editorValue = learningResourceContentToEditorValue(mustBeWrappedHtml, fragment);
 
   const html = learningResourceContentToHTML(editorValue);
   expect(html).toMatchSnapshot();

@@ -18,10 +18,7 @@ import CreateAgreement from './CreateAgreement';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import * as api from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
 
@@ -128,6 +125,4 @@ const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-export default injectT(
-  connect(mapStateToProps, mapDispatchToProps)(AgreementPage),
-);
+export default injectT(connect(mapStateToProps, mapDispatchToProps)(AgreementPage));

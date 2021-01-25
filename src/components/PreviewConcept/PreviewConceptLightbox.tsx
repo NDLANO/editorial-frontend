@@ -20,7 +20,10 @@ import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import { ConceptPreviewType } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
-import { transformApiToPreviewVersion } from '../../util/conceptUtil';
+import {
+  transformApiToPreviewVersion,
+  transformFormikToPreviewVersion,
+} from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
@@ -45,17 +48,9 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox: FC<Props & tType> = ({
-  t,
-  getConcept,
-  typeOfPreview,
-}) => {
-  const [firstConcept, setFirstConcept] = useState<
-    ConceptPreviewType | undefined
-  >(undefined);
-  const [secondConcept, setSecondConcept] = useState<
-    ConceptPreviewType | undefined
-  >(undefined);
+const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPreview }) => {
+  const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
+  const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -68,17 +63,12 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
 
   const openPreview = async () => {
     const concept = getConcept();
-    const visualElement = await getVisualElement(concept.visualElement);
-    setFirstConcept({
-      ...concept,
-      visualElement: visualElement,
-    });
+    const transformed = transformFormikToPreviewVersion(concept);
+    setFirstConcept(transformed);
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);
-    onChangePreviewLanguage(
-      secondConceptLanguage ? secondConceptLanguage : concept.language,
-    );
+    onChangePreviewLanguage(secondConceptLanguage ? secondConceptLanguage : concept.language);
     setShowPreview(true);
   };
 
@@ -123,9 +113,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
       case 'h5p':
         return {
           ...embedTag,
-          url: embedTag?.url
-            ? embedTag.url
-            : `${config.h5pApiUrl}${embedTag?.path}`,
+          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`,
         };
       default:
         return undefined;
@@ -168,9 +156,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
           previewLanguage={previewLanguage}
           typeOfPreview={typeOfPreview}
           contentType={'concept'}
-          getEntityPreview={(concept: ConceptPreviewType) => (
-            <PreviewConcept concept={concept} />
-          )}
+          getEntityPreview={(concept: ConceptPreviewType) => <PreviewConcept concept={concept} />}
         />
       </Lightbox>
     </Portal>

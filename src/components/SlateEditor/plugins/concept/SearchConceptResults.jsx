@@ -58,13 +58,7 @@ const StyledCheckIcon = styled(Check)`
   fill: ${colors.support.green};
 `;
 
-const SearchConceptResults = ({
-  results,
-  searchObject,
-  addConcept,
-  t,
-  searching,
-}) => {
+const SearchConceptResults = ({ results, searchObject, addConcept, t, searching }) => {
   return (
     <div>
       {searching && <Spinner appearance="absolute" />}
@@ -82,11 +76,7 @@ const SearchConceptResults = ({
             `}
           />
           <StyledConceptResultHeader>
-            {convertFieldWithFallback(
-              result,
-              'title',
-              t('conceptSearch.noTitle'),
-            )}
+            {convertFieldWithFallback(result, 'title', t('conceptSearch.noTitle'))}
             {(result.status.current === 'PUBLISHED' ||
               result.status.other.includes('PUBLISHED')) && (
               <Tooltip tooltip={t('form.workflow.published')}>
@@ -95,11 +85,7 @@ const SearchConceptResults = ({
             )}
           </StyledConceptResultHeader>
           <StyledConceptContent>
-            {convertFieldWithFallback(
-              result,
-              'content',
-              t('conceptSearch.noContent'),
-            )}
+            {convertFieldWithFallback(result, 'content', t('conceptSearch.noContent'))}
           </StyledConceptContent>
           <StyledButton
             onClick={evt => {

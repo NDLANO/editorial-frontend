@@ -11,11 +11,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -28,11 +24,7 @@ import {
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import {
-  isFormikFormDirty,
-  parseCopyrightContributors,
-  parseImageUrl,
-} from '../../../util/formHelper';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { FormikActionButton } from '../../FormikForm';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
@@ -40,17 +32,12 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
-import { nullOrUndefined } from '../../../util/articleUtil';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import { createEmbedTag, parseEmbedTag } from '../../../util/embedTagHelpers';
 import FormikField from '../../../components/FormikField';
 import ConceptArticles from './ConceptArticles';
 
 const getInitialValues = (concept = {}, subjects = []) => {
-  const visualElement = parseEmbedTag(concept.visualElement?.visualElement);
-  const metaImageId = parseImageUrl(concept.metaImage);
-
   return {
     id: concept.id,
     title: concept.title || '',
@@ -58,23 +45,22 @@ const getInitialValues = (concept = {}, subjects = []) => {
     updated: concept.updated,
     updateCreated: false,
     subjects:
-      concept.subjectIds?.map(subjectId =>
-        subjects.find(subject => subject.id === subjectId),
-      ) || [],
+      concept.subjectIds?.map(subjectId => subjects.find(subject => subject.id === subjectId)) ||
+      [],
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
-    creators: parseCopyrightContributors(concept, 'creators'),
-    rightsholders: parseCopyrightContributors(concept, 'rightsholders'),
-    processors: parseCopyrightContributors(concept, 'processors'),
+    creators: concept.creators || [],
+    rightsholders: concept.rightsholders || [],
+    processors: concept.processors || [],
     source: concept && concept.source ? concept.source : '',
-    license: concept.copyright?.license?.license,
-    metaImageId,
-    metaImageAlt: concept.metaImage?.alt || '',
+    license: concept.copyright?.license?.license || '',
+    metaImageId: concept.metaImageId,
+    metaImageAlt: concept.metaImageAlt || '',
     tags: concept.tags || [],
     articleIds: concept.articleIds || [],
     status: concept.status || {},
-    visualElement: visualElement || {},
+    visualElement: concept.visualElement || {},
   };
 };
 
@@ -121,10 +107,7 @@ class ConceptForm extends Component {
 
   componentDidUpdate({ concept: prevConcept }) {
     const { concept } = this.props;
-    if (
-      concept.language !== prevConcept.language ||
-      concept.id !== prevConcept.id
-    ) {
+    if (concept.language !== prevConcept.language || concept.id !== prevConcept.id) {
       this.setState({ savedToServer: false });
       if (this.formik.current) {
         this.formik.current.resetForm();
@@ -152,61 +135,41 @@ class ConceptForm extends Component {
 
   getConcept = values => {
     const { licenses } = this.props;
-    const metaImage = values?.metaImageId
-      ? {
-          id: values.metaImageId,
-          alt: values.metaImageAlt,
-        }
-      : nullOrUndefined(values?.metaImageId);
-    const visualElement = createEmbedTag(
-      isEmpty(values.visualElement) ? {} : values.visualElement,
-    );
-
     return {
       id: values.id,
       title: values.title,
       content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
-      copyright: {
-        license: licenses.find(license => license.license === values.license),
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-        agreementId: values.agreementId,
-      },
+      license: licenses.find(license => license.license === values.license),
+      creators: values.creators,
+      processors: values.processors,
+      rightsholders: values.rightsholders,
+      agreementId: values.agreementId,
+      metaImageAlt: values.metaImageAlt,
+      metaImageId: values.metaImageId,
       source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
       articleIds: values.articleIds,
-      metaImage,
-      visualElement,
+      visualElement: values.visualElement,
     };
   };
 
   handleSubmit = async formik => {
     formik.setSubmitting(true);
-    const {
-      onUpdate,
-      concept,
-      applicationError,
-      updateConceptAndStatus,
-    } = this.props;
+    const { onUpdate, concept, applicationError, updateConceptAndStatus, setConcept } = this.props;
     const { revision } = concept;
     const values = formik.values;
     const initialValues = formik.initialValues;
     const initialStatus = concept.status?.current;
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
-    if (
-      Object.keys(formik.errors).length > 0 &&
-      formik.errors.constructor === Object
-    ) {
+    if (Object.keys(formik.errors).length > 0 && formik.errors.constructor === Object) {
+      setConcept({ status: concept.status, ...this.getConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
-      const e = Object.keys(formik.errors).map(
-        key => `${key}: ${formik.errors[key]}`,
-      );
+      const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
       this.props.createMessage({
         message: e.join(' '),
         severity: 'danger',
@@ -216,6 +179,7 @@ class ConceptForm extends Component {
       this.setState({ savedToServer: false });
       return;
     }
+
     try {
       if (statusChange) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -226,11 +190,7 @@ class ConceptForm extends Component {
             initialValues,
             dirty: true,
           });
-        await updateConceptAndStatus(
-          this.getConcept(values),
-          newStatus,
-          !skipSaving,
-        );
+        await updateConceptAndStatus(this.getConcept(values), newStatus, !skipSaving);
       } else {
         await onUpdate({
           ...this.getConcept(values),
@@ -293,9 +253,7 @@ class ConceptForm extends Component {
         id: 'concept-metadataSection',
         title: t('form.metadataSection'),
         className: 'u-6/6',
-        hasError: ['tags', 'metaImageAlt', 'subjects'].some(
-          field => !!errors[field],
-        ),
+        hasError: ['tags', 'metaImageAlt', 'subjects'].some(field => !!errors[field]),
 
         component: props => (
           <ConceptMetaData
@@ -315,11 +273,7 @@ class ConceptForm extends Component {
         component: props => (
           <FormikField name={'articleIds'}>
             {({ field, form }) => (
-              <ConceptArticles
-                articleIds={props.values.articleIds}
-                field={field}
-                form={form}
-              />
+              <ConceptArticles articleIds={props.values.articleIds} field={field} form={form} />
             )}
           </FormikField>
         ),
@@ -337,14 +291,7 @@ class ConceptForm extends Component {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const {
-            values,
-            dirty,
-            isSubmitting,
-            error,
-            errors,
-            setFieldValue,
-          } = formikProps;
+          const { values, dirty, isSubmitting, error, errors, setFieldValue } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -472,14 +419,11 @@ ConceptForm.propTypes = {
   subjects: PropTypes.arrayOf(SubjectShape),
   translateConcept: PropTypes.func,
   updateConceptAndStatus: PropTypes.func,
+  setConcept: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-export default compose(
-  injectT,
-  withRouter,
-  connect(undefined, mapDispatchToProps),
-)(ConceptForm);
+export default compose(injectT, withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);

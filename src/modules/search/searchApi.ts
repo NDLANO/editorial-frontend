@@ -50,24 +50,6 @@ export const searchResources = async (query: MultiSearchApiQuery) => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchDraft = async (query: DraftSearchQuery) => {
-  let response;
-  if (query) {
-    const types = query.types ? query.types.split(',') : [];
-    const realPageSize =
-      types.length > 1 ? Math.ceil((query['page-size'] || 5) / types.length) : query['page-size'];
-    response = await fetchAuthorized(
-      `${baseUrl}/draft/?${queryString.stringify({
-        ...query,
-        'page-size': realPageSize,
-      })}`,
-    );
-    return resolveJsonOrRejectWithError(response);
-  }
-  response = await fetchAuthorized(`${baseUrl}/draft/`);
-  return resolveJsonOrRejectWithError(response);
-};
-
 export const groupSearch = (query: string, type: string): Promise<GroupSearchResult[]> =>
   fetchAuthorized(`${groupUrl}?query=${query}&resource-types=${type}`).then(
     resolveJsonOrRejectWithError,

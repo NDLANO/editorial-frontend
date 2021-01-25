@@ -11,17 +11,21 @@ import reducer, {
   search,
   searchError,
   setSearchResult,
-  setDraftSearchResult,
+  setAudioSearchResult,
+  setConceptSearchResult,
+  setImageSearchResult,
   clearSearchResult,
 } from '../search';
-import { contentResults, mediaResults } from './_mockSearchResult';
+import { contentResults, audioResults, conceptResults, imageResults } from './_mockSearchResult';
 
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
 
   expect(nextState).toEqual({
     totalSearchResults: { results: [] },
-    totalDraftResults: { results: [] },
+    totalAudioResults: { results: [] },
+    totalConceptResults: { results: [] },
+    totalImageResults: { results: [] },
     searching: false,
   });
 });
@@ -32,7 +36,9 @@ test('reducers/search search', () => {
   expect(nextState).toEqual({
     searching: true,
     totalSearchResults: { results: [] },
-    totalDraftResults: { results: [] },
+    totalAudioResults: { results: [] },
+    totalConceptResults: { results: [] },
+    totalImageResults: { results: [] },
   });
 });
 
@@ -56,17 +62,62 @@ test('reducers/search handle set search result', () => {
   expect(nextState.searching).toBe(false);
 });
 
-test('reducers/search handle set searchDraft result', () => {
+test('reducers/search handle set searchAudio result', () => {
   const nextState = reducer(initalState, {
-    type: setDraftSearchResult,
-    payload: mediaResults,
+    type: setAudioSearchResult,
+    payload: audioResults,
   });
 
-  expect(nextState.totalDraftResults[0].totalCount).toBe(32);
-  expect(nextState.totalDraftResults[0].results.length).toBe(2);
-  expect(nextState.totalDraftResults[0].page).toBe(3);
-  expect(nextState.totalDraftResults[0].pageSize).toBe(2);
-  expect(nextState.totalDraftResults[0].language).toBe('all');
+  expect(nextState.totalAudioResults.totalCount).toBe(100);
+  expect(nextState.totalAudioResults.results.length).toBe(2);
+  expect(nextState.totalAudioResults.page).toBe(4);
+  expect(nextState.totalAudioResults.pageSize).toBe(2);
+  expect(nextState.totalAudioResults.language).toBe('all');
+  expect(nextState.searching).toBe(false);
+});
+
+test('reducers/search handle set searchConcept result', () => {
+  const nextState = reducer(initalState, {
+    type: setConceptSearchResult,
+    payload: conceptResults,
+  });
+
+  expect(nextState.totalConceptResults.totalCount).toBe(50);
+  expect(nextState.totalConceptResults.results.length).toBe(2);
+  expect(nextState.totalConceptResults.page).toBe(6);
+  expect(nextState.totalConceptResults.pageSize).toBe(2);
+  expect(nextState.totalConceptResults.language).toBe('all');
+  expect(nextState.totalConceptResults.results[0].content.content).toBe('Test content');
+  expect(nextState.totalConceptResults.results[0].id).toBe(1);
+  expect(nextState.totalConceptResults.results[0].license).toBe('test license');
+  expect(nextState.totalConceptResults.results[0].lastUpdated).toBe('2021-01-25T11:12:12Z');
+  expect(nextState.totalConceptResults.results[0].metaImage.url).toBe('testurl');
+  expect(nextState.totalConceptResults.results[0].status).toEqual({ current: 'DRAFT', other: [] });
+  expect(nextState.totalConceptResults.results[0].subjectIds).toEqual(['urn:subject:1']);
+  expect(nextState.totalConceptResults.results[0].supportedLanguages).toEqual(['nb']);
+  expect(nextState.totalConceptResults.results[0].tags).toEqual({
+    tags: ['test tag'],
+    language: 'nb',
+  });
+  expect(nextState.totalConceptResults.results[0].title).toEqual({
+    title: 'test title',
+    language: 'nb',
+  });
+  expect(nextState.totalConceptResults.results[0].updatedBy).toEqual(['person1', 'person2']);
+  expect(nextState.searching).toBe(false);
+});
+
+test('reducers/search handle set searchImage result', () => {
+  const nextState = reducer(initalState, {
+    type: setImageSearchResult,
+    payload: imageResults,
+  });
+
+  expect(nextState.totalImageResults.totalCount).toBe(32);
+  expect(nextState.totalImageResults.results.length).toBe(2);
+  expect(nextState.totalImageResults.page).toBe(3);
+  expect(nextState.totalImageResults.pageSize).toBe(2);
+  expect(nextState.totalImageResults.language).toBe('all');
   expect(nextState.searching).toBe(false);
 });
 
@@ -78,8 +129,16 @@ test('reducers/search handle clear search result', () => {
   expect(nextState).toEqual(initalState);
 });
 
-test('reducers/search handle clear searchDraft result', () => {
-  const nextState = reducer(mediaResults, {
+test('reducers/search handle clear searchAudio result', () => {
+  const nextState = reducer(audioResults, {
+    type: clearSearchResult,
+  });
+
+  expect(nextState).toEqual(initalState);
+});
+
+test('reducers/search handle clear searchImage result', () => {
+  const nextState = reducer(imageResults, {
     type: clearSearchResult,
   });
 

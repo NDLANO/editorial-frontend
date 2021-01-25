@@ -6,6 +6,7 @@
  *
  */
 
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -30,6 +31,9 @@ export const updateAudio = (id, formData) =>
     headers: { 'Content-Type': undefined },
     body: formData,
   }).then(resolveJsonOrRejectWithError);
+
+export const searchAudio = query =>
+  fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(resolveJsonOrRejectWithError);
 
 export const deleteLanguageVersionAudio = (audioId, locale) =>
   fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {

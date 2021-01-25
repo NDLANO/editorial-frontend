@@ -16,7 +16,7 @@ import ObjectSelector from '../../../../components/ObjectSelector';
 import { searchFormClasses } from './SearchForm';
 import { LocationShape } from '../../../../shapes';
 
-class SearchMediaForm extends Component {
+class SearchAudioForm extends Component {
   constructor(props) {
     super(props);
 
@@ -30,7 +30,7 @@ class SearchMediaForm extends Component {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
-        types: 'images,audios',
+        types: 'audios',
       },
     };
   }
@@ -53,9 +53,7 @@ class SearchMediaForm extends Component {
 
   emptySearch(evt) {
     evt.persist();
-    this.setState({ search: { query: '', language: '', types: 'images,audios' } }, () =>
-      this.handleSearch(evt),
-    );
+    this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
   }
 
   render() {
@@ -66,7 +64,7 @@ class SearchMediaForm extends Component {
         <div {...searchFormClasses('field', '50-width')}>
           <input
             name="query"
-            placeholder={t('searchForm.types.mediaQuery')}
+            placeholder={t('searchForm.types.audioQuery')}
             value={this.state.search.query}
             onChange={this.onFieldChange}
           />
@@ -80,7 +78,6 @@ class SearchMediaForm extends Component {
             labelKey="name"
             emptyField
             onChange={this.onFieldChange}
-            onBlur={this.onFieldChange}
             placeholder={t('searchForm.types.language')}
           />
         </div>
@@ -107,7 +104,7 @@ class SearchMediaForm extends Component {
   }
 }
 
-SearchMediaForm.propTypes = {
+SearchAudioForm.propTypes = {
   search: PropTypes.func.isRequired,
   location: LocationShape,
   searchObject: PropTypes.shape({
@@ -116,11 +113,11 @@ SearchMediaForm.propTypes = {
   }),
 };
 
-SearchMediaForm.defaultProps = {
+SearchAudioForm.defaultProps = {
   searchObject: {
     query: '',
     language: '',
   },
 };
 
-export default injectT(SearchMediaForm);
+export default injectT(SearchAudioForm);

@@ -13,29 +13,29 @@ import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import * as actions from '../../modules/search/search';
 import {
-  getDraftResults,
-  getDraftLastPage,
-  getDraftTotalResultsCount,
+  getAudioResults,
+  getAudioLastPage,
+  getAudioTotalResultsCount,
 } from '../../modules/search/searchSelectors';
 
 import SearchContainer from './SearchContainer';
 
-const SearchMediaPage = ({ t, ...props }) => (
+const SearchAudioPage = ({ t, ...props }) => (
   <Fragment>
-    <HelmetWithTracker title={t('htmlTitles.searchMediaPage')} />
-    <SearchContainer type="media" {...props} />
+    <HelmetWithTracker title={t('htmlTitles.searchAudioPage')} />
+    <SearchContainer type="audio" {...props} />
   </Fragment>
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getDraftResults(state, queryString.parse(ownProps.location.search).types),
-  totalCount: getDraftTotalResultsCount(state),
-  lastPage: getDraftLastPage(state),
+  results: getAudioResults(state, queryString.parse(ownProps.location.search)),
+  totalCount: getAudioTotalResultsCount(state),
+  lastPage: getAudioLastPage(state),
 });
 
 const mapDispatchToProps = {
-  search: actions.searchDraft,
+  search: actions.searchAudio,
   clearSearch: actions.clearSearchResult,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectT(SearchMediaPage));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(SearchAudioPage));

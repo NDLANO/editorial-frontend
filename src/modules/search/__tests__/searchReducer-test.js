@@ -15,11 +15,7 @@ import reducer, {
   setImageSearchResult,
   clearSearchResult,
 } from '../search';
-import {
-  contentResults,
-  audioResults,
-  imageResults,
-} from './_mockSearchResult';
+import { contentResults, audioResults, imageResults } from './_mockSearchResult';
 
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });

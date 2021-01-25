@@ -94,9 +94,4 @@ export function* watchSearchImage() {
   }
 }
 
-export default [
-  watchSearch,
-  watchSearchAudio,
-  watchSearchConcept,
-  watchSearchImage,
-];
+export default [watchSearch, watchSearchAudio, watchSearchConcept, watchSearchImage];

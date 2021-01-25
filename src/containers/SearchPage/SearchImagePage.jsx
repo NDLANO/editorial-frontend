@@ -38,7 +38,4 @@ const mapDispatchToProps = {
   clearSearch: actions.clearSearchResult,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(injectT(SearchImagePage));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(SearchImagePage));

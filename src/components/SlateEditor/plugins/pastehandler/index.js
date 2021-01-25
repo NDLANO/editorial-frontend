@@ -14,7 +14,7 @@ function pasteHandler() {
     onPaste(event, editor, next) {
       const transfer = getEventTransfer(event);
       if (transfer.type === 'fragment') {
-        return editor.insertText(transfer.text)
+        return editor.insertText(transfer.text);
       }
       return next();
     },

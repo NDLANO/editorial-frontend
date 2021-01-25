@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -78,7 +78,6 @@ export const updateConceptStatus = async (
   }).then(resolveJsonOrRejectWithError);
 
 export const searchConcepts = async (query: ConceptQuery): Promise<ConceptSearchResult> =>
-  fetchAuthorized(`${draftConceptUrl}/search/`, {
-    method: 'POST',
-    body: JSON.stringify(query),
-  }).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then(
+    resolveJsonOrRejectWithError,
+  );

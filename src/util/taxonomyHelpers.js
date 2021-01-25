@@ -69,14 +69,9 @@ function sortIntoCreateDeleteUpdate({
     return !originalItemInChangedItem;
   });
   changedItems.forEach(changedItem => {
-    const foundItem = originalItems.find(
-      item => item[originalId] === changedItem[changedId],
-    );
+    const foundItem = originalItems.find(item => item[originalId] === changedItem[changedId]);
     if (foundItem) {
-      if (
-        updateProperty &&
-        foundItem[updateProperty] !== changedItem[updateProperty]
-      ) {
+      if (updateProperty && foundItem[updateProperty] !== changedItem[updateProperty]) {
         updateItems.push({
           ...foundItem,
           [updateProperty]: changedItem[updateProperty],
@@ -122,18 +117,10 @@ function topicResourcesByTypeWithMetaData(resorceTypesByTopic) {
   }));
 }
 
-function groupSortResourceTypesFromTopicResources(
-  resourceTypes,
-  topicResources,
-) {
-  const sortedResourceTypes = getResourcesGroupedByResourceTypes(
-    topicResources,
-  );
+function groupSortResourceTypesFromTopicResources(resourceTypes, topicResources) {
+  const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
 
-  const resorceTypesByTopic = getTopicResourcesByType(
-    resourceTypes,
-    sortedResourceTypes,
-  );
+  const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
 
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
 }
@@ -184,9 +171,7 @@ const selectedResourceTypeValue = resourceTypes => {
   if (resourceTypes.length === 0) {
     return '';
   }
-  const withParentId = resourceTypes.find(
-    resourceType => resourceType.parentId,
-  );
+  const withParentId = resourceTypes.find(resourceType => resourceType.parentId);
   if (withParentId) {
     return `${withParentId.parentId},${withParentId.id}`;
   }

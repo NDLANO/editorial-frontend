@@ -21,10 +21,7 @@ const Tag = ({ children, modifier }) => (
 
 Tag.propTypes = {
   children: PropTypes.node,
-  modifier: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]),
+  modifier: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
 };
 
 Tag.defaultProps = {

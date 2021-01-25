@@ -14,11 +14,7 @@ import {
   getAudioLastPage,
   getImageLastPage,
 } from '../searchSelectors';
-import {
-  contentResults,
-  audioResults,
-  imageResults,
-} from './_mockSearchResult';
+import { contentResults, audioResults, imageResults } from './_mockSearchResult';
 
 const lastPageTestState = {
   search: {

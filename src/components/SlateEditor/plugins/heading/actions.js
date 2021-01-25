@@ -12,9 +12,7 @@ import { setBlock, insertParagraph } from './changes';
 export function getCurrentHeading(options, value) {
   if (!value.selection.start.key) return null;
   const { startBlock } = value;
-  return startBlock && options.types.includes(startBlock.type)
-    ? startBlock
-    : null;
+  return startBlock && options.types.includes(startBlock.type) ? startBlock : null;
 }
 
 export function onEnter(evt, value, options, editor, next) {

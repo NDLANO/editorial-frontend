@@ -29,11 +29,7 @@ interface Props {
   secondEntity: ArticleType | Concept;
   previewLanguage: string;
   onChangePreviewLanguage(language: string): void;
-  getEntityPreview(
-    entity: ArticleType | Concept,
-    label?: string,
-    contentType?: string,
-  ): Element;
+  getEntityPreview(entity: ArticleType | Concept, label?: string, contentType?: string): Element;
 }
 
 const PreviewLanguage: FC<Props & tType> = props => {

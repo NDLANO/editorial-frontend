@@ -30,10 +30,7 @@ const PreviewDraftPage = ({
 
   const fetchDraft = async () => {
     const fetchedDraft = await draftApi.fetchDraft(draftId, language);
-    const convertedArticle = await articleApi.getPreviewArticle(
-      fetchedDraft,
-      language,
-    );
+    const convertedArticle = await articleApi.getPreviewArticle(fetchedDraft, language);
     setDraft(convertedArticle);
   };
 
@@ -70,15 +67,9 @@ const PreviewDraftPage = ({
         <Hero contentType={contentType}>
           <LanguageSelector supportedLanguages={draft.supportedLanguages} />
         </Hero>
-        <HelmetWithTracker
-          title={`${draft.title} ${t('htmlTitles.titleTemplate')}`}
-        />
+        <HelmetWithTracker title={`${draft.title} ${t('htmlTitles.titleTemplate')}`} />
         <OneColumn>
-          <PreviewDraft
-            article={draft}
-            resource={resource}
-            contentType={contentType}
-          />
+          <PreviewDraft article={draft} resource={resource} contentType={contentType} />
         </OneColumn>
       </div>
     </Fragment>

@@ -15,8 +15,7 @@ import { getSchemaEmbed } from '../../editorSchema';
 
 const NoEmbedMessage = ({ text, t, node, attributes }) => {
   const embed = getSchemaEmbed(node);
-  const msg =
-    text || t('noEmbedMessage.deleteOnSave', { type: embed.resource });
+  const msg = text || t('noEmbedMessage.deleteOnSave', { type: embed.resource });
 
   return <EditorErrorMessage attributes={attributes} msg={msg} />;
 };

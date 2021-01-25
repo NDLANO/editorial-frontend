@@ -16,17 +16,10 @@ import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
 const StyledH1 = styled.h1`
   font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
-const ResourceItemLink = ({
-  contentType,
-  contentUri,
-  locale,
-  name,
-  isVisible = true,
-}) => {
+const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }) => {
   const linkTo = contentUri && contentUri.split(':').pop();
 
   if (linkTo) {

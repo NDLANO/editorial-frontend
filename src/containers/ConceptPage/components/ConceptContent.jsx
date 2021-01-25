@@ -66,16 +66,11 @@ const ConceptContent = props => {
             />
             <IconContainer>
               <Tooltip tooltip={t('form.markdown.button')}>
-                <ToggleButton
-                  active={preview}
-                  onClick={() => setPreview(!preview)}>
+                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
                   <Eye />
                 </ToggleButton>
               </Tooltip>
-              <HowToHelper
-                pageId="Markdown"
-                tooltip={t('form.markdown.helpLabel')}
-              />
+              <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
           </>
         )}

@@ -19,13 +19,7 @@ const CreateLearningResource = ({ locale, t, history, ...rest }) => {
 
   const createArticleAndPushRoute = async createdArticle => {
     const savedArticle = await createArticle(createdArticle);
-    history.push(
-      toEditArticle(
-        savedArticle.id,
-        savedArticle.articleType,
-        createdArticle.language,
-      ),
-    );
+    history.push(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
   };
 
   return (

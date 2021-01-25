@@ -12,14 +12,8 @@ import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import {
-  actions as tagActions,
-  getAllTagsByLanguage,
-} from '../../modules/tag/tag';
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import {
   getImage,
   getUploadedImage,
@@ -45,11 +39,7 @@ const titles = (t, resource = '') => ({
 
 class VisualElementSearch extends Component {
   componentDidUpdate() {
-    const {
-      uploadedImage,
-      selectedResource,
-      handleVisualElementChange,
-    } = this.props;
+    const { uploadedImage, selectedResource, handleVisualElementChange } = this.props;
     if (uploadedImage) {
       const image = getImage(uploadedImage.id, true);
       handleVisualElementChange({
@@ -85,9 +75,9 @@ class VisualElementSearch extends Component {
       t,
     } = this.props;
     const fetchImage = id => visualElementApi.fetchImage(id, articleLanguage);
-    const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(
-      provider => provider.name,
-    ).filter(name => name === selectedResource);
+    const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(provider => provider.name).filter(
+      name => name === selectedResource,
+    );
     switch (selectedResource) {
       case 'image':
         return (
@@ -129,9 +119,7 @@ class VisualElementSearch extends Component {
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <VideoSearch
               enabledSources={videoTypes || ['Brightcove', 'YouTube']}
-              searchVideos={(query, type) =>
-                visualElementApi.searchVideos(query, type)
-              }
+              searchVideos={(query, type) => visualElementApi.searchVideos(query, type)}
               locale={locale}
               translations={videoTranslations}
               onVideoSelect={(video, type) => {
@@ -185,8 +173,7 @@ class VisualElementSearch extends Component {
           pageSize: 16,
           locale,
         };
-        const fetchAudio = id =>
-          visualElementApi.fetchAudio(id, articleLanguage);
+        const fetchAudio = id => visualElementApi.fetchAudio(id, articleLanguage);
 
         const translations = {
           searchPlaceholder: t('audioSearch.searchPlaceholder'),
@@ -294,7 +281,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(injectT(VisualElementSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(VisualElementSearch));

@@ -40,11 +40,7 @@ const shouldDeleteIfInsideOfDetailsblock = (
   );
 };
 
-const onDelete = (
-  editor: Editor,
-  event: KeyboardEvent,
-  next: () => void,
-): void | Editor => {
+const onDelete = (editor: Editor, event: KeyboardEvent, next: () => void): void | Editor => {
   const { value } = editor;
   const { anchor, isCollapsed, start } = value.selection;
   const node = value.document.getNode(anchor.path);
@@ -68,21 +64,11 @@ const onDelete = (
   }
 
   // Check if next sibling is a details. If not let slate handle.
-  const nextSiblingNode = value.document.getNextSibling(
-    parentNode.key,
-  ) as ParentNode;
+  const nextSiblingNode = value.document.getNextSibling(parentNode.key) as ParentNode;
   if (nextSiblingNode === null) return;
 
   if (blockNode?.type === 'details' || !isCollapsed) {
-    if (
-      shouldDeleteIfInsideOfDetailsblock(
-        blockNode,
-        editor,
-        node,
-        paragraphNode,
-        start,
-      )
-    ) {
+    if (shouldDeleteIfInsideOfDetailsblock(blockNode, editor, node, paragraphNode, start)) {
       return next();
     }
   } else if (nextSiblingNode?.type !== 'details' || !isCollapsed) {
@@ -94,10 +80,7 @@ const onDelete = (
 
   event.preventDefault();
   // Detail block should only be deleted if the text length (excluding summary) is 0 or there are no other elements in the block.
-  if (
-    nextSiblingNode?.nodes.size === 0 ||
-    nextSiblingNode?.text.length - summaryLength === 0
-  ) {
+  if (nextSiblingNode?.nodes.size === 0 || nextSiblingNode?.text.length - summaryLength === 0) {
     return editor.removeNodeByKey(nextSiblingNode?.key);
   }
 };

@@ -30,28 +30,19 @@ export const postImage = (formData: FormData): Promise<ImageApiType> =>
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
-export const fetchImage = (
-  id: number,
-  language?: string,
-): Promise<ImageApiType> =>
-  fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(
-    resolveJsonOrRejectWithError,
-  );
+export const fetchImage = (id: number, language?: string): Promise<ImageApiType> =>
+  fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(resolveJsonOrRejectWithError);
 
-export const updateImage = (
-  imageMetadata: UpdatedImageMetadata,
-): Promise<ImageApiType> =>
+export const updateImage = (imageMetadata: UpdatedImageMetadata): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}/${imageMetadata.id}`, {
     method: 'PATCH',
     body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);
 
-export const searchImages = (
-  query: ImageSearchQuery,
-): Promise<ImageSearchResult> => {
-  const response = fetchAuthorized(
-    `${baseUrl}/?${queryString.stringify(query)}`,
-  ).then(resolveJsonOrRejectWithError);
+export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult> => {
+  const response = fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
+    resolveJsonOrRejectWithError,
+  );
   return response;
 };
 

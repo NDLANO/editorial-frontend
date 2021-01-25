@@ -9,11 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  ContentResultShape,
-  ImageResultShape,
-  AudioResultShape,
-} from '../../../../shapes';
+import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
@@ -22,17 +18,9 @@ import SearchAudio from './SearchAudio';
 const SearchResult = ({ result, locale, type, subjects, t, userAccess }) => {
   switch (type) {
     case 'content':
-      return (
-        <SearchContent
-          content={result}
-          locale={locale}
-          userAccess={userAccess}
-        />
-      );
+      return <SearchContent content={result} locale={locale} userAccess={userAccess} />;
     case 'concept':
-      return (
-        <SearchConcept concept={result} locale={locale} subjects={subjects} />
-      );
+      return <SearchConcept concept={result} locale={locale} subjects={subjects} />;
     case 'image':
       return <SearchImage image={result} locale={locale} />;
     case 'audio':
@@ -44,11 +32,7 @@ const SearchResult = ({ result, locale, type, subjects, t, userAccess }) => {
 };
 
 SearchResult.propTypes = {
-  result: PropTypes.oneOfType([
-    ContentResultShape,
-    ImageResultShape,
-    AudioResultShape,
-  ]),
+  result: PropTypes.oneOfType([ContentResultShape, ImageResultShape, AudioResultShape]),
   type: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   subjects: PropTypes.array,

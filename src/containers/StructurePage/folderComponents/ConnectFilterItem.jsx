@@ -11,17 +11,12 @@ import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../components/ToggleSwitch';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../../constants';
+import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../constants';
 import { MetadataShape } from '../../../shapes';
 
 const ConnectFilterItem = ({ id, name, metadata, inputValues, onChange }) => {
   const relevance =
-    inputValues.relevance === undefined
-      ? true
-      : inputValues.relevance === RESOURCE_FILTER_CORE;
+    inputValues.relevance === undefined ? true : inputValues.relevance === RESOURCE_FILTER_CORE;
   return (
     <StyledFilterItem>
       <StyledLabel isVisible={metadata?.visible}>
@@ -37,9 +32,7 @@ const ConnectFilterItem = ({ id, name, metadata, inputValues, onChange }) => {
       <ToggleSwitch
         onClick={() =>
           onChange({
-            relevance: relevance
-              ? RESOURCE_FILTER_SUPPLEMENTARY
-              : RESOURCE_FILTER_CORE,
+            relevance: relevance ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
           })
         }
         on={relevance}
@@ -61,8 +54,7 @@ const StyledLabel = styled('label')`
   margin: calc(${spacing.small} / 2);
   align-items: center;
   font-style: ${props => props && !props.isVisible && 'italic'};
-  color: ${props =>
-    props && !props.isVisible ? colors.brand.grey : colors.brand.primary};
+  color: ${props => (props && !props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
 const StyledCheckbox = styled('input')`

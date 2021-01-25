@@ -27,14 +27,7 @@ Row.defaultProps = {
 
 Row.propTypes = {
   spacing: PropTypes.oneOf(['xsmall', 'small', 'normal', 'medium', 'large']),
-  alignItems: PropTypes.oneOf([
-    'normal',
-    'start',
-    'end',
-    'center',
-    'stretch',
-    'baseline',
-  ]),
+  alignItems: PropTypes.oneOf(['normal', 'start', 'end', 'center', 'stretch', 'baseline']),
   justifyContent: PropTypes.oneOf([
     'start',
     'end',

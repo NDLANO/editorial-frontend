@@ -10,20 +10,14 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import SearchTag from './SearchTag';
-import {
-  ResourceTypeShape,
-  DraftStatusShape,
-  SubjectShape,
-  UserShape,
-} from '../../../../shapes';
+import { ResourceTypeShape, DraftStatusShape, SubjectShape, UserShape } from '../../../../shapes';
 
 const findTagName = (array, value, arrayKey = undefined) => {
   if (!array || array.length === 0) {
     return undefined;
   }
   const result = array.find(
-    arrayElement =>
-      (arrayKey ? arrayElement[arrayKey] : arrayElement) === value,
+    arrayElement => (arrayKey ? arrayElement[arrayKey] : arrayElement) === value,
   );
   return result && result.name ? result.name : undefined;
 };
@@ -71,13 +65,7 @@ const SearchTagGroup = ({
     <Fragment>
       {tagTypes.map(tag => {
         if (!tag.name) return null;
-        return (
-          <SearchTag
-            key={`searchtag_${tag.type}`}
-            onRemoveItem={onRemoveItem}
-            tag={tag}
-          />
-        );
+        return <SearchTag key={`searchtag_${tag.type}`} onRemoveItem={onRemoveItem} tag={tag} />;
       })}
     </Fragment>
   );

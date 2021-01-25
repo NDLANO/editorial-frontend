@@ -16,12 +16,7 @@ import {
 import { TopicShape } from '../../shapes';
 import Breadcrumb from './Breadcrumb';
 
-export const SharedTopicConnections = ({
-  topic,
-  retriveBreadCrumbs,
-  type,
-  t,
-}) => {
+export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type, t }) => {
   if (!topic.paths || topic.paths.length === 0) {
     return null;
   }

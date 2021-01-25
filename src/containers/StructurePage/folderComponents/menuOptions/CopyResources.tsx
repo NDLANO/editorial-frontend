@@ -74,10 +74,7 @@ const CopyResources = ({
   const [showCloneSearch, setShowCloneSearch] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      fetchTopics(locale || 'nb'),
-      fetchSubjectTopics(subjectId, locale),
-    ])
+    Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId, locale)])
       .then(([topics, subjectTopics]: Array<Topic[]>) => {
         setTopics(
           topics
@@ -116,10 +113,7 @@ const CopyResources = ({
     setResourcesUpdated(true);
   };
 
-  const addTopicFiltersToResources = async (
-    resources: Resource[],
-    filters: Filter[],
-  ) => {
+  const addTopicFiltersToResources = async (resources: Resource[], filters: Filter[]) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resources.length; i++) {
@@ -132,10 +126,7 @@ const CopyResources = ({
     }
   };
 
-  const cloneResourceResourceTypes = async (
-    resourceTypes: ResourceType[],
-    resourceId: String,
-  ) => {
+  const cloneResourceResourceTypes = async (resourceTypes: ResourceType[], resourceId: String) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTypes.length; i++) {
@@ -153,13 +144,9 @@ const CopyResources = ({
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTranslations.length; i++) {
-      await setResourceTranslation(
-        resourceId,
-        resourceTranslations[i].language,
-        {
-          name: resourceTranslations[i].name,
-        },
-      );
+      await setResourceTranslation(resourceId, resourceTranslations[i].language, {
+        name: resourceTranslations[i].name,
+      });
     }
   };
 
@@ -170,9 +157,7 @@ const CopyResources = ({
     const newResourcePath = await createResource(newResourceBody);
     const newResourceUrn = newResourcePath.split('/').pop();
     cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
-    const resourceTranslations = await fetchResourceTranslations(
-      oldResource.id,
-    );
+    const resourceTranslations = await fetchResourceTranslations(oldResource.id);
     await cloneResourceTranslations(resourceTranslations, newResourceUrn);
     return await fetchResource(newResourceUrn, locale);
   };
@@ -193,10 +178,7 @@ const CopyResources = ({
         title: resource.name,
         language: locale,
       };
-      const clonedLearningpath = await learningpathCopy(
-        resourceId,
-        newLearningpathBody,
-      );
+      const clonedLearningpath = await learningpathCopy(resourceId, newLearningpathBody);
       const newLearningpathId = clonedLearningpath.id;
       const newResourceBody = {
         contentUri: `urn:learningpath:${newLearningpathId}`,

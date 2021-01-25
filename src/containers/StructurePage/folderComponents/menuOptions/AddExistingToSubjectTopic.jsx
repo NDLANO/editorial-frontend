@@ -41,9 +41,7 @@ class AddExistingToSubjectTopic extends React.PureComponent {
     this.setState({
       topics: topics
         .filter(topic =>
-          topic.paths.find(
-            path => path.split('/')[1] === subjectId.replace('urn:', ''),
-          ),
+          topic.paths.find(path => path.split('/')[1] === subjectId.replace('urn:', '')),
         )
         .map(topic => ({
           ...topic,

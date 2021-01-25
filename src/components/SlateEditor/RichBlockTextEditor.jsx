@@ -73,10 +73,7 @@ class RichBlockTextEditor extends PureComponent {
               <Tooltip
                 tooltip={t('form.section.remove')}
                 tooltipContainerClass="tooltipContainerClass">
-                <DeleteForeverButton
-                  stripped
-                  onClick={() => this.removeSection(index)}
-                />
+                <DeleteForeverButton stripped onClick={() => this.removeSection(index)} />
               </Tooltip>
             ) : null}
             <RichTextEditor

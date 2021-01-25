@@ -53,9 +53,7 @@ class SearchAudioForm extends Component {
 
   emptySearch(evt) {
     evt.persist();
-    this.setState({ search: { query: '', language: '' } }, () =>
-      this.handleSearch(evt),
-    );
+    this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
   }
 
   render() {

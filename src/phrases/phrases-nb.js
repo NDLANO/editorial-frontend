@@ -65,29 +65,25 @@ const phrases = {
     },
     images: {
       heading: 'Slik bruker du bilder fra artikkelen',
-      description:
-        'Husk å kopiere teksten som skal legges ved bildet der du bruker det.',
+      description: 'Husk å kopiere teksten som skal legges ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
       source: 'Kilde',
       title: 'Tittel',
     },
     text: {
       heading: 'Slik bruker du tekst fra artikkelen',
-      description:
-        'Artikkelen kan være sammensatt av flere tekster som listes opp her.',
+      description: 'Artikkelen kan være sammensatt av flere tekster som listes opp her.',
       rules: 'Regler for bruk av teksten:',
       published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',
-      description:
-        'Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.',
+      description: 'Husk å kopiere teksten som skal legges ved lydfilen der du bruker den.',
       rules: 'Regler for bruk av lydfilen:',
     },
     video: {
       heading: 'Slik bruker du video fra artikkelen',
-      description:
-        'Husk å kopiere teksten som skal legges ved videoen der du bruker den.',
+      description: 'Husk å kopiere teksten som skal legges ved videoen der du bruker den.',
       rules: 'Regler for bruk av videoen:',
     },
     creditType: {
@@ -203,8 +199,7 @@ const phrases = {
     localLogout: 'Logg ut av produksjonssystem',
     or: 'eller',
     federatedLogout: 'Logg ut av alle tjenester',
-    description:
-      'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
+    description: 'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
@@ -275,8 +270,7 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
-    noResultsText:
-      'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
+    noResultsText: 'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {
@@ -299,8 +293,7 @@ const phrases = {
     continue: 'Du kan ha ulagrede endringer i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
-    fetchError:
-      'Vi beklager, men en feil oppsto under lasting av H5P-klienten.',
+    fetchError: 'Vi beklager, men en feil oppsto under lasting av H5P-klienten.',
   },
   displayOembed: {
     errorMessage: 'En feil oppsto ved visning av oEmbed-innhold.',
@@ -596,8 +589,7 @@ const phrases = {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
     },
-    remainingCharacters:
-      'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+    remainingCharacters: 'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
     title: {
       label: 'Tittel',
     },
@@ -733,8 +725,7 @@ const phrases = {
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
-        description:
-          'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på',
+        description: 'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på',
       },
       footnote: {
         title: 'Tittel',
@@ -881,6 +872,7 @@ const phrases = {
         stop: 'Stopp',
         hms: 'h:m:s',
       },
+      brightcove: 'Åpne i Brightcove',
     },
     audio: {
       file: 'Lydfil',
@@ -971,7 +963,7 @@ const phrases = {
     dateBeforeInvalid: '{label} kan ikke være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikke være før {beforeLabel}.',
     minItems:
-      '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+      '{label} feltet må minst inneholde {minItems, plural, one{en/ett} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
@@ -989,8 +981,7 @@ const phrases = {
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endret og last siden på nytt for å kunne lagre.',
     },
-    grepCodes:
-      'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
+    grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

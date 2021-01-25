@@ -117,9 +117,7 @@ export const transformApiToPreviewVersion = (
   };
 };
 
-export const transformFormikToPreviewVersion = (
-  concept: ConceptFormikType,
-): ConceptPreviewType => {
+export const transformFormikToPreviewVersion = (concept: ConceptFormikType): ConceptPreviewType => {
   return {
     id: concept.id,
     title: concept.title,

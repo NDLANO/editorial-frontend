@@ -29,11 +29,7 @@ const SlateAside = props => {
   switch (type) {
     case 'rightAside':
       return (
-        <SlateRightAside
-          onRemoveClick={onRemoveClick}
-          onMoveContent={onMoveContent}
-          {...props}
-        />
+        <SlateRightAside onRemoveClick={onRemoveClick} onMoveContent={onMoveContent} {...props} />
       );
     case 'factAside':
       return <SlateFactAside onRemoveClick={onRemoveClick} {...props} />;

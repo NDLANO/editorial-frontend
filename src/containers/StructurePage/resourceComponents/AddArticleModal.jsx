@@ -29,11 +29,7 @@ class AddArticleModal extends Component {
 
   async onArticleSearch(input) {
     try {
-      const results = await searchRelatedArticles(
-        input,
-        this.props.locale,
-        'topic-article',
-      );
+      const results = await searchRelatedArticles(input, this.props.locale, 'topic-article');
       return results;
     } catch (err) {
       handleError(err);
@@ -61,9 +57,7 @@ class AddArticleModal extends Component {
   render() {
     const { t, toggleAddModal } = this.props;
     return (
-      <TaxonomyLightbox
-        title={t('taxonomy.searchArticle')}
-        onClose={toggleAddModal}>
+      <TaxonomyLightbox title={t('taxonomy.searchArticle')} onClose={toggleAddModal}>
         <StyledContent>
           <AsyncDropdown
             idField="id"

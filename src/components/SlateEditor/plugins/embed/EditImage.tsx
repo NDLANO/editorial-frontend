@@ -92,13 +92,10 @@ const EditImage: React.FC<Props & tType> = ({
     embedElement.style.left = `${placeholderRect.left +
       spacing.spacingUnit -
       placeholderRect.width * (0.333 / 2)}px`;
-    embedElement.style.width = `${placeholderRect.width * 1.333 -
-      spacing.spacingUnit * 2}px`;
+    embedElement.style.width = `${placeholderRect.width * 1.333 - spacing.spacingUnit * 2}px`;
   }, []);
 
-  const onUpdatedImageSettings = (
-    transformedData: NonNullable<StateProps['imageUpdates']>,
-  ) => {
+  const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
     setState({
       ...state,
       imageUpdates: {

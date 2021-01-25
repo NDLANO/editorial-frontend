@@ -40,9 +40,7 @@ class FormikAddNotes extends Component {
   removeNote(e, noteIndexToRemove) {
     const { value } = this.props;
     e.preventDefault();
-    this.onNotesChange(
-      value.filter((note, index) => index !== noteIndexToRemove),
-    );
+    this.onNotesChange(value.filter((note, index) => index !== noteIndexToRemove));
   }
 
   handleNoteChange(evt, index) {
@@ -65,8 +63,7 @@ class FormikAddNotes extends Component {
     return (
       <Field>
         {value.map((note, index) => (
-          <FieldSection
-            key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
+          <FieldSection key={/* eslint-disable */ `notes_${index}` /* eslint-enable */}>
             <div>
               <Input
                 warningText={showError && note === '' ? labelWarningNote : ''}

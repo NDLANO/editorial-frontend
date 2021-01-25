@@ -52,8 +52,7 @@ class ConnectFilters extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.topicFilters, this.props.topicFilters))
-      this.getInputsFromProps();
+    if (!isEqual(prevProps.topicFilters, this.props.topicFilters)) this.getInputsFromProps();
   }
 
   async onSubmit() {
@@ -61,17 +60,13 @@ class ConnectFilters extends Component {
     const { inputs } = this.state;
     this.setState({ loading: true, error: '' });
     try {
-      const topicFiltersWithConnectionId = await fetchTopicFilters(
-        this.props.id,
-      );
+      const topicFiltersWithConnectionId = await fetchTopicFilters(this.props.id);
       await Promise.all([
         ...subjectFilters
           .filter(filter => !!inputs[filter.id])
           .map(filter => {
             const { active, relevance } = inputs[filter.id];
-            const currentFilter = topicFiltersWithConnectionId.find(
-              it => it.id === filter.id,
-            );
+            const currentFilter = topicFiltersWithConnectionId.find(it => it.id === filter.id);
             if (active && !currentFilter) {
               // add filter to topic
               return addFilterToTopic({
@@ -120,9 +115,7 @@ class ConnectFilters extends Component {
     return (
       <form onSubmit={this.onSubmit} css={filterWrapper}>
         {loading && <Spinner appearance="absolute" />}
-        {loading && (
-          <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />
-        )}
+        {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
         {subjectFilters.map(filter => (
           <ConnectFilterItem
             {...filter}

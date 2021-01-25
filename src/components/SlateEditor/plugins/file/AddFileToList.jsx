@@ -5,13 +5,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
 
-const AddFileToList = ({
-  showFileUploader,
-  onClose,
-  onFileSave,
-  addedFiles,
-  t,
-}) =>
+const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles, t }) =>
   showFileUploader ? (
     <Portal isOpened>
       <Modal
@@ -23,10 +17,7 @@ const AddFileToList = ({
         {onCloseModal => (
           <Fragment>
             <ModalHeader>
-              <ModalCloseButton
-                title={t('dialog.close')}
-                onClick={onCloseModal}
-              />
+              <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
             </ModalHeader>
             <ModalBody>
               <FileUploader onClose={onClose} onFileSave={onFileSave} />

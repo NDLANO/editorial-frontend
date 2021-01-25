@@ -14,10 +14,7 @@ import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 
-import {
-  getAccessToken,
-  getAccessTokenPersonal,
-} from '../../../util/authHelpers';
+import { getAccessToken, getAccessTokenPersonal } from '../../../util/authHelpers';
 import { isValid } from '../../../util/jwtHelper';
 
 import SavedSearch from './SavedSearch';
@@ -64,9 +61,7 @@ const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
         return t('form.content.link.required');
       }
       if (!isNDLAEdSearchUrl(inputFieldValue)) {
-        return `${t('form.content.link.invalid')} - ${t(
-          'welcomePage.mustBeSearch',
-        )}`;
+        return `${t('form.content.link.invalid')} - ${t('welcomePage.mustBeSearch')}`;
       }
     }
     return null;
@@ -86,14 +81,9 @@ const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
     if (
       isNDLAEdSearchUrl(inputFieldValue) &&
       inputFieldValue !== '' &&
-      !savedSearches.filter(
-        s => s === getSavedSearchRelativeUrl(inputFieldValue),
-      ).length
+      !savedSearches.filter(s => s === getSavedSearchRelativeUrl(inputFieldValue)).length
     ) {
-      const savedSearchesUpdated = [
-        ...savedSearches,
-        getSavedSearchRelativeUrl(inputFieldValue),
-      ];
+      const savedSearchesUpdated = [...savedSearches, getSavedSearchRelativeUrl(inputFieldValue)];
       setInputFieldValue('');
       setSavedSearches(savedSearchesUpdated);
       updateUserMetadata(savedSearchesUpdated);
@@ -140,9 +130,7 @@ const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
           onBlur={handleBlur}
         />
       </FieldSection>
-      <Button onClick={createSaveSearchUrl}>
-        {t('welcomePage.saveSearch')}
-      </Button>
+      <Button onClick={createSaveSearchUrl}>{t('welcomePage.saveSearch')}</Button>
     </>
   );
 };

@@ -66,9 +66,7 @@ const FigureInput: React.FC<Props & tType> = ({
         autoExpand
         placeholder={t('form.image.alt.placeholder')}
         white
-        warningText={
-          !submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''
-        }
+        warningText={!submitted && isEmpty(alt) ? t('form.image.alt.noText') : ''}
       />
       <StyledButtonWrapper paddingLeft>
         <Button onClick={onAbort} outline>

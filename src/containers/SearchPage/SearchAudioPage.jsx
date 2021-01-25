@@ -38,7 +38,4 @@ const mapDispatchToProps = {
   clearSearch: actions.clearSearchResult,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(injectT(SearchAudioPage));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(SearchAudioPage));

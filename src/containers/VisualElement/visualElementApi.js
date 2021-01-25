@@ -28,9 +28,7 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
 const corsAnywhereUrl = `${
-  config.ndlaEnvironment === 'test'
-    ? 'https://cors-anywhere.herokuapp.com/'
-    : ''
+  config.ndlaEnvironment === 'test' ? 'https://cors-anywhere.herokuapp.com/' : ''
 }`;
 
 export const fetchNrkMedia = async mediaId => {
@@ -88,9 +86,7 @@ export const searchGoogleCustomSearch = (query, filter) => {
 };
 
 export const fetchBrightcoveVideo = videoId =>
-  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}`).then(resolveJsonOrRejectWithError);
 
 export const onError = err => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);
@@ -113,11 +109,7 @@ export const fetchVisualElement = embedTag => {
       return fetchExternalOembed(embedTag.url);
     default:
       return new Promise((resolve, reject) => {
-        reject(
-          new Error(
-            `No embedtag with resource type ${embedTag.resource} exists`,
-          ),
-        );
+        reject(new Error(`No embedtag with resource type ${embedTag.resource} exists`));
       });
   }
 };

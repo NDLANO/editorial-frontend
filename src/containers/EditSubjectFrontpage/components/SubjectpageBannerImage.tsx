@@ -27,11 +27,7 @@ interface Props {
   onImageSelectOpen: Function;
 }
 
-const SubjectpageBannerImage: FC<Props & tType> = ({
-  image,
-  onImageSelectOpen,
-  t,
-}) => {
+const SubjectpageBannerImage: FC<Props & tType> = ({ image, onImageSelectOpen, t }) => {
   const title = convertFieldWithFallback(image.metaData, 'title', '');
   const alt = convertFieldWithFallback(image, 'alt', '');
   const imageAction = (

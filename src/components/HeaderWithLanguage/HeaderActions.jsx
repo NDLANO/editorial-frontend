@@ -44,19 +44,13 @@ const HeaderActions = ({
     { key: 'de', title: t('language.de'), include: false },
   ];
   const emptyLanguages = languages.filter(
-    lang =>
-      lang.key !== language &&
-      !supportedLanguages.includes(lang.key) &&
-      lang.include,
+    lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
   const PreviewLightbox =
     type === 'concept' ? (
       supportedLanguages.length > 1 && (
-        <PreviewConceptLightbox
-          typeOfPreview="previewLanguageArticle"
-          getConcept={getEntity}
-        />
+        <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
       )
     ) : (
       <PreviewDraftLightbox
@@ -95,10 +89,7 @@ const HeaderActions = ({
             <StyledSplitter />
           </Fragment>
         )}
-        <HeaderLanguagePicker
-          emptyLanguages={emptyLanguages}
-          editUrl={editUrl}
-        />
+        <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
           language === 'nb' &&
           !supportedLanguages.includes('nn') && (

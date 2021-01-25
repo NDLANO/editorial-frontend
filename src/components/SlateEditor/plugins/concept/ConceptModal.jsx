@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
+import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
@@ -23,6 +24,7 @@ import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
+import * as messageActions from '../../../../containers/Messages/messagesActions';
 
 const type = 'concept';
 
@@ -41,6 +43,8 @@ const ConceptModal = ({
   concept,
   fetchStatusStateMachine,
   fetchSearchTags,
+  createMessage,
+  setConcept,
 }) => {
   const [searchObject, updateSearchObject] = useState({
     page: 1,
@@ -112,11 +116,7 @@ const ConceptModal = ({
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              {id && (
-                <Button onClick={handleRemove}>
-                  {t('form.content.concept.remove')}
-                </Button>
-              )}
+              {id && <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>}
               <Tabs
                 onSelect={updateSelectedTabIndex}
                 selectedIndex={selectedTabIndex}
@@ -147,15 +147,9 @@ const ConceptModal = ({
                         />
                         <Pager
                           query={searchObject}
-                          page={
-                            searchObject.page
-                              ? parseInt(searchObject.page, 10)
-                              : 1
-                          }
+                          page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
                           pathname=""
-                          lastPage={Math.ceil(
-                            results.totalCount / results.pageSize,
-                          )}
+                          lastPage={Math.ceil(results.totalCount / results.pageSize)}
                           onClick={searchConcept}
                           pageItemComponentClass="button"
                         />
@@ -174,7 +168,9 @@ const ConceptModal = ({
                         locale={locale}
                         fetchStateStatuses={fetchStatusStateMachine}
                         fetchConceptTags={fetchSearchTags}
-                        concept={{ title: selectedText, language: locale }}
+                        concept={concept ? concept : { title: selectedText, language: locale }}
+                        createMessage={createMessage}
+                        setConcept={setConcept}
                       />
                     ),
                   },
@@ -202,6 +198,12 @@ ConceptModal.propTypes = {
   selectedText: PropTypes.string,
   updateConcept: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
+  createMessage: PropTypes.func,
+  setConcept: PropTypes.func,
 };
 
-export default injectT(ConceptModal);
+const mapDispatchToProps = {
+  createMessage: (message = {}) => messageActions.addMessage(message),
+};
+
+export default injectT(connect(_ => ({}), mapDispatchToProps)(ConceptModal));

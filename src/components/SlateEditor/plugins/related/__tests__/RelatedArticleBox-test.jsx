@@ -28,9 +28,7 @@ const wrapper = () =>
 
 test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')
-    .get(
-      '/search-api/v1/search/editorial/?context-types=standard%2C%20topic-article&page=1&query=',
-    )
+    .get('/search-api/v1/search/editorial/?context-types=standard%2C%20topic-article&page=1&query=')
     .reply(200, {});
   const { getByTestId, container } = wrapper();
 

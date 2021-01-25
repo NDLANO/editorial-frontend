@@ -29,16 +29,11 @@ export default () => {
           { type: 'heading-two' },
           { type: 'heading-three' },
         ],
-        normalize: (
-          editor: SlateEditor,
-          error: { code: string; child: any },
-        ) => {
+        normalize: (editor: SlateEditor, error: { code: string; child: any }) => {
           switch (error.code) {
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
-                editor
-                  .moveToEndOfNode(error.child)
-                  .insertBlock(defaultBlocks.defaultBlock);
+                editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
               });
               break;
             }
@@ -50,21 +45,11 @@ export default () => {
     },
   };
 
-  const renderBlock = (
-    props: CodeBlockProps,
-    editor: SlateEditor,
-    next: () => void,
-  ) => {
+  const renderBlock = (props: CodeBlockProps, editor: SlateEditor, next: () => void) => {
     const { node } = props;
     switch ((node as ParentNode)?.type) {
       case TYPE:
-        return (
-          <CodeBlock
-            attributes={props.attributes}
-            editor={props.editor}
-            node={node}
-          />
-        );
+        return <CodeBlock attributes={props.attributes} editor={props.editor} node={node} />;
       default:
         return next();
     }

@@ -9,14 +9,10 @@
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
-export const RESOURCE_TYPE_SUBJECT_MATERIAL =
-  'urn:resourcetype:subjectMaterial';
-export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES =
-  'urn:resourcetype:tasksAndActivities';
-export const RESOURCE_TYPE_ASSESSMENT_RESOURCES =
-  'urn:resourcetype:reviewResource';
-export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
-  'urn:resourcetype:externalResource';
+export const RESOURCE_TYPE_SUBJECT_MATERIAL = 'urn:resourcetype:subjectMaterial';
+export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = 'urn:resourcetype:tasksAndActivities';
+export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = 'urn:resourcetype:reviewResource';
+export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES = 'urn:resourcetype:externalResource';
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet added to @ndla/ui
 
@@ -61,11 +57,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Worldbank', url: ['worldbank.org', '*.worldbank.org'] },
   {
     name: 'Miljøstatus',
-    url: [
-      'www.miljostatus.no',
-      'miljostatus.no',
-      'miljoatlas.miljodirektoratet.no',
-    ],
+    url: ['www.miljostatus.no', 'miljostatus.no', 'miljoatlas.miljodirektoratet.no'],
     height: '398px',
   },
   { name: 'MolView', url: ['embed.molview.org'] },

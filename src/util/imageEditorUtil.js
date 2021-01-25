@@ -59,10 +59,7 @@ export function getCrop(transformData) {
 }
 
 export function getFocalPoint(transformData) {
-  if (
-    transformData['focal-x'] === undefined ||
-    transformData['focal-y'] === undefined
-  ) {
+  if (transformData['focal-x'] === undefined || transformData['focal-y'] === undefined) {
     return undefined;
   }
   return `focalX=${transformData['focal-x']}&focalY=${transformData['focal-y']}`;

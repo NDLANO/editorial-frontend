@@ -151,10 +151,7 @@ const ImageEditor: React.FC<Props & tType> = ({
 
   const isModifiable = () => {
     if (image) {
-      return !(
-        image.copyright.license.license.includes('ND') ||
-        image.contentType.includes('svg')
-      );
+      return !(image.copyright.license.license.includes('ND') || image.contentType.includes('svg'));
     }
   };
 
@@ -204,17 +201,13 @@ const ImageEditor: React.FC<Props & tType> = ({
               <ImageEditorButton
                 stripped
                 tabIndex={-1}
-                onClick={(evt: MouseEvent) =>
-                  onEditorTypeSet(evt, 'focalPoint')
-                }>
+                onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'focalPoint')}>
                 <FocalPoint />
               </ImageEditorButton>
             </Tooltip>
           )}
           {imageCancelButtonNeeded && (
-            <Button
-              onClick={(evt: MouseEvent) => onRemoveData(evt, editType)}
-              stripped>
+            <Button onClick={(evt: MouseEvent) => onRemoveData(evt, editType)} stripped>
               {t(`imageEditor.remove.${editType}`)}
             </Button>
           )}

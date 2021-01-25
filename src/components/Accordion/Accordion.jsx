@@ -75,9 +75,7 @@ const Accordion = ({
           </Button>
         </AccordionButtonLine>
       ) : (
-        <AccordionButtonLine
-          appearance={appearance}
-          handleToggle={handleToggle}>
+        <AccordionButtonLine appearance={appearance} handleToggle={handleToggle}>
           {title}
           {arrow}
         </AccordionButtonLine>

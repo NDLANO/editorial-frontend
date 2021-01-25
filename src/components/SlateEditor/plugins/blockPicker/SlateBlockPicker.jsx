@@ -17,11 +17,7 @@ import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
 
-const {
-  defaultAsideBlock,
-  defaultRelatedBlock,
-  defaultCodeBlock,
-} = defaultBlocks;
+const { defaultAsideBlock, defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -121,10 +117,7 @@ class SlateBlockPicker extends Component {
       const rect = range.getBoundingClientRect();
 
       slateBlockRef.style.top = `${rect.top + window.scrollY - 14}px`;
-      slateBlockRef.style.left = `${rect.left +
-        window.scrollX -
-        78 -
-        rect.width / 2}px`;
+      slateBlockRef.style.left = `${rect.left + window.scrollX - 78 - rect.width / 2}px`;
       slateBlockRef.style.position = 'absolute';
       slateBlockRef.style.opacity = 1;
 
@@ -140,9 +133,7 @@ class SlateBlockPicker extends Component {
 
   shouldShowMenuPicker = () => {
     const { editor, illegalAreas, allowedPickAreas } = this.props;
-    const node = editor.value.document.getClosestBlock(
-      editor.value.selection.start.key,
-    );
+    const node = editor.value.document.getClosestBlock(editor.value.selection.start.key);
     const focusInsideIllegalArea = checkSelectionForType({
       type: illegalAreas,
       value: editor.value,
@@ -175,19 +166,13 @@ class SlateBlockPicker extends Component {
 
   getActionsForArea() {
     const { actionsToShowInAreas, editor } = this.props;
-    let node = editor.value.document.getClosestBlock(
-      editor.value.selection.start.key,
-    );
+    let node = editor.value.document.getClosestBlock(editor.value.selection.start.key);
     if (!node || !actionsToShowInAreas) {
       return actions;
     }
     while (true) {
       const parent = editor.value.document.getParent(node.key);
-      if (
-        !parent ||
-        parent.get('type') === 'section' ||
-        parent.get('type') === 'document'
-      ) {
+      if (!parent || parent.get('type') === 'section' || parent.get('type') === 'document') {
         return actions;
       }
       const parentType = parent.get('type');

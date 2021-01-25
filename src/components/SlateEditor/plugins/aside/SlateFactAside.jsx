@@ -74,11 +74,7 @@ class SlateFactAside extends React.Component {
 
     return (
       <aside
-        {...classes(
-          'fact-aside',
-          '',
-          this.state.expanded ? 'c-factbox expanded' : 'c-factbox',
-        )}
+        {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
         draggable
         {...attributes}>
         <div className="c-factbox__content">{children}</div>
@@ -87,11 +83,7 @@ class SlateFactAside extends React.Component {
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-        <DeleteButton
-          stripped
-          onMouseDown={onRemoveClick}
-          data-cy="remove-fact-aside"
-        />
+        <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
       </aside>
     );
   }

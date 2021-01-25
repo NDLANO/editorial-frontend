@@ -5,21 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import React, { FC, Fragment } from 'react';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FormikErrors } from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import {
-  AccordionProps,
-  ArticleType,
-  FormikProperties,
-} from '../../../interfaces';
+import { AccordionProps, ArticleType, FormikProperties } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import FormikField from '../../../components/FormikField';
 

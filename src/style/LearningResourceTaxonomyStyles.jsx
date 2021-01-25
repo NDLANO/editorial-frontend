@@ -78,8 +78,7 @@ const flexButtonCenterAlignStyle = css`
 const StyledConnections = styled('div')`
   ${flexButtonCenterAlignStyle}
   justify-content: space-between;
-  background: ${props =>
-    props.error ? `${colors.support.red}11` : colors.brand.greyLightest};
+  background: ${props => (props.error ? `${colors.support.red}11` : colors.brand.greyLightest)};
   padding: ${spacing.xsmall};
   margin-bottom: 2px;
   border-radius: ${misc.borderRadius};
@@ -155,8 +154,7 @@ const StyledFilterCheckBox = styled('button')`
   text-align: left;
   padding: ${spacing.xsmall};
   font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props =>
-    !props.isVisible ? colors.brand.grey : colors.text.primary};
+  color: ${props => (!props.isVisible ? colors.brand.grey : colors.text.primary)};
   ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
   > span:first-child {
     ${checkboxItemStyle};
@@ -261,8 +259,7 @@ const StyledFilterButton = styled('button')`
   text-align: left;
   padding: ${spacing.xsmall};
   font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   ${fonts.sizes(14, 1.2)} white-space: no-wrap;
   &:disabled {
     color: ${colors.brand.light};
@@ -286,8 +283,7 @@ const StyledFilterButton = styled('button')`
 `;
 
 const StyledSubjectName = styled('div')`
-  padding: ${props => (props.firstSubject ? spacing.small : spacing.medium)} 0
-    ${spacing.xsmall};
+  padding: ${props => (props.firstSubject ? spacing.small : spacing.medium)} 0 ${spacing.xsmall};
 `;
 
 export {

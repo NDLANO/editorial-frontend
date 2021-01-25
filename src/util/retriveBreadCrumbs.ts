@@ -11,18 +11,11 @@ type Input = {
 
 type PathArray = Array<TaxonomyElement>;
 
-const retriveBreadCrumbs = ({
-  topicPath,
-  structure,
-  allTopics,
-  title,
-}: Input): PathArray => {
+const retriveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): PathArray => {
   try {
     const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
 
-    const subject = structure.find(
-      structureSubject => structureSubject.id === subjectPath,
-    );
+    const subject = structure.find(structureSubject => structureSubject.id === subjectPath);
     if (!subject) return [];
     const returnPaths = [
       {

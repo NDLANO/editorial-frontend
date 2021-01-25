@@ -7,11 +7,7 @@
  */
 import jsdom from 'jsdom';
 import Html from 'slate-html-serializer';
-import {
-  parseEmbedTag,
-  createEmbedTag,
-  isUserProvidedEmbedDataValid,
-} from '../embedTagHelpers';
+import { parseEmbedTag, createEmbedTag, isUserProvidedEmbedDataValid } from '../embedTagHelpers';
 import { divRule, toJSON } from '../slateHelpers';
 
 const { fragment } = jsdom.JSDOM;

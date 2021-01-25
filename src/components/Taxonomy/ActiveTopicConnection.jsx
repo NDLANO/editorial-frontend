@@ -37,9 +37,7 @@ const ActiveTopicConnection = ({
   if (!breadcrumb) {
     return (
       <StyledConnections error>
-        <StyledErrorLabel>
-          {t('taxonomy.topics.disconnectedTaxonomyWarning')}
-        </StyledErrorLabel>
+        <StyledErrorLabel>{t('taxonomy.topics.disconnectedTaxonomyWarning')}</StyledErrorLabel>
         <Breadcrumb breadcrumb={[{ name: topic.path }]} />
         <StyledRemoveConnectionButton
           type="button"
@@ -56,11 +54,7 @@ const ActiveTopicConnection = ({
         <StyledConnections>
           <Breadcrumb breadcrumb={breadcrumb} type={type} />
         </StyledConnections>
-        <SharedTopicConnections
-          topic={topic}
-          retriveBreadCrumbs={retriveBreadCrumbs}
-          type={type}
-        />
+        <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} type={type} />
       </Fragment>
     );
   }
@@ -83,10 +77,7 @@ const ActiveTopicConnection = ({
           <Cross />
         </StyledRemoveConnectionButton>
       </StyledConnections>
-      <SharedTopicConnections
-        topic={topic}
-        retriveBreadCrumbs={retriveBreadCrumbs}
-      />
+      <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />
     </Fragment>
   );
 };

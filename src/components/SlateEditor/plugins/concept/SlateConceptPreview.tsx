@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,6 +9,8 @@
 import React, { FC, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { css } from '@emotion/core';
+
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
@@ -16,9 +18,12 @@ import { injectT, tType } from '@ndla/i18n';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
+
 import { Concept as ConceptType } from '../../editorTypes';
 import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
+import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
+import config from '../../../../config';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;
@@ -50,9 +55,27 @@ const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
         return <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />;
-      case 'video':
-      case 'brightcove':
       case 'external':
+        return (
+          <iframe
+            title={visualElement?.title}
+            src={visualElement?.url?.includes('youtube') ? getYoutubeEmbedUrl(visualElement?.url) : visualElement?.url}
+            frameBorder="0"
+            scrolling="no"
+            height={400}
+          />
+        );
+      case 'brightcove':
+        return (
+          <iframe
+            title={visualElement?.title}
+            src={`https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${visualElement?.videoid}`}
+            frameBorder="0"
+            scrolling="no"
+            height={400}
+          />
+        );
+      case 'video':
       case 'h5p':
         return (
           <iframe

@@ -13,10 +13,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import { transformQuery } from '../../util/searchHelpers';
-import {
-  GroupSearchResult,
-  MultiSearchApiQuery,
-} from './searchApiInterfaces';
+import { GroupSearchResult, MultiSearchApiQuery } from './searchApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');

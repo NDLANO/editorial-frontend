@@ -27,6 +27,7 @@ test('reducers/search initalState', () => {
   expect(nextState).toEqual({
     totalSearchResults: { results: [] },
     totalAudioResults: { results: [] },
+    totalConceptResults: { results: [] },
     totalImageResults: { results: [] },
     searching: false,
   });
@@ -39,6 +40,7 @@ test('reducers/search search', () => {
     searching: true,
     totalSearchResults: { results: [] },
     totalAudioResults: { results: [] },
+    totalConceptResults: { results: [] },
     totalImageResults: { results: [] },
   });
 });

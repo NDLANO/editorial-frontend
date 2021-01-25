@@ -399,7 +399,7 @@ const phrases = {
     title: 'Learning resource',
     validation: {
       missingEmbedData:
-        'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
+        'One or more included video, image, or audio elements is missing caption or alternative text.',
     },
     fields: {
       rightAside: {
@@ -913,7 +913,7 @@ const phrases = {
       removeFile: 'Remove file',
       missingTitle: '[Missing filename]',
       missingFileTooltip:
-        'This files does not seem to exist on the server. It might have been deleted from another article.',
+        'This file does not seem to exist on the server. It might have been deleted from another article.',
     },
     article: {
       label: 'Article',

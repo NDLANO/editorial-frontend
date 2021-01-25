@@ -20,6 +20,7 @@ export const apiConcept = {
   updated: '2019-05-15T08:45:46Z',
   supportedLanguages: ['nb', 'nn', 'en'],
   articleIds: [],
+  articles: [],
   visualElement: {
     visualElement:
       '<embed data-resource="image" data-resource_id="1234" data-size="fullbredde" data-align="" data-alt="Test data alt" data-caption="">',

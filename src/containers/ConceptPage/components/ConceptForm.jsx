@@ -63,7 +63,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
     metaImageId: concept.metaImageId,
     metaImageAlt: concept.metaImageAlt || '',
     tags: concept.tags || [],
-    articleIds: concept.articleIds || [],
+    articles: concept.articles || [],
     status: concept.status || {},
     visualElement: concept.parsedVisualElement || {},
   };
@@ -160,7 +160,8 @@ class ConceptForm extends Component {
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
-      articleIds: values.articleIds,
+      articles: values.articles,
+      articleIds: values.articles.map(a => a.id),
       visualElement: values.visualElement,
       visualElementResources: values.visualElement,
     };
@@ -295,9 +296,9 @@ class ConceptForm extends Component {
         id: 'concept-articles',
         title: t('form.articleSection'),
         className: 'u-6/6',
-        hasError: ['articleIds'].some(field => !!errors[field]),
+        hasError: ['articles'].some(field => !!errors[field]),
         component: props => (
-          <FormikField name={'articleIds'}>
+          <FormikField name={'articles'}>
             {({ field, form }) => (
               <ConceptArticles
                 initArticles={concept.articles}

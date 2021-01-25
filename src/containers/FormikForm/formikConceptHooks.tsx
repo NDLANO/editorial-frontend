@@ -61,9 +61,11 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     articleIds: number[],
   ): Promise<ArticleType[]> => {
     return Promise.all(
-      articleIds.map(async elementId => {
-        return fetchDraft(elementId);
-      }),
+      articleIds
+        .filter(a => !!a)
+        .map(async elementId => {
+          return fetchDraft(elementId);
+        }),
     );
   };
 

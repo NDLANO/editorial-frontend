@@ -70,9 +70,11 @@ export function useFetchArticleData(articleId, locale) {
 
   const fetchElementList = async articleIds => {
     return Promise.all(
-      articleIds.map(async elementId => {
-        return fetchConcept(elementId);
-      }),
+      articleIds
+        .filter(a => !!a)
+        .map(async elementId => {
+          return fetchConcept(elementId);
+        }),
     );
   };
 

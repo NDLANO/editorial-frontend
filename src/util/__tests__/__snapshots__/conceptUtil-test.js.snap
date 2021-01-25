@@ -3,6 +3,7 @@
 exports[`transformConceptFromApiVersion 1`] = `
 Object {
   "articleIds": Array [],
+  "articles": Array [],
   "content": "Beskrivelse av testforklaring.",
   "copyright": Object {
     "creators": Array [

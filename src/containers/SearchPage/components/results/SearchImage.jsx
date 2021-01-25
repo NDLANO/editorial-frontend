@@ -17,7 +17,7 @@ import { searchClasses } from '../../SearchContainer';
 const SearchImage = ({ image, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>
-      <img src={image.previewUrl + '?width=200'} alt={image.altText} />
+      <img src={image.previewUrl + '?width=200'} alt={image.altText?.alttext} />
     </div>
     <div {...searchClasses('content')}>
       <Link to={toEditImage(image.id, image.title.language)}>

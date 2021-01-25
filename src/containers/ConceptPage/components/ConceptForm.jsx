@@ -21,6 +21,7 @@ import {
   plainTextToEditorValue,
   editorValueToPlainText,
 } from '../../../util/articleContentConverter';
+import { createEmbedTag } from '../../../util/embedTagHelpers';
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -159,7 +160,7 @@ class ConceptForm extends Component {
       tags: values.tags,
       created: this.getCreatedDate(values),
       articleIds: values.articles.map(a => a.id),
-      visualElement: values.visualElement,
+      visualElement: createEmbedTag(values.visualElement),
     };
   };
 

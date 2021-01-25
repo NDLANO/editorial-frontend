@@ -13,12 +13,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import { transformQuery } from '../../util/searchHelpers';
-import {
-  ConceptSearchQuery,
-  DraftSearchQuery,
-  GroupSearchResult,
-  MultiSearchApiQuery,
-} from './searchApiInterfaces';
+import { ConceptSearchQuery, GroupSearchResult, MultiSearchApiQuery } from './searchApiInterfaces';
 import { SearchConceptApiType, ConceptSearchResult } from '../concept/conceptApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');

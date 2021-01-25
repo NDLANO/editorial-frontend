@@ -40,6 +40,11 @@ export const getAudioTotalResultsCount = createSelector(
   search => search.totalAudioResults.totalCount,
 );
 
+export const getConceptTotalResultsCount = createSelector(
+  [getSearchFromState],
+  search => search.totalConceptResults.totalCount,
+);
+
 export const getImageTotalResultsCount = createSelector(
   [getSearchFromState],
   search => search.totalImageResults.totalCount,
@@ -49,6 +54,16 @@ export const getAudioLastPage = createSelector(
   [getSearchFromState, getAudioTotalResultsCount],
   (search, totalResultsCount) => {
     const largestPageSize = search.totalAudioResults.pageSize;
+    return totalResultsCount
+      ? Math.ceil(totalResultsCount / largestPageSize)
+      : 1;
+  },
+);
+
+export const getConceptLastPage = createSelector(
+  [getSearchFromState, getConceptTotalResultsCount],
+  (search, totalResultsCount) => {
+    const largestPageSize = search.totalConceptResults.pageSize;
     return totalResultsCount
       ? Math.ceil(totalResultsCount / largestPageSize)
       : 1;
@@ -68,6 +83,11 @@ export const getImageLastPage = createSelector(
 export const getAudioResults = createSelector(
   [getSearchFromState],
   search => search.totalAudioResults,
+);
+
+export const getConceptResults = createSelector(
+  [getSearchFromState],
+  search => search.totalConceptResults,
 );
 
 export const getImageResults = createSelector(

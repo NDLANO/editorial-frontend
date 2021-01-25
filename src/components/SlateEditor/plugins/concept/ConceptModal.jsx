@@ -16,7 +16,7 @@ import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
 import Pager from '@ndla/pager';
 
-import { searchConcepts } from '../../../../modules/search/searchApi';
+import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';

@@ -28,10 +28,7 @@ const SearchAudioPage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getAudioResults(
-    state,
-    queryString.parse(ownProps.location.search).types,
-  ),
+  results: getAudioResults(state, queryString.parse(ownProps.location.search)),
   totalCount: getAudioTotalResultsCount(state),
   lastPage: getAudioLastPage(state),
 });

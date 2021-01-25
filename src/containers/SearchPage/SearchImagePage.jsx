@@ -28,10 +28,7 @@ const SearchImagePage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getImageResults(
-    state,
-    queryString.parse(ownProps.location.search).types,
-  ),
+  results: getImageResults(state, queryString.parse(ownProps.location.search)),
   totalCount: getImageTotalResultsCount(state),
   lastPage: getImageLastPage(state),
 });

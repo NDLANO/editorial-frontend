@@ -48,11 +48,3 @@ export interface MultiSearchApiQuery {
   'search-context'?: string;
   'grep-codes'?: CommaSeparatedList;
 }
-
-export interface ConceptSearchQuery {
-  query?: string;
-  page?: number;
-  sort?: string;
-  'page-size'?: number;
-  language?: string;
-}

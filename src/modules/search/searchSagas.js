@@ -10,17 +10,13 @@ import { take, call, put } from 'redux-saga/effects';
 
 import * as actions from './search';
 import * as searchApi from './searchApi';
-import * as imageApi from '../image/imageApi';
 import * as audioApi from '../audio/audioApi';
+import * as conceptApi from '../concept/conceptApi';
+import * as imageApi from '../image/imageApi';
 
-export function* search(query, type) {
+export function* search(query) {
   try {
-    let searchResult;
-    if (type === 'concept') {
-      searchResult = yield call(searchApi.searchConcepts, query);
-    } else {
-      searchResult = yield call(searchApi.search, query);
-    }
+    const searchResult = yield call(searchApi.search, query);
     yield put(actions.setSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
@@ -32,9 +28,9 @@ export function* search(query, type) {
 export function* watchSearch() {
   while (true) {
     const {
-      payload: { query, type },
+      payload: { query },
     } = yield take(actions.search);
-    yield call(search, query, type);
+    yield call(search, query);
   }
 }
 
@@ -42,6 +38,17 @@ export function* searchAudio(query) {
   try {
     const searchResult = yield call(audioApi.searchAudio, query);
     yield put(actions.setAudioSearchResult(searchResult));
+  } catch (error) {
+    yield put(actions.searchError());
+    // TODO: handle error
+    console.error(error); // eslint-disable-line no-console
+  }
+}
+
+export function* searchConcept(query) {
+  try {
+    const searchResult = yield call(conceptApi.searchConcepts, query);
+    yield put(actions.setConceptSearchResult(searchResult));
   } catch (error) {
     yield put(actions.searchError());
     // TODO: handle error
@@ -69,6 +76,15 @@ export function* watchSearchAudio() {
   }
 }
 
+export function* watchSearchConcept() {
+  while (true) {
+    const {
+      payload: { query },
+    } = yield take(actions.searchConcept);
+    yield call(searchConcept, query);
+  }
+}
+
 export function* watchSearchImage() {
   while (true) {
     const {
@@ -78,4 +94,9 @@ export function* watchSearchImage() {
   }
 }
 
-export default [watchSearch, watchSearchAudio, watchSearchImage];
+export default [
+  watchSearch,
+  watchSearchAudio,
+  watchSearchConcept,
+  watchSearchImage,
+];

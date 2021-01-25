@@ -79,6 +79,7 @@ const TopicArticleContent = props => {
     formik: {
       values: { id, language, creators, published },
     },
+    handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
@@ -121,7 +122,7 @@ const TopicArticleContent = props => {
           </>
         )}
       </FormikField>
-      <FormikIngress preview={preview} />
+      <FormikIngress preview={preview} handleSubmit={handleSubmit} />
       <FormikVisualElement />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
@@ -143,6 +144,7 @@ const TopicArticleContent = props => {
               renderMark={renderMark}
               plugins={plugins}
               schema={schema}
+              handleSubmit={handleSubmit}
               {...field}
             />
           </Fragment>
@@ -171,6 +173,7 @@ TopicArticleContent.propTypes = {
       updatePublished: PropTypes.bool,
     }),
   }),
+  handleSubmit: PropTypes.func,
 };
 
 export default connect(injectT(TopicArticleContent));

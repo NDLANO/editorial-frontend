@@ -153,6 +153,7 @@ const SubjectpageForm: FC<Props & tType> = ({
               editorsChoices={values.editorsChoices!}
               elementId={values.elementId!}
               errors={errors}
+              handleSubmit={() => handleSubmit(formik)}
             />
             <Field right>
               <SaveButton

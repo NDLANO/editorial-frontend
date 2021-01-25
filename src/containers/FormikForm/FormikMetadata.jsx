@@ -15,7 +15,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
-const FormikMetadata = ({ t, article, fetchSearchTags }) => (
+const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit }) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -42,6 +42,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags }) => (
         <PlainTextEditor
           id={field.name}
           placeholder={t('form.metaDescription.label')}
+          handleSubmit={handleSubmit}
           {...field}
         />
       )}
@@ -65,6 +66,7 @@ FormikMetadata.propTypes = {
     language: PropTypes.string,
   }).isRequired,
   fetchSearchTags: PropTypes.func,
+  handleSubmit: PropTypes.func,
 };
 
 export default injectT(FormikMetadata);

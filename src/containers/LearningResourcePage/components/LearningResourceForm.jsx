@@ -183,6 +183,10 @@ const LearningResourceForm = props => {
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
+            handleSubmit={saveAsNewVersion => {
+              if (formIsDirty && !isSubmitting)
+                handleSubmit(formik, saveAsNewVersion);
+            }}
             {...rest}
           />
         )}

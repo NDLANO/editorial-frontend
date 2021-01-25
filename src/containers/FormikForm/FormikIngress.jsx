@@ -34,6 +34,7 @@ const FormikIngress = ({
   placeholder,
   preview = false,
   concept = false,
+  handleSubmit,
 }) => (
   <StyledFormContainer>
     <FormikField
@@ -54,6 +55,7 @@ const FormikIngress = ({
             placeholder={placeholder || t('form.introduction.label')}
             className="article_introduction"
             data-cy="learning-resource-ingress"
+            handleSubmit={handleSubmit}
           />
         )
       }
@@ -74,6 +76,7 @@ FormikIngress.propTypes = {
   placeholder: PropTypes.string,
   preview: PropTypes.bool,
   concept: PropTypes.bool,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default injectT(FormikIngress);

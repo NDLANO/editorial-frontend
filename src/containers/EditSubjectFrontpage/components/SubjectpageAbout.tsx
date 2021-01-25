@@ -12,7 +12,11 @@ import FormikField from '../../../components/FormikField';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const SubjectpageAbout: FC<tType> = ({ t }) => {
+interface Props {
+  handleSubmit: Function;
+}
+
+const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
   return (
     <>
       <FormikField
@@ -39,6 +43,7 @@ const SubjectpageAbout: FC<tType> = ({ t }) => {
         types={['image', 'video']}
         videoTypes={['Brightcove']}
         isSubjectPage
+        handleSubmit={handleSubmit}
       />
     </>
   );

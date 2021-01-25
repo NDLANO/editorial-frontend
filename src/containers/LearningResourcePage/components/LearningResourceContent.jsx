@@ -159,6 +159,7 @@ class LearningResourceContent extends Component {
         handleBlur,
         values: { id, language, creators, published },
       },
+      handleSubmit,
     } = this.props;
 
     return (
@@ -202,7 +203,10 @@ class LearningResourceContent extends Component {
             </>
           )}
         </FormikField>
-        <FormikIngress preview={this.state.preview} />
+        <FormikIngress
+          preview={this.state.preview}
+          handleSubmit={handleSubmit}
+        />
         <FormikField
           name="content"
           label={t('form.content.label')}
@@ -241,6 +245,7 @@ class LearningResourceContent extends Component {
                     0,
                   );
                 }}
+                handleSubmit={handleSubmit}
               />
               <LearningResourceFootnotes footnotes={findFootnotes(value)} />
             </Fragment>
@@ -275,6 +280,7 @@ LearningResourceContent.propTypes = {
     setFieldValue: PropTypes.func.isRequired,
   }),
   article: ArticleShape,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

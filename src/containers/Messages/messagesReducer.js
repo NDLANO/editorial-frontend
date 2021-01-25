@@ -23,9 +23,7 @@ export default handleActions(
           action: action.payload.action,
           statusCode: action.payload.statusCode,
           timeToLive:
-            typeof action.payload.timeToLive === 'undefined'
-              ? 1500
-              : action.payload.timeToLive,
+            typeof action.payload.timeToLive === 'undefined' ? 1500 : action.payload.timeToLive,
         };
 
         return {
@@ -36,10 +34,7 @@ export default handleActions(
     },
     [actions.addAuth0Message]: {
       next(state, action) {
-        if (
-          state.messages &&
-          state.messages.find(msg => msg.type === 'auth0')
-        ) {
+        if (state.messages && state.messages.find(msg => msg.type === 'auth0')) {
           return state;
         }
         const message = {
@@ -51,9 +46,7 @@ export default handleActions(
           action: action.payload.action,
           type: 'auth0',
           timeToLive:
-            typeof action.payload.timeToLive === 'undefined'
-              ? 1500
-              : action.payload.timeToLive,
+            typeof action.payload.timeToLive === 'undefined' ? 1500 : action.payload.timeToLive,
         };
 
         return {

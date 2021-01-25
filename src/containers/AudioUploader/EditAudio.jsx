@@ -14,9 +14,7 @@ import { createFormData } from '../../util/formDataHelper';
 
 const transformAudio = audio => {
   const audioLanguage =
-    audio &&
-    audio.supportedLanguages &&
-    audio.supportedLanguages.includes(audio.language)
+    audio && audio.supportedLanguages && audio.supportedLanguages.includes(audio.language)
       ? audio.language
       : undefined;
 
@@ -29,13 +27,7 @@ const transformAudio = audio => {
     : undefined;
 };
 
-const EditAudio = ({
-  locale,
-  audioId,
-  audioLanguage,
-  isNewlyCreated,
-  ...rest
-}) => {
+const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) => {
   const [audio, setAudio] = useState({});
 
   const fetchAudio = async () => {

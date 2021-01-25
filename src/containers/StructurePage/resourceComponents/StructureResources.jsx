@@ -12,11 +12,7 @@ import { injectT } from '@ndla/i18n';
 
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
-import {
-  fetchAllResourceTypes,
-  fetchTopicResources,
-  fetchTopic,
-} from '../../../modules/taxonomy';
+import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
@@ -86,10 +82,7 @@ export class StructureResources extends React.PureComponent {
 
   async getArticle(contentUri, locale) {
     try {
-      const article = await fetchDraft(
-        contentUri.replace('urn:article:', ''),
-        locale,
-      );
+      const article = await fetchDraft(contentUri.replace('urn:article:', ''), locale);
       this.setState({ topicDescription: article.title && article.title.title });
     } catch (error) {
       handleError(error);
@@ -140,10 +133,7 @@ export class StructureResources extends React.PureComponent {
         );
 
         if (currentTopic.contentUri) {
-          fetchDraft(
-            currentTopic.contentUri.replace('urn:article:', ''),
-            locale,
-          ).then(article =>
+          fetchDraft(currentTopic.contentUri.replace('urn:article:', ''), locale).then(article =>
             this.setState({
               topicStatus: article.status,
             }),
@@ -174,11 +164,7 @@ export class StructureResources extends React.PureComponent {
           resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
-          const learningpath = await fetchLearningpath(
-            id,
-            this.props.locale,
-            true,
-          );
+          const learningpath = await fetchLearningpath(id, this.props.locale, true);
           resource.status = { current: learningpath.status };
           return learningpath;
         }
@@ -206,8 +192,7 @@ export class StructureResources extends React.PureComponent {
     } else {
       breadCrumbs.push([
         this.props.structure.find(
-          structureItem =>
-            structureItem.id === `urn:${resource.path.split('/')[1]}`,
+          structureItem => structureItem.id === `urn:${resource.path.split('/')[1]}`,
         ),
         ...(await Promise.all(
           resource.path
@@ -231,13 +216,7 @@ export class StructureResources extends React.PureComponent {
       currentSubject,
       structure,
     } = this.props;
-    const {
-      topicDescription,
-      resourceTypes,
-      topicResources,
-      topicStatus,
-      loading,
-    } = this.state;
+    const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
     if (loading) {
       return <Spinner />;
     }
@@ -253,8 +232,7 @@ export class StructureResources extends React.PureComponent {
         />
         {resourceTypes.map(resourceType => {
           const topicResource =
-            topicResources.find(resource => resource.id === resourceType.id) ||
-            {};
+            topicResources.find(resource => resource.id === resourceType.id) || {};
           return (
             <ResourceGroup
               key={resourceType.id}

@@ -117,14 +117,7 @@ class Lightbox extends React.PureComponent {
   }
 
   render() {
-    const {
-      children,
-      closeButton,
-      width,
-      appearance,
-      severity,
-      contentCss,
-    } = this.props;
+    const { children, closeButton, width, appearance, severity, contentCss } = this.props;
 
     return this.state.display ? (
       <StyledLightbox>

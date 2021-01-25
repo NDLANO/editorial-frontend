@@ -61,14 +61,9 @@ const SubjectpageBanner: FC<Props & tType> = ({ t, field, form, title }) => {
         </Lightbox>
       )}
       {field.value ? (
-        <SubjectpageBannerImage
-          image={field.value}
-          onImageSelectOpen={onImageSelectOpen}
-        />
+        <SubjectpageBannerImage image={field.value} onImageSelectOpen={onImageSelectOpen} />
       ) : (
-        <Button onClick={onImageSelectOpen}>
-          {t('subjectpageForm.addBanner')}
-        </Button>
+        <Button onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</Button>
       )}
     </>
   );

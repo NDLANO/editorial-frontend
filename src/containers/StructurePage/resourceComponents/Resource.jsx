@@ -24,12 +24,7 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import {
-  StructureShape,
-  AvailableFiltersShape,
-  TopicShape,
-  MetadataShape,
-} from '../../../shapes';
+import { StructureShape, AvailableFiltersShape, TopicShape, MetadataShape } from '../../../shapes';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -65,9 +60,7 @@ const Resource = ({
 }) => {
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
   return (
-    <div
-      data-testid={`resource-type-${contentType}`}
-      {...classes('text o-flag o-flag--top')}>
+    <div data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
       {contentType && (
         <div key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
           <ContentTypeBadge background type={iconType} />
@@ -82,8 +75,7 @@ const Resource = ({
           isVisible={metadata?.visible}
         />
       </div>
-      {(status?.current === PUBLISHED ||
-        status?.other?.includes(PUBLISHED)) && (
+      {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />
         </Tooltip>

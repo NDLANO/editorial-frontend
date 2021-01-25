@@ -16,22 +16,11 @@ import {
   StyledFilterCheckBox,
   StyledFilterListTableRow,
 } from '../../../style/LearningResourceTaxonomyStyles';
-import {
-  RESOURCE_FILTER_CORE,
-  RESOURCE_FILTER_SUPPLEMENTARY,
-} from '../../../constants';
+import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../constants';
 import { FilterShape } from '../../../shapes';
 
-const FilterItem = ({
-  t,
-  currentFilter,
-  activeFilters,
-  resourceId,
-  updateFilter,
-}) => {
-  const useFilter = activeFilters.find(
-    resourceFilter => resourceFilter.id === currentFilter.id,
-  );
+const FilterItem = ({ t, currentFilter, activeFilters, resourceId, updateFilter }) => {
+  const useFilter = activeFilters.find(resourceFilter => resourceFilter.id === currentFilter.id);
   const active = useFilter !== undefined;
 
   return (
@@ -41,14 +30,7 @@ const FilterItem = ({
           isVisible={currentFilter.metadata?.visible}
           type="button"
           data-testid={`useFilterCheckbox-${currentFilter.id}`}
-          onClick={() =>
-            updateFilter(
-              resourceId,
-              currentFilter,
-              RESOURCE_FILTER_CORE,
-              active,
-            )
-          }
+          onClick={() => updateFilter(resourceId, currentFilter, RESOURCE_FILTER_CORE, active)}
           className={active ? 'checkboxItem--checked' : ''}>
           <span />
           <span>{currentFilter.name}</span>
@@ -59,29 +41,15 @@ const FilterItem = ({
           <StyledRelevanceButton
             type="button"
             data-testid={`selectCoreRelevance-${currentFilter.id}`}
-            selected={
-              useFilter &&
-              useFilter.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY
-            }
-            onClick={() =>
-              updateFilter(
-                resourceId,
-                currentFilter,
-                RESOURCE_FILTER_SUPPLEMENTARY,
-              )
-            }>
-            <Additional className="c-icon--22" />{' '}
-            {t('taxonomy.filters.additional')}
+            selected={useFilter && useFilter.relevanceId === RESOURCE_FILTER_SUPPLEMENTARY}
+            onClick={() => updateFilter(resourceId, currentFilter, RESOURCE_FILTER_SUPPLEMENTARY)}>
+            <Additional className="c-icon--22" /> {t('taxonomy.filters.additional')}
           </StyledRelevanceButton>
           <StyledRelevanceButton
             type="button"
             data-testid={`selectSupplementaryRelevance-${currentFilter.id}`}
-            selected={
-              useFilter && useFilter.relevanceId === RESOURCE_FILTER_CORE
-            }
-            onClick={() =>
-              updateFilter(resourceId, currentFilter, RESOURCE_FILTER_CORE)
-            }>
+            selected={useFilter && useFilter.relevanceId === RESOURCE_FILTER_CORE}
+            onClick={() => updateFilter(resourceId, currentFilter, RESOURCE_FILTER_CORE)}>
             <Core className="c-icon--22" /> {t('taxonomy.filters.core')}
           </StyledRelevanceButton>
         </div>

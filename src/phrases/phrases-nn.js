@@ -64,29 +64,25 @@ const phrases = {
     },
     images: {
       heading: 'Slik bruker du bilder frå artikkelen',
-      description:
-        'Hugs å kopiera teksten som skal leggjast ved bildet der du bruker det.',
+      description: 'Hugs å kopiera teksten som skal leggjast ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
       source: 'Kjelde',
       title: 'Tittel',
     },
     text: {
       heading: 'Slik bruker du tekst frå artikkelen',
-      description:
-        'Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.',
+      description: 'Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.',
       rules: 'Reglar for bruk av teksten:',
       published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',
-      description:
-        'Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.',
+      description: 'Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.',
       rules: 'Regler for bruk av lydfila:',
     },
     video: {
       heading: 'Slik bruker du video fra artikkelen',
-      description:
-        'Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.',
+      description: 'Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.',
       rules: 'Regler for bruk av videoen:',
     },
     creditType: {
@@ -200,8 +196,7 @@ const phrases = {
     localLogout: 'Logg ut av produksjonssystem',
     or: 'eller',
     federatedLogout: 'Logg ut av alle tjenester',
-    description:
-      'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
+    description: 'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
@@ -271,8 +266,7 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
-    noResultsText:
-      'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
+    noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {
@@ -295,8 +289,7 @@ const phrases = {
     continue: 'Du kan ha ulagra endringar i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
-    fetchError:
-      'Vi beklagar, men ein feil oppsto under lasting av H5P-klienten.',
+    fetchError: 'Vi beklagar, men ein feil oppsto under lasting av H5P-klienten.',
   },
   displayOembed: {
     errorMessage: 'Ein feil oppsto ved visning av oEmbed-innhald.',
@@ -592,8 +585,7 @@ const phrases = {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
     },
-    remainingCharacters:
-      'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
+    remainingCharacters: 'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
     title: {
       label: 'Tittel',
     },
@@ -737,8 +729,7 @@ const phrases = {
         unSupported: 'Innhaldstypen i lenka er ikkje støtta',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
-        description:
-          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på',
+        description: 'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på',
       },
       footnote: {
         title: 'Tittel',
@@ -980,8 +971,7 @@ const phrases = {
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endra og last sida på nytt for å kunne lagre.',
     },
-    grepCodes:
-      'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
+    grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
   },
   notFound: {
     description: 'Denne sida finnes ikkje.',

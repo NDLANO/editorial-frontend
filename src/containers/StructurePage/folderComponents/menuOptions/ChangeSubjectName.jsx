@@ -50,10 +50,7 @@ class ChangeSubjectName extends Component {
       );
     }
     return (
-      <MenuItemButton
-        stripped
-        data-testid="changeSubjectNameButton"
-        onClick={this.toggleEditMode}>
+      <MenuItemButton stripped data-testid="changeSubjectNameButton" onClick={this.toggleEditMode}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.changeName')}
       </MenuItemButton>

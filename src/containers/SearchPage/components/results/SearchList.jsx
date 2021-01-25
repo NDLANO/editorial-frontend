@@ -27,9 +27,7 @@ const SearchList = ({
 }) => {
   if (searching) return <Spinner />;
   if (results.length === 0)
-    return (
-      <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>
-    );
+    return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>;
   return (
     <div {...searchClasses('results')}>
       <TransitionGroup>

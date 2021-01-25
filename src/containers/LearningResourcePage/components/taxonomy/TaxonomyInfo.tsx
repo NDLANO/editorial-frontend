@@ -26,8 +26,7 @@ const TaxonomyInfoDiv = styled.div`
 
 const StyledId = styled.span`
   font-style: ${(props: StyledIdProps) => !props.isVisible && 'italic'};
-  color: ${(props: StyledIdProps) =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+  color: ${(props: StyledIdProps) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
 interface Props {
@@ -35,29 +34,17 @@ interface Props {
   updateMetadata: (visible: boolean) => void;
 }
 
-const TaxonomyInfo: FC<Props & tType> = ({
-  taxonomyElement,
-  updateMetadata,
-  t,
-}) => {
+const TaxonomyInfo: FC<Props & tType> = ({ taxonomyElement, updateMetadata, t }) => {
   return (
     <>
-      <FieldHeader
-        title={t('taxonomy.info.title')}
-        subTitle={t('taxonomy.info.subTitle')}
-      />
+      <FieldHeader title={t('taxonomy.info.title')} subTitle={t('taxonomy.info.subTitle')} />
       <TaxonomyInfoDiv>
-        <StyledId
-          isVisible={
-            taxonomyElement.metadata ? taxonomyElement.metadata.visible : true
-          }>
+        <StyledId isVisible={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}>
           {taxonomyElement.id}
         </StyledId>
         <Switch
           onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
-          checked={
-            taxonomyElement.metadata ? taxonomyElement.metadata.visible : true
-          }
+          checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
           label=""
           id={'visibility'}
         />

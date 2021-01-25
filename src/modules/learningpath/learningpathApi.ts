@@ -48,25 +48,17 @@ export const updateLearningPathTaxonomy = (
   id: number,
   createIfMissing: boolean = false,
 ): Promise<Learningpath> =>
-  fetchAuthorized(
-    `${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`,
-    {
-      method: 'POST',
-    },
-  ).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {
+    method: 'POST',
+  }).then(resolveJsonOrRejectWithError);
 
-export const learningpathSearch = (
-  query: SearchBody,
-): Promise<LearningPathSearchResult> =>
+export const learningpathSearch = (query: SearchBody): Promise<LearningPathSearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);
 
-export const learningpathCopy = (
-  id: string,
-  query: CopyLearningPathBody,
-): Promise<Learningpath> =>
+export const learningpathCopy = (id: string, query: CopyLearningPathBody): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),

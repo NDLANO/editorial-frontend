@@ -55,13 +55,7 @@ const buttonLineStyle = styledAppearance => css`
   ${appearances[styledAppearance]};
 `;
 
-const AccordionButtonLine = ({
-  appearance,
-  handleToggle,
-  addButton,
-  children,
-  ...rest
-}) => {
+const AccordionButtonLine = ({ appearance, handleToggle, addButton, children, ...rest }) => {
   if (addButton) {
     return <div css={buttonLineStyle(appearance)}>{children}</div>;
   }

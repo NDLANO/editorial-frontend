@@ -7,10 +7,7 @@ import { classes } from '../containers/StructurePage/folderComponents/FolderItem
 const FolderLink = ({ toLink, name, active, grayedOut }) => (
   <RouterLink
     to={toLink}
-    {...classes(
-      'link',
-      `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`,
-    )}>
+    {...classes('link', `${active ? 'active' : ''} ${grayedOut ? 'grayedOut' : ''}`)}>
     <Folder {...classes('folderIcon')} color="#70A5DA" />
     {name}
   </RouterLink>

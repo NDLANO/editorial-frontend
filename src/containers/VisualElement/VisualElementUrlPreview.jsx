@@ -11,13 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import queryString from 'query-string';
 import Button from '@ndla/button';
-import {
-  FieldHeader,
-  FieldSection,
-  Input,
-  FieldSplitter,
-  FieldRemoveButton,
-} from '@ndla/forms';
+import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -34,9 +28,7 @@ import { fetchNrkMedia } from './visualElementApi';
 
 const filterWhiteListedURL = url => {
   const domain = urlDomain(url);
-  const [
-    isWhiteListedURL,
-  ] = EXTERNAL_WHITELIST_PROVIDERS.filter(filteredProvider =>
+  const [isWhiteListedURL] = EXTERNAL_WHITELIST_PROVIDERS.filter(filteredProvider =>
     filteredProvider.url.includes(domain),
   );
   return isWhiteListedURL;
@@ -121,8 +113,7 @@ class VisualElementUrlPreview extends Component {
   getSubTitle() {
     const { url } = this.state;
     const { resource, t, selectedResourceUrl } = this.props;
-    const isChangedUrl =
-      url !== selectedResourceUrl || selectedResourceUrl === undefined;
+    const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
     if (isChangedUrl) {
       return null;
     }
@@ -189,8 +180,7 @@ class VisualElementUrlPreview extends Component {
   render() {
     const { url, embedUrl, showPreview, isInvalidURL, type } = this.state;
     const { resource, t, selectedResourceUrl } = this.props;
-    const isChangedUrl =
-      url !== selectedResourceUrl || selectedResourceUrl === undefined;
+    const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
 
     return (
       <Fragment>
@@ -235,20 +225,13 @@ class VisualElementUrlPreview extends Component {
             disabled={url === '' || url === selectedResourceUrl || isInvalidURL}
             outline
             onClick={() => this.handleSaveUrl(url)}>
-            {isChangedUrl
-              ? t('form.content.link.insert')
-              : t('form.content.link.update')}
+            {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
           </Button>
         </StyledButtonWrapper>
         {showPreview && (
           <StyledPreviewWrapper>
             <StyledPreviewItem>
-              <iframe
-                src={embedUrl}
-                title={resource}
-                height="350px"
-                frameBorder="0"
-              />
+              <iframe src={embedUrl} title={resource} height="350px" frameBorder="0" />
             </StyledPreviewItem>
           </StyledPreviewWrapper>
         )}

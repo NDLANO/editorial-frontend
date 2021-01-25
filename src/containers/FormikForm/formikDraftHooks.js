@@ -41,11 +41,7 @@ export function useFetchArticleData(articleId, locale) {
       }));
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
-        transformArticleFromApiVersion(
-          { taxonomy, ...article },
-          locale,
-          convertedConcepts,
-        ),
+        transformArticleFromApiVersion({ taxonomy, ...article }, locale, convertedConcepts),
       );
       setLoading(false);
     }
@@ -76,11 +72,7 @@ export function useFetchArticleData(articleId, locale) {
     );
   };
 
-  const updateArticleAndStatus = async ({
-    updatedArticle,
-    newStatus,
-    dirty,
-  }) => {
+  const updateArticleAndStatus = async ({ updatedArticle, newStatus, dirty }) => {
     let newArticle = updatedArticle;
     if (dirty) {
       const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
@@ -88,16 +80,9 @@ export function useFetchArticleData(articleId, locale) {
         ...updatedArticle,
         conceptIds,
       });
-      newArticle = transformArticleFromApiVersion(
-        savedArticle,
-        locale,
-        updatedArticle.conceptIds,
-      );
+      newArticle = transformArticleFromApiVersion(savedArticle, locale, updatedArticle.conceptIds);
     }
-    const statusChangedDraft = await draftApi.updateStatusDraft(
-      updatedArticle.id,
-      newStatus,
-    );
+    const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
     const updated = {
       ...newArticle,
       notes: statusChangedDraft.notes,
@@ -114,13 +99,7 @@ export function useFetchArticleData(articleId, locale) {
       ...createdArticle,
       conceptIds,
     });
-    setArticle(
-      transformArticleFromApiVersion(
-        savedArticle,
-        locale,
-        createdArticle.conceptIds,
-      ),
-    );
+    setArticle(transformArticleFromApiVersion(savedArticle, locale, createdArticle.conceptIds));
     updateUserData(savedArticle.id);
     return savedArticle;
   };
@@ -139,9 +118,7 @@ export function useFetchArticleData(articleId, locale) {
         latestEditedArticles: latestEditedArticles,
       };
     } else {
-      const latestEditedFiltered = latestEditedArticles.filter(
-        id => id !== articleId,
-      );
+      const latestEditedFiltered = latestEditedArticles.filter(id => id !== articleId);
       latestEditedFiltered.splice(0, 0, articleId);
       userUpdatedMetadata = {
         latestEditedArticles: latestEditedFiltered,

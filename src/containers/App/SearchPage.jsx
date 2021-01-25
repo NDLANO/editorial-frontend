@@ -25,10 +25,7 @@ const SearchPage = ({ match, t }) => {
     {
       title: t('subNavigation.searchContent'),
       type: 'content',
-      url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10 },
-        'content',
-      ),
+      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'content'),
       icon: <SearchContent className="c-icon--large" />,
     },
     {
@@ -48,10 +45,7 @@ const SearchPage = ({ match, t }) => {
     {
       title: t('subNavigation.searchConcepts'),
       type: 'concept',
-      url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10 },
-        'concept',
-      ),
+      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'concept'),
       icon: <Concept className="c-icon--large" />,
     },
   ];
@@ -60,15 +54,9 @@ const SearchPage = ({ match, t }) => {
     <Fragment>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
-        <PrivateRoute
-          path={`${match.url}/content`}
-          component={SearchContentPage}
-        />
+        <PrivateRoute path={`${match.url}/content`} component={SearchContentPage} />
         <PrivateRoute path={`${match.url}/media`} component={SearchMediaPage} />
-        <PrivateRoute
-          path={`${match.url}/concept`}
-          component={SearchConceptPage}
-        />
+        <PrivateRoute path={`${match.url}/concept`} component={SearchConceptPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />

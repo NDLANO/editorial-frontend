@@ -18,14 +18,8 @@ import { LocationShape, HistoryShape } from '../../shapes';
 const MediaPage = ({ match }) => (
   <Fragment>
     <Switch>
-      <PrivateRoute
-        path={`${match.url}/image-upload`}
-        component={ImageUploaderPage}
-      />
-      <PrivateRoute
-        path={`${match.url}/audio-upload`}
-        component={AudioUploaderPage}
-      />
+      <PrivateRoute path={`${match.url}/image-upload`} component={ImageUploaderPage} />
+      <PrivateRoute path={`${match.url}/audio-upload`} component={AudioUploaderPage} />
       <Route component={NotFoundPage} />
     </Switch>
     <Footer showLocaleSelector={false} />

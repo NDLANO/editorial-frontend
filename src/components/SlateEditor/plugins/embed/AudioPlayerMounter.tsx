@@ -20,20 +20,12 @@ interface Props {
   speech: boolean;
 }
 
-const AudioPlayerMounter: React.FC<Props & tType> = ({
-  t,
-  audio,
-  locale,
-  speech,
-}) => {
+const AudioPlayerMounter: React.FC<Props & tType> = ({ t, audio, locale, speech }) => {
   useEffect(() => {
     initAudioPlayers();
   }, []);
 
-  const license = getLicenseByAbbreviation(
-    audio.copyright.license.license,
-    locale,
-  );
+  const license = getLicenseByAbbreviation(audio.copyright.license.license, locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
 
   const messages = {

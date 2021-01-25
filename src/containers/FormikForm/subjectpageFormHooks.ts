@@ -20,11 +20,7 @@ export function useSubjectpageFormHooks(
   elementId: string,
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
-  const initialValues = getInitialValues(
-    subjectpage,
-    elementId,
-    selectedLanguage,
-  );
+  const initialValues = getInitialValues(subjectpage, elementId, selectedLanguage);
 
   const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
     formik.setSubmitting(true);
@@ -32,9 +28,7 @@ export function useSubjectpageFormHooks(
     try {
       await updateSubjectpage(newSubjectpage);
 
-      Object.keys(formik.values).map(fieldName =>
-        formik.setFieldTouched(fieldName, true, true),
-      );
+      Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
       formik.resetForm(initialValues);
       setSavedToServer(true);
     } catch (err) {

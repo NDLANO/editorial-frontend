@@ -71,15 +71,7 @@ export class App extends React.Component {
   };
 
   render() {
-    const {
-      authenticated,
-      dispatch,
-      locale,
-      messages,
-      t,
-      userName,
-      userAccess,
-    } = this.props;
+    const { authenticated, dispatch, locale, messages, t, userName, userAccess } = this.props;
     return (
       <ErrorBoundary>
         <UserAccessContext.Provider value={userAccess}>
@@ -87,36 +79,23 @@ export class App extends React.Component {
             <FirstLoadContext.Provider value={this.state.firstLoad}>
               <PageContainer background>
                 <Zendesk authenticated={authenticated} />
-                <Helmet
-                  meta={[
-                    { name: 'description', content: t('meta.description') },
-                  ]}
-                />
+                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
                 <Content>
-                  <Navigation
-                    authenticated={authenticated}
-                    userName={userName}
-                  />
+                  <Navigation authenticated={authenticated} userName={userName} />
                   <Switch>
                     <Route path="/" exact component={WelcomePage} />
                     <Route path="/login" component={Login} />
                     <Route path="/logout" component={Logout} />
                     <PrivateRoute path="/subjectpage" component={Subjectpage} />
                     <PrivateRoute path="/search" component={SearchPage} />
-                    <PrivateRoute
-                      path="/subject-matter"
-                      component={SubjectMatterPage}
-                    />
+                    <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
                     <PrivateRoute
                       path="/edit-markup/:draftId/:language"
                       component={EditMarkupPage}
                     />
                     <PrivateRoute path="/concept" component={ConceptPage} />
 
-                    <Route
-                      path="/preview/:draftId/:language"
-                      component={PreviewDraftPage}
-                    />
+                    <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
                     <PrivateRoute path="/media" component={MediaPage} />
                     <PrivateRoute path="/agreement" component={AgreementPage} />
                     <PrivateRoute path="/film" component={NdlaFilm} />

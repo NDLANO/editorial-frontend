@@ -81,9 +81,7 @@ const FolderItem = ({
           type={type}
           path={pathToString}
           topicFilters={filters}
-          showAllOptions={
-            userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE)
-          }
+          showAllOptions={userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE)}
           metadata={metadata}
           setShowAlertModal={setShowAlertModal}
           {...rest}
@@ -104,11 +102,7 @@ const FolderItem = ({
         </FilterLabel>
       )}
       {showJumpToResources && (
-        <Button
-          outline
-          css={resourceButtonStyle}
-          type="button"
-          onClick={jumpToResources}>
+        <Button outline css={resourceButtonStyle} type="button" onClick={jumpToResources}>
           {t('taxonomy.jumpToResources')}
         </Button>
       )}

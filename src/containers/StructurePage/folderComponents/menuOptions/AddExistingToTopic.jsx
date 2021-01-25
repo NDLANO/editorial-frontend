@@ -42,9 +42,7 @@ class AddExistingToTopic extends React.PureComponent {
     this.setState({
       topics: topics
         .filter(topic =>
-          topic.paths.find(
-            path => path.split('/')[1] === subjectId.replace('urn:', ''),
-          ),
+          topic.paths.find(path => path.split('/')[1] === subjectId.replace('urn:', '')),
         )
         .filter(topic => !topic.paths?.find(p => path.includes(p)))
         .map(topic => ({
@@ -66,12 +64,7 @@ class AddExistingToTopic extends React.PureComponent {
   };
 
   async onAddExistingSubTopic(topic) {
-    const {
-      id,
-      numberOfSubtopics = 0,
-      refreshTopics,
-      topicFilters,
-    } = this.props;
+    const { id, numberOfSubtopics = 0, refreshTopics, topicFilters } = this.props;
     const connections = await fetchTopicConnections(topic.id);
 
     if (connections && connections.length > 0) {

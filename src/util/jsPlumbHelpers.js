@@ -1,15 +1,8 @@
 import { jsPlumb } from 'jsplumb';
 
-export const connectLinkItems = async (
-  source,
-  connectionArray,
-  parent,
-  subject,
-  container,
-) => {
+export const connectLinkItems = async (source, connectionArray, parent, subject, container) => {
   const filteredConnections = connectionArray.filter(
-    connection =>
-      connection.targetId !== parent && connection.type !== 'subtopic',
+    connection => connection.targetId !== parent && connection.type !== 'subtopic',
   );
   if (filteredConnections.length === 0) return [];
   const connectionTargets = filteredConnections.map(conn => {
@@ -18,9 +11,7 @@ export const connectLinkItems = async (
     }
     return conn;
   });
-  const { isPrimary } = connectionArray.find(
-    connection => connection.targetId === parent,
-  );
+  const { isPrimary } = connectionArray.find(connection => connection.targetId === parent);
 
   const instance = jsPlumb.getInstance({
     Container: 'plumbContainer',

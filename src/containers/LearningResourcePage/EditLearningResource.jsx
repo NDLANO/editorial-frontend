@@ -18,37 +18,22 @@ import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { useTranslateForm } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
-const EditLearningResource = ({
-  selectedLanguage,
-  articleId,
-  t,
-  isNewlyCreated,
-  ...rest
-}) => {
+const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, ...rest }) => {
   const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
-  const { translating, translateArticle } = useTranslateForm(
-    article,
-    setArticle,
-  );
+  const { translating, translateArticle } = useTranslateForm(article, setArticle);
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
-    return (
-      <Redirect
-        to={toEditArticle(article.id, article.articleType, article.language)}
-      />
-    );
+    return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
   }
   return (
     <Fragment>
-      <HelmetWithTracker
-        title={`${article.title} ${t('htmlTitles.titleTemplate')}`}
-      />
+      <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
         article={article}
         revision={article.revision}

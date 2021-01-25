@@ -6,20 +6,13 @@
  *
  */
 
-import {
-  resolveJsonOrRejectWithError,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { resolveJsonOrRejectWithError, fetchAuthorized } from '../../util/apiHelpers';
 
 export const fetchAuth0Users = uniqueUserIds =>
-  fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(resolveJsonOrRejectWithError);
 
 export const fetchAuth0Editors = role =>
-  fetchAuthorized(`/get_editors?role=${role}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`/get_editors?role=${role}`).then(resolveJsonOrRejectWithError);
 
 export const fetchZendeskToken = () =>
   fetchAuthorized('/get_zendesk_token').then(resolveJsonOrRejectWithError);

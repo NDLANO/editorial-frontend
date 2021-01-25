@@ -118,9 +118,7 @@ class SearchConceptForm extends Component {
             onChange={this.onFieldChange}
           />
         </div>
-        <div
-          key={`searchfield_subjects`}
-          {...searchFormClasses('field', `50-width`)}>
+        <div key={`searchfield_subjects`} {...searchFormClasses('field', `50-width`)}>
           <ObjectSelector
             name={'subjects'}
             options={subjects.sort(this.sortByProperty('name'))}
@@ -132,9 +130,7 @@ class SearchConceptForm extends Component {
             onChange={this.onFieldChange}
           />
         </div>
-        <div
-          key={`searchfield_status`}
-          {...searchFormClasses('field', `25-width`)}>
+        <div key={`searchfield_status`} {...searchFormClasses('field', `25-width`)}>
           <ObjectSelector
             name={'status'}
             options={this.getConceptStatuses()}

@@ -13,27 +13,20 @@ import {
 } from '../../../util/apiHelpers';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
-const resolveTaxonomyResponse = res =>
-  resolveJsonOrRejectWithError(res, { taxonomy: true });
+const resolveTaxonomyResponse = res => resolveJsonOrRejectWithError(res, { taxonomy: true });
 
 function fetchTopics(language) {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(resolveJsonOrRejectWithError);
 }
 
 function fetchTopic(id, language) {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics/${id}${lang}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/topics/${id}${lang}`).then(resolveJsonOrRejectWithError);
 }
 
 function fetchTopicFilters(id) {
-  return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(resolveJsonOrRejectWithError);
 }
 
 function fetchTopicResourceTypes(language) {
@@ -49,9 +42,7 @@ function fetchTopicResources(topicId, language, relevance, filters) {
   if (relevance) query.push(`relevance=${relevance}`);
   if (filters) query.push(`filters=${filters}`);
   return fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/${
-      query.length ? `?${query.join('&')}` : ''
-    }`,
+    `${baseUrl}/topics/${topicId}/resources/${query.length ? `?${query.join('&')}` : ''}`,
   ).then(resolveJsonOrRejectWithError);
 }
 
@@ -108,11 +99,7 @@ function deleteSubTopicConnection(id) {
   }).then(resolveTaxonomyResponse);
 }
 
-function addFilterToTopic({
-  filterId,
-  relevanceId = 'urn:relevance:core',
-  topicId,
-}) {
+function addFilterToTopic({ filterId, relevanceId = 'urn:relevance:core', topicId }) {
   return fetchAuthorized(`${baseUrl}/topic-filters`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -135,9 +122,7 @@ function deleteTopicFilter({ connectionId }) {
 }
 
 function fetchTopicConnections(id) {
-  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(resolveJsonOrRejectWithError);
 }
 
 function updateTopicMetadata(subjectId, body) {

@@ -24,30 +24,18 @@ const ResourceTypeSelect = ({
     <FieldHeader
       title={t('taxonomy.resourceTypes.title')}
       subTitle={t('taxonomy.resourceTypes.subTitle')}>
-      <HowToHelper
-        pageId="TaxonomyContentTypes"
-        tooltip={t('taxonomy.resourceTypes.helpLabel')}
-      />
+      <HowToHelper pageId="TaxonomyContentTypes" tooltip={t('taxonomy.resourceTypes.helpLabel')} />
     </FieldHeader>
-    <Select
-      value={selectedResourceTypeValue(resourceTypes)}
-      onChange={onChangeSelectedResource}>
+    <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
       <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
       {availableResourceTypes
-        .filter(
-          resourceType => !blacklistedResourceTypes.includes(resourceType.id),
-        )
+        .filter(resourceType => !blacklistedResourceTypes.includes(resourceType.id))
         .map(resourceType =>
           resourceType.subtypes ? (
             resourceType.subtypes
-              .filter(
-                resourceType =>
-                  !blacklistedResourceTypes.includes(resourceType.id),
-              )
+              .filter(resourceType => !blacklistedResourceTypes.includes(resourceType.id))
               .map(subtype => (
-                <option
-                  value={`${resourceType.id},${subtype.id}`}
-                  key={subtype.id}>
+                <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
                   {resourceType.name} - {subtype.name}
                 </option>
               ))

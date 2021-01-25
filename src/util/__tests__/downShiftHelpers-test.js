@@ -5,16 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {
-  itemToString,
-  downShiftSorter,
-  valueFieldForItem,
-} from '../downShiftHelpers';
+import { itemToString, downShiftSorter, valueFieldForItem } from '../downShiftHelpers';
 
 test('util/downShiftHelpers itemToString', () => {
-  expect(itemToString({ name: 'Test Testesen' }, 'name')).toEqual(
-    'Test Testesen',
-  );
+  expect(itemToString({ name: 'Test Testesen' }, 'name')).toEqual('Test Testesen');
 });
 
 test('util/downShiftHelpers itemToString undefined item', () => {
@@ -22,18 +16,11 @@ test('util/downShiftHelpers itemToString undefined item', () => {
 });
 
 test('util/downShiftHelpers itemToString string item', () => {
-  expect(itemToString({ Testesen: 'Testesen' }, 'Testesen')).toEqual(
-    'Testesen',
-  );
+  expect(itemToString({ Testesen: 'Testesen' }, 'Testesen')).toEqual('Testesen');
 });
 
 test('util/downShiftHelpers downShiftSorter', () => {
-  const list = [
-    { name: 'Norge' },
-    { name: 'Norje' },
-    { name: 'NORGE' },
-    { name: 'Sweden' },
-  ];
+  const list = [{ name: 'Norge' }, { name: 'Norje' }, { name: 'NORGE' }, { name: 'Sweden' }];
 
   expect(downShiftSorter(list, 'Nor', 'name')).toEqual([
     { name: 'Norge' },

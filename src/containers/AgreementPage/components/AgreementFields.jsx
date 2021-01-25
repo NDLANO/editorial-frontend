@@ -1,14 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  FormikLicense,
-  FormikDatePicker,
-  FormikContributors,
-} from '../../FormikForm';
-import FormikField, {
-  classes as fieldsClasses,
-} from '../../../components/FormikField';
+import { FormikLicense, FormikDatePicker, FormikContributors } from '../../FormikForm';
+import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';
 import { LocaleContext } from '../../App/App';
 
 const contributorTypes = ['rightsholders', 'creators'];
@@ -26,9 +20,7 @@ const AgreementFields = props => {
       />
       <FormikContributors contributorTypes={contributorTypes} />
       <FormikLicense licenses={licenses} />
-      <FormikField
-        label={t('agreementForm.fields.content.label')}
-        name="content">
+      <FormikField label={t('agreementForm.fields.content.label')} name="content">
         {({ field }) => (
           <textarea
             placeholder={t('agreementForm.fields.content.placeholder')}

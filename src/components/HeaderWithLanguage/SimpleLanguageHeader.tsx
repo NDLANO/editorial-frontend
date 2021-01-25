@@ -48,20 +48,12 @@ const SimpleLanguageHeader: FC<Props & tType> = ({
     { key: 'de', title: t('language.de'), include: false },
   ];
   const emptyLanguages = languages.filter(
-    lang =>
-      lang.key !== language &&
-      !supportedLanguages.includes(lang.key) &&
-      lang.include,
+    lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
 
   return (
     <>
-      <HeaderInformation
-        type={articleType}
-        noStatus
-        title={title}
-        isNewLanguage={isNewLanguage}
-      />
+      <HeaderInformation type={articleType} noStatus title={title} isNewLanguage={isNewLanguage} />
       <StyledLanguageWrapper>
         {id ? (
           <>
@@ -79,10 +71,7 @@ const SimpleLanguageHeader: FC<Props & tType> = ({
               </HeaderLanguagePill>
             )}
             <StyledSplitter />
-            <HeaderLanguagePicker
-              emptyLanguages={emptyLanguages}
-              editUrl={editUrl}
-            />
+            <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
           </>
         ) : (
           <>

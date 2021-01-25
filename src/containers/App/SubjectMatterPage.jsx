@@ -18,14 +18,8 @@ import { LocationShape, HistoryShape } from '../../shapes';
 const SubjectMatterPage = ({ match }) => (
   <Fragment>
     <Switch>
-      <PrivateRoute
-        path={`${match.url}/topic-article/`}
-        component={TopicArticlePage}
-      />
-      <PrivateRoute
-        path={`${match.url}/learning-resource`}
-        component={LearningResourcePage}
-      />
+      <PrivateRoute path={`${match.url}/topic-article/`} component={TopicArticlePage} />
+      <PrivateRoute path={`${match.url}/learning-resource`} component={LearningResourcePage} />
       <Route component={NotFoundPage} />
     </Switch>
     <Footer showLocaleSelector={false} />

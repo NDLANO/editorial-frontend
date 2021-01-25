@@ -123,26 +123,16 @@ export const createDetails = () => {
             case 'last_child_type_invalid': {
               const block = Block.create(defaultBlocks.defaultBlock);
               editor.withoutSaving(() => {
-                editor.insertNodeByKey(
-                  error.node.key,
-                  error.node.nodes.size,
-                  block,
-                );
+                editor.insertNodeByKey(error.node.key, error.node.nodes.size, block);
               });
               break;
             }
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
                 editor.wrapBlockByKey(error.child.key, 'section');
-                const wrapper = editor.value.document.getParent(
-                  error.child.key,
-                );
+                const wrapper = editor.value.document.getParent(error.child.key);
                 if (wrapper === null) return;
-                editor.insertNodeByKey(
-                  wrapper?.key,
-                  1,
-                  Block.create(defaultBlocks.defaultBlock),
-                );
+                editor.insertNodeByKey(wrapper?.key, 1, Block.create(defaultBlocks.defaultBlock));
                 editor.unwrapBlockByKey(wrapper.key, 'section');
               });
               break;
@@ -162,21 +152,12 @@ export const createDetails = () => {
     },
   };
 
-  const renderBlock = (
-    props: Props,
-    editor: Editor,
-    next: () => void,
-  ): ReactElement | void => {
+  const renderBlock = (props: Props, editor: Editor, next: () => void): ReactElement | void => {
     const { attributes, children, node } = props;
     switch ((node as ParentNode)?.type) {
       case 'details':
         return (
-          <DetailsBox
-            attributes={attributes}
-            children={children}
-            editor={editor}
-            node={node}
-          />
+          <DetailsBox attributes={attributes} children={children} editor={editor} node={node} />
         );
       case 'summary':
         return <span {...attributes}>{node.text}</span>;

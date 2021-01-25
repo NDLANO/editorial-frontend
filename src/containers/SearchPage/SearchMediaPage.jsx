@@ -28,10 +28,7 @@ const SearchMediaPage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getDraftResults(
-    state,
-    queryString.parse(ownProps.location.search).types,
-  ),
+  results: getDraftResults(state, queryString.parse(ownProps.location.search).types),
   totalCount: getDraftTotalResultsCount(state),
   lastPage: getDraftLastPage(state),
 });
@@ -41,7 +38,4 @@ const mapDispatchToProps = {
   clearSearch: actions.clearSearchResult,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(injectT(SearchMediaPage));
+export default connect(mapStateToProps, mapDispatchToProps)(injectT(SearchMediaPage));

@@ -32,20 +32,11 @@ class EditFilterOption extends PureComponent {
           stripped
           data-testid="editSubjectFiltersButton"
           onClick={this.toggleEditMode}>
-          <RoundIcon
-            small
-            open={editMode === 'editFilters'}
-            icon={<Filter />}
-          />
+          <RoundIcon small open={editMode === 'editFilters'} icon={<Filter />} />
           {t('taxonomy.editFilter')}
         </MenuItemButton>
         {editMode === 'editFilters' && (
-          <EditFilters
-            id={id}
-            getFilters={getFilters}
-            filters={subjectFilters}
-            {...rest}
-          />
+          <EditFilters id={id} getFilters={getFilters} filters={subjectFilters} {...rest} />
         )}
       </React.Fragment>
     );

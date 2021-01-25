@@ -56,9 +56,7 @@ const SettingsMenuDropdownType = ({
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
             </>
           )}
-          {showAllOptions && (
-            <CopyResources {...rest} setShowAlertModal={setShowAlertModal} />
-          )}
+          {showAllOptions && <CopyResources {...rest} setShowAlertModal={setShowAlertModal} />}
         </>
       );
     default:

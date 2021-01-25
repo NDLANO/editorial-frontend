@@ -63,9 +63,7 @@ class DeleteLanguageVersion extends React.Component {
     } = this.props;
     if (id && supportedLanguages.includes(language)) {
       this.toggleShowDeleteWarning();
-      const otherSupportedLanguage = supportedLanguages.find(
-        lang => lang !== language,
-      );
+      const otherSupportedLanguage = supportedLanguages.find(lang => lang !== language);
 
       const newAfterLanguageDeletion = supportedLanguages.length <= 1;
 
@@ -82,9 +80,7 @@ class DeleteLanguageVersion extends React.Component {
           case 'image':
             await deleteLanguageVersionImage(id, language);
             history.push(
-              newAfterLanguageDeletion
-                ? toCreateImage()
-                : toEditImage(id, otherSupportedLanguage),
+              newAfterLanguageDeletion ? toCreateImage() : toEditImage(id, otherSupportedLanguage),
             );
             break;
           case 'concept':
@@ -97,9 +93,7 @@ class DeleteLanguageVersion extends React.Component {
             break;
           default:
             await deleteLanguageVersion(id, language);
-            history.push(
-              toEditArticle(id, articleType, otherSupportedLanguage),
-            );
+            history.push(toEditArticle(id, articleType, otherSupportedLanguage));
             break;
         }
       } catch (error) {
@@ -127,10 +121,7 @@ class DeleteLanguageVersion extends React.Component {
 
     return (
       <StyledWrapper>
-        <StyledFilledButton
-          type="button"
-          deletable
-          onClick={this.toggleShowDeleteWarning}>
+        <StyledFilledButton type="button" deletable onClick={this.toggleShowDeleteWarning}>
           <DeleteForever />
           {t('form.workflow.deleteLanguageVersion.button', {
             languageVersion: t(`language.${language}`).toLowerCase(),
@@ -174,7 +165,4 @@ const mapDispatchToProps = {
   createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
-export default connect(
-  undefined,
-  mapDispatchToProps,
-)(withRouter(injectT(DeleteLanguageVersion)));
+export default connect(undefined, mapDispatchToProps)(withRouter(injectT(DeleteLanguageVersion)));

@@ -10,19 +10,11 @@ import 'isomorphic-fetch';
 import btoa from 'btoa';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  getEnvironmentVariabel,
-  getUniversalConfig,
-  getZendeskWidgetSecret,
-} from '../config';
+import { getEnvironmentVariabel, getUniversalConfig, getZendeskWidgetSecret } from '../config';
 
 const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
-const editorialFrontendClientId = getEnvironmentVariabel(
-  'NDLA_EDITORIAL_CLIENT_ID',
-);
-const editorialFrontendClientSecret = getEnvironmentVariabel(
-  'NDLA_EDITORIAL_CLIENT_SECRET',
-);
+const editorialFrontendClientId = getEnvironmentVariabel('NDLA_EDITORIAL_CLIENT_ID');
+const editorialFrontendClientSecret = getEnvironmentVariabel('NDLA_EDITORIAL_CLIENT_SECRET');
 
 const b64EncodeUnicode = str =>
   btoa(
@@ -67,9 +59,7 @@ export const getUsers = (managementToken, userIds) => {
     .map(userId => `"${userId}"`)
     .join(' OR ');
   return fetch(
-    `https://${
-      getUniversalConfig().auth0Domain
-    }/api/v2/users?q=app_metadata.ndla_id:(${query})`,
+    `https://${getUniversalConfig().auth0Domain}/api/v2/users?q=app_metadata.ndla_id:(${query})`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -81,18 +71,13 @@ export const getUsers = (managementToken, userIds) => {
 };
 
 async function fetchEditors(token, query, page) {
-  return fetch(
-    `https://${
-      getUniversalConfig().auth0Domain
-    }/api/v2/users?${query}&page=${page}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      json: true,
+  return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&page=${page}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
-  ).then(res => res.json());
+    json: true,
+  }).then(res => res.json());
 }
 
 export const getEditors = async (managementToken, role) => {

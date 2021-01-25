@@ -79,8 +79,7 @@ const getIdAndTypeFromUrl = async href => {
     const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
     const resolvedTaxonomy = await resolveUrls(path);
 
-    const contentUriSplit =
-      resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
+    const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
 
     const resourceId = contentUriSplit.pop();
     const resourceType = contentUriSplit.pop();
@@ -120,9 +119,7 @@ class EditLink extends React.Component {
 
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
 
-    const targetRel = checkbox
-      ? { 'open-in': 'new-context' }
-      : { 'open-in': 'current-context' };
+    const targetRel = checkbox ? { 'open-in': 'new-context' } : { 'open-in': 'current-context' };
 
     const data = resourceId
       ? createContentLinkData(resourceId, resourceType, targetRel)
@@ -160,9 +157,7 @@ class EditLink extends React.Component {
     return (
       <Portal isOpened>
         <Lightbox display appearance="big" onClose={this.onClose}>
-          <h2>
-            {t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}
-          </h2>
+          <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
           <LinkForm
             onClose={this.onClose}
             link={model}
@@ -186,10 +181,7 @@ EditLink.propTypes = {
   onChange: PropTypes.func.isRequired,
 
   editor: PropTypes.object.isRequired,
-  node: PropTypes.oneOfType([
-    Types.node,
-    PropTypes.shape({ type: PropTypes.string.isRequired }),
-  ]),
+  node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
 };
 
 export default injectT(EditLink);

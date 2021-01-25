@@ -37,16 +37,12 @@ function getValues(index, diffs) {
 
 // I.E "<h2>Oppgaver</h2> <ol>...</ol>" -> "<h2>Oppgaver</h2><ol>...</ol>"
 function allowSpaceRemovalBetweenTags({ current, next, previous }) {
-  return (
-    previous[previous.length] !== '>' && current === ' ' && next[0] === '<'
-  );
+  return previous[previous.length] !== '>' && current === ' ' && next[0] === '<';
 }
 
 // I.E "<table><tbody>...</tbody></table>" -> "<table><thead>...</thead><tbody>...</tbody></table>"
 function allowTHeadInsertion({ current, next, previous }) {
-  return (
-    previous.endsWith('<table><t') && current === 'body' && next === 'head'
-  );
+  return previous.endsWith('<table><t') && current === 'body' && next === 'head';
 }
 
 // I.E "<p>some "text".</p>" -> "<p>some &quot;text&quot;.</p>"
@@ -131,10 +127,7 @@ function isRemovalAllowed(index, diffs) {
 const cleanUpHtml = newHtml =>
   brWrappers
     .map(tag => new RegExp(`</${tag}><${tag}>`, 'g'))
-    .reduce(
-      (currString, currRegExp) => currString.replace(currRegExp, ''),
-      newHtml,
-    );
+    .reduce((currString, currRegExp) => currString.replace(currRegExp, ''), newHtml);
 
 export function diffHTML(oldHtml, newHtml) {
   // we remove some noise coming from Slate, ex </strong><strong>

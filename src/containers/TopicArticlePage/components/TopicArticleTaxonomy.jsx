@@ -80,11 +80,7 @@ class TopicArticleTaxonomy extends Component {
   }
 
   getSubjectTopics = async (subjectId, locale) => {
-    if (
-      this.state.structure.some(
-        subject => subject.id === subjectId && subject.topics,
-      )
-    ) {
+    if (this.state.structure.some(subject => subject.id === subjectId && subject.topics)) {
       return;
     }
     try {
@@ -125,16 +121,12 @@ class TopicArticleTaxonomy extends Component {
         fetchTopicResourceTypes(language),
       ]);
 
-      const sortedSubjects = subjects
-        .filter(subject => subject.name)
-        .sort(sortByName);
+      const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
 
       const topicConnections = await Promise.all(
         topics.map(topic => fetchTopicConnections(topic.id)),
       );
-      const topicFilters = await Promise.all(
-        topics.map(topic => fetchTopicFilters(topic.id)),
-      );
+      const topicFilters = await Promise.all(topics.map(topic => fetchTopicFilters(topic.id)));
       const topicFiltersWithId = topicFilters.flatMap(curr => curr);
 
       const topicsWithConnections = topics.map((topic, index) => ({
@@ -157,10 +149,7 @@ class TopicArticleTaxonomy extends Component {
             connectionId: con.id,
             id: con.resourceTypeId,
             name: name,
-            parentId: this.getResourceTypeParentId(
-              allResourceTypes,
-              con.resourceTypeId,
-            ),
+            parentId: this.getResourceTypeParentId(allResourceTypes, con.resourceTypeId),
           };
         });
 
@@ -173,13 +162,9 @@ class TopicArticleTaxonomy extends Component {
         stagedResourceTypeChanges: resourceTypes,
         structure: sortedSubjects,
         taxonomyChoices: {
-          availableResourceTypes: allResourceTypes.filter(
-            resourceType => resourceType.name,
-          ),
+          availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
           allTopics: allTopics.filter(topic => topic.name),
-          availableFilters: filterToSubjects(
-            allFilters.filter(filt => filt.name),
-          ),
+          availableFilters: filterToSubjects(allFilters.filter(filt => filt.name)),
           allFilters: allFilters.filter(filt => filt.name),
         },
       });
@@ -217,20 +202,14 @@ class TopicArticleTaxonomy extends Component {
 
   addNewTopic = async stagedNewTopics => {
     const { stagedTopicChanges, originalFilters, structure } = this.state;
-    const existingTopics = stagedTopicChanges.filter(
-      t => !stagedNewTopics.includes(t),
-    );
+    const existingTopics = stagedTopicChanges.filter(t => !stagedNewTopics.includes(t));
     const {
       article: { id: articleId },
     } = this.props;
     const newTopics = await Promise.all(
-      stagedNewTopics.map(topic =>
-        this.createAndPlaceTopic(topic, articleId, structure),
-      ),
+      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId, structure)),
     );
-    const topicFilters = await Promise.all(
-      newTopics.map(topic => fetchTopicFilters(topic.id)),
-    );
+    const topicFilters = await Promise.all(newTopics.map(topic => fetchTopicFilters(topic.id)));
     const topicFiltersWithId = topicFilters.flatMap(curr => curr);
     this.setState({
       isDirty: false,
@@ -256,19 +235,13 @@ class TopicArticleTaxonomy extends Component {
     } = this.props;
     this.setState({ status: 'loading' });
 
-    const stagedNewTopics = stagedTopicChanges.filter(
-      topic => topic.id === 'staged',
-    );
+    const stagedNewTopics = stagedTopicChanges.filter(topic => topic.id === 'staged');
     try {
       // we either update topic placement or update filters, never both
       if (stagedNewTopics.length > 0) {
         await this.addNewTopic(stagedNewTopics);
       } else {
-        const [
-          createFilter,
-          deleteFilter,
-          updateFilter,
-        ] = sortIntoCreateDeleteUpdate({
+        const [createFilter, deleteFilter, updateFilter] = sortIntoCreateDeleteUpdate({
           changedItems: stagedFilterChanges,
           originalItems: originalFilters,
           updateProperty: 'relevanceId',
@@ -332,9 +305,7 @@ class TopicArticleTaxonomy extends Component {
   updateFilter = (resourceId, filter, relevanceId, remove) => {
     const { stagedTopicChanges, stagedFilterChanges } = this.state;
     let topic = stagedTopicChanges.find(topic =>
-      topic.paths?.some(path =>
-        path.includes(filter.subjectId.replace('urn:', '')),
-      ),
+      topic.paths?.some(path => path.includes(filter.subjectId.replace('urn:', ''))),
     );
     if (!topic) {
       topic = stagedTopicChanges[0];
@@ -427,9 +398,7 @@ class TopicArticleTaxonomy extends Component {
           deleteTopicResourceType(item.connectionId);
         });
 
-        return created
-          .concat(originalResourceTypes)
-          .filter(rt => !deleteItems.includes(rt));
+        return created.concat(originalResourceTypes).filter(rt => !deleteItems.includes(rt));
       }),
     );
     return resourceTypesForTopics.flat();
@@ -447,9 +416,7 @@ class TopicArticleTaxonomy extends Component {
       ),
     );
     await Promise.all([
-      ...deleteFilter.map(({ connectionId }) =>
-        deleteTopicFilter({ connectionId }),
-      ),
+      ...deleteFilter.map(({ connectionId }) => deleteTopicFilter({ connectionId })),
       ...updateFilter.map(({ connectionId, relevanceId }) =>
         updateTopicFilter({ connectionId, relevanceId }),
       ),
@@ -484,9 +451,7 @@ class TopicArticleTaxonomy extends Component {
       ];
 
       if (options.length > 1) {
-        const subType = selectedResource.subtypes.find(
-          subtype => subtype.id === options[1],
-        );
+        const subType = selectedResource.subtypes.find(subtype => subtype.id === options[1]);
         resourceTypes.push({
           id: subType.id,
           name: subType.name,
@@ -516,8 +481,7 @@ class TopicArticleTaxonomy extends Component {
       article: { title },
       locale,
     } = this.props;
-    const showResourceType =
-      userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
+    const showResourceType = userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
 
     if (status === 'loading') {
       return <Spinner />;
@@ -541,14 +505,10 @@ class TopicArticleTaxonomy extends Component {
     stagedTopicChanges.forEach(topic => {
       if (topic.paths) {
         topic.paths.forEach(path =>
-          breadCrumbs.push(
-            retriveBreadCrumbs({ topicPath: path, allTopics, structure }),
-          ),
+          breadCrumbs.push(retriveBreadCrumbs({ topicPath: path, allTopics, structure })),
         );
       } else {
-        breadCrumbs.push(
-          retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }),
-        );
+        breadCrumbs.push(retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
       }
     });
 
@@ -584,10 +544,7 @@ class TopicArticleTaxonomy extends Component {
             />
           )}
         <Field right>
-          <FormikActionButton
-            outline
-            onClick={this.onCancel}
-            disabled={status === 'loading'}>
+          <FormikActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}
           </FormikActionButton>
           <SaveButton

@@ -49,13 +49,7 @@ const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
-        return (
-          <img
-            alt={visualElement?.alt}
-            src={visualElement?.url}
-            srcSet={srcSet}
-          />
-        );
+        return <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />;
       case 'video':
       case 'brightcove':
       case 'external':

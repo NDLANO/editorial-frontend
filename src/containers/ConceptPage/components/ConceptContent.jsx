@@ -42,6 +42,7 @@ const ConceptContent = props => {
     formik: {
       values: { creators, created },
     },
+    handleSubmit,
   } = props;
 
   return (
@@ -83,6 +84,7 @@ const ConceptContent = props => {
         placeholder={t('form.name.conceptContent')}
         preview={preview}
         concept
+        handleSubmit={handleSubmit}
       />
     </>
   );
@@ -113,6 +115,7 @@ ConceptContent.propTypes = {
       caption: PropTypes.bool,
     }),
   }),
+  handleSubmit: PropTypes.func,
 };
 
 export default injectT(connect(ConceptContent));

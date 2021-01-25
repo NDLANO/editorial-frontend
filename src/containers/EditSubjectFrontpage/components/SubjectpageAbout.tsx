@@ -31,6 +31,7 @@ const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
             id={field.name}
             {...field}
             placeholder={t('subjectpageForm.description')}
+            handleSubmit={handleSubmit}
           />
         )}
       </FormikField>
@@ -38,7 +39,6 @@ const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
         types={['image', 'video']}
         videoTypes={['Brightcove']}
         isSubjectPage
-        handleSubmit={handleSubmit}
       />
     </>
   );

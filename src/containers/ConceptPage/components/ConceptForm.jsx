@@ -154,10 +154,12 @@ class ConceptForm extends Component {
       agreementId: values.agreementId,
       metaImageAlt: values.metaImageAlt,
       metaImageId: values.metaImageId,
-      metaImage: {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      },
+      metaImage: values.metaImageId
+        ? {
+            id: values.metaImageId,
+            alt: values.metaImageAlt,
+          }
+        : null,
       source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,

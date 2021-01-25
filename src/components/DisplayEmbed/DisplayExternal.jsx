@@ -42,10 +42,7 @@ export class DisplayExternal extends Component {
 
   componentDidUpdate(prevProps) {
     const { embed } = this.props;
-    if (
-      prevProps.embed.url !== embed.url ||
-      prevProps.embed.path !== embed.path
-    ) {
+    if (prevProps.embed.url !== embed.url || prevProps.embed.path !== embed.path) {
       this.getPropsFromEmbed();
     }
   }
@@ -66,9 +63,7 @@ export class DisplayExternal extends Component {
   async getPropsFromEmbed() {
     const { embed, language } = this.props;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
-    const cssUrl = encodeURIComponent(
-      `${config.ndlaFrontendDomain}/static/h5p-custom-css.css`,
-    );
+    const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
@@ -125,16 +120,7 @@ export class DisplayExternal extends Component {
 
   render() {
     const { onRemoveClick, embed, t, language } = this.props;
-    const {
-      isEditMode,
-      title,
-      src,
-      height,
-      error,
-      type,
-      provider,
-      domain,
-    } = this.state;
+    const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
 
     const errorHolder = () => (
       <>
@@ -159,9 +145,7 @@ export class DisplayExternal extends Component {
     // H5P does not provide its name
     const providerName = domain && domain.includes('h5p') ? 'H5P' : provider;
 
-    const [
-      allowedProvider,
-    ] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
+    const [allowedProvider] = EXTERNAL_WHITELIST_PROVIDERS.filter(whitelistProvider =>
       type === 'iframe'
         ? whitelistProvider.url.includes(domain)
         : whitelistProvider.name === providerName,
@@ -183,8 +167,7 @@ export class DisplayExternal extends Component {
           figureType="external"
           onEdit={
             allowedProvider.name
-              ? evt =>
-                  this.openEditEmbed(evt, allowedProvider.name.toLowerCase())
+              ? evt => this.openEditEmbed(evt, allowedProvider.name.toLowerCase())
               : undefined
           }
         />

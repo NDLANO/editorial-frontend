@@ -47,10 +47,7 @@ export const createEmptyValue = () =>
     },
   });
 
-export function learningResourceContentToEditorValue(
-  html,
-  fragment = undefined,
-) {
+export function learningResourceContentToEditorValue(html, fragment = undefined) {
   if (!html) {
     return [createEmptyValue()];
   }

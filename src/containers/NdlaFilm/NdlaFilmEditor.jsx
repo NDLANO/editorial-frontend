@@ -64,10 +64,7 @@ class NdlaFilmEditor extends React.Component {
     if (slideShowUrnIds.length === 0) return [];
     const slideshowIds = slideShowUrnIds.map(getIdFromUrn);
     const slideshowResult = await this.queryArticles(slideshowIds.join());
-    const correctOrderSlideshow = this.sortMoviesByIdList(
-      slideshowIds,
-      slideshowResult,
-    );
+    const correctOrderSlideshow = this.sortMoviesByIdList(slideshowIds, slideshowResult);
     return correctOrderSlideshow;
   };
 
@@ -84,10 +81,7 @@ class NdlaFilmEditor extends React.Component {
     const movieThemeIds = movieTheme.movies.map(getIdFromUrn);
     if (movieThemeIds.length > 0) {
       const fetchedMovies = await this.queryArticles(movieThemeIds.join());
-      const sortedMovies = this.sortMoviesByIdList(
-        movieThemeIds,
-        fetchedMovies,
-      );
+      const sortedMovies = this.sortMoviesByIdList(movieThemeIds, fetchedMovies);
       return { ...movieTheme, movies: sortedMovies };
     }
     return movieTheme;
@@ -136,13 +130,7 @@ class NdlaFilmEditor extends React.Component {
         selectedLanguage: selectedLanguage,
       });
     }
-    const {
-      allMovies,
-      loading,
-      filmFrontpage,
-      slideshowMovies,
-      themes,
-    } = this.state;
+    const { allMovies, loading, filmFrontpage, slideshowMovies, themes } = this.state;
 
     if (loading || !filmFrontpage) {
       return <Spinner withWrapper />;

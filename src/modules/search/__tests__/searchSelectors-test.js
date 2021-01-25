@@ -6,12 +6,7 @@
  *
  */
 
-import {
-  getResults,
-  getLastPage,
-  getDraftResults,
-  getDraftLastPage,
-} from '../searchSelectors';
+import { getResults, getLastPage, getDraftResults, getDraftLastPage } from '../searchSelectors';
 import { contentResults, mediaResults } from './_mockSearchResult';
 
 const lastPageTestState = {

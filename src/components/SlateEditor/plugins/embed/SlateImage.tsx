@@ -56,12 +56,8 @@ const SlateImage: React.FC<Props & tType> = ({
 
   const constructFigureClassName = () => {
     const isFullWidth = embed.align === 'center';
-    const size = ['small', 'xsmall'].includes(embed.size)
-      ? `-${embed.size}`
-      : '';
-    const align = ['left', 'right'].includes(embed.align)
-      ? `-${embed.align}`
-      : '';
+    const size = ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
+    const align = ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
 
     return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
   };

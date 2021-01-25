@@ -13,11 +13,7 @@ import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { injectT, tType } from '@ndla/i18n';
-import {
-  NotionDialogContent,
-  NotionDialogText,
-  NotionDialogLicenses,
-} from '@ndla/notion';
+import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import { Concept as ConceptType } from '../../editorTypes';
@@ -43,12 +39,7 @@ interface Props {
   id: number;
 }
 
-const SlateConceptPreview: FC<Props & tType> = ({
-  concept,
-  handleRemove,
-  id,
-  t,
-}) => {
+const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }) => {
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -97,11 +88,7 @@ const SlateConceptPreview: FC<Props & tType> = ({
 
       <StyledFigureButtons>
         <Tooltip tooltip={t('form.concept.removeConcept')} align="right">
-          <IconButton
-            color="red"
-            type="button"
-            onClick={handleRemove}
-            tabIndex={-1}>
+          <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
             <DeleteForever />
           </IconButton>
         </Tooltip>

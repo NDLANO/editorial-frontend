@@ -53,10 +53,7 @@ it('maps out filters', async () => {
 
 it('calls add filter', async () => {
   nock('http://ndla-api')
-    .post(
-      '/taxonomy/v1/filters',
-      JSON.stringify({ subjectId: 'test', name: 'Nytt filter' }),
-    )
+    .post('/taxonomy/v1/filters', JSON.stringify({ subjectId: 'test', name: 'Nytt filter' }))
     .reply(201);
   nock('http://ndla-api')
     .get('/taxonomy/v1/subjects/test/filters')

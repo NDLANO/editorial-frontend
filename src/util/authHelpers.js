@@ -129,8 +129,7 @@ export const getNdlaId = () => ndlaId(getAccessToken());
 export const getNdlaUserName = () => ndlaUserName(getAccessToken());
 export const getNdlaUserEmail = () => ndlaUserEmail(getAccessToken());
 
-export const isAccessTokenValid = () =>
-  new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
+export const isAccessTokenValid = () => new Date().getTime() < getAccessTokenExpiresAt() - 10000; // 10000ms is 10 seconds
 
 export const renewPersonalAuth = () =>
   new Promise((resolve, reject) => {

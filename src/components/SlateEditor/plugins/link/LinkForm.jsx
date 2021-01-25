@@ -54,42 +54,23 @@ class LinkForm extends Component {
       <Formik
         initialValues={getInitialValues(link)}
         onSubmit={this.handleSave}
-        validate={values =>
-          validateFormik(values, linkValidationRules, t, 'linkForm')
-        }>
+        validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
         {({ submitForm }) => (
           <Form data-cy="link_form">
-            <FormikField
-              name="text"
-              type="text"
-              label={t('form.content.link.text')}
-            />
+            <FormikField name="text" type="text" label={t('form.content.link.text')} />
             <FormikField
               name="href"
-              description={`${t('form.content.link.description')} ${
-                config.ndlaFrontendDomain
-              }`}
+              description={`${t('form.content.link.description')} ${config.ndlaFrontendDomain}`}
               label={t('form.content.link.href')}
             />
-            <FormikCheckbox
-              name="checkbox"
-              label={t('form.content.link.newTab')}
-            />
+            <FormikCheckbox name="checkbox" label={t('form.content.link.newTab')} />
             <Field right>
-              {isEdit ? (
-                <Button onClick={onRemove}>
-                  {t('form.content.link.remove')}
-                </Button>
-              ) : (
-                ''
-              )}
+              {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
               <Button css={marginLeftStyle} outline onClick={onClose}>
                 {t('form.abort')}
               </Button>
               <Button css={marginLeftStyle} onClick={submitForm}>
-                {isEdit
-                  ? t('form.content.link.update')
-                  : t('form.content.link.insert')}
+                {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
               </Button>
             </Field>
           </Form>

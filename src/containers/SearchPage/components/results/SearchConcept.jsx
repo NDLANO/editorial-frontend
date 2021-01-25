@@ -27,16 +27,8 @@ const StyledInfo = styled.div`
 
 const SearchConcept = ({ concept, locale, subjects, t }) => {
   const { url: metaImageSrc, alt: metaImageAlt } = concept.metaImage || {};
-  const title = convertFieldWithFallback(
-    concept,
-    'title',
-    t('conceptSearch.noTitle'),
-  );
-  const content = convertFieldWithFallback(
-    concept,
-    'content',
-    t('conceptSearch.noContent'),
-  );
+  const title = convertFieldWithFallback(concept, 'title', t('conceptSearch.noTitle'));
+  const content = convertFieldWithFallback(concept, 'content', t('conceptSearch.noContent'));
   const breadcrumbs = subjects.filter(s => concept.subjectIds?.includes(s.id));
   return (
     <div {...searchClasses('result')}>
@@ -49,24 +41,16 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
       </div>
       <div {...searchClasses('content')}>
         <div {...searchClasses('header')}>
-          <Link
-            {...searchClasses('link')}
-            to={toEditConcept(concept.id, concept.title.language)}>
+          <Link {...searchClasses('link')} to={toEditConcept(concept.id, concept.title.language)}>
             <h2 {...searchClasses('title')}>{title}</h2>
             <StyledInfo>
-              {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
-                concept.lastUpdated,
-              )}`}
+              {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
             </StyledInfo>
           </Link>
           {concept.supportedLanguages.map(lang => {
             return lang !== locale ? (
-              <span
-                key={`${lang}_search_content`}
-                {...searchClasses('other-link')}>
-                <Link
-                  {...searchClasses('link')}
-                  to={toEditConcept(concept.id, lang)}>
+              <span key={`${lang}_search_content`} {...searchClasses('other-link')}>
+                <Link {...searchClasses('link')} to={toEditConcept(concept.id, lang)}>
                   {t(`language.${lang}`)}
                 </Link>
               </span>
@@ -86,12 +70,9 @@ const SearchConcept = ({ concept, locale, subjects, t }) => {
             </p>
           )) || <p {...searchClasses('breadcrumb')} />}
           <HeaderStatusInformation
-            statusText={t(
-              `form.status.${concept.status.current.toLowerCase()}`,
-            )}
+            statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
             published={
-              concept.status?.current === 'PUBLISHED' ||
-              concept.status?.other.includes('PUBLISHED')
+              concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
             }
             noHelp
             indentLeft

@@ -9,10 +9,7 @@
 import { useState, useEffect } from 'react';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
-import {
-  fetchSearchTags,
-  fetchStatusStateMachine,
-} from '../../modules/concept/conceptApi';
+import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
   transformApiToFormikVersion,
@@ -47,9 +44,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
         const concept = await conceptApi.fetchConcept(conceptId, locale);
 
         const convertedArticles = await fetchElementList(concept.articleIds);
-        setConcept(
-          transformApiToFormikVersion(concept, locale, convertedArticles),
-        );
+        setConcept(transformApiToFormikVersion(concept, locale, convertedArticles));
         setLoading(false);
       }
     } catch (e) {
@@ -62,9 +57,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     setSubjects(fetchedSubjects);
   };
 
-  const fetchElementList = async (
-    articleIds: number[],
-  ): Promise<ArticleType[]> => {
+  const fetchElementList = async (articleIds: number[]): Promise<ArticleType[]> => {
     return Promise.all(
       articleIds.map(async elementId => {
         return fetchDraft(elementId);
@@ -72,20 +65,12 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     );
   };
 
-  const updateConcept = async (
-    updatedConcept: ConceptFormikType,
-  ): Promise<ConceptApiType> => {
+  const updateConcept = async (updatedConcept: ConceptFormikType): Promise<ConceptApiType> => {
     const savedConcept = await conceptApi.updateConcept(
       transformFormikToUpdatedApiVersion(updatedConcept, locale),
     );
 
-    setConcept(
-      transformApiToFormikVersion(
-        savedConcept,
-        locale,
-        updatedConcept.articleIds,
-      ),
-    );
+    setConcept(transformApiToFormikVersion(savedConcept, locale, updatedConcept.articleIds));
     return savedConcept;
   };
 
@@ -93,13 +78,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     const savedConcept = await conceptApi.addConcept(
       transformFormikToNewApiVersion(createdConcept, locale),
     );
-    setConcept(
-      transformApiToFormikVersion(
-        savedConcept,
-        locale,
-        createdConcept.articleIds,
-      ),
-    );
+    setConcept(transformApiToFormikVersion(savedConcept, locale, createdConcept.articleIds));
     return savedConcept;
   };
 
@@ -113,16 +92,9 @@ export function useFetchConceptData(conceptId: number, locale: string) {
       const savedConcept = await conceptApi.updateConcept(
         transformFormikToUpdatedApiVersion(updatedConcept, locale),
       );
-      newConcept = transformApiToFormikVersion(
-        savedConcept,
-        locale,
-        updatedConcept.articleIds,
-      );
+      newConcept = transformApiToFormikVersion(savedConcept, locale, updatedConcept.articleIds);
     }
-    const conceptChangedStatus = await conceptApi.updateConceptStatus(
-      updatedConcept.id,
-      newStatus,
-    );
+    const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
     setConcept({
       ...newConcept,
       status: conceptChangedStatus.status,

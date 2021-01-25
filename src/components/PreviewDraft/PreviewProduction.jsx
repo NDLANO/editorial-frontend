@@ -20,21 +20,13 @@ const PreviewProduction = props => {
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.draft')}
         </h2>
-        <PreviewDraft
-          article={firstEntity}
-          label={label}
-          contentType={contentType}
-        />
+        <PreviewDraft article={firstEntity} label={label} contentType={contentType} />
       </StyledPreviewTwoArticles>
       <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.article')}
         </h2>
-        <PreviewDraft
-          article={secondEntity}
-          label={label}
-          contentType={contentType}
-        />
+        <PreviewDraft article={secondEntity} label={label} contentType={contentType} />
       </StyledPreviewTwoArticles>
     </Fragment>
   );

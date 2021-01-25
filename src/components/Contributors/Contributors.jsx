@@ -23,8 +23,7 @@ const StyledFormWarningText = styled.p`
   ${fonts.sizes(14, 1.1)};
 `;
 
-const capitalizeFirstLetter = string =>
-  string.charAt(0).toUpperCase() + string.slice(1);
+const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
 
 const Contributors = props => {
   const {
@@ -96,11 +95,7 @@ const Contributors = props => {
       {showError && value.length === 0 && errorMessages.length > 0 && (
         <StyledFormWarningText>{errorMessages[0]}</StyledFormWarningText>
       )}
-      <Button
-        outline
-        onClick={addContributor}
-        data-cy="addContributor"
-        disabled={disabled}>
+      <Button outline onClick={addContributor} data-cy="addContributor" disabled={disabled}>
         {t('form.contributor.add')}
       </Button>
     </div>

@@ -35,9 +35,7 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   type,
   url,
   ...rest,
-  formats: [
-    { url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` },
-  ],
+  formats: [{ url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` }],
 });
 
 function getFilesFromProps(props) {
@@ -83,9 +81,7 @@ class Filelist extends React.Component {
       return { ...file, exists: !!exists };
     });
     const resolvedFiles = await Promise.all(missingFiles);
-    const missingFilePaths = resolvedFiles
-      .filter(f => !f.exists)
-      .map(f => f.path);
+    const missingFilePaths = resolvedFiles.filter(f => !f.exists).map(f => f.path);
     this.setState({ missingFilePaths });
   };
 
@@ -210,18 +206,12 @@ class Filelist extends React.Component {
         <StyledSection>
           <FieldHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
-              <button
-                tabIndex={-1}
-                type="button"
-                onClick={this.onOpenFileUploader}>
+              <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
                 <Plus css={FieldHeaderIconStyle} />
               </button>
             </Tooltip>
             <Tooltip tooltip={t('form.file.removeList')}>
-              <button
-                tabIndex={-1}
-                type="button"
-                onClick={this.onRemoveFileList}>
+              <button tabIndex={-1} type="button" onClick={this.onRemoveFileList}>
                 <Cross css={FieldHeaderIconStyle} />
               </button>
             </Tooltip>

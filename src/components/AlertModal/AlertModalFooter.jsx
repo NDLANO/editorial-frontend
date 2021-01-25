@@ -32,11 +32,7 @@ const AlertModalFooter = ({ component, actions }) =>
       {actions.map(action => {
         const { text, ...rest } = action;
         return (
-          <Button
-            key={uuid()}
-            css={alertModalFooterButtonStyle}
-            outline
-            {...rest}>
+          <Button key={uuid()} css={alertModalFooterButtonStyle} outline {...rest}>
             {text}
           </Button>
         );

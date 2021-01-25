@@ -64,11 +64,7 @@ export const contentResults = {
           id: 'urn:resource:1:86218',
           subject: 'Medieuttrykk og mediesamfunnet',
           path: '/subject:1/topic:1:171906/topic:1:166872/resource:1:86218',
-          breadcrumbs: [
-            'Medieuttrykk og mediesamfunnet',
-            'Mediebransjen',
-            'Markedsføring',
-          ],
+          breadcrumbs: ['Medieuttrykk og mediesamfunnet', 'Mediebransjen', 'Markedsføring'],
           filters: [
             {
               name: 'SF VG1',
@@ -134,13 +130,11 @@ export const contentResults = {
     {
       id: 5943,
       title: {
-        title:
-          'Folket betrakter mat som sitt himmelrike (Mín yǐ shí wéi tiān 民以食为天)',
+        title: 'Folket betrakter mat som sitt himmelrike (Mín yǐ shí wéi tiān 民以食为天)',
         language: 'nb',
       },
       metaDescription: {
-        metaDescription:
-          'Kina har en rikholding matkultur, med store regionale variasjoner.',
+        metaDescription: 'Kina har en rikholding matkultur, med store regionale variasjoner.',
         language: 'nb',
       },
       metaImage: 'https://test.api.ndla.no/image-api/raw/id/1759',
@@ -190,8 +184,7 @@ export const mediaResults = [
         id: 7533,
         title: 'Dekningsgrad',
         altText: '',
-        previewUrl:
-          'https://test.api.ndla.no/image-api/raw/2011-05-03_0924.png',
+        previewUrl: 'https://test.api.ndla.no/image-api/raw/2011-05-03_0924.png',
         metaUrl: 'https://test.api.ndla.no/image-api/v2/images/7533',
         supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
       },
@@ -199,8 +192,7 @@ export const mediaResults = [
         id: 7534,
         title: 'Dekningsbidrag ved makspris',
         altText: '',
-        previewUrl:
-          'https://test.api.ndla.no/image-api/raw/2011-05-03_0917.png',
+        previewUrl: 'https://test.api.ndla.no/image-api/raw/2011-05-03_0917.png',
         metaUrl: 'https://test.api.ndla.no/image-api/v2/images/7534',
         supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
       },

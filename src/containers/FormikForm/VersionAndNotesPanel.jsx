@@ -42,9 +42,7 @@ const getUser = (userId, allUsers) => {
 };
 
 const getUsersFromNotes = async (notes, setUsers) => {
-  const userIds = notes
-    .map(note => note.user)
-    .filter(user => user !== 'System');
+  const userIds = notes.map(note => note.user).filter(user => user !== 'System');
   const uniqueUserIds = Array.from(new Set(userIds)).join(',');
   const users = await fetchAuth0Users(uniqueUserIds);
   const systemUser = { id: 'System', name: 'System' };
@@ -76,10 +74,7 @@ const VersionAndNotesPanel = ({
     const getVersions = async () => {
       try {
         setLoading(true);
-        const versions = await draftApi.fetchDraftHistory(
-          article.id,
-          article.language,
-        );
+        const versions = await draftApi.fetchDraftHistory(article.id, article.language);
         setVersions(versions);
         setLoading(false);
       } catch (e) {
@@ -112,10 +107,7 @@ const VersionAndNotesPanel = ({
         article = await articleApi.getArticle(article.id, article.language);
       }
       const newValues = getInitialValues(
-        transformArticleFromApiVersion(
-          { ...article, status: version.status },
-          language,
-        ),
+        transformArticleFromApiVersion({ ...article, status: version.status }, language),
       );
 
       setValues(newValues);
@@ -154,8 +146,7 @@ const VersionAndNotesPanel = ({
                 notes,
               } = version;
               const isLatestVersion = index === 0;
-              const published =
-                current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
+              const published = current === 'PUBLISHED' || other.some(s => s === 'PUBLISHED');
               const showFromArticleApi = versions.length === 1 && published;
               return (
                 <Fragment key={revision}>
@@ -172,24 +163,15 @@ const VersionAndNotesPanel = ({
                           getArticle={getArticle}
                         />
                         {isLatestVersion && (
-                          <VersionLogTag
-                            color="yellow"
-                            label={t('form.notes.areHere')}
-                          />
+                          <VersionLogTag color="yellow" label={t('form.notes.areHere')} />
                         )}
-                        {published &&
-                          (!isLatestVersion || versions.length === 1) && (
-                            <VersionLogTag
-                              color="green"
-                              label={t('form.notes.published')}
-                            />
-                          )}
+                        {published && (!isLatestVersion || versions.length === 1) && (
+                          <VersionLogTag color="green" label={t('form.notes.published')} />
+                        )}
                       </div>
                     </StyledAccordionsPanelItemsWrapper>
                   </AccordionBar>
-                  <AccordionPanel
-                    {...getPanelProps(index)}
-                    css={paddingPanelStyleInside}>
+                  <AccordionPanel {...getPanelProps(index)} css={paddingPanelStyleInside}>
                     <VersionHistory notes={cleanupNotes(notes)} />
                   </AccordionPanel>
                 </Fragment>

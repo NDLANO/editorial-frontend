@@ -65,9 +65,7 @@ const customSpinnerStyle = css`
 
 // Transform article if title is a string. If not it's probably an api compatible article
 function toApiVersion(article) {
-  return isString(article.title)
-    ? transformArticleToApiVersion(article)
-    : article;
+  return isString(article.title) ? transformArticleToApiVersion(article) : article;
 }
 
 const defaultState = {
@@ -108,24 +106,17 @@ class PreviewDraftLightbox extends React.Component {
     const article = toApiVersion(getArticle(true));
 
     const secondArticleLanguage =
-      article.supportedLanguages &&
-      article.supportedLanguages.find(l => l !== article.language);
+      article.supportedLanguages && article.supportedLanguages.find(l => l !== article.language);
 
     const types = {
-      previewLanguageArticle: () =>
-        this.previewLanguageArticle(secondArticleLanguage),
+      previewLanguageArticle: () => this.previewLanguageArticle(secondArticleLanguage),
       previewVersion: () => this.previewVersion(article.language),
       previewProductionArticle: this.previewProductionArticle,
     };
     this.setState({ loading: true });
-    const firstArticle = await articleApi.getPreviewArticle(
-      article,
-      article.language,
-    );
+    const firstArticle = await articleApi.getPreviewArticle(article, article.language);
 
-    const secondArticle = types[typeOfPreview]
-      ? await types[typeOfPreview]()
-      : undefined;
+    const secondArticle = types[typeOfPreview] ? await types[typeOfPreview]() : undefined;
 
     this.setState({
       firstArticle: firstArticle,
@@ -145,35 +136,20 @@ class PreviewDraftLightbox extends React.Component {
   async previewProductionArticle() {
     const { getArticle } = this.props;
     const { id, language } = getArticle(true);
-    const article = await articleApi.getArticleFromArticleConverter(
-      id,
-      language,
-    );
+    const article = await articleApi.getArticleFromArticleConverter(id, language);
     return article;
   }
 
   async previewLanguageArticle(language = undefined) {
     const { getArticle } = this.props;
     const originalArticle = toApiVersion(getArticle(true));
-    const draftOtherLanguage = await draftApi.fetchDraft(
-      originalArticle.id,
-      language,
-    );
-    const article = await articleApi.getPreviewArticle(
-      draftOtherLanguage,
-      language,
-    );
+    const draftOtherLanguage = await draftApi.fetchDraft(originalArticle.id, language);
+    const article = await articleApi.getPreviewArticle(draftOtherLanguage, language);
     return article;
   }
 
   render() {
-    const {
-      firstArticle,
-      showPreview,
-      secondArticle,
-      previewLanguage,
-      loading,
-    } = this.state;
+    const { firstArticle, showPreview, secondArticle, previewLanguage, loading } = this.state;
     const { label, typeOfPreview, children, t } = this.props;
 
     if (!showPreview) {
@@ -218,11 +194,7 @@ class PreviewDraftLightbox extends React.Component {
               onChangePreviewLanguage={this.onChangePreviewLanguage}
               previewLanguage={previewLanguage}
               getEntityPreview={(article, label, contentType) => (
-                <PreviewDraft
-                  article={article}
-                  label={label}
-                  contentType={contentType}
-                />
+                <PreviewDraft article={article} label={label} contentType={contentType} />
               )}
             />
           </Lightbox>

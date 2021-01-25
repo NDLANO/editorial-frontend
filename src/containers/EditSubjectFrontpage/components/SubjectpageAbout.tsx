@@ -15,12 +15,7 @@ import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 const SubjectpageAbout: FC<tType> = ({ t }) => {
   return (
     <>
-      <FormikField
-        name="title"
-        noBorder
-        title
-        placeholder={t('form.name.title')}
-      />
+      <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
       <FormikField
         noBorder
         label={t('subjectpageForm.description')}
@@ -35,11 +30,7 @@ const SubjectpageAbout: FC<tType> = ({ t }) => {
           />
         )}
       </FormikField>
-      <FormikVisualElement
-        types={['image', 'video']}
-        videoTypes={['Brightcove']}
-        isSubjectPage
-      />
+      <FormikVisualElement types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
     </>
   );
 };

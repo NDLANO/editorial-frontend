@@ -20,9 +20,9 @@ const baseUrl = apiResourceUrl('/taxonomy/v1');
 
 /* Option items */
 function fetchResourceTypes(language) {
-  return fetchAuthorized(
-    `${baseUrl}/resource-types/?language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
+    resolveJsonOrRejectWithError,
+  );
 }
 
 function fetchFilters(language) {
@@ -38,15 +38,11 @@ function fetchRelevances(language) {
 }
 
 function fetchSubject(subjectUrn) {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectUrn}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectUrn}`).then(resolveJsonOrRejectWithError);
 }
 
 function resolveUrls(path) {
-  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(resolveJsonOrRejectWithError);
 }
 
 /* Queries */
@@ -54,27 +50,15 @@ function resolveUrls(path) {
 /* Taxonomy actions */
 async function updateTaxonomy(
   resourceId,
-  {
-    topics: originalTopics,
-    filter: originalFilters,
-    resourceTypes: originalResourceTypes,
-  },
+  { topics: originalTopics, filter: originalFilters, resourceTypes: originalResourceTypes },
   taxonomyChanges,
   language,
 ) {
   try {
     await Promise.all([
-      createDeleteResourceTypes(
-        resourceId,
-        taxonomyChanges.resourceTypes,
-        originalResourceTypes,
-      ),
+      createDeleteResourceTypes(resourceId, taxonomyChanges.resourceTypes, originalResourceTypes),
 
-      createDeleteUpdateFilters(
-        resourceId,
-        taxonomyChanges.filter,
-        originalFilters,
-      ),
+      createDeleteUpdateFilters(resourceId, taxonomyChanges.filter, originalFilters),
 
       updateResourceMetadata(resourceId, taxonomyChanges.metadata),
 

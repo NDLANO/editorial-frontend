@@ -45,10 +45,7 @@ const SlateVisualElementPicker = ({
       {onCloseModal => (
         <Fragment>
           <ModalHeader>
-            <ModalCloseButton
-              title={t('dialog.close')}
-              onClick={onCloseModal}
-            />
+            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>
             <VisualElementSearch

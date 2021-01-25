@@ -24,12 +24,9 @@ const ImageCropEdit = ({ embed, onCropComplete, transformData }) => {
       ? {
           x: parseInt(transformData['upper-left-x']),
           y: parseInt(transformData['upper-left-y']),
-          width:
-            parseInt(transformData['lower-right-x']) -
-            parseInt(transformData['upper-left-x']),
+          width: parseInt(transformData['lower-right-x']) - parseInt(transformData['upper-left-x']),
           height:
-            parseInt(transformData['lower-right-y']) -
-            parseInt(transformData['upper-left-y']),
+            parseInt(transformData['lower-right-y']) - parseInt(transformData['upper-left-y']),
         }
       : undefined,
   );

@@ -27,13 +27,7 @@ interface Props {
   };
 }
 
-const FormikConcepts: FC<Props & tType> = ({
-  locale,
-  t,
-  values,
-  field,
-  form,
-}) => {
+const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) => {
   const [concepts, setConcepts] = useState<ConceptApiType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
@@ -53,10 +47,7 @@ const FormikConcepts: FC<Props & tType> = ({
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (
-    formikField: Props['field'],
-    newData: ConceptApiType[],
-  ) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptApiType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {

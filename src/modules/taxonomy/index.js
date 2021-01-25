@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export {
-  fetchResourceTypes,
-  fetchFilters,
-  fetchRelevances,
-  updateTaxonomy,
-} from './taxonomyApi';
+export { fetchResourceTypes, fetchFilters, fetchRelevances, updateTaxonomy } from './taxonomyApi';
 
 export {
   fetchResource,

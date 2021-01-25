@@ -61,13 +61,7 @@ interface Props {
   node: Node;
 }
 
-const DetailsBox: FC<Props & tType> = ({
-  t,
-  attributes,
-  children,
-  editor,
-  node,
-}) => {
+const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }) => {
   const summary: Node | null = (node as ParentNode)?.findDescendant(
     node => (node as ParentNode)?.type === 'summary',
   );
@@ -101,10 +95,7 @@ const DetailsBox: FC<Props & tType> = ({
 
   return (
     <div draggable={!showEditModal} {...attributes}>
-      <Details
-        editSummaryButton={editSummaryButton}
-        editor={editor}
-        node={node}>
+      <Details editSummaryButton={editSummaryButton} editor={editor} node={node}>
         {children}
       </Details>
       <Portal isOpened>
@@ -113,10 +104,7 @@ const DetailsBox: FC<Props & tType> = ({
             <>
               <ModalHeader>
                 {' '}
-                <ModalCloseButton
-                  title={t('dialog.close')}
-                  onClick={toggleShowEditModal}
-                />
+                <ModalCloseButton title={t('dialog.close')} onClick={toggleShowEditModal} />
               </ModalHeader>
               <ModalBody>
                 <Input

@@ -55,9 +55,7 @@ class EditFootnote extends Component {
     return (
       <Portal isOpened>
         <Lightbox display appearance="big" onClose={this.onClose}>
-          <h2>
-            {t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}
-          </h2>
+          <h2>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</h2>
           <FootnoteForm
             footnote={existingFootnote}
             onClose={this.onClose}
@@ -76,10 +74,7 @@ EditFootnote.propTypes = {
   onChange: PropTypes.func.isRequired,
   editor: PropTypes.object.isRequired,
   existingFootnote: FootnoteShape,
-  node: PropTypes.oneOfType([
-    Types.node,
-    PropTypes.shape({ type: PropTypes.string.isRequired }),
-  ]),
+  node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
 };
 
 export default injectT(EditFootnote);

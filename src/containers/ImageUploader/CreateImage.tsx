@@ -22,11 +22,7 @@ interface Props {
   showSaved: boolean;
 }
 
-const CreateImage = ({
-  history,
-  isNewlyCreated,
-  showSaved,
-}: Props & RouteComponentProps) => {
+const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteComponentProps) => {
   const locale: string = useContext(LocaleContext);
   const [licenses, setLicenses] = useState<Licenses[]>([]);
 
@@ -39,10 +35,7 @@ const CreateImage = ({
     setLicenses(license);
   };
 
-  const onCreateImage = async (
-    imageMetadata: NewImageMetadata,
-    image: string | Blob,
-  ) => {
+  const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await imageApi.postImage(formData);
     if (!imageMetadata.id) {

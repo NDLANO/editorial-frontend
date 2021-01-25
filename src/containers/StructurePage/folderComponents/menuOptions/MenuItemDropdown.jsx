@@ -62,9 +62,7 @@ class MenuItemDropdown extends PureComponent {
     };
 
     return new Fuse(
-      filter
-        ? searchResult.filter(it => it.path && !it.path.includes(filter))
-        : searchResult,
+      filter ? searchResult.filter(it => it.path && !it.path.includes(filter)) : searchResult,
       options,
     );
   }
@@ -104,11 +102,7 @@ class MenuItemDropdown extends PureComponent {
                   white
                   css={dropdownInputStyle}
                   iconRight={
-                    status === 'loading' ? (
-                      <Spinner size="normal" margin="0" />
-                    ) : (
-                      <Search />
-                    )
+                    status === 'loading' ? <Spinner size="normal" margin="0" /> : <Search />
                   }
                 />
                 <DropdownMenu

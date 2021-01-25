@@ -94,10 +94,7 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
         {() => (
           <Fragment>
             <ModalHeader>
-              <ModalCloseButton
-                title={t('dialog.close')}
-                onClick={onArticleSelectClose}
-              />
+              <ModalCloseButton title={t('dialog.close')} onClick={onArticleSelectClose} />
             </ModalHeader>
             <ModalBody>
               <AsyncDropdown

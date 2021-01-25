@@ -11,16 +11,9 @@ import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
 import Field from '../../../components/Field';
-import {
-  DEFAULT_LICENSE,
-  parseCopyrightContributors,
-} from '../../../util/formHelper';
+import { DEFAULT_LICENSE, parseCopyrightContributors } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
-import {
-  formClasses,
-  FormikActionButton,
-  FormikAbortButton,
-} from '../../FormikForm';
+import { formClasses, FormikActionButton, FormikAbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 
 const getInitialValues = (agreement = {}) => ({
@@ -105,18 +98,11 @@ class AgreementForm extends Component {
               <div className="u-4/6@desktop">
                 <Agreement />
                 <span>
-                  {values.id
-                    ? t('agreementForm.title.update')
-                    : t('agreementForm.title.create')}
+                  {values.id ? t('agreementForm.title.update') : t('agreementForm.title.create')}
                 </span>
               </div>
             </div>
-            <div
-              {...formClasses(
-                'content',
-                '',
-                'u-4/6@desktop u-push-1/6@desktop',
-              )}>
+            <div {...formClasses('content', '', 'u-4/6@desktop u-push-1/6@desktop')}>
               <AgreementFields licenses={licenses} />
             </div>
             <Field right>

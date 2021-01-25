@@ -31,9 +31,7 @@ export const parseCopyrightContributors = (obj, contributorType) => {
 const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   if (currentValue.length !== initialContent.length) return true;
   const toHTMLFunction =
-    type === 'standard'
-      ? learningResourceContentToHTML
-      : topicArticleContentToHTML;
+    type === 'standard' ? learningResourceContentToHTML : topicArticleContentToHTML;
   const newHTML = toHTMLFunction(currentValue);
   const oldHTML = toHTMLFunction(initialContent);
   const diff = diffHTML(newHTML, oldHTML);
@@ -126,9 +124,7 @@ const formikCommonArticleRules = {
     required: false,
     test: values => {
       const wrongFormat = !!values.find(value => !isGrepCodeValid(value));
-      return wrongFormat
-        ? { translationKey: 'validation.grepCodes' }
-        : undefined;
+      return wrongFormat ? { translationKey: 'validation.grepCodes' } : undefined;
     },
   },
 };
@@ -143,13 +139,10 @@ export const learningResourceRules = {
     required: true,
     test: value => {
       const embedsHasErrors = value.find(sectionValue => {
-        const embeds = findNodesByType(
-          sectionValue.document,
-          'embed',
-        ).map(node => node.get('data').toJS());
-        const notValidEmbeds = embeds.filter(
-          embed => !isUserProvidedEmbedDataValid(embed),
+        const embeds = findNodesByType(sectionValue.document, 'embed').map(node =>
+          node.get('data').toJS(),
         );
+        const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
         return notValidEmbeds.length > 0;
       });
 
@@ -164,15 +157,13 @@ export const topicArticleRules = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values =>
-      values.visualElement && values.visualElement.resource === 'image',
+    onlyValidateIf: values => values.visualElement && values.visualElement.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
       values.visualElement &&
-      (values.visualElement.resource === 'image' ||
-        values.visualElement.resource === 'brightcove'),
+      (values.visualElement.resource === 'image' || values.visualElement.resource === 'brightcove'),
   },
 };
 
@@ -188,9 +179,7 @@ export const subjectpageRules = {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';
-      return hasElement
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
+      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },
   metaDescription: {
@@ -214,9 +203,7 @@ export const ndlaFilmRules = {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';
-      return hasElement
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
+      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },
 };

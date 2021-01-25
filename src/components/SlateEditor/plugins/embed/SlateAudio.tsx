@@ -49,10 +49,7 @@ const SlateAudio: React.FC<Props & tType> = ({
 
   const getAudio = async () => {
     try {
-      const audio = await visualElementApi.fetchAudio(
-        embed.resource_id,
-        language,
-      );
+      const audio = await visualElementApi.fetchAudio(embed.resource_id, language);
       setAudio({
         ...audio,
         caption: embed.caption,
@@ -116,13 +113,7 @@ const SlateAudio: React.FC<Props & tType> = ({
               tabIndex={0}
               onKeyPress={toggleEdit}
               onClick={toggleEdit}>
-              {audio.id && (
-                <AudioPlayerMounter
-                  audio={audio}
-                  locale={locale}
-                  speech={speech}
-                />
-              )}
+              {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={speech} />}
             </div>
           </>
         )}

@@ -22,8 +22,7 @@ const StyledBreadCrumb = styled('div')`
 
 const StyledLink = styled(SafeLink)<StyleProps>`
   font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
 export default function Breadcrumb({ breadcrumb, type }: Props) {
@@ -35,15 +34,11 @@ export default function Breadcrumb({ breadcrumb, type }: Props) {
         return (
           <Fragment key={`${path.name}_${index}`}>
             <span css={{ 'white-space': 'nowrap' }}>
-              <StyledLink
-                isVisible={path.metadata ? path.metadata.visible : true}
-                to={url}>
+              <StyledLink isVisible={path.metadata ? path.metadata.visible : true} to={url}>
                 {path.name}
               </StyledLink>
             </span>
-            {type !== 'topic-article' && index + 1 !== breadcrumb.length && (
-              <ChevronRight />
-            )}
+            {type !== 'topic-article' && index + 1 !== breadcrumb.length && <ChevronRight />}
           </Fragment>
         );
       })}

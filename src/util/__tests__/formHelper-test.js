@@ -73,15 +73,11 @@ test('util/formHelper isFormikFormDirty content sections is removed', () => {
 });
 
 test('util/formHelper parseCopyrightContributors', () => {
-  expect(
-    parseCopyrightContributors({ copyright: { creators } }, 'creators'),
-  ).toEqual(creators);
+  expect(parseCopyrightContributors({ copyright: { creators } }, 'creators')).toEqual(creators);
 });
 
 test('util/formHelper parseCopyrightContributors type not found', () => {
-  expect(
-    parseCopyrightContributors({ copyright: { creators } }, 'test'),
-  ).toEqual([]);
+  expect(parseCopyrightContributors({ copyright: { creators } }, 'test')).toEqual([]);
 });
 
 test('util/formHelper parseCopyrightContributors no copyright object', () => {

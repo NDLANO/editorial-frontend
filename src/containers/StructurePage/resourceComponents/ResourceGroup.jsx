@@ -15,11 +15,7 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import {
-  FilterShape,
-  AvailableFiltersShape,
-  StructureShape,
-} from '../../../shapes';
+import { FilterShape, AvailableFiltersShape, StructureShape } from '../../../shapes';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({

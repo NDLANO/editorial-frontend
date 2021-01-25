@@ -34,12 +34,7 @@ interface Props {
   showLocaleSelector?: boolean;
 }
 
-export const FooterWrapper: FC<Props & tType> = ({
-  location,
-  locale,
-  showLocaleSelector,
-  t,
-}) => {
+export const FooterWrapper: FC<Props & tType> = ({ location, locale, showLocaleSelector, t }) => {
   const languageSelector = showLocaleSelector ? (
     <LanguageSelector
       center
@@ -54,10 +49,7 @@ export const FooterWrapper: FC<Props & tType> = ({
     <StyledFooterWrapper>
       <Footer lang={locale} languageSelector={languageSelector}>
         <FooterText>
-          <EditorName
-            title={t('footer.footerEditiorInChief')}
-            name="Sigurd Trageton"
-          />
+          <EditorName title={t('footer.footerEditiorInChief')} name="Sigurd Trageton" />
           {t('footer.footerInfo')}
         </FooterText>
       </Footer>
@@ -69,8 +61,4 @@ const mapStateToProps = (state: { locale: string }) => ({
   locale: getLocale(state),
 });
 
-export default compose<any>(
-  injectT,
-  withRouter,
-  connect(mapStateToProps, null),
-)(FooterWrapper);
+export default compose<any>(injectT, withRouter, connect(mapStateToProps, null))(FooterWrapper);

@@ -45,11 +45,7 @@ export function deleteResourceFilter(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-export async function createDeleteUpdateFilters(
-  resourceId,
-  filters,
-  originalFilters,
-) {
+export async function createDeleteUpdateFilters(resourceId, filters, originalFilters) {
   try {
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
       changedItems: filters,
@@ -66,9 +62,7 @@ export async function createDeleteUpdateFilters(
       ),
     );
 
-    await Promise.all(
-      deleteItems.map(item => deleteResourceFilter(item.connectionId)),
-    );
+    await Promise.all(deleteItems.map(item => deleteResourceFilter(item.connectionId)));
     updateItems.forEach(item => {
       updateResourceFilter(item.connectionId, {
         relevanceId: item.relevanceId,

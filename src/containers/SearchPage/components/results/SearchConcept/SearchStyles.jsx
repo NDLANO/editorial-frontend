@@ -62,9 +62,7 @@ export const StyledConceptView = styled.div`
   }
 `;
 
-export const StyledLink = styled(({ noShadow, other, ...rest }) => (
-  <Link {...rest} />
-))`
+export const StyledLink = styled(({ noShadow, other, ...rest }) => <Link {...rest} />)`
   &:any-link {
     color: ${colors.brand.primary};
   }

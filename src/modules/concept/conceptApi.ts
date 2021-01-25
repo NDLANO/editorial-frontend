@@ -18,11 +18,7 @@ import {
   ConceptQuery,
   ConceptSearchResult,
 } from './conceptApiInterfaces';
-import {
-  ConceptType,
-  StrippedConceptType,
-  ConceptStatusType,
-} from '../../interfaces';
+import { ConceptType, StrippedConceptType, ConceptStatusType } from '../../interfaces';
 
 import { transformApiToCleanConcept } from './conceptApiUtil';
 
@@ -38,43 +34,30 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (
-  conceptId: number,
-  locale: string,
-): Promise<ConceptType> => {
+export const fetchConcept = async (conceptId: number, locale: string): Promise<ConceptType> => {
   const response = await fetchAuthorized(
     `${draftConceptUrl}/${conceptId}?language=${locale}&fallback=true`,
   );
-  return resolveJsonOrRejectWithError(
-    response,
-  ).then((resolved: ConceptApiType) =>
+  return resolveJsonOrRejectWithError(response).then((resolved: ConceptApiType) =>
     transformApiToCleanConcept(resolved, locale),
   );
 };
 
-export const addConcept = async (
-  concept: StrippedConceptType,
-): Promise<ConceptType> =>
+export const addConcept = async (concept: StrippedConceptType): Promise<ConceptType> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
   })
     .then(resolveJsonOrRejectWithError)
-    .then((newConcept: ConceptApiType) =>
-      transformApiToCleanConcept(newConcept, concept.language),
-    );
+    .then((newConcept: ConceptApiType) => transformApiToCleanConcept(newConcept, concept.language));
 
-export const updateConcept = async (
-  concept: StrippedConceptType,
-): Promise<ConceptType> =>
+export const updateConcept = async (concept: StrippedConceptType): Promise<ConceptType> =>
   fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
   })
     .then(resolveJsonOrRejectWithError)
-    .then((newConcept: ConceptApiType) =>
-      transformApiToCleanConcept(newConcept, concept.language),
-    );
+    .then((newConcept: ConceptApiType) => transformApiToCleanConcept(newConcept, concept.language));
 
 export const deleteLanguageVersionConcept = async (
   conceptId: number,

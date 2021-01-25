@@ -66,8 +66,4 @@ export interface PossibleStatuses {
   QUEUED_FOR_PUBLISHING: Array<string>;
 }
 
-export type PreviewTypes =
-  | 'previewProductionArticle'
-  | 'previewLanguageArticle'
-  | 'preview'
-  | '';
+export type PreviewTypes = 'previewProductionArticle' | 'previewLanguageArticle' | 'preview' | '';

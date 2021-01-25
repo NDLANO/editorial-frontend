@@ -15,14 +15,7 @@ import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFa
 import ContentView from './ContentView';
 import FormView from './FormView';
 
-const SearchConcept = ({
-  concept,
-  locale,
-  subjects,
-  t,
-  editingState,
-  licenses,
-}) => {
+const SearchConcept = ({ concept, locale, subjects, t, editingState, licenses }) => {
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
   const [showForm, setShowForm] = useState(false);
@@ -31,19 +24,9 @@ const SearchConcept = ({
     setShowForm(true);
   };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
-  const title = convertFieldWithFallback(
-    localConcept,
-    'title',
-    t('conceptSearch.noTitle'),
-  );
-  const content = convertFieldWithFallback(
-    localConcept,
-    'content',
-    t('conceptSearch.noContent'),
-  );
-  const breadcrumbs = subjects.filter(s =>
-    localConcept.subjectIds?.includes(s.id),
-  );
+  const title = convertFieldWithFallback(localConcept, 'title', t('conceptSearch.noTitle'));
+  const content = convertFieldWithFallback(localConcept, 'content', t('conceptSearch.noContent'));
+  const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
 
   return (
     <div {...searchClasses('result')}>

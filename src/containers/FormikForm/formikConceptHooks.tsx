@@ -12,11 +12,7 @@ import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import {
-  ArticleType,
-  ConceptFormType,
-  ConceptStatusType,
-} from '../../interfaces';
+import { ArticleType, ConceptFormType, ConceptStatusType } from '../../interfaces';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
@@ -64,9 +60,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     );
   };
 
-  const updateConcept = async (
-    updatedConcept: ConceptFormType,
-  ): Promise<ConceptFormType> => {
+  const updateConcept = async (updatedConcept: ConceptFormType): Promise<ConceptFormType> => {
     const savedConcept = await conceptApi.updateConcept(updatedConcept);
     const formConcept = { ...savedConcept, articles: [] };
     setConcept(formConcept);
@@ -85,13 +79,8 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => {
-    const newConcept = dirty
-      ? await conceptApi.updateConcept(updatedConcept)
-      : updatedConcept;
-    const conceptChangedStatus = await conceptApi.updateConceptStatus(
-      updatedConcept.id,
-      newStatus,
-    );
+    const newConcept = dirty ? await conceptApi.updateConcept(updatedConcept) : updatedConcept;
+    const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
     setConcept({
       ...newConcept,
       status: conceptChangedStatus.status,

@@ -24,13 +24,7 @@ interface Props {
   };
 }
 
-const ConceptArticles: FC<Props & tType> = ({
-  locale,
-  t,
-  initArticles,
-  field,
-  form,
-}) => {
+const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, form }) => {
   const [articles, setArticles] = useState<ArticleType[]>(initArticles);
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
@@ -69,10 +63,7 @@ const ConceptArticles: FC<Props & tType> = ({
 
   return (
     <>
-      <FieldHeader
-        title={t('form.related.title')}
-        subTitle={t('subjectpageForm.articles')}
-      />
+      <FieldHeader title={t('form.related.title')} subTitle={t('subjectpageForm.articles')} />
       <ElementList
         elements={articles}
         messages={{

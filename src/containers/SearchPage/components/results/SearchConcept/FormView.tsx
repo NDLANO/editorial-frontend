@@ -41,9 +41,7 @@ const FormView = ({
     title: t(`language.${lan}`),
     value: lan,
   }));
-  const [language, setLanguage] = useState<string>(
-    concept.supportedLanguages[0],
-  );
+  const [language, setLanguage] = useState<string>(concept.supportedLanguages[0]);
   const [fullConcept, setFullConcept] = useState<ConceptType | undefined>();
 
   useEffect(() => {
@@ -55,17 +53,13 @@ const FormView = ({
   useEffect(() => {
     if (fullConcept && licenses && subjects) {
       const subjectIds = concept.subjectIds;
-      const author = fullConcept.copyright?.creators.find(
-        cr => cr.type === 'Writer',
-      );
+      const author = fullConcept.copyright?.creators.find(cr => cr.type === 'Writer');
       setFormValues({
         title: fullConcept.title,
         author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
         license:
-          licenses.find(
-            l => l.license === fullConcept.copyright?.license?.license,
-          )?.license || '',
+          licenses.find(l => l.license === fullConcept.copyright?.license?.license)?.license || '',
         tags: fullConcept.tags || [],
       });
     }
@@ -90,16 +84,11 @@ const FormView = ({
           status={fullConcept.status.current}
           language={language}
           onSubmit={(formConcept: InlineFormConcept) => {
-            const getCreators = (
-              creators: { type: string; name: string }[],
-              newAuthor: string,
-            ) => {
+            const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
               const author = creators.find(cr => cr.type === 'Writer');
               if (newAuthor !== '') {
                 if (author) {
-                  return creators.map(cr =>
-                    cr === author ? { ...cr, name: newAuthor } : cr,
-                  );
+                  return creators.map(cr => (cr === author ? { ...cr, name: newAuthor } : cr));
                 } else {
                   return creators.concat({
                     type: 'Writer',
@@ -110,10 +99,7 @@ const FormView = ({
                 return creators.filter(cr => cr !== author);
               }
             };
-            const creators = getCreators(
-              fullConcept.copyright?.creators || [],
-              formConcept.author,
-            );
+            const creators = getCreators(fullConcept.copyright?.creators || [], formConcept.author);
 
             const newConcept = {
               id: fullConcept.id,

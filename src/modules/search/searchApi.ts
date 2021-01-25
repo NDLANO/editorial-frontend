@@ -19,10 +19,7 @@ import {
   GroupSearchResult,
   MultiSearchApiQuery,
 } from './searchApiInterfaces';
-import {
-  SearchConceptApiType,
-  ConceptSearchResult,
-} from '../concept/conceptApiInterfaces';
+import { SearchConceptApiType, ConceptSearchResult } from '../concept/conceptApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
@@ -30,17 +27,13 @@ const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 // Temporary solution, search-api should be used instead
 const conceptBaseUrl = apiResourceUrl('/concept-api/v1/drafts');
 
-export const searchConcepts = async (
-  query: ConceptSearchQuery,
-): Promise<ConceptSearchResult> => {
+export const searchConcepts = async (query: ConceptSearchQuery): Promise<ConceptSearchResult> => {
   const response = await fetchAuthorized(
     `${conceptBaseUrl}?${queryString.stringify(transformQuery(query))}`,
   );
-  return resolveJsonOrRejectWithError(response).then(
-    (resolved: SearchConceptApiType) => {
-      return resolved;
-    },
-  );
+  return resolveJsonOrRejectWithError(response).then((resolved: SearchConceptApiType) => {
+    return resolved;
+  });
 };
 
 export const search = async (query: MultiSearchApiQuery) => {

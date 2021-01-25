@@ -275,11 +275,7 @@ class ConceptForm extends Component {
         component: props => (
           <FormikField name={'articles'}>
             {({ field, form }) => (
-              <ConceptArticles
-                initArticles={concept.articles}
-                field={field}
-                form={form}
-              />
+              <ConceptArticles initArticles={concept.articles} field={field} form={form} />
             )}
           </FormikField>
         ),

@@ -11,11 +11,7 @@ import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from './components/ElementList';
 import { AsyncDropdown } from '../../components/Dropdown';
-import {
-  ContentResultType,
-  FormikProperties,
-  ConceptType,
-} from '../../interfaces';
+import { ContentResultType, FormikProperties, ConceptType } from '../../interfaces';
 import handleError from '../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../modules/concept/conceptApi';
 
@@ -30,13 +26,7 @@ interface Props {
   };
 }
 
-const FormikConcepts: FC<Props & tType> = ({
-  locale,
-  t,
-  values,
-  field,
-  form,
-}) => {
+const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) => {
   const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
@@ -56,10 +46,7 @@ const FormikConcepts: FC<Props & tType> = ({
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (
-    formikField: Props['field'],
-    newData: ConceptType[],
-  ) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {

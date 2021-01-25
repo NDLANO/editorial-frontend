@@ -55,9 +55,7 @@ const ContentView = ({
         )}
       </h2>
       <StyledInfo>
-        {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(
-          concept.lastUpdated,
-        )}`}
+        {`${t('topicArticleForm.info.lastUpdated')} ${formatDate(concept.lastUpdated)}`}
       </StyledInfo>
       <div>
         {concept.supportedLanguages.map(lang => {
@@ -80,14 +78,13 @@ const ContentView = ({
         </StyledDescription>
       )}
       <StyledBreadcrumbs>
-        {breadcrumbs?.map(breadcrumb => (
-          <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>
-        )) || <Crumb />}
+        {breadcrumbs?.map(breadcrumb => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (
+          <Crumb />
+        )}
         <HeaderStatusInformation
           statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
           published={
-            concept.status?.current === 'PUBLISHED' ||
-            concept.status?.other.includes('PUBLISHED')
+            concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
           }
           noHelp
           indentLeft

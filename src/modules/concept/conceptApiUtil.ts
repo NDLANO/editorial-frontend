@@ -16,11 +16,7 @@ export const transformApiToCleanConcept = (
   concept: ConceptApiType,
   language: string,
 ): ConceptType => {
-  const visualElementEmbed = convertFieldWithFallback(
-    concept,
-    'visualElement',
-    '',
-  );
+  const visualElementEmbed = convertFieldWithFallback(concept, 'visualElement', '');
   const ParsedVisualElement = parseEmbedTag(visualElementEmbed);
   return {
     ...concept,

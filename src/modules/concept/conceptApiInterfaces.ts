@@ -6,11 +6,7 @@
  *
  */
 
-<<<<<<<
 import { Copyright, Status } from '../../interfaces';
-=======
-import { ArticleType, Copyright, Status, VisualElement, Author } from '../../interfaces';
->>>>>>>
 
 export type LanguageFieldType<T> = T & {
   language: string;

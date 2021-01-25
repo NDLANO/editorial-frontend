@@ -71,8 +71,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
     const originalConcept = getConcept();
     const secondConcept = await fetchConcept(originalConcept.id, language);
     const secondVisualElement =
-      secondConcept.visualElement &&
-      (await getVisualElement(secondConcept.visualElement));
+      secondConcept.visualElement && (await getVisualElement(secondConcept.visualElement));
     setPreviewLanguage(language);
     setSecondConcept({
       ...secondConcept,

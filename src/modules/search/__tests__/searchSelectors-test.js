@@ -12,9 +12,11 @@ import {
   getAudioResults,
   getImageResults,
   getAudioLastPage,
+  getConceptResults,
   getImageLastPage,
+  getConceptLastPage,
 } from '../searchSelectors';
-import { contentResults, audioResults, imageResults } from './_mockSearchResult';
+import { contentResults, audioResults, conceptResults, imageResults } from './_mockSearchResult';
 
 const lastPageTestState = {
   search: {
@@ -26,6 +28,11 @@ const lastPageTestState = {
     },
     totalAudioResults: {
       totalCount: 27,
+      pageSize: 3,
+      results: [],
+    },
+    totalConceptResults: {
+      totalCount: 21,
       pageSize: 3,
       results: [],
     },
@@ -56,6 +63,14 @@ test('searchSelectors getAudioResults', () => {
   expect(getAudioResults(state)).toMatchSnapshot();
 });
 
+test('searchSelectors getConceptResults', () => {
+  const state = {
+    search: { totalConceptResults: conceptResults },
+  };
+
+  expect(getConceptResults(state)).toMatchSnapshot();
+});
+
 test('searchSelectors getImageResults', () => {
   const state = {
     search: { totalImageResults: imageResults },
@@ -66,6 +81,10 @@ test('searchSelectors getImageResults', () => {
 
 test('searchSelectors getAudioLastPage', () => {
   expect(getAudioLastPage(lastPageTestState)).toBe(9);
+});
+
+test('searchSelectors getConceptLastPage', () => {
+  expect(getConceptLastPage(lastPageTestState)).toBe(7);
 });
 
 test('searchSelectors getImageLastPage', () => {

@@ -1,79 +1,161 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`searchSelectors getAudioResults 1`] = `
-Array [
-  Object {
-    "language": "all",
-    "page": 4,
-    "pageSize": 2,
-    "results": Array [
-      Object {
-        "id": 123,
-        "supportedLanguages": Array [
-          "unknown",
-          "nb",
-          "nn",
-          "en",
-        ],
-        "title": "Test audio 1",
-        "url": "https://testurl/123",
+Object {
+  "language": "all",
+  "page": 4,
+  "pageSize": 2,
+  "results": Array [
+    Object {
+      "id": 123,
+      "supportedLanguages": Array [
+        "unknown",
+        "nb",
+        "nn",
+        "en",
+      ],
+      "title": "Test audio 1",
+      "url": "https://testurl/123",
+    },
+    Object {
+      "id": 234,
+      "supportedLanguages": Array [
+        "unknown",
+        "nb",
+        "nn",
+        "en",
+      ],
+      "title": "Test audio 2",
+      "url": "https://testurl/234",
+    },
+  ],
+  "totalCount": 100,
+}
+`;
+
+exports[`searchSelectors getConceptResults 1`] = `
+Object {
+  "language": "all",
+  "page": 6,
+  "pageSize": 2,
+  "results": Array [
+    Object {
+      "content": Object {
+        "content": "Test content",
+        "language": "nb",
       },
-      Object {
-        "id": 234,
-        "supportedLanguages": Array [
-          "unknown",
-          "nb",
-          "nn",
-          "en",
-        ],
-        "title": "Test audio 2",
-        "url": "https://testurl/234",
+      "id": 1,
+      "lastUpdated": "2021-01-25T11:12:12Z",
+      "license": "test license",
+      "metaImage": Object {
+        "alt": "12345",
+        "language": "nb",
+        "url": "testurl",
       },
-    ],
-    "totalCount": 100,
-    "type": "audios",
-  },
-]
+      "status": Object {
+        "current": "DRAFT",
+        "other": Array [],
+      },
+      "subjectIds": Array [
+        "urn:subject:1",
+      ],
+      "supportedLanguages": Array [
+        "nb",
+      ],
+      "tags": Object {
+        "language": "nb",
+        "tags": Array [
+          "test tag",
+        ],
+      },
+      "title": Object {
+        "language": "nb",
+        "title": "test title",
+      },
+      "updatedBy": Array [
+        "person1",
+        "person2",
+      ],
+    },
+    Object {
+      "content": Object {
+        "content": "Test content 2",
+        "language": "nb",
+      },
+      "id": 2,
+      "lastUpdated": "2021-01-25T11:12:12Z",
+      "license": "test license 2",
+      "metaImage": Object {
+        "alt": "12345",
+        "language": "nb",
+        "url": "testurl2",
+      },
+      "status": Object {
+        "current": "DRAFT",
+        "other": Array [],
+      },
+      "subjectIds": Array [
+        "urn:subject:2",
+      ],
+      "supportedLanguages": Array [
+        "nb",
+      ],
+      "tags": Object {
+        "language": "nb",
+        "tags": Array [
+          "test tag 2",
+        ],
+      },
+      "title": Object {
+        "language": "nb",
+        "title": "test title 2",
+      },
+      "updatedBy": Array [
+        "person1",
+        "person2",
+        "person3",
+      ],
+    },
+  ],
+  "totalCount": 50,
+}
 `;
 
 exports[`searchSelectors getImageResults 1`] = `
-Array [
-  Object {
-    "language": "all",
-    "page": 3,
-    "pageSize": 2,
-    "results": Array [
-      Object {
-        "altText": "",
-        "id": 7533,
-        "metaUrl": "https://test.api.ndla.no/image-api/v2/images/7533",
-        "previewUrl": "https://test.api.ndla.no/image-api/raw/2011-05-03_0924.png",
-        "supportedLanguages": Array [
-          "unknown",
-          "nb",
-          "nn",
-          "en",
-        ],
-        "title": "Dekningsgrad",
-      },
-      Object {
-        "altText": "",
-        "id": 7534,
-        "metaUrl": "https://test.api.ndla.no/image-api/v2/images/7534",
-        "previewUrl": "https://test.api.ndla.no/image-api/raw/2011-05-03_0917.png",
-        "supportedLanguages": Array [
-          "unknown",
-          "nb",
-          "nn",
-          "en",
-        ],
-        "title": "Dekningsbidrag ved makspris",
-      },
-    ],
-    "totalCount": 32,
-    "type": "images",
-  },
-]
+Object {
+  "language": "all",
+  "page": 3,
+  "pageSize": 2,
+  "results": Array [
+    Object {
+      "altText": "",
+      "id": 7533,
+      "metaUrl": "https://test.api.ndla.no/image-api/v2/images/7533",
+      "previewUrl": "https://test.api.ndla.no/image-api/raw/2011-05-03_0924.png",
+      "supportedLanguages": Array [
+        "unknown",
+        "nb",
+        "nn",
+        "en",
+      ],
+      "title": "Dekningsgrad",
+    },
+    Object {
+      "altText": "",
+      "id": 7534,
+      "metaUrl": "https://test.api.ndla.no/image-api/v2/images/7534",
+      "previewUrl": "https://test.api.ndla.no/image-api/raw/2011-05-03_0917.png",
+      "supportedLanguages": Array [
+        "unknown",
+        "nb",
+        "nn",
+        "en",
+      ],
+      "title": "Dekningsbidrag ved makspris",
+    },
+  ],
+  "totalCount": 32,
+}
 `;
 
 exports[`searchSelectors getResults 1`] = `

@@ -172,54 +172,83 @@ export const contentResults = {
   ],
 };
 
-export const audioResults = [
-  {
-    type: 'audios',
-    language: 'all',
-    totalCount: 100,
-    page: 4,
-    pageSize: 2,
-    results: [
-      {
-        id: 123,
-        title: 'Test audio 1',
-        url: 'https://testurl/123',
-        supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
-      },
-      {
-        id: 234,
-        title: 'Test audio 2',
-        url: 'https://testurl/234',
-        supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
-      },
-    ],
-  },
-];
+export const audioResults = {
+  language: 'all',
+  totalCount: 100,
+  page: 4,
+  pageSize: 2,
+  results: [
+    {
+      id: 123,
+      title: 'Test audio 1',
+      url: 'https://testurl/123',
+      supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
+    },
+    {
+      id: 234,
+      title: 'Test audio 2',
+      url: 'https://testurl/234',
+      supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
+    },
+  ],
+};
 
-export const imageResults = [
-  {
-    type: 'images',
-    language: 'all',
-    totalCount: 32,
-    page: 3,
-    pageSize: 2,
-    results: [
-      {
-        id: 7533,
-        title: 'Dekningsgrad',
-        altText: '',
-        previewUrl: 'https://test.api.ndla.no/image-api/raw/2011-05-03_0924.png',
-        metaUrl: 'https://test.api.ndla.no/image-api/v2/images/7533',
-        supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
-      },
-      {
-        id: 7534,
-        title: 'Dekningsbidrag ved makspris',
-        altText: '',
-        previewUrl: 'https://test.api.ndla.no/image-api/raw/2011-05-03_0917.png',
-        metaUrl: 'https://test.api.ndla.no/image-api/v2/images/7534',
-        supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
-      },
-    ],
-  },
-];
+export const conceptResults = {
+  language: 'all',
+  totalCount: 50,
+  page: 6,
+  pageSize: 2,
+  results: [
+    {
+      content: { content: 'Test content', language: 'nb' },
+      id: 1,
+      lastUpdated: '2021-01-25T11:12:12Z',
+      license: 'test license',
+      metaImage: { url: 'testurl', alt: '12345', language: 'nb' },
+      status: { current: 'DRAFT', other: [] },
+      subjectIds: ['urn:subject:1'],
+      supportedLanguages: ['nb'],
+      tags: { tags: ['test tag'], language: 'nb' },
+      title: { title: 'test title', language: 'nb' },
+      updatedBy: ['person1', 'person2'],
+    },
+    {
+      content: { content: 'Test content 2', language: 'nb' },
+      id: 2,
+      lastUpdated: '2021-01-25T11:12:12Z',
+      license: 'test license 2',
+      metaImage: { url: 'testurl2', alt: '12345', language: 'nb' },
+      status: { current: 'DRAFT', other: [] },
+      subjectIds: ['urn:subject:2'],
+      supportedLanguages: ['nb'],
+      tags: { tags: ['test tag 2'], language: 'nb' },
+      title: { title: 'test title 2', language: 'nb' },
+      updatedBy: ['person1', 'person2', 'person3'],
+    },
+  ],
+};
+
+export const imageResults = {
+  language: 'all',
+  totalCount: 32,
+  page: 3,
+  pageSize: 2,
+  results: [
+    {
+      id: 7533,
+      title: 'Dekningsgrad',
+      altText: '',
+      previewUrl: 'https://test.api.ndla.no/image-api/raw/2011-05-03_0924.png',
+      metaUrl: 'https://test.api.ndla.no/image-api/v2/images/7533',
+      supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
+    },
+    {
+      id: 7534,
+      title: 'Dekningsbidrag ved makspris',
+      altText: '',
+      previewUrl: 'https://test.api.ndla.no/image-api/raw/2011-05-03_0917.png',
+      metaUrl: 'https://test.api.ndla.no/image-api/v2/images/7534',
+      supportedLanguages: ['unknown', 'nb', 'nn', 'en'],
+    },
+  ],
+};

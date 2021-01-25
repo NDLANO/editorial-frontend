@@ -12,10 +12,11 @@ import reducer, {
   searchError,
   setSearchResult,
   setAudioSearchResult,
+  setConceptSearchResult,
   setImageSearchResult,
   clearSearchResult,
 } from '../search';
-import { contentResults, audioResults, imageResults } from './_mockSearchResult';
+import { contentResults, audioResults, conceptResults, imageResults } from './_mockSearchResult';
 
 test('reducers/search initalState', () => {
   const nextState = reducer(undefined, { type: 'Noop' });
@@ -67,11 +68,42 @@ test('reducers/search handle set searchAudio result', () => {
     payload: audioResults,
   });
 
-  expect(nextState.totalAudioResults[0].totalCount).toBe(100);
-  expect(nextState.totalAudioResults[0].results.length).toBe(2);
-  expect(nextState.totalAudioResults[0].page).toBe(4);
-  expect(nextState.totalAudioResults[0].pageSize).toBe(2);
-  expect(nextState.totalAudioResults[0].language).toBe('all');
+  expect(nextState.totalAudioResults.totalCount).toBe(100);
+  expect(nextState.totalAudioResults.results.length).toBe(2);
+  expect(nextState.totalAudioResults.page).toBe(4);
+  expect(nextState.totalAudioResults.pageSize).toBe(2);
+  expect(nextState.totalAudioResults.language).toBe('all');
+  expect(nextState.searching).toBe(false);
+});
+
+test('reducers/search handle set searchConcept result', () => {
+  const nextState = reducer(initalState, {
+    type: setConceptSearchResult,
+    payload: conceptResults,
+  });
+
+  expect(nextState.totalConceptResults.totalCount).toBe(50);
+  expect(nextState.totalConceptResults.results.length).toBe(2);
+  expect(nextState.totalConceptResults.page).toBe(6);
+  expect(nextState.totalConceptResults.pageSize).toBe(2);
+  expect(nextState.totalConceptResults.language).toBe('all');
+  expect(nextState.totalConceptResults.results[0].content.content).toBe('Test content');
+  expect(nextState.totalConceptResults.results[0].id).toBe(1);
+  expect(nextState.totalConceptResults.results[0].license).toBe('test license');
+  expect(nextState.totalConceptResults.results[0].lastUpdated).toBe('2021-01-25T11:12:12Z');
+  expect(nextState.totalConceptResults.results[0].metaImage.url).toBe('testurl');
+  expect(nextState.totalConceptResults.results[0].status).toEqual({ current: 'DRAFT', other: [] });
+  expect(nextState.totalConceptResults.results[0].subjectIds).toEqual(['urn:subject:1']);
+  expect(nextState.totalConceptResults.results[0].supportedLanguages).toEqual(['nb']);
+  expect(nextState.totalConceptResults.results[0].tags).toEqual({
+    tags: ['test tag'],
+    language: 'nb',
+  });
+  expect(nextState.totalConceptResults.results[0].title).toEqual({
+    title: 'test title',
+    language: 'nb',
+  });
+  expect(nextState.totalConceptResults.results[0].updatedBy).toEqual(['person1', 'person2']);
   expect(nextState.searching).toBe(false);
 });
 
@@ -81,11 +113,11 @@ test('reducers/search handle set searchImage result', () => {
     payload: imageResults,
   });
 
-  expect(nextState.totalImageResults[0].totalCount).toBe(32);
-  expect(nextState.totalImageResults[0].results.length).toBe(2);
-  expect(nextState.totalImageResults[0].page).toBe(3);
-  expect(nextState.totalImageResults[0].pageSize).toBe(2);
-  expect(nextState.totalImageResults[0].language).toBe('all');
+  expect(nextState.totalImageResults.totalCount).toBe(32);
+  expect(nextState.totalImageResults.results.length).toBe(2);
+  expect(nextState.totalImageResults.page).toBe(3);
+  expect(nextState.totalImageResults.pageSize).toBe(2);
+  expect(nextState.totalImageResults.language).toBe('all');
   expect(nextState.searching).toBe(false);
 });
 

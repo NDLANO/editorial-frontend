@@ -20,11 +20,7 @@ function pasteHandler() {
         if (topLevelTarget.type === 'paragraph') {
           if (topLevelTarget.text === '') {
             // Only support pasting fragment into empty p for now
-            return editor.insertFragmentByKey(
-              topLevelTarget.key,
-              0,
-              transfer.fragment,
-            );
+            return editor.insertFragmentByKey(topLevelTarget.key, 0, transfer.fragment);
           } else {
             // Extract text and append to p
             return editor.insertText(transfer.text);

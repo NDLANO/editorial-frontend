@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import React, { FC, Fragment } from 'react';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
@@ -81,12 +77,7 @@ const panels = [
     title: 'ndlaFilm.editor.movieGroupHeader',
     className: 'u-6/6',
     errorFields: ['editorsChoices'],
-    component: ({
-      allMovies,
-      onUpdateMovieList,
-      loading,
-      selectedLanguage,
-    }: PanelProps) => (
+    component: ({ allMovies, onUpdateMovieList, loading, selectedLanguage }: PanelProps) => (
       <FormikField name={'themes'}>
         {({ field, form }: FormikThemeProps) => (
           <ThemeEditor

@@ -79,11 +79,7 @@ const StructureFunctionButtons = ({
     }
     return (
       <StyledButtonWrapper>
-        <Button
-          outline
-          css={buttonAdditionStyle}
-          type="button"
-          onClick={addTopic}>
+        <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
           {t('taxonomy.topics.addNewTopic')}
         </Button>
         <FilterView
@@ -99,19 +95,12 @@ const StructureFunctionButtons = ({
 
   return (
     <StyledButtonWrapper>
-      <Button
-        outline
-        css={buttonAdditionStyle}
-        type="button"
-        onClick={addTopic}>
+      <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
         {t('taxonomy.topics.addNewSubTopic')}
       </Button>
       {currentIndex !== -1 && (
         <StyledChecked>
-          <Check
-            className="c-icon--22"
-            style={{ fill: colors.support.green }}
-          />{' '}
+          <Check className="c-icon--22" style={{ fill: colors.support.green }} />{' '}
           <span>{t('taxonomy.topics.addedTopic')}</span>
         </StyledChecked>
       )}

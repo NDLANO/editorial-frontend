@@ -16,8 +16,7 @@ const usePreventWindowUnload = preventDefault => {
         return (event.returnValue = '');
       };
       window.addEventListener('beforeunload', handleBeforeUnload);
-      return () =>
-        window.removeEventListener('beforeunload', handleBeforeUnload);
+      return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }
   }, [preventDefault]);
 };

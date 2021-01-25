@@ -67,9 +67,7 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick, t }) => {
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
       css={toolbarButtonStyle}>
-      <span {...toolbarClasses('icon', isActive ? 'active' : '')}>
-        {toolbarIcon(t)[type]}
-      </span>
+      <span {...toolbarClasses('icon', isActive ? 'active' : '')}>{toolbarIcon(t)[type]}</span>
     </Button>
   );
 };

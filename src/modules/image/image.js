@@ -94,26 +94,13 @@ export const getImage = (imageId, useLanguage = false) =>
           id: parseInt(image.id, 10),
           title: convertFieldWithFallback(image, 'title', '', imageLanguage),
           tags: convertFieldWithFallback(image, 'tags', [], imageLanguage),
-          alttext: convertFieldWithFallback(
-            image,
-            'alttext',
-            '',
-            imageLanguage,
-          ),
-          caption: convertFieldWithFallback(
-            image,
-            'caption',
-            '',
-            imageLanguage,
-          ),
+          alttext: convertFieldWithFallback(image, 'alttext', '', imageLanguage),
+          caption: convertFieldWithFallback(image, 'caption', '', imageLanguage),
         }
       : undefined;
   });
 
-export const getSaving = createSelector(
-  [getImagesFromState],
-  images => images.isSaving,
-);
+export const getSaving = createSelector([getImagesFromState], images => images.isSaving);
 
 export const getUploadedImage = createSelector(
   [getImagesFromState],

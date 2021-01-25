@@ -10,11 +10,12 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import RichTextEditor from './RichTextEditor';
 import StyledFormContainer from './common/StyledFormContainer';
 import { PluginShape } from '../../shapes';
-import CrossButton from '../CrossButton';
+import DeleteForeverButton from '../DeleteForeverButton';
 
 class RichBlockTextEditor extends PureComponent {
   constructor(props) {
@@ -50,6 +51,7 @@ class RichBlockTextEditor extends PureComponent {
 
   render() {
     const {
+      t,
       schema,
       children,
       value,
@@ -70,12 +72,9 @@ class RichBlockTextEditor extends PureComponent {
           >
             {value.length > 1 ? (
               <Tooltip
-                tooltip="Ta bort seksjon"
+                tooltip={t('form.section.remove')}
                 tooltipContainerClass="tooltipContainerClass">
-                <CrossButton
-                  stripped
-                  onClick={() => this.removeSection(index)}
-                />
+                <DeleteForeverButton stripped onClick={() => this.removeSection(index)} />
               </Tooltip>
             ) : null}
             <RichTextEditor
@@ -121,4 +120,4 @@ RichBlockTextEditor.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default RichBlockTextEditor;
+export default injectT(RichBlockTextEditor);

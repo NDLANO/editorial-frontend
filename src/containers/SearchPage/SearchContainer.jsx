@@ -68,9 +68,7 @@ class SearchContainer extends Component {
     };
 
     // Remove unused/empty query params
-    Object.keys(searchQuery).forEach(
-      key => searchQuery[key] === '' && delete searchQuery[key],
-    );
+    Object.keys(searchQuery).forEach(key => searchQuery[key] === '' && delete searchQuery[key]);
     search({ query: searchQuery, type });
     history.push(toSearch(searchQuery, type));
   }
@@ -107,10 +105,7 @@ class SearchContainer extends Component {
           subjects={this.state.subjects}
         />
         {(type === 'content' || type === 'concept') && (
-          <SearchSort
-            location={location}
-            onSortOrderChange={this.onSortOrderChange}
-          />
+          <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
         )}
         <SearchListOptions
           type={type}

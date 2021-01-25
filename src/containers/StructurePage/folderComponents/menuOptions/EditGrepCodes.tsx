@@ -14,10 +14,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-import {
-  updateSubjectMetadata,
-  updateTopicMetadata,
-} from '../../../../modules/taxonomy';
+import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
 import { convertGrepCodesToObject } from '../../../FormikForm/FormikGrepCodesContent';
@@ -130,10 +127,7 @@ const EditGrepCodes: FC<Props> = ({
           return (
             <StyledGrepItem>
               {grepCode.title}
-              <Button
-                stripped
-                data-testid="deleteGrepCode"
-                onClick={() => deleteGrepCode(index)}>
+              <Button stripped data-testid="deleteGrepCode" onClick={() => deleteGrepCode(index)}>
                 <RoundIcon small icon={<DeleteForever />} />
               </Button>
             </StyledGrepItem>
@@ -167,10 +161,7 @@ const EditGrepCodes: FC<Props> = ({
 
   return (
     <>
-      <MenuItemButton
-        stripped
-        data-testid="editGrepCodes"
-        onClick={() => toggleEditModes()}>
+      <MenuItemButton stripped data-testid="editGrepCodes" onClick={() => toggleEditModes()}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.grepCodes.edit')}
       </MenuItemButton>

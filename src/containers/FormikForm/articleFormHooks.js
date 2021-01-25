@@ -21,9 +21,7 @@ import { isFormikFormDirty } from '../../util/formHelper';
 
 const getFilePathsFromHtml = htmlString => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
-  const fileNodesArr = Array.from(
-    parsed.querySelectorAll('embed[data-resource=file]'),
-  );
+  const fileNodesArr = Array.from(parsed.querySelectorAll('embed[data-resource=file]'));
   return fileNodesArr.map(e => e.getAttribute('data-path'));
 };
 
@@ -31,9 +29,7 @@ const deleteRemovedFiles = async (oldArticleContent, newArticleContent) => {
   const oldFilePaths = getFilePathsFromHtml(oldArticleContent);
   const newFilePaths = getFilePathsFromHtml(newArticleContent);
 
-  const pathsToDelete = oldFilePaths.filter(
-    op => !newFilePaths.some(np => op === np),
-  );
+  const pathsToDelete = oldFilePaths.filter(op => !newFilePaths.some(np => op === np));
   return Promise.all(pathsToDelete.map(path => deleteFile(path)));
 };
 
@@ -104,10 +100,7 @@ export function useArticleFormHooks({
         });
       }
 
-      if (
-        article.articleType === 'topic-article' &&
-        article.title !== newArticle.title
-      ) {
+      if (article.articleType === 'topic-article' && article.title !== newArticle.title) {
         // update topic name in taxonomy
         const topics = await queryTopics(article.id, article.language);
         topics.forEach(topic =>

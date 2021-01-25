@@ -7,11 +7,7 @@
 import { injectT, tType } from '@ndla/i18n';
 import React, { FC, useState } from 'react';
 import { Form, Formik } from 'formik';
-import {
-  ContentResultType,
-  NdlaFilmApiType,
-  NdlaFilmThemesEditType,
-} from '../../../interfaces';
+import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';

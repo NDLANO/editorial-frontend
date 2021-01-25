@@ -69,8 +69,7 @@ const ErrorMessage = ({ draftId, language, messageId }) => (
       <Container>
         <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
         <Row justifyContent="center" alignItems="baseline">
-          <Link
-            to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+          <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
             {t('editMarkup.back')}
           </Link>
         </Row>
@@ -160,21 +159,13 @@ export class EditMarkupPage extends Component {
     const { location } = this.props.history;
     if (status === 'access-error') {
       return (
-        <ErrorMessage
-          draftId={draftId}
-          language={language}
-          messageId="forbiddenPage.description"
-        />
+        <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />
       );
     }
 
     if (status === 'fetch-error') {
       return (
-        <ErrorMessage
-          draftId={draftId}
-          language={language}
-          messageId="editMarkup.fetchError"
-        />
+        <ErrorMessage draftId={draftId} language={language} messageId="editMarkup.fetchError" />
       );
     }
     const isDirty = status === 'edit';
@@ -183,9 +174,7 @@ export class EditMarkupPage extends Component {
       <Trans>
         {({ t }) => (
           <Container>
-            <FieldHeader
-              title={t('editMarkup.title')}
-              subTitle={t('editMarkup.subTitle')}>
+            <FieldHeader title={t('editMarkup.title')} subTitle={t('editMarkup.subTitle')}>
               <HelpMessage>
                 <p>{t('editMarkup.helpMessage.paragraph1')}</p>
                 <p>{t('editMarkup.helpMessage.paragraph2')}</p>
@@ -203,11 +192,7 @@ export class EditMarkupPage extends Component {
             </LanguageWrapper>
             <Suspense fallback={<Spinner />}>
               <MonacoEditor
-                key={
-                  draft
-                    ? draft.id + draft.revision + '-' + draft.content.language
-                    : 'draft'
-                }
+                key={draft ? draft.id + draft.revision + '-' + draft.content.language : 'draft'}
                 value={draft ? draft.content.content : ''}
                 onChange={this.handleChange}
               />

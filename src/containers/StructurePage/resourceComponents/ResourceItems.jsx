@@ -58,9 +58,7 @@ class ResourceItems extends React.PureComponent {
 
   async deleteFilters(id) {
     const resourceFilters = await fetchResourceFilter(id);
-    const topicFilterIds = this.props.currentTopic.filters.map(
-      filter => filter.id,
-    );
+    const topicFilterIds = this.props.currentTopic.filters.map(filter => filter.id);
     resourceFilters.forEach(resourceFilter => {
       if (topicFilterIds.includes(resourceFilter.id)) {
         deleteResourceFilter(resourceFilter.connectionId);
@@ -74,9 +72,7 @@ class ResourceItems extends React.PureComponent {
     }
     try {
       const { resources, refreshResources } = this.props;
-      const { connectionId, primary, rank: currentRank } = resources[
-        source.index
-      ];
+      const { connectionId, primary, rank: currentRank } = resources[source.index];
       const { rank } = resources[destination.index];
       if (currentRank === rank) {
         return;
@@ -100,11 +96,7 @@ class ResourceItems extends React.PureComponent {
       const { activeFilters } = this.state;
       this.setState({ error: '' });
       const resourceFilters = await fetchResourceFilter(resourceId, locale);
-      const [
-        createItems,
-        deleteItems,
-        updateItems,
-      ] = sortIntoCreateDeleteUpdate({
+      const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
         changedItems: activeFilters[resourceId],
         originalItems: resourceFilters,
         updateProperty: 'relevanceId',
@@ -113,9 +105,7 @@ class ResourceItems extends React.PureComponent {
         ...createItems.map(({ id: filterId, ...filter }) =>
           createResourceFilter({ filterId, resourceId, ...filter }),
         ),
-        ...updateItems.map(filter =>
-          updateResourceFilter(filter.connectionId, filter),
-        ),
+        ...updateItems.map(filter => updateResourceFilter(filter.connectionId, filter)),
         ...deleteItems.map(filter => deleteResourceFilter(filter.connectionId)),
       ]);
       refreshResources();
@@ -156,9 +146,7 @@ class ResourceItems extends React.PureComponent {
   updateFilter(resourceId, filterToUpdate, relevanceId, remove) {
     this.setState(prevState => {
       const currentFilters = prevState.activeFilters[resourceId];
-      const newFilters = currentFilters.filter(
-        filter => filter.id !== filterToUpdate.id,
-      );
+      const newFilters = currentFilters.filter(filter => filter.id !== filterToUpdate.id);
       if (!remove) {
         newFilters.push({ ...filterToUpdate, relevanceId });
       }
@@ -183,24 +171,14 @@ class ResourceItems extends React.PureComponent {
       locale,
     } = this.props;
 
-    const {
-      deleteId,
-      resourceId,
-      error,
-      filterPickerId,
-      activeFilters,
-      loading,
-    } = this.state;
+    const { deleteId, resourceId, error, filterPickerId, activeFilters, loading } = this.state;
 
     if (loading) {
       return <Spinner />;
     }
     return (
       <ul {...classes('list')}>
-        <MakeDndList
-          onDragEnd={this.onDragEnd}
-          disableDnd={!!filterPickerId}
-          dragHandle>
+        <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!!filterPickerId} dragHandle>
           {resources.map(resource => (
             <Resource
               key={resource.id}
@@ -221,9 +199,7 @@ class ResourceItems extends React.PureComponent {
           ))}
         </MakeDndList>
         {error && (
-          <div
-            data-testid="inlineEditErrorMessage"
-            {...classes('errorMessage')}>
+          <div data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
             {error}
           </div>
         )}

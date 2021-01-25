@@ -17,13 +17,7 @@ import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import CrossButton from '../../../components/CrossButton';
 
-const SettingsMenuDropdown = ({
-  onClose,
-  t,
-  id,
-  setShowAlertModal,
-  ...rest
-}) => {
+const SettingsMenuDropdown = ({ onClose, t, id, setShowAlertModal, ...rest }) => {
   const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
   return (
     <StyledDivWrapper>

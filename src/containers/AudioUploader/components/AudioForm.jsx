@@ -9,11 +9,7 @@ import React, { Component, Fragment } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
@@ -23,11 +19,7 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-import {
-  FormikAbortButton,
-  formClasses,
-  FormikAlertModalWrapper,
-} from '../../FormikForm';
+import { FormikAbortButton, formClasses, FormikAlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
@@ -129,23 +121,15 @@ class AudioForm extends Component {
         title: t('form.contentSection'),
         hasError: ['title', 'audioFile'].some(field => !!errors[field]),
         component: (
-          <AudioContent
-            classes={formClasses}
-            setFieldValue={setFieldValue}
-            values={values}
-          />
+          <AudioContent classes={formClasses} setFieldValue={setFieldValue} values={values} />
         ),
       },
       {
         id: 'audio-upload-metadataSection',
         title: t('form.metadataSection'),
-        hasError: [
-          'tags',
-          'creators',
-          'rightsholders',
-          'processors',
-          'license',
-        ].some(field => !!errors[field]),
+        hasError: ['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
+          field => !!errors[field],
+        ),
         component: (
           <AudioMetaData
             classes={formClasses}
@@ -256,7 +240,4 @@ AudioForm.propTypes = {
   isNewlyCreated: PropTypes.bool,
 };
 
-export default compose(
-  connect(undefined, mapDispatchToProps),
-  injectT,
-)(AudioForm);
+export default compose(connect(undefined, mapDispatchToProps), injectT)(AudioForm);

@@ -18,10 +18,7 @@ import {
   resourceToLinkProps,
 } from '../../../../util/resourceHelpers';
 import { isLearningpath, toEditMarkup } from '../../../../util/routeHelpers';
-import {
-  DRAFT_HTML_SCOPE,
-  RESOURCE_TYPE_LEARNING_PATH,
-} from '../../../../constants';
+import { DRAFT_HTML_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { searchClasses } from '../../SearchContainer';
 import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -54,26 +51,16 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else {
     if (isLearningpath(content.url)) {
-      resourceType = getContentTypeFromResourceTypes([
-        { id: RESOURCE_TYPE_LEARNING_PATH },
-      ]);
+      resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
     }
   }
 
-  const linkProps = resourceToLinkProps(
-    content,
-    resourceType.contentType,
-    locale,
-  );
+  const linkProps = resourceToLinkProps(content, resourceType.contentType, locale);
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
     const isLearningpath = resourceType.contentType === 'learning-path';
-    return t(
-      `form.status.${
-        isLearningpath ? 'learningpath_statuses.' + status : status
-      }`,
-    );
+    return t(`form.status.${isLearningpath ? 'learningpath_statuses.' + status : status}`);
   };
   const EditMarkup = (
     <>
@@ -81,9 +68,7 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
         <EditMarkupLink
           to={toEditMarkup(
             content.id,
-            content.supportedLanguages.includes(locale)
-              ? locale
-              : content.supportedLanguages[0],
+            content.supportedLanguages.includes(locale) ? locale : content.supportedLanguages[0],
           )}
           title={t('editMarkup.linkTitle')}
           inHeader={true}
@@ -153,8 +138,7 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
           <HeaderStatusInformation
             statusText={statusType()}
             published={
-              content.status?.current === 'PUBLISHED' ||
-              content.status?.other.includes('PUBLISHED')
+              content.status?.current === 'PUBLISHED' || content.status?.other.includes('PUBLISHED')
             }
             noHelp
             indentLeft

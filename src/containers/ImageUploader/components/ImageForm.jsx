@@ -8,18 +8,11 @@
 import React, { Component } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Formik, Form } from 'formik';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
-import {
-  isFormikFormDirty,
-  parseCopyrightContributors,
-} from '../../../util/formHelper';
+import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
@@ -139,14 +132,7 @@ class ImageForm extends Component {
   };
 
   render() {
-    const {
-      t,
-      image,
-      licenses,
-      inModal,
-      closeModal,
-      isNewlyCreated,
-    } = this.props;
+    const { t, image, licenses, inModal, closeModal, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
 
     const panels = [
@@ -159,13 +145,7 @@ class ImageForm extends Component {
       {
         id: 'image-upload-metadataSection',
         title: t('form.metadataSection'),
-        errorFields: [
-          'tags',
-          'rightsholders',
-          'creators',
-          'processors',
-          'license',
-        ],
+        errorFields: ['tags', 'rightsholders', 'creators', 'processors', 'license'],
         component: (
           <ImageMetaData
             licenses={licenses}
@@ -202,9 +182,7 @@ class ImageForm extends Component {
                 {({ openIndexes, handleItemClick }) => (
                   <AccordionWrapper>
                     {panels.map(panel => {
-                      const hasError = panel.errorFields.some(
-                        field => !!errors[field],
-                      );
+                      const hasError = panel.errorFields.some(field => !!errors[field]);
                       return (
                         <React.Fragment key={panel.id}>
                           <AccordionBar

@@ -88,18 +88,13 @@ const HeaderStatusInformation = ({
   );
 
   const publishedIconLink = (
-    <StyledLink
-      target="_blank"
-      to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
       {publishedIcon}
     </StyledLink>
   );
 
   const helperIcon = !noHelp && (
-    <HowToHelper
-      pageId="status"
-      tooltip={t('form.workflow.statusInfoTooltip')}
-    />
+    <HowToHelper pageId="status" tooltip={t('form.workflow.statusInfoTooltip')} />
   );
 
   const splitter = !indentLeft && <StyledSplitter />;
@@ -109,8 +104,7 @@ const HeaderStatusInformation = ({
       <StyledStatusWrapper>
         {splitter}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
-        {published &&
-          (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
       </StyledStatusWrapper>
     );
@@ -120,12 +114,9 @@ const HeaderStatusInformation = ({
         {splitter}
         <StyledStatus>
           <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
-          {isNewLanguage
-            ? t('form.status.new_language')
-            : statusText || t('form.status.new')}
+          {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
         </StyledStatus>
-        {published &&
-          (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {helperIcon}
       </StyledStatusWrapper>

@@ -21,8 +21,7 @@ export const StyledButton = styled.button`
   border: 0;
   text-decoration: none;
   box-shadow: none;
-  color: ${({ color }) =>
-    color ? `${colors.support[color]}99` : colors.brand.tertiary};
+  color: ${({ color }) => (color ? `${colors.support[color]}99` : colors.brand.tertiary)};
   width: ${spacing.normal};
   height: ${spacing.normal};
 
@@ -40,8 +39,7 @@ export const StyledButton = styled.button`
     position: absolute;
     width: ${spacing.normal};
     height: ${spacing.normal};
-    background: ${({ color }) =>
-      color ? `${colors.support[color]}4D` : colors.brand.lighter};
+    background: ${({ color }) => (color ? `${colors.support[color]}4D` : colors.brand.lighter)};
     border-radius: 100%;
     transform: scale(0.5);
     opacity: 0;
@@ -50,8 +48,7 @@ export const StyledButton = styled.button`
 
   &:hover,
   &:focus {
-    color: ${({ color }) =>
-      color ? `${colors.support[color]}` : colors.brand.primary};
+    color: ${({ color }) => (color ? `${colors.support[color]}` : colors.brand.primary)};
 
     &::before {
       transform: scale(1.25);

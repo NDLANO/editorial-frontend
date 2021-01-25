@@ -7,7 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
-import { toEditArticle, toLearningpathFull } from './routeHelpers';
+import { toEditArticle, toEditConcept, toLearningpathFull } from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -60,8 +60,9 @@ export const getContentTypeFromResourceTypes = resourceTypes => {
   return mapping.default;
 };
 
-const isLearningPathResourceType = contentType =>
-  contentType === contentTypes.LEARNING_PATH;
+const isLearningPathResourceType = contentType => contentType === contentTypes.LEARNING_PATH;
+
+const isConceptType = contentType => contentType === 'concept';
 
 export const resourceToLinkProps = (content, contentType, locale) => {
   if (isLearningPathResourceType(contentType)) {
@@ -71,13 +72,19 @@ export const resourceToLinkProps = (content, contentType, locale) => {
       rel: 'noopener noreferrer',
     };
   }
+  if (isConceptType(contentType)) {
+    return {
+      to: toEditConcept(
+        content.id,
+        content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
+      ),
+    };
+  }
   return {
     to: toEditArticle(
       content.id,
       content?.contexts?.[0]?.learningResourceType || 'standard',
-      content?.supportedLanguages?.includes(locale)
-        ? locale
-        : content?.supportedLanguages?.[0],
+      content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
     ),
   };
 };

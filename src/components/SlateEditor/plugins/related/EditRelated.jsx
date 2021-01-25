@@ -11,7 +11,10 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
+import darken from 'polished/lib/color/darken';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Tooltip from '@ndla/tooltip';
+import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
 import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
@@ -20,6 +23,7 @@ import RelatedArticle from './RelatedArticle';
 import TaxonomyLightbox from '../../../Taxonomy/TaxonomyLightbox';
 import { Portal } from '../../../Portal';
 import DeleteButton from '../../../DeleteButton';
+import { ARTICLE_EXTERNAL } from '../../../../constants';
 
 const StyledBorderDiv = styled('div')`
   position: relative;
@@ -52,11 +56,24 @@ const StyledOr = styled('div')`
   margin: 10px 0;
 `;
 
+const StyledEditButton = styled(Button)`
+  position: absolute;
+  top: 0.1rem;
+  right: 1.5rem;
+  color: ${colors.support.red};
+
+  &:hover,
+  &:focus {
+    color: ${darken(0.2, colors.support.red)};
+  }
+`;
+
 class EditRelated extends React.PureComponent {
   constructor() {
     super();
     this.state = {
       showAddExternal: false,
+      tempId: undefined,
       url: '',
       title: '',
     };
@@ -101,7 +118,7 @@ class EditRelated extends React.PureComponent {
   }
 
   async searchForArticles(query) {
-    return await search({
+    return search({
       query: query.query,
       page: query.page,
       'context-types': 'standard, topic-article',
@@ -157,20 +174,15 @@ class EditRelated extends React.PureComponent {
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
-                        className={
-                          snapshot.isDraggingOver
-                            ? 'drop-zone dragging'
-                            : 'drop-zone'
-                        }>
+                        className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}>
                         {articles.map((article, index) => {
                           if (!article) {
                             return null;
                           }
+                          const articleKey =
+                            article.id === ARTICLE_EXTERNAL ? article.tempId : article.id;
                           return (
-                            <Draggable
-                              key={article.id}
-                              draggableId={article.id}
-                              index={index}>
+                            <Draggable key={articleKey} draggableId={articleKey} index={index}>
                               {(providedInner, snapshotInner) => (
                                 <div
                                   className="drag-item"
@@ -179,20 +191,36 @@ class EditRelated extends React.PureComponent {
                                   {...providedInner.draggableProps}>
                                   <StyledArticle
                                     isDragging={snapshotInner.isDragging}
-                                    dragHandleProps={
-                                      providedInner.dragHandleProps
-                                    }
+                                    dragHandleProps={providedInner.dragHandleProps}
                                     key={article.id}>
                                     <RelatedArticle item={article} />
+                                    {article.id === ARTICLE_EXTERNAL && (
+                                      <StyledEditButton
+                                        stripped
+                                        onClick={() => {
+                                          this.setState({
+                                            tempId: article.tempId,
+                                            url: article.url,
+                                            title: article.title,
+                                          });
+                                          this.toggleAddExternal();
+                                        }}>
+                                        <Tooltip
+                                          tooltip={t('form.content.relatedArticle.changeExternal')}>
+                                          <Pencil />
+                                        </Tooltip>
+                                      </StyledEditButton>
+                                    )}
                                     <DeleteButton
-                                      title="Fjern relaterte artikler"
+                                      title={t('form.content.relatedArticle.removeExternal')}
                                       stripped
                                       onClick={e => {
                                         e.stopPropagation();
 
-                                        const newArticles = articles.filter(
-                                          filterArticle =>
-                                            filterArticle.id !== article.id,
+                                        const newArticles = articles.filter(filterArticle =>
+                                          filterArticle.id === ARTICLE_EXTERNAL
+                                            ? filterArticle.tempId !== articleKey
+                                            : filterArticle.id !== articleKey,
                                         );
                                         updateArticles(newArticles);
                                       }}
@@ -223,9 +251,7 @@ class EditRelated extends React.PureComponent {
                   showPagination
                 />
                 <StyledOr>{t('taxonomy.or')}</StyledOr>
-                <Button
-                  data-testid="showAddExternal"
-                  onClick={this.toggleAddExternal}>
+                <Button data-testid="showAddExternal" onClick={this.toggleAddExternal}>
                   {t('form.content.relatedArticle.addExternal')}
                 </Button>
               </StyledArticle>
@@ -233,7 +259,23 @@ class EditRelated extends React.PureComponent {
             </StyledBorderDiv>
             {this.state.showAddExternal && (
               <TaxonomyLightbox
-                onSelect={() => insertExternal(url, title)}
+                onSelect={() => {
+                  if (this.state.tempId) {
+                    updateArticles(
+                      articles.map(a =>
+                        a.tempId === this.state.tempId ? { ...a, url, title } : a,
+                      ),
+                    );
+                    this.setState({
+                      showAddExternal: false,
+                      tempId: undefined,
+                      url: '',
+                      title: '',
+                    });
+                  } else {
+                    insertExternal(url, title);
+                  }
+                }}
                 title={t('form.content.relatedArticle.searchExternal')}
                 onClose={this.toggleAddExternal}>
                 <input
@@ -252,9 +294,7 @@ class EditRelated extends React.PureComponent {
                   value={title}
                   onChange={this.handleInputChange}
                   onClick={e => e.stopPropagation()}
-                  placeholder={t(
-                    'form.content.relatedArticle.titlePlaceholder',
-                  )}
+                  placeholder={t('form.content.relatedArticle.titlePlaceholder')}
                 />
               </TaxonomyLightbox>
             )}

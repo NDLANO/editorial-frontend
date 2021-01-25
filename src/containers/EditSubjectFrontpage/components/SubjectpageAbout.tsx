@@ -19,12 +19,7 @@ interface Props {
 const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
   return (
     <>
-      <FormikField
-        name="title"
-        noBorder
-        title
-        placeholder={t('form.name.title')}
-      />
+      <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
       <FormikField
         noBorder
         label={t('subjectpageForm.description')}

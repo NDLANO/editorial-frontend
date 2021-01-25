@@ -12,9 +12,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 
-const RoundIcon = ({ icon, ...rest }) => (
-  <StyledRoundIcon {...rest}>{icon}</StyledRoundIcon>
-);
+const RoundIcon = ({ icon, ...rest }) => <StyledRoundIcon {...rest}>{icon}</StyledRoundIcon>;
 
 const StyledRoundIcon = styled.div`
   display: flex;

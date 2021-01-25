@@ -25,9 +25,7 @@ const StyledList = styled.ul`
   overflow: visible;
   margin: 0 0
     ${props =>
-      props.draggingIndex === -1
-        ? 0
-        : `${ELEMENT_HEIGHT + spacing.spacingUnit * 0.75}px`};
+      props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacing.spacingUnit * 0.75}px`};
   padding: 0;
   position: relative;
   list-style: none;
@@ -52,21 +50,17 @@ class ElementList extends Component {
   executeDeleteFile = () => {
     const { elements, onUpdateElements } = this.props;
     this.deleteFile(-1);
-    const newElements = elements.filter(
-      (element, i) => i !== this.state.deleteIndex,
-    );
+    const newElements = elements.filter((element, i) => i !== this.state.deleteIndex);
     onUpdateElements(newElements);
   };
 
   updateTransforms = dragIndex => {
-    Array.from(this.wrapperRef.current.childNodes.values()).forEach(
-      (node, index) => {
-        if (index !== this.initialPosition) {
-          const value = index >= dragIndex ? ELEMENT_HEIGHT : 0;
-          node.style.transform = `translateY(${value}px)`;
-        }
-      },
-    );
+    Array.from(this.wrapperRef.current.childNodes.values()).forEach((node, index) => {
+      if (index !== this.initialPosition) {
+        const value = index >= dragIndex ? ELEMENT_HEIGHT : 0;
+        node.style.transform = `translateY(${value}px)`;
+      }
+    });
   };
 
   onDragStart = (evt, dragIndex) => {
@@ -77,15 +71,12 @@ class ElementList extends Component {
     this.updateTransforms(dragIndex);
 
     this.DraggingFile = this.wrapperRef.current.childNodes[dragIndex];
-    this.DraggingFile.style.width = `${
-      this.DraggingFile.getBoundingClientRect().width
-    }px`;
+    this.DraggingFile.style.width = `${this.DraggingFile.getBoundingClientRect().width}px`;
     this.DraggingFile.style.position = 'absolute';
     this.DraggingFile.style.top = 0;
     this.DraggingFile.style.zIndex = 9999;
     this.DraggingFile.style.boxShadow = shadows.levitate1;
-    this.DraggingFile.style.transform = `translateY(${this.mouseMovement +
-      ELEMENT_HEIGHT}px)`;
+    this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
 
     this.setState(
       {
@@ -93,11 +84,9 @@ class ElementList extends Component {
       },
       () => {
         // Add transitions
-        Array.from(this.wrapperRef.current.childNodes.values()).forEach(
-          node => {
-            node.style.transition = 'transform 100ms ease';
-          },
-        );
+        Array.from(this.wrapperRef.current.childNodes.values()).forEach(node => {
+          node.style.transition = 'transform 100ms ease';
+        });
         this.DraggingFile.style.transition = 'box-shadow 100ms ease';
       },
     );
@@ -140,12 +129,8 @@ class ElementList extends Component {
       0,
     );
     const addToPosition = this.initialPosition < currentPosition ? 1 : 0;
-    const dragIndex = Math.min(
-      this.props.elements.length,
-      Math.max(currentPosition, 0),
-    );
-    this.DraggingFile.style.transform = `translateY(${this.mouseMovement +
-      ELEMENT_HEIGHT}px)`;
+    const dragIndex = Math.min(this.props.elements.length, Math.max(currentPosition, 0));
+    this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
     this.updateTransforms(dragIndex + addToPosition);
     this.setState(prevState => {
       if (prevState.draggingIndex !== dragIndex) {
@@ -175,9 +160,7 @@ class ElementList extends Component {
                     index={index}
                     locale={locale}
                     executeDeleteFile={this.executeDeleteFile}
-                    showDragTooltip={
-                      elements.length > 1 && draggingIndex === -1
-                    }
+                    showDragTooltip={elements.length > 1 && draggingIndex === -1}
                     onDragEnd={this.onDragEnd}
                     onDragStart={this.onDragStart}
                     deleteFile={this.deleteFile}

@@ -1,20 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, {
-  AccordionWrapper,
-  AccordionBar,
-  AccordionPanel,
-} from '@ndla/accordion';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import {
-  FormikCopyright,
-  VersionAndNotesPanel,
-  FormikMetadata,
-} from '../../FormikForm';
+import FormikConcepts from '../../FormikForm/FormikConcepts';
+import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
+import FormikField from '../../../components/FormikField';
 
 const panels = [
   {
@@ -53,6 +47,19 @@ const panels = [
     className: 'u-6/6',
     errorFields: ['grepCodes'],
     component: props => <FormikGrepCodes {...props} />,
+  },
+  {
+    id: 'learning-resource-concepts',
+    title: 'form.name.concepts',
+    className: 'u-6/6',
+    errorFields: ['conceptIds'],
+    component: props => {
+      return (
+        <FormikField name={'conceptIds'}>
+          {({ field, form }) => <FormikConcepts field={field} form={form} {...props} />}
+        </FormikField>
+      );
+    },
   },
   {
     id: 'learning-resource-workflow',

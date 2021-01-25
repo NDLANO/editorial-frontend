@@ -12,11 +12,7 @@ import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
 import handleError from '../../util/handleError';
-import {
-  fetchH5PiframeUrl,
-  editH5PiframeUrl,
-  fetchH5PMetadata,
-} from './h5pApi';
+import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi';
 
 const FlexWrapper = styled.div`
   height: 100%;

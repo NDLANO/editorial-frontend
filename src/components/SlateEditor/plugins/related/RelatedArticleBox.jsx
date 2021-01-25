@@ -39,9 +39,8 @@ export class RelatedArticleBox extends React.Component {
     this.state = { articles: [], editMode: false };
     this.fetchArticle = this.fetchArticle.bind(this);
     this.updateArticles = this.updateArticles.bind(this);
-    this.fetchExternal = this.fetchExternal.bind(this);
+    this.insertExternal = this.insertExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
-    this.updateEmbedNode = this.updateEmbedNode.bind(this);
     this.openEditMode = this.openEditMode.bind(this);
     this.setNodeKey = this.setNodeKey.bind(this);
   }
@@ -51,16 +50,10 @@ export class RelatedArticleBox extends React.Component {
       node: { data },
     } = this.props;
     if (data && data.get('nodes')) {
-      const articleIds = data.get('nodes').map(n => n['article-id']);
-
-      this.fetchArticles(articleIds).then(articles =>
+      const articleNodes = data.get('nodes');
+      this.fetchArticles(articleNodes).then(articles =>
         this.setState({ articles: articles.filter(a => !!a) }),
       );
-      data.get('nodes').forEach(article => {
-        if (article.title) {
-          this.fetchExternal(article.url, article.title, true);
-        }
-      });
     } else {
       this.setState({ editMode: true });
     }
@@ -107,8 +100,14 @@ export class RelatedArticleBox extends React.Component {
     });
   }
 
-  updateEmbedNode(onMount) {
-    if (!onMount) this.setNodeKey();
+  structureExternal(url, title) {
+    return {
+      id: ARTICLE_EXTERNAL,
+      tempId: uuid(),
+      url,
+      title,
+      description: '',
+    };
   }
 
   async fetchArticle(id) {
@@ -125,31 +124,33 @@ export class RelatedArticleBox extends React.Component {
       handleError(error);
     }
   }
-  async fetchArticles(ids) {
-    return Promise.all(ids.map(id => this.fetchArticle(id)));
+  async fetchArticles(nodes) {
+    return Promise.all(
+      nodes.map(node => {
+        const articleId = node['article-id'];
+        if (articleId) {
+          return this.fetchArticle(articleId);
+        } else if (node.title) {
+          return this.structureExternal(node.url, node.title);
+        }
+        return undefined;
+      }),
+    );
   }
 
-  async fetchExternal(url, title, onMount = false) {
+  async insertExternal(url, title) {
     // await get description meta data
     this.setState(
       prevState => ({
-        articles: [
-          ...prevState.articles,
-          {
-            id: ARTICLE_EXTERNAL,
-            url,
-            title,
-            description: '',
-          },
-        ],
+        articles: [...prevState.articles, this.structureExternal(url, title)],
         editMode: false,
       }),
-      () => this.updateEmbedNode(onMount),
+      this.setNodeKey,
     );
   }
 
   updateArticles(newArticles) {
-    this.setState({ articles: newArticles }, this.updateEmbedNode);
+    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeKey);
   }
 
   openEditMode(e) {
@@ -167,7 +168,7 @@ export class RelatedArticleBox extends React.Component {
           onRemoveClick={onRemoveClick}
           articles={articles}
           locale={locale}
-          insertExternal={this.fetchExternal}
+          insertExternal={this.insertExternal}
           onInsertBlock={this.onInsertBlock}
           onExit={() => this.setState({ editMode: false })}
           updateArticles={this.updateArticles}
@@ -228,7 +229,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(
-  injectT,
-  connect(mapStateToProps, null),
-)(RelatedArticleBox);
+export default compose(injectT, connect(mapStateToProps, null))(RelatedArticleBox);

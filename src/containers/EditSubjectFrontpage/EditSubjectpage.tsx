@@ -28,12 +28,11 @@ const EditSubjectpage: FC<RouteComponentProps & Props & tType> = ({
   subjectpageId,
   isNewlyCreated,
 }) => {
-  const {
-    loading,
-    subjectpage,
-    updateSubjectpage,
-    error,
-  } = useFetchSubjectpageData(elementId, selectedLanguage, subjectpageId);
+  const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
+    elementId,
+    selectedLanguage,
+    subjectpageId,
+  );
 
   if (error !== undefined) {
     return <NotFoundPage />;
@@ -45,9 +44,7 @@ const EditSubjectpage: FC<RouteComponentProps & Props & tType> = ({
 
   return (
     <>
-      <HelmetWithTracker
-        title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`}
-      />
+      <HelmetWithTracker title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`} />
       <SubjectpageForm
         elementId={elementId}
         subjectpage={subjectpage}

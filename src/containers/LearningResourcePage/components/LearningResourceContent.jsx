@@ -18,9 +18,7 @@ import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import { getLocale } from '../../../modules/locale/locale';
-import FormikField, {
-  classes as formikFieldClasses,
-} from '../../../components/FormikField';
+import FormikField, { classes as formikFieldClasses } from '../../../components/FormikField';
 import RichBlockTextEditor from '../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { schema } from '../../../components/SlateEditor/editorSchema';
@@ -79,13 +77,7 @@ const IconContainer = styled.div`
 
 const findFootnotes = content =>
   content
-    .reduce(
-      (all, value) => [
-        ...all,
-        ...findNodesByType(value.document, footnoteType),
-      ],
-      [],
-    )
+    .reduce((all, value) => [...all, ...findNodesByType(value.document, footnoteType)], [])
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
@@ -195,10 +187,7 @@ class LearningResourceContent extends Component {
                     <Eye />
                   </ToggleButton>
                 </Tooltip>
-                <HowToHelper
-                  pageId="Markdown"
-                  tooltip={t('form.markdown.helpLabel')}
-                />
+                <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
               </IconContainer>
             </>
           )}
@@ -240,10 +229,7 @@ class LearningResourceContent extends Component {
                   // this is a hack since formik onBlur-handler interferes with slates
                   // related to: https://github.com/ianstormtaylor/slate/issues/2434
                   // formik handleBlur needs to be called for validation to work (and touched to be set)
-                  setTimeout(
-                    () => handleBlur({ target: { name: 'content' } }),
-                    0,
-                  );
+                  setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
                 }}
                 handleSubmit={handleSubmit}
               />

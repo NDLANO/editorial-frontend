@@ -18,9 +18,12 @@ import { fetchConcept } from '../../modules/concept/conceptApi';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
-import { Concept } from '../SlateEditor/editorTypes';
+import { ConceptPreviewType } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
-import { transformConceptFromApiVersion } from '../../util/conceptUtil';
+import {
+  transformApiToPreviewVersion,
+  transformFormikToPreviewVersion,
+} from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
@@ -45,17 +48,9 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox: FC<Props & tType> = ({
-  t,
-  getConcept,
-  typeOfPreview,
-}) => {
-  const [firstConcept, setFirstConcept] = useState<Concept | undefined>(
-    undefined,
-  );
-  const [secondConcept, setSecondConcept] = useState<Concept | undefined>(
-    undefined,
-  );
+const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPreview }) => {
+  const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
+  const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -68,36 +63,29 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
 
   const openPreview = async () => {
     const concept = getConcept();
-    const visualElement = await getVisualElement(concept.visualElement);
-    setFirstConcept({
-      ...concept,
-      visualElement: visualElement,
-    });
+    const transformed = transformFormikToPreviewVersion(concept);
+    setFirstConcept(transformed);
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);
-    onChangePreviewLanguage(
-      secondConceptLanguage ? secondConceptLanguage : concept.language,
-    );
+    onChangePreviewLanguage(secondConceptLanguage ? secondConceptLanguage : concept.language);
     setShowPreview(true);
   };
 
-  const previewLanguageConcept = async (language: string) => {
-    const originalConcept = getConcept();
-    return await fetchConcept(originalConcept.id, language);
-  };
-
   const onChangePreviewLanguage = async (language: string) => {
-    const secondConcept = await previewLanguageConcept(language);
-    const transformed = transformConceptFromApiVersion(secondConcept);
-    const secondVisualElement = await getVisualElement(
-      transformed.visualElement?.visualElement,
+    const originalConcept = getConcept();
+    const secondConcept = await fetchConcept(originalConcept.id, language);
+    const secondVisualElement =
+      secondConcept.visualElement &&
+      (await getVisualElement(secondConcept.visualElement?.visualElement));
+    const transformed = transformApiToPreviewVersion(
+      secondConcept,
+      language,
+      secondVisualElement,
+      originalConcept.metaImage,
     );
     setPreviewLanguage(language);
-    setSecondConcept({
-      ...transformed,
-      visualElement: secondVisualElement,
-    });
+    setSecondConcept(transformed);
   };
 
   const getVisualElement = async (visualElementEmbed: string) => {
@@ -125,9 +113,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
       case 'h5p':
         return {
           ...embedTag,
-          url: embedTag?.url
-            ? embedTag.url
-            : `${config.h5pApiUrl}${embedTag?.path}`,
+          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`,
         };
       default:
         return undefined;
@@ -170,9 +156,7 @@ const PreviewConceptLightbox: FC<Props & tType> = ({
           previewLanguage={previewLanguage}
           typeOfPreview={typeOfPreview}
           contentType={'concept'}
-          getEntityPreview={(concept: Concept) => (
-            <PreviewConcept concept={concept} />
-          )}
+          getEntityPreview={(concept: ConceptPreviewType) => <PreviewConcept concept={concept} />}
         />
       </Lightbox>
     </Portal>

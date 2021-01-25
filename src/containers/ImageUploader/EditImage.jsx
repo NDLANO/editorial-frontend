@@ -10,10 +10,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import {
-  actions as licenseActions,
-  getAllLicenses,
-} from '../../modules/license/license';
+import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
@@ -109,6 +106,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(EditImage),
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditImage));

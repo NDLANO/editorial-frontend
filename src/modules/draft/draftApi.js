@@ -19,16 +19,14 @@ const baseUserDataUrl = apiResourceUrl('/draft-api/v1/user-data');
 
 export const fetchTags = language => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(resolveJsonOrRejectWithError);
 };
 
 export const fetchSearchTags = async (input, language) => {
   const response = await fetchAuthorized(
     `${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
   );
-  return await resolveJsonOrRejectWithError(response);
+  return resolveJsonOrRejectWithError(response);
 };
 
 export const fetchLicenses = () =>
@@ -36,17 +34,11 @@ export const fetchLicenses = () =>
 
 export const fetchDraft = (id, language) => {
   const query = queryString.stringify({ language });
-  const url = language
-    ? `${baseUrl}/${id}?${query}&fallback=true`
-    : `${baseUrl}/${id}`;
+  const url = language ? `${baseUrl}/${id}?${query}&fallback=true` : `${baseUrl}/${id}`;
   return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
 };
 
-export const cloneDraft = (
-  id,
-  language,
-  addCopyPostfixToArticleTitle = true,
-) => {
+export const cloneDraft = (id, language, addCopyPostfixToArticleTitle = true) => {
   const query = queryString.stringify({
     language,
     'copied-title-postfix': addCopyPostfixToArticleTitle,
@@ -54,9 +46,7 @@ export const cloneDraft = (
   });
   const url = `${baseUrl}/clone/${id}?${query}`;
 
-  return fetchAuthorized(url, { method: 'POST' }).then(
-    resolveJsonOrRejectWithError,
-  );
+  return fetchAuthorized(url, { method: 'POST' }).then(resolveJsonOrRejectWithError);
 };
 
 export const updateDraft = draft =>
@@ -101,19 +91,13 @@ export const updateStatusDraft = (id, status) =>
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchAgreements = query =>
-  fetchAuthorized(`${baseAgreementsUrl}?query=${query}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseAgreementsUrl}?query=${query}`).then(resolveJsonOrRejectWithError);
 
 export const fetchAgreement = id =>
-  fetchAuthorized(`${baseAgreementsUrl}/${id}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseAgreementsUrl}/${id}`).then(resolveJsonOrRejectWithError);
 
 export const fetchGrepCodes = query =>
-  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(resolveJsonOrRejectWithError);
 
 export const fetchUserData = () =>
   fetchAuthorized(`${baseUserDataUrl}`).then(resolveJsonOrRejectWithError);
@@ -137,9 +121,7 @@ export const createAgreement = agreement =>
   }).then(resolveJsonOrRejectWithError);
 
 export const fetchStatusStateMachine = () =>
-  fetchAuthorized(`${baseUrl}/status-state-machine/`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(`${baseUrl}/status-state-machine/`).then(resolveJsonOrRejectWithError);
 
 export const headFileAtRemote = async fileUrl => {
   const res = await fetch(fileUrl, {

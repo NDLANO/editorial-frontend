@@ -21,16 +21,12 @@ import { Switch } from '@ndla/switch';
 import RoundIcon from '../../../components/RoundIcon';
 import MenuItemEditField from './menuOptions/MenuItemEditField';
 import MenuItemButton from './menuOptions/MenuItemButton';
-import {
-  toEditSubjectpage,
-  toCreateSubjectpage,
-} from '../../../util/routeHelpers';
+import { toEditSubjectpage, toCreateSubjectpage } from '../../../util/routeHelpers';
 import { getIdFromUrn } from '../../../util/subjectHelpers';
 
 const StyledFilterItem = styled('div')`
   font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   display: flex;
   justify-content: space-between;
   margin: calc(var(--spacing--small) / 2);

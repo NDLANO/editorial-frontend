@@ -98,10 +98,7 @@ export const getAuth0Hostname = () => {
 };
 
 // defaults to topic-article for now. Change to standard later, or remove all together.
-const ndlaFilmArticleType = getEnvironmentVariabel(
-  'NDLA_FILM_ARTICLE_TYPE',
-  'topic-article',
-);
+const ndlaFilmArticleType = getEnvironmentVariabel('NDLA_FILM_ARTICLE_TYPE', 'topic-article');
 
 export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
@@ -117,26 +114,17 @@ const config = {
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  ndlaApiUrl: getEnvironmentVariabel(
-    'NDLA_API_URL',
-    getNdlaApiUrl(ndlaEnvironment),
-  ),
+  ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaFrontendDomain: ndlaFrontendDomain(),
   editorialFrontendDomain: editorialFrontendDomain(),
   learningpathFrontendDomain: learningpathFrontendDomain(),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
   auth0Domain: getAuth0Hostname(),
-  brightCoveAccountId: getEnvironmentVariabel(
-    'BRIGHTCOVE_ACCOUNT_ID',
-    '123456789',
-  ),
+  brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
-  googleSearchApiUrl: getEnvironmentVariabel(
-    'NDLA_GOOGLE_API_URL',
-    'https://www.googleapis.com',
-  ),
+  googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),
   googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
   googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', false),
@@ -152,8 +140,7 @@ export function getUniversalConfig() {
     return config;
   }
 
-  return process.env.BUILD_TARGET === 'server' ||
-    process.env.NODE_ENV === 'unittest'
+  return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest'
     ? config
     : window.config;
 }

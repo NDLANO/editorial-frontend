@@ -64,29 +64,25 @@ const phrases = {
     },
     images: {
       heading: 'Slik bruker du bilder frå artikkelen',
-      description:
-        'Hugs å kopiera teksten som skal leggjast ved bildet der du bruker det.',
+      description: 'Hugs å kopiera teksten som skal leggjast ved bildet der du bruker det.',
       rules: 'Regler for bruk av bildet:',
       source: 'Kjelde',
       title: 'Tittel',
     },
     text: {
       heading: 'Slik bruker du tekst frå artikkelen',
-      description:
-        'Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.',
+      description: 'Artikkelen kan vera samansett av fleire ulike tekstar som vert lista her.',
       rules: 'Reglar for bruk av teksten:',
       published: 'Publiseringsdato',
     },
     audio: {
       heading: 'Slik bruker du lydfiler',
-      description:
-        'Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.',
+      description: 'Hugs å kopiera teksten som skal leggjast ved lydfila der du bruker ho.',
       rules: 'Regler for bruk av lydfila:',
     },
     video: {
       heading: 'Slik bruker du video fra artikkelen',
-      description:
-        'Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.',
+      description: 'Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.',
       rules: 'Regler for bruk av videoen:',
     },
     creditType: {
@@ -200,8 +196,7 @@ const phrases = {
     localLogout: 'Logg ut av produksjonssystem',
     or: 'eller',
     federatedLogout: 'Logg ut av alle tjenester',
-    description:
-      'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
+    description: 'N.B. Alle tjenester inkluderer autentiseringstjenesten (Google eller Facebook).',
   },
   searchForm: {
     placeholder: 'Søk etter artikler, aktiviteter eller oppgaver',
@@ -271,8 +266,7 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     noTitle: 'Ingen tittel',
-    noResultsText:
-      'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
+    noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
   },
   videoSearch: {
@@ -295,8 +289,7 @@ const phrases = {
     continue: 'Du kan ha ulagra endringar i kodevisning. Vil du fortsette?',
   },
   h5pElement: {
-    fetchError:
-      'Vi beklagar, men ein feil oppsto under lasting av H5P-klienten.',
+    fetchError: 'Vi beklagar, men ein feil oppsto under lasting av H5P-klienten.',
   },
   displayOembed: {
     errorMessage: 'Ein feil oppsto ved visning av oEmbed-innhald.',
@@ -522,6 +515,7 @@ const phrases = {
       grepCodes: 'Læreplankobling',
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
+      concepts: 'Forklaringar',
       subjects: 'Fag',
     },
     previewProductionArticle: {
@@ -591,8 +585,7 @@ const phrases = {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
     },
-    remainingCharacters:
-      'Maks {maxLength, number} tegn og du har {remaining, number} igjen.',
+    remainingCharacters: 'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
     title: {
       label: 'Tittel',
     },
@@ -711,6 +704,8 @@ const phrases = {
         titlePlaceholder: 'Tittel',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
+        removeExternal: 'Slett ekstern artikkel',
+        changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
       },
       concept: {
@@ -734,8 +729,7 @@ const phrases = {
         unSupported: 'Innhaldstypen i lenka er ikkje støtta',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
-        description:
-          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på',
+        description: 'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på',
       },
       footnote: {
         title: 'Tittel',
@@ -882,6 +876,7 @@ const phrases = {
         stop: 'Stopp',
         hms: 'h:m:s',
       },
+      brightcove: 'Åpne i Brightcove',
     },
     audio: {
       file: 'Lydfil',
@@ -936,19 +931,29 @@ const phrases = {
       label: 'Artikkel',
       add: 'Legg til artikkel',
     },
+    relatedConcepts: {
+      placeholder: 'Søk på tittel',
+      articlesTitle: 'Relaterte forklaringar',
+      articlesSubtitle: 'Forklaringar',
+      changeOrder: 'Endre rekkefølgje',
+      removeArticle: 'Fjern forklaring',
+    },
+    section: {
+      remove: 'Ta bort seksjon',
+    },
   },
   validation: {
     isRequired: '{label} er påkrevd.',
-    bothFields: 'En {labelLowerCase} må inneholde alle felter.',
+    bothFields: 'Ein {labelLowerCase} må inneholde alle felt.',
     isNumeric: '{label} må inneholde tall.',
-    maxLength: '{label} kan ikkje ha meir enn {maxLength, number} tegn.',
-    minLength: '{label} må ha minst {minLength, number} tegn.',
+    maxLength: '{label} kan ikkje ha meir enn {maxLength, number} teikn.',
+    minLength: '{label} må ha minst {minLength, number} teikn.',
     url: '{label} må inneholde ei gyldig lenke.',
     urlOrNumber: '{label} må inneholde ei gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{label} kan ikkje være etter {afterLabel}.',
     dateAfterInvalid: '{label} kan ikkje være før {beforeLabel}.',
     minItems:
-      '{label} feltet må minst inneholde {minItems, plural, one{en} other{# ulike}} {labelLowerCase}.',
+      '{label} feltet må minst inneholde {minItems, plural, one{ein/eitt} other{# ulike}} {labelLowerCase}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
@@ -966,8 +971,7 @@ const phrases = {
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endra og last sida på nytt for å kunne lagre.',
     },
-    grepCodes:
-      'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
+    grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
   },
   notFound: {
     description: 'Denne sida finnes ikkje.',

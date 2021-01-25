@@ -70,14 +70,7 @@ class DateTimeWrapper extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      value,
-      onChange,
-      name,
-      placeholder,
-      children,
-    } = this.props;
+    const { className, value, onChange, name, placeholder, children } = this.props;
     return (
       <span
         className={className || ''}

@@ -74,9 +74,7 @@ const EditorFooter: React.FC<Props & tType> = ({
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
-  const fetchStatuses = async (
-    setStatuses: React.Dispatch<PossibleStatuses>,
-  ) => {
+  const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
     const possibleStatuses = await getStateStatuses();
     setStatuses(possibleStatuses);
   };
@@ -159,17 +157,12 @@ const EditorFooter: React.FC<Props & tType> = ({
     <Footer>
       <div>
         {values.id && isConcept && (
-          <PreviewConceptLightbox
-            getConcept={getEntity}
-            typeOfPreview={'preview'}
-          />
+          <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
         )}
         {values.id && isArticle && (
           <FooterLinkButton
             bold
-            onClick={() =>
-              window.open(toPreviewDraft(values.id, values.language))
-            }>
+            onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
             {t('form.preview.button')}
             <Launch />
           </FooterLinkButton>
@@ -187,17 +180,13 @@ const EditorFooter: React.FC<Props & tType> = ({
           options={getStatuses()}
           messages={{
             label: '',
-            changeStatus: t(
-              `form.status.${entityStatus.current.toLowerCase()}`,
-            ),
+            changeStatus: t(`form.status.${entityStatus.current.toLowerCase()}`),
             back: t('editorFooter.back'),
             inputHeader: t('editorFooter.inputHeader'),
             inputHelperText: t('editorFooter.inputHelperText'),
             cancelLabel: t('editorFooter.cancelLabel'),
             saveLabel: t('editorFooter.saveLabel'),
-            warningSavedWithoutComment: t(
-              'editorFooter.warningSaveWithoutComment',
-            ),
+            warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
             newStatusPrefix: t('editorFooter.newStatusPrefix'),
             statusLabel: t('editorFooter.statusLabel'),
           }}

@@ -17,14 +17,7 @@ import { spacing, colors } from '@ndla/core';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
 
-const TaxonomyLightbox = ({
-  children,
-  title,
-  onSelect,
-  t,
-  loading,
-  onClose,
-}) => (
+const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }) => (
   <StyledLightboxWrapper>
     <Overlay onExit={onClose} />
     <StyledContentWrapper>
@@ -42,7 +35,7 @@ const TaxonomyLightbox = ({
             stripped
             css={selectButtonStyle}
             onClick={onSelect}>
-            {loading ? <Spinner appearance="small" /> : t('form.choose')}
+            {loading ? <Spinner appearance="small" /> : t('form.save')}
           </Button>
         )}
       </StyledContent>

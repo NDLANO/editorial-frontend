@@ -24,11 +24,7 @@ const NdlaFilm: FC<Props> = ({ match }) => {
           <Route
             path={`${match.url}/:selectedLanguage`}
             render={routeProps => {
-              return (
-                <NdlaFilmEditor
-                  selectedLanguage={routeProps.match.params.selectedLanguage}
-                />
-              );
+              return <NdlaFilmEditor selectedLanguage={routeProps.match.params.selectedLanguage} />;
             }}
           />
           <Route

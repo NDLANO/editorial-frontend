@@ -11,11 +11,7 @@ function onDrop(event, editor, next) {
     return next();
   }
   const topLevelSource = getTopNode(sourceNode, editor);
-  if (
-    !topLevelSource ||
-    !topLevelTarget ||
-    topLevelTarget.key === topLevelSource.key
-  ) {
+  if (!topLevelSource || !topLevelTarget || topLevelTarget.key === topLevelSource.key) {
     return;
   }
 
@@ -62,11 +58,7 @@ function onDrop(event, editor, next) {
 
     editor.withoutNormalizing(() => {
       editor
-        .moveNodeByKey(
-          topLevelSourceKey,
-          topLevelTarget.key,
-          goUp ? 0 : topLevelTarget.nodes.size,
-        )
+        .moveNodeByKey(topLevelSourceKey, topLevelTarget.key, goUp ? 0 : topLevelTarget.nodes.size)
         .unwrapNodeByKey(topLevelSourceKey);
     });
   }

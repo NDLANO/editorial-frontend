@@ -140,8 +140,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
         articleToState(resource.contentUri.split(':').pop());
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
-        const error =
-          pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
+        const error = pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         setSelected({ id: val, paths: [val] });
         setPastedUrl(val);
         setError(error);
@@ -177,9 +176,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
     }
   };
 
-  const searchLearningpath = async (
-    input: string,
-  ): Promise<LearningPathSearchSummary[]> => {
+  const searchLearningpath = async (input: string): Promise<LearningPathSearchSummary[]> => {
     const query = input
       ? {
           query: input,
@@ -262,9 +259,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
       if (resource.length > 0) {
         return resource[0].id;
       } else {
-        const err = Error(
-          `Could not find resource after updating for ${learningpathId}`,
-        );
+        const err = Error(`Could not find resource after updating for ${learningpathId}`);
         handleError(err);
         setLoading(false);
         setError(err.message);
@@ -296,9 +291,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
 
         {!pastedUrl && (
           <React.Fragment>
-            {allowPaste && (
-              <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>
-            )}
+            {allowPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
               name="resourceSearch"

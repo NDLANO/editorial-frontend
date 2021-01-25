@@ -13,10 +13,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 
-import {
-  updateSubjectMetadata,
-  updateTopicMetadata,
-} from '../../../../modules/taxonomy';
+import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
@@ -100,22 +97,12 @@ const ToggleVisibility: FC<Props> = ({
   const toggle = visible ? (
     <DropDownWrapper>
       {name} {t('metadata.visible')}
-      <Switch
-        onChange={toggleVisibility}
-        checked={metadata?.visible}
-        label=""
-        id={'visible'}
-      />
+      <Switch onChange={toggleVisibility} checked={metadata?.visible} label="" id={'visible'} />
     </DropDownWrapper>
   ) : (
     <DropDownWrapper>
       {name} {t('metadata.notVisible')}
-      <Switch
-        onChange={toggleVisibility}
-        checked={metadata?.visible}
-        label=""
-        id={'visible'}
-      />
+      <Switch onChange={toggleVisibility} checked={metadata?.visible} label="" id={'visible'} />
     </DropDownWrapper>
   );
 

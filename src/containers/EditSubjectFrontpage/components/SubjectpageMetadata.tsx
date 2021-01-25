@@ -43,11 +43,7 @@ const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, t }) => {
       <FormikField name="desktopBanner">
         {({ field, form }: FormikProps) => {
           return (
-            <SubjectpageBanner
-              field={field}
-              form={form}
-              title={t('form.name.desktopBanner')}
-            />
+            <SubjectpageBanner field={field} form={form} title={t('form.name.desktopBanner')} />
           );
         }}
       </FormikField>

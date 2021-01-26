@@ -9,8 +9,6 @@
 import React, { FC, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
-
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
@@ -59,7 +57,11 @@ const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }
         return (
           <iframe
             title={visualElement?.title}
-            src={visualElement?.url?.includes('youtube') ? getYoutubeEmbedUrl(visualElement?.url) : visualElement?.url}
+            src={
+              visualElement?.url?.includes('youtube')
+                ? getYoutubeEmbedUrl(visualElement?.url)
+                : visualElement?.url
+            }
             frameBorder="0"
             scrolling="no"
             height={400}

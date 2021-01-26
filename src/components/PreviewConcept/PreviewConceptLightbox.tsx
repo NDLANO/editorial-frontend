@@ -18,7 +18,7 @@ import { fetchConcept } from '../../modules/concept/conceptApi';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
-import { ConceptPreviewType } from '../../interfaces';
+import { ConceptPreviewType, VisualElement } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
 import {
   transformApiToPreviewVersion,
@@ -47,6 +47,39 @@ const closeButtonStyle = css`
   margin-right: 0;
   margin-top: -15px;
 `;
+
+export const getVisualElement = async (element: VisualElement | string) => {
+  const visualElement = typeof element === 'string' ? parseEmbedTag(element) : element;
+
+  switch (visualElement?.resource) {
+    case 'image':
+      const image = await fetchImage(parseInt(visualElement.resource_id));
+      return {
+        ...visualElement,
+        url: image.imageUrl,
+      };
+    case 'video':
+    case 'brightcove':
+      return {
+        ...visualElement,
+        url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${visualElement?.videoid}`,
+      };
+    case 'external':
+      return {
+        ...visualElement,
+        url: visualElement?.url?.includes('youtube')
+          ? getYoutubeEmbedUrl(visualElement?.url)
+          : visualElement?.url,
+      };
+    case 'h5p':
+      return {
+        ...visualElement,
+        url: visualElement?.url ? visualElement.url : `${config.h5pApiUrl}${visualElement?.path}`,
+      };
+    default:
+      return undefined;
+  }
+};
 
 const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPreview }) => {
   const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
@@ -88,38 +121,6 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
     setSecondConcept(transformed);
   };
 
-  const getVisualElement = async (visualElementEmbed: string) => {
-    const embedTag = parseEmbedTag(visualElementEmbed);
-    switch (embedTag?.resource) {
-      case 'image':
-        const image = await fetchImage(parseInt(embedTag.resource_id));
-        return {
-          ...embedTag,
-          url: image.imageUrl,
-        };
-      case 'video':
-      case 'brightcove':
-        return {
-          ...embedTag,
-          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`,
-        };
-      case 'external':
-        return {
-          ...embedTag,
-          url: embedTag?.url?.includes('youtube')
-            ? getYoutubeEmbedUrl(embedTag?.url)
-            : embedTag?.url,
-        };
-      case 'h5p':
-        return {
-          ...embedTag,
-          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`,
-        };
-      default:
-        return undefined;
-    }
-  };
-
   if (!showPreview || !firstConcept || !secondConcept) {
     if (typeOfPreview === 'preview') {
       return (
@@ -155,8 +156,8 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
           onChangePreviewLanguage={onChangePreviewLanguage}
           previewLanguage={previewLanguage}
           typeOfPreview={typeOfPreview}
-          contentType='concept'
-          label=''
+          contentType="concept"
+          label=""
           getEntityPreview={(concept: ConceptPreviewType) => <PreviewConcept concept={concept} />}
         />
       </Lightbox>

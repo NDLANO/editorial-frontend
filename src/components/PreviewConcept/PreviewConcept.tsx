@@ -22,7 +22,7 @@ import { Remarkable } from 'remarkable';
 import { getVisualElement } from './PreviewConceptLightbox';
 import { ConceptPreviewType } from '../../interfaces';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType, VisualElement } from '../../interfaces';
+import { SubjectType, VisualElement as VisualElementType } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`
@@ -65,7 +65,7 @@ interface Props {
 
 const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
-  const [visualElement, setVisualElement] = useState<VisualElement | undefined>();
+  const [visualElement, setVisualElement] = useState<VisualElementType | undefined>();
 
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
@@ -82,7 +82,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
 
   const getVisualElementWithCorrectUrl = async () => {
     if (concept?.visualElement) {
-      const visualElement = await getVisualElement(concept.visualElement)
+      const visualElement = await getVisualElement(concept.visualElement);
       setVisualElement(visualElement);
     }
   };

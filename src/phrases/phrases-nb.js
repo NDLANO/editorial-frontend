@@ -725,7 +725,8 @@ const phrases = {
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {type}',
-        description: 'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på',
+        description:
+          'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {url}. Ndla-ressurser vises med blå bakgrunn og eksterne lenker med gul.',
       },
       footnote: {
         title: 'Tittel',

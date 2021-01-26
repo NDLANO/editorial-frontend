@@ -149,6 +149,7 @@ class ConceptForm extends Component {
         rightsholders: values.rightsholders,
       },
       agreementId: values.agreementId,
+      metaImageId: values.metaImageId,
       metaImage: values.metaImageId
         ? {
             id: values.metaImageId,
@@ -160,6 +161,7 @@ class ConceptForm extends Component {
       tags: values.tags,
       created: this.getCreatedDate(values),
       articleIds: values.articles.map(a => a.id),
+      articles: values.articles,
       visualElement: createEmbedTag(values.visualElement),
     };
   };
@@ -288,7 +290,6 @@ class ConceptForm extends Component {
     ];
 
     const initialValues = getInitialValues(concept, subjects);
-
     return (
       <Formik
         initialValues={initialValues}

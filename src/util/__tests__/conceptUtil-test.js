@@ -1,7 +1,7 @@
-import { transformApiToFormikVersion } from '../conceptUtil';
+import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
 import { apiConcept } from './conceptMocks';
 
-test('transformApiToFormikVersion', () => {
-  const transformed = transformApiToFormikVersion(apiConcept, 'nb', []);
+test('transformConceptFromApiVersion', () => {
+  const transformed = transformApiToCleanConcept(apiConcept, 'nb');
   expect(transformed).toMatchSnapshot();
 });

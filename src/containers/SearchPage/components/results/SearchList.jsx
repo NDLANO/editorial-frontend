@@ -6,11 +6,12 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import SearchResult from './SearchResult';
+import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import Spinner from '../../../../components/Spinner';
 import { SearchResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
@@ -25,6 +26,13 @@ const SearchList = ({
   subjects,
   userAccess,
 }) => {
+  const editingState = useState(false);
+
+  const [licenses, setLicenses] = useState();
+  useEffect(() => {
+    fetchLicenses().then(licenses => setLicenses(licenses));
+  }, []);
+
   if (searching) return <Spinner />;
   if (results.length === 0)
     return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>;
@@ -43,6 +51,8 @@ const SearchList = ({
               locale={locale || result.title.language}
               subjects={subjects}
               userAccess={userAccess}
+              editingState={editingState}
+              licenses={licenses}
             />
           </CSSTransition>
         ))}

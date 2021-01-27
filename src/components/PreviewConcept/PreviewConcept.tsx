@@ -18,9 +18,8 @@ import {
   NotionDialogTags,
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
-import { ConceptPreviewType } from '../../interfaces';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType } from '../../interfaces';
+import { SubjectType, ConceptPreviewType } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`
@@ -76,7 +75,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   };
 
   const VisualElement = () => {
-    const visualElement = concept.visualElement;
+    const visualElement = concept.visualElementResources;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

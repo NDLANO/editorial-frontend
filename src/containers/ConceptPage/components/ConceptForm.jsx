@@ -21,6 +21,7 @@ import {
   plainTextToEditorValue,
   editorValueToPlainText,
 } from '../../../util/articleContentConverter';
+import { createEmbedTag } from '../../../util/embedTagHelpers';
 import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -50,17 +51,17 @@ const getInitialValues = (concept = {}, subjects = []) => {
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],
-    creators: concept.creators || [],
-    rightsholders: concept.rightsholders || [],
-    processors: concept.processors || [],
+    creators: concept.copyright?.creators || [],
+    rightsholders: concept.copyright?.rightsholders || [],
+    processors: concept.copyright?.processors || [],
     source: concept && concept.source ? concept.source : '',
     license: concept.copyright?.license?.license || '',
     metaImageId: concept.metaImageId,
-    metaImageAlt: concept.metaImageAlt || '',
+    metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
-    articleIds: concept.articleIds || [],
+    articles: concept.articles || [],
     status: concept.status || {},
-    visualElement: concept.visualElement || {},
+    visualElement: concept.parsedVisualElement || {},
   };
 };
 
@@ -133,7 +134,7 @@ class ConceptForm extends Component {
     return undefined;
   };
 
-  getConcept = values => {
+  getApiConcept = values => {
     const { licenses } = this.props;
     return {
       id: values.id,
@@ -141,19 +142,27 @@ class ConceptForm extends Component {
       content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,
-      license: licenses.find(license => license.license === values.license),
-      creators: values.creators,
-      processors: values.processors,
-      rightsholders: values.rightsholders,
+      copyright: {
+        license: licenses.find(license => license.license === values.license),
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
+      },
       agreementId: values.agreementId,
-      metaImageAlt: values.metaImageAlt,
       metaImageId: values.metaImageId,
+      metaImage: values.metaImageId
+        ? {
+            id: values.metaImageId,
+            alt: values.metaImageAlt,
+          }
+        : null,
       source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
       created: this.getCreatedDate(values),
-      articleIds: values.articleIds,
-      visualElement: values.visualElement,
+      articleIds: values.articles.map(a => a.id),
+      articles: values.articles,
+      visualElement: createEmbedTag(values.visualElement),
     };
   };
 
@@ -167,7 +176,7 @@ class ConceptForm extends Component {
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
     if (Object.keys(formik.errors).length > 0 && formik.errors.constructor === Object) {
-      setConcept({ status: concept.status, ...this.getConcept(values) });
+      setConcept({ status: concept.status, ...this.getApiConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
       const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
       this.props.createMessage({
@@ -190,10 +199,10 @@ class ConceptForm extends Component {
             initialValues,
             dirty: true,
           });
-        await updateConceptAndStatus(this.getConcept(values), newStatus, !skipSaving);
+        await updateConceptAndStatus(this.getApiConcept(values), newStatus, !skipSaving);
       } else {
         await onUpdate({
-          ...this.getConcept(values),
+          ...this.getApiConcept(values),
           revision,
         });
       }
@@ -269,11 +278,11 @@ class ConceptForm extends Component {
         id: 'concept-articles',
         title: t('form.articleSection'),
         className: 'u-6/6',
-        hasError: ['articleIds'].some(field => !!errors[field]),
+        hasError: ['articles'].some(field => !!errors[field]),
         component: props => (
-          <FormikField name={'articleIds'}>
+          <FormikField name={'articles'}>
             {({ field, form }) => (
-              <ConceptArticles articleIds={props.values.articleIds} field={field} form={form} />
+              <ConceptArticles initArticles={concept.articles} field={field} form={form} />
             )}
           </FormikField>
         ),
@@ -281,7 +290,6 @@ class ConceptForm extends Component {
     ];
 
     const initialValues = getInitialValues(concept, subjects);
-
     return (
       <Formik
         initialValues={initialValues}
@@ -302,7 +310,7 @@ class ConceptForm extends Component {
               <HeaderWithLanguage
                 content={concept}
                 editUrl={lang => toEditConcept(values.id, lang)}
-                getEntity={() => this.getConcept(values)}
+                getEntity={() => this.getApiConcept(values)}
                 translateArticle={translateConcept}
                 type="concept"
                 setTranslateOnContinue={this.setTranslateOnContinue}
@@ -326,7 +334,7 @@ class ConceptForm extends Component {
                             id={panel.id}
                             updateNotes={this.onUpdate}
                             hasError={panel.hasError}
-                            getConcept={() => this.getConcept(values)}
+                            getConcept={() => this.getApiConcept(values)}
                             isOpen={openIndexes.includes(panel.id)}>
                             <div className={panel.className}>
                               {panel.component({
@@ -369,7 +377,7 @@ class ConceptForm extends Component {
                   values={values}
                   error={error}
                   errors={errors}
-                  getEntity={() => this.getConcept(values)}
+                  getEntity={() => this.getApiConcept(values)}
                   entityStatus={concept.status}
                   createMessage={createMessage}
                   showSimpleFooter={!concept.id}

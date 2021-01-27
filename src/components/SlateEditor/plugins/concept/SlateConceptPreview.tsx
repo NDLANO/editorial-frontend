@@ -16,7 +16,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import { Concept as ConceptType } from '../../editorTypes';
+import { ConceptType } from '../../../../interfaces';
 import IconButton from '../../../IconButton';
 
 const StyledFigureButtons = styled('span')`

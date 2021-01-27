@@ -17,15 +17,15 @@ import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 
 interface Props {
   locale: String;
-  articleIds: ArticleType[];
+  initArticles: ArticleType[];
   field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }
 
-const ConceptArticles: FC<Props & tType> = ({ locale, t, articleIds, field, form }) => {
-  const [articles, setArticles] = useState<ArticleType[]>(articleIds);
+const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, form }) => {
+  const [articles, setArticles] = useState<ArticleType[]>(initArticles);
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
       let newArticle = await fetchDraft(article.id);
@@ -63,10 +63,7 @@ const ConceptArticles: FC<Props & tType> = ({ locale, t, articleIds, field, form
 
   return (
     <>
-      <FieldHeader
-        title={t('conceptpageForm.articlesTitle')}
-        subTitle={t('conceptpageForm.articlesSubtitle')}
-      />
+      <FieldHeader title={t('form.related.title')} subTitle={t('subjectpageForm.articles')} />
       <ElementList
         elements={articles}
         messages={{

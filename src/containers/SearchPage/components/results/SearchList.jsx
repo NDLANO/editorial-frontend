@@ -27,11 +27,15 @@ const SearchList = ({
   userAccess,
 }) => {
   const editingState = useState(false);
+  const setEditing = editingState[1];
 
   const [licenses, setLicenses] = useState();
   useEffect(() => {
     fetchLicenses().then(licenses => setLicenses(licenses));
   }, []);
+  useEffect(() => {
+    setEditing(false);
+  }, [results]);
 
   if (searching) return <Spinner />;
   if (results.length === 0)

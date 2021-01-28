@@ -27,6 +27,9 @@ import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
+  label > span {
+    font-size: 1rem;
+  }
 `;
 
 const formatFile = ({ title, type, url, ...rest }, id, t) => ({
@@ -181,6 +184,19 @@ class Filelist extends React.Component {
     );
   };
 
+  onToggleRenderInline = index => {
+    this.setState(
+      prevState => ({
+        files: prevState.files.map((file, i) =>
+          index === i
+            ? { ...file, 'render-inline': (!(file['render-inline'] === 'true')).toString() }
+            : file,
+        ),
+      }),
+      this.updateFilesToEditor,
+    );
+  };
+
   onOpenFileUploader = () => {
     this.setState({ showFileUploader: true });
   };
@@ -217,12 +233,14 @@ class Filelist extends React.Component {
             </Tooltip>
           </FieldHeader>
           <FileListEditor
-            files={this.state.files}
+            files={files}
             missingFilePaths={this.state.missingFilePaths}
             usePortal={true}
             onEditFileName={this.onUpdateFileName}
             onDeleteFile={this.onDeleteFile}
             onMovedFile={this.onMovedFile}
+            onToggleRenderInline={this.onToggleRenderInline}
+            showRenderInlineCheckbox={true}
             messages={{
               placeholder: t('form.file.placeholder'),
               changeName: t('form.file.changeName'),
@@ -230,6 +248,8 @@ class Filelist extends React.Component {
               removeFile: t('form.file.removeFile'),
               missingFileTooltip: t('form.file.missingFileTooltip'),
               missingTitle: t('form.file.missingFilename'),
+              renderInlineLabel: 'Vis PDF',
+              renderInlineTooltip: 'Forhåndsvis PDF i artikkel',
             }}
           />
           <AddFileToList

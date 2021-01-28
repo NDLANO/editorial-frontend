@@ -8,6 +8,15 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
 
+export type ConceptStatusType =
+  | 'DRAFT'
+  | 'QUALITY_ASSURED'
+  | 'PUBLISHED'
+  | 'QUEUED_FOR_LANGUAGE'
+  | 'ARCHIVED'
+  | 'TRANSLATED'
+  | 'UNPUBLISHED';
+
 export interface TranslateType {
   (
     key: string,
@@ -28,14 +37,10 @@ export interface Status {
 }
 
 export interface Copyright {
-  license: {
-    license: string;
-    description?: string;
-    url?: string;
-  };
+  license?: License;
   origin?: string;
   creators: Author[];
-  processors: Author[];
+  processors?: Author[];
   rightsholders: Author[];
   agreementId?: number;
   validFrom?: string;
@@ -175,11 +180,7 @@ export interface Resource extends TaxonomyElement {
 
 export interface Learningpath {
   copyright: {
-    license: {
-      license: string;
-      description: string;
-      url: string;
-    };
+    license: License;
     contributors: [
       {
         type: string;
@@ -464,27 +465,51 @@ export interface FormikProperties {
   form: FormikHelpers<FormikValues>;
 }
 
-export interface Licenses {
+export interface License {
   license: string;
   description: string;
   url?: string;
 }
 
-export interface ConceptPreviewType {
+export interface StrippedConceptType {
   id: number;
   title?: string;
-  tags: Array<string>;
   content?: string;
-  metaImage?: {
-    id: number;
-    alt: string;
-  };
-  copyright?: Copyright;
+  visualElement?: string;
   language: string;
-  supportedLanguages: Array<string>;
-  articleIds: number[];
-  created: string;
+  copyright?: Copyright;
   source?: string;
+  metaImage?: {
+    id?: string;
+    url: string;
+    alt: string;
+    language: string;
+  };
+  tags: string[];
+  subjectIds?: string[];
+  articleIds?: number[];
+}
+
+export interface ConceptType extends StrippedConceptType {
+  title: string;
+  content: string;
+  visualElement: string;
   subjectIds: string[];
-  visualElement?: VisualElement;
+  articleIds: number[];
+  lastUpdated?: string;
+  updatedBy: string[];
+  supportedLanguages: string[];
+  status: Status;
+  created: string;
+  updated: string;
+  metaImageId: string;
+  parsedVisualElement: VisualElement;
+}
+
+export interface ConceptPreviewType extends ConceptType {
+  visualElementResources: VisualElement;
+}
+
+export interface ConceptFormType extends ConceptType {
+  articles: ArticleType[];
 }

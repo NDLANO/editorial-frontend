@@ -13,9 +13,9 @@ import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import * as actions from '../../modules/search/search';
 import {
-  getResults,
-  getLastPage,
-  getTotalResultsCount,
+  getConceptResults,
+  getConceptLastPage,
+  getConceptTotalResultsCount,
 } from '../../modules/search/searchSelectors';
 
 import SearchContainer from './SearchContainer';
@@ -28,13 +28,13 @@ const SearchConceptPage = ({ t, ...props }) => (
 );
 
 const mapStateToProps = (state, ownProps) => ({
-  results: getResults(state, queryString.parse(ownProps.location.search).types),
-  totalCount: getTotalResultsCount(state),
-  lastPage: getLastPage(state),
+  results: getConceptResults(state, queryString.parse(ownProps.location.search)),
+  totalCount: getConceptTotalResultsCount(state),
+  lastPage: getConceptLastPage(state),
 });
 
 const mapDispatchToProps = {
-  search: actions.search,
+  search: actions.searchConcept,
   clearSearch: actions.clearSearchResult,
 };
 

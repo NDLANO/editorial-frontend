@@ -11,15 +11,14 @@ import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from './components/ElementList';
 import { AsyncDropdown } from '../../components/Dropdown';
-import { ContentResultType, FormikProperties } from '../../interfaces';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { ContentResultType, FormikProperties, ConceptType } from '../../interfaces';
 import handleError from '../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../modules/concept/conceptApi';
 
 interface Props {
   locale: string;
   values: {
-    conceptIds: ConceptApiType[];
+    conceptIds: ConceptType[];
   };
   field: FormikProperties['field'];
   form: {
@@ -28,7 +27,7 @@ interface Props {
 }
 
 const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) => {
-  const [concepts, setConcepts] = useState<ConceptApiType[]>(values.conceptIds);
+  const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
       const newConcept = await fetchConcept(concept.id, '');
@@ -42,12 +41,12 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
     }
   };
 
-  const onUpdateElements = (conceptList: ConceptApiType[]) => {
+  const onUpdateElements = (conceptList: ConceptType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ConceptApiType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {

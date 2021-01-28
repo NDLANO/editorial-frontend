@@ -1,5 +1,4 @@
 import { Value } from 'slate';
-import { VisualElement } from '../../interfaces';
 
 export interface Values {
   id: number;
@@ -65,40 +64,6 @@ export interface PossibleStatuses {
   UNPUBLISHED: Array<string>;
   ARCHIVED: Array<string>;
   QUEUED_FOR_PUBLISHING: Array<string>;
-}
-
-export interface Concept {
-  id: number;
-  title: string;
-  tags: Array<string>;
-  content: string;
-  metaImage: {
-    id: number;
-    alt: string;
-  };
-  metaDescription: string;
-  articleType: string;
-  copyright: {
-    agreementId: number;
-    license: {
-      license: string;
-    };
-    creators: {
-      type: string;
-      name: string;
-    }[];
-    processors: Array<string>;
-    rightsholders: Array<string>;
-  };
-  notes: Array<string>;
-  language: string;
-  published: string;
-  supportedLanguages: Array<string>;
-  articleId: number;
-  created: string;
-  source: string;
-  subjectIds: Array<string>;
-  visualElement: VisualElement;
 }
 
 export type PreviewTypes = 'previewProductionArticle' | 'previewLanguageArticle' | 'preview' | '';

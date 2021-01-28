@@ -6,51 +6,41 @@
  *
  */
 
-import { ArticleType, Copyright, Status, VisualElement, Author } from '../../interfaces';
+import { Copyright, Status } from '../../interfaces';
 
-export enum ConceptStatusType {
-  DRAFT,
-  QUALITY_ASSURED,
-  PUBLISHED,
-  QUEUED_FOR_LANGUAGE,
-  ARCHIVED,
-  TRANSLATED,
-  UNPUBLISHED,
-}
+export type LanguageFieldType<T> = T & {
+  language: string;
+};
 
-export interface ConceptApiType {
+interface CoreConceptApiType {
   id: number;
-  revision: number;
-  title?: {
-    title: string;
-    language: string;
-  };
-  content?: {
-    content: string;
-    language: string;
-  };
-  copyright?: Copyright;
-  source?: string;
+  status: Status;
+  supportedLanguages: string[];
+  title: LanguageFieldType<{ title: string }>;
+  content?: LanguageFieldType<{ content: string }>;
+  tags?: LanguageFieldType<{ tags: string[] }>;
+  subjectIds?: string[];
   metaImage?: {
     url: string;
     alt: string;
     language: string;
   };
-  tags?: {
-    tags: string[];
-    language: string;
-  };
-  subjectIds?: string[];
+  updatedBy?: string[];
+}
+
+export interface SearchConceptApiType extends CoreConceptApiType {
+  lastUpdated: string;
+  license: string;
+}
+
+export interface ConceptApiType extends CoreConceptApiType {
+  revision: number;
+  copyright?: Copyright;
+  source?: string;
   created: string;
   updated: string;
-  updatedBy?: string[];
-  supportedLanguages: string[];
   articleIds: number[];
-  status: Status;
-  visualElement?: {
-    visualElement: string;
-    language: string;
-  };
+  visualElement?: LanguageFieldType<{ visualElement: string }>;
 }
 
 export interface ConceptTagsSearchResult {
@@ -66,97 +56,7 @@ export interface ConceptSearchResult {
   page?: number;
   pageSize: number;
   language: string;
-  results: ConceptSearchSummaryApiType[];
-}
-
-interface ConceptSearchSummaryApiType {
-  id: number;
-  title: {
-    title: string;
-    language: string;
-  };
-  content: {
-    content: string;
-    language: string;
-  };
-  metaImage: {
-    url: string;
-    alt: string;
-    language: string;
-  };
-  tags?: {
-    tags: string[];
-    language: string;
-  };
-  subjectIds?: string[];
-  supportedLanguages: string[];
-  lastUpdated: string;
-  status: Status;
-  updatedBy: string[];
-  license?: string;
-}
-
-export interface NewConceptType {
-  language: string;
-  title: string;
-  content?: string;
-  copyright?: Copyright;
-  source?: string;
-  metaImage?: {
-    id: string;
-    alt: string;
-  };
-  tags?: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-  visualElement?: string;
-}
-
-export interface UpdatedConceptType {
-  id?: number; // Used only as id in endpoint-url. Discarded by backend. Should be removed from this interface in the future.
-  language: string;
-  title?: string;
-  content?: string;
-  metaImage?: {
-    id: string;
-    alt: string;
-  };
-  copyright?: Copyright;
-  source?: string;
-  tags?: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-  status?: string;
-  visualElement?: string;
-}
-
-export interface ConceptFormikType {
-  id: number;
-  revision: number;
-  title?: string;
-  content?: string;
-  license: {
-    license: string;
-    description?: string;
-    url?: string;
-  };
-  language: string;
-  creators: Author[];
-  processors: Author[];
-  rightsholders: Author[];
-  agreementId?: number;
-  source?: string;
-  metaImageId?: string;
-  metaImageAlt?: string;
-  tags?: string[];
-  subjectIds?: string[];
-  created: string;
-  updated: string;
-  updatedBy?: string[];
-  supportedLanguages: string[];
-  articleIds: ArticleType[];
-  status: Status;
-  visualElement?: VisualElement;
+  results: SearchConceptApiType[];
 }
 
 export interface ConceptStatusStateMashineType {
@@ -182,9 +82,4 @@ export interface ConceptQuery {
   tags: string[];
   status: string[];
   users: string[];
-}
-
-export interface PreviewMetaImage {
-  id: number;
-  alt: string;
 }

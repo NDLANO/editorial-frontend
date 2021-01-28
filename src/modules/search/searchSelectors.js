@@ -27,36 +27,56 @@ export const getLastPage = createSelector(
   },
 );
 
-export const getDraftTotalResultsCount = createSelector([getSearchFromState], search =>
-  search.totalDraftResults.results.map(t => t.totalCount).reduce((a, b) => a + b, 0),
+export const getAudioTotalResultsCount = createSelector(
+  [getSearchFromState],
+  search => search.totalAudioResults.totalCount,
 );
 
-export const getDraftLastPage = createSelector(
-  [getSearchFromState, getDraftTotalResultsCount],
+export const getConceptTotalResultsCount = createSelector(
+  [getSearchFromState],
+  search => search.totalConceptResults.totalCount,
+);
+
+export const getImageTotalResultsCount = createSelector(
+  [getSearchFromState],
+  search => search.totalImageResults.totalCount,
+);
+
+export const getAudioLastPage = createSelector(
+  [getSearchFromState, getAudioTotalResultsCount],
   (search, totalResultsCount) => {
-    const largestPageSize = search.totalDraftResults.results
-      .map(t => t.pageSize)
-      .reduce((a, b) => Math.max(a, b), 1);
+    const largestPageSize = search.totalAudioResults.pageSize;
     return totalResultsCount ? Math.ceil(totalResultsCount / largestPageSize) : 1;
   },
 );
 
-export const getDraftResults = createSelector(
-  [getSearchFromState, getDraftTotalResultsCount],
-  (search, totalCount) => {
-    const totalResults = {
-      results: [],
-      totalCount,
-    };
-    search.totalDraftResults.results.forEach(allResult => {
-      const results = allResult.results || [];
-      return totalResults.results.push(
-        ...results.map(result => ({
-          ...result,
-          type: allResult.type,
-        })),
-      );
-    });
-    return totalResults;
+export const getConceptLastPage = createSelector(
+  [getSearchFromState, getConceptTotalResultsCount],
+  (search, totalResultsCount) => {
+    const largestPageSize = search.totalConceptResults.pageSize;
+    return totalResultsCount ? Math.ceil(totalResultsCount / largestPageSize) : 1;
   },
+);
+
+export const getImageLastPage = createSelector(
+  [getSearchFromState, getImageTotalResultsCount],
+  (search, totalResultsCount) => {
+    const largestPageSize = search.totalImageResults.pageSize;
+    return totalResultsCount ? Math.ceil(totalResultsCount / largestPageSize) : 1;
+  },
+);
+
+export const getAudioResults = createSelector(
+  [getSearchFromState],
+  search => search.totalAudioResults,
+);
+
+export const getConceptResults = createSelector(
+  [getSearchFromState],
+  search => search.totalConceptResults,
+);
+
+export const getImageResults = createSelector(
+  [getSearchFromState],
+  search => search.totalImageResults,
 );

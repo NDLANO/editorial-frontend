@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformApiToFormikVersion 1`] = `
+exports[`transformConceptFromApiVersion 1`] = `
 Object {
   "articleIds": Array [],
+  "articles": Array [],
   "content": "Beskrivelse av testforklaring.",
   "copyright": Object {
     "creators": Array [
@@ -21,23 +22,18 @@ Object {
     "rightsholders": Array [],
   },
   "created": "2013-02-26T11:06:14Z",
-  "creators": Array [
-    Object {
-      "name": "Ragna Marie Tørdal",
-      "type": "Writer",
-    },
-  ],
   "id": 400,
   "language": "nb",
-  "license": Object {
-    "description": "Creative Commons Attribution-ShareAlike 4.0 International",
-    "license": "CC-BY-SA-4.0",
-    "url": "https://creativecommons.org/licenses/by-sa/4.0/",
-  },
-  "metaImageAlt": "",
   "metaImageId": "",
-  "processors": Array [],
-  "rightsholders": Array [],
+  "parsedVisualElement": Object {
+    "align": "",
+    "alt": "Test data alt",
+    "caption": "",
+    "resource": "image",
+    "resource_id": "1234",
+    "size": "fullbredde",
+  },
+  "subjectIds": Array [],
   "supportedLanguages": Array [
     "nb",
     "nn",
@@ -46,13 +42,7 @@ Object {
   "tags": Array [],
   "title": "Testforklaring",
   "updated": "2019-05-15T08:45:46Z",
-  "visualElement": Object {
-    "align": "",
-    "alt": "Test data alt",
-    "caption": "",
-    "resource": "image",
-    "resource_id": "1234",
-    "size": "fullbredde",
-  },
+  "updatedBy": Array [],
+  "visualElement": "<embed data-resource=\\"image\\" data-resource_id=\\"1234\\" data-size=\\"fullbredde\\" data-align=\\"\\" data-alt=\\"Test data alt\\" data-caption=\\"\\">",
 }
 `;

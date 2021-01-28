@@ -15,15 +15,11 @@ import { FileCompare } from '@ndla/icons/action';
 import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
+import { ConceptPreviewType } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
-import { ConceptPreviewType } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
-import {
-  transformApiToPreviewVersion,
-  transformFormikToPreviewVersion,
-} from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
@@ -63,8 +59,9 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
 
   const openPreview = async () => {
     const concept = getConcept();
-    const transformed = transformFormikToPreviewVersion(concept);
-    setFirstConcept(transformed);
+    const firstVisualElement =
+      concept.visualElement && (await getVisualElement(concept.visualElement));
+    setFirstConcept({ ...concept, visualElementResources: firstVisualElement });
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);
@@ -76,16 +73,12 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
     const originalConcept = getConcept();
     const secondConcept = await fetchConcept(originalConcept.id, language);
     const secondVisualElement =
-      secondConcept.visualElement &&
-      (await getVisualElement(secondConcept.visualElement?.visualElement));
-    const transformed = transformApiToPreviewVersion(
-      secondConcept,
-      language,
-      secondVisualElement,
-      originalConcept.metaImage,
-    );
+      secondConcept.visualElement && (await getVisualElement(secondConcept.visualElement));
     setPreviewLanguage(language);
-    setSecondConcept(transformed);
+    setSecondConcept({
+      ...secondConcept,
+      visualElementResources: secondVisualElement,
+    });
   };
 
   const getVisualElement = async (visualElementEmbed: string) => {

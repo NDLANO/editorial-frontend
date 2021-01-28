@@ -16,6 +16,7 @@ import {
 } from '../../util/apiHelpers';
 import {
   ImageApiType,
+  ImageSearchQuery,
   ImageSearchResult,
   TagSearchResult,
   UpdatedImageMetadata,
@@ -39,13 +40,12 @@ export const updateImage = (imageMetadata: UpdatedImageMetadata): Promise<ImageA
     body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);
 
-export const searchImages = (query: string, page: number): Promise<ImageSearchResult> =>
-  fetchAuthorized(
-    `${baseUrl}/?${queryString.stringify({
-      query,
-      page,
-    })}&page-size=16`,
-  ).then(resolveJsonOrRejectWithError);
+export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult> => {
+  const response = fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
+    resolveJsonOrRejectWithError,
+  );
+  return response;
+};
 
 export const onError = (err: Response & Error) => {
   createErrorPayload(err.status, defined(err.message, err.statusText), err);

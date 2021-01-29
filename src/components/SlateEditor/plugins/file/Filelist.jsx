@@ -188,9 +188,7 @@ class Filelist extends React.Component {
     this.setState(
       prevState => ({
         files: prevState.files.map((file, i) =>
-          index === i
-            ? { ...file, 'render-inline': (!(file['render-inline'] === 'true')).toString() }
-            : file,
+          index === i ? { ...file, display: file.display === 'block' ? 'inline' : 'block' } : file,
         ),
       }),
       this.updateFilesToEditor,

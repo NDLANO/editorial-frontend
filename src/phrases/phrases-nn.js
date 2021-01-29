@@ -935,7 +935,7 @@ const phrases = {
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
       showPdf: 'Vis PDF',
-      showPdfTooltop: 'Førehandsvis PDF i artikkel',
+      showPdfTooltip: 'Førehandsvis PDF i artikkel',
     },
     article: {
       label: 'Artikkel',

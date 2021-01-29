@@ -940,7 +940,7 @@ const phrases = {
         noFilesAdded: 'Ingen filer er lagt til',
       },
       showPdf: 'Vis PDF',
-      showPdfTooltop: 'Forhåndsvis PDF i artikkel',
+      showPdfTooltip: 'Forhåndsvis PDF i artikkel',
     },
     article: {
       label: 'Artikkel',

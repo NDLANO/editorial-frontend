@@ -59,7 +59,7 @@ describe('Workflow features', () => {
   it('Open previews', () => {
     cy.route(
       'POST',
-      '/article-converter/json/nb/transform-article?draftConcept=true',
+      '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
     cy.get('[data-testid=previewVersion]')

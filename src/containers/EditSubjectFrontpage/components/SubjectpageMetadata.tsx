@@ -19,7 +19,7 @@ interface FormikProps {
 }
 
 interface Props {
-  handleSubmit: Function;
+  handleSubmit: () => void;
 }
 
 const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, t }) => {

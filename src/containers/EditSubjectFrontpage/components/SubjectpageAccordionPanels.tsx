@@ -19,7 +19,7 @@ interface Props {
   editorsChoices: ArticleType[];
   elementId: string;
   errors: FormikErrors<Values>;
-  handleSubmit: Function;
+  handleSubmit: () => void;
 }
 
 interface ComponentProps {
@@ -33,7 +33,7 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: ({ handleSubmit }: { handleSubmit: Function }) => (
+    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
       <SubjectpageAbout handleSubmit={handleSubmit} />
     ),
   },
@@ -42,7 +42,7 @@ const panels = [
     title: 'subjectpageForm.metadata',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'mobileBannerId'],
-    component: ({ handleSubmit }: { handleSubmit: Function }) => (
+    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
       <SubjectpageMetadata handleSubmit={handleSubmit} />
     ),
   },

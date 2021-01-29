@@ -15,6 +15,11 @@ import isHotkey from 'is-hotkey';
 const isSaveHotkey = isHotkey('mod+s');
 
 class PlainTextEditor extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
   onKeyDown(e, editor, next) {
     if (isSaveHotkey(e)) {
       e.preventDefault();

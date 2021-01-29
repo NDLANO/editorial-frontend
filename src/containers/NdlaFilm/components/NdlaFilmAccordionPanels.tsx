@@ -29,6 +29,7 @@ interface Props {
 interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
+  handleSubmit: () => void;
 }
 
 interface PanelProps extends Props {
@@ -51,7 +52,9 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: () => <SubjectpageAbout />,
+    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
+      <SubjectpageAbout handleSubmit={handleSubmit} />
+    ),
   },
   {
     id: 'slideshow',
@@ -100,6 +103,7 @@ const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
   allMovies,
   loading,
   selectedLanguage,
+  handleSubmit,
 }) => {
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
@@ -142,6 +146,7 @@ const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
                         loading,
                         onUpdateMovieList,
                         selectedLanguage,
+                        handleSubmit,
                       })}
                     </div>
                   </AccordionPanel>

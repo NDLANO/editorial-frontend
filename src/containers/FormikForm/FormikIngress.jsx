@@ -32,9 +32,9 @@ const FormikIngress = ({
   name,
   maxLength,
   placeholder,
+  handleSubmit,
   preview = false,
   concept = false,
-  handleSubmit,
 }) => (
   <StyledFormContainer>
     <FormikField

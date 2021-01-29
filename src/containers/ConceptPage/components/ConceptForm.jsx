@@ -333,7 +333,7 @@ class ConceptForm extends Component {
                                 values,
                                 subjects,
                                 closePanel: () => handleItemClick(panel.id),
-                                handleSubmit: () => this.handleSubmit(this.formik),
+                                handleSubmit: () => this.handleSubmit(formikProps),
                                 ...rest,
                               })}
                             </div>

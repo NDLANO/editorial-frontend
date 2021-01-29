@@ -248,8 +248,8 @@ class Filelist extends React.Component {
               removeFile: t('form.file.removeFile'),
               missingFileTooltip: t('form.file.missingFileTooltip'),
               missingTitle: t('form.file.missingFilename'),
-              renderInlineLabel: 'Vis PDF',
-              renderInlineTooltip: 'Forhåndsvis PDF i artikkel',
+              renderInlineLabel: t('form.file.showPdf'),
+              renderInlineTooltip: t('form.file.showPdfTooltip'),
             }}
           />
           <AddFileToList

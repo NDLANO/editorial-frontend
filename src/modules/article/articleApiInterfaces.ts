@@ -5,6 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+interface Author {
+  type: string;
+  name: string;
+}
+
 export interface ArticleSearchResult {
   totalCount: number;
   page?: number;
@@ -27,6 +33,10 @@ export interface ArticleSearchSummaryApiType {
     introduction: string;
     language: string;
   };
+  metaDescription?: {
+    metaDescription: string;
+    language: string;
+  };
   metaImage?: {
     url: string;
     alt: string;
@@ -42,6 +52,7 @@ export interface ArticleSearchSummaryApiType {
 
 export interface ArticleApiType {
   id: number;
+  oldNdlaUrl?: string;
   revision: number;
   status: {
     status: string;
@@ -91,36 +102,21 @@ export interface ArticleApiType {
   articleType: string;
   supportedLanguages: string[];
   grepCodes: string[];
+  conceptIds: number[];
+  availability: string;
 }
 
 interface Copyright {
   license: {
     license: string;
-    description: string;
-    url: string;
+    description?: string;
+    url?: string;
   };
-  processors: [
-    {
-      name: string;
-      type: string;
-    },
-  ];
-  origin: [
-    {
-      name: string;
-      type: string;
-    },
-  ];
-  rightsholders: [
-    {
-      type: string;
-      name: string;
-    },
-  ];
-  creators: [
-    {
-      type: string;
-      name: string;
-    },
-  ];
+  origin: string;
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  agreementId?: string;
+  validFrom?: string;
+  validTo?: string;
 }

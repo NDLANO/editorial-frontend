@@ -192,7 +192,17 @@ class LearningResourceContent extends Component {
             </>
           )}
         </FormikField>
-        <FormikIngress preview={this.state.preview} handleSubmit={handleSubmit} />
+        <FormikIngress
+          preview={this.state.preview}
+          handleSubmit={handleSubmit}
+          onBlur={(event, editor, next) => {
+            next();
+            // this is a hack since formik onBlur-handler interferes with slates
+            // related to: https://github.com/ianstormtaylor/slate/issues/2434
+            // formik handleBlur needs to be called for validation to work (and touched to be set)
+            setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+          }}
+        />
         <FormikField
           name="content"
           label={t('form.content.label')}

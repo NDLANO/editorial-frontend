@@ -78,6 +78,7 @@ const TopicArticleContent = props => {
     userAccess,
     formik: {
       values: { id, language, creators, published },
+      handleBlur,
     },
     handleSubmit,
   } = props;
@@ -117,7 +118,17 @@ const TopicArticleContent = props => {
           </>
         )}
       </FormikField>
-      <FormikIngress preview={preview} handleSubmit={handleSubmit} />
+      <FormikIngress
+        preview={preview}
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor, next) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+        }}
+      />
       <FormikVisualElement />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field, form: { isSubmitting } }) => (
@@ -137,6 +148,13 @@ const TopicArticleContent = props => {
               plugins={plugins}
               schema={schema}
               handleSubmit={handleSubmit}
+              onBlur={(event, editor, next) => {
+                next();
+                // this is a hack since formik onBlur-handler interferes with slates
+                // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                // formik handleBlur needs to be called for validation to work (and touched to be set)
+                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
+              }}
               {...field}
             />
           </Fragment>
@@ -164,6 +182,7 @@ TopicArticleContent.propTypes = {
       title: PropTypes.string,
       updatePublished: PropTypes.bool,
     }),
+    handleBlur: PropTypes.func.isRequired,
   }),
   handleSubmit: PropTypes.func,
 };

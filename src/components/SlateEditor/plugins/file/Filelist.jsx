@@ -246,8 +246,8 @@ class Filelist extends React.Component {
               removeFile: t('form.file.removeFile'),
               missingFileTooltip: t('form.file.missingFileTooltip'),
               missingTitle: t('form.file.missingFilename'),
-              renderInlineLabel: t('form.file.showPdf'),
-              renderInlineTooltip: t('form.file.showPdfTooltip'),
+              checkboxLabel: t('form.file.showPdf'),
+              checkboxTooltip: t('form.file.showPdfTooltip'),
             }}
           />
           <AddFileToList

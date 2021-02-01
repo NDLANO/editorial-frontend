@@ -168,17 +168,17 @@ class ImageForm extends Component<Props & tType, State> {
     const license = licenses.find(license => license.license === values.license);
 
     if (
-      !license ||
-      !values.title ||
-      !values.alttext ||
-      !values.caption ||
-      !values.language ||
-      !values.tags ||
-      !values.origin ||
-      !values.creators ||
-      !values.processors ||
-      !values.rightsholders ||
-      !values.imageFile
+      license === undefined ||
+      values.title === undefined ||
+      values.alttext === undefined ||
+      values.caption === undefined ||
+      values.language === undefined ||
+      values.tags === undefined ||
+      values.origin === undefined ||
+      values.creators === undefined ||
+      values.processors === undefined ||
+      values.rightsholders === undefined ||
+      values.imageFile === undefined
     ) {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });

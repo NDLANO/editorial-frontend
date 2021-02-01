@@ -45,12 +45,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElement: subjectpage.visualElement || {
-      resource: '',
-      url: '',
-      resource_id: '',
-      videoid: '',
-    },
+    visualElement: subjectpage.visualElement || {},
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],

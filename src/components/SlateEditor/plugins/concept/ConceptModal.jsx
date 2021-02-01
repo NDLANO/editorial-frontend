@@ -168,7 +168,11 @@ const ConceptModal = ({
                         locale={locale}
                         fetchStateStatuses={fetchStatusStateMachine}
                         fetchConceptTags={fetchSearchTags}
-                        concept={concept ? concept : { title: selectedText, language: locale }}
+                        concept={
+                          concept
+                            ? concept
+                            : { title: selectedText, language: locale, articles: [] }
+                        }
                         createMessage={createMessage}
                         setConcept={setConcept}
                       />

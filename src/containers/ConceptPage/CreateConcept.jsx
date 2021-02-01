@@ -49,7 +49,7 @@ const CreateConcept = props => {
     <Fragment>
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
-        concept={concept ? concept : { ...initialConcept, language: locale }}
+        concept={concept ? concept : { ...initialConcept, language: locale, articles: [] }}
         locale={locale}
         onUpdate={createConceptAndPushRoute}
         fetchStateStatuses={fetchStatusStateMachine}

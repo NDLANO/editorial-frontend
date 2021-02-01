@@ -30,7 +30,7 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
   const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
-      const newConcept = await fetchConcept(concept.id, '');
+      const newConcept = await fetchConcept(concept.id, locale, true);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
       if (newConcept) {
         setConcepts(temp);

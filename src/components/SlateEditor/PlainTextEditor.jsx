@@ -25,6 +25,7 @@ class PlainTextEditor extends React.PureComponent {
       e.preventDefault();
       this.props.handleSubmit();
     }
+    next();
   }
 
   render() {

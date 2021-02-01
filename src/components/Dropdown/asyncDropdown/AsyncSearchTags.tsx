@@ -9,7 +9,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
-import { FieldInputProps, FormikProps } from 'formik';
+import { FieldInputProps, FormikHelpers } from 'formik';
 import { AsyncDropdown } from '../index';
 import { SearchResult } from '../../../interfaces';
 

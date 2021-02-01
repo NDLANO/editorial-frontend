@@ -131,7 +131,7 @@ const TopicArticleContent = props => {
       />
       <FormikVisualElement />
       <FormikField name="content" label={t('form.content.label')} noBorder>
-        {({ field, form: { isSubmitting } }) => (
+        {({field: { value, name, onChange }, form: { isSubmitting }}) => (
           <Fragment>
             <FieldHeader title={t('form.content.label')}>
               {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
@@ -140,7 +140,8 @@ const TopicArticleContent = props => {
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              id={field.name}
+              name={name}
+              value={value}
               submitted={isSubmitting}
               renderBlock={renderBlock}
               renderInline={renderInline}
@@ -148,6 +149,7 @@ const TopicArticleContent = props => {
               plugins={plugins}
               schema={schema}
               handleSubmit={handleSubmit}
+              onChange={onChange}
               onBlur={(event, editor, next) => {
                 next();
                 // this is a hack since formik onBlur-handler interferes with slates
@@ -155,7 +157,6 @@ const TopicArticleContent = props => {
                 // formik handleBlur needs to be called for validation to work (and touched to be set)
                 setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
               }}
-              {...field}
             />
           </Fragment>
         )}

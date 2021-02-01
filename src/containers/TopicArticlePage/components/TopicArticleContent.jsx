@@ -131,7 +131,7 @@ const TopicArticleContent = props => {
       />
       <FormikVisualElement />
       <FormikField name="content" label={t('form.content.label')} noBorder>
-        {({field: { value, name, onChange }, form: { isSubmitting }}) => (
+        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <Fragment>
             <FieldHeader title={t('form.content.label')}>
               {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (

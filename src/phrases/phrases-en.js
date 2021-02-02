@@ -916,8 +916,8 @@ const phrases = {
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This file does not seem to exist on the server. It might have been deleted from another article.',
-      showPdf: 'Show PDF',
-      showPdfTooltop: 'Show PDF preview in article',
+      showPdf: 'Show expanded',
+      showPdfTooltip: 'Show expanded PDF in article',
     },
     article: {
       label: 'Article',

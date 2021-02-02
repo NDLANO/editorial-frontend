@@ -10,9 +10,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import Types from 'slate-prop-types';
-import isHotkey from 'is-hotkey';
+import isKeyHotkey from 'is-hotkey';
 
-const isSaveHotkey = isHotkey('mod+s');
+const isSaveHotkey = isKeyHotkey('mod+s');
 
 class PlainTextEditor extends React.PureComponent {
   constructor(props) {

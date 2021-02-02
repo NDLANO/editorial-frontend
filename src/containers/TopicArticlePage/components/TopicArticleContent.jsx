@@ -78,7 +78,9 @@ const TopicArticleContent = props => {
     userAccess,
     formik: {
       values: { id, language, creators, published },
+      handleBlur,
     },
+    handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
@@ -116,10 +118,20 @@ const TopicArticleContent = props => {
           </>
         )}
       </FormikField>
-      <FormikIngress preview={preview} />
+      <FormikIngress
+        preview={preview}
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor, next) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+        }}
+      />
       <FormikVisualElement />
       <FormikField name="content" label={t('form.content.label')} noBorder>
-        {({ field, form: { isSubmitting } }) => (
+        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <Fragment>
             <FieldHeader title={t('form.content.label')}>
               {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
@@ -128,14 +140,23 @@ const TopicArticleContent = props => {
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              id={field.name}
+              name={name}
+              value={value}
               submitted={isSubmitting}
               renderBlock={renderBlock}
               renderInline={renderInline}
               renderMark={renderMark}
               plugins={plugins}
               schema={schema}
-              {...field}
+              handleSubmit={handleSubmit}
+              onChange={onChange}
+              onBlur={(event, editor, next) => {
+                next();
+                // this is a hack since formik onBlur-handler interferes with slates
+                // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                // formik handleBlur needs to be called for validation to work (and touched to be set)
+                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
+              }}
             />
           </Fragment>
         )}
@@ -162,7 +183,9 @@ TopicArticleContent.propTypes = {
       title: PropTypes.string,
       updatePublished: PropTypes.bool,
     }),
+    handleBlur: PropTypes.func.isRequired,
   }),
+  handleSubmit: PropTypes.func,
 };
 
 export default connect(injectT(TopicArticleContent));

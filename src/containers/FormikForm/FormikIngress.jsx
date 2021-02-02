@@ -27,7 +27,16 @@ const renderMarkdown = (text, concept) => {
   return markdown.render(text);
 };
 
-const FormikIngress = ({ t, name, maxLength, placeholder, preview = false, concept = false }) => (
+const FormikIngress = ({
+  t,
+  name,
+  maxLength,
+  placeholder,
+  handleSubmit,
+  preview = false,
+  concept = false,
+  onBlur,
+}) => (
   <StyledFormContainer>
     <FormikField
       noBorder
@@ -47,6 +56,8 @@ const FormikIngress = ({ t, name, maxLength, placeholder, preview = false, conce
             placeholder={placeholder || t('form.introduction.label')}
             className="article_introduction"
             data-cy="learning-resource-ingress"
+            handleSubmit={handleSubmit}
+            onBlur={onBlur}
           />
         )
       }
@@ -67,6 +78,8 @@ FormikIngress.propTypes = {
   placeholder: PropTypes.string,
   preview: PropTypes.bool,
   concept: PropTypes.bool,
+  handleSubmit: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
 };
 
 export default injectT(FormikIngress);

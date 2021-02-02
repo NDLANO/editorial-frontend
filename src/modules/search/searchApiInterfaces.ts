@@ -30,15 +30,6 @@ export interface GroupSearchSummary {
   summaryType: 'groupsearch';
 }
 
-export interface DraftSearchQuery {
-  query?: string;
-  types?: CommaSeparatedList;
-  page?: number;
-  'page-size'?: number;
-  language?: string;
-  sort?: string;
-}
-
 export interface MultiSearchApiQuery {
   page?: number;
   'page-size'?: number;
@@ -56,12 +47,4 @@ export interface MultiSearchApiQuery {
   'context-filters'?: CommaSeparatedList;
   'search-context'?: string;
   'grep-codes'?: CommaSeparatedList;
-}
-
-export interface ConceptSearchQuery {
-  query?: string;
-  page?: number;
-  sort?: string;
-  'page-size'?: number;
-  language?: string;
 }

@@ -20,10 +20,6 @@ import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import { ConceptPreviewType, VisualElement } from '../../interfaces';
 import StyledFilledButton from '../StyledFilledButton';
-import {
-  transformApiToPreviewVersion,
-  transformFormikToPreviewVersion,
-} from '../../util/conceptUtil';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
@@ -96,8 +92,9 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
 
   const openPreview = async () => {
     const concept = getConcept();
-    const transformed = transformFormikToPreviewVersion(concept);
-    setFirstConcept(transformed);
+    const firstVisualElement =
+      concept.visualElement && (await getVisualElement(concept.visualElement));
+    setFirstConcept({ ...concept, visualElementResources: firstVisualElement });
     const secondConceptLanguage =
       concept.supportedLanguages &&
       concept.supportedLanguages.find((l: string) => l !== concept.language);
@@ -108,18 +105,23 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
   const onChangePreviewLanguage = async (language: string) => {
     const originalConcept = getConcept();
     const secondConcept = await fetchConcept(originalConcept.id, language);
+    console.log(secondConcept);
     const secondVisualElement =
-      secondConcept.visualElement &&
-      (await getVisualElement(secondConcept.visualElement?.visualElement));
-    const transformed = transformApiToPreviewVersion(
-      secondConcept,
-      language,
-      secondVisualElement,
-      originalConcept.metaImage,
-    );
+      secondConcept.visualElement && (await getVisualElement(secondConcept.visualElement));
     setPreviewLanguage(language);
-    setSecondConcept(transformed);
+    setSecondConcept({
+      ...secondConcept,
+      visualElementResources: secondVisualElement,
+    });
   };
+
+// Argument of type '{ visualElementResources: any; id: number; revision: number; title?: 
+// { title: string; language: string; } | undefined; 
+// content?: { content: string; language: string; } | undefined; 
+// copyright?: Copyright | undefined; ... 10 more ...; 
+// visualElement?: { ...; } | undefined; }' 
+// is not assignable to parameter of type 'SetStateAction<ConceptPreviewType | undefined>'.
+// Type '{ visualElementResources: any; id: number; revision: number; title?: { title: string; language: string; } | undefined; content?: { content: string; language: string; } | undefined; copyright?: Copyright | undefined; ... 10 more ...; visualElement?: { ...; } | undefined; }' is missing the following properties from type 'ConceptPreviewType': metaImageId, parsedVisualElement, languagets(2345)
 
   if (!showPreview || !firstConcept || !secondConcept) {
     if (typeOfPreview === 'preview') {

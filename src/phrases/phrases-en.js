@@ -16,7 +16,8 @@ const phrases = {
     createSubjectpage: `Subjectpage ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
     searchContentPage: `Search content ${titleTemplate}`,
-    searchMediaPage: `Search media ${titleTemplate}`,
+    searchAudioPage: `Search audio files ${titleTemplate}`,
+    searchImagePage: `Search images ${titleTemplate}`,
     searchConceptPage: `Search concepts ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
@@ -136,7 +137,8 @@ const phrases = {
   searchPage: {
     header: {
       content: 'Search for content',
-      media: 'Search for media',
+      audio: 'Search for audio files',
+      image: 'Search for images',
       concept: 'Search for concepts',
     },
     searchButton: 'Search',
@@ -145,7 +147,8 @@ const phrases = {
     language: 'Language',
     contentNoHits: 'Your search - {query} - did not match any content.',
     conceptNoHits: 'Your search - {query} - did not match any concept.',
-    mediaNoHits: 'Your search - {query} - did not match any media.',
+    audioNoHits: 'Your search - {query} - did not match any audio files.',
+    imageNoHits: 'Your search - {query} - did not match any images.',
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
   },
@@ -165,7 +168,8 @@ const phrases = {
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',
-    searchMedia: 'Search media',
+    searchAudio: 'Search audio',
+    searchImage: 'Search image',
     searchConcepts: 'Search concepts',
     film: 'Edit NDLA film',
     h5p: 'Edit H5P',
@@ -201,7 +205,8 @@ const phrases = {
     types: {
       conceptQuery: 'Search for concept',
       contentQuery: 'Search for content',
-      mediaQuery: 'Search for media',
+      audioQuery: 'Search for audio files',
+      imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
       subjects: 'Select subject',
@@ -394,7 +399,7 @@ const phrases = {
     title: 'Learning resource',
     validation: {
       missingEmbedData:
-        'One or more inlcuded video, image, or audio elements is missing caption or alternative text.',
+        'One or more included video, image, or audio elements is missing caption or alternative text.',
     },
     fields: {
       rightAside: {
@@ -446,14 +451,16 @@ const phrases = {
     },
   },
   form: {
-    articleSection: 'Articles',
     metadataSection: 'Metadata',
     contentSection: 'Content',
     workflowSection: 'Version log and notes',
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
+    articleSection: 'Articles',
+    inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',
+    saveAndPublish: 'Save and publish',
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
@@ -707,7 +714,8 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {type}',
-        description: 'Links to ndla-resources is handled by the system and is displayed correct on',
+        description:
+          'Links to ndla-resources are handled by the system and are displayed correct on {url}. Ndla-resources are shown with blue background and external links with yellow.',
       },
       footnote: {
         title: 'Title',
@@ -907,7 +915,7 @@ const phrases = {
       removeFile: 'Remove file',
       missingTitle: '[Missing filename]',
       missingFileTooltip:
-        'This files does not seem to exist on the server. It might have been deleted from another article.',
+        'This file does not seem to exist on the server. It might have been deleted from another article.',
     },
     article: {
       label: 'Article',

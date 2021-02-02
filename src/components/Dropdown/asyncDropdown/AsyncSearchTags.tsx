@@ -16,9 +16,10 @@ import { SearchResult } from '../../../interfaces';
 interface Props {
   language: string;
   initialTags: string[];
-  field: FieldInputProps<string[]>;
-  form: FormikHelpers<string[]>;
-  fetchTags: (inp: string, language: string) => SearchResult;
+  field?: FieldInputProps<string[]>;
+  form?: FormikHelpers<string[]>;
+  fetchTags: (inp: string, language: string) => Promise<SearchResult>;
+  updateValue?: (value: string[]) => void;
 }
 
 interface AsyncDropdownProps {
@@ -34,7 +35,15 @@ interface TagWithTitle {
   title: string;
 }
 
-const AsyncSearchTags = ({ t, language, initialTags, field, form, fetchTags }: Props & tType) => {
+const AsyncSearchTags = ({
+  t,
+  language,
+  initialTags,
+  field,
+  form,
+  fetchTags,
+  updateValue,
+}: Props & tType) => {
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
@@ -53,8 +62,12 @@ const AsyncSearchTags = ({ t, language, initialTags, field, form, fetchTags }: P
 
   const updateField = (newData: string[]) => {
     setTags(newData || []);
-    form.setFieldTouched(field.name, true, true);
-    form.setFieldValue(field.name, newData || null, true);
+    if (form && field) {
+      form.setFieldTouched(field.name, true, true);
+      form.setFieldValue(field.name, newData || null, true);
+    } else if (updateValue) {
+      updateValue(newData);
+    }
   };
 
   const addTag = (tag: TagWithTitle) => {

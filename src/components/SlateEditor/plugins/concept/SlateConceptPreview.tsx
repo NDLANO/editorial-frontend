@@ -16,8 +16,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-
-import { Concept as ConceptType } from '../../editorTypes';
+import { ConceptType } from '../../../../interfaces';
 import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
@@ -48,7 +47,9 @@ const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }
   }, []);
 
   const VisualElement = () => {
-    const visualElement = concept.visualElement;
+    console.log(concept);
+    const visualElement = concept.parsedVisualElement;
+
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

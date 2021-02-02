@@ -20,9 +20,8 @@ import {
 import { Remarkable } from 'remarkable';
 
 import { getVisualElement } from './PreviewConceptLightbox';
-import { ConceptPreviewType } from '../../interfaces';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType, VisualElement as VisualElementType } from '../../interfaces';
+import { SubjectType, VisualElement as VisualElementType, ConceptPreviewType } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`
@@ -88,6 +87,7 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   };
 
   const VisualElement = () => {
+    // const visualElement = concept.visualElementResources;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

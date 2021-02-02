@@ -10,9 +10,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Formik, Form } from 'formik';
+import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
+import { colors } from '@ndla/core';
 import Field from '../../../Field';
 import config from '../../../../config';
 import { LinkShape } from '../../../../shapes';
@@ -27,6 +29,30 @@ const marginLeftStyle = css`
 const linkValidationRules = {
   text: { required: true },
   href: { required: true, urlOrNumber: true },
+};
+
+const getLinkFieldStyle = node => {
+  const data = node?.data?.toJS() || {};
+  const isExternalResource = data.href;
+  const isNdlaResource = data.resource === 'content-link';
+
+  if (isNdlaResource) {
+    return css`
+      input {
+        background-color: ${colors.tasksAndActivities.background};
+        background-color: ${colors.brand.light};
+      }
+    `;
+  } else if (isExternalResource) {
+    return css`
+      input {
+        background-color: ${colors.brand.light};
+        background-color: ${colors.tasksAndActivities.background};
+      }
+    `;
+  } else {
+    return '';
+  }
 };
 
 export const getInitialValues = (link = {}) => ({
@@ -49,7 +75,7 @@ class LinkForm extends Component {
   }
 
   render() {
-    const { t, isEdit, link, onRemove, onClose } = this.props;
+    const { t, isEdit, link, onRemove, onClose, node } = this.props;
     return (
       <Formik
         initialValues={getInitialValues(link)}
@@ -60,8 +86,11 @@ class LinkForm extends Component {
             <FormikField name="text" type="text" label={t('form.content.link.text')} />
             <FormikField
               name="href"
-              description={`${t('form.content.link.description')} ${config.ndlaFrontendDomain}`}
+              description={t('form.content.link.description', {
+                url: config.ndlaFrontendDomain,
+              })}
               label={t('form.content.link.href')}
+              css={getLinkFieldStyle(node)}
             />
             <FormikCheckbox name="checkbox" label={t('form.content.link.newTab')} />
             <Field right>
@@ -86,6 +115,7 @@ LinkForm.propTypes = {
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
+  node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
 };
 
 export default compose(injectT)(LinkForm);

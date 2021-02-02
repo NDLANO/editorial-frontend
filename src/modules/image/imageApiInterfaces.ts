@@ -96,3 +96,11 @@ export interface ImageSearchSummaryApiType {
   license: string;
   supportedLanguages: string[];
 }
+
+export interface ImageSearchQuery {
+  query?: string;
+  page?: number;
+  'page-size'?: number;
+  language?: string;
+  sort?: string;
+}

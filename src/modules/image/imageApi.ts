@@ -18,6 +18,7 @@ import {
   ImageApiType,
   ImageSearchQuery,
   ImageSearchResult,
+  TagSearchResult,
   UpdatedImageMetadata,
 } from './imageApiInterfaces';
 
@@ -57,3 +58,13 @@ export const deleteLanguageVersionImage = (
   fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
+
+export const fetchSearchTags = async (
+  input: string,
+  language: string,
+): Promise<TagSearchResult> => {
+  const response = await fetchAuthorized(
+    `${baseUrl}/tag-search/?language=${language}&query=${input}`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};

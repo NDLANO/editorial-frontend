@@ -19,6 +19,29 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
+const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLanguages, t }) => {
+  if (type === 'concept')
+    return (
+      supportedLanguages.length > 1 && (
+        <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
+      )
+    );
+  else if (type === 'standard' || type === 'topic-article')
+    return (
+      <PreviewDraftLightbox
+        label={t(`articleType.${articleType}`)}
+        typeOfPreview="previewLanguageArticle"
+        getArticle={getEntity}>
+        {openPreview => (
+          <StyledFilledButton type="button" onClick={openPreview}>
+            <FileCompare />
+            {t(`form.previewLanguageArticle.button`)}
+          </StyledFilledButton>
+        )}
+      </PreviewDraftLightbox>
+    );
+});
+
 const HeaderActions = ({
   editUrl,
   formIsDirty,
@@ -47,24 +70,6 @@ const HeaderActions = ({
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
-  const PreviewLightbox =
-    type === 'concept' ? (
-      supportedLanguages.length > 1 && (
-        <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
-      )
-    ) : (
-      <PreviewDraftLightbox
-        label={t(`articleType.${articleType}`)}
-        typeOfPreview="previewLanguageArticle"
-        getArticle={getEntity}>
-        {openPreview => (
-          <StyledFilledButton type="button" onClick={openPreview}>
-            <FileCompare />
-            {t(`form.previewLanguageArticle.button`)}
-          </StyledFilledButton>
-        )}
-      </PreviewDraftLightbox>
-    );
 
   if (id) {
     return (
@@ -85,7 +90,12 @@ const HeaderActions = ({
         <StyledSplitter />
         {!noStatus && getEntity && (
           <Fragment>
-            {PreviewLightbox}
+            <PreviewLightBox
+              type={type}
+              getEntity={getEntity}
+              articleType={articleType}
+              supportedLanguages={supportedLanguages}
+            />
             <StyledSplitter />
           </Fragment>
         )}

@@ -52,7 +52,7 @@ export default handleActions(
       next: (state, action) => ({
         ...state,
         isSaving: false,
-        uploadedImage: action.payload.uploadedImage,
+        uploadedImage: action?.payload?.uploadedImage,
       }),
       throw: state => state,
     },

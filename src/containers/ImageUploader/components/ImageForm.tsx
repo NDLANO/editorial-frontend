@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
-import { injectT } from '@ndla/i18n';
-import { Formik, Form } from 'formik';
+import React, { Component, ReactNode } from 'react';
+import { injectT, tType } from '@ndla/i18n';
+import { Formik, Form, FormikHelpers } from 'formik';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
@@ -25,6 +25,8 @@ import {
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import { NewImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import { Author, Copyright } from '../../../interfaces';
 
 const imageRules = {
   title: {
@@ -40,24 +42,6 @@ const imageRules = {
     minItems: 3,
   },
   creators: {
-    test: (value, values, label) => {
-      if (
-        value.length === 0 &&
-        values &&
-        values.rightsholders &&
-        values.rightsholders.length === 0
-      ) {
-        return {
-          translationKey: 'validation.minItems',
-          variables: {
-            minItems: 1,
-            label,
-            labelLowerCase: label.toLowerCase(),
-          },
-        };
-      }
-      return undefined;
-    },
     allObjectFieldsRequired: true,
   },
   processors: {
@@ -74,24 +58,41 @@ const imageRules = {
   },
 };
 
-export const getInitialValues = (image = {}) => ({
-  id: image.id,
-  revision: image.revision,
-  language: image.language,
-  supportedLanguages: image.supportedLanguages || [],
-  title: image.title || '',
-  alttext: image.alttext || '',
-  caption: image.caption || '',
-  imageFile: image.imageUrl,
-  tags: image.tags || [],
-  creators: parseCopyrightContributors(image, 'creators'),
-  processors: parseCopyrightContributors(image, 'processors'),
-  rightsholders: parseCopyrightContributors(image, 'rightsholders'),
-  origin: image?.copyright?.origin || '',
-  license: image?.copyright?.license?.license,
-});
+interface ImageFormikType {
+  id?: number;
+  language?: string;
+  supportedLanguages?: string[];
+  title?: string;
+  alttext?: string;
+  caption?: string;
+  imageFile?: string;
+  tags?: string[];
+  creators?: Author[];
+  processors?: Author[];
+  rightsholders?: Author[];
+  origin?: string;
+  license?: string;
+}
 
-const FormWrapper = ({ inModal, children }) => {
+export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
+  return {
+    id: image.id,
+    language: image.language,
+    supportedLanguages: image.supportedLanguages || [],
+    title: image.title || '',
+    alttext: image.alttext || '',
+    caption: image.caption || '',
+    imageFile: image.imageUrl,
+    tags: image.tags || [],
+    creators: parseCopyrightContributors(image, 'creators'),
+    processors: parseCopyrightContributors(image, 'processors'),
+    rightsholders: parseCopyrightContributors(image, 'rightsholders'),
+    origin: image?.copyright?.origin || '',
+    license: image?.copyright?.license?.license,
+  };
+};
+
+const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {
     return <div {...classes()}>{children}</div>;
   }
@@ -103,24 +104,97 @@ FormWrapper.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-class ImageForm extends Component {
+type openIndexesProps = number | string;
+type AccordionChildrenProps = {
+  openIndexes: Array<openIndexesProps>;
+  handleItemClick: (arg: openIndexesProps) => void;
+  getBarProps: (
+    arg: openIndexesProps,
+  ) => {
+    tiny?: boolean;
+    onClick: () => void;
+    isOpen: boolean;
+    panelId: openIndexesProps;
+  };
+  getPanelProps: (
+    arg: openIndexesProps,
+  ) => {
+    id: openIndexesProps;
+    isOpen: boolean;
+    tiny?: boolean;
+  };
+};
+
+interface ImagePropType {
+  alttext?: string;
+  caption?: string;
+  contentType?: string;
+  copyright?: Copyright;
+  id?: number;
+  imageUrl?: string;
+  language?: string;
+  metaUrl?: string;
+  size?: number;
+  supportedLanguages?: string[];
+  tags?: string[];
+  title?: string;
+}
+
+interface Props {
+  image?: ImagePropType;
+  licenses: {
+    license: string;
+    description: string;
+  }[];
+  onUpdate: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
+  showSaved: boolean;
+  inModal?: boolean;
+  isNewlyCreated?: boolean;
+  closeModal?: () => void;
+}
+
+interface State {
+  savedToServer: boolean;
+}
+
+class ImageForm extends Component<Props & tType, State> {
   state = {
     savedToServer: false,
   };
 
-  handleSubmit = async (values, actions) => {
-    const { licenses, onUpdate, revision } = this.props;
+  handleSubmit = async (values: ImageFormikType, actions: FormikHelpers<ImageFormikType>) => {
+    const { licenses, onUpdate } = this.props;
+
+    const license = licenses.find(license => license.license === values.license);
+
+    if (
+      license === undefined ||
+      values.title === undefined ||
+      values.alttext === undefined ||
+      values.caption === undefined ||
+      values.language === undefined ||
+      values.tags === undefined ||
+      values.origin === undefined ||
+      values.creators === undefined ||
+      values.processors === undefined ||
+      values.rightsholders === undefined ||
+      values.imageFile === undefined
+    ) {
+      actions.setSubmitting(false);
+      this.setState({ savedToServer: false });
+      return;
+    }
+
     actions.setSubmitting(true);
-    const imageMetaData = {
+    const imageMetaData: NewImageMetadata = {
       id: values.id,
-      revision,
       title: values.title,
       alttext: values.alttext,
       caption: values.caption,
       language: values.language,
       tags: values.tags,
       copyright: {
-        license: licenses.find(license => license.license === values.license),
+        license,
         origin: values.origin,
         creators: values.creators,
         processors: values.processors,
@@ -134,8 +208,22 @@ class ImageForm extends Component {
   render() {
     const { t, image, licenses, inModal, closeModal, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
-
-    const panels = [
+    type ErrorFields =
+      | 'alttext'
+      | 'caption'
+      | 'creators'
+      | 'imageFile'
+      | 'license'
+      | 'processors'
+      | 'rightsholders'
+      | 'tags'
+      | 'title';
+    const panels: {
+      id: string;
+      title: string;
+      errorFields: ErrorFields[];
+      component: ReactNode;
+    }[] = [
       {
         id: 'image-upload-content',
         title: t('form.contentSection'),
@@ -149,8 +237,8 @@ class ImageForm extends Component {
         component: (
           <ImageMetaData
             licenses={licenses}
-            imageLanguage={image.language}
-            imageTags={image.tags}
+            imageLanguage={image?.language}
+            imageTags={image?.tags || []}
           />
         ),
       },
@@ -176,10 +264,10 @@ class ImageForm extends Component {
                 values={values}
                 type="image"
                 content={image}
-                editUrl={lang => toEditImage(values.id, lang)}
+                editUrl={(lang: string) => toEditImage(values.id, lang)}
               />
               <Accordion openIndexes={['image-upload-content']}>
-                {({ openIndexes, handleItemClick }) => (
+                {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
                   <AccordionWrapper>
                     {panels.map(panel => {
                       const hasError = panel.errorFields.some(field => !!errors[field]);
@@ -224,7 +312,7 @@ class ImageForm extends Component {
                   showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}
-                  onClick={evt => {
+                  onClick={(evt: Event) => {
                     if (inModal) {
                       evt.preventDefault();
                       submitForm();
@@ -245,22 +333,21 @@ class ImageForm extends Component {
       </Formik>
     );
   }
-}
 
-ImageForm.propTypes = {
-  image: ImageShape,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  showSaved: PropTypes.bool.isRequired,
-  revision: PropTypes.number,
-  inModal: PropTypes.bool,
-  closeModal: PropTypes.func,
-  isNewlyCreated: PropTypes.bool,
-};
+  static propTypes = {
+    image: ImageShape,
+    licenses: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.string.isRequired,
+        license: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    showSaved: PropTypes.bool.isRequired,
+    inModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    isNewlyCreated: PropTypes.bool,
+  };
+}
 
 export default injectT(ImageForm);

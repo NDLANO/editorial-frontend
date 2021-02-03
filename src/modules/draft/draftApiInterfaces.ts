@@ -81,24 +81,22 @@ interface AgreementSummary {
   license: string;
 }
 
-enum DraftStatus {
-  IMPORTED,
-  DRAFT,
-  PUBLISHED,
-  PROPOSAL,
-  QUEUED_FOR_PUBLISHING,
-  USER_TEST,
-  AWAITING_QUALITY_ASSURANCE,
-  QUEUED_FOR_LANGUAGE,
-  TRANSLATED,
-  QUALITY_ASSURED,
-  QUALITY_ASSURED_DELAYED,
-  QUEUED_FOR_PUBLISHING_DELAYED,
-  AWAITING_UNPUBLISHING,
-  UNPUBLISHED,
-  ARCHIVED,
-}
-export type DraftStatusTypes = keyof typeof DraftStatus;
+export type DraftStatusTypes =
+  | 'IMPORTED'
+  | 'DRAFT'
+  | 'PUBLISHED'
+  | 'PROPOSAL'
+  | 'QUEUED_FOR_PUBLISHING'
+  | 'USER_TEST'
+  | 'AWAITING_QUALITY_ASSURANCE'
+  | 'QUEUED_FOR_LANGUAGE'
+  | 'TRANSLATED'
+  | 'QUALITY_ASSURED'
+  | 'QUALITY_ASSURED_DELAYED'
+  | 'QUEUED_FOR_PUBLISHING_DELAYED'
+  | 'AWAITING_UNPUBLISHING'
+  | 'UNPUBLISHED'
+  | 'ARCHIVED';
 
 export interface DraftSearchQuery {
   query?: string;

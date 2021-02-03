@@ -35,17 +35,9 @@ export const renderBlock = (props, editor, next) => {
         </li>
       );
     case 'numbered-list':
-      return (
-        <ol className={start ? `ol-reset-${start}` : ''}>
-          {children}
-        </ol>
-      );
+      return <ol className={start ? `ol-reset-${start}` : ''}>{children}</ol>;
     case 'letter-list':
-      return (
-        <ol className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}>
-          {children}
-        </ol>
-      );
+      return <ol className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}>{children}</ol>;
     case 'quote':
       return <blockquote {...attributes}>{children}</blockquote>;
     case 'div':

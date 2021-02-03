@@ -18,10 +18,8 @@ import {
   NotionDialogTags,
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
-
-import { getVisualElement } from './PreviewConceptLightbox';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType, VisualElement as VisualElementType, ConceptPreviewType } from '../../interfaces';
+import { SubjectType, ConceptPreviewType } from '../../interfaces';
 import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
 
 const StyledBody = styled.div`
@@ -64,14 +62,11 @@ interface Props {
 
 const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
-  const [visualElement, setVisualElement] = useState<VisualElementType | undefined>();
-
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   useEffect(() => {
     getSubjects();
-    getVisualElementWithCorrectUrl();
   }, [concept.id]);
 
   const getSubjects = async () => {
@@ -79,15 +74,8 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
     setSubjects(subjects);
   };
 
-  const getVisualElementWithCorrectUrl = async () => {
-    if (concept?.visualElement) {
-      const visualElement = await getVisualElement(concept.visualElement);
-      setVisualElement(visualElement);
-    }
-  };
-
   const VisualElement = () => {
-    // const visualElement = concept.visualElementResources;
+    const visualElement = concept.visualElementResources;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

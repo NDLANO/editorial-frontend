@@ -47,9 +47,7 @@ const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }
   }, []);
 
   const VisualElement = () => {
-    console.log(concept);
     const visualElement = concept.parsedVisualElement;
-
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

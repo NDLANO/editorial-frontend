@@ -14,12 +14,18 @@ import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
+import { hasNodeOfType } from './utils';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import { PluginShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isItalicHotkey = isKeyHotkey('mod+i');
-const isUnderlinedHotkey = isKeyHotkey('mod+u');
+const isCodeHotKey = isKeyHotkey('mod+k');
+const isCodeBlockHotKey = isKeyHotkey('mod+shift+k');
+const isH2HotKey = isKeyHotkey('mod+2');
+const isH3HotKey = isKeyHotkey('mod+3');
+const isLinkHotKey = isKeyHotkey('mod+l');
+const isMathHotKey = isKeyHotkey('mod+m');
 const isSaveHotkey = isKeyHotkey('mod+s');
 
 export const classes = new BEMHelper({
@@ -30,6 +36,8 @@ export const classes = new BEMHelper({
 const slateEditorDivStyle = css`
   position: relative;
 `;
+
+const DEFAULT_NODE = 'paragraph';
 
 const RichTextEditor = class extends React.PureComponent {
   constructor(props) {
@@ -71,14 +79,26 @@ const RichTextEditor = class extends React.PureComponent {
 
   onKeyDown(e, editor, next) {
     let mark;
+    let block;
+    let inline;
     const { value } = editor;
 
     if (isBoldHotkey(e)) {
       mark = 'bold';
     } else if (isItalicHotkey(e)) {
       mark = 'italic';
-    } else if (isUnderlinedHotkey(e)) {
-      mark = 'underlined';
+    } else if (isCodeHotKey(e)) {
+      mark = 'code';
+    } else if (isH2HotKey(e)) {
+      block = 'heading-two';
+    } else if (isH3HotKey(e)) {
+      block = 'heading-three';
+    } else if (isCodeBlockHotKey(e)) {
+      block = 'code-block';
+    } else if (isLinkHotKey(e)) {
+      inline = 'link';
+    } else if (isMathHotKey(e)) {
+      inline = 'mathml';
     } else if (e.key === 'Backspace') {
       const { removeSection, index } = this.props;
       if (removeSection) {
@@ -103,6 +123,20 @@ const RichTextEditor = class extends React.PureComponent {
     if (mark) {
       e.preventDefault();
       editor.toggleMark(mark);
+    } else {
+      next();
+    }
+    if (block) {
+      e.preventDefault();
+      editor.setBlocks(hasNodeOfType(editor, block) ? DEFAULT_NODE : block);
+    } else {
+      next();
+    }
+    if (inline) {
+      e.preventDefault();
+      editor.withoutNormalizing(() => {
+        editor.wrapInline(inline);
+      });
     } else {
       next();
     }

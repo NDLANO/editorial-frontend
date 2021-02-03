@@ -164,7 +164,7 @@ const CopyResources = ({
 
   const cloneResource = async (resource: Resource) => {
     const resourceType = resource.contentUri?.split(':')[1];
-    const resourceId = resource.contentUri?.split(':')[2] || '';
+    const resourceId = parseInt(resource.contentUri?.split(':')[2] || '');
 
     if (resourceType === 'article') {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);

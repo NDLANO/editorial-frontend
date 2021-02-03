@@ -55,7 +55,8 @@ export function useFetchConceptData(conceptId: number, locale: string) {
       articleIds
         .filter(a => !!a)
         .map(async elementId => {
-          return fetchDraft(elementId);
+          // @ts-ignore  Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
+          return (await fetchDraft(elementId)) as ArticleType;
         }),
     );
   };

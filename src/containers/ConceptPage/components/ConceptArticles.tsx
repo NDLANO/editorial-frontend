@@ -16,7 +16,7 @@ import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 
 interface Props {
-  locale: String;
+  locale: string;
   initArticles: ArticleType[];
   field: FormikProperties['field'];
   form: {
@@ -28,7 +28,8 @@ const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, fo
   const [articles, setArticles] = useState<ArticleType[]>(initArticles);
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
-      let newArticle = await fetchDraft(article.id);
+      // @ts-ignore  Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
+      let newArticle = (await fetchDraft(article.id)) as ArticleType;
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
         setArticles(temp);
@@ -54,7 +55,7 @@ const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, fo
     });
   };
 
-  const searchForArticles = async (inp: String) => {
+  const searchForArticles = async (inp: string) => {
     return searchDrafts({
       query: inp,
       language: locale,

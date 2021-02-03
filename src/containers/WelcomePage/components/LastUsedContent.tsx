@@ -12,11 +12,11 @@ import { injectT, tType } from '@ndla/i18n';
 
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
-import { ArticleType } from '../../../interfaces';
 import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
+import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   articleId: number;
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }) => {
-  const [article, setArticle] = useState<ArticleType>();
+  const [article, setArticle] = useState<DraftApiType>();
 
   const fetchArticle = async (articleId: number, locale: string) => {
     const article = await fetchDraft(articleId, locale);
@@ -43,7 +43,7 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }
       {article && (
         <>
           <Link {...classes('link')} to={toEditArticle(article.id, article.articleType)}>
-            {article.title.title} ({t('article.lastUpdated')}{' '}
+            {article.title?.title} ({t('article.lastUpdated')}{' '}
             {article && formatDate(article.updated)})
           </Link>
           {userAccess?.includes(DRAFT_HTML_SCOPE) ? (

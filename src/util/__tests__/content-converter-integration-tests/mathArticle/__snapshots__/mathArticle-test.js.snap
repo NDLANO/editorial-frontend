@@ -23,7 +23,7 @@ exports[`serializing article with mathml tags 1`] = `
     En sammenlikning mellom driftsregnskap og driftsbudsjett er en viktig del av
     økonomistyringen.
   </p>
-  <ol>
+  <ol start=\\"\\">
     <li>
       Først sammenlikner vi selve driftsresultatet for måneden meddet
       driftsresultatet som er budsjettert for måneden.

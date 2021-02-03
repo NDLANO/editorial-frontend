@@ -330,8 +330,9 @@ export const orderListRules = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'ol') return;
     const type = el.attributes.getNamedItem('data-type');
-    const data = { type: type ? type.value : '' };
-    if (data.type === 'letters') {
+    const start = el.attributes.getNamedItem('start');
+    const data = start ? { start: start.value } : {};
+    if (type?.value === 'letters') {
       return {
         object: 'block',
         type: 'letter-list',
@@ -343,15 +344,22 @@ export const orderListRules = {
       object: 'block',
       type: 'numbered-list',
       nodes: next(el.childNodes),
+      data,
     };
   },
   serialize(slateObject, children) {
-    if (slateObject.object !== 'block') return;
-    if (slateObject.type !== 'numbered-list' && slateObject.type !== 'letter-list') return;
-    if (slateObject.type === 'letter-list') {
-      return <ol data-type="letters">{children}</ol>;
+    const { object, type, data } = slateObject;
+    if (object !== 'block') return;
+    if (type !== 'numbered-list' && type !== 'letter-list') return;
+    const { start } = data.toJS();
+    if (type === 'letter-list') {
+      return (
+        <ol data-type="letters" start={start ? start : ''}>
+          {children}
+        </ol>
+      );
     }
-    return <ol>{children}</ol>;
+    return <ol start={start ? start : ''}>{children}</ol>;
   },
 };
 

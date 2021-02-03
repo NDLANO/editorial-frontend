@@ -308,6 +308,7 @@ Object {
     "nodes": Array [
       Object {
         "data": Object {
+          "start": "",
           "type": "letters",
         },
         "nodes": Array [
@@ -766,7 +767,9 @@ Object {
     "data": Object {},
     "nodes": Array [
       Object {
-        "data": Object {},
+        "data": Object {
+          "start": "",
+        },
         "nodes": Array [
           Object {
             "data": Object {},

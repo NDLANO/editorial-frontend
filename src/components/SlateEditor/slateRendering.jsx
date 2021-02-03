@@ -11,7 +11,9 @@ import React from 'react';
 
 export const renderBlock = (props, editor, next) => {
   const { attributes, children, node } = props;
-  switch (node.type) {
+  const { data, type } = node;
+  const start = data.get('start');
+  switch (type) {
     case 'section':
       return <section {...attributes}>{children}</section>;
     case 'br':
@@ -33,10 +35,14 @@ export const renderBlock = (props, editor, next) => {
         </li>
       );
     case 'numbered-list':
-      return <ol {...attributes}>{children}</ol>;
+      return (
+        <ol className={start ? `ol-reset-${start}` : ''}>
+          {children}
+        </ol>
+      );
     case 'letter-list':
       return (
-        <ol className="ol-list--roman" {...attributes}>
+        <ol className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}>
           {children}
         </ol>
       );

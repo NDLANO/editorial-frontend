@@ -352,7 +352,7 @@ export const orderListRules = {
     if (object !== 'block') return;
     if (type !== 'numbered-list' && type !== 'letter-list') return;
     const { start } = data.toJS();
-    const startAttr = start ? { 'start': start } : {};
+    const startAttr = start ? { start: start } : {};
     if (type === 'letter-list') {
       return (
         <ol data-type="letters" {...startAttr}>

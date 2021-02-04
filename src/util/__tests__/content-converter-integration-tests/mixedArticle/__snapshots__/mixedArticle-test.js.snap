@@ -14,12 +14,12 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     <blockquote><p>A bodybox quote</p></blockquote>
   </div>
   <blockquote><p>A wise quote</p></blockquote>
-  <ol data-type=\\"letters\\" start=\\"\\">
+  <ol data-type=\\"letters\\">
     <li>Alpha 1</li>
     <li>Alpha 2</li>
     <li>
       <p>Alpha 3</p>
-      <ol data-type=\\"letters\\" start=\\"\\">
+      <ol data-type=\\"letters\\">
         <li>Alpha 3.1</li>
         <li>Alpha 3.2</li>
       </ol>

@@ -141,7 +141,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.19",
     "monaco-editor": "^0.17.1",
-    "ndla-slate-edit-list": "^0.13.2",
+    "ndla-slate-edit-list": "^0.13.4",
     "polished": "^3.4.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-focus": "^4.0.0",

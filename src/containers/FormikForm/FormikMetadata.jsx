@@ -14,6 +14,7 @@ import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
+import FormikAvailability from './components/FormikAvailability';
 
 const FormikMetadata = ({ t, article, fetchSearchTags }) => (
   <Fragment>
@@ -31,6 +32,12 @@ const FormikMetadata = ({ t, article, fetchSearchTags }) => (
           fetchTags={fetchSearchTags}
         />
       )}
+    </FormikField>
+    <FormikField
+      name="availability"
+      label={t('form.availability.label')}
+      description={t('form.availability.description')}>
+      {({ field }) => <FormikAvailability availability={article.availability} field={field} />}
     </FormikField>
     <FormikField
       name="metaDescription"
@@ -57,6 +64,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags }) => (
 
 FormikMetadata.propTypes = {
   article: PropTypes.shape({
+    availability: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
     language: PropTypes.string,
   }).isRequired,

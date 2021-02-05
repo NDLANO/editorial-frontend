@@ -587,6 +587,14 @@ const phrases = {
       add: 'Choose meta image',
       remove: 'Remove meta image',
     },
+    availability: {
+      everyone: 'Everyone',
+      teacher: 'Teachers',
+      student: 'Students',
+      label: 'Availability',
+      labelChild: 'Choose availability:',
+      description: 'Articles availability',
+    },
     markdown: {
       button: 'Click to view markdown',
       helpLabel: 'What is markdown?',

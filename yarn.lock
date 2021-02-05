@@ -1753,6 +1753,15 @@
     "@ndla/icons" "^0.6.26"
     "@ndla/ui" "^0.30.9"
 
+"@ndla/forms@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.4.0.tgz#aadd3bd20f69e4f71aef40facef6b6d6f2d8217e"
+  integrity sha512-2ZWDfY8Mc/a4FVqyHYUNsNkAOBT9cZ9F10kU9iJ7fKo88hcq6SXmiiTNpo6nGRZ+vRgUaT46ZsVDszPDWcKnnA==
+  dependencies:
+    "@ndla/core" "^0.6.32"
+    "@ndla/icons" "^0.6.26"
+    "@ndla/ui" "^0.30.8"
+
 "@ndla/hooks@^0.1.17":
   version "0.1.17"
   resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-0.1.17.tgz#f34e756aaba11efa2007181510225d4563bd506c"
@@ -1902,6 +1911,40 @@
     "@ndla/switch" "^0.0.22"
     "@ndla/tabs" "^0.11.43"
     "@ndla/tooltip" "^0.2.33"
+    "@ndla/util" "^0.4.4"
+    "@reach/dialog" "^0.2.9"
+    "@types/react-syntax-highlighter" "^11.0.4"
+    classnames "2.2.6"
+    focus-trap "^4.0.2"
+    focus-trap-react "^6.0.0"
+    html-react-parser "^0.10.3"
+    jump.js "^1.0.2"
+    lodash "^4.17.20"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.6.2"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-swipeable "^5.0.1"
+    react-syntax-highlighter "15.1.0"
+    react-transition-group "^2.5.3"
+
+"@ndla/ui@^0.30.8":
+  version "0.30.8"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.8.tgz#f529eb0af6fd0236cbb58d6047b928567069b19d"
+  integrity sha512-Q3eo0mSFFDi68ajH7mi7M7+TZxjH7v2lQvVs4kCuINZ7ipdWvnYuuw6YPaRnSsOIlIbkcCRqdrBLgUinfS9www==
+  dependencies:
+    "@ndla/button" "^0.3.43"
+    "@ndla/carousel" "^0.3.32"
+    "@ndla/core" "^0.6.32"
+    "@ndla/hooks" "^0.1.17"
+    "@ndla/i18n" "^0.5.1"
+    "@ndla/icons" "^0.6.26"
+    "@ndla/licenses" "^0.6.39"
+    "@ndla/modal" "^0.4.34"
+    "@ndla/safelink" "^0.0.7"
+    "@ndla/switch" "^0.0.21"
+    "@ndla/tabs" "^0.11.42"
+    "@ndla/tooltip" "^0.2.32"
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"
     "@types/react-syntax-highlighter" "^11.0.4"

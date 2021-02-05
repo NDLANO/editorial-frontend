@@ -939,6 +939,8 @@ const phrases = {
         ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
         noFilesAdded: 'Ingen filer er lagt til',
       },
+      showPdf: 'Vis ekspandert',
+      showPdfTooltip: 'Vis ekspandert PDF i artikkel',
     },
     article: {
       label: 'Artikkel',

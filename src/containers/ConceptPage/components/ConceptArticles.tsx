@@ -28,7 +28,7 @@ const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, fo
   const [articles, setArticles] = useState<ArticleType[]>(initArticles);
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
-      // @ts-ignore  Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
+      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
       let newArticle = (await fetchDraft(article.id)) as ArticleType;
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
@@ -55,9 +55,9 @@ const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, fo
     });
   };
 
-  const searchForArticles = async (inp: string) => {
+  const searchForArticles = async (input: string) => {
     return searchDrafts({
-      query: inp,
+      query: input,
       language: locale,
     });
   };

@@ -6,7 +6,7 @@
  *
  */
 
-import React, {Fragment, useContext} from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -15,7 +15,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import FormikAvailability from './components/FormikAvailability';
-import { UserAccessContext } from "../App/App";
+import { UserAccessContext } from '../App/App';
 
 const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit }) => {
   const userAccess = useContext(UserAccessContext);
@@ -37,12 +37,14 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit }) => {
           />
         )}
       </FormikField>
-      {userAccess.includes("drafts:admin") && <FormikField
-        name="availability"
-        label={t('form.availability.label')}
-        description={t('form.availability.description')}>
-        {({ field }) => <FormikAvailability availability={article.availability} field={field} />}
-      </FormikField>}
+      {userAccess.includes('drafts:admin') && (
+        <FormikField
+          name="availability"
+          label={t('form.availability.label')}
+          description={t('form.availability.description')}>
+          {({ field }) => <FormikAvailability availability={article.availability} field={field} />}
+        </FormikField>
+      )}
       <FormikField
         name="metaDescription"
         maxLength={155}
@@ -70,7 +72,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit }) => {
       </FormikField>
     </Fragment>
   );
-}
+};
 
 FormikMetadata.propTypes = {
   article: PropTypes.shape({

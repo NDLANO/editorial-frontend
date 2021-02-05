@@ -20,7 +20,7 @@ import {
   DraftStatusStateMachineType,
   DraftStatusTypes,
   GrepCodesSearchResult,
-  LicenseResult,
+  DraftApiLicense,
   NewAgreementApiType,
   NewDraftApiType,
   TagResult,
@@ -117,7 +117,7 @@ export const fetchSearchTags = async (input: string, language: string): Promise<
     resolveJsonOrRejectWithError,
   );
 
-export const fetchLicenses = async (): Promise<LicenseResult[]> =>
+export const fetchLicenses = async (): Promise<DraftApiLicense[]> =>
   fetchAuthorized(`${baseUrl}/licenses/`).then(resolveJsonOrRejectWithError);
 
 export const fetchAgreements = async (query: string): Promise<AgreementSearchResult> =>

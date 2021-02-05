@@ -7,20 +7,19 @@
  */
 
 import React, { FC, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
 import { FormikLicense, FormikContributors } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
 
-type LicenseType = { description: string; license: string };
+const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 interface Props {
   imageTags: string[];
-  licenses: LicenseType[];
+  licenses: ImageApiLicense[];
   imageLanguage?: string;
 }
 
@@ -50,16 +49,5 @@ const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguag
     <FormikContributors contributorTypes={contributorTypes} />
   </Fragment>
 );
-
-ImageMetaData.propTypes = {
-  imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-  imageLanguage: PropTypes.string,
-};
 
 export default injectT(ImageMetaData);

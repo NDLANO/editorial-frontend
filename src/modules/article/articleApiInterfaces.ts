@@ -6,10 +6,7 @@
  *
  */
 
-interface Author {
-  type: string;
-  name: string;
-}
+import { Author } from '../../interfaces';
 
 export interface ArticleSearchResult {
   totalCount: number;

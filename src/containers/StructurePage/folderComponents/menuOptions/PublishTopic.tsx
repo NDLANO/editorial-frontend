@@ -95,7 +95,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
       if (resourceType === 'article') {
         return (
           fetchDraft(idNum)
-            // @ts-ignore  Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
+            // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
             .then((article: ArticleType) => {
               if (article.status.current !== PUBLISHED) {
                 return updateStatusDraft(idNum, PUBLISHED);

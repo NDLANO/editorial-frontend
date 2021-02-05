@@ -6,14 +6,17 @@
  *
  */
 
-interface Author {
-  type: string;
-  name: string;
-}
+import { Author } from '../../interfaces';
 
 interface Status {
   status: string;
   other: string[];
+}
+
+export interface DraftApiLicense {
+  license: string;
+  description?: string;
+  url?: string;
 }
 
 export interface DraftStatusStateMachineType {
@@ -39,12 +42,6 @@ export interface UploadedFileType {
   mime: string;
   extension: string;
   path: string;
-}
-
-export interface LicenseResult {
-  license: string;
-  description?: string;
-  url?: string;
 }
 
 export interface TagSearchResult {
@@ -301,11 +298,7 @@ export interface NewDraftApiType {
 }
 
 interface Copyright {
-  license?: {
-    license: string;
-    description?: string;
-    url?: string;
-  };
+  license?: DraftApiLicense;
   origin?: string;
   creators: Author[];
   processors: Author[];

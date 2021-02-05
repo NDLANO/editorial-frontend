@@ -41,7 +41,9 @@ const ConceptContent = props => {
     t,
     formik: {
       values: { creators, created },
+      handleBlur,
     },
+    handleSubmit,
   } = props;
 
   return (
@@ -83,6 +85,14 @@ const ConceptContent = props => {
         placeholder={t('form.name.conceptContent')}
         preview={preview}
         concept
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor, next) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
+        }}
       />
     </>
   );
@@ -112,7 +122,9 @@ ConceptContent.propTypes = {
       alttext: PropTypes.bool,
       caption: PropTypes.bool,
     }),
+    handleBlur: PropTypes.func,
   }),
+  handleSubmit: PropTypes.func,
 };
 
 export default injectT(connect(ConceptContent));

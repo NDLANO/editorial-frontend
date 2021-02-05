@@ -83,6 +83,7 @@ const NdlaFilmForm: FC<Props & tType> = ({
               allMovies={allMovies}
               loading={loading}
               selectedLanguage={selectedLanguage}
+              handleSubmit={() => handleSubmit(formik)}
             />
             <Field right>
               <SaveButton

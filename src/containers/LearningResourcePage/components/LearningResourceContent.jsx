@@ -151,6 +151,7 @@ class LearningResourceContent extends Component {
         handleBlur,
         values: { id, language, creators, published },
       },
+      handleSubmit,
     } = this.props;
 
     return (
@@ -191,7 +192,17 @@ class LearningResourceContent extends Component {
             </>
           )}
         </FormikField>
-        <FormikIngress preview={this.state.preview} />
+        <FormikIngress
+          preview={this.state.preview}
+          handleSubmit={handleSubmit}
+          onBlur={(event, editor, next) => {
+            next();
+            // this is a hack since formik onBlur-handler interferes with slates
+            // related to: https://github.com/ianstormtaylor/slate/issues/2434
+            // formik handleBlur needs to be called for validation to work (and touched to be set)
+            setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+          }}
+        />
         <FormikField
           name="content"
           label={t('form.content.label')}
@@ -227,6 +238,7 @@ class LearningResourceContent extends Component {
                   // formik handleBlur needs to be called for validation to work (and touched to be set)
                   setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
                 }}
+                handleSubmit={handleSubmit}
               />
               <LearningResourceFootnotes footnotes={findFootnotes(value)} />
             </Fragment>
@@ -261,6 +273,7 @@ LearningResourceContent.propTypes = {
     setFieldValue: PropTypes.func.isRequired,
   }),
   article: ArticleShape,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

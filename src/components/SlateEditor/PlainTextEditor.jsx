@@ -10,13 +10,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
 import Types from 'slate-prop-types';
+import isKeyHotkey from 'is-hotkey';
+
+const isSaveHotkey = isKeyHotkey('mod+s');
 
 class PlainTextEditor extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  onKeyDown(e, editor, next) {
+    if (isSaveHotkey(e)) {
+      e.preventDefault();
+      this.props.handleSubmit();
+    }
+    next();
+  }
+
   render() {
     const { onChange, value, ...rest } = this.props;
     return (
       <Editor
         value={value}
+        onKeyDown={this.onKeyDown}
         onChange={val =>
           onChange({
             target: {
@@ -34,6 +51,7 @@ class PlainTextEditor extends React.PureComponent {
 PlainTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: Types.value.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default PlainTextEditor;

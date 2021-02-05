@@ -20,6 +20,7 @@ import { PluginShape } from '../../shapes';
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isItalicHotkey = isKeyHotkey('mod+i');
 const isUnderlinedHotkey = isKeyHotkey('mod+u');
+const isSaveHotkey = isKeyHotkey('mod+s');
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -94,6 +95,9 @@ const RichTextEditor = class extends React.PureComponent {
         }
         next();
       }
+    } else if (isSaveHotkey(e)) {
+      e.preventDefault();
+      this.props.handleSubmit();
     }
 
     if (mark) {
@@ -149,6 +153,7 @@ RichTextEditor.propTypes = {
   index: PropTypes.number,
   removeSection: PropTypes.func,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default RichTextEditor;

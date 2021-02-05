@@ -19,6 +19,7 @@ interface Props {
   editorsChoices: ArticleType[];
   elementId: string;
   errors: FormikErrors<Values>;
+  handleSubmit: () => void;
 }
 
 interface ComponentProps {
@@ -32,14 +33,18 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: () => <SubjectpageAbout />,
+    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
+      <SubjectpageAbout handleSubmit={handleSubmit} />
+    ),
   },
   {
     id: 'metadata',
     title: 'subjectpageForm.metadata',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'mobileBannerId'],
-    component: () => <SubjectpageMetadata />,
+    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
+      <SubjectpageMetadata handleSubmit={handleSubmit} />
+    ),
   },
   {
     id: 'articles',
@@ -66,6 +71,7 @@ const SubjectpageAccordionPanels: FC<Props & tType> = ({
   editorsChoices,
   elementId,
   errors,
+  handleSubmit,
 }) => {
   return (
     <Accordion openIndexes={['about']}>
@@ -89,7 +95,11 @@ const SubjectpageAccordionPanels: FC<Props & tType> = ({
                     hasError={hasError}
                     isOpen={openIndexes.includes(panel.id)}>
                     <div className={panel.className}>
-                      {panel.component({ editorsChoices, elementId })}
+                      {panel.component({
+                        editorsChoices,
+                        elementId,
+                        handleSubmit,
+                      })}
                     </div>
                   </AccordionPanel>
                 )}

@@ -12,7 +12,11 @@ import FormikField from '../../../components/FormikField';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const SubjectpageAbout: FC<tType> = ({ t }) => {
+interface Props {
+  handleSubmit: () => void;
+}
+
+const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -27,6 +31,7 @@ const SubjectpageAbout: FC<tType> = ({ t }) => {
             id={field.name}
             {...field}
             placeholder={t('subjectpageForm.description')}
+            handleSubmit={handleSubmit}
           />
         )}
       </FormikField>

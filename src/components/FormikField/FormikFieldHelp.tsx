@@ -6,19 +6,24 @@
  *
  */
 
-import React from 'react';
+import React, { FC } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
 
+interface Props {
+  error?: boolean;
+  float?: 'left' | 'right' | 'none' | 'inherit';
+}
+
 const StyledHelpMessage = styled.span`
   display: block;
   font-size: ${fonts.sizes(14, 1.2)};
-  color: ${p => (p.error ? colors.support.red : 'black')};
-  float: ${p => p.float || 'none'};
+  color: ${(p: Props) => (p.error ? colors.support.red : 'black')};
+  float: ${(p: Props) => p.float || 'none'};
 `;
 
-const FormikFieldHelp = ({ error, float, children }) => (
+const FormikFieldHelp: FC<Props> = ({ error, float, children }) => (
   <StyledHelpMessage error={error} float={float}>
     {children}
   </StyledHelpMessage>
@@ -26,7 +31,7 @@ const FormikFieldHelp = ({ error, float, children }) => (
 
 FormikFieldHelp.propTypes = {
   error: PropTypes.bool,
-  float: PropTypes.string,
+  float: PropTypes.oneOf(['left', 'right', 'none', 'inherit']),
 };
 
 export default FormikFieldHelp;

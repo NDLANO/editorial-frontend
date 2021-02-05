@@ -72,13 +72,17 @@ export interface UpdatedImageMetadata {
   caption?: string;
 }
 
-export interface ImageSearchResult {
+interface SearchResultBase<T> {
   totalCount: number;
-  page?: number;
+  page: number;
   pageSize: number;
   language: string;
-  results: ImageSearchSummaryApiType[];
+  results: T[];
 }
+
+export type ImageSearchResult = SearchResultBase<ImageSearchSummaryApiType>;
+
+export type TagSearchResult = SearchResultBase<string>;
 
 export interface ImageSearchSummaryApiType {
   id: string;

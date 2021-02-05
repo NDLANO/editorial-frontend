@@ -8,14 +8,16 @@
 
 import React, { useEffect, useContext } from 'react';
 import isEqual from 'lodash/fp/isEqual';
-import { injectT, tType } from '@ndla/i18n';
 import { useFormik } from 'formik';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { injectT, tType } from '@ndla/i18n';
 import { Select } from '@ndla/forms';
 import Button, { MultiButton } from '@ndla/button';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { DRAFT_PUBLISH_SCOPE } from '../../../../../constants';
 import { UserAccessContext } from '../../../../App/App';
-import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
+import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
 import { SubjectType, License, ConceptStatusType } from '../../../../../interfaces';
@@ -29,6 +31,10 @@ export interface InlineFormConcept {
   tags: string[];
   newStatus?: ConceptStatusType;
 }
+interface ErrorsType {
+  title?: string;
+  subjects?: string;
+}
 
 interface Props {
   initialValues: InlineFormConcept;
@@ -39,6 +45,23 @@ interface Props {
   allSubjects: SubjectType[];
   cancel: () => void;
 }
+
+const StyledHelpMessage = styled.span`
+  display: block;
+  color: ${colors.support.red};
+  margin-bottom: 5px;
+`;
+
+const validate = (values: InlineFormConcept): ErrorsType => {
+  const errors: ErrorsType = {};
+  if (!values.title) {
+    errors.title = 'required';
+  }
+  if (values.subjects.length === 0) {
+    errors.subjects = 'required';
+  }
+  return errors;
+};
 
 const ConceptForm = ({
   initialValues,
@@ -52,9 +75,10 @@ const ConceptForm = ({
 }: Props & tType) => {
   const formik = useFormik<InlineFormConcept>({
     initialValues,
+    validate,
     onSubmit,
   });
-  const { values, handleChange, setValues } = formik;
+  const { values, errors, handleChange, handleBlur, setValues } = formik;
   useEffect(() => {
     setValues({ ...values, title: initialValues.title });
   }, [initialValues.title]);
@@ -82,7 +106,13 @@ const ConceptForm = ({
             aria-label="Tittel"
             value={values.title}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {errors.title ? (
+            <StyledHelpMessage>
+              {t('validation.isRequired', { label: t('form.name.title') })}
+            </StyledHelpMessage>
+          ) : null}
         </InputField>
         <InputField>
           <label htmlFor="author">{t('license.creditType.writer')}</label>
@@ -125,7 +155,13 @@ const ConceptForm = ({
           onChange={handleChange}
           minSearchLength={1}
           data={allSubjects}
+          onBlur={handleBlur}
         />
+        {errors.subjects ? (
+          <StyledHelpMessage>
+            {t('validation.isRequired', { label: t('searchForm.tagType.subjects') })}
+          </StyledHelpMessage>
+        ) : null}
       </InputField>
       <InputField>
         <label htmlFor="tags">{t('form.categories.label')}</label>
@@ -143,7 +179,7 @@ const ConceptForm = ({
           {t('editorFooter.cancelLabel')}
         </Button>
         <MultiButton
-          disabled={!hasChanges}
+          disabled={!hasChanges || Object.keys(errors).length > 0}
           className="form-button"
           onClick={(value: string) => {
             const getStatus = (v: string, s: string) => {

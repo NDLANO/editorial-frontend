@@ -14,7 +14,7 @@ import {
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl('/taxonomy2/v1');
 
 function fetchAllResourceTypes(language) {
   return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(

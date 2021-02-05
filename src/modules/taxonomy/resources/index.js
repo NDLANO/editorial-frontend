@@ -14,7 +14,7 @@ import {
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { fetchTopic } from '../topics';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl('/taxonomy2/v1');
 
 export function fetchResource(id, language) {
   const lang = language ? `?language=${language}` : '';

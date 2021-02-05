@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl('/taxonomy2/v1');
 
 function fetchSubjects(locale) {
   return fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(

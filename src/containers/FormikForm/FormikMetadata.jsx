@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React, {Fragment, useContext} from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -15,57 +15,62 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { FormikMetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import FormikAvailability from './components/FormikAvailability';
+import { UserAccessContext } from "../App/App";
 
-const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit }) => (
-  <Fragment>
-    <FormikField
-      name="tags"
-      label={t('form.tags.label')}
-      showError
-      description={t('form.tags.description')}>
-      {({ field, form }) => (
-        <AsyncSearchTags
-          initialTags={article.tags}
-          language={article.language}
-          field={field}
-          form={form}
-          fetchTags={fetchSearchTags}
-        />
-      )}
-    </FormikField>
-    <FormikField
-      name="availability"
-      label={t('form.availability.label')}
-      description={t('form.availability.description')}>
-      {({ field }) => <FormikAvailability availability={article.availability} field={field} />}
-    </FormikField>
-    <FormikField
-      name="metaDescription"
-      maxLength={155}
-      showMaxLength
-      label={t('form.metaDescription.label')}
-      description={t('form.metaDescription.description')}>
-      {({ field }) => (
-        <PlainTextEditor
-          id={field.name}
-          placeholder={t('form.metaDescription.label')}
-          handleSubmit={handleSubmit}
-          {...field}
-        />
-      )}
-    </FormikField>
-    <FormikField name="metaImageId">
-      {({ field, form }) => (
-        <FormikMetaImageSearch
-          metaImageId={field.value}
-          setFieldTouched={form.setFieldTouched}
-          showRemoveButton={false}
-          {...field}
-        />
-      )}
-    </FormikField>
-  </Fragment>
-);
+const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit }) => {
+  const userAccess = useContext(UserAccessContext);
+
+  return (
+    <Fragment>
+      <FormikField
+        name="tags"
+        label={t('form.tags.label')}
+        showError
+        description={t('form.tags.description')}>
+        {({ field, form }) => (
+          <AsyncSearchTags
+            initialTags={article.tags}
+            language={article.language}
+            field={field}
+            form={form}
+            fetchTags={fetchSearchTags}
+          />
+        )}
+      </FormikField>
+      {userAccess.includes("drafts:admin") && <FormikField
+        name="availability"
+        label={t('form.availability.label')}
+        description={t('form.availability.description')}>
+        {({ field }) => <FormikAvailability availability={article.availability} field={field} />}
+      </FormikField>}
+      <FormikField
+        name="metaDescription"
+        maxLength={155}
+        showMaxLength
+        label={t('form.metaDescription.label')}
+        description={t('form.metaDescription.description')}>
+        {({ field }) => (
+          <PlainTextEditor
+            id={field.name}
+            placeholder={t('form.metaDescription.label')}
+            handleSubmit={handleSubmit}
+            {...field}
+          />
+        )}
+      </FormikField>
+      <FormikField name="metaImageId">
+        {({ field, form }) => (
+          <FormikMetaImageSearch
+            metaImageId={field.value}
+            setFieldTouched={form.setFieldTouched}
+            showRemoveButton={false}
+            {...field}
+          />
+        )}
+      </FormikField>
+    </Fragment>
+  );
+}
 
 FormikMetadata.propTypes = {
   article: PropTypes.shape({

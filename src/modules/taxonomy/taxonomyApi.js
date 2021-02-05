@@ -16,7 +16,7 @@ import { createDeleteResourceTypes } from './resourcetypes';
 import { createDeleteUpdateFilters } from './filter';
 import { createDeleteUpdateTopicResources } from './topicresouces';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl('/taxonomy2/v1');
 
 /* Option items */
 function fetchResourceTypes(language) {

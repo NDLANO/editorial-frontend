@@ -9,6 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
+import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import { colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import {
   StyledInfo,
@@ -73,9 +75,11 @@ const ContentView = ({
       </div>
       <StyledDescription>{content}</StyledDescription>
       {license && (
-        <StyledDescription>
-          {t('form.name.license')}: {license.description}
-        </StyledDescription>
+        <LicenseByline
+          licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
+          locale={locale}
+          color={colors.brand.grey}
+        />
       )}
       <StyledBreadcrumbs>
         {breadcrumbs?.map(breadcrumb => <Crumb key={breadcrumb.id}>{breadcrumb.name}</Crumb>) || (

@@ -18,7 +18,11 @@ interface FormikProps {
   form: FormikProperties['form'];
 }
 
-const SubjectpageMetadata: FC<tType> = ({ t }) => {
+interface Props {
+  handleSubmit: () => void;
+}
+
+const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, t }) => {
   return (
     <>
       <FormikField
@@ -31,6 +35,7 @@ const SubjectpageMetadata: FC<tType> = ({ t }) => {
           <PlainTextEditor
             id={field.name}
             placeholder={t('form.metaDescription.label')}
+            handleSubmit={handleSubmit}
             {...field}
           />
         )}

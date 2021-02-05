@@ -307,9 +307,7 @@ Object {
     "data": Object {},
     "nodes": Array [
       Object {
-        "data": Object {
-          "type": "letters",
-        },
+        "data": Object {},
         "nodes": Array [
           Object {
             "data": Object {},

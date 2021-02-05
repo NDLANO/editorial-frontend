@@ -173,6 +173,9 @@ const LearningResourceForm = props => {
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
+            handleSubmit={() => {
+              handleSubmit(formik, isNewlyCreated);
+            }}
             {...rest}
           />
         )}

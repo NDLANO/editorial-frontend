@@ -45,12 +45,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElement: subjectpage.visualElement || {
-      resource: '',
-      url: '',
-      resource_id: '',
-      videoid: '',
-    },
+    visualElement: subjectpage.visualElement || {},
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -147,6 +142,7 @@ const SubjectpageForm: FC<Props & tType> = ({
               editorsChoices={values.editorsChoices!}
               elementId={values.elementId!}
               errors={errors}
+              handleSubmit={() => handleSubmit(formik)}
             />
             <Field right>
               <SaveButton

@@ -62,6 +62,7 @@ class RichBlockTextEditor extends PureComponent {
       renderBlock,
       submitted,
       onBlur,
+      handleSubmit,
     } = this.props;
     return (
       <article>
@@ -91,6 +92,7 @@ class RichBlockTextEditor extends PureComponent {
               onChange={this.onChange}
               value={blockValue}
               removeSection={this.removeSection}
+              handleSubmit={handleSubmit}
             />
             {children}
           </StyledFormContainer>
@@ -115,6 +117,7 @@ RichBlockTextEditor.propTypes = {
   'data-cy': PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default injectT(RichBlockTextEditor);

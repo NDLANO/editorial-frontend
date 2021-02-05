@@ -71,7 +71,15 @@ const panels = [
   },
 ];
 
-const LearningResourcePanels = ({ t, values, userAccess, errors, fetchSearchTags, ...rest }) => (
+const LearningResourcePanels = ({
+  t,
+  values,
+  userAccess,
+  errors,
+  fetchSearchTags,
+  handleSubmit,
+  ...rest
+}) => (
   <Accordion openIndexes={['learning-resource-content']}>
     {({ openIndexes, handleItemClick }) => (
       <AccordionWrapper>
@@ -102,6 +110,7 @@ const LearningResourcePanels = ({ t, values, userAccess, errors, fetchSearchTags
                       values,
                       closePanel: () => handleItemClick(panel.id),
                       fetchSearchTags,
+                      handleSubmit,
                       ...rest,
                     })}
                   </div>
@@ -126,6 +135,7 @@ LearningResourcePanels.propTypes = {
     grepCodes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   fetchSearchTags: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourcePanels);

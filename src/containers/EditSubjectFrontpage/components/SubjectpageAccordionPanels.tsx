@@ -40,7 +40,7 @@ const panels = [
       onBlur,
     }: {
       handleSubmit: () => void;
-      onBlur: (event: any, editor: any, next: any) => void;
+      onBlur: (event: Event, editor: Editor, next: Function) => void;
     }) => <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />,
   },
   {
@@ -48,9 +48,13 @@ const panels = [
     title: 'subjectpageForm.metadata',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'mobileBannerId'],
-    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
-      <SubjectpageMetadata handleSubmit={handleSubmit} />
-    ),
+    component: ({
+      handleSubmit,
+      onBlur,
+    }: {
+      handleSubmit: () => void;
+      onBlur: (event: Event, editor: Editor, next: Function) => void;
+    }) => <SubjectpageMetadata handleSubmit={handleSubmit} onBlur={onBlur} />,
   },
   {
     id: 'articles',

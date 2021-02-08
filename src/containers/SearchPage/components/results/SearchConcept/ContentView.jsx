@@ -6,7 +6,7 @@
  *
  */
 
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
@@ -21,8 +21,6 @@ import {
 import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { UserAccessContext } from '../../../../App/App';
-import { DRAFT_PUBLISH_SCOPE } from '../../../../../constants';
 
 const ContentView = ({
   concept,
@@ -36,7 +34,6 @@ const ContentView = ({
   licenses,
 }) => {
   const license = licenses && licenses.find(l => concept.license === l.license);
-  const userAccess = useContext(UserAccessContext);
 
   return (
     <StyledConceptView>
@@ -44,7 +41,7 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConcept(concept.id, locale)}>
           {title}
         </StyledLink>
-        {!editing && userAccess && userAccess.includes("ssss") && (
+        {!editing && (
           <Button
             css={css`
               line-height: 1;

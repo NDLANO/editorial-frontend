@@ -8,6 +8,7 @@ import React, { FC, Fragment } from 'react';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
+import { Editor } from 'slate';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import {
   AccordionProps,
@@ -30,6 +31,7 @@ interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
   handleSubmit: () => void;
+  onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
 interface PanelProps extends Props {
@@ -52,9 +54,10 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
-      <SubjectpageAbout handleSubmit={handleSubmit} />
-    ),
+    component: (props: {
+      handleSubmit: () => void;
+      onBlur: (event: any, editor: any, next: any) => void;
+    }) => <SubjectpageAbout handleSubmit={props.handleSubmit} onBlur={props.onBlur} />,
   },
   {
     id: 'slideshow',
@@ -104,6 +107,7 @@ const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
   loading,
   selectedLanguage,
   handleSubmit,
+  onBlur,
 }) => {
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
@@ -147,6 +151,7 @@ const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
                         onUpdateMovieList,
                         selectedLanguage,
                         handleSubmit,
+                        onBlur,
                       })}
                     </div>
                   </AccordionPanel>

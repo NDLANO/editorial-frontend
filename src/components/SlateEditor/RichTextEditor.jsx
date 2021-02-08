@@ -14,8 +14,8 @@ import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
-import { hasNodeOfType } from './utils';
 import createSlateStore, { setSubmitted } from './createSlateStore';
+import { handleClickBlock, handleClickMark, handleClickInline } from './utils/handleMenuClicks';
 import { PluginShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
@@ -43,8 +43,6 @@ export const classes = new BEMHelper({
 const slateEditorDivStyle = css`
   position: relative;
 `;
-
-const DEFAULT_NODE = 'paragraph';
 
 const RichTextEditor = class extends React.PureComponent {
   constructor(props) {
@@ -142,16 +140,11 @@ const RichTextEditor = class extends React.PureComponent {
     }
 
     if (mark) {
-      e.preventDefault();
-      editor.toggleMark(mark);
+      handleClickMark(e, editor, mark);
     } else if (block) {
-      e.preventDefault();
-      editor.setBlocks(hasNodeOfType(editor, block) ? DEFAULT_NODE : block);
+      handleClickBlock(e, editor, block);
     } else if (inline) {
-      e.preventDefault();
-      editor.withoutNormalizing(() => {
-        editor.wrapInline(inline);
-      });
+      handleClickInline(e, editor, inline);
     } else {
       next();
     }

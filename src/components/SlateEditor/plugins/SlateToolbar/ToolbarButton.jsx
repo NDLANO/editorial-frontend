@@ -27,6 +27,7 @@ import {
   Section,
   Underline,
 } from '@ndla/icons/editor';
+import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 
 import { css } from '@emotion/core';
 import { toolbarClasses } from './SlateToolbar';
@@ -37,6 +38,8 @@ const toolbarIcon = t => ({
   bold: <Bold title={t('editorToolbar.bold')} />,
   italic: <Italic title={t('editorToolbar.italic')} />,
   underlined: <Underline title={t('editorToolbar.underlined')} />,
+  sub: <ExpandMore title={t('editorToolbar.sub')} />,
+  sup: <ExpandLess title={t('editorToolbar.sup')} />,
   quote: <Quote title={t('editorToolbar.quote')} />,
   link: <Link title={t('editorToolbar.link')} />,
   'numbered-list': <ListNumbered title={t('editorToolbar.numberedList')} />,

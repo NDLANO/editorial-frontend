@@ -20,7 +20,6 @@ import { PluginShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isCodeHotKey = isKeyHotkey('mod+k');
-const isCodeBlockHotKey = isKeyHotkey('mod+alt+k');
 const isConceptBlockHotKey = isKeyHotkey('mod+alt+c');
 const isH2HotKey = isKeyHotkey('mod+2');
 const isH3HotKey = isKeyHotkey('mod+3');
@@ -95,8 +94,6 @@ const RichTextEditor = class extends React.PureComponent {
       mark = 'bold';
     } else if (isCodeHotKey(e)) {
       mark = 'code';
-    } else if (isCodeBlockHotKey(e)) {
-      block = 'code-block';
     } else if (isConceptBlockHotKey(e)) {
       inline = 'concept';
     } else if (isFootnoteHotKey(e)) {

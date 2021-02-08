@@ -172,7 +172,7 @@
     "remarkable": "^2.0.0",
     "reselect": "^4.0.0",
     "serialize-javascript": "^3.1.0",
-    "slate": "^0.47.4",
+    "slate": "^0.47.9",
     "slate-deep-table": "^0.9.6",
     "slate-html-serializer": "^0.8.6",
     "slate-plain-serializer": "^0.7.6",

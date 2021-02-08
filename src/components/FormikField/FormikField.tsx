@@ -61,7 +61,6 @@ const FormikField: FC<Props & tType & { formik: FormikContextType<FormikValues> 
   showError,
   t,
   formik: { values, handleBlur, errors, touched },
-  placeholder,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false);

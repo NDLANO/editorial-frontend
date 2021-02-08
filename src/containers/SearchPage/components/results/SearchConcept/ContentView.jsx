@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';

@@ -144,16 +144,10 @@ const RichTextEditor = class extends React.PureComponent {
     if (mark) {
       e.preventDefault();
       editor.toggleMark(mark);
-    } else {
-      next();
-    }
-    if (block) {
+    } else if (block) {
       e.preventDefault();
       editor.setBlocks(hasNodeOfType(editor, block) ? DEFAULT_NODE : block);
-    } else {
-      next();
-    }
-    if (inline) {
+    } else if (inline) {
       e.preventDefault();
       editor.withoutNormalizing(() => {
         editor.wrapInline(inline);

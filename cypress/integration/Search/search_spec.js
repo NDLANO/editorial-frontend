@@ -14,10 +14,10 @@ describe('Search', () => {
     cy.server({ force404: true });
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/resource-types/?language=nb',
+      '/taxonomy2/v1/resource-types/?language=nb',
       'resourceTypes',
     );
-    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?page=1&page-size=10&sort=-relevance',

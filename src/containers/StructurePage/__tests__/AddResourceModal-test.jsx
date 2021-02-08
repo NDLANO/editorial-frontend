@@ -63,7 +63,7 @@ test('Can select a resource from the list and it adds it to topic', async () => 
     .reply(200, articleMock);
   nock('http://ndla-api')
     .post(
-      '/taxonomy/v1/topic-resources',
+      '/taxonomy2/v1/topic-resources',
       JSON.stringify({
         resourceId: 'urn:resource:1:175733',
         topicid: 'urn:topicId2',
@@ -88,14 +88,14 @@ test('Can paste a valid url and add it to topic', async () => {
     .get(`/article-api/v2/articles/24?language=nb&fallback=true`)
     .reply(200, articleMock);
   nock('http://ndla-api')
-    .get(`/taxonomy/v1/resources/urn:resource:1:168388`)
+    .get(`/taxonomy2/v1/resources/urn:resource:1:168388`)
     .reply(200, resourceMock);
   nock('http://ndla-api')
-    .get(`/taxonomy/v1/resources/urn:resource:1:168388/resource-types/`)
+    .get(`/taxonomy2/v1/resources/urn:resource:1:168388/resource-types/`)
     .reply(200, resourceTypeMock);
   nock('http://ndla-api')
     .post(
-      '/taxonomy/v1/topic-resources',
+      '/taxonomy2/v1/topic-resources',
       JSON.stringify({
         resourceId: 'urn:resource:1:168388',
         topicid: 'urn:topicId2',

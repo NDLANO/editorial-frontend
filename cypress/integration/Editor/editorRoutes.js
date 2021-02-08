@@ -30,8 +30,8 @@ export default ARTICLE_ID => {
     'statusMachine',
   );
 
-  cy.route('GET', '/taxonomy/v1/resources/**', '[]');
-  cy.route('GET', '/taxonomy/v1/topics/**', '[]');
+  cy.route('GET', '/taxonomy2/v1/resources/**', '[]');
+  cy.route('GET', '/taxonomy2/v1/topics/**', '[]');
 
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
   cy.apiroute('POST', '/draft-api/v1/drafts/search/', 'relatedArticles');

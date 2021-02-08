@@ -12,15 +12,15 @@ describe('Test filter functionality', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
+      '/taxonomy2/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/subjects/urn:subject:12/filters',
+      '/taxonomy2/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
     cy.visit('/structure/urn:subject:12', visitOptions);

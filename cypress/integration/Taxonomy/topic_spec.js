@@ -25,38 +25,38 @@ describe('Topic editing', () => {
         );
       },
     });
-    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true&language=nb`,
+      `/taxonomy2/v1/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics?recursive=true&language=nb`,
+      `/taxonomy2/v1/topics?recursive=true&language=nb`,
       'allTopics',
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/subjects/${selectSubject}/filters`,
+      `/taxonomy2/v1/subjects/${selectSubject}/filters`,
       'allSubjectFilters',
     );
-    cy.apiroute('GET', '/taxonomy/v1/filters/?language=nb', 'allFilters');
+    cy.apiroute('GET', '/taxonomy2/v1/filters/?language=nb', 'allFilters');
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/resource-types/?language=nb',
+      '/taxonomy2/v1/resource-types/?language=nb',
       'resourceTypes',
     );
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/resources?language=nb`,
+      `/taxonomy2/v1/topics/${selectTopic}/resources?language=nb`,
       'allTopicResources',
     );
     cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
 
     cy.route({
       method: 'POST',
-      url: '/taxonomy/v1/topics',
+      url: '/taxonomy2/v1/topics',
       status: 201,
       headers: {
         Location: 'newPath',
@@ -67,7 +67,7 @@ describe('Topic editing', () => {
     cy.apirouteTaxonomy({
       method: 'POST',
       status: 201,
-      url: '/taxonomy/v1/topic-filters',
+      url: '/taxonomy2/v1/topic-filters',
       headers: {
         Location: 'newFilterPath',
         'content-type': 'text/plain; charset=UTF-8',
@@ -77,13 +77,13 @@ describe('Topic editing', () => {
     });
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/topics/${selectTopic}/filters`,
+      `/taxonomy2/v1/topics/${selectTopic}/filters`,
       'topicFilters',
     );
 
     cy.apirouteTaxonomy({
       method: 'PUT',
-      url: '/taxonomy/v1/topic-filters/**',
+      url: '/taxonomy2/v1/topic-filters/**',
       headers: {
         Location: 'filterLocation',
         'content-type': 'text/plain; charset=UTF-8',

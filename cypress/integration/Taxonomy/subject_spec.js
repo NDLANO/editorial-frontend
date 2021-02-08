@@ -20,15 +20,15 @@ before(() => {
     },
   });
 
-  cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+  cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
   cy.apiroute(
     'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
+    '/taxonomy2/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
     'allSubjectTopics',
   );
   cy.apiroute(
     'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/filters',
+    '/taxonomy2/v1/subjects/urn:subject:12/filters',
     'allSubjectFilters',
   );
   
@@ -45,7 +45,7 @@ describe('Subject editing', () => {
   it('should add a new subject', () => {
     cy.route({
       method: 'POST',
-      url: '/taxonomy/v1/subjects',
+      url: '/taxonomy2/v1/subjects',
       status: 201,
       headers: {
         Location: 'newPath',
@@ -63,7 +63,7 @@ describe('Subject editing', () => {
   it('should have a settings menu where everything works', () => {
     cy.route({
       method: 'PUT',
-      url: `/taxonomy/v1/subjects/urn:subject:12`,
+      url: `/taxonomy2/v1/subjects/urn:subject:12`,
       status: 204,
       response: '',
       headers: {
@@ -72,7 +72,7 @@ describe('Subject editing', () => {
     }).as('newSubjectName');
     cy.route({
       method: 'POST',
-      url: '/taxonomy/v1/topics',
+      url: '/taxonomy2/v1/topics',
       status: 201,
       response: '',
       headers: {
@@ -81,7 +81,7 @@ describe('Subject editing', () => {
     }).as('addNewTopic');
     cy.route({
       method: 'POST',
-      url: '/taxonomy/v1/filters',
+      url: '/taxonomy2/v1/filters',
       status: 201,
       response: '',
       headers: { Location: 'filterPath' },
@@ -89,21 +89,21 @@ describe('Subject editing', () => {
     cy.route({
       method: 'PUT',
       url:
-        '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
+        '/taxonomy2/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
       status: 204,
       response: '',
     }).as('editFilter');
     cy.route({
       method: 'DELETE',
       url:
-        '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
+        '/taxonomy2/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
       response: '',
       status: 204,
     }).as('deleteFilter');
-    cy.apiroute('GET', '/taxonomy/v1/topics?language=nb', 'allTopics');
+    cy.apiroute('GET', '/taxonomy2/v1/topics?language=nb', 'allTopics');
     cy.route({
       method: 'POST',
-      url: '/taxonomy/v1/topic-filters',
+      url: '/taxonomy2/v1/topic-filters',
       status: 201,
       response: '',
       headers: {
@@ -113,7 +113,7 @@ describe('Subject editing', () => {
     });
     cy.route({
       method: 'POST',
-      url: '/taxonomy/v1/subject-topics',
+      url: '/taxonomy2/v1/subject-topics',
       status: 201,
       response: '',
       headers: {

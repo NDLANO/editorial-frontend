@@ -174,6 +174,7 @@ const LearningResourceForm = props => {
             handleSubmit={() => {
               handleSubmit(formik, isNewlyCreated);
             }}
+            {...formikProps}
             {...rest}
           />
         )}

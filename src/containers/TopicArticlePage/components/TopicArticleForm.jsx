@@ -190,6 +190,7 @@ const TopicArticleForm = props => {
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={() => handleSubmit(formik)}
+            {...formikProps}
             {...rest}
           />
         )}

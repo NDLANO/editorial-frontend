@@ -17,7 +17,7 @@ import Button, { MultiButton } from '@ndla/button';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { DRAFT_PUBLISH_SCOPE } from '../../../../../constants';
 import { UserAccessContext } from '../../../../App/App';
-import { fetchSearchTags } from '../../../../../modules/draft/draftApi';
+import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
 import { SubjectType, License, ConceptStatusType } from '../../../../../interfaces';

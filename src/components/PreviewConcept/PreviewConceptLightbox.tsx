@@ -29,7 +29,7 @@ interface Props {
   typeOfPreview: string;
 }
 
-const lightboxContentStyle = css`
+const lightboxContentStyle = () => css`
   margin: 1rem 0;
   padding: 1rem 0;
   width: 100%;
@@ -141,14 +141,15 @@ const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPrevie
         display
         onClose={onClosePreview}
         closeButton={closeButton}
-        contentCss={lightboxContentStyle}>
+        contentCss={lightboxContentStyle()}>
         <PreviewLightboxContent
           firstEntity={firstConcept}
           secondEntity={secondConcept}
           onChangePreviewLanguage={onChangePreviewLanguage}
           previewLanguage={previewLanguage}
           typeOfPreview={typeOfPreview}
-          contentType={'concept'}
+          contentType="concept"
+          label=""
           getEntityPreview={(concept: ConceptPreviewType) => <PreviewConcept concept={concept} />}
         />
       </Lightbox>

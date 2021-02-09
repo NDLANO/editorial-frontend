@@ -15,12 +15,25 @@ import { isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import createSlateStore, { setSubmitted } from './createSlateStore';
+import { handleClickBlock, handleClickMark, handleClickInline } from './utils/handleMenuClicks';
 import { PluginShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
-const isItalicHotkey = isKeyHotkey('mod+i');
-const isUnderlinedHotkey = isKeyHotkey('mod+u');
-const isSaveHotkey = isKeyHotkey('mod+s');
+const isCodeHotKey = isKeyHotkey('mod+k');
+const isConceptBlockHotKey = isKeyHotkey('mod+alt+c');
+const isH2HotKey = isKeyHotkey('mod+2');
+const isH3HotKey = isKeyHotkey('mod+3');
+const isFootnoteHotKey = isKeyHotkey('mod+alt+f');
+const isItalicHotKey = isKeyHotkey('mod+i');
+const isLetteredListHotKey = isKeyHotkey('mod+alt+a');
+const isLinkHotKey = isKeyHotkey('mod+alt+l');
+const isListHotKey = isKeyHotkey('mod+l');
+const isMathHotKey = isKeyHotkey('mod+m');
+const isNumberedListHotKey = isKeyHotkey('mod+alt+1');
+const isQuoteHotKey = isKeyHotkey('mod+q');
+const isSaveHotKey = isKeyHotkey('mod+s');
+const isSubHotKey = isKeyHotkey('mod+alt+s');
+const isSupHotKey = isKeyHotkey('mod+alt+h');
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -71,14 +84,40 @@ const RichTextEditor = class extends React.PureComponent {
 
   onKeyDown(e, editor, next) {
     let mark;
+    let block;
+    let inline;
     const { value } = editor;
 
     if (isBoldHotkey(e)) {
       mark = 'bold';
-    } else if (isItalicHotkey(e)) {
+    } else if (isCodeHotKey(e)) {
+      mark = 'code';
+    } else if (isConceptBlockHotKey(e)) {
+      inline = 'concept';
+    } else if (isFootnoteHotKey(e)) {
+      inline = 'footnote';
+    } else if (isH2HotKey(e)) {
+      block = 'heading-two';
+    } else if (isH3HotKey(e)) {
+      block = 'heading-three';
+    } else if (isItalicHotKey(e)) {
       mark = 'italic';
-    } else if (isUnderlinedHotkey(e)) {
-      mark = 'underlined';
+    } else if (isLetteredListHotKey(e)) {
+      block = 'letter-list';
+    } else if (isLinkHotKey(e)) {
+      inline = 'link';
+    } else if (isListHotKey(e)) {
+      block = 'bulleted-list';
+    } else if (isMathHotKey(e)) {
+      inline = 'mathml';
+    } else if (isNumberedListHotKey(e)) {
+      block = 'numbered-list';
+    } else if (isQuoteHotKey(e)) {
+      block = 'quote';
+    } else if (isSubHotKey(e)) {
+      mark = 'sub';
+    } else if (isSupHotKey(e)) {
+      mark = 'sup';
     } else if (e.key === 'Backspace') {
       const { removeSection, index } = this.props;
       if (removeSection) {
@@ -95,14 +134,17 @@ const RichTextEditor = class extends React.PureComponent {
         }
         next();
       }
-    } else if (isSaveHotkey(e)) {
+    } else if (isSaveHotKey(e)) {
       e.preventDefault();
       this.props.handleSubmit();
     }
 
     if (mark) {
-      e.preventDefault();
-      editor.toggleMark(mark);
+      handleClickMark(e, editor, mark);
+    } else if (block) {
+      handleClickBlock(e, editor, block);
+    } else if (inline) {
+      handleClickInline(e, editor, inline);
     } else {
       next();
     }

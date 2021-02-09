@@ -39,6 +39,9 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
         cy.get('[data-testid=toolbar-button-italic]').click();
+        cy.get('[data-testid=toolbar-button-code]').click();
+        cy.get('[data-testid=toolbar-button-sub]').click();
+        cy.get('[data-testid=toolbar-button-sup]').click();
         cy.get('[data-testid=toolbar-button-heading-two]').click();
         cy.wrap($el).type('{selectall}new heading{selectall}');
         cy.get('[data-testid=toolbar-button-heading-three]').click();
@@ -135,5 +138,24 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=save_footnote]').click({ force: true });
     cy.get('a > sup').click({ force: true });
     cy.get('h2').contains('Rediger fotnote');
+    cy.get('[data-cy=save_footnote]').click({ force: true });
+  });
+
+  it('Creates math', () => {
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+      .first()
+      .focus()
+      .wait(500)
+      .type('{selectall}')
+      .type('1+1')
+      .blur();
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+      .first()
+      .focus()
+      .wait(500)
+      .type('{selectall}')
+      .blur();
+    cy.get('[data-testid=toolbar-button-mathml]').click({ force: true });
+    cy.get('[data-cy=math]').should('exist');
   });
 });

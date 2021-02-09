@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import isEqual from 'lodash/fp/isEqual';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
@@ -15,8 +15,6 @@ import { injectT, tType } from '@ndla/i18n';
 import { Select } from '@ndla/forms';
 import Button, { MultiButton } from '@ndla/button';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { DRAFT_PUBLISH_SCOPE } from '../../../../../constants';
-import { UserAccessContext } from '../../../../App/App';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
@@ -82,9 +80,6 @@ const ConceptForm = ({
   useEffect(() => {
     setValues({ ...values, title: initialValues.title });
   }, [initialValues.title]);
-  const userAccess = useContext<string>(UserAccessContext);
-  const canPublish = userAccess.includes(DRAFT_PUBLISH_SCOPE);
-  const hidePublishButton = !canPublish;
   const hasChanges = !isEqual(initialValues, values);
 
   const licensesWithTranslations = licenses
@@ -195,16 +190,12 @@ const ConceptForm = ({
             onSubmit({ ...values, newStatus });
           }}
           mainButton={{ value: 'save' }}
-          secondaryButtons={
-            hidePublishButton
-              ? []
-              : [
-                  {
-                    label: t('form.saveAndPublish'),
-                    value: 'saveAndPublish',
-                  },
-                ]
-          }>
+          secondaryButtons={[
+            {
+              label: t('form.saveAndPublish'),
+              value: 'saveAndPublish',
+            },
+          ]}>
           <span>{t(`form.save`)}</span>
         </MultiButton>
       </div>

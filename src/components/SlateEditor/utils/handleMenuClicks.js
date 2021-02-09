@@ -50,16 +50,22 @@ function handleClickInline(event, editor, type) {
   event.preventDefault();
 
   if (type === 'footnote') {
-    editor
-      .moveToEnd()
-      .insertText('#')
-      .moveFocusForward(-1)
-      .wrapInline(type);
+    addTextAndWrapIntype(editor, '#', type);
+  } else if (type === 'mathml') {
+    addTextAndWrapIntype(editor, ' ', type);
   } else {
     editor.withoutNormalizing(() => {
       editor.wrapInline(type);
     });
   }
+}
+
+function addTextAndWrapIntype(editor, text, type) {
+  editor
+    .moveToEnd()
+    .insertText(text)
+    .moveFocusForward(-1)
+    .wrapInline(type);
 }
 
 export { handleClickBlock, handleClickMark, handleClickInline };

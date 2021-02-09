@@ -52,7 +52,12 @@ function handleClickInline(event, editor, type) {
   if (type === 'footnote') {
     addTextAndWrapIntype(editor, '#', type);
   } else if (type === 'mathml') {
-    addTextAndWrapIntype(editor, ' ', type);
+    const { value } = editor;
+    if (value.selection.start.offset !== value.selection.end.offset) {
+      editor.wrapInline(type);
+    } else {
+      addTextAndWrapIntype(editor, ' ', type);
+    }
   } else {
     editor.withoutNormalizing(() => {
       editor.wrapInline(type);
@@ -64,7 +69,7 @@ function addTextAndWrapIntype(editor, text, type) {
   editor
     .moveToEnd()
     .insertText(text)
-    .moveFocusForward(-1)
+    .moveFocusForward(-text.length)
     .wrapInline(type);
 }
 

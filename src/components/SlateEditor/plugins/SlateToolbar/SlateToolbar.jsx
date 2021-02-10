@@ -13,7 +13,6 @@ import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { hasNodeOfType } from '../../utils';
 import { listTypes } from '../externalPlugins';
-import { handleClickBlock, handleClickMark, handleClickInline } from '../../utils/handleMenuClicks';
 
 const topicArticleElements = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
@@ -35,7 +34,6 @@ export const toolbarClasses = new BEMHelper({
 class SlateToolbar extends Component {
   constructor(props) {
     super(props);
-    this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = React.createRef();
     this.updateMenu = this.updateMenu.bind(this);
   }
@@ -46,16 +44,6 @@ class SlateToolbar extends Component {
 
   componentDidUpdate() {
     this.updateMenu();
-  }
-
-  onButtonClick(evt, kind, type) {
-    if (kind === 'mark') {
-      handleClickMark(evt, this.props.editor, type);
-    } else if (kind === 'block') {
-      handleClickBlock(evt, this.props.editor, type);
-    } else if (kind === 'inline') {
-      handleClickInline(evt, this.props.editor, type);
-    }
   }
 
   updateMenu() {
@@ -84,7 +72,7 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { editor } = this.props;
+    const { editor, onButtonClick } = this.props;
 
     const toolbarElements = window.location.pathname.includes('learning-resource')
       ? learningResourceElements
@@ -96,7 +84,9 @@ class SlateToolbar extends Component {
           type={type}
           kind={kind}
           isActive={hasNodeOfType(editor, type, kind)}
-          handleOnClick={this.onButtonClick}
+          handleOnClick={(event, kind, type) => {
+            onButtonClick(event, editor, kind, type);
+          }}
         />
       )),
     );
@@ -113,6 +103,7 @@ class SlateToolbar extends Component {
 
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onButtonClick: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   editor: PropTypes.object.isRequired,
   slateStore: PropTypes.shape({

@@ -20,20 +20,20 @@ import { PluginShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isCodeHotKey = isKeyHotkey('mod+k');
-const isConceptBlockHotKey = isKeyHotkey('mod+alt+c');
+const isConceptBlockHotKey = isKeyHotkey('mod+opt+c');
 const isH2HotKey = isKeyHotkey('mod+2');
 const isH3HotKey = isKeyHotkey('mod+3');
-const isFootnoteHotKey = isKeyHotkey('mod+alt+f');
+const isFootnoteHotKey = isKeyHotkey('mod+opt+f');
 const isItalicHotKey = isKeyHotkey('mod+i');
-const isLetteredListHotKey = isKeyHotkey('mod+alt+a');
-const isLinkHotKey = isKeyHotkey('mod+alt+l');
+const isLetteredListHotKey = isKeyHotkey('mod+opt+a');
+const isLinkHotKey = isKeyHotkey('mod+opt+l');
 const isListHotKey = isKeyHotkey('mod+l');
 const isMathHotKey = isKeyHotkey('mod+m');
-const isNumberedListHotKey = isKeyHotkey('mod+alt+1');
+const isNumberedListHotKey = isKeyHotkey('mod+opt+1');
 const isQuoteHotKey = isKeyHotkey('mod+q');
 const isSaveHotKey = isKeyHotkey('mod+s');
-const isSubHotKey = isKeyHotkey('mod+alt+s');
-const isSupHotKey = isKeyHotkey('mod+alt+h');
+const isSubHotKey = isKeyHotkey('mod+opt+s');
+const isSupHotKey = isKeyHotkey('mod+opt+h');
 
 export const classes = new BEMHelper({
   name: 'editor',

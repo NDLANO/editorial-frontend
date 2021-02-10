@@ -15,7 +15,7 @@ import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
@@ -35,6 +35,13 @@ const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};
+`;
+
+const StyledStatus = styled.p`
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: ${spacing.xsmall};
+  color: ${colors.brand.primary};
 `;
 
 const Resource = ({
@@ -75,6 +82,9 @@ const Resource = ({
           isVisible={metadata?.visible}
         />
       </div>
+      {status?.current && (
+        <StyledStatus>{t(`form.status.${status.current.toLowerCase()}`)}</StyledStatus>
+      )}
       {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />

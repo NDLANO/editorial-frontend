@@ -63,7 +63,7 @@ export default function toolbarPlugin() {
   const isListHotKey = isKeyHotkey('mod+l');
   const isMathHotKey = isKeyHotkey('mod+m');
   const isNumberedListHotKey = isCodeHotkey('mod+alt+1');
-  const isQuoteHotKey = isCodeHotkey('mod+alt+q');
+  const isQuoteHotKey = isCodeHotkey('mod+alt+b');
   const isSubHotKey = isCodeHotkey('mod+alt+s');
   const isSupHotKey = isCodeHotkey('mod+alt+h');
 

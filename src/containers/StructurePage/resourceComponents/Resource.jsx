@@ -31,14 +31,14 @@ const filterButtonStyle = css`
   margin: 0 20px;
 `;
 
-const statusButtonStyle = css`
-  margin-right: ${spacing.xsmall};
-`
-
 const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};
+`;
+
+const statusButtonStyle = css`
+  margin-right: ${spacing.xsmall};
 `;
 
 const Resource = ({
@@ -46,6 +46,7 @@ const Resource = ({
   name,
   showFilterPicker,
   toggleFilterPicker,
+  toggleVersionHistory,
   onFilterChange,
   availableFilters,
   activeFilters,
@@ -81,10 +82,11 @@ const Resource = ({
       </div>
       {status?.current && (
         <Button 
-        link 
-        css={statusButtonStyle}>
-        {t(`form.status.${status.current.toLowerCase()}`)}
-      </Button>
+          link 
+          css={statusButtonStyle}
+          onClick={() => toggleVersionHistory(contentUri.split(':').pop())}>
+          {t(`form.status.${status.current.toLowerCase()}`)}
+        </Button>
       )}
       {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>

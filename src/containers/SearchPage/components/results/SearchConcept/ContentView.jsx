@@ -6,12 +6,14 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
 import { css } from '@emotion/core';
+import { CONCEPT_ADMIN_SCOPE } from '../../../../../constants';
+import { UserAccessContext } from '../../../../App/App';
 import {
   StyledInfo,
   StyledConceptView,
@@ -36,6 +38,8 @@ const ContentView = ({
   licenses,
 }) => {
   const license = licenses && licenses.find(l => concept.license === l.license);
+  const userAccess = useContext(UserAccessContext);
+  const canEdit = userAccess.includes(CONCEPT_ADMIN_SCOPE);
 
   return (
     <StyledConceptView>
@@ -43,7 +47,7 @@ const ContentView = ({
         <StyledLink noShadow to={toEditConcept(concept.id, locale)}>
           {title}
         </StyledLink>
-        {!editing && (
+        {canEdit && !editing && (
           <Button
             css={css`
               line-height: 1;

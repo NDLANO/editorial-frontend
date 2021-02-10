@@ -31,17 +31,14 @@ const filterButtonStyle = css`
   margin: 0 20px;
 `;
 
+const statusButtonStyle = css`
+  margin-right: ${spacing.xsmall};
+`
+
 const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};
-`;
-
-const StyledStatus = styled.p`
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-right: ${spacing.xsmall};
-  color: ${colors.brand.primary};
 `;
 
 const Resource = ({
@@ -83,7 +80,11 @@ const Resource = ({
         />
       </div>
       {status?.current && (
-        <StyledStatus>{t(`form.status.${status.current.toLowerCase()}`)}</StyledStatus>
+        <Button 
+        link 
+        css={statusButtonStyle}>
+        {t(`form.status.${status.current.toLowerCase()}`)}
+      </Button>
       )}
       {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>

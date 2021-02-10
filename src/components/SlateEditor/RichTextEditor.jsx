@@ -11,7 +11,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { isKeyHotkey } from 'is-hotkey';
+import { isCodeHotkey, isKeyHotkey } from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import createSlateStore, { setSubmitted } from './createSlateStore';
@@ -20,20 +20,20 @@ import { PluginShape } from '../../shapes';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isCodeHotKey = isKeyHotkey('mod+k');
-const isConceptBlockHotKey = isKeyHotkey('mod+opt+c');
+const isConceptBlockHotKey = isCodeHotkey('mod+alt+c');
 const isH2HotKey = isKeyHotkey('mod+2');
 const isH3HotKey = isKeyHotkey('mod+3');
-const isFootnoteHotKey = isKeyHotkey('mod+opt+f');
+const isFootnoteHotKey = isCodeHotkey('mod+alt+f');
 const isItalicHotKey = isKeyHotkey('mod+i');
-const isLetteredListHotKey = isKeyHotkey('mod+opt+a');
-const isLinkHotKey = isKeyHotkey('mod+opt+l');
+const isLetteredListHotKey = isCodeHotkey('mod+alt+a');
+const isLinkHotKey = isCodeHotkey('mod+alt+l');
 const isListHotKey = isKeyHotkey('mod+l');
 const isMathHotKey = isKeyHotkey('mod+m');
-const isNumberedListHotKey = isKeyHotkey('mod+opt+1');
-const isQuoteHotKey = isKeyHotkey('mod+q');
+const isNumberedListHotKey = isCodeHotkey('mod+alt+1');
+const isQuoteHotKey = isCodeHotkey('mod+alt+q');
 const isSaveHotKey = isKeyHotkey('mod+s');
-const isSubHotKey = isKeyHotkey('mod+opt+s');
-const isSupHotKey = isKeyHotkey('mod+opt+h');
+const isSubHotKey = isCodeHotkey('mod+alt+s');
+const isSupHotKey = isCodeHotkey('mod+alt+h');
 
 export const classes = new BEMHelper({
   name: 'editor',

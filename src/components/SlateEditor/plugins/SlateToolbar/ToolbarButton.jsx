@@ -36,7 +36,7 @@ import { toolbarClasses } from './SlateToolbar';
 // @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
 // Thus triggering a false positive, that we have to disable.
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const options = { ctrl: toKeyName('ctrl'), alt: toKeyName('alt') };
+const options = { ctrl: toKeyName('mod'), alt: toKeyName('alt') };
 const toolbarIcon = t => ({
   bold: <Bold title={t('editorToolbar.bold', options)} />,
   italic: <Italic title={t('editorToolbar.italic', options)} />,

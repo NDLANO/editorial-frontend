@@ -82,7 +82,7 @@ const Resource = ({
         />
       </div>
       {status?.current && (
-        <Button link css={statusButtonStyle} onClick={() => setShowVersionHistory(true)}>
+        <Button lighter css={statusButtonStyle} onClick={() => setShowVersionHistory(true)}>
           {t(`form.status.${status.current.toLowerCase()}`)}
         </Button>
       )}

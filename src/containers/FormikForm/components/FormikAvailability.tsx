@@ -10,6 +10,7 @@ import React from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps } from 'formik';
+import { AvailabilityType } from '../../../interfaces';
 
 interface Props {
   availability: string;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const FormikAvailability = ({ availability, field, t }: Props & tType) => {
-  const availabilityValues = ['everyone', 'teacher', 'student'];
+  const availabilityValues: AvailabilityType[] = ['everyone', 'teacher', 'student'];
 
   return (
     <RadioButtonGroup

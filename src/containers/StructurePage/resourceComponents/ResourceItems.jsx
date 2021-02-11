@@ -26,7 +26,6 @@ import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
 import { StructureShape, AvailableFiltersShape } from '../../../shapes';
-import formatDate from '../../../util/formatDate';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -160,16 +159,6 @@ class ResourceItems extends React.PureComponent {
     });
   }
 
-  cleanupNotes(notes, users) {
-    return notes.map((note, index) => ({
-      id: index,
-      note: note.note,
-      author: users.find(user => user.app_metadata.ndla_id === note.user)?.name || '',
-      date: formatDate(note.timestamp),
-      status: this.props.t(`form.status.${note.status.current.toLowerCase()}`),
-    }));
-  }
-
   render() {
     const {
       contentType,
@@ -204,7 +193,6 @@ class ResourceItems extends React.PureComponent {
               currentTopic={currentTopic}
               availableFilters={availableFilters}
               activeFilters={activeFilters[resource.id]}
-              toggleVersionHistory={this.toggleVersionHistory}
               {...resource}
               locale={locale}
             />

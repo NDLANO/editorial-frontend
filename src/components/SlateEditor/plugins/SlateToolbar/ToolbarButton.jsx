@@ -25,31 +25,40 @@ import {
   Math,
   Quote,
   Section,
+  Subscript,
+  Superscript,
   Underline,
 } from '@ndla/icons/editor';
 
 import { css } from '@emotion/core';
 import { toolbarClasses } from './SlateToolbar';
+
+// Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
+const IS_MAC =
+  typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
 // @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
 // Thus triggering a false positive, that we have to disable.
 /* eslint-disable jsx-a11y/anchor-is-valid */
+const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
 const toolbarIcon = t => ({
-  bold: <Bold title={t('editorToolbar.bold')} />,
-  italic: <Italic title={t('editorToolbar.italic')} />,
-  underlined: <Underline title={t('editorToolbar.underlined')} />,
-  quote: <Quote title={t('editorToolbar.quote')} />,
-  link: <Link title={t('editorToolbar.link')} />,
-  'numbered-list': <ListNumbered title={t('editorToolbar.numberedList')} />,
-  'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList')} />,
-  'letter-list': <ListAlphabetical title={t('editorToolbar.letterList')} />,
-  'heading-one': <Heading1 title={t('editorToolbar.headingOne')} />,
-  'heading-two': <Heading2 title={t('editorToolbar.headingTwo')} />,
-  'heading-three': <Heading3 title={t('editorToolbar.headingThree')} />,
-  footnote: <Section title={t('editorToolbar.footnote')} />,
-  mathml: <Math title={t('editorToolbar.mathml')} />,
-  concept: <Concept title={t('editorToolbar.concept')} />,
-  code: <Code title={t('editorToolbar.code')} />,
-  'code-block': <Code title={t('editorToolbar.codeblock')} />,
+  bold: <Bold title={t('editorToolbar.bold', options)} />,
+  italic: <Italic title={t('editorToolbar.italic', options)} />,
+  underlined: <Underline title={t('editorToolbar.underlined', options)} />,
+  sub: <Subscript title={t('editorToolbar.sub', options)} />,
+  sup: <Superscript title={t('editorToolbar.sup', options)} />,
+  quote: <Quote title={t('editorToolbar.quote', options)} />,
+  link: <Link title={t('editorToolbar.link', options)} />,
+  'numbered-list': <ListNumbered title={t('editorToolbar.numberedList', options)} />,
+  'bulleted-list': <ListCircle title={t('editorToolbar.bulletedList', options)} />,
+  'letter-list': <ListAlphabetical title={t('editorToolbar.letterList', options)} />,
+  'heading-one': <Heading1 title={t('editorToolbar.headingOne', options)} />,
+  'heading-two': <Heading2 title={t('editorToolbar.headingTwo', options)} />,
+  'heading-three': <Heading3 title={t('editorToolbar.headingThree', options)} />,
+  footnote: <Section title={t('editorToolbar.footnote', options)} />,
+  mathml: <Math title={t('editorToolbar.mathml', options)} />,
+  concept: <Concept title={t('editorToolbar.concept', options)} />,
+  code: <Code title={t('editorToolbar.code', options)} />,
+  'code-block': <Code title={t('editorToolbar.codeblock', options)} />,
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 

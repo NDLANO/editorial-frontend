@@ -8,15 +8,17 @@
 import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
+import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
   handleSubmit: () => void;
+  onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
+const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit, onBlur }) => {
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -32,6 +34,7 @@ const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit }) => {
             {...field}
             placeholder={t('subjectpageForm.description')}
             handleSubmit={handleSubmit}
+            onBlur={onBlur}
           />
         )}
       </FormikField>

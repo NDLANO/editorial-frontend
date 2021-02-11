@@ -8,6 +8,7 @@ import React, { FC, Fragment } from 'react';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FormikErrors } from 'formik';
+import { Editor } from 'slate';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
@@ -20,6 +21,7 @@ interface Props {
   elementId: string;
   errors: FormikErrors<Values>;
   handleSubmit: () => void;
+  onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
 interface ComponentProps {
@@ -33,18 +35,26 @@ const panels = [
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
     errorFields: ['title', 'description', 'visualElement'],
-    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
-      <SubjectpageAbout handleSubmit={handleSubmit} />
-    ),
+    component: ({
+      handleSubmit,
+      onBlur,
+    }: {
+      handleSubmit: () => void;
+      onBlur: (event: Event, editor: Editor, next: Function) => void;
+    }) => <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />,
   },
   {
     id: 'metadata',
     title: 'subjectpageForm.metadata',
     className: 'u-6/6',
     errorFields: ['metaDescription', 'mobileBannerId'],
-    component: ({ handleSubmit }: { handleSubmit: () => void }) => (
-      <SubjectpageMetadata handleSubmit={handleSubmit} />
-    ),
+    component: ({
+      handleSubmit,
+      onBlur,
+    }: {
+      handleSubmit: () => void;
+      onBlur: (event: Event, editor: Editor, next: Function) => void;
+    }) => <SubjectpageMetadata handleSubmit={handleSubmit} onBlur={onBlur} />,
   },
   {
     id: 'articles',
@@ -72,6 +82,7 @@ const SubjectpageAccordionPanels: FC<Props & tType> = ({
   elementId,
   errors,
   handleSubmit,
+  onBlur,
 }) => {
   return (
     <Accordion openIndexes={['about']}>
@@ -99,6 +110,7 @@ const SubjectpageAccordionPanels: FC<Props & tType> = ({
                         editorsChoices,
                         elementId,
                         handleSubmit,
+                        onBlur,
                       })}
                     </div>
                   </AccordionPanel>

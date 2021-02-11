@@ -36,7 +36,7 @@ class MathML extends Component {
     }
     const { node, model, attributes } = this.props;
     return (
-      <span contentEditable={false} {...attributes}>
+      <span data-cy="math" contentEditable={false} {...attributes}>
         {node.nodes.map(text => (
           <span key={text.key} data-key={text.key}>
             <math

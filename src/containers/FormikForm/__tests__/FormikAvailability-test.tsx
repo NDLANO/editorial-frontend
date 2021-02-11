@@ -32,7 +32,7 @@ describe('<FormikAvailability />', () => {
     const inputList = wrapper.find('input[aria-checked]');
     const labels = wrapper.find('label');
 
-    expect(h1Text).toBe('Velg tilgjengelighet:');
+    expect(h1Text).toBe('Hvem er artikkelen ment for:');
     expect(inputList.length).toBe(3);
     expect(labels.length).toBe(3);
     expect(labels.text()).toBe('AlleLærereElever');

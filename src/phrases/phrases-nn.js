@@ -447,7 +447,7 @@ const phrases = {
     link: 'Lenke\n({ctrl}+alt+l)',
     mathml: 'Matte\n({ctrl}+m)',
     numberedList: 'Nummerert liste\n({ctrl}+alt+1)',
-    quote: 'Sitat\n({ctrl}+alt+q)',
+    quote: 'Sitat\n({ctrl}+alt+b)',
     sub: 'Senka\n({ctrl}+alt+s)',
     sup: 'Hevet\n({ctrl}+alt+h)',
     twoColumnList: 'To-kolonners liste',

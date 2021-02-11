@@ -85,11 +85,13 @@ const VersionHistoryLightBox = ({
 
   const fetchHistory = async (id: string) => {
     const versions = await fetchDraftHistory(id);
-    const notes: Note[] = versions[0].notes;
-    const userIds = notes.map(note => note.user).filter(user => user !== 'System');
-    const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-    const users = await fetchAuth0Users(uniqueUserIds);
-    setNotes(cleanupNotes(notes, users));
+    const notes: Note[] = versions?.[0]?.notes;
+    if (notes?.length) {
+      const userIds = notes.map(note => note.user).filter(user => user !== 'System');
+      const uniqueUserIds = Array.from(new Set(userIds)).join(',');
+      const users = await fetchAuth0Users(uniqueUserIds);
+      setNotes(cleanupNotes(notes, users));
+    }
   };
   return (
     <Lightbox onClose={onClose} display={display} width="800px" apparance="modal" severity="info">

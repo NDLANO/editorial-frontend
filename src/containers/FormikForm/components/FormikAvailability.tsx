@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-// @ts-ignore
 import { RadioButtonGroup } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps } from 'formik';
@@ -22,7 +21,7 @@ const FormikAvailability = ({ availability, field, t }: Props & tType) => {
 
   return (
     <RadioButtonGroup
-      label={t('labelChild')}
+      label={t('description')}
       selected={availability}
       uniqeIds
       options={availabilityValues.map(value => ({ title: t(value), value: value }))}

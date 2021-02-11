@@ -594,8 +594,7 @@ const phrases = {
       teacher: 'Teachers',
       student: 'Students',
       label: 'Availability',
-      labelChild: 'Choose availability:',
-      description: 'Articles availability',
+      description: 'Who the article is intended for:',
     },
     markdown: {
       button: 'Click to view markdown',

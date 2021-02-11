@@ -615,8 +615,7 @@ const phrases = {
       teacher: 'Lærere',
       student: 'Elever',
       label: 'Tilgjengelighet',
-      labelChild: 'Velg tilgjengelighet:',
-      description: 'Tilgjengelighet for artikkelen',
+      description: 'Hvem er artikkelen ment for:',
     },
     markdown: {
       button: 'Klikk for å se markdown',

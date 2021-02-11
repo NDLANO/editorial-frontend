@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { VersionHistory } from '@ndla/editor';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
 import {
@@ -20,13 +19,10 @@ import {
   deleteResourceFilter,
   updateTopicResource,
 } from '../../../modules/taxonomy';
-import { fetchDraftHistory } from '../../../modules/draft/draftApi';
-import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
-import Lightbox from '../../../components/Lightbox';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
 import { StructureShape, AvailableFiltersShape } from '../../../shapes';
@@ -38,14 +34,12 @@ class ResourceItems extends React.PureComponent {
     this.state = {
       activeFilters: {},
       filterPickerId: '',
-      notes: [],
     };
     this.onDelete = this.onDelete.bind(this);
     this.onFilterSubmit = this.onFilterSubmit.bind(this);
     this.updateFilter = this.updateFilter.bind(this);
     this.toggleFilterPicker = this.toggleFilterPicker.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
-    this.toggleVersionHistory = this.toggleVersionHistory.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
@@ -173,20 +167,7 @@ class ResourceItems extends React.PureComponent {
       author: users.find(user => user.app_metadata.ndla_id === note.user)?.name || '',
       date: formatDate(note.timestamp),
       status: this.props.t(`form.status.${note.status.current.toLowerCase()}`),
-    }))
-  }
-
-  async toggleVersionHistory(id) {
-    this.setState({ showVersionHistory: !!id })
-    if (id) {
-      const versions = await fetchDraftHistory(id);
-      const notes = versions[0].notes;
-      const userIds = notes.map(note => note.user).filter(user => user !== 'System');
-      const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-      const users = await fetchAuth0Users(uniqueUserIds);
-      this.setState( { title: versions[0].title.title })
-      this.setState({ notes: this.cleanupNotes(notes, users) })
-    }
+    }));
   }
 
   render() {
@@ -201,7 +182,7 @@ class ResourceItems extends React.PureComponent {
       locale,
     } = this.props;
 
-    const { deleteId, resourceId, error, filterPickerId, activeFilters, loading, showVersionHistory, notes, title } = this.state;
+    const { deleteId, resourceId, error, filterPickerId, activeFilters, loading } = this.state;
 
     if (loading) {
       return <Spinner />;
@@ -249,15 +230,6 @@ class ResourceItems extends React.PureComponent {
           ]}
           onCancel={() => this.toggleDelete('')}
         />
-        <Lightbox
-          onClose={() => this.toggleVersionHistory()}
-          display={showVersionHistory}
-          width="800px"
-          apparance="modal"
-          severity="info">
-            <h3>{title}</h3>
-            <VersionHistory notes={notes}/>
-        </Lightbox>
       </ul>
     );
   }

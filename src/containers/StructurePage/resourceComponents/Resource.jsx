@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -21,6 +21,7 @@ import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
@@ -46,7 +47,6 @@ const Resource = ({
   name,
   showFilterPicker,
   toggleFilterPicker,
-  toggleVersionHistory,
   onFilterChange,
   availableFilters,
   activeFilters,
@@ -63,6 +63,7 @@ const Resource = ({
   locale,
   t,
 }) => {
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
   return (
     <div data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
@@ -81,10 +82,7 @@ const Resource = ({
         />
       </div>
       {status?.current && (
-        <Button 
-          link 
-          css={statusButtonStyle}
-          onClick={() => toggleVersionHistory(contentUri.split(':').pop())}>
+        <Button link css={statusButtonStyle} onClick={() => setShowVersionHistory(true)}>
           {t(`form.status.${status.current.toLowerCase()}`)}
         </Button>
       )}
@@ -124,6 +122,15 @@ const Resource = ({
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
       )}
+      <VersionHistoryLightbox
+        display={showVersionHistory}
+        onClose={() => setShowVersionHistory(false)}
+        contentUri={contentUri}
+        contentType={contentType}
+        name={name}
+        isVisible={metadata?.visible}
+        locale={locale}
+      />
     </div>
   );
 };

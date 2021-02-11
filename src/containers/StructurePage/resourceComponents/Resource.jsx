@@ -122,15 +122,16 @@ const Resource = ({
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
       )}
-      <VersionHistoryLightbox
-        display={showVersionHistory}
-        onClose={() => setShowVersionHistory(false)}
-        contentUri={contentUri}
-        contentType={contentType}
-        name={name}
-        isVisible={metadata?.visible}
-        locale={locale}
-      />
+      {showVersionHistory && (
+        <VersionHistoryLightbox
+          onClose={() => setShowVersionHistory(false)}
+          contentUri={contentUri}
+          contentType={contentType}
+          name={name}
+          isVisible={metadata?.visible}
+          locale={locale}
+        />
+      )}
     </div>
   );
 };

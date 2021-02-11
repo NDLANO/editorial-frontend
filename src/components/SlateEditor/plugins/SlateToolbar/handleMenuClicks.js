@@ -6,12 +6,12 @@
  *
  */
 
-import { hasNodeOfType } from '.';
-import { listTypes } from '../plugins/externalPlugins';
+import { hasNodeOfType } from '../../utils';
+import { listTypes } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
 
-function handleClickBlock(event, editor, type) {
+export function handleClickBlock(event, editor, type) {
   event.preventDefault();
   const { document, blocks } = editor.value;
   const isActive = hasNodeOfType(editor, type);
@@ -41,12 +41,12 @@ function handleClickBlock(event, editor, type) {
   }
 }
 
-function handleClickMark(event, editor, type) {
+export function handleClickMark(event, editor, type) {
   event.preventDefault();
   editor.toggleMark(type);
 }
 
-function handleClickInline(event, editor, type) {
+export function handleClickInline(event, editor, type) {
   event.preventDefault();
 
   if (type === 'footnote') {
@@ -72,5 +72,3 @@ function addTextAndWrapIntype(editor, text, type) {
     .moveFocusForward(-text.length)
     .wrapInline(type);
 }
-
-export { handleClickBlock, handleClickMark, handleClickInline };

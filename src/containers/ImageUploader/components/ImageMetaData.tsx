@@ -7,6 +7,7 @@
  */
 
 import React, { FC, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
@@ -49,5 +50,16 @@ const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguag
     <FormikContributors contributorTypes={contributorTypes} />
   </Fragment>
 );
+
+ImageMetaData.propTypes = {
+  imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string.isRequired,
+      license: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  imageLanguage: PropTypes.string,
+};
 
 export default injectT(ImageMetaData);

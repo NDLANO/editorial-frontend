@@ -16,6 +16,7 @@ import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/for
 import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
+import { ImageShape } from '../../../shapes';
 import {
   FormikActionButton,
   FormikAbortButton,
@@ -333,6 +334,21 @@ class ImageForm extends Component<Props & tType, State> {
       </Formik>
     );
   }
+
+  static propTypes = {
+    image: ImageShape,
+    licenses: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.string.isRequired,
+        license: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    showSaved: PropTypes.bool.isRequired,
+    inModal: PropTypes.bool,
+    closeModal: PropTypes.func,
+    isNewlyCreated: PropTypes.bool,
+  };
 }
 
 export default injectT(ImageForm);

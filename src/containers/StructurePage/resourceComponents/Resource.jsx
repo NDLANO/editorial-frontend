@@ -82,7 +82,11 @@ const Resource = ({
         />
       </div>
       {status?.current && (
-        <Button lighter css={statusButtonStyle} onClick={() => setShowVersionHistory(true)}>
+        <Button
+          lighter
+          css={statusButtonStyle}
+          onClick={() => setShowVersionHistory(true)}
+          disabled={contentType === 'learning-path'}>
           {t(`form.status.${status.current.toLowerCase()}`)}
         </Button>
       )}

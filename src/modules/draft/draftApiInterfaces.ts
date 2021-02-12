@@ -6,12 +6,7 @@
  *
  */
 
-import { Author } from '../../interfaces';
-
-interface Status {
-  status: string;
-  other: string[];
-}
+import { Author, Status } from '../../interfaces';
 
 export interface DraftApiLicense {
   license: string;

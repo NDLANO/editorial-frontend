@@ -75,7 +75,7 @@ export const cloneDraft = async (
   return fetchAuthorized(url, { method: 'POST' }).then(resolveJsonOrRejectWithError);
 };
 
-export const fetchDraftHistory = async (id: number, language: string): Promise<DraftApiType[]> => {
+export const fetchDraftHistory = async (id: number, language?: string): Promise<DraftApiType[]> => {
   const query = queryString.stringify({ language });
   const url = language
     ? `${baseUrl}/${id}/history?${query}&fallback=true`

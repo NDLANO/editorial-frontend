@@ -36,6 +36,13 @@ export interface Status {
   other: string[];
 }
 
+export interface Note {
+  note: string;
+  user: string;
+  status: Status;
+  timestamp: string;
+}
+
 export interface Copyright {
   license?: License;
   origin?: string;
@@ -120,14 +127,7 @@ export interface ArticleType {
       name: string;
     },
   ];
-  notes: [
-    {
-      note: string;
-      user: string;
-      status: Status;
-      timestamp: string;
-    },
-  ];
+  notes: Note[];
   taxonomy: {
     topics: [
       {

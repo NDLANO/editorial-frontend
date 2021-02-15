@@ -72,13 +72,6 @@ jobs:
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
       - name: "Login to dockerhub"
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-      - uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-            .eslintcache
-            ~/.npm
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: "Install"
         run: yarn install --frozen-lockfile
       - name: "Start"

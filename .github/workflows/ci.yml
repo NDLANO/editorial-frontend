@@ -58,6 +58,7 @@ jobs:
       CYPRESS_NDLA_END_TO_END_TESTING_CLIENT_SECRET: ${{ secrets.OPEN_PUBLIC_TEST_CLIENT_SECRET }}
       CYPRESS_NDLA_END_TO_END_TESTING_AUDIENCE: "ndla_system"
       CYPRESS_NDLA_END_TO_END_TESTING_GRANT_TYPE: "client_credentials"
+      TERM: "xterm-256color"
       CYPRESS_RECORD_KEY: ${{ secrets.EDITORIAL_FRONTEND_CYPRESS_RECORD_KEY }}
     steps:
       - uses: actions/checkout@v2

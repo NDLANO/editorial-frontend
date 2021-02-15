@@ -50,6 +50,15 @@ jobs:
   integration_tests:
     name: "Integration tests"
     runs-on: ubuntu-latest
+    env:
+      DEFAULT_TIMEOUT: 15000
+      JEST_TIMEOUT: 30000
+      NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
+      CYPRESS_NDLA_END_TO_END_TESTING_CLIENT_ID: ${{ secrets.OPEN_PUBLIC_TEST_CLIENT_ID }}
+      CYPRESS_NDLA_END_TO_END_TESTING_CLIENT_SECRET: ${{ secrets.OPEN_PUBLIC_TEST_CLIENT_SECRET }}
+      CYPRESS_NDLA_END_TO_END_TESTING_AUDIENCE: "ndla_system"
+      CYPRESS_NDLA_END_TO_END_TESTING_GRANT_TYPE: "client_credentials"
+      CYPRESS_RECORD_KEY: ${{ secrets.EDITORIAL_FRONTEND_CYPRESS_RECORD_KEY }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2

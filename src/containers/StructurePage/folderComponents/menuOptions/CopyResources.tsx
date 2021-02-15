@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Copy } from '@ndla/icons/action';
 
 import {
@@ -33,18 +33,17 @@ import {
   ResourceType,
   TaxonomyElement,
   Topic,
-  TranslateType,
 } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
+import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
 
 type PathArray = Array<TaxonomyElement>;
 
 interface Props {
-  t: TranslateType;
   locale: string;
   id: string;
   subjectId: string;
@@ -68,7 +67,7 @@ const CopyResources = ({
   onClose,
   setResourcesUpdated,
   setShowAlertModal,
-}: Props) => {
+}: Props & tType) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
@@ -164,7 +163,7 @@ const CopyResources = ({
 
   const cloneResource = async (resource: Resource) => {
     const resourceType = resource.contentUri?.split(':')[1];
-    const resourceId = parseInt(resource.contentUri?.split(':')[2] || '');
+    const resourceId = getIdFromUrn(resource.contentUri);
 
     if (resourceType === 'article') {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);

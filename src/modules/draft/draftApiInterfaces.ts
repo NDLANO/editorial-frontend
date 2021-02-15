@@ -6,7 +6,7 @@
  *
  */
 
-import { Author, Status } from '../../interfaces';
+import { Author, AvailabilityType, Status } from '../../interfaces';
 
 export interface DraftApiLicense {
   license: string;
@@ -229,7 +229,7 @@ export interface DraftApiType {
   editorLabels: string[];
   grepCodes: string[];
   conceptIds: number[];
-  availability: string;
+  availability: AvailabilityType;
 }
 
 export interface UpdatedDraftApiType {
@@ -262,7 +262,7 @@ export interface UpdatedDraftApiType {
   grepCodes?: string[];
   conceptIds?: number[];
   createNewVersion?: boolean;
-  availability?: string;
+  availability?: AvailabilityType;
 }
 
 export interface NewDraftApiType {
@@ -289,7 +289,7 @@ export interface NewDraftApiType {
   editorLabels: string[];
   grepCodes: string[];
   conceptIds: number[];
-  availability?: string;
+  availability?: AvailabilityType;
 }
 
 interface Copyright {

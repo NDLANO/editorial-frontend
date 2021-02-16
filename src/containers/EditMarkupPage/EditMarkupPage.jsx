@@ -134,12 +134,13 @@ export class EditMarkupPage extends Component {
       const { draftId, language } = this.props.match.params;
       this.setState({ status: 'saving' });
       const content = standardizeContent(this.state.draft.content.content);
-      await updateDraft({
+      const draft = await updateDraft({
         id: parseInt(draftId, 10),
         content,
         revision: this.state.draft.revision,
         language,
       });
+      this.setState({ status: 'initial', draft });
     } catch (e) {
       handleError(e);
       this.setState({ status: 'save-error' });

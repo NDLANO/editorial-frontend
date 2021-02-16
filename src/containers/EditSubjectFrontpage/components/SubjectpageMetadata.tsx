@@ -8,6 +8,7 @@
 import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
+import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { FormikProperties, VisualElement } from '../../../interfaces';
@@ -20,9 +21,10 @@ interface FormikProps {
 
 interface Props {
   handleSubmit: () => void;
+  onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, t }) => {
+const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => {
   return (
     <>
       <FormikField
@@ -37,6 +39,7 @@ const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, t }) => {
             placeholder={t('form.metaDescription.label')}
             handleSubmit={handleSubmit}
             {...field}
+            onBlur={onBlur}
           />
         )}
       </FormikField>

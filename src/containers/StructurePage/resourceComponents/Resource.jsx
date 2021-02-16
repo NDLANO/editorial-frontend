@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -15,12 +15,13 @@ import { Filter } from '@ndla/icons/editor';
 import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
@@ -35,6 +36,10 @@ const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};
+`;
+
+const statusButtonStyle = css`
+  margin-right: ${spacing.xsmall};
 `;
 
 const Resource = ({
@@ -58,6 +63,7 @@ const Resource = ({
   locale,
   t,
 }) => {
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
   return (
     <div data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
@@ -75,6 +81,15 @@ const Resource = ({
           isVisible={metadata?.visible}
         />
       </div>
+      {status?.current && (
+        <Button
+          lighter
+          css={statusButtonStyle}
+          onClick={() => setShowVersionHistory(true)}
+          disabled={contentType === 'learning-path'}>
+          {t(`form.status.${status.current.toLowerCase()}`)}
+        </Button>
+      )}
       {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />
@@ -110,6 +125,16 @@ const Resource = ({
         <Button onClick={() => onDelete(connectionId, id)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
+      )}
+      {showVersionHistory && (
+        <VersionHistoryLightbox
+          onClose={() => setShowVersionHistory(false)}
+          contentUri={contentUri}
+          contentType={contentType}
+          name={name}
+          isVisible={metadata?.visible}
+          locale={locale}
+        />
       )}
     </div>
   );

@@ -189,8 +189,9 @@ const TopicArticleForm = props => {
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            handleSubmit={() => handleSubmit(formik)}
+            {...formikProps}
             {...rest}
+            handleSubmit={() => handleSubmit(formik)}
           />
         )}
         <EditorFooter

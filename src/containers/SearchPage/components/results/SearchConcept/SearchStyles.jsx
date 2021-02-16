@@ -98,7 +98,6 @@ export const Crumb = styled.p`
 
 export const StyledBreadcrumbs = styled.div`
   display: flex;
-  margin-top: -20px;
 `;
 
 export const InputField = styled.div`

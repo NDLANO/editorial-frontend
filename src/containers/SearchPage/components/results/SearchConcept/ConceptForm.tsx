@@ -146,6 +146,7 @@ const ConceptForm = ({
         <MultiSelectDropdown
           id="subjects"
           name="subjects"
+          labelField="name"
           value={values.subjects}
           onChange={handleChange}
           minSearchLength={1}

@@ -162,6 +162,7 @@ class ConceptForm extends Component {
       created: this.getCreatedDate(values),
       articleIds: values.articles.map(a => a.id),
       articles: values.articles,
+      parsedVisualElement: values.visualElement,
       visualElement: createEmbedTag(values.visualElement),
     };
   };

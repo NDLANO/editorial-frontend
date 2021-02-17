@@ -43,6 +43,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur 
           id={field.name}
           placeholder={t('form.metaDescription.label')}
           handleSubmit={handleSubmit}
+          {...field}
           onBlur={(event, editor, next) => {
             next();
             // this is a hack since formik onBlur-handler interferes with slates
@@ -50,7 +51,6 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur 
             // formik handleBlur needs to be called for validation to work (and touched to be set)
             setTimeout(() => handleBlur({ target: { name: 'metaDescription' } }), 0);
           }}
-          {...field}
         />
       )}
     </FormikField>

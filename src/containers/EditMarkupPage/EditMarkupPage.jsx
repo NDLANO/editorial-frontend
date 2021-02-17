@@ -9,7 +9,6 @@
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@ndla/i18n';
-import Button from '@ndla/button';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -27,7 +26,8 @@ import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
-import { FormikAlertModalWrapper } from '../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../FormikForm';
+import SaveButton from '../../components/SaveButton';
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -86,7 +86,7 @@ ErrorMessage.propTypes = {
 
 export class EditMarkupPage extends Component {
   state = {
-    // initial | edit | fetch-error | save-error | access-error | saving
+    // initial | edit | fetch-error | save-error | access-error | saving | saved
     status: 'initial',
     draft: undefined,
   };
@@ -134,12 +134,13 @@ export class EditMarkupPage extends Component {
       const { draftId, language } = this.props.match.params;
       this.setState({ status: 'saving' });
       const content = standardizeContent(this.state.draft.content.content);
-      await updateDraft({
+      const draft = await updateDraft({
         id: parseInt(draftId, 10),
         content,
         revision: this.state.draft.revision,
         language,
       });
+      this.setState({ status: 'saved', draft });
     } catch (e) {
       handleError(e);
       this.setState({ status: 'save-error' });
@@ -230,11 +231,13 @@ export class EditMarkupPage extends Component {
                     }>
                     {t('editMarkup.back')}
                   </Link>
-                  <Button
-                    disabled={status === 'initial' || status === 'saving'}
-                    onClick={this.saveChanges}>
-                    {t('form.save')}
-                  </Button>
+                  <SaveButton
+                    {...formClasses}
+                    isSaving={status === 'saving'}
+                    formIsDirty={status === 'edit'}
+                    showSaved={status === 'saved'}
+                    onClick={this.saveChanges}
+                  />
                 </Row>
               </Row>
             </Suspense>

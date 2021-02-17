@@ -50,8 +50,6 @@ export const MARK_TAGS = {
   code: 'code',
 };
 
-const ListText = ({ children }) => children;
-
 const emptyNodes = [
   {
     object: 'text',
@@ -196,12 +194,11 @@ export const paragraphRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'p') return;
-    const parent = el.parentElement ? el.parentElement.tagName.toLowerCase() : '';
-    const type = parent === 'li' ? 'list-text' : 'paragraph';
+
     return {
       object: 'block',
       data: reduceElementDataAttributes(el, ['align', 'data-align']),
-      type,
+      type: 'paragraph',
       nodes: next(el.childNodes),
     };
   },
@@ -213,9 +210,6 @@ export const paragraphRule = {
       slateObject.type !== 'line'
     )
       return;
-    if (slateObject.type === 'list-text') {
-      return <ListText>{children}</ListText>;
-    }
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
 import ResourceGroup from './ResourceGroup';
+import AllResourcesGroup from './AllResourcesGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
 import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
@@ -111,7 +112,6 @@ export class StructureResources extends React.PureComponent {
       activeFilters,
       currentTopic,
     } = this.props;
-    const { resourceTypes } = this.state;
     if (topicId) {
       try {
         this.setState({ loading: true });
@@ -141,11 +141,7 @@ export class StructureResources extends React.PureComponent {
         }
         await this.getResourceStatuses(allTopicResources);
 
-        const topicResources = groupSortResourceTypesFromTopicResources(
-          resourceTypes,
-          allTopicResources,
-        );
-        this.setState({ topicResources, loading: false });
+        this.setState({ topicResources: allTopicResources, loading: false });
       } catch (error) {
         handleError(error);
         this.setState({ loading: false });
@@ -220,6 +216,12 @@ export class StructureResources extends React.PureComponent {
     if (loading) {
       return <Spinner />;
     }
+
+    const groupedTopicResources = groupSortResourceTypesFromTopicResources(
+      resourceTypes,
+      topicResources,
+    );
+
     return (
       <Fragment>
         <TopicDescription
@@ -230,13 +232,28 @@ export class StructureResources extends React.PureComponent {
           currentTopic={currentTopic}
           status={topicStatus}
         />
+        {topicResources.length > 0 && (
+          <AllResourcesGroup
+            key="ungrouped"
+            params={this.props.params}
+            topicResources={topicResources}
+            refreshResources={this.getTopicResources}
+            availableFilters={availableFilters}
+            activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
+            locale={locale}
+            currentTopic={currentTopic}
+            currentSubject={currentSubject}
+            structure={structure}
+            resourceTypes={resourceTypes}
+          />
+        )}
         {resourceTypes.map(resourceType => {
           const topicResource =
-            topicResources.find(resource => resource.id === resourceType.id) || {};
+            groupedTopicResources.find(resource => resource.id === resourceType.id) || {};
           return (
             <ResourceGroup
               key={resourceType.id}
-              resource={resourceType}
+              resourceType={resourceType}
               topicResource={topicResource}
               params={this.props.params}
               refreshResources={this.getTopicResources}

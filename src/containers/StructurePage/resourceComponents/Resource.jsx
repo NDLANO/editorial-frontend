@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -20,12 +20,14 @@ import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
+import { fetchResourceFilter } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { StructureShape, AvailableFiltersShape, TopicShape, MetadataShape } from '../../../shapes';
+import handleError from '../../../util/handleError';
+import { StructureShape, AvailableFiltersShape, ResourceShape } from '../../../shapes';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -43,28 +45,39 @@ const statusButtonStyle = css`
 `;
 
 const Resource = ({
+  resource,
   contentType,
-  name,
-  showFilterPicker,
-  toggleFilterPicker,
-  onFilterChange,
   availableFilters,
-  activeFilters,
-  breadCrumbs,
   structure,
   onFilterSubmit,
   onDelete,
-  id,
-  connectionId,
   dragHandleProps,
-  contentUri,
-  status,
-  metadata,
   locale,
   t,
 }) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [showFilterPicker, setShowFilterPicker] = useState(false);
+  const [activeFilters, setActiveFilters] = useState([]);
+  useEffect(() => {
+    if (contentType !== 'topic-article') {
+      fetchResourceFilter(resource.id, locale)
+        .then(filters => setActiveFilters(filters))
+        .catch(e => handleError(e));
+    }
+  }, []);
+
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
+
+  const onFilterChange = (resourceId, filterToUpdate, relevanceId, remove) => {
+    setActiveFilters(currentFilters => {
+      const newFilters = currentFilters.filter(filter => filter.id !== filterToUpdate.id);
+      if (!remove) {
+        newFilters.push({ ...filterToUpdate, relevanceId });
+      }
+      return newFilters;
+    });
+  };
+
   return (
     <div data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
       {contentType && (
@@ -75,22 +88,22 @@ const Resource = ({
       <div key="body" {...classes('body o-flag__body')}>
         <ResourceItemLink
           contentType={contentType}
-          contentUri={contentUri}
+          contentUri={resource.contentUri}
           locale={locale}
-          name={name}
-          isVisible={metadata?.visible}
+          name={resource.name}
+          isVisible={resource.metadata?.visible}
         />
       </div>
-      {status?.current && (
+      {resource.status?.current && (
         <Button
           lighter
           css={statusButtonStyle}
           onClick={() => setShowVersionHistory(true)}
           disabled={contentType === 'learning-path'}>
-          {t(`form.status.${status.current.toLowerCase()}`)}
+          {t(`form.status.${resource.status.current.toLowerCase()}`)}
         </Button>
       )}
-      {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
+      {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />
         </Tooltip>
@@ -98,8 +111,8 @@ const Resource = ({
       {contentType !== 'topic-article' && (
         <Button
           stripped
-          onClick={() => toggleFilterPicker(id)}
-          data-testid={`openFilterPicker-${id}`}
+          onClick={() => setShowFilterPicker(true)}
+          data-testid={`openFilterPicker-${resource.id}`}
           css={filterButtonStyle}>
           <Filter {...classes('filterIcon')} />
         </Button>
@@ -109,30 +122,32 @@ const Resource = ({
           display
           big
           title={t('taxonomy.resource.chooseFilter')}
-          onClose={() => toggleFilterPicker(id)}>
+          onClose={() => setShowFilterPicker(false)}>
           <FilterConnections
-            breadCrumbs={breadCrumbs}
+            breadCrumbs={resource.breadCrumbs}
             activeFilters={activeFilters}
-            resourceId={id}
+            resourceId={resource.id}
             structure={structure}
             availableFilters={availableFilters}
             updateFilter={onFilterChange}
           />
-          <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
+          <Button onClick={() => onFilterSubmit(resource.id, activeFilters)}>
+            {t('form.save')}
+          </Button>
         </TaxonomyLightbox>
       )}
       {onDelete && (
-        <Button onClick={() => onDelete(connectionId, id)} stripped>
+        <Button onClick={() => onDelete(resource.connectionId, resource.id)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
       )}
       {showVersionHistory && (
         <VersionHistoryLightbox
           onClose={() => setShowVersionHistory(false)}
-          contentUri={contentUri}
+          contentUri={resource.contentUri}
           contentType={contentType}
-          name={name}
-          isVisible={metadata?.visible}
+          name={resource.name}
+          isVisible={resource.metadata?.visible}
           locale={locale}
         />
       )}
@@ -146,14 +161,10 @@ Resource.defaultProps = {
 };
 
 Resource.propTypes = {
+  resource: ResourceShape.isRequired,
   contentType: PropTypes.string.isRequired,
-  name: PropTypes.string,
   onDelete: PropTypes.func,
-  showFilterPicker: PropTypes.bool,
-  toggleFilterPicker: PropTypes.func,
-  onFilterChange: PropTypes.func,
   availableFilters: AvailableFiltersShape,
-  activeFilters: PropTypes.arrayOf(PropTypes.object),
   currentTopic: PropTypes.shape({
     filters: PropTypes.array,
   }),
@@ -163,18 +174,9 @@ Resource.propTypes = {
   }),
   structure: PropTypes.arrayOf(StructureShape),
   onFilterSubmit: PropTypes.func,
-  id: PropTypes.string,
-  connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
-  contentUri: PropTypes.string,
-  status: PropTypes.shape({
-    current: PropTypes.string,
-    other: PropTypes.arrayOf(PropTypes.string),
-  }),
-  metadata: MetadataShape,
   locale: PropTypes.string.isRequired,
-  breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
 };
 
 export default injectT(Resource);

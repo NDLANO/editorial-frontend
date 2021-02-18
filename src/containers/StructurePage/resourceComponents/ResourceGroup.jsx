@@ -45,7 +45,7 @@ class ResourceGroup extends PureComponent {
 
   render() {
     const {
-      resource,
+      resourceType,
       topicResource,
       t,
       params,
@@ -58,6 +58,7 @@ class ResourceGroup extends PureComponent {
       structure,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
+
     return (
       <React.Fragment>
         <Accordion
@@ -65,14 +66,14 @@ class ResourceGroup extends PureComponent {
             <AddTopicResourceButton
               stripped
               onClick={this.toggleAddModal}
-              disabled={resource.disabled}>
+              disabled={resourceType.disabled}>
               <Plus />
               {t('taxonomy.addResource')}
             </AddTopicResourceButton>
           }
           handleToggle={this.handleToggle}
           appearance="resourceGroup"
-          header={resource.name}
+          header={resourceType.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
           {topicResource.resources && (
             <ResourceItems
@@ -91,8 +92,8 @@ class ResourceGroup extends PureComponent {
         {this.state.showAddModal && (
           <AddResourceModal
             topicFilters={currentTopic.filters}
-            type={resource.id}
-            allowPaste={resource.id !== RESOURCE_TYPE_LEARNING_PATH}
+            type={resourceType.id}
+            allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
             topicId={topicId}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
@@ -108,7 +109,7 @@ ResourceGroup.propTypes = {
     resources: PropTypes.array,
     contentType: PropTypes.string,
   }),
-  resource: PropTypes.shape({
+  resourceType: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     disabled: PropTypes.bool,

@@ -259,6 +259,7 @@ const phrases = {
     saveError: 'En feil oppsto ved lagring av endringer.',
     back: 'Tilbake',
     helpMessage: {
+      tooltip: 'Om HTML-editoren',
       paragraph1:
         'Det er mulig å formatere HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
       paragraph2:

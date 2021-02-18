@@ -25,6 +25,7 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
+import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import handleError from '../../../util/handleError';
 import { StructureShape, AvailableFiltersShape, ResourceShape } from '../../../shapes';
@@ -46,7 +47,6 @@ const statusButtonStyle = css`
 
 const Resource = ({
   resource,
-  contentType,
   availableFilters,
   structure,
   onFilterSubmit,
@@ -58,6 +58,11 @@ const Resource = ({
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showFilterPicker, setShowFilterPicker] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
+
+  const contentType = resource.resourceTypes
+    ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
+    : 'topic-article';
+
   useEffect(() => {
     if (contentType !== 'topic-article') {
       fetchResourceFilter(resource.id, locale)

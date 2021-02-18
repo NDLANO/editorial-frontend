@@ -68,7 +68,7 @@ const ResourceGroup = ({
   const [displayResource, setDisplayResource] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
-  const handleToggle = () => {
+  const toggleDisplayResource = () => {
     setDisplayResource(prev => !prev);
   };
 
@@ -77,7 +77,6 @@ const ResourceGroup = ({
   };
 
   const topicId = params.subtopics?.split('/')?.pop() || params.topic;
-  console.log('resources', topicResources, currentTopic);
 
   return (
     <React.Fragment>
@@ -88,13 +87,12 @@ const ResourceGroup = ({
             {t('taxonomy.addResource')}
           </AddTopicResourceButton>
         }
-        handleToggle={handleToggle}
+        handleToggle={toggleDisplayResource}
         appearance="resourceGroup"
         header="Resurser"
         hidden={!displayResource}>
         <ResourceItems
           resources={topicResources}
-          contentType="all"
           refreshResources={refreshResources}
           availableFilters={availableFilters}
           activeFilter={activeFilter}

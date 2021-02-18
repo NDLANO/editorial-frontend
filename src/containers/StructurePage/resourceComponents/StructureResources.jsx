@@ -221,6 +221,7 @@ export class StructureResources extends React.PureComponent {
       resourceTypes,
       topicResources,
     );
+    console.log(groupedTopicResources);
 
     return (
       <Fragment>

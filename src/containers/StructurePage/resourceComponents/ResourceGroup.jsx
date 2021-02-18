@@ -78,7 +78,6 @@ class ResourceGroup extends PureComponent {
           {topicResource.resources && (
             <ResourceItems
               resources={topicResource.resources}
-              contentType={topicResource.contentType}
               refreshResources={refreshResources}
               availableFilters={availableFilters}
               activeFilter={activeFilter}

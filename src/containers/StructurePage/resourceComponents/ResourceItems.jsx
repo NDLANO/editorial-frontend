@@ -30,9 +30,7 @@ import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 class ResourceItems extends React.PureComponent {
   constructor() {
     super();
-    this.state = {
-      filterPickerId: '',
-    };
+    this.state = {};
     this.onDelete = this.onDelete.bind(this);
     this.onFilterSubmit = this.onFilterSubmit.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
@@ -108,7 +106,6 @@ class ResourceItems extends React.PureComponent {
     } catch (e) {
       this.setState({
         error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
-        filterPickerId: '',
       });
       handleError(e);
     }
@@ -120,7 +117,6 @@ class ResourceItems extends React.PureComponent {
 
   render() {
     const {
-      contentType,
       resources,
       t,
       availableFilters,
@@ -130,20 +126,19 @@ class ResourceItems extends React.PureComponent {
       locale,
     } = this.props;
 
-    const { deleteId, resourceId, error, filterPickerId, loading } = this.state;
+    const { deleteId, resourceId, error, loading } = this.state;
 
     if (loading) {
       return <Spinner />;
     }
     return (
       <ul {...classes('list')}>
-        <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!!filterPickerId} dragHandle>
+        <MakeDndList onDragEnd={this.onDragEnd} dragHandle>
           {resources.map(resource => (
             <Resource
               resource={resource}
               key={resource.id}
               id={resource.id}
-              contentType={contentType}
               currentSubject={currentSubject}
               structure={structure}
               onFilterSubmit={this.onFilterSubmit}

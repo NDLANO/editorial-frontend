@@ -7,10 +7,19 @@
  */
 
 import React from 'react';
+import { css } from '@emotion/core';
+import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
+import Tooltip from '@ndla/tooltip';
 import { Trans } from '@ndla/i18n';
 import { HelpIcon } from './HowTo';
+
+const iconCSS = css`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+  padding: 0;
+`;
 
 export const HelpMessage = ({ children }) => (
   <Trans>
@@ -18,7 +27,9 @@ export const HelpMessage = ({ children }) => (
       <Modal
         activateButton={
           <Button stripped tabIndex={-1}>
-            <HelpIcon />
+            <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>
+              <HelpIcon css={iconCSS} />
+            </Tooltip>
           </Button>
         }>
         {onClose => (

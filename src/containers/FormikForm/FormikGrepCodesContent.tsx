@@ -54,8 +54,8 @@ const FormikGrepCodesContent = ({ t, articleGrepCodes = [], field, form }: Props
   const searchForGrepCodes = async (inp: string) => {
     if (inp) {
       const result = await fetchGrepCodes(inp);
-      result.results = await convertGrepCodesToObject(result.results);
-      return result;
+      const convertedGrepCodes = await convertGrepCodesToObject(result.results);
+      return { ...result, results: convertedGrepCodes };
     } else return [];
   };
 

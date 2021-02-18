@@ -260,6 +260,7 @@ const phrases = {
     saveError: 'Ein feil oppsto ved lagring av endringar.',
     back: 'Tilbake',
     helpMessage: {
+      tooltip: 'Om HTML-editoren',
       paragraph1:
         'Det er mogeleg å formatere  HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
       paragraph2:
@@ -610,6 +611,13 @@ const phrases = {
       change: 'Bytt metabilde',
       add: 'Velg metabilde',
       remove: 'Fjern metabilde',
+    },
+    availability: {
+      everyone: 'Alle',
+      teacher: 'Lærarar',
+      student: 'Elevar',
+      label: 'Tilgjengelighet',
+      description: 'Kven er artikkelen meint for:',
     },
     markdown: {
       button: 'Klikk for å se markdown',

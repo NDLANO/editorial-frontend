@@ -58,7 +58,7 @@ export const learningpathSearch = (query: SearchBody): Promise<LearningPathSearc
     body: JSON.stringify(query),
   }).then(resolveJsonOrRejectWithError);
 
-export const learningpathCopy = (id: string, query: CopyLearningPathBody): Promise<Learningpath> =>
+export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),

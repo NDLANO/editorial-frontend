@@ -65,6 +65,7 @@ export const getInitialValues = (article = {}) => {
     updated: article.updated,
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
+    availability: article.availability || 'everyone',
   };
 };
 
@@ -116,6 +117,7 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
     title: values.title,
     grepCodes: values.grepCodes,
     conceptIds: values.conceptIds,
+    availability: values.availability,
   };
 
   return article;

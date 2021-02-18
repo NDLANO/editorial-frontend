@@ -611,6 +611,13 @@ const phrases = {
       add: 'Velg metabilde',
       remove: 'Fjern metabilde',
     },
+    availability: {
+      everyone: 'Alle',
+      teacher: 'Lærarar',
+      student: 'Elevar',
+      label: 'Tilgjengelighet',
+      description: 'Kven er artikkelen meint for:',
+    },
     markdown: {
       button: 'Klikk for å se markdown',
       helpLabel: 'Kva er markdown?',

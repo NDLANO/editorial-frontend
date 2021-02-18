@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-// @ts-ignore
 import { RadioButtonGroup } from '@ndla/ui';
 import { tType } from '@ndla/i18n';
 import { Spinner } from '@ndla/editor';

@@ -135,6 +135,7 @@ export const textRule = {
     return null;
   },
 };
+
 export const divRule = {
   // div handling with text in box (bodybox), related content and file embeds
   deserialize(el, next) {
@@ -216,7 +217,14 @@ export const paragraphRule = {
       return;
 
     if (slateObject.type === 'list-text') {
-      return <ListText>{children}</ListText>;
+      if (children.size < 2) {
+        return <ListText>{children}</ListText>;
+      }
+      return <p>{children}</p>;
+    }
+
+    if (children._tail.array[0] && children._tail.array[0][0] === '') {
+      return null;
     }
 
     /**
@@ -236,6 +244,19 @@ export const listItemRule = {
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
     // const nodes = [...next(el.childNodes), ...emptyNodes];
+    if (el.childNodes.length > 1) {
+      return {
+        object: 'block',
+        type: 'list-item',
+        nodes: [
+          {
+            object: 'block',
+            type: 'paragraph',
+            nodes: next(el.childNodes),
+          },
+        ],
+      };
+    }
 
     return {
       object: 'block',

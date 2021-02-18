@@ -45,7 +45,7 @@ export function convertFromHTML(json) {
       } else {
         if (!openWrapperBlock) {
           openWrapperBlock = {
-            type: 'paragraph',
+            type: child.type === 'list-item' ? 'list-text' : 'paragraph',
             object: 'block',
             nodes: [],
             data: {},

@@ -45,7 +45,8 @@ const SubjectpageArticles: FC<Props & tType> = ({ t, editorsChoices, elementId, 
       } else {
         newArticle = await fetchDraft(article.id);
       }
-      const temp = [...articles, newArticle];
+      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
+      const temp = [...articles, newArticle] as ArticleType[];
       if (newArticle !== undefined) {
         setArticles(temp);
         updateFormik(field, temp);

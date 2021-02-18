@@ -196,6 +196,7 @@ export class EditMarkupPage extends Component {
                 key={draft ? draft.id + draft.revision + '-' + draft.content.language : 'draft'}
                 value={draft ? draft.content.content : ''}
                 onChange={this.handleChange}
+                onSave={this.saveChanges}
               />
               {status === 'save-error' && (
                 <StyledErrorMessage

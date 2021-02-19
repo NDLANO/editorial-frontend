@@ -28,7 +28,6 @@ const BLOCK_TAGS = {
   h5: 'heading-three',
   h6: 'heading-three',
   summary: 'summary',
-  li: 'list-item',
 };
 
 export const INLINE_TAGS = {
@@ -84,6 +83,7 @@ const canParentElementContainBlock = el => {
       tagName === 'section' ||
       tagName === 'div' ||
       tagName === 'aside' ||
+      tagName === 'li' ||
       BLOCK_TAGS[tagName] !== undefined
     );
   }
@@ -164,11 +164,10 @@ export const divRule = {
         data: reduceChildElements(el, type),
       };
     }
-    const childs = next(el.childNodes);
     return {
       object: 'block',
       type: 'div',
-      nodes: childs,
+      nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
@@ -194,7 +193,6 @@ export const divRule = {
 };
 
 export const paragraphRule = {
-  // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'p') return;
     return {
@@ -233,7 +231,6 @@ export const listTextRule = {
 };
 
 export const listItemRule = {
-  // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
     return {

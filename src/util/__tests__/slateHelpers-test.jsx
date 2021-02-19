@@ -38,6 +38,7 @@ import {
   unorderListRules,
   tableRules,
   listItemRule,
+  listTextRule,
   paragraphRule,
   learningResourceRules,
   brRule,
@@ -188,7 +189,7 @@ test('serializing table', () => {
 
 test('deserializing bullet list', () => {
   const serializer = new Html({
-    rules: [blockRules, unorderListRules, listItemRule, paragraphRule],
+    rules: [blockRules, unorderListRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -199,7 +200,7 @@ test('deserializing bullet list', () => {
 
 test('serializing bullet list', () => {
   const serializer = new Html({
-    rules: [blockRules, unorderListRules, listItemRule, paragraphRule],
+    rules: [blockRules, unorderListRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const value = Value.fromJSON(listValue('bulleted-list'));
@@ -209,7 +210,7 @@ test('serializing bullet list', () => {
 
 test('deserializing numbered list', () => {
   const serializer = new Html({
-    rules: [blockRules, orderListRules, listItemRule, paragraphRule],
+    rules: [blockRules, orderListRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -220,7 +221,7 @@ test('deserializing numbered list', () => {
 
 test('serializing numbered list', () => {
   const serializer = new Html({
-    rules: [blockRules, orderListRules, listItemRule, paragraphRule],
+    rules: [blockRules, orderListRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const value = Value.fromJSON(listValue('numbered-list'));
@@ -230,7 +231,7 @@ test('serializing numbered list', () => {
 
 test('deserializing alphabetical list', () => {
   const serializer = new Html({
-    rules: [orderListRules, blockRules, listItemRule, paragraphRule],
+    rules: [orderListRules, blockRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const deserialized = serializer.deserialize(
@@ -241,7 +242,7 @@ test('deserializing alphabetical list', () => {
 
 test('serializing letter list', () => {
   const serializer = new Html({
-    rules: [orderListRules, blockRules, listItemRule, paragraphRule],
+    rules: [orderListRules, blockRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const value = Value.fromJSON(listValue('letter-list'));
@@ -251,7 +252,7 @@ test('serializing letter list', () => {
 
 test('deserializing list with paragraph inside li elements', () => {
   const serializer = new Html({
-    rules: [blockRules, unorderListRules, orderListRules, listItemRule, paragraphRule],
+    rules: [blockRules, unorderListRules, orderListRules, listItemRule, listTextRule, paragraphRule],
     parseHtml: fragment,
   });
   const listWithParagraphs =

@@ -28,6 +28,7 @@ const BLOCK_TAGS = {
   h5: 'heading-three',
   h6: 'heading-three',
   summary: 'summary',
+  li: 'list-item',
 };
 
 export const INLINE_TAGS = {
@@ -49,8 +50,6 @@ export const MARK_TAGS = {
   sub: 'sub',
   code: 'code',
 };
-
-const ListText = ({ children }) => children;
 
 const emptyNodes = [
   {
@@ -198,34 +197,16 @@ export const paragraphRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'p') return;
-    const parent = el.parentElement ? el.parentElement.tagName.toLowerCase() : '';
-    const type = parent === 'li' ? 'list-text' : 'paragraph';
     return {
       object: 'block',
       data: reduceElementDataAttributes(el, ['align', 'data-align']),
-      type: type,
+      type: 'paragraph',
       nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    if (
-      slateObject.type !== 'paragraph' &&
-      slateObject.type !== 'list-text' &&
-      slateObject.type !== 'line'
-    )
-      return;
-
-    if (slateObject.type === 'list-text') {
-      if (children.size < 2) {
-        return <ListText>{children}</ListText>;
-      }
-      return <p>{children}</p>;
-    }
-
-    if (children._tail.array[0] && children._tail.array[0][0] === '') {
-      return null;
-    }
+    if (slateObject.type !== 'paragraph' && slateObject.type !== 'line') return;
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor
@@ -239,25 +220,22 @@ export const paragraphRule = {
   },
 };
 
+// A custom block wrapper. See convertFromHTML.js
+const ListText = ({ children }) => children;
+
+export const listTextRule = {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'list-text') return;
+
+    return <ListText>{children}</ListText>;
+  },
+};
+
 export const listItemRule = {
   // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
-    // const nodes = [...next(el.childNodes), ...emptyNodes];
-    if (el.childNodes.length > 1) {
-      return {
-        object: 'block',
-        type: 'list-item',
-        nodes: [
-          {
-            object: 'block',
-            type: 'paragraph',
-            nodes: next(el.childNodes),
-          },
-        ],
-      };
-    }
-
     return {
       object: 'block',
       type: 'list-item',
@@ -792,6 +770,7 @@ export const learningResourceEmbedRule = [
 ];
 
 const RULES = [
+  listTextRule,
   divRule,
   detailsRules,
   textRule,

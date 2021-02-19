@@ -941,15 +941,15 @@ exports[`serializing a span with attributes 1`] = `"<p><span lang=\\"en\\">Hyper
 
 exports[`serializing br 1`] = `"<br/>"`;
 
-exports[`serializing bullet list 1`] = `"<ul><li><p>Rad 1</p></li><li><p>Rad 2</p></li><li><p>Rad 3</p></li></ul>"`;
+exports[`serializing bullet list 1`] = `"<ul><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ul>"`;
 
 exports[`serializing details box with summary element 1`] = `"<details><summary>Summary text</summary>Details text</details>"`;
 
 exports[`serializing heading-two 1`] = `"<h2>heading 2</h2>"`;
 
-exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li><p>Rad 1</p></li><li><p>Rad 2</p></li><li><p>Rad 3</p></li></ol>"`;
+exports[`serializing letter list 1`] = `"<ol data-type=\\"letters\\"><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
 
-exports[`serializing numbered list 1`] = `"<ol><li><p>Rad 1</p></li><li><p>Rad 2</p></li><li><p>Rad 3</p></li></ol>"`;
+exports[`serializing numbered list 1`] = `"<ol><li>Rad 1</li><li>Rad 2</li><li>Rad 3</li></ol>"`;
 
 exports[`serializing quote 1`] = `"<blockquote>This quote should be both smart and wise</blockquote>"`;
 

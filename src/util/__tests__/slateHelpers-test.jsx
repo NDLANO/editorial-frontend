@@ -252,7 +252,14 @@ test('serializing letter list', () => {
 
 test('deserializing list with paragraph inside li elements', () => {
   const serializer = new Html({
-    rules: [blockRules, unorderListRules, orderListRules, listItemRule, listTextRule, paragraphRule],
+    rules: [
+      blockRules,
+      unorderListRules,
+      orderListRules,
+      listItemRule,
+      listTextRule,
+      paragraphRule,
+    ],
     parseHtml: fragment,
   });
   const listWithParagraphs =

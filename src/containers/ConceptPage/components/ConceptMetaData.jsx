@@ -28,7 +28,9 @@ const ConceptMetaData = ({ t, subjects, locale, concept, fetchTags }) => (
       )}
     </FormikField>
     <FormikField name="subjects" label={t('form.subjects.label')}>
-      {({ field }) => <MultiSelectDropdown minSearchLength={1} data={subjects} {...field} />}
+      {({ field }) => (
+        <MultiSelectDropdown labelField="name" minSearchLength={1} data={subjects} {...field} />
+      )}
     </FormikField>
     <FormikField
       name="tags"

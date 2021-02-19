@@ -32,3 +32,21 @@ export function createFormatAction(monaco) {
     },
   };
 }
+
+export function createSaveAction(monaco, onSave) {
+  return {
+    id: 'save-article',
+    label: 'Save',
+
+    keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+
+    contextMenuGroupId: null,
+    contextMenuOrder: 0,
+
+    run: async function(editor) {
+      await onSave();
+
+      return null;
+    },
+  };
+}

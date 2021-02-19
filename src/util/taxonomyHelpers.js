@@ -10,6 +10,13 @@ import defined from 'defined';
 
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
+// Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
+export const getIdFromUrn = urn => {
+  const [, , id] = urn.split(':');
+  const idWithoutRevision = parseInt(id.split('#')[0]);
+  return idWithoutRevision;
+};
+
 const sortByName = (a, b) => {
   if (a.name < b.name) return -1;
   if (a.name > b.name) return 1;

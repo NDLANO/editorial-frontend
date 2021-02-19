@@ -28,7 +28,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 // import * as monaco from 'monaco-editor';
 
 import './html.contribution';
-import { createFormatAction } from './editorActions';
+import { createFormatAction, createSaveAction } from './editorActions';
 
 window.MonacoEnvironment = {
   getWorkerUrl: function(moduleId, label) {
@@ -54,7 +54,7 @@ monaco.editor.defineTheme('myCustomTheme', {
   ],
 });
 
-export function MonacoEditor({ value, onChange }) {
+export function MonacoEditor({ value, onChange, onSave }) {
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -74,6 +74,7 @@ export function MonacoEditor({ value, onChange }) {
     });
 
     editor.addAction(createFormatAction(monaco));
+    editor.addAction(createSaveAction(monaco, onSave));
   }, []);
 
   return (
@@ -91,6 +92,7 @@ export function MonacoEditor({ value, onChange }) {
 MonacoEditor.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 export default MonacoEditor;

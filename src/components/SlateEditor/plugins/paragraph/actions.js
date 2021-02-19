@@ -12,7 +12,9 @@ import { TYPE } from './type';
 export function getCurrentParagraph(value) {
   if (!value.selection.start.key) return null;
   const { startBlock } = value;
-  return startBlock && startBlock.type === 'paragraph' ? startBlock : null;
+  return startBlock && (startBlock.type === 'paragraph' || startBlock.type === 'list-text')
+    ? startBlock
+    : null;
 }
 
 export function onEnter(evt, editor, next) {

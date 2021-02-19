@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,17 +7,15 @@
  *
  */
 
-import { TYPE } from './type';
-
-export function getCurrentParagraph(value) {
+export function getCurrentListText(value) {
   if (!value.selection.start.key) return null;
   const { startBlock } = value;
-  return startBlock && startBlock.type === 'paragraph' ? startBlock : null;
+  return startBlock && startBlock.type === 'list-text' ? startBlock : null;
 }
 
 export function onEnter(evt, editor, next) {
-  const currentParagraph = getCurrentParagraph(editor.value);
-  if (!currentParagraph) {
+  const currentListText = getCurrentListText(editor.value);
+  if (!currentListText || !evt.shiftKey) {
     return next();
   }
   evt.preventDefault();
@@ -27,16 +25,5 @@ export function onEnter(evt, editor, next) {
    throughout the document to enable positioning the cursor between element with no
    spacing (i.e two images).
    */
-  if (currentParagraph.text === '') {
-    return editor
-      .delete()
-      .insertBlock('br')
-      .insertBlock(TYPE);
-  }
-
-  if (evt.shiftKey === true) {
-    return editor.insertText('\n');
-  }
-
-  return editor.insertBlock(TYPE);
+  return editor.insertText('\n');
 }

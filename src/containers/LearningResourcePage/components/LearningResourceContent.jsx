@@ -81,6 +81,13 @@ const findFootnotes = content =>
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
+const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  bodybox: actions,
+  summary: actions,
+};
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
@@ -113,9 +120,7 @@ class LearningResourceContent extends Component {
       codeBlockPlugin(),
       blockPickerPlugin({
         articleLanguage: language,
-        actionsToShowInAreas: {
-          details: ['table'],
-        },
+        actionsToShowInAreas,
       }),
       dndPlugin,
       pasteHandler(),
@@ -133,9 +138,7 @@ class LearningResourceContent extends Component {
         conceptPlugin(language),
         blockPickerPlugin({
           articleLanguage: language,
-          actionsToShowInAreas: {
-            details: ['table'],
-          },
+          actionsToShowInAreas,
           ...this.plugins,
         }),
       ];

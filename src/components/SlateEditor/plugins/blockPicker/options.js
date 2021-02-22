@@ -4,11 +4,7 @@ const defaultOptions = {
     'quote',
     'list-item',
     'numbered-list',
-    'aside',
-    'bodybox',
-    'summary',
     'table',
-    'details',
   ],
 };
 

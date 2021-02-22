@@ -47,6 +47,7 @@ class EditMath extends Component {
 
       mathEditor.setMathML(renderMathML);
       mathEditor.insertInto(document.getElementById('mathEditorContainer'));
+      mathEditor.focus();
     };
     script.onload = callback;
 

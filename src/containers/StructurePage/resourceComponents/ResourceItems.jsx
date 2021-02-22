@@ -175,7 +175,6 @@ class ResourceItems extends React.PureComponent {
 }
 
 ResourceItems.propTypes = {
-  contentType: PropTypes.string.isRequired,
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,

@@ -35,7 +35,11 @@ const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 // to ensure standarized markup.
 // Also useful for detecting validation issues.
 function standardizeContent(content) {
-  const converted = learningResourceContentToEditorValue(content);
+  const trimmedContent = content
+    .split('\n')
+    .map(s => s.trim())
+    .join('');
+  const converted = learningResourceContentToEditorValue(trimmedContent);
   return learningResourceContentToHTML(converted);
 }
 

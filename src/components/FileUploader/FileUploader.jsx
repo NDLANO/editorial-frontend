@@ -96,7 +96,6 @@ class FileUploader extends React.Component {
             '.xls',
             '.xlsx',
             '.xml',
-            'application/*',
           ]}
           onAddedFiles={this.onSave}
           multiple

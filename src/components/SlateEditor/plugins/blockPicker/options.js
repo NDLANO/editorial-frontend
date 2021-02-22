@@ -1,11 +1,6 @@
 const defaultOptions = {
   allowedPickAreas: ['paragraph', 'heading-one', 'heading-two', 'heading-three'],
-  illegalAreas: [
-    'quote',
-    'list-item',
-    'numbered-list',
-    'table',
-  ],
+  illegalAreas: ['quote', 'list-item', 'numbered-list', 'table'],
 };
 
 const options = opts => ({

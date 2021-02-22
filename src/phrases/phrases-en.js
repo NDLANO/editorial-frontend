@@ -257,6 +257,7 @@ const phrases = {
       'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
     saveError: 'An error occurred while saving article changes.',
     helpMessage: {
+      tooltip: 'About the HTML editor',
       paragraph1:
         'It is possible to format the HTML code by pressing F1 and then selecting Format. Note that this could lead to changes in whitespace (indentations, linebreaks and spaces) when saving. Feel free to use the preview feature rapidly. ',
       paragraph2:

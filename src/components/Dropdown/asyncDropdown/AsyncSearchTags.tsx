@@ -90,12 +90,6 @@ const AsyncSearchTags = ({
     updateField(reduced_array);
   };
 
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  };
-
   const AsyncDropdownInput = (props: AsyncDropdownProps) => {
     return (
       <DropdownInput
@@ -108,7 +102,7 @@ const AsyncSearchTags = ({
         removeItem={props.removeItem}
         onBlur={props.onBlur}
         onChange={props.onChange}
-        onKeyDown={onKeyDown}
+        onKeyDown={props.onKeyDown}
       />
     );
   };

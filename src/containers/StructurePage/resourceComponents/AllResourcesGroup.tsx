@@ -16,7 +16,7 @@ import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
-import { Filter } from '../../../interfaces';
+import { Filter, Resource } from '../../../interfaces';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -25,7 +25,7 @@ export const classes = new BEMHelper({
 
 interface Props {
   topicResources: {
-    resources: [];
+    resources: Resource[];
     contentType: string;
   }[];
   resourceTypes: {
@@ -39,7 +39,7 @@ interface Props {
     subtopics: string;
   };
   refreshResources: () => void;
-  availableFilters: Filter;
+  availableFilters: Filter[];
   activeFilter: string;
   locale: string;
   currentTopic: {
@@ -52,7 +52,7 @@ interface Props {
   structure: {}[];
 }
 
-const ResourceGroup = ({
+const AllResourcesGroup = ({
   resourceTypes,
   topicResources,
   t,
@@ -89,7 +89,7 @@ const ResourceGroup = ({
         }
         handleToggle={toggleDisplayResource}
         appearance="resourceGroup"
-        header="Resurser"
+        header={t('taxonomy.resources')}
         hidden={!displayResource}>
         <ResourceItems
           resources={topicResources}
@@ -116,4 +116,4 @@ const ResourceGroup = ({
   );
 };
 
-export default injectT(ResourceGroup);
+export default injectT(AllResourcesGroup);

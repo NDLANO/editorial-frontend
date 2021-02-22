@@ -25,5 +25,10 @@ export function onEnter(evt, editor, next) {
    throughout the document to enable positioning the cursor between element with no
    spacing (i.e two images).
    */
-  return editor.insertText('\n');
+
+  return editor
+    .delete()
+    .insertBlock('br')
+    .insertBlock('br')
+    .insertBlock('list-text');
 }

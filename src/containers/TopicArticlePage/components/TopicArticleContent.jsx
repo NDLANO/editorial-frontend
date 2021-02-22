@@ -31,6 +31,7 @@ import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquote
 import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
+import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../components/FormikField';
@@ -66,6 +67,7 @@ const createPlugins = language => {
     blockquotePlugin,
     editListPlugin,
     conceptPlugin(language),
+    listTextPlugin(),
     paragraphPlugin(),
     mathmlPlugin(),
     toolbarPlugin(),

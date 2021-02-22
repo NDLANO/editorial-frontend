@@ -77,9 +77,13 @@ const AsyncSearchTags = ({
     }
   };
 
-  const createNewTag = (newTag: string) => {
-    if (newTag && !tags.includes(newTag.trim())) {
-      const temp = [...tags, newTag.trim()];
+  const createNewTag = (input: string) => {
+    if (input) {
+      const newTags = input.split(',');
+      const temp = [
+        ...tags,
+        ...newTags.filter(newTag => !tags.includes(newTag)).map(t => t.trim()),
+      ];
       updateField(temp);
     }
   };
@@ -120,6 +124,7 @@ const AsyncSearchTags = ({
         selectedItems={convertToTagsWithTitle(tags)}
         multiSelect
         disableSelected
+        saveOnEnter
         onCreate={createNewTag}
         removeItem={removeTag}>
         {(props: AsyncDropdownProps) => <AsyncDropdownInput {...props} />}

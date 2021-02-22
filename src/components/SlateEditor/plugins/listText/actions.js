@@ -19,6 +19,6 @@ export function onEnter(evt, editor, next) {
     return next();
   }
   evt.preventDefault();
-  
+
   return editor.insertText('\n');
 }

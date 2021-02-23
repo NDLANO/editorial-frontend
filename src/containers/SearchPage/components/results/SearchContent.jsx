@@ -120,7 +120,7 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
             />
           ))}
         </div>
-        <SearchHighlight highlights={content.highlights} content={content} />
+        <SearchHighlight content={content} locale={locale} />
         <p {...searchClasses('description-title')}>{t('form.name.metaDescription')}</p>
         <p {...searchClasses('description')}>
           {convertFieldWithFallback(content, 'metaDescription', '')}

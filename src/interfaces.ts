@@ -93,6 +93,12 @@ export interface ContentResultType {
   ];
   learningResourceType?: string;
   supportedLanguages?: string[];
+  highlights: [
+    {
+      field: string;
+      matches: string[];
+    },
+  ];
 }
 
 export interface ArticleType {

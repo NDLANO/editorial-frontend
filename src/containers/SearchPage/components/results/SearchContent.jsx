@@ -24,6 +24,7 @@ import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+import SearchHighlight from './SearchHighlight';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -119,6 +120,7 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
             />
           ))}
         </div>
+        <SearchHighlight highlights={content.highlights} content={content} />
         <p {...searchClasses('description')}>
           {convertFieldWithFallback(content, 'metaDescription', '')}
         </p>

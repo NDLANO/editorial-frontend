@@ -31,7 +31,7 @@ const StyledHighlights = styled.p`
 `;
 
 const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
-  if (!content.highlights.length) {
+  if (content.highlights === undefined || !content.highlights.length) {
     return null;
   }
 

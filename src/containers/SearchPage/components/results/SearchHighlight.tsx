@@ -31,6 +31,10 @@ const StyledHighlights = styled.p`
 `;
 
 const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
+  if (!content.highlights.length) {
+    return null;
+  }
+
   const highlightsInLocale = content.highlights.filter(
     highlight => highlight.field.split('.')[1] === locale,
   );
@@ -38,10 +42,10 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
   const selectHighlights = (field: string) =>
     highlightsInLocale.find(highlight => highlight.field.split('.')[0] === field)?.matches;
 
-  const selectedHighlights = highlightsInLocale.length!!
+  const selectedHighlights = highlightsInLocale.length
     ? selectHighlights('content') ||
       selectHighlights('metaDescription') ||
-      highlightsInLocale[0]?.matches
+      highlightsInLocale[0].matches
     : content.highlights[0].matches;
 
   return (

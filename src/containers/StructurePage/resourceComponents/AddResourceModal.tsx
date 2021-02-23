@@ -10,6 +10,7 @@ import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { tType } from '@ndla/i18n';
+import ResourceTypeSelect from '../../LearningResourcePage/components/taxonomy/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
@@ -53,8 +54,12 @@ const StyledContent = styled.div`
 
 interface Props {
   onClose: () => void;
-  type: string;
-  allowPaste: boolean;
+  resourceTypes: {
+    id: string;
+    name: string;
+  }[];
+  type?: string;
+  allowPaste?: boolean;
   topicId: string;
   topicFilters: Filter[];
   refreshResources: () => void;
@@ -90,12 +95,14 @@ type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
 const AddResourceModal: React.FC<Props & tType> = ({
   onClose,
   type,
+  resourceTypes,
   allowPaste,
   topicId,
   topicFilters,
   refreshResources,
   t,
 }) => {
+  const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selected, setSelected] = useState<SelectedType | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
   const [pastedUrl, setPastedUrl] = useState('');
@@ -106,6 +113,8 @@ const AddResourceModal: React.FC<Props & tType> = ({
     setSelected(null);
     setContent(null);
   };
+
+  const paste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
   const onSelect = (selected: SelectedType) => {
     if (selected) {
@@ -140,7 +149,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
         articleToState(resource.contentUri.split(':').pop());
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
-        const error = pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
+        const error = pastedType === selectedType ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         setSelected({ id: val, paths: [val] });
         setPastedUrl(val);
         setError(error);
@@ -157,7 +166,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
     }
   };
 
-  const onInputSearch = async (input: string): Promise<SummaryTypes[]> => {
+  const onInputSearch = async (input: string, type: string): Promise<SummaryTypes[]> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
         const lps = await searchLearningpath(input);
@@ -167,7 +176,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
           metaDescription: lp.description.description,
         }));
       } else {
-        return await searchGroups(input);
+        return await searchGroups(input, type);
       }
     } catch (err) {
       handleError(err);
@@ -195,7 +204,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
     return res.results || [];
   };
 
-  const searchGroups = async (input: string) => {
+  const searchGroups = async (input: string, type: string) => {
     const res = await groupSearch(input, type);
     return res?.pop()?.results || [];
   };
@@ -224,7 +233,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
       try {
         setLoading(true);
         const resourceId =
-          type === RESOURCE_TYPE_LEARNING_PATH
+          selectedType === RESOURCE_TYPE_LEARNING_PATH
             ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
 
@@ -278,7 +287,16 @@ const AddResourceModal: React.FC<Props & tType> = ({
       loading={loading}
       onClose={onClose}>
       <StyledContent>
-        {allowPaste && (
+        {!type && (
+          <ResourceTypeSelect
+            availableResourceTypes={resourceTypes}
+            resourceTypes={selectedType ? [selectedType] : []}
+            onChangeSelectedResource={(e: { target: { value: string } }) => {
+              setSelectedType(e.target.value);
+            }}
+          />
+        )}
+        {paste && selectedType && (
           <Input
             type="text"
             data-testid="addResourceUrlInput"
@@ -289,16 +307,16 @@ const AddResourceModal: React.FC<Props & tType> = ({
         )}
         {error && <span className="c-errorMessage">{error}</span>}
 
-        {!pastedUrl && (
+        {!pastedUrl && selectedType && (
           <React.Fragment>
-            {allowPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
+            {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
               name="resourceSearch"
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={onInputSearch}
+              apiAction={(input: string) => onInputSearch(input, selectedType)}
               onChange={onSelect}
               startOpen
             />
@@ -308,6 +326,10 @@ const AddResourceModal: React.FC<Props & tType> = ({
       </StyledContent>
     </TaxonomyLightbox>
   );
+};
+
+AddResourceModal.defaultProps = {
+  allowPaste: false,
 };
 
 export default injectT(AddResourceModal);

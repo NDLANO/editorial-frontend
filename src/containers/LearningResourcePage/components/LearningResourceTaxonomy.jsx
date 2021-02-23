@@ -33,7 +33,9 @@ import SaveButton from '../../../components/SaveButton';
 import { FormikActionButton } from '../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
+
+const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 const emptyTaxonomy = {
   resourceTypes: [],
@@ -372,6 +374,12 @@ class LearningResourceTaxonomy extends Component {
       status,
       isDirty,
     } = this.state;
+    const filteredResourceTypes = availableResourceTypes
+      .filter(rt => !blacklistedResourceTypes.includes(rt.id))
+      .map(rt => ({
+        ...rt,
+        subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
+      }));
 
     const { userAccess, t } = this.props;
 
@@ -413,7 +421,7 @@ class LearningResourceTaxonomy extends Component {
           />
         )}
         <ResourceTypeSelect
-          availableResourceTypes={availableResourceTypes}
+          availableResourceTypes={filteredResourceTypes}
           resourceTypes={resourceTypes}
           onChangeSelectedResource={this.onChangeSelectedResource}
         />

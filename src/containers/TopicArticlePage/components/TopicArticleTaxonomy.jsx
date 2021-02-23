@@ -49,7 +49,9 @@ import {
   deleteTopicResourceType,
 } from '../../../modules/taxonomy/resourcetypes';
 
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
+
+const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -482,6 +484,12 @@ class TopicArticleTaxonomy extends Component {
       locale,
     } = this.props;
     const showResourceType = userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
+    const filteredResourceTypes = availableResourceTypes
+      .filter(rt => !blacklistedResourceTypes.includes(rt.id))
+      .map(rt => ({
+        ...rt,
+        subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
+      }));
 
     if (status === 'loading') {
       return <Spinner />;
@@ -516,7 +524,7 @@ class TopicArticleTaxonomy extends Component {
       <Fragment>
         {showResourceType && (
           <ResourceTypeSelect
-            availableResourceTypes={availableResourceTypes}
+            availableResourceTypes={filteredResourceTypes}
             resourceTypes={stagedResourceTypeChanges}
             onChangeSelectedResource={this.onChangeSelectedResource}
           />

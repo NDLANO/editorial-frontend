@@ -14,7 +14,6 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 import { Filter, Resource } from '../../../interfaces';
 
@@ -78,6 +77,10 @@ const AllResourcesGroup = ({
 
   const topicId = params.subtopics?.split('/')?.pop() || params.topic;
 
+  const newResourceTypeOptions = resourceTypes
+    .filter(rt => rt.id !== 'missing')
+    .map(rt => ({ id: rt.id, name: rt.name }));
+
   return (
     <React.Fragment>
       <Accordion
@@ -105,8 +108,7 @@ const AllResourcesGroup = ({
       {showAddModal && (
         <AddResourceModal
           topicFilters={currentTopic.filters}
-          type={resourceTypes[0].id}
-          allowPaste={resourceTypes[0].id !== RESOURCE_TYPE_LEARNING_PATH}
+          resourceTypes={newResourceTypeOptions}
           topicId={topicId}
           refreshResources={refreshResources}
           onClose={() => setShowAddModal(false)}

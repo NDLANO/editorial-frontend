@@ -21,6 +21,7 @@ import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
 import { Note } from '../interfaces';
+import { getIdFromUrn } from '../util/taxonomyHelpers';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ const VersionHistoryLightBox = ({
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
 
   useEffect(() => {
-    const id = contentUri?.split(':')?.pop();
+    const id = getIdFromUrn(contentUri);
     if (id) {
       fetchHistory(id);
     }
@@ -82,7 +83,7 @@ const VersionHistoryLightBox = ({
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const fetchHistory = async (id: string) => {
+  const fetchHistory = async (id: number) => {
     const versions = await fetchDraftHistory(id);
     const notes: Note[] = versions?.[0]?.notes;
     if (notes?.length) {

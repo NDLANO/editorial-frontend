@@ -17,6 +17,8 @@ export type ConceptStatusType =
   | 'TRANSLATED'
   | 'UNPUBLISHED';
 
+export type AvailabilityType = 'everyone' | 'teacher' | 'student';
+
 export interface TranslateType {
   (
     key: string,

@@ -88,6 +88,8 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
     </>
   );
 
+  const metaDescription = convertFieldWithFallback(content, 'metaDescription', '');
+
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
@@ -121,10 +123,10 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
           ))}
         </div>
         <SearchHighlight content={content} locale={locale} />
-        <p {...searchClasses('description-title')}>{t('form.name.metaDescription')}</p>
-        <p {...searchClasses('description')}>
-          {convertFieldWithFallback(content, 'metaDescription', '')}
-        </p>
+        {metaDescription !== '' && (
+          <p {...searchClasses('description-title')}>{t('form.name.metaDescription')}</p>
+        )}
+        <p {...searchClasses('description')}>{metaDescription}</p>
         <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map(breadcrumb => (

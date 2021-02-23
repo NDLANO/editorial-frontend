@@ -18,14 +18,12 @@ interface Props {
 }
 
 const StyledHeading = styled.p`
-  font-size: 0.7rem;
   font-weight: ${fonts.weight.semibold};
   margin-top: ${spacing.xsmall};
   margin-bottom: 0;
 `;
 
 const StyledHighlights = styled.p`
-  font-size: 0.7rem;
   margin-top: 0;
   margin-bottom: 0;
 `;

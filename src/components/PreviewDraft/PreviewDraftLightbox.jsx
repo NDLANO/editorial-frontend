@@ -106,7 +106,9 @@ class PreviewDraftLightbox extends React.Component {
     const article = toApiVersion(getArticle(true));
 
     const secondArticleLanguage =
-      article.supportedLanguages && article.supportedLanguages.find(l => l !== article.language);
+      (article.supportedLanguages &&
+        article.supportedLanguages.find(l => l !== article.language)) ||
+      article.language;
 
     const types = {
       previewLanguageArticle: () => this.previewLanguageArticle(secondArticleLanguage),

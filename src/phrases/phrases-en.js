@@ -165,6 +165,7 @@ const phrases = {
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
+    podcast: 'New Podcast',
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',

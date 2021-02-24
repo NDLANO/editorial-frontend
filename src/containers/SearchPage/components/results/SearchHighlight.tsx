@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import { fonts } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import { ContentResultType } from '../../../../interfaces';
@@ -19,14 +19,19 @@ interface Props {
 }
 
 const StyledHeading = styled.p`
+  cursor: help;
   font-weight: ${fonts.weight.semibold};
-  margin-top: ${spacing.xsmall};
+  margin-top: 0;
   margin-bottom: 0;
 `;
 
 const StyledHighlights = styled.p`
   margin-top: 0;
   margin-bottom: 0;
+`;
+
+const StyledDiv = styled.div`
+  display: inline-block;
 `;
 
 const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
@@ -47,10 +52,12 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
     selectHighlights('content') || selectHighlights('embedAttributes') || selectHighlights('tags');
 
   return selectedHighlights ? (
-    <Tooltip
-      align="left"
-      tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
-      <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
+    <StyledDiv>
+      <Tooltip
+        align={'right'}
+        tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
+        <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
+      </Tooltip>
       <StyledHighlights
         dangerouslySetInnerHTML={{
           __html: selectedHighlights.matches.reduce((acc: string, next: string) => {
@@ -59,7 +66,7 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
           }, ''),
         }}
       />
-    </Tooltip>
+    </StyledDiv>
   ) : null;
 };
 

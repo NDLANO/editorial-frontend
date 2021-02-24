@@ -59,12 +59,7 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
         <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
       </Tooltip>
       <StyledHighlights
-        dangerouslySetInnerHTML={{
-          __html: selectedHighlights.matches.reduce((acc: string, next: string) => {
-            acc += next + ' [...] ';
-            return acc;
-          }, ''),
-        }}
+        dangerouslySetInnerHTML={{__html: selectedHighlights.matches.join(' [...] ')}}
       />
     </StyledDiv>
   ) : null;

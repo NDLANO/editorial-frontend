@@ -24,6 +24,7 @@ const SearchAudio = ({ audio, locale, t }) => (
       <Link to={toEditAudio(audio.id, audio.title.language)}>
         <h1 {...searchClasses('title')}>{audio.title.title || t('audioSearch.noTitle')}</h1>
       </Link>
+      <p>{audio.supportedLanguages.map(lang => t(`language.${lang}`)).join(' / ')}</p>
     </div>
   </div>
 );

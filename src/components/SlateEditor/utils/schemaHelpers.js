@@ -28,6 +28,7 @@ export const textBlockValidationRules = {
       ],
     },
   ],
+  last: { type: 'paragraph' },
   next: [
     {
       type: 'paragraph',

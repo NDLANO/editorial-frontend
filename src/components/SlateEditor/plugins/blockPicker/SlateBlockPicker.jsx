@@ -178,7 +178,7 @@ class SlateBlockPicker extends Component {
       const parentType = parent.get('type');
       if (actionsToShowInAreas[parentType]) {
         return actions.filter(action =>
-          actionsToShowInAreas[parentType].includes(action.data.object),
+          actionsToShowInAreas[parentType].includes(action.data.type),
         );
       }
       node = parent;

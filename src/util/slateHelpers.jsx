@@ -218,9 +218,8 @@ export const paragraphRule = {
   },
 };
 
-// A custom block wrapper. See convertFromHTML.js
+// The default block wrapper defined in slate-edit-list
 const ListText = ({ children }) => children;
-
 export const listTextRule = {
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;

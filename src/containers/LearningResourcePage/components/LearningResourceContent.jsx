@@ -45,7 +45,6 @@ import filePlugin from '../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../components/SlateEditor/plugins/pastehandler';
@@ -105,7 +104,6 @@ class LearningResourceContent extends Component {
       // unwrapping (jumping out of block) will not work.
       blockquotePlugin,
       editListPlugin,
-      listTextPlugin(),
       paragraphPlugin(),
       createTablePlugin(),
       editTablePlugin,

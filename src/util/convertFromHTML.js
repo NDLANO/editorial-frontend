@@ -4,6 +4,9 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * Slate does not allow a block to contain both blocks and inline nodes, so this code checks if the original
+ * html violates this constraint and wraps consecutive inline nodes in a paragraph.
+ *
  * Code heavily 'inspired' from: https://github.com/Foundry376/Mailspring/blob/master/app/src/components/composer-editor/conversion.jsx#L172
  *
  */
@@ -45,7 +48,7 @@ export function convertFromHTML(json) {
       } else {
         if (!openWrapperBlock) {
           openWrapperBlock = {
-            type: node.type === 'list-item' ? 'list-text' : 'paragraph',
+            type: 'paragraph',
             object: 'block',
             nodes: [],
             data: {},

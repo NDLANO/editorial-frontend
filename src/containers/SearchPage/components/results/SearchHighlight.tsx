@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
+import { injectT, tType } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
 import { ContentResultType } from '../../../../interfaces';
 
 interface Props {
@@ -47,8 +48,10 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
     : content.highlights[0].matches;
 
   return (
-    <>
-      <StyledHeading>{t('searchPage.highlights')}</StyledHeading>
+    <Tooltip
+      align="left"
+      tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
+      <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
       <StyledHighlights
         dangerouslySetInnerHTML={{
           __html: selectedHighlights.reduce((acc, next) => {
@@ -57,8 +60,7 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
           }, ''),
         }}
       />
-    </>
-  );
+    </Tooltip>
 };
 
 export default injectT(SearchHighlight);

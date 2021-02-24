@@ -55,6 +55,7 @@ export const createDetails = () => {
             min: 1,
           },
         ],
+        next: { type: 'paragraph' },
         parent: { type: 'details' },
         normalize: (editor: Editor, error: SlateError) => {
           switch (error.code) {
@@ -71,6 +72,17 @@ export const createDetails = () => {
                   marks: [],
                 });
                 editor.insertNodeByKey(parent.key, 0, text);
+              });
+              break;
+            }
+            case 'next_sibling_type_invalid': {
+              editor.withoutSaving(() => {
+                const wrapper = editor.value.document.getParent(error.child.key);
+                if (wrapper) {
+                  editor.wrapBlockByKey(error.child.key, 'section');
+                  editor.insertNodeByKey(wrapper.key, 1, Block.create(defaultBlocks.defaultBlock));
+                  editor.unwrapBlockByKey(wrapper.key, 'section');
+                }
               });
               break;
             }

@@ -30,7 +30,7 @@ const StyledHighlights = styled.p`
 `;
 
 const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
-  if (content.highlights === undefined || !content.highlights.length) {
+  if (content.highlights === undefined) {
     return null;
   }
 
@@ -38,29 +38,29 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
     highlight => highlight.field.split('.')[1] === locale,
   );
 
+  const highlightsToSearch = highlightsInLocale.length ? highlightsInLocale : content.highlights;
+
   const selectHighlights = (field: string) =>
-    highlightsInLocale.find(highlight => highlight.field.split('.')[0] === field)?.matches;
+    highlightsToSearch.find(highlight => highlight.field.split('.')[0] === field);
 
-  const selectedHighlights = highlightsInLocale.length
-    ? selectHighlights('content') ||
-      selectHighlights('metaDescription') ||
-      highlightsInLocale[0].matches
-    : content.highlights[0].matches;
+  const selectedHighlights =
+    selectHighlights('content') || selectHighlights('embedAttributes') || selectHighlights('tags');
 
-  return (
+  return selectedHighlights ? (
     <Tooltip
       align="left"
       tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
       <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
       <StyledHighlights
         dangerouslySetInnerHTML={{
-          __html: selectedHighlights.reduce((acc, next) => {
+          __html: selectedHighlights.matches.reduce((acc: string, next: string) => {
             acc += next + ' [...] ';
             return acc;
           }, ''),
         }}
       />
     </Tooltip>
+  ) : null;
 };
 
 export default injectT(SearchHighlight);

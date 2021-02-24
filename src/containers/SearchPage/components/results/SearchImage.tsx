@@ -9,21 +9,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
+import { ContentResultType } from '../../../../interfaces';
 
-const SearchImage = ({ image, locale, t }) => (
+interface Props {
+  image: ContentResultType;
+  locale: string;
+}
+
+const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>
-      <img src={image.previewUrl + '?width=200'} alt={image.altText.alttext} />
+      <img src={image.previewUrl + '?width=200'} alt={image.altText?.alttext} />
     </div>
     <div {...searchClasses('content')}>
       <Link to={toEditImage(image.id, image.title.language)}>
         <h1 {...searchClasses('title')}>{image.title.title || t('imageSearch.noTitle')}</h1>
       </Link>
-      <p>{image.supportedLanguages.map(lang => t(`language.${lang}`)).join(' / ')}</p>
+      <p>{image.supportedLanguages?.map(lang => t(`language.${lang}`)).join(' / ')}</p>
     </div>
   </div>
 );

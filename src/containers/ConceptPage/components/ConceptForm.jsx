@@ -6,13 +6,13 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
-import { Formik, Form } from 'formik';
+import { AccordionWrapper } from '@ndla/accordion';
+import { Formik } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import Field from '../../../components/Field';
@@ -38,7 +38,12 @@ import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import FormikField from '../../../components/FormikField';
 import ConceptArticles from './ConceptArticles';
 
+import FormWrapper from './tsConceptForm/FormWrapper';
+import AccordionSection from './tsConceptForm/AccordionSection';
+import FormFooter from './tsConceptForm/FormFooter';
+
 const getInitialValues = (concept = {}, subjects = []) => {
+  console.log('get initial values');
   return {
     id: concept.id,
     title: concept.title || '',
@@ -211,72 +216,16 @@ class ConceptForm extends Component {
       createMessage,
       fetchConceptTags,
       fetchStateStatuses,
-      history,
       inModal,
       isNewlyCreated,
       licenses,
       locale,
       onClose,
-      onUpdate,
       subjects,
       t,
       translateConcept,
-      ...rest
     } = this.props;
     const { savedToServer, translateOnContinue } = this.state;
-    const panels = ({ errors, touched }) => [
-      {
-        id: 'concept-content',
-        title: t('form.contentSection'),
-        className: 'u-4/6@desktop u-push-1/6@desktop',
-        hasError: ['title', 'conceptContent'].some(field => !!errors[field]),
-
-        component: props => <ConceptContent classes={formClasses} {...props} />,
-      },
-      {
-        id: 'concept-copyright',
-        title: t('form.copyrightSection'),
-        className: 'u-6/6',
-        hasError: ['creators', 'license'].some(field => !!errors[field]),
-        component: ({ values }) => (
-          <ConceptCopyright
-            licenses={licenses}
-            disableAgreements
-            label={t('form.concept.source')}
-            values={values}
-          />
-        ),
-      },
-      {
-        id: 'concept-metadataSection',
-        title: t('form.metadataSection'),
-        className: 'u-6/6',
-        hasError: ['tags', 'metaImageAlt', 'subjects'].some(field => !!errors[field]),
-
-        component: props => (
-          <ConceptMetaData
-            classes={formClasses}
-            concept={concept}
-            fetchTags={fetchConceptTags}
-            subjects={subjects}
-            locale={locale}
-          />
-        ),
-      },
-      {
-        id: 'concept-articles',
-        title: t('form.articleSection'),
-        className: 'u-6/6',
-        hasError: ['articles'].some(field => !!errors[field]),
-        component: props => (
-          <FormikField name={'articles'}>
-            {({ field, form }) => (
-              <ConceptArticles initArticles={concept.articles} field={field} form={form} />
-            )}
-          </FormikField>
-        ),
-      },
-    ];
 
     const initialValues = getInitialValues(concept, subjects);
     return (
@@ -288,7 +237,7 @@ class ConceptForm extends Component {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting, error, errors, setFieldValue } = formikProps;
+          const { values, dirty, errors } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -305,42 +254,59 @@ class ConceptForm extends Component {
                 setTranslateOnContinue={this.setTranslateOnContinue}
                 values={values}
               />
-              <Accordion openIndexes={['concept-content']}>
-                {({ openIndexes, handleItemClick }) => (
-                  <AccordionWrapper>
-                    {panels(formikProps).map(panel => (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          hasError={panel.hasError}
-                          ariaLabel={panel.title}
-                          title={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          isOpen={openIndexes.includes(panel.id)}
-                        />
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            updateNotes={this.onUpdate}
-                            hasError={panel.hasError}
-                            getConcept={() => this.getApiConcept(values)}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className={panel.className}>
-                              {panel.component({
-                                values,
-                                subjects,
-                                closePanel: () => handleItemClick(panel.id),
-                                handleSubmit: () => this.handleSubmit(formikProps),
-                                ...rest,
-                              })}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    ))}
-                  </AccordionWrapper>
-                )}
-              </Accordion>
+              <AccordionWrapper>
+                <AccordionSection
+                  id="concept-content"
+                  title={t('form.contentSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={['title', 'conceptContent'].some(field => !!errors[field])}
+                  startOpen>
+                  '}>
+                  <ConceptContent
+                    classes={formClasses}
+                    formik={formikProps}
+                    handleSubmit={() => this.handleSubmit(formikProps)}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="concept-copyright"
+                  title={t('form.copyrightSection')}
+                  className="u-6/6"
+                  hasError={['creators', 'license'].some(field => !!errors[field])}>
+                  <ConceptCopyright
+                    licenses={licenses}
+                    disableAgreements
+                    label={t('form.concept.source')}
+                    values={values}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="concept-metadataSection"
+                  title={t('form.metadataSection')}
+                  className="u-6/6"
+                  hasError={['tags', 'metaImageAlt', 'subjects'].some(field => !!errors[field])}>
+                  <ConceptMetaData
+                    classes={formClasses}
+                    concept={concept}
+                    fetchTags={fetchConceptTags}
+                    subjects={subjects}
+                    locale={locale}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="concept-articles"
+                  title={t('form.articleSection')}
+                  className="u-6/6"
+                  hasError={['articles'].some(field => !!errors[field])}>
+                  <FormikField name={'articles'}>
+                    {({ field, form }) => (
+                      <ConceptArticles initArticles={concept.articles} field={field} form={form} />
+                    )}
+                  </FormikField>
+                </AccordionSection>
+              </AccordionWrapper>
+              <FormFooter
+                formikProps={formikProps}
                 entityStatus={concept.status}
                 inModal={inModal}
                 formIsDirty={formIsDirty}

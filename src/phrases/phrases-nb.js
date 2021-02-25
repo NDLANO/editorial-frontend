@@ -522,6 +522,7 @@ const phrases = {
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
       concepts: 'Forklaringer',
+      relatedContent: 'Relatert innhold',
       subjects: 'Fag',
     },
     previewProductionArticle: {
@@ -958,10 +959,23 @@ const phrases = {
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
-      articlesTitle: 'Relaterte forklaringer',
-      articlesSubtitle: 'Forklaringer',
+      articlesTitle: 'Forklaringer',
       changeOrder: 'Endre rekkefølge',
       removeArticle: 'Fjern forklaring',
+    },
+    relatedContent: {
+      placeholder: 'Søk på tittel',
+      articlesTitle: 'Innhold',
+      changeOrder: 'Endre rekkefølge',
+      removeArticle: 'Fjern innhold',
+      addExternal: 'Legg til ekstern artikkel',
+      link: {
+        missingTitle: 'Mangler tittel',
+        missingUrl: 'Mangler url',
+        titlePlaceholder: 'Tittel',
+        urlPlaceholder: 'http://example.com',
+        addLink: 'Legg til',
+      },
     },
     section: {
       remove: 'Ta bort seksjon',

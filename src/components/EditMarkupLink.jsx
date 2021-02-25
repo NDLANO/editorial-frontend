@@ -18,11 +18,11 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
 
   const linkStyle = css`
     box-shadow: none;
-    
-    width: ${inHeader ? '25px;' : ''}
+
+    width: ${inHeader ? '25px;' : ''};
     padding-left: ${inHeader ? '0.4em' : ''};
     padding-right: ${inHeader ? '1.2em' : ''};
-    
+
     &:hover svg,
     &:focus svg {
       border-color: ${colors.brand.primary};
@@ -31,7 +31,7 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
         fill: ${colors.brand.primary};
       }
     }
-    
+
     svg {
       width: ${inHeader ? '18px' : spacing.normal};
       height: ${inHeader ? '18px' : spacing.normal};

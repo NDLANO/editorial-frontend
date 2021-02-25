@@ -12,8 +12,8 @@ import styled from '@emotion/styled';
 import { spacing, shadows } from '@ndla/core';
 import { ContentResultShape } from '../../../shapes';
 import { LocaleContext } from '../../App/App';
-
 import ElementListItem from './ElementListItem';
+import ElementListLink from './ElementListLink';
 
 const ELEMENT_HEIGHT = 69;
 
@@ -151,21 +151,41 @@ class ElementList extends Component {
             <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
               {elements
                 .filter(element => !!element)
-                .map((element, index) => (
-                  <ElementListItem
-                    key={element.id}
-                    element={element}
-                    deleteIndex={deleteIndex}
-                    messages={messages}
-                    index={index}
-                    locale={locale}
-                    executeDeleteFile={this.executeDeleteFile}
-                    showDragTooltip={elements.length > 1 && draggingIndex === -1}
-                    onDragEnd={this.onDragEnd}
-                    onDragStart={this.onDragStart}
-                    deleteFile={this.deleteFile}
-                  />
-                ))}
+                .map((element, index) => {
+                  if (element.id || !(element.url && element.title)) {
+                    return (
+                      <ElementListItem
+                        key={element.id}
+                        element={element}
+                        deleteIndex={deleteIndex}
+                        messages={messages}
+                        index={index}
+                        locale={locale}
+                        executeDeleteFile={this.executeDeleteFile}
+                        showDragTooltip={elements.length > 1 && draggingIndex === -1}
+                        onDragEnd={this.onDragEnd}
+                        onDragStart={this.onDragStart}
+                        deleteFile={this.deleteFile}
+                      />
+                    );
+                  } else {
+                    return (
+                      <ElementListLink
+                        key={element.title + element.url}
+                        element={element}
+                        deleteIndex={deleteIndex}
+                        messages={messages}
+                        index={index}
+                        locale={locale}
+                        executeDeleteFile={this.executeDeleteFile}
+                        showDragTooltip={elements.length > 1 && draggingIndex === -1}
+                        onDragEnd={this.onDragEnd}
+                        onDragStart={this.onDragStart}
+                        deleteFile={this.deleteFile}
+                      />
+                    );
+                  }
+                })}
             </StyledList>
           )}
         </LocaleContext.Consumer>

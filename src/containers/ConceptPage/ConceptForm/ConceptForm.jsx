@@ -15,31 +15,30 @@ import { AccordionWrapper } from '@ndla/accordion';
 import { Formik } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import * as messageActions from '../../Messages/messagesActions';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
 } from '../../../util/articleContentConverter';
 import { createEmbedTag } from '../../../util/embedTagHelpers';
-import ConceptContent from './ConceptContent';
-import ConceptMetaData from './ConceptMetaData';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { formClasses } from '../../FormikForm';
-import ConceptCopyright from './ConceptCopyright';
-import validateFormik from '../../../components/formikValidationSchema';
-import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import FormikField from '../../../components/FormikField';
-import ConceptArticles from './ConceptArticles';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import validateFormik from '../../../components/formikValidationSchema';
+import * as messageActions from '../../Messages/messagesActions';
+import { formClasses } from '../../FormikForm';
+import ConceptArticles from '../components/ConceptArticles';
+import ConceptCopyright from '../components/ConceptCopyright';
+import ConceptContent from '../components/ConceptContent';
+import ConceptMetaData from '../components/ConceptMetaData';
 
-import FormWrapper from './tsConceptForm/FormWrapper';
-import AccordionSection from './tsConceptForm/AccordionSection';
-import FormFooter from './tsConceptForm/FormFooter';
+import FormWrapper from './FormWrapper';
+import AccordionSection from './AccordionSection';
+import FormFooter from './FormFooter';
+import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
 
 const getInitialValues = (concept = {}, subjects = []) => {
-  console.log('get initial values');
   return {
     id: concept.id,
     title: concept.title || '',

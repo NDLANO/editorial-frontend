@@ -22,7 +22,7 @@ import SearchForm from '../../../../containers/SearchPage/components/form/Search
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
-import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
+import ConceptForm from '../../../../containers/ConceptPage/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
 import * as messageActions from '../../../../containers/Messages/messagesActions';
 

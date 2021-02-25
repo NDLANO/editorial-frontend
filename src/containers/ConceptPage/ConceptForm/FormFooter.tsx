@@ -9,12 +9,12 @@
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FormikProps } from 'formik';
-import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import SaveButton from '../../../../components/SaveButton';
-import Field from '../../../../components/Field';
-import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../../FormikForm';
-import { Article, PossibleStatuses, Values } from '../../../../components/SlateEditor/editorTypes';
-import { ConceptType } from '../../../../interfaces';
+import EditorFooter from '../../../components/SlateEditor/EditorFooter';
+import SaveButton from '../../../components/SaveButton';
+import Field from '../../../components/Field';
+import { Article, PossibleStatuses, Values } from '../../../components/SlateEditor/editorTypes';
+import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../FormikForm';
+import { ConceptType } from '../../../interfaces';
 
 interface Props {
   formikProps: FormikProps<Values>;
@@ -63,7 +63,7 @@ const FormFooter = ({
             formIsDirty={formIsDirty}
             showSaved={savedToServer && !formIsDirty}
             submit={!inModal}
-            onClick={evt => {
+            onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
               handleSubmit(formikProps);
             }}>

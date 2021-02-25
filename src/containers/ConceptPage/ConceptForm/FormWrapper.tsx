@@ -8,7 +8,7 @@
 
 import React, { ReactElement } from 'react';
 import { Form } from 'formik';
-import { formClasses } from '../../../FormikForm';
+import { formClasses } from '../../FormikForm';
 
 interface Props {
   inModal?: boolean;

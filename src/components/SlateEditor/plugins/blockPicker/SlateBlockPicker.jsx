@@ -56,7 +56,10 @@ class SlateBlockPicker extends Component {
 
   onInsertBlock(block) {
     const { editor } = this.props;
-    editor.insertBlock(block);
+    editor
+      .insertBlock(block)
+      .insertBlock('paragraph')
+      .focus();
   }
 
   onElementAdd(block) {

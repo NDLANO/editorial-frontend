@@ -84,18 +84,6 @@ const rules = {
   },
 };
 
-const FormWrapper = ({ inModal, children }) => {
-  if (inModal) {
-    return <div {...formClasses()}>{children}</div>;
-  }
-  return <Form>{children}</Form>;
-};
-
-FormWrapper.propTypes = {
-  inModal: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-};
-
 class ConceptForm extends Component {
   constructor(props) {
     super(props);

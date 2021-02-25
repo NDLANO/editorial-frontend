@@ -13,6 +13,8 @@ const DEFAULT_NODE = 'paragraph';
 
 export function handleClickBlock(event, editor, type) {
   event.preventDefault();
+  stripSpacesFromSelectedText(editor);
+
   const { document, blocks } = editor.value;
   const isActive = hasNodeOfType(editor, type);
   if (type === 'quote') {
@@ -43,11 +45,13 @@ export function handleClickBlock(event, editor, type) {
 
 export function handleClickMark(event, editor, type) {
   event.preventDefault();
+  stripSpacesFromSelectedText(editor);
   editor.toggleMark(type);
 }
 
 export function handleClickInline(event, editor, type) {
   event.preventDefault();
+  stripSpacesFromSelectedText(editor);
 
   if (type === 'footnote') {
     addTextAndWrapIntype(editor, '#', type);
@@ -71,4 +75,25 @@ function addTextAndWrapIntype(editor, text, type) {
     .insertText(text)
     .moveFocusForward(-text.length)
     .wrapInline(type);
+}
+
+/**
+ * Default windows behaviour when selecting text via double click is to select the word + the following space.
+ * This function checks the selected text and removes 1 space from each end.
+ * Selections spanning more than one text is supported.
+ */
+function stripSpacesFromSelectedText(editor) {
+  const { value } = editor;
+  if (value.selection.start.offset === value.selection.end.offset) {
+    return;
+  }
+  const { startText, endText } = value;
+  const selectedStartText = startText.text.slice(value.selection.start.offset);
+  if (selectedStartText.startsWith(' ')) {
+    editor.moveStartForward(1);
+  }
+  const selectedEndText = endText.text.slice(-value.selection.end.offset);
+  if (selectedEndText.endsWith(' ')) {
+    editor.moveEndBackward(1);
+  }
 }

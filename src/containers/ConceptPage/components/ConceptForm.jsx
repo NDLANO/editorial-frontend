@@ -15,7 +15,6 @@ import { AccordionWrapper } from '@ndla/accordion';
 import { Formik } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import Field from '../../../components/Field';
 import * as messageActions from '../../Messages/messagesActions';
 import {
   plainTextToEditorValue,
@@ -26,14 +25,11 @@ import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { FormikActionButton } from '../../FormikForm';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
+import { formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
-import SaveButton from '../../../components/SaveButton';
 import { toEditConcept } from '../../../util/routeHelpers.js';
-import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import FormikField from '../../../components/FormikField';
 import ConceptArticles from './ConceptArticles';

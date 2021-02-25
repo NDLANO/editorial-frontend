@@ -182,13 +182,11 @@ const LearningResourceForm = props => {
         )}
 
         <EditorFooter
+          formikProps={formik}
           showSimpleFooter={!article.id}
-          isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
-          errors={errors}
-          values={values}
           onSaveClick={saveAsNewVersion => {
             handleSubmit(formik, saveAsNewVersion);
           }}
@@ -197,7 +195,6 @@ const LearningResourceForm = props => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          {...formikProps}
           {...rest}
         />
         <FormikAlertModalWrapper

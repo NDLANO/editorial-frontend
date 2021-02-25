@@ -12,6 +12,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
+import { FormikProps } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, PossibleStatuses, Values } from './editorTypes';
@@ -21,25 +22,21 @@ import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 
 interface Props {
-  isSubmitting: boolean;
+  formikProps: FormikProps<Values>;
   formIsDirty: boolean;
   savedToServer: boolean;
-  values: Values;
-  error: string;
-  errors: Object;
   getEntity: () => Article | ConceptType;
   entityStatus: { current: string };
   createMessage: (o: { translationKey: string; severity: string }) => void;
   showSimpleFooter: boolean;
-  setFieldValue: (name: string, value: { current: string }) => void;
   onSaveClick: VoidFunction;
   getStateStatuses: () => PossibleStatuses;
   validateEntity: (id: number, updatedEntity: Article | ConceptType) => void;
-  isArticle: boolean;
+  isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
-  hasErrors: boolean;
+  hasErrors?: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -54,16 +51,13 @@ const StyledLine = styled.hr`
 
 const EditorFooter: React.FC<Props & tType> = ({
   t,
-  isSubmitting,
+  formikProps,
   formIsDirty,
   savedToServer,
-  values,
   getEntity,
   createMessage,
   entityStatus,
   showSimpleFooter,
-  setFieldValue,
-  errors,
   onSaveClick,
   getStateStatuses,
   validateEntity,
@@ -74,6 +68,8 @@ const EditorFooter: React.FC<Props & tType> = ({
   hasErrors,
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+
+  const { values, setFieldValue, isSubmitting } = formikProps;
 
   const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
     const possibleStatuses = await getStateStatuses();
@@ -101,7 +97,7 @@ const EditorFooter: React.FC<Props & tType> = ({
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
       onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
-      disabled={hasErrors}
+      disabled={!!hasErrors}
     />
   );
 

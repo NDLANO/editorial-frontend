@@ -197,21 +197,18 @@ const TopicArticleForm = props => {
           />
         )}
         <EditorFooter
+          formikProps={formik}
           showSimpleFooter={!article.id}
-          isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
           showReset={() => setResetModal(true)}
-          errors={errors}
-          values={values}
           onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
           entityStatus={article.status}
           getStateStatuses={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          {...formikProps}
           {...rest}
         />
         <FormikAlertModalWrapper

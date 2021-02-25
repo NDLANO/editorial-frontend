@@ -353,55 +353,19 @@ class ConceptForm extends Component {
                   </AccordionWrapper>
                 )}
               </Accordion>
-              {inModal ? (
-                <Field right>
-                  <FormikActionButton outline onClick={onClose}>
-                    {t('form.abort')}
-                  </FormikActionButton>
-                  <SaveButton
-                    {...formClasses}
-                    isSaving={isSubmitting}
-                    formIsDirty={formIsDirty}
-                    showSaved={savedToServer && !formIsDirty}
-                    submit={!inModal}
-                    onClick={evt => {
-                      evt.preventDefault();
-                      this.handleSubmit(formikProps);
-                    }}>
-                    {t('form.save')}
-                  </SaveButton>
-                </Field>
-              ) : (
-                <EditorFooter
-                  isSubmitting={isSubmitting}
-                  formIsDirty={formIsDirty}
-                  savedToServer={savedToServer}
-                  values={values}
-                  error={error}
-                  errors={errors}
-                  getEntity={() => this.getApiConcept(values)}
-                  entityStatus={concept.status}
-                  createMessage={createMessage}
-                  showSimpleFooter={!concept.id}
-                  setFieldValue={setFieldValue}
-                  onSaveClick={() => {
-                    this.handleSubmit(formikProps);
-                  }}
-                  getStateStatuses={fetchStateStatuses}
-                  hideSecondaryButton
-                  isConcept
-                  isNewlyCreated={isNewlyCreated}
-                />
-              )}
-              {!inModal && (
-                <FormikAlertModalWrapper
-                  formIsDirty={formIsDirty}
-                  isSubmitting={isSubmitting}
-                  onContinue={translateOnContinue ? translateConcept : () => {}}
-                  severity="danger"
-                  text={t('alertModal.notSaved')}
-                />
-              )}
+                entityStatus={concept.status}
+                inModal={inModal}
+                formIsDirty={formIsDirty}
+                savedToServer={savedToServer}
+                isNewlyCreated={isNewlyCreated}
+                showSimpleFooter={!concept.id}
+                onClose={onClose}
+                onContinue={translateOnContinue ? translateConcept : () => {}}
+                handleSubmit={this.handleSubmit}
+                createMessage={createMessage}
+                getStateStatuses={fetchStateStatuses}
+                getApiConcept={this.getApiConcept}
+              />
             </FormWrapper>
           );
         }}

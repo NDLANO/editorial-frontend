@@ -40,8 +40,6 @@ export function useFetchArticleData(articleId, locale) {
         articleType: 'concept',
       }));
 
-      article.relatedContent = []; // **** Fjern før merge ****
-
       const relatedArticles = article.relatedContent.filter(e => typeof e === 'number');
       const externalLinks = article.relatedContent.filter(e => typeof e !== 'number');
 

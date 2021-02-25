@@ -92,7 +92,7 @@ function stripSpacesFromSelectedText(editor) {
   if (selectedStartText.startsWith(' ')) {
     editor.moveStartForward(1);
   }
-  const selectedEndText = endText.text.slice(value.selection.end.offset -1);
+  const selectedEndText = endText.text.slice(value.selection.end.offset - 1);
   if (selectedEndText.startsWith(' ')) {
     editor.moveEndBackward(1);
   }

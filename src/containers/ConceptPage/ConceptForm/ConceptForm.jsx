@@ -164,7 +164,11 @@ class ConceptForm extends Component {
     const initialStatus = concept.status?.current;
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
-    if (Object.keys(formik.errors).length > 0 && formik.errors.constructor === Object) {
+    if (
+      formik.errors &&
+      Object.keys(formik.errors).length > 0 &&
+      formik.errors.constructor === Object
+    ) {
       setConcept({ status: concept.status, ...this.getApiConcept(values) });
       // if formik has errors, we stop submitting and show the error message(s)
       const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
@@ -226,7 +230,9 @@ class ConceptForm extends Component {
     return (
       <Formik
         initialValues={initialValues}
-        onSubmit={() => ({})}
+        onSubmit={(values, actions) => {
+          this.handleSubmit({ ...actions, values });
+        }}
         innerRef={this.formik}
         enableReinitialize
         validateOnMount
@@ -256,12 +262,7 @@ class ConceptForm extends Component {
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['title', 'conceptContent'].some(field => !!errors[field])}
                   startOpen>
-                  '}>
-                  <ConceptContent
-                    classes={formClasses}
-                    formik={formikProps}
-                    handleSubmit={() => this.handleSubmit(formikProps)}
-                  />
+                  <ConceptContent classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
                   id="concept-copyright"

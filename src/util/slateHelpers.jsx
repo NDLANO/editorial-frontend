@@ -50,8 +50,6 @@ export const MARK_TAGS = {
   code: 'code',
 };
 
-const ListText = ({ children }) => children;
-
 const emptyNodes = [
   {
     object: 'text',
@@ -85,6 +83,7 @@ const canParentElementContainBlock = el => {
       tagName === 'section' ||
       tagName === 'div' ||
       tagName === 'aside' ||
+      tagName === 'li' ||
       BLOCK_TAGS[tagName] !== undefined
     );
   }
@@ -124,6 +123,7 @@ export const textRule = {
         text: el.data,
       };
     }
+
     if (
       !el.nodeName ||
       el.nodeName.toLowerCase() !== '#text' ||
@@ -134,6 +134,7 @@ export const textRule = {
     return null;
   },
 };
+
 export const divRule = {
   // div handling with text in box (bodybox), related content and file embeds
   deserialize(el, next) {
@@ -163,11 +164,10 @@ export const divRule = {
         data: reduceChildElements(el, type),
       };
     }
-    const childs = next(el.childNodes);
     return {
       object: 'block',
       type: 'div',
-      nodes: childs,
+      nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
@@ -193,29 +193,18 @@ export const divRule = {
 };
 
 export const paragraphRule = {
-  // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'p') return;
-    const parent = el.parentElement ? el.parentElement.tagName.toLowerCase() : '';
-    const type = parent === 'li' ? 'list-text' : 'paragraph';
     return {
       object: 'block',
       data: reduceElementDataAttributes(el, ['align', 'data-align']),
-      type,
+      type: 'paragraph',
       nodes: next(el.childNodes),
     };
   },
   serialize(slateObject, children) {
     if (slateObject.object !== 'block') return;
-    if (
-      slateObject.type !== 'paragraph' &&
-      slateObject.type !== 'list-text' &&
-      slateObject.type !== 'line'
-    )
-      return;
-    if (slateObject.type === 'list-text') {
-      return <ListText>{children}</ListText>;
-    }
+    if (slateObject.type !== 'paragraph' && slateObject.type !== 'line') return;
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor
@@ -229,12 +218,20 @@ export const paragraphRule = {
   },
 };
 
+// The default block wrapper defined in slate-edit-list
+const ListText = ({ children }) => children;
+export const listTextRule = {
+  serialize(slateObject, children) {
+    if (slateObject.object !== 'block') return;
+    if (slateObject.type !== 'list-text') return;
+
+    return <ListText>{children}</ListText>;
+  },
+};
+
 export const listItemRule = {
-  // div handling with text in box (bodybox)
   deserialize(el, next) {
     if (el.tagName.toLowerCase() !== 'li') return;
-    // const nodes = [...next(el.childNodes), ...emptyNodes];
-
     return {
       object: 'block',
       type: 'list-item',
@@ -769,6 +766,7 @@ export const learningResourceEmbedRule = [
 ];
 
 const RULES = [
+  listTextRule,
   divRule,
   detailsRules,
   textRule,

@@ -259,9 +259,9 @@ const phrases = {
     helpMessage: {
       tooltip: 'About the HTML editor',
       paragraph1:
-        'It is possible to format the HTML code by pressing F1 and then selecting Format. Note that this could lead to changes in whitespace (indentations, linebreaks and spaces) when saving. Feel free to use the preview feature rapidly. ',
+        'It is possible to format the HTML code by pressing F1 and then selecting Format. Note that this could lead to changes in whitespace (indentations, linebreaks and spaces) when saving. Feel free to use the preview feature rapidly. Saving using ctrl+s also works.',
       paragraph2:
-        'To minimize potential problems with formatting and to secure consistent HTML, the same transformations as in the regular editor is applied. This means that for instance linebreaks will be changed to<br> when saving, and illegal code is attempted to be corrected.',
+        'To minimize potential problems with formatting and to secure consistent HTML, the same transformations as in the regular editor is applied. This means that illegal code is attempted to be corrected. Linebreaks are removed when saving and are therefore ignored',
     },
   },
   imageSearch: {

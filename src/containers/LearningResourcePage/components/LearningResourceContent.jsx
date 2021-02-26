@@ -38,6 +38,7 @@ import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
@@ -111,6 +112,7 @@ class LearningResourceContent extends Component {
       // unwrapping (jumping out of block) will not work.
       blockquotePlugin,
       editListPlugin,
+      listTextPlugin(),
       paragraphPlugin(),
       createTablePlugin(),
       editTablePlugin,

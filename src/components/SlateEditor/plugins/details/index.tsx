@@ -110,6 +110,7 @@ export const createDetails = () => {
               { type: 'quote' },
               { type: 'table' },
               { type: 'embed' },
+              { type: 'file' },
               { type: 'code-block' },
             ],
           },

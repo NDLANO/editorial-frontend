@@ -39,6 +39,7 @@ Object {
   "notes": Array [],
   "oldNdlaUrl": "//red.ndla.no/node/116160",
   "published": "2019-01-16T12:30:04Z",
+  "relatedContent": undefined,
   "requiredLibraries": Array [],
   "revision": 48,
   "status": Object {
@@ -101,6 +102,7 @@ Object {
   "notes": Array [],
   "oldNdlaUrl": "//red.ndla.no/node/116160",
   "published": "2019-01-16T12:30:04Z",
+  "relatedContent": Array [],
   "requiredLibraries": Array [],
   "revision": 48,
   "status": Object {

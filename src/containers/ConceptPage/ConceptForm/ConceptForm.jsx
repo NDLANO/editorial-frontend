@@ -218,7 +218,6 @@ class ConceptForm extends Component {
       inModal,
       isNewlyCreated,
       licenses,
-      locale,
       onClose,
       subjects,
       t,
@@ -273,7 +272,6 @@ class ConceptForm extends Component {
                     licenses={licenses}
                     disableAgreements
                     label={t('form.concept.source')}
-                    values={values}
                   />
                 </AccordionSection>
                 <AccordionSection
@@ -281,24 +279,14 @@ class ConceptForm extends Component {
                   title={t('form.metadataSection')}
                   className="u-6/6"
                   hasError={['tags', 'metaImageAlt', 'subjects'].some(field => !!errors[field])}>
-                  <ConceptMetaData
-                    classes={formClasses}
-                    concept={concept}
-                    fetchTags={fetchConceptTags}
-                    subjects={subjects}
-                    locale={locale}
-                  />
+                  <ConceptMetaData fetchTags={fetchConceptTags} subjects={subjects} />
                 </AccordionSection>
                 <AccordionSection
                   id="concept-articles"
                   title={t('form.articleSection')}
                   className="u-6/6"
                   hasError={['articles'].some(field => !!errors[field])}>
-                  <FormikField name={'articles'}>
-                    {({ field, form }) => (
-                      <ConceptArticles initArticles={concept.articles} field={field} form={form} />
-                    )}
-                  </FormikField>
+                  <ConceptArticles />
                 </AccordionSection>
               </AccordionWrapper>
               <FormFooter

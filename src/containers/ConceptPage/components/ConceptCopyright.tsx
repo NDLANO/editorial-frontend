@@ -8,16 +8,26 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField/FormikField';
 import FormikCopyright from '../../FormikForm/FormikCopyright';
+import { License } from '../../../interfaces';
+
+interface Props {
+  licenses: License[];
+  contributorTypesOverride: string[];
+  disableAgreements: boolean;
+  label: string;
+}
 
 const ConceptCopyright = ({
   licenses,
   contributorTypesOverride,
   disableAgreements,
   label,
-  values,
-}) => {
+}: Props) => {
+  const { values } = useFormikContext();
+
   return (
     <Fragment>
       <FormikCopyright
@@ -30,21 +40,6 @@ const ConceptCopyright = ({
       <FormikField label={label} name="source" />
     </Fragment>
   );
-};
-
-ConceptCopyright.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  values: PropTypes.shape({
-    agreementId: PropTypes.number,
-  }),
-  contributorTypesOverride: PropTypes.arrayOf(PropTypes.string),
-  disableAgreements: PropTypes.bool,
-  label: PropTypes.string,
 };
 
 export default ConceptCopyright;

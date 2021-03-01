@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { FormikProps } from 'formik';
+import { useFormikContext } from 'formik';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
@@ -17,7 +17,6 @@ import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../
 import { ConceptType } from '../../../interfaces';
 
 interface Props {
-  formikProps: FormikProps<Values>;
   entityStatus: { current: string };
   inModal: boolean;
   formIsDirty: boolean;
@@ -33,7 +32,6 @@ interface Props {
 }
 
 const FormFooter = ({
-  formikProps,
   entityStatus,
   inModal,
   formIsDirty,
@@ -48,6 +46,7 @@ const FormFooter = ({
   getApiConcept,
   t,
 }: Props & tType) => {
+  const formikProps = useFormikContext<Values>();
   const { values, isSubmitting } = formikProps;
 
   return (

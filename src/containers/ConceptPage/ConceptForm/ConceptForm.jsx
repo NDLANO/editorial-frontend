@@ -23,7 +23,6 @@ import { createEmbedTag } from '../../../util/embedTagHelpers';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
-import FormikField from '../../../components/FormikField';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
 import * as messageActions from '../../Messages/messagesActions';
@@ -290,7 +289,6 @@ class ConceptForm extends Component {
                 </AccordionSection>
               </AccordionWrapper>
               <FormFooter
-                formikProps={formikProps}
                 entityStatus={concept.status}
                 inModal={inModal}
                 formIsDirty={formIsDirty}

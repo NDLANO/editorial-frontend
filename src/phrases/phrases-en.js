@@ -948,7 +948,7 @@ const phrases = {
       addExternal: 'Add external article',
       link: {
         missingTitle: 'Missing title',
-        missingUrl: 'Missing url',
+        missingUrl: 'Url must start with http:// or https://',
         titlePlaceholder: 'Title',
         urlPlaceholder: 'http://example.com',
         addLink: 'Add',

@@ -22,12 +22,18 @@ const FormikContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
   const [url, setUrl] = useState('');
   const [showError, setShowError] = useState(false);
 
-  const hasError = (field: string) => {
-    return field === '';
+  const isEmpty = (title: string) => {
+    return title === '';
+  };
+
+  const isUrl = (field: string) => {
+    var pattern = /^((http:|https:)\/\/)/;
+
+    return pattern.test(field);
   };
 
   const handleSubmit = () => {
-    if (!hasError(title) && !hasError(url)) {
+    if (!isEmpty(title) && isUrl(url)) {
       onAddLink(title, url);
       onClose();
     } else {
@@ -38,7 +44,7 @@ const FormikContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
   return (
     <>
       <Input
-        warningText={showError && hasError(title) && t('form.relatedContent.link.missingTitle')}
+        warningText={showError && isEmpty(title) && t('form.relatedContent.link.missingTitle')}
         container="div"
         type="text"
         placeholder={t('form.relatedContent.link.titlePlaceholder')}
@@ -46,7 +52,7 @@ const FormikContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
       />
       <Input
-        warningText={showError && hasError(url) && t('form.relatedContent.link.missingUrl')}
+        warningText={showError && !isUrl(url) && t('form.relatedContent.link.missingUrl')}
         container="div"
         type="text"
         placeholder={t('form.relatedContent.link.urlPlaceholder')}

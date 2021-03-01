@@ -101,7 +101,7 @@ const ElementListLink = ({
 };
 
 const StyledLinkContainer = styled.div`
-  background: ${colors.background.grayDark};
+  background: ${colors.background.darker};
   width: ${ELEMENT_HEIGHT * 1.33}px;
   height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
   object-fit: cover;
@@ -112,6 +112,7 @@ const StyledLinkContainer = styled.div`
   svg {
     height: 30px;
     width: 30px;
+    color: ${colors.brand.greyMedium};
   }
 `;
 

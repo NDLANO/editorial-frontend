@@ -971,7 +971,7 @@ const phrases = {
       addExternal: 'Legg til ekstern artikkel',
       link: {
         missingTitle: 'Mangler tittel',
-        missingUrl: 'Mangler url',
+        missingUrl: 'Url må begynne med http:// eller https://',
         titlePlaceholder: 'Tittel',
         urlPlaceholder: 'http://example.com',
         addLink: 'Legg til',

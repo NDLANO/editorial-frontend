@@ -113,16 +113,14 @@ class AudioForm extends Component {
   };
 
   render() {
-    const { t, licenses, audio, isNewlyCreated } = this.props;
+    const { t, audio, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
-    const panels = ({ values, errors, touched, setFieldValue }) => [
+    const panels = ({ errors }) => [
       {
         id: 'audio-upload-content',
         title: t('form.contentSection'),
         hasError: ['title', 'audioFile'].some(field => !!errors[field]),
-        component: (
-          <AudioContent classes={formClasses} setFieldValue={setFieldValue} values={values} />
-        ),
+        component: <AudioContent classes={formClasses} />,
       },
       {
         id: 'audio-upload-metadataSection',
@@ -130,14 +128,7 @@ class AudioForm extends Component {
         hasError: ['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
           field => !!errors[field],
         ),
-        component: (
-          <AudioMetaData
-            classes={formClasses}
-            licenses={licenses}
-            audioLanguage={audio.language}
-            audioTags={audio.tags}
-          />
-        ),
+        component: <AudioMetaData classes={formClasses} />,
       },
     ];
     const initialValues = getInitialValues(audio);

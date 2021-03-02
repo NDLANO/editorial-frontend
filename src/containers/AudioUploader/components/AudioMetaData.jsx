@@ -9,6 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import { useFormikContext } from 'formik';
 import { fetchSearchTags } from '../../../modules/draft/draftApi';
 import { FormikLicense, FormikContributors } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
@@ -17,7 +18,9 @@ import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSea
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const AudioMetaData = props => {
-  const { t, licenses, audioLanguage, audioTags } = props;
+  const { t } = props;
+  const { values } = useFormikContext();
+
   return (
     <Fragment>
       <FormikField
@@ -27,8 +30,8 @@ const AudioMetaData = props => {
         description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
-            language={audioLanguage}
-            initialTags={audioTags}
+            language={values.language}
+            initialTags={values.tags}
             field={field}
             form={form}
             fetchTags={fetchSearchTags}
@@ -36,7 +39,7 @@ const AudioMetaData = props => {
         )}
       </FormikField>
       <FormikField name="license">
-        {({ field }) => <FormikLicense licenses={licenses} {...field} />}
+        {({ field }) => <FormikLicense licenses={values.licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
       <FormikContributors contributorTypes={contributorTypes} />
@@ -46,14 +49,14 @@ const AudioMetaData = props => {
 
 AudioMetaData.propTypes = {
   classes: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  audioLanguage: PropTypes.string,
-  audioTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // licenses: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     description: PropTypes.string,
+  //     license: PropTypes.string,
+  //   }),
+  // ).isRequired,
+  // audioLanguage: PropTypes.string,
+  // audioTags: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default injectT(AudioMetaData);

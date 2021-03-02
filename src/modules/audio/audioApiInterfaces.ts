@@ -8,7 +8,7 @@
 
 import { Copyright } from '../../interfaces';
 
-export type AudioType = 'standard' | 'podcast';
+type AudioType = 'standard' | 'podcast';
 
 export interface NewPodcastMeta {
   header: string;

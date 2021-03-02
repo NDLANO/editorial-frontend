@@ -77,7 +77,7 @@ class SlateFactAside extends React.Component {
         {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
         draggable
         {...attributes}>
-        <div className="c-factbox__content">{children}</div>
+        <div className="c-factbox__content c-bodybox">{children}</div>
         <Button
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"

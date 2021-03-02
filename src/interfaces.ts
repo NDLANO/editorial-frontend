@@ -100,6 +100,12 @@ export interface ContentResultType {
   learningResourceType?: string;
   supportedLanguages?: string[];
   previewUrl?: string;
+  highlights: [
+    {
+      field: string;
+      matches: string[];
+    },
+  ];
 }
 
 export interface ArticleType {

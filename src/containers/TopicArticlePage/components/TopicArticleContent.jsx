@@ -32,6 +32,7 @@ import { editListPlugin } from '../../../components/SlateEditor/plugins/external
 import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
 import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
@@ -65,6 +66,7 @@ const createPlugins = language => {
     // unwrapping (jumping out of block) will not work.
     blockquotePlugin,
     editListPlugin,
+    listTextPlugin(),
     conceptPlugin(language),
     paragraphPlugin(),
     mathmlPlugin(),

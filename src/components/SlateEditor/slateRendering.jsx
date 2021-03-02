@@ -27,7 +27,7 @@ export const renderBlock = (props, editor, next) => {
         </ul>
       );
     case 'list-text':
-      return <span {...attributes}>{children}</span>;
+      return children;
     case 'list-item':
       return (
         <li className="c-block__list-item" {...attributes}>

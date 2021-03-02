@@ -28,12 +28,13 @@ const emptySearchState = {
   resourceTypes: '',
   draftStatus: '',
   users: '',
+  language: '',
 };
 
 class SearchContentForm extends Component {
   constructor(props) {
     super(props);
-    const { searchObject } = props;
+    const { searchObject, locale } = props;
     this.state = {
       dropDown: {
         resourceTypes: [],
@@ -45,6 +46,7 @@ class SearchContentForm extends Component {
         draftStatus: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         users: searchObject.users || '',
+        language: searchObject.language || locale,
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -84,7 +86,7 @@ class SearchContentForm extends Component {
       evt.preventDefault();
     }
     const {
-      search: { resourceTypes, draftStatus, subjects, query, users },
+      search: { resourceTypes, draftStatus, subjects, query, users, language },
     } = this.state;
     const { search } = this.props;
     search({
@@ -93,6 +95,8 @@ class SearchContentForm extends Component {
       subjects,
       query,
       users,
+      language,
+      fallback: true,
       page: 1,
     });
   }
@@ -233,6 +237,8 @@ SearchContentForm.propTypes = {
     'resource-types': PropTypes.string,
     'draft-status': PropTypes.string,
     users: PropTypes.string,
+    language: PropTypes.string,
+    fallback: PropTypes.bool,
   }),
   locale: PropTypes.string.isRequired,
 };

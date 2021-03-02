@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { getSearching } from '../../modules/search/searchSelectors';
+import { getLocale } from '../../modules/locale/locale';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
 
@@ -35,7 +36,7 @@ class MastheadSearch extends Component {
   }
 
   render() {
-    const { history, searching, close } = this.props;
+    const { history, searching, close, locale } = this.props;
     const { query } = this.state;
     return (
       <MastheadSearchForm
@@ -48,6 +49,8 @@ class MastheadSearch extends Component {
               page: 1,
               sort: '-lastUpdated',
               'page-size': 10,
+              language: locale,
+              fallback: true,
             }),
           );
           close();
@@ -62,10 +65,12 @@ MastheadSearch.propTypes = {
   searching: PropTypes.bool.isRequired,
   history: HistoryShape,
   close: PropTypes.func,
+  locale: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   searching: getSearching(state),
+  locale: getLocale(state),
 });
 
 export default withRouter(connect(mapStateToProps)(MastheadSearch));

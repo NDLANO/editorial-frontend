@@ -51,7 +51,7 @@ const panels = [
     id: 'learning-resource-related-data',
     title: 'form.name.relatedContent',
     className: 'u-6/6',
-    errorFields: ['conceptIds'],
+    errorFields: ['conceptIds', 'relatedContent'],
     component: props => <FormikRelatedContent {...props} />,
   },
   {

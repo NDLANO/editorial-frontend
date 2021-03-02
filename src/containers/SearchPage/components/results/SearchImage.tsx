@@ -29,7 +29,12 @@ const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
       <Link to={toEditImage(image.id, image.title.language)}>
         <h1 {...searchClasses('title')}>{image.title.title || t('imageSearch.noTitle')}</h1>
       </Link>
-      <p>{image.supportedLanguages?.map(lang => t(`language.${lang}`)).join(' / ')}</p>
+      <p {...searchClasses('description')}>
+        {`${t('searchPage.language')}: `}
+        {image.supportedLanguages?.map(lang => (
+          <span {...searchClasses('other-link')}>{t(`language.${lang}`)}</span>
+        ))}
+      </p>
     </div>
   </div>
 );

@@ -151,6 +151,12 @@ const phrases = {
     imageNoHits: 'Your search - {query} - did not match any images.',
     pageSize: '{pageSize} hits per page',
     totalCount: 'Total results',
+    highlights: {
+      title: 'Search hits',
+      content: 'Search hits from content',
+      tags: 'Search hits from tags',
+      embedAttributes: 'Search hits from embedded elements',
+    },
   },
   articleType: {
     'topic-article': 'Topic',

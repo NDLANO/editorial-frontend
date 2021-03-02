@@ -152,6 +152,12 @@ const phrases = {
     imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
+    highlights: {
+      title: 'Søketreff',
+      content: 'Søketreff fra innhold',
+      tags: 'Søketreff fra nøkkelord',
+      embedAttributes: 'Søketreff fra innebygde elementer',
+    },
   },
   articleType: {
     'topic-article': 'Emne',

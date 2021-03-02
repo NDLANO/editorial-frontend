@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
-import FormikRelatedData from '../../FormikForm/FormikRelatedData';
+import FormikRelatedContent from '../../FormikForm/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
@@ -51,7 +51,7 @@ const panels = [
     title: 'form.name.relatedContent',
     className: 'u-6/6',
     errorFields: ['conceptIds'],
-    component: props => <FormikRelatedData {...props} />,
+    component: props => <FormikRelatedContent {...props} />,
   },
   {
     id: 'topic-article-workflow',

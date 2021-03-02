@@ -4,7 +4,7 @@ import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import FormikRelatedData from '../../FormikForm/FormikRelatedData';
+import FormikRelatedContent from '../../FormikForm/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
@@ -52,7 +52,7 @@ const panels = [
     title: 'form.name.relatedContent',
     className: 'u-6/6',
     errorFields: ['conceptIds'],
-    component: props => <FormikRelatedData {...props} />,
+    component: props => <FormikRelatedContent {...props} />,
   },
   {
     id: 'learning-resource-workflow',

@@ -2,130 +2,45 @@
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import React, { FC, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { FieldHeader } from '@ndla/forms';
-import Button from '@ndla/button';
-import { FormikHelpers, FormikValues } from 'formik';
-import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
-import { fetchDraft, searchDrafts } from '../../modules/draft/draftApi';
-import ElementList from './components/ElementList';
-import { AsyncDropdown } from '../../components/Dropdown';
-import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../interfaces';
-import handleError from '../../util/handleError';
-import FormikContentLink from './FormikContentLink';
+import React, { Fragment } from 'react';
+import { FormikHelpers, FieldProps, FormikValues } from 'formik';
+import FormikField from '../../components/FormikField';
+import { ArticleType, ConceptType, ConvertedRelatedContent } from '../../interfaces';
+import FormikConcepts from './FormikConcepts';
+import FormikContent from './FormikContent';
 
 interface Props {
-  locale: string;
-  values: {
-    relatedContent: ConvertedRelatedContent[];
-  };
-  field: FormikProperties['field'];
+  article: ArticleType;
+  field: FieldProps<string[]>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
+  values: {
+    conceptIds: ConceptType[];
+    relatedContent: ConvertedRelatedContent[];
+  };
+  locale: string;
 }
 
-const FormikRelatedContent: FC<Props & tType> = ({ locale, t, values, field, form }) => {
-  const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
-    values.relatedContent,
-  );
-
-  const onAddArticleToList = async (article: ContentResultType) => {
-    try {
-      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-      const newArticle = (await fetchDraft(article.id, locale)) as ArticleType;
-
-      const temp = [...relatedContent, newArticle];
-      if (newArticle) {
-        setRelatedContent(temp);
-        updateFormik(field, temp);
-      }
-    } catch (e) {
-      handleError(e);
-    }
-  };
-
-  const onUpdateElements = (relatedContent: ConvertedRelatedContent[]) => {
-    setRelatedContent(relatedContent);
-    updateFormik(field, relatedContent);
-  };
-
-  const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {
-    form.setFieldTouched('relatedContent', true, false);
-    formikField.onChange({
-      target: {
-        name: formikField.name,
-        value: newData || null,
-      },
-    });
-  };
-
-  const searchForArticles = async (inp: string) => {
-    return searchDrafts({
-      query: inp,
-      language: locale,
-    });
-  };
-
-  const addExternalLink = (title: string, url: string) => {
-    const temp = [...relatedContent, { title, url }];
-    setRelatedContent(temp);
-    updateFormik(field, temp);
-  };
-
+const FormikRelatedContent = ({ locale, values }: Props) => {
   return (
-    <>
-      <FieldHeader title={t('form.relatedContent.articlesTitle')} />
-      <ElementList
-        elements={relatedContent}
-        messages={{
-          dragElement: t('form.relatedContent.changeOrder'),
-          removeElement: t('form.relatedContent.removeArticle'),
-        }}
-        onUpdateElements={onUpdateElements}
-      />
-      <AsyncDropdown
-        selectedItems={relatedContent.filter(e => typeof e !== 'number')}
-        idField="id"
-        name="relatedConceptsSearch"
-        labelField="title"
-        placeholder={t('form.relatedContent.placeholder')}
-        label="label"
-        apiAction={searchForArticles}
-        onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept: ContentResultType) => onAddArticleToList(concept)}
-        multiSelect
-        disableSelected
-        clearInputField
-      />
-      <StyledButtonWrapper>
-        <Modal
-          backgroundColor="white"
-          activateButton={<Button>{t('form.relatedContent.addExternal')}</Button>}>
-          {(onClose: () => void) => (
-            <>
-              <ModalHeader>
-                <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
-              </ModalHeader>
-              <ModalBody>
-                <FormikContentLink onAddLink={addExternalLink} onClose={onClose} />
-              </ModalBody>
-            </>
-          )}
-        </Modal>
-      </StyledButtonWrapper>
-    </>
+    <Fragment>
+      <FormikField name={'conceptIds'}>
+        {({ field, form }) => (
+          <FormikConcepts field={field} form={form} locale={locale} values={values} />
+        )}
+      </FormikField>
+      <FormikField name={'relatedContent'}>
+        {({ field, form }) => (
+          <FormikContent field={field} form={form} locale={locale} values={values} />
+        )}
+      </FormikField>
+    </Fragment>
   );
 };
 
-const StyledButtonWrapper = styled.div`
-  margin: ${spacing.small} 0;
-`;
-
-export default injectT(FormikRelatedContent);
+export default FormikRelatedContent;

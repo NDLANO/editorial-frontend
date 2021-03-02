@@ -19,13 +19,13 @@ interface Props {
 }
 
 const StyledHeading = styled.p`
-  cursor: help;
   font-weight: ${fonts.weight.semibold};
   margin-top: 0;
   margin-bottom: 0;
 `;
 
 const StyledHighlights = styled.p`
+  cursor: help;
   margin-top: 0;
   margin-bottom: 0;
 `;
@@ -53,14 +53,14 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
 
   return selectedHighlights ? (
     <StyledDiv>
+      <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
       <Tooltip
         align={'right'}
         tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
-        <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
+        <StyledHighlights
+          dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }}
+        />
       </Tooltip>
-      <StyledHighlights
-        dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }}
-      />
     </StyledDiv>
   ) : null;
 };

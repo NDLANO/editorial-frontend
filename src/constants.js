@@ -63,4 +63,5 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'MolView', url: ['embed.molview.org'] },
+  { name: 'GeoGebra', url: ['www.geogebra.org'] },
 ];

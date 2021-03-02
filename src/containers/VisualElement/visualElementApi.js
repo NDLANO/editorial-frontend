@@ -28,7 +28,7 @@ const baseBrightCoveUrlV3 = brightcoveApiResourceUrl(
 const baseGoogleSearchUrl = googleSearchApiResourceUrl('/customsearch/v1/');
 
 const corsAnywhereUrl = `${
-  config.ndlaEnvironment === 'test' ? 'https://cors-anywhere.herokuapp.com/' : ''
+  config.ndlaEnvironment === 'local' ? 'https://cors-anywhere.herokuapp.com/' : ''
 }`;
 
 export const fetchNrkMedia = async mediaId => {

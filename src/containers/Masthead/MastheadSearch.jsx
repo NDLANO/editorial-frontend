@@ -12,9 +12,12 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
+import * as actions from '../../modules/search/search';
 import { getSearching } from '../../modules/search/searchSelectors';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
+
+const validSearchPaths = ['/search/content', '/search/concept', '/search/image', '/search/audio'];
 
 class MastheadSearch extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -34,24 +37,38 @@ class MastheadSearch extends Component {
     };
   }
 
+  onSearchQuerySubmit = searchQuery => {
+    const { history, location, close, search } = this.props;
+
+    if (validSearchPaths.includes(location.pathname)) {
+      const type = location.pathname.replace('/search/', '');
+      const searchObject = queryString.parse(location.search);
+      searchObject.query = searchQuery;
+
+      search({ query: searchObject, type });
+      history.push(toSearch(searchObject, type));
+    } else {
+      history.push(
+        toSearch({
+          query: searchQuery,
+          page: 1,
+          sort: '-lastUpdated',
+          'page-size': 10,
+        }),
+      );
+    }
+
+    close();
+  };
+
   render() {
-    const { history, searching, close } = this.props;
+    const { searching } = this.props;
     const { query } = this.state;
     return (
       <MastheadSearchForm
         query={query}
         searching={searching}
-        onSearchQuerySubmit={searchQuery => {
-          history.push(
-            toSearch({
-              query: searchQuery,
-              page: 1,
-              sort: '-lastUpdated',
-              'page-size': 10,
-            }),
-          );
-          close();
-        }}
+        onSearchQuerySubmit={this.onSearchQuerySubmit}
       />
     );
   }
@@ -62,10 +79,15 @@ MastheadSearch.propTypes = {
   searching: PropTypes.bool.isRequired,
   history: HistoryShape,
   close: PropTypes.func,
+  search: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   searching: getSearching(state),
 });
 
-export default withRouter(connect(mapStateToProps)(MastheadSearch));
+const mapDispatchToProps = {
+  search: actions.search,
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MastheadSearch));

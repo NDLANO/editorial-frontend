@@ -17,7 +17,7 @@ import { getSearching } from '../../modules/search/searchSelectors';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
 
-const validSearchPaths = ['/search/content', '/search/concept', '/search/image', '/search/audio'];
+const validSearchPaths = ['content', 'concept', 'image', 'audio'];
 
 class MastheadSearch extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -38,14 +38,40 @@ class MastheadSearch extends Component {
   }
 
   onSearchQuerySubmit = searchQuery => {
-    const { history, location, close, search } = this.props;
+    const {
+      history,
+      location,
+      close,
+      search,
+      searchAudio,
+      searchImage,
+      searchConcept,
+    } = this.props;
 
-    if (validSearchPaths.includes(location.pathname)) {
-      const type = location.pathname.replace('/search/', '');
+    const type = location.pathname.replace('/search/', '');
+
+    if (validSearchPaths.includes(type)) {
       const searchObject = queryString.parse(location.search);
       searchObject.query = searchQuery;
 
-      search({ query: searchObject, type });
+      switch (type) {
+        case 'content':
+          search({ query: searchObject, type });
+          break;
+        case 'audio':
+          searchAudio({ query: searchObject, type });
+          break;
+        case 'image':
+          searchImage({ query: searchObject, type });
+          break;
+        case 'concept':
+          searchConcept({ query: searchObject, type });
+          break;
+        default:
+          search({ query: searchObject, type });
+          break;
+      }
+
       history.push(toSearch(searchObject, type));
     } else {
       history.push(
@@ -80,6 +106,9 @@ MastheadSearch.propTypes = {
   history: HistoryShape,
   close: PropTypes.func,
   search: PropTypes.func,
+  searchAudio: PropTypes.func,
+  searchImage: PropTypes.func,
+  searchConcept: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -88,6 +117,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   search: actions.search,
+  searchAudio: actions.searchAudio,
+  searchImage: actions.searchImage,
+  searchConcept: actions.searchConcept,
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MastheadSearch));

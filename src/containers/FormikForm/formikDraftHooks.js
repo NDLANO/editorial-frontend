@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import partition from 'lodash/partition';
 import * as draftApi from '../../modules/draft/draftApi';
 import { fetchConcept } from '../../modules/concept/conceptApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
@@ -40,8 +41,10 @@ export function useFetchArticleData(articleId, locale) {
         articleType: 'concept',
       }));
 
-      const relatedArticles = article.relatedContent.filter(e => typeof e === 'number');
-      const externalLinks = article.relatedContent.filter(e => typeof e !== 'number');
+      const [relatedArticles, externalLinks] = partition(
+        article.relatedContent,
+        e => typeof e === 'number',
+      );
 
       const convertedRelatedArticles = await fetchArticleList(relatedArticles);
 

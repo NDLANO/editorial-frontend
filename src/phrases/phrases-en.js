@@ -942,7 +942,7 @@ const phrases = {
     },
     relatedContent: {
       placeholder: 'Search for title',
-      articlesTitle: 'Other content',
+      articlesTitle: 'Content',
       changeOrder: 'Change order',
       removeArticle: 'Remove content',
       addExternal: 'Add external article',

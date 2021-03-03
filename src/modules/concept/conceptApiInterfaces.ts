@@ -6,7 +6,13 @@
  *
  */
 
-import { Copyright, Status } from '../../interfaces';
+import {
+  Copyright,
+  Status,
+  VisualElement,
+  ArticleType,
+  StrippedConceptType,
+} from '../../interfaces';
 
 export type LanguageFieldType<T> = T & {
   language: string;
@@ -41,6 +47,15 @@ export interface ConceptApiType extends CoreConceptApiType {
   updated: string;
   articleIds: number[];
   visualElement?: LanguageFieldType<{ visualElement: string }>;
+}
+
+export interface ConceptSubmitType extends StrippedConceptType {
+  agreementId?: number;
+  articles: ArticleType[];
+  supportedLanguages: string[];
+  metaImageId: string;
+  created?: string;
+  parsedVisualElement: VisualElement;
 }
 
 export interface ConceptTagsSearchResult {

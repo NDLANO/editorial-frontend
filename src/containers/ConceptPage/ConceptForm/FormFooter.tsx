@@ -13,9 +13,9 @@ import { isFormikFormDirty } from '../../../util/formHelper';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
-import { Article, PossibleStatuses } from '../../../components/SlateEditor/editorTypes';
+import { PossibleStatuses } from '../../../components/SlateEditor/editorTypes';
 import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../FormikForm';
-import { ConceptType, FormValues } from '../../../interfaces';
+import { ConceptType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
@@ -30,7 +30,7 @@ interface Props {
   handleSubmit: (formikProps: FormikContextType<ConceptFormValues>) => void;
   createMessage: (o: { translationKey: string; severity: string }) => void;
   getStateStatuses: () => PossibleStatuses;
-  getApiConcept: (values: ConceptFormValues) => Article | ConceptType;
+  getApiConcept: () => ConceptType;
 }
 
 const FormFooter = ({
@@ -47,8 +47,8 @@ const FormFooter = ({
   getApiConcept,
   t,
 }: Props & tType) => {
-  const formikProps = useFormikContext<ConceptFormValues>();
-  const { values, initialValues, dirty, isSubmitting } = formikProps;
+  const formikContext = useFormikContext<ConceptFormValues>();
+  const { values, initialValues, dirty, isSubmitting } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
@@ -70,7 +70,7 @@ const FormFooter = ({
             submit={!inModal}
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
-              handleSubmit(formikProps);
+              handleSubmit(formikContext);
             }}>
             {t('form.save')}
           </SaveButton>
@@ -79,12 +79,12 @@ const FormFooter = ({
         <EditorFooter
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
-          getEntity={() => getApiConcept(values)}
+          getEntity={getApiConcept}
           entityStatus={entityStatus}
           createMessage={createMessage}
           showSimpleFooter={showSimpleFooter}
           onSaveClick={() => {
-            handleSubmit(formikProps);
+            handleSubmit(formikContext);
           }}
           getStateStatuses={getStateStatuses}
           hideSecondaryButton

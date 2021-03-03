@@ -24,7 +24,7 @@ export interface ConceptFormType extends ConceptType {
 
 export interface ConceptFormValues extends StrippedConceptType, FormValues {
   creators: Author[];
-  created: string;
+  created?: string;
   title: string;
   conceptContent: string;
   agreementId?: number;

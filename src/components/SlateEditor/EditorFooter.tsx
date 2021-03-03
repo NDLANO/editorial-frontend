@@ -21,7 +21,7 @@ import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 
-interface Props<T> {
+interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
   getEntity: () => Article | ConceptType;
@@ -64,11 +64,9 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
-}: Props<T> & tType) {
-  const formikProps = useFormikContext<T>();
+}: Props & tType) {
+  const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
-
-  const { values, setFieldValue, isSubmitting } = formikProps;
 
   const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
     const possibleStatuses = await getStateStatuses();

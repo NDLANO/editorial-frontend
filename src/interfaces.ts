@@ -501,9 +501,9 @@ export interface StrippedConceptType {
   source?: string;
   metaImage?: {
     id?: string;
-    url: string;
+    url?: string;
     alt: string;
-    language: string;
+    language?: string;
   };
   tags: string[];
   subjectIds?: string[];
@@ -520,7 +520,7 @@ export interface ConceptType extends StrippedConceptType {
   updatedBy: string[];
   supportedLanguages: string[];
   status: Status;
-  created: string;
+  created?: string;
   updated: string;
   metaImageId: string;
   parsedVisualElement: VisualElement;

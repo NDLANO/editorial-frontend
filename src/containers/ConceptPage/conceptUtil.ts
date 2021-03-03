@@ -6,8 +6,11 @@
  *
  */
 
-import { plainTextToEditorValue } from '../../util/articleContentConverter';
-import { SubjectType } from '../../interfaces';
+import isEmpty from 'lodash/fp/isEmpty';
+import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
+import { createEmbedTag } from '../../util/embedTagHelpers';
+import { ConceptSubmitType } from '../../modules/concept/conceptApiInterfaces';
+import { SubjectType, License } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
 export const transformApiConceptToFormValues = (
@@ -35,5 +38,53 @@ export const transformApiConceptToFormValues = (
     articles: concept.articles || [],
     status: concept.status || {},
     visualElementObject: concept.parsedVisualElement || {},
+  };
+};
+
+export const getCreatedDate = (values: ConceptFormValues, initialValues: ConceptFormValues) => {
+  if (isEmpty(values.created)) {
+    return undefined;
+  }
+
+  const hasCreatedDateChanged = initialValues.created !== values.created;
+  if (hasCreatedDateChanged) {
+    return values.created;
+  }
+  return undefined;
+};
+
+export const getApiConcept = (
+  values: ConceptFormValues,
+  initialValues: ConceptFormValues,
+  licenses: License[],
+): ConceptSubmitType => {
+  return {
+    id: values.id,
+    title: values.title,
+    content: editorValueToPlainText(values.conceptContent),
+    language: values.language,
+    supportedLanguages: values.supportedLanguages,
+    copyright: {
+      license: licenses.find(license => license.license === values.license),
+      creators: values.creators,
+      processors: values.processors,
+      rightsholders: values.rightsholders,
+    },
+    agreementId: values.agreementId,
+    metaImageId: values.metaImageId,
+    metaImage: values.metaImageId
+      ? {
+          id: values.metaImageId,
+          alt: values.metaImageAlt,
+        }
+      : undefined,
+    source: values.source,
+    subjectIds: values.subjects.map(subject => subject.id),
+    tags: values.tags,
+    created: getCreatedDate(values, initialValues),
+    articleIds: values.articles.map(a => a.id),
+    articles: values.articles,
+    parsedVisualElement: values.visualElementObject,
+    visualElement: createEmbedTag(values.visualElementObject),
   };
 };

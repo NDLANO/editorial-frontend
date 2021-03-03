@@ -14,7 +14,6 @@ import { withRouter } from 'react-router-dom';
 import { AccordionWrapper } from '@ndla/accordion';
 import { Formik } from 'formik';
 import { injectT } from '@ndla/i18n';
-import isEmpty from 'lodash/fp/isEmpty';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import { createEmbedTag } from '../../../util/embedTagHelpers';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -28,7 +27,7 @@ import ConceptArticles from '../components/ConceptArticles';
 import ConceptCopyright from '../components/ConceptCopyright';
 import ConceptContent from '../components/ConceptContent';
 import ConceptMetaData from '../components/ConceptMetaData';
-import { transformApiConceptToFormValues } from '../conceptUtil';
+import { transformApiConceptToFormValues, getCreatedDate, getApiConcept } from '../conceptUtil';
 
 import FormWrapper from './FormWrapper';
 import AccordionSection from './AccordionSection';
@@ -79,20 +78,7 @@ class ConceptForm extends Component {
     this.setState({ translateOnContinue: translateOnContinue });
   };
 
-  getCreatedDate = values => {
-    if (isEmpty(values.created)) {
-      return undefined;
-    }
-    const { concept } = this.props;
-
-    const hasCreatedDateChanged = concept.created !== values.created;
-    if (hasCreatedDateChanged) {
-      return values.created;
-    }
-    return undefined;
-  };
-
-  getApiConcept = values => {
+  getApiConcept = (values, initialValues) => {
     const { licenses } = this.props;
     return {
       id: values.id,
@@ -117,7 +103,7 @@ class ConceptForm extends Component {
       source: values.source,
       subjectIds: values.subjects.map(subject => subject.id),
       tags: values.tags,
-      created: this.getCreatedDate(values),
+      created: getCreatedDate(values, initialValues),
       articleIds: values.articles.map(a => a.id),
       articles: values.articles,
       parsedVisualElement: values.visualElementObject,
@@ -127,7 +113,14 @@ class ConceptForm extends Component {
 
   handleSubmit = async formik => {
     formik.setSubmitting(true);
-    const { onUpdate, concept, applicationError, updateConceptAndStatus, setConcept } = this.props;
+    const {
+      onUpdate,
+      concept,
+      applicationError,
+      updateConceptAndStatus,
+      setConcept,
+      licenses,
+    } = this.props;
     const { revision } = concept;
     const values = formik.values;
     const initialValues = formik.initialValues;
@@ -139,7 +132,7 @@ class ConceptForm extends Component {
       Object.keys(formik.errors).length > 0 &&
       formik.errors.constructor === Object
     ) {
-      setConcept({ status: concept.status, ...this.getApiConcept(values) });
+      setConcept({ status: concept.status, ...getApiConcept(values, initialValues, licenses) });
       // if formik has errors, we stop submitting and show the error message(s)
       const e = Object.keys(formik.errors).map(key => `${key}: ${formik.errors[key]}`);
       this.props.createMessage({
@@ -162,10 +155,14 @@ class ConceptForm extends Component {
             initialValues,
             dirty: true,
           });
-        await updateConceptAndStatus(this.getApiConcept(values), newStatus, !skipSaving);
+        await updateConceptAndStatus(
+          getApiConcept(values, initialValues, licenses),
+          newStatus,
+          !skipSaving,
+        );
       } else {
         await onUpdate({
-          ...this.getApiConcept(values),
+          ...getApiConcept(values, initialValues, licenses),
           revision,
         });
       }
@@ -213,7 +210,7 @@ class ConceptForm extends Component {
               <HeaderWithLanguage
                 content={concept}
                 editUrl={lang => toEditConcept(values.id, lang)}
-                getEntity={() => this.getApiConcept(values)}
+                getEntity={() => getApiConcept(values, initialValues, licenses)}
                 translateArticle={translateConcept}
                 type="concept"
                 setTranslateOnContinue={this.setTranslateOnContinue}
@@ -265,7 +262,7 @@ class ConceptForm extends Component {
                 handleSubmit={this.handleSubmit}
                 createMessage={createMessage}
                 getStateStatuses={fetchStateStatuses}
-                getApiConcept={this.getApiConcept}
+                getApiConcept={() => getApiConcept(values, initialValues, licenses)}
               />
             </FormWrapper>
           );

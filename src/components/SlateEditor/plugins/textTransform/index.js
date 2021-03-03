@@ -6,7 +6,7 @@
  *
  */
 
-export default function paragraphPlugin() {
+export default function textTransformPlugin() {
   const onKeyDown = (e, editor, next) => {
     if (e.key === '<') {
       replaceConsecutiveChars(e, editor, '<', '«');
@@ -21,7 +21,7 @@ export default function paragraphPlugin() {
     const start = editor.value.selection.start;
     if (start.offset > 0) {
       const startText = editor.value.startText;
-      const previousChar = startText.text.slice(start.offset - 1);
+      const previousChar = startText.text.slice(start.offset - 1, start.offset);
       if (previousChar === char) {
         event.preventDefault();
         editor.moveStartBackward(1).insertText(replacement);

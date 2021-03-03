@@ -35,7 +35,6 @@ class PlainTextEditor extends React.PureComponent {
     return (
       <Editor
         value={value}
-        plugins={[textTransformPlugin()]}
         onKeyDown={this.onKeyDown}
         onChange={val =>
           onChange({

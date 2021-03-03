@@ -28,7 +28,7 @@ const emptySearchState = {
   resourceTypes: '',
   draftStatus: '',
   users: '',
-  language: '',
+  lang: '',
 };
 
 class SearchContentForm extends Component {
@@ -39,7 +39,6 @@ class SearchContentForm extends Component {
       dropDown: {
         resourceTypes: [],
         users: [],
-        languages: [],
       },
       search: {
         subjects: searchObject.subjects || '',
@@ -47,7 +46,7 @@ class SearchContentForm extends Component {
         draftStatus: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         users: searchObject.users || '',
-        language: searchObject.language || locale,
+        lang: searchObject.lang || locale,
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -73,15 +72,10 @@ class SearchContentForm extends Component {
   async getExternalData() {
     const { locale } = this.props;
     const { t } = this.props;
-    const [resourceTypes, users, languages] = await Promise.all([
-      fetchResourceTypes(locale),
-      this.getUsers(),
-      getResourceLanguages(t),
-    ]);
+    const [resourceTypes, users] = await Promise.all([fetchResourceTypes(locale), this.getUsers()]);
     this.setState({
       dropDown: {
         resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),
-        languages,
         users,
       },
     });
@@ -92,7 +86,7 @@ class SearchContentForm extends Component {
       evt.preventDefault();
     }
     const {
-      search: { resourceTypes, draftStatus, subjects, query, users, language },
+      search: { resourceTypes, draftStatus, subjects, query, users, lang },
     } = this.state;
     const { search } = this.props;
     search({
@@ -101,7 +95,8 @@ class SearchContentForm extends Component {
       subjects,
       query,
       users,
-      language,
+      language: lang,
+      fallback: true,
       page: 1,
     });
   }
@@ -138,21 +133,15 @@ class SearchContentForm extends Component {
 
   render() {
     const {
-      dropDown: { resourceTypes, users, languages },
+      dropDown: { resourceTypes, users },
     } = this.state;
     const { t, subjects } = this.props;
 
     const selectFields = [
       {
-        name: 'language',
-        label: 'language',
-        width: 25,
-        options: languages,
-      },
-      {
         name: 'subjects',
         label: 'subjects',
-        width: 25,
+        width: 50,
         options: subjects.sort(this.sortByProperty('name')),
       },
       {
@@ -248,7 +237,7 @@ SearchContentForm.propTypes = {
     'resource-types': PropTypes.string,
     'draft-status': PropTypes.string,
     users: PropTypes.string,
-    language: PropTypes.string,
+    lang: PropTypes.string,
     fallback: PropTypes.bool,
   }),
   locale: PropTypes.string.isRequired,

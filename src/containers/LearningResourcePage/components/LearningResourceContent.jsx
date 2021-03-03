@@ -49,6 +49,7 @@ import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../components/SlateEditor/plugins/pastehandler';
+import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 
 import {
@@ -127,6 +128,7 @@ class LearningResourceContent extends Component {
       dndPlugin,
       pasteHandler(),
       toolbarPlugin(),
+      textTransformPlugin(),
     ];
   }
 

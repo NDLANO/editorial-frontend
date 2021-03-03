@@ -41,6 +41,7 @@ import { FormikIngress } from '../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
 import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
+import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
 
 const byLineStyle = css`
   display: flex;
@@ -71,6 +72,7 @@ const createPlugins = language => {
     paragraphPlugin(),
     mathmlPlugin(),
     toolbarPlugin(),
+    textTransformPlugin(),
   ];
 };
 

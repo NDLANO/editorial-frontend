@@ -94,8 +94,12 @@ class MathEditor extends Component {
 
   handleRemove() {
     const { editor, node } = this.props;
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
     editor.unwrapInlineByKey(node.key, 'mathml');
-    editor.focus();
   }
 
   render() {

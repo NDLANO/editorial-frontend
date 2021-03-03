@@ -81,20 +81,31 @@ export interface MetaImage {
 
 export interface ContentResultType {
   articleType: string;
-  id: number;
-  title: { title: string };
-  url?: string;
-  metaDescription?: { metaDescription: string };
-  metaImage?: MetaImage;
-  metaUrl?: string;
   contexts: [
     {
       learningResourceType: string;
       resourceTypes: ResourceType[];
     },
   ];
+  id: number;
+  title: { title: string; language: string };
+  url?: string;
+  metaDescription?: { metaDescription: string; language: string };
+  metaImage?: MetaImage;
+  metaUrl?: string;
+  altText?: {
+    alttext: string;
+    language: string;
+  };
   learningResourceType?: string;
   supportedLanguages?: string[];
+  previewUrl?: string;
+  highlights: [
+    {
+      field: string;
+      matches: string[];
+    },
+  ];
 }
 
 export interface ArticleType {

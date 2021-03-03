@@ -58,12 +58,17 @@
     text-align: center;
   }
 
+  &__description-title {
+    margin-bottom: 0;
+    font-weight: var(--font-weight-semibold);
+  }
+
   &__description {
     width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin: 0.2rem 0 1.2rem;
+    margin: 0 0 1.2rem;
   }
 
   &__breadcrumbs {

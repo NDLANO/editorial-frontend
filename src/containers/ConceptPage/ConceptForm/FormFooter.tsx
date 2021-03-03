@@ -8,33 +8,34 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { useFormikContext } from 'formik';
+import { useFormikContext, FormikContextType } from 'formik';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
-import { Article, PossibleStatuses, Values } from '../../../components/SlateEditor/editorTypes';
+import { Article, PossibleStatuses } from '../../../components/SlateEditor/editorTypes';
 import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../FormikForm';
-import { ConceptType } from '../../../interfaces';
+import { ConceptType, FormValues } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   entityStatus: { current: string };
-  inModal: boolean;
+  inModal?: boolean;
   formIsDirty: boolean;
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose: () => void;
   onContinue: () => void;
-  handleSubmit: (values: unknown) => void;
+  handleSubmit: (formikProps: FormikContextType<ConceptFormValues>) => void;
   createMessage: (o: { translationKey: string; severity: string }) => void;
   getStateStatuses: () => PossibleStatuses;
-  getApiConcept: (values: Values) => Article | ConceptType;
+  getApiConcept: (values: ConceptFormValues) => Article | ConceptType;
 }
 
 const FormFooter = ({
   entityStatus,
   inModal,
-  formIsDirty,
   savedToServer,
   isNewlyCreated,
   showSimpleFooter,
@@ -46,8 +47,13 @@ const FormFooter = ({
   getApiConcept,
   t,
 }: Props & tType) => {
-  const formikProps = useFormikContext<Values>();
-  const { values, isSubmitting } = formikProps;
+  const formikProps = useFormikContext<ConceptFormValues>();
+  const { values, initialValues, dirty, isSubmitting } = formikProps;
+  const formIsDirty = isFormikFormDirty({
+    values,
+    initialValues,
+    dirty,
+  });
 
   return (
     <>
@@ -71,7 +77,6 @@ const FormFooter = ({
         </Field>
       ) : (
         <EditorFooter
-          formikProps={formikProps}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={() => getApiConcept(values)}

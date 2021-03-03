@@ -473,6 +473,13 @@ export interface License {
   url?: string;
 }
 
+export type FormValues = {
+  id: number;
+  language: string;
+  revision?: number;
+  status: Status;
+};
+
 export interface StrippedConceptType {
   id: number;
   title?: string;
@@ -510,8 +517,4 @@ export interface ConceptType extends StrippedConceptType {
 
 export interface ConceptPreviewType extends ConceptType {
   visualElementResources: VisualElement;
-}
-
-export interface ConceptFormType extends ConceptType {
-  articles: ArticleType[];
 }

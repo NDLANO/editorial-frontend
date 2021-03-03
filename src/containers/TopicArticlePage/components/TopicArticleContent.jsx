@@ -100,7 +100,7 @@ const TopicArticleContent = props => {
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
+          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
         }}
       />
       <FormikField name="published" css={byLineStyle}>

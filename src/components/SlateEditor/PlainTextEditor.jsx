@@ -12,8 +12,6 @@ import { Editor } from 'slate-react';
 import Types from 'slate-prop-types';
 import isHotkey from 'is-hotkey';
 
-import textTransformPlugin from './plugins/textTransform';
-
 const isSaveHotkey = isHotkey('mod+s');
 
 class PlainTextEditor extends React.PureComponent {

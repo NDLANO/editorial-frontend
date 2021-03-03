@@ -71,7 +71,11 @@ class MathEditor extends Component {
     if (this.state.isFirstEdit) {
       this.handleRemove();
     }
-    editor.moveToRangeOfNode(node).moveToEnd().focus().moveForward(1);
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
   };
 
   handleSave(mathML) {
@@ -81,7 +85,11 @@ class MathEditor extends Component {
     };
     editor.setNodeByKey(node.key, properties);
     this.setState({ isFirstEdit: false, editMode: false });
-    editor.moveToRangeOfNode(node).moveToEnd().focus().moveForward(1);
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
   }
 
   handleRemove() {

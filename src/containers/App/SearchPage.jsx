@@ -29,7 +29,7 @@ const SearchPage = ({ match, t }) => {
       title: t('subNavigation.searchContent'),
       type: 'content',
       url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10, language: locale, fallback: true },
+        { page: '1', sort: '-lastUpdated', 'page-size': 10, language: locale },
         'content',
       ),
       icon: <SearchContent className="c-icon--large" />,

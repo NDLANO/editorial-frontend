@@ -39,6 +39,7 @@ class SearchContentForm extends Component {
       dropDown: {
         resourceTypes: [],
         users: [],
+        languages: [],
       },
       search: {
         subjects: searchObject.subjects || '',
@@ -72,10 +73,15 @@ class SearchContentForm extends Component {
   async getExternalData() {
     const { locale } = this.props;
     const { t } = this.props;
-    const [resourceTypes, users] = await Promise.all([fetchResourceTypes(locale), this.getUsers()]);
+    const [resourceTypes, users, languages] = await Promise.all([
+      fetchResourceTypes(locale),
+      this.getUsers(),
+      getResourceLanguages(t),
+    ]);
     this.setState({
       dropDown: {
         resourceTypes: flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+        languages,
         users,
       },
     });
@@ -96,7 +102,6 @@ class SearchContentForm extends Component {
       query,
       users,
       language,
-      fallback: true,
       page: 1,
     });
   }
@@ -133,15 +138,21 @@ class SearchContentForm extends Component {
 
   render() {
     const {
-      dropDown: { resourceTypes, users },
+      dropDown: { resourceTypes, users, languages },
     } = this.state;
     const { t, subjects } = this.props;
 
     const selectFields = [
       {
+        name: 'language',
+        label: 'language',
+        width: 25,
+        options: languages,
+      },
+      {
         name: 'subjects',
         label: 'subjects',
-        width: 50,
+        width: 25,
         options: subjects.sort(this.sortByProperty('name')),
       },
       {

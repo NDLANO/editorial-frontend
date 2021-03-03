@@ -50,7 +50,6 @@ class MastheadSearch extends Component {
               sort: '-lastUpdated',
               'page-size': 10,
               language: locale,
-              fallback: true,
             }),
           );
           close();

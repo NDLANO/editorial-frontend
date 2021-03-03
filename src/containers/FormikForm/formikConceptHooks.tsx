@@ -12,7 +12,8 @@ import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { ArticleType, ConceptFormType, ConceptStatusType } from '../../interfaces';
+import { ArticleType, ConceptStatusType } from '../../interfaces';
+import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();

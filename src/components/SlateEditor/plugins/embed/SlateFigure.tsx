@@ -80,6 +80,11 @@ const SlateFigure: React.FC<Props & tType> = ({
 
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
     editor.removeNodeByKey(node.key);
   };
 

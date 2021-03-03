@@ -64,11 +64,7 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const fetchArticleList = async articleIds => {
-    return Promise.all(
-      articleIds.map(async elementId => {
-        return await draftApi.fetchDraft(elementId);
-      }),
-    );
+    return Promise.all(articleIds.map(async elementId => draftApi.fetchDraft(elementId)));
   };
 
   const updateArticle = async updatedArticle => {

@@ -38,6 +38,7 @@ import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
@@ -81,6 +82,13 @@ const findFootnotes = content =>
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
+const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  bodybox: actions,
+  summary: actions,
+};
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
@@ -104,6 +112,7 @@ class LearningResourceContent extends Component {
       // unwrapping (jumping out of block) will not work.
       blockquotePlugin,
       editListPlugin,
+      listTextPlugin(),
       paragraphPlugin(),
       createTablePlugin(),
       editTablePlugin,
@@ -113,9 +122,7 @@ class LearningResourceContent extends Component {
       codeBlockPlugin(),
       blockPickerPlugin({
         articleLanguage: language,
-        actionsToShowInAreas: {
-          details: ['table'],
-        },
+        actionsToShowInAreas,
       }),
       dndPlugin,
       pasteHandler(),
@@ -133,9 +140,7 @@ class LearningResourceContent extends Component {
         conceptPlugin(language),
         blockPickerPlugin({
           articleLanguage: language,
-          actionsToShowInAreas: {
-            details: ['table'],
-          },
+          actionsToShowInAreas,
           ...this.plugins,
         }),
       ];

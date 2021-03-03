@@ -49,6 +49,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   const slateFields = [
     'description',
     'introduction',
+    'title',
     'metaDescription',
     'content',
     'conceptContent',

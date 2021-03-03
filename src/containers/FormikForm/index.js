@@ -2,6 +2,7 @@ import BEMHelper from 'react-bem-helper';
 import FormikAgreementConnection from './FormikAgreementConnection';
 import FormikCopyright from './FormikCopyright';
 import FormikIngress from './FormikIngress';
+import FormikTitle from './FormikTitle';
 import VersionAndNotesPanel from './VersionAndNotesPanel';
 import FormikAddNotes from './FormikAddNotes';
 import FormikLicense from './components/FormikLicense';
@@ -25,6 +26,7 @@ export {
   FormikAgreementConnection,
   FormikDatePicker,
   FormikIngress,
+  FormikTitle,
   VersionAndNotesPanel,
   FormikAddNotes,
   FormikLicense,

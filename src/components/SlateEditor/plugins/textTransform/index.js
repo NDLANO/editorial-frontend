@@ -7,6 +7,10 @@
  */
 
 export default function textTransformPlugin() {
+  const schema = {
+    document: {},
+  };
+
   const onKeyDown = (e, editor, next) => {
     if (e.key === '<') {
       replaceConsecutiveChars(e, editor, '<', '«');
@@ -30,6 +34,7 @@ export default function textTransformPlugin() {
   };
 
   return {
+    schema,
     onKeyDown,
   };
 }

@@ -37,7 +37,7 @@ import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../components/FormikField';
 import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
-import { FormikIngress } from '../../FormikForm';
+import { FormikIngress, FormikTitle } from '../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
 import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
@@ -93,12 +93,15 @@ const TopicArticleContent = props => {
 
   return (
     <Fragment>
-      <FormikField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        placeholder={t('form.title.label')}
+      <FormikTitle
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor, next) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
+        }}
       />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (

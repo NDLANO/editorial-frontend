@@ -58,7 +58,7 @@ import {
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
-import { FormikIngress } from '../../FormikForm';
+import { FormikIngress, FormikTitle } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
@@ -163,13 +163,15 @@ class LearningResourceContent extends Component {
 
     return (
       <Fragment>
-        <FormikField
-          data-cy="learning-resource-title"
-          label={t('form.title.label')}
-          name="title"
-          title
-          noBorder
-          placeholder={t('form.title.label')}
+        <FormikTitle
+          handleSubmit={handleSubmit}
+          onBlur={(event, editor, next) => {
+            next();
+            // this is a hack since formik onBlur-handler interferes with slates
+            // related to: https://github.com/ianstormtaylor/slate/issues/2434
+            // formik handleBlur needs to be called for validation to work (and touched to be set)
+            setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
+          }}
         />
         <FormikField name="published" css={byLineStyle}>
           {({ field, form }) => (

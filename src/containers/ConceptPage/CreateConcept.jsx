@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
-import ConceptForm from './ConceptForm';
+import ConceptForm from './ConceptForm/ConceptHookForm';
 import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {

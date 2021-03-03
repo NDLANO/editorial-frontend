@@ -12,17 +12,16 @@ import { injectT, tType } from '@ndla/i18n';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
-import { FormikProps } from 'formik';
+import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { Article, PossibleStatuses, Values } from './editorTypes';
-import { ConceptType } from '../../interfaces';
+import { Article, PossibleStatuses } from './editorTypes';
+import { ConceptType, FormValues } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 
-interface Props {
-  formikProps: FormikProps<Values>;
+interface Props<T> {
   formIsDirty: boolean;
   savedToServer: boolean;
   getEntity: () => Article | ConceptType;
@@ -49,9 +48,8 @@ const StyledLine = styled.hr`
   }
 `;
 
-const EditorFooter: React.FC<Props & tType> = ({
+function EditorFooter<T extends FormValues>({
   t,
-  formikProps,
   formIsDirty,
   savedToServer,
   getEntity,
@@ -66,7 +64,8 @@ const EditorFooter: React.FC<Props & tType> = ({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
-}) => {
+}: Props<T> & tType) {
+  const formikProps = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
   const { values, setFieldValue, isSubmitting } = formikProps;
@@ -192,6 +191,6 @@ const EditorFooter: React.FC<Props & tType> = ({
       </div>
     </Footer>
   );
-};
+}
 
 export default injectT(EditorFooter);

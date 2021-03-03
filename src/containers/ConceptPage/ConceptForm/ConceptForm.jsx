@@ -15,10 +15,7 @@ import { AccordionWrapper } from '@ndla/accordion';
 import { Formik } from 'formik';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import {
-  plainTextToEditorValue,
-  editorValueToPlainText,
-} from '../../../util/articleContentConverter';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import { createEmbedTag } from '../../../util/embedTagHelpers';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers.js';
@@ -31,38 +28,12 @@ import ConceptArticles from '../components/ConceptArticles';
 import ConceptCopyright from '../components/ConceptCopyright';
 import ConceptContent from '../components/ConceptContent';
 import ConceptMetaData from '../components/ConceptMetaData';
+import { transformApiConceptToFormValues } from '../conceptUtil';
 
 import FormWrapper from './FormWrapper';
 import AccordionSection from './AccordionSection';
 import FormFooter from './FormFooter';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
-
-const getInitialValues = (concept = {}, subjects = []) => {
-  return {
-    id: concept.id,
-    title: concept.title || '',
-    language: concept.language,
-    updated: concept.updated,
-    updateCreated: false,
-    subjects:
-      concept.subjectIds?.map(subjectId => subjects.find(subject => subject.id === subjectId)) ||
-      [],
-    created: concept.created,
-    conceptContent: plainTextToEditorValue(concept.content || '', true),
-    supportedLanguages: concept.supportedLanguages || [],
-    creators: concept.copyright?.creators || [],
-    rightsholders: concept.copyright?.rightsholders || [],
-    processors: concept.copyright?.processors || [],
-    source: concept && concept.source ? concept.source : '',
-    license: concept.copyright?.license?.license || '',
-    metaImageId: concept.metaImageId,
-    metaImageAlt: concept.metaImage?.alt || '',
-    tags: concept.tags || [],
-    articles: concept.articles || [],
-    status: concept.status || {},
-    visualElement: concept.parsedVisualElement || {},
-  };
-};
 
 const rules = {
   title: {
@@ -149,8 +120,8 @@ class ConceptForm extends Component {
       created: this.getCreatedDate(values),
       articleIds: values.articles.map(a => a.id),
       articles: values.articles,
-      parsedVisualElement: values.visualElement,
-      visualElement: createEmbedTag(values.visualElement),
+      parsedVisualElement: values.visualElementObject,
+      visualElement: createEmbedTag(values.visualElementObject),
     };
   };
 
@@ -224,7 +195,7 @@ class ConceptForm extends Component {
     } = this.props;
     const { savedToServer, translateOnContinue } = this.state;
 
-    const initialValues = getInitialValues(concept, subjects);
+    const initialValues = transformApiConceptToFormValues(concept, subjects);
     return (
       <Formik
         initialValues={initialValues}
@@ -236,12 +207,7 @@ class ConceptForm extends Component {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, errors } = formikProps;
-          const formIsDirty = isFormikFormDirty({
-            values,
-            initialValues,
-            dirty,
-          });
+          const { values, errors } = formikProps;
           return (
             <FormWrapper inModal={inModal} {...formClasses()}>
               <HeaderWithLanguage
@@ -291,7 +257,6 @@ class ConceptForm extends Component {
               <FormFooter
                 entityStatus={concept.status}
                 inModal={inModal}
-                formIsDirty={formIsDirty}
                 savedToServer={savedToServer}
                 isNewlyCreated={isNewlyCreated}
                 showSimpleFooter={!concept.id}

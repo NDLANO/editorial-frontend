@@ -8,9 +8,7 @@
 
 import React, { useState } from 'react';
 import { useFormikContext } from 'formik';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { Event } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';

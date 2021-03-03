@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField/FormikField';
 import FormikCopyright from '../../FormikForm/FormikCopyright';
@@ -15,24 +14,17 @@ import { License } from '../../../interfaces';
 
 interface Props {
   licenses: License[];
-  contributorTypesOverride: string[];
   disableAgreements: boolean;
   label: string;
 }
 
-const ConceptCopyright = ({
-  licenses,
-  contributorTypesOverride,
-  disableAgreements,
-  label,
-}: Props) => {
+const ConceptCopyright = ({ licenses, disableAgreements, label }: Props) => {
   const { values } = useFormikContext();
 
   return (
     <Fragment>
       <FormikCopyright
         licenses={licenses}
-        contributorTypesOverride={contributorTypesOverride}
         disableAgreements={disableAgreements}
         values={values}
         enableLicenseNA={true}

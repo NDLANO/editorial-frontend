@@ -14,8 +14,6 @@ import { withRouter } from 'react-router-dom';
 import { AccordionWrapper } from '@ndla/accordion';
 import { Formik } from 'formik';
 import { injectT } from '@ndla/i18n';
-import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { createEmbedTag } from '../../../util/embedTagHelpers';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers.js';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
@@ -23,35 +21,13 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
 import * as messageActions from '../../Messages/messagesActions';
 import { formClasses } from '../../FormikForm';
-import ConceptArticles from '../components/ConceptArticles';
-import ConceptCopyright from '../components/ConceptCopyright';
-import ConceptContent from '../components/ConceptContent';
-import ConceptMetaData from '../components/ConceptMetaData';
-import { transformApiConceptToFormValues, getCreatedDate, getApiConcept } from '../conceptUtil';
+import { transformApiConceptToFormValues, getApiConcept, conceptFormRules } from '../conceptUtil';
+import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
 import AccordionSection from './AccordionSection';
 import FormFooter from './FormFooter';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
-
-const rules = {
-  title: {
-    required: true,
-  },
-  conceptContent: {
-    required: true,
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: values => !!values.metaImageId,
-  },
-  subjects: {
-    minItems: 1,
-  },
-};
 
 class ConceptForm extends Component {
   constructor(props) {
@@ -78,39 +54,6 @@ class ConceptForm extends Component {
     this.setState({ translateOnContinue: translateOnContinue });
   };
 
-  getApiConcept = (values, initialValues) => {
-    const { licenses } = this.props;
-    return {
-      id: values.id,
-      title: values.title,
-      content: editorValueToPlainText(values.conceptContent),
-      language: values.language,
-      supportedLanguages: values.supportedLanguages,
-      copyright: {
-        license: licenses.find(license => license.license === values.license),
-        creators: values.creators,
-        processors: values.processors,
-        rightsholders: values.rightsholders,
-      },
-      agreementId: values.agreementId,
-      metaImageId: values.metaImageId,
-      metaImage: values.metaImageId
-        ? {
-            id: values.metaImageId,
-            alt: values.metaImageAlt,
-          }
-        : null,
-      source: values.source,
-      subjectIds: values.subjects.map(subject => subject.id),
-      tags: values.tags,
-      created: getCreatedDate(values, initialValues),
-      articleIds: values.articles.map(a => a.id),
-      articles: values.articles,
-      parsedVisualElement: values.visualElementObject,
-      visualElement: createEmbedTag(values.visualElementObject),
-    };
-  };
-
   handleSubmit = async formik => {
     formik.setSubmitting(true);
     const {
@@ -127,6 +70,7 @@ class ConceptForm extends Component {
     const initialStatus = concept.status?.current;
     const newStatus = formik.values.status?.current;
     const statusChange = initialStatus !== newStatus;
+
     if (
       formik.errors &&
       Object.keys(formik.errors).length > 0 &&
@@ -202,7 +146,7 @@ class ConceptForm extends Component {
         innerRef={this.formik}
         enableReinitialize
         validateOnMount
-        validate={values => validateFormik(values, rules, t)}>
+        validate={values => validateFormik(values, conceptFormRules, t)}>
         {formikProps => {
           const { values, errors } = formikProps;
           return (

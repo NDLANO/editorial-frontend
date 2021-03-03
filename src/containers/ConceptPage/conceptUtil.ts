@@ -88,3 +88,22 @@ export const getApiConcept = (
     visualElement: createEmbedTag(values.visualElementObject),
   };
 };
+
+export const conceptFormRules = {
+  title: {
+    required: true,
+  },
+  conceptContent: {
+    required: true,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
+  },
+  subjects: {
+    minItems: 1,
+  },
+};

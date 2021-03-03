@@ -17,8 +17,6 @@ import { getSearching } from '../../modules/search/searchSelectors';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
 
-const validSearchPaths = ['content', 'concept', 'image', 'audio'];
-
 class MastheadSearch extends Component {
   static getDerivedStateFromProps(props, state) {
     const { location } = props;
@@ -48,30 +46,20 @@ class MastheadSearch extends Component {
       searchConcept,
     } = this.props;
 
+    const searchActions = {
+      content: search,
+      concept: searchConcept,
+      image: searchImage,
+      audio: searchAudio,
+    };
+
     const type = location.pathname.replace('/search/', '');
 
-    if (validSearchPaths.includes(type)) {
+    if (Object.keys(searchActions).includes(type)) {
       const searchObject = queryString.parse(location.search);
       searchObject.query = searchQuery;
 
-      switch (type) {
-        case 'content':
-          search({ query: searchObject, type });
-          break;
-        case 'audio':
-          searchAudio({ query: searchObject, type });
-          break;
-        case 'image':
-          searchImage({ query: searchObject, type });
-          break;
-        case 'concept':
-          searchConcept({ query: searchObject, type });
-          break;
-        default:
-          search({ query: searchObject, type });
-          break;
-      }
-
+      searchActions[type]({ query: searchObject, type });
       history.push(toSearch(searchObject, type));
     } else {
       history.push(

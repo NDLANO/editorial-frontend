@@ -26,7 +26,7 @@ const emptySearchState = {
   query: '',
   subjects: '',
   resourceTypes: '',
-  draftStatus: '',
+  status: '',
   users: '',
   lang: '',
 };
@@ -43,7 +43,7 @@ class SearchContentForm extends Component {
       search: {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
-        draftStatus: searchObject['draft-status'] || '',
+        status: searchObject.status || '',
         query: searchObject.query || '',
         users: searchObject.users || '',
         lang: searchObject.lang || locale,
@@ -86,12 +86,12 @@ class SearchContentForm extends Component {
       evt.preventDefault();
     }
     const {
-      search: { resourceTypes, draftStatus, subjects, query, users, lang },
+      search: { resourceTypes, status, subjects, query, users, lang },
     } = this.state;
     const { search } = this.props;
     search({
       'resource-types': resourceTypes,
-      'draft-status': draftStatus,
+      'draft-status': status,
       subjects,
       query,
       users,
@@ -151,8 +151,8 @@ class SearchContentForm extends Component {
         options: resourceTypes.sort(this.sortByProperty('name')),
       },
       {
-        name: 'draftStatus',
-        label: 'draftStatus',
+        name: 'status',
+        label: 'status',
         width: 25,
         options: this.getDraftStatuses().sort(this.sortByProperty('name')),
       },
@@ -218,7 +218,7 @@ class SearchContentForm extends Component {
               subjects={subjects}
               searchObject={this.state.search}
               resourceTypes={resourceTypes}
-              draftStatus={this.getDraftStatuses()}
+              status={this.getDraftStatuses()}
             />
           </div>
         </form>
@@ -235,7 +235,7 @@ SearchContentForm.propTypes = {
     query: PropTypes.string,
     subjects: PropTypes.string,
     'resource-types': PropTypes.string,
-    'draft-status': PropTypes.string,
+    status: PropTypes.string,
     users: PropTypes.string,
     lang: PropTypes.string,
     fallback: PropTypes.bool,

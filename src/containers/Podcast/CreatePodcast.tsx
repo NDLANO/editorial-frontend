@@ -14,32 +14,19 @@ import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 import AudioForm from '../AudioUploader/components/AudioForm';
 import { License } from '../../interfaces';
-import { fetchLicenses } from '../../modules/draft/draftApi';
 import PodcastForm from './components/PodcastForm';
 
-// Props
-//   history: RouteComponentProps['history'];
 interface Props {
   history: RouteComponentProps['history'];
+  licenses: any;
 }
 
-const CreatePodcast: FC<Props> = ({}) => {
+const CreatePodcast: FC<Props> = ({ licenses }) => {
   const locale: string = useContext(LocaleContext);
-  const [licenses, setLicenses] = useState<License[]>([]);
-
-  useEffect(() => {
-    getLicenses();
-  }, []);
-
-  const getLicenses = async () => {
-    const license = await fetchLicenses();
-    setLicenses(license);
-  };
 
   return (
     <>
-      <PodcastForm audio={{ language: locale }} /> // PodcastForm men skal ha mange av de samme
-      feltene som Audio
+      <PodcastForm audio={{ language: locale }} licenses={licenses} />
     </>
   );
 };

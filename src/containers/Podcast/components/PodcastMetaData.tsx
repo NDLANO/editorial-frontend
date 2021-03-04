@@ -13,6 +13,8 @@ import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 
 import FormikField from '../../../components/FormikField';
+import { FormikMetaImageSearch } from '../../FormikForm';
+
 import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
 
 interface Props extends NewPodcastMeta {}
@@ -22,9 +24,7 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
 
   return (
     <>
-      <FieldHeader
-        title={t('podcastForm.fields.header')}
-      />
+      <FieldHeader title={t('podcastForm.fields.header')} />
       <FormikField
         label={t('podcastForm.fields.header')}
         name="header"
@@ -32,35 +32,29 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
         noBorder
         placeholder="header"
       />
-      <FieldHeader
-        title={t('podcastForm.fields.introduction')}
-      />
+      <FieldHeader title={t('podcastForm.fields.introduction')} />
       <FormikField
-        label={t('podcastForm.fields.introduction')} 
+        label={t('podcastForm.fields.introduction')}
         name="introduction"
         noBorder
         placeholder="introduction"
       />
-      <FieldHeader
-        title={t('podcastForm.fields.coverPhoto')}
-      /> {/* TODO bildeopplasting og alt-text */}
+
+      {/* Q: kan jeg gjenbruke metabilde under her? */}
+      <FormikField name="metaImageId">
+        {({ field, form }) => (
+          <FormikMetaImageSearch
+            metaImageId={field.value}
+            setFieldTouched={form.setFieldTouched}
+            showRemoveButton
+            {...field}
+          />
+        )}
+      </FormikField>
+
+      <FieldHeader title={t('podcastForm.fields.manuscript')} />
       <FormikField
-        label={t('podcastForm.fields.coverPhoto')} 
-        name="coverPhotoId"
-        noBorder
-        placeholder="coverPhotoId"
-      />
-      <FormikField
-        label={t('podcastForm.fields.coverPhotoAltText')} 
-        name="coverPhotoAltText"
-        noBorder
-        placeholder="coverPhotoAltText"
-      />
-      <FieldHeader
-      title={t('podcastForm.fields.manuscript')}
-      />
-      <FormikField
-        label={t('podcastForm.fields.manuscript')} 
+        label={t('podcastForm.fields.manuscript')}
         name="manuscript"
         noBorder
         placeholder="manuscript"

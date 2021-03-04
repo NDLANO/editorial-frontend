@@ -19,7 +19,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import { toEditPodcast } from '../../../util/routeHelpers';
 import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
-import { Author, Copyright } from '../../../interfaces';
+import { Author, Copyright, License } from '../../../interfaces';
 
 const podcastRules = {
   // TODO Oppdater denne
@@ -88,7 +88,6 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormikType
     rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
     license: audio?.copyright?.license?.license,
     audioType: 'podcast',
-
     header: audio.podcastMeta?.header,
     introduction: audio.podcastMeta?.introduction,
     coverPhotoId: audio.podcastMeta?.coverPhotoId,
@@ -133,6 +132,7 @@ interface Props {
   audio: PodcastPropType;
   inModal?: boolean;
   formikProps?: FormikProps<PodcastPropType>; // TODO hva skal være i <>
+  licenses: License[];
 }
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
@@ -164,7 +164,7 @@ type AccordionChildrenProps = {
   };
 };
 
-const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, formikProps }) => {
+const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikProps }) => {
   const handleSubmit = () => {};
 
   const initialValues = getInitialValues(audio);
@@ -200,7 +200,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, formikProps }) => {
       id: 'podcast-upload-metadataSection',
       title: t('form.metadataSection'),
       errorFields: ['tags', 'creators', 'rightsholders', 'processors', 'license'],
-      component: <AudioMetaData classes={formClasses} />,
+      component: <AudioMetaData classes={formClasses} licenses={licenses} />,
     },
   ];
 
@@ -225,7 +225,11 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, formikProps }) => {
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
             />
-            <Accordion openIndexes={['podcast-upload-podcastmeta-metadataSection']}>
+            <Accordion
+              openIndexes={[
+                'podcast-upload-content',
+                'podcast-upload-podcastmeta-metadataSection',
+              ]}>
               {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
                 <AccordionWrapper>
                   {panels.map(panel => {

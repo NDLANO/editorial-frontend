@@ -400,6 +400,16 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastForm: {
+    title: 'Podcast',
+    fields: {
+      header: 'Podcast overskrift',
+      introduction: 'Podcast introduksjon',
+      coverPhoto: 'Podcast bilde',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Podcast manus',
+    },
+  },
   imageEditor: {
     editImage: 'Rediger bildet',
     remove: {

@@ -6,51 +6,61 @@
  *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
+import { FieldHeader } from '@ndla/forms';
+
+import { useFormikContext } from 'formik';
+
 import FormikField from '../../../components/FormikField';
 import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 interface Props extends NewPodcastMeta {}
 
-const PodcastMetaData: FC<Props & tType> = ({
-  t,
-  header,
-  introduction,
-  coverPhotoId,
-  coverPhotoAltText,
-  manuscript,
-}) => {
+const PodcastMetaData: FC<Props & tType> = ({ t }) => {
+  // const { values } = useFormikContext();
+
   return (
     <>
+      <FieldHeader
+        title={t('podcastForm.fields.header')}
+      />
       <FormikField
-        label={'header'} // TODO text
+        label={t('podcastForm.fields.header')}
         name="header"
         title
         noBorder
         placeholder="header"
       />
+      <FieldHeader
+        title={t('podcastForm.fields.introduction')}
+      />
       <FormikField
-        label={'introduction'} // TODO text
+        label={t('podcastForm.fields.introduction')} 
         name="introduction"
         noBorder
         placeholder="introduction"
       />
+      <FieldHeader
+        title={t('podcastForm.fields.coverPhoto')}
+      /> {/* TODO bildeopplasting og alt-text */}
       <FormikField
-        label={'coverPhotoId'} // TODO text
-        name="coverPhotoId	"
+        label={t('podcastForm.fields.coverPhoto')} 
+        name="coverPhotoId"
         noBorder
         placeholder="coverPhotoId"
       />
       <FormikField
-        label={'heacoverPhotoAltTextder'} // TODO text
+        label={t('podcastForm.fields.coverPhotoAltText')} 
         name="coverPhotoAltText"
         noBorder
         placeholder="coverPhotoAltText"
       />
+      <FieldHeader
+      title={t('podcastForm.fields.manuscript')}
+      />
       <FormikField
-        label={'manuscript'} // TODO text
+        label={t('podcastForm.fields.manuscript')} 
         name="manuscript"
         noBorder
         placeholder="manuscript"

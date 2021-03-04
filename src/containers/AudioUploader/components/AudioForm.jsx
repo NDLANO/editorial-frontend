@@ -113,7 +113,7 @@ class AudioForm extends Component {
   };
 
   render() {
-    const { t, audio, isNewlyCreated } = this.props;
+    const { t, audio, isNewlyCreated, licenses } = this.props;
     const { savedToServer } = this.state;
     const panels = ({ errors }) => [
       {
@@ -128,7 +128,7 @@ class AudioForm extends Component {
         hasError: ['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
           field => !!errors[field],
         ),
-        component: <AudioMetaData classes={formClasses} />,
+        component: <AudioMetaData classes={formClasses} licenses={licenses} />,
       },
     ];
     const initialValues = getInitialValues(audio);

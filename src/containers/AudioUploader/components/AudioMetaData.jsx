@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { useFormikContext } from 'formik';
@@ -18,11 +18,11 @@ import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSea
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 const AudioMetaData = props => {
-  const { t } = props;
   const { values } = useFormikContext();
+  const { t, licenses } = props;
 
   return (
-    <Fragment>
+    <>
       <FormikField
         name="tags"
         label={t('form.tags.label')}
@@ -39,24 +39,23 @@ const AudioMetaData = props => {
         )}
       </FormikField>
       <FormikField name="license">
-        {({ field }) => <FormikLicense licenses={values.licenses} {...field} />}
+        {({ field }) => <FormikLicense licenses={licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
       <FormikContributors contributorTypes={contributorTypes} />
-    </Fragment>
+    </>
   );
 };
 
 AudioMetaData.propTypes = {
   classes: PropTypes.func.isRequired,
-  // licenses: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     description: PropTypes.string,
-  //     license: PropTypes.string,
-  //   }),
-  // ).isRequired,
-  // audioLanguage: PropTypes.string,
-  // audioTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  values: PropTypes.object,
+  licenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      license: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default injectT(AudioMetaData);

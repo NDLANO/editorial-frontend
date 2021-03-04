@@ -382,6 +382,16 @@ const phrases = {
   audioForm: {
     title: 'audio file',
   },
+  podcastForm: {
+    title: 'podcast file',
+    fields: {
+      header: 'Podcast header',
+      introduction: 'Podcast introduction',
+      coverPhoto: 'Podcast image',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Podcast manuscript',
+    },
+  },
   imageEditor: {
     remove: {
       crop: 'Remove crop',

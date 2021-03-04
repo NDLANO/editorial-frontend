@@ -15,6 +15,7 @@ import { toEditAudio } from '../../util/routeHelpers';
 import AudioForm from '../AudioUploader/components/AudioForm';
 import { License } from '../../interfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
+import PodcastForm from './components/PodcastForm';
 
 // Props
 //   history: RouteComponentProps['history'];
@@ -37,7 +38,8 @@ const CreatePodcast: FC<Props> = ({}) => {
 
   return (
     <>
-      <AudioForm /> // PodcastForm men skal ha mange av de samme feltene som Audio
+      <PodcastForm audio={{ language: locale }} /> // PodcastForm men skal ha mange av de samme
+      feltene som Audio
     </>
   );
 };

@@ -79,7 +79,7 @@ const AsyncSearchTags = ({
 
   const createNewTag = (input: string) => {
     if (input) {
-      const newTags = input.split(',');
+      const newTags = [...new Set(input.split(','))];
       const temp = [
         ...tags,
         ...newTags.filter(newTag => !tags.includes(newTag)).map(t => t.trim()),

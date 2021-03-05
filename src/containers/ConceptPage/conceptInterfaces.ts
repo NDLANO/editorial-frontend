@@ -23,23 +23,22 @@ export interface ConceptFormType extends ConceptType {
 }
 
 export interface ConceptFormValues extends StrippedConceptType, FormValues {
-  creators: Author[];
-  created?: string;
-  title: string;
+  articles: ArticleType[];
   conceptContent: string;
-  agreementId?: number;
-  updateCreated: boolean;
-  visualElementObject: VisualElement;
-  rightsholders: Author[];
-  processors: Author[];
+  created?: string;
+  creators: Author[];
   license?: string;
   metaImageAlt: string;
-  updated: string;
-  supportedLanguages: string[];
-  articles: ArticleType[];
-  status: Status;
   metaImageId: string;
+  processors: Author[];
+  rightsholders: Author[];
+  source: string;
   subjects: SubjectType[];
+  supportedLanguages: string[];
   tags: string[];
-  language: string;
+  title: string;
+  updateCreated: boolean;
+  updated: string;
+  visualElementObject: VisualElement;
+  agreementId?: number;
 }

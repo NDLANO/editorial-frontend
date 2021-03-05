@@ -11,20 +11,17 @@ import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import { AsyncDropdown } from '../../../components/Dropdown';
-import { ArticleType, ContentResultType } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 
-interface ArticleValues {
-  articles: ArticleType[];
-  language: string;
-}
+import { ArticleType, ContentResultType } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
 
 const ConceptArticles = ({ t }: tType) => {
   const {
     values: { articles, language },
     setFieldValue,
-  } = useFormikContext<ArticleValues>();
+  } = useFormikContext<ConceptFormValues>();
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
       // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx

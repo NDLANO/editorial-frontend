@@ -19,7 +19,8 @@ import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
-import { Author } from '../../../interfaces';
+
+import { ConceptFormValues } from '../conceptInterfaces';
 
 const ByLine = styled.div`
   display: flex;
@@ -34,20 +35,13 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-interface ContentValues {
-  creators: Author[];
-  created: string;
-  title: string;
-  conceptContent: string;
-}
-
 const ConceptContent = ({ t }: tType) => {
   const [preview, setPreview] = useState(false);
   const {
     values: { creators, created },
     handleBlur,
     submitForm,
-  } = useFormikContext<ContentValues>();
+  } = useFormikContext<ConceptFormValues>();
 
   return (
     <>

@@ -13,22 +13,17 @@ import FormikField from '../../../components/FormikField';
 import { FormikMetaImageSearch } from '../../FormikForm';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
+
 import { SubjectType, SearchResult } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   subjects: SubjectType[];
   fetchTags: (input: string, language: string) => Promise<SearchResult>;
 }
 
-interface MetaDataValues {
-  metaImageId: string;
-  subjects: SubjectType[];
-  tags: string[];
-  language: string;
-}
-
 const ConceptMetaData = ({ subjects, fetchTags, t }: Props & tType) => {
-  const { values } = useFormikContext<MetaDataValues>();
+  const { values } = useFormikContext<ConceptFormValues>();
 
   return (
     <Fragment>

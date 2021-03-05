@@ -42,6 +42,10 @@ class MathEditor extends Component {
     this.handleRemove = this.handleRemove.bind(this);
   }
 
+  componentDidMount() {
+    this.props.editor.blur();
+  }
+
   getMenuPosition() {
     if (this.mathMLRef.current) {
       const rect = this.mathMLRef.current.getBoundingClientRect();

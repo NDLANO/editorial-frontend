@@ -523,3 +523,15 @@ export interface ConceptPreviewType extends ConceptType {
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
 }
+
+export interface MessageI {
+  id: string;
+  message?: string;
+  statusCode?: string;
+  translationKey?: string;
+  severity?: string;
+  action?: {
+    title: string;
+    onClick: () => void;
+  }
+}

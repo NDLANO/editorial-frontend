@@ -13,9 +13,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+// @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
-import { withRouter, Route, Switch } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
+import {injectT, tType} from '@ndla/i18n';
 import { MessageShape } from '../../shapes';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
@@ -40,16 +41,34 @@ import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
+import { MessageI } from "../../interfaces";
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext('');
-export const UserAccessContext = React.createContext();
+export const UserAccessContext = React.createContext<string | undefined>(undefined);
 
-export class App extends React.Component {
-  constructor() {
-    super();
+interface State {
+  firstLoad: boolean;
+  session: any; // TODO: Fix this
+}
+
+interface Props {
+  locale: string;
+  messages: MessageI[];
+  dispatch: () => void;
+  authenticated: boolean;
+  userName?: string;
+  userAccess?: string;
+}
+
+type ActualProps = Props & tType & RouteComponentProps<{}>
+
+export class App<T = {}> extends React.Component<ActualProps , State> {
+  constructor(props: ActualProps) {
+    super(props);
     this.state = {
       firstLoad: true,
+      session: null,
     };
   }
 
@@ -71,7 +90,17 @@ export class App extends React.Component {
   };
 
   render() {
-    const { authenticated, dispatch, locale, messages, t, userName, userAccess } = this.props;
+
+    const {
+      authenticated,
+      dispatch,
+      locale,
+      messages,
+      t,
+      userName,
+      userAccess
+    } = this.props;
+
     return (
       <ErrorBoundary>
         <UserAccessContext.Provider value={userAccess}>
@@ -89,21 +118,14 @@ export class App extends React.Component {
                     <PrivateRoute path="/subjectpage" component={Subjectpage} />
                     <PrivateRoute path="/search" component={SearchPage} />
                     <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                    <PrivateRoute
-                      path="/edit-markup/:draftId/:language"
-                      component={EditMarkupPage}
-                    />
+                    <PrivateRoute path="/edit-markup/:draftId/:language" component={EditMarkupPage} />
                     <PrivateRoute path="/concept" component={ConceptPage} />
-
                     <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
                     <PrivateRoute path="/media" component={MediaPage} />
                     <PrivateRoute path="/agreement" component={AgreementPage} />
                     <PrivateRoute path="/film" component={NdlaFilm} />
                     <PrivateRoute path="/h5p" component={H5PPage} />
-                    <PrivateRoute
-                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                      component={StructurePage}
-                    />
+                    <PrivateRoute path="/structure/:subject?/:topic?/:subtopics(.*)?" component={StructurePage} />
                     <Route path="/forbidden" component={ForbiddenPage} />
                     <Route component={NotFoundPage} />
                   </Switch>
@@ -116,31 +138,31 @@ export class App extends React.Component {
       </ErrorBoundary>
     );
   }
+
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        subjectId: PropTypes.string,
+        topicId: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
+    locale: PropTypes.string.isRequired,
+    messages: PropTypes.arrayOf(MessageShape).isRequired,
+    dispatch: PropTypes.func.isRequired,
+    authenticated: PropTypes.bool.isRequired,
+    userName: PropTypes.string,
+    userAccess: PropTypes.string,
+    history: PropTypes.shape({
+      listen: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  static childContextTypes = {
+    locale: PropTypes.string,
+  };
 }
 
-App.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  messages: PropTypes.arrayOf(MessageShape).isRequired,
-  dispatch: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  userName: PropTypes.string,
-  userAccess: PropTypes.string,
-  history: PropTypes.shape({
-    listen: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-App.childContextTypes = {
-  locale: PropTypes.string,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State) => ({
   locale: getLocale(state),
   messages: getMessages(state),
   authenticated: state.session.authenticated,
@@ -148,4 +170,13 @@ const mapStateToProps = state => ({
   userAccess: state.session.user.scope,
 });
 
-export default withRouter(connect(mapStateToProps)(injectT(App)));
+
+const x = App;
+
+// export default withRouter(
+//   connect(
+//     mapStateToProps
+//   )(
+//     injectT(App)
+//   )
+// );

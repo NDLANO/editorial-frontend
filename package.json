@@ -53,7 +53,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^4.3.4",
-    "@types/slate": "^0.47.7",
+    "@types/slate": "^0.47.8",
     "@types/webpack-env": "^1.16.0",
     "@types/node": "^14.14.32",
     "babel-jest": "^24.9.0",

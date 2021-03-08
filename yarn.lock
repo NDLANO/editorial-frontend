@@ -2421,10 +2421,10 @@
   resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
-"@types/slate@^0.47.7":
-  version "0.47.7"
-  resolved "https://registry.yarnpkg.com/@types/slate/-/slate-0.47.7.tgz#fec860e24456fdf9f1169f69aadd7ce64707881f"
-  integrity sha512-Vy4E9lOKGFc5msZMwLWtVN9nrGYsdk6S7jXdC0Wf26UoMqJCS3yzXbNoFILSoCh7fq57ftJZrM6+8kkC/yT+LA==
+"@types/slate@^0.47.8":
+  version "0.47.8"
+  resolved "https://registry.yarnpkg.com/@types/slate/-/slate-0.47.8.tgz#b7a3916a5c76c1487e1dca0b829e688c40a386fc"
+  integrity sha512-peyg1SKD+01ly3VNoWPcPWmlOS+ltSDzAMkCWmBNTaAJ2s+WY91RQxaqk/cl1m9HQ3wmS1nB/7tbRnOcN5Wr4Q==
   dependencies:
     "@types/react" "*"
     immutable "^3.8.2"

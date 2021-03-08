@@ -86,6 +86,11 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
     }
   };
 
+  console.log('yo', model.title);
+
+  const tit = 'Funker dettta?';
+  const preTitle = tit ? `${tit} - ` : '';
+
   return (
     <CodeDiv
       className="c-figure"
@@ -97,7 +102,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
         actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
         code={model.code}
         format={model.format}
-        title={model.title}
+        title={`${preTitle}${model.title}`}
       />
       {editMode && (
         <EditCodeBlock

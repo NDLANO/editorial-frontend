@@ -29,7 +29,7 @@ class PlainTextEditor extends React.PureComponent {
   }
 
   render() {
-    const { onChange, value, ...rest } = this.props;
+    const { onChange, value, handleSubmit, ...rest } = this.props;
     return (
       <Editor
         value={value}

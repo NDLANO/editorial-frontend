@@ -91,30 +91,33 @@ const RichTextEditor = class extends React.PureComponent {
 
   render() {
     const {
-      schema,
+      'data-cy': dataCy,
       children,
       className,
-      value,
+      id,
       name,
-      onChange,
+      onBlur,
+      placeholder,
       plugins,
-      index,
-      ...rest
+      schema,
+      value,
     } = this.props;
     return (
       <article>
         <div data-cy="slate-editor" css={slateEditorDivStyle}>
           <Editor
             {...classes('content', undefined, className)}
+            id={id}
             onKeyDown={this.onKeyDown}
             ref={this.editorRef}
             value={value}
             name={name}
             schema={schema}
             onChange={this.onChange}
-            slateStore={this.state.slateStore}
             plugins={plugins}
-            {...rest}
+            placeholder={placeholder}
+            onBlur={onBlur}
+            data-cy={dataCy}
           />
           {children}
         </div>
@@ -124,17 +127,22 @@ const RichTextEditor = class extends React.PureComponent {
 };
 
 RichTextEditor.propTypes = {
-  schema: PropTypes.shape({}),
-  onChange: PropTypes.func.isRequired,
+  'data-cy': PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  id: PropTypes.string,
+  index: PropTypes.number,
   name: PropTypes.string.isRequired,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  removeSection: PropTypes.func,
+  schema: PropTypes.shape({}),
+  slateStore: PropTypes.any,
   submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  index: PropTypes.number,
-  removeSection: PropTypes.func,
-  plugins: PropTypes.arrayOf(PluginShape).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default RichTextEditor;

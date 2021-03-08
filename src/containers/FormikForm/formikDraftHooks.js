@@ -41,14 +41,7 @@ export function useFetchArticleData(articleId, locale) {
         articleType: 'concept',
       }));
 
-      const [relatedArticles, externalLinks] = partition(
-        article.relatedContent,
-        e => typeof e === 'number',
-      );
-
-      const convertedRelatedArticles = await fetchArticleList(relatedArticles);
-
-      const convertedRelatedContent = convertedRelatedArticles.concat(externalLinks);
+      const convertedRelatedContent = await fetchArticleList(article.relatedContent);
 
       const taxonomy = await fetchTaxonomy(articleId, locale);
       setArticle(
@@ -64,7 +57,15 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const fetchArticleList = async articleIds => {
-    return Promise.all(articleIds.map(async elementId => draftApi.fetchDraft(elementId)));
+    return Promise.all(
+      articleIds.map(async element => {
+        if (typeof element === 'number') {
+          return draftApi.fetchDraft(element);
+        } else {
+          return element;
+        }
+      }),
+    );
   };
 
   const updateArticle = async updatedArticle => {

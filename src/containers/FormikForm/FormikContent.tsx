@@ -31,7 +31,7 @@ interface Props {
   };
 }
 
-const FormikRelatedContent: FC<Props & tType> = ({ locale, t, values, field, form }) => {
+const FormikContent: FC<Props & tType> = ({ locale, t, values, field, form }) => {
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
@@ -128,4 +128,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(FormikRelatedContent);
+export default injectT(FormikContent);

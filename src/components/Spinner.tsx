@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { keyframes, css } from '@emotion/core';
+import { keyframes, css, SerializedStyles } from '@emotion/core';
 import { colors } from '@ndla/core';
 
 const spinnerKeyframeStyle = keyframes`
@@ -29,7 +29,9 @@ const commonAbsoluteAndFixedStyle = css`
   z-index: 999;
 `;
 
-const appeareances = {
+export type SpinnerAppearance = 'fixed' | 'absolute' | 'small';
+
+const appeareances: { [key in SpinnerAppearance]: SerializedStyles } = {
   fixed: css`
     position: fixed;
     ${commonAbsoluteAndFixedStyle}
@@ -50,7 +52,12 @@ const SpinnerWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledSpinner = styled('div')`
+interface Props {
+  appearance?: SpinnerAppearance;
+  withWrapper?: boolean;
+}
+
+const StyledSpinner: React.FC<Props> = styled('div')`
   border: 0.4em solid ${colors.brand.greyLight};
   border-bottom-color: ${colors.brand.primary};
   border-radius: 50%;
@@ -58,21 +65,15 @@ const StyledSpinner = styled('div')`
   width: 3em;
   height: 3em;
   animation: ${spinnerKeyframeStyle} 0.7s linear infinite;
-  ${p => appeareances[p.appearance]}
+  ${(p: Props) => {
+    if (p.appearance !== undefined) return appeareances[p.appearance];
+  }}
 `;
 
-const Spinner = ({ appearance, withWrapper, ...rest }) => {
+const Spinner: React.FC<Props> = ({ appearance, withWrapper, ...rest }) => {
   const spinner = <StyledSpinner appearance={appearance} {...rest} />;
   if (withWrapper) return <SpinnerWrapper>{spinner}</SpinnerWrapper>;
   return spinner;
-};
-
-Spinner.propTypes = {
-  appearance: PropTypes.string,
-};
-
-Spinner.defaultProps = {
-  appearance: '',
 };
 
 export default Spinner;

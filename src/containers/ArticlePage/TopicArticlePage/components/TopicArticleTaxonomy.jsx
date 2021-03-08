@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
-import Field from '../../../components/Field';
+import Field from '../../../../components/Field';
 import {
   fetchFilters,
   fetchTopics,
@@ -27,29 +27,29 @@ import {
   fetchTopicFilters,
   addTopic,
   fetchResourceTypes,
-} from '../../../modules/taxonomy';
+} from '../../../../modules/taxonomy';
 import {
   filterToSubjects,
   sortByName,
   groupTopics,
   sortIntoCreateDeleteUpdate,
   pathToUrnArray,
-} from '../../../util/taxonomyHelpers';
-import handleError from '../../../util/handleError';
-import retriveBreadCrumbs from '../../../util/retriveBreadCrumbs';
-import SaveButton from '../../../components/SaveButton';
-import { FormikActionButton } from '../../FormikForm';
+} from '../../../../util/taxonomyHelpers';
+import handleError from '../../../../util/handleError';
+import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
+import SaveButton from '../../../../components/SaveButton';
+import { FormikActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
-import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
+import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
 import ResourceTypeSelect from '../../LearningResourcePage/components/taxonomy/ResourceTypeSelect';
-import { fetchTopicResourceTypes } from '../../../modules/taxonomy/topics';
+import { fetchTopicResourceTypes } from '../../../../modules/taxonomy/topics';
 import {
   createTopicResourceType,
   deleteTopicResourceType,
-} from '../../../modules/taxonomy/resourcetypes';
+} from '../../../../modules/taxonomy/resourcetypes';
 
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 
 class TopicArticleTaxonomy extends Component {
   constructor() {

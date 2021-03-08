@@ -8,9 +8,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FieldHeader, Select } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
-import { selectedResourceTypeValue } from '../../../../util/taxonomyHelpers';
-import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
+import { selectedResourceTypeValue } from '../../../../../util/taxonomyHelpers';
+import HowToHelper from '../../../../../components/HowTo/HowToHelper';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../../../constants';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 

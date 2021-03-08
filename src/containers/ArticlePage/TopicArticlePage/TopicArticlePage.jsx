@@ -10,15 +10,15 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-import * as messageActions from '../Messages/messagesActions';
-import { getLocale } from '../../modules/locale/locale';
-import { fetchDraft } from '../../modules/draft/draftApi';
+import * as messageActions from '../../Messages/messagesActions';
+import { getLocale } from '../../../modules/locale/locale';
+import { fetchDraft } from '../../../modules/draft/draftApi';
 import EditTopicArticle from './EditTopicArticle';
 import CreateTopicArticle from './CreateTopicArticle';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import { toEditArticle } from '../../util/routeHelpers';
-import { LocationShape } from '../../shapes';
+import NotFoundPage from '../../NotFoundPage/NotFoundPage';
+import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { LocationShape } from '../../../shapes';
 
 class TopicArticlePage extends React.Component {
   constructor(props) {

@@ -15,33 +15,33 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import createNoEmbedsPlugin from '../../../components/SlateEditor/plugins/noEmbed';
-import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
-import { schema } from '../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from './../../../components/LastUpdatedLine';
-import ToggleButton from '../../../components/ToggleButton';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
+import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
+import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
+import FormikVisualElement from '../../../FormikForm/components/FormikVisualElement';
+import { schema } from '../../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from './../../../../components/LastUpdatedLine';
+import ToggleButton from '../../../../components/ToggleButton';
+import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import {
   renderBlock,
   renderMark,
   renderInline,
-} from '../../../components/SlateEditor/slateRendering';
-import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import { editListPlugin } from '../../../components/SlateEditor/plugins/externalPlugins';
-import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
-import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
-import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
-import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
-import FormikField from '../../../components/FormikField';
-import RichTextEditor from '../../../components/SlateEditor/RichTextEditor';
-import { EditMarkupLink } from '../../../components/EditMarkupLink';
-import { FormikIngress, FormikTitle } from '../../FormikForm';
-import { DRAFT_HTML_SCOPE } from '../../../constants';
-import { toEditMarkup } from '../../../util/routeHelpers';
-import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
-import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
+} from '../../../../components/SlateEditor/slateRendering';
+import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
+import { editListPlugin } from '../../../../components/SlateEditor/plugins/externalPlugins';
+import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
+import paragraphPlugin from '../../../../components/SlateEditor/plugins/paragraph';
+import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
+import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
+import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
+import FormikField from '../../../../components/FormikField';
+import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
+import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+import { FormikIngress, FormikTitle } from '../../../FormikForm';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { toEditMarkup } from '../../../../util/routeHelpers';
+import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
+import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
 
 const byLineStyle = css`
   display: flex;

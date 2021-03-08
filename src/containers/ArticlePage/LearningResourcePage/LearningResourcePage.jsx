@@ -10,16 +10,16 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import { getLocale } from '../../modules/locale/locale';
-import { fetchDraft } from '../../modules/draft/draftApi';
+import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
+import { getLocale } from '../../../modules/locale/locale';
+import { fetchDraft } from '../../../modules/draft/draftApi';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { LicensesArrayOf } from '../../shapes';
-import * as messageActions from '../Messages/messagesActions';
-import { toEditArticle } from '../../util/routeHelpers';
-import { LocationShape } from '../../shapes';
+import NotFoundPage from '../../NotFoundPage/NotFoundPage';
+import { LicensesArrayOf } from '../../../shapes';
+import * as messageActions from '../../Messages/messagesActions';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { LocationShape } from '../../../shapes';
 
 class LearningResourcePage extends PureComponent {
   constructor(props) {

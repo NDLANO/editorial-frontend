@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
-import { FootnoteShape } from '../../../shapes';
+import { FootnoteShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'footnotes',

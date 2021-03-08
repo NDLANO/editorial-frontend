@@ -11,38 +11,39 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-
 import {
-  learningResourceContentToHTML,
-  learningResourceContentToEditorValue,
+  topicArticleContentToHTML,
+  topicArticleContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
-} from '../../../util/articleContentConverter';
-import { LicensesArrayOf, ArticleShape } from '../../../shapes';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
-import validateFormik from '../../../components/formikValidationSchema';
-import LearningResourcePanels from './LearningResourcePanels';
+} from '../../../../util/articleContentConverter';
+import { parseEmbedTag, createEmbedTag } from '../../../../util/embedTagHelpers';
+import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormikFormDirty,
+  topicArticleRules,
   parseImageUrl,
-  learningResourceRules,
-} from '../../../util/formHelper';
-import { toEditArticle } from '../../../util/routeHelpers';
-import { nullOrUndefined } from '../../../util/articleUtil';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import EditorFooter from '../../../components/SlateEditor/EditorFooter';
-import { useArticleFormHooks } from '../../FormikForm/articleFormHooks';
-import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
-import Spinner from '../../../components/Spinner';
+} from '../../../../util/formHelper';
+import { FormikAlertModalWrapper, formClasses } from '../../../FormikForm';
+import { toEditArticle } from '../../../../util/routeHelpers';
+import { nullOrUndefined } from '../../../../util/articleUtil';
+import validateFormik from '../../../../components/formikValidationSchema';
+import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
+import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
+import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
+import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
+import Spinner from '../../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
+  const visualElement = parseEmbedTag(article.visualElement);
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    articleType: 'standard',
-    content: learningResourceContentToEditorValue(article.content),
+    articleType: 'topic-article',
+    content: topicArticleContentToEditorValue(article.content),
     creators: parseCopyrightContributors(article, 'creators'),
     id: article.id,
     introduction: plainTextToEditorValue(article.introduction, true),
@@ -52,7 +53,6 @@ export const getInitialValues = (article = {}) => {
     metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
-    origin: article.copyright?.origin || '',
     processors: parseCopyrightContributors(article, 'processors'),
     published: article.published,
     revision: article.revision,
@@ -61,8 +61,9 @@ export const getInitialValues = (article = {}) => {
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
     slatetitle: plainTextToEditorValue(article.title, true),
-    updatePublished: false,
     updated: article.updated,
+    updatePublished: false,
+    visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -77,17 +78,18 @@ const getPublishedDate = (values, initialValues, preview = false) => {
     return values.published;
   }
 
-  const hasPublishedDateChanged = initialValues.published !== values.published;
-  if (hasPublishedDateChanged || values.updatePublished) {
+  const hasPublishedDateChaned = initialValues.published !== values.published;
+  if (hasPublishedDateChaned || values.updatePublished) {
     return values.published;
   }
   return undefined;
 };
 
-const getArticleFromSlate = ({ values, licenses, initialValues, preview = false }) => {
-  const content = learningResourceContentToHTML(values.content);
-  const emptyContent = values.id ? '' : undefined;
-
+// TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
+  const emptyField = values.id ? '' : undefined;
+  const visualElement = createEmbedTag(isEmpty(values.visualElement) ? {} : values.visualElement);
+  const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {
         id: values.metaImageId,
@@ -96,25 +98,26 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
     : nullOrUndefined(values?.metaImageId);
 
   const article = {
-    articleType: 'standard',
-    content: content && content.length > 0 ? content : emptyContent,
+    articleType: 'topic-article',
+    content: content || emptyField,
     copyright: {
       license: licenses.find(license => license.license === values.license),
-      origin: values.origin,
       creators: values.creators,
       processors: values.processors,
       rightsholders: values.rightsholders,
+      agreementId: values.agreementId,
     },
     id: values.id,
     introduction: editorValueToPlainText(values.introduction),
+    metaDescription: editorValueToPlainText(values.metaDescription),
     language: values.language,
     metaImage,
-    metaDescription: editorValueToPlainText(values.metaDescription),
     notes: values.notes || [],
     published: getPublishedDate(values, initialValues, preview),
     supportedLanguages: values.supportedLanguages,
     tags: values.tags,
     title: editorValueToPlainText(values.slatetitle),
+    visualElement: visualElement,
     grepCodes: values.grepCodes,
     conceptIds: values.conceptIds,
     availability: values.availability,
@@ -123,11 +126,12 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
   return article;
 };
 
-const LearningResourceForm = props => {
+const TopicArticleForm = props => {
   const {
     savedToServer,
     formikRef,
     initialValues,
+    setResetModal,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -135,24 +139,38 @@ const LearningResourceForm = props => {
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
+  const {
+    t,
+    article,
+    updateArticle,
+    translating,
+    translateArticle,
+    licenses,
+    isNewlyCreated,
+    ...rest
+  } = props;
+
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
+    const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
           content={article}
-          editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
           getEntity={getArticle}
+          editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
           formIsDirty={formIsDirty}
+          getInitialValues={getInitialValues}
+          setValues={setValues}
           isSubmitting={isSubmitting}
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
@@ -161,12 +179,12 @@ const LearningResourceForm = props => {
         {translating ? (
           <Spinner withWrapper />
         ) : (
-          <LearningResourcePanels
+          <TopicArticleAccordionPanels
             values={values}
             errors={errors}
+            updateNotes={updateArticle}
             article={article}
             touched={touched}
-            updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
             setValues={setValues}
@@ -175,23 +193,19 @@ const LearningResourceForm = props => {
             fetchSearchTags={fetchSearchTags}
             {...formikProps}
             {...rest}
-            handleSubmit={() => {
-              handleSubmit(formik, isNewlyCreated);
-            }}
+            handleSubmit={() => handleSubmit(formik)}
           />
         )}
-
         <EditorFooter
           showSimpleFooter={!article.id}
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
+          showReset={() => setResetModal(true)}
           errors={errors}
           values={values}
-          onSaveClick={saveAsNewVersion => {
-            handleSubmit(formik, saveAsNewVersion);
-          }}
+          onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
           entityStatus={article.status}
           getStateStatuses={fetchStatusStateMachine}
           validateEntity={validateDraft}
@@ -211,52 +225,35 @@ const LearningResourceForm = props => {
     );
   };
 
-  const {
-    t,
-    article,
-    updateArticle,
-    translating,
-    translateArticle,
-    licenses,
-    isNewlyCreated,
-    ...rest
-  } = props;
   return (
     <Formik
       enableReinitialize={translating}
-      initialValues={initialValues}
-      innerRef={formikRef}
-      validateOnBlur={false}
       validateOnMount
+      initialValues={initialValues}
+      validateOnChange={false}
+      innerRef={formikRef}
       onSubmit={() => ({})}
-      validate={values => validateFormik(values, learningResourceRules, t)}>
+      validate={values => validateFormik(values, topicArticleRules, t)}>
       {FormikChild}
     </Formik>
   );
 };
 
-LearningResourceForm.propTypes = {
-  licenses: LicensesArrayOf,
+TopicArticleForm.propTypes = {
   revision: PropTypes.number,
   updateArticle: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
+  applicationError: PropTypes.func.isRequired,
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   updateArticleAndStatus: PropTypes.func,
-  taxonomy: PropTypes.shape({
-    resourceTypes: PropTypes.array,
-    filter: PropTypes.array,
-    topics: PropTypes.array,
-    loading: PropTypes.bool,
-  }),
-  userAccess: PropTypes.string,
+  licenses: LicensesArrayOf,
   article: ArticleShape,
-  applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
   translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
 };
 
-export default injectT(LearningResourceForm);
+export default injectT(TopicArticleForm);

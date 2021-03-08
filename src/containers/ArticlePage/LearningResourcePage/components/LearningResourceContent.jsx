@@ -17,52 +17,52 @@ import { connect as formikConnect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import { getLocale } from '../../../modules/locale/locale';
-import FormikField, { classes as formikFieldClasses } from '../../../components/FormikField';
-import RichBlockTextEditor from '../../../components/SlateEditor/RichBlockTextEditor';
+import { getLocale } from '../../../../modules/locale/locale';
+import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
+import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import { schema } from '../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from './../../../components/LastUpdatedLine';
+import { schema } from '../../../../components/SlateEditor/editorSchema';
+import LastUpdatedLine from '../../../../components/LastUpdatedLine';
 import {
   renderBlock,
   renderMark,
   renderInline,
-} from '../../../components/SlateEditor/slateRendering';
-import ToggleButton from '../../../components/ToggleButton';
-import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { findNodesByType } from '../../../util/slateHelpers';
-import codeBlockPlugin from '../../../components/SlateEditor/plugins/codeBlock';
-import footnotePlugin from '../../../components/SlateEditor/plugins/footnote';
-import createEmbedPlugin from '../../../components/SlateEditor/plugins/embed';
-import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox';
-import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
-import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
-import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
-import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
-import headingPlugin from '../../../components/SlateEditor/plugins/heading';
-import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
-import relatedPlugin from '../../../components/SlateEditor/plugins/related';
-import filePlugin from '../../../components/SlateEditor/plugins/file';
-import conceptPlugin from '../../../components/SlateEditor/plugins/concept';
-import blockquotePlugin from '../../../components/SlateEditor/plugins/blockquotePlugin';
-import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
-import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
-import dndPlugin from '../../../components/SlateEditor/plugins/DND';
-import pasteHandler from '../../../components/SlateEditor/plugins/pastehandler';
-import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
-import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
+} from '../../../../components/SlateEditor/slateRendering';
+import ToggleButton from '../../../../components/ToggleButton';
+import HowToHelper from '../../../../components/HowTo/HowToHelper';
+import { findNodesByType } from '../../../../util/slateHelpers';
+import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBlock';
+import footnotePlugin from '../../../../components/SlateEditor/plugins/footnote';
+import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
+import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
+import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside';
+import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
+import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
+import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
+import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
+import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
+import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
+import filePlugin from '../../../../components/SlateEditor/plugins/file';
+import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
+import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
+import paragraphPlugin from '../../../../components/SlateEditor/plugins/paragraph';
+import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
+import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
+import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
+import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
+import { TYPE as footnoteType } from '../../../../components/SlateEditor/plugins/footnote';
 
 import {
   editListPlugin,
   editTablePlugin,
-} from '../../../components/SlateEditor/plugins/externalPlugins';
-import createTablePlugin from '../../../components/SlateEditor/plugins/table';
-import { EditMarkupLink } from '../../../components/EditMarkupLink';
-import { FormikIngress, FormikTitle } from '../../FormikForm';
-import { ArticleShape } from '../../../shapes';
-import { DRAFT_HTML_SCOPE } from '../../../constants';
-import { toEditMarkup } from '../../../util/routeHelpers';
-import toolbarPlugin from '../../../components/SlateEditor/plugins/SlateToolbar';
+} from '../../../../components/SlateEditor/plugins/externalPlugins';
+import createTablePlugin from '../../../../components/SlateEditor/plugins/table';
+import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+import { FormikIngress, FormikTitle } from '../../../FormikForm';
+import { ArticleShape } from '../../../../shapes';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
+import { toEditMarkup } from '../../../../util/routeHelpers';
+import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 
 const byLineStyle = css`
   display: flex;

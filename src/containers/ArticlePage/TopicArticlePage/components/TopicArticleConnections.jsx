@@ -15,10 +15,10 @@ import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { HowToHelper } from '../../../components/HowTo';
-import { StructureShape, TopicShape } from '../../../shapes';
+import { HowToHelper } from '../../../../components/HowTo';
+import { StructureShape, TopicShape } from '../../../../shapes';
 import StructureFunctionButtons from './StructureFunctionButtons';
-import ActiveTopicConnections from '../../../components/Taxonomy/ActiveTopicConnections';
+import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
-import FormikConcepts from '../../FormikForm/FormikConcepts';
-import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
+import FormikConcepts from '../../../FormikForm/FormikConcepts';
+import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
-import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
-import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
-import FormikField from '../../../components/FormikField';
+import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
+import FormikGrepCodes from '../../../FormikForm/FormikGrepCodes';
+import FormikField from '../../../../components/FormikField';
 
 const panels = [
   {

@@ -11,10 +11,10 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import TopicArticleForm from './components/TopicArticleForm';
-import { toEditArticle } from '../../util/routeHelpers';
-import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
-import { useTranslateForm } from '../FormikForm/translateFormHooks';
-import Spinner from '../../components/Spinner';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { useTranslateForm } from '../../FormikForm/translateFormHooks';
+import Spinner from '../../../components/Spinner';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...rest }) => {
   const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(

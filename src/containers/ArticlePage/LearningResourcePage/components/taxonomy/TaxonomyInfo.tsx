@@ -12,7 +12,7 @@ import { colors } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
 import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
-import { TaxonomyElement } from '../../../../interfaces';
+import { TaxonomyElement } from '../../../../../interfaces';
 
 type StyledIdProps = {
   isVisible: boolean;

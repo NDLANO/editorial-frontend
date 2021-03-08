@@ -7,14 +7,14 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import TopicArticleForm from './components/TopicArticleForm';
-import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
-import { toEditArticle } from '../../util/routeHelpers';
+import { injectT } from '@ndla/i18n';
+import { LicensesArrayOf } from '../../../shapes';
+import LearningResourceForm from './components/LearningResourceForm';
+import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { toEditArticle } from '../../../util/routeHelpers';
 
-const CreateTopicArticle = props => {
-  const { locale, t, history, ...rest } = props;
+const CreateLearningResource = ({ locale, t, history, ...rest }) => {
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async createdArticle => {
@@ -24,11 +24,9 @@ const CreateTopicArticle = props => {
 
   return (
     <Fragment>
-      <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
-      <TopicArticleForm
+      <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
+      <LearningResourceForm
         article={{ language: locale }}
-        staticArticle={{ notes: [] }}
-        locale={locale}
         updateArticle={createArticleAndPushRoute}
         {...rest}
       />
@@ -36,12 +34,12 @@ const CreateTopicArticle = props => {
   );
 };
 
-CreateTopicArticle.propTypes = {
+CreateLearningResource.propTypes = {
+  licenses: LicensesArrayOf,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(CreateTopicArticle);
+export default injectT(CreateLearningResource);

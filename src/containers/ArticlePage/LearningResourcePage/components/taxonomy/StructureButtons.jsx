@@ -14,7 +14,7 @@ import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import FilterView from '../../../StructurePage/folderComponents/FilterView';
+import FilterView from '../../../../StructurePage/folderComponents/FilterView';
 
 const buttonAdditionStyle = css`
   opacity: 0;

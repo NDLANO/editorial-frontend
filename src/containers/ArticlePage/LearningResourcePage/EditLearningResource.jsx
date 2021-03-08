@@ -12,11 +12,11 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import LearningResourceForm from './components/LearningResourceForm';
-import { LicensesArrayOf } from '../../shapes';
-import { toEditArticle } from '../../util/routeHelpers';
-import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
-import { useTranslateForm } from '../FormikForm/translateFormHooks';
-import Spinner from '../../components/Spinner';
+import { LicensesArrayOf } from '../../../shapes';
+import { toEditArticle } from '../../../util/routeHelpers';
+import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import { useTranslateForm } from '../../FormikForm/translateFormHooks';
+import Spinner from '../../../components/Spinner';
 
 const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, ...rest }) => {
   const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(

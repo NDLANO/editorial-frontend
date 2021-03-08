@@ -532,6 +532,6 @@ export interface MessageI {
   severity?: string;
   action?: {
     title: string;
-    onClick: () => void;
-  }
+    onClick: Function;
+  };
 }

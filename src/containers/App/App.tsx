@@ -10,14 +10,13 @@
 import '../../style/index.css';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 // @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
-import {injectT, tType} from '@ndla/i18n';
-import { MessageShape } from '../../shapes';
+import { injectT, tType } from '@ndla/i18n';
+import { Dispatch } from 'redux';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -41,34 +40,33 @@ import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
-import { MessageI } from "../../interfaces";
+import { MessageI } from '../../interfaces';
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext('');
 export const UserAccessContext = React.createContext<string | undefined>(undefined);
 
-interface State {
+interface InternalState {
   firstLoad: boolean;
-  session: any; // TODO: Fix this
 }
 
 interface Props {
-  locale: string;
   messages: MessageI[];
-  dispatch: () => void;
+  locale: string;
+  dispatch: Dispatch;
   authenticated: boolean;
   userName?: string;
   userAccess?: string;
+  session: any; // TODO: Maybe not any?
 }
 
-type ActualProps = Props & tType & RouteComponentProps<{}>
+type ActualProps = Props & RouteComponentProps<any> & tType;
 
-export class App<T = {}> extends React.Component<ActualProps , State> {
+class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
     super(props);
     this.state = {
       firstLoad: true,
-      session: null,
     };
   }
 
@@ -90,16 +88,7 @@ export class App<T = {}> extends React.Component<ActualProps , State> {
   };
 
   render() {
-
-    const {
-      authenticated,
-      dispatch,
-      locale,
-      messages,
-      t,
-      userName,
-      userAccess
-    } = this.props;
+    const { authenticated, dispatch, locale, messages, t, userName, userAccess } = this.props;
 
     return (
       <ErrorBoundary>
@@ -118,14 +107,20 @@ export class App<T = {}> extends React.Component<ActualProps , State> {
                     <PrivateRoute path="/subjectpage" component={Subjectpage} />
                     <PrivateRoute path="/search" component={SearchPage} />
                     <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                    <PrivateRoute path="/edit-markup/:draftId/:language" component={EditMarkupPage} />
+                    <PrivateRoute
+                      path="/edit-markup/:draftId/:language"
+                      component={EditMarkupPage}
+                    />
                     <PrivateRoute path="/concept" component={ConceptPage} />
                     <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
                     <PrivateRoute path="/media" component={MediaPage} />
                     <PrivateRoute path="/agreement" component={AgreementPage} />
                     <PrivateRoute path="/film" component={NdlaFilm} />
                     <PrivateRoute path="/h5p" component={H5PPage} />
-                    <PrivateRoute path="/structure/:subject?/:topic?/:subtopics(.*)?" component={StructurePage} />
+                    <PrivateRoute
+                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                      component={StructurePage}
+                    />
                     <Route path="/forbidden" component={ForbiddenPage} />
                     <Route component={NotFoundPage} />
                   </Switch>
@@ -138,31 +133,9 @@ export class App<T = {}> extends React.Component<ActualProps , State> {
       </ErrorBoundary>
     );
   }
-
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        subjectId: PropTypes.string,
-        topicId: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-    locale: PropTypes.string.isRequired,
-    messages: PropTypes.arrayOf(MessageShape).isRequired,
-    dispatch: PropTypes.func.isRequired,
-    authenticated: PropTypes.bool.isRequired,
-    userName: PropTypes.string,
-    userAccess: PropTypes.string,
-    history: PropTypes.shape({
-      listen: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
-  static childContextTypes = {
-    locale: PropTypes.string,
-  };
 }
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: Props) => ({
   locale: getLocale(state),
   messages: getMessages(state),
   authenticated: state.session.authenticated,
@@ -170,13 +143,4 @@ const mapStateToProps = (state: State) => ({
   userAccess: state.session.user.scope,
 });
 
-
-const x = App;
-
-// export default withRouter(
-//   connect(
-//     mapStateToProps
-//   )(
-//     injectT(App)
-//   )
-// );
+export default withRouter(connect(mapStateToProps)(injectT(App)));

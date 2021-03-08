@@ -62,15 +62,16 @@ class SearchContentForm extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { searchObject } = this.props;
+    const { searchObject, locale } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
         search: {
           subjects: searchObject.subjects || '',
           resourceTypes: searchObject['resource-types'] || '',
-          draftStatus: searchObject['draft-status'] || '',
+          status: searchObject.status || '',
           query: searchObject.query || '',
           users: searchObject.users || '',
+          lang: searchObject.lang || locale,
         },
       });
     }

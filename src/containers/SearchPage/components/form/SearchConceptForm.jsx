@@ -67,6 +67,7 @@ class SearchConceptForm extends Component {
           query: searchObject.query || '',
           language: searchObject.language || '',
           types: 'concept',
+          status: searchObject.status || '',
           users: searchObject.users || '',
         },
       });

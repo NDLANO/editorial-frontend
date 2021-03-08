@@ -7,7 +7,6 @@
  */
 
 import { useState, useEffect } from 'react';
-import partition from 'lodash/partition';
 import * as draftApi from '../../modules/draft/draftApi';
 import { fetchConcept } from '../../modules/concept/conceptApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';

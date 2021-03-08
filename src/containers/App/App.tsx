@@ -58,7 +58,6 @@ interface Props {
   authenticated: boolean;
   userName?: string;
   userAccess?: string;
-  session: any; // TODO: Maybe not any?
 }
 
 type ActualProps = Props & RouteComponentProps<any> & tType;
@@ -140,7 +139,7 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 }
 
-const mapStateToProps = (state: Props) => ({
+const mapStateToProps = (state: Props & { session: any }) => ({
   locale: getLocale(state),
   messages: getMessages(state),
   authenticated: state.session.authenticated,

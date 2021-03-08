@@ -1,9 +1,9 @@
-import { appLocales } from '../i18n';
+import { appLocales, Phrases } from '../i18n';
 
 interface appLocaleType {
   name: string;
   abbreviation: string;
-  messages: string[];
+  messages: Phrases;
 }
 
 interface localeUrlsType {

@@ -16,6 +16,7 @@
     // "declaration": true,
     "strict": true,
     "moduleResolution": "node",
+    "downlevelIteration": true,
     "noLib": false,
     "noEmit": false,
     "sourceMap": true,
@@ -25,6 +26,10 @@
       "*": ["node_modules/*", "src/types/*"]
     }
   },
-  "include": ["src/**/*", "custom-typings/*"],
+  "include": [
+    "src/**/*",
+    "custom-typings/*",
+    "node_modules/@types/webpack-env/index.d.ts"
+  ],
   "exclude": ["**/*-test.*"]
 }

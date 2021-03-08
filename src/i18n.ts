@@ -6,19 +6,26 @@
  *
  */
 
+// @ts-ignore
 import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import nb from './phrases/phrases-nb';
 import nn from './phrases/phrases-nn';
 import en from './phrases/phrases-en';
 
-function* entries(obj) {
+export type Phrases = { [key: string]: string };
+
+function* entries(obj: Phrases) {
   // eslint-disable-next-line no-restricted-syntax
   for (const key of Object.keys(obj)) {
     yield [key, obj[key]];
   }
 }
 
-export const formatNestedMessages = (phrases, formattedMessages = {}, prefix = '') => {
+export const formatNestedMessages = (
+  phrases: Phrases,
+  formattedMessages: Phrases = {},
+  prefix = '',
+) => {
   const messages = formattedMessages;
 
   // eslint-disable-next-line no-restricted-syntax
@@ -54,16 +61,11 @@ const EN = {
 export const appLocales = [NB, NN, EN];
 export const preferdLocales = [NB, NN, EN];
 
-export const getLocaleObject = localeAbbreviation => {
+export const getLocaleObject = (localeAbbreviation: string) => {
   const locale = appLocales.find(appLocale => appLocale.abbreviation === localeAbbreviation);
 
   return locale || NB; // defaults to NB
 };
 
-export const isValidLocale = localeAbbreviation =>
+export const isValidLocale = (localeAbbreviation: string) =>
   appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
-
-export const getHtmlLang = localeAbbreviation => {
-  const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
-  return locale ? locale.abbreviation : 'nb'; // Defaults to nb if not found
-};

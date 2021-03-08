@@ -15,7 +15,7 @@ import * as messageActions from '../containers/Messages/messagesActions';
 
 const client =
   process.env.NODE_ENV !== 'unittest'
-    ? require('../client.jsx')
+    ? require('../client.tsx')
     : {
         store: {
           dispatch: () => {},

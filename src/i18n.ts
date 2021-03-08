@@ -12,60 +12,63 @@ import nb from './phrases/phrases-nb';
 import nn from './phrases/phrases-nn';
 import en from './phrases/phrases-en';
 
-export type Phrases = { [key: string]: string };
-
-function* entries(obj: Phrases) {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const key of Object.keys(obj)) {
-    yield [key, obj[key]];
-  }
-}
+type NestedPhrases = { [key: string]: NestedPhrases | string };
+export type FormattedMessages = { [key: string]: string };
 
 export const formatNestedMessages = (
-  phrases: Phrases,
-  formattedMessages: Phrases = {},
-  prefix = '',
-) => {
+  phrases: NestedPhrases,
+  formattedMessages: NestedPhrases = {},
+  prefix: string = '',
+): FormattedMessages => {
   const messages = formattedMessages;
-
-  // eslint-disable-next-line no-restricted-syntax
-  for (const [key, value] of entries(phrases)) {
-    if ({}.hasOwnProperty.call(phrases, key)) {
+  for (let key in phrases) {
+    if (phrases.hasOwnProperty(key)) {
       const keyWithPrefix = prefix ? `${prefix}.${key}` : key;
-      if (typeof value === 'object') {
-        formatNestedMessages(value, formattedMessages, keyWithPrefix);
-      } else {
+      const value: NestedPhrases | string = phrases[key];
+      if (typeof value === 'string') {
         messages[keyWithPrefix] = value;
+      } else {
+        formatNestedMessages(value, formattedMessages, keyWithPrefix);
       }
     }
   }
-  return messages;
+
+  return <FormattedMessages>messages;
 };
 
-const NB = {
+interface LocaleObject {
+  name: string;
+  abbreviation: string;
+  messages: FormattedMessages;
+}
+
+const NB: LocaleObject = {
   name: 'Bokmål',
   abbreviation: 'nb',
   messages: formatNestedMessages({ ...messagesNB, ...nb }),
 };
-const NN = {
+
+const NN: LocaleObject = {
   name: 'Nynorsk',
   abbreviation: 'nn',
   messages: formatNestedMessages({ ...messagesNN, ...nn }),
 };
-const EN = {
+
+const EN: LocaleObject = {
   name: 'English',
   abbreviation: 'en',
   messages: formatNestedMessages({ ...messagesEN, ...en }),
 };
 
-export const appLocales = [NB, NN, EN];
-export const preferdLocales = [NB, NN, EN];
+export const appLocales: LocaleObject[] = [NB, NN, EN];
+export const preferdLocales: LocaleObject[] = [NB, NN, EN];
 
-export const getLocaleObject = (localeAbbreviation: string) => {
+export const getLocaleObject = (localeAbbreviation: string): LocaleObject => {
   const locale = appLocales.find(appLocale => appLocale.abbreviation === localeAbbreviation);
 
   return locale || NB; // defaults to NB
 };
 
-export const isValidLocale = (localeAbbreviation: string) =>
-  appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
+export const isValidLocale = (localeAbbreviation: string): boolean => {
+  return appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
+};

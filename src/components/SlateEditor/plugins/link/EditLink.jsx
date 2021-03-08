@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Types from 'slate-prop-types';
 import Url from 'url-parse';
-import { isValidLocale } from '../../../../i18n';
+import { areValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { TYPE } from '.';

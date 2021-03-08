@@ -16,10 +16,10 @@ const url = `https://${getUniversalConfig().auth0Domain}/oauth/token`;
 const editorialFrontendClientId = getEnvironmentVariabel('NDLA_EDITORIAL_CLIENT_ID');
 const editorialFrontendClientSecret = getEnvironmentVariabel('NDLA_EDITORIAL_CLIENT_SECRET');
 
-const b64EncodeUnicode = str =>
+const b64EncodeUnicode = (str: string) =>
   btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
-      String.fromCharCode(`0x${p1}`),
+      String.fromCharCode(Number(`0x${p1}`)),
     ),
   );
 
@@ -35,7 +35,6 @@ export const getToken = (audience = 'ndla_system') =>
       client_secret: `${editorialFrontendClientSecret}`,
       audience,
     }),
-    json: true,
   }).then(res => res.json());
 
 export const getBrightcoveToken = () => {
@@ -53,7 +52,9 @@ export const getBrightcoveToken = () => {
   }).then(res => res.json());
 };
 
-export const getUsers = (managementToken, userIds) => {
+type ManagementToken = { access_token: string };
+
+export const getUsers = (managementToken: ManagementToken, userIds: string) => {
   const query = userIds
     .split(',')
     .map(userId => `"${userId}"`)
@@ -65,22 +66,20 @@ export const getUsers = (managementToken, userIds) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${managementToken.access_token}`,
       },
-      json: true,
     },
   ).then(res => res.json());
 };
 
-async function fetchEditors(token, query, page) {
+async function fetchEditors(token: string, query: string, page: number) {
   return fetch(`https://${getUniversalConfig().auth0Domain}/api/v2/users?${query}&page=${page}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    json: true,
   }).then(res => res.json());
 }
 
-export const getEditors = async (managementToken, role) => {
+export const getEditors = async (managementToken: ManagementToken, role: string) => {
   const query = `include_totals=true&q=app_metadata.roles:"${role}"`;
 
   const firstPage = await fetchEditors(managementToken.access_token, query, 0);
@@ -93,7 +92,7 @@ export const getEditors = async (managementToken, role) => {
   return results.reduce((acc, res) => [...acc, ...res.users], []);
 };
 
-export const getZendeskToken = (name, email) => {
+export const getZendeskToken = (name: string, email: string) => {
   const payload = {
     name: name,
     email: email,

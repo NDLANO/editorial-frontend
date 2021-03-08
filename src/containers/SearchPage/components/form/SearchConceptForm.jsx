@@ -58,6 +58,22 @@ class SearchConceptForm extends Component {
     this.setState({ users: users });
   }
 
+  componentDidUpdate(prevProps) {
+    const { searchObject } = this.props;
+    if (prevProps.searchObject?.query !== searchObject?.query) {
+      this.setState({
+        search: {
+          subjects: searchObject.subjects || '',
+          query: searchObject.query || '',
+          language: searchObject.language || '',
+          types: 'concept',
+          status: searchObject.status || '',
+          users: searchObject.users || '',
+        },
+      });
+    }
+  }
+
   onFieldChange = evt => {
     const { value, name } = evt.target;
     this.setState(

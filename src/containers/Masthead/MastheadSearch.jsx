@@ -12,6 +12,7 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
+import * as actions from '../../modules/search/search';
 import { getSearching } from '../../modules/search/searchSelectors';
 import { getLocale } from '../../modules/locale/locale';
 import { toSearch } from '../../util/routeHelpers';
@@ -35,26 +36,57 @@ class MastheadSearch extends Component {
     };
   }
 
+  onSearchQuerySubmit = searchQuery => {
+    const {
+      history,
+      location,
+      close,
+      search,
+      searchAudio,
+      searchImage,
+      searchConcept,
+      locale,
+    } = this.props;
+
+    const searchActions = {
+      content: search,
+      concept: searchConcept,
+      image: searchImage,
+      audio: searchAudio,
+    };
+
+    const type = location.pathname.replace('/search/', '');
+
+    if (Object.keys(searchActions).includes(type)) {
+      const searchObject = queryString.parse(location.search);
+      searchObject.query = searchQuery;
+
+      searchActions[type]({ query: searchObject, type });
+      history.push(toSearch(searchObject, type));
+    } else {
+      history.push(
+        toSearch({
+          query: searchQuery,
+          page: 1,
+          sort: '-lastUpdated',
+          'page-size': 10,
+          language: locale,
+          fallback: true,
+        }),
+      );
+    }
+
+    close();
+  };
+
   render() {
-    const { history, searching, close, locale } = this.props;
+    const { searching } = this.props;
     const { query } = this.state;
     return (
       <MastheadSearchForm
         query={query}
         searching={searching}
-        onSearchQuerySubmit={searchQuery => {
-          history.push(
-            toSearch({
-              query: searchQuery,
-              page: 1,
-              sort: '-lastUpdated',
-              'page-size': 10,
-              language: locale,
-              fallback: true,
-            }),
-          );
-          close();
-        }}
+        onSearchQuerySubmit={this.onSearchQuerySubmit}
       />
     );
   }
@@ -65,6 +97,10 @@ MastheadSearch.propTypes = {
   searching: PropTypes.bool.isRequired,
   history: HistoryShape,
   close: PropTypes.func,
+  search: PropTypes.func,
+  searchAudio: PropTypes.func,
+  searchImage: PropTypes.func,
+  searchConcept: PropTypes.func,
   locale: PropTypes.string,
 };
 
@@ -73,4 +109,11 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default withRouter(connect(mapStateToProps)(MastheadSearch));
+const mapDispatchToProps = {
+  search: actions.search,
+  searchAudio: actions.searchAudio,
+  searchImage: actions.searchImage,
+  searchConcept: actions.searchConcept,
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MastheadSearch));

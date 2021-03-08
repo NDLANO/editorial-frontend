@@ -10,6 +10,7 @@
 import '../../style/index.css';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 // @ts-ignore
@@ -133,6 +134,10 @@ class App extends React.Component<ActualProps, InternalState> {
       </ErrorBoundary>
     );
   }
+
+  static childContextTypes = {
+    locale: PropTypes.string,
+  };
 }
 
 const mapStateToProps = (state: Props) => ({

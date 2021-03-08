@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import * as actions from '../../modules/search/search';
 import { getSearching } from '../../modules/search/searchSelectors';
+import { getLocale } from '../../modules/locale/locale';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
 
@@ -44,6 +45,7 @@ class MastheadSearch extends Component {
       searchAudio,
       searchImage,
       searchConcept,
+      locale,
     } = this.props;
 
     const searchActions = {
@@ -68,6 +70,8 @@ class MastheadSearch extends Component {
           page: 1,
           sort: '-lastUpdated',
           'page-size': 10,
+          language: locale,
+          fallback: true,
         }),
       );
     }
@@ -97,10 +101,12 @@ MastheadSearch.propTypes = {
   searchAudio: PropTypes.func,
   searchImage: PropTypes.func,
   searchConcept: PropTypes.func,
+  locale: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   searching: getSearching(state),
+  locale: getLocale(state),
 });
 
 const mapDispatchToProps = {

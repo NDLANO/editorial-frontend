@@ -37,6 +37,7 @@ class SearchConceptForm extends Component {
         query: searchObject.query || '',
         language: searchObject.language || '',
         types: 'concept',
+        status: searchObject.status || '',
         users: searchObject.users || '',
       },
       users: [],
@@ -121,7 +122,7 @@ class SearchConceptForm extends Component {
 
   render() {
     const { t, subjects } = this.props;
-    const { search } = this.state;
+    const { search, users } = this.state;
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -153,7 +154,7 @@ class SearchConceptForm extends Component {
             value={this.state.search['status']}
             labelKey="name"
             emptyField
-            placeholder={t(`searchForm.types.draftStatus`)}
+            placeholder={t(`searchForm.types.status`)}
             onChange={this.onFieldChange}
           />
         </div>
@@ -174,7 +175,7 @@ class SearchConceptForm extends Component {
           <ObjectSelector
             name="users"
             value={search['users']}
-            options={this.state.users.sort(this.sortByProperty('name'))}
+            options={users.sort(this.sortByProperty('name'))}
             idKey="id"
             labelKey="name"
             emptyField
@@ -205,8 +206,10 @@ class SearchConceptForm extends Component {
           <SearchTagGroup
             onRemoveItem={this.removeTagItem}
             languages={getResourceLanguages}
+            users={users}
             subjects={subjects}
             searchObject={this.state.search}
+            status={this.getConceptStatuses()}
           />
         </div>
       </form>
@@ -222,6 +225,7 @@ SearchConceptForm.propTypes = {
     subjects: PropTypes.string,
     language: PropTypes.string,
     users: PropTypes.string,
+    status: PropTypes.string,
   }),
   locale: PropTypes.string.isRequired,
   subjects: PropTypes.array,

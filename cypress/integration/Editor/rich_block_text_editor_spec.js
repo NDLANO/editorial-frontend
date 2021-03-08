@@ -25,7 +25,9 @@ describe('Learning resource editing', () => {
     cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
       force: true,
     });
-    cy.get('.article_introduction').type('Test ingress');
+    cy.get('[data-cy=learning-resource-ingress]').type('Test ingress', {
+      force: true,
+    });
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()

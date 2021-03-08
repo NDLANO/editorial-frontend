@@ -30,15 +30,6 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import './html.contribution';
 import { createFormatAction, createSaveAction } from './editorActions';
 
-window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId, label) {
-    if (label === 'html') {
-      return '/static/js/html.worker.js';
-    }
-    return '/static/js/editor.worker.js';
-  },
-};
-
 monaco.editor.defineTheme('myCustomTheme', {
   base: 'vs',
   inherit: false,

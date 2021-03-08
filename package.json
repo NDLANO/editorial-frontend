@@ -141,7 +141,7 @@
     "jwks-rsa": "^1.6.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.19",
-    "monaco-editor": "0.21.3",
+    "monaco-editor": "0.22.3",
     "ndla-slate-edit-list": "^0.13.4",
     "polished": "^3.4.1",
     "postcss-cssnext": "^3.1.0",

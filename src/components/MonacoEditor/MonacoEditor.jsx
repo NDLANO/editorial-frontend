@@ -18,7 +18,6 @@ import 'monaco-editor/esm/vs/editor/contrib/find/findController';
 import 'monaco-editor/esm/vs/editor/contrib/links/links';
 import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController';
 import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter';
-import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand';
 import 'monaco-editor/esm/vs/editor/contrib/multicursor/multicursor';
 import 'monaco-editor/esm/vs/editor/contrib/linesOperations/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom';

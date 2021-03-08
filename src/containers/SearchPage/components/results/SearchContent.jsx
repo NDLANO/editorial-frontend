@@ -24,6 +24,7 @@ import SearchContentLanguage from './SearchContentLanguage';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
+import SearchHighlight from './SearchHighlight';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -87,6 +88,8 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
     </>
   );
 
+  const metaDescription = convertFieldWithFallback(content, 'metaDescription', '');
+
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
@@ -119,9 +122,11 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
             />
           ))}
         </div>
-        <p {...searchClasses('description')}>
-          {convertFieldWithFallback(content, 'metaDescription', '')}
-        </p>
+        <SearchHighlight content={content} locale={locale} />
+        {metaDescription !== '' && (
+          <p {...searchClasses('description-title')}>{t('form.name.metaDescription')}</p>
+        )}
+        <p {...searchClasses('description')}>{metaDescription}</p>
         <div {...searchClasses('breadcrumbs')} style={{ marginTop: '-25px' }}>
           {contexts && contexts.length > 0 && contexts[0].breadcrumbs ? (
             contexts[0].breadcrumbs.map(breadcrumb => (

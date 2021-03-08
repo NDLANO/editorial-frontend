@@ -152,6 +152,12 @@ const phrases = {
     imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
+    highlights: {
+      title: 'Søketreff',
+      content: 'Søketreff frå innhold',
+      tags: 'Søketreff frå nøkkelord',
+      embedAttributes: 'Søketreff frå innebygde elementer',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -262,9 +268,9 @@ const phrases = {
     helpMessage: {
       tooltip: 'Om HTML-editoren',
       paragraph1:
-        'Det er mogeleg å formatere  HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
+        'Det er mogeleg å formatere  HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. Lagring ved ctrl+s fungerer også.',
       paragraph2:
-        'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom dei samme transformeringane som den vanlige editoren. Det betyr at linjeskift t.d. blir endra til <br> ved lagring, óg at den vil prøve å rette opp ugyldig kode.',
+        'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom dei samme transformeringane som den vanlige editoren. Det betyr at den vil prøve å rette opp ugyldig kode. Linjeskift blir fjerna ved lagring og dermed ignorert.',
     },
   },
   imageSearch: {
@@ -499,6 +505,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
+      slatetitle: 'Tittel',
       aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',

@@ -85,7 +85,6 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
         name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedConcepts.placeholder')}
-        label="label"
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(concept: ContentResultType) => onAddConceptToList(concept)}

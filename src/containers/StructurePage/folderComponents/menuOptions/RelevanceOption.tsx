@@ -48,7 +48,7 @@ const RelevanceOption = ({
           });
         }}
         on={relevance}
-        testId="toggleRelevance"
+        testId="toggleRelevanceId"
       />
     </StyledToggleSwitch>
   );

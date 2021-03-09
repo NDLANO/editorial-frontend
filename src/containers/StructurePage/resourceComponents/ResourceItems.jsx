@@ -193,6 +193,7 @@ class ResourceItems extends React.PureComponent {
               currentTopic={currentTopic}
               availableFilters={availableFilters}
               activeFilters={activeFilters[resource.id]}
+              refreshResources={this.props.refreshResources}
               {...resource}
               locale={locale}
             />

@@ -42,7 +42,7 @@ import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
-import ResourceTypeSelect from '../../LearningResourcePage/components/taxonomy/ResourceTypeSelect';
+import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import { fetchTopicResourceTypes } from '../../../../modules/taxonomy/topics';
 import {
   createTopicResourceType,

@@ -31,7 +31,7 @@ import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
-import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
+import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 

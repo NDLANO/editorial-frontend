@@ -1,12 +1,12 @@
 import BEMHelper from 'react-bem-helper';
-import FormikAgreementConnection from './FormikAgreementConnection';
-import FormikCopyright from './FormikCopyright';
+import AgreementConnectionForm from './AgreementConnectionForm';
+import CopyrightForm from './CopyrightForm';
 import FormikIngress from './FormikIngress';
 import FormikTitle from './FormikTitle';
 import VersionAndNotesPanel from './VersionAndNotesPanel';
-import FormikAddNotes from './FormikAddNotes';
+import AddNotesForm from './AddNotesForm';
 import LicenseForm from './components/LicenseForm';
-import FormikAlertModalWrapper from './FormikAlertModalWrapper';
+import AlertModalWrapper from './AlertModalWrapper';
 import ActionButton from './components/ActionButton';
 import FormikMetaImageSearch from './FormikMetaImageSearch';
 import DatePicker from './components/DatePicker';
@@ -21,14 +21,14 @@ const formClasses = new BEMHelper({
 });
 
 export {
-  FormikCopyright,
-  FormikAlertModalWrapper,
-  FormikAgreementConnection,
+  CopyrightForm,
+  AlertModalWrapper,
+  AgreementConnectionForm,
   DatePicker,
   FormikIngress,
   FormikTitle,
   VersionAndNotesPanel,
-  FormikAddNotes,
+  AddNotesForm,
   LicenseForm,
   ActionButton,
   FormikMetaImageSearch,

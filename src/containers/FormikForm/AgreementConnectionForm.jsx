@@ -18,7 +18,7 @@ import { AsyncDropdown } from '../../components/Dropdown';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import FormikField from '../../components/FormikField';
 
-class FormikAgreementConnection extends Component {
+class AgreementConnectionForm extends Component {
   static async searchAgreements(query) {
     const response = await draftApi.fetchAgreements(query);
     return response.results;
@@ -86,7 +86,7 @@ class FormikAgreementConnection extends Component {
                     },
                   })
                 }
-                apiAction={FormikAgreementConnection.searchAgreements}
+                apiAction={AgreementConnectionForm.searchAgreements}
                 idField="id"
                 positionAbsolute
                 name="agreementId"
@@ -107,15 +107,15 @@ class FormikAgreementConnection extends Component {
   }
 }
 
-FormikAgreementConnection.propTypes = {
+AgreementConnectionForm.propTypes = {
   width: PropTypes.number,
   values: PropTypes.shape({
     agreementId: PropTypes.number,
   }),
 };
 
-FormikAgreementConnection.defaultProps = {
+AgreementConnectionForm.defaultProps = {
   width: 1,
 };
 
-export default connect(injectT(FormikAgreementConnection));
+export default connect(injectT(AgreementConnectionForm));

@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom';
 import { injectT } from '@ndla/i18n';
 import AlertModal from '../../components/AlertModal';
 
-class FormikAlertModalWrapper extends PureComponent {
+class AlertModalWrapper extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { openModal: false, discardChanges: false };
@@ -85,7 +85,7 @@ class FormikAlertModalWrapper extends PureComponent {
   }
 }
 
-FormikAlertModalWrapper.propTypes = {
+AlertModalWrapper.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     block: PropTypes.func.isRequired,
@@ -97,4 +97,4 @@ FormikAlertModalWrapper.propTypes = {
   onContinue: PropTypes.func,
 };
 
-export default withRouter(injectT(FormikAlertModalWrapper));
+export default withRouter(injectT(AlertModalWrapper));

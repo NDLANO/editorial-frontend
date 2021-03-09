@@ -19,7 +19,7 @@ import {
   plainTextToEditorValue,
 } from '../../../../util/articleContentConverter';
 import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
-import { FormikAlertModalWrapper, formClasses } from '../../../FormikForm';
+import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import validateFormik from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import {
@@ -202,7 +202,7 @@ const LearningResourceForm = props => {
           {...formikProps}
           {...rest}
         />
-        <FormikAlertModalWrapper
+        <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
           onContinue={translateOnContinue ? translateArticle : () => {}}

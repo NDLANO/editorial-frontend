@@ -27,7 +27,7 @@ import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { ActionButton } from '../../FormikForm';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
+import { AlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
 import validateFormik from '../../../components/formikValidationSchema';
 import { ConceptShape, LicensesArrayOf, SubjectShape } from '../../../shapes';
@@ -394,7 +394,7 @@ class ConceptForm extends Component {
                 />
               )}
               {!inModal && (
-                <FormikAlertModalWrapper
+                <AlertModalWrapper
                   formIsDirty={formIsDirty}
                   isSubmitting={isSubmitting}
                   onContinue={translateOnContinue ? translateConcept : () => {}}

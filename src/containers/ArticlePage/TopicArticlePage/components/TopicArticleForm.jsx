@@ -26,7 +26,7 @@ import {
   topicArticleRules,
   parseImageUrl,
 } from '../../../../util/formHelper';
-import { FormikAlertModalWrapper, formClasses } from '../../../FormikForm';
+import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../../util/articleUtil';
 import validateFormik from '../../../../components/formikValidationSchema';
@@ -216,7 +216,7 @@ const TopicArticleForm = props => {
           {...formikProps}
           {...rest}
         />
-        <FormikAlertModalWrapper
+        <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
           onContinue={translateOnContinue ? translateArticle : () => {}}

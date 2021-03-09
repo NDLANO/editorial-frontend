@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FormikField from '../../../components/FormikField/FormikField';
-import FormikCopyright from '../../FormikForm/FormikCopyright';
+import CopyrightForm from '../../FormikForm/CopyrightForm';
 
 const ConceptCopyright = ({
   licenses,
@@ -20,7 +20,7 @@ const ConceptCopyright = ({
 }) => {
   return (
     <Fragment>
-      <FormikCopyright
+      <CopyrightForm
         licenses={licenses}
         contributorTypesOverride={contributorTypesOverride}
         disableAgreements={disableAgreements}

@@ -47,7 +47,7 @@ export const convertGrepCodesToObject = async (grepCodes: string[]) => {
   );
 };
 
-const FormikGrepCodesContent = ({ t, articleGrepCodes = [], field, form }: Props & tType) => {
+const GrepCodesFormContent = ({ t, articleGrepCodes = [], field, form }: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
   const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
@@ -163,4 +163,4 @@ const FormikGrepCodesContent = ({ t, articleGrepCodes = [], field, form }: Props
   );
 };
 
-export default injectT(FormikGrepCodesContent);
+export default injectT(GrepCodesFormContent);

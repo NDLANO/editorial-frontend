@@ -13,7 +13,7 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
 import { isFormikFormDirty, ndlaFilmRules } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm/index';
+import { AlertModalWrapper, formClasses } from '../../FormikForm/index';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
@@ -102,7 +102,7 @@ const NdlaFilmForm: FC<Props & tType> = ({
                 disabled={!isValid}
               />
             </Field>
-            <FormikAlertModalWrapper
+            <AlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"

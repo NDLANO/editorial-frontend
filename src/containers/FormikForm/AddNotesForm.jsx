@@ -13,7 +13,7 @@ import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
 import { NewArticleShape } from '../../shapes';
 
-class FormikAddNotes extends Component {
+class AddNotesForm extends Component {
   constructor() {
     super();
     this.onNotesChange = this.onNotesChange.bind(this);
@@ -92,13 +92,13 @@ class FormikAddNotes extends Component {
   }
 }
 
-FormikAddNotes.defaultProps = {
+AddNotesForm.defaultProps = {
   article: {
     notes: [],
   },
 };
 
-FormikAddNotes.propTypes = {
+AddNotesForm.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   labelRemoveNote: PropTypes.string.isRequired,
@@ -110,4 +110,4 @@ FormikAddNotes.propTypes = {
   showError: PropTypes.bool,
 };
 
-export default FormikAddNotes;
+export default AddNotesForm;

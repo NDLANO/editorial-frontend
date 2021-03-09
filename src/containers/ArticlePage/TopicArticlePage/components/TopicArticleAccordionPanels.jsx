@@ -4,10 +4,10 @@ import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
 import FormikRelatedContent from '../../components/FormikRelatedContent';
-import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../../FormikForm';
+import { CopyrightForm, VersionAndNotesPanel, FormikMetadata } from '../../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
-import FormikGrepCodes from '../../../FormikForm/FormikGrepCodes';
+import GrepCodesForm from '../../../FormikForm/GrepCodesForm';
 
 const panels = [
   {
@@ -30,7 +30,7 @@ const panels = [
     title: 'form.copyrightSection',
     className: 'u-6/6',
     errorFields: ['creators', 'rightsholders', 'processors', 'license'],
-    component: props => <FormikCopyright {...props} />,
+    component: props => <CopyrightForm {...props} />,
   },
   {
     id: 'topic-article-metadata',
@@ -44,7 +44,7 @@ const panels = [
     title: 'form.name.grepCodes',
     className: 'u-6/6',
     errorFields: ['grepCodes'],
-    component: props => <FormikGrepCodes {...props} />,
+    component: props => <GrepCodesForm {...props} />,
   },
   {
     id: 'learning-resource-related-data',

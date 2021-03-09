@@ -19,7 +19,7 @@ const StyledInputCheckbox = styled.input`
   width: auto;
 `;
 
-const FormikCheckbox = ({ display, children, ...rest }) => {
+const Checkbox = ({ display, children, ...rest }) => {
   return (
     <FormikField {...rest}>
       {({ field }) => (
@@ -32,13 +32,13 @@ const FormikCheckbox = ({ display, children, ...rest }) => {
   );
 };
 
-FormikCheckbox.defaultProps = {
+Checkbox.defaultProps = {
   display: 'block',
 };
 
-FormikCheckbox.propTypes = {
+Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
   display: PropTypes.string,
 };
 
-export default FormikCheckbox;
+export default Checkbox;

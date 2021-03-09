@@ -5,15 +5,15 @@ import FormikIngress from './FormikIngress';
 import FormikTitle from './FormikTitle';
 import VersionAndNotesPanel from './VersionAndNotesPanel';
 import FormikAddNotes from './FormikAddNotes';
-import FormikLicense from './components/FormikLicense';
+import LicenseForm from './components/LicenseForm';
 import FormikAlertModalWrapper from './FormikAlertModalWrapper';
-import FormikActionButton from './components/FormikActionButton';
+import ActionButton from './components/ActionButton';
 import FormikMetaImageSearch from './FormikMetaImageSearch';
-import FormikDatePicker from './components/FormikDatePicker';
-import FormikCheckbox from './components/FormikCheckbox';
-import FormikContributors from './components/FormikContributors';
+import DatePicker from './components/DatePicker';
+import Checkbox from './components/Checkbox';
+import ContributorsForm from './components/ContributorsForm';
 import FormikMetadata from './FormikMetadata';
-import FormikAbortButton from './components/FormikAbortButton';
+import AbortButton from './components/AbortButton';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -24,17 +24,17 @@ export {
   FormikCopyright,
   FormikAlertModalWrapper,
   FormikAgreementConnection,
-  FormikDatePicker,
+  DatePicker,
   FormikIngress,
   FormikTitle,
   VersionAndNotesPanel,
   FormikAddNotes,
-  FormikLicense,
-  FormikActionButton,
+  LicenseForm,
+  ActionButton,
   FormikMetaImageSearch,
-  FormikCheckbox,
-  FormikContributors,
+  Checkbox,
+  ContributorsForm,
   formClasses,
   FormikMetadata,
-  FormikAbortButton,
+  AbortButton,
 };

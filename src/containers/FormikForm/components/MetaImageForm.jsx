@@ -39,7 +39,7 @@ const metaImageDeleteButtonStyle = css`
   }
 `;
 
-const FormikMetaImage = ({ image, onImageSelectOpen, onImageRemove, showRemoveButton, t }) => {
+const MetaImageForm = ({ image, onImageSelectOpen, onImageRemove, showRemoveButton, t }) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
@@ -84,7 +84,7 @@ const FormikMetaImage = ({ image, onImageSelectOpen, onImageRemove, showRemoveBu
   );
 };
 
-FormikMetaImage.propTypes = {
+MetaImageForm.propTypes = {
   image: PropTypes.shape({
     copyright: PropTypes.object,
     imageUrl: PropTypes.string,
@@ -94,4 +94,4 @@ FormikMetaImage.propTypes = {
   showRemoveButton: PropTypes.bool,
 };
 
-export default injectT(FormikMetaImage);
+export default injectT(MetaImageForm);

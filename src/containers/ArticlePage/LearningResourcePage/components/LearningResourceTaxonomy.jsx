@@ -30,7 +30,7 @@ import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../../components/SaveButton';
-import { FormikActionButton } from '../../../FormikForm';
+import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from './taxonomy/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
@@ -438,9 +438,9 @@ class LearningResourceTaxonomy extends Component {
           />
         )}
         <Field right>
-          <FormikActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
+          <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}
-          </FormikActionButton>
+          </ActionButton>
           <SaveButton
             isSaving={status === 'loading'}
             showSaved={status === 'success' && !isDirty}

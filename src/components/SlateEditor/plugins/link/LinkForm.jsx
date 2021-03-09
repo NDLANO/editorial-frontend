@@ -20,7 +20,7 @@ import config from '../../../../config';
 import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
-import { FormikCheckbox } from '../../../../containers/FormikForm';
+import { Checkbox } from '../../../../containers/FormikForm';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
@@ -92,7 +92,7 @@ class LinkForm extends Component {
               label={t('form.content.link.href')}
               css={getLinkFieldStyle(node)}
             />
-            <FormikCheckbox name="checkbox" label={t('form.content.link.newTab')} />
+            <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
             <Field right>
               {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
               <Button css={marginLeftStyle} outline onClick={onClose}>

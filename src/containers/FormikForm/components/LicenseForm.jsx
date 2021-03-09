@@ -15,7 +15,7 @@ import { LocaleContext } from '../../App/App';
 
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
-const FormikLicense = props => {
+const LicenseForm = props => {
   const {
     t,
     onChange,
@@ -62,7 +62,7 @@ const FormikLicense = props => {
   );
 };
 
-FormikLicense.propTypes = {
+LicenseForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
@@ -79,10 +79,10 @@ FormikLicense.propTypes = {
   enableLicenseNA: PropTypes.bool,
 };
 
-FormikLicense.defaultProps = {
+LicenseForm.defaultProps = {
   disabled: false,
   name: 'license',
   width: 3 / 4,
 };
 
-export default injectT(FormikLicense);
+export default injectT(LicenseForm);

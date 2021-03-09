@@ -13,7 +13,7 @@ import { Agreement } from '@ndla/icons/editor';
 import Field from '../../../components/Field';
 import { DEFAULT_LICENSE, parseCopyrightContributors } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
-import { formClasses, FormikActionButton, FormikAbortButton } from '../../FormikForm';
+import { formClasses, ActionButton, AbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 
 const getInitialValues = (agreement = {}) => ({
@@ -106,10 +106,10 @@ class AgreementForm extends Component {
               <AgreementFields licenses={licenses} />
             </div>
             <Field right>
-              <FormikAbortButton outline disabled={isSubmitting}>
+              <AbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}
-              </FormikAbortButton>
-              <FormikActionButton submit>{t('form.save')}</FormikActionButton>
+              </AbortButton>
+              <ActionButton submit>{t('form.save')}</ActionButton>
             </Field>
           </Form>
         )}

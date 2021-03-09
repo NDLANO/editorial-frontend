@@ -26,7 +26,7 @@ import ConceptContent from './ConceptContent';
 import ConceptMetaData from './ConceptMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { FormikActionButton } from '../../FormikForm';
+import { ActionButton } from '../../FormikForm';
 import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
 import ConceptCopyright from './ConceptCopyright';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -355,9 +355,9 @@ class ConceptForm extends Component {
               </Accordion>
               {inModal ? (
                 <Field right>
-                  <FormikActionButton outline onClick={onClose}>
+                  <ActionButton outline onClick={onClose}>
                     {t('form.abort')}
-                  </FormikActionButton>
+                  </ActionButton>
                   <SaveButton
                     {...formClasses}
                     isSaving={isSubmitting}

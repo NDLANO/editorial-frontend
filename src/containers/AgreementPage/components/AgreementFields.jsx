@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import { FormikLicense, FormikDatePicker, FormikContributors } from '../../FormikForm';
+import { LicenseForm, DatePicker, ContributorsForm } from '../../FormikForm';
 import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';
 import { LocaleContext } from '../../App/App';
 
@@ -18,8 +18,8 @@ const AgreementFields = props => {
         maxLength={300}
         placeholder={t('agreementForm.fields.title.placeholder')}
       />
-      <FormikContributors contributorTypes={contributorTypes} />
-      <FormikLicense licenses={licenses} />
+      <ContributorsForm contributorTypes={contributorTypes} />
+      <LicenseForm licenses={licenses} />
       <FormikField label={t('agreementForm.fields.content.label')} name="content">
         {({ field }) => (
           <textarea
@@ -32,7 +32,7 @@ const AgreementFields = props => {
       <div {...fieldsClasses('two-column')}>
         <FormikField name="validFrom">
           {({ field, form }) => (
-            <FormikDatePicker
+            <DatePicker
               label={t('form.validDate.from.label')}
               placeholder={t('form.validDate.from.placeholder')}
               locale={locale}
@@ -42,7 +42,7 @@ const AgreementFields = props => {
         </FormikField>
         <FormikField name="validTo">
           {({ field, form }) => (
-            <FormikDatePicker
+            <DatePicker
               placeholder={t('form.validDate.to.placeholder')}
               label={t('form.validDate.to.label')}
               locale={locale}

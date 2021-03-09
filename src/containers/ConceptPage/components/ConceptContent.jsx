@@ -20,7 +20,7 @@ import { FormikIngress, FormikTitle } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
+import FormikVisualElement from '../../FormikForm/components/VisualElementForm';
 
 const byLineStyle = css`
   display: flex;

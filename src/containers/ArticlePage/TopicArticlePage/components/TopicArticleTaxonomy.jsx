@@ -38,7 +38,7 @@ import {
 import handleError from '../../../../util/handleError';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import SaveButton from '../../../../components/SaveButton';
-import { FormikActionButton } from '../../../FormikForm';
+import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
@@ -544,9 +544,9 @@ class TopicArticleTaxonomy extends Component {
             />
           )}
         <Field right>
-          <FormikActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
+          <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}
-          </FormikActionButton>
+          </ActionButton>
           <SaveButton
             isSaving={status === 'loading'}
             showSaved={status === 'success' && !isDirty}

@@ -15,7 +15,7 @@ import { LocaleContext } from '../../App/App';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import Field from '../../../components/Field';
 
-const FormikDatePicker = ({ t, name, onReset, label, ...rest }) => {
+const DatePicker = ({ t, name, onReset, label, ...rest }) => {
   const locale = useContext(LocaleContext);
   return (
     <Field>
@@ -36,7 +36,7 @@ const FormikDatePicker = ({ t, name, onReset, label, ...rest }) => {
   );
 };
 
-FormikDatePicker.propTypes = {
+DatePicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onReset: PropTypes.func,
@@ -46,8 +46,8 @@ FormikDatePicker.propTypes = {
   label: PropTypes.string,
 };
 
-FormikDatePicker.defaultProps = {
+DatePicker.defaultProps = {
   disabled: false,
 };
 
-export default injectT(FormikDatePicker);
+export default injectT(DatePicker);

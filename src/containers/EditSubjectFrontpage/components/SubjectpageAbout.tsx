@@ -10,7 +10,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
 import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
-import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
+import VisualElementForm from '../../FormikForm/components/VisualElementForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
@@ -38,7 +38,7 @@ const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit, onBlur }) => {
           />
         )}
       </FormikField>
-      <FormikVisualElement types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
+      <VisualElementForm types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
     </>
   );
 };

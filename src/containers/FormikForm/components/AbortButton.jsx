@@ -9,23 +9,23 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import FormikActionButton from './FormikActionButton';
+import ActionButton from './ActionButton';
 import { FirstLoadContext } from '../../App/App';
 
-const FormikAbortButton = ({ children, history, ...rest }) => {
+const AbortButton = ({ children, history, ...rest }) => {
   const isFirstLoad = useContext(FirstLoadContext);
   return (
-    <FormikActionButton onClick={isFirstLoad ? () => history.push('/') : history.goBack} {...rest}>
+    <ActionButton onClick={isFirstLoad ? () => history.push('/') : history.goBack} {...rest}>
       {children}
-    </FormikActionButton>
+    </ActionButton>
   );
 };
 
-FormikAbortButton.propTypes = {
+AbortButton.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
   }),
 };
 
-export default withRouter(FormikAbortButton);
+export default withRouter(AbortButton);

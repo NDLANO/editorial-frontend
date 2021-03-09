@@ -25,13 +25,14 @@ const linkStyle = css`
   height: ${spacing.large};
   font-weight: ${fonts.weight.semibold};
   box-shadow: none;
-  text-decoration: none:
-  &:hover, &:focus {
+  text-decoration: none;
+  &:hover,
+  &:focus {
     text-decoration: underline;
   }
 `;
 
-const FormikActionButton = ({ children, ...rest }) => {
+const ActionButton = ({ children, ...rest }) => {
   return (
     <Button css={rest.link ? linkStyle : buttonStyle} {...rest}>
       {children}
@@ -39,4 +40,4 @@ const FormikActionButton = ({ children, ...rest }) => {
   );
 };
 
-export default FormikActionButton;
+export default ActionButton;

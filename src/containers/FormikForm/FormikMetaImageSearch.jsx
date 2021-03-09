@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import { getLocale } from '../../modules/locale/locale';
 import * as api from '../../modules/image/imageApi';
-import FormikMetaImage from './components/FormikMetaImage';
+import MetaImageForm from './components/MetaImageForm';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import {
@@ -139,7 +139,7 @@ class FormikMetaImageSearch extends Component {
           )}
         </Modal>
         {image ? (
-          <FormikMetaImage
+          <MetaImageForm
             image={image}
             onImageSelectOpen={this.onImageSelectOpen}
             onImageRemove={this.onImageRemove}

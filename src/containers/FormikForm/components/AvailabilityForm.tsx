@@ -17,7 +17,7 @@ interface Props {
   field: FieldInputProps<string[]>;
 }
 
-const FormikAvailability = ({ availability, field, t }: Props & tType) => {
+const AvailabilityForm = ({ availability, field, t }: Props & tType) => {
   const availabilityValues: AvailabilityType[] = ['everyone', 'teacher', 'student'];
 
   return (
@@ -38,4 +38,4 @@ const FormikAvailability = ({ availability, field, t }: Props & tType) => {
   );
 };
 
-export default injectT(FormikAvailability, 'form.availability.');
+export default injectT(AvailabilityForm, 'form.availability.');

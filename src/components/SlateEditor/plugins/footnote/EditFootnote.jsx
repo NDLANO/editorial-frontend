@@ -36,7 +36,7 @@ class EditFootnote extends Component {
     const { editor, node, closeDialog } = this.props;
     if (node) {
       editor.removeNodeByKey(node.key);
-
+      editor.focus();
       closeDialog();
     }
   }

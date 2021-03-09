@@ -217,7 +217,7 @@ const phrases = {
       users: 'Select editor',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
-      draftStatus: 'Select status',
+      status: 'Select status',
     },
     tagType: {
       query: 'Query',
@@ -225,7 +225,7 @@ const phrases = {
       language: 'Language',
       users: 'Editor',
       resourceTypes: 'Resource type',
-      draftStatus: 'Status',
+      status: 'Status',
     },
     btn: 'Search',
     empty: 'Empty',

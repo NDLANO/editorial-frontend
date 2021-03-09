@@ -20,12 +20,12 @@ describe('Search', () => {
     cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?page=1&page-size=10&sort=-relevance',
+      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
     cy.apiroute('GET', '/get_editors*', 'editors');
     cy.visit(
-      '/search/content?page=1&page-size=10&sort=-relevance',
+      '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       visitOptions,
     );
     cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@editors']);
@@ -34,7 +34,7 @@ describe('Search', () => {
   it('Can use all dropdowns and text input', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?page=1&page-size=10&query=Test&sort=-relevance',
+      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
       'search',
     );
     cy.get('input[name="query"]').type('Test').blur();

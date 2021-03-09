@@ -42,6 +42,10 @@ class MathEditor extends Component {
     this.handleRemove = this.handleRemove.bind(this);
   }
 
+  componentDidMount() {
+    this.props.editor.blur();
+  }
+
   getMenuPosition() {
     if (this.mathMLRef.current) {
       const rect = this.mathMLRef.current.getBoundingClientRect();
@@ -66,10 +70,16 @@ class MathEditor extends Component {
   }
 
   onExit = () => {
+    const { node, editor } = this.props;
     this.setState(prevState => ({ editMode: false }));
     if (this.state.isFirstEdit) {
       this.handleRemove();
     }
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
   };
 
   handleSave(mathML) {
@@ -79,12 +89,21 @@ class MathEditor extends Component {
     };
     editor.setNodeByKey(node.key, properties);
     this.setState({ isFirstEdit: false, editMode: false });
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
   }
 
   handleRemove() {
     const { editor, node } = this.props;
+    editor
+      .moveToRangeOfNode(node)
+      .moveToEnd()
+      .focus()
+      .moveForward(1);
     editor.unwrapInlineByKey(node.key, 'mathml');
-    editor.focus();
   }
 
   render() {

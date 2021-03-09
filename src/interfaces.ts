@@ -49,7 +49,7 @@ export interface Copyright {
   license?: License;
   origin?: string;
   creators: Author[];
-  processors?: Author[];
+  processors: Author[];
   rightsholders: Author[];
   agreementId?: number;
   validFrom?: string;

@@ -13,7 +13,6 @@ import {
   StrippedConceptType,
   ConceptType,
   ArticleType,
-  Status,
   FormValues,
 } from '../../interfaces';
 

@@ -23,7 +23,9 @@ export const transformApiConceptToFormValues = (
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
-    subjects: subjects.filter(subject => concept.subjectIds.find(id => id === subject.id)),
+    subjects: concept.subjectIds
+      ? subjects.filter(subject => concept.subjectIds.find(id => id === subject.id))
+      : [],
     created: concept.created,
     conceptContent: plainTextToEditorValue(concept.content || '', true),
     supportedLanguages: concept.supportedLanguages || [],

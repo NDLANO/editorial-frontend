@@ -18,37 +18,6 @@ export type LanguageFieldType<T> = T & {
   language: string;
 };
 
-interface CoreConceptApiType {
-  id: number;
-  status: Status;
-  supportedLanguages: string[];
-  title: LanguageFieldType<{ title: string }>;
-  content?: LanguageFieldType<{ content: string }>;
-  tags?: LanguageFieldType<{ tags: string[] }>;
-  subjectIds?: string[];
-  metaImage?: {
-    url: string;
-    alt: string;
-    language: string;
-  };
-  updatedBy?: string[];
-}
-
-export interface SearchConceptApiType extends CoreConceptApiType {
-  lastUpdated: string;
-  license: string;
-}
-
-export interface ConceptApiType extends CoreConceptApiType {
-  revision: number;
-  copyright?: Copyright;
-  source?: string;
-  created: string;
-  updated: string;
-  articleIds: number[];
-  visualElement?: LanguageFieldType<{ visualElement: string }>;
-}
-
 export interface ConceptSubmitType extends StrippedConceptType {
   agreementId?: number;
   articles: ArticleType[];
@@ -64,14 +33,6 @@ export interface ConceptTagsSearchResult {
   pageSize: number;
   language: string;
   results: string[];
-}
-
-export interface ConceptSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  language: string;
-  results: SearchConceptApiType[];
 }
 
 export interface ConceptStatusStateMashineType {
@@ -97,4 +58,62 @@ export interface ConceptQuery {
   tags: string[];
   status: string[];
   users: string[];
+}
+
+interface UpdateConceptType {
+  language: string;
+  title?: string;
+  articleIds?: number[];
+  content?: string;
+  copyright?: Copyright;
+  metaImage?: { id: string; alt: string };
+  source?: string;
+  subjectIds?: string[];
+  tags?: string[];
+  visualElement?: string;
+}
+
+export interface PatchConceptType extends UpdateConceptType {
+  id: number;
+}
+export interface NewConceptType extends UpdateConceptType {
+  title: string;
+}
+
+export interface CoreApiConceptType {
+  id: number;
+  title: LanguageFieldType<{ title: string }>;
+  supportedLanguages: string[];
+  status: Status;
+  content?: LanguageFieldType<{ content: string }>;
+  metaImage?: LanguageFieldType<{
+    url: string;
+    alt: string;
+  }>;
+  tags?: LanguageFieldType<{ tags: string[] }>;
+  subjectIds?: string[];
+}
+export interface SearchConceptType extends CoreApiConceptType {
+  lastUpdated: string;
+  updatedBy: string[];
+  license?: string;
+}
+
+export interface ApiConceptType extends CoreApiConceptType {
+  revision: number;
+  articleIds: number[];
+  created: string;
+  updated: string;
+  updatedBy?: string[];
+  copyright?: Copyright;
+  source?: string;
+  visualElement?: LanguageFieldType<{ visualElement: string }>;
+}
+
+export interface ConceptSearchResult {
+  totalCount: number;
+  page?: number;
+  pageSize: number;
+  language: string;
+  results: SearchConceptType[];
 }

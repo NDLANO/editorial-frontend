@@ -5,7 +5,86 @@ exports[`matches snapshot 1`] = `
   color: #20588f;
 }
 
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.emotion-4 {
+  position: relative;
+  display: inline-block;
+  width: 37px;
+  height: 22px;
+}
+
+.emotion-4 input {
+  display: none;
+}
+
+.emotion-4 > input:checked + .emotion-3::before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+  background-color: #507aa4;
+  color: white;
+  content: 'K';
+  border: 0.91px solid #446b92;
+}
+
 .emotion-2 {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22px;
+  background-color: white;
+  border: 0.63px solid #a9a9a9;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.emotion-2::before {
+  position: absolute;
+  content: 'T';
+  left: -3px;
+  top: -0.63px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 22px;
+  width: 22px;
+  background-color: #777777;
+  color: black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.emotion-8 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -37,35 +116,35 @@ exports[`matches snapshot 1`] = `
   font-weight: 400;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-8:hover,
+.emotion-8:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-8[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-8:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:disabled,
+.emotion-8:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-8:focus {
   outline-width: medium;
 }
 
@@ -139,8 +218,24 @@ exports[`matches snapshot 1`] = `
             Kontrast og balanse i grafisk design
           </h1>
         </div>
+        <div
+          class="emotion-6 emotion-7"
+        >
+          <label
+            class="emotion-4 emotion-5"
+            data-testid="toggleRelevance"
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            <span
+              class="emotion-2 emotion-3"
+            />
+          </label>
+        </div>
         <button
-          class="emotion-2 emotion-3"
+          class="emotion-8 emotion-9"
           type="button"
         >
           <svg
@@ -238,8 +333,24 @@ exports[`matches snapshot 1`] = `
             </h1>
           </a>
         </div>
+        <div
+          class="emotion-6 emotion-7"
+        >
+          <label
+            class="emotion-4 emotion-5"
+            data-testid="toggleRelevance"
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            <span
+              class="emotion-2 emotion-3"
+            />
+          </label>
+        </div>
         <button
-          class="emotion-2 emotion-3"
+          class="emotion-8 emotion-9"
           type="button"
         >
           <svg
@@ -337,8 +448,24 @@ exports[`matches snapshot 1`] = `
             </h1>
           </a>
         </div>
+        <div
+          class="emotion-6 emotion-7"
+        >
+          <label
+            class="emotion-4 emotion-5"
+            data-testid="toggleRelevance"
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            <span
+              class="emotion-2 emotion-3"
+            />
+          </label>
+        </div>
         <button
-          class="emotion-2 emotion-3"
+          class="emotion-8 emotion-9"
           type="button"
         >
           <svg
@@ -436,8 +563,24 @@ exports[`matches snapshot 1`] = `
             </h1>
           </a>
         </div>
+        <div
+          class="emotion-6 emotion-7"
+        >
+          <label
+            class="emotion-4 emotion-5"
+            data-testid="toggleRelevance"
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            <span
+              class="emotion-2 emotion-3"
+            />
+          </label>
+        </div>
         <button
-          class="emotion-2 emotion-3"
+          class="emotion-8 emotion-9"
           type="button"
         >
           <svg
@@ -535,8 +678,24 @@ exports[`matches snapshot 1`] = `
             </h1>
           </a>
         </div>
+        <div
+          class="emotion-6 emotion-7"
+        >
+          <label
+            class="emotion-4 emotion-5"
+            data-testid="toggleRelevance"
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            <span
+              class="emotion-2 emotion-3"
+            />
+          </label>
+        </div>
         <button
-          class="emotion-2 emotion-3"
+          class="emotion-8 emotion-9"
           type="button"
         >
           <svg
@@ -634,8 +793,24 @@ exports[`matches snapshot 1`] = `
             </h1>
           </a>
         </div>
+        <div
+          class="emotion-6 emotion-7"
+        >
+          <label
+            class="emotion-4 emotion-5"
+            data-testid="toggleRelevance"
+          >
+            <input
+              checked=""
+              type="checkbox"
+            />
+            <span
+              class="emotion-2 emotion-3"
+            />
+          </label>
+        </div>
         <button
-          class="emotion-2 emotion-3"
+          class="emotion-8 emotion-9"
           type="button"
         >
           <svg

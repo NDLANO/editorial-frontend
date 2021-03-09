@@ -33,7 +33,7 @@ export const formatNestedMessages = (
     }
   }
 
-  return <FormattedMessages>messages;
+  return messages as FormattedMessages;
 };
 
 interface LocaleObject {

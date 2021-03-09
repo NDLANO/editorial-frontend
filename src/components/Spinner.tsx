@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { keyframes, css, SerializedStyles } from '@emotion/core';
 import { colors } from '@ndla/core';

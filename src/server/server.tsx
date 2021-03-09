@@ -214,8 +214,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.get('*', (req, res) => {
   const paths = req.url.split('/');
-  //const { abbreviation: locale } = getLocaleObject(paths[1]);
-  const locale = 'nb';
+  const { abbreviation: locale } = getLocaleObject(paths[1]);
   const userAgentString = req.headers['user-agent'];
 
   const htmlString = renderHtmlString(locale, userAgentString, { locale });

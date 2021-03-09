@@ -29,6 +29,16 @@ import { toEditMarkup } from '../../util/routeHelpers';
 import { FormikAlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 
+window.MonacoEnvironment = {
+  getWorkerUrl: function(moduleId, label) {
+    if (label === 'html') {
+      return '/static/js/html.worker.js';
+    }
+    return '/static/js/editor.worker.js';
+  },
+  globalAPI: true,
+};
+
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
 // Serialize and deserialize content using slate helpers

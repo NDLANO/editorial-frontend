@@ -110,10 +110,7 @@ export interface ContentResultType {
 
 export interface ArticleType {
   id: number;
-  title: {
-    title: string;
-    language: string;
-  };
+  title: string;
   language: string;
   agreementId: number;
   introduction: string;

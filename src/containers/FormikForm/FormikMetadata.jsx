@@ -12,6 +12,7 @@ import { injectT } from '@ndla/i18n';
 
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
+import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
 import { FormikMetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import FormikAvailability from './components/FormikAvailability';
@@ -20,6 +21,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 
 const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
   const userAccess = useContext(UserAccessContext);
+  const plugins = [textTransformPlugin()];
 
   return (
     <Fragment>
@@ -62,6 +64,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur 
               // formik handleBlur needs to be called for validation to work (and touched to be set)
               setTimeout(() => handleBlur({ target: { name: 'metaDescription' } }), 0);
             }}
+            plugins={plugins}
           />
         )}
       </FormikField>

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
@@ -20,13 +20,18 @@ import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
 import { LocationShape, HistoryShape } from '../../shapes';
+import { LocaleContext } from '../App/App';
 
 const SearchPage = ({ match, t }) => {
+  const locale = useContext(LocaleContext);
   const supportedTypes = [
     {
       title: t('subNavigation.searchContent'),
       type: 'content',
-      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'content'),
+      url: toSearch(
+        { page: '1', sort: '-lastUpdated', 'page-size': 10, language: locale, fallback: true },
+        'content',
+      ),
       icon: <SearchContent className="c-icon--large" />,
     },
     {

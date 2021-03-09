@@ -218,7 +218,7 @@ const phrases = {
       users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
-      draftStatus: 'Velg status',
+      status: 'Velg status',
     },
     tagType: {
       query: 'Innhold',
@@ -226,7 +226,7 @@ const phrases = {
       language: 'Språk',
       users: 'Bruker',
       resourceTypes: 'Innholdstype',
-      draftStatus: 'Status',
+      status: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -501,6 +501,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
+      slatetitle: 'Tittel',
       aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',

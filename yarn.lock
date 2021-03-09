@@ -1680,23 +1680,15 @@
     jump.js "^1.0.2"
     lodash "^4.17.20"
 
-"@ndla/audio-search@^0.6.57":
-  version "0.6.57"
-  resolved "https://registry.yarnpkg.com/@ndla/audio-search/-/audio-search-0.6.57.tgz#01eb431405e68035575610e53b9cca55917fbdac"
-  integrity sha512-pmg/jHMbtQnAOqNN233aDXHmqiRIW6Um7DR+Bk2BIXPjRxFzrpkwPHaaW09wpbt8fRHIgTyCImFJaPepTG0cpQ==
+"@ndla/audio-search@^0.6.58":
+  version "0.6.58"
+  resolved "https://registry.yarnpkg.com/@ndla/audio-search/-/audio-search-0.6.58.tgz#bc3ae795e50deaeb2665b64276013e0aafea51a2"
+  integrity sha512-wQ+yF0jVd39+FheFUsb/yTdZqc1/hEAglnHc7WhQak4IFpYq5A9/i07YiVy9rsI4kRCTidsrPgUY7RXKnkl5qA==
   dependencies:
-    "@ndla/button" "^0.3.46"
+    "@ndla/button" "^0.3.47"
     "@ndla/core" "^0.6.33"
     "@ndla/licenses" "^0.6.40"
     "@ndla/util" "^0.4.4"
-
-"@ndla/button@^0.3.46":
-  version "0.3.46"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.46.tgz#ba9cdf547d45a13fdfdce4799bf1f423a0fc902e"
-  integrity sha512-7H4eFx9o7M794Soy4jQ3AdN9kyOUYMBoEhLiFAO/69K7i5VGG7IiLIlZcfpxVlTYKcAFeW/547aBud800snxAw==
-  dependencies:
-    "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.28"
 
 "@ndla/button@^0.3.47":
   version "0.3.47"
@@ -1714,15 +1706,15 @@
     "@ndla/core" "^0.6.33"
     react-swipeable "^5.0.1"
 
-"@ndla/code@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.11.tgz#35ddfde593f6252d3738e7feec5c98d64b42a096"
-  integrity sha512-7Hqju0coAaeRoKBvLpgvivrIhAkYzWyickHEWZi2Sizg4GF3O9dVavH9p2wjFwNaCcgY+2B3uFrL02kpAQF+Og==
+"@ndla/code@^0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.12.tgz#7deb8fa03ea644562f6494e8e12c08f317c00411"
+  integrity sha512-/RnlOhxP4aq7zGgPCCtdWrDoOjC2mH/1f4BUSOxdLkD2HfvZkJEUvy0Ct/NNx9vkVxG0ahvn9eF1NXKLW4s4Yg==
   dependencies:
-    "@ndla/button" "^0.3.46"
+    "@ndla/button" "^0.3.47"
     "@ndla/core" "^0.6.33"
     "@ndla/i18n" "^0.5.1"
-    "@ndla/icons" "^0.6.28"
+    "@ndla/icons" "^0.7.0"
     "@ndla/util" "^0.4.4"
     "@types/react-syntax-highlighter" "^11.0.4"
     prismjs "^1.22.0"
@@ -1739,13 +1731,13 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.9.4":
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.4.tgz#7dcc6c86eb4af90ef6f49915df94f8271509a958"
-  integrity sha512-NHsjs6A6myTxenZCGHB7sgCpvXVElsb8qqiMbKzZ00zlAKkH3alB84vgj8yFXjpzFUFv0leL3cAdPy1xYHnBWw==
+"@ndla/editor@^0.9.5":
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.5.tgz#be134a2dc643ee2a7be94839f5e1f499691d0d98"
+  integrity sha512-J8t+Kz0x/Jo2uvRB1JbSSF2R5K6PkBagFvoGfmIzksr9xopj3G31Jl0cFXC0HwryD5uBn6Z33x1wv/MtAjibPg==
   dependencies:
     "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.28"
+    "@ndla/icons" "^0.7.0"
     "@types/react-beautiful-dnd" "^11.0.3"
     prismjs "^1.22.0"
     react-beautiful-dnd "^12.0.0"
@@ -1759,15 +1751,6 @@
   dependencies:
     "@ndla/util" "^0.4.4"
     raven-js "^3.22.3"
-
-"@ndla/forms@^0.4.13":
-  version "0.4.13"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.4.13.tgz#1df8803f6312535338c4c7c7b5eb885daf689d6a"
-  integrity sha512-JNxSyrbyW+VMlmkZYmWICKfmCaR+XB0y5vT5PouxhBtIHaBm6QeTOLv1RPh7Q5PPqWFFXbvsiWd+RnPm0r/bug==
-  dependencies:
-    "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.28"
-    "@ndla/ui" "^0.30.20"
 
 "@ndla/forms@^0.4.14":
   version "0.4.14"
@@ -1786,18 +1769,18 @@
     "@ndla/util" "^0.4.4"
     lodash "^4.17.20"
 
-"@ndla/howto@^0.1.179":
-  version "0.1.179"
-  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.179.tgz#e6e16dd1fe196d24e703a1d524bcaae3ab095ae1"
-  integrity sha512-Pi+X//JuuKOGihDwotz5Z4Wm0NO4VlHEPTJXZWx0Wck82So/PByd/GwuJn17b0muINJLRD7YTdcA+o6IHinGwg==
+"@ndla/howto@^0.1.182":
+  version "0.1.182"
+  resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-0.1.182.tgz#821611f50e1aa15b61a22826e27218bcf28b52e2"
+  integrity sha512-lBynuqppGh4SH1YT4XHdpY6CC5DSCI07WCjk7HX9HsUn3ud91V2jEv4x06U4Pu7wNDedQAtV6y0ILDx8ugK/eQ==
   dependencies:
-    "@ndla/button" "^0.3.46"
+    "@ndla/button" "^0.3.47"
     "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.28"
+    "@ndla/icons" "^0.7.0"
     "@ndla/licenses" "^0.6.40"
-    "@ndla/modal" "^0.4.37"
+    "@ndla/modal" "^0.4.38"
     "@ndla/tooltip" "^0.2.33"
-    "@ndla/ui" "^0.30.18"
+    "@ndla/ui" "^0.30.21"
     remarkable "^2.0.0"
 
 "@ndla/i18n@^0.5.1":
@@ -1810,11 +1793,6 @@
     intl-format-cache "^4.3.1"
     intl-messageformat "5.4.3"
     invariant "^2.2.3"
-
-"@ndla/icons@^0.6.28":
-  version "0.6.28"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.28.tgz#d60612338bdd3ce2396409d162611dbec87767ea"
-  integrity sha512-cjCUlvo6k/HJef8VkcNcT2lJsh7wesgQDOSHdcEZZhH0FU9MQYjnx5UWyCqmjgngAXxLoO8XJYs/fTaBIy5XSg==
 
 "@ndla/icons@^0.7.0":
   version "0.7.0"
@@ -1841,16 +1819,6 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/modal@^0.4.37":
-  version "0.4.37"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.37.tgz#a6d9760c26ee5864b4ef6d42e01ab1d16532840f"
-  integrity sha512-FaK4fuAYrnZ1g1bUgPH8yA6qqJjgav6r24gTz4R5mMLnzfXTlzadtkxBTbdCoVkNGYI3iVFYkJuiMB/5zwSv+g==
-  dependencies:
-    "@ndla/button" "^0.3.46"
-    "@ndla/core" "^0.6.33"
-    "@ndla/util" "^0.4.4"
-    "@reach/dialog" "^0.2.9"
-
 "@ndla/modal@^0.4.38":
   version "0.4.38"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.38.tgz#326133a785029dfc6e4a91bfd5c4f0a90ad650af"
@@ -1861,14 +1829,14 @@
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/notion@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.3.3.tgz#4718000a24b056f9b0ebcf5b99c61545725f9722"
-  integrity sha512-YbT4MGWezz0RYrbLW7T2ynKhKr8KzqQffhEpfLHSWkcpn0TR2Cqv6EEuTaG6TEbqzHcJZQrVfTSUNgl/QwjFXQ==
+"@ndla/notion@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-0.3.4.tgz#9b9f1f881597be8722be89a599b721ddf0d6b2f9"
+  integrity sha512-r+C45RaPOA8ie1xiVz04Al4RQsyt7qSemlH3nWJ6pEgMCYRDV8KAN0qTyubLANvFh4RJ+yeXWXC9NieaAN5qVw==
   dependencies:
     "@ndla/core" "^0.6.33"
     "@ndla/licenses" "^0.6.40"
-    "@ndla/modal" "^0.4.37"
+    "@ndla/modal" "^0.4.38"
 
 "@ndla/pager@^0.4.38":
   version "0.4.38"
@@ -1925,74 +1893,6 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^0.30.18":
-  version "0.30.18"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.18.tgz#832c777c40aea8e79731fce76c7a4813c0ccd7ef"
-  integrity sha512-LRISgGRytvcXuwe7D1xvBbcnwd3dTZIx0BsB25zMRTL2LS1QsMEWHGElYlVnLLDtJSbPQ72DtB6g1eL0oCRsug==
-  dependencies:
-    "@ndla/button" "^0.3.46"
-    "@ndla/carousel" "^0.3.33"
-    "@ndla/core" "^0.6.33"
-    "@ndla/hooks" "^0.1.17"
-    "@ndla/i18n" "^0.5.1"
-    "@ndla/icons" "^0.6.28"
-    "@ndla/licenses" "^0.6.40"
-    "@ndla/modal" "^0.4.37"
-    "@ndla/safelink" "^0.0.7"
-    "@ndla/switch" "^0.0.22"
-    "@ndla/tabs" "^0.11.43"
-    "@ndla/tooltip" "^0.2.33"
-    "@ndla/util" "^0.4.4"
-    "@reach/dialog" "^0.2.9"
-    "@types/react-syntax-highlighter" "^11.0.4"
-    classnames "2.2.6"
-    focus-trap "^4.0.2"
-    focus-trap-react "^6.0.0"
-    html-react-parser "^0.10.3"
-    jump.js "^1.0.2"
-    lodash "^4.17.20"
-    react-bem-helper "1.4.1"
-    react-device-detect "^1.6.2"
-    react-facebook "^6.0.15"
-    react-prop-types "0.4.0"
-    react-swipeable "^5.0.1"
-    react-syntax-highlighter "15.1.0"
-    react-transition-group "^2.5.3"
-
-"@ndla/ui@^0.30.20":
-  version "0.30.20"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.20.tgz#1fa96ab82c7553b50eed639abb5439c468e03889"
-  integrity sha512-C4w29q5TlzjGtX9qJsM+GTKMdDZ9vbcXJFfNfY8UYHBo5buVlHOvVXd5jGUKMB1uls4nf9GwDdZJAOhlvZK6aQ==
-  dependencies:
-    "@ndla/button" "^0.3.46"
-    "@ndla/carousel" "^0.3.33"
-    "@ndla/core" "^0.6.33"
-    "@ndla/hooks" "^0.1.17"
-    "@ndla/i18n" "^0.5.1"
-    "@ndla/icons" "^0.6.28"
-    "@ndla/licenses" "^0.6.40"
-    "@ndla/modal" "^0.4.37"
-    "@ndla/safelink" "^0.0.7"
-    "@ndla/switch" "^0.0.22"
-    "@ndla/tabs" "^0.11.43"
-    "@ndla/tooltip" "^0.2.33"
-    "@ndla/util" "^0.4.4"
-    "@reach/dialog" "^0.2.9"
-    "@types/react-syntax-highlighter" "^11.0.4"
-    classnames "2.2.6"
-    focus-trap "^4.0.2"
-    focus-trap-react "^6.0.0"
-    html-react-parser "^0.10.3"
-    jump.js "^1.0.2"
-    lodash "^4.17.20"
-    react-bem-helper "1.4.1"
-    react-device-detect "^1.6.2"
-    react-facebook "^6.0.15"
-    react-prop-types "0.4.0"
-    react-swipeable "^5.0.1"
-    react-syntax-highlighter "15.1.0"
-    react-transition-group "^2.5.3"
-
 "@ndla/ui@^0.30.21":
   version "0.30.21"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-0.30.21.tgz#564e2a7f82b6f1598588365236c258e083be6a87"
@@ -2034,12 +1934,12 @@
   dependencies:
     defined "1.0.0"
 
-"@ndla/video-search@^0.8.62":
-  version "0.8.62"
-  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-0.8.62.tgz#7e975fffe9cda1a0e69fc24cacaf007f7ba91e1c"
-  integrity sha512-MvRSoEmzxaRRIbRyKZbtNggYVRmZBm5GwdKD/+md3ag9UJiTbXpxId/dX1PbwgfZkvq+8EGqWPUjGIHCsLU1oA==
+"@ndla/video-search@^0.8.63":
+  version "0.8.63"
+  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-0.8.63.tgz#5da337b5de7a80312e37b51c8b5ac34cb18d0860"
+  integrity sha512-K98gyQZq6VLxFYKnrzAa/GN2T4Dwc2Mkc/ILk6d+IgRpev1q18uwf7VUK9j5NwRbszQ0WIjBUpgPxc4BT7yXeg==
   dependencies:
-    "@ndla/button" "^0.3.46"
+    "@ndla/button" "^0.3.47"
     "@ndla/core" "^0.6.33"
     "@ndla/licenses" "^0.6.40"
     "@ndla/tabs" "^0.11.43"

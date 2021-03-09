@@ -36,11 +36,12 @@ const getInfoFromNode = (node: Node) => {
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
+  const title = codeBlock.title || data['title'] || getTitleFromFormat(format);
 
   return {
     model: {
       code: he.decode(code),
-      title: codeBlock.title || getTitleFromFormat(format),
+      title,
       format,
     },
     isFirstEdit: data['code-block'] === undefined,
@@ -61,6 +62,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
     const properties = {
       data: {
         ...getSchemaEmbed(node),
+        title: codeBlock.title,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
     };
@@ -86,11 +88,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
     }
   };
 
-  console.log('yo', model.title);
-
-  const tit = 'Funker dettta?';
-  const preTitle = tit ? `${tit} - ` : '';
-
   return (
     <CodeDiv
       className="c-figure"
@@ -102,7 +99,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
         actionButton={<RemoveCodeBlock handleRemove={handleRemove} />}
         code={model.code}
         format={model.format}
-        title={`${preTitle}${model.title}`}
+        title={model.title}
       />
       {editMode && (
         <EditCodeBlock

@@ -7,14 +7,13 @@
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { spacing, colors, fonts, animations } from '@ndla/core';
+import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { resourceToLinkProps } from '../../../util/resourceHelpers';
-import { ContentResultType } from '../../../interfaces';
+import { RelatedContentLink } from '../../../interfaces';
 
 const ELEMENT_HEIGHT = 69;
 const ELEMENT_MARGIN = 4;
@@ -33,7 +32,7 @@ interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
   // Element can be of type Article or Learningpath
-  element: ContentResultType;
+  element: RelatedContentLink;
   executeDeleteFile: () => void;
   index: number;
   locale: string;
@@ -43,36 +42,31 @@ interface Props {
   showDragTooltip: boolean;
 }
 
-const ElementListItem = ({
+const ElementListLink = ({
   deleteFile,
   deleteIndex,
   element,
   executeDeleteFile,
   index,
-  locale,
   messages: { removeElement, dragElement },
   onDragEnd,
   onDragStart,
   showDragTooltip,
 }: Props) => {
-  const linkProps = resourceToLinkProps(element, element.articleType || 'learning-path', locale);
-
   return (
     <StyledListItem
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
-        <StyledElementImage
-          src={element.metaImage?.url || '/placeholder.png'}
-          alt={element.metaImage?.alt || ''}
-        />
-        {linkProps.to ? (
-          <Link to={linkProps.to}>{element.title.title}</Link>
-        ) : (
-          <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
-            {element.title.title}
+        <StyledLinkContainer>
+          <Link />
+        </StyledLinkContainer>
+
+        <Tooltip tooltip={element.url}>
+          <a href={element.url} target="_blank" rel="noopener noreferrer">
+            {element.title}
           </a>
-        )}
+        </Tooltip>
       </div>
       <div>
         {showDragTooltip ? (
@@ -106,6 +100,22 @@ const ElementListItem = ({
   );
 };
 
+const StyledLinkContainer = styled.div`
+  background: ${colors.background.darker};
+  width: ${ELEMENT_HEIGHT * 1.33}px;
+  height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
+  object-fit: cover;
+  margin-right: ${spacing.small};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    height: 30px;
+    width: 30px;
+    color: ${colors.brand.greyMedium};
+  }
+`;
+
 const StyledListItem = styled.li<StyledProps>`
   margin: ${ELEMENT_MARGIN}px 0 0;
   padding: 0;
@@ -127,23 +137,12 @@ const StyledListItem = styled.li<StyledProps>`
       flex-grow: 1;
       padding-left: ${spacing.xsmall};
     }
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
   ${props =>
     props.delete &&
     css`
       ${animations.fadeOut()}
     `}
-`;
-
-const StyledElementImage = styled.img`
-  width: ${ELEMENT_HEIGHT * 1.33}px;
-  height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
-  object-fit: cover;
-  margin-right: ${spacing.small};
 `;
 
 const StyledButtonIcons = styled.button<StyledProps>`
@@ -159,6 +158,10 @@ const StyledButtonIcons = styled.button<StyledProps>`
   padding: 0;
   border-radius: 100%;
   transition: background 200ms ease;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
   &:hover,
   &:focus {
     background: ${colors.brand.light};
@@ -179,4 +182,4 @@ const StyledButtonIcons = styled.button<StyledProps>`
     `};
 `;
 
-export default ElementListItem;
+export default ElementListLink;

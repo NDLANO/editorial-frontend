@@ -70,10 +70,7 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
 
   return (
     <>
-      <FieldHeader
-        title={t('form.relatedConcepts.articlesTitle')}
-        subTitle={t('form.relatedConcepts.articlesSubtitle')}
-      />
+      <FieldHeader title={t('form.relatedConcepts.articlesTitle')} />
       <ElementList
         elements={concepts}
         messages={{

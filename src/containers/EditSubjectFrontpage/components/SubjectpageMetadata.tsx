@@ -11,6 +11,8 @@ import { FieldProps } from 'formik';
 import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
+import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
+
 import { FormikProperties, VisualElement } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
@@ -25,6 +27,7 @@ interface Props {
 }
 
 const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => {
+  const plugins = [textTransformPlugin()];
   return (
     <>
       <FormikField
@@ -40,6 +43,7 @@ const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => 
             handleSubmit={handleSubmit}
             {...field}
             onBlur={onBlur}
+            plugins={plugins}
           />
         )}
       </FormikField>

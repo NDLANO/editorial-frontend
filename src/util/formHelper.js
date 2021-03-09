@@ -49,6 +49,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
   const slateFields = [
     'description',
     'introduction',
+    'slatetitle',
     'metaDescription',
     'content',
     'conceptContent',
@@ -85,8 +86,9 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
 };
 
 const formikCommonArticleRules = {
-  title: {
+  slatetitle: {
     required: true,
+    maxLength: 256,
   },
   introduction: {
     maxLength: 300,

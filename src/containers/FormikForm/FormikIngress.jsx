@@ -17,6 +17,8 @@ import StyledFormContainer from '../../components/SlateEditor/common/StyledFormC
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
+import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
+
 const markdown = new Remarkable({ breaks: true });
 markdown.inline.ruler.enable(['sub', 'sup']);
 
@@ -26,6 +28,8 @@ const renderMarkdown = (text, concept) => {
   }
   return markdown.render(text);
 };
+
+const plugins = [textTransformPlugin()];
 
 const FormikIngress = ({
   t,
@@ -58,6 +62,7 @@ const FormikIngress = ({
             data-cy="learning-resource-ingress"
             handleSubmit={handleSubmit}
             onBlur={onBlur}
+            plugins={plugins}
           />
         )
       }

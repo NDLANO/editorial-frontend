@@ -82,7 +82,7 @@ const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv>
+    <StyledDetailsDiv className="c-bodybox">
       <StyledRow>
         <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
           {summaryNode}

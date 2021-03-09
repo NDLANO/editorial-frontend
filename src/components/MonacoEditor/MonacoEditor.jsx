@@ -17,8 +17,8 @@ import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching';
 import 'monaco-editor/esm/vs/editor/contrib/find/findController';
 import 'monaco-editor/esm/vs/editor/contrib/links/links';
 import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController';
+import 'monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess';
 import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter';
-import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand';
 import 'monaco-editor/esm/vs/editor/contrib/multicursor/multicursor';
 import 'monaco-editor/esm/vs/editor/contrib/linesOperations/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom';
@@ -29,15 +29,6 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 import './html.contribution';
 import { createFormatAction, createSaveAction } from './editorActions';
-
-window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId, label) {
-    if (label === 'html') {
-      return '/static/js/html.worker.js';
-    }
-    return '/static/js/editor.worker.js';
-  },
-};
 
 monaco.editor.defineTheme('myCustomTheme', {
   base: 'vs',

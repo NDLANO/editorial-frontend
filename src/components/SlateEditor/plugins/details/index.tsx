@@ -77,12 +77,11 @@ export const createDetails = () => {
             }
             case 'next_sibling_type_invalid': {
               editor.withoutSaving(() => {
+                editor.wrapBlockByKey(error.child.key, 'section');
                 const wrapper = editor.value.document.getParent(error.child.key);
-                if (wrapper) {
-                  editor.wrapBlockByKey(error.child.key, 'section');
-                  editor.insertNodeByKey(wrapper.key, 1, Block.create(defaultBlocks.defaultBlock));
-                  editor.unwrapBlockByKey(wrapper.key, 'section');
-                }
+                if (wrapper === null) return;
+                editor.insertNodeByKey(wrapper.key, 1, Block.create(defaultBlocks.defaultBlock));
+                editor.unwrapBlockByKey(wrapper.key, 'section');
               });
               break;
             }
@@ -110,6 +109,7 @@ export const createDetails = () => {
               { type: 'quote' },
               { type: 'table' },
               { type: 'embed' },
+              { type: 'file' },
               { type: 'code-block' },
             ],
           },

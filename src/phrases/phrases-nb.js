@@ -152,6 +152,12 @@ const phrases = {
     imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
     totalCount: 'Antall søketreff',
+    highlights: {
+      title: 'Søketreff',
+      content: 'Søketreff fra innhold',
+      tags: 'Søketreff fra nøkkelord',
+      embedAttributes: 'Søketreff fra innebygde elementer',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -212,7 +218,7 @@ const phrases = {
       users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
-      draftStatus: 'Velg status',
+      status: 'Velg status',
     },
     tagType: {
       query: 'Innhold',
@@ -220,7 +226,7 @@ const phrases = {
       language: 'Språk',
       users: 'Bruker',
       resourceTypes: 'Innholdstype',
-      draftStatus: 'Status',
+      status: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -261,9 +267,9 @@ const phrases = {
     helpMessage: {
       tooltip: 'Om HTML-editoren',
       paragraph1:
-        'Det er mulig å formatere HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. ',
+        'Det er mulig å formatere HTML-koden ved å trykke på F1 og velge Format. Merk at dette kan føre til at whitespace (indentering, linjeskift og mellomrom) kan endre seg ved lagring. Bruk gjerne forhåndsvisningsfunksjonaliteten aktivt. Lagring med ctrl+s fungerer også.',
       paragraph2:
-        'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom de samme transformeringene som den vanlige editoren. Det betyr at linjeskift f.eks. blir endret til <br> ved lagring, samt at den vil prøve å rette opp ugyldig kode.',
+        'For å minimere eventuelle problemer med formatering og for å sikre at at HTML blir konsistent, så blir koden kjørt gjennom de samme transformeringene som den vanlige editoren. Det vil si at den vil prøve å rette opp ugyldig kode. Linjeskift blir fjerna ved lagring og dermed ignorert.',
     },
   },
   imageSearch: {
@@ -495,6 +501,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
+      slatetitle: 'Tittel',
       aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',

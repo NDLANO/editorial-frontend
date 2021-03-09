@@ -30,9 +30,20 @@ class SearchAudioForm extends Component {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
-        types: 'audios',
       },
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { searchObject } = this.props;
+    if (prevProps.searchObject?.query !== searchObject?.query) {
+      this.setState({
+        search: {
+          query: searchObject.query || '',
+          language: searchObject.language || '',
+        },
+      });
+    }
   }
 
   onFieldChange(evt) {

@@ -80,6 +80,10 @@
       font-size: 2.11111rem;
     }
 
+    & div {
+      font-size: 2.11111rem;
+    }
+
     .c-field__focus-label {
       margin-top: 0.7rem;
     }

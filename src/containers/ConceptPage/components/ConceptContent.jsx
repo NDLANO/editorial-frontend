@@ -16,7 +16,7 @@ import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import FormikField from '../../../components/FormikField';
-import { FormikIngress } from '../../FormikForm';
+import { FormikIngress, FormikTitle } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -48,12 +48,15 @@ const ConceptContent = props => {
 
   return (
     <>
-      <FormikField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        placeholder={t('form.title.label')}
+      <FormikTitle
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor, next) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
+        }}
       />
       <FormikField noBorder name="created" css={byLineStyle}>
         {({ field, form }) => (
@@ -101,7 +104,7 @@ const ConceptContent = props => {
 ConceptContent.propTypes = {
   formik: PropTypes.shape({
     values: PropTypes.shape({
-      title: PropTypes.string,
+      slatetitle: PropTypes.string,
       created: PropTypes.string,
       id: PropTypes.number,
       published: PropTypes.string,
@@ -111,7 +114,7 @@ ConceptContent.propTypes = {
     initialValues: PropTypes.shape({
       id: PropTypes.number,
       published: PropTypes.string,
-      title: PropTypes.string,
+      slatetitle: PropTypes.string,
       updatePublished: PropTypes.bool,
     }),
     errors: PropTypes.shape({

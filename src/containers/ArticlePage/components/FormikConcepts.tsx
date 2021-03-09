@@ -9,11 +9,11 @@ import React, { FC, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
-import ElementList from './components/ElementList';
-import { AsyncDropdown } from '../../components/Dropdown';
-import { ContentResultType, FormikProperties, ConceptType } from '../../interfaces';
-import handleError from '../../util/handleError';
-import { fetchConcept, searchConcepts } from '../../modules/concept/conceptApi';
+import ElementList from '../../FormikForm/components/ElementList';
+import { AsyncDropdown } from '../../../components/Dropdown';
+import { ContentResultType, FormikProperties, ConceptType } from '../../../interfaces';
+import handleError from '../../../util/handleError';
+import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 
 interface Props {
   locale: string;

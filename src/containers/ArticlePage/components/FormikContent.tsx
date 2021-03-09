@@ -13,11 +13,11 @@ import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
-import { fetchDraft, searchDrafts } from '../../modules/draft/draftApi';
-import ElementList from './components/ElementList';
-import { AsyncDropdown } from '../../components/Dropdown';
-import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../interfaces';
-import handleError from '../../util/handleError';
+import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
+import ElementList from '../../FormikForm/components/ElementList';
+import { AsyncDropdown } from '../../../components/Dropdown';
+import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
+import handleError from '../../../util/handleError';
 import FormikContentLink from './FormikContentLink';
 
 interface Props {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
-import FormikRelatedContent from '../../../FormikForm/FormikRelatedContent';
+import FormikRelatedContent from '../../components/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';

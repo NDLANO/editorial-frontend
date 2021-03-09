@@ -4,7 +4,7 @@ import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import FormikRelatedContent from '../../../FormikForm/FormikRelatedContent';
+import FormikRelatedContent from '../../components/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import FormikGrepCodes from '../../../FormikForm/FormikGrepCodes';

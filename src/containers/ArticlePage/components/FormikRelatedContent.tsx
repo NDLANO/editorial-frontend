@@ -8,8 +8,8 @@
 
 import React, { Fragment } from 'react';
 import { FormikHelpers, FieldProps, FormikValues } from 'formik';
-import FormikField from '../../components/FormikField';
-import { ArticleType, ConceptType, ConvertedRelatedContent } from '../../interfaces';
+import FormikField from '../../../components/FormikField';
+import { ArticleType, ConceptType, ConvertedRelatedContent } from '../../../interfaces';
 import FormikConcepts from './FormikConcepts';
 import FormikContent from './FormikContent';
 

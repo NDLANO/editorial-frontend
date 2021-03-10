@@ -71,7 +71,7 @@ const SavedSearch: FC<Props & tType> = ({ deleteSearch, locale, search, index, t
 
   const linkText = (search: string) => {
     const query = searchObject.query || undefined;
-    const status = searchObject['/search/content?draft-status'] || undefined;
+    const status = searchObject.status || searchObject['draft-status'] || undefined;
     const contextType = searchObject['context-types'] || undefined;
 
     const results = [];

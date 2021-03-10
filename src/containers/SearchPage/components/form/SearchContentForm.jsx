@@ -107,7 +107,7 @@ class SearchContentForm extends Component {
     const { search } = this.props;
     search({
       'resource-types': resourceTypes,
-      'draft-status': status,
+      status,
       subjects,
       query,
       users,

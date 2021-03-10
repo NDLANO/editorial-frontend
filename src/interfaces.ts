@@ -73,6 +73,21 @@ export interface ResourceTranslation {
   language: string;
 }
 
+export interface ImageType {
+  id: string;
+  metaUrl: string;
+  title: string;
+  alttext: string;
+  imageUrl: string;
+  size: number;
+  contentType: string;
+  copyright: Copyright;
+  tags: string[];
+  caption: string;
+  supportedLanguages: string[];
+  language: string;
+}
+
 export interface MetaImage {
   alt: string;
   url: string;

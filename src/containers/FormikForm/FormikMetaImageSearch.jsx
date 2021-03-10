@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
-import { ModalCloseButton } from '@ndla/modal';
 import { LocaleContext } from '../App/App';
 import { createFormData } from '../../util/formDataHelper';
 import {
@@ -21,6 +20,7 @@ import {
   fetchImage,
   onError,
 } from '../../modules/image/imageApi';
+import { transformApiToCLeanImage } from '../../modules/image/imageApiUtil';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
@@ -41,7 +41,9 @@ const FormikMetaImageSearch = ({
   const fetchImageWithLocale = id => fetchImage(id, locale);
   useEffect(() => {
     if (metaImageId) {
-      fetchImageWithLocale(metaImageId).then(image => setImage(image));
+      fetchImageWithLocale(metaImageId).then(image =>
+        setImage(transformApiToCLeanImage(image, locale)),
+      );
     } else {
       setImage(undefined);
     }

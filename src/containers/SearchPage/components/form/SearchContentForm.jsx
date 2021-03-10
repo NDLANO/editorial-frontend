@@ -43,7 +43,7 @@ class SearchContentForm extends Component {
       search: {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
-        status: searchObject.status || '',
+        status: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         users: searchObject.users || '',
         lang: searchObject.lang || locale,
@@ -68,7 +68,7 @@ class SearchContentForm extends Component {
         search: {
           subjects: searchObject.subjects || '',
           resourceTypes: searchObject['resource-types'] || '',
-          status: searchObject.status || '',
+          status: searchObject['draft-status'] || '',
           query: searchObject.query || '',
           users: searchObject.users || '',
           lang: searchObject.lang || locale,
@@ -107,7 +107,7 @@ class SearchContentForm extends Component {
     const { search } = this.props;
     search({
       'resource-types': resourceTypes,
-      status,
+      'draft-status': status,
       subjects,
       query,
       users,
@@ -251,7 +251,7 @@ SearchContentForm.propTypes = {
     query: PropTypes.string,
     subjects: PropTypes.string,
     'resource-types': PropTypes.string,
-    status: PropTypes.string,
+    'draft-status': PropTypes.string,
     users: PropTypes.string,
     lang: PropTypes.string,
     fallback: PropTypes.bool,

@@ -6,7 +6,7 @@ import he from 'he';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
-import { Codeblock, getTitleFromFormat } from '@ndla/code';
+import { Codeblock } from '@ndla/code';
 
 import { getSchemaEmbed } from '../../editorSchema';
 import { CodeBlockType, CodeBlockProps } from '../../../../interfaces';

@@ -80,7 +80,7 @@ app.use(
   }),
 );
 
-const renderHtmlString = (locale: string, userAgentString?: string, state = {}) =>
+const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
   renderToString(
     <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
   );

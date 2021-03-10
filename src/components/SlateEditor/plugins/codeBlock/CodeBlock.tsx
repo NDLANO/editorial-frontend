@@ -36,7 +36,7 @@ const getInfoFromNode = (node: Node) => {
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
-  const title = codeBlock.title || data['title'] || getTitleFromFormat(format);
+  const title = codeBlock.title || data['title'] || '';
 
   return {
     model: {

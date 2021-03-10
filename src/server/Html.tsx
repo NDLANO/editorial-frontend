@@ -20,11 +20,14 @@ interface Props {
   lang: string;
   className: string;
   component?: ReactElement;
-  state: any; // TODO: This type is maybe hard?
+  state?: {
+    locale?: string;
+  };
 }
 
 const Html = (props: Props) => {
-  const { lang, className, component, state } = props;
+  const { lang, className, component, state = {} } = props;
+
   const content = component ? renderToString(component) : '';
   const head = Helmet.rewind();
 

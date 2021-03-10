@@ -63,7 +63,7 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title, true),
     updated: article.updated,
     updatePublished: false,
-    visualElement: visualElement || {},
+    visualElementObject: visualElement || {},
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -88,7 +88,9 @@ const getPublishedDate = (values, initialValues, preview = false) => {
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
   const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(isEmpty(values.visualElement) ? {} : values.visualElement);
+  const visualElement = createEmbedTag(
+    isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
+  );
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {

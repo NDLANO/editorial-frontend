@@ -18,10 +18,12 @@ const SlateAside = props => {
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
+    editor.focus();
   };
 
   const onMoveContent = () => {
     editor.unwrapBlockByKey(node.key, node.type);
+    editor.focus();
   };
 
   const type = node.get('data').get('type');

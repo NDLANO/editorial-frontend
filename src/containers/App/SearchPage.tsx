@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React, { FC, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
@@ -21,7 +22,9 @@ import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
 import { LocationShape, HistoryShape } from '../../shapes';
 
-const SearchPage = ({ match, t }) => {
+interface Props extends RouteComponentProps, tType {}
+
+const SearchPage: FC<Props> = ({ match, t }) => {
   const supportedTypes = [
     {
       title: t('subNavigation.searchContent'),
@@ -81,6 +84,9 @@ const SearchPage = ({ match, t }) => {
 SearchPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
+    params: PropTypes.object.isRequired,
+    isExact: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
   }).isRequired,
   location: LocationShape,
   history: HistoryShape.isRequired,

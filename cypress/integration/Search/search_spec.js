@@ -44,7 +44,7 @@ describe('Search content', () => {
   it('Can use status dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance&status=USER_TEST',
+      '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
     cy.get('select[name="status"]').select('Brukertest').blur();

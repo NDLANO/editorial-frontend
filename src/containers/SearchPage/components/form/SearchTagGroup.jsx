@@ -25,7 +25,7 @@ const findTagName = (array, value, arrayKey = undefined) => {
 const SearchTagGroup = ({
   subjects,
   resourceTypes,
-  draftStatus,
+  status,
   searchObject,
   users,
   languages,
@@ -55,9 +55,9 @@ const SearchTagGroup = ({
       name: findTagName(resourceTypes, searchObject.resourceTypes, 'id'),
     },
     {
-      type: 'draftStatus',
-      id: searchObject.draftStatus,
-      name: findTagName(draftStatus, searchObject.draftStatus, 'id'),
+      type: 'status',
+      id: searchObject.status,
+      name: findTagName(status, searchObject.status, 'id'),
     },
   ];
 
@@ -75,7 +75,7 @@ SearchTagGroup.propTypes = {
   onRemoveItem: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape),
   resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  draftStatus: PropTypes.arrayOf(DraftStatusShape),
+  status: PropTypes.arrayOf(DraftStatusShape),
   users: PropTypes.arrayOf(UserShape),
   languages: PropTypes.func,
   searchObject: PropTypes.shape({
@@ -83,7 +83,7 @@ SearchTagGroup.propTypes = {
     language: PropTypes.string,
     subjects: PropTypes.string,
     resourceTypes: PropTypes.string,
-    draftStatus: PropTypes.string,
+    status: PropTypes.string,
     users: PropTypes.string,
   }),
 };

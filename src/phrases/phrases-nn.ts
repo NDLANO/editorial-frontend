@@ -219,7 +219,7 @@ const phrases = {
       users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
-      draftStatus: 'Velg status',
+      status: 'Velg status',
     },
     tagType: {
       query: 'Innhald',
@@ -227,7 +227,7 @@ const phrases = {
       language: 'Språk',
       users: 'Bruker',
       resourceTypes: 'Innhaldstype',
-      draftStatus: 'Status',
+      status: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',

@@ -1072,16 +1072,16 @@
     regenerator-runtime "^0.13.2"
 
 "@babel/runtime@^7.12.1":
-  version "7.13.9"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
-  integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
+  version "7.13.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
+  integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.12.13":
-  version "7.13.10"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
-  integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
+  version "7.13.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.9.tgz#97dbe2116e2630c489f22e0656decd60aaa1fcee"
+  integrity sha512-aY2kU+xgJ3dJ1eU6FMB9EH8dIe8dmusF1xEku52joLvw6eAFN0AI+WxCLDnpev2LEejWBAy2sBvBOBAjI3zmvA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -1697,13 +1697,13 @@
     "@ndla/licenses" "^0.6.41"
     "@ndla/util" "^0.4.4"
 
-"@ndla/button@^0.3.46":
-  version "0.3.46"
-  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.46.tgz#ba9cdf547d45a13fdfdce4799bf1f423a0fc902e"
-  integrity sha512-7H4eFx9o7M794Soy4jQ3AdN9kyOUYMBoEhLiFAO/69K7i5VGG7IiLIlZcfpxVlTYKcAFeW/547aBud800snxAw==
+"@ndla/button@^0.3.47":
+  version "0.3.47"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.47.tgz#657b7344e5744a37a70256791153329e0b2abe7f"
+  integrity sha512-5e+7UXCyweaJyisZJ8R0hU+7xBoovMZ0VOFMvQPYj2vPaXcTRv1R/tfHl4wg1cIxpAc/QxDu8ZSu+DevBdR8uA==
   dependencies:
     "@ndla/core" "^0.6.33"
-    "@ndla/icons" "^0.6.28"
+    "@ndla/icons" "^0.7.0"
 
 "@ndla/button@^0.3.48":
   version "0.3.48"
@@ -1819,12 +1819,7 @@
     intl-messageformat "5.4.3"
     invariant "^2.2.3"
 
-"@ndla/icons@^0.6.28":
-  version "0.6.28"
-  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.28.tgz#d60612338bdd3ce2396409d162611dbec87767ea"
-  integrity sha512-cjCUlvo6k/HJef8VkcNcT2lJsh7wesgQDOSHdcEZZhH0FU9MQYjnx5UWyCqmjgngAXxLoO8XJYs/fTaBIy5XSg==
-
-"@ndla/icons@^0.7.1":
+"@ndla/icons@^0.7.0", "@ndla/icons@^0.7.1":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.7.1.tgz#5e762da70befcc881061c8284011f3b28a18fcec"
   integrity sha512-NYOb04nTC7bfWmM8uTB0zyHctSEXFfXbU6X+nMmgCSPh9IkVVolq941XfEDzGdP+cajl7Bn1zafTxSlYYqz1bg==
@@ -1849,12 +1844,12 @@
     defined "1.0.0"
     react-bem-helper "1.4.1"
 
-"@ndla/modal@^0.4.37":
-  version "0.4.37"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.37.tgz#a6d9760c26ee5864b4ef6d42e01ab1d16532840f"
-  integrity sha512-FaK4fuAYrnZ1g1bUgPH8yA6qqJjgav6r24gTz4R5mMLnzfXTlzadtkxBTbdCoVkNGYI3iVFYkJuiMB/5zwSv+g==
+"@ndla/modal@^0.4.38":
+  version "0.4.38"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-0.4.38.tgz#326133a785029dfc6e4a91bfd5c4f0a90ad650af"
+  integrity sha512-9TOPIL7hZxyALMgUMwczjgJ3QFlkOnfSciOtyFX/dg0CbYLM2QHDfQIUQtzWK1ko5Rq1pA6eZQVIRmk7qWMgiA==
   dependencies:
-    "@ndla/button" "^0.3.46"
+    "@ndla/button" "^0.3.47"
     "@ndla/core" "^0.6.33"
     "@ndla/util" "^0.4.4"
     "@reach/dialog" "^0.2.9"
@@ -9750,10 +9745,10 @@ moment@^2.10.6:
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
 
-monaco-editor@^0.17.1:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.17.1.tgz#8fbe96ca54bfa75262706e044f8f780e904aa45c"
-  integrity sha512-JAc0mtW7NeO+0SwPRcdkfDbWLgkqL9WfP1NbpP9wNASsW6oWqgZqNIWt4teymGjZIXTElx3dnQmUYHmVrJ7HxA==
+monaco-editor@0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.23.0.tgz#24844ba5640c7adb3a2a3ff3b520cf2d7170a6f0"
+  integrity sha512-q+CP5zMR/aFiMTE9QlIavGyGicKnG2v/H8qVvybLzeFsARM8f6G9fL0sMST2tyVYCwDKkGamZUI6647A0jR/Lg==
 
 moo@^0.4.3:
   version "0.4.3"

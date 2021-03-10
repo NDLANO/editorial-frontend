@@ -33,6 +33,25 @@ import { FormikAlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 
+declare global {
+  interface Window {
+    MonacoEnvironment: {
+      getWorkerUrl: (moduleId: string, label: string) => string;
+      globalAPI: boolean;
+    };
+  }
+}
+
+window.MonacoEnvironment = {
+  getWorkerUrl: function(moduleId: string, label: string) {
+    if (label === 'html') {
+      return '/static/js/html.worker.js';
+    }
+    return '/static/js/editor.worker.js';
+  },
+  globalAPI: true,
+};
+
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
 // Serialize and deserialize content using slate helpers

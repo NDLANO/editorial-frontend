@@ -76,7 +76,5 @@ jobs:
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
       - name: "Install"
         run: yarn install --frozen-lockfile
-      - name: "Start"
-        run: yarn start &
       - name: "Run run-e2e"
         run: yarn run-e2e

@@ -168,7 +168,17 @@ export interface ArticleType {
   content: string;
   grepCodes: string[];
   conceptIds: number[];
+  relatedContent: RelatedContent[];
 }
+
+export interface RelatedContentLink {
+  title: string;
+  url: string;
+}
+
+export type RelatedContent = RelatedContentLink | number;
+
+export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
 
 export interface TaxonomyMetadata {
   grepCodes: string[];

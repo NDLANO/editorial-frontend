@@ -82,5 +82,5 @@ jobs:
         run: sleep 120
       - name: "Run e2e-ci"
         run: |
-          export DISPLAY=0:0
+          unset DISPLAY
           yarn e2e-ci

@@ -510,6 +510,7 @@ const phrases = {
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
       concepts: 'Concepts',
+      relatedContent: 'Related content',
       subjects: 'Subject',
     },
     previewProductionArticle: {
@@ -942,10 +943,23 @@ const phrases = {
     },
     relatedConcepts: {
       placeholder: 'Search for title',
-      articlesTitle: 'Related Concepts',
-      articlesSubtitle: 'Concepts',
+      articlesTitle: 'Concepts',
       changeOrder: 'Change order',
       removeArticle: 'Remove concept',
+    },
+    relatedContent: {
+      placeholder: 'Search for title',
+      articlesTitle: 'Content',
+      changeOrder: 'Change order',
+      removeArticle: 'Remove content',
+      addExternal: 'Add external article',
+      link: {
+        missingTitle: 'Missing title',
+        missingUrl: 'Url must start with http:// or https://',
+        titlePlaceholder: 'Title',
+        urlPlaceholder: 'https://example.com',
+        addLink: 'Add',
+      },
     },
     section: {
       remove: 'Remove section',

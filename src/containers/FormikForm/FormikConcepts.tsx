@@ -70,10 +70,7 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
 
   return (
     <>
-      <FieldHeader
-        title={t('form.relatedConcepts.articlesTitle')}
-        subTitle={t('form.relatedConcepts.articlesSubtitle')}
-      />
+      <FieldHeader title={t('form.relatedConcepts.articlesTitle')} />
       <ElementList
         elements={concepts}
         messages={{
@@ -88,7 +85,6 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
         name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedConcepts.placeholder')}
-        label="label"
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(concept: ContentResultType) => onAddConceptToList(concept)}

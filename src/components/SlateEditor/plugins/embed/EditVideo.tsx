@@ -72,7 +72,7 @@ const EditVideo: React.FC<Props & tType> = ({
     const embedRect = embedElement.getBoundingClientRect();
 
     placeholderElement.style.height = `${embedRect.height}px`;
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onCaptionChange = (e: FormikInputEvent) => {
     setCaption(e.target.value);

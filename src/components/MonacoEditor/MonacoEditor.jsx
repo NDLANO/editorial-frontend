@@ -66,7 +66,7 @@ export function MonacoEditor({ value, onChange, onSave }) {
 
     editor.addAction(createFormatAction(monaco));
     editor.addAction(createSaveAction(monaco, onSave));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div

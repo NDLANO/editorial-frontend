@@ -71,7 +71,7 @@ const SlateVideo: React.FC<Props & tType> = ({
       setStartTime(getStartTime(url));
       setStopTime(getStopTime(url));
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleEditModus = () => {
     setEditMode(!editMode);

@@ -42,7 +42,7 @@ const PreviewDraftPage = ({
   useEffect(() => {
     fetchDraft();
     fetchResource();
-  }, [draftId, language]);
+  }, [draftId, language]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!draft) {
     return null;

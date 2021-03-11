@@ -72,7 +72,7 @@ const VersionHistoryLightBox = ({
     if (id) {
       fetchHistory(id);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const cleanupNotes = (notes: Note[], users: User[]) =>
     notes.map((note, index) => ({

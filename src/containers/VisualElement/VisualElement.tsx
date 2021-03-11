@@ -53,7 +53,7 @@ const VisualElement = ({
 }: Props) => {
   const plugins = useMemo(() => {
     return createPlugins(!Object.keys(value).length, types, changeVisualElement, language);
-  }, [value, language]);
+  }, [value, language]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isSubjectPage && value.resource === 'image') {
     delete value.caption;

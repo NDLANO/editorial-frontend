@@ -92,7 +92,7 @@ const ImageEditor: React.FC<Props & tType> = ({
 
   useEffect(() => {
     getImage();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getImage = async () => {
     const img = await fetchImage(embed.resource_id, 'nb');

@@ -21,11 +21,11 @@ export function useFetchConceptData(conceptId: number, locale: string) {
 
   useEffect(() => {
     fetchConcept();
-  }, [conceptId, locale]);
+  }, [conceptId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchSubjects();
-  }, [locale]);
+  }, [locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchConcept = async (): Promise<void> => {
     try {

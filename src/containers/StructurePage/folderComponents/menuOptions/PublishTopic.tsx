@@ -66,7 +66,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     setShowAlert(
       failedResources.length !== 0 && publishedCount + failedResources.length === articleCount,
     );
-  }, [failedResources, publishedCount]);
+  }, [failedResources, publishedCount]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const done = publishedCount + failedResources.length === articleCount;
 

@@ -34,7 +34,7 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
 
   useEffect(() => {
     fetchSubject();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const link = subject?.contentUri
     ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))

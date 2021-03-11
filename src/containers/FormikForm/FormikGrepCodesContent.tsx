@@ -64,7 +64,7 @@ const FormikGrepCodesContent = ({ t, articleGrepCodes = [], field, form }: Props
       const comp = await convertGrepCodesToObject(articleGrepCodes);
       setGrepCodes(comp);
     })();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateFormik = (formikField: Props['field'], newData: string[]) => {
     formikField.onChange({

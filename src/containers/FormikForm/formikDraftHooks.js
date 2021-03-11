@@ -18,7 +18,7 @@ export function useFetchArticleData(articleId, locale) {
 
   useEffect(() => {
     fetchArticle();
-  }, [articleId, locale]);
+  }, [articleId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchTaxonomy = async (id, language) => {
     const [resources, topics] = await Promise.all([

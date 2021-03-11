@@ -55,7 +55,7 @@ export const WelcomePage: FC<tType> = ({ t }) => {
 
   useEffect(() => {
     fetchLastUsed();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   localStorage.setItem('lastPath', '');
 

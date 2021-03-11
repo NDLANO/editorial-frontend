@@ -85,7 +85,7 @@ const CopyResources = ({
         );
       })
       .catch((e: Error) => handleError(e));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
     if (!topic.path) return undefined;

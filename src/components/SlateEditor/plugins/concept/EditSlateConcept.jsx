@@ -79,7 +79,7 @@ const EditSlateConcept = props => {
     if (!node.data.get('content-id')) {
       setShowConcept(true);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <span>

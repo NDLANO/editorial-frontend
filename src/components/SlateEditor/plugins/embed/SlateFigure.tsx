@@ -56,7 +56,7 @@ const SlateFigure: React.FC<Props & tType> = ({
 
     // ComponentWillUnmount
     return () => unsubscribe();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFigureInputChange = (event: FormikInputEvent) => {
     event.preventDefault();

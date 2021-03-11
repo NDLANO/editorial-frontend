@@ -171,7 +171,7 @@ export function useFetchSubjectpageData(
   useEffect(() => {
     fetchSubjectpage();
     fetchSubjectId(elementId, selectedLanguage);
-  }, [elementId, selectedLanguage]);
+  }, [elementId, selectedLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     subjectpage,

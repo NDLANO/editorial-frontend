@@ -52,7 +52,7 @@ const SavedSearch: FC<Props & tType> = ({ deleteSearch, locale, search, index, t
     if (userId) {
       fetchUser(userId);
     }
-  }, [subject, resourceType, userId]);
+  }, [subject, resourceType, userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchSubjectName = async (id: string, locale: string) => {
     const result = await fetchSubject(id, locale);

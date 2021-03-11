@@ -101,7 +101,7 @@ const Link = props => {
 
   useEffect(() => {
     setStateFromNode();
-  }, [node]);
+  }, [node]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!model) {
     return null;

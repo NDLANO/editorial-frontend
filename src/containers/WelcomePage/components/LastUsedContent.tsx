@@ -36,7 +36,7 @@ const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }
     if (articleId) {
       fetchArticle(articleId, locale);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div {...classes('result')}>

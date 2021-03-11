@@ -93,7 +93,7 @@ const EditImage: React.FC<Props & tType> = ({
       spacing.spacingUnit -
       placeholderRect.width * (0.333 / 2)}px`;
     embedElement.style.width = `${placeholderRect.width * 1.333 - spacing.spacingUnit * 2}px`;
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
     setState({

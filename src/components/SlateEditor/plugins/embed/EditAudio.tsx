@@ -68,7 +68,7 @@ const EditAudio: React.FC<Props & tType> = ({
     embedElement.style.left = `${placeholderRect.left}px`;
     embedElement.style.width = `${placeholderRect.width}px`;
     initAudioPlayers(locale);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Fragment>

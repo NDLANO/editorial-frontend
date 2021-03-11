@@ -78,6 +78,6 @@ jobs:
       - name: "Start"
         run: yarn start &
       - name: "Sleep to wait for starting"
-        run: sleep 60
+        run: sleep 120
       - name: "Run e2e-ci"
         run: yarn e2e-ci

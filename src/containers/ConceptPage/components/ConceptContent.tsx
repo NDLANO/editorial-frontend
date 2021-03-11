@@ -19,7 +19,9 @@ import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
+import { submitFormWithMessage } from '../conceptUtil';
 
+import { CreateMessageType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
 const ByLine = styled.div`
@@ -35,13 +37,17 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const ConceptContent = ({ t }: tType) => {
+interface Props {
+  createMessage: (o: CreateMessageType) => void;
+}
+
+const ConceptContent = ({ createMessage, t }: Props & tType) => {
   const [preview, setPreview] = useState(false);
+  const formikContext = useFormikContext<ConceptFormValues>();
   const {
     values: { creators, created },
     handleBlur,
-    submitForm,
-  } = useFormikContext<ConceptFormValues>();
+  } = formikContext;
 
   return (
     <>
@@ -71,7 +77,7 @@ const ConceptContent = ({ t }: tType) => {
         placeholder={t('form.name.conceptContent')}
         preview={preview}
         concept
-        handleSubmit={submitForm}
+        handleSubmit={() => submitFormWithMessage(formikContext, createMessage)}
         onBlur={(event: Event, editor: unknown, next: () => void) => {
           next();
           // this is a hack since formik onBlur-handler interferes with slates

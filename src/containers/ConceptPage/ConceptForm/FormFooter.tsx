@@ -8,28 +8,26 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { useFormikContext, FormikContextType } from 'formik';
+import { useFormikContext } from 'formik';
 import { isFormikFormDirty } from '../../../util/formHelper';
+import { fetchStatusStateMachine } from '../../../modules/concept/conceptApi';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
-import { PossibleStatuses } from '../../../components/SlateEditor/editorTypes';
 import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../FormikForm';
-import { ConceptType } from '../../../interfaces';
+import { submitFormWithMessage } from '../conceptUtil';
+import { ConceptType, CreateMessageType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   entityStatus: { current: string };
   inModal?: boolean;
-  formIsDirty: boolean;
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
   onClose: () => void;
   onContinue: () => void;
-  handleSubmit: (formikProps: FormikContextType<ConceptFormValues>) => void;
-  createMessage: (o: { translationKey: string; severity: string }) => void;
-  getStateStatuses: () => PossibleStatuses;
+  createMessage: (o: CreateMessageType) => void;
   getApiConcept: () => ConceptType;
 }
 
@@ -41,9 +39,7 @@ const FormFooter = ({
   showSimpleFooter,
   onClose,
   onContinue,
-  handleSubmit,
   createMessage,
-  getStateStatuses,
   getApiConcept,
   t,
 }: Props & tType) => {
@@ -70,7 +66,7 @@ const FormFooter = ({
             submit={!inModal}
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
-              handleSubmit(formikContext);
+              submitFormWithMessage(formikContext, createMessage);
             }}>
             {t('form.save')}
           </SaveButton>
@@ -82,11 +78,12 @@ const FormFooter = ({
           getEntity={getApiConcept}
           entityStatus={entityStatus}
           createMessage={createMessage}
+          fetchStatusStateMachine={fetchStatusStateMachine}
           showSimpleFooter={showSimpleFooter}
           onSaveClick={() => {
-            handleSubmit(formikContext);
+            submitFormWithMessage(formikContext, createMessage);
+            //handleSubmit(formikContext);
           }}
-          getStateStatuses={getStateStatuses}
           hideSecondaryButton
           isConcept
           isNewlyCreated={isNewlyCreated}

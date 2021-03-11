@@ -6,11 +6,12 @@
  *
  */
 
+import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
-import { ConceptSubmitType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License } from '../../interfaces';
+import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { SubjectType, License, ConceptType, CreateMessageType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
 export const transformApiConceptToFormValues = (
@@ -55,39 +56,83 @@ export const getCreatedDate = (values: ConceptFormValues, initialValues: Concept
   return undefined;
 };
 
-export const getApiConcept = (
+export const getNewApiConcept = (
   values: ConceptFormValues,
-  initialValues: ConceptFormValues,
   licenses: License[],
-): ConceptSubmitType => {
+): NewConceptType => ({
+  title: values.title,
+  content: editorValueToPlainText(values.conceptContent),
+  language: values.language,
+  copyright: {
+    license: licenses.find(license => license.license === values.license),
+    creators: values.creators,
+    processors: values.processors,
+    rightsholders: values.rightsholders,
+  },
+  metaImage: values.metaImageId
+    ? {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      }
+    : undefined,
+  source: values.source,
+  subjectIds: values.subjects.map(subject => subject.id),
+  tags: values.tags,
+  articleIds: values.articles.map(a => a.id),
+  visualElement: createEmbedTag(values.visualElementObject),
+});
+export const getPatchApiConcept = (
+  values: ConceptFormValues,
+  licenses: License[],
+): PatchConceptType => ({
+  id: values.id,
+  title: values.title,
+  content: editorValueToPlainText(values.conceptContent),
+  language: values.language,
+  copyright: {
+    license: licenses.find(license => license.license === values.license),
+    creators: values.creators,
+    processors: values.processors,
+    rightsholders: values.rightsholders,
+  },
+  metaImage: values.metaImageId
+    ? {
+        id: values.metaImageId,
+        alt: values.metaImageAlt,
+      }
+    : undefined,
+  source: values.source,
+  subjectIds: values.subjects.map(subject => subject.id),
+  tags: values.tags,
+  articleIds: values.articles.map(a => a.id),
+  visualElement: createEmbedTag(values.visualElementObject),
+});
+
+export const getConcept = (
+  values: ConceptFormValues,
+  licenses: License[],
+  updatedBy: string[],
+): ConceptType => {
   return {
-    id: values.id,
-    title: values.title,
+    ...values,
     content: editorValueToPlainText(values.conceptContent),
-    language: values.language,
-    supportedLanguages: values.supportedLanguages,
     copyright: {
       license: licenses.find(license => license.license === values.license),
       creators: values.creators,
       processors: values.processors,
       rightsholders: values.rightsholders,
     },
-    agreementId: values.agreementId,
-    metaImageId: values.metaImageId,
     metaImage: values.metaImageId
       ? {
           id: values.metaImageId,
           alt: values.metaImageAlt,
         }
       : undefined,
-    source: values.source,
     subjectIds: values.subjects.map(subject => subject.id),
-    tags: values.tags,
-    created: getCreatedDate(values, initialValues),
     articleIds: values.articles.map(a => a.id),
-    articles: values.articles,
-    parsedVisualElement: values.visualElementObject,
     visualElement: createEmbedTag(values.visualElementObject),
+    parsedVisualElement: values.visualElementObject,
+    updatedBy,
   };
 };
 
@@ -109,3 +154,21 @@ export const conceptFormRules = {
     minItems: 1,
   },
 };
+
+export function submitFormWithMessage<T>(
+  formikContext: FormikContextType<T>,
+  createMessage: (o: CreateMessageType) => void,
+) {
+  const { submitForm, isValid, errors } = formikContext;
+  if (isValid) {
+    submitForm();
+  } else {
+    // @ts-ignore
+    const e = Object.keys(errors).map(key => `${key}: ${errors[key]}`);
+    createMessage({
+      message: e.join(' '),
+      severity: 'danger',
+      timeToLive: 0,
+    });
+  }
+}

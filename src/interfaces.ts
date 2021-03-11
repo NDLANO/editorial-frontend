@@ -34,8 +34,8 @@ export interface Author {
 }
 
 export interface Status {
-  current: string;
-  other: string[];
+  current: ConceptStatusType;
+  other: ConceptStatusType[];
 }
 
 export interface Note {
@@ -470,6 +470,13 @@ export interface Audio {
     tags: string[];
   };
   title: string;
+}
+
+export interface CreateMessageType {
+  severity: string;
+  message?: string;
+  timeToLive?: number;
+  translationKey?: string;
 }
 
 export interface FormikInputEvent {

@@ -191,7 +191,7 @@ const LearningResourceForm = props => {
             handleSubmit(formik, saveAsNewVersion);
           }}
           entityStatus={article.status}
-          getStateStatuses={fetchStatusStateMachine}
+          fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

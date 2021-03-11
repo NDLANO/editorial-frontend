@@ -207,7 +207,7 @@ const TopicArticleForm = props => {
           showReset={() => setResetModal(true)}
           onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
           entityStatus={article.status}
-          getStateStatuses={fetchStatusStateMachine}
+          fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

@@ -16,7 +16,7 @@ import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, PossibleStatuses } from './editorTypes';
-import { ConceptType, FormValues } from '../../interfaces';
+import { ConceptType, FormValues, CreateMessageType } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
@@ -26,10 +26,10 @@ interface Props {
   savedToServer: boolean;
   getEntity: () => Article | ConceptType;
   entityStatus: { current: string };
-  createMessage: (o: { translationKey: string; severity: string }) => void;
+  createMessage: (o: CreateMessageType) => void;
   showSimpleFooter: boolean;
   onSaveClick: VoidFunction;
-  getStateStatuses: () => PossibleStatuses;
+  fetchStatusStateMachine: () => Promise<PossibleStatuses>;
   validateEntity: (id: number, updatedEntity: Article | ConceptType) => void;
   isArticle?: boolean;
   isConcept: boolean;
@@ -57,7 +57,7 @@ function EditorFooter<T extends FormValues>({
   entityStatus,
   showSimpleFooter,
   onSaveClick,
-  getStateStatuses,
+  fetchStatusStateMachine,
   validateEntity,
   isArticle,
   isConcept,
@@ -69,7 +69,7 @@ function EditorFooter<T extends FormValues>({
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
   const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-    const possibleStatuses = await getStateStatuses();
+    const possibleStatuses = await fetchStatusStateMachine();
     setStatuses(possibleStatuses);
   };
 

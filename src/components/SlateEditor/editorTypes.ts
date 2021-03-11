@@ -1,4 +1,5 @@
 import { Value } from 'slate';
+import { ConceptStatusStateMashineType } from '../../modules/concept/conceptApiInterfaces';
 
 export interface Values {
   id: number;
@@ -51,19 +52,23 @@ export interface Article {
   supportedLanguages: Array<string>;
 }
 
-export interface PossibleStatuses {
-  CREATED: Array<string>;
-  PROPOSAL: Array<string>;
-  AWAITING_QUALITY_ASSURANCE: Array<string>;
-  DRAFT: Array<string>;
-  USER_TEST: Array<string>;
-  IMPORTED: Array<string>;
-  QUALITY_ASSURED: Array<string>;
-  PUBLISHED: Array<string>;
-  AWAITING_UNPUBLISHING: Array<string>;
-  UNPUBLISHED: Array<string>;
-  ARCHIVED: Array<string>;
-  QUEUED_FOR_PUBLISHING: Array<string>;
-}
+// Denne unionen er nødvendig for at FormFooter skal kunne bruke EditorFooter Når vi utvider til å bruke
+// ts flere steder EditorFooter brukes kan vi utvide denne unionen med en mer nøyaktig union av state machines.
+export type PossibleStatuses =
+  | ConceptStatusStateMashineType
+  | {
+      CREATED: Array<string>;
+      PROPOSAL: Array<string>;
+      AWAITING_QUALITY_ASSURANCE: Array<string>;
+      DRAFT: Array<string>;
+      USER_TEST: Array<string>;
+      IMPORTED: Array<string>;
+      QUALITY_ASSURED: Array<string>;
+      PUBLISHED: Array<string>;
+      AWAITING_UNPUBLISHING: Array<string>;
+      UNPUBLISHED: Array<string>;
+      ARCHIVED: Array<string>;
+      QUEUED_FOR_PUBLISHING: Array<string>;
+    };
 
 export type PreviewTypes = 'previewProductionArticle' | 'previewLanguageArticle' | 'preview' | '';

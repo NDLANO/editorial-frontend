@@ -13,8 +13,8 @@ import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
-import { ChevronLeft } from '@ndla/icons/common';
 import DeleteButton from '../../../DeleteButton';
+import MoveContentButton from '../../../MoveContentButton';
 import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
@@ -92,9 +92,7 @@ class SlateFactAside extends React.Component {
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-        <Button stripped onMouseDown={this.onMoveContent}>
-          <ChevronLeft />
-        </Button>
+        <MoveContentButton onMouseDown={this.onMoveContent} />
         <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
       </aside>
     );

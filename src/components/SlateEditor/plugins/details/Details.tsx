@@ -7,10 +7,9 @@
 import React, { FC, ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import Button from '@ndla/button';
-import { ChevronLeft } from '@ndla/icons/common';
 import { Editor, Node, Block } from 'slate';
 import DeleteButton from '../../../DeleteButton';
+import MoveContentButton from '../../../MoveContentButton';
 
 const StyledDetailsDiv = styled.div`
   position: relative;
@@ -95,9 +94,7 @@ const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
         {isOpen && editSummaryButton}
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
-      <Button stripped onMouseDown={onMoveContent}>
-        <ChevronLeft />
-      </Button>
+      <MoveContentButton onMouseDown={onMoveContent} />
       <DeleteButton data-cy="remove-details" stripped onMouseDown={onRemoveClick} />
     </StyledDetailsDiv>
   );

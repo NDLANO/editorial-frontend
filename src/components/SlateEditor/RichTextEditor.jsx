@@ -114,6 +114,7 @@ const RichTextEditor = class extends React.PureComponent {
             name={name}
             schema={schema}
             onChange={this.onChange}
+            slateStore={this.state.slateStore}
             plugins={plugins}
             placeholder={placeholder}
             onBlur={onBlur}

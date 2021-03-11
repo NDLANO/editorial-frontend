@@ -58,10 +58,12 @@ describe('Workflow features', () => {
       '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
+    cy.wait(100);
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
     cy.wait('@transformedArticle');
+    cy.wait(100);
     cy.get('[data-testid=closePreview]').click();
   });
 

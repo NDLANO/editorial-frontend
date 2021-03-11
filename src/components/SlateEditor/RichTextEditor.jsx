@@ -101,12 +101,14 @@ const RichTextEditor = class extends React.PureComponent {
       plugins,
       schema,
       value,
+      ...rest
     } = this.props;
     return (
       <article>
         <div data-cy="slate-editor" css={slateEditorDivStyle}>
           <Editor
             {...classes('content', undefined, className)}
+            {...rest}
             id={id}
             onKeyDown={this.onKeyDown}
             ref={this.editorRef}

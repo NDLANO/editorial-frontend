@@ -52,6 +52,7 @@ export const apiArticle = {
   supportedLanguages: ['nb', 'nn', 'en'],
   notes: [],
   conceptIds: [],
+  relatedContent: [],
 };
 
 export const transformedArticle = {
@@ -102,4 +103,5 @@ export const transformedArticle = {
   updatedBy: 'test',
   visualElement: {},
   conceptIds: [],
+  relatedContent: [],
 };

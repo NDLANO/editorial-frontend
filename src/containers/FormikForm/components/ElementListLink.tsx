@@ -7,17 +7,15 @@
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { spacing, colors, fonts, animations } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
+import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { resourceToLinkProps } from '../../../util/resourceHelpers';
-import { ContentResultType } from '../../../interfaces';
+import { RelatedContentLink } from '../../../interfaces';
+import { StyledButtonIcons, StyledListItem } from './ElementListItem';
 
 const ELEMENT_HEIGHT = 69;
-const ELEMENT_MARGIN = 4;
 
 interface StyledProps {
   delete?: boolean;
@@ -33,7 +31,7 @@ interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
   // Element can be of type Article or Learningpath
-  element: ContentResultType;
+  element: RelatedContentLink;
   executeDeleteFile: () => void;
   index: number;
   locale: string;
@@ -43,36 +41,31 @@ interface Props {
   showDragTooltip: boolean;
 }
 
-const ElementListItem = ({
+const ElementListLink = ({
   deleteFile,
   deleteIndex,
   element,
   executeDeleteFile,
   index,
-  locale,
   messages: { removeElement, dragElement },
   onDragEnd,
   onDragStart,
   showDragTooltip,
 }: Props) => {
-  const linkProps = resourceToLinkProps(element, element.articleType || 'learning-path', locale);
-
   return (
     <StyledListItem
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
-        <StyledElementImage
-          src={element.metaImage?.url || '/placeholder.png'}
-          alt={element.metaImage?.alt || ''}
-        />
-        {linkProps.to ? (
-          <Link to={linkProps.to}>{element.title.title}</Link>
-        ) : (
-          <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
-            {element.title.title}
+        <StyledLinkContainer>
+          <Link />
+        </StyledLinkContainer>
+
+        <Tooltip tooltip={element.url}>
+          <a href={element.url} target="_blank" rel="noopener noreferrer">
+            {element.title}
           </a>
-        )}
+        </Tooltip>
       </div>
       <div>
         {showDragTooltip ? (
@@ -106,77 +99,20 @@ const ElementListItem = ({
   );
 };
 
-export const StyledListItem = styled.li<StyledProps>`
-  margin: ${ELEMENT_MARGIN}px 0 0;
-  padding: 0;
-  background: ${colors.brand.greyLighter};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: ${ELEMENT_HEIGHT - ELEMENT_MARGIN}px;
-  max-width: 100%;
-  box-sizing: border-box;
-  ${fonts.sizes(18, 1.1)};
-  font-weight: ${fonts.weight.semibold};
-  font-family: ${fonts.sans};
-  > div {
-    display: flex;
-    align-items: center;
-    padding: 0 ${spacing.small} 0 calc(${spacing.small} + ${spacing.xsmall});
-    &:first-of-type {
-      flex-grow: 1;
-      padding-left: ${spacing.xsmall};
-    }
-  }
-  ${props =>
-    props.delete &&
-    css`
-      ${animations.fadeOut()}
-    `}
-`;
-
-const StyledElementImage = styled.img`
+const StyledLinkContainer = styled.div`
+  background: ${colors.background.darker};
   width: ${ELEMENT_HEIGHT * 1.33}px;
   height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
   object-fit: cover;
   margin-right: ${spacing.small};
-`;
-
-export const StyledButtonIcons = styled.button<StyledProps>`
-  border: 0;
-  background: none;
-  color: ${colors.brand.primary};
-  width: ${spacing.medium};
-  height: ${spacing.medium};
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin: 0;
-  padding: 0;
-  border-radius: 100%;
-  transition: background 200ms ease;
+  align-items: center;
   svg {
-    width: 18px;
-    height: 18px;
+    height: 30px;
+    width: 30px;
+    color: ${colors.brand.greyMedium};
   }
-  &:hover,
-  &:focus {
-    background: ${colors.brand.light};
-  }
-  ${props =>
-    props.delete &&
-    css`
-      color: ${colors.support.red};
-      &:hover,
-      &:focus {
-        background: ${colors.support.redLight};
-      }
-    `}
-  ${props =>
-    props.draggable &&
-    css`
-      cursor: grabbing;
-    `};
 `;
 
-export default ElementListItem;
+export default ElementListLink;

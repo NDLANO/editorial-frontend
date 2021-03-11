@@ -8,11 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
+import { ChevronLeft } from '@ndla/icons/common';
 import DeleteButton from '../../../DeleteButton';
+import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -60,6 +63,7 @@ class SlateFactAside extends React.Component {
       expanded: true,
     };
     this.toggleExpanded = this.toggleExpanded.bind(this);
+    this.onMoveContent = this.onMoveContent.bind(this);
   }
 
   toggleExpanded(evt) {
@@ -67,6 +71,11 @@ class SlateFactAside extends React.Component {
     this.setState(prevState => ({
       expanded: !prevState.expanded,
     }));
+  }
+
+  onMoveContent() {
+    const { editor, node } = this.props;
+    editor.unwrapBlockByKey(node.key, node.type);
   }
 
   render() {
@@ -83,6 +92,9 @@ class SlateFactAside extends React.Component {
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
+        <Button stripped onMouseDown={this.onMoveContent}>
+          <ChevronLeft />
+        </Button>
         <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
       </aside>
     );
@@ -94,6 +106,8 @@ SlateFactAside.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
+  editor: EditorShape.isRequired,
+  node: Types.node.isRequired,
 };
 
 export default SlateFactAside;

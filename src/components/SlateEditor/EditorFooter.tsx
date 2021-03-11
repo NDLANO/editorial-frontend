@@ -75,12 +75,11 @@ const EditorFooter: React.FC<Props & tType> = ({
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
-  const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-    const possibleStatuses = await getStateStatuses();
-    setStatuses(possibleStatuses);
-  };
-
   useEffect(() => {
+    const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
+      const possibleStatuses = await getStateStatuses();
+      setStatuses(possibleStatuses);
+    };
     fetchStatuses(setStatuses);
   }, []);
 

@@ -10,15 +10,13 @@
 import { css, jsx } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { initAudioPlayers } from '@ndla/article-scripts';
 import { Input } from '@ndla/forms';
-// @ts-ignore
-import { AudioPlayer } from '@ndla/ui';
+import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed } from '../../../../interfaces';
+import { Audio, Embed, LocaleType } from '../../../../interfaces';
 
 const placeholderStyle = css`
   position: relative;
@@ -30,6 +28,7 @@ interface Props {
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
+  locale: LocaleType;
   onAudioFigureInputChange: Function;
   onChange: Function;
   onExit: Function;
@@ -48,6 +47,7 @@ const EditAudio: React.FC<Props & tType> = ({
   type,
   t,
   language,
+  locale,
   speech,
   audio,
   submitted,
@@ -67,7 +67,7 @@ const EditAudio: React.FC<Props & tType> = ({
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedElement.style.left = `${placeholderRect.left}px`;
     embedElement.style.width = `${placeholderRect.width}px`;
-    initAudioPlayers();
+    initAudioPlayers(locale);
   }, []);
 
   return (
@@ -109,12 +109,7 @@ const EditAudio: React.FC<Props & tType> = ({
               },
             ]}
           />
-          <AudioPlayer
-            type={audio.audioFile.mimeType}
-            src={audio.audioFile.url}
-            title={audio.title}
-            speech={speech}
-          />
+          <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
           <Input
             name="caption"
             label={t('form.audio.caption.label')}

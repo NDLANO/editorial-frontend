@@ -6,7 +6,7 @@
  *
  */
 
-export default function(userAgentString) {
+const getConditionalClassnames = function(userAgentString) {
   if (!userAgentString) return '';
   if (userAgentString.indexOf('MSIE') >= 0) {
     return 'ie lt-ie11';
@@ -15,4 +15,5 @@ export default function(userAgentString) {
     return 'ie gt-ie10';
   }
   return '';
-}
+};
+export default getConditionalClassnames;

@@ -16,7 +16,7 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
+import { Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
 
 interface Props {
   attributes?: {
@@ -26,7 +26,7 @@ interface Props {
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
-  locale: string;
+  locale: LocaleType;
   onRemoveClick: Function;
   onFigureInputChange: Function;
   submitted: boolean;
@@ -87,6 +87,7 @@ const SlateAudio: React.FC<Props & tType> = ({
             changes={changes}
             embed={embed}
             language={language}
+            locale={locale}
             onExit={toggleEdit}
             onChange={onFigureInputChange}
             onAudioFigureInputChange={onAudioFigureInputChange}

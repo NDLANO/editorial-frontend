@@ -66,13 +66,12 @@ const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   useEffect(() => {
+    const getSubjects = async () => {
+      const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
+      setSubjects(subjects);
+    };
     getSubjects();
-  }, [concept.id]);
-
-  const getSubjects = async () => {
-    const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
-    setSubjects(subjects);
-  };
+  }, [concept]);
 
   const VisualElement = () => {
     const visualElement = concept.visualElementResources;

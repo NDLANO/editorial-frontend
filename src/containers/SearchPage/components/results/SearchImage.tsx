@@ -20,6 +20,7 @@ interface Props {
   locale: string;
 }
 
+/*eslint-disable*/
 const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>
@@ -38,6 +39,7 @@ const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
     </div>
   </div>
 );
+/*eslint-enable*/
 
 SearchImage.propTypes = {
   image: ImageResultShape.isRequired,

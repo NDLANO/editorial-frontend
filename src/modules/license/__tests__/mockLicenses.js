@@ -6,7 +6,7 @@
  *
  */
 
-export default [
+const mockLicenses = [
   {
     license: 'by',
     description: 'Creative Commons Attribution 2.0 Generic',
@@ -79,3 +79,4 @@ export default [
     url: 'https://creativecommons.org/licenses/by-nc/4.0/',
   },
 ];
+export default mockLicenses;

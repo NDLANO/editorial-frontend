@@ -18,12 +18,14 @@ export interface NewPodcastMeta {
   manuscript: string;
 }
 
-interface NewAudioMetaInformation {
+export interface NewAudioMetaInformation {
+  id?: string; // Used only to check if image was newly created. This id is discarded by backend. TODO
   title: string;
   language: string;
   copyright: Copyright;
   tags: string[];
   audioType: AudioType;
+  podcastMeta?: NewPodcastMeta;
 }
 
 export interface NewPodcastMetaInformation extends NewAudioMetaInformation {

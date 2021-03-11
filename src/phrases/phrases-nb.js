@@ -531,6 +531,10 @@ const phrases = {
       mobileBanner: 'Banner til mobil',
       concepts: 'Forklaringer',
       subjects: 'Fag',
+      header: 'Overskrift',
+      manuscript: 'Manus',
+      coverPhotoId: 'Metabilde',
+      coverPhotoAltText: 'Alt-tekst',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',

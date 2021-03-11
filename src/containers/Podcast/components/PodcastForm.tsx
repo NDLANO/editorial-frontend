@@ -5,20 +5,25 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, Fragment, Component, ReactNode } from 'react';
-import { connect, FieldProps, Formik, Form, FormikProps, FormikContextType } from 'formik';
+import React, { FC, Fragment, useState, ReactNode } from 'react';
+import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 
 import { injectT, tType } from '@ndla/i18n';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
-import { formClasses } from '../../FormikForm';
+import { formClasses, FormikAbortButton, FormikAlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
+import SaveButton from '../../../components/SaveButton';
+import Field from '../../../components/Field';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import { toEditPodcast } from '../../../util/routeHelpers';
-import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
+import {
+  NewPodcastMeta,
+  NewPodcastMetaInformation,
+} from '../../../modules/audio/audioApiInterfaces';
 import { Author, Copyright, License } from '../../../interfaces';
 
 const podcastRules = {
@@ -44,6 +49,22 @@ const podcastRules = {
   },
   license: {
     required: true,
+  },
+  coverPhotoAltText: {
+    requred: true,
+  },
+  manuscript: {
+    // TODO funker ikke?
+    requred: true,
+  },
+  introduction: {
+    requred: true,
+  },
+  imageFile: {
+    requred: true,
+  },
+  coverPhotoId: {
+    requred: true,
   },
 };
 
@@ -117,23 +138,21 @@ interface PodcastPropType {
 
 type ErrorFields =
   | 'alttext'
+  | 'audioFile'
   | 'caption'
+  | 'coverPhotoAltText'
+  | 'coverPhotoId'
   | 'creators'
+  | 'header'
   | 'imageFile'
+  | 'introduction'
   | 'license'
+  | 'manuscript'
   | 'processors'
   | 'rightsholders'
   | 'tags'
   | 'title'
   | 'audioFile';
-
-interface Props {
-  // formik: FormikContextType<any>; //TODO any?
-  audio: PodcastPropType;
-  inModal?: boolean;
-  formikProps?: FormikProps<PodcastPropType>; // TODO hva skal være i <>
-  licenses: License[];
-}
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {
@@ -143,6 +162,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 };
 
 type openIndexesProps = number | string;
+
 type AccordionChildrenProps = {
   // TODO se over ???
   openIndexes: Array<openIndexesProps>;
@@ -164,8 +184,73 @@ type AccordionChildrenProps = {
   };
 };
 
+interface Props {
+  audio: PodcastPropType;
+  inModal?: boolean;
+  formikProps?: FormikProps<PodcastPropType>; // TODO hva skal være i <>
+  licenses: License[];
+  onUpdate?: (audioMetadata: NewPodcastMeta, audio: string | Blob) => void; // TODO ikke optional
+}
+
 const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikProps }) => {
-  const handleSubmit = () => {};
+  const [savedToServer, setSavedToServer] = useState(false);
+
+  const handleSubmit = async (
+    values: PodcastFormikType,
+    actions: FormikHelpers<PodcastFormikType>,
+  ) => {
+    const license = licenses.find(license => license.license === values.license);
+
+    if (
+      license === undefined ||
+      values.title === undefined ||
+      values.language === undefined ||
+      values.tags === undefined ||
+      values.origin === undefined ||
+      values.creators === undefined ||
+      values.processors === undefined ||
+      values.rightsholders === undefined ||
+      values.header === undefined ||
+      values.manuscript === undefined ||
+      values.introduction === undefined ||
+      values.coverPhotoId === undefined ||
+      values.coverPhotoAltText === undefined
+    ) {
+      actions.setSubmitting(false);
+      setSavedToServer(false);
+      return;
+    }
+
+    actions.setSubmitting(true);
+    const podcastMetaData: NewPodcastMetaInformation = {
+      // TODO denne eller NewPodcastMeta
+      id: values.id, // Used only to check if image was newly created. This id is discarded by backend. TODO
+      title: values.title,
+      tags: values.tags,
+      audioType: 'podcast',
+      language: values.language,
+      copyright: {
+        license,
+        origin: values.origin,
+        creators: values.creators,
+        processors: values.processors,
+        rightsholders: values.rightsholders,
+      },
+      podcastMeta: {
+        header: values.header,
+        introduction: values.introduction,
+        coverPhotoId: values.coverPhotoId,
+        coverPhotoAltText: values.coverPhotoAltText,
+        manuscript: values.manuscript,
+      },
+    };
+
+    // await onUpdate(podcastMetaData, values.audioFile);, se på den som blir sendt inn til AudioForm
+    setSavedToServer(true);
+
+    // actions.setSubmitting(false);
+    // setSavedToServer(false);
+  };
 
   const initialValues = getInitialValues(audio);
   // const { values, setFieldValue, isSubmitting } = formikProps;
@@ -185,7 +270,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
     {
       id: 'podcast-upload-podcastmeta-metadataSection',
       title: 'Podcast informasjon',
-      errorFields: [],
+      errorFields: ['header', 'introduction', 'coverPhotoId', 'coverPhotoAltText', 'manuscript'],
       component: (
         <PodcastMetaData
           header="test"
@@ -210,7 +295,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
       onSubmit={() => {}}
       validate={values => validateFormik(values, podcastRules, t)}>
       {formikProps => {
-        const { values, dirty, errors } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -225,11 +310,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
             />
-            <Accordion
-              openIndexes={[
-                'podcast-upload-content',
-                'podcast-upload-podcastmeta-metadataSection',
-              ]}>
+            <Accordion openIndexes={['podcast-upload-content']}>
               {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
                 <AccordionWrapper>
                   {panels.map(panel => {
@@ -260,6 +341,27 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
                 </AccordionWrapper>
               )}
             </Accordion>
+            <Field right>
+              <FormikAbortButton outline disabled={isSubmitting}>
+                {t('form.abort')}
+              </FormikAbortButton>
+              <SaveButton
+                {...formClasses}
+                isSaving={isSubmitting}
+                showSaved={!formIsDirty && false}
+                formIsDirty={formIsDirty}
+                onClick={evt => {
+                  evt.preventDefault();
+                  submitForm();
+                }}
+              />
+            </Field>
+            <FormikAlertModalWrapper
+              {...formikProps}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
           </FormWrapper>
         );
       }}

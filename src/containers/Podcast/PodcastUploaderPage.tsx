@@ -40,7 +40,7 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({ match, hi
 
   return (
     <OneColumn>
-      <HelmetWithTracker title="last opp podcast episode" />{' '}
+      <HelmetWithTracker title="last opp podcast episode" />
       {/* TODO replace with translated text */}
       <Switch>
         <Route

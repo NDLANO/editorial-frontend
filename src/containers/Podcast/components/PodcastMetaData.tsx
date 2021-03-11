@@ -20,24 +20,23 @@ import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
 interface Props extends NewPodcastMeta {}
 
 const PodcastMetaData: FC<Props & tType> = ({ t }) => {
-  // const { values } = useFormikContext();
-
   return (
     <>
       <FieldHeader title={t('podcastForm.fields.header')} />
       <FormikField
-        label={t('podcastForm.fields.header')}
         name="header"
-        title
+        label={t('podcastForm.fields.header')}
+        obligatory
         noBorder
-        placeholder="header"
+        placeholder={t('podcastForm.fields.header')}
       />
       <FieldHeader title={t('podcastForm.fields.introduction')} />
       <FormikField
-        label={t('podcastForm.fields.introduction')}
         name="introduction"
+        label={t('podcastForm.fields.introduction')}
         noBorder
-        placeholder="introduction"
+        obligatory
+        placeholder={t('podcastForm.fields.introduction')}
       />
 
       {/* Q: kan jeg gjenbruke metabilde under her? */}
@@ -54,10 +53,11 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
 
       <FieldHeader title={t('podcastForm.fields.manuscript')} />
       <FormikField
-        label={t('podcastForm.fields.manuscript')}
         name="manuscript"
+        label={t('podcastForm.fields.manuscript')}
         noBorder
-        placeholder="manuscript"
+        obligatory
+        placeholder={t('podcastForm.fields.manuscript')}
       />
     </>
   );

@@ -950,7 +950,7 @@ const phrases = {
         missingTitle: 'Missing title',
         missingUrl: 'Url must start with http:// or https://',
         titlePlaceholder: 'Title',
-        urlPlaceholder: 'http://example.com',
+        urlPlaceholder: 'https://example.com',
         addLink: 'Add',
       },
     },

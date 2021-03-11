@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { AccordionWrapper } from '@ndla/accordion';
-import { Formik, FormikProps, FormikHelpers, useFormikContext } from 'formik';
+import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers.js';

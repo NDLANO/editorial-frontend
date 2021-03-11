@@ -69,7 +69,7 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy,
+    contentSecurityPolicy: config.disableCSP === 'true' ? null : contentSecurityPolicy,
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {

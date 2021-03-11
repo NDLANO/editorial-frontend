@@ -25,7 +25,8 @@
     "cy-record": "CYPRESS_RECORD_FIXTURES=true cypress open",
     "pree2e-ci-record": "cross-env NODE_ENV=production node build/server &",
     "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record  --parallel",
-    "run-e2e": "yarn start-test 'yarn start prod' http://localhost:3000 'CYPRESS_USE_FIXTURES=true cypress run --record  --parallel'",
+    "run-e2e": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'CYPRESS_USE_FIXTURES=true cypress run --record --parallel'",
+    "run-cyp": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'yarn cy-run'",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
     "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
     "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record"
@@ -82,7 +83,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^7.4.1",
     "slate-hyperscript": "^0.13.9",
-    "start-server-and-test": "^1.10.2",
+    "start-server-and-test": "^1.12.0",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "ts-jest": "^25.2.1",

@@ -81,4 +81,6 @@ jobs:
       - name: "Sleep to wait for starting"
         run: sleep 120
       - name: "Run e2e-ci"
-        run: yarn e2e-ci
+        run: |
+          export DISPLAY=0:0
+          yarn e2e-ci

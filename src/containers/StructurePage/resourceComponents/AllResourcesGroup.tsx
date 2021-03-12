@@ -54,7 +54,6 @@ interface Props {
 const AllResourcesGroup = ({
   resourceTypes,
   topicResources,
-  t,
   params,
   refreshResources,
   availableFilters,
@@ -63,6 +62,7 @@ const AllResourcesGroup = ({
   currentTopic,
   currentSubject,
   structure,
+  t,
 }: Props & tType) => {
   const [displayResource, setDisplayResource] = useState<boolean>(false);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);

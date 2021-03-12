@@ -460,7 +460,7 @@ export class StructureContainer extends React.PureComponent {
                     deleteTopicLink={this.deleteTopicLink}
                     structure={subjects}
                     jumpToResources={() =>
-                      this.resourceSection && this.resourceSection.current.scrollIntoView()
+                      this.resourceSection && this.resourceSection.current?.scrollIntoView()
                     }
                     locale={locale}
                     userAccess={userAccess}

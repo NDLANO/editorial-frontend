@@ -63,12 +63,10 @@ interface Props {
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => void;
-  setConcept: () => void;
 }
 
 const ConceptForm = ({
   concept,
-  setConcept,
   createMessage,
   fetchConceptTags,
   inModal,

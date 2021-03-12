@@ -10,12 +10,12 @@ import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
-import { FormikMetaImageSearch } from '../../FormikForm';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
 import { SubjectType, SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
+import InlineImageSearch from './InlineImageSearch';
 
 interface Props {
   subjects: SubjectType[];
@@ -27,16 +27,7 @@ const ConceptMetaData = ({ subjects, fetchTags, t }: Props & tType) => {
 
   return (
     <Fragment>
-      <FormikField name="metaImageId">
-        {({ field, form }) => (
-          <FormikMetaImageSearch
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton
-            {...field}
-          />
-        )}
-      </FormikField>
+      <InlineImageSearch name="metaImageId" />
       <FormikField name="subjects" label={t('form.subjects.label')}>
         {({ field }) => (
           <MultiSelectDropdown labelField="name" minSearchLength={1} data={subjects} {...field} />

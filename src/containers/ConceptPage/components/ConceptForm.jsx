@@ -41,7 +41,7 @@ import ConceptArticles from './ConceptArticles';
 const getInitialValues = (concept = {}, subjects = []) => {
   return {
     id: concept.id,
-    title: concept.title || '',
+    slatetitle: plainTextToEditorValue(concept.title || '', true),
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
@@ -66,7 +66,7 @@ const getInitialValues = (concept = {}, subjects = []) => {
 };
 
 const rules = {
-  title: {
+  slatetitle: {
     required: true,
   },
   conceptContent: {
@@ -138,7 +138,7 @@ class ConceptForm extends Component {
     const { licenses } = this.props;
     return {
       id: values.id,
-      title: values.title,
+      title: editorValueToPlainText(values.slatetitle),
       content: editorValueToPlainText(values.conceptContent),
       language: values.language,
       supportedLanguages: values.supportedLanguages,

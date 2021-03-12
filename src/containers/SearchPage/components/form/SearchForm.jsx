@@ -41,7 +41,10 @@ SearchForm.propTypes = {
     subjects: PropTypes.string,
     'resource-types': PropTypes.string,
     'draft-status': PropTypes.string,
+    status: PropTypes.string,
     users: PropTypes.string,
+    language: PropTypes.string,
+    fallback: PropTypes.bool,
   }),
 };
 

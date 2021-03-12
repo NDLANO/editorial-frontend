@@ -3,7 +3,7 @@ import { Value } from 'slate';
 export interface Values {
   id: number;
   revision: number;
-  title: string;
+  title: Value;
   introduction: Value;
   content: Value;
   tags: Array<string>;

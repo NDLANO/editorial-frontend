@@ -60,13 +60,14 @@ export const getInitialValues = (article = {}) => {
     status: article.status || {},
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
-    title: article.title || '',
+    slatetitle: plainTextToEditorValue(article.title, true),
     updated: article.updated,
     updatePublished: false,
     visualElement: visualElement || {},
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
+    relatedContent: article.relatedContent || [],
   };
 };
 
@@ -116,11 +117,12 @@ const getArticleFromSlate = ({ values, initialValues, licenses, preview = false 
     published: getPublishedDate(values, initialValues, preview),
     supportedLanguages: values.supportedLanguages,
     tags: values.tags,
-    title: values.title,
+    title: editorValueToPlainText(values.slatetitle),
     visualElement: visualElement,
     grepCodes: values.grepCodes,
     conceptIds: values.conceptIds,
     availability: values.availability,
+    relatedContent: values.relatedContent,
   };
 
   return article;

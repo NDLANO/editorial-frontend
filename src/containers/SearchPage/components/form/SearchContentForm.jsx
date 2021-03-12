@@ -26,14 +26,15 @@ const emptySearchState = {
   query: '',
   subjects: '',
   resourceTypes: '',
-  draftStatus: '',
+  status: '',
   users: '',
+  lang: '',
 };
 
 class SearchContentForm extends Component {
   constructor(props) {
     super(props);
-    const { searchObject } = props;
+    const { searchObject, locale } = props;
     this.state = {
       dropDown: {
         resourceTypes: [],
@@ -42,9 +43,10 @@ class SearchContentForm extends Component {
       search: {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
-        draftStatus: searchObject['draft-status'] || '',
+        status: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         users: searchObject.users || '',
+        lang: searchObject.lang || locale,
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -57,6 +59,22 @@ class SearchContentForm extends Component {
 
   componentDidMount() {
     this.getExternalData();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { searchObject, locale } = this.props;
+    if (prevProps.searchObject?.query !== searchObject?.query) {
+      this.setState({
+        search: {
+          subjects: searchObject.subjects || '',
+          resourceTypes: searchObject['resource-types'] || '',
+          status: searchObject['draft-status'] || '',
+          query: searchObject.query || '',
+          users: searchObject.users || '',
+          lang: searchObject.lang || locale,
+        },
+      });
+    }
   }
 
   onFieldChange(evt) {
@@ -84,15 +102,17 @@ class SearchContentForm extends Component {
       evt.preventDefault();
     }
     const {
-      search: { resourceTypes, draftStatus, subjects, query, users },
+      search: { resourceTypes, status, subjects, query, users, lang },
     } = this.state;
     const { search } = this.props;
     search({
       'resource-types': resourceTypes,
-      'draft-status': draftStatus,
+      'draft-status': status,
       subjects,
       query,
       users,
+      language: lang,
+      fallback: true,
       page: 1,
     });
   }
@@ -147,8 +167,8 @@ class SearchContentForm extends Component {
         options: resourceTypes.sort(this.sortByProperty('name')),
       },
       {
-        name: 'draftStatus',
-        label: 'draftStatus',
+        name: 'status',
+        label: 'status',
         width: 25,
         options: this.getDraftStatuses().sort(this.sortByProperty('name')),
       },
@@ -214,7 +234,7 @@ class SearchContentForm extends Component {
               subjects={subjects}
               searchObject={this.state.search}
               resourceTypes={resourceTypes}
-              draftStatus={this.getDraftStatuses()}
+              status={this.getDraftStatuses()}
             />
           </div>
         </form>
@@ -233,6 +253,8 @@ SearchContentForm.propTypes = {
     'resource-types': PropTypes.string,
     'draft-status': PropTypes.string,
     users: PropTypes.string,
+    lang: PropTypes.string,
+    fallback: PropTypes.bool,
   }),
   locale: PropTypes.string.isRequired,
 };

@@ -217,7 +217,7 @@ const phrases = {
       users: 'Select editor',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
-      draftStatus: 'Select status',
+      status: 'Select status',
     },
     tagType: {
       query: 'Query',
@@ -225,7 +225,7 @@ const phrases = {
       language: 'Language',
       users: 'Editor',
       resourceTypes: 'Resource type',
-      draftStatus: 'Status',
+      status: 'Status',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -482,6 +482,7 @@ const phrases = {
     },
     name: {
       title: 'Title',
+      slatetitle: 'Title',
       aboutTitle: 'Title',
       introduction: 'Ingress',
       creators: 'Creators',
@@ -509,6 +510,7 @@ const phrases = {
       desktopBanner: 'Desktop banner',
       mobileBanner: 'Mobile banner',
       concepts: 'Concepts',
+      relatedContent: 'Related content',
       subjects: 'Subject',
     },
     previewProductionArticle: {
@@ -941,10 +943,23 @@ const phrases = {
     },
     relatedConcepts: {
       placeholder: 'Search for title',
-      articlesTitle: 'Related Concepts',
-      articlesSubtitle: 'Concepts',
+      articlesTitle: 'Concepts',
       changeOrder: 'Change order',
       removeArticle: 'Remove concept',
+    },
+    relatedContent: {
+      placeholder: 'Search for title',
+      articlesTitle: 'Content',
+      changeOrder: 'Change order',
+      removeArticle: 'Remove content',
+      addExternal: 'Add external article',
+      link: {
+        missingTitle: 'Missing title',
+        missingUrl: 'Url must start with http:// or https://',
+        titlePlaceholder: 'Title',
+        urlPlaceholder: 'https://example.com',
+        addLink: 'Add',
+      },
     },
     section: {
       remove: 'Remove section',

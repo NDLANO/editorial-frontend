@@ -219,7 +219,7 @@ const phrases = {
       users: 'Velg bruker',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
-      draftStatus: 'Velg status',
+      status: 'Velg status',
     },
     tagType: {
       query: 'Innhald',
@@ -227,7 +227,7 @@ const phrases = {
       language: 'Språk',
       users: 'Bruker',
       resourceTypes: 'Innhaldstype',
-      draftStatus: 'Status',
+      status: 'Status',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -505,6 +505,7 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
+      slatetitle: 'Tittel',
       aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
@@ -532,6 +533,7 @@ const phrases = {
       desktopBanner: 'Banner til desktop',
       mobileBanner: 'Banner til mobil',
       concepts: 'Forklaringar',
+      relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
     },
     previewProductionArticle: {
@@ -959,10 +961,23 @@ const phrases = {
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
-      articlesTitle: 'Relaterte forklaringar',
-      articlesSubtitle: 'Forklaringar',
+      articlesTitle: 'Forklaringar',
       changeOrder: 'Endre rekkefølgje',
       removeArticle: 'Fjern forklaring',
+    },
+    relatedContent: {
+      placeholder: 'Søk på tittel',
+      articlesTitle: 'Innhald',
+      changeOrder: 'Endre rekkefølgje',
+      removeArticle: 'Fjern innhald',
+      addExternal: 'Legg til ekstern artikkel',
+      link: {
+        missingTitle: 'Mangler tittel',
+        missingUrl: 'Url må begynne med http:// eller https://',
+        titlePlaceholder: 'Tittel',
+        urlPlaceholder: 'https://example.com',
+        addLink: 'Legg til',
+      },
     },
     section: {
       remove: 'Ta bort seksjon',

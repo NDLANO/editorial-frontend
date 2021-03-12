@@ -42,6 +42,10 @@ export const renderBlock = (props, editor, next) => {
       return <blockquote {...attributes}>{children}</blockquote>;
     case 'div':
       return <div {...attributes}>{children}</div>;
+    case 'table':
+      // Let table-plugin render itself, then wrap with custom div.
+      const rendered = next();
+      return <div className="c-table__wrapper c-table__content">{rendered}</div>;
     default:
       return next();
   }

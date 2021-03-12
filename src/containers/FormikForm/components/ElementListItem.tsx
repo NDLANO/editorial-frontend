@@ -59,7 +59,6 @@ const ElementListItem = ({
 
   return (
     <StyledListItem
-      key={element.id}
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
@@ -107,7 +106,7 @@ const ElementListItem = ({
   );
 };
 
-const StyledListItem = styled.li<StyledProps>`
+export const StyledListItem = styled.li<StyledProps>`
   margin: ${ELEMENT_MARGIN}px 0 0;
   padding: 0;
   background: ${colors.brand.greyLighter};
@@ -128,10 +127,6 @@ const StyledListItem = styled.li<StyledProps>`
       flex-grow: 1;
       padding-left: ${spacing.xsmall};
     }
-    svg {
-      width: 18px;
-      height: 18px;
-    }
   }
   ${props =>
     props.delete &&
@@ -147,7 +142,7 @@ const StyledElementImage = styled.img`
   margin-right: ${spacing.small};
 `;
 
-const StyledButtonIcons = styled.button<StyledProps>`
+export const StyledButtonIcons = styled.button<StyledProps>`
   border: 0;
   background: none;
   color: ${colors.brand.primary};
@@ -160,6 +155,10 @@ const StyledButtonIcons = styled.button<StyledProps>`
   padding: 0;
   border-radius: 100%;
   transition: background 200ms ease;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
   &:hover,
   &:focus {
     background: ${colors.brand.light};

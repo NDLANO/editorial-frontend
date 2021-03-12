@@ -11,16 +11,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { isKeyHotkey } from 'is-hotkey';
+import isHotkey from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import createSlateStore, { setSubmitted } from './createSlateStore';
 import { PluginShape } from '../../shapes';
-
-const isBoldHotkey = isKeyHotkey('mod+b');
-const isItalicHotkey = isKeyHotkey('mod+i');
-const isUnderlinedHotkey = isKeyHotkey('mod+u');
-const isSaveHotkey = isKeyHotkey('mod+s');
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -70,15 +65,10 @@ const RichTextEditor = class extends React.PureComponent {
   }
 
   onKeyDown(e, editor, next) {
-    let mark;
     const { value } = editor;
-
-    if (isBoldHotkey(e)) {
-      mark = 'bold';
-    } else if (isItalicHotkey(e)) {
-      mark = 'italic';
-    } else if (isUnderlinedHotkey(e)) {
-      mark = 'underlined';
+    if (isHotkey('mod+s', e)) {
+      e.preventDefault();
+      this.props.handleSubmit();
     } else if (e.key === 'Backspace') {
       const { removeSection, index } = this.props;
       if (removeSection) {
@@ -95,17 +85,8 @@ const RichTextEditor = class extends React.PureComponent {
         }
         next();
       }
-    } else if (isSaveHotkey(e)) {
-      e.preventDefault();
-      this.props.handleSubmit();
     }
-
-    if (mark) {
-      e.preventDefault();
-      editor.toggleMark(mark);
-    } else {
-      next();
-    }
+    next();
   }
 
   render() {

@@ -22,11 +22,13 @@ export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
 
 export const ARTICLE_EXTERNAL = 'external-learning-resources';
 
+export const DRAFT_ADMIN_SCOPE = 'drafts:admin';
 export const DRAFT_WRITE_SCOPE = 'drafts:write';
 export const DRAFT_HTML_SCOPE = 'drafts:html';
 export const DRAFT_PUBLISH_SCOPE = 'drafts:publish';
 
 export const CONCEPT_WRITE_SCOPE = 'concept:write';
+export const CONCEPT_ADMIN_SCOPE = 'concept:admin';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
@@ -61,4 +63,5 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'MolView', url: ['embed.molview.org'] },
+  { name: 'GeoGebra', url: ['www.geogebra.org'] },
 ];

@@ -13,8 +13,9 @@ import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
 import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { License } from '../../interfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
+import { DraftApiLicense } from '../../modules/draft/draftApiInterfaces';
+import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
 interface Props {
   history: RouteComponentProps['history'];
@@ -24,7 +25,7 @@ interface Props {
 
 const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteComponentProps) => {
   const locale: string = useContext(LocaleContext);
-  const [licenses, setLicenses] = useState<License[]>([]);
+  const [licenses, setLicenses] = useState<DraftApiLicense[]>([]);
 
   useEffect(() => {
     getLicenses();
@@ -48,7 +49,7 @@ const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteCompon
       image={{ language: locale }}
       inModal={false}
       isNewlyCreated={isNewlyCreated}
-      licenses={licenses}
+      licenses={draftLicensesToImageLicenses(licenses)}
       onUpdate={onCreateImage}
       showSaved={showSaved}
     />

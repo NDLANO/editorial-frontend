@@ -15,15 +15,13 @@ import { hasNodeOfType } from '../../utils';
 import { listTypes } from '../externalPlugins';
 
 const topicArticleElements = {
-  mark: ['bold', 'italic'],
+  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link', 'mathml', 'concept'],
 };
 
-const DEFAULT_NODE = 'paragraph';
-
 const learningResourceElements = {
-  mark: ['bold', 'italic', 'code'],
+  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   inline: ['link', 'footnote', 'mathml', 'concept'],
 };
@@ -36,10 +34,6 @@ export const toolbarClasses = new BEMHelper({
 class SlateToolbar extends Component {
   constructor(props) {
     super(props);
-    this.onClickMark = this.onClickMark.bind(this);
-    this.onClickBlock = this.onClickBlock.bind(this);
-    this.onClickInline = this.onClickInline.bind(this);
-    this.onButtonClick = this.onButtonClick.bind(this);
     this.portalRef = React.createRef();
     this.updateMenu = this.updateMenu.bind(this);
   }
@@ -50,70 +44,6 @@ class SlateToolbar extends Component {
 
   componentDidUpdate() {
     this.updateMenu();
-  }
-
-  onClickBlock(e, type) {
-    e.preventDefault();
-    const { editor } = this.props;
-    const { document, blocks } = editor.value;
-    const isActive = hasNodeOfType(editor, type);
-    if (type === 'quote') {
-      if (editor.isSelectionInBlockquote()) {
-        editor.unwrapBlockquote();
-      } else {
-        editor.wrapInBlockquote();
-      }
-    } else if (listTypes.includes(type)) {
-      const isListTypeActive = blocks.some(
-        block => !!document.getClosest(block.key, parent => parent.type === type),
-      );
-      // Current list type is active
-      if (isListTypeActive) {
-        editor.unwrapList();
-        // Current selection is list, but not the same type
-      } else if (editor.isSelectionInList()) {
-        editor.unwrapList();
-        editor.wrapInList(type);
-        // No list found, wrap in list type
-      } else {
-        editor.wrapInList(type);
-      }
-    } else {
-      editor.setBlocks(isActive ? DEFAULT_NODE : type);
-    }
-  }
-
-  onClickMark(e, type) {
-    e.preventDefault();
-    const { editor } = this.props;
-    editor.toggleMark(type);
-  }
-
-  onClickInline(e, type) {
-    e.preventDefault();
-    const { editor } = this.props;
-
-    if (type === 'footnote') {
-      editor
-        .moveToEnd()
-        .insertText('#')
-        .moveFocusForward(-1)
-        .wrapInline(type);
-    } else {
-      editor.withoutNormalizing(() => {
-        editor.wrapInline(type);
-      });
-    }
-  }
-
-  onButtonClick(evt, kind, type) {
-    if (kind === 'mark') {
-      this.onClickMark(evt, type);
-    } else if (kind === 'block') {
-      this.onClickBlock(evt, type);
-    } else if (kind === 'inline') {
-      this.onClickInline(evt, type);
-    }
   }
 
   updateMenu() {
@@ -142,7 +72,7 @@ class SlateToolbar extends Component {
   }
 
   render() {
-    const { editor } = this.props;
+    const { editor, onButtonClick } = this.props;
 
     const toolbarElements = window.location.pathname.includes('learning-resource')
       ? learningResourceElements
@@ -154,7 +84,9 @@ class SlateToolbar extends Component {
           type={type}
           kind={kind}
           isActive={hasNodeOfType(editor, type, kind)}
-          handleOnClick={this.onButtonClick}
+          handleOnClick={(event, kind, type) => {
+            onButtonClick(event, editor, kind, type);
+          }}
         />
       )),
     );
@@ -171,6 +103,7 @@ class SlateToolbar extends Component {
 
 SlateToolbar.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onButtonClick: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   editor: PropTypes.object.isRequired,
   slateStore: PropTypes.shape({

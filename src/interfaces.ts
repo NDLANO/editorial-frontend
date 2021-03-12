@@ -17,6 +17,8 @@ export type ConceptStatusType =
   | 'TRANSLATED'
   | 'UNPUBLISHED';
 
+export type AvailabilityType = 'everyone' | 'teacher' | 'student';
+
 export interface TranslateType {
   (
     key: string,
@@ -34,6 +36,13 @@ export interface Author {
 export interface Status {
   current: string;
   other: string[];
+}
+
+export interface Note {
+  note: string;
+  user: string;
+  status: Status;
+  timestamp: string;
 }
 
 export interface Copyright {
@@ -72,28 +81,36 @@ export interface MetaImage {
 
 export interface ContentResultType {
   articleType: string;
-  id: number;
-  title: { title: string };
-  url?: string;
-  metaDescription?: { metaDescription: string };
-  metaImage?: MetaImage;
-  metaUrl?: string;
   contexts: [
     {
       learningResourceType: string;
       resourceTypes: ResourceType[];
     },
   ];
+  id: number;
+  title: { title: string; language: string };
+  url?: string;
+  metaDescription?: { metaDescription: string; language: string };
+  metaImage?: MetaImage;
+  metaUrl?: string;
+  altText?: {
+    alttext: string;
+    language: string;
+  };
   learningResourceType?: string;
   supportedLanguages?: string[];
+  previewUrl?: string;
+  highlights: [
+    {
+      field: string;
+      matches: string[];
+    },
+  ];
 }
 
 export interface ArticleType {
   id: number;
-  title: {
-    title: string;
-    language: string;
-  };
+  title: string;
   language: string;
   agreementId: number;
   introduction: string;
@@ -120,14 +137,7 @@ export interface ArticleType {
       name: string;
     },
   ];
-  notes: [
-    {
-      note: string;
-      user: string;
-      status: Status;
-      timestamp: string;
-    },
-  ];
+  notes: Note[];
   taxonomy: {
     topics: [
       {
@@ -143,7 +153,17 @@ export interface ArticleType {
   content: string;
   grepCodes: string[];
   conceptIds: number[];
+  relatedContent: RelatedContent[];
 }
+
+export interface RelatedContentLink {
+  title: string;
+  url: string;
+}
+
+export type RelatedContent = RelatedContentLink | number;
+
+export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
 
 export interface TaxonomyMetadata {
   grepCodes: string[];

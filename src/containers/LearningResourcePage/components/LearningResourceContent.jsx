@@ -38,6 +38,7 @@ import createBodyBoxPlugin from '../../../components/SlateEditor/plugins/bodybox
 import createAsidePlugin from '../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../components/SlateEditor/plugins/details';
 import createLinkPlugin from '../../../components/SlateEditor/plugins/link';
+import listTextPlugin from '../../../components/SlateEditor/plugins/listText';
 import headingPlugin from '../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../components/SlateEditor/plugins/related';
@@ -48,6 +49,7 @@ import paragraphPlugin from '../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../components/SlateEditor/plugins/pastehandler';
+import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
 import { TYPE as footnoteType } from '../../../components/SlateEditor/plugins/footnote';
 
 import {
@@ -56,7 +58,7 @@ import {
 } from '../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
-import { FormikIngress } from '../../FormikForm';
+import { FormikIngress, FormikTitle } from '../../FormikForm';
 import { ArticleShape } from '../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import { toEditMarkup } from '../../../util/routeHelpers';
@@ -81,6 +83,13 @@ const findFootnotes = content =>
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
+const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  bodybox: actions,
+  summary: actions,
+};
 class LearningResourceContent extends Component {
   constructor(props) {
     super(props);
@@ -104,6 +113,7 @@ class LearningResourceContent extends Component {
       // unwrapping (jumping out of block) will not work.
       blockquotePlugin,
       editListPlugin,
+      listTextPlugin(),
       paragraphPlugin(),
       createTablePlugin(),
       editTablePlugin,
@@ -113,13 +123,12 @@ class LearningResourceContent extends Component {
       codeBlockPlugin(),
       blockPickerPlugin({
         articleLanguage: language,
-        actionsToShowInAreas: {
-          details: ['table'],
-        },
+        actionsToShowInAreas,
       }),
       dndPlugin,
       pasteHandler(),
       toolbarPlugin(),
+      textTransformPlugin(),
     ];
   }
 
@@ -133,9 +142,7 @@ class LearningResourceContent extends Component {
         conceptPlugin(language),
         blockPickerPlugin({
           articleLanguage: language,
-          actionsToShowInAreas: {
-            details: ['table'],
-          },
+          actionsToShowInAreas,
           ...this.plugins,
         }),
       ];
@@ -156,13 +163,15 @@ class LearningResourceContent extends Component {
 
     return (
       <Fragment>
-        <FormikField
-          data-cy="learning-resource-title"
-          label={t('form.title.label')}
-          name="title"
-          title
-          noBorder
-          placeholder={t('form.title.label')}
+        <FormikTitle
+          handleSubmit={handleSubmit}
+          onBlur={(event, editor, next) => {
+            next();
+            // this is a hack since formik onBlur-handler interferes with slates
+            // related to: https://github.com/ianstormtaylor/slate/issues/2434
+            // formik handleBlur needs to be called for validation to work (and touched to be set)
+            setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
+          }}
         />
         <FormikField name="published" css={byLineStyle}>
           {({ field, form }) => (

@@ -24,10 +24,12 @@ export const textBlockValidationRules = {
         { type: 'quote' },
         { type: 'table' },
         { type: 'embed' },
+        { type: 'file' },
         { type: 'code-block' },
       ],
     },
   ],
+  last: { type: 'paragraph' },
   next: [
     {
       type: 'paragraph',

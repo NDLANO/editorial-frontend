@@ -160,6 +160,7 @@ interface Props {
   licenses: {
     license: string;
     description: string;
+    url?: string;
   }[];
   onUpdate: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
   showSaved: boolean;

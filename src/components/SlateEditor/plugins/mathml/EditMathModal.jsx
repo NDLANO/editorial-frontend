@@ -73,7 +73,7 @@ const EditMathModal = ({
               <Button outline css={buttonStyle} onClick={previewMath}>
                 {t('form.preview.button')}
               </Button>
-              <Button outline css={buttonStyle} onClick={handleSave}>
+              <Button data-cy="save-math" outline css={buttonStyle} onClick={handleSave}>
                 {t('form.save')}
               </Button>
               <Button outline css={buttonStyle} onClick={onCloseModal}>

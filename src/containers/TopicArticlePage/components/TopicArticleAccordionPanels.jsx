@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
-import FormikConcepts from '../../FormikForm/FormikConcepts';
+import FormikRelatedContent from '../../FormikForm/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
-import FormikField from '../../../components/FormikField';
 
 const panels = [
   {
@@ -48,17 +47,11 @@ const panels = [
     component: props => <FormikGrepCodes {...props} />,
   },
   {
-    id: 'topic-article-concepts',
-    title: 'form.name.concepts',
+    id: 'learning-resource-related-data',
+    title: 'form.name.relatedContent',
     className: 'u-6/6',
-    errorFields: ['conceptIds'],
-    component: props => {
-      return (
-        <FormikField name={'conceptIds'}>
-          {({ field, form }) => <FormikConcepts field={field} form={form} {...props} />}
-        </FormikField>
-      );
-    },
+    errorFields: ['conceptIds', 'relatedContent'],
+    component: props => <FormikRelatedContent {...props} />,
   },
   {
     id: 'topic-article-workflow',

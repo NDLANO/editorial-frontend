@@ -17,8 +17,8 @@ import 'monaco-editor/esm/vs/editor/contrib/bracketMatching/bracketMatching';
 import 'monaco-editor/esm/vs/editor/contrib/find/findController';
 import 'monaco-editor/esm/vs/editor/contrib/links/links';
 import 'monaco-editor/esm/vs/editor/contrib/suggest/suggestController';
+import 'monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess';
 import 'monaco-editor/esm/vs/editor/contrib/wordHighlighter/wordHighlighter';
-import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand';
 import 'monaco-editor/esm/vs/editor/contrib/multicursor/multicursor';
 import 'monaco-editor/esm/vs/editor/contrib/linesOperations/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/fontZoom/fontZoom';
@@ -28,16 +28,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 // import * as monaco from 'monaco-editor';
 
 import './html.contribution';
-import { createFormatAction } from './editorActions';
-
-window.MonacoEnvironment = {
-  getWorkerUrl: function(moduleId, label) {
-    if (label === 'html') {
-      return '/static/js/html.worker.js';
-    }
-    return '/static/js/editor.worker.js';
-  },
-};
+import { createFormatAction, createSaveAction } from './editorActions';
 
 monaco.editor.defineTheme('myCustomTheme', {
   base: 'vs',
@@ -54,7 +45,7 @@ monaco.editor.defineTheme('myCustomTheme', {
   ],
 });
 
-export function MonacoEditor({ value, onChange }) {
+export function MonacoEditor({ value, onChange, onSave }) {
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -74,6 +65,7 @@ export function MonacoEditor({ value, onChange }) {
     });
 
     editor.addAction(createFormatAction(monaco));
+    editor.addAction(createSaveAction(monaco, onSave));
   }, []);
 
   return (
@@ -91,6 +83,7 @@ export function MonacoEditor({ value, onChange }) {
 MonacoEditor.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 export default MonacoEditor;

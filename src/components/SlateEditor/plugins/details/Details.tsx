@@ -76,12 +76,13 @@ const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
   };
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
+    editor.focus();
   };
 
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv>
+    <StyledDetailsDiv className="c-bodybox">
       <StyledRow>
         <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
           {summaryNode}

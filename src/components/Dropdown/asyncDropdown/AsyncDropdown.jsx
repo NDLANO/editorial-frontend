@@ -138,24 +138,31 @@ class AsyncDropDown extends React.Component {
       customCreateButtonText,
       hideTotalSearchCount,
       showPagination,
+      saveOnEnter,
       ...rest
     } = this.props;
 
     const { items, loading, page, totalCount, keepOpen, selectedItem, inputValue } = this.state;
+
     const inputProps = {
       placeholder,
       onChange: this.handleInputChange,
       onClick,
       value: inputValue,
-      onKeyDown: event => {
+    };
+
+    const getOnKeydown = createOnEnter => {
+      return event => {
         if (event.key === 'Enter') {
           event.preventDefault();
-          this.props.saveOnEnter && handleCreate();
+          createOnEnter && handleCreate();
         }
         if (event.key === 'ArrowDown') {
-          this.setState({ keepOpen: true });
+          this.setState({
+            keepOpen: true,
+          });
         }
-      },
+      };
     };
 
     const handleCreate = () => {
@@ -178,7 +185,10 @@ class AsyncDropDown extends React.Component {
           this.setState({ keepOpen: false });
         }}>
         {({ getInputProps, openMenu, ...downshiftProps }) => {
-          const inpProps = getInputProps({ ...inputProps });
+          const inpProps = getInputProps({
+            ...inputProps,
+            onKeyDown: getOnKeydown(saveOnEnter && downshiftProps.highlightedIndex === null),
+          });
           return (
             <div style={positionAbsolute ? { position: 'relative' } : undefined}>
               {children ? (

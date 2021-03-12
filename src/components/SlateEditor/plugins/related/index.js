@@ -47,6 +47,7 @@ export default () => {
     const onRemoveClick = e => {
       e.stopPropagation();
       editor.removeNodeByKey(node.key);
+      editor.focus();
     };
 
     switch (node.type) {

@@ -61,6 +61,7 @@ export function useFetchSubjectpageData(
             subjectpage,
             elementId,
             selectedLanguage,
+            // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
             editorsChoices,
             imageToVisualElement(banner),
           ),

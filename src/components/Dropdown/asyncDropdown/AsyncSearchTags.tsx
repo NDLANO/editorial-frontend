@@ -90,29 +90,6 @@ const AsyncSearchTags = ({
     updateField(reduced_array);
   };
 
-  const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  };
-
-  const AsyncDropdownInput = (props: AsyncDropdownProps) => {
-    return (
-      <DropdownInput
-        multiSelect
-        idField={'title'}
-        labelField={'title'}
-        values={props.selectedItems}
-        testid="multiselect"
-        value={props.value}
-        removeItem={props.removeItem}
-        onBlur={props.onBlur}
-        onChange={props.onChange}
-        onKeyDown={onKeyDown}
-      />
-    );
-  };
-
   return (
     <Fragment>
       <AsyncDropdown
@@ -126,9 +103,23 @@ const AsyncSearchTags = ({
         selectedItems={convertToTagsWithTitle(tags)}
         multiSelect
         disableSelected
+        saveOnEnter
         onCreate={createNewTag}
         removeItem={removeTag}>
-        {(props: AsyncDropdownProps) => <AsyncDropdownInput {...props} />}
+        {(props: AsyncDropdownProps) => (
+          <DropdownInput
+            multiSelect
+            idField={'title'}
+            labelField={'title'}
+            values={props.selectedItems}
+            testid="multiselect"
+            value={props.value}
+            removeItem={props.removeItem}
+            onBlur={props.onBlur}
+            onChange={props.onChange}
+            onKeyDown={props.onKeyDown}
+          />
+        )}
       </AsyncDropdown>
     </Fragment>
   );

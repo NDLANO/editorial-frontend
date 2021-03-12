@@ -9,7 +9,6 @@
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { Trans } from '@ndla/i18n';
-import Button from '@ndla/button';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -27,7 +26,18 @@ import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
-import { FormikAlertModalWrapper } from '../FormikForm';
+import { FormikAlertModalWrapper, formClasses } from '../FormikForm';
+import SaveButton from '../../components/SaveButton';
+
+window.MonacoEnvironment = {
+  getWorkerUrl: function(moduleId, label) {
+    if (label === 'html') {
+      return '/static/js/html.worker.js';
+    }
+    return '/static/js/editor.worker.js';
+  },
+  globalAPI: true,
+};
 
 const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 
@@ -35,7 +45,11 @@ const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 // to ensure standarized markup.
 // Also useful for detecting validation issues.
 function standardizeContent(content) {
-  const converted = learningResourceContentToEditorValue(content);
+  const trimmedContent = content
+    .split('\n')
+    .map(s => s.trim())
+    .join('');
+  const converted = learningResourceContentToEditorValue(trimmedContent);
   return learningResourceContentToHTML(converted);
 }
 
@@ -86,7 +100,7 @@ ErrorMessage.propTypes = {
 
 export class EditMarkupPage extends Component {
   state = {
-    // initial | edit | fetch-error | save-error | access-error | saving
+    // initial | edit | fetch-error | save-error | access-error | saving | saved
     status: 'initial',
     draft: undefined,
   };
@@ -134,12 +148,13 @@ export class EditMarkupPage extends Component {
       const { draftId, language } = this.props.match.params;
       this.setState({ status: 'saving' });
       const content = standardizeContent(this.state.draft.content.content);
-      await updateDraft({
+      const draft = await updateDraft({
         id: parseInt(draftId, 10),
         content,
         revision: this.state.draft.revision,
         language,
       });
+      this.setState({ status: 'saved', draft });
     } catch (e) {
       handleError(e);
       this.setState({ status: 'save-error' });
@@ -195,6 +210,7 @@ export class EditMarkupPage extends Component {
                 key={draft ? draft.id + draft.revision + '-' + draft.content.language : 'draft'}
                 value={draft ? draft.content.content : ''}
                 onChange={this.handleChange}
+                onSave={this.saveChanges}
               />
               {status === 'save-error' && (
                 <StyledErrorMessage
@@ -230,11 +246,13 @@ export class EditMarkupPage extends Component {
                     }>
                     {t('editMarkup.back')}
                   </Link>
-                  <Button
-                    disabled={status === 'initial' || status === 'saving'}
-                    onClick={this.saveChanges}>
-                    {t('form.save')}
-                  </Button>
+                  <SaveButton
+                    {...formClasses}
+                    isSaving={status === 'saving'}
+                    formIsDirty={status === 'edit'}
+                    showSaved={status === 'saved'}
+                    onClick={this.saveChanges}
+                  />
                 </Row>
               </Row>
             </Suspense>

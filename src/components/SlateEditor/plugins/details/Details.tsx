@@ -12,11 +12,28 @@ import DeleteButton from '../../../DeleteButton';
 
 const StyledDetailsDiv = styled.div`
   position: relative;
-  margin: ${spacing.large} 0;
+  margin: ${spacing.normal} 0;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
   > *:last-child {
     margin-bottom: 0;
+  }
+  .c-figure {
+    max-width: 100%;
+    left: auto !important;
+    padding: 0;
+
+    &.u-float-right,
+    &.u-float-small-right {
+      width: 50%;
+      margin-right: 0;
+    }
+
+    &.u-float-left,
+    &.u-float-small-left {
+      width: 50%;
+      margin-left: 0;
+    }
   }
 `;
 
@@ -30,7 +47,7 @@ const StyledSummary = styled.summary<{ isOpen: boolean }>`
   color: ${colors.brand.primary};
   cursor: pointer;
   font-size: 20px;
-  padding: ${spacing.normal};
+  padding: ${spacing.small};
   display: flex;
 
   &::before {
@@ -82,7 +99,7 @@ const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv className="c-bodybox">
+    <StyledDetailsDiv>
       <StyledRow>
         <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
           {summaryNode}

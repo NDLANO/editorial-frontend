@@ -8,6 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -18,6 +19,26 @@ const classes = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
+
+const StyledFactboxDiv = styled.div`
+  .c-figure {
+    max-width: 100%;
+    left: auto !important;
+    padding: 0;
+
+    &.u-float-right,
+    &.u-float-small-right {
+      width: 50%;
+      margin-right: 0;
+    }
+
+    &.u-float-left,
+    &.u-float-small-left {
+      width: 50%;
+      margin-left: 0;
+    }
+  }
+`;
 
 const factBoxButtonStyle = css`
   position: absolute;
@@ -77,7 +98,7 @@ class SlateFactAside extends React.Component {
         {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
         draggable
         {...attributes}>
-        <div className="c-factbox__content c-bodybox">{children}</div>
+        <StyledFactboxDiv className="c-factbox__content">{children}</StyledFactboxDiv>
         <Button
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"

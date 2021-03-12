@@ -20,10 +20,10 @@ interface Props {
   locale: string;
 }
 
-/*eslint-disable*/
 const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>
+      {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
       <img src={image.previewUrl + '?width=200'} alt={image.altText?.alttext} />
     </div>
     <div {...searchClasses('content')}>
@@ -39,7 +39,6 @@ const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
     </div>
   </div>
 );
-/*eslint-enable*/
 
 SearchImage.propTypes = {
   image: ImageResultShape.isRequired,

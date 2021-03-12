@@ -68,33 +68,34 @@ const VersionHistoryLightBox = ({
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
 
   useEffect(() => {
+    const cleanupNotes = (notes: Note[], users: User[]) =>
+      notes.map((note, index) => ({
+        id: index,
+        note: note.note,
+        author: users.find(user => user.app_metadata.ndla_id === note.user)?.name || '',
+        date: formatDate(note.timestamp),
+        status: t(`form.status.${note.status.current.toLowerCase()}`),
+      }));
+
+    const fetchHistory = async (id: number) => {
+      const versions = await fetchDraftHistory(id);
+      const notes: Note[] = versions?.[0]?.notes;
+      if (notes?.length) {
+        const userIds = notes.map(note => note.user).filter(user => user !== 'System');
+        const uniqueUserIds = Array.from(new Set(userIds)).join(',');
+        const users = await fetchAuth0Users(uniqueUserIds);
+        setNotes(cleanupNotes(notes, users));
+      } else {
+        setNotes([]);
+      }
+    };
+
     const id = getIdFromUrn(contentUri);
     if (id) {
       fetchHistory(id);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [contentUri, t]);
 
-  const cleanupNotes = (notes: Note[], users: User[]) =>
-    notes.map((note, index) => ({
-      id: index,
-      note: note.note,
-      author: users.find(user => user.app_metadata.ndla_id === note.user)?.name || '',
-      date: formatDate(note.timestamp),
-      status: t(`form.status.${note.status.current.toLowerCase()}`),
-    }));
-
-  const fetchHistory = async (id: number) => {
-    const versions = await fetchDraftHistory(id);
-    const notes: Note[] = versions?.[0]?.notes;
-    if (notes?.length) {
-      const userIds = notes.map(note => note.user).filter(user => user !== 'System');
-      const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-      const users = await fetchAuth0Users(uniqueUserIds);
-      setNotes(cleanupNotes(notes, users));
-    } else {
-      setNotes([]);
-    }
-  };
   return (
     <Lightbox onClose={onClose} display width="800px" apparance="modal" severity="info">
       <StyledResourceLinkContainer>

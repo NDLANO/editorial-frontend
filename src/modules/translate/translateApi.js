@@ -20,7 +20,7 @@ export const fetchNnTranslation = ({ id, ...articleContents }) =>
     body: JSON.stringify({
       token: config.npkToken,
       guid: config.ndlaEnvironment + '_' + id,
-      prefs: { x: true },
+      prefs: { x: true }, // Hack to tell the service to use old html-parser, ref jo.christian.oterhals@ntb.no
       document: articleContents,
     }),
   }).then(resolveJsonOrRejectWithError);

@@ -980,7 +980,7 @@ const phrases = {
         missingTitle: 'Mangler tittel',
         missingUrl: 'Url må begynne med http:// eller https://',
         titlePlaceholder: 'Tittel',
-        urlPlaceholder: 'http://example.com',
+        urlPlaceholder: 'https://example.com',
         addLink: 'Legg til',
       },
     },

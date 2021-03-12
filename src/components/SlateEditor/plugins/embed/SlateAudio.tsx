@@ -47,22 +47,22 @@ const SlateAudio: React.FC<Props & tType> = ({
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
 
-  const getAudio = async () => {
-    try {
-      const audio = await visualElementApi.fetchAudio(embed.resource_id, language);
-      setAudio({
-        ...audio,
-        caption: embed.caption,
-        title: audio.title?.title || '',
-      });
-    } catch (error) {
-      visualElementApi.onError(error);
-    }
-  };
-
   useEffect(() => {
+    const getAudio = async () => {
+      try {
+        const audio = await visualElementApi.fetchAudio(embed.resource_id, language);
+        setAudio({
+          ...audio,
+          caption: embed.caption,
+          title: audio.title?.title || '',
+        });
+      } catch (error) {
+        visualElementApi.onError(error);
+      }
+    };
+
     getAudio();
-  }, [embed.resource_id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [embed, language]);
 
   const onAudioFigureInputChange = (e: FormikInputEvent) => {
     const { value, name } = e.target;

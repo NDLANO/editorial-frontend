@@ -23,7 +23,7 @@ interface Props {
 const AudioPlayerMounter: React.FC<Props & tType> = ({ t, audio, locale, speech }) => {
   useEffect(() => {
     initAudioPlayers(locale);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [locale]);
 
   const license = getLicenseByAbbreviation(audio.copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;

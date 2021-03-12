@@ -1725,6 +1725,14 @@
     "@ndla/core" "^0.6.34"
     "@ndla/icons" "^0.7.1"
 
+"@ndla/button@^0.3.50":
+  version "0.3.50"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-0.3.50.tgz#0760e58a9bb30dc9e8c085c0ea182ff683bc1dfe"
+  integrity sha512-3GnZOJsHv+ElJThVGhEEM+5t38kwy7kKHf03S0GkF9/GhP2S0o0kQIRo1G2yxGnHWY0IqahHOnqJ/zx5/m6rHg==
+  dependencies:
+    "@ndla/core" "^0.6.36"
+    "@ndla/icons" "^0.7.2"
+
 "@ndla/carousel@^0.3.34":
   version "0.3.34"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-0.3.34.tgz#597c0c8a757464460ec79b012831cf517b15af6d"
@@ -1733,15 +1741,15 @@
     "@ndla/core" "^0.6.34"
     react-swipeable "^5.0.1"
 
-"@ndla/code@^0.1.13":
-  version "0.1.13"
-  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.13.tgz#6dee67be1d6b0fb54fad460d316531f3fda25900"
-  integrity sha512-t/OQELaKmSerwuQ1V60IuHoSq0PcopRpiBaxcUbdVZ3CwbXEE1z4dCmIS5VqerCXQaDX1QJf/FEpI8LCK5VFDQ==
+"@ndla/code@^0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-0.1.16.tgz#151cbcdd96b00d2a6e0a064b8c5ac36c8edb0574"
+  integrity sha512-cbzGJIRdpSz+6/4re3+yvxHXwQuEIDZ9bz/g6g0htz3PnMjLI0nyQcPaHOL97sMXoGWlVT6WIA5rEheo3jmJqw==
   dependencies:
-    "@ndla/button" "^0.3.48"
-    "@ndla/core" "^0.6.34"
+    "@ndla/button" "^0.3.50"
+    "@ndla/core" "^0.6.36"
     "@ndla/i18n" "^0.5.1"
-    "@ndla/icons" "^0.7.1"
+    "@ndla/icons" "^0.7.2"
     "@ndla/util" "^0.4.4"
     "@types/react-syntax-highlighter" "^11.0.4"
     prismjs "^1.22.0"
@@ -1763,6 +1771,17 @@
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.34.tgz#7cd4289abaca4d3baa668344c5a695ddcedf080b"
   integrity sha512-iZlnWgq4khK6FP1QHmqAuQ9vWzpWu1P4pCZJAW/RyrFbXT9aiP7WaUHW/wJ21oVa2al9nquJEV3cC8SUMOua+Q==
   dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/core@^0.6.36":
+  version "0.6.36"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.36.tgz#2477076eaa7bd3a45121bb6cb818076952d20a2a"
+  integrity sha512-OLGzyzHR83tYSJlJMWN4rKMqhhTc1E8PPpYq8PfT4twMwsCrZGQ+WOlnIbqXZv0NeWX1z17piSfaYxR3rVzswQ==
+  dependencies:
+    "@types/facepaint" "^1.2.1"
     facepaint "^1.2.1"
     inuitcss "6.0.0-beta.4"
     polished "^2.3.3"
@@ -1835,6 +1854,11 @@
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.7.1.tgz#5e762da70befcc881061c8284011f3b28a18fcec"
   integrity sha512-NYOb04nTC7bfWmM8uTB0zyHctSEXFfXbU6X+nMmgCSPh9IkVVolq941XfEDzGdP+cajl7Bn1zafTxSlYYqz1bg==
+
+"@ndla/icons@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.7.2.tgz#956325b49114b4bcf31adaa2d4820a828c6a00a7"
+  integrity sha512-5tsJLY5Igx1dlk9SNEGlSyY03nWRoxUVzFNxPuK+1w7ZonQdzcBFlE78uYB8zI/zwq9Hig8MWnDX2jdCFEdbSw==
 
 "@ndla/image-search@^0.8.182":
   version "0.8.182"
@@ -2264,6 +2288,11 @@
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/facepaint@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@types/facepaint/-/facepaint-1.2.1.tgz#925f8f0f2ed7766487c58736d37c2ceded6966f8"
+  integrity sha512-LBMeEmlndIC5yEm8g1ulIcAm38xDhVcqcgVrSv6bnn31yQnYT+XUT5Nljj9un2gr0cItCd5Gt02oGJuXjKdjSg==
 
 "@types/glob@^7.1.1":
   version "7.1.1"

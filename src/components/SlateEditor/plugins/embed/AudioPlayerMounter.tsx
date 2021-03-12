@@ -38,12 +38,7 @@ const AudioPlayerMounter: React.FC<Props & tType> = ({ t, audio, locale, speech 
 
   return (
     <div>
-      <AudioPlayer
-        type={audio.audioFile.mimeType}
-        src={audio.audioFile.url}
-        title={audio.title}
-        speech={speech}
-      />
+      <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
       {!speech && (
         <>
           <FigureCaption

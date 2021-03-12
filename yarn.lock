@@ -1758,13 +1758,8 @@
   integrity sha512-sqjXsY/YI9giRGzqi+ABLNQo3Cv11hVoNNGUKvzFl7iLiN9hSa+/LfB5thqtw1kvvAXLjXIjEGHz4GagarRqxA==
   dependencies:
     "@ndla/core" "^0.6.33"
-<<<<<<< HEAD
-    "@ndla/icons" "^0.6.26"
-    "@ndla/ui" "^0.30.9"
-=======
     "@ndla/icons" "^0.7.0"
     "@ndla/ui" "^0.30.21"
->>>>>>> 6505a63091f748d5fe45a07d51994f0a0e5c2f48
 
 "@ndla/hooks@^0.1.17":
   version "0.1.17"

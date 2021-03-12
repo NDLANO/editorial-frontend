@@ -81,7 +81,7 @@ const EditorFooter: React.FC<Props & tType> = ({
       setStatuses(possibleStatuses);
     };
     fetchStatuses(setStatuses);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [getStateStatuses]);
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
@@ -90,7 +90,7 @@ const EditorFooter: React.FC<Props & tType> = ({
       onSaveClick();
       setNewStatus(null);
     }
-  }, [values.status]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [newStatus, onSaveClick]);
 
   const saveButton = (
     <SaveMultiButton

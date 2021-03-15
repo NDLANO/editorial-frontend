@@ -20,11 +20,7 @@ env:
   NDLA_HOME: ${{ github.workspace }}/ndla
   NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
   COMPONENT: ${{ github.event.repository.name }}
-<<<<<<< HEAD
-  NODE_OPTIONS: '--max_old_space_size=4096'
-=======
   NODE_OPTIONS: "--max_old_space_size=4096"
->>>>>>> master
 jobs:
   release:
     name: 'Release and push to registry'

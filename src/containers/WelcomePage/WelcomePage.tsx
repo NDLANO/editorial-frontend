@@ -40,7 +40,7 @@ export const classes = new BEMHelper({
 export const WelcomePage: FC<tType> = ({ t }) => {
   const [lastUsed, setLastUsed] = useState<string[]>([]);
   const locale: string = useContext(LocaleContext);
-  const userAccess: string = useContext(UserAccessContext);
+  const userAccess: string | undefined = useContext(UserAccessContext);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();

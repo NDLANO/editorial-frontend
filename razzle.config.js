@@ -27,6 +27,7 @@ module.exports = {
           tslint: undefined,
           watch: './src',
           typeCheck: false,
+          memoryLimit: 4096,
         },
       },
     },
@@ -39,16 +40,12 @@ module.exports = {
     });
 
     if (target === 'web') {
-      appConfig.output.filename = dev
-        ? 'static/js/[name].js'
-        : 'static/js/[name].[hash:8].js';
+      appConfig.output.filename = dev ? 'static/js/[name].js' : 'static/js/[name].[hash:8].js';
 
       appConfig.output.globalObject = 'this'; // use this as global object to prevent webworker window error
 
       if (!dev) {
-        appConfig.plugins.push(
-          new webpack.optimize.ModuleConcatenationPlugin(),
-        );
+        appConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
         appConfig.devtool = 'source-map';
         appConfig.performance = { hints: false };
       }

@@ -27,6 +27,12 @@ import errorLogger from '../util/logger';
 import config from '../config';
 import { DRAFT_PUBLISH_SCOPE, DRAFT_WRITE_SCOPE } from '../constants';
 
+type NdlaUser = (Express.User | undefined) & {
+  'https://ndla.no/user_email'?: string;
+  'https://ndla.no/user_name'?: string;
+  scope?: string[];
+};
+
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
@@ -42,14 +48,18 @@ app.get('*', (req, res, next) => {
 
 app.use(compression());
 app.use(
-  express.static(process.env.RAZZLE_PUBLIC_DIR, {
+  express.static(process.env.RAZZLE_PUBLIC_DIR as string, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
 );
 
 app.use(
   bodyParser.json({
-    type: req => allowedBodyContentTypes.includes(req.headers['content-type']),
+    type: req => {
+      const contentType = req.headers['content-type'];
+      if (typeof contentType === 'string') return allowedBodyContentTypes.includes(contentType);
+      else return false;
+    },
   }),
 );
 
@@ -59,7 +69,7 @@ app.use(
       maxAge: 31536000,
       includeSubDomains: true,
     },
-    contentSecurityPolicy,
+    contentSecurityPolicy: config.disableCSP === 'true' ? null : contentSecurityPolicy,
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
@@ -70,7 +80,7 @@ app.use(
   }),
 );
 
-const renderHtmlString = (locale, userAgentString, state = {}) =>
+const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
   renderToString(
     <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
   );
@@ -113,7 +123,7 @@ app.get(
     algorithms: ['RS256'],
   }),
   async (req, res) => {
-    const { user } = req;
+    const user = req.user as NdlaUser;
     const name = user['https://ndla.no/user_name'] || '';
     const email = user['https://ndla.no/user_email'] || '';
     const token = getZendeskToken(name, email);
@@ -134,9 +144,12 @@ app.get(
   }),
   async (req, res) => {
     const {
-      user,
+      user: untypedUser,
       query: { userIds },
     } = req;
+
+    const user = untypedUser as NdlaUser;
+
     const hasWriteAccess =
       user &&
       user.scope &&

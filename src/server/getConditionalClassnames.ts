@@ -6,7 +6,7 @@
  *
  */
 
-export default function(userAgentString) {
+export default function(userAgentString?: string) {
   if (!userAgentString) return '';
   if (userAgentString.indexOf('MSIE') >= 0) {
     return 'ie lt-ie11';

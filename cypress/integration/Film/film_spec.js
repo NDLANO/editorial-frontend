@@ -8,17 +8,17 @@
 
 import { visitOptions, setToken } from '../../support';
 
-before(() => {
-  setToken();
-  cy.server({ force404: true });
-  cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
-  cy.apiroute('GET', '**/search-api/v1/search/**', 'allMovies');
-  cy.visit('/film', visitOptions);
-  cy.apiwait('@filmFrontpage');
-  cy.apiwait('@allMovies');
-});
-
 describe('Film editing', () => {
+  before(() => {
+    setToken();
+    cy.server({ force404: true });
+    cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
+    cy.apiroute('GET', '**/search-api/v1/search/**', 'allMovies');
+    cy.visit('/film', visitOptions);
+    cy.apiwait('@filmFrontpage');
+    cy.apiwait('@allMovies');
+  });
+
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });

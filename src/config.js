@@ -133,6 +133,7 @@ const config = {
   gaTrackingId: gaTrackingId(),
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
+  disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
 };
 
 export function getUniversalConfig() {

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "esnext",
+    "target": "es5",
     "esModuleInterop": true,
     "outDir": "build",
     "jsx": "react",
@@ -19,12 +19,31 @@
     "noLib": false,
     "noEmit": false,
     "sourceMap": true,
-    "lib": ["es2018", "esnext.asynciterable", "dom"],
-    "types": ["@emotion/core", "@emotion/styled", "jest"],
+    "skipLibCheck": true,
+    "lib": [
+      "es2018",
+      "esnext.asynciterable",
+      "dom"
+    ],
+    "types": [
+      "@emotion/core",
+      "@emotion/styled",
+      "jest",
+      "node",
+      "webpack-env"
+    ],
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    }
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
+    },
   },
-  "include": ["src/**/*", "custom-typings/*"],
-  "exclude": ["**/*-test.*"]
+  "include": [
+    "src/**/*",
+    "custom-typings/*"
+  ],
+  "exclude": [
+    "**/*-test.*"
+  ]
 }

@@ -7,36 +7,31 @@
  */
 
 import { visitOptions, setToken } from '../../support';
-before(() => {
-  setToken();
-  cy.server({
-    force404: true,
-    whitelist: xhr => {
-      if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-      //return the default cypress whitelist filer
-      return (
-        xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
-      );
-    },
-  });
-
-  cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
-  cy.apiroute(
-    'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
-    'allSubjectTopics',
-  );
-  cy.apiroute(
-    'GET',
-    '/taxonomy/v1/subjects/urn:subject:12/filters',
-    'allSubjectFilters',
-  );
-  
-  cy.visit('/structure/urn:subject:12', visitOptions);
-  cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
-});
 
 describe('Subject editing', () => {
+  before(() => {
+    setToken();
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
+      },
+    });
+
+    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
+      'allSubjectTopics',
+    );
+    cy.apiroute('GET', '/taxonomy/v1/subjects/urn:subject:12/filters', 'allSubjectFilters');
+
+    cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
+  });
+
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
@@ -54,9 +49,7 @@ describe('Subject editing', () => {
     }).as('addSubject');
 
     cy.get('[data-testid=AddSubjectButton]').click();
-    cy.get('[data-testid=addSubjectInputField]').type(
-      'Cypress test subject{enter}',
-    );
+    cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
     cy.wait('@addSubject');
   });
 
@@ -88,15 +81,13 @@ describe('Subject editing', () => {
     }).as('addFilter');
     cy.route({
       method: 'PUT',
-      url:
-        '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
+      url: '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
       status: 204,
       response: '',
     }).as('editFilter');
     cy.route({
       method: 'DELETE',
-      url:
-        '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
+      url: '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
       response: '',
       status: 204,
     }).as('deleteFilter');

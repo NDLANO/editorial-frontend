@@ -15,7 +15,7 @@ import SlateAudio from './SlateAudio';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import { FormikInputEvent, SlateFigureProps } from '../../../../interfaces';
+import { FormikInputEvent, LocaleType, SlateFigureProps } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -23,7 +23,7 @@ export const editorClasses = new BEMHelper({
 });
 
 interface Props extends SlateFigureProps {
-  locale?: string;
+  locale?: LocaleType;
 }
 
 interface ChangesProp {
@@ -56,7 +56,7 @@ const SlateFigure: React.FC<Props & tType> = ({
 
     // ComponentWillUnmount
     return () => unsubscribe();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFigureInputChange = (event: FormikInputEvent) => {
     event.preventDefault();

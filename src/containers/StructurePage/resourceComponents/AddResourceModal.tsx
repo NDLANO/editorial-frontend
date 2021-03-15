@@ -77,14 +77,6 @@ interface SelectedType {
   coverPhotoUrl?: string;
 }
 
-interface State {
-  selected: SelectedType | null;
-  content: ContentType | null;
-  pastedUrl: string;
-  error: string | undefined | null;
-  loading: boolean;
-}
-
 type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
 
 const AddResourceModal: React.FC<Props & tType> = ({

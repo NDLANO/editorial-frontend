@@ -30,7 +30,7 @@ const Subjectpage: FC<Props> = ({ match, location }) => {
     if (previousLocation !== location.pathname) {
       setPreviousLocation(location.pathname);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

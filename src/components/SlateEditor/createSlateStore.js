@@ -11,7 +11,7 @@ import { createAction } from 'redux-actions';
 
 export const setSubmitted = createAction('SET_SUBMITTED');
 
-export default () =>
+const slateStore = () =>
   createStore(
     (state, action) => {
       if (action.type === setSubmitted.toString()) {
@@ -24,3 +24,5 @@ export default () =>
       activeNode: undefined,
     },
   );
+
+export default slateStore;

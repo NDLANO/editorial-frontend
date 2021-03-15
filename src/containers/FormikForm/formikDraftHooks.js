@@ -17,6 +17,31 @@ export function useFetchArticleData(articleId, locale) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const fetchArticle = async () => {
+      if (articleId) {
+        setLoading(true);
+        const article = await draftApi.fetchDraft(articleId, locale);
+
+        let convertedConcepts = await fetchElementList(article.conceptIds);
+        convertedConcepts = convertedConcepts.map(e => ({
+          ...e,
+          articleType: 'concept',
+        }));
+
+        const convertedRelatedContent = await fetchArticleList(article.relatedContent);
+
+        const taxonomy = await fetchTaxonomy(articleId, locale);
+        setArticle(
+          transformArticleFromApiVersion(
+            { taxonomy, ...article },
+            locale,
+            convertedConcepts,
+            convertedRelatedContent,
+          ),
+        );
+        setLoading(false);
+      }
+    };
     fetchArticle();
   }, [articleId, locale]);
 
@@ -27,32 +52,6 @@ export function useFetchArticleData(articleId, locale) {
     ]);
 
     return { resources, topics };
-  };
-
-  const fetchArticle = async () => {
-    if (articleId) {
-      setLoading(true);
-      const article = await draftApi.fetchDraft(articleId, locale);
-
-      let convertedConcepts = await fetchElementList(article.conceptIds);
-      convertedConcepts = convertedConcepts.map(e => ({
-        ...e,
-        articleType: 'concept',
-      }));
-
-      const convertedRelatedContent = await fetchArticleList(article.relatedContent);
-
-      const taxonomy = await fetchTaxonomy(articleId, locale);
-      setArticle(
-        transformArticleFromApiVersion(
-          { taxonomy, ...article },
-          locale,
-          convertedConcepts,
-          convertedRelatedContent,
-        ),
-      );
-      setLoading(false);
-    }
   };
 
   const fetchArticleList = async articleIds => {

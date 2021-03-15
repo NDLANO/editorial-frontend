@@ -4,7 +4,7 @@ import { Block, Document, Inline, Node } from 'slate';
 import he from 'he';
 
 import Button from '@ndla/button';
-import { Cross } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import { Codeblock } from '@ndla/code';
 
@@ -25,7 +25,7 @@ interface RemoveCodeBlockProps {
 const RemoveCodeBlock: React.FC<RemoveCodeBlockProps> = ({ handleRemove }) => {
   return (
     <Button stripped onClick={handleRemove}>
-      <Cross />
+      <DeleteForever />
     </Button>
   );
 };

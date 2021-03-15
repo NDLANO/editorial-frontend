@@ -82,4 +82,5 @@ export function* watchUpdateImage() {
   }
 }
 
-export default [watchFetchImage, watchUpdateImage];
+const functions = [watchFetchImage, watchUpdateImage];
+export default functions;

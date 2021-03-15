@@ -8,6 +8,8 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
 
+export type LocaleType = 'nb' | 'nn' | 'en';
+
 export type ConceptStatusType =
   | 'DRAFT'
   | 'QUALITY_ASSURED'

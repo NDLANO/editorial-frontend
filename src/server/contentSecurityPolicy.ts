@@ -179,7 +179,7 @@ const frameSrc = (() => {
   return defaultFrameSrc;
 })();
 
-export default {
+const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
@@ -233,3 +233,4 @@ export default {
     reportUri: '/csp-report',
   },
 };
+export default contentSecurityPolicy;

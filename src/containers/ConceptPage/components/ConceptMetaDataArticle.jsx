@@ -79,7 +79,7 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
     if (articleId) {
       fetchArticle(articleId, locale);
     }
-  }, []);
+  }, [articleId, locale]);
 
   return (
     <div>

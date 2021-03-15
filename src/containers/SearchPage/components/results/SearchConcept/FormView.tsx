@@ -62,7 +62,7 @@ const FormView = ({
         tags: fullConcept.tags || [],
       });
     }
-  }, [fullConcept, licenses, subjects]);
+  }, [concept, fullConcept, licenses, subjects]);
 
   return (
     <StyledConceptView border>

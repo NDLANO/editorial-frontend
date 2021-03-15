@@ -28,19 +28,17 @@ const PreviewDraftPage = ({
   const [draft, setDraft] = useState(undefined);
   const [resource, setResource] = useState(undefined);
 
-  const fetchDraft = async () => {
-    const fetchedDraft = await draftApi.fetchDraft(draftId, language);
-    const convertedArticle = await articleApi.getPreviewArticle(fetchedDraft, language);
-    setDraft(convertedArticle);
-  };
-
-  const fetchResource = async () => {
-    const fetchedResource = await queryResources(draftId, language);
-    setResource(fetchedResource);
-  };
-
   useEffect(() => {
+    const fetchDraft = async () => {
+      const fetchedDraft = await draftApi.fetchDraft(draftId, language);
+      const convertedArticle = await articleApi.getPreviewArticle(fetchedDraft, language);
+      setDraft(convertedArticle);
+    };
     fetchDraft();
+    const fetchResource = async () => {
+      const fetchedResource = await queryResources(draftId, language);
+      setResource(fetchedResource);
+    };
     fetchResource();
   }, [draftId, language]);
 

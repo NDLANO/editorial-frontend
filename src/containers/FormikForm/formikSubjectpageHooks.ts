@@ -43,36 +43,6 @@ export function useFetchSubjectpageData(
     }
   };
 
-  const fetchSubjectpage = async () => {
-    if (subjectpageId) {
-      setLoading(true);
-      try {
-        const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
-          subjectpageId,
-          selectedLanguage,
-        );
-        const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
-        const banner = await visualElementApi.fetchImage(
-          subjectpage.banner.desktopId,
-          selectedLanguage,
-        );
-        setSubjectpage(
-          transformSubjectpageFromApiVersion(
-            subjectpage,
-            elementId,
-            selectedLanguage,
-            // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-            editorsChoices,
-            imageToVisualElement(banner),
-          ),
-        );
-      } catch (err) {
-        setError(err);
-      }
-      setLoading(false);
-    }
-  };
-
   const fetchElementList = async (taxonomyUrns: string[]) => {
     const taxonomyElements = await Promise.all(
       taxonomyUrns.map(urn => {
@@ -169,9 +139,38 @@ export function useFetchSubjectpageData(
   };
 
   useEffect(() => {
+    const fetchSubjectpage = async () => {
+      if (subjectpageId) {
+        setLoading(true);
+        try {
+          const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
+            subjectpageId,
+            selectedLanguage,
+          );
+          const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
+          const banner = await visualElementApi.fetchImage(
+            subjectpage.banner.desktopId,
+            selectedLanguage,
+          );
+          setSubjectpage(
+            transformSubjectpageFromApiVersion(
+              subjectpage,
+              elementId,
+              selectedLanguage,
+              // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
+              editorsChoices,
+              imageToVisualElement(banner),
+            ),
+          );
+        } catch (err) {
+          setError(err);
+        }
+        setLoading(false);
+      }
+    };
     fetchSubjectpage();
     fetchSubjectId(elementId, selectedLanguage);
-  }, [elementId, selectedLanguage]);
+  }, [elementId, selectedLanguage, subjectpageId]);
 
   return {
     subjectpage,

@@ -46,7 +46,7 @@ const Zendesk: FC<Props> = authenticated => {
     if (authenticated && isAccessTokenValid()) {
       addScriptsToPage();
     }
-  }, []);
+  }, [authenticated]);
 
   return <Fragment />;
 };

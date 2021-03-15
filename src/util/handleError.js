@@ -6,7 +6,7 @@
  *
  */
 
-export default (error, ...rest) => {
+const handleError = (error, ...rest) => {
   if (process.env.NODE_ENV === 'production') {
     window.errorReporter.captureError(error);
     // No logging when unit testing
@@ -14,3 +14,4 @@ export default (error, ...rest) => {
     console.error(error, ...rest); // eslint-disable-line no-console
   }
 };
+export default handleError;

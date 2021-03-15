@@ -574,4 +574,3 @@ export interface MessageI {
     onClick: Function;
   };
 }
-

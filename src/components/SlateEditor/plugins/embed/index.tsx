@@ -10,11 +10,11 @@ import React, { ReactElement } from 'react';
 import { Block, Document, Editor, Inline, SlateError } from 'slate';
 import SlateFigure from './SlateFigure';
 import defaultBlocks from '../../utils/defaultBlocks';
-import { SlateFigureProps } from '../../../../interfaces';
+import { LocaleType, SlateFigureProps } from '../../../../interfaces';
 
 type ParentNode = Document | Block | Inline;
 
-export const createEmbedPlugin = (language: string, locale: string) => {
+export const createEmbedPlugin = (language: string, locale: LocaleType) => {
   const schema = {
     blocks: {
       embed: {

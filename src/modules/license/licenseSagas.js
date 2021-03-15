@@ -30,4 +30,5 @@ export function* watchFetchLicenses() {
   }
 }
 
-export default [watchFetchLicenses];
+const functions = [watchFetchLicenses];
+export default functions;

@@ -45,17 +45,16 @@ export const WelcomePage: FC<tType> = ({ t }) => {
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
 
-  const fetchLastUsed = async () => {
-    if (isValid(token) && isAccessTokenPersonal) {
-      const result = await fetchUserData();
-      const lastUsed = result.latestEditedArticles || [];
-      setLastUsed(lastUsed);
-    }
-  };
-
   useEffect(() => {
+    const fetchLastUsed = async () => {
+      if (isValid(token) && isAccessTokenPersonal) {
+        const result = await fetchUserData();
+        const lastUsed = result.latestEditedArticles || [];
+        setLastUsed(lastUsed);
+      }
+    };
     fetchLastUsed();
-  }, []);
+  }, [isAccessTokenPersonal, token]);
 
   localStorage.setItem('lastPath', '');
 

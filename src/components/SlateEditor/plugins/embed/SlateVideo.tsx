@@ -71,7 +71,7 @@ const SlateVideo: React.FC<Props & tType> = ({
       setStartTime(getStartTime(url));
       setStopTime(getStopTime(url));
     }
-  }, []);
+  }, [embed]);
 
   const toggleEditModus = () => {
     setEditMode(!editMode);

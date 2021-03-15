@@ -8,6 +8,7 @@
 
 import * as articleStatuses from './ArticleStatus';
 
-export default {
+const statuses = {
   articleStatuses,
 };
+export default statuses;

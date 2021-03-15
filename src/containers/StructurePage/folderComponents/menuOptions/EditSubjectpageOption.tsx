@@ -27,14 +27,13 @@ interface Props {
 const EditSubjectpageOption = ({ t, id, locale }: Props) => {
   const [subject, setSubject] = useState<SubjectType>();
 
-  const fetchSubject = async () => {
-    const fetchedSubject = await taxonomyApi.fetchSubject(id);
-    setSubject(fetchedSubject);
-  };
-
   useEffect(() => {
+    const fetchSubject = async () => {
+      const fetchedSubject = await taxonomyApi.fetchSubject(id);
+      setSubject(fetchedSubject);
+    };
     fetchSubject();
-  }, []);
+  }, [id]);
 
   const link = subject?.contentUri
     ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))

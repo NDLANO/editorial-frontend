@@ -27,16 +27,15 @@ interface Props {
 const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }) => {
   const [article, setArticle] = useState<DraftApiType>();
 
-  const fetchArticle = async (articleId: number, locale: string) => {
-    const article = await fetchDraft(articleId, locale);
-    setArticle(article);
-  };
-
   useEffect(() => {
+    const fetchArticle = async (articleId: number, locale: string) => {
+      const article = await fetchDraft(articleId, locale);
+      setArticle(article);
+    };
     if (articleId) {
       fetchArticle(articleId, locale);
     }
-  }, []);
+  }, [articleId, locale]);
 
   return (
     <div {...classes('result')}>

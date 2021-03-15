@@ -75,14 +75,13 @@ const EditorFooter: React.FC<Props & tType> = ({
 }) => {
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
-  const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-    const possibleStatuses = await getStateStatuses();
-    setStatuses(possibleStatuses);
-  };
-
   useEffect(() => {
+    const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
+      const possibleStatuses = await getStateStatuses();
+      setStatuses(possibleStatuses);
+    };
     fetchStatuses(setStatuses);
-  }, []);
+  }, [getStateStatuses]);
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
@@ -91,7 +90,7 @@ const EditorFooter: React.FC<Props & tType> = ({
       onSaveClick();
       setNewStatus(null);
     }
-  }, [values.status]);
+  }, [newStatus, onSaveClick]);
 
   const saveButton = (
     <SaveMultiButton

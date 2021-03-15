@@ -9,11 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
+import MoveContentButton from '../../../MoveContentButton';
+import { EditorShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -81,6 +84,7 @@ class SlateFactAside extends React.Component {
       expanded: true,
     };
     this.toggleExpanded = this.toggleExpanded.bind(this);
+    this.onMoveContent = this.onMoveContent.bind(this);
   }
 
   toggleExpanded(evt) {
@@ -88,6 +92,11 @@ class SlateFactAside extends React.Component {
     this.setState(prevState => ({
       expanded: !prevState.expanded,
     }));
+  }
+
+  onMoveContent() {
+    const { editor, node } = this.props;
+    editor.unwrapBlockByKey(node.key, node.type);
   }
 
   render() {
@@ -98,13 +107,16 @@ class SlateFactAside extends React.Component {
         {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
         draggable
         {...attributes}>
-        <StyledFactboxDiv className="c-factbox__content">{children}</StyledFactboxDiv>
+        <StyledFactboxDiv className="c-factbox__content">
+          <MoveContentButton onMouseDown={this.onMoveContent} />
+          <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
+          {children}
+        </StyledFactboxDiv>
         <Button
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-        <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
       </aside>
     );
   }
@@ -115,6 +127,8 @@ SlateFactAside.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
+  editor: EditorShape.isRequired,
+  node: Types.node.isRequired,
 };
 
 export default SlateFactAside;

@@ -35,7 +35,7 @@ export interface ConceptTagsSearchResult {
   results: string[];
 }
 
-export interface ConceptStatusStateMashineType {
+export interface ConceptStatusStateMachineType {
   DRAFT: string[];
   QUALITY_ASSURED: string[];
   PUBLISHED: string[];

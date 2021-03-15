@@ -1,5 +1,5 @@
 import { Value } from 'slate';
-import { ConceptStatusStateMashineType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptStatusStateMachineType } from '../../modules/concept/conceptApiInterfaces';
 
 export interface Values {
   id: number;
@@ -55,7 +55,7 @@ export interface Article {
 // Denne unionen er nødvendig for at FormFooter skal kunne bruke EditorFooter Når vi utvider til å bruke
 // ts flere steder EditorFooter brukes kan vi utvide denne unionen med en mer nøyaktig union av state machines.
 export type PossibleStatuses =
-  | ConceptStatusStateMashineType
+  | ConceptStatusStateMachineType
   | {
       CREATED: Array<string>;
       PROPOSAL: Array<string>;

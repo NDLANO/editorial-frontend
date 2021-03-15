@@ -12,7 +12,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import {
-  ConceptStatusStateMashineType,
+  ConceptStatusStateMachineType,
   ConceptTagsSearchResult,
   ConceptQuery,
   ConceptSearchResult,
@@ -73,7 +73,7 @@ export const deleteLanguageVersionConcept = async (
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
 
-export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMashineType> =>
+export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
   fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(resolveJsonOrRejectWithError);
 
 export const updateConceptStatus = async (

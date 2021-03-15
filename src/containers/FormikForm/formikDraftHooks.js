@@ -21,15 +21,15 @@ export function useFetchArticleData(articleId, locale) {
       if (articleId) {
         setLoading(true);
         const article = await draftApi.fetchDraft(articleId, locale);
-  
+
         let convertedConcepts = await fetchElementList(article.conceptIds);
         convertedConcepts = convertedConcepts.map(e => ({
           ...e,
           articleType: 'concept',
         }));
-  
+
         const convertedRelatedContent = await fetchArticleList(article.relatedContent);
-  
+
         const taxonomy = await fetchTaxonomy(articleId, locale);
         setArticle(
           transformArticleFromApiVersion(
@@ -43,7 +43,7 @@ export function useFetchArticleData(articleId, locale) {
       }
     };
     fetchArticle();
-  }, [articleId, locale]); 
+  }, [articleId, locale]);
 
   const fetchTaxonomy = async (id, language) => {
     const [resources, topics] = await Promise.all([
@@ -53,8 +53,6 @@ export function useFetchArticleData(articleId, locale) {
 
     return { resources, topics };
   };
-
-
 
   const fetchArticleList = async articleIds => {
     return Promise.all(

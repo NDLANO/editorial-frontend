@@ -172,7 +172,11 @@ const ConceptForm = ({
                 title={t('form.metadataSection')}
                 className="u-6/6"
                 hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}>
-                <ConceptMetaData fetchTags={fetchConceptTags} subjects={subjects} />
+                <ConceptMetaData
+                  fetchTags={fetchConceptTags}
+                  subjects={subjects}
+                  inModal={inModal}
+                />
               </AccordionSection>
               <AccordionSection
                 id="concept-articles"

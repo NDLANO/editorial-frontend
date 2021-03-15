@@ -12,6 +12,7 @@ import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
+import { FormikMetaImageSearch } from '../../FormikForm';
 
 import { SubjectType, SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
@@ -20,14 +21,28 @@ import InlineImageSearch from './InlineImageSearch';
 interface Props {
   subjects: SubjectType[];
   fetchTags: (input: string, language: string) => Promise<SearchResult>;
+  inModal: boolean;
 }
 
-const ConceptMetaData = ({ subjects, fetchTags, t }: Props & tType) => {
+const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => {
   const { values } = useFormikContext<ConceptFormValues>();
 
   return (
     <Fragment>
-      <InlineImageSearch name="metaImageId" />
+      {inModal ? (
+        <InlineImageSearch name="metaImageId" />
+      ) : (
+        <FormikField name="metaImageId">
+          {({ field, form }) => (
+            <FormikMetaImageSearch
+              metaImageId={field.value}
+              setFieldTouched={form.setFieldTouched}
+              showRemoveButton
+              {...field}
+            />
+          )}
+        </FormikField>
+      )}
       <FormikField name="subjects" label={t('form.subjects.label')}>
         {({ field }) => (
           <MultiSelectDropdown labelField="name" minSearchLength={1} data={subjects} {...field} />

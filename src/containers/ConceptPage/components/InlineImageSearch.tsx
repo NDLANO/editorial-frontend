@@ -58,6 +58,7 @@ const InlineImageSearch = ({ name, t }: Props & tType) => {
       <FieldHeader title={t('form.metaImage.title')}>
         <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
       </FieldHeader>
+
       <ImageSearch
         fetchImage={fetchImageWithLocale}
         searchImages={searchImagesWithParameters}

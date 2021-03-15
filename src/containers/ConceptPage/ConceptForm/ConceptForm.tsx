@@ -46,14 +46,9 @@ interface Props {
   concept: ConceptFormType;
   createMessage: (o: CreateMessageType) => void;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
-  history: {
-    goBack?: () => void;
-    push: () => void;
-  };
   inModal: boolean;
   isNewlyCreated: boolean;
   licenses: License[];
-  locale: string;
   onClose: () => void;
   onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: string) => void;
   subjects: SubjectType[];

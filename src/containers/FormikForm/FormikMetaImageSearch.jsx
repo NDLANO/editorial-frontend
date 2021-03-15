@@ -79,6 +79,18 @@ const FormikMetaImageSearch = ({
     setShowImageSelect(true);
   };
 
+  const onImageUpdate = (image, file) => {
+    if (image.id) {
+      updateImage(image).then(updatedImage => onImageSet(updatedImage));
+    } else {
+      createFormData(file, image).then(formData =>
+        postImage(formData).then(createdImage => {
+          onImageSet({ ...createdImage, language: locale });
+        }),
+      );
+    }
+  };
+
   return (
     <div>
       <FieldHeader title={t('form.metaImage.title')}>
@@ -104,17 +116,7 @@ const FormikMetaImageSearch = ({
                 fetchImage={fetchImageWithLocale}
                 searchImages={searchImages}
                 onError={onError}
-                updateImage={(image, file) => {
-                  if (image.id) {
-                    updateImage(image).then(updatedImage => onImageSet(updatedImage));
-                  } else {
-                    createFormData(file, image).then(formData =>
-                      postImage(formData).then(createdImage => {
-                        onImageSet({ ...createdImage, language: locale });
-                      }),
-                    );
-                  }
-                }}
+                updateImage={onImageUpdate}
                 image={image}
               />
             </ModalBody>

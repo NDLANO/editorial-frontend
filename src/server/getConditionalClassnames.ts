@@ -6,7 +6,7 @@
  *
  */
 
-const getConditionalClassnames = function(userAgentString) {
+const getConditionalClassnames = function(userAgentString: string) {
   if (!userAgentString) return '';
   if (userAgentString.indexOf('MSIE') >= 0) {
     return 'ie lt-ie11';

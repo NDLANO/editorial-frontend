@@ -6,7 +6,7 @@ import he from 'he';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { injectT } from '@ndla/i18n';
-import { Codeblock, getTitleFromFormat } from '@ndla/code';
+import { Codeblock } from '@ndla/code';
 
 import { getSchemaEmbed } from '../../editorSchema';
 import { CodeBlockType, CodeBlockProps } from '../../../../interfaces';
@@ -36,11 +36,12 @@ const getInfoFromNode = (node: Node) => {
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
+  const title = codeBlock.title || data['title'] || '';
 
   return {
     model: {
       code: he.decode(code),
-      title: codeBlock.title || getTitleFromFormat(format),
+      title,
       format,
     },
     isFirstEdit: data['code-block'] === undefined,
@@ -61,6 +62,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
     const properties = {
       data: {
         ...getSchemaEmbed(node),
+        title: codeBlock.title,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
     };

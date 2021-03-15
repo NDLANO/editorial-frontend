@@ -9,34 +9,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
 import Types from 'slate-prop-types';
-import { injectT } from '@ndla/i18n';
-import { colors } from '@ndla/core';
-import { ChevronLeft } from '@ndla/icons/common';
-import darken from 'polished/lib/color/darken';
-import { css } from '@emotion/core';
 import DeleteButton from '../../../DeleteButton';
+import MoveContentButton from '../../../MoveContentButton';
 import { EditorShape } from '../../../../shapes';
-
-const moveContentButtonStyle = css`
-  position: absolute;
-  top: 0.1rem;
-  right: 1.2rem;
-  color: ${colors.support.green};
-
-  &:hover,
-  &:focus {
-    color: ${darken(0.2, colors.support.green)};
-  }
-`;
 
 const StyledBodyBox = styled('div')`
   position: relative;
 `;
 
 const SlateBodyBox = props => {
-  const { node, editor, t, attributes, children } = props;
+  const { node, editor, attributes, children } = props;
 
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
@@ -50,13 +33,7 @@ const SlateBodyBox = props => {
     <StyledBodyBox draggable className="c-bodybox" {...attributes}>
       {children}
       <DeleteButton data-cy="remove-bodybox" stripped onMouseDown={onRemoveClick} />
-      <Button
-        css={moveContentButtonStyle}
-        title={t('learningResourceForm.fields.rightAside.moveContent')}
-        stripped
-        onMouseDown={onMoveContent}>
-        <ChevronLeft />
-      </Button>
+      <MoveContentButton onMouseDown={onMoveContent} />
     </StyledBodyBox>
   );
 };
@@ -69,4 +46,4 @@ SlateBodyBox.propTypes = {
   editor: EditorShape,
 };
 
-export default injectT(SlateBodyBox);
+export default SlateBodyBox;

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
@@ -14,10 +14,20 @@ import Helmet from 'react-helmet';
 import config from '../config';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST as string); // eslint-disable-line import/no-dynamic-require
 
-const Html = props => {
-  const { lang, className, component, state } = props;
+interface Props {
+  lang: string;
+  className: string;
+  component?: ReactElement;
+  state?: {
+    locale?: string;
+  };
+}
+
+const Html = (props: Props) => {
+  const { lang, className, component, state = {} } = props;
+
   const content = component ? renderToString(component) : '';
   const head = Helmet.rewind();
 

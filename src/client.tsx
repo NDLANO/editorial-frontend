@@ -20,6 +20,15 @@ import configureStore from './configureStore';
 import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
 
+declare global {
+  interface Window {
+    initialState: {
+      locale: string;
+    };
+    errorReporter: any;
+  }
+}
+
 const { initialState } = window;
 const localeString = initialState.locale;
 const locale = getLocaleObject(localeString);

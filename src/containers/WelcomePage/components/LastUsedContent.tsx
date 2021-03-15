@@ -21,7 +21,7 @@ import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 interface Props {
   articleId: number;
   locale: string;
-  userAccess: string;
+  userAccess?: string;
 }
 
 const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }) => {

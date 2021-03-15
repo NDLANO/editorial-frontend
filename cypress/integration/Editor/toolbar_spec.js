@@ -8,14 +8,12 @@
 
 import { visitOptions, setToken } from '../../support';
 
-before(() => {
-  setToken();
-  cy.server({ force404: true });
-  cy.visit('/subject-matter/learning-resource/new', visitOptions);
-});
-
-
 describe('Selecting text and using the toolbar', () => {
+  before(() => {
+    setToken();
+    cy.server({ force404: true });
+    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+  });
 
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
@@ -58,7 +56,9 @@ describe('Selecting text and using the toolbar', () => {
       .focus()
       .wait(500)
       .then($el => {
-        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}').blur();
+        cy.wrap($el)
+          .type('This is a test link{leftarrow}{leftarrow}')
+          .blur();
         cy.wrap($el).type('{selectall}');
       });
 
@@ -131,7 +131,9 @@ describe('Selecting text and using the toolbar', () => {
       .type('Testnavn')
       .blur();
     cy.get('input[name=year]').type('1984');
-    cy.get('[data-testid=multiselect]').type('Navn navnesen').blur();
+    cy.get('[data-testid=multiselect]')
+      .type('Navn navnesen')
+      .blur();
     cy.get('button')
       .contains('Opprett ny')
       .click({ force: true });

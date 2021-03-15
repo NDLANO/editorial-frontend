@@ -317,6 +317,7 @@ export const codeBlockRule = {
       resource: 'code-block',
       'code-content': data['code-block']?.code || data['code-content'],
       'code-format': data['code-block']?.format || data['code-format'],
+      title: data['title']?.title || data['title'],
     });
     return <embed {...props} />;
   },

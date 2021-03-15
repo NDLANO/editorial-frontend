@@ -13,10 +13,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+// @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
-import { withRouter, Route, Switch } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
-import { MessageShape } from '../../shapes';
+import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
+import { injectT, tType } from '@ndla/i18n';
+import { Dispatch } from 'redux';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -40,14 +41,30 @@ import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
+import { MessageI } from '../../interfaces';
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext('');
-export const UserAccessContext = React.createContext();
+export const UserAccessContext = React.createContext<string | undefined>(undefined);
 
-export class App extends React.Component {
-  constructor() {
-    super();
+interface InternalState {
+  firstLoad: boolean;
+}
+
+interface Props {
+  messages: MessageI[];
+  locale: string;
+  dispatch: Dispatch;
+  authenticated: boolean;
+  userName?: string;
+  userAccess?: string;
+}
+
+type ActualProps = Props & RouteComponentProps<any> & tType;
+
+class App extends React.Component<ActualProps, InternalState> {
+  constructor(props: ActualProps) {
+    super(props);
     this.state = {
       firstLoad: true,
     };
@@ -72,6 +89,7 @@ export class App extends React.Component {
 
   render() {
     const { authenticated, dispatch, locale, messages, t, userName, userAccess } = this.props;
+
     return (
       <ErrorBoundary>
         <UserAccessContext.Provider value={userAccess}>
@@ -94,7 +112,6 @@ export class App extends React.Component {
                       component={EditMarkupPage}
                     />
                     <PrivateRoute path="/concept" component={ConceptPage} />
-
                     <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
                     <PrivateRoute path="/media" component={MediaPage} />
                     <PrivateRoute path="/agreement" component={AgreementPage} />
@@ -116,31 +133,13 @@ export class App extends React.Component {
       </ErrorBoundary>
     );
   }
+
+  static childContextTypes = {
+    locale: PropTypes.string,
+  };
 }
 
-App.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      subjectId: PropTypes.string,
-      topicId: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  messages: PropTypes.arrayOf(MessageShape).isRequired,
-  dispatch: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  userName: PropTypes.string,
-  userAccess: PropTypes.string,
-  history: PropTypes.shape({
-    listen: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-App.childContextTypes = {
-  locale: PropTypes.string,
-};
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state: Props & { session: any }) => ({
   locale: getLocale(state),
   messages: getMessages(state),
   authenticated: state.session.authenticated,

@@ -201,7 +201,6 @@ const TopicArticleForm = props => {
           />
         )}
         <EditorFooter
-          formikProps={formik}
           showSimpleFooter={!article.id}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}

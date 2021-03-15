@@ -80,10 +80,7 @@ const FormFooter = ({
           createMessage={createMessage}
           fetchStatusStateMachine={fetchStatusStateMachine}
           showSimpleFooter={showSimpleFooter}
-          onSaveClick={() => {
-            submitFormWithMessage(formikContext, createMessage);
-            //handleSubmit(formikContext);
-          }}
+          onSaveClick={() => submitFormWithMessage(formikContext, createMessage)}
           hideSecondaryButton
           isConcept
           isNewlyCreated={isNewlyCreated}

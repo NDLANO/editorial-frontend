@@ -49,7 +49,6 @@ const StyledLine = styled.hr`
 `;
 
 function EditorFooter<T extends FormValues>({
-  t,
   formIsDirty,
   savedToServer,
   getEntity,
@@ -64,6 +63,7 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
+  t,
 }: Props & tType) {
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});

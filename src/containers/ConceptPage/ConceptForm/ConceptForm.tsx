@@ -84,8 +84,8 @@ const ConceptForm = ({
   const initialValues = transformApiConceptToFormValues(concept, subjects);
 
   const handleSubmit = async (
-    formikHelpers: FormikHelpers<ConceptFormValues>,
     values: ConceptFormValues,
+    formikHelpers: FormikHelpers<ConceptFormValues>,
   ) => {
     formikHelpers.setSubmitting(true);
     const { revision, status } = concept;
@@ -120,15 +120,10 @@ const ConceptForm = ({
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values, actions) => {
-        handleSubmit(actions, values);
-      }}
+      onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={values => {
-        const errors = validateFormik(values, conceptFormRules, t);
-        return errors;
-      }}>
+      validate={values => validateFormik(values, conceptFormRules, t)}>
       {formikProps => {
         const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
         return (

@@ -7,41 +7,51 @@
  */
 
 import React, { useState, useEffect, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import { fetchLicenses } from '../modules/draft/draftApi';
-import { ImageShape } from '../shapes';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
+import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
+import { ImageType, License } from '../interfaces';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
 `;
 
-const ImageSearchAndUploader = props => {
+interface Props {
+  onImageSelect: () => void;
+  locale: string;
+  isSavingImage?: boolean;
+  closeModal: () => void;
+  onError: () => void;
+  searchImages: (queryObject: ImageSearchQuery) => void;
+  fetchImage: () => void;
+  image: ImageType;
+  updateImage: () => void;
+}
+
+const ImageSearchAndUploader = ({
+  image,
+  updateImage,
+  onImageSelect,
+  closeModal,
+  locale,
+  fetchImage,
+  searchImages,
+  onError,
+  t,
+}: Props & tType) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [licenses, setLicenses] = useState();
+  const [licenses, setLicenses] = useState<License[]>();
   useEffect(() => {
     fetchLicenses().then(licenses => setLicenses(licenses));
   }, []);
 
-  const {
-    image,
-    updateImage,
-    onImageSelect,
-    closeModal,
-    locale,
-    fetchImage,
-    searchImages,
-    onError,
-    t,
-  } = props;
-
-  const searchImagesWithParameters = (query, page) => {
+  const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
 
@@ -80,32 +90,19 @@ const ImageSearchAndUploader = props => {
         },
         {
           title: t('form.visualElement.imageUpload'),
-          content: (
+          content: licenses ? (
             <ImageForm
               image={image || { language: locale }}
-              revision={image && image.revision}
-              imageInfo={image && image.imageFile}
+              showSaved={false}
               onUpdate={updateImage}
               closeModal={closeModal}
               licenses={licenses}
             />
-          ),
+          ) : null,
         },
       ]}
     />
   );
-};
-
-ImageSearchAndUploader.propTypes = {
-  onImageSelect: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  isSavingImage: PropTypes.bool,
-  closeModal: PropTypes.func,
-  onError: PropTypes.func.isRequired,
-  searchImages: PropTypes.func.isRequired,
-  fetchImage: PropTypes.func.isRequired,
-  image: ImageShape,
-  updateImage: PropTypes.func.isRequired,
 };
 
 export default injectT(ImageSearchAndUploader);

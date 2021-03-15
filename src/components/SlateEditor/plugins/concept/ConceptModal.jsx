@@ -78,7 +78,7 @@ const ConceptModal = ({
     if (licenses.length === 0) {
       getAllLicenses();
     }
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const searchConcept = async searchParam => {
     if (!searching) {
@@ -99,7 +99,7 @@ const ConceptModal = ({
 
   useEffect(() => {
     searchConcept(searchObject);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Portal isOpened>

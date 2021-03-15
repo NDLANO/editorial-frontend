@@ -16,7 +16,7 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed, FormikInputEvent } from '../../../../interfaces';
+import { Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
 
 interface Props {
   attributes?: {
@@ -26,7 +26,7 @@ interface Props {
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
-  locale: string;
+  locale: LocaleType;
   onRemoveClick: Function;
   onFigureInputChange: Function;
   submitted: boolean;
@@ -47,22 +47,22 @@ const SlateAudio: React.FC<Props & tType> = ({
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
 
-  const getAudio = async () => {
-    try {
-      const audio = await visualElementApi.fetchAudio(embed.resource_id, language);
-      setAudio({
-        ...audio,
-        caption: embed.caption,
-        title: audio.title?.title || '',
-      });
-    } catch (error) {
-      visualElementApi.onError(error);
-    }
-  };
-
   useEffect(() => {
+    const getAudio = async () => {
+      try {
+        const audio = await visualElementApi.fetchAudio(embed.resource_id, language);
+        setAudio({
+          ...audio,
+          caption: embed.caption,
+          title: audio.title?.title || '',
+        });
+      } catch (error) {
+        visualElementApi.onError(error);
+      }
+    };
+
     getAudio();
-  }, [embed.resource_id]);
+  }, [embed, language]);
 
   const onAudioFigureInputChange = (e: FormikInputEvent) => {
     const { value, name } = e.target;
@@ -87,6 +87,7 @@ const SlateAudio: React.FC<Props & tType> = ({
             changes={changes}
             embed={embed}
             language={language}
+            locale={locale}
             onExit={toggleEdit}
             onChange={onFigureInputChange}
             onAudioFigureInputChange={onAudioFigureInputChange}

@@ -59,7 +59,7 @@ export const defaultCodeBlock = () =>
     data: {},
   });
 
-export default {
+const defaultBlocks = {
   defaultAsideBlock,
   defaultBlock,
   defaultBlockWithText,
@@ -68,3 +68,4 @@ export default {
   defaultFilesBlock,
   defaultRelatedBlock,
 };
+export default defaultBlocks;

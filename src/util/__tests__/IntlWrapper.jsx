@@ -10,8 +10,9 @@ import React from 'react';
 import IntlProvider from '@ndla/i18n';
 import { getLocaleObject } from '../../i18n';
 
-export default ({ children }) => (
+const IntlWrapper = ({ children }) => (
   <IntlProvider locale="nb" messages={getLocaleObject().messages}>
     {children}
   </IntlProvider>
 );
+export default IntlWrapper;

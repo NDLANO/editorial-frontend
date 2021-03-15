@@ -68,14 +68,13 @@ function EditorFooter<T extends FormValues>({
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
-  const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-    const possibleStatuses = await fetchStatusStateMachine();
-    setStatuses(possibleStatuses);
-  };
-
   useEffect(() => {
+    const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
+      const possibleStatuses = await fetchStatusStateMachine();
+      setStatuses(possibleStatuses);
+    };
     fetchStatuses(setStatuses);
-  }, []);
+  }, [fetchStatusStateMachine]);
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
@@ -84,7 +83,7 @@ function EditorFooter<T extends FormValues>({
       onSaveClick();
       setNewStatus(null);
     }
-  }, [values.status]);
+  }, [newStatus, onSaveClick]);
 
   const saveButton = (
     <SaveMultiButton

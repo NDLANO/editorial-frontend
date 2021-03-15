@@ -40,6 +40,7 @@ const FormikMetaImageSearch = ({
   const locale = useContext(LocaleContext);
 
   const fetchImageWithLocale = id => fetchImage(id, locale);
+
   useEffect(() => {
     if (metaImageId) {
       fetchImageWithLocale(metaImageId).then(image =>
@@ -48,7 +49,7 @@ const FormikMetaImageSearch = ({
     } else {
       setImage(undefined);
     }
-  }, [metaImageId]);
+  }, [metaImageId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onChangeFormik = value => {
     onChange({

@@ -103,7 +103,7 @@ const EditGrepCodes: FC<Props> = ({
 
   useEffect(() => {
     grepCodeDescriptionTitle();
-  }, [editMode, grepCodes, addingNewGrepCode]);
+  }, [editMode, grepCodes, addingNewGrepCode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const addGrepCode = (grepCode: string) => {
     grepCodes.push(grepCode.toUpperCase());

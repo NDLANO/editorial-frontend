@@ -109,12 +109,7 @@ const EditAudio: React.FC<Props & tType> = ({
               },
             ]}
           />
-          <AudioPlayer
-            type={audio.audioFile.mimeType}
-            src={audio.audioFile.url}
-            title={audio.title}
-            speech={speech}
-          />
+          <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
           <Input
             name="caption"
             label={t('form.audio.caption.label')}

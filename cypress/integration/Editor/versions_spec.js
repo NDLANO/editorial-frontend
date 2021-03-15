@@ -9,37 +9,31 @@
 import { visitOptions, setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
-// change article ID and run cy-record to add the new fixture data
-const ARTICLE_ID = 532;
+describe('Workflow features', () => {
+  const ARTICLE_ID = 532;
+  before(() => {
+    // change article ID and run cy-record to add the new fixture data
+    setToken();
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
+      },
+    });
 
-before(() => {
-  setToken();
-  cy.server({
-    force404: true,
-    whitelist: xhr => {
-      if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-      //return the default cypress whitelist filer
-      return (
-        xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
-      );
-    },
+    editorRoutes(ARTICLE_ID);
+
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
+    cy.wait(500);
+    cy.get('button')
+      .contains('Versjonslogg og merknader')
+      .click();
+    cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
   });
 
-  editorRoutes(ARTICLE_ID);
-
-  cy.visit(
-    `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
-    visitOptions,
-  );
-  cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
-  cy.wait(500);
-  cy.get('button')
-    .contains('Versjonslogg og merknader')
-    .click();
-  cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
-});
-
-describe('Workflow features', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
@@ -49,7 +43,9 @@ describe('Workflow features', () => {
 
   it('Can add notes and save', () => {
     cy.get('[data-testid=addNote]').click();
-    cy.get('[data-testid=notesInput]').type('Test merknad').blur();
+    cy.get('[data-testid=notesInput]')
+      .type('Test merknad')
+      .blur();
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
@@ -62,20 +58,20 @@ describe('Workflow features', () => {
       '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true',
       'fixture:transformedArticle.json',
     ).as('transformedArticle');
+    cy.wait(100);
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
     cy.wait('@transformedArticle');
-    cy.get('[data-testid=closePreview]')
-      .click();
+    cy.wait(100);
+    cy.get('[data-testid=closePreview]').click();
   });
 
   it('Can reset to prod', () => {
     cy.get('[data-testid=resetToVersion]')
       .first()
       .click();
-    cy.get('[data-testid=closeAlert]')
-      .click();
+    cy.get('[data-testid=closeAlert]').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

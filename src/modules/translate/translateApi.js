@@ -9,10 +9,7 @@
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import config from '../../config';
 
-const corsAnywhereUrl = `${
-  config.ndlaEnvironment === 'test' ? 'https://cors-anywhere.herokuapp.com/' : ''
-}`;
-const baseUrl = corsAnywhereUrl + 'https://nynorsk.cloud/translate';
+const baseUrl = 'https://nynorsk.cloud/translate';
 
 export const fetchNnTranslation = ({ id, ...articleContents }) =>
   fetch(baseUrl, {
@@ -23,6 +20,7 @@ export const fetchNnTranslation = ({ id, ...articleContents }) =>
     body: JSON.stringify({
       token: config.npkToken,
       guid: config.ndlaEnvironment + '_' + id,
+      prefs: { x: true }, // Hack to tell the service to use old html-parser, ref jo.christian.oterhals@ntb.no
       document: articleContents,
     }),
   }).then(resolveJsonOrRejectWithError);

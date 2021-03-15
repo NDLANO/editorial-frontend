@@ -79,7 +79,7 @@ const ConceptMetaDataArticle = ({ locale, t, field, articleId }) => {
     if (articleId) {
       fetchArticle(articleId, locale);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [articleId, locale]);
 
   return (
     <div>

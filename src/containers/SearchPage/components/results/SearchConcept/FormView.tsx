@@ -62,7 +62,7 @@ const FormView = ({
         tags: fullConcept.tags || [],
       });
     }
-  }, [fullConcept, licenses, subjects]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [concept, fullConcept, licenses, subjects]);
 
   return (
     <StyledConceptView border>

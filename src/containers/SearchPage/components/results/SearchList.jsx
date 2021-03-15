@@ -35,7 +35,7 @@ const SearchList = ({
   }, []);
   useEffect(() => {
     setEditing(false);
-  }, [results]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [results, setEditing]);
 
   if (searching) return <Spinner />;
   if (results.length === 0)

@@ -75,33 +75,31 @@ const Link = props => {
     };
   };
 
-  const setStateFromNode = async () => {
-    const { node } = props;
-    const data = node?.data?.toJS() || {};
-
-    const contentType = data['content-type'] || 'article';
-
-    const href =
-      data.resource === 'content-link'
-        ? `${await fetchResourcePath(data, language, contentType)}`
-        : data.href;
-
-    const checkbox = data.target === '_blank' || data['open-in'] === 'new-context';
-
-    setModel({
-      href,
-      text: node.text,
-      checkbox,
-    });
-  };
-
   const toggleEditMode = () => {
     setEditMode(prev => !prev);
   };
 
   useEffect(() => {
+    const setStateFromNode = async () => {
+      const data = node?.data?.toJS() || {};
+  
+      const contentType = data['content-type'] || 'article';
+  
+      const href =
+        data.resource === 'content-link'
+          ? `${await fetchResourcePath(data, language, contentType)}`
+          : data.href;
+  
+      const checkbox = data.target === '_blank' || data['open-in'] === 'new-context';
+  
+      setModel({
+        href,
+        text: node.text,
+        checkbox,
+      });
+    };
     setStateFromNode();
-  }, [node]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [node, language]);
 
   if (!model) {
     return null;

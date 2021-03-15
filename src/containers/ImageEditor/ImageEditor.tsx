@@ -91,13 +91,12 @@ const ImageEditor: React.FC<Props & tType> = ({
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 
   useEffect(() => {
+    const getImage = async () => {
+      const img = await fetchImage(embed.resource_id, 'nb');
+      setImage(img);
+    };
     getImage();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const getImage = async () => {
-    const img = await fetchImage(embed.resource_id, 'nb');
-    setImage(img);
-  };
+  }, [embed]);
 
   const onFocalPointChange = (focalPoint: { x: number; y: number }) => {
     onUpdatedImageSettings({

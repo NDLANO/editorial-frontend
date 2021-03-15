@@ -20,35 +20,33 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
+    const fetchConcept = async (): Promise<void> => {
+      try {
+        if (conceptId) {
+          setLoading(true);
+          const concept = await conceptApi.fetchConcept(conceptId, locale);
+
+          const convertedArticles = await fetchElementList(concept.articleIds);
+          setConcept({
+            ...concept,
+            articles: convertedArticles,
+          });
+          setLoading(false);
+        }
+      } catch (e) {
+        handleError(e);
+      }
+    };
     fetchConcept();
-  }, [conceptId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [conceptId, locale]);
 
   useEffect(() => {
+    const fetchSubjects = async () => {
+      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
+      setSubjects(fetchedSubjects);
+    };
     fetchSubjects();
-  }, [locale]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchConcept = async (): Promise<void> => {
-    try {
-      if (conceptId) {
-        setLoading(true);
-        const concept = await conceptApi.fetchConcept(conceptId, locale);
-
-        const convertedArticles = await fetchElementList(concept.articleIds);
-        setConcept({
-          ...concept,
-          articles: convertedArticles,
-        });
-        setLoading(false);
-      }
-    } catch (e) {
-      handleError(e);
-    }
-  };
-
-  const fetchSubjects = async () => {
-    const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
-    setSubjects(fetchedSubjects);
-  };
+  }, [locale]);
 
   const fetchElementList = async (articleIds: number[]): Promise<ArticleType[]> => {
     return Promise.all(

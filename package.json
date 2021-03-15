@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "System for producing content for NDLA",
   "scripts": {
-    "build": "cross-env razzle build",
+    "build": "NODE_OPTIONS='--max-old-space-size=2048' cross-env razzle build",
     "postbuild": "cp build/assets.json build/public/assets.json",
     "clean": "rimraf ./build",
     "check-all": "yarn lint && yarn test-ci",

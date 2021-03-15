@@ -8,6 +8,7 @@ import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../For
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
+import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 
 const panels = [
   {
@@ -51,6 +52,7 @@ const panels = [
     title: 'form.name.relatedContent',
     className: 'u-6/6',
     errorFields: ['conceptIds', 'relatedContent'],
+    showPanel: (values, userAccess) => !!userAccess?.includes(DRAFT_ADMIN_SCOPE),
     component: props => <FormikRelatedContent {...props} />,
   },
   {

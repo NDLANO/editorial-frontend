@@ -696,6 +696,7 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
+        AWAITING_ARCHIVATION: 'Arkivering-utsatt',
       },
       learningpath_statuses: {
         private: 'Kladd',

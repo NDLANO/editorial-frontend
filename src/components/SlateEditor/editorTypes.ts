@@ -63,6 +63,7 @@ export interface PossibleStatuses {
   AWAITING_UNPUBLISHING: Array<string>;
   UNPUBLISHED: Array<string>;
   ARCHIVED: Array<string>;
+  AWAITING_ARCHIVATION: Array<string>;
   QUEUED_FOR_PUBLISHING: Array<string>;
 }
 

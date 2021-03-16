@@ -674,6 +674,7 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Archive',
+        AWAITING_ARCHIVATION: 'Archivation-delayed',
       },
       learningpath_statuses: {
         private: 'Draft',

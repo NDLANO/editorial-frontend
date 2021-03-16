@@ -86,7 +86,7 @@ export const getPatchApiConcept = (
   licenses: License[],
 ): PatchConceptType => ({
   id: values.id,
-  title: editorValueToPlainText(values.title),
+  title: editorValueToPlainText(values.slatetitle),
   content: editorValueToPlainText(values.conceptContent),
   language: values.language,
   copyright: {

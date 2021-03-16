@@ -83,6 +83,7 @@ const canParentElementContainBlock = el => {
       tagName === 'section' ||
       tagName === 'div' ||
       tagName === 'aside' ||
+      tagName === 'li' ||
       BLOCK_TAGS[tagName] !== undefined
     );
   }

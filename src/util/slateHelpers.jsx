@@ -268,7 +268,7 @@ export const mathRules = {
     const tagName = el.tagName.toLowerCase();
     if (tagName !== 'math') return;
     return {
-      object: canParentElementContainBlock(el) ? 'block' : 'inline',
+      object: 'inline',
       type: 'mathml',
       data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
       nodes: [

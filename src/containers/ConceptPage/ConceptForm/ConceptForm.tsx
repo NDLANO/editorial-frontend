@@ -142,7 +142,7 @@ const ConceptForm = ({
                 id="concept-content"
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={!!(errors.title || errors.conceptContent)}
+                hasError={!!(errors.slatetitle || errors.conceptContent)}
                 startOpen>
                 <ConceptContent createMessage={createMessage} />
               </AccordionSection>

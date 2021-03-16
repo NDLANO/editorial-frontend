@@ -6,6 +6,7 @@
  *
  */
 
+import { Value } from 'slate';
 import {
   SubjectType,
   VisualElement,
@@ -23,7 +24,8 @@ export interface ConceptFormType extends ConceptType {
 
 export interface ConceptFormValues extends StrippedConceptType, FormValues {
   articles: ArticleType[];
-  conceptContent: string;
+  slatetitle: Value;
+  conceptContent: Value;
   created?: string;
   creators: Author[];
   license?: string;
@@ -35,7 +37,6 @@ export interface ConceptFormValues extends StrippedConceptType, FormValues {
   subjects: SubjectType[];
   supportedLanguages: string[];
   tags: string[];
-  title: string;
   updateCreated: boolean;
   updated: string;
   visualElementObject: VisualElement;

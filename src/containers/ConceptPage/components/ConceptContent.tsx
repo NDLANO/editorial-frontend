@@ -14,7 +14,7 @@ import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import FormikField from '../../../components/FormikField';
-import { FormikIngress } from '../../FormikForm';
+import { FormikIngress, FormikTitle } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -47,16 +47,20 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
   const {
     values: { creators, created },
     handleBlur,
+    submitForm,
   } = formikContext;
 
   return (
     <>
-      <FormikField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        placeholder={t('form.title.label')}
+      <FormikTitle
+        handleSubmit={submitForm}
+        onBlur={(event: Event, editor: unknown, next: () => void) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
+        }}
       />
       <ByLine>
         <LastUpdatedLineConcept creators={creators} published={created} />

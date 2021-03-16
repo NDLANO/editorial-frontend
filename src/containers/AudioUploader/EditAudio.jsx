@@ -10,13 +10,13 @@ import PropTypes from 'prop-types';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import { createFormData } from '../../util/formDataHelper';
+import { createAudioFormData } from '../../util/formDataHelper';
 
-const transformAudio = audio => {
-  const audioLanguage =
-    audio && audio.supportedLanguages && audio.supportedLanguages.includes(audio.language)
-      ? audio.language
-      : undefined;
+// TODO move to audio-util?
+export const transformAudio = audio => {
+  const audioLanguage = audio?.supportedLanguages?.includes(audio.language)
+    ? audio.language
+    : undefined;
 
   return audio
     ? {
@@ -38,7 +38,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
   };
 
   const onUpdate = async (newAudio, file) => {
-    const formData = await createFormData(file, newAudio);
+    const formData = await createAudioFormData(file, newAudio);
     const updatedAudio = await audioApi.updateAudio(newAudio.id, formData);
     const transformedAudio = transformAudio(updatedAudio);
     setAudio(transformedAudio);

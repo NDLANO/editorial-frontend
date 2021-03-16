@@ -5,54 +5,38 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import React, { FC, useContext } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
-
 import * as audioApi from '../../modules/audio/audioApi';
-import { createFormData } from '../../util/formDataHelper';
-import { toEditAudio } from '../../util/routeHelpers';
-import AudioForm from '../AudioUploader/components/AudioForm';
+import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import { createAudioFormData } from '../../util/formDataHelper';
+import { toEditPodcast } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
 import PodcastForm from './components/PodcastForm';
 
 interface Props {
   history: RouteComponentProps['history'];
-  licenses: any;
+  licenses: License[];
 }
 
-const CreatePodcast: FC<Props> = ({ licenses }) => {
+const CreatePodcast: FC<Props> = ({ licenses, history }) => {
   const locale: string = useContext(LocaleContext);
 
+  const onCreatePodcast = async (
+    newPodcast: NewAudioMetaInformation,
+    podcastFile: string | Blob,
+  ) => {
+    const formData = await createAudioFormData(podcastFile, newPodcast);
+    const createdPodcast = await audioApi.postAudio(formData);
+    if (!newPodcast.id) {
+      history.push(toEditPodcast(createdPodcast.id, newPodcast.language));
+    }
+  };
+
   return (
-    <>
-      <PodcastForm audio={{ language: locale }} licenses={licenses} />
-    </>
+    <PodcastForm audio={{ language: locale }} licenses={licenses} onUpdate={onCreatePodcast} />
   );
 };
 
 export default CreatePodcast;
-
-// const CreatePodcast = ({ history, locale, }) => {
-//   const onCreateAudio = async (newAudio, file) => {
-//     const formData = await createFormData(file, newAudio);
-//     const createdAudio = await audioApi.postAudio(formData);
-//     if (!newAudio.id) {
-//       history.push(toEditAudio(createdAudio.id, newAudio.language));
-//     }
-//   };
-// };
-
-// CreateAudio.propTypes = {
-//   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-//   licenses: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       description: PropTypes.string,
-//       license: PropTypes.string,
-//     }),
-//   ).isRequired,
-//   history: PropTypes.shape({
-//     push: PropTypes.func.isRequired,
-//   }).isRequired,
-//   locale: PropTypes.string.isRequired,
-// };

@@ -7,11 +7,10 @@
 
 import React, { FC, Fragment, useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
-
 import { injectT, tType } from '@ndla/i18n';
+import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { formClasses, FormikAbortButton, FormikAlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -23,6 +22,7 @@ import { toEditPodcast } from '../../../util/routeHelpers';
 import {
   NewPodcastMeta,
   NewPodcastMetaInformation,
+  NewAudioMetaInformation,
 } from '../../../modules/audio/audioApiInterfaces';
 import { Author, Copyright, License } from '../../../interfaces';
 
@@ -187,12 +187,21 @@ type AccordionChildrenProps = {
 interface Props {
   audio: PodcastPropType;
   inModal?: boolean;
+  isNewlyCreated?: boolean; // TODO hva er tanken bak denne?
   formikProps?: FormikProps<PodcastPropType>; // TODO hva skal være i <>
   licenses: License[];
-  onUpdate?: (audioMetadata: NewPodcastMeta, audio: string | Blob) => void; // TODO ikke optional
+  onUpdate: (audioMetadata: NewAudioMetaInformation, podcastFile: string | Blob) => void;
 }
 
-const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikProps }) => {
+const PodcastForm: FC<Props & tType> = ({
+  t,
+  audio,
+  inModal,
+  isNewlyCreated,
+  licenses,
+  formikProps,
+  onUpdate,
+}) => {
   const [savedToServer, setSavedToServer] = useState(false);
 
   const handleSubmit = async (
@@ -202,6 +211,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
     const license = licenses.find(license => license.license === values.license);
 
     if (
+      // TODO, burde finnes en bedre måte å gjøre dette på
       license === undefined ||
       values.title === undefined ||
       values.language === undefined ||
@@ -223,7 +233,6 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
 
     actions.setSubmitting(true);
     const podcastMetaData: NewPodcastMetaInformation = {
-      // TODO denne eller NewPodcastMeta
       id: values.id, // Used only to check if image was newly created. This id is discarded by backend. TODO
       title: values.title,
       tags: values.tags,
@@ -245,7 +254,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
       },
     };
 
-    // await onUpdate(podcastMetaData, values.audioFile);, se på den som blir sendt inn til AudioForm
+    await onUpdate(podcastMetaData, values.audioFile); // TODO test
     setSavedToServer(true);
 
     // actions.setSubmitting(false);
@@ -348,7 +357,7 @@ const PodcastForm: FC<Props & tType> = ({ t, audio, inModal, licenses, formikPro
               <SaveButton
                 {...formClasses}
                 isSaving={isSubmitting}
-                showSaved={!formIsDirty && false}
+                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 onClick={evt => {
                   evt.preventDefault();

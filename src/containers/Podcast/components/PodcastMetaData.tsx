@@ -9,12 +9,8 @@
 import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-
-import { useFormikContext } from 'formik';
-
 import FormikField from '../../../components/FormikField';
 import { FormikMetaImageSearch } from '../../FormikForm';
-
 import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
 
 interface Props extends NewPodcastMeta {}

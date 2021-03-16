@@ -10,12 +10,12 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
-import { createFormData } from '../../util/formDataHelper';
+import { createAudioFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 
 const CreateAudio = ({ history, licenses, locale, ...rest }) => {
   const onCreateAudio = async (newAudio, file) => {
-    const formData = await createFormData(file, newAudio);
+    const formData = await createAudioFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);
     if (!newAudio.id) {
       history.push(toEditAudio(createdAudio.id, newAudio.language));

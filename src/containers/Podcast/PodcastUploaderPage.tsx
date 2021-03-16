@@ -12,20 +12,36 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { getAllLicenses } from '../../modules/license/license';
 import { fetchLicenses } from '../../modules/draft/draftApi'; // TODO er dette rett lisenser?
 import { License } from '../../interfaces';
 import CreatePodcast from './CreatePodcast';
+import EditPodcast from './EditPodcast';
 
 interface Props {
   match: RouteComponentProps['match'];
-  location: RouteComponentProps['location'];
   history: RouteComponentProps['history'];
+  location: RouteComponentProps['location'];
 }
 
-const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({ match, history }) => {
+const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({
+  match,
+  history,
+  location,
+}) => {
   // TODO fetchLicenses()
-  const [licenses, setLicenses] = useState<License[]>([]);
+  const [licenses, setLicenses] = useState<any>([]); // TODO type License
+  const [previousLocation, setPreviousLocation] = useState('');
+  const [isNewlyCreated, setNewlyCreated] = useState(false);
+
+  useEffect(() => {
+    // TODO Ingeborg sin kode, kan det lages en util?
+    /\/subjectpage\/(.*)\/new/.test(location.pathname)
+      ? setNewlyCreated(true)
+      : setNewlyCreated(false);
+    if (previousLocation !== location.pathname) {
+      setPreviousLocation(location.pathname);
+    }
+  }, []);
 
   useEffect(() => {
     getLicenses();
@@ -36,8 +52,6 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({ match, hi
     setLicenses(license);
   };
 
-  console.log('podcast uploader page', licenses);
-
   return (
     <OneColumn>
       <HelmetWithTracker title="last opp podcast episode" />
@@ -47,10 +61,17 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({ match, hi
           path={`${match.url}/new`}
           render={() => <CreatePodcast history={history} licenses={licenses} />}
         />
-        {/* <Route
+        <Route
           path={`${match.url}/:audioId/edit/:audioLanguage`}
-          render={props => ( <EditPodcast/> )}
-        /> */}
+          render={routeProps => (
+            <EditPodcast
+              licenses={licenses}
+              isNewlyCreated={isNewlyCreated}
+              podcastId={routeProps.match.params.audioId}
+              podcastLanguage={routeProps.match.params.audioLanguage}
+            />
+          )}
+        />
         <Route component={NotFoundPage} />
       </Switch>
     </OneColumn>

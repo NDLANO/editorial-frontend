@@ -80,15 +80,14 @@ const FormikMetaImageSearch = ({
     setShowImageSelect(true);
   };
 
-  const onImageUpdate = (image, file) => {
+  const onImageUpdate = async (image, file) => {
     if (image.id) {
-      updateImage(image).then(updatedImage => onImageSet(updatedImage));
+      const updatedImage = await updateImage(image);
+      onImageSet(updatedImage);
     } else {
-      createFormData(file, image).then(formData =>
-        postImage(formData).then(createdImage => {
-          onImageSet({ ...createdImage, language: locale });
-        }),
-      );
+      const formData = await createFormData(file, image);
+      const createdImage = await postImage(formData);
+      onImageSet({ ...createdImage, language: locale });
     }
   };
 

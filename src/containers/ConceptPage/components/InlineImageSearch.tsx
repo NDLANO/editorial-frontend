@@ -18,6 +18,7 @@ import { FieldHeader } from '@ndla/forms';
 import FormikMetaImage from '../../FormikForm/components/FormikMetaImage';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
+import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import { LocaleContext } from '../../App/App';
 
 const StyledTitleDiv = styled.div`
@@ -30,7 +31,7 @@ interface Props {
 
 const InlineImageSearch = ({ name, t }: Props & tType) => {
   const { setFieldValue } = useFormikContext();
-  const [image, setImage] = useState(undefined);
+  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
   const locale: string = useContext(LocaleContext);
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query: string, page: number) => {
@@ -66,7 +67,7 @@ const InlineImageSearch = ({ name, t }: Props & tType) => {
         searchPlaceholder={t('imageSearch.placeholder')}
         searchButtonTitle={t('imageSearch.buttonTitle')}
         useImageTitle={t('imageSearch.useImage')}
-        onImageSelect={(image: any) => {
+        onImageSelect={(image: ImageApiType) => {
           setFieldValue(name, image.id);
           setImage(image);
         }}

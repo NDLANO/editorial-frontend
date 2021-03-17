@@ -20,7 +20,7 @@ import IconButton from '../../../IconButton';
 import { Embed } from '../../../../interfaces';
 
 const centerAdjustedStyle = css`
-  right: -${spacing.xsmall};
+  right: 0;
 `;
 
 const rightAdjustedStyle = css`
@@ -43,8 +43,8 @@ const StyledFigureButtons = styled('div')`
 
   ${(p: StyledFigureButtonsProps) =>
     p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
-  ${p => p.align === 'left' && leftAdjustedStyle}
-  ${p => p.align === 'right' && rightAdjustedStyle}
+  ${p => p.align === 'right' && leftAdjustedStyle}
+  ${p => p.align === 'left' && rightAdjustedStyle}
   > * {
     margin-bottom: ${spacing.xsmall};
   }

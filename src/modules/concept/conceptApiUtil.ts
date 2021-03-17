@@ -6,18 +6,18 @@
  *
  */
 
-import { ConceptApiType } from './conceptApiInterfaces';
+import { ApiConceptType } from './conceptApiInterfaces';
 import { ConceptType } from '../../interfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { parseImageUrl } from '../../util/formHelper';
 
 export const transformApiToCleanConcept = (
-  concept: ConceptApiType,
+  concept: ApiConceptType,
   language: string,
 ): ConceptType => {
   const visualElementEmbed = convertFieldWithFallback(concept, 'visualElement', '');
-  const ParsedVisualElement = parseEmbedTag(visualElementEmbed);
+  const parsedVisualElement = parseEmbedTag(visualElementEmbed);
   return {
     ...concept,
     title: convertFieldWithFallback(concept, 'title', ''),
@@ -28,7 +28,7 @@ export const transformApiToCleanConcept = (
     updated: concept.updated || '',
     updatedBy: concept.updatedBy || [],
     metaImageId: parseImageUrl(concept.metaImage),
-    parsedVisualElement: ParsedVisualElement,
+    parsedVisualElement,
     language,
   };
 };

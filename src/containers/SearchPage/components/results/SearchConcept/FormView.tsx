@@ -15,13 +15,13 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import { SearchConceptApiType } from '../../../../../modules/concept/conceptApiInterfaces';
+import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { SubjectType, License, ConceptType } from '../../../../../interfaces';
 
 interface Props {
-  concept: SearchConceptApiType;
+  concept: SearchConceptType;
   cancel: () => void;
   subjects: SubjectType[];
   updateLocalConcept: (concept: ConceptType) => void;
@@ -114,6 +114,7 @@ const FormView = ({
                 creators,
                 license: licenses.find(l => l.license === formConcept.license),
                 rightsholders: [],
+                processors: [],
               },
             };
             updateConcept(newConcept).then((updatedConcept: ConceptType) => {

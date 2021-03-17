@@ -6,75 +6,52 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { connect } from 'react-redux';
 import Button from '@ndla/button';
-import { getLocale } from '../../modules/locale/locale';
-import * as api from '../../modules/image/imageApi';
-import FormikMetaImage from './components/FormikMetaImage';
-import HowToHelper from '../../components/HowTo/HowToHelper';
-import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { LocaleContext } from '../App/App';
+import { createFormData } from '../../util/formDataHelper';
 import {
-  getUploadedImage,
-  getSaving as getSavingImage,
-  actions as imageActions,
-} from '../../modules/image/image';
+  postImage,
+  updateImage,
+  searchImages,
+  fetchImage,
+  onError,
+} from '../../modules/image/imageApi';
+import { transformApiToCLeanImage } from '../../modules/image/imageApiUtil';
+import HowToHelper from '../../components/HowTo/HowToHelper';
+import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
-class FormikMetaImageSearch extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showImageSelect: false,
-      image: undefined,
-    };
-    this.onImageFetch = this.onImageFetch.bind(this);
-    this.onImageChange = this.onImageChange.bind(this);
-    this.onImageSelectClose = this.onImageSelectClose.bind(this);
-    this.onImageSelectOpen = this.onImageSelectOpen.bind(this);
-  }
+import FormikMetaImage from './components/FormikMetaImage';
 
-  componentDidUpdate({ metaImageId: prevMetaImageId }) {
-    const { uploadedImage, clearUploadedImage, metaImageId } = this.props;
-    if (uploadedImage && this.state.showImageSelect) {
-      this.onImageChange(uploadedImage);
-      clearUploadedImage();
-    }
+const FormikMetaImageSearch = ({
+  name,
+  metaImageId,
+  showRemoveButton,
+  setFieldTouched,
+  onChange,
+  t,
+}) => {
+  const [showImageSelect, setShowImageSelect] = useState(false);
+  const [image, setImage] = useState(undefined);
+  const locale = useContext(LocaleContext);
 
-    if (metaImageId !== prevMetaImageId) {
-      this.onImageFetch();
-    }
-  }
+  const fetchImageWithLocale = id => fetchImage(id, locale);
 
-  componentDidMount() {
-    this.onImageFetch();
-  }
-
-  componentWillUnmount() {
-    const { uploadedImage, clearUploadedImage } = this.props;
-    if (uploadedImage) {
-      clearUploadedImage();
-    }
-  }
-
-  async onImageFetch() {
-    const { metaImageId, locale } = this.props;
+  useEffect(() => {
     if (metaImageId) {
-      const image = await api.fetchImage(metaImageId, locale);
-      this.setState({ image });
+      fetchImageWithLocale(metaImageId).then(image =>
+        setImage(transformApiToCLeanImage(image, locale)),
+      );
+    } else {
+      setImage(undefined);
     }
-  }
-  onImageChange(image) {
-    this.onImageSelectClose();
-    this.setState({ image });
-    this.onChangeFormik(image.id);
-  }
+  }, [metaImageId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  onChangeFormik = value => {
-    const { onChange, name } = this.props;
+  const onChangeFormik = value => {
     onChange({
       target: {
         name,
@@ -82,105 +59,92 @@ class FormikMetaImageSearch extends Component {
       },
     });
   };
-
-  onImageRemove = () => {
-    this.onImageSelectClose();
-    this.setState({ image: undefined });
-    this.onChangeFormik(null);
+  const onImageSelectClose = () => {
+    setFieldTouched('metaImageAlt', true, true);
+    setShowImageSelect(false);
   };
 
-  onImageSelectClose() {
-    this.props.setFieldTouched('metaImageAlt', true, true);
+  const onImageSet = image => {
+    onImageSelectClose();
+    setImage(image);
+    onChangeFormik(image.id);
+  };
 
-    this.setState({
-      showImageSelect: false,
-    });
-  }
+  const onImageRemove = () => {
+    onImageSelectClose();
+    setImage(undefined);
+    onChangeFormik(null);
+  };
 
-  onImageSelectOpen() {
-    this.setState({
-      showImageSelect: true,
-    });
-  }
+  const onImageSelectOpen = () => {
+    setShowImageSelect(true);
+  };
 
-  render() {
-    const { t, locale, isSavingImage, showRemoveButton } = this.props;
-    const { image, showImageSelect } = this.state;
-    const fetchImage = id => api.fetchImage(id, locale);
-    return (
-      <div>
-        <FieldHeader title={t('form.metaImage.title')}>
-          <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
-        </FieldHeader>
-        <Modal
-          controllable
-          isOpen={showImageSelect}
-          onClose={this.onImageSelectClose}
-          size="large"
-          backgroundColor="white"
-          minHeight="90vh">
-          {() => (
-            <Fragment>
-              <ModalHeader>
-                <ModalCloseButton title={t('dialog.close')} onClick={this.onImageSelectClose} />
-              </ModalHeader>
-              <ModalBody>
-                <ImageSearchAndUploader
-                  onImageSelect={this.onImageChange}
-                  locale={locale}
-                  isSavingImage={isSavingImage}
-                  closeModal={this.onImageSelectClose}
-                  fetchImage={fetchImage}
-                  searchImages={api.searchImages}
-                  onError={api.onError}
-                />
-              </ModalBody>
-            </Fragment>
-          )}
-        </Modal>
-        {image ? (
-          <FormikMetaImage
-            image={image}
-            onImageSelectOpen={this.onImageSelectOpen}
-            onImageRemove={this.onImageRemove}
-            showRemoveButton={showRemoveButton}
-          />
-        ) : (
-          <Button onClick={this.onImageSelectOpen}>{t('form.metaImage.add')}</Button>
+  const onImageUpdate = async (image, file) => {
+    if (image.id) {
+      const updatedImage = await updateImage(image);
+      onImageSet(updatedImage);
+    } else {
+      const formData = await createFormData(file, image);
+      const createdImage = await postImage(formData);
+      onImageSet({ ...createdImage, language: locale });
+    }
+  };
+
+  return (
+    <div>
+      <FieldHeader title={t('form.metaImage.title')}>
+        <HowToHelper pageId="MetaImage" tooltip={t('form.metaImage.helpLabel')} />
+      </FieldHeader>
+      <Modal
+        controllable
+        isOpen={showImageSelect}
+        onClose={onImageSelectClose}
+        size="large"
+        backgroundColor="white"
+        minHeight="90vh">
+        {() => (
+          <>
+            <ModalHeader>
+              <ModalCloseButton title={t('dialog.close')} onClick={onImageSelectClose} />
+            </ModalHeader>
+            <ModalBody>
+              <ImageSearchAndUploader
+                onImageSelect={onImageSet}
+                locale={locale}
+                closeModal={onImageSelectClose}
+                fetchImage={fetchImageWithLocale}
+                searchImages={searchImages}
+                onError={onError}
+                updateImage={onImageUpdate}
+                image={image}
+              />
+            </ModalBody>
+          </>
         )}
-      </div>
-    );
-  }
-}
+      </Modal>
+
+      {!showImageSelect && image ? (
+        <FormikMetaImage
+          image={image}
+          onImageSelectOpen={onImageSelectOpen}
+          onImageRemove={onImageRemove}
+          showRemoveButton={showRemoveButton}
+        />
+      ) : (
+        <Button onClick={onImageSelectOpen}>{t('form.metaImage.add')}</Button>
+      )}
+    </div>
+  );
+};
 
 FormikMetaImageSearch.propTypes = {
-  metaImageId: PropTypes.string.isRequired,
+  metaImageId: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
-  uploadedImage: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    alttext: PropTypes.shape({
-      alttext: PropTypes.string,
-    }),
-    caption: PropTypes.shape({
-      caption: PropTypes.string,
-    }),
-  }),
-  clearUploadedImage: PropTypes.func.isRequired,
   isSavingImage: PropTypes.bool,
   setFieldTouched: PropTypes.func.isRequired,
   showRemoveButton: PropTypes.bool,
 };
 
-const mapDispatchToProps = {
-  clearUploadedImage: imageActions.clearUploadedImage,
-};
-
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-  isSavingImage: getSavingImage(state),
-  uploadedImage: getUploadedImage(state),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(injectT(FormikMetaImageSearch));
+export default injectT(FormikMetaImageSearch);

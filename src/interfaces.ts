@@ -36,8 +36,8 @@ export interface Author {
 }
 
 export interface Status {
-  current: string;
-  other: string[];
+  current: ConceptStatusType;
+  other: ConceptStatusType[];
 }
 
 export interface Note {
@@ -51,7 +51,7 @@ export interface Copyright {
   license?: License;
   origin?: string;
   creators: Author[];
-  processors?: Author[];
+  processors: Author[];
   rightsholders: Author[];
   agreementId?: number;
   validFrom?: string;
@@ -72,6 +72,21 @@ export interface ResourceType {
 
 export interface ResourceTranslation {
   name: string;
+  language: string;
+}
+
+export interface ImageType {
+  id: string;
+  metaUrl: string;
+  title: string;
+  alttext: string;
+  imageUrl: string;
+  size: number;
+  contentType: string;
+  copyright: Copyright;
+  tags: string[];
+  caption: string;
+  supportedLanguages: string[];
   language: string;
 }
 
@@ -469,6 +484,13 @@ export interface Audio {
   title: string;
 }
 
+export interface CreateMessageType {
+  severity: string;
+  message?: string;
+  timeToLive?: number;
+  translationKey?: string;
+}
+
 export interface FormikInputEvent {
   preventDefault: Function;
   target: {
@@ -493,6 +515,13 @@ export interface License {
   url?: string;
 }
 
+export type FormValues = {
+  id: number;
+  language: string;
+  revision?: number;
+  status: Status;
+};
+
 export interface StrippedConceptType {
   id: number;
   title?: string;
@@ -503,9 +532,9 @@ export interface StrippedConceptType {
   source?: string;
   metaImage?: {
     id?: string;
-    url: string;
+    url?: string;
     alt: string;
-    language: string;
+    language?: string;
   };
   tags: string[];
   subjectIds?: string[];
@@ -522,7 +551,7 @@ export interface ConceptType extends StrippedConceptType {
   updatedBy: string[];
   supportedLanguages: string[];
   status: Status;
-  created: string;
+  created?: string;
   updated: string;
   metaImageId: string;
   parsedVisualElement: VisualElement;

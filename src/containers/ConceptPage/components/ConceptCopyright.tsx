@@ -7,22 +7,26 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField/FormikField';
 import FormikCopyright from '../../FormikForm/FormikCopyright';
 
-const ConceptCopyright = ({
-  licenses,
-  contributorTypesOverride,
-  disableAgreements,
-  label,
-  values,
-}) => {
+import { License } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
+
+interface Props {
+  licenses: License[];
+  disableAgreements: boolean;
+  label: string;
+}
+
+const ConceptCopyright = ({ licenses, disableAgreements, label }: Props) => {
+  const { values } = useFormikContext<ConceptFormValues>();
+
   return (
     <Fragment>
       <FormikCopyright
         licenses={licenses}
-        contributorTypesOverride={contributorTypesOverride}
         disableAgreements={disableAgreements}
         values={values}
         enableLicenseNA={true}
@@ -30,21 +34,6 @@ const ConceptCopyright = ({
       <FormikField label={label} name="source" />
     </Fragment>
   );
-};
-
-ConceptCopyright.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  values: PropTypes.shape({
-    agreementId: PropTypes.number,
-  }),
-  contributorTypesOverride: PropTypes.arrayOf(PropTypes.string),
-  disableAgreements: PropTypes.bool,
-  label: PropTypes.string,
 };
 
 export default ConceptCopyright;

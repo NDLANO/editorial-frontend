@@ -13,7 +13,7 @@ import FormikField from '../../../components/FormikField';
 import { FormikMetaImageSearch } from '../../FormikForm';
 import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
 
-interface Props extends NewPodcastMeta {}
+interface Props {}
 
 const PodcastMetaData: FC<Props & tType> = ({ t }) => {
   return (

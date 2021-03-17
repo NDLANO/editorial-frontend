@@ -69,6 +69,7 @@ const podcastRules = {
 };
 
 interface PodcastFormikType {
+  // TODO rename to PodcastFormValues
   // TODO de typene som skal inn i formet. brukes i getInitialValues
   id?: string;
   revision?: number;
@@ -256,13 +257,9 @@ const PodcastForm: FC<Props & tType> = ({
 
     await onUpdate(podcastMetaData, values.audioFile); // TODO test
     setSavedToServer(true);
-
-    // actions.setSubmitting(false);
-    // setSavedToServer(false);
   };
 
   const initialValues = getInitialValues(audio);
-  // const { values, setFieldValue, isSubmitting } = formikProps;
 
   const panels: {
     id: string;
@@ -278,17 +275,9 @@ const PodcastForm: FC<Props & tType> = ({
     },
     {
       id: 'podcast-upload-podcastmeta-metadataSection',
-      title: 'Podcast informasjon',
+      title: t('form.podcastSection'),
       errorFields: ['header', 'introduction', 'coverPhotoId', 'coverPhotoAltText', 'manuscript'],
-      component: (
-        <PodcastMetaData
-          header="test"
-          introduction=""
-          coverPhotoId=""
-          coverPhotoAltText=""
-          manuscript=""
-        />
-      ),
+      component: <PodcastMetaData />,
     },
     {
       id: 'podcast-upload-metadataSection',
@@ -301,7 +290,9 @@ const PodcastForm: FC<Props & tType> = ({
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={() => {}}
+      onSubmit={handleSubmit}
+      validateOnMount
+      enableReinitialize
       validate={values => validateFormik(values, podcastRules, t)}>
       {formikProps => {
         const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
@@ -328,9 +319,9 @@ const PodcastForm: FC<Props & tType> = ({
                       <Fragment key={panel.id}>
                         <AccordionBar
                           panelId={panel.id}
-                          ariaLabel={'TODO'}
+                          ariaLabel={panel.title}
                           onClick={() => handleItemClick(panel.id)}
-                          title={panel.title} // TODO ADD t
+                          title={panel.title}
                           hasError={hasError}
                           isOpen={openIndexes.includes(panel.id)}
                         />
@@ -359,7 +350,7 @@ const PodcastForm: FC<Props & tType> = ({
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
-                onClick={evt => {
+                onClick={(evt: Event) => {
                   evt.preventDefault();
                   submitForm();
                 }}

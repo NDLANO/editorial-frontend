@@ -477,6 +477,7 @@ const phrases = {
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     articleSection: 'Articles',
+    podcastSection: 'Podcast information',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',

@@ -35,7 +35,12 @@ const CreatePodcast: FC<Props> = ({ licenses, history }) => {
   };
 
   return (
-    <PodcastForm audio={{ language: locale }} licenses={licenses} onUpdate={onCreatePodcast} />
+    <PodcastForm
+      audio={{ language: locale }}
+      licenses={licenses}
+      onUpdate={onCreatePodcast}
+      isNewlyCreated={false}
+    />
   );
 };
 

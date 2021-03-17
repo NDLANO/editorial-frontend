@@ -15,7 +15,7 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
+import { Audio, Embed, LocaleType } from '../../../../interfaces';
 
 interface Props {
   attributes?: {

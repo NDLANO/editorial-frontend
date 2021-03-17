@@ -11,7 +11,7 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Audiobook, Download, VolumeUp } from '@ndla/icons/common';
+import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
 
 const renderArticleInModal = pageId => <HowToHelper pageId={pageId} extraIconPadding />;
@@ -54,7 +54,7 @@ const actions = [
   },
   {
     data: { type: 'embed', object: 'podcast' },
-    icon: <Audiobook />,
+    icon: <Podcast />,
     helpIcon: renderArticleInModal('Podcasts'),
   },
   {

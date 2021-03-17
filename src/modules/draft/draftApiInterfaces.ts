@@ -6,13 +6,7 @@
  *
  */
 
-import { Author, AvailabilityType, RelatedContent, Status } from '../../interfaces';
-
-export interface DraftApiLicense {
-  license: string;
-  description?: string;
-  url?: string;
-}
+import { Author, AvailabilityType, RelatedContent, Status, License } from '../../interfaces';
 
 export interface DraftStatusStateMachineType {
   QUALITY_ASSURED: string[];
@@ -296,7 +290,7 @@ export interface NewDraftApiType {
 }
 
 interface Copyright {
-  license?: DraftApiLicense;
+  license?: License;
   origin?: string;
   creators: Author[];
   processors: Author[];

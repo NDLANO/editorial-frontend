@@ -5,35 +5,30 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import { FormikHelpers, FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import { AsyncDropdown } from '../../../components/Dropdown';
-import { ArticleType, ContentResultType, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 
-interface Props {
-  locale: string;
-  initArticles: ArticleType[];
-  field: FormikProperties['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
-}
+import { ArticleType, ContentResultType } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
 
-const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, form }) => {
-  const [articles, setArticles] = useState<ArticleType[]>(initArticles);
+const ConceptArticles = ({ t }: tType) => {
+  const {
+    values: { articles, language },
+    setFieldValue,
+  } = useFormikContext<ConceptFormValues>();
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
       // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
       let newArticle = (await fetchDraft(article.id)) as ArticleType;
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
-        setArticles(temp);
-        updateFormik(field, temp);
+        setFieldValue('articles', temp);
       }
     } catch (e) {
       handleError(e);
@@ -41,24 +36,13 @@ const ConceptArticles: FC<Props & tType> = ({ locale, t, initArticles, field, fo
   };
 
   const onUpdateElements = (articleList: ArticleType[]) => {
-    setArticles(articleList);
-    updateFormik(field, articleList);
-  };
-
-  const updateFormik = (formikField: Props['field'], newData: ArticleType[]) => {
-    form.setFieldTouched('articleIds', true, false);
-    formikField.onChange({
-      target: {
-        name: formikField.name,
-        value: newData || null,
-      },
-    });
+    setFieldValue('articles', articleList);
   };
 
   const searchForArticles = async (input: string) => {
     return searchDrafts({
       query: input,
-      language: locale,
+      language: language,
     });
   };
 

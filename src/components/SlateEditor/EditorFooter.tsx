@@ -12,34 +12,30 @@ import { injectT, tType } from '@ndla/i18n';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
+import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { Article, PossibleStatuses, Values } from './editorTypes';
-import { ConceptType } from '../../interfaces';
+import { Article, PossibleStatuses } from './editorTypes';
+import { ConceptType, FormValues, CreateMessageType } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 
 interface Props {
-  isSubmitting: boolean;
   formIsDirty: boolean;
   savedToServer: boolean;
-  values: Values;
-  error: string;
-  errors: Object;
   getEntity: () => Article | ConceptType;
   entityStatus: { current: string };
-  createMessage: (o: { translationKey: string; severity: string }) => void;
+  createMessage: (o: CreateMessageType) => void;
   showSimpleFooter: boolean;
-  setFieldValue: (name: string, value: { current: string }) => void;
   onSaveClick: VoidFunction;
-  getStateStatuses: () => PossibleStatuses;
+  fetchStatusStateMachine: () => Promise<PossibleStatuses>;
   validateEntity: (id: number, updatedEntity: Article | ConceptType) => void;
-  isArticle: boolean;
+  isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
-  hasErrors: boolean;
+  hasErrors?: boolean;
 }
 
 const StyledLine = styled.hr`
@@ -52,36 +48,33 @@ const StyledLine = styled.hr`
   }
 `;
 
-const EditorFooter: React.FC<Props & tType> = ({
-  t,
-  isSubmitting,
+function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
-  values,
   getEntity,
   createMessage,
   entityStatus,
   showSimpleFooter,
-  setFieldValue,
-  errors,
   onSaveClick,
-  getStateStatuses,
+  fetchStatusStateMachine,
   validateEntity,
   isArticle,
   isConcept,
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
-}) => {
+  t,
+}: Props & tType) {
+  const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
   useEffect(() => {
     const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
-      const possibleStatuses = await getStateStatuses();
+      const possibleStatuses = await fetchStatusStateMachine();
       setStatuses(possibleStatuses);
     };
     fetchStatuses(setStatuses);
-  }, [getStateStatuses]);
+  }, [fetchStatusStateMachine]);
 
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
@@ -100,7 +93,7 @@ const EditorFooter: React.FC<Props & tType> = ({
       showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
       onClick={onSaveClick}
       hideSecondaryButton={hideSecondaryButton}
-      disabled={hasErrors}
+      disabled={!!hasErrors}
     />
   );
 
@@ -195,6 +188,6 @@ const EditorFooter: React.FC<Props & tType> = ({
       </div>
     </Footer>
   );
-};
+}
 
 export default injectT(EditorFooter);

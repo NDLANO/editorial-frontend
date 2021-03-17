@@ -52,7 +52,7 @@ export interface ImageApiType {
 }
 
 export interface NewImageMetadata {
-  id?: number; // Used only to check if image was newly created. This id is discarded by backend.
+  id?: string; // Used only to check if image was newly created. This id is discarded by backend.
   title: string;
   alttext: string;
   copyright: Copyright;

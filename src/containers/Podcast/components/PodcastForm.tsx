@@ -23,8 +23,9 @@ import {
   NewPodcastMeta,
   NewPodcastMetaInformation,
   NewAudioMetaInformation,
+  PodcastFormValues
 } from '../../../modules/audio/audioApiInterfaces';
-import { Author, Copyright, License } from '../../../interfaces';
+import { Copyright, License } from '../../../interfaces';
 
 const podcastRules = {
   // TODO Oppdater denne
@@ -68,32 +69,9 @@ const podcastRules = {
   },
 };
 
-interface PodcastFormikType {
-  // TODO rename to PodcastFormValues
-  // TODO de typene som skal inn i formet. brukes i getInitialValues
-  id?: string;
-  revision?: number;
-  language?: string;
-  supportedLanguages?: any; // TODO FIX
-  title?: string;
-  audioFile: any; // TODO FIX
-  filepath: '';
-  //  copyright?: Copyright;
-  tags?: string[];
-  origin?: string;
-  creators?: Author[];
-  processors?: Author[];
-  rightsholders?: Author[];
-  license?: string;
-  audioType?: 'podcast';
-  header?: string;
-  introduction?: string;
-  coverPhotoId?: string;
-  coverPhotoAltText?: string;
-  manuscript?: string;
-}
 
-export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormikType => {
+
+export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => {
   /// TODODODODOD DO THIS SE OM det skal være et nivå inn på podcast eller ikke, imageform som inspo
   return {
     id: audio?.id || '', // TODO remove ||
@@ -206,8 +184,8 @@ const PodcastForm: FC<Props & tType> = ({
   const [savedToServer, setSavedToServer] = useState(false);
 
   const handleSubmit = async (
-    values: PodcastFormikType,
-    actions: FormikHelpers<PodcastFormikType>,
+    values: PodcastFormValues,
+    actions: FormikHelpers<PodcastFormValues>,
   ) => {
     const license = licenses.find(license => license.license === values.license);
 

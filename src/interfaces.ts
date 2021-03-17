@@ -448,13 +448,15 @@ export interface Embed {
   'lower-right-y': string;
 }
 
+export interface AudioFile {
+  filesize: number;
+  language: string;
+  mimeType: string;
+  url: string;
+};
+
 export interface Audio {
-  audioFile: {
-    filesize: number;
-    language: string;
-    mimeType: string;
-    url: string;
-  };
+  audioFile: AudioFile;
   caption: string;
   copyright: Copyright;
   id: number;

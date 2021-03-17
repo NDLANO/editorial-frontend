@@ -12,6 +12,7 @@ import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
@@ -116,6 +117,17 @@ const SlateFigure: React.FC<Props & tType> = ({
         />
       );
     case 'audio':
+      if (embed.type === 'podcast') {
+        return (
+          <SlatePodcast
+            attributes={attributes}
+            embed={embed}
+            language={language}
+            locale={locale}
+            onRemoveClick={onRemoveClick}
+          />
+        );
+      }
       return (
         <SlateAudio
           attributes={attributes}

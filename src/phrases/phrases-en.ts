@@ -457,6 +457,7 @@ const phrases = {
       related: 'Related content',
       file: 'File',
       code: 'Codeblock',
+      podcast: 'Podcast',
     },
   },
   form: {

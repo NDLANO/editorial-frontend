@@ -475,6 +475,7 @@ const phrases = {
       related: 'Relatert innhold',
       file: 'Fil',
       code: 'Kodevisning',
+      podcast: 'Podcast',
     },
   },
   form: {

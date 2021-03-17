@@ -476,6 +476,7 @@ const phrases = {
       related: 'Relatert innhald',
       file: 'Fil',
       code: 'Kodevisning',
+      podcast: 'Podcast',
     },
   },
   detailBox: {

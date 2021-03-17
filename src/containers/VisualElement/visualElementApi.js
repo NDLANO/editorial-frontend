@@ -46,6 +46,7 @@ export const searchAudios = query =>
     `${baseAudioNdlaUrl}/?${queryString.stringify({
       query: query.query,
       page: query.page,
+      'audio-type': query['audio-type'],
     })}&page-size=16`,
   ).then(resolveJsonOrRejectWithError);
 

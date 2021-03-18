@@ -671,6 +671,7 @@ const phrases = {
       published: 'Publisert',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
+      awaiting_archiving: 'Arkivering-utsatt',
       archived: 'Arkivert',
       actions: {
         DRAFT: 'Kladd',

@@ -108,17 +108,15 @@ class EditImage extends Component<Props> {
       ...rest
     } = this.props;
     return (
-      <>
-        <ImageForm
-          image={imageData || { language: locale }}
-          onUpdate={(image, file) => {
-            updateImage({ image, file, history, editingArticle });
-          }}
-          closeModal={closeModal}
-          isNewlyCreated={isNewlyCreated}
-          {...rest}
-        />
-      </>
+      <ImageForm
+        image={imageData || { language: locale }}
+        onUpdate={(image, file) => {
+          updateImage({ image, file, history, editingArticle });
+        }}
+        closeModal={closeModal}
+        isNewlyCreated={isNewlyCreated}
+        {...rest}
+      />
     );
   }
 }

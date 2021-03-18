@@ -40,6 +40,13 @@ export const updateImage = (imageMetadata: UpdatedImageMetadata): Promise<ImageA
     body: JSON.stringify(imageMetadata),
   }).then(resolveJsonOrRejectWithError);
 
+export const patchImage = (id: number, formData: FormData): Promise<ImageApiType> =>
+  fetchAuthorized(`${baseUrl}/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': undefined },
+    body: formData,
+  }).then(resolveJsonOrRejectWithError);
+
 export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult> => {
   const response = fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
     resolveJsonOrRejectWithError,

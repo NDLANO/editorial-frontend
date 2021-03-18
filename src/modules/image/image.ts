@@ -35,7 +35,7 @@ export interface ReduxImageState {
   uploadedImage?: any;
 }
 
-const initalState: ReduxImageState = {
+const initialState: ReduxImageState = {
   all: {},
   isSaving: false,
 };
@@ -83,7 +83,7 @@ export default handleActions(
       throw: (state: ReduxImageState) => state,
     },
   },
-  initalState,
+  initialState,
 );
 
 const getImagesFromState = (state: ReduxState): ReduxImageState => {

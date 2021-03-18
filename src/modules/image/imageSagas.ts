@@ -39,12 +39,17 @@ export function* watchFetchImage() {
   }
 }
 
-export function* updateImage(image: UpdatedImageMetadata) {
+export function* updateImage(image: UpdatedImageMetadata, file: string | Blob) {
   try {
-    const updatedImage: ImageApiType = yield call(api.updateImage, image);
-    yield put(actions.setImage({ ...updatedImage, language: image.language }));
-    yield put(actions.updateImageSuccess());
-    yield put(messageActions.showSaved());
+    if (image.id !== undefined) {
+      const formData: FormData = yield call(createFormData, file, image);
+      const updatedImage: ImageApiType = yield call(api.patchImage, image.id, formData);
+      yield put(actions.setImage({ ...updatedImage, language: image.language }));
+      yield put(actions.updateImageSuccess());
+      yield put(messageActions.showSaved());
+    } else {
+      yield put(actions.updateImageError());
+    }
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
@@ -84,7 +89,7 @@ export function* watchUpdateImage() {
       payload: { image, file, history, editingArticle },
     } = yield take(actions.updateImage);
     if (image.id) {
-      yield call(updateImage, image);
+      yield call(updateImage, image, file);
     } else {
       yield call(createImage, image, file, history, editingArticle);
     }

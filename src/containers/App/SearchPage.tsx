@@ -6,7 +6,6 @@
  */
 
 import React, { FC, Fragment, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { injectT, tType } from '@ndla/i18n';

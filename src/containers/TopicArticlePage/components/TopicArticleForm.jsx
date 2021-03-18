@@ -63,7 +63,7 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title, true),
     updated: article.updated,
     updatePublished: false,
-    visualElement: visualElement || {},
+    visualElementObject: visualElement || {},
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -89,7 +89,9 @@ const getPublishedDate = (values, initialValues, preview = false) => {
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
   const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(isEmpty(values.visualElement) ? {} : values.visualElement);
+  const visualElement = createEmbedTag(
+    isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
+  );
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {
@@ -200,20 +202,16 @@ const TopicArticleForm = props => {
         )}
         <EditorFooter
           showSimpleFooter={!article.id}
-          isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
           showReset={() => setResetModal(true)}
-          errors={errors}
-          values={values}
           onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
           entityStatus={article.status}
-          getStateStatuses={fetchStatusStateMachine}
+          fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          {...formikProps}
           {...rest}
         />
         <FormikAlertModalWrapper

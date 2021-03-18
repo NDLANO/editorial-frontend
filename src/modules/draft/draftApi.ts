@@ -11,6 +11,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import { License } from '../../interfaces';
 import {
   AgreementApiType,
   AgreementSearchResult,
@@ -20,7 +21,6 @@ import {
   DraftStatusStateMachineType,
   DraftStatusTypes,
   GrepCodesSearchResult,
-  DraftApiLicense,
   NewAgreementApiType,
   NewDraftApiType,
   TagResult,
@@ -117,7 +117,7 @@ export const fetchSearchTags = async (input: string, language: string): Promise<
     resolveJsonOrRejectWithError,
   );
 
-export const fetchLicenses = async (): Promise<DraftApiLicense[]> =>
+export const fetchLicenses = async (): Promise<License[]> =>
   fetchAuthorized(`${baseUrl}/licenses/`).then(resolveJsonOrRejectWithError);
 
 export const fetchAgreements = async (query: string): Promise<AgreementSearchResult> =>

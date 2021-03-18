@@ -59,9 +59,9 @@ const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
 // Also useful for detecting validation issues.
 function standardizeContent(content: string): string {
   const trimmedContent = content
-    .split('\n')
+    .split('>\n')
     .map(s => s.trim())
-    .join('');
+    .join('>');
   const converted = learningResourceContentToEditorValue(trimmedContent);
   return learningResourceContentToHTML(converted);
 }

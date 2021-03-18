@@ -82,7 +82,8 @@ export type DraftStatusTypes =
   | 'QUEUED_FOR_PUBLISHING_DELAYED'
   | 'AWAITING_UNPUBLISHING'
   | 'UNPUBLISHED'
-  | 'ARCHIVED';
+  | 'ARCHIVED'
+  | 'AWAITING_ARCHIVING';
 
 export interface DraftSearchQuery {
   query?: string;

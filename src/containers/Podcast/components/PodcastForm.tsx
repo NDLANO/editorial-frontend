@@ -28,7 +28,6 @@ import {
 import { Copyright, License } from '../../../interfaces';
 
 const podcastRules = {
-  // TODO Oppdater denne
   title: {
     required: true,
   },
@@ -52,27 +51,26 @@ const podcastRules = {
     required: true,
   },
   coverPhotoAltText: {
-    requred: true,
+    required: true,
+  },
+  header: {
+    required: true,
   },
   manuscript: {
-    // TODO funker ikke?
-    requred: true,
+    required: true,
   },
   introduction: {
-    requred: true,
+    required: true,
   },
   imageFile: {
-    requred: true,
+    required: true,
   },
   coverPhotoId: {
-    requred: true,
+    required: true,
   },
 };
 
-
-
 export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => {
-  /// TODODODODOD DO THIS SE OM det skal være et nivå inn på podcast eller ikke, imageform som inspo
   return {
     id: audio?.id || '', // TODO remove ||
     revision: audio?.revision || 0, // TODO remove ||
@@ -103,7 +101,6 @@ interface PodcastPropType {
   language?: string;
   supportedLanguages?: string[];
   audioFile?: {
-    //TODO flate ut som imageForm?
     url: string;
     mimeType: string;
     fileSize: number;
@@ -143,7 +140,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 type openIndexesProps = number | string;
 
 type AccordionChildrenProps = {
-  // TODO se over ???
+  // TODO reuse from ImageForm, move
   openIndexes: Array<openIndexesProps>;
   handleItemClick: (arg: openIndexesProps) => void;
   getBarProps: (
@@ -166,8 +163,8 @@ type AccordionChildrenProps = {
 interface Props {
   audio: PodcastPropType;
   inModal?: boolean;
-  isNewlyCreated?: boolean; // TODO hva er tanken bak denne?
-  formikProps?: FormikProps<PodcastPropType>; // TODO hva skal være i <>
+  isNewlyCreated?: boolean;
+  formikProps?: FormikProps<PodcastPropType>; // TODO type in <?>
   licenses: License[];
   onUpdate: (audioMetadata: NewAudioMetaInformation, podcastFile: string | Blob) => void;
 }
@@ -178,7 +175,6 @@ const PodcastForm: FC<Props & tType> = ({
   inModal,
   isNewlyCreated,
   licenses,
-  formikProps,
   onUpdate,
 }) => {
   const [savedToServer, setSavedToServer] = useState(false);
@@ -190,7 +186,7 @@ const PodcastForm: FC<Props & tType> = ({
     const license = licenses.find(license => license.license === values.license);
 
     if (
-      // TODO, burde finnes en bedre måte å gjøre dette på
+      // TODO, burde vel finnes en bedre måte å gjøre dette på
       license === undefined ||
       values.title === undefined ||
       values.language === undefined ||
@@ -233,7 +229,7 @@ const PodcastForm: FC<Props & tType> = ({
       },
     };
 
-    await onUpdate(podcastMetaData, values.audioFile); // TODO test
+    await onUpdate(podcastMetaData, values.audioFile);
     setSavedToServer(true);
   };
 

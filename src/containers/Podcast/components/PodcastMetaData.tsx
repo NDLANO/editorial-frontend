@@ -18,26 +18,14 @@ interface Props {}
 const PodcastMetaData: FC<Props & tType> = ({ t }) => {
   return (
     <>
-      <FieldHeader title={t('podcastForm.fields.header')} />
-      <FormikField
-        name="header"
-        label={t('podcastForm.fields.header')}
-        obligatory
-        noBorder
-        placeholder={t('podcastForm.fields.header')}
-      />
-      <FieldHeader title={t('podcastForm.fields.introduction')} />
-      <FormikField
-        name="introduction"
-        label={t('podcastForm.fields.introduction')}
-        noBorder
-        obligatory
-        placeholder={t('podcastForm.fields.introduction')}
-      />
+      <FormikField label={t('podcastForm.fields.header')} name="header" />
+      <FormikField label={t('podcastForm.fields.introduction')} name="introduction" />
+      <FormikField label='bildekomponent' name="image" />
+      <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript" />
 
       {/* Q: kan jeg gjenbruke metabilde under her? */}
       <FormikField name="metaImageId">
-        {({ field, form }) => (
+          {({ field, form }) => (
           <FormikMetaImageSearch
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
@@ -47,14 +35,7 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
         )}
       </FormikField>
 
-      <FieldHeader title={t('podcastForm.fields.manuscript')} />
-      <FormikField
-        name="manuscript"
-        label={t('podcastForm.fields.manuscript')}
-        noBorder
-        obligatory
-        placeholder={t('podcastForm.fields.manuscript')}
-      />
+
     </>
   );
 };

@@ -547,6 +547,8 @@ const phrases = {
       concepts: 'Forklaringar',
       relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
+      header: 'Overskrift',
+      manuscript: 'Manus',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

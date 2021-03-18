@@ -19,7 +19,7 @@ import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
 import CreateImage from './CreateImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { LocationShape } from '../../shapes';
+import { RoutePropTypes } from '../../shapes';
 import { ReduxState } from '../../interfaces';
 
 const usePreviousLocation = (value: any) => {
@@ -72,20 +72,11 @@ const ImageUploaderPage: FC<Props> = ({ match, t, location, ...rest }) => {
   );
 };
 
-// TODO:
-// ImageUploaderPage.propTypes = {
-//   match: PropTypes.shape({
-//     url: PropTypes.string.isRequired,
-//     params: PropTypes.shape({
-//       imageId: PropTypes.string,
-//       imageLanguage: PropTypes.string,
-//     }),
-//   }).isRequired,
-//   history: PropTypes.shape({
-//     push: PropTypes.func.isRequired,
-//   }).isRequired,
-//   isSaving: PropTypes.bool.isRequired,
-//   location: LocationShape,
-// };
+ImageUploaderPage.propTypes = {
+  ...RoutePropTypes,
+  isSaving: PropTypes.bool.isRequired,
+  imageId: PropTypes.string,
+  imageLanguage: PropTypes.string,
+};
 
 export default connect(mapStateToProps)(injectT(ImageUploaderPage));

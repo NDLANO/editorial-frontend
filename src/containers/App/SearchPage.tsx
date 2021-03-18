@@ -20,7 +20,7 @@ import SearchImagePage from '../SearchPage/SearchImagePage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
-import { LocationShape, HistoryShape } from '../../shapes';
+import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
 
 interface Props extends RouteComponentProps, tType {}
@@ -87,14 +87,7 @@ const SearchPage: FC<Props> = ({ match, t }) => {
 };
 
 SearchPage.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    params: PropTypes.object.isRequired,
-    isExact: PropTypes.bool.isRequired,
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  history: HistoryShape.isRequired,
+  ...RoutePropTypes,
 };
 
 export default injectT(withRouter(SearchPage));

@@ -316,3 +316,14 @@ export const FormikShape = PropTypes.shape({
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
 });
+
+export const RoutePropTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    params: PropTypes.object.isRequired,
+    isExact: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape.isRequired,
+};

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component, ComponentType, FC } from 'react';
+import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 

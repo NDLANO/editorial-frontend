@@ -64,7 +64,7 @@ const ImageContent: FC<Props & tType> = ({ t, formik }) => {
           {t('form.image.dragdrop.sub')}
         </UploadDropZone>
       )}
-      {!values.id && values.imageFile && (
+      {values.imageFile && (
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
             <IconButton

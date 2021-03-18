@@ -10,13 +10,39 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
+import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
 
-class EditImage extends Component {
+interface ImageType extends NewImageMetadata {
+  revision?: number;
+  imageFile?: string | Blob;
+}
+
+interface Props extends RouteComponentProps {
+  imageId?: string;
+  fetchLicenses: () => void; // TODO:
+  fetchImage: ({}) => void; // TODO:
+  updateImage: ({}) => void; // TODO:
+  closeModal: () => void; // TODO:
+  imageLanguage?: string;
+  licenses: {
+    description: string;
+    license: string;
+  }[];
+  image: ImageType;
+  locale: string;
+  isSaving: boolean;
+  inModal?: boolean;
+  editingArticle?: boolean;
+  isNewlyCreated?: boolean;
+}
+
+class EditImage extends Component<Props> {
   componentDidMount() {
     const { imageId, fetchImage, imageLanguage, fetchLicenses } = this.props;
     if (imageId) {
@@ -25,7 +51,8 @@ class EditImage extends Component {
     fetchLicenses();
   }
 
-  componentDidUpdate({ imageId: prevImageId }) {
+  componentDidUpdate(prevProps: Props) {
+    const { imageId: prevImageId } = prevProps;
     const { imageId, fetchImage, imageLanguage, image } = this.props;
 
     if (
@@ -49,44 +76,20 @@ class EditImage extends Component {
       ...rest
     } = this.props;
     return (
-      <ImageForm
-        image={imageData || { language: locale }}
-        revision={imageData && imageData.revision}
-        imageInfo={imageData && imageData.imageFile}
-        onUpdate={(image, file) => {
-          updateImage({ image, file, history, editingArticle });
-        }}
-        closeModal={closeModal}
-        isNewlyCreated={isNewlyCreated}
-        {...rest}
-      />
+      <>
+        <ImageForm
+          image={imageData || { language: locale }}
+          onUpdate={(image, file) => {
+            updateImage({ image, file, history, editingArticle });
+          }}
+          closeModal={closeModal}
+          isNewlyCreated={isNewlyCreated}
+          {...rest}
+        />
+      </>
     );
   }
 }
-
-EditImage.propTypes = {
-  imageId: PropTypes.string,
-  fetchLicenses: PropTypes.func.isRequired,
-  fetchImage: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  image: ImageShape,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  updateImage: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
-  imageLanguage: PropTypes.string,
-  inModal: PropTypes.bool,
-  closeModal: PropTypes.func,
-  editingArticle: PropTypes.bool,
-  isNewlyCreated: PropTypes.bool,
-};
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
@@ -94,7 +97,7 @@ const mapDispatchToProps = {
   updateImage: actions.updateImage,
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: { locale: string }, props: Props) => {
   const { imageId } = props;
   const getImageSelector = getImage(imageId, true);
   const locale = getLocale(state);
@@ -105,4 +108,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditImage));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditImage));

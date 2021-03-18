@@ -148,7 +148,7 @@ interface Props {
     url?: string;
   }[];
   onUpdate: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
-  showSaved: boolean;
+  showSaved?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;

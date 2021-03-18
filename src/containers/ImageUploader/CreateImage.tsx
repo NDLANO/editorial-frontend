@@ -17,10 +17,9 @@ import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
-interface Props {
-  history: RouteComponentProps['history'];
-  isNewlyCreated: boolean;
-  showSaved: boolean;
+interface Props extends RouteComponentProps {
+  isNewlyCreated?: boolean;
+  showSaved?: boolean;
 }
 
 const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteComponentProps) => {

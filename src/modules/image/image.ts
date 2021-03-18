@@ -10,6 +10,7 @@ import { handleActions, createAction } from 'redux-actions';
 
 import { createSelector } from 'reselect';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { ReduxState } from '../../interfaces';
 
 export const fetchImage = createAction('FETCH_IMAGE');
 export const setImage = createAction('SET_IMAGE');
@@ -27,60 +28,74 @@ export const actions = {
   clearUploadedImage,
 };
 
-const initalState = {
+export interface ReduxImageState {
+  all: any;
+  isSaving: boolean;
+  images?: any;
+  uploadedImage?: any;
+}
+
+const initalState: ReduxImageState = {
   all: {},
   isSaving: false,
 };
 
 export default handleActions(
   {
-    [setImage]: {
-      next: (state, action) => ({
-        ...state,
-        all: { ...state.all, [action.payload.id]: { ...action.payload } },
-      }),
-      throw: state => state,
+    SET_IMAGE: {
+      next: (state: ReduxImageState, action: any) => {
+        return {
+          ...state,
+          all: { ...state.all, [action.payload.id]: { ...action.payload } },
+        };
+      },
+      throw: (state: ReduxImageState) => state,
     },
-    [updateImage]: {
-      next: state => ({
+    UPDATE_IMAGE: {
+      next: (state: ReduxImageState) => ({
         ...state,
         isSaving: true,
       }),
-      throw: state => state,
+      throw: (state: ReduxImageState) => state,
     },
-    [updateImageSuccess]: {
-      next: (state, action) => ({
+    UPDATE_IMAGE_SUCCESS: {
+      next: (state: ReduxImageState, action: any) => ({
         ...state,
         isSaving: false,
         uploadedImage: action?.payload?.uploadedImage,
       }),
-      throw: state => state,
+      throw: (state: ReduxImageState) => state,
     },
-    [updateImageError]: {
-      next: state => ({
+    UPDATE_IMAGE_ERROR: {
+      next: (state: ReduxImageState) => ({
         ...state,
         isSaving: false,
       }),
-      throw: state => state,
+      throw: (state: ReduxImageState) => state,
     },
-    [clearUploadedImage]: {
-      next: state => ({
-        ...state,
-        uploadedImage: null,
-      }),
-      throw: state => state,
+    CLEAR_UPLOADED_IMAGE: {
+      next: (state: ReduxImageState) => {
+        return {
+          ...state,
+          uploadedImage: null,
+        };
+      },
+      throw: (state: ReduxImageState) => state,
     },
   },
   initalState,
 );
 
-const getImagesFromState = state => state.images;
+const getImagesFromState = (state: ReduxState): ReduxImageState => {
+  return state.images;
+};
 
-export const getImageById = imageId =>
-  createSelector([getImagesFromState], images => images.all[imageId]);
+export const getImageById = (imageId: string) => {
+  return createSelector(getImagesFromState, (images: ReduxImageState) => images.all[imageId]);
+};
 
-export const getImage = (imageId, useLanguage = false) =>
-  createSelector([getImageById(imageId)], image => {
+export const getImage = (imageId: string, useLanguage: boolean = false) =>
+  createSelector(getImageById(imageId), image => {
     const imageLanguage =
       image &&
       useLanguage &&
@@ -100,9 +115,6 @@ export const getImage = (imageId, useLanguage = false) =>
       : undefined;
   });
 
-export const getSaving = createSelector([getImagesFromState], images => images.isSaving);
+export const getSaving = createSelector(getImagesFromState, images => images.isSaving);
 
-export const getUploadedImage = createSelector(
-  [getImagesFromState],
-  images => images.uploadedImage,
-);
+export const getUploadedImage = createSelector(getImagesFromState, images => images.uploadedImage);

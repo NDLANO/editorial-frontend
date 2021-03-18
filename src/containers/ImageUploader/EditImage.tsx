@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, ComponentType, FC } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { RouteComponentProps } from 'react-router';
@@ -15,13 +15,14 @@ import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
 import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { ReduxState } from '../../interfaces';
 
 interface ImageType extends NewImageMetadata {
   revision?: number;
   imageFile?: string | Blob;
 }
 
-interface ReduxProps {
+interface DispatchTypes {
   fetchLicenses: () => void;
   fetchImage: (imageInfo: { id: string; language?: string }) => void;
   updateImage: (imageInfo: {
@@ -30,6 +31,9 @@ interface ReduxProps {
     history: RouteComponentProps['history'];
     editingArticle?: boolean;
   }) => void;
+}
+
+interface ReduxProps {
   licenses: {
     description: string;
     license: string;
@@ -38,7 +42,7 @@ interface ReduxProps {
   locale: string;
 }
 
-interface Props extends RouteComponentProps, ReduxProps {
+interface BaseProps {
   imageId?: string;
   closeModal?: () => void;
   imageLanguage?: string;
@@ -47,6 +51,28 @@ interface Props extends RouteComponentProps, ReduxProps {
   editingArticle?: boolean;
   isNewlyCreated?: boolean;
 }
+
+const mapDispatchToProps: DispatchTypes = {
+  fetchLicenses: licenseActions.fetchLicenses,
+  fetchImage: actions.fetchImage,
+  updateImage: actions.updateImage,
+};
+
+const mapStateToProps = (state: ReduxState, props: BaseProps): ReduxProps => {
+  const { imageId } = props;
+  const getImageSelector = getImage(imageId!, true);
+  const locale = getLocale(state);
+  return {
+    locale,
+    licenses: getAllLicenses(state),
+    image: getImageSelector(state),
+  };
+};
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+interface Props extends BaseProps, RouteComponentProps, PropsFromRedux {}
 
 class EditImage extends Component<Props> {
   componentDidMount() {
@@ -97,21 +123,4 @@ class EditImage extends Component<Props> {
   }
 }
 
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-  fetchImage: actions.fetchImage,
-  updateImage: actions.updateImage,
-};
-
-const mapStateToProps = (state: { locale: string }, props: Props) => {
-  const { imageId } = props;
-  const getImageSelector = getImage(imageId, true);
-  const locale = getLocale(state);
-  return {
-    locale,
-    licenses: getAllLicenses(state),
-    image: getImageSelector(state),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditImage));
+export default reduxConnector(withRouter(EditImage));

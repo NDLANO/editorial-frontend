@@ -7,6 +7,7 @@
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
+import { ReduxImageState } from './modules/image/image';
 
 export type LocaleType = 'nb' | 'nn' | 'en';
 
@@ -575,4 +576,8 @@ export interface MessageI {
     title: string;
     onClick: Function;
   };
+}
+
+export interface ReduxState {
+  images: ReduxImageState;
 }

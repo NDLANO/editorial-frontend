@@ -45,7 +45,6 @@ const ImageUploaderPage = ({ match, t, location, ...rest }) => {
               imageId={props.match.params.imageId}
               imageLanguage={props.match.params.imageLanguage}
               isNewlyCreated={prevLoc === '/media/image-upload/new'}
-              {...rest}
             />
           )}
         />

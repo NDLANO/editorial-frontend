@@ -51,7 +51,6 @@ const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteCompon
       isNewlyCreated={isNewlyCreated}
       licenses={draftLicensesToImageLicenses(licenses)}
       onUpdate={onCreateImage}
-      showSaved={showSaved}
     />
   );
 };

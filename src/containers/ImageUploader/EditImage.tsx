@@ -6,7 +6,6 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -15,7 +14,6 @@ import { actions as licenseActions, getAllLicenses } from '../../modules/license
 import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
-import { ImageShape } from '../../shapes';
 import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
 
 interface ImageType extends NewImageMetadata {
@@ -23,20 +21,28 @@ interface ImageType extends NewImageMetadata {
   imageFile?: string | Blob;
 }
 
-interface Props extends RouteComponentProps {
-  imageId?: string;
-  fetchLicenses: () => void; // TODO:
-  fetchImage: ({}) => void; // TODO:
-  updateImage: ({}) => void; // TODO:
-  closeModal: () => void; // TODO:
-  imageLanguage?: string;
+interface ReduxProps {
+  fetchLicenses: () => void;
+  fetchImage: (imageInfo: { id: string; language?: string }) => void;
+  updateImage: (imageInfo: {
+    image: ImageType;
+    file: string | Blob;
+    history: RouteComponentProps['history'];
+    editingArticle?: boolean;
+  }) => void;
   licenses: {
     description: string;
     license: string;
   }[];
   image: ImageType;
   locale: string;
-  isSaving: boolean;
+}
+
+interface Props extends RouteComponentProps, ReduxProps {
+  imageId?: string;
+  closeModal?: () => void;
+  imageLanguage?: string;
+  isSaving?: boolean;
   inModal?: boolean;
   editingArticle?: boolean;
   isNewlyCreated?: boolean;

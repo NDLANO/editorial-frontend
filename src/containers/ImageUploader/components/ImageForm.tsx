@@ -148,7 +148,6 @@ interface Props {
     url?: string;
   }[];
   onUpdate: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
-  showSaved?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -344,7 +343,6 @@ class ImageForm extends Component<Props & tType, State> {
       }).isRequired,
     ).isRequired,
     onUpdate: PropTypes.func.isRequired,
-    showSaved: PropTypes.bool.isRequired,
     inModal: PropTypes.bool,
     closeModal: PropTypes.func,
     isNewlyCreated: PropTypes.bool,

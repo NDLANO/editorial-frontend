@@ -174,7 +174,7 @@ class VisualElementSearch extends Component {
           page: 1,
           pageSize: 16,
           locale,
-          'audio-type': audioType,
+          audioType,
         };
         const fetchAudio = id => visualElementApi.fetchAudio(id, articleLanguage);
 

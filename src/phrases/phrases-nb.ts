@@ -671,6 +671,7 @@ const phrases = {
       published: 'Publisert',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
+      awaiting_archiving: 'Arkivering-utsatt',
       archived: 'Arkivert',
       actions: {
         DRAFT: 'Kladd',
@@ -687,6 +688,7 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
+        AWAITING_ARCHIVING: 'Arkivering-utsatt',
       },
       learningpath_statuses: {
         private: 'Kladd',

@@ -22,7 +22,7 @@ interface Props extends RouteComponentProps {
   showSaved?: boolean;
 }
 
-const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteComponentProps) => {
+const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
   const locale: string = useContext(LocaleContext);
   const [licenses, setLicenses] = useState<License[]>([]);
 

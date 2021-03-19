@@ -38,6 +38,7 @@ export interface ReduxImageState {
   uploadedImage?: any;
 }
 export type ImageApiTypeRedux = ImageApiType & { language?: string };
+export type FlatReduxImage = Omit<UpdatedImageMetadata, 'language'> & { language?: string };
 
 const initialState: ReduxImageState = {
   all: {},
@@ -99,9 +100,7 @@ export const getImageById = (imageId: string) => {
 };
 
 export const getImage = (imageId: string, useLanguage: boolean = false) =>
-  createSelector(getImageById(imageId), (image: ImageApiTypeRedux):
-    | UpdatedImageMetadata
-    | undefined => {
+  createSelector(getImageById(imageId), (image: ImageApiTypeRedux): FlatReduxImage | undefined => {
     const imageLanguage =
       useLanguage && image?.language && image?.supportedLanguages?.includes(image.language)
         ? image.language
@@ -110,7 +109,6 @@ export const getImage = (imageId: string, useLanguage: boolean = false) =>
     return image
       ? {
           ...image,
-          language: image?.language || '', // TODO: Finn på noe bedre
           id: Number(image.id),
           title: convertFieldWithFallback(image, 'title', '', imageLanguage),
           tags: convertFieldWithFallback(image, 'tags', [], imageLanguage),

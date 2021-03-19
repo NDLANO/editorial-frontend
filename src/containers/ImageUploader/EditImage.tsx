@@ -13,7 +13,7 @@ import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
-import { actions, getImage } from '../../modules/image/image';
+import { actions, FlatReduxImage, getImage } from '../../modules/image/image';
 import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { License, ReduxState } from '../../interfaces';
 
@@ -35,7 +35,7 @@ interface DispatchTypes {
 
 interface ReduxProps {
   licenses: License[];
-  image?: ImageType;
+  image?: FlatReduxImage;
   locale: string;
 }
 
@@ -107,7 +107,7 @@ class EditImage extends Component<Props> {
     return (
       <ImageForm
         image={imageData || { language: locale }}
-        onUpdate={(image, file) => {
+        onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
           updateImage({ image, file, history, editingArticle });
         }}
         closeModal={closeModal}

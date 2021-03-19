@@ -23,7 +23,7 @@ import {
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 
 const imageRules = {
@@ -133,6 +133,9 @@ interface ImagePropType {
   title?: string;
 }
 
+type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
+
 interface Props {
   image?: ImagePropType;
   licenses: {
@@ -140,7 +143,7 @@ interface Props {
     description: string;
     url?: string;
   }[];
-  onUpdate: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+  onUpdate: OnCreateFunc | OnUpdateFunc;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -179,7 +182,7 @@ class ImageForm extends Component<Props & tType, State> {
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: UpdatedImageMetadata = {
+    const imageMetaData: NewImageMetadata = {
       id: values.id,
       title: values.title,
       alttext: values.alttext,

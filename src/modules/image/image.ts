@@ -6,14 +6,15 @@
  *
  */
 
-import { handleActions, createAction } from 'redux-actions';
+import { handleActions, createAction, Action } from 'redux-actions';
 
 import { createSelector } from 'reselect';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ReduxState } from '../../interfaces';
+import { ImageApiType, NewImageMetadata, UpdatedImageMetadata } from './imageApiInterfaces';
 
 export const fetchImage = createAction('FETCH_IMAGE');
-export const setImage = createAction('SET_IMAGE');
+export const setImage = createAction<ImageApiTypeRedux>('SET_IMAGE');
 export const updateImage = createAction('UPDATE_IMAGE');
 export const updateImageSuccess = createAction('UPDATE_IMAGE_SUCCESS');
 export const updateImageError = createAction('UPDATE_IMAGE_ERROR');
@@ -29,11 +30,14 @@ export const actions = {
 };
 
 export interface ReduxImageState {
-  all: any;
+  all: {
+    [imageId: string]: ImageApiTypeRedux;
+  };
   isSaving: boolean;
   images?: any;
   uploadedImage?: any;
 }
+export type ImageApiTypeRedux = ImageApiType & { language?: string };
 
 const initialState: ReduxImageState = {
   all: {},
@@ -43,7 +47,7 @@ const initialState: ReduxImageState = {
 export default handleActions(
   {
     SET_IMAGE: {
-      next: (state: ReduxImageState, action: any) => {
+      next: (state: ReduxImageState, action: Action<ImageApiTypeRedux>) => {
         return {
           ...state,
           all: { ...state.all, [action.payload.id]: { ...action.payload } },
@@ -95,18 +99,19 @@ export const getImageById = (imageId: string) => {
 };
 
 export const getImage = (imageId: string, useLanguage: boolean = false) =>
-  createSelector(getImageById(imageId), image => {
+  createSelector(getImageById(imageId), (image: ImageApiTypeRedux):
+    | UpdatedImageMetadata
+    | undefined => {
     const imageLanguage =
-      image &&
-      useLanguage &&
-      image.supportedLanguages &&
-      image.supportedLanguages.includes(image.language)
+      useLanguage && image?.language && image?.supportedLanguages?.includes(image.language)
         ? image.language
         : undefined;
+
     return image
       ? {
           ...image,
-          id: parseInt(image.id, 10),
+          language: image?.language || '', // TODO: Finn på noe bedre
+          id: Number(image.id),
           title: convertFieldWithFallback(image, 'title', '', imageLanguage),
           tags: convertFieldWithFallback(image, 'tags', [], imageLanguage),
           alttext: convertFieldWithFallback(image, 'alttext', '', imageLanguage),

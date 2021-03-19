@@ -13,7 +13,7 @@ import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
-import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { NewImageMetadata, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
@@ -35,7 +35,7 @@ const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteCompon
     setLicenses(license);
   };
 
-  const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
+  const onCreateImage = async (imageMetadata: UpdatedImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await imageApi.postImage(formData);
     if (!imageMetadata.id) {

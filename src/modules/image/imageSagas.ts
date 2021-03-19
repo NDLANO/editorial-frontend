@@ -8,14 +8,12 @@
 
 import { take, call, put, select } from 'redux-saga/effects';
 import { RouteComponentProps } from 'react-router-dom';
-import { actions, getImageById } from './image';
+import { actions, getImageById, ImageApiTypeRedux } from './image';
 import * as api from './imageApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditImage } from '../../util/routeHelpers';
 import { ImageApiType, NewImageMetadata, UpdatedImageMetadata } from './imageApiInterfaces';
-
-export type ImageApiRedux = ImageApiType & { language?: string };
 
 export function* fetchImage(id: number, language?: string) {
   try {
@@ -32,7 +30,7 @@ export function* watchFetchImage() {
     const {
       payload: { id, language },
     } = yield take(actions.fetchImage);
-    const image: ImageApiRedux = yield select(getImageById(id));
+    const image: ImageApiTypeRedux = yield select(getImageById(id));
     if (!image || image.id !== id || image.language !== language) {
       yield call(fetchImage, id, language);
     }
@@ -43,7 +41,7 @@ export function* updateImage(image: UpdatedImageMetadata, file: string | Blob) {
   try {
     if (image.id !== undefined) {
       const formData: FormData = yield call(createFormData, file, image);
-      const updatedImage: ImageApiType = yield call(api.patchImage, image.id, formData);
+      const updatedImage: ImageApiType = yield call(api.patchImage, Number(image.id), formData);
       yield put(actions.setImage({ ...updatedImage, language: image.language }));
       yield put(actions.updateImageSuccess());
       yield put(messageActions.showSaved());

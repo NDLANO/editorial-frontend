@@ -14,10 +14,10 @@ import { actions as licenseActions, getAllLicenses } from '../../modules/license
 import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions, getImage } from '../../modules/image/image';
-import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { ReduxState } from '../../interfaces';
+import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { License, ReduxState } from '../../interfaces';
 
-interface ImageType extends NewImageMetadata {
+interface ImageType extends UpdatedImageMetadata {
   revision?: number;
   imageFile?: string | Blob;
 }
@@ -34,11 +34,8 @@ interface DispatchTypes {
 }
 
 interface ReduxProps {
-  licenses: {
-    description: string;
-    license: string;
-  }[];
-  image: ImageType;
+  licenses: License[];
+  image?: ImageType;
   locale: string;
 }
 

@@ -89,7 +89,8 @@ class SearchContainer extends Component {
       t,
       userAccess,
     } = this.props;
-    const searchObject = queryString.parse(location.search);
+    const queryStringObject = queryString.parse(location.search);
+    const searchObject = { ...queryStringObject, fallback: queryStringObject.fallback === 'true' };
     return (
       <OneColumn>
         <h2>

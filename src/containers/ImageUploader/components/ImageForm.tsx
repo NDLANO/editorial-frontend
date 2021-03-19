@@ -23,7 +23,7 @@ import {
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import { UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 
 const imageRules = {

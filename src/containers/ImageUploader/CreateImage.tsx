@@ -13,7 +13,7 @@ import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
-import { NewImageMetadata, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 

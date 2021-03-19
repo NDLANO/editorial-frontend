@@ -11,7 +11,7 @@ import { handleActions, createAction, Action } from 'redux-actions';
 import { createSelector } from 'reselect';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ReduxState } from '../../interfaces';
-import { ImageApiType, NewImageMetadata, UpdatedImageMetadata } from './imageApiInterfaces';
+import { ImageApiType, UpdatedImageMetadata } from './imageApiInterfaces';
 
 export const fetchImage = createAction('FETCH_IMAGE');
 export const setImage = createAction<ImageApiTypeRedux>('SET_IMAGE');

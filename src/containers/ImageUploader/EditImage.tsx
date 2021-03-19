@@ -11,11 +11,11 @@ import { withRouter } from 'react-router-dom';
 
 import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import { getLocale } from '../../modules/locale/locale';
 import ImageForm from './components/ImageForm';
 import { actions, FlatReduxImage, getImage } from '../../modules/image/image';
 import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { License, ReduxState } from '../../interfaces';
+import { LocaleContext } from '../App/App';
 
 interface ImageType extends UpdatedImageMetadata {
   revision?: number;
@@ -36,7 +36,6 @@ interface DispatchTypes {
 interface ReduxProps {
   licenses: License[];
   image?: FlatReduxImage;
-  locale: string;
 }
 
 interface BaseProps {
@@ -58,9 +57,7 @@ const mapDispatchToProps: DispatchTypes = {
 const mapStateToProps = (state: ReduxState, props: BaseProps): ReduxProps => {
   const { imageId } = props;
   const getImageSelector = getImage(imageId!, true);
-  const locale = getLocale(state);
   return {
-    locale,
     licenses: getAllLicenses(state),
     image: getImageSelector(state),
   };
@@ -98,22 +95,25 @@ class EditImage extends Component<Props> {
       history,
       image: imageData,
       updateImage,
-      locale,
       editingArticle,
       closeModal,
       isNewlyCreated,
       ...rest
     } = this.props;
     return (
-      <ImageForm
-        image={imageData || { language: locale }}
-        onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
-          updateImage({ image, file, history, editingArticle });
-        }}
-        closeModal={closeModal}
-        isNewlyCreated={isNewlyCreated}
-        {...rest}
-      />
+      <LocaleContext.Consumer>
+        {locale => (
+          <ImageForm
+            image={imageData || { language: locale }}
+            onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
+              updateImage({ image, file, history, editingArticle });
+            }}
+            closeModal={closeModal}
+            isNewlyCreated={isNewlyCreated}
+            {...rest}
+          />
+        )}
+      </LocaleContext.Consumer>
     );
   }
 }

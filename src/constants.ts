@@ -63,6 +63,9 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'MolView', url: ['embed.molview.org'] },
-  { name: 'NDLA Statisk', url: ['statisk.ndla.no', 'statisk.test.ndla.no', 'statisk.staging.ndla.no'] },
-  { name: 'NDLA Liste' , url: ['liste'] },
+  {
+    name: 'NDLA Statisk',
+    url: ['statisk.ndla.no', 'statisk.test.ndla.no', 'statisk.staging.ndla.no'],
+  },
+  { name: 'NDLA Liste', url: ['liste'] },
 ];

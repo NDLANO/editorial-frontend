@@ -40,22 +40,21 @@ export const classes = new BEMHelper({
 export const WelcomePage: FC<tType> = ({ t }) => {
   const [lastUsed, setLastUsed] = useState<string[]>([]);
   const locale: string = useContext(LocaleContext);
-  const userAccess: string = useContext(UserAccessContext);
+  const userAccess: string | undefined = useContext(UserAccessContext);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
 
-  const fetchLastUsed = async () => {
-    if (isValid(token) && isAccessTokenPersonal) {
-      const result = await fetchUserData();
-      const lastUsed = result.latestEditedArticles || [];
-      setLastUsed(lastUsed);
-    }
-  };
-
   useEffect(() => {
+    const fetchLastUsed = async () => {
+      if (isValid(token) && isAccessTokenPersonal) {
+        const result = await fetchUserData();
+        const lastUsed = result.latestEditedArticles || [];
+        setLastUsed(lastUsed);
+      }
+    };
     fetchLastUsed();
-  }, []);
+  }, [isAccessTokenPersonal, token]);
 
   localStorage.setItem('lastPath', '');
 

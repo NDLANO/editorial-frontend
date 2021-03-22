@@ -3,7 +3,6 @@ import { appLocales } from '../i18n';
 interface appLocaleType {
   name: string;
   abbreviation: string;
-  messages: string[];
 }
 
 interface localeUrlsType {

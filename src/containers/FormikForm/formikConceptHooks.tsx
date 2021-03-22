@@ -7,12 +7,14 @@
  */
 
 import { useState, useEffect } from 'react';
+import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { ArticleType, ConceptFormType, ConceptStatusType } from '../../interfaces';
+import { ArticleType, ConceptStatusType } from '../../interfaces';
+import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
@@ -20,37 +22,38 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
+    const fetchConcept = async (): Promise<void> => {
+      try {
+        if (conceptId) {
+          setLoading(true);
+          const concept = await conceptApi.fetchConcept(conceptId, locale);
+
+          const convertedArticles = await fetchElementList(concept.articleIds);
+          setConcept({
+            ...concept,
+            articles: convertedArticles,
+          });
+          setLoading(false);
+        }
+      } catch (e) {
+        handleError(e);
+      }
+    };
     fetchConcept();
   }, [conceptId, locale]);
 
   useEffect(() => {
+    const fetchSubjects = async () => {
+      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
+      setSubjects(fetchedSubjects);
+    };
     fetchSubjects();
   }, [locale]);
 
-  const fetchConcept = async (): Promise<void> => {
-    try {
-      if (conceptId) {
-        setLoading(true);
-        const concept = await conceptApi.fetchConcept(conceptId, locale);
-
-        const convertedArticles = await fetchElementList(concept.articleIds);
-        setConcept({
-          ...concept,
-          articles: convertedArticles,
-        });
-        setLoading(false);
-      }
-    } catch (e) {
-      handleError(e);
+  const fetchElementList = async (articleIds?: number[]): Promise<ArticleType[]> => {
+    if (!articleIds) {
+      return [];
     }
-  };
-
-  const fetchSubjects = async () => {
-    const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
-    setSubjects(fetchedSubjects);
-  };
-
-  const fetchElementList = async (articleIds: number[]): Promise<ArticleType[]> => {
     return Promise.all(
       articleIds
         .filter(a => !!a)
@@ -61,7 +64,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     );
   };
 
-  const updateConcept = async (updatedConcept: ConceptFormType): Promise<ConceptFormType> => {
+  const updateConcept = async (updatedConcept: PatchConceptType): Promise<ConceptFormType> => {
     const savedConcept = await conceptApi.updateConcept(updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     const formConcept = { ...savedConcept, articles: convertedArticles };
@@ -69,7 +72,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     return formConcept;
   };
 
-  const createConcept = async (createdConcept: ConceptFormType) => {
+  const createConcept = async (createdConcept: NewConceptType) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     const formConcept = { ...savedConcept, articles: convertedArticles };
@@ -78,11 +81,13 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   };
 
   const updateConceptAndStatus = async (
-    updatedConcept: ConceptFormType,
+    updatedConcept: PatchConceptType,
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => {
-    const newConcept = dirty ? await conceptApi.updateConcept(updatedConcept) : updatedConcept;
+    const newConcept = dirty
+      ? await conceptApi.updateConcept(updatedConcept)
+      : await conceptApi.fetchConcept(updatedConcept.id, updatedConcept.language);
     const convertedArticles = await fetchElementList(newConcept.articleIds);
     const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
     setConcept({

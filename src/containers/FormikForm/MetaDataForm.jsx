@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
-import { FormikMetaImageSearch } from '.';
+import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityForm from './components/AvailabilityForm';
 import { UserAccessContext } from '../App/App';
@@ -70,7 +70,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur 
       </FormikField>
       <FormikField name="metaImageId">
         {({ field, form }) => (
-          <FormikMetaImageSearch
+          <MetaImageSearch
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
             showRemoveButton={false}

@@ -59,7 +59,7 @@ const imageRules = {
 };
 
 interface ImageFormikType {
-  id?: number;
+  id?: string;
   language?: string;
   supportedLanguages?: string[];
   title?: string;
@@ -130,7 +130,7 @@ interface ImagePropType {
   caption?: string;
   contentType?: string;
   copyright?: Copyright;
-  id?: number;
+  id?: string;
   imageUrl?: string;
   language?: string;
   metaUrl?: string;

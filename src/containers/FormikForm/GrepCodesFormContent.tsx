@@ -64,7 +64,7 @@ const GrepCodesFormContent = ({ t, articleGrepCodes = [], field, form }: Props &
       const comp = await convertGrepCodesToObject(articleGrepCodes);
       setGrepCodes(comp);
     })();
-  }, []);
+  }, [articleGrepCodes]);
 
   const updateFormik = (formikField: Props['field'], newData: string[]) => {
     formikField.onChange({

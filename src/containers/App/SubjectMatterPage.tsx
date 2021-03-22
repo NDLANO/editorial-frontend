@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React, { FC, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import TopicArticlePage from '../ArticlePage/TopicArticlePage/TopicArticlePage';
@@ -15,7 +16,7 @@ import LearningResourcePage from '../ArticlePage/LearningResourcePage/LearningRe
 import Footer from './components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 
-const SubjectMatterPage = ({ match }) => (
+const SubjectMatterPage: FC<RouteComponentProps> = ({ match }) => (
   <Fragment>
     <Switch>
       <PrivateRoute path={`${match.url}/topic-article/`} component={TopicArticlePage} />
@@ -29,6 +30,9 @@ const SubjectMatterPage = ({ match }) => (
 SubjectMatterPage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
+    params: PropTypes.object.isRequired,
+    isExact: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
   }).isRequired,
   location: LocationShape,
   history: HistoryShape,

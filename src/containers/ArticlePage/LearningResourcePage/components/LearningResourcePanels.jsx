@@ -6,7 +6,7 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import FormikRelatedContent from '../../components/FormikRelatedContent';
 import { CopyrightForm, VersionAndNotesPanel, FormikMetadata } from '../../../FormikForm';
-import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
+import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import GrepCodesForm from '../../../FormikForm/GrepCodesForm';
 
 const panels = [
@@ -52,6 +52,7 @@ const panels = [
     title: 'form.name.relatedContent',
     className: 'u-6/6',
     errorFields: ['conceptIds', 'relatedContent'],
+    showPanel: (values, userAccess) => !!userAccess?.includes(DRAFT_ADMIN_SCOPE),
     component: props => <FormikRelatedContent {...props} />,
   },
   {

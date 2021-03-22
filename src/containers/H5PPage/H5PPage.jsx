@@ -7,7 +7,12 @@ const H5PPage = props => {
   return (
     <LocaleContext.Consumer>
       {locale => (
-        <H5PElement h5pApiUrl={`${config.h5pApiUrl}/select`} onSelect={() => {}} locale={locale} />
+        <H5PElement
+          h5pApiUrl={`${config.h5pApiUrl}/select`}
+          onSelect={() => {}}
+          onClose={() => {}}
+          locale={locale}
+        />
       )}
     </LocaleContext.Consumer>
   );

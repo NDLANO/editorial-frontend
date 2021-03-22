@@ -29,7 +29,7 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementForm = ({ t, formik, isSubjectPage, types, videoTypes }) => {
+const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 
   return (
@@ -71,7 +71,7 @@ const VisualElementForm = ({ t, formik, isSubjectPage, types, videoTypes }) => {
   );
 };
 
-VisualElementForm.propTypes = {
+VisualElementField.propTypes = {
   formik: FormikShape,
   isSubjectPage: PropTypes.bool,
   types: PropTypes.arrayOf(PropTypes.string),
@@ -80,4 +80,4 @@ VisualElementForm.propTypes = {
   getArticle: PropTypes.func,
 };
 
-export default injectT(connect(VisualElementForm));
+export default injectT(connect(VisualElementField));

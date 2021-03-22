@@ -15,7 +15,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import AvailabilityForm from './components/AvailabilityForm';
+import AvailabilityField from './components/AvailabilityField';
 import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 
@@ -42,7 +42,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur 
       </FormikField>
       {userAccess.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name="availability" label={t('form.availability.label')}>
-          {({ field }) => <AvailabilityForm availability={article.availability} field={field} />}
+          {({ field }) => <AvailabilityField availability={article.availability} field={field} />}
         </FormikField>
       )}
       <FormikField

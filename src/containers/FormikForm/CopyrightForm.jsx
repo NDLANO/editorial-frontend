@@ -8,8 +8,8 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import LicenseForm from './components/LicenseForm';
-import { AgreementConnectionForm, ContributorsForm } from '.';
+import LicenseField from './components/LicenseField';
+import { AgreementConnectionForm, ContributorsField } from '.';
 import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
@@ -24,11 +24,11 @@ const CopyrightForm = ({
   const disabled = !!values.agreementId;
   return (
     <Fragment>
-      <ContributorsForm contributorTypes={contributorTypesOverride || contributorTypes} />
+      <ContributorsField contributorTypes={contributorTypesOverride || contributorTypes} />
       {disableAgreements || <AgreementConnectionForm values={values} width={3 / 4} />}
       <FormikField name="license">
         {({ field }) => (
-          <LicenseForm
+          <LicenseField
             disabled={disabled}
             licenses={licenses}
             enableLicenseNA={enableLicenseNA}

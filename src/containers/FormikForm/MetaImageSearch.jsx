@@ -25,7 +25,7 @@ import { transformApiToCLeanImage } from '../../modules/image/imageApiUtil';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
-import MetaImageForm from './components/MetaImageForm';
+import MetaImageField from './components/MetaImageField';
 
 const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched, onChange, t }) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
@@ -118,7 +118,7 @@ const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched,
       </Modal>
 
       {!showImageSelect && image ? (
-        <MetaImageForm
+        <MetaImageField
           image={image}
           onImageSelectOpen={onImageSelectOpen}
           onImageRemove={onImageRemove}

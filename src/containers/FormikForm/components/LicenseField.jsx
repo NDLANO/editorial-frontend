@@ -15,7 +15,7 @@ import { LocaleContext } from '../../App/App';
 
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
-const LicenseForm = props => {
+const LicenseField = props => {
   const {
     t,
     onChange,
@@ -62,7 +62,7 @@ const LicenseForm = props => {
   );
 };
 
-LicenseForm.propTypes = {
+LicenseField.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
@@ -79,10 +79,10 @@ LicenseForm.propTypes = {
   enableLicenseNA: PropTypes.bool,
 };
 
-LicenseForm.defaultProps = {
+LicenseField.defaultProps = {
   disabled: false,
   name: 'license',
   width: 3 / 4,
 };
 
-export default injectT(LicenseForm);
+export default injectT(LicenseField);

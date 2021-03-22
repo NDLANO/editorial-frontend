@@ -11,7 +11,7 @@ import { render } from 'enzyme';
 import { FieldInputProps } from 'formik';
 // @ts-ignore
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
-import AvailabilityForm from '../components/AvailabilityForm';
+import AvailabilityField from '../components/AvailabilityField';
 
 const mockField: FieldInputProps<string[]> = {
   name: 'asd',
@@ -20,11 +20,11 @@ const mockField: FieldInputProps<string[]> = {
   onChange: () => {},
 };
 
-describe('<AvailabilityForm />', () => {
+describe('<AvailabilityField />', () => {
   it('renders correctly and sets availability to Alle when everyone is passed as prop', () => {
     const wrapper = render(
       <IntlWrapper>
-        <AvailabilityForm availability={'everyone'} field={mockField} />
+        <AvailabilityField availability={'everyone'} field={mockField} />
       </IntlWrapper>,
     );
 

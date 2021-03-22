@@ -39,7 +39,7 @@ const metaImageDeleteButtonStyle = css`
   }
 `;
 
-const MetaImageForm = ({ image, onImageSelectOpen, onImageRemove, showRemoveButton, t }) => {
+const MetaImageField = ({ image, onImageSelectOpen, onImageRemove, showRemoveButton, t }) => {
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
@@ -84,7 +84,7 @@ const MetaImageForm = ({ image, onImageSelectOpen, onImageRemove, showRemoveButt
   );
 };
 
-MetaImageForm.propTypes = {
+MetaImageField.propTypes = {
   image: PropTypes.shape({
     copyright: PropTypes.object,
     imageUrl: PropTypes.string,
@@ -94,4 +94,4 @@ MetaImageForm.propTypes = {
   showRemoveButton: PropTypes.bool,
 };
 
-export default injectT(MetaImageForm);
+export default injectT(MetaImageField);

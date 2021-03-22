@@ -15,7 +15,7 @@ import Button from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
 import { FieldHeader } from '@ndla/forms';
 
-import MetaImageForm from '../../FormikForm/components/MetaImageForm';
+import MetaImageField from '../../FormikForm/components/MetaImageField';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
 import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
@@ -40,7 +40,7 @@ const InlineImageSearch = ({ name, t }: Props & tType) => {
 
   if (image) {
     return (
-      <MetaImageForm
+      <MetaImageField
         image={image}
         onImageSelectOpen={() => {
           setFieldValue(name, undefined);

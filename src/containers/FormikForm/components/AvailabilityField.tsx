@@ -17,7 +17,7 @@ interface Props {
   field: FieldInputProps<string[]>;
 }
 
-const AvailabilityForm = ({ availability, field, t }: Props & tType) => {
+const AvailabilityField = ({ availability, field, t }: Props & tType) => {
   const availabilityValues: AvailabilityType[] = ['everyone', 'teacher', 'student'];
 
   return (
@@ -38,4 +38,4 @@ const AvailabilityForm = ({ availability, field, t }: Props & tType) => {
   );
 };
 
-export default injectT(AvailabilityForm, 'form.availability.');
+export default injectT(AvailabilityField, 'form.availability.');

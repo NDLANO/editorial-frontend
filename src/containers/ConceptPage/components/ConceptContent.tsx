@@ -17,7 +17,7 @@ import { FormikIngress, FormikTitle } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import VisualElementForm from '../../FormikForm/components/VisualElementForm';
+import VisualElementField from '../../FormikForm/components/VisualElementField';
 import { submitFormWithMessage } from '../conceptUtil';
 
 import { CreateMessageType } from '../../../interfaces';
@@ -72,7 +72,7 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
           <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
         </IconContainer>
       </ByLine>
-      <VisualElementForm />
+      <VisualElementField />
 
       <FormikIngress
         name="conceptContent"

@@ -12,7 +12,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
-import { LicenseForm, ContributorsForm } from '../../FormikForm';
+import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
 
@@ -43,11 +43,11 @@ const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguag
     </FormikField>
     <FormikField name="license">
       {({ field }: { field: FieldInputProps<string> }) => (
-        <LicenseForm licenses={licenses} {...field} />
+        <LicenseField licenses={licenses} {...field} />
       )}
     </FormikField>
     <FormikField label={t('form.origin.label')} name="origin" />
-    <ContributorsForm contributorTypes={contributorTypes} />
+    <ContributorsField contributorTypes={contributorTypes} />
   </Fragment>
 );
 

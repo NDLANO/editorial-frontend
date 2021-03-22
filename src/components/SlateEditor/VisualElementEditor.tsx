@@ -11,7 +11,7 @@ import { FormikHandlers } from 'formik';
 import { Plugin, Value, DocumentJSON } from 'slate';
 import { Editor } from 'slate-react';
 
-import createSlateStore from './createSlateStore';
+import { SlateProvider } from './SlateContext';
 import { renderBlock } from './slateRendering';
 import { VisualElement } from '../../interfaces';
 
@@ -28,11 +28,6 @@ const VisualElementEditor = class extends React.PureComponent<
 > {
   constructor(props: Props) {
     super(props);
-
-    const slateStore = createSlateStore();
-    this.state = {
-      slateStore,
-    };
 
     this.onChangeVisualElement = this.onChangeVisualElement.bind(this);
   }
@@ -68,14 +63,15 @@ const VisualElementEditor = class extends React.PureComponent<
     });
 
     return (
-      <Editor
-        name={this.props.name}
-        value={editorValue}
-        plugins={this.props.plugins}
-        slateStore={this.state.slateStore}
-        renderBlock={renderBlock}
-        onChange={this.onChangeVisualElement}
-      />
+      <SlateProvider>
+        <Editor
+          name={this.props.name}
+          value={editorValue}
+          plugins={this.props.plugins}
+          renderBlock={renderBlock}
+          onChange={this.onChangeVisualElement}
+        />
+      </SlateProvider>
     );
   }
 };

@@ -14,7 +14,7 @@ import { Editor } from 'slate-react';
 import isHotkey from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
-import createSlateStore, { setSubmitted } from './createSlateStore';
+import { SlateProvider } from './SlateContext';
 import { PluginShape } from '../../shapes';
 
 export const classes = new BEMHelper({
@@ -29,25 +29,10 @@ const slateEditorDivStyle = css`
 const RichTextEditor = class extends React.PureComponent {
   constructor(props) {
     super(props);
-    // Need to use a observer pattern to notify slate nodes of
-    // changes to editor props. Instead of implementing our own
-    // observer we use a Redux store.
-    // See: https://github.com/ianstormtaylor/slate/issues/763
-    const slateStore = createSlateStore();
-    this.state = {
-      slateStore,
-    };
+
     this.editorRef = React.createRef();
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
-  }
-
-  componentDidUpdate() {
-    const { slateStore } = this.state;
-    const { submitted } = this.props;
-    if (submitted !== slateStore.getState().submitted) {
-      slateStore.dispatch(setSubmitted(submitted));
-    }
   }
 
   onChange(change) {
@@ -102,29 +87,31 @@ const RichTextEditor = class extends React.PureComponent {
       schema,
       value,
       renderBlock,
+      submitted,
     } = this.props;
 
     return (
       <article>
-        <div data-cy="slate-editor" css={slateEditorDivStyle}>
-          <Editor
-            {...classes('content', undefined, className)}
-            renderBlock={renderBlock}
-            id={id}
-            onKeyDown={this.onKeyDown}
-            ref={this.editorRef}
-            value={value}
-            name={name}
-            schema={schema}
-            onChange={this.onChange}
-            slateStore={this.state.slateStore}
-            plugins={plugins}
-            placeholder={placeholder}
-            onBlur={onBlur}
-            data-cy={dataCy}
-          />
-          {children}
-        </div>
+        <SlateProvider isSubmitted={submitted}>
+          <div data-cy="slate-editor" css={slateEditorDivStyle}>
+            <Editor
+              {...classes('content', undefined, className)}
+              renderBlock={renderBlock}
+              id={id}
+              onKeyDown={this.onKeyDown}
+              ref={this.editorRef}
+              value={value}
+              name={name}
+              schema={schema}
+              onChange={this.onChange}
+              plugins={plugins}
+              placeholder={placeholder}
+              onBlur={onBlur}
+              data-cy={dataCy}
+            />
+            {children}
+          </div>
+        </SlateProvider>
       </article>
     );
   }
@@ -145,7 +132,6 @@ RichTextEditor.propTypes = {
   removeSection: PropTypes.func,
   renderBlock: PropTypes.func,
   schema: PropTypes.shape({}),
-  slateStore: PropTypes.any,
   submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };

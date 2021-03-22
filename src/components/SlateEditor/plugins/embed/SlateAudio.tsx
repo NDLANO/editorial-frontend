@@ -29,7 +29,6 @@ interface Props {
   locale: LocaleType;
   onRemoveClick: Function;
   onFigureInputChange: Function;
-  submitted: boolean;
 }
 
 const SlateAudio: React.FC<Props & tType> = ({
@@ -41,7 +40,6 @@ const SlateAudio: React.FC<Props & tType> = ({
   locale,
   onRemoveClick,
   onFigureInputChange,
-  submitted,
 }) => {
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
@@ -93,7 +91,6 @@ const SlateAudio: React.FC<Props & tType> = ({
             onAudioFigureInputChange={onAudioFigureInputChange}
             onRemoveClick={onRemoveClick}
             speech={speech}
-            submitted={submitted}
             type={embed.type || 'standard'}
           />
         ) : (

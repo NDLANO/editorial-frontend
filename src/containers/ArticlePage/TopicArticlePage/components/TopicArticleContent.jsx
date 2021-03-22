@@ -37,7 +37,7 @@ import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../../components/FormikField';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import { FormikIngress, FormikTitle } from '../../../FormikForm';
+import { FormikIngress, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
@@ -93,7 +93,7 @@ const TopicArticleContent = props => {
 
   return (
     <Fragment>
-      <FormikTitle
+      <TitleField
         handleSubmit={handleSubmit}
         onBlur={(event, editor, next) => {
           next();

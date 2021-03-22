@@ -18,7 +18,7 @@ import ElementList from '../../FormikForm/components/ElementList';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
-import FormikContentLink from './FormikContentLink';
+import ContentLink from './ContentLink';
 
 interface Props {
   locale: string;
@@ -31,7 +31,7 @@ interface Props {
   };
 }
 
-const FormikContent: FC<Props & tType> = ({ locale, t, values, field, form }) => {
+const ContentField: FC<Props & tType> = ({ locale, t, values, field, form }) => {
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
@@ -113,7 +113,7 @@ const FormikContent: FC<Props & tType> = ({ locale, t, values, field, form }) =>
                 <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
               </ModalHeader>
               <ModalBody>
-                <FormikContentLink onAddLink={addExternalLink} onClose={onClose} />
+                <ContentLink onAddLink={addExternalLink} onClose={onClose} />
               </ModalBody>
             </>
           )}
@@ -127,4 +127,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(FormikContent);
+export default injectT(ContentField);

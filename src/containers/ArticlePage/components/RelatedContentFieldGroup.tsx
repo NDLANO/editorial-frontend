@@ -10,8 +10,8 @@ import React, { Fragment } from 'react';
 import { FormikHelpers, FieldProps, FormikValues } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { ArticleType, ConceptType, ConvertedRelatedContent } from '../../../interfaces';
-import FormikConcepts from './FormikConcepts';
-import FormikContent from './FormikContent';
+import ConceptsField from './ConceptsField';
+import ContentField from './ContentField';
 
 interface Props {
   article: ArticleType;
@@ -26,21 +26,21 @@ interface Props {
   locale: string;
 }
 
-const FormikRelatedContent = ({ locale, values }: Props) => {
+const RelatedContentFieldGroup = ({ locale, values }: Props) => {
   return (
     <Fragment>
       <FormikField name={'conceptIds'}>
         {({ field, form }) => (
-          <FormikConcepts field={field} form={form} locale={locale} values={values} />
+          <ConceptsField field={field} form={form} locale={locale} values={values} />
         )}
       </FormikField>
       <FormikField name={'relatedContent'}>
         {({ field, form }) => (
-          <FormikContent field={field} form={form} locale={locale} values={values} />
+          <ContentField field={field} form={form} locale={locale} values={values} />
         )}
       </FormikField>
     </Fragment>
   );
 };
 
-export default FormikRelatedContent;
+export default RelatedContentFieldGroup;

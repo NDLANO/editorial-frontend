@@ -13,7 +13,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { FormikIngress, FormikTitle } from '../../FormikForm';
+import { FormikIngress, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -51,7 +51,7 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
 
   return (
     <>
-      <FormikTitle
+      <TitleField
         handleSubmit={submitForm}
         onBlur={(event: Event, editor: unknown, next: () => void) => {
           next();

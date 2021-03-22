@@ -9,12 +9,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import LicenseField from './components/LicenseField';
-import { AgreementConnectionForm, ContributorsField } from '.';
+import { AgreementConnectionField, ContributorsField } from '.';
 import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const CopyrightForm = ({
+const CopyrightFieldGroup = ({
   licenses,
   values,
   contributorTypesOverride,
@@ -25,7 +25,7 @@ const CopyrightForm = ({
   return (
     <Fragment>
       <ContributorsField contributorTypes={contributorTypesOverride || contributorTypes} />
-      {disableAgreements || <AgreementConnectionForm values={values} width={3 / 4} />}
+      {disableAgreements || <AgreementConnectionField values={values} width={3 / 4} />}
       <FormikField name="license">
         {({ field }) => (
           <LicenseField
@@ -40,7 +40,7 @@ const CopyrightForm = ({
   );
 };
 
-CopyrightForm.propTypes = {
+CopyrightFieldGroup.propTypes = {
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -55,4 +55,4 @@ CopyrightForm.propTypes = {
   enableLicenseNA: PropTypes.bool,
 };
 
-export default CopyrightForm;
+export default CopyrightFieldGroup;

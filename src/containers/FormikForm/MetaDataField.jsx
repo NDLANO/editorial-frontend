@@ -19,7 +19,7 @@ import AvailabilityField from './components/AvailabilityField';
 import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 
-const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
+const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
   const userAccess = useContext(UserAccessContext);
   const plugins = [textTransformPlugin()];
 
@@ -82,7 +82,7 @@ const FormikMetadata = ({ t, article, fetchSearchTags, handleSubmit, handleBlur 
   );
 };
 
-FormikMetadata.propTypes = {
+MetaDataField.propTypes = {
   article: PropTypes.shape({
     availability: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
@@ -93,4 +93,4 @@ FormikMetadata.propTypes = {
   handleBlur: PropTypes.func,
 };
 
-export default injectT(FormikMetadata);
+export default injectT(MetaDataField);

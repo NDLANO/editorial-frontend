@@ -17,7 +17,7 @@ import textTransformPlugin from '../../components/SlateEditor/plugins/textTransf
 
 const plugins = [textTransformPlugin()];
 
-const FormikTitle = ({ t, maxLength, name, handleSubmit, onBlur }) => (
+const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => (
   <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
     {({ field }) => (
       <PlainTextEditor
@@ -34,13 +34,13 @@ const FormikTitle = ({ t, maxLength, name, handleSubmit, onBlur }) => (
   </FormikField>
 );
 
-FormikTitle.defaultProps = {
+TitleField.defaultProps = {
   name: 'slatetitle',
   maxLength: 256,
   type: 'title',
 };
 
-FormikTitle.propTypes = {
+TitleField.propTypes = {
   maxLength: PropTypes.number,
   name: PropTypes.string,
   type: PropTypes.string,
@@ -48,4 +48,4 @@ FormikTitle.propTypes = {
   onBlur: PropTypes.func.isRequired,
 };
 
-export default injectT(FormikTitle);
+export default injectT(TitleField);

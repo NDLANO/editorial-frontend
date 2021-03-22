@@ -17,7 +17,7 @@ interface Props {
   onClose: () => void;
 }
 
-const FormikContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
+const ContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [showError, setShowError] = useState(false);
@@ -70,4 +70,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(FormikContentLink);
+export default injectT(ContentLink);

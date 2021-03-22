@@ -1,10 +1,10 @@
 import BEMHelper from 'react-bem-helper';
-import AgreementConnectionForm from './AgreementConnectionForm';
-import CopyrightForm from './CopyrightForm';
-import FormikIngress from './IngressForm';
-import FormikTitle from './TitleForm';
+import AgreementConnectionField from './AgreementConnectionField';
+import CopyrightFieldGroup from './CopyrightFieldGroup';
+import FormikIngress from './IngressField';
+import TitleField from './TitleField';
 import VersionAndNotesPanel from './VersionAndNotesPanel';
-import AddNotesForm from './AddNotesForm';
+import AddNotesField from './AddNotesField';
 import LicenseField from './components/LicenseField';
 import AlertModalWrapper from './AlertModalWrapper';
 import ActionButton from './components/ActionButton';
@@ -12,7 +12,7 @@ import MetaImageSearch from './MetaImageSearch';
 import DatePicker from './components/DatePicker';
 import Checkbox from './components/Checkbox';
 import ContributorsField from './components/ContributorsField';
-import FormikMetadata from './MetaDataForm';
+import MetaDataField from './MetaDataField';
 import AbortButton from './components/AbortButton';
 
 const formClasses = new BEMHelper({
@@ -21,20 +21,20 @@ const formClasses = new BEMHelper({
 });
 
 export {
-  CopyrightForm,
+  CopyrightFieldGroup,
   AlertModalWrapper,
-  AgreementConnectionForm,
+  AgreementConnectionField,
   DatePicker,
   FormikIngress,
-  FormikTitle,
+  TitleField,
   VersionAndNotesPanel,
-  AddNotesForm,
+  AddNotesField,
   LicenseField,
   ActionButton,
   MetaImageSearch,
   Checkbox,
   ContributorsField,
   formClasses,
-  FormikMetadata,
+  MetaDataField,
   AbortButton,
 };

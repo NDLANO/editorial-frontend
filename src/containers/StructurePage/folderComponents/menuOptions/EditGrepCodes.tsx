@@ -17,7 +17,7 @@ import { spacing } from '@ndla/core';
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
-import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFormContent';
+import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
 

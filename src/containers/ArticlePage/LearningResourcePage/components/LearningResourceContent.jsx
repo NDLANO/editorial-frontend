@@ -58,7 +58,7 @@ import {
 } from '../../../../components/SlateEditor/plugins/externalPlugins';
 import createTablePlugin from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
-import { FormikIngress, FormikTitle } from '../../../FormikForm';
+import { FormikIngress, TitleField } from '../../../FormikForm';
 import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
@@ -163,7 +163,7 @@ class LearningResourceContent extends Component {
 
     return (
       <Fragment>
-        <FormikTitle
+        <TitleField
           handleSubmit={handleSubmit}
           onBlur={(event, editor, next) => {
             next();

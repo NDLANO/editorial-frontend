@@ -26,7 +26,7 @@ interface Props {
   };
 }
 
-const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) => {
+const ConceptsField: FC<Props & tType> = ({ locale, t, values, field, form }) => {
   const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
@@ -96,4 +96,4 @@ const FormikConcepts: FC<Props & tType> = ({ locale, t, values, field, form }) =
   );
 };
 
-export default injectT(FormikConcepts);
+export default injectT(ConceptsField);

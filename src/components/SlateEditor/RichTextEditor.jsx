@@ -143,6 +143,7 @@ RichTextEditor.propTypes = {
   placeholder: PropTypes.string,
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
   removeSection: PropTypes.func,
+  renderBlock: PropTypes.func,
   schema: PropTypes.shape({}),
   slateStore: PropTypes.any,
   submitted: PropTypes.bool.isRequired,

@@ -31,7 +31,7 @@ const renderMarkdown = (text, concept) => {
 
 const plugins = [textTransformPlugin()];
 
-const FormikIngress = ({
+const IngressField = ({
   t,
   name,
   maxLength,
@@ -70,13 +70,13 @@ const FormikIngress = ({
   </StyledFormContainer>
 );
 
-FormikIngress.defaultProps = {
+IngressField.defaultProps = {
   name: 'introduction',
   maxLength: 300,
   type: 'ingress',
 };
 
-FormikIngress.propTypes = {
+IngressField.propTypes = {
   name: PropTypes.string,
   maxLength: PropTypes.number,
   type: PropTypes.string,
@@ -87,4 +87,4 @@ FormikIngress.propTypes = {
   onBlur: PropTypes.func.isRequired,
 };
 
-export default injectT(FormikIngress);
+export default injectT(IngressField);

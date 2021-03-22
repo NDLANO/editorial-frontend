@@ -1,7 +1,7 @@
 import BEMHelper from 'react-bem-helper';
 import AgreementConnectionField from './AgreementConnectionField';
 import CopyrightFieldGroup from './CopyrightFieldGroup';
-import FormikIngress from './IngressField';
+import IngressField from './IngressField';
 import TitleField from './TitleField';
 import VersionAndNotesPanel from './VersionAndNotesPanel';
 import AddNotesField from './AddNotesField';
@@ -25,7 +25,7 @@ export {
   AlertModalWrapper,
   AgreementConnectionField,
   DatePicker,
-  FormikIngress,
+  IngressField,
   TitleField,
   VersionAndNotesPanel,
   AddNotesField,

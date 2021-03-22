@@ -13,7 +13,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { FormikIngress, TitleField } from '../../FormikForm';
+import { IngressField, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -74,7 +74,7 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
       </ByLine>
       <VisualElementField />
 
-      <FormikIngress
+      <IngressField
         name="conceptContent"
         maxLength={800}
         placeholder={t('form.name.conceptContent')}

@@ -23,7 +23,7 @@ import FormikField from '../../components/FormikField';
 import * as draftApi from '../../modules/draft/draftApi';
 import { ArticleShape } from '../../shapes';
 import handleError from '../../util/handleError';
-import FormikAddNotes from './FormikAddNotes';
+import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
 import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
@@ -126,7 +126,7 @@ const VersionAndNotesPanel = ({
     <>
       <FormikField name="notes" showError={false}>
         {({ field, form: { errors, touched } }) => (
-          <FormikAddNotes
+          <AddNotesField
             showError={!!errors[field.name]}
             labelAddNote={t('form.notes.add')}
             labelRemoveNote={t('form.notes.remove')}

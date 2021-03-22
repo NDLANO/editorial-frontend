@@ -11,8 +11,8 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import TopicArticlePage from '../TopicArticlePage/TopicArticlePage';
-import LearningResourcePage from '../LearningResourcePage/LearningResourcePage';
+import TopicArticlePage from '../ArticlePage/TopicArticlePage/TopicArticlePage';
+import LearningResourcePage from '../ArticlePage/LearningResourcePage/LearningResourcePage';
 import Footer from './components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 

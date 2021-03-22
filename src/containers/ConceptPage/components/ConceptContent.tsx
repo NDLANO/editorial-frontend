@@ -13,11 +13,11 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { FormikIngress, FormikTitle } from '../../FormikForm';
+import { IngressField, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
+import VisualElementField from '../../FormikForm/components/VisualElementField';
 import { submitFormWithMessage } from '../conceptUtil';
 
 import { CreateMessageType } from '../../../interfaces';
@@ -51,7 +51,7 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
 
   return (
     <>
-      <FormikTitle
+      <TitleField
         handleSubmit={submitForm}
         onBlur={(event: Event, editor: unknown, next: () => void) => {
           next();
@@ -72,9 +72,9 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
           <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
         </IconContainer>
       </ByLine>
-      <FormikVisualElement />
+      <VisualElementField />
 
-      <FormikIngress
+      <IngressField
         name="conceptContent"
         maxLength={800}
         placeholder={t('form.name.conceptContent')}

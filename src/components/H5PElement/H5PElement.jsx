@@ -32,6 +32,7 @@ class H5PElement extends Component {
       fetchFailed: false,
     };
     this.handleH5PChange = this.handleH5PChange.bind(this);
+    this.handleH5PClose = this.handleH5PClose.bind(this);
   }
 
   /* eslint-disable react/no-did-mount-set-state */
@@ -39,6 +40,7 @@ class H5PElement extends Component {
   async componentDidMount() {
     const { h5pUrl, locale } = this.props;
     window.addEventListener('message', this.handleH5PChange);
+    window.addEventListener('message', this.handleH5PClose);
     try {
       const data = h5pUrl
         ? await editH5PiframeUrl(h5pUrl, locale)
@@ -51,6 +53,7 @@ class H5PElement extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('message', this.handleH5PChange);
+    window.removeEventListener('message', this.handleH5PClose);
   }
 
   async handleH5PChange(event) {
@@ -71,6 +74,14 @@ class H5PElement extends Component {
       onSelect({ path });
       handleError(e);
     }
+  }
+
+  async handleH5PClose(event) {
+    const { onClose } = this.props;
+    if (event.data.messageType !== 'closeEdlibModal') {
+      return;
+    }
+    onClose();
   }
 
   render() {
@@ -99,6 +110,7 @@ class H5PElement extends Component {
 H5PElement.propTypes = {
   h5pUrl: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };
 

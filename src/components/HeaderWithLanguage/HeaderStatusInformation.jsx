@@ -91,10 +91,6 @@ const HeaderStatusInformation = ({
     </StyledLink>
   );
 
-  const helperIcon = !noHelp && (
-    <HowToHelper pageId="status" tooltip={t('form.workflow.statusInfoTooltip')} />
-  );
-
   const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
     <LearningpathConnection id={id} />
   );
@@ -105,24 +101,23 @@ const HeaderStatusInformation = ({
     return (
       <StyledStatusWrapper>
         {splitter}
-        <StyledStatus>{t('form.status.new_language')}</StyledStatus>
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {learningpathConnections}
+        <StyledStatus>{t('form.status.new_language')}</StyledStatus>
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
         {splitter}
+        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {multipleTaxonomyIcon}
+        {learningpathConnections}
         <StyledStatus>
           <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
           {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
         </StyledStatus>
-        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-        {learningpathConnections}
-        {helperIcon}
       </StyledStatusWrapper>
     );
   }

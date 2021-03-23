@@ -13,9 +13,13 @@ type AudioType = 'standard' | 'podcast';
 export interface NewPodcastMeta {
   header: string;
   introduction: string;
-  coverPhotoId: string;
-  coverPhotoAltText: string;
+  coverPhoto: {
+    id: string;
+    url: string;
+    alt: string;
+  };
   manuscript: string;
+  language: string;
 }
 
 export interface NewAudioMetaInformation {
@@ -39,7 +43,7 @@ export interface PodcastFormValues {
   language?: string;
   supportedLanguages?: string[];
   title?: string;
-  audioFile: any; // TODO FIX - AudioFile?
+  audioFile: any; // TODO FIX - AudioFile, string?
   filepath: '';
   tags?: string[];
   origin?: string;
@@ -51,6 +55,8 @@ export interface PodcastFormValues {
   header?: string;
   introduction?: string;
   coverPhotoId?: string;
-  coverPhotoAltText?: string;
+  metaImageAlt?: string;
+  metaImageUrl?: string;
+  // TODO add url
   manuscript?: string;
 }

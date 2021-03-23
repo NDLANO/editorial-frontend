@@ -50,14 +50,18 @@ const podcastRules = {
   license: {
     required: true,
   },
-  coverPhotoAltText: {
-    required: true,
-  },
+  // coverPhotoAltText: {
+  //   required: true,
+  // },
   header: {
     required: true,
   },
   manuscript: {
     required: true,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
   },
   introduction: {
     required: true,
@@ -76,7 +80,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
     revision: audio?.revision || 0, // TODO remove ||
     language: audio?.language || '', // TODO remove ||
     supportedLanguages: audio.supportedLanguages || [],
-    title: audio.title || '',
+    title: audio.title,
     audioFile: audio.audioFile,
     filepath: '',
     tags: audio.tags || [],
@@ -88,8 +92,9 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
     audioType: 'podcast',
     header: audio.podcastMeta?.header,
     introduction: audio.podcastMeta?.introduction,
-    coverPhotoId: audio.podcastMeta?.coverPhotoId,
-    coverPhotoAltText: audio.podcastMeta?.coverPhotoAltText,
+    coverPhotoId: audio.podcastMeta?.coverPhoto?.id,
+    metaImageAlt: audio.podcastMeta?.coverPhoto?.alt,
+    metaImageUrl: audio.podcastMeta?.coverPhoto?.url,
     manuscript: audio.podcastMeta?.manuscript,
   };
 };
@@ -199,7 +204,8 @@ const PodcastForm: FC<Props & tType> = ({
       values.manuscript === undefined ||
       values.introduction === undefined ||
       values.coverPhotoId === undefined ||
-      values.coverPhotoAltText === undefined
+      values.metaImageAlt === undefined ||
+      values.metaImageUrl === undefined
     ) {
       actions.setSubmitting(false);
       setSavedToServer(false);
@@ -223,9 +229,13 @@ const PodcastForm: FC<Props & tType> = ({
       podcastMeta: {
         header: values.header,
         introduction: values.introduction,
-        coverPhotoId: values.coverPhotoId,
-        coverPhotoAltText: values.coverPhotoAltText,
+        coverPhoto: {
+          id: values.coverPhotoId,
+          url: values.metaImageUrl,
+          alt: values.metaImageAlt,
+        },
         manuscript: values.manuscript,
+        language: values.language, // TODO ??
       },
     };
 
@@ -236,6 +246,7 @@ const PodcastForm: FC<Props & tType> = ({
   const initialValues = getInitialValues(audio);
 
   const panels: {
+    // TODO replace with aod AccordionSection
     id: string;
     title: string;
     errorFields: ErrorFields[];

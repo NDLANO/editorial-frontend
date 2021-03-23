@@ -8,10 +8,8 @@
 
 import React, { FC } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { FieldHeader } from '@ndla/forms';
 import FormikField from '../../../components/FormikField';
 import { MetaImageSearch } from '../../FormikForm';
-import { NewPodcastMeta } from '../../../modules/audio/audioApiInterfaces';
 
 interface Props {}
 
@@ -20,11 +18,9 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
     <>
       <FormikField label={t('podcastForm.fields.header')} name="header" />
       <FormikField label={t('podcastForm.fields.introduction')} name="introduction" />
-      <FormikField label="bildekomponent" name="image" />
       <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript" />
-      Q: kan jeg gjenbruke metabilde under her?
-      <FormikField name="metaImageId">
-          {({ field, form }) => (
+      <FormikField name="coverPhotoId">
+        {({ field, form }) => (
           <MetaImageSearch
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}

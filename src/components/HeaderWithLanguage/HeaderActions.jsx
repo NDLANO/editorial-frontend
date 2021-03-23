@@ -118,15 +118,10 @@ const HeaderActions = ({
     );
   }
   return (
-    <>
-      <div>
-        <HeaderLanguagePill current>
-          <Check />
-          {t(`language.${language}`)}
-        </HeaderLanguagePill>
-      </div>
-      <div />
-    </>
+    <HeaderLanguagePill current>
+      <Check />
+      {t(`language.${language}`)}
+    </HeaderLanguagePill>
   );
 };
 

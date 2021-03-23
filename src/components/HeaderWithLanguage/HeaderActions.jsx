@@ -18,6 +18,7 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
+import LearningpathConnection from '../../containers/FormikForm/LearningpathConnection';
 
 const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLanguages, t }) => {
   if (type === 'concept')
@@ -73,7 +74,7 @@ const HeaderActions = ({
 
   if (id) {
     return (
-      <Fragment>
+      <>
         <HeaderSupportedLanguages
           id={id}
           editUrl={editUrl}
@@ -113,12 +114,13 @@ const HeaderActions = ({
               />
             </Fragment>
           )}
+        <LearningpathConnection id={id} />
         <DeleteLanguageVersion values={values} type={type} />
-      </Fragment>
+      </>
     );
   }
   return (
-    <Fragment>
+    <>
       <div>
         <HeaderLanguagePill current>
           <Check />
@@ -126,7 +128,7 @@ const HeaderActions = ({
         </HeaderLanguagePill>
       </div>
       <div />
-    </Fragment>
+    </>
   );
 };
 

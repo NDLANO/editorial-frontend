@@ -34,7 +34,7 @@ const StyledFilledButton = styled.button`
         color: ${colors.support.red};
       `}
   }
-  &:focus,
+  ${props => !props.removeFocus && `&:focus,`}
   &:hover {
     color: #fff;
     background: ${colors.brand.primary};

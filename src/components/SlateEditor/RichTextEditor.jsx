@@ -87,9 +87,11 @@ const RichTextEditor = class extends React.PureComponent {
       schema,
       value,
       renderBlock,
-      renderInline,
       renderMark,
+      removeSection,
+      handleSubmit,
       submitted,
+      index,
     } = this.props;
 
     return (
@@ -99,8 +101,10 @@ const RichTextEditor = class extends React.PureComponent {
             <Editor
               {...classes('content', undefined, className)}
               renderBlock={renderBlock}
-              renderInline={renderInline}
               renderMark={renderMark}
+              removeSection={removeSection}
+              handleSubmit={handleSubmit}
+              index={index}
               id={id}
               onKeyDown={this.onKeyDown}
               ref={this.editorRef}

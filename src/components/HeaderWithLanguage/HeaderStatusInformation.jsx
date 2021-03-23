@@ -12,7 +12,6 @@ import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import HowToHelper from '../HowTo/HowToHelper';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 

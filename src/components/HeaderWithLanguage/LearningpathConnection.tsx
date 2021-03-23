@@ -34,7 +34,7 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
     fetchLearningpathsWithArticle(id).then(setLearningpaths);
   }, [id]);
 
-  if(!learningpaths.length){
+  if (!learningpaths.length) {
     return null;
   }
 

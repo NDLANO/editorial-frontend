@@ -11,7 +11,7 @@ import { injectT, tType } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
-import { formClasses, FormikAbortButton, FormikAlertModalWrapper } from '../../FormikForm';
+import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -23,7 +23,7 @@ import {
   NewPodcastMeta,
   NewPodcastMetaInformation,
   NewAudioMetaInformation,
-  PodcastFormValues
+  PodcastFormValues,
 } from '../../../modules/audio/audioApiInterfaces';
 import { Copyright, License } from '../../../interfaces';
 
@@ -275,69 +275,69 @@ const PodcastForm: FC<Props & tType> = ({
           initialValues,
           dirty,
         });
-        // return (
-        //   <FormWrapper inModal={inModal}>
-        //     <HeaderWithLanguage
-        //       noStatus
-        //       values={values}
-        //       type="podcast" // TODO ??
-        //       content={audio}
-        //       editUrl={(lang: string) => toEditPodcast(values.id, lang)}
-        //     />
-        //     {/* <Accordion openIndexes={['podcast-upload-content']}>
-        //       {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
-        //         <AccordionWrapper>
-        //           {panels.map(panel => {
-        //             const hasError = panel.errorFields.some(field => field in errors);
-        //             return (
-        //               <Fragment key={panel.id}>
-        //                 <AccordionBar
-        //                   panelId={panel.id}
-        //                   ariaLabel={panel.title}
-        //                   onClick={() => handleItemClick(panel.id)}
-        //                   title={panel.title}
-        //                   hasError={hasError}
-        //                   isOpen={openIndexes.includes(panel.id)}
-        //                 />
-        //                 {openIndexes.includes(panel.id) && (
-        //                   <AccordionPanel
-        //                     id={panel.id}
-        //                     hasError={hasError}
-        //                     isOpen={openIndexes.includes(panel.id)}>
-        //                     <div className="u-4/6@desktop u-push-1/6@desktop">
-        //                       {panel.component}
-        //                     </div>
-        //                   </AccordionPanel>
-        //                 )}
-        //               </Fragment>
-        //             );
-        //           })}
-        //         </AccordionWrapper>
-        //       )}
-        //     </Accordion> */}
-        //     <Field right>
-        //       <FormikAbortButton outline disabled={isSubmitting}>
-        //         {t('form.abort')}
-        //       </FormikAbortButton>
-        //       <SaveButton
-        //         {...formClasses}
-        //         isSaving={isSubmitting}
-        //         showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-        //         formIsDirty={formIsDirty}
-        //         onClick={(evt: Event) => {
-        //           evt.preventDefault();
-        //           submitForm();
-        //         }}
-        //       />
-        //     </Field>
-        //     <FormikAlertModalWrapper
-        //       {...formikProps}
-        //       formIsDirty={formIsDirty}
-        //       severity="danger"
-        //       text={t('alertModal.notSaved')}
-        //     />
-        //   </FormWrapper>
-        // );
+        return (
+          <FormWrapper inModal={inModal}>
+            <HeaderWithLanguage
+              noStatus
+              values={values}
+              type="audio"
+              content={audio}
+              editUrl={(lang: string) => toEditPodcast(values.id, lang)}
+            />
+            <Accordion openIndexes={['podcast-upload-content']}>
+              {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
+                <AccordionWrapper>
+                  {panels.map(panel => {
+                    const hasError = panel.errorFields.some(field => field in errors);
+                    return (
+                      <Fragment key={panel.id}>
+                        <AccordionBar
+                          panelId={panel.id}
+                          ariaLabel={panel.title}
+                          onClick={() => handleItemClick(panel.id)}
+                          title={panel.title}
+                          hasError={hasError}
+                          isOpen={openIndexes.includes(panel.id)}
+                        />
+                        {openIndexes.includes(panel.id) && (
+                          <AccordionPanel
+                            id={panel.id}
+                            hasError={hasError}
+                            isOpen={openIndexes.includes(panel.id)}>
+                            <div className="u-4/6@desktop u-push-1/6@desktop">
+                              {panel.component}
+                            </div>
+                          </AccordionPanel>
+                        )}
+                      </Fragment>
+                    );
+                  })}
+                </AccordionWrapper>
+              )}
+            </Accordion>
+            <Field right>
+              <AbortButton outline disabled={isSubmitting}>
+                {t('form.abort')}
+              </AbortButton>
+              <SaveButton
+                {...formClasses}
+                isSaving={isSubmitting}
+                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                formIsDirty={formIsDirty}
+                onClick={(evt: Event) => {
+                  evt.preventDefault();
+                  submitForm();
+                }}
+              />
+            </Field>
+            <AlertModalWrapper
+              {...formikProps}
+              formIsDirty={formIsDirty}
+              severity="danger"
+              text={t('alertModal.notSaved')}
+            />
+          </FormWrapper>
+        );
       }}
     </Formik>
   );

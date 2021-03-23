@@ -470,7 +470,7 @@ export interface AudioFile {
   language: string;
   mimeType: string;
   url: string;
-};
+}
 
 export interface Audio {
   audioFile: AudioFile;

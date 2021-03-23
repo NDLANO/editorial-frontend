@@ -34,7 +34,7 @@ const SlateProvider: FC<ProviderProps> = ({ isSubmitted, children }) => {
 const useSlateContext = (): SlateContextType => {
   const context = useContext(SlateContext);
   if (context === undefined) {
-    throw new Error('useCount must be used within a CountProvider');
+    throw new Error('useSlateContext must be used within a SlateProvider');
   }
   return context;
 };

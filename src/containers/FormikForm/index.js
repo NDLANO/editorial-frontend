@@ -14,7 +14,7 @@ import Checkbox from './components/Checkbox';
 import ContributorsField from './components/ContributorsField';
 import MetaDataField from './MetaDataField';
 import AbortButton from './components/AbortButton';
-import LearningpathConnection from './LearningpathConnection';
+import LearningpathConnection from '../../components/HeaderWithLanguage/LearningpathConnection';
 
 const formClasses = new BEMHelper({
   name: 'form',

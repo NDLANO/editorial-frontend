@@ -961,9 +961,8 @@ const phrases = {
       add: 'Legg til artikkel',
     },
     learningpathConnections: {
-      sectionTitle: 'Se bruk i læringsstiar',
-      title: 'Læringsstiar',
-      subTitle: 'Læringsstiar som inneheld denne artikkelen',
+      sectionTitle: 'Bruk av artikkelen i læringsstiar',
+      title: 'Læringsstiar som inneheld denne artikkelen',
       empty: 'Artikkelen er ikkje i bruk i nokon læringsstiar.',
     },
     relatedConcepts: {

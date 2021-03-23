@@ -14,6 +14,7 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import HowToHelper from '../HowTo/HowToHelper';
 import config from '../../config';
+import LearningpathConnection from './LearningpathConnection';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -45,6 +46,8 @@ const HeaderStatusInformation = ({
   indentLeft,
   fontSize,
   t,
+  type,
+  id,
 }) => {
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
@@ -97,6 +100,10 @@ const HeaderStatusInformation = ({
     <HowToHelper pageId="status" tooltip={t('form.workflow.statusInfoTooltip')} />
   );
 
+  const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
+    <LearningpathConnection id={id} />
+  );
+
   const splitter = !indentLeft && <StyledSplitter />;
 
   if (noStatus && isNewLanguage) {
@@ -106,6 +113,7 @@ const HeaderStatusInformation = ({
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
+        {learningpathConnections}
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
@@ -119,6 +127,7 @@ const HeaderStatusInformation = ({
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {helperIcon}
+        {learningpathConnections}
       </StyledStatusWrapper>
     );
   }
@@ -134,6 +143,8 @@ HeaderStatusInformation.propTypes = {
   noHelp: PropTypes.bool,
   indentLeft: PropTypes.bool,
   fontSize: PropTypes.number,
+  type: PropTypes.string,
+  id: PropTypes.number,
 };
 
 export default injectT(HeaderStatusInformation);

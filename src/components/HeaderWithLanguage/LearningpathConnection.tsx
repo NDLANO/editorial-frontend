@@ -7,18 +7,30 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
-import { FieldHeader } from '@ndla/forms';
+import { LearningPath } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
+import Tooltip from '@ndla/tooltip';
+import { normalPaddingCSS } from '../HowTo';
+import ElementList from '../../containers/FormikForm/components/ElementList';
 import { Learningpath } from '../../interfaces';
-import ElementList from './components/ElementList';
 import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';
-import StyledFilledButton from '../../components/StyledFilledButton';
-import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 
 interface Props {
   id: number;
 }
+
+const LearningpathIcon = styled(LearningPath)`
+  color: ${colors.brand.tertiary};
+
+  &:hover,
+  &:focus {
+    color: ${colors.brand.primary};
+    border: 1 px ${colors.brand.tertiary};
+  }
+`;
 
 const LearningpathConnection = ({ t, id }: Props & tType) => {
   const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
@@ -30,25 +42,22 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
   return (
     <Modal
       backgroundColor="white"
-      activateButton={
-        <StyledFilledButton type="button" removeFocus={true}>
-          {t('form.learningpathConnections.sectionTitle')}
-        </StyledFilledButton>
-      }>
+      narrow
+      wrapperFunctionForButton={(activateButton: any) => (
+        <Tooltip tooltip={t('form.learningpathConnections.sectionTitle')}>{activateButton}</Tooltip>
+      )}
+      activateButton={<LearningpathIcon css={normalPaddingCSS} />}>
       {(onClose: () => void) => (
         <>
           <ModalHeader>
-            <FieldHeader
-              title={t('form.learningpathConnections.title')}
-              subTitle={t('form.learningpathConnections.subTitle')}
-            />
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>
           <ModalBody>
+            <h1>{t('form.learningpathConnections.title')}</h1>
             {learningpaths.length ? (
               <ElementList elements={learningpaths} editable={false} />
             ) : (
-              <FormikFieldDescription description={t('form.learningpathConnections.empty')} />
+              <p>{t('form.learningpathConnections.empty')}</p>
             )}
           </ModalBody>
         </>

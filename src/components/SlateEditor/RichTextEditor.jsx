@@ -89,7 +89,6 @@ const RichTextEditor = class extends React.PureComponent {
       renderBlock,
       renderInline,
       renderMark,
-      handleSubmit,
       submitted,
     } = this.props;
 
@@ -102,7 +101,6 @@ const RichTextEditor = class extends React.PureComponent {
               renderBlock={renderBlock}
               renderInline={renderInline}
               renderMark={renderMark}
-              handleSubmit={handleSubmit}
               id={id}
               onKeyDown={this.onKeyDown}
               ref={this.editorRef}

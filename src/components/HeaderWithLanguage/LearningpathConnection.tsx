@@ -23,12 +23,8 @@ interface Props {
 }
 
 const LearningpathIcon = styled(LearningPath)`
-  color: ${colors.brand.secondary};
-
-  &:hover,
-  &:focus {
-    color: ${colors.brand.primary};
-  }
+  color: ${colors.brand.primary};
+  cursor: pointer;
 `;
 
 const LearningpathConnection = ({ t, id }: Props & tType) => {

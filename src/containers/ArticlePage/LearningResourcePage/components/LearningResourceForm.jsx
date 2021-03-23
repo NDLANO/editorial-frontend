@@ -158,6 +158,7 @@ const LearningResourceForm = props => {
           isSubmitting={isSubmitting}
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
+          type="learning-resource"
           {...rest}
         />
         {translating ? (

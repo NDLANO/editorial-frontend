@@ -71,6 +71,7 @@ const HeaderActions = ({
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
+  const typesInLearningpaths = ['standard', 'topic-article'];
 
   if (id) {
     return (
@@ -114,7 +115,7 @@ const HeaderActions = ({
               />
             </Fragment>
           )}
-        <LearningpathConnection id={id} />
+        {typesInLearningpaths.includes(type) && <LearningpathConnection id={id} />}
         <DeleteLanguageVersion values={values} type={type} />
       </>
     );

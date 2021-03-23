@@ -32,7 +32,7 @@ interface MessageProps {
 interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
-  editable: boolean;
+  isEditable: boolean;
   // Element can be of type Article or Learningpath
   element: ContentResultType;
   executeDeleteFile: () => void;
@@ -47,7 +47,7 @@ interface Props {
 const ElementListItem = ({
   deleteFile,
   deleteIndex,
-  editable,
+  isEditable,
   element,
   executeDeleteFile,
   index,
@@ -76,7 +76,7 @@ const ElementListItem = ({
           </a>
         )}
       </div>
-      {editable && (
+      {isEditable && (
         <div>
           {showDragTooltip ? (
             <Tooltip tooltip={messages?.dragElement}>

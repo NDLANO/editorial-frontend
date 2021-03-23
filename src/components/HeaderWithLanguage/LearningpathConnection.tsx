@@ -55,7 +55,7 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
           <ModalBody>
             <h1>{t('form.learningpathConnections.title')}</h1>
             {learningpaths.length ? (
-              <ElementList elements={learningpaths} editable={false} />
+              <ElementList elements={learningpaths} isEditable={false} />
             ) : (
               <p>{t('form.learningpathConnections.empty')}</p>
             )}

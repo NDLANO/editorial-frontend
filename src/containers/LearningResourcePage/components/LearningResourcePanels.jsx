@@ -1,75 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
+import Accordion, { AccordionWrapper } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import FormikConcepts from '../../FormikForm/FormikConcepts';
+import FormikRelatedContent from '../../FormikForm/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
-import FormikField from '../../../components/FormikField';
-
-const panels = [
-  {
-    id: 'learning-resource-content',
-    title: 'form.contentSection',
-    className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: ['title', 'introduction', 'content'],
-    component: props => <LearningResourceContent {...props} />,
-  },
-  {
-    id: 'learning-resource-taxonomy',
-    title: 'form.taxonomySection',
-    errorFields: [],
-    showPanel: (values, userAccess) =>
-      values.id && userAccess && userAccess.includes(TAXONOMY_WRITE_SCOPE),
-    className: 'u-6/6',
-    component: props => <LearningResourceTaxonomy {...props} />,
-  },
-  {
-    id: 'learning-resource-copyright',
-    title: 'form.copyrightSection',
-    className: 'u-6/6',
-    errorFields: ['creators', 'rightsholders', 'processors', 'license'],
-    component: props => <FormikCopyright {...props} />,
-  },
-  {
-    id: 'learning-resource-metadata',
-    title: 'form.metadataSection',
-    className: 'u-6/6',
-    errorFields: ['metaDescription', 'metaImageAlt', 'tags'],
-    component: props => <FormikMetadata {...props} />,
-  },
-  {
-    id: 'learning-resource-grepCodes',
-    title: 'form.name.grepCodes',
-    className: 'u-6/6',
-    errorFields: ['grepCodes'],
-    component: props => <FormikGrepCodes {...props} />,
-  },
-  {
-    id: 'learning-resource-concepts',
-    title: 'form.name.concepts',
-    className: 'u-6/6',
-    errorFields: ['conceptIds'],
-    component: props => {
-      return (
-        <FormikField name={'conceptIds'}>
-          {({ field, form }) => <FormikConcepts field={field} form={form} {...props} />}
-        </FormikField>
-      );
-    },
-  },
-  {
-    id: 'learning-resource-workflow',
-    title: 'form.workflowSection',
-    className: 'u-6/6',
-    errorFields: ['notes'],
-    showPanel: values => values.id,
-    component: props => <VersionAndNotesPanel {...props} />,
-  },
-];
+import { DRAFT_ADMIN_SCOPE } from '../../../constants';
+import AccordionSection from '../../ConceptPage/ConceptForm/AccordionSection';
+import FormikLearningPathConnection from '../../FormikForm/FormikLearningPathConnection';
 
 const LearningResourcePanels = ({
   t,
@@ -80,45 +21,76 @@ const LearningResourcePanels = ({
   handleSubmit,
   ...rest
 }) => (
-  <Accordion openIndexes={['learning-resource-content']}>
-    {({ openIndexes, handleItemClick }) => (
+  <Accordion>
+    {({ handleItemClick }) => (
       <AccordionWrapper>
-        {panels.map(panel => {
-          if (panel.showPanel && !panel.showPanel(values, userAccess)) {
-            return null;
-          }
-          const hasError = panel.errorFields.some(field => !!errors[field]);
-          return (
-            <Fragment key={panel.id}>
-              <AccordionBar
-                panelId={panel.id}
-                ariaLabel={t(panel.title)}
-                onClick={() => handleItemClick(panel.id)}
-                hasError={hasError}
-                title={t(panel.title)}
-                isOpen={openIndexes.includes(panel.id)}
-              />
-              {openIndexes.includes(panel.id) && (
-                <AccordionPanel
-                  id={panel.id}
-                  hasError={hasError}
-                  isOpen={openIndexes.includes(panel.id)}>
-                  <div className={panel.className}>
-                    {panel.component({
-                      hasError,
-                      userAccess,
-                      values,
-                      closePanel: () => handleItemClick(panel.id),
-                      fetchSearchTags,
-                      handleSubmit,
-                      ...rest,
-                    })}
-                  </div>
-                </AccordionPanel>
-              )}
-            </Fragment>
-          );
-        })}
+        <AccordionSection
+          id={'learning-resource-content'}
+          title={t('form.contentSection')}
+          className={'u-4/6@desktop u-push-1/6@desktop'}
+          hasError={!!(errors.title || errors.introduction || errors.content)}
+          startOpen>
+          <LearningResourceContent userAccess={userAccess} handleSubmit={handleSubmit} {...rest} />
+        </AccordionSection>
+        {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+          <AccordionSection
+            id={'learning-resource-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
+            <LearningResourceTaxonomy
+              closePanel={() => handleItemClick('topic-article-taxonomy')}
+              userAccess={userAccess}
+              {...rest}
+            />
+          </AccordionSection>
+        )}
+        <AccordionSection
+          id={'learning-resource-copyright'}
+          title={t('form.copyrightSection')}
+          className={'u-6/6'}
+          hasError={
+            !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
+          }>
+          <FormikCopyright values={values} {...rest} />
+        </AccordionSection>
+        <AccordionSection
+          id={'learning-resource-metadata'}
+          title={t('form.metadataSection')}
+          className={'u-6/6'}
+          hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
+          <FormikMetadata fetchSearchTags={fetchSearchTags} handleSubmit={handleSubmit} {...rest} />
+        </AccordionSection>
+        <AccordionSection
+          id={'learning-resource-grepCodes'}
+          title={t('form.name.grepCodes')}
+          className={'u-6/6'}
+          hasError={!!errors.grepCodes}>
+          <FormikGrepCodes {...rest} />
+        </AccordionSection>
+        <AccordionSection
+          id={'learning-resource-connected-learningpaths'}
+          title={t('form.learningpathConnections.sectionTitle')}
+          className={'u-6/6'}>
+          <FormikLearningPathConnection {...rest} />
+        </AccordionSection>
+        {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+          <AccordionSection
+            id={'learning-resource-related'}
+            title={t('form.name.relatedContent')}
+            className={'u-6/6'}
+            hasError={!!(errors.conceptIds || errors.relatedContent)}>
+            <FormikRelatedContent values={values} {...rest} />
+          </AccordionSection>
+        )}
+        {values.id && (
+          <AccordionSection
+            id={'learning-resource-workflow'}
+            title={t('form.workflowSection')}
+            className={'u-6/6'}
+            hasError={!!errors.notes}>
+            <VersionAndNotesPanel values={values} {...rest} />}
+          </AccordionSection>
+        )}
       </AccordionWrapper>
     )}
   </Accordion>

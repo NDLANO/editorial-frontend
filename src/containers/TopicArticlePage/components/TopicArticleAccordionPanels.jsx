@@ -1,74 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
+import Accordion, { AccordionWrapper } from '@ndla/accordion';
 import TopicArticleContent from './TopicArticleContent';
-import FormikConcepts from '../../FormikForm/FormikConcepts';
+import FormikRelatedContent from '../../FormikForm/FormikRelatedContent';
 import { FormikCopyright, VersionAndNotesPanel, FormikMetadata } from '../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../constants';
 import FormikGrepCodes from '../../FormikForm/FormikGrepCodes';
-import FormikField from '../../../components/FormikField';
-
-const panels = [
-  {
-    id: 'topic-article-content',
-    title: 'form.contentSection',
-    className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: ['title', 'introduction', 'content', 'visualElement'],
-    component: props => <TopicArticleContent {...props} />,
-  },
-  {
-    id: 'topic-article-taxonomy',
-    title: 'form.taxonomySection',
-    errorFields: [],
-    showPanel: (values, userAccess) => values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE),
-    className: 'u-6/6',
-    component: props => <TopicArticleTaxonomy {...props} />,
-  },
-  {
-    id: 'topic-article-copyright',
-    title: 'form.copyrightSection',
-    className: 'u-6/6',
-    errorFields: ['creators', 'rightsholders', 'processors', 'license'],
-    component: props => <FormikCopyright {...props} />,
-  },
-  {
-    id: 'topic-article-metadata',
-    title: 'form.metadataSection',
-    className: 'u-6/6',
-    errorFields: ['metaDescription', 'tags'],
-    component: props => <FormikMetadata {...props} />,
-  },
-  {
-    id: 'topic-article-grepCodes',
-    title: 'form.name.grepCodes',
-    className: 'u-6/6',
-    errorFields: ['grepCodes'],
-    component: props => <FormikGrepCodes {...props} />,
-  },
-  {
-    id: 'topic-article-concepts',
-    title: 'form.name.concepts',
-    className: 'u-6/6',
-    errorFields: ['conceptIds'],
-    component: props => {
-      return (
-        <FormikField name={'conceptIds'}>
-          {({ field, form }) => <FormikConcepts field={field} form={form} {...props} />}
-        </FormikField>
-      );
-    },
-  },
-  {
-    id: 'topic-article-workflow',
-    title: 'form.workflowSection',
-    className: 'u-6/6',
-    errorFields: ['notes'],
-    showPanel: values => values.id,
-    component: props => <VersionAndNotesPanel {...props} />,
-  },
-];
+import { DRAFT_ADMIN_SCOPE } from '../../../constants';
+import AccordionSection from '../../ConceptPage/ConceptForm/AccordionSection';
+import FormikLearningPathConnection from '../../FormikForm/FormikLearningPathConnection';
 
 const TopicArticleAccordionPanels = ({
   t,
@@ -80,45 +22,78 @@ const TopicArticleAccordionPanels = ({
   handleSubmit,
   ...rest
 }) => (
-  <Accordion openIndexes={['topic-article-content']}>
-    {({ openIndexes, handleItemClick }) => (
+  <Accordion>
+    {({ handleItemClick }) => (
       <AccordionWrapper>
-        {panels.map(panel => {
-          if (panel.showPanel && !panel.showPanel(values, userAccess)) {
-            return null;
+        <AccordionSection
+          id={'topic-article-content'}
+          title={t('form.contentSection')}
+          className={'u-4/6@desktop u-push-1/6@desktop'}
+          hasError={
+            !!(errors.title || errors.introduction || errors.content || errors.visualElement)
           }
-          const hasError = panel.errorFields.some(field => !!errors[field]);
-          return (
-            <Fragment key={panel.id}>
-              <AccordionBar
-                panelId={panel.id}
-                ariaLabel={t(panel.title)}
-                onClick={() => handleItemClick(panel.id)}
-                title={t(panel.title)}
-                hasError={hasError}
-                isOpen={openIndexes.includes(panel.id)}
-              />
-              {openIndexes.includes(panel.id) && (
-                <AccordionPanel
-                  id={panel.id}
-                  hasError={hasError}
-                  isOpen={openIndexes.includes(panel.id)}>
-                  <div className={panel.className}>
-                    {panel.component({
-                      hasError,
-                      values,
-                      userAccess,
-                      closePanel: () => handleItemClick(panel.id),
-                      fetchSearchTags,
-                      handleSubmit,
-                      ...rest,
-                    })}
-                  </div>
-                </AccordionPanel>
-              )}
-            </Fragment>
-          );
-        })}
+          startOpen>
+          <TopicArticleContent userAccess={userAccess} handleSubmit={handleSubmit} {...rest} />
+        </AccordionSection>
+        {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+          <AccordionSection
+            id={'topic-article-taxonomy'}
+            title={t('form.taxonomySection')}
+            className={'u-6/6'}>
+            <TopicArticleTaxonomy
+              closePanel={() => handleItemClick('topic-article-taxonomy')}
+              userAccess={userAccess}
+              {...rest}
+            />
+          </AccordionSection>
+        )}
+        <AccordionSection
+          id={'topic-article-copyright'}
+          title={t('form.copyrightSection')}
+          className={'u-6/6'}
+          hasError={
+            !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
+          }>
+          <FormikCopyright values={values} {...rest} />
+        </AccordionSection>
+        <AccordionSection
+          id={'topic-article-metadata'}
+          title={t('form.metadataSection')}
+          className={'u-6/6'}
+          hasError={!!(errors.metaDescription || errors.tags)}>
+          <FormikMetadata fetchSearchTags={fetchSearchTags} handleSubmit={handleSubmit} {...rest} />
+        </AccordionSection>
+        <AccordionSection
+          id={'topic-article-grepCodes'}
+          title={t('form.name.grepCodes')}
+          className={'u-6/6'}
+          hasError={!!errors.grepCodes}>
+          <FormikGrepCodes {...rest} />
+        </AccordionSection>
+        <AccordionSection
+          id={'topic-article-connected-learningpaths'}
+          title={t('form.learningpathConnections.sectionTitle')}
+          className={'u-6/6'}>
+          <FormikLearningPathConnection {...rest} />
+        </AccordionSection>
+        {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+          <AccordionSection
+            id={'learning-resource-related'}
+            title={t('form.name.relatedContent')}
+            className={'u-6/6'}
+            hasError={!!(errors.conceptIds || errors.relatedContent)}>
+            <FormikRelatedContent values={values} {...rest} />
+          </AccordionSection>
+        )}
+        {values.id && (
+          <AccordionSection
+            id={'topic-article-workflow'}
+            title={t('form.workflowSection')}
+            className={'u-6/6'}
+            hasError={!!errors.notes}>
+            <VersionAndNotesPanel values={values} {...rest} />}
+          </AccordionSection>
+        )}
       </AccordionWrapper>
     )}
   </Accordion>

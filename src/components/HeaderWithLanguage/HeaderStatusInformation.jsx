@@ -126,8 +126,8 @@ const HeaderStatusInformation = ({
         </StyledStatus>
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
-        {helperIcon}
         {learningpathConnections}
+        {helperIcon}
       </StyledStatusWrapper>
     );
   }

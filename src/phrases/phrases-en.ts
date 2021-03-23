@@ -945,7 +945,6 @@ const phrases = {
     learningpathConnections: {
       sectionTitle: 'Uses of the article in learningpaths',
       title: 'Learningpaths containing this article',
-      empty: 'The article is not used in any learningpaths.',
     },
     relatedConcepts: {
       placeholder: 'Search for title',

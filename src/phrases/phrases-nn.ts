@@ -963,7 +963,6 @@ const phrases = {
     learningpathConnections: {
       sectionTitle: 'Bruk av artikkelen i læringsstiar',
       title: 'Læringsstiar som inneheld denne artikkelen',
-      empty: 'Artikkelen er ikkje i bruk i nokon læringsstiar.',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',

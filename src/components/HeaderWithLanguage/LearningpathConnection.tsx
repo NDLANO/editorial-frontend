@@ -23,12 +23,11 @@ interface Props {
 }
 
 const LearningpathIcon = styled(LearningPath)`
-  color: ${colors.brand.tertiary};
+  color: ${colors.brand.secondary};
 
   &:hover,
   &:focus {
     color: ${colors.brand.primary};
-    border: 1 px ${colors.brand.tertiary};
   }
 `;
 
@@ -38,6 +37,10 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
   useEffect(() => {
     fetchLearningpathsWithArticle(id).then(setLearningpaths);
   }, [id]);
+
+  if(!learningpaths.length){
+    return null;
+  }
 
   return (
     <Modal
@@ -54,11 +57,7 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
           </ModalHeader>
           <ModalBody>
             <h1>{t('form.learningpathConnections.title')}</h1>
-            {learningpaths.length ? (
-              <ElementList elements={learningpaths} isEditable={false} />
-            ) : (
-              <p>{t('form.learningpathConnections.empty')}</p>
-            )}
+            <ElementList elements={learningpaths} isEditable={false} />
           </ModalBody>
         </>
       )}

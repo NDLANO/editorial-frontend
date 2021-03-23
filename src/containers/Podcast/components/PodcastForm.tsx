@@ -72,7 +72,7 @@ const podcastRules = {
 
 export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => {
   return {
-    id: audio?.id || '', // TODO remove ||
+    id: audio?.id || 0, // TODO remove ||
     revision: audio?.revision || 0, // TODO remove ||
     language: audio?.language || '', // TODO remove ||
     supportedLanguages: audio.supportedLanguages || [],
@@ -95,7 +95,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
 };
 
 interface PodcastPropType {
-  id?: string;
+  id?: number;
   revision?: number;
   title?: string;
   language?: string;
@@ -116,13 +116,13 @@ type ErrorFields =
   | 'alttext'
   | 'audioFile'
   | 'caption'
-  | 'coverPhotoAltText'
-  | 'coverPhotoId'
   | 'creators'
+  | 'coverPhotoId'
   | 'header'
   | 'imageFile'
   | 'introduction'
   | 'license'
+  | 'metaImageAlt'
   | 'manuscript'
   | 'processors'
   | 'rightsholders'
@@ -250,7 +250,7 @@ const PodcastForm: FC<Props & tType> = ({
     {
       id: 'podcast-upload-podcastmeta-metadataSection',
       title: t('form.podcastSection'),
-      errorFields: ['header', 'introduction', 'coverPhotoId', 'coverPhotoAltText', 'manuscript'],
+      errorFields: ['header', 'introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'],
       component: <PodcastMetaData />,
     },
     {

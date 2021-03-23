@@ -19,7 +19,7 @@ export interface NewPodcastMeta {
 }
 
 export interface NewAudioMetaInformation {
-  id?: string; // Used only to check if image was newly created. This id is discarded by backend. TODO
+  id?: number; // Used only to check if image was newly created. This id is discarded by backend. TODO
   title: string;
   language: string;
   copyright: Copyright;
@@ -34,7 +34,7 @@ export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
 }
 
 export interface PodcastFormValues {
-  id?: string;
+  id?: number;
   revision?: number;
   language?: string;
   supportedLanguages?: string[];

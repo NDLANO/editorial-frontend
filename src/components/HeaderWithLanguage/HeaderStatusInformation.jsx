@@ -29,13 +29,6 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
-const StyledWarnIcon = styled(AlertCircle)`
-  margin-top: 2px;
-  height: 25px;
-  width: 25px;
-  fill: ${colors.support.yellow};
-`;
-
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
@@ -53,10 +46,7 @@ const HeaderStatusInformation = ({
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
     text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: ${fontSize <= 12 ? spacing.xsmall : spacing.small};
-    margin-left: ${indentLeft ? 0 : spacing.small};
+    margin: 0 ${fontSize <= 12 ? spacing.xsmall : spacing.small} 0 ${indentLeft ? 0 : spacing.small};
   `;
 
   const StyledSmallText = styled.small`
@@ -68,14 +58,19 @@ const HeaderStatusInformation = ({
   `;
 
   const StyledCheckIcon = styled(Check)`
-    margin-top: -3px;
-    height: ${fontSize || '25px'};
-    width: ${fontSize || '25px'};
+    height: ${spacing.normal};
+    width: ${spacing.normal};
     fill: ${colors.support.green};
   `;
 
+  const StyledWarnIcon = styled(AlertCircle)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.yellow};
+  `;
+
   const StyledLink = styled(SafeLink)`
-    box-shadow: inset 0 0px;
+    box-shadow: inset 0 0;
   `;
 
   const multipleTaxonomyIcon = taxonomyPaths?.length > 2 && (

@@ -87,6 +87,8 @@ const RichTextEditor = class extends React.PureComponent {
       schema,
       value,
       renderBlock,
+      renderInline,
+      renderMark,
       submitted,
     } = this.props;
 
@@ -97,6 +99,8 @@ const RichTextEditor = class extends React.PureComponent {
             <Editor
               {...classes('content', undefined, className)}
               renderBlock={renderBlock}
+              renderInline={renderInline}
+              renderMark={renderMark}
               id={id}
               onKeyDown={this.onKeyDown}
               ref={this.editorRef}
@@ -131,6 +135,8 @@ RichTextEditor.propTypes = {
   plugins: PropTypes.arrayOf(PluginShape).isRequired,
   removeSection: PropTypes.func,
   renderBlock: PropTypes.func,
+  renderMark: PropTypes.func,
+  renderInline: PropTypes.func,
   schema: PropTypes.shape({}),
   submitted: PropTypes.bool.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,

@@ -4,7 +4,7 @@ import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import AccordionSection from '../../../ConceptPage/ConceptForm/AccordionSection';
+import AccordionSection from '../../../../components/Accordion/ConceptForm/AccordionSection';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
@@ -36,7 +36,6 @@ const LearningResourcePanels = ({
             title={t('form.taxonomySection')}
             className={'u-6/6'}>
             <LearningResourceTaxonomy
-              closePanel={() => handleItemClick('topic-article-taxonomy')}
               userAccess={userAccess}
               {...rest}
             />

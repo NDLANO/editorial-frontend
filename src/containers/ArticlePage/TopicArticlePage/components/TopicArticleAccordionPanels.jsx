@@ -8,7 +8,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import AccordionSection from "../../../ConceptPage/ConceptForm/AccordionSection";
+import AccordionSection from "../../../../components/Accordion/ConceptForm/AccordionSection";
 
 
 const TopicArticleAccordionPanels = ({

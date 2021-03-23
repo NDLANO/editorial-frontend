@@ -4,7 +4,7 @@
     {
       "title": "film",
       "description": "film fag",
-      "visualElementObject": {
+      "visualElement": {
         "type": "image",
         "url": "https://test.api.ndla.no/image-api/raw/id/37",
         "alt": "Et bilde Foto."

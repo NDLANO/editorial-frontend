@@ -23,7 +23,7 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
       <FormikField label='bildekomponent' name="image" />
       <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript" />
 
-      {/* Q: kan jeg gjenbruke metabilde under her? */}
+      {/* Q: kan jeg gjenbruke metabilde under her?
       <FormikField name="metaImageId">
           {({ field, form }) => (
           <FormikMetaImageSearch
@@ -33,9 +33,7 @@ const PodcastMetaData: FC<Props & tType> = ({ t }) => {
             {...field}
           />
         )}
-      </FormikField>
-
-
+      </FormikField> */} // TODO re-introduce
     </>
   );
 };

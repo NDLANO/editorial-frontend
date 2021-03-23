@@ -10,4 +10,5 @@ export function* watchPublishDraft() {
   }
 }
 
-export default [watchPublishDraft];
+const functions = [watchPublishDraft];
+export default functions;

@@ -16,7 +16,7 @@ type ParentNode = Document | Block | Inline;
 
 export const TYPE = 'code-block';
 
-export default () => {
+export default function codeBlockPlugin() {
   const schema = {
     blocks: {
       'code-block': {
@@ -59,4 +59,4 @@ export default () => {
     schema,
     renderBlock,
   };
-};
+}

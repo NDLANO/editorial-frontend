@@ -19,7 +19,7 @@ import {
   isFormikFormDirty,
   parseCopyrightContributors,
 } from '../../../util/formHelper';
-import { FormikAbortButton, formClasses, FormikAlertModalWrapper } from '../../FormikForm';
+import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import { toEditAudio } from '../../../util/routeHelpers';
@@ -184,9 +184,9 @@ class AudioForm extends Component {
                 )}
               </Accordion>
               <Field right>
-                <FormikAbortButton outline disabled={isSubmitting}>
+                <AbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}
-                </FormikAbortButton>
+                </AbortButton>
                 <SaveButton
                   {...formClasses}
                   isSaving={isSubmitting}
@@ -198,7 +198,7 @@ class AudioForm extends Component {
                   }}
                 />
               </Field>
-              <FormikAlertModalWrapper
+              <AlertModalWrapper
                 {...formikProps}
                 formIsDirty={formIsDirty}
                 severity="danger"

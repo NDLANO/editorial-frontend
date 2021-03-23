@@ -94,4 +94,5 @@ export function* watchSearchImage() {
   }
 }
 
-export default [watchSearch, watchSearchAudio, watchSearchConcept, watchSearchImage];
+const functions = [watchSearch, watchSearchAudio, watchSearchConcept, watchSearchImage];
+export default functions;

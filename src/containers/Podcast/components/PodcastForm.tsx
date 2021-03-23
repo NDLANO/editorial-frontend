@@ -275,69 +275,69 @@ const PodcastForm: FC<Props & tType> = ({
           initialValues,
           dirty,
         });
-        return (
-          <FormWrapper inModal={inModal}>
-            <HeaderWithLanguage
-              noStatus
-              values={values}
-              type="image"
-              content={audio}
-              editUrl={(lang: string) => toEditPodcast(values.id, lang)}
-            />
-            <Accordion openIndexes={['podcast-upload-content']}>
-              {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
-                <AccordionWrapper>
-                  {panels.map(panel => {
-                    const hasError = panel.errorFields.some(field => field in errors);
-                    return (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          title={panel.title}
-                          hasError={hasError}
-                          isOpen={openIndexes.includes(panel.id)}
-                        />
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            hasError={hasError}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    );
-                  })}
-                </AccordionWrapper>
-              )}
-            </Accordion>
-            <Field right>
-              <FormikAbortButton outline disabled={isSubmitting}>
-                {t('form.abort')}
-              </FormikAbortButton>
-              <SaveButton
-                {...formClasses}
-                isSaving={isSubmitting}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-                formIsDirty={formIsDirty}
-                onClick={(evt: Event) => {
-                  evt.preventDefault();
-                  submitForm();
-                }}
-              />
-            </Field>
-            <FormikAlertModalWrapper
-              {...formikProps}
-              formIsDirty={formIsDirty}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </FormWrapper>
-        );
+        // return (
+        //   <FormWrapper inModal={inModal}>
+        //     <HeaderWithLanguage
+        //       noStatus
+        //       values={values}
+        //       type="podcast" // TODO ??
+        //       content={audio}
+        //       editUrl={(lang: string) => toEditPodcast(values.id, lang)}
+        //     />
+        //     {/* <Accordion openIndexes={['podcast-upload-content']}>
+        //       {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
+        //         <AccordionWrapper>
+        //           {panels.map(panel => {
+        //             const hasError = panel.errorFields.some(field => field in errors);
+        //             return (
+        //               <Fragment key={panel.id}>
+        //                 <AccordionBar
+        //                   panelId={panel.id}
+        //                   ariaLabel={panel.title}
+        //                   onClick={() => handleItemClick(panel.id)}
+        //                   title={panel.title}
+        //                   hasError={hasError}
+        //                   isOpen={openIndexes.includes(panel.id)}
+        //                 />
+        //                 {openIndexes.includes(panel.id) && (
+        //                   <AccordionPanel
+        //                     id={panel.id}
+        //                     hasError={hasError}
+        //                     isOpen={openIndexes.includes(panel.id)}>
+        //                     <div className="u-4/6@desktop u-push-1/6@desktop">
+        //                       {panel.component}
+        //                     </div>
+        //                   </AccordionPanel>
+        //                 )}
+        //               </Fragment>
+        //             );
+        //           })}
+        //         </AccordionWrapper>
+        //       )}
+        //     </Accordion> */}
+        //     <Field right>
+        //       <FormikAbortButton outline disabled={isSubmitting}>
+        //         {t('form.abort')}
+        //       </FormikAbortButton>
+        //       <SaveButton
+        //         {...formClasses}
+        //         isSaving={isSubmitting}
+        //         showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+        //         formIsDirty={formIsDirty}
+        //         onClick={(evt: Event) => {
+        //           evt.preventDefault();
+        //           submitForm();
+        //         }}
+        //       />
+        //     </Field>
+        //     <FormikAlertModalWrapper
+        //       {...formikProps}
+        //       formIsDirty={formIsDirty}
+        //       severity="danger"
+        //       text={t('alertModal.notSaved')}
+        //     />
+        //   </FormWrapper>
+        // );
       }}
     </Formik>
   );

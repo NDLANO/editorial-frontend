@@ -268,7 +268,7 @@ export const mathRules = {
     const tagName = el.tagName.toLowerCase();
     if (tagName !== 'math') return;
     return {
-      object: canParentElementContainBlock(el) ? 'block' : 'inline',
+      object: 'inline',
       type: 'mathml',
       data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML },
       nodes: [
@@ -317,6 +317,7 @@ export const codeBlockRule = {
       resource: 'code-block',
       'code-content': data['code-block']?.code || data['code-content'],
       'code-format': data['code-block']?.format || data['code-format'],
+      title: data['title']?.title || data['title'],
     });
     return <embed {...props} />;
   },

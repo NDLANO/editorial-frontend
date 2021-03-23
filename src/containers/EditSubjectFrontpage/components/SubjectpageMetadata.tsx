@@ -41,7 +41,7 @@ const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => 
             id={field.name}
             placeholder={t('form.metaDescription.label')}
             handleSubmit={handleSubmit}
-            {...field}
+            onChange={field.onChange}
             onBlur={onBlur}
             plugins={plugins}
           />

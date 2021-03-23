@@ -46,7 +46,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
 
   useEffect(() => {
     fetchAudio();
-  }, [audioId, audioLanguage]);
+  }, [audioId, audioLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (audioId && !audio.id) {
     return null;

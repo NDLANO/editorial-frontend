@@ -437,7 +437,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   className="c-figure"
 >
   <div
-    className="emotion-14 emotion-15"
+    className="emotion-14"
   >
     <div
       className=" emotion-5 emotion-6"

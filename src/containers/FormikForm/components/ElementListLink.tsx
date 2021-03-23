@@ -17,11 +17,6 @@ import { StyledButtonIcons, StyledListItem } from './ElementListItem';
 
 const ELEMENT_HEIGHT = 69;
 
-interface StyledProps {
-  delete?: boolean;
-  draggable?: boolean;
-}
-
 interface MessageProps {
   removeElement: string;
   dragElement: string;

@@ -161,6 +161,7 @@ class VisualElementSearch extends Component {
                   metaData: {},
                 })
               }
+              onClose={closeModal}
               locale={locale}
             />
           </Fragment>

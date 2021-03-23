@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField/FormikField';
-import FormikCopyright from '../../FormikForm/FormikCopyright';
+import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
 import { License } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
@@ -25,7 +25,7 @@ const ConceptCopyright = ({ licenses, disableAgreements, label }: Props) => {
 
   return (
     <Fragment>
-      <FormikCopyright
+      <CopyrightFieldGroup
         licenses={licenses}
         disableAgreements={disableAgreements}
         values={values}

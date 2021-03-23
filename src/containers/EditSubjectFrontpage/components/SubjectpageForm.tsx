@@ -11,7 +11,7 @@ import { Formik, Form, FormikProps } from 'formik';
 import { SubjectpageEditType } from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
+import { AlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
@@ -161,7 +161,7 @@ const SubjectpageForm: FC<Props & tType> = ({
                 disabled={!isValid}
               />
             </Field>
-            <FormikAlertModalWrapper
+            <AlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"

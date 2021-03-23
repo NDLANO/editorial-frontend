@@ -10,7 +10,7 @@ import React from 'react';
 import RelatedArticleBox from './RelatedArticleBox';
 import defaultBlocks from '../../utils/defaultBlocks';
 
-export default () => {
+export default function relatedPlugin() {
   const schema = {
     document: {},
     blocks: {
@@ -47,6 +47,7 @@ export default () => {
     const onRemoveClick = e => {
       e.stopPropagation();
       editor.removeNodeByKey(node.key);
+      editor.focus();
     };
 
     switch (node.type) {
@@ -61,4 +62,4 @@ export default () => {
     schema,
     renderBlock,
   };
-};
+}

@@ -66,4 +66,5 @@ export function* watchLogout() {
   }
 }
 
-export default [watchLoginSuccess, watchLogout];
+const functions = [watchLoginSuccess, watchLogout];
+export default functions;

@@ -17,7 +17,7 @@ import { spacing } from '@ndla/core';
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import { TranslateType } from '../../../../interfaces';
-import { convertGrepCodesToObject } from '../../../FormikForm/FormikGrepCodesContent';
+import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
 
@@ -103,7 +103,7 @@ const EditGrepCodes: FC<Props> = ({
 
   useEffect(() => {
     grepCodeDescriptionTitle();
-  }, [editMode, grepCodes, addingNewGrepCode]);
+  }, [editMode, grepCodes, addingNewGrepCode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const addGrepCode = (grepCode: string) => {
     grepCodes.push(grepCode.toUpperCase());

@@ -36,8 +36,9 @@ test('isDraftPublished status undefined', () => {
 });
 
 test('transformArticleFromApiVersion', () => {
-  const conceptIds = [{ test: 'test' }];
-  const transformed = transformArticleFromApiVersion(apiArticle, conceptIds);
+  const conceptIds = [1, 2];
+  const relatedContent = [3, { url: 'url', title: 'title' }];
+  const transformed = transformArticleFromApiVersion(apiArticle, 'nb', conceptIds, relatedContent);
   expect(transformed).toMatchSnapshot();
 });
 

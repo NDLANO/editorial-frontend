@@ -22,7 +22,7 @@ import SearchForm from '../../../../containers/SearchPage/components/form/Search
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
-import ConceptForm from '../../../../containers/ConceptPage/components/ConceptForm';
+import ConceptForm from '../../../../containers/ConceptPage/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
 import * as messageActions from '../../../../containers/Messages/messagesActions';
 
@@ -78,7 +78,7 @@ const ConceptModal = ({
     if (licenses.length === 0) {
       getAllLicenses();
     }
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const searchConcept = async searchParam => {
     if (!searching) {
@@ -99,7 +99,7 @@ const ConceptModal = ({
 
   useEffect(() => {
     searchConcept(searchObject);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Portal isOpened>
@@ -171,7 +171,12 @@ const ConceptModal = ({
                         concept={
                           concept
                             ? concept
-                            : { title: selectedText, language: locale, articles: [] }
+                            : {
+                                title: selectedText,
+                                language: locale,
+                                articles: [],
+                                subjectIds: [],
+                              }
                         }
                         createMessage={createMessage}
                         setConcept={setConcept}

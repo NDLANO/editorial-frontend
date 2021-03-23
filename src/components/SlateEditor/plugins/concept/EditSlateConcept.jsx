@@ -79,7 +79,7 @@ const EditSlateConcept = props => {
     if (!node.data.get('content-id')) {
       setShowConcept(true);
     }
-  }, []);
+  }, [node]);
 
   return (
     <span>

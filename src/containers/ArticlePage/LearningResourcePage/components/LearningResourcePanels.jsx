@@ -4,8 +4,7 @@ import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper } from '@ndla/accordion';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import AccordionSection from '../../ConceptPage/ConceptForm/AccordionSection';
-import FormikLearningPathConnection from '../../FormikForm/FormikLearningPathConnection';
+import AccordionSection from '../../../ConceptPage/ConceptForm/AccordionSection';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
@@ -65,12 +64,6 @@ const LearningResourcePanels = ({
           className={'u-6/6'}
           hasError={!!errors.grepCodes}>
           <GrepCodesField {...rest} />
-        </AccordionSection>
-        <AccordionSection
-          id={'learning-resource-connected-learningpaths'}
-          title={t('form.learningpathConnections.sectionTitle')}
-          className={'u-6/6'}>
-          <FormikLearningPathConnection {...rest} />
         </AccordionSection>
         {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
           <AccordionSection

@@ -69,12 +69,6 @@ const TopicArticleAccordionPanels = ({
           hasError={!!errors.grepCodes}>
           <GrepCodesField {...rest} />
         </AccordionSection>
-        <AccordionSection
-          id={'topic-article-connected-learningpaths'}
-          title={t('form.learningpathConnections.sectionTitle')}
-          className={'u-6/6'}>
-          <FormikLearningPathConnection {...rest} />
-        </AccordionSection>
         {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
           <AccordionSection
             id={'learning-resource-related'}

@@ -18,7 +18,6 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
-import LearningpathConnection from './LearningpathConnection';
 
 const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLanguages, t }) => {
   if (type === 'concept')
@@ -71,7 +70,6 @@ const HeaderActions = ({
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['concept', 'standard', 'topic-article'];
-  const typesInLearningpaths = ['standard', 'topic-article'];
 
   if (id) {
     return (

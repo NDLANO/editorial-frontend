@@ -942,6 +942,12 @@ const phrases = {
       label: 'Article',
       add: 'Add article',
     },
+    learningpathConnections: {
+      sectionTitle: 'Uses in learningpaths',
+      title: 'Learningpaths',
+      subTitle: 'Learningpaths containing this article',
+      empty: 'The article is not used in any learningpaths.',
+    },
     relatedConcepts: {
       placeholder: 'Search for title',
       articlesTitle: 'Concepts',

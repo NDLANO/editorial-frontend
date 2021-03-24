@@ -7,11 +7,13 @@
  */
 
 import { visitOptions, setToken } from '../../support';
+import editorRoutes from "../Editor/editorRoutes";
 
 describe('Search content', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    editorRoutes();
+
     cy.apiroute(
       'GET',
       '/taxonomy/v1/resource-types/?language=nb',
@@ -23,7 +25,7 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.apiroute('GET', '/get_editors*', 'editors');
+    cy.apiroute('GET', '**/get_editors*', 'editors');
     cy.visit(
       '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       visitOptions,
@@ -34,33 +36,31 @@ describe('Search content', () => {
   it('Can use text input', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
-      'search',
+      '**/search-api/v1/search/editorial/?*query=Test*',
+      'search2',
     );
     cy.get('input[name="query"]').type('Test').blur();
-    cy.apiwait('@search');
+    cy.apiwait('@search2');
   });
 
   it('Can use status dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
-      'search',
+      '**/search-api/v1/search/editorial/?*draft-status=USER_TEST*',
+      'search2',
     );
     cy.get('select[name="status"]').select('Brukertest').blur();
-    cy.apiwait('@search');
-
+    cy.apiwait('@search2');
   });
 
   it('Can use resource type dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&resource-types=urn:resourcetype:academicArticle&sort=-relevance',
-      'search',
+      '**/search-api/v1/search/editorial/?*academicArticle*',
+      'search2',
     );
     cy.get('select[name="resourceTypes"]').select('Fagartikkel').blur();
-    cy.apiwait('@search');
-
+    cy.apiwait('@search2');
   });
 
   it('Can use subject dropdown', () => {

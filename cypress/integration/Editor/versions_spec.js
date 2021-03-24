@@ -14,15 +14,6 @@ describe('Workflow features', () => {
   before(() => {
     // change article ID and run cy-record to add the new fixture data
     setToken();
-    cy.server({
-      force404: true,
-      whitelist: xhr => {
-        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-        //return the default cypress whitelist filer
-        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
-      },
-    });
-
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
@@ -32,12 +23,11 @@ describe('Workflow features', () => {
       .contains('Versjonslogg og merknader')
       .click();
     cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
+    cy.wait('@getNoteUsers');
   });
 
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
-
     editorRoutes(ARTICLE_ID);
   });
 
@@ -50,20 +40,20 @@ describe('Workflow features', () => {
       .first()
       .click();
     cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
+    cy.wait('@getNoteUsers');
   });
 
   it('Open previews', () => {
-    cy.route(
+    cy.intercept(
       'POST',
-      '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true',
-      'fixture:transformedArticle.json',
-    ).as('transformedArticle');
-    cy.wait(100);
+      '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true')
+      .as("transformedArticle");
+    cy.apiroute('GET', `/article-converter/json/nb/${ARTICLE_ID}`, `converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
     cy.wait('@transformedArticle');
-    cy.wait(100);
+    cy.apiwait(`@converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=closePreview]').click();
   });
 
@@ -71,7 +61,6 @@ describe('Workflow features', () => {
     cy.get('[data-testid=resetToVersion]')
       .first()
       .click();
-    cy.get('[data-testid=closeAlert]').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

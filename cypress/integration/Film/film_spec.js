@@ -11,7 +11,6 @@ import { visitOptions, setToken } from '../../support';
 describe('Film editing', () => {
   before(() => {
     setToken();
-    cy.server({ force404: true });
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
     cy.apiroute('GET', '**/search-api/v1/search/**', 'allMovies');
     cy.visit('/film', visitOptions);
@@ -21,7 +20,6 @@ describe('Film editing', () => {
 
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
   });
 
   it('Can add a movie to the slideshow', () => {

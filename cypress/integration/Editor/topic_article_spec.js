@@ -14,18 +14,12 @@ const ARTICLE_ID = 12173;
 describe('Language handling', () => {
   beforeEach(() => {
     setToken();
-    cy.server({
-      force404: true,
-      whitelist: xhr => {
-        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-        //return the default cypress whitelist filer
-        return (
-          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
-        );
-      },
-    });
-
-    editorRoutes(ARTICLE_ID);
+    editorRoutes();
+    cy.apiroute(
+      'GET',
+      `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
+      `draft-${ARTICLE_ID}`,
+    );
 
     cy.visit(
       `/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`,

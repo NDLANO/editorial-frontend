@@ -11,7 +11,6 @@ import { visitOptions, setToken } from '../../support';
 describe('Selecting text and using the toolbar', () => {
   before(() => {
     setToken();
-    cy.server({ force404: true });
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
   });
 

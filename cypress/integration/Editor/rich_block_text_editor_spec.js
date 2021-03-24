@@ -12,8 +12,6 @@ import editorRoutes from './editorRoutes';
 describe('Learning resource editing', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
-
     editorRoutes();
 
     cy.visit('/subject-matter/learning-resource/new', visitOptions);

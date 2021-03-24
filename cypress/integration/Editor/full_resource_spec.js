@@ -10,28 +10,18 @@ import { setToken, visitOptions } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Edit article with everything', () => {
-  const ARTICLE_ID = 14989;
+  const ARTICLE_ID = 532;
   before(() => {
     setToken();
-    cy.server({
-      force404: true,
-      whitelist: xhr => {
-        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-        //return the default cypress whitelist filer
-        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
-      },
-    });
-
     editorRoutes();
-    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`, 'draftFull');
 
+    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`, `draft-${ARTICLE_ID}`);
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
-    cy.apiwait(['@licenses', '@draftFull']);
   });
 
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    editorRoutes();
   });
 
   it('Can change language and fetch the new article', () => {
@@ -42,11 +32,11 @@ describe('Edit article with everything', () => {
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.apiwait('@draftNN');
+    cy.wait('@draftNN')
   });
 
   it('Can edit the published date', () => {
-    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'saveLearningResource');
+    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `updateDraft-${ARTICLE_ID}`);
     // check that article is not dirty
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
@@ -55,10 +45,8 @@ describe('Edit article with everything', () => {
     cy.get('.flatpickr-day ')
       .first()
       .click();
-
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait('@saveLearningResource');
   });
 });

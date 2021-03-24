@@ -7,16 +7,17 @@
  */
 
 import { setToken, visitOptions } from '../../support';
+import editorRoutes from "./editorRoutes";
 
 describe('can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them', () => {
   before(() => {
     setToken();
+    editorRoutes();
     cy.visit('/subject-matter/learning-resource/new', visitOptions);
-    cy.get('[cy="slate-block-picker-menu"]').should('not.be.visible');
+    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
   });
 
   beforeEach(() => {
-    cy.server({ force404: true });
     cy.get('[data-slate-object=block] > p').clear({ force: true });
     cy.get('[data-slate-object=block] > p')
       .first()
@@ -47,16 +48,17 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('opens and closes image', () => {
+    cy.apiroute('GET', '/image-api/v2/images/?page=1&page-size=16', 'editor/images/imageList');
     cy.get('[data-cy=create-image]').click();
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
+    cy.apiwait('@editor/images/imageList');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
   it('adds and removes image', () => {
     cy.apiroute('GET', '/image-api/v2/images/?page=1&page-size=16', 'editor/images/imageList');
-    cy.apiroute('GET', '/image-api/v2/images/*?language=nb', 'editor/images/image');
-
+    cy.apiroute('GET', '**/images/*?language=nb', 'editor/images/image');
     cy.get('[data-cy=create-image]').click();
     cy.apiwait('@editor/images/imageList');
     cy.get('[data-cy="select-image-from-list"]')
@@ -69,9 +71,11 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
   it('opens and closes video', () => {
     cy.apiroute('GET', '/get_brightcove_token', 'editor/videos/brightcoveToken');
+    cy.apiroute('GET', '**/videos/**', 'editor/videos/videoListBrightcove');
     cy.get('[data-cy=create-video]').click();
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
+    cy.apiwait('@editor/videos/videoListBrightcove')
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -80,6 +84,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/videos/**', 'editor/videos/videoListBrightcove');
 
     cy.get('[data-cy=create-video]').click();
+    cy.apiwait('@editor/videos/videoListBrightcove')
     cy.get('[data-cy="use-video"]')
       .first()
       .click();
@@ -91,54 +96,68 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/videos/**', 'editor/videos/videoListBrightcove');
     cy.apiroute('GET', '**/customsearch/**', 'editor/videos/videoListYoutube');
     cy.apiroute('GET', '**/oembed-proxy/**', 'editor/videos/videoYoutube');
+    cy.apiroute('GET', '**/embed/**', 'editor/videos/videoYoutube2');
 
     cy.get('[data-cy=create-video]').click();
+    cy.apiwait('@editor/videos/videoListBrightcove')
     cy.get('[data-cy="YouTube-video-tab"]').click();
     cy.apiwait('@editor/videos/videoListYoutube');
     cy.get('[data-cy="use-video"]')
       .first()
       .click();
-    // cy.apiwait('@editor/videos/videoYoutube');
+    cy.apiwait('@editor/videos/videoYoutube2');
     cy.get('[data-cy="remove-element"]').click();
   });
 
   it('opens and closes audio', () => {
-    cy.apiroute(
-      'GET',
-      '/audio-api/v1/audio/?page=1&query=&page-size=16',
-      'editor/audios/audioList',
-    );
-    cy.get('[data-cy=create-audio]').click();
+    cy.apiroute('GET', '/audio-api/v1/audio/?page=1&query=&page-size=16', 'editor/audios/audioList');
+    cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
+
+    cy.get('[data-cy=create-audio]').click()
     cy.apiwait('@editor/audios/audioList');
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
+
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
   it('opens and closes H5P', () => {
+    // Discard h5p-auth request
+    cy.intercept('*', (req) => {
+      if (req.url.includes('auth')) {
+        req.reply({
+          statusCode: 404
+        })
+      }
+    })
+
     cy.get('[data-cy=create-h5p]').click();
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
   it('opens and closes url', () => {
     cy.get('[data-cy=create-url]').click();
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
   it('opens and closes file', () => {
     cy.get('[data-cy=create-file]').click();
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
+    cy.get('[data-cy="modal-header"]').should('exist');
+    cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
   it('opens and closes related', () => {
+    setToken();
+    cy.apiroute('GET', '**/search-api/v1/search/editorial/*','search');
+
     cy.get('[data-cy=create-related]').click();
-    cy.get('[data-cy="styled-article-modal"]').should('be.visible');
+    cy.get('[data-cy="styled-article-modal"]').should('exist');
+    cy.apiwait('@search')
     cy.get('[data-cy="close-related-button"]').click();
   });
 });

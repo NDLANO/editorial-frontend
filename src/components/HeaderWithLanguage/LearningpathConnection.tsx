@@ -24,6 +24,7 @@ interface Props {
 }
 
 const LearningpathIcon = styled(LearningPath)`
+  margin-top: -3px;
   color: ${colors.brand.primary};
   cursor: pointer;
 `;

@@ -50,7 +50,10 @@ import {
 } from '../../../../modules/taxonomy/resourcetypes';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import AlertModal from '../../../../components/AlertModal';
 import { ArticleShape } from '../../../../shapes';
+import { AlertModalWrapper } from '../../../FormikForm';
+import {FormikFieldHelp} from "../../../../components/FormikField";
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -66,6 +69,7 @@ class TopicArticleTaxonomy extends Component {
         allFilters: [],
         allTopics: [],
       },
+      showWarning: false,
     };
   }
 
@@ -294,12 +298,15 @@ class TopicArticleTaxonomy extends Component {
 
   onCancel = () => {
     const { isDirty } = this.state;
-    const { closePanel } = this.props;
+    const { setIsOpen } = this.props;
     if (!isDirty) {
-      closePanel();
+      setIsOpen(false);
     } else {
-      // TODO open warning
-      closePanel();
+      if (this.state.showWarning){
+        setIsOpen(false);
+      } else{
+        this.setState({ showWarning: true });
+      }
     }
   };
 
@@ -475,13 +482,13 @@ class TopicArticleTaxonomy extends Component {
       structure,
       status,
       isDirty,
+      showWarning,
     } = this.state;
     const {
       t,
       userAccess,
       article: { title },
       locale,
-      setIsOpen,
     } = this.props;
     const showResourceType = userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -545,6 +552,11 @@ class TopicArticleTaxonomy extends Component {
               updateFilter={this.updateFilter}
             />
           )}
+        {showWarning &&
+          <FormikFieldHelp error>
+            {t('errorMessage.unsavedTaxonomy')}
+          </FormikFieldHelp>
+        }
         <Field right>
           <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}

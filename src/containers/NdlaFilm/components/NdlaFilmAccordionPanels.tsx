@@ -53,7 +53,7 @@ const panels = [
     id: 'about',
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: ['title', 'description', 'visualElement'],
+    errorFields: ['title', 'description', 'visualElementObject'],
     component: (props: {
       handleSubmit: () => void;
       onBlur: (event: any, editor: any, next: any) => void;

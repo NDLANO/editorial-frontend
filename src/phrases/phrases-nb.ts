@@ -967,6 +967,10 @@ const phrases = {
       label: 'Artikkel',
       add: 'Legg til artikkel',
     },
+    learningpathConnections: {
+      sectionTitle: 'Bruk av artikkelen i læringsstier',
+      title: 'Læringsstier som inneholder denne artikkelen',
+    },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
       articlesTitle: 'Forklaringer',

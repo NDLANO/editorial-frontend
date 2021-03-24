@@ -67,5 +67,5 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     name: 'NDLA Statisk',
     url: ['statisk.ndla.no', 'statisk.test.ndla.no', 'statisk.staging.ndla.no'],
   },
-  { name: 'NDLA Liste', url: ['liste'] },
+  { name: 'NDLA Liste', url: ['liste'], height: '398px' },
 ];

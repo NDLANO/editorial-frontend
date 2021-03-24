@@ -135,11 +135,12 @@ const LearningResourceForm = props => {
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+  const { userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+    const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
@@ -164,25 +165,21 @@ const LearningResourceForm = props => {
           <Spinner withWrapper />
         ) : (
           <LearningResourcePanels
-            values={values}
-            errors={errors}
             article={article}
-            touched={touched}
             updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            setValues={setValues}
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            {...formikProps}
-            {...rest}
             handleSubmit={() => {
               handleSubmit(formik, isNewlyCreated);
             }}
+            userAccess={userAccess}
+            createMessage={createMessage}
+            history={history}
           />
         )}
-
         <EditorFooter
           showSimpleFooter={!article.id}
           formIsDirty={formIsDirty}
@@ -255,6 +252,9 @@ LearningResourceForm.propTypes = {
   translating: PropTypes.bool,
   translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default injectT(LearningResourceForm);

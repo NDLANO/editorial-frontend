@@ -34,6 +34,7 @@ import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import { ArticleShape } from '../../../../shapes';
 
 const emptyTaxonomy = {
   resourceTypes: [],
@@ -211,9 +212,8 @@ class LearningResourceTaxonomy extends Component {
     const { resourceTaxonomy, taxonomyChanges, resourceId } = this.state;
     let reassignedResourceId = resourceId;
     const {
-      revision,
       updateNotes,
-      article: { language, id, title },
+      article: { language, id, title, revision },
     } = this.props;
     this.setState({ status: 'loading' });
     try {
@@ -354,12 +354,12 @@ class LearningResourceTaxonomy extends Component {
 
   onCancel = () => {
     const { isDirty } = this.state;
-    const { closePanel } = this.props;
+    const { setIsOpen } = this.props;
     if (!isDirty) {
-      closePanel();
+      setIsOpen(false);
     } else {
       // TODO open warning
-      closePanel();
+      setIsOpen(false);
     }
   };
 
@@ -455,15 +455,9 @@ class LearningResourceTaxonomy extends Component {
 }
 
 LearningResourceTaxonomy.propTypes = {
-  language: PropTypes.string,
   locale: PropTypes.string,
-  closePanel: PropTypes.func,
-  revision: PropTypes.number,
-  article: PropTypes.shape({
-    title: PropTypes.string,
-    id: PropTypes.number,
-    language: PropTypes.string,
-  }),
+  setIsOpen: PropTypes.func,
+  article: ArticleShape,
   updateNotes: PropTypes.func,
   userAccess: PropTypes.string,
 };

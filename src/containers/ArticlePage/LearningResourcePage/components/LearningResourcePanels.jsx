@@ -1,104 +1,142 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper } from '@ndla/accordion';
+import { useFormikContext } from 'formik';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import AccordionSection from '../../../../components/Accordion/ConceptForm/AccordionSection';
+import AccordionSection from '../../../../components/Accordion/AccordionSection';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
+import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
+import { LocaleContext } from '../../../App/App';
 
 const LearningResourcePanels = ({
   t,
-  values,
   userAccess,
-  errors,
   fetchSearchTags,
   handleSubmit,
-  ...rest
-}) => (
-  <Accordion>
-    {({ handleItemClick }) => (
-      <AccordionWrapper>
-        <AccordionSection
-          id={'learning-resource-content'}
-          title={t('form.contentSection')}
-          className={'u-4/6@desktop u-push-1/6@desktop'}
-          hasError={!!(errors.title || errors.introduction || errors.content)}
-          startOpen>
-          <LearningResourceContent userAccess={userAccess} handleSubmit={handleSubmit} {...rest} />
-        </AccordionSection>
-        {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+  article,
+  updateNotes,
+  licenses,
+  getArticle,
+  getInitialValues,
+  createMessage,
+  history,
+  formIsDirty,
+}) => {
+  const locale = useContext(LocaleContext);
+  const formikContext = useFormikContext();
+  const { values, setValues, errors, handleBlur } = formikContext;
+
+  return (
+    <Accordion>
+      {() => (
+        <AccordionWrapper>
           <AccordionSection
-            id={'learning-resource-taxonomy'}
-            title={t('form.taxonomySection')}
-            className={'u-6/6'}>
-            <LearningResourceTaxonomy
+            id={'learning-resource-content'}
+            title={t('form.contentSection')}
+            className={'u-4/6@desktop u-push-1/6@desktop'}
+            hasError={!!(errors.title || errors.introduction || errors.content)}
+            startOpen>
+            <LearningResourceContent
               userAccess={userAccess}
-              {...rest}
+              handleSubmit={handleSubmit}
+              handleBlur={handleBlur}
+              values={values}
+              article={article}
+              locale={locale}
             />
           </AccordionSection>
-        )}
-        <AccordionSection
-          id={'learning-resource-copyright'}
-          title={t('form.copyrightSection')}
-          className={'u-6/6'}
-          hasError={
-            !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
-          }>
-          <CopyrightFieldGroup values={values} {...rest} />
-        </AccordionSection>
-        <AccordionSection
-          id={'learning-resource-metadata'}
-          title={t('form.metadataSection')}
-          className={'u-6/6'}
-          hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
-          <MetaDataField fetchSearchTags={fetchSearchTags} handleSubmit={handleSubmit} {...rest} />
-        </AccordionSection>
-        <AccordionSection
-          id={'learning-resource-grepCodes'}
-          title={t('form.name.grepCodes')}
-          className={'u-6/6'}
-          hasError={!!errors.grepCodes}>
-          <GrepCodesField {...rest} />
-        </AccordionSection>
-        {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+          {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+            <AccordionSection
+              id={'learning-resource-taxonomy'}
+              title={t('form.taxonomySection')}
+              className={'u-6/6'}>
+              <LearningResourceTaxonomy
+                userAccess={userAccess}
+                article={article}
+                locale={locale}
+                updateNotes={updateNotes}
+              />
+            </AccordionSection>
+          )}
           <AccordionSection
-            id={'learning-resource-related'}
-            title={t('form.name.relatedContent')}
+            id={'learning-resource-copyright'}
+            title={t('form.copyrightSection')}
             className={'u-6/6'}
-            hasError={!!(errors.conceptIds || errors.relatedContent)}>
-            <RelatedContentFieldGroup values={values} {...rest} />
+            hasError={
+              !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
+            }>
+            <CopyrightFieldGroup values={values} licenses={licenses} />
           </AccordionSection>
-        )}
-        {values.id && (
           <AccordionSection
-            id={'learning-resource-workflow'}
-            title={t('form.workflowSection')}
+            id={'learning-resource-metadata'}
+            title={t('form.metadataSection')}
             className={'u-6/6'}
-            hasError={!!errors.notes}>
-            <VersionAndNotesPanel values={values} {...rest} />}
+            hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
+            <MetaDataField
+              handleBlur={handleBlur}
+              fetchSearchTags={fetchSearchTags}
+              handleSubmit={handleSubmit}
+              article={article}
+            />
           </AccordionSection>
-        )}
-      </AccordionWrapper>
-    )}
-  </Accordion>
-);
+          <AccordionSection
+            id={'learning-resource-grepCodes'}
+            title={t('form.name.grepCodes')}
+            className={'u-6/6'}
+            hasError={!!errors.grepCodes}>
+            <GrepCodesField article={article} />
+          </AccordionSection>
+          {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+            <AccordionSection
+              id={'learning-resource-related'}
+              title={t('form.name.relatedContent')}
+              className={'u-6/6'}
+              hasError={!!(errors.conceptIds || errors.relatedContent)}>
+              <RelatedContentFieldGroup values={values} locale={locale} />
+            </AccordionSection>
+          )}
+          {values.id && (
+            <AccordionSection
+              id={'learning-resource-workflow'}
+              title={t('form.workflowSection')}
+              className={'u-6/6'}
+              hasError={!!errors.notes}>
+              <VersionAndNotesPanel
+                values={values}
+                formIsDirty={formIsDirty}
+                setValues={setValues}
+                getArticle={getArticle}
+                article={article}
+                getInitialValues={getInitialValues}
+                createMessage={createMessage}
+                history={history}
+              />
+              }
+            </AccordionSection>
+          )}
+        </AccordionWrapper>
+      )}
+    </Accordion>
+  );
+};
 
 LearningResourcePanels.propTypes = {
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  }).isRequired,
-  errors: PropTypes.object.isRequired,
   userAccess: PropTypes.string,
-  article: PropTypes.shape({
-    grepCodes: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
   fetchSearchTags: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  article: ArticleShape.isRequired,
+  updateNotes: PropTypes.func,
+  licenses: LicensesArrayOf,
+  getArticle: PropTypes.func,
+  getInitialValues: PropTypes.func,
+  createMessage: PropTypes.func,
+  history: PropTypes.object,
+  formIsDirty: PropTypes.bool,
 };
 
 export default injectT(LearningResourcePanels);

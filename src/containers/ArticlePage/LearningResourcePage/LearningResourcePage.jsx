@@ -19,15 +19,7 @@ import { LicensesArrayOf } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import { LocationShape } from '../../../shapes';
 
-const LearningResourcePage = ({
-  fetchLicenses,
-  licenses,
-  location,
-  match,
-  history,
-  locale,
-  ...rest
-}) => {
+const LearningResourcePage = ({ fetchLicenses, licenses, location, match, history }) => {
   const previousLocation = useRef(location.pathname).current;
   useEffect(() => {
     if (!licenses.length) {
@@ -41,7 +33,7 @@ const LearningResourcePage = ({
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={() => <CreateLearningResource history={history} {...rest} />}
+            render={() => <CreateLearningResource history={history} licenses={licenses} />}
           />
           <Route
             path={`${match.url}/:articleId/edit/`}

@@ -13,6 +13,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { LearningPath } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
+import Button from '@ndla/button';
 import { normalPaddingCSS } from '../HowTo';
 import ElementList from '../../containers/FormikForm/components/ElementList';
 import { Learningpath } from '../../interfaces';
@@ -45,7 +46,11 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
       wrapperFunctionForButton={(activateButton: any) => (
         <Tooltip tooltip={t('form.learningpathConnections.sectionTitle')}>{activateButton}</Tooltip>
       )}
-      activateButton={<LearningpathIcon css={normalPaddingCSS} />}>
+      activateButton={
+        <Button stripped>
+          <LearningpathIcon css={normalPaddingCSS} />
+        </Button>
+      }>
       {(onClose: () => void) => (
         <>
           <ModalHeader>

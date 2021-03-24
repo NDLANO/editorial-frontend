@@ -5,75 +5,63 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { PureComponent } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
 import { getLocale } from '../../../modules/locale/locale';
-import EditLearningResource from './EditLearningResource';
+import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import { LocationShape } from '../../../shapes';
 
-class LearningResourcePage extends PureComponent {
-  constructor(props) {
-    super();
-    this.state = { previousLocation: '' };
-  }
-  componentDidMount() {
-    const { fetchLicenses, licenses } = this.props;
+const LearningResourcePage = ({
+  fetchLicenses,
+  licenses,
+  location,
+  match,
+  history,
+  locale,
+  ...rest
+}) => {
+  const previousLocation = useRef(location.pathname).current;
+  useEffect(() => {
     if (!licenses.length) {
       fetchLicenses();
     }
-  }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.setState({ previousLocation: prevProps.location.pathname });
-    }
-  }
-
-  render() {
-    const { match, history, ...rest } = this.props;
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <OneColumn>
-          <Switch>
-            <Route
-              path={`${match.url}/new`}
-              render={() => <CreateLearningResource history={history} {...rest} />}
-            />
-            <Route
-              path={`${match.url}/:articleId/edit/:selectedLanguage`}
-              render={props => (
-                <EditLearningResource
-                  articleId={props.match.params.articleId}
-                  selectedLanguage={props.match.params.selectedLanguage}
-                  isNewlyCreated={
-                    this.state.previousLocation === '/subject-matter/learning-resource/new'
-                  }
-                  {...rest}
-                />
-              )}
-            />
-            <Redirect
-              from={`${match.url}/:articleId/edit`}
-              to={`${match.url}/:articleId/edit/${this.props.locale}`}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </OneColumn>
-      </div>
-    );
-  }
-}
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <OneColumn>
+        <Switch>
+          <Route
+            path={`${match.url}/new`}
+            render={() => <CreateLearningResource history={history} {...rest} />}
+          />
+          <Route
+            path={`${match.url}/:articleId/edit/`}
+            render={props => (
+              <EditResourceRedirect previousLocation={previousLocation} {...props} />
+            )}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </OneColumn>
+    </div>
+  );
+};
 
 LearningResourcePage.propTypes = {
   match: PropTypes.shape({
+    params: PropTypes.shape({
+      articleId: PropTypes.string,
+      selectedLanguage: PropTypes.string,
+    }),
     url: PropTypes.string.isRequired,
   }).isRequired,
   history: PropTypes.shape({

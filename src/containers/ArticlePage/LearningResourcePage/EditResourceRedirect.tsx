@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import EditLearningResource from './EditLearningResource';
 import { LocaleContext } from '../../App/App';

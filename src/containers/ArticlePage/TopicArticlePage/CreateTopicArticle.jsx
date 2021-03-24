@@ -5,16 +5,17 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React, { useContext, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { LocaleContext } from '../../App/App';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 
-const CreateTopicArticle = props => {
-  const { locale, t, history, ...rest } = props;
+const CreateTopicArticle = ({ history, t, ...rest }) => {
+  const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async createdArticle => {
@@ -41,7 +42,6 @@ CreateTopicArticle.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   createMessage: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(CreateTopicArticle);

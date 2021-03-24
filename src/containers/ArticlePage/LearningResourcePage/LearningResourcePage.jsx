@@ -27,7 +27,6 @@ const LearningResourcePage = ({
   match,
   history,
 }) => {
-  const resourceFormProps = { applicationError, licenses, createMessage };
   const previousLocation = useRef(location.pathname).current;
   useEffect(() => {
     if (!licenses.length) {
@@ -35,6 +34,7 @@ const LearningResourcePage = ({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const resourceFormProps = { applicationError, licenses, createMessage };
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>

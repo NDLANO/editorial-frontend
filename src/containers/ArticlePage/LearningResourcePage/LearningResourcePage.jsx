@@ -7,18 +7,16 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
 import { getLocale } from '../../../modules/locale/locale';
-import { fetchDraft } from '../../../modules/draft/draftApi';
 import EditLearningResource from './EditLearningResource';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
-import { toEditArticle } from '../../../util/routeHelpers';
 import { LocationShape } from '../../../shapes';
 
 class LearningResourcePage extends PureComponent {
@@ -37,11 +35,6 @@ class LearningResourcePage extends PureComponent {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setState({ previousLocation: prevProps.location.pathname });
     }
-  }
-
-  async getDraft(id) {
-    const draft = await fetchDraft(id);
-    this.setState({ draft });
   }
 
   render() {
@@ -67,18 +60,9 @@ class LearningResourcePage extends PureComponent {
                 />
               )}
             />
-            <Route
-              path={`${match.url}/:articleId/edit`}
-              render={props => {
-                this.getDraft(props.match.params.articleId);
-                const draft = this.state.draft;
-                const language =
-                  draft && draft.supportedLanguages.find(lang => lang === this.props.locale);
-                draft &&
-                  history.push(
-                    toEditArticle(draft.id, 'standard', language || draft.supportedLanguages[0]),
-                  );
-              }}
+            <Redirect
+              from={`${match.url}/:articleId/edit`}
+              to={`${match.url}/:articleId/edit/${this.props.locale}`}
             />
             <Route component={NotFoundPage} />
           </Switch>

@@ -409,11 +409,11 @@ const phrases = {
   podcastForm: {
     title: 'Podcast',
     fields: {
-      header: 'Podcast overskrift',
-      introduction: 'Podcast introduksjon',
-      coverPhoto: 'Podcast bilde',
+      header: 'Overskrift',
+      introduction: 'Introduksjon',
+      coverPhoto: 'Bilde',
       coverPhotoAltText: 'Alt-text',
-      manuscript: 'Podcast manus',
+      manuscript: 'Manus',
     },
   },
   imageEditor: {
@@ -495,7 +495,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     articleSection: 'Artikler',
-    podcastSection: 'Podcast informasjon',
+    podcastSection: 'Podcastinformasjon',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',
@@ -545,8 +545,6 @@ const phrases = {
       subjects: 'Fag',
       header: 'Overskrift',
       manuscript: 'Manus',
-      coverPhotoId: 'Metabilde',
-      coverPhotoAltText: 'Alt-tekst',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',

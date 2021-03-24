@@ -410,11 +410,11 @@ const phrases = {
   podcastForm: {
     title: 'Podcast',
     fields: {
-      header: 'Podcast overskrift',
-      introduction: 'Podcast introduksjon',
-      coverPhoto: 'Podcast bilde',
-      coverPhotoAltText: 'Alt-text',
-      manuscript: 'Podcast manus',
+      header: 'Overskrift',
+      introduction: 'Introduksjon',
+      coverPhoto: 'Bilde',
+      coverPhotoAltText: 'Alt-tekst',
+      manuscript: 'Manus',
     },
   },
   imageEditor: {
@@ -500,7 +500,7 @@ const phrases = {
     workflowSection: 'Versjonslogg og merknader',
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
-    podcastSection: 'Podcast informasjon',
+    podcastSection: 'Podcastinformasjon',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',

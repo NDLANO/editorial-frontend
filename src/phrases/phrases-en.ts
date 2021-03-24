@@ -390,13 +390,13 @@ const phrases = {
     title: 'audio file',
   },
   podcastForm: {
-    title: 'podcast file',
+    title: 'Podcast file',
     fields: {
-      header: 'Podcast header',
-      introduction: 'Podcast introduction',
-      coverPhoto: 'Podcast image',
+      header: 'Header',
+      introduction: 'Introduction',
+      coverPhoto: 'Image',
       coverPhotoAltText: 'Alt-text',
-      manuscript: 'Podcast manuscript',
+      manuscript: 'Manuscript',
     },
   },
   imageEditor: {

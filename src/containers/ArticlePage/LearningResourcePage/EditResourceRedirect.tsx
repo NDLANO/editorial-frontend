@@ -19,9 +19,6 @@ interface Props {
       articleId: string;
     };
   };
-  location: {
-    pathname: string;
-  };
 }
 const EditResourceRedirect = ({ match, ...rest }: Props) => {
   const locale = useContext(LocaleContext);

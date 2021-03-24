@@ -11,7 +11,6 @@ import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
-import { getLocale } from '../../../modules/locale/locale';
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
@@ -19,7 +18,16 @@ import { LicensesArrayOf } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import { LocationShape } from '../../../shapes';
 
-const LearningResourcePage = ({ fetchLicenses, licenses, location, match, history, ...rest }) => {
+const LearningResourcePage = ({
+  fetchLicenses,
+  licenses,
+  applicationError,
+  createMessage,
+  location,
+  match,
+  history,
+}) => {
+  const resourceFormProps = { applicationError, licenses, createMessage };
   const previousLocation = useRef(location.pathname).current;
   useEffect(() => {
     if (!licenses.length) {
@@ -33,21 +41,18 @@ const LearningResourcePage = ({ fetchLicenses, licenses, location, match, histor
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={() => (
-              <CreateLearningResource history={history} licenses={licenses} {...rest} />
-            )}
+            render={() => <CreateLearningResource history={history} {...resourceFormProps} />}
           />
-          <Route
-            path={`${match.url}/:articleId/edit/`}
-            render={props => (
+          <Route path={`${match.url}/:articleId/edit/`}>
+            {params => (
               <EditResourceRedirect
-                previousLocation={previousLocation}
-                licenses={licenses}
-                {...props}
-                {...rest}
+                match={params.match}
+                isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
+                {...resourceFormProps}
               />
             )}
-          />
+          </Route>
+
           <Route component={NotFoundPage} />
         </Switch>
       </OneColumn>
@@ -68,7 +73,6 @@ LearningResourcePage.propTypes = {
   }).isRequired,
   licenses: LicensesArrayOf,
   fetchLicenses: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
   userAccess: PropTypes.string,
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
@@ -82,7 +86,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  locale: getLocale(state),
   licenses: getAllLicenses(state),
   userAccess: state.session.user.scope,
 });

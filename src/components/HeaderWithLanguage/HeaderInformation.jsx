@@ -82,9 +82,6 @@ export const types = {
     cssModifier: 'filter',
     icon: <Filter />,
   },
-  learningpath: {
-    icon: <ContentTypeBadge type={contentTypes.LEARNING_PATH} background size={'xsmall'} />,
-  },
 };
 
 const HeaderInformation = ({

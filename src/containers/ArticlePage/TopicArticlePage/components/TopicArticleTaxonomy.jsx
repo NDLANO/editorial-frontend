@@ -50,6 +50,7 @@ import {
 } from '../../../../modules/taxonomy/resourcetypes';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import { ArticleShape } from '../../../../shapes';
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -480,6 +481,7 @@ class TopicArticleTaxonomy extends Component {
       userAccess,
       article: { title },
       locale,
+      setIsOpen,
     } = this.props;
     const showResourceType = userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
 
@@ -561,15 +563,9 @@ class TopicArticleTaxonomy extends Component {
 }
 
 TopicArticleTaxonomy.propTypes = {
-  language: PropTypes.string,
   locale: PropTypes.string,
-  closePanel: PropTypes.func.isRequired,
-  article: PropTypes.shape({
-    title: PropTypes.string,
-    id: PropTypes.number,
-    language: PropTypes.string,
-    revision: PropTypes.number,
-  }).isRequired,
+  setIsOpen: PropTypes.func,
+  article: ArticleShape.isRequired,
   updateNotes: PropTypes.func.isRequired,
   userAccess: PropTypes.string,
 };

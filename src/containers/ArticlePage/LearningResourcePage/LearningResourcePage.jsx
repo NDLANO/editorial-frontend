@@ -19,7 +19,7 @@ import { LicensesArrayOf } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import { LocationShape } from '../../../shapes';
 
-const LearningResourcePage = ({ fetchLicenses, licenses, location, match, history }) => {
+const LearningResourcePage = ({ fetchLicenses, licenses, location, match, history, ...rest }) => {
   const previousLocation = useRef(location.pathname).current;
   useEffect(() => {
     if (!licenses.length) {
@@ -33,12 +33,19 @@ const LearningResourcePage = ({ fetchLicenses, licenses, location, match, histor
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={() => <CreateLearningResource history={history} licenses={licenses} />}
+            render={() => (
+              <CreateLearningResource history={history} licenses={licenses} {...rest} />
+            )}
           />
           <Route
             path={`${match.url}/:articleId/edit/`}
             render={props => (
-              <EditResourceRedirect previousLocation={previousLocation} {...props} />
+              <EditResourceRedirect
+                previousLocation={previousLocation}
+                licenses={licenses}
+                {...props}
+                {...rest}
+              />
             )}
           />
           <Route component={NotFoundPage} />

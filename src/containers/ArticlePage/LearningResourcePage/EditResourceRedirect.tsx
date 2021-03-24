@@ -24,7 +24,7 @@ interface Props {
   };
   previousLocation: string;
 }
-const EditResourceRedirect = ({ match, previousLocation }: Props) => {
+const EditResourceRedirect = ({ match, previousLocation, ...rest }: Props) => {
   const locale = useContext(LocaleContext);
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
@@ -46,6 +46,7 @@ const EditResourceRedirect = ({ match, previousLocation }: Props) => {
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
+            {...rest}
           />
         )}
       />

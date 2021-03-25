@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, Fragment, useState, ReactNode } from 'react';
+import React, { FC, useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
+import { AccordionWrapper } from '@ndla/accordion';
+import AccordionSection from '../../ConceptPage/ConceptForm/AccordionSection';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
@@ -235,7 +236,7 @@ const PodcastForm: FC<Props & tType> = ({
           alt: values.metaImageAlt,
         },
         manuscript: values.manuscript,
-        language: values.language, // TODO ??
+        language: values.language,
       },
     };
 
@@ -295,48 +296,52 @@ const PodcastForm: FC<Props & tType> = ({
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
             />
-            <Accordion openIndexes={['podcast-upload-content']}>
-              {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
-                <AccordionWrapper>
-                  {panels.map(panel => {
-                    const hasError = panel.errorFields.some(field => field in errors);
-                    return (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          title={panel.title}
-                          hasError={hasError}
-                          isOpen={openIndexes.includes(panel.id)}
-                        />
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            hasError={hasError}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    );
-                  })}
-                </AccordionWrapper>
-              )}
-            </Accordion>
+            <AccordionWrapper>
+              <AccordionSection
+                id="podcast-upload-content"
+                title={t('form.contentSection')}
+                className="u-6/6"
+                hasError={['title', 'audioFile'].some(field => field in errors)}
+                startOpen>
+                <AudioContent />
+              </AccordionSection>
+
+              <AccordionSection
+                id="podcast-upload-podcastmeta"
+                title={t('form.podcastSection')}
+                className="u-6/6"
+                hasError={[
+                  'header',
+                  'introduction',
+                  'coverPhotoId',
+                  'metaImageAlt',
+                  'manuscript',
+                ].some(field => field in errors)}>
+                <PodcastMetaData />
+              </AccordionSection>
+
+              <AccordionSection
+                id="podcast-upload-metadata"
+                title={t('form.metadataSection')}
+                className="u-6/6"
+                hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
+                  field => field in errors,
+                )}>
+                <AudioMetaData classes={formClasses} licenses={licenses} />
+              </AccordionSection>
+            </AccordionWrapper>
             <Field right>
               <AbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}
               </AbortButton>
               <SaveButton
-                {...formClasses}
                 isSaving={isSubmitting}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
+                submit={!inModal}
                 onClick={(evt: Event) => {
                   evt.preventDefault();
+                  console.log('klikk!');
                   submitForm();
                 }}
               />

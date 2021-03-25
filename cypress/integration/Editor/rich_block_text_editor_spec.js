@@ -27,7 +27,7 @@ describe('Learning resource editing', () => {
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
     cy.apiwait('@licenses');
-    cy.wait(500);
+    cy.wait(600);
   });
 
   it('can enter title, ingress and content then save', () => {

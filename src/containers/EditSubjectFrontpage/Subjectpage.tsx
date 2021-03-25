@@ -52,7 +52,9 @@ const Subjectpage: FC<Props> = ({ match, location }) => {
           <Route
             path={`${match.url}/:elementId/new/:selectedLanguage`}
             render={routeProps => {
-              const { elementName } = routeProps.location.state;
+              const elementName =
+                routeProps.location.state && routeProps.location.state.elementName;
+
               return (
                 <CreateSubjectpage
                   elementId={routeProps.match.params.elementId}

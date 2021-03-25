@@ -12,7 +12,6 @@ interface Props {
   onExit: () => void;
   onChange: Editor['onChange'];
   node: Node;
-  model: CodeBlockType;
 }
 
 const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }: Props) => {

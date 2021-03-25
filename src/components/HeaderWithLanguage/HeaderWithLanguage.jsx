@@ -98,15 +98,7 @@ HeaderWithLanguage.propTypes = {
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func,
-  type: PropTypes.oneOf([
-    'image',
-    'audio',
-    'iframe',
-    'topic-article',
-    'standard',
-    'concept',
-    'learning-resource',
-  ]),
+  type: PropTypes.oneOf(['image', 'audio', 'iframe', 'topic-article', 'standard', 'concept']),
   translateArticle: PropTypes.func,
   values: PropTypes.shape({
     articleType: PropTypes.string,

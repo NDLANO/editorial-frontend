@@ -51,6 +51,4 @@ const AudioContent = ({ t }) => {
   );
 };
 
-AudioContent.propTypes = {};
-
 export default injectT(AudioContent);

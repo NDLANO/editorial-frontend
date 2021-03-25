@@ -74,21 +74,6 @@ interface ImageFormikType {
   license?: string;
 }
 
-interface ImagePropType {
-  alttext?: string;
-  caption?: string;
-  contentType?: string;
-  copyright?: Copyright;
-  id?: string;
-  imageUrl?: string;
-  language?: string;
-  metaUrl?: string;
-  size?: number;
-  supportedLanguages?: string[];
-  tags?: string[];
-  title?: string;
-}
-
 export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
   return {
     id: image.id,

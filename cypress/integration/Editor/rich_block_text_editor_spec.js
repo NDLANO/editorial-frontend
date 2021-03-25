@@ -58,7 +58,7 @@ describe('Learning resource editing', () => {
       .click();
     cy.apiwait('@agreements');
     cy.get('button > span')
-      .contains('innhold')
+      .contains('Innhold')
       .click();
     cy.get('h2')
       .contains('Opphavsperson')

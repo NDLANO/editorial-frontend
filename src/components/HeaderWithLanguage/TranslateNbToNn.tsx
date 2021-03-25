@@ -25,7 +25,7 @@ const TranslateNbToNn: FC<Props & tType> = ({
   setTranslateOnContinue,
   editUrl,
   t,
-}) => {
+}: Props & tType) => {
   return (
     <StyledLink
       to={editUrl('nn')}

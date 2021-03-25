@@ -70,7 +70,7 @@ interface Props {
   node: Node;
 }
 
-const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
+const Details: FC<Props> = ({ children, editor, editSummaryButton, node }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);

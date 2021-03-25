@@ -116,7 +116,7 @@ const SubjectpageForm: FC<Props & tType> = ({
   selectedLanguage,
   updateSubjectpage,
   isNewlyCreated,
-}) => {
+}: Props & tType) => {
   const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
     updateSubjectpage,

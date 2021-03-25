@@ -60,7 +60,7 @@ interface Props {
   concept: ConceptPreviewType;
 }
 
-const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
+const PreviewConcept: FC<Props & tType> = ({ concept, t }: Props & tType) => {
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);

@@ -32,7 +32,13 @@ const getSubjectOrFilter = (elementId: string) => {
   return [undefined, elementId];
 };
 
-const SubjectpageArticles: FC<Props & tType> = ({ t, editorsChoices, elementId, field, form }) => {
+const SubjectpageArticles: FC<Props & tType> = ({
+  t,
+  editorsChoices,
+  elementId,
+  field,
+  form,
+}: Props & tType) => {
   const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
   const [subjectId, filterId] = getSubjectOrFilter(elementId);
 

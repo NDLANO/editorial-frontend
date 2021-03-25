@@ -14,20 +14,19 @@ import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
-interface Props {
+interface Props extends RouteComponentProps {
   selectedLanguage: string;
-  history: RouteComponentProps['history'];
   elementId: string;
   elementName: string;
 }
 
-const CreateSubjectpage: FC<RouteComponentProps & Props & tType> = ({
+const CreateSubjectpage: FC<Props & tType> = ({
   t,
   selectedLanguage,
   history,
   elementId,
   elementName,
-}) => {
+}: Props & tType) => {
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {

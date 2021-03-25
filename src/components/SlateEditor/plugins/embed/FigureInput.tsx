@@ -39,7 +39,7 @@ const FigureInput: React.FC<Props & tType> = ({
   onChange,
   onAbort,
   onSave,
-}) => {
+}: Props & tType) => {
   const { submitted } = useSlateContext();
 
   return (

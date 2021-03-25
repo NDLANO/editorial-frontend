@@ -55,7 +55,7 @@ const EditVideo: React.FC<Props & tType> = ({
   setStartTime,
   setStopTime,
   toggleEditModus,
-}) => {
+}: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
 

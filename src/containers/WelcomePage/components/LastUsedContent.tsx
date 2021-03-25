@@ -24,7 +24,12 @@ interface Props {
   userAccess?: string;
 }
 
-const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }) => {
+const LastUsedContent: FC<Props & tType> = ({
+  articleId,
+  locale,
+  userAccess,
+  t,
+}: Props & tType) => {
   const [article, setArticle] = useState<DraftApiType>();
 
   useEffect(() => {

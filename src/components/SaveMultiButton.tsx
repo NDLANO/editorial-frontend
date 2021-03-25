@@ -45,7 +45,7 @@ const SaveMultiButton: React.FC<Props & tType> = ({
   onClick,
   hideSecondaryButton,
   ...rest
-}) => {
+}: Props & tType) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';

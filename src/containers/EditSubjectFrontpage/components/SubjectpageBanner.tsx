@@ -22,7 +22,7 @@ interface Props {
   title: string;
 }
 
-const SubjectpageBanner: FC<Props & tType> = ({ t, field, form, title }) => {
+const SubjectpageBanner: FC<Props & tType> = ({ t, field, form, title }: Props & tType) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
 
   const onImageChange = (image: VisualElement) => {

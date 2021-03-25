@@ -26,7 +26,7 @@ interface Props {
   };
 }
 
-const ConceptsField: FC<Props & tType> = ({ locale, t, values, field, form }) => {
+const ConceptsField: FC<Props & tType> = ({ locale, t, values, field, form }: Props & tType) => {
   const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {

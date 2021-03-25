@@ -17,7 +17,7 @@ interface Props {
   onClose: () => void;
 }
 
-const ContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
+const ContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }: Props & tType) => {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [showError, setShowError] = useState(false);

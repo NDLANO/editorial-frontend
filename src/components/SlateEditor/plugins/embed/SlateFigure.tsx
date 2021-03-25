@@ -40,7 +40,7 @@ const SlateFigure: React.FC<Props & tType> = ({
   language,
   locale = 'nb',
   node,
-}) => {
+}: Props & tType) => {
   const embed = getSchemaEmbed(node);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 

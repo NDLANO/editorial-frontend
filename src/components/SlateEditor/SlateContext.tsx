@@ -6,10 +6,11 @@
  *
  */
 
-import React, { createContext, useContext, useState, useEffect, FC } from 'react';
+import React, { createContext, useContext, useState, useEffect, FC, ReactNode } from 'react';
 
 interface ProviderProps {
   isSubmitted?: boolean;
+  children?: ReactNode;
 }
 interface SlateContextType {
   submitted: boolean;
@@ -18,7 +19,7 @@ interface SlateContextType {
 
 const SlateContext = createContext<SlateContextType | undefined>(undefined);
 
-const SlateProvider: FC<ProviderProps> = ({ isSubmitted, children }) => {
+const SlateProvider: FC<ProviderProps> = ({ isSubmitted, children }: ProviderProps) => {
   const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     if (isSubmitted !== undefined) {

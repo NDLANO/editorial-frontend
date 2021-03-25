@@ -25,7 +25,7 @@ const VersionActionButtons: React.FC<Props> = ({
   resetVersion,
   version,
   t,
-}) => {
+}: Props) => {
   // we only show preview and reset for current versions if they are the ONLY version
   // ie. that they were published before versions were introduced
   if (current && !showFromArticleApi) return null;

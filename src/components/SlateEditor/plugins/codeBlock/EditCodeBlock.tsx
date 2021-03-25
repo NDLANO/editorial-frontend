@@ -15,10 +15,8 @@ interface Props {
   model: CodeBlockType;
 }
 
-const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }) => {
-  const codeBlock = model;
-
-  const [initialCodeBlock] = useState<CodeBlockType>(codeBlock);
+const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }: Props) => {
+  const [initialCodeBlock] = useState<CodeBlockType>(model);
   const [openDiscardModal, setOpenDiscardModal] = useState(false);
 
   const handleExit = () => {

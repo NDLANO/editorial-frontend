@@ -48,7 +48,7 @@ const SlateImage: React.FC<Props & tType> = ({
   onRemoveClick,
   saveEmbedUpdates,
   visualElement,
-}) => {
+}: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 

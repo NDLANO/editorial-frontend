@@ -30,7 +30,7 @@ const EditCodeBlockModal: FC<Props & tType> = ({
   model,
   openDiscardModal,
   t,
-}) => (
+}: Props & tType) => (
   <Modal
     narrow
     controllable

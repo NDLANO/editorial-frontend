@@ -34,7 +34,12 @@ interface Props {
   showLocaleSelector?: boolean;
 }
 
-export const FooterWrapper: FC<Props & tType> = ({ location, locale, showLocaleSelector, t }) => {
+export const FooterWrapper: FC<Props & tType> = ({
+  location,
+  locale,
+  showLocaleSelector,
+  t,
+}: Props & tType) => {
   const languageSelector = showLocaleSelector ? (
     <LanguageSelector
       center

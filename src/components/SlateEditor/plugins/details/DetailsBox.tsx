@@ -61,7 +61,13 @@ interface Props {
   node: Node;
 }
 
-const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }) => {
+const DetailsBox: FC<Props & tType> = ({
+  t,
+  attributes,
+  children,
+  editor,
+  node,
+}: Props & tType) => {
   const summary: Node | null = (node as ParentNode)?.findDescendant(
     node => (node as ParentNode)?.type === 'summary',
   );

@@ -34,7 +34,7 @@ interface Props {
   updateMetadata: (visible: boolean) => void;
 }
 
-const TaxonomyInfo: FC<Props & tType> = ({ taxonomyElement, updateMetadata, t }) => {
+const TaxonomyInfo: FC<Props & tType> = ({ taxonomyElement, updateMetadata, t }: Props & tType) => {
   return (
     <>
       <FieldHeader title={t('taxonomy.info.title')} subTitle={t('taxonomy.info.subTitle')} />

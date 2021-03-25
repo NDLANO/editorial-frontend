@@ -55,7 +55,7 @@ const ToggleVisibility: FC<Props> = ({
   setResourcesUpdated,
   t,
   toggleEditMode,
-}) => {
+}: Props) => {
   const [visible, setVisible] = useState(metadata?.visible);
 
   const toggleVisibility = async () => {

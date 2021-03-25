@@ -14,20 +14,20 @@ import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-interface Props {
+interface Props extends RouteComponentProps {
   elementId: string;
   selectedLanguage: string;
   subjectpageId: string;
   isNewlyCreated: boolean;
 }
 
-const EditSubjectpage: FC<RouteComponentProps & Props & tType> = ({
+const EditSubjectpage: FC<Props & tType> = ({
   t,
   elementId,
   selectedLanguage,
   subjectpageId,
   isNewlyCreated,
-}) => {
+}: Props & tType) => {
   const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
     elementId,
     selectedLanguage,

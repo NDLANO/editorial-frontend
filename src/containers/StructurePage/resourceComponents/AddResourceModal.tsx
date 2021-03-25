@@ -87,7 +87,7 @@ const AddResourceModal: React.FC<Props & tType> = ({
   topicFilters,
   refreshResources,
   t,
-}) => {
+}: Props & tType) => {
   const [selected, setSelected] = useState<SelectedType | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
   const [pastedUrl, setPastedUrl] = useState('');

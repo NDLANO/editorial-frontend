@@ -22,7 +22,9 @@ interface RemoveCodeBlockProps {
   handleRemove: () => void;
 }
 
-const RemoveCodeBlock: React.FC<RemoveCodeBlockProps> = ({ handleRemove }) => {
+const RemoveCodeBlock: React.FC<RemoveCodeBlockProps> = ({
+  handleRemove,
+}: RemoveCodeBlockProps) => {
   return (
     <Button stripped onClick={handleRemove}>
       <DeleteForever />
@@ -48,7 +50,7 @@ const getInfoFromNode = (node: Node) => {
   };
 };
 
-const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }) => {
+const CodeBlock: React.FC<CodeBlockProps> = ({ attributes, editor, node }: CodeBlockProps) => {
   const { isFirstEdit, model } = getInfoFromNode(node);
   const [editMode, setEditMode] = useState<boolean>(!model.code);
   const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);

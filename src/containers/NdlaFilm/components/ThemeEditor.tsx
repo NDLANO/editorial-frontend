@@ -60,7 +60,7 @@ const ThemeEditor: FC<Props & tType> = ({
   onUpdateMovieTheme,
   loading,
   selectedLanguage,
-}) => {
+}: Props & tType) => {
   if (loading) {
     return <Spinner />;
   }

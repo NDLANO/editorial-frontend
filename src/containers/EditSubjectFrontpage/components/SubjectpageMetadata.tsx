@@ -26,7 +26,7 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => {
+const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }: Props & tType) => {
   const plugins = [textTransformPlugin()];
   return (
     <>

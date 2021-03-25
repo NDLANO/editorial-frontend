@@ -30,7 +30,7 @@ const SlideshowEditor: FC<Props & tType> = ({
   loading,
   field,
   form,
-}) => {
+}: Props & tType) => {
   if (loading) {
     return <Spinner />;
   }

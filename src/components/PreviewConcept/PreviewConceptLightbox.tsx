@@ -44,7 +44,11 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox: FC<Props & tType> = ({ t, getConcept, typeOfPreview }) => {
+const PreviewConceptLightbox: FC<Props & tType> = ({
+  t,
+  getConcept,
+  typeOfPreview,
+}: Props & tType) => {
   const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');

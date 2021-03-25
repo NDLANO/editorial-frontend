@@ -15,6 +15,7 @@ interface Props {
   className: string;
   hasError?: boolean;
   startOpen?: boolean;
+  children?: React.ReactElement;
 }
 const AccordionSection: FunctionComponent<Props> = ({
   id,
@@ -23,7 +24,7 @@ const AccordionSection: FunctionComponent<Props> = ({
   hasError,
   children,
   startOpen,
-}) => {
+}: Props) => {
   const [isOpen, setIsOpen] = useState(!!startOpen);
 
   return (

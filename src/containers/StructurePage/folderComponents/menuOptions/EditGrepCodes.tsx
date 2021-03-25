@@ -65,7 +65,7 @@ const EditGrepCodes: FC<Props> = ({
   refreshTopics,
   t,
   toggleEditMode,
-}) => {
+}: Props) => {
   const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);

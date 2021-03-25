@@ -40,7 +40,7 @@ const SlateAudio: React.FC<Props & tType> = ({
   locale,
   onRemoveClick,
   onFigureInputChange,
-}) => {
+}: Props & tType) => {
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);

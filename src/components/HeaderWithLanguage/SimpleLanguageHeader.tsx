@@ -35,7 +35,7 @@ const SimpleLanguageHeader: FC<Props & tType> = ({
   language,
   supportedLanguages,
   title,
-}) => {
+}: Props & tType) => {
   const isNewLanguage = id && !supportedLanguages.includes(language);
 
   const languages = [

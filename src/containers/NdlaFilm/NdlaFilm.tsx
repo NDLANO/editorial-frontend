@@ -16,7 +16,7 @@ interface Props {
   match: match;
 }
 
-const NdlaFilm: FC<Props> = ({ match }) => {
+const NdlaFilm: FC<Props> = ({ match }: Props) => {
   return (
     <>
       <OneColumn>

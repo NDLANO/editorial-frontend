@@ -48,7 +48,7 @@ const SlateVideo: React.FC<Props & tType> = ({
   language,
   onRemoveClick,
   saveEmbedUpdates,
-}) => {
+}: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');

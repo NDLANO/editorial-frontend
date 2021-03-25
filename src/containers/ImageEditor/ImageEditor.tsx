@@ -86,7 +86,7 @@ const ImageEditor: React.FC<Props & tType> = ({
   embed,
   onUpdatedImageSettings,
   imageUpdates,
-}) => {
+}: Props & tType) => {
   const [editType, setEditType] = useState<StateProp>(undefined);
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 

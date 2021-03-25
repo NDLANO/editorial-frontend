@@ -41,7 +41,12 @@ interface Props {
   id: number;
 }
 
-const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }) => {
+const SlateConceptPreview: FC<Props & tType> = ({
+  concept,
+  handleRemove,
+  id,
+  t,
+}: Props & tType) => {
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);

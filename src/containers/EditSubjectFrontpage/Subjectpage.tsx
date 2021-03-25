@@ -19,7 +19,7 @@ interface Props {
   location: RouteComponentProps['location'];
 }
 
-const Subjectpage: FC<Props> = ({ match, location }) => {
+const Subjectpage: FC<Props> = ({ match, location }: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 

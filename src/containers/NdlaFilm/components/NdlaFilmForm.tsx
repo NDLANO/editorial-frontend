@@ -38,7 +38,7 @@ const NdlaFilmForm: FC<Props & tType> = ({
   allMovies,
   slideshowMovies,
   themes,
-}) => {
+}: Props & tType) => {
   const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
     t,
     filmFrontpage,

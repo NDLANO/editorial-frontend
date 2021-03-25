@@ -30,7 +30,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SaveSearchUrl: FC<Props & tType> = ({ locale, t }) => {
+const SaveSearchUrl: FC<Props & tType> = ({ locale, t }: Props & tType) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);

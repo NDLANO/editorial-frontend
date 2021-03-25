@@ -31,7 +31,7 @@ interface Props {
   };
 }
 
-const ContentField: FC<Props & tType> = ({ locale, t, values, field, form }) => {
+const ContentField: FC<Props & tType> = ({ locale, t, values, field, form }: Props & tType) => {
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );

@@ -1,22 +1,33 @@
 const { modifyRule } = require('razzle-config-utils');
-const addEntry = require('./razzle-add-entry-plugin');
 
 module.exports = {
-  plugins: [
+  modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
+    modifyRule(appConfig, { test: /\.css$/ }, rule => {
+      rule.use.push({ loader: 'postcss-loader' });
+    });
+
+    const addEntry = options => {
+      if (target === 'web') {
+        if (dev) {
+          appConfig.entry[options.name] = [
+            options.disableHMR ? undefined : appConfig.entry.client[0], // hot reloading
+            options.entry,
+          ].filter(entry => entry !== undefined);
+        } else {
+          appConfig.entry[options.name] = [options.entry];
+        }
+      }
+    };
+
     addEntry({
       entry: 'monaco-editor/esm/vs/editor/editor.worker.js',
       name: 'editor.worker',
       disableHMR: true,
-    }),
+    });
     addEntry({
       entry: 'monaco-editor/esm/vs/language/html/html.worker.js',
       name: 'html.worker',
       disableHMR: true,
-    }),
-  ],
-  modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
-    modifyRule(appConfig, { test: /\.css$/ }, rule => {
-      rule.use.push({ loader: 'postcss-loader' });
     });
 
     if (target === 'web') {

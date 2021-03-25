@@ -37,7 +37,7 @@ interface Props {
   isNewlyCreated: boolean;
 }
 export interface SubjectFormValues extends SubjectpageType {
-  visualElementObject?: VisualElement;
+  visualElementObject: VisualElement | {};
   articleType: string;
   description?: string;
   desktopBanner?: VisualElement;
@@ -61,7 +61,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: subjectpage.visualElement,
+    visualElementObject: subjectpage.visualElement || {},
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -84,13 +84,16 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     supportedLanguages: values.supportedLanguages,
     description: editorValueToPlainText(values.description),
     title: values.title,
-    visualElement: {
-      resource: values.visualElementObject?.resource,
-      url: values.visualElementObject?.url,
-      resource_id: values.visualElementObject?.resource_id,
-      videoid: values.visualElementObject?.videoid,
-      alt: values.visualElementObject?.alt || values.visualElementObject?.caption,
-    },
+    visualElement:
+      'resource_id' in values.visualElementObject
+        ? {
+            resource: values.visualElementObject.resource,
+            url: values.visualElementObject.url,
+            resource_id: values.visualElementObject.resource_id,
+            videoid: values.visualElementObject.videoid,
+            alt: values.visualElementObject.alt || values.visualElementObject.caption,
+          }
+        : undefined,
     language: values.language,
     mobileBanner: values.mobileBanner,
     desktopBanner: values.desktopBanner,

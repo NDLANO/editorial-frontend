@@ -33,7 +33,9 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
   const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
 
   useEffect(() => {
-    fetchLearningpathsWithArticle(id).then(setLearningpaths);
+    if (id) {
+      fetchLearningpathsWithArticle(id).then(setLearningpaths);
+    }
   }, [id]);
 
   if (!learningpaths.length) {

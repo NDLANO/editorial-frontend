@@ -23,8 +23,6 @@ const StyledFormWarningText = styled.p`
   ${fonts.sizes(14, 1.1)};
 `;
 
-const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
-
 const Contributors = props => {
   const {
     name,
@@ -70,7 +68,7 @@ const Contributors = props => {
   };
 
   const contributorTypeItems = contributorGroups[name].map(item => ({
-    type: capitalizeFirstLetter(item),
+    type: item,
     translation: contributorTypes[locale]
       ? contributorTypes[locale][item]
       : contributorTypes.nb[item],
@@ -82,7 +80,7 @@ const Contributors = props => {
       {value.map((contributor, index) => (
         <Contributor
           key={`contributor_${index}`} // eslint-disable-line react/no-array-index-key
-          contributor={contributor}
+          contributor={{ ...contributor, type: contributor.type.toLowerCase() }}
           index={index}
           showError={showError}
           errorMessages={errorMessages}

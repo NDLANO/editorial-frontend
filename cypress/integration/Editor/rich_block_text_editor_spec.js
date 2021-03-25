@@ -9,15 +9,25 @@
 import { setToken, visitOptions } from '../../support';
 import editorRoutes from './editorRoutes';
 
+const ARTICLE_ID = 12173;
+
 describe('Learning resource editing', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
+      },
+    });
 
-    editorRoutes();
+    editorRoutes(ARTICLE_ID);
 
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
     cy.apiwait('@licenses');
+    cy.wait(500);
   });
 
   it('can enter title, ingress and content then save', () => {
@@ -43,12 +53,12 @@ describe('Learning resource editing', () => {
   });
 
   it('Can add all contributors', () => {
-    cy.get('button > span')
+    cy.get(' button > span')
       .contains('Lisens og bruker')
       .click();
     cy.apiwait('@agreements');
     cy.get('button > span')
-      .contains('Innhold')
+      .contains('innhold')
       .click();
     cy.get('h2')
       .contains('Opphavsperson')
@@ -57,13 +67,19 @@ describe('Learning resource editing', () => {
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
         cy.get('input[type="text"]')
+          .last()
           .type('Ola Nordmann', {
             force: true,
           })
           .blur();
-        cy.get('[data-cy="contributor-selector"]').select('originator', {
-          force: true,
-        });
+        cy.get('[data-cy="contributor-selector"]')
+          .last()
+          .select('originator', {
+            force: true,
+          });
+        cy.get('[data-cy="contributor-selector"]')
+          .first()
+          .should('have.value', 'writer');
       });
     cy.get('h2')
       .contains('Rettighetshaver')

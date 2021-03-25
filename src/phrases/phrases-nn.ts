@@ -523,6 +523,7 @@ const phrases = {
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
       visualElement: 'Visuelt element',
+      visualElementObject: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
@@ -696,6 +697,7 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
         ARCHIVED: 'Arkiver',
+        AWAITING_ARCHIVING: 'Arkivering-utsatt',
       },
       learningpath_statuses: {
         private: 'Kladd',
@@ -958,6 +960,10 @@ const phrases = {
     article: {
       label: 'Artikkel',
       add: 'Legg til artikkel',
+    },
+    learningpathConnections: {
+      sectionTitle: 'Bruk av artikkelen i læringsstiar',
+      title: 'Læringsstiar som inneheld denne artikkelen',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',

@@ -12,7 +12,7 @@ import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import { FormikMetaImageSearch } from '../../FormikForm';
+import { MetaImageSearch } from '../../FormikForm';
 
 import { SubjectType, SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
@@ -34,7 +34,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => 
       ) : (
         <FormikField name="metaImageId">
           {({ field, form }) => (
-            <FormikMetaImageSearch
+            <MetaImageSearch
               metaImageId={field.value}
               setFieldTouched={form.setFieldTouched}
               showRemoveButton

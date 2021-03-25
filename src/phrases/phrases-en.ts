@@ -500,6 +500,7 @@ const phrases = {
       caption: 'Caption',
       imageFile: 'Imagefile',
       visualElement: 'Visual element',
+      visualElementObject: 'Visual element',
       visualElementCaption: 'Caption',
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
@@ -674,6 +675,7 @@ const phrases = {
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
         ARCHIVED: 'Archive',
+        AWAITING_ARCHIVING: 'Archivation-delayed',
       },
       learningpath_statuses: {
         private: 'Draft',
@@ -940,6 +942,10 @@ const phrases = {
     article: {
       label: 'Article',
       add: 'Add article',
+    },
+    learningpathConnections: {
+      sectionTitle: 'Uses of the article in learningpaths',
+      title: 'Learningpaths containing this article',
     },
     relatedConcepts: {
       placeholder: 'Search for title',

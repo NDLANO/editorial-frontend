@@ -14,7 +14,7 @@ import { fetchStatusStateMachine } from '../../../modules/concept/conceptApi';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
-import { FormikAlertModalWrapper, formClasses, FormikActionButton } from '../../FormikForm';
+import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
 import { submitFormWithMessage } from '../conceptUtil';
 import { ConceptType, CreateMessageType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
@@ -55,9 +55,9 @@ const FormFooter = ({
     <>
       {inModal ? (
         <Field right>
-          <FormikActionButton outline onClick={onClose}>
+          <ActionButton outline onClick={onClose}>
             {t('form.abort')}
-          </FormikActionButton>
+          </ActionButton>
           <SaveButton
             {...formClasses}
             isSaving={isSubmitting}
@@ -88,7 +88,7 @@ const FormFooter = ({
         />
       )}
       {!inModal && (
-        <FormikAlertModalWrapper
+        <AlertModalWrapper
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
           onContinue={onContinue}

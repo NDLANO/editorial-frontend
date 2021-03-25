@@ -34,7 +34,6 @@ interface Props {
   language: string;
   onRemoveClick: Function;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
-  submitted: boolean;
   visualElement: boolean;
 }
 
@@ -48,7 +47,6 @@ const SlateImage: React.FC<Props & tType> = ({
   language,
   onRemoveClick,
   saveEmbedUpdates,
-  submitted,
   visualElement,
 }) => {
   const [editMode, setEditMode] = useState(false);
@@ -87,12 +85,7 @@ const SlateImage: React.FC<Props & tType> = ({
         language={language}
       />
       {editMode && (
-        <EditImage
-          embed={embed}
-          saveEmbedUpdates={saveEmbedUpdates}
-          setEditModus={setEditMode}
-          submitted={submitted}
-        />
+        <EditImage embed={embed} saveEmbedUpdates={saveEmbedUpdates} setEditModus={setEditMode} />
       )}
       {!(visualElement && editMode) && (
         <Button

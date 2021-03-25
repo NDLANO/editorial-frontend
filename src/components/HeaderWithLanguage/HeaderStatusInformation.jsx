@@ -12,8 +12,8 @@ import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import HowToHelper from '../HowTo/HowToHelper';
 import config from '../../config';
+import LearningpathConnection from './LearningpathConnection';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -28,13 +28,6 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
-const StyledWarnIcon = styled(AlertCircle)`
-  margin-top: 2px;
-  height: 25px;
-  width: 25px;
-  fill: ${colors.support.yellow};
-`;
-
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
@@ -45,15 +38,14 @@ const HeaderStatusInformation = ({
   indentLeft,
   fontSize,
   t,
+  type,
+  id,
 }) => {
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
     text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: ${fontSize <= 12 ? spacing.xsmall : spacing.small};
-    margin-left: ${indentLeft ? 0 : spacing.small};
+    margin: 0 ${fontSize <= 12 ? spacing.xsmall : spacing.small} 0 ${indentLeft ? 0 : spacing.small};
   `;
 
   const StyledSmallText = styled.small`
@@ -65,14 +57,19 @@ const HeaderStatusInformation = ({
   `;
 
   const StyledCheckIcon = styled(Check)`
-    margin-top: -3px;
-    height: ${fontSize || '25px'};
-    width: ${fontSize || '25px'};
+    height: ${spacing.normal};
+    width: ${spacing.normal};
     fill: ${colors.support.green};
   `;
 
+  const StyledWarnIcon = styled(AlertCircle)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.yellow};
+  `;
+
   const StyledLink = styled(SafeLink)`
-    box-shadow: inset 0 0px;
+    box-shadow: inset 0 0;
   `;
 
   const multipleTaxonomyIcon = taxonomyPaths?.length > 2 && (
@@ -93,8 +90,8 @@ const HeaderStatusInformation = ({
     </StyledLink>
   );
 
-  const helperIcon = !noHelp && (
-    <HowToHelper pageId="status" tooltip={t('form.workflow.statusInfoTooltip')} />
+  const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
+    <LearningpathConnection id={id} />
   );
 
   const splitter = !indentLeft && <StyledSplitter />;
@@ -103,22 +100,23 @@ const HeaderStatusInformation = ({
     return (
       <StyledStatusWrapper>
         {splitter}
-        <StyledStatus>{t('form.status.new_language')}</StyledStatus>
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
+        {learningpathConnections}
+        <StyledStatus>{t('form.status.new_language')}</StyledStatus>
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
         {splitter}
+        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {multipleTaxonomyIcon}
+        {learningpathConnections}
         <StyledStatus>
           <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
           {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
         </StyledStatus>
-        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-        {helperIcon}
       </StyledStatusWrapper>
     );
   }
@@ -134,6 +132,8 @@ HeaderStatusInformation.propTypes = {
   noHelp: PropTypes.bool,
   indentLeft: PropTypes.bool,
   fontSize: PropTypes.number,
+  type: PropTypes.string,
+  id: PropTypes.number,
 };
 
 export default injectT(HeaderStatusInformation);

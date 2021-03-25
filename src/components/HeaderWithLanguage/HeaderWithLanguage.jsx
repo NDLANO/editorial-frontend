@@ -59,6 +59,7 @@ const HeaderWithLanguage = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         title={title}
+        id={id}
         published={published}
         taxonomyPaths={taxonomyPaths}
         {...rest}

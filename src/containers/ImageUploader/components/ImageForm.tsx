@@ -16,10 +16,10 @@ import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import {
-  FormikActionButton,
-  FormikAbortButton,
+  ActionButton,
+  AbortButton,
   formClasses as classes,
-  FormikAlertModalWrapper,
+  AlertModalWrapper,
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -295,13 +295,13 @@ class ImageForm extends Component<Props & tType, State> {
               </Accordion>
               <Field right>
                 {inModal ? (
-                  <FormikActionButton outline onClick={closeModal}>
+                  <ActionButton outline onClick={closeModal}>
                     {t('form.abort')}
-                  </FormikActionButton>
+                  </ActionButton>
                 ) : (
-                  <FormikAbortButton outline disabled={isSubmitting}>
+                  <AbortButton outline disabled={isSubmitting}>
                     {t('form.abort')}
-                  </FormikAbortButton>
+                  </AbortButton>
                 )}
                 <SaveButton
                   isSaving={isSubmitting}
@@ -317,7 +317,7 @@ class ImageForm extends Component<Props & tType, State> {
                   {t('form.save')} - {inModal}
                 </SaveButton>
               </Field>
-              <FormikAlertModalWrapper
+              <AlertModalWrapper
                 isSubmitting={isSubmitting}
                 severity="danger"
                 formIsDirty={formIsDirty}

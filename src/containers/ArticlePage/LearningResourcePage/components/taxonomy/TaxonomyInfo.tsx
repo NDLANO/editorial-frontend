@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
@@ -34,7 +34,7 @@ interface Props {
   updateMetadata: (visible: boolean) => void;
 }
 
-const TaxonomyInfo: FC<Props & tType> = ({ taxonomyElement, updateMetadata, t }: Props & tType) => {
+const TaxonomyInfo = ({ taxonomyElement, updateMetadata, t }: Props & tType) => {
   return (
     <>
       <FieldHeader title={t('taxonomy.info.title')} subTitle={t('taxonomy.info.subTitle')} />

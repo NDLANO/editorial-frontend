@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { spacing } from '@ndla/core';
@@ -34,12 +34,7 @@ interface Props {
   showLocaleSelector?: boolean;
 }
 
-export const FooterWrapper: FC<Props & tType> = ({
-  location,
-  locale,
-  showLocaleSelector,
-  t,
-}: Props & tType) => {
+export const FooterWrapper = ({ location, locale, showLocaleSelector, t }: Props & tType) => {
   const languageSelector = showLocaleSelector ? (
     <LanguageSelector
       center

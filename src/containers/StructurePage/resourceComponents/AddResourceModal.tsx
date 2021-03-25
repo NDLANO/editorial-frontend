@@ -79,7 +79,7 @@ interface SelectedType {
 
 type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
 
-const AddResourceModal: React.FC<Props & tType> = ({
+const AddResourceModal = ({
   onClose,
   type,
   allowPaste,

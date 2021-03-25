@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
@@ -32,13 +32,7 @@ const getSubjectOrFilter = (elementId: string) => {
   return [undefined, elementId];
 };
 
-const SubjectpageArticles: FC<Props & tType> = ({
-  t,
-  editorsChoices,
-  elementId,
-  field,
-  form,
-}: Props & tType) => {
+const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Props & tType) => {
   const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
   const [subjectId, filterId] = getSubjectOrFilter(elementId);
 

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 
@@ -24,12 +24,7 @@ interface Props {
   userAccess?: string;
 }
 
-const LastUsedContent: FC<Props & tType> = ({
-  articleId,
-  locale,
-  userAccess,
-  t,
-}: Props & tType) => {
+const LastUsedContent = ({ articleId, locale, userAccess, t }: Props & tType) => {
   const [article, setArticle] = useState<DraftApiType>();
 
   useEffect(() => {

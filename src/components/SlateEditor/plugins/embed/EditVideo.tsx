@@ -42,7 +42,7 @@ interface Props {
   toggleEditModus: Function;
 }
 
-const EditVideo: React.FC<Props & tType> = ({
+const EditVideo = ({
   t,
   caption,
   embed,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, Fragment, useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { injectT, tType } from '@ndla/i18n';
@@ -24,7 +24,7 @@ import { LocaleContext } from './App';
 
 interface Props extends RouteComponentProps, tType {}
 
-const SearchPage: FC<Props> = ({ match, t }) => {
+const SearchPage = ({ match, t }: Props) => {
   const locale = useContext(LocaleContext);
   const supportedTypes = [
     {

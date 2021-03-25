@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
@@ -36,7 +36,7 @@ interface Props {
   formik: FormikContextType<any>;
 }
 
-const ImageContent: FC<Props & tType> = ({ t, formik }) => {
+const ImageContent = ({ t, formik }: Props & tType) => {
   const { values, errors, setFieldValue } = formik;
   return (
     <Fragment>

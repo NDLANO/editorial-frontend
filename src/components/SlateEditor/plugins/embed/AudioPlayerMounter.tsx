@@ -20,12 +20,7 @@ interface Props {
   speech: boolean;
 }
 
-const AudioPlayerMounter: React.FC<Props & tType> = ({
-  t,
-  audio,
-  locale,
-  speech,
-}: Props & tType) => {
+const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
   useEffect(() => {
     initAudioPlayers(locale);
   }, [locale]);

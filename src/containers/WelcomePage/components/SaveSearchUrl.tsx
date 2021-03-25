@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 
 import { injectT, tType } from '@ndla/i18n';
@@ -30,7 +30,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SaveSearchUrl: FC<Props & tType> = ({ locale, t }: Props & tType) => {
+const SaveSearchUrl = ({ locale, t }: Props & tType) => {
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);

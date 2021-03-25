@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
 import { Editor } from 'slate';
@@ -26,7 +26,7 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }: Props & tType) => {
+const SubjectpageMetadata = ({ handleSubmit, onBlur, t }: Props & tType) => {
   const plugins = [textTransformPlugin()];
   return (
     <>

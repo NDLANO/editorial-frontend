@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
@@ -35,10 +35,7 @@ interface Props {
   onSelect: Function;
 }
 
-const VisualElementMenu: FC<Props> = ({
-  onSelect,
-  types = ['image', 'video', 'h5p', 'url'],
-}: Props) => {
+const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }: Props) => {
   const [isOpen, setOpen] = useState(false);
   const typeClassName = isOpen ? '' : 'hidden';
 

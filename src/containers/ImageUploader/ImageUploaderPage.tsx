@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
@@ -49,7 +49,7 @@ type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface Props extends tType, RouteComponentProps<MatchParams>, PropsFromRedux {}
 
-const ImageUploaderPage: FC<Props> = ({ match, t, location, ...rest }) => {
+const ImageUploaderPage = ({ match, t, location, ...rest }: Props) => {
   const prevLoc = usePreviousLocation(location.pathname);
   return (
     <OneColumn>

@@ -81,12 +81,7 @@ interface Props {
 
 type StateProp = 'crop' | 'focalPoint' | undefined;
 
-const ImageEditor: React.FC<Props & tType> = ({
-  t,
-  embed,
-  onUpdatedImageSettings,
-  imageUpdates,
-}: Props & tType) => {
+const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props & tType) => {
   const [editType, setEditType] = useState<StateProp>(undefined);
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 

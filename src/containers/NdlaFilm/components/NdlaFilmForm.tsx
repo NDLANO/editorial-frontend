@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { injectT, tType } from '@ndla/i18n';
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
@@ -29,7 +29,7 @@ interface Props {
   themes: NdlaFilmThemesEditType;
 }
 
-const NdlaFilmForm: FC<Props & tType> = ({
+const NdlaFilmForm = ({
   t,
   filmFrontpage,
   updateFilmFrontpage,

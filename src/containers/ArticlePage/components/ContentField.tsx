@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -31,7 +31,7 @@ interface Props {
   };
 }
 
-const ContentField: FC<Props & tType> = ({ locale, t, values, field, form }: Props & tType) => {
+const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );

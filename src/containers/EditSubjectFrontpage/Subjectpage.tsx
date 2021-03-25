@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { match, Route, RouteComponentProps, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -19,7 +19,7 @@ interface Props {
   location: RouteComponentProps['location'];
 }
 
-const Subjectpage: FC<Props> = ({ match, location }: Props) => {
+const Subjectpage = ({ match, location }: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 

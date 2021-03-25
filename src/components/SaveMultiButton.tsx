@@ -35,7 +35,7 @@ interface Props {
   hideSecondaryButton?: boolean;
 }
 
-const SaveMultiButton: React.FC<Props & tType> = ({
+const SaveMultiButton = ({
   isSaving,
   showSaved,
   t,

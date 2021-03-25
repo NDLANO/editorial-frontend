@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { Editor, Node } from 'slate';
 
 import EditCodeBlockModal from './EditCodeBlockModal';
@@ -15,7 +15,7 @@ interface Props {
   model: CodeBlockType;
 }
 
-const EditCodeBlock: FC<Props> = ({ handleSave, model, onExit }: Props) => {
+const EditCodeBlock = ({ handleSave, model, onExit }: Props) => {
   const [initialCodeBlock] = useState<CodeBlockType>(model);
   const [openDiscardModal, setOpenDiscardModal] = useState(false);
 

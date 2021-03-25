@@ -32,7 +32,7 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure: React.FC<Props & tType> = ({
+const SlateFigure = ({
   t,
   attributes,
   editor,

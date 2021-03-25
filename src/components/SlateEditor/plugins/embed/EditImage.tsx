@@ -52,12 +52,7 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage: React.FC<Props & tType> = ({
-  t,
-  embed,
-  saveEmbedUpdates,
-  setEditModus,
-}: Props & tType) => {
+const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
   const [state, setState] = useState<StateProps>({

@@ -38,7 +38,7 @@ interface Props {
   type: string;
 }
 
-const EditAudio: React.FC<Props & tType> = ({
+const EditAudio = ({
   embed,
   onChange,
   onAudioFigureInputChange,

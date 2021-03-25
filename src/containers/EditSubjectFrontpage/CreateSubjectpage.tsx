@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { withRouter } from 'react-router';
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
@@ -20,7 +20,7 @@ interface Props extends RouteComponentProps {
   elementName: string;
 }
 
-const CreateSubjectpage: FC<Props & tType> = ({
+const CreateSubjectpage = ({
   t,
   selectedLanguage,
   history,

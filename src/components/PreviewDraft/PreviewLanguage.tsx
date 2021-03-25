@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
@@ -37,7 +37,7 @@ interface Props {
   ): Element;
 }
 
-const PreviewLanguage: FC<Props & tType> = ({
+const PreviewLanguage = ({
   firstEntity,
   secondEntity,
   label,

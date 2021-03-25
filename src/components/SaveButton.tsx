@@ -69,7 +69,7 @@ interface Props {
   submit?: boolean;
 }
 
-const SaveButton: React.FC<Props & tType> = ({
+const SaveButton = ({
   isSaving,
   showSaved,
   t,

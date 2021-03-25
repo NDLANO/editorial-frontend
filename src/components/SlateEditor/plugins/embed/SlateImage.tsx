@@ -37,7 +37,7 @@ interface Props {
   visualElement: boolean;
 }
 
-const SlateImage: React.FC<Props & tType> = ({
+const SlateImage = ({
   t,
   active,
   attributes,

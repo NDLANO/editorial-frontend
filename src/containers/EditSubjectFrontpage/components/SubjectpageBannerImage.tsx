@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -27,11 +27,7 @@ interface Props {
   onImageSelectOpen: Function;
 }
 
-const SubjectpageBannerImage: FC<Props & tType> = ({
-  image,
-  onImageSelectOpen,
-  t,
-}: Props & tType) => {
+const SubjectpageBannerImage = ({ image, onImageSelectOpen, t }: Props & tType) => {
   const title = convertFieldWithFallback(image.metaData, 'title', '');
   const alt = convertFieldWithFallback(image, 'alt', '');
   const imageAction = (

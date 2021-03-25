@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
@@ -44,11 +44,7 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox: FC<Props & tType> = ({
-  t,
-  getConcept,
-  typeOfPreview,
-}: Props & tType) => {
+const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType) => {
   const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');

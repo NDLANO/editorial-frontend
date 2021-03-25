@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
@@ -16,7 +16,7 @@ import LearningResourcePage from '../ArticlePage/LearningResourcePage/LearningRe
 import Footer from './components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 
-const SubjectMatterPage: FC<RouteComponentProps> = ({ match }) => (
+const SubjectMatterPage = ({ match }: RouteComponentProps) => (
   <Fragment>
     <Switch>
       <PrivateRoute path={`${match.url}/topic-article/`} component={TopicArticlePage} />

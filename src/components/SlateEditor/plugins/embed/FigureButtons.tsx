@@ -75,7 +75,7 @@ interface urlProps {
   [key: string]: embedProps;
 }
 
-const FigureButtons: React.FC<Props & tType> = ({
+const FigureButtons = ({
   t,
   embed,
   figureType,

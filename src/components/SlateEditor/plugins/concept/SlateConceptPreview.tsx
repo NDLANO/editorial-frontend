@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -41,12 +41,7 @@ interface Props {
   id: number;
 }
 
-const SlateConceptPreview: FC<Props & tType> = ({
-  concept,
-  handleRemove,
-  id,
-  t,
-}: Props & tType) => {
+const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) => {
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);

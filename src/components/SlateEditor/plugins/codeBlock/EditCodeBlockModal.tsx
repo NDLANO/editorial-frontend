@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT, tType } from '@ndla/i18n';
 import { CodeBlockEditor } from '@ndla/code';
@@ -22,7 +22,7 @@ interface Props {
   openDiscardModal: boolean;
 }
 
-const EditCodeBlockModal: FC<Props & tType> = ({
+const EditCodeBlockModal = ({
   handleCancelDiscard,
   handleContinue,
   handleExit,

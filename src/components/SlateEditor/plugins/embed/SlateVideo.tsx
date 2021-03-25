@@ -40,7 +40,7 @@ interface Props {
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
 }
 
-const SlateVideo: React.FC<Props & tType> = ({
+const SlateVideo = ({
   t,
   attributes,
   embed,

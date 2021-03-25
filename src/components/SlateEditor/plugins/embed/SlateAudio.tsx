@@ -31,7 +31,7 @@ interface Props {
   onFigureInputChange: Function;
 }
 
-const SlateAudio: React.FC<Props & tType> = ({
+const SlateAudio = ({
   t,
   attributes,
   changes,

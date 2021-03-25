@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Editor, Node, Block } from 'slate';
@@ -70,7 +70,7 @@ interface Props {
   node: Node;
 }
 
-const Details: FC<Props> = ({ children, editor, editSummaryButton, node }: Props) => {
+const Details = ({ children, editor, editSummaryButton, node }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);

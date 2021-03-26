@@ -27,7 +27,7 @@ module.exports = {
           tslint: undefined,
           watch: './src',
           typeCheck: false,
-          memoryLimit: 6000,
+          memoryLimit: 4096,
         },
       },
     },

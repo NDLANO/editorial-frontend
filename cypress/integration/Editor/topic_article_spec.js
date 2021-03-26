@@ -9,7 +9,7 @@
 import { setToken, visitOptions } from '../../support';
 import editorRoutes from './editorRoutes';
 
-const ARTICLE_ID = 12173;
+const ARTICLE_ID = 800;
 
 describe('Language handling', () => {
   beforeEach(() => {

@@ -943,6 +943,10 @@ const phrases = {
       label: 'Article',
       add: 'Add article',
     },
+    learningpathConnections: {
+      sectionTitle: 'Uses of the article in learningpaths',
+      title: 'Learningpaths containing this article',
+    },
     relatedConcepts: {
       placeholder: 'Search for title',
       articlesTitle: 'Concepts',

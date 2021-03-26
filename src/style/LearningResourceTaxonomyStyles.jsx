@@ -156,18 +156,18 @@ const StyledFilterCheckBox = styled('button')`
   font-style: ${props => !props.isVisible && 'italic'};
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.text.primary)};
   ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
-  > span:first-child {
+  > span:first-of-type {
     ${checkboxItemStyle};
     margin-right: ${spacing.small};
   }
   &:hover,
   &:focus {
-    > span:first-child {
+    > span:first-of-type {
       ${checkboxItemHoverStyle};
     }
   }
   &.checkboxItem--checked {
-    > span:first-child {
+    > span:first-of-type {
       ${checkboxItemSelectedStyle};
     }
   }
@@ -198,7 +198,7 @@ const StyledFilterListTableRow = styled('tr')`
 
 const StyledFilterTable = styled('table')`
   width: 100%;
-  td:first-child {
+  td:first-of-type {
     width: 100%;
   }
 `;
@@ -264,19 +264,19 @@ const StyledFilterButton = styled('button')`
   &:disabled {
     color: ${colors.brand.light};
   }
-  > span:first-child {
+  > span:first-of-type {
     ${checkboxItemStyle};
   }
   &:not(:disabled) {
     &:hover,
     &:focus {
-      > span:first-child {
+      > span:first-of-type {
         ${checkboxItemHoverStyle};
       }
     }
   }
   &.checkboxItem--checked {
-    > span:first-child {
+    > span:first-of-type {
       ${checkboxItemSelectedStyle};
     }
   }

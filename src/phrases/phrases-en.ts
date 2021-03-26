@@ -659,7 +659,8 @@ const phrases = {
       published: 'Published',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
-      archived: 'Archived',
+      awaiting_archiving: 'Delayed archivation',
+      archived: 'Deleted',
       actions: {
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
@@ -674,8 +675,8 @@ const phrases = {
         PUBLISHED: 'Publish',
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
-        ARCHIVED: 'Archive',
-        AWAITING_ARCHIVING: 'Archivation-delayed',
+        ARCHIVED: 'Delete',
+        AWAITING_ARCHIVING: 'Delayed archivation',
       },
       learningpath_statuses: {
         private: 'Draft',

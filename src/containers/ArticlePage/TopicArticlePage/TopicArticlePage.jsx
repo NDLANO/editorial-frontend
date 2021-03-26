@@ -25,6 +25,7 @@ const TopicArticlePage = ({
   fetchLicenses,
   applicationError,
   createMessage,
+  userAccess,
 }) => {
   const previousLocation = useRef(location.pathname).current;
 
@@ -34,7 +35,7 @@ const TopicArticlePage = ({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const articleFormProps = { applicationError, licenses, createMessage };
+  const articleFormProps = { applicationError, licenses, createMessage, userAccess };
 
   return (
     <OneColumn>

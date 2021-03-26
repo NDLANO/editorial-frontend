@@ -61,4 +61,8 @@ describe('Edit article with everything', () => {
       .click();
     cy.apiwait('@saveLearningResource');
   });
+
+  it('Has access to the html-editor', () => {
+    cy.get('a[data-testid=edit-markup-link]').should('be.visible');
+  });
 });

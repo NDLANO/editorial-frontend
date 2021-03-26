@@ -24,6 +24,7 @@ const LearningResourcePage = ({
   applicationError,
   createMessage,
   location,
+  userAccess,
   match,
   history,
 }) => {
@@ -34,7 +35,7 @@ const LearningResourcePage = ({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const resourceFormProps = { applicationError, licenses, createMessage };
+  const resourceFormProps = { applicationError, licenses, createMessage, userAccess };
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>

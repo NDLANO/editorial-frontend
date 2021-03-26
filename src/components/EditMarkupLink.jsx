@@ -47,6 +47,7 @@ export const EditMarkupLink = ({ title, to, inHeader }) => {
   return (
     <Link
       css={linkStyle}
+      data-testid="edit-markup-link"
       to={{
         pathname: to,
         state: {

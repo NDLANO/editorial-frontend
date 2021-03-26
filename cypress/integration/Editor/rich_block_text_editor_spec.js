@@ -37,7 +37,7 @@ describe('Learning resource editing', () => {
   });
 
   it('Can add all contributors', () => {
-    cy.get(' button > span')
+    cy.get('button > span')
       .contains('Lisens og bruker')
       .click();
     cy.apiwait('@agreements');

@@ -49,4 +49,8 @@ describe('Edit article with everything', () => {
       .first()
       .click();
   });
+
+  it('Has access to the html-editor', () => {
+    cy.get('a[data-testid=edit-markup-link]').should('be.visible');
+  });
 });

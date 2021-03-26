@@ -32,7 +32,9 @@ const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
       <p {...searchClasses('description')}>
         {`${t('searchPage.language')}: `}
         {image.supportedLanguages?.map(lang => (
-          <span {...searchClasses('other-link')}>{t(`language.${lang}`)}</span>
+          <span key={lang} {...searchClasses('other-link')}>
+            {t(`language.${lang}`)}
+          </span>
         ))}
       </p>
     </div>

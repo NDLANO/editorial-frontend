@@ -33,4 +33,8 @@ describe('Language handling', () => {
       .contains('Legg til')
       .click({ force: true });
   });
+
+  it('Has access to the html-editor', () => {
+    cy.get('a[data-testid=edit-markup-link]').should('be.visible');
+  });
 });

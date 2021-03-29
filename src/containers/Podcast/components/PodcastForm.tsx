@@ -51,9 +51,6 @@ const podcastRules = {
   license: {
     required: true,
   },
-  // coverPhotoAltText: {
-  //   required: true,
-  // },
   header: {
     required: true,
   },
@@ -139,29 +136,6 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type openIndexesProps = number | string;
-
-type AccordionChildrenProps = {
-  // TODO reuse from ImageForm, move
-  openIndexes: Array<openIndexesProps>;
-  handleItemClick: (arg: openIndexesProps) => void;
-  getBarProps: (
-    arg: openIndexesProps,
-  ) => {
-    tiny?: boolean;
-    onClick: () => void;
-    isOpen: boolean;
-    panelId: openIndexesProps;
-  };
-  getPanelProps: (
-    arg: openIndexesProps,
-  ) => {
-    id: openIndexesProps;
-    isOpen: boolean;
-    tiny?: boolean;
-  };
-};
-
 interface Props {
   audio: PodcastPropType;
   inModal?: boolean;
@@ -233,33 +207,6 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
 
   const initialValues = getInitialValues(audio);
 
-  const panels: {
-    // TODO replace with aod AccordionSection
-    id: string;
-    title: string;
-    errorFields: ErrorFields[];
-    component: ReactNode;
-  }[] = [
-    {
-      id: 'podcast-upload-content',
-      title: t('form.contentSection'),
-      errorFields: ['title', 'audioFile'],
-      component: <AudioContent />,
-    },
-    {
-      id: 'podcast-upload-podcastmeta-metadataSection',
-      title: t('form.podcastSection'),
-      errorFields: ['header', 'introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'],
-      component: <PodcastMetaData />,
-    },
-    {
-      id: 'podcast-upload-metadataSection',
-      title: t('form.metadataSection'),
-      errorFields: ['tags', 'creators', 'rightsholders', 'processors', 'license'],
-      component: <AudioMetaData classes={formClasses} licenses={licenses} />,
-    },
-  ];
-
   return (
     <Formik
       initialValues={initialValues}
@@ -268,7 +215,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
       enableReinitialize
       validate={values => validateFormik(values, podcastRules, t)}>
       {formikProps => {
-        const { values, dirty, isSubmitting, isValidating, errors, submitForm } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -330,7 +277,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                   evt.preventDefault();
                   console.log('klikk!');
                   submitForm();
-                  console.log(isSubmitting, isValidating, errors);
+                  console.log(isSubmitting, errors);
                 }}
               />
             </Field>

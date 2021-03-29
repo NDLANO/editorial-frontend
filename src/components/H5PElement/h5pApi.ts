@@ -9,7 +9,10 @@
 import config from '../../config';
 import { resolveJsonOrRejectWithError, fetchReAuthorized } from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = async (locale = '', canReturnResources = false) => {
+export const fetchH5PiframeUrl = async (
+  locale: string = '',
+  canReturnResources: boolean = false,
+) => {
   const response = await fetchReAuthorized(
     `${config.h5pApiUrl}/select?locale=${getH5pLocale(
       locale,
@@ -22,7 +25,7 @@ export const fetchH5PiframeUrl = async (locale = '', canReturnResources = false)
   return resolveJsonOrRejectWithError(response);
 };
 
-export const editH5PiframeUrl = async (url, locale = '') => {
+export const editH5PiframeUrl = async (url: string, locale: string = '') => {
   const response = await fetchReAuthorized(
     `${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`,
     {
@@ -37,11 +40,11 @@ export const editH5PiframeUrl = async (url, locale = '') => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const getH5pLocale = language => {
+export const getH5pLocale = (language: string) => {
   return language === 'en' ? 'en-gb' : 'nb-no';
 };
 
-export const fetchH5PMetadata = async resourceId => {
+export const fetchH5PMetadata = async (resourceId: string) => {
   const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
   const response = await fetch(url);
   return resolveJsonOrRejectWithError(response);

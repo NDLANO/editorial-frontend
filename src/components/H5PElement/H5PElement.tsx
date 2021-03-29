@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
 import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi';
@@ -24,8 +24,35 @@ const StyledIFrame = styled.iframe`
   min-height: 1000px;
 `;
 
-class H5PElement extends Component {
-  constructor(props) {
+interface OnSelectObject {
+  path?: string;
+  title?: string;
+}
+
+interface Props {
+  h5pUrl?: string;
+  onSelect: (selected: OnSelectObject) => void;
+  onClose: () => void;
+  locale: string;
+  canReturnResources?: boolean;
+}
+
+interface State {
+  url?: string;
+  fetchFailed: boolean;
+}
+
+interface MessageEvent extends Event {
+  data: {
+    embed_id: string;
+    oembed_url: string;
+    messageType?: string;
+    type?: string;
+  };
+}
+
+class H5PElement extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.state = {
       url: undefined,
@@ -35,8 +62,7 @@ class H5PElement extends Component {
     this.handleH5PClose = this.handleH5PClose.bind(this);
   }
 
-  /* eslint-disable react/no-did-mount-set-state */
-  /* See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
+  /* eslint-disable react/no-did-mount-set-state -- See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
   async componentDidMount() {
     const { h5pUrl, locale } = this.props;
     window.addEventListener('message', this.handleH5PChange);
@@ -56,7 +82,7 @@ class H5PElement extends Component {
     window.removeEventListener('message', this.handleH5PClose);
   }
 
-  async handleH5PChange(event) {
+  async handleH5PChange(event: MessageEvent) {
     const { onSelect } = this.props;
     if (event.data.type !== 'h5p') {
       return;
@@ -64,8 +90,8 @@ class H5PElement extends Component {
 
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
     const { oembed_url: oembedUrl } = event.data;
-    const url = oembedUrl.match(/url=([^&]*)/)[0].replace('url=', '');
-    const path = url.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
+    const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
+    const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
     try {
       const metadata = await fetchH5PMetadata(event.data.embed_id);
       const title = metadata.h5p.title;
@@ -76,7 +102,7 @@ class H5PElement extends Component {
     }
   }
 
-  async handleH5PClose(event) {
+  async handleH5PClose(event: MessageEvent) {
     const { onClose } = this.props;
     if (event.data.messageType !== 'closeEdlibModal') {
       return;
@@ -98,6 +124,8 @@ class H5PElement extends Component {
             messages={{
               title: t('errorMessage.title'),
               description: t('h5pElement.fetchError'),
+              back: t('errorMessage.back'),
+              goToFrontPage: t('errorMessage.goToFrontPage'),
             }}
           />
         )}
@@ -105,14 +133,14 @@ class H5PElement extends Component {
       </FlexWrapper>
     );
   }
-}
 
-H5PElement.propTypes = {
-  h5pUrl: PropTypes.string,
-  onSelect: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  canReturnResources: PropTypes.bool,
-};
+  static propTypes = {
+    h5pUrl: PropTypes.string,
+    onSelect: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
+    canReturnResources: PropTypes.bool,
+  };
+}
 
 export default injectT(H5PElement);

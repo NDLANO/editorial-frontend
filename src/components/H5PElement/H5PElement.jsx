@@ -44,7 +44,7 @@ class H5PElement extends Component {
     try {
       const data = h5pUrl
         ? await editH5PiframeUrl(h5pUrl, locale)
-        : await fetchH5PiframeUrl(locale);
+        : await fetchH5PiframeUrl(locale, this.props.canReturnResources);
       this.setState(() => ({ url: data.url }));
     } catch (e) {
       this.setState({ fetchFailed: true });
@@ -112,6 +112,7 @@ H5PElement.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  canReturnResources: PropTypes.bool,
 };
 
 export default injectT(H5PElement);

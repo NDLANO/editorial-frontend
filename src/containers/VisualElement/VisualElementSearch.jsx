@@ -152,6 +152,7 @@ class VisualElementSearch extends Component {
           <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <H5PElement
+              canReturnResources={true}
               h5pUrl={selectedResourceUrl}
               onSelect={h5p =>
                 handleVisualElementChange({

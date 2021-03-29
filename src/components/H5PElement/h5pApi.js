@@ -9,9 +9,11 @@
 import config from '../../config';
 import { resolveJsonOrRejectWithError, fetchReAuthorized } from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = async (locale = '') => {
+export const fetchH5PiframeUrl = async (locale = '', canReturnResources = false) => {
   const response = await fetchReAuthorized(
-    `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}&canReturnResources=true`,
+    `${config.h5pApiUrl}/select?locale=${getH5pLocale(
+      locale,
+    )}&canReturnResources=${canReturnResources}`,
     {
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },

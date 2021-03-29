@@ -13,11 +13,8 @@ type AudioType = 'standard' | 'podcast';
 export interface NewPodcastMeta {
   header: string;
   introduction: string;
-  coverPhoto: {
-    id: string;
-    url: string;
-    alt: string;
-  };
+  coverPhotoId: string;
+  coverPhotoAltText: string;
   manuscript: string;
   language: string;
 }

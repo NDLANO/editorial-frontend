@@ -549,6 +549,7 @@ const phrases = {
       subjects: 'Fag',
       header: 'Overskrift',
       manuscript: 'Manus',
+      coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',

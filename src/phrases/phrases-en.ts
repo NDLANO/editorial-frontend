@@ -524,6 +524,9 @@ const phrases = {
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
+      header: 'Header',
+      manuscript: 'Manuscript',
+      coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',

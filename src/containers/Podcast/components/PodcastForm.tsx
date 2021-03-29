@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState, ReactNode } from 'react';
+import React, { useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { AccordionWrapper } from '@ndla/accordion';
@@ -61,13 +61,11 @@ const podcastRules = {
     required: true,
   },
   metaImageAlt: {
+    // coverPhotoAltText
     required: true,
     onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
   },
   introduction: {
-    required: true,
-  },
-  imageFile: {
     required: true,
   },
   coverPhotoId: {
@@ -93,9 +91,8 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
     audioType: 'podcast',
     header: audio.podcastMeta?.header,
     introduction: audio.podcastMeta?.introduction,
-    coverPhotoId: audio.podcastMeta?.coverPhoto?.id,
-    metaImageAlt: audio.podcastMeta?.coverPhoto?.alt,
-    metaImageUrl: audio.podcastMeta?.coverPhoto?.url,
+    coverPhotoId: audio.podcastMeta?.coverPhotoId,
+    metaImageAlt: audio.podcastMeta?.coverPhotoAltText, // coverPhotoAltText
     manuscript: audio.podcastMeta?.manuscript,
   };
 };
@@ -125,7 +122,6 @@ type ErrorFields =
   | 'creators'
   | 'coverPhotoId'
   | 'header'
-  | 'imageFile'
   | 'introduction'
   | 'license'
   | 'metaImageAlt'
@@ -175,24 +171,18 @@ interface Props {
   onUpdate: (audioMetadata: NewAudioMetaInformation, podcastFile: string | Blob) => void;
 }
 
-const PodcastForm: FC<Props & tType> = ({
-  t,
-  audio,
-  inModal,
-  isNewlyCreated,
-  licenses,
-  onUpdate,
-}) => {
+const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: Props & tType) => {
   const [savedToServer, setSavedToServer] = useState(false);
 
   const handleSubmit = async (
     values: PodcastFormValues,
     actions: FormikHelpers<PodcastFormValues>,
   ) => {
+    console.log('kjem hit 1?');
     const license = licenses.find(license => license.license === values.license);
 
     if (
-      // TODO, burde vel finnes en bedre måte å gjøre dette på
+      // TODO burde vel finnes en bedre måte å gjøre dette på
       license === undefined ||
       values.title === undefined ||
       values.language === undefined ||
@@ -230,11 +220,8 @@ const PodcastForm: FC<Props & tType> = ({
       podcastMeta: {
         header: values.header,
         introduction: values.introduction,
-        coverPhoto: {
-          id: values.coverPhotoId,
-          url: values.metaImageUrl,
-          alt: values.metaImageAlt,
-        },
+        coverPhotoId: values.coverPhotoId,
+        coverPhotoAltText: values.metaImageAlt,
         manuscript: values.manuscript,
         language: values.language,
       },
@@ -281,7 +268,7 @@ const PodcastForm: FC<Props & tType> = ({
       enableReinitialize
       validate={values => validateFormik(values, podcastRules, t)}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
+        const { values, dirty, isSubmitting, isValidating, errors, submitForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -343,6 +330,7 @@ const PodcastForm: FC<Props & tType> = ({
                   evt.preventDefault();
                   console.log('klikk!');
                   submitForm();
+                  console.log(isSubmitting, isValidating, errors);
                 }}
               />
             </Field>

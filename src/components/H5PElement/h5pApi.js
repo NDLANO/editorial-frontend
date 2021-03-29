@@ -11,7 +11,7 @@ import { resolveJsonOrRejectWithError, fetchReAuthorized } from '../../util/apiH
 
 export const fetchH5PiframeUrl = async (locale = '') => {
   const response = await fetchReAuthorized(
-    `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}`,
+    `${config.h5pApiUrl}/select?locale=${getH5pLocale(locale)}&canReturnResources=true`,
     {
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },

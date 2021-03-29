@@ -135,9 +135,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
     values: PodcastFormValues,
     actions: FormikHelpers<PodcastFormValues>,
   ) => {
-    console.log('kjem hit 1?');
     const license = licenses.find(license => license.license === values.license);
-
     if (
       // TODO burde vel finnes en bedre måte å gjøre dette på
       license === undefined ||
@@ -152,14 +150,14 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
       values.manuscript === undefined ||
       values.introduction === undefined ||
       values.coverPhotoId === undefined ||
-      values.metaImageAlt === undefined ||
-      values.metaImageUrl === undefined
+      values.metaImageAlt === undefined
     ) {
       actions.setSubmitting(false);
       setSavedToServer(false);
       return;
     }
 
+    console.log('sumbitting');
     actions.setSubmitting(true);
     const podcastMetaData: NewPodcastMetaInformation = {
       id: values.id, // Used only to check if image was newly created. This id is discarded by backend. TODO
@@ -258,9 +256,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                 submit={!inModal}
                 onClick={(evt: Event) => {
                   evt.preventDefault();
-                  console.log('klikk!');
                   submitForm();
-                  console.log(isSubmitting, errors);
                 }}
               />
             </Field>

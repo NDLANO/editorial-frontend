@@ -86,7 +86,7 @@ export function toCreatePodcastFile() {
 }
 
 export function toEditPodcast(audioId, language) {
-  return `/media/audio-upload/${audioId}/edit/${language}`;
+  return `/media/podcast-upload/${audioId}/edit/${language}`;
 }
 
 export function toCreateImage() {

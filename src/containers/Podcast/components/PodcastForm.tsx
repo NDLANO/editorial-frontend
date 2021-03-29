@@ -32,29 +32,19 @@ const podcastRules = {
   title: {
     required: true,
   },
-  tags: {
-    minItems: 3,
-  },
-  creators: {
-    minItems: 1,
-    allObjectFieldsRequired: true,
-  },
-  processors: {
-    allObjectFieldsRequired: true,
-  },
-  rightsholders: {
-    allObjectFieldsRequired: true,
-  },
   audioFile: {
-    required: true,
-  },
-  license: {
     required: true,
   },
   header: {
     required: true,
   },
+  introduction: {
+    required: true,
+  },
   manuscript: {
+    required: true,
+  },
+  coverPhotoId: {
     required: true,
   },
   metaImageAlt: {
@@ -62,11 +52,21 @@ const podcastRules = {
     required: true,
     onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
   },
-  introduction: {
+  tags: {
+    minItems: 3,
+  },
+  license: {
     required: true,
   },
-  coverPhotoId: {
-    required: true,
+  processors: {
+    allObjectFieldsRequired: true,
+  },
+  creators: {
+    minItems: 1,
+    allObjectFieldsRequired: true,
+  },
+  rightsholders: {
+    allObjectFieldsRequired: true,
   },
 };
 
@@ -111,23 +111,6 @@ interface PodcastPropType {
   audioType?: 'podcast';
   podcastMeta?: NewPodcastMeta;
 }
-
-type ErrorFields =
-  | 'alttext'
-  | 'audioFile'
-  | 'caption'
-  | 'creators'
-  | 'coverPhotoId'
-  | 'header'
-  | 'introduction'
-  | 'license'
-  | 'metaImageAlt'
-  | 'manuscript'
-  | 'processors'
-  | 'rightsholders'
-  | 'tags'
-  | 'title'
-  | 'audioFile';
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {

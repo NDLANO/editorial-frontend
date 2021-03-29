@@ -27,6 +27,7 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({
   match,
   history,
   location,
+  t,
 }) => {
   // TODO fetchLicenses()
   const [licenses, setLicenses] = useState<any>([]); // TODO type License
@@ -54,8 +55,7 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({
 
   return (
     <OneColumn>
-      <HelmetWithTracker title="last opp podcast episode" />
-      {/* TODO replace with translated text */}
+      <HelmetWithTracker title={t('htmlTitles.podcastUploaderPage')} />
       <Switch>
         <Route
           path={`${match.url}/new`}

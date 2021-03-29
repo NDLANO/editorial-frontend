@@ -26,6 +26,7 @@ const phrases = {
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podcast ${titleTemplate}`,
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',

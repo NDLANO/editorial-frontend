@@ -26,6 +26,7 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podcast ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {hits} treff`,

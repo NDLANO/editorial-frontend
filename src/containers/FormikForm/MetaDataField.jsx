@@ -18,15 +18,9 @@ import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearch
 import AvailabilityField from './components/AvailabilityField';
 import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
-import { ArticleShape, FormikShape } from '../../shapes';
+import { ArticleShape } from '../../shapes';
 
-const MetaDataField = ({
-  t,
-  article,
-  fetchSearchTags,
-  handleSubmit,
-  handleBlur,
-}) => {
+const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
   const userAccess = useContext(UserAccessContext);
   const plugins = [textTransformPlugin()];
 

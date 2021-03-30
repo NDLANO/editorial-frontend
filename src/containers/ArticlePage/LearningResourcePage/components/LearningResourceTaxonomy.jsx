@@ -35,7 +35,7 @@ import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
-import {FormikFieldHelp} from "../../../../components/FormikField";
+import { FormikFieldHelp } from '../../../../components/FormikField';
 
 const emptyTaxonomy = {
   resourceTypes: [],
@@ -359,7 +359,7 @@ class LearningResourceTaxonomy extends Component {
     if (!isDirty) {
       setIsOpen(false);
     } else {
-      if (this.state.showWarning){
+      if (this.state.showWarning) {
         setIsOpen(false);
       } else {
         this.setState({ showWarning: true });
@@ -442,11 +442,9 @@ class LearningResourceTaxonomy extends Component {
             updateFilter={this.updateFilter}
           />
         )}
-        {showWarning &&
-        <FormikFieldHelp error>
-          {t('errorMessage.unsavedTaxonomy')}
-        </FormikFieldHelp>
-        }
+        {showWarning && (
+          <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>
+        )}
         <Field right>
           <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}

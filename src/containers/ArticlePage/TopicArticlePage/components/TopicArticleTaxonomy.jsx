@@ -50,10 +50,8 @@ import {
 } from '../../../../modules/taxonomy/resourcetypes';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
-import AlertModal from '../../../../components/AlertModal';
 import { ArticleShape } from '../../../../shapes';
-import { AlertModalWrapper } from '../../../FormikForm';
-import {FormikFieldHelp} from "../../../../components/FormikField";
+import { FormikFieldHelp } from '../../../../components/FormikField';
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -302,9 +300,9 @@ class TopicArticleTaxonomy extends Component {
     if (!isDirty) {
       setIsOpen(false);
     } else {
-      if (this.state.showWarning){
+      if (this.state.showWarning) {
         setIsOpen(false);
-      } else{
+      } else {
         this.setState({ showWarning: true });
       }
     }
@@ -552,11 +550,9 @@ class TopicArticleTaxonomy extends Component {
               updateFilter={this.updateFilter}
             />
           )}
-        {showWarning &&
-          <FormikFieldHelp error>
-            {t('errorMessage.unsavedTaxonomy')}
-          </FormikFieldHelp>
-        }
+        {showWarning && (
+          <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>
+        )}
         <Field right>
           <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}

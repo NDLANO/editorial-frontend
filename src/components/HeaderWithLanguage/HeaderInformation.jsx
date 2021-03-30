@@ -87,6 +87,7 @@ export const types = {
 const HeaderInformation = ({
   type,
   noStatus,
+  id,
   statusText,
   published,
   isNewLanguage,
@@ -145,6 +146,8 @@ const HeaderInformation = ({
         isNewLanguage={isNewLanguage}
         published={published}
         taxonomyPaths={taxonomyPaths}
+        type={type}
+        id={id}
       />
     </StyledHeader>
   );
@@ -163,6 +166,7 @@ HeaderInformation.propTypes = {
   formIsDirty: PropTypes.bool,
   createMessage: PropTypes.func,
   taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
+  id: PropTypes.number,
 };
 
 export default injectT(HeaderInformation);

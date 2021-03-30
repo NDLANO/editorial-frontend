@@ -99,7 +99,7 @@ class SearchContainer extends Component {
         <SearchForm
           type={type}
           search={this.onQueryPush}
-          searchObject={searchObject}
+          searchObject={{ ...searchObject, fallback: searchObject.fallback === 'true' }}
           location={location}
           locale={locale}
           subjects={this.state.subjects}

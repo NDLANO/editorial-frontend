@@ -33,7 +33,9 @@ const SearchAudio: React.FC<Props & tType> = ({ audio, locale, t }) => (
       <p {...searchClasses('description')}>
         {`${t('searchPage.language')}: `}
         {audio.supportedLanguages?.map(lang => (
-          <span {...searchClasses('other-link')}>{t(`language.${lang}`)}</span>
+          <span key={lang} {...searchClasses('other-link')}>
+            {t(`language.${lang}`)}
+          </span>
         ))}
       </p>
     </div>

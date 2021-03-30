@@ -181,6 +181,7 @@ const TopicArticleForm = props => {
           isSubmitting={isSubmitting}
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
+          type="topic-article"
           {...rest}
         />
         {translating ? (

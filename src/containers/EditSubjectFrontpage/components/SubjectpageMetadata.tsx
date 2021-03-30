@@ -36,14 +36,14 @@ const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => 
         showMaxLength
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}>
-        {({ field }: FormikProperties) => (
+        {({ field }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
+            {...field}
             placeholder={t('form.metaDescription.label')}
             handleSubmit={handleSubmit}
-            onChange={field.onChange}
-            onBlur={onBlur}
             plugins={plugins}
+            onBlur={onBlur}
           />
         )}
       </FormikField>

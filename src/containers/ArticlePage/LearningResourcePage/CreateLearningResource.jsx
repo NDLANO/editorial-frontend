@@ -5,16 +5,18 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
+import { LocaleContext } from '../../App/App';
 import { LicensesArrayOf } from '../../../shapes';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 
-const CreateLearningResource = ({ locale, t, history, ...rest }) => {
+const CreateLearningResource = ({ t, history, ...rest }) => {
+  const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async createdArticle => {
@@ -39,7 +41,6 @@ CreateLearningResource.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(CreateLearningResource);

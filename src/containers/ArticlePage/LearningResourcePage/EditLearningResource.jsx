@@ -51,7 +51,6 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
 EditLearningResource.propTypes = {
   articleId: PropTypes.string.isRequired,
   licenses: LicensesArrayOf,
-  locale: PropTypes.string.isRequired,
   selectedLanguage: PropTypes.string.isRequired,
   isNewlyCreated: PropTypes.bool,
 };

@@ -29,7 +29,7 @@ import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../../modules/session/session';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
-import { FormikAlertModalWrapper, formClasses } from '../FormikForm';
+import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 
@@ -148,6 +148,8 @@ class EditMarkupPage extends Component<Props, State> {
       status: 'initial',
       draft: undefined,
     };
+    this.saveChanges = this.saveChanges.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
@@ -305,7 +307,7 @@ class EditMarkupPage extends Component<Props, State> {
             </Row>
           </Row>
         </Suspense>
-        <FormikAlertModalWrapper
+        <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={isDirty}
           severity="danger"

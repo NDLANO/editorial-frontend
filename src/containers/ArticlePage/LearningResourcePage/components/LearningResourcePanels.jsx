@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Accordion, { AccordionWrapper } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
-import LearningResourceTaxonomy from './LearningResourceTaxonomy';
-import LearningResourceContent from './LearningResourceContent';
+import { LocaleContext } from '../../../App/App';
 import AccordionSection from '../../../../components/Accordion/AccordionSection';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
-import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
+import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
+import LearningResourceTaxonomy from './LearningResourceTaxonomy';
+import LearningResourceContent from './LearningResourceContent';
 import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
-import { LocaleContext } from '../../../App/App';
 
 const LearningResourcePanels = ({
   t,

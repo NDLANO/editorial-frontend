@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,

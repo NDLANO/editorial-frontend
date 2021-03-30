@@ -33,7 +33,7 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
         description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
-            initialTags={article.tags}
+            initialTags={field.value}
             language={article.language}
             field={field}
             form={form}

@@ -30,7 +30,7 @@ import {
   learningResourceRules,
 } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { nullOrUndefined } from '../../../../util/articleUtil';
+import { nullOrUndefined, submitFormWithMessage } from '../../../../util/articleUtil';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
@@ -130,6 +130,7 @@ const LearningResourceForm = props => {
     savedToServer,
     formikRef,
     initialValues,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -147,6 +148,7 @@ const LearningResourceForm = props => {
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
+    setSaveAsNewVersion(isNewlyCreated);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
     return (
       <Form {...formClasses()}>
@@ -172,9 +174,6 @@ const LearningResourceForm = props => {
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            handleSubmit={() => {
-              handleSubmit(formik, isNewlyCreated);
-            }}
             userAccess={userAccess}
             createMessage={createMessage}
             history={history}
@@ -186,7 +185,8 @@ const LearningResourceForm = props => {
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
-            handleSubmit(formik, saveAsNewVersion);
+            setSaveAsNewVersion(saveAsNewVersion);
+            submitFormWithMessage(formik, createMessage);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
@@ -223,7 +223,7 @@ const LearningResourceForm = props => {
       innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount
-      onSubmit={() => ({})}
+      onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>
       {FormikChild}
     </Formik>

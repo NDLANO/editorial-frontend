@@ -80,3 +80,17 @@ export const isGrepCodeValid = grepCode => {
 export const nullOrUndefined = metaImageId => {
   return metaImageId === null ? null : undefined;
 };
+
+export function submitFormWithMessage(formikContext, createMessage) {
+  const { submitForm, isValid, errors } = formikContext;
+  if (isValid) {
+    submitForm();
+  } else {
+    const e = Object.keys(errors).map(key => `${key}: ${errors[key]}`);
+    createMessage({
+      message: e.join(' '),
+      severity: 'danger',
+      timeToLive: 0,
+    });
+  }
+}

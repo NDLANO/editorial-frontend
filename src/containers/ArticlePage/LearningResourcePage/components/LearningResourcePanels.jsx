@@ -17,7 +17,6 @@ const LearningResourcePanels = ({
   t,
   userAccess,
   fetchSearchTags,
-  handleSubmit,
   article,
   updateNotes,
   licenses,
@@ -29,7 +28,7 @@ const LearningResourcePanels = ({
 }) => {
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
-  const { values, setValues, errors, handleBlur } = formikContext;
+  const { values, setValues, errors, handleBlur, submitForm } = formikContext;
 
   return (
     <Accordion>
@@ -39,11 +38,11 @@ const LearningResourcePanels = ({
             id={'learning-resource-content'}
             title={t('form.contentSection')}
             className={'u-4/6@desktop u-push-1/6@desktop'}
-            hasError={!!(errors.title || errors.introduction || errors.content)}
+            hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
             startOpen>
             <LearningResourceContent
               userAccess={userAccess}
-              handleSubmit={handleSubmit}
+              handleSubmit={submitForm}
               handleBlur={handleBlur}
               values={values}
               article={article}
@@ -80,7 +79,7 @@ const LearningResourcePanels = ({
             <MetaDataField
               handleBlur={handleBlur}
               fetchSearchTags={fetchSearchTags}
-              handleSubmit={handleSubmit}
+              handleSubmit={submitForm}
               article={article}
             />
           </AccordionSection>
@@ -128,7 +127,6 @@ const LearningResourcePanels = ({
 LearningResourcePanels.propTypes = {
   userAccess: PropTypes.string,
   fetchSearchTags: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   article: ArticleShape.isRequired,
   updateNotes: PropTypes.func,
   licenses: LicensesArrayOf,

@@ -28,7 +28,7 @@ import {
 } from '../../../../util/formHelper';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { nullOrUndefined } from '../../../../util/articleUtil';
+import { nullOrUndefined, submitFormWithMessage } from '../../../../util/articleUtil';
 import validateFormik from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
@@ -136,6 +136,7 @@ const TopicArticleForm = props => {
     formikRef,
     initialValues,
     setResetModal,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -151,6 +152,7 @@ const TopicArticleForm = props => {
     translateArticle,
     licenses,
     isNewlyCreated,
+    createMessage,
     ...rest
   } = props;
 
@@ -164,6 +166,7 @@ const TopicArticleForm = props => {
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
+    setSaveAsNewVersion(isNewlyCreated);
     const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
     return (
       <Form {...formClasses()}>
@@ -197,7 +200,6 @@ const TopicArticleForm = props => {
             fetchSearchTags={fetchSearchTags}
             {...formikProps}
             {...rest}
-            handleSubmit={() => handleSubmit(formik)}
           />
         )}
         <EditorFooter
@@ -206,7 +208,10 @@ const TopicArticleForm = props => {
           savedToServer={savedToServer}
           getEntity={getArticle}
           showReset={() => setResetModal(true)}
-          onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
+          onSaveClick={saveAsNewVersion => {
+            setSaveAsNewVersion(saveAsNewVersion);
+            submitFormWithMessage(formik, createMessage);
+          }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
@@ -232,7 +237,7 @@ const TopicArticleForm = props => {
       initialValues={initialValues}
       validateOnChange={false}
       innerRef={formikRef}
-      onSubmit={() => ({})}
+      onSubmit={handleSubmit}
       validate={values => validateFormik(values, topicArticleRules, t)}>
       {FormikChild}
     </Formik>

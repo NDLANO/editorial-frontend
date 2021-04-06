@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -37,7 +37,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage: FC<tType> = ({ t }) => {
+export const WelcomePage = ({ t }: tType) => {
   const [lastUsed, setLastUsed] = useState<string[]>([]);
   const locale: string = useContext(LocaleContext);
   const userAccess: string | undefined = useContext(UserAccessContext);

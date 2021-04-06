@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Block, Document, Editor, Inline, Node, Text } from 'slate';
 import { css } from '@emotion/core';
@@ -61,7 +61,7 @@ interface Props {
   node: Node;
 }
 
-const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }) => {
+const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) => {
   const summary: Node | null = (node as ParentNode)?.findDescendant(
     node => (node as ParentNode)?.type === 'summary',
   );

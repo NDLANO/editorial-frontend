@@ -56,7 +56,7 @@ interface Props {
   withWrapper?: boolean;
 }
 
-const StyledSpinner: React.FC<Props> = styled('div')`
+const StyledSpinner = styled('div')<Props>`
   border: 0.4em solid ${colors.brand.greyLight};
   border-bottom-color: ${colors.brand.primary};
   border-radius: 50%;
@@ -64,12 +64,12 @@ const StyledSpinner: React.FC<Props> = styled('div')`
   width: 3em;
   height: 3em;
   animation: ${spinnerKeyframeStyle} 0.7s linear infinite;
-  ${(p: Props) => {
+  ${p => {
     if (p.appearance !== undefined) return appeareances[p.appearance];
   }}
 `;
 
-const Spinner: React.FC<Props> = ({ appearance, withWrapper, ...rest }) => {
+const Spinner = ({ appearance, withWrapper, ...rest }: Props) => {
   const spinner = <StyledSpinner appearance={appearance} {...rest} />;
   if (withWrapper) return <SpinnerWrapper>{spinner}</SpinnerWrapper>;
   return spinner;

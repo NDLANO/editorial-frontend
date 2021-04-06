@@ -32,7 +32,7 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure: React.FC<Props & tType> = ({
+const SlateFigure = ({
   t,
   attributes,
   editor,
@@ -40,7 +40,7 @@ const SlateFigure: React.FC<Props & tType> = ({
   language,
   locale = 'nb',
   node,
-}) => {
+}: Props & tType) => {
   const embed = getSchemaEmbed(node);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 

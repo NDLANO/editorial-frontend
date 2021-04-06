@@ -29,6 +29,9 @@ export const actions = {
   clearUploadedImage,
 };
 
+export type ImageApiTypeRedux = ImageApiType & { language?: string };
+export type FlatReduxImage = Omit<UpdatedImageMetadata, 'language'> & { language?: string };
+
 export interface ReduxImageState {
   all: {
     [imageId: string]: ImageApiTypeRedux;
@@ -37,8 +40,6 @@ export interface ReduxImageState {
   images?: any;
   uploadedImage?: any;
 }
-export type ImageApiTypeRedux = ImageApiType & { language?: string };
-export type FlatReduxImage = Omit<UpdatedImageMetadata, 'language'> & { language?: string };
 
 const initialState: ReduxImageState = {
   all: {},

@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createAudioFormData } from '../../util/formDataHelper';
-import transformAudio from '../AudioUploader/EditAudio';
+import { transformAudio } from '../../util/audioHelpers';
 import PodcastForm from './components/PodcastForm';
 import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
 import { License } from '../../interfaces';
@@ -21,7 +21,7 @@ interface Props {
   isNewlyCreated: boolean;
 }
 
-const EditPodcast: FC<Props> = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }) => {
+const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const locale: string = useContext(LocaleContext);
   const [podcast, setPodcast] = useState<any>({}); // TODO type!!
 
@@ -32,15 +32,14 @@ const EditPodcast: FC<Props> = ({ licenses, podcastId, podcastLanguage, isNewlyC
     setPodcast(transformedPodcast);
   };
 
-  const fetchPodcast = async () => {
-    if (podcastId) {
-      const apiAudio = await audioApi.fetchAudio(podcastId, podcastLanguage);
-      console.log('hva er apiAudio?', apiAudio);
-      setPodcast(transformAudio(apiAudio));
-    }
-  };
-
   useEffect(() => {
+    async function fetchPodcast() {
+      if (podcastId) {
+        const apiPodcast = await audioApi.fetchAudio(podcastId, podcastLanguage);
+        setPodcast(transformAudio(apiPodcast));
+      }
+    }
+
     fetchPodcast();
   }, [podcastId, podcastLanguage]);
 
@@ -51,7 +50,7 @@ const EditPodcast: FC<Props> = ({ licenses, podcastId, podcastLanguage, isNewlyC
   const language = podcastLanguage || locale;
   return (
     <PodcastForm
-      audio={{ language: language }}
+      audio={{ ...podcast, language }}
       licenses={licenses}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}

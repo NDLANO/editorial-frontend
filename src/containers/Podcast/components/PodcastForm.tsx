@@ -157,7 +157,6 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
       return;
     }
 
-    console.log('sumbitting');
     actions.setSubmitting(true);
     const podcastMetaData: NewPodcastMetaInformation = {
       id: values.id, // Used only to check if image was newly created. This id is discarded by backend. TODO

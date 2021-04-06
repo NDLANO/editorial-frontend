@@ -29,14 +29,13 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({
   location,
   t,
 }) => {
-  // TODO fetchLicenses()
   const [licenses, setLicenses] = useState<any>([]); // TODO type License
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 
   useEffect(() => {
-    // TODO Ingeborg sin kode, kan det lages en util?
-    /\/subjectpage\/(.*)\/new/.test(location.pathname)
+    // TODO gjenbrukt kode - kan det lages en util
+    /\/podcast-upload\/(.*)\/new/.test(location.pathname)
       ? setNewlyCreated(true)
       : setNewlyCreated(false);
     if (previousLocation !== location.pathname) {

@@ -9,33 +9,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { transformAudio } from '../../util/audioHelpers';
 import { createAudioFormData } from '../../util/formDataHelper';
-
-// TODO move to audio-util?
-export const transformAudio = audio => {
-  const audioLanguage = audio?.supportedLanguages?.includes(audio.language)
-    ? audio.language
-    : undefined;
-
-  return audio
-    ? {
-        ...audio,
-        title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
-        tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
-      }
-    : undefined;
-};
 
 const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) => {
   const [audio, setAudio] = useState({});
-
-  const fetchAudio = async () => {
-    if (audioId) {
-      const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
-      setAudio(transformAudio(apiAudio));
-    }
-  };
 
   const onUpdate = async (newAudio, file) => {
     const formData = await createAudioFormData(file, newAudio);
@@ -45,8 +23,15 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
   };
 
   useEffect(() => {
+    async function fetchAudio() {
+      if (audioId) {
+        const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
+        setAudio(transformAudio(apiAudio));
+      }
+    }
+
     fetchAudio();
-  }, [audioId, audioLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [audioId, audioLanguage]);
 
   if (audioId && !audio.id) {
     return null;

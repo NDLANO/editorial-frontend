@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
@@ -27,7 +27,9 @@ interface Props {
   firstEntity: ArticleType | ConceptType;
   secondEntity: ArticleType | ConceptType;
   previewLanguage: string;
+
   onChangePreviewLanguage(language: string): void;
+
   getEntityPreview(
     entity: ArticleType | ConceptType,
     label?: string,
@@ -35,18 +37,16 @@ interface Props {
   ): Element;
 }
 
-const PreviewLanguage: FC<Props & tType> = props => {
-  const {
-    firstEntity,
-    secondEntity,
-    label,
-    contentType,
-    onChangePreviewLanguage,
-    previewLanguage,
-    t,
-    getEntityPreview,
-  } = props;
-
+const PreviewLanguage = ({
+  firstEntity,
+  secondEntity,
+  label,
+  contentType,
+  onChangePreviewLanguage,
+  previewLanguage,
+  t,
+  getEntityPreview,
+}: Props & tType) => {
   return (
     <StyledPreview>
       <StyledPreviewTwoArticles>

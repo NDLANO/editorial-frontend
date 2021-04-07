@@ -34,7 +34,7 @@ const StyledDiv = styled.div`
   display: inline-block;
 `;
 
-const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
+const SearchHighlight = ({ content, locale, t }: Props & tType) => {
   if (content.highlights === undefined) {
     return null;
   }

@@ -69,7 +69,7 @@ interface Props {
   submit?: boolean;
 }
 
-const SaveButton: React.FC<Props & tType> = ({
+const SaveButton = ({
   isSaving,
   showSaved,
   t,
@@ -81,7 +81,7 @@ const SaveButton: React.FC<Props & tType> = ({
   clippedButton,
   submit,
   ...rest
-}) => {
+}: Props & tType) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';

@@ -31,7 +31,7 @@ interface Props {
   onSave: Function;
 }
 
-const FigureInput: React.FC<Props & tType> = ({
+const FigureInput = ({
   t,
   caption,
   alt,
@@ -39,7 +39,7 @@ const FigureInput: React.FC<Props & tType> = ({
   onChange,
   onAbort,
   onSave,
-}) => {
+}: Props & tType) => {
   const { submitted } = useSlateContext();
 
   return (

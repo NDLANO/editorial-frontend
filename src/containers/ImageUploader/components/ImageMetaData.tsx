@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps, FieldProps } from 'formik';
@@ -24,7 +24,7 @@ interface Props {
   imageLanguage?: string;
 }
 
-const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguage }) => (
+const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }: Props & tType) => (
   <Fragment>
     <FormikField
       name="tags"

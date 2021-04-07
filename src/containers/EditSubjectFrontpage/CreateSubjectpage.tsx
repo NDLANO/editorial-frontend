@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { withRouter } from 'react-router';
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
@@ -14,20 +14,19 @@ import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
-interface Props {
+interface Props extends RouteComponentProps {
   selectedLanguage: string;
-  history: RouteComponentProps['history'];
   elementId: string;
   elementName: string;
 }
 
-const CreateSubjectpage: FC<RouteComponentProps & Props & tType> = ({
+const CreateSubjectpage = ({
   t,
   selectedLanguage,
   history,
   elementId,
   elementName,
-}) => {
+}: Props & tType) => {
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {

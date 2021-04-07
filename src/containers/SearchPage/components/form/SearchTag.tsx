@@ -8,18 +8,28 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { tagClasses } from '../../../../components/Tag';
 
-class SearchTag extends Component {
-  constructor(props) {
+export type TagType = {
+  name: string;
+  type: string;
+};
+
+interface Props {
+  tag: TagType;
+  onRemoveItem?: (tag: TagType) => void;
+}
+
+class SearchTag extends Component<Props & tType> {
+  constructor(props: Props & tType) {
     super(props);
     this.onRemove = this.onRemove.bind(this);
   }
 
-  onRemove(e) {
+  onRemove(e: React.MouseEvent<HTMLButtonElement>) {
     const { onRemoveItem, tag } = this.props;
     e.preventDefault();
     e.stopPropagation();
@@ -41,14 +51,14 @@ class SearchTag extends Component {
       </dl>
     );
   }
-}
 
-SearchTag.propTypes = {
-  tag: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string,
-  }),
-  onRemoveItem: PropTypes.func,
-};
+  static propTypes = {
+    tag: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }).isRequired,
+    onRemoveItem: PropTypes.func,
+  };
+}
 
 export default injectT(SearchTag);

@@ -7,20 +7,32 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import SearchTag from './SearchTag';
-import { ResourceTypeShape, DraftStatusShape, SubjectShape, UserShape } from '../../../../shapes';
+import { injectT, tType } from '@ndla/i18n';
+import SearchTag, { TagType } from './SearchTag';
+import { SearchParams } from './SearchForm';
+import { ResourceType, SearchState, User } from './SearchContentForm';
+import { SubjectType } from '../../../../interfaces';
 
-const findTagName = (array, value, arrayKey = undefined) => {
+// TODO: slutt med any i denne
+const findTagName = (array: any, value: any, arrayKey: any = undefined) => {
   if (!array || array.length === 0) {
     return undefined;
   }
   const result = array.find(
-    arrayElement => (arrayKey ? arrayElement[arrayKey] : arrayElement) === value,
+    (arrayElement: any) => (arrayKey ? arrayElement[arrayKey] : arrayElement) === value,
   );
   return result && result.name ? result.name : undefined;
 };
+
+interface Props {
+  searchObject: SearchState;
+  onRemoveItem: (tag: TagType) => void;
+  languages: (tFunc: tType['t']) => void;
+  resourceTypes?: ResourceType[];
+  users: User[];
+  status: { id: string; name: string }[];
+  subjects: SubjectType[];
+}
 
 const SearchTagGroup = ({
   subjects,
@@ -31,7 +43,7 @@ const SearchTagGroup = ({
   languages,
   t,
   onRemoveItem,
-}) => {
+}: Props & tType) => {
   const tagTypes = [
     { type: 'query', id: searchObject.query, name: searchObject.query },
     {
@@ -69,23 +81,6 @@ const SearchTagGroup = ({
       })}
     </Fragment>
   );
-};
-
-SearchTagGroup.propTypes = {
-  onRemoveItem: PropTypes.func.isRequired,
-  subjects: PropTypes.arrayOf(SubjectShape),
-  resourceTypes: PropTypes.arrayOf(ResourceTypeShape),
-  status: PropTypes.arrayOf(DraftStatusShape),
-  users: PropTypes.arrayOf(UserShape),
-  languages: PropTypes.func,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    language: PropTypes.string,
-    subjects: PropTypes.string,
-    resourceTypes: PropTypes.string,
-    status: PropTypes.string,
-    users: PropTypes.string,
-  }),
 };
 
 export default injectT(SearchTagGroup);

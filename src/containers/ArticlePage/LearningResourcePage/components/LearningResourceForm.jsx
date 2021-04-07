@@ -177,6 +177,9 @@ const LearningResourceForm = props => {
             userAccess={userAccess}
             createMessage={createMessage}
             history={history}
+            handleSubmit={() => {
+              handleSubmit(values, formik);
+            }}
           />
         )}
         <EditorFooter
@@ -186,7 +189,7 @@ const LearningResourceForm = props => {
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
             setSaveAsNewVersion(saveAsNewVersion);
-            submitFormWithMessage(formik, createMessage);
+            handleSubmit(values, formik);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}

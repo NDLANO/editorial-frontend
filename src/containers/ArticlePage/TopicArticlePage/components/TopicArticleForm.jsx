@@ -201,6 +201,9 @@ const TopicArticleForm = props => {
             fetchSearchTags={fetchSearchTags}
             {...formikProps}
             {...rest}
+            handleSubmit={() => {
+              handleSubmit(values, formik);
+            }}
           />
         )}
         <EditorFooter
@@ -211,7 +214,7 @@ const TopicArticleForm = props => {
           showReset={() => setResetModal(true)}
           onSaveClick={saveAsNewVersion => {
             setSaveAsNewVersion(saveAsNewVersion);
-            submitFormWithMessage(formik, createMessage);
+            handleSubmit(values, formik);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}

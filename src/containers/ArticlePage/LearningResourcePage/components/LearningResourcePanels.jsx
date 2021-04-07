@@ -25,10 +25,11 @@ const LearningResourcePanels = ({
   createMessage,
   history,
   formIsDirty,
+  handleSubmit,
 }) => {
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
-  const { values, setValues, errors, handleBlur, submitForm } = formikContext;
+  const { values, setValues, errors, handleBlur } = formikContext;
 
   return (
     <Accordion>
@@ -42,7 +43,7 @@ const LearningResourcePanels = ({
             startOpen>
             <LearningResourceContent
               userAccess={userAccess}
-              handleSubmit={submitForm}
+              handleSubmit={handleSubmit}
               handleBlur={handleBlur}
               values={values}
               article={article}
@@ -79,7 +80,7 @@ const LearningResourcePanels = ({
             <MetaDataField
               handleBlur={handleBlur}
               fetchSearchTags={fetchSearchTags}
-              handleSubmit={submitForm}
+              handleSubmit={handleSubmit}
               article={article}
             />
           </AccordionSection>
@@ -135,6 +136,7 @@ LearningResourcePanels.propTypes = {
   createMessage: PropTypes.func,
   history: PropTypes.object,
   formIsDirty: PropTypes.bool,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default injectT(LearningResourcePanels);

@@ -153,12 +153,14 @@ const TopicArticleForm = props => {
     licenses,
     isNewlyCreated,
     createMessage,
+    history,
+    userAccess,
     ...rest
   } = props;
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+    const { values, dirty, isSubmitting, setValues } = formik;
 
     const formIsDirty = isFormikFormDirty({
       values,
@@ -188,22 +190,19 @@ const TopicArticleForm = props => {
           <Spinner withWrapper />
         ) : (
           <TopicArticleAccordionPanels
-            values={values}
-            errors={errors}
             updateNotes={updateArticle}
             article={article}
-            touched={touched}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            setValues={setValues}
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            {...formikProps}
-            {...rest}
             handleSubmit={() => {
               handleSubmit(values, formik);
             }}
+            history={history}
+            userAccess={userAccess}
+            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -258,11 +257,15 @@ TopicArticleForm.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   updateArticleAndStatus: PropTypes.func,
+  userAccess: PropTypes.string,
   licenses: LicensesArrayOf,
   article: ArticleShape,
   translating: PropTypes.bool,
   translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default injectT(TopicArticleForm);

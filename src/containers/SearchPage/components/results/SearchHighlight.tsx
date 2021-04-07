@@ -49,7 +49,10 @@ const SearchHighlight = ({ content, locale, t }: Props & tType) => {
     highlightsToSearch.find(highlight => highlight.field.split('.')[0] === field);
 
   const selectedHighlights =
-    selectHighlights('content') || selectHighlights('embedAttributes') || selectHighlights('tags');
+    selectHighlights('content') ||
+    selectHighlights('embedAttributes') ||
+    selectHighlights('tags') ||
+    selectHighlights('notes');
 
   return selectedHighlights ? (
     <StyledDiv>

@@ -157,6 +157,7 @@ const phrases = {
       content: 'Søketreff fra innhold',
       tags: 'Søketreff fra nøkkelord',
       embedAttributes: 'Søketreff fra innebygde elementer',
+      notes: 'Søketreff fra versjonslogg',
     },
   },
   articleType: {

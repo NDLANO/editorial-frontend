@@ -28,7 +28,7 @@ import {
 } from '../../../../util/formHelper';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { nullOrUndefined, submitFormWithMessage } from '../../../../util/articleUtil';
+import { nullOrUndefined } from '../../../../util/articleUtil';
 import validateFormik from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';

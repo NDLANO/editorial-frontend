@@ -29,7 +29,7 @@ import {
   learningResourceRules,
 } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { nullOrUndefined, submitFormWithMessage } from '../../../../util/articleUtil';
+import { nullOrUndefined } from '../../../../util/articleUtil';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';

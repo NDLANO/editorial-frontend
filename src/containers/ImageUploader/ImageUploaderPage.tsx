@@ -8,18 +8,21 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
+// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+import { RouteComponentProps } from 'react-router';
 import { getSaving } from '../../modules/image/image';
 import { getShowSaved } from '../Messages/messagesSelectors';
 import EditImage from './EditImage';
 import CreateImage from './CreateImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { LocationShape } from '../../shapes';
+import { RoutePropTypes } from '../../shapes';
+import { ReduxState } from '../../interfaces';
 
-const usePreviousLocation = value => {
+const usePreviousLocation = (value: any) => {
   const ref = useRef();
   const actualRef = useRef();
   useEffect(() => {
@@ -31,7 +34,22 @@ const usePreviousLocation = value => {
   return actualRef.current;
 };
 
-const ImageUploaderPage = ({ match, t, location, ...rest }) => {
+interface MatchParams {
+  imageId?: string;
+  imageLanguage?: string;
+}
+
+const mapStateToProps = (state: ReduxState) => ({
+  isSaving: getSaving(state),
+  showSaved: getShowSaved(state),
+});
+
+const reduxConnector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+interface Props extends tType, RouteComponentProps<MatchParams>, PropsFromRedux {}
+
+const ImageUploaderPage = ({ match, t, location, ...rest }: Props) => {
   const prevLoc = usePreviousLocation(location.pathname);
   return (
     <OneColumn>
@@ -45,7 +63,6 @@ const ImageUploaderPage = ({ match, t, location, ...rest }) => {
               imageId={props.match.params.imageId}
               imageLanguage={props.match.params.imageLanguage}
               isNewlyCreated={prevLoc === '/media/image-upload/new'}
-              {...rest}
             />
           )}
         />
@@ -56,23 +73,10 @@ const ImageUploaderPage = ({ match, t, location, ...rest }) => {
 };
 
 ImageUploaderPage.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    params: PropTypes.shape({
-      imageId: PropTypes.string,
-      imageLanguage: PropTypes.string,
-    }),
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  ...RoutePropTypes,
   isSaving: PropTypes.bool.isRequired,
-  location: LocationShape,
+  imageId: PropTypes.string,
+  imageLanguage: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  isSaving: getSaving(state),
-  showSaved: getShowSaved(state),
-});
-
-export default injectT(connect(mapStateToProps)(ImageUploaderPage));
+export default connect(mapStateToProps)(injectT(ImageUploaderPage));

@@ -9,6 +9,7 @@ const H5PPage = props => {
     <LocaleContext.Consumer>
       {locale => (
         <H5PElement
+          canReturnResources={false}
           h5pApiUrl={`${config.h5pApiUrl}/select`}
           onSelect={() => {}}
           onClose={() => {

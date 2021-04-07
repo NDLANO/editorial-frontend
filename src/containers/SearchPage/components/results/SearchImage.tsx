@@ -20,7 +20,7 @@ interface Props {
   locale: string;
 }
 
-const SearchImage: React.FC<Props & tType> = ({ image, locale, t }) => (
+const SearchImage = ({ image, locale, t }: Props & tType) => (
   <div {...searchClasses('result')}>
     <div {...searchClasses('image')}>
       <img src={image.previewUrl + '?width=200'} alt={`${image.altText?.alttext}`} />

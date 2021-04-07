@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
@@ -26,7 +26,7 @@ interface Props {
   };
 }
 
-const ConceptsField: FC<Props & tType> = ({ locale, t, values, field, form }) => {
+const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
   const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {

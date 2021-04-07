@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, FormikContextType } from 'formik';
 import { isEmpty } from '../validators';
@@ -17,9 +17,10 @@ interface Props {
   name: string;
   hasFocus: boolean;
   formik: FormikContextType<any>;
+  children: React.ReactNode;
 }
 
-const FocusLabel: FC<Props> = ({ name, hasFocus, children, formik: { values } }) => {
+const FocusLabel = ({ name, hasFocus, children, formik: { values } }: Props) => {
   if (!hasFocus || isEmpty(values[name])) {
     return null;
   }

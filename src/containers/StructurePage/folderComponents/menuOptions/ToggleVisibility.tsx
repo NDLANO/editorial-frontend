@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -44,7 +44,7 @@ export const DropDownWrapper = styled('div')`
   padding: calc(${spacing.small} / 2);
 `;
 
-const ToggleVisibility: FC<Props> = ({
+const ToggleVisibility = ({
   editMode,
   getAllSubjects,
   id,
@@ -55,7 +55,7 @@ const ToggleVisibility: FC<Props> = ({
   setResourcesUpdated,
   t,
   toggleEditMode,
-}) => {
+}: Props) => {
   const [visible, setVisible] = useState(metadata?.visible);
 
   const toggleVisibility = async () => {

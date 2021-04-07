@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
 import {
@@ -112,14 +112,14 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
   };
 };
 
-const SubjectpageForm: FC<Props & tType> = ({
+const SubjectpageForm = ({
   t,
   elementId,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
   isNewlyCreated,
-}) => {
+}: Props & tType) => {
   const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
     updateSubjectpage,

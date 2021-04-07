@@ -75,7 +75,7 @@ interface urlProps {
   [key: string]: embedProps;
 }
 
-const FigureButtons: React.FC<Props & tType> = ({
+const FigureButtons = ({
   t,
   embed,
   figureType,
@@ -85,7 +85,7 @@ const FigureButtons: React.FC<Props & tType> = ({
   providerName,
   tooltip,
   withMargin,
-}) => {
+}: Props & tType) => {
   const url: urlProps = {
     audio: {
       path: '/media/audio-upload',

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
@@ -32,7 +32,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SavedSearch: FC<Props & tType> = ({ deleteSearch, locale, search, index, t }) => {
+const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');

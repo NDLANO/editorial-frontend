@@ -9,10 +9,11 @@
 import { take, call, put, select } from 'redux-saga/effects';
 import * as api from '../draft/draftApi';
 import { actions, getHasFetched } from './license';
+import { License } from '../../interfaces';
 
 export function* fetchLicenses() {
   try {
-    const licenses = yield call(api.fetchLicenses);
+    const licenses: License[] = yield call(api.fetchLicenses);
     yield put(actions.setLicenses(licenses));
   } catch (error) {
     // TODO: handle error
@@ -23,7 +24,7 @@ export function* fetchLicenses() {
 export function* watchFetchLicenses() {
   while (true) {
     yield take(actions.fetchLicenses);
-    const hasFetched = yield select(getHasFetched);
+    const hasFetched: boolean = yield select(getHasFetched);
     if (!hasFetched) {
       yield call(fetchLicenses);
     }

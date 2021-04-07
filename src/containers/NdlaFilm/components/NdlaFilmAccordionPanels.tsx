@@ -4,7 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
@@ -100,7 +100,7 @@ const panels = [
   },
 ];
 
-const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
+const SubjectpageAccordionPanels = ({
   t,
   errors,
   allMovies,
@@ -108,7 +108,7 @@ const SubjectpageAccordionPanels: FC<ComponentProps & tType> = ({
   selectedLanguage,
   handleSubmit,
   onBlur,
-}) => {
+}: ComponentProps & tType) => {
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
     form: FormikHelpers<FormikValues>,

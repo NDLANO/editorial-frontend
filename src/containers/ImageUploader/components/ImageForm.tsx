@@ -9,14 +9,12 @@ import React, { Component, ReactNode } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikHelpers } from 'formik';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
-import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
-import { ImageShape } from '../../../shapes';
 import {
   ActionButton,
   AbortButton,
@@ -25,7 +23,7 @@ import {
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { NewImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 
 const imageRules = {
@@ -59,7 +57,7 @@ const imageRules = {
 };
 
 interface ImageFormikType {
-  id?: string;
+  id?: number;
   language?: string;
   supportedLanguages?: string[];
   title?: string;
@@ -76,7 +74,7 @@ interface ImageFormikType {
 
 export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
   return {
-    id: image.id,
+    id: Number(image.id),
     language: image.language,
     supportedLanguages: image.supportedLanguages || [],
     title: image.title || '',
@@ -97,11 +95,6 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
     return <div {...classes()}>{children}</div>;
   }
   return <Form>{children}</Form>;
-};
-
-FormWrapper.propTypes = {
-  inModal: PropTypes.bool,
-  children: PropTypes.node.isRequired,
 };
 
 type openIndexesProps = number | string;
@@ -130,7 +123,7 @@ interface ImagePropType {
   caption?: string;
   contentType?: string;
   copyright?: Copyright;
-  id?: string;
+  id?: number | string;
   imageUrl?: string;
   language?: string;
   metaUrl?: string;
@@ -140,6 +133,9 @@ interface ImagePropType {
   title?: string;
 }
 
+type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
+
 interface Props {
   image?: ImagePropType;
   licenses: {
@@ -147,8 +143,7 @@ interface Props {
     description: string;
     url?: string;
   }[];
-  onUpdate: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
-  showSaved: boolean;
+  onUpdate: OnCreateFunc | OnUpdateFunc;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -334,21 +329,6 @@ class ImageForm extends Component<Props & tType, State> {
       </Formik>
     );
   }
-
-  static propTypes = {
-    image: ImageShape,
-    licenses: PropTypes.arrayOf(
-      PropTypes.shape({
-        description: PropTypes.string.isRequired,
-        license: PropTypes.string.isRequired,
-      }).isRequired,
-    ).isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    showSaved: PropTypes.bool.isRequired,
-    inModal: PropTypes.bool,
-    closeModal: PropTypes.func,
-    isNewlyCreated: PropTypes.bool,
-  };
 }
 
 export default injectT(ImageForm);

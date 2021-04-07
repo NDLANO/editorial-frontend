@@ -7,15 +7,17 @@
  */
 
 import { take, call, put, select } from 'redux-saga/effects';
-import { actions, getImageById } from './image';
+import { RouteComponentProps } from 'react-router-dom';
+import { actions, getImageById, ImageApiTypeRedux } from './image';
 import * as api from './imageApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditImage } from '../../util/routeHelpers';
+import { ImageApiType, NewImageMetadata, UpdatedImageMetadata } from './imageApiInterfaces';
 
-export function* fetchImage(id, language) {
+export function* fetchImage(id: number, language?: string) {
   try {
-    const image = yield call(api.fetchImage, id, language);
+    const image: ImageApiType = yield call(api.fetchImage, id, language);
     yield put(actions.setImage({ ...image, language }));
   } catch (error) {
     // TODO: handle error
@@ -28,19 +30,24 @@ export function* watchFetchImage() {
     const {
       payload: { id, language },
     } = yield take(actions.fetchImage);
-    const image = yield select(getImageById(id));
+    const image: ImageApiTypeRedux = yield select(getImageById(id));
     if (!image || image.id !== id || image.language !== language) {
       yield call(fetchImage, id, language);
     }
   }
 }
 
-export function* updateImage(image) {
+export function* updateImage(image: UpdatedImageMetadata, file: string | Blob) {
   try {
-    const updatedImage = yield call(api.updateImage, image);
-    yield put(actions.setImage({ ...updatedImage, language: image.language }));
-    yield put(actions.updateImageSuccess());
-    yield put(messageActions.showSaved());
+    if (image.id !== undefined) {
+      const formData: FormData = yield call(createFormData, file, image);
+      const updatedImage: ImageApiType = yield call(api.patchImage, Number(image.id), formData);
+      yield put(actions.setImage({ ...updatedImage, language: image.language }));
+      yield put(actions.updateImageSuccess());
+      yield put(messageActions.showSaved());
+    } else {
+      yield put(actions.updateImageError());
+    }
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
@@ -48,10 +55,15 @@ export function* updateImage(image) {
   }
 }
 
-export function* createImage(image, file, history, editingArticle) {
+export function* createImage(
+  image: NewImageMetadata,
+  file: string | Blob,
+  history: RouteComponentProps['history'],
+  editingArticle: boolean,
+) {
   try {
-    const formData = yield call(createFormData, file, image);
-    const createdImage = yield call(api.postImage, formData);
+    const formData: FormData = yield call(createFormData, file, image);
+    const createdImage: ImageApiType = yield call(api.postImage, formData);
     yield put(actions.setImage({ ...createdImage, language: image.language }));
     yield put(
       actions.updateImageSuccess({
@@ -75,7 +87,7 @@ export function* watchUpdateImage() {
       payload: { image, file, history, editingArticle },
     } = yield take(actions.updateImage);
     if (image.id) {
-      yield call(updateImage, image);
+      yield call(updateImage, image, file);
     } else {
       yield call(createImage, image, file, history, editingArticle);
     }

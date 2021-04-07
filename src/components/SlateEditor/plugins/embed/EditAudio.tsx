@@ -38,7 +38,7 @@ interface Props {
   type: string;
 }
 
-const EditAudio: React.FC<Props & tType> = ({
+const EditAudio = ({
   embed,
   onChange,
   onAudioFigureInputChange,
@@ -51,7 +51,7 @@ const EditAudio: React.FC<Props & tType> = ({
   speech,
   audio,
   changes,
-}) => {
+}: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
   const { submitted } = useSlateContext();

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -17,7 +17,7 @@ interface Props {
   onClose: () => void;
 }
 
-const ContentLink: FC<Props & tType> = ({ t, onAddLink, onClose }) => {
+const ContentLink = ({ t, onAddLink, onClose }: Props & tType) => {
   const [title, setTitle] = useState('');
   const [url, setUrl] = useState('');
   const [showError, setShowError] = useState(false);

@@ -93,7 +93,6 @@ const ImageSearchAndUploader = ({
           content: licenses ? (
             <ImageForm
               image={image || { language: locale }}
-              showSaved={false}
               onUpdate={updateImage}
               closeModal={closeModal}
               licenses={licenses}

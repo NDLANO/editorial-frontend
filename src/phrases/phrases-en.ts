@@ -157,6 +157,7 @@ const phrases = {
       tags: 'Search hits from tags',
       embedAttributes: 'Search hits from embedded elements',
       notes: 'Search hits from version log',
+      previousVersionsNotes: 'Search hits from version log',
     },
   },
   articleType: {

@@ -52,7 +52,8 @@ const SearchHighlight = ({ content, locale, t }: Props & tType) => {
     selectHighlights('content') ||
     selectHighlights('embedAttributes') ||
     selectHighlights('tags') ||
-    selectHighlights('notes');
+    selectHighlights('notes') ||
+    selectHighlights('previousVersionsNotes');
 
   return selectedHighlights ? (
     <StyledDiv>

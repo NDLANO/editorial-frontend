@@ -141,9 +141,15 @@ class SearchContentForm extends Component<Props & tType, State> {
       search: { resourceTypes, status, subjects, query, users, language },
     } = this.state;
     const { search } = this.props;
+
+    // HAS_PUBLISHED isn't a status in the backend.
+    const newStatus = status === 'HAS_PUBLISHED' ? 'PUBLISHED' : status;
+    const shouldFilterOthers = status === 'HAS_PUBLISHED';
+
     search({
       'resource-types': resourceTypes,
-      'draft-status': status,
+      'draft-status': newStatus,
+      'include-other-statuses': shouldFilterOthers.toString(),
       subjects,
       query,
       users,
@@ -165,9 +171,12 @@ class SearchContentForm extends Component<Props & tType, State> {
   }
 
   getDraftStatuses(): { id: string; name: string }[] {
-    return Object.keys(ArticleStatuses.articleStatuses).map(s => {
-      return { id: s, name: this.props.t(`form.status.${s.toLowerCase()}`) };
-    });
+    return [
+      ...Object.keys(ArticleStatuses.articleStatuses).map(s => {
+        return { id: s, name: this.props.t(`form.status.${s.toLowerCase()}`) };
+      }),
+      { id: 'HAS_PUBLISHED', name: this.props.t(`form.status.has_published`) },
+    ];
   }
 
   async getUsers() {

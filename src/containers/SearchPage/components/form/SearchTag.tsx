@@ -13,14 +13,14 @@ import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { tagClasses } from '../../../../components/Tag';
 
-export type TagType = {
+export type MinimalTagType = {
   name: string;
   type: string;
 };
 
 interface Props {
-  tag: TagType;
-  onRemoveItem?: (tag: TagType) => void;
+  tag: MinimalTagType;
+  onRemoveItem: (tag: MinimalTagType) => void;
 }
 
 class SearchTag extends Component<Props & tType> {
@@ -33,9 +33,7 @@ class SearchTag extends Component<Props & tType> {
     const { onRemoveItem, tag } = this.props;
     e.preventDefault();
     e.stopPropagation();
-    if (onRemoveItem) {
-      onRemoveItem(tag);
-    }
+    onRemoveItem(tag);
   }
 
   render() {
@@ -57,7 +55,7 @@ class SearchTag extends Component<Props & tType> {
       name: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
     }).isRequired,
-    onRemoveItem: PropTypes.func,
+    onRemoveItem: PropTypes.func.isRequired,
   };
 }
 

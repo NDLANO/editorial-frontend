@@ -23,15 +23,16 @@ export const searchFormClasses = new BEMHelper({
 
 export interface SearchParams {
   query?: string | null;
-  subjects?: string | null;
-  'resource-types'?: string | null;
   'draft-status'?: string | null;
-  users?: string | null;
-  language?: string | null;
-  fallback?: boolean | null;
-  page?: string | null;
+  'include-other-statuses'?: string | null;
   'page-size'?: string | null;
+  'resource-types'?: string | null;
+  fallback?: boolean | null;
+  language?: string | null;
+  page?: string | null;
   status?: string | null;
+  subjects?: string | null;
+  users?: string | null;
 }
 
 interface Props {

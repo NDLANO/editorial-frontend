@@ -8,26 +8,36 @@
 
 import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import SearchTag, { TagType } from './SearchTag';
-import { SearchParams } from './SearchForm';
+import SearchTag, { MinimalTagType } from './SearchTag';
 import { ResourceType, SearchState, User } from './SearchContentForm';
 import { SubjectType } from '../../../../interfaces';
 
-// TODO: slutt med any i denne
-const findTagName = (array: any, value: any, arrayKey: any = undefined) => {
-  if (!array || array.length === 0) {
+interface NameAndId {
+  id: string;
+  name: string;
+}
+
+interface TagType {
+  type: string;
+  id: string | undefined;
+  name: string | undefined;
+}
+
+function findTagNameWithId(
+  array: NameAndId[] | undefined,
+  id: string | undefined,
+): string | undefined {
+  if (array === undefined || array.length === 0 || id === undefined) {
     return undefined;
   }
-  const result = array.find(
-    (arrayElement: any) => (arrayKey ? arrayElement[arrayKey] : arrayElement) === value,
-  );
-  return result && result.name ? result.name : undefined;
-};
+  const result = array.find(arrayElement => arrayElement.id === id);
+  return result?.name || undefined;
+}
 
 interface Props {
   searchObject: SearchState;
-  onRemoveItem: (tag: TagType) => void;
-  languages: (tFunc: tType['t']) => void;
+  onRemoveItem: (tag: MinimalTagType) => void;
+  languages: (tFunc: tType['t']) => { id: string; name: string }[];
   resourceTypes?: ResourceType[];
   users: User[];
   status: { id: string; name: string }[];
@@ -44,40 +54,51 @@ const SearchTagGroup = ({
   t,
   onRemoveItem,
 }: Props & tType) => {
-  const tagTypes = [
-    { type: 'query', id: searchObject.query, name: searchObject.query },
+  const tagTypes: TagType[] = [
+    {
+      type: 'query',
+      id: searchObject.query,
+      name: searchObject.query,
+    },
     {
       type: 'language',
       id: searchObject.language,
-      name: findTagName(languages(t), searchObject.language, 'id'),
+      name: findTagNameWithId(languages(t), searchObject.language),
     },
     {
       type: 'users',
       id: searchObject.users,
-      name: findTagName(users, searchObject.users, 'id'),
+      name: findTagNameWithId(users, searchObject.users),
     },
     {
       type: 'subjects',
       id: searchObject.subjects,
-      name: findTagName(subjects, searchObject.subjects, 'id'),
+      name: findTagNameWithId(subjects, searchObject.subjects),
     },
     {
       type: 'resourceTypes',
       id: searchObject.resourceTypes,
-      name: findTagName(resourceTypes, searchObject.resourceTypes, 'id'),
+      name: findTagNameWithId(resourceTypes, searchObject.resourceTypes),
     },
     {
       type: 'status',
       id: searchObject.status,
-      name: findTagName(status, searchObject.status, 'id'),
+      name: findTagNameWithId(status, searchObject.status),
     },
   ];
 
   return (
     <Fragment>
-      {tagTypes.map(tag => {
-        if (!tag.name) return null;
-        return <SearchTag key={`searchtag_${tag.type}`} onRemoveItem={onRemoveItem} tag={tag} />;
+      {tagTypes.map((tag: TagType) => {
+        if (tag.name === undefined) return null;
+        return (
+          <SearchTag
+            key={`searchtag_${tag.type}`}
+            onRemoveItem={onRemoveItem}
+            // Hack to make typescript understand the typeguard for the `tag.name` property even if the object is exactly the same
+            tag={{ ...tag, name: tag.name }}
+          />
+        );
       })}
     </Fragment>
   );

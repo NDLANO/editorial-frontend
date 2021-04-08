@@ -21,7 +21,7 @@ import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../interfaces';
 import { User } from './SearchContentForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
-import { TagType } from './SearchTag';
+import { MinimalTagType } from './SearchTag';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -125,7 +125,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
     search({ ...this.state.search, page: '1' });
   };
 
-  removeTagItem(tag: TagType) {
+  removeTagItem(tag: MinimalTagType) {
     this.setState(
       prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
       this.handleSearch,

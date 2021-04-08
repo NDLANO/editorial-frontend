@@ -29,7 +29,7 @@ const emptySearchState: SearchState = {
   resourceTypes: '',
   status: '',
   users: '',
-  language: '',
+  lang: '',
 };
 
 interface Props {
@@ -40,13 +40,14 @@ interface Props {
   locale: string;
 }
 
-export interface SearchState {
+export interface SearchState extends Record<string, string | undefined> {
   subjects: string;
   resourceTypes?: string;
   status: string;
   query: string;
   users: string;
-  language: string;
+  // This field is called `lang` instead of `language` to NOT match with tag in `SearchTagGroup.tsx`
+  lang: string;
 }
 
 export interface ResourceType {
@@ -84,7 +85,7 @@ class SearchContentForm extends Component<Props & tType, State> {
         status: searchObject['draft-status'] || '',
         query: searchObject.query || '',
         users: searchObject.users || '',
-        language: searchObject.language || locale,
+        lang: searchObject.language || locale,
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -109,7 +110,7 @@ class SearchContentForm extends Component<Props & tType, State> {
           status: searchObject['draft-status'] || '',
           query: searchObject.query || '',
           users: searchObject.users || '',
-          language: searchObject.language || locale,
+          lang: searchObject.language || locale,
         },
       });
     }
@@ -138,7 +139,7 @@ class SearchContentForm extends Component<Props & tType, State> {
 
   handleSearch() {
     const {
-      search: { resourceTypes, status, subjects, query, users, language },
+      search: { resourceTypes, status, subjects, query, users, lang },
     } = this.state;
     const { search } = this.props;
 
@@ -153,7 +154,7 @@ class SearchContentForm extends Component<Props & tType, State> {
       subjects,
       query,
       users,
-      language,
+      language: lang,
       fallback: true,
       page: '1',
     });
@@ -252,7 +253,6 @@ class SearchContentForm extends Component<Props & tType, State> {
                 name={selectField.name}
                 options={selectField.options}
                 idKey="id"
-                // @ts-ignore
                 value={this.state.search[selectField.name]}
                 labelKey="name"
                 emptyField

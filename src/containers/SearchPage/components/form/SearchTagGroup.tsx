@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import SearchTag, { MinimalTagType } from './SearchTag';
-import { ResourceType, SearchState, User } from './SearchContentForm';
+import { ResourceType, User } from './SearchContentForm';
 import { SubjectType } from '../../../../interfaces';
 
 interface NameAndId {
@@ -32,6 +32,15 @@ function findTagNameWithId(
   }
   const result = array.find(arrayElement => arrayElement.id === id);
   return result?.name || undefined;
+}
+
+interface SearchState {
+  query?: string;
+  language?: string;
+  users?: string;
+  subjects?: string;
+  resourceTypes?: string;
+  status?: string;
 }
 
 interface Props {
@@ -90,7 +99,7 @@ const SearchTagGroup = ({
   return (
     <Fragment>
       {tagTypes.map((tag: TagType) => {
-        if (tag.name === undefined) return null;
+        if (!tag.name) return null;
         return (
           <SearchTag
             key={`searchtag_${tag.type}`}

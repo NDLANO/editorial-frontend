@@ -157,6 +157,8 @@ const phrases = {
       content: 'Søketreff frå innhold',
       tags: 'Søketreff frå nøkkelord',
       embedAttributes: 'Søketreff frå innebygde elementer',
+      notes: 'Søketreff frå versjonslogg',
+      previousVersionsNotes: 'Søketreff frå versjonslogg',
     },
   },
   articleType: {

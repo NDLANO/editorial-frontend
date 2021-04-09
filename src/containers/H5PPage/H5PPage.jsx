@@ -1,4 +1,5 @@
 import React from 'react';
+import { Global } from '@emotion/react';
 import config from '../../config';
 import { LocaleContext } from '../App/App';
 import H5PElement from '../../components/H5PElement';
@@ -8,15 +9,24 @@ const H5PPage = props => {
   return (
     <LocaleContext.Consumer>
       {locale => (
-        <H5PElement
-          canReturnResources={false}
-          h5pApiUrl={`${config.h5pApiUrl}/select`}
-          onSelect={() => {}}
-          onClose={() => {
-            props.history.goBack();
-          }}
-          locale={locale}
-        />
+        <>
+          <Global
+            styles={{
+              '.o-content': {
+                height: '100vh',
+              },
+            }}
+          />
+          <H5PElement
+            canReturnResources={false}
+            h5pApiUrl={`${config.h5pApiUrl}/select`}
+            onSelect={() => {}}
+            onClose={() => {
+              props.history.goBack();
+            }}
+            locale={locale}
+          />
+        </>
       )}
     </LocaleContext.Consumer>
   );

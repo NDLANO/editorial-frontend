@@ -27,8 +27,29 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import { Author, License } from '../../../interfaces';
+import {
+  NewAudioMetaInformation,
+  UpdatedAudioMetaInformation,
+} from '../../../modules/audio/audioApiInterfaces';
 
-export const getInitialValues = (audio = {}) => ({
+interface AudioFormikType {
+  id: number;
+  revision?: number;
+  language: string;
+  supportedLanguages: string[];
+  title: string;
+  audioFile: any; // TODO: fix this
+  filepath: string;
+  tags: string[];
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  origin: string;
+  license: License;
+}
+
+export const getInitialValues = (audio = {}): AudioFormikType => ({
   id: audio.id,
   revision: audio.revision,
   language: audio.language,
@@ -69,15 +90,23 @@ const rules = {
   },
 };
 
-class AudioForm extends Component {
-  constructor(props) {
+interface Props {
+  licenses: License[];
+  onUpdate: (audio: NewAudioMetaInformation | UpdatedAudioMetaInformation) => void;
+}
+interface State {
+  savedToServer: boolean;
+}
+
+class AudioForm extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       savedToServer: false,
     };
   }
 
-  componentDidUpdate({ audioLanguage: prevAudioLanguage }) {
+  componentDidUpdate({ audioLanguage: prevAudioLanguage }: Props) {
     const { audioLanguage } = this.props;
     if (audioLanguage && audioLanguage !== prevAudioLanguage) {
       this.setState({ savedToServer: false });
@@ -219,25 +248,25 @@ class AudioForm extends Component {
       </Formik>
     );
   }
+  // TODO: fix or remove?
+  // static propTypes = {
+  //   licenses: PropTypes.arrayOf(
+  //     PropTypes.shape({
+  //       description: PropTypes.string,
+  //       license: PropTypes.string,
+  //     }),
+  //   ).isRequired,
+  //   onUpdate: PropTypes.func.isRequired,
+  //   revision: PropTypes.number,
+  //   audio: AudioShape,
+  //   applicationError: PropTypes.func.isRequired,
+  //   audioLanguage: PropTypes.string,
+  //   isNewlyCreated: PropTypes.bool,
+  // };
 }
 
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
-};
-
-AudioForm.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  revision: PropTypes.number,
-  audio: AudioShape,
-  applicationError: PropTypes.func.isRequired,
-  audioLanguage: PropTypes.string,
-  isNewlyCreated: PropTypes.bool,
 };
 
 export default compose(connect(undefined, mapDispatchToProps), injectT)(AudioForm);

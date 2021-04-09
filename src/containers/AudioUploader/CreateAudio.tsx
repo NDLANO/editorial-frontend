@@ -7,14 +7,24 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
+import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
 
-const CreateAudio = ({ history, locale, ...rest }) => {
-  const onCreateAudio = async (newAudio, file) => {
+interface Props extends RouteComponentProps {
+  tags: string[];
+  licenses: { description?: string; license?: string };
+  locale: string;
+}
+
+const CreateAudio = ({ history, locale, ...rest }: Props) => {
+  const onCreateAudio = async (
+    newAudio: NewAudioMetaInformation,
+    file: string | Blob,
+  ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);
     if (!newAudio.id) {

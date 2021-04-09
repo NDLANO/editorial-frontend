@@ -7,6 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
+import { tType } from '@ndla/i18n';
 import { toEditArticle, toEditConcept, toLearningpathFull } from './routeHelpers';
 
 import {
@@ -17,10 +18,15 @@ import {
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
 } from '../constants';
+import { ResourceType } from '../interfaces';
 
 const { contentTypes } = constants;
 
-const mapping = {
+interface ContentType {
+  contentType: string;
+}
+
+const mapping: Record<string, ContentType> = {
   [RESOURCE_TYPE_LEARNING_PATH]: {
     contentType: contentTypes.LEARNING_PATH,
   },
@@ -44,7 +50,7 @@ const mapping = {
   },
 };
 
-export const getResourceLanguages = t => [
+export const getResourceLanguages = (t: tType['t']) => [
   { id: 'nb', name: t('language.nb') },
   { id: 'nn', name: t('language.nn') },
   { id: 'en', name: t('language.en') },
@@ -52,19 +58,28 @@ export const getResourceLanguages = t => [
   { id: 'unknown', name: t('language.unknown') },
 ];
 
-export const getContentTypeFromResourceTypes = resourceTypes => {
-  const resourceType = resourceTypes.find(type => mapping[type.id]);
+export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentType => {
+  const resourceType = resourceTypes.find(type => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];
   }
   return mapping.default;
 };
 
-const isLearningPathResourceType = contentType => contentType === contentTypes.LEARNING_PATH;
+const isLearningPathResourceType = (contentType?: string) =>
+  contentType === contentTypes.LEARNING_PATH;
 
-const isConceptType = contentType => contentType === 'concept';
+const isConceptType = (contentType?: string) => contentType === 'concept';
 
-export const resourceToLinkProps = (content, contentType, locale) => {
+export const resourceToLinkProps = (
+  content: {
+    id: number;
+    supportedLanguages?: string[];
+    contexts: [{ learningResourceType: string }];
+  },
+  contentType: string | undefined,
+  locale: string,
+) => {
   if (isLearningPathResourceType(contentType)) {
     return {
       href: toLearningpathFull(content.id, locale),

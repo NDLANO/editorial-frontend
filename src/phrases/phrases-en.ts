@@ -659,6 +659,7 @@ const phrases = {
       quality_assured_delayed: 'Ready for publishing-delayed',
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
       published: 'Published',
+      has_published: 'Has published version',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
       awaiting_archiving: 'Delayed archivation',

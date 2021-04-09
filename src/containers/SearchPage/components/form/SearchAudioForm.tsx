@@ -8,16 +8,34 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
-import { searchFormClasses } from './SearchForm';
-import { LocationShape } from '../../../../shapes';
+import { LocationShape, SearchParamsShape } from '../../../../shapes';
+import { searchFormClasses, SearchParams } from './SearchForm';
+import { SubjectType } from '../../../../interfaces';
 
-class SearchAudioForm extends Component {
-  constructor(props) {
+interface Props {
+  search: (o: SearchParams) => void;
+  subjects: SubjectType[];
+  location: Location;
+  searchObject: SearchParams;
+  locale: string;
+}
+
+export interface SearchState {
+  query: string;
+  language: string;
+}
+
+interface State {
+  search: SearchState;
+}
+
+class SearchAudioForm extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
 
     const { searchObject } = props;
@@ -34,7 +52,7 @@ class SearchAudioForm extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props & tType) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -46,23 +64,23 @@ class SearchAudioForm extends Component {
     }
   }
 
-  onFieldChange(evt) {
-    const { value, name } = evt.target;
+  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+    const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
       this.handleSearch,
     );
   }
 
-  handleSearch(evt) {
+  handleSearch(evt?: React.SyntheticEvent) {
     if (evt) {
       evt.preventDefault();
     }
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ ...this.state.search, page: '1' });
   }
 
-  emptySearch(evt) {
+  emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
     this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
   }
@@ -113,22 +131,21 @@ class SearchAudioForm extends Component {
       </form>
     );
   }
+
+  defaultProps = {
+    searchObject: {
+      query: '',
+      language: '',
+    },
+  };
+
+  static propTypes = {
+    search: PropTypes.func.isRequired,
+    subjects: PropTypes.array.isRequired,
+    location: LocationShape,
+    searchObject: SearchParamsShape,
+    locale: PropTypes.string.isRequired,
+  };
 }
-
-SearchAudioForm.propTypes = {
-  search: PropTypes.func.isRequired,
-  location: LocationShape,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    language: PropTypes.string,
-  }),
-};
-
-SearchAudioForm.defaultProps = {
-  searchObject: {
-    query: '',
-    language: '',
-  },
-};
 
 export default injectT(SearchAudioForm);

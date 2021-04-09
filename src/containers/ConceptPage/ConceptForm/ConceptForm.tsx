@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AccordionWrapper } from '@ndla/accordion';
+import { AccordionWrapper, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -29,7 +29,6 @@ import {
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import AccordionSection from './AccordionSection';
 import FormFooter from './FormFooter';
 import { NewConceptType, PatchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import {

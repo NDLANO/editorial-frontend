@@ -109,7 +109,7 @@
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
-    "@ndla/accordion": "^0.5.18",
+    "@ndla/accordion": "^0.6.2",
     "@ndla/article-scripts": "^0.6.0",
     "@ndla/audio-search": "^0.6.61",
     "@ndla/button": "^0.3.50",

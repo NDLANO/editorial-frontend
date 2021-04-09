@@ -1840,12 +1840,13 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ndla/accordion@^0.5.18":
-  version "0.5.18"
-  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-0.5.18.tgz#5c4ec9895b0cb98d1eff4c70df1937c68d109aec"
-  integrity sha512-/Y7Vt817bVLSyQLZSCEYb1iXQ5lH5IzQka9+Z+rF6A/B+5yWbJzncSm/wTpUeL/+xSWNUOmqss8DHFNQQ66QJw==
+"@ndla/accordion@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-0.6.2.tgz#6aa41d2209b48f2c427f16264ff5d904ac7ca930"
+  integrity sha512-6EOBb1hqZ1KZEOhA6aC39vNgWSTlQ3et77nId2MrueALdT0dVEfTouC09STcUBEGHyhlgDVIp++q5gM0oDHJ9g==
   dependencies:
-    "@ndla/core" "^0.6.36"
+    "@ndla/core" "^0.6.38"
+    "@ndla/i18n" "^0.5.2"
 
 "@ndla/article-scripts@^0.6.0":
   version "0.6.0"
@@ -1910,6 +1911,17 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
+"@ndla/core@^0.6.38":
+  version "0.6.38"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.38.tgz#8789ac0ad230555a6312bae642194b6addaa27ee"
+  integrity sha512-0sxRy1QZP3yDoLjM3E/EXaLJ8aHYryJpu8QFwbaKwWdR/ZrL7InOX5AW3oQ4R99UZMeIah2iLxYJ6m2nOhvTBw==
+  dependencies:
+    "@types/facepaint" "^1.2.1"
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
 "@ndla/editor@^0.9.8":
   version "0.9.8"
   resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.8.tgz#184422cc8a41192160147626cdf03c3876b3bea9"
@@ -1966,6 +1978,17 @@
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.5.1.tgz#0cdf6c21474b4174b33e3fa179af873c5125abff"
   integrity sha512-XPFdTyo+XNzgBjdmSB+Vuf/v9cK9zX5AjK5bfICsIjKloCpg3P/MXEWEuVeeDeSFF3Gj65rb6jW/J8D4tlhVjQ==
+  dependencies:
+    "@types/hoist-non-react-statics" "^3.3.1"
+    hoist-non-react-statics "^3.3.0"
+    intl-format-cache "^4.3.1"
+    intl-messageformat "5.4.3"
+    invariant "^2.2.3"
+
+"@ndla/i18n@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.5.2.tgz#673301bb879e411a619ea2b32502ff442b02f52f"
+  integrity sha512-oj+Ce0Y6PEsgjcJYWVdNeYM6ZPn7M897xsUVTb3JK+XK1qg+ob1N+ouWBS7wdCdN63k6O1IJA4c+IogB/gI/eg==
   dependencies:
     "@types/hoist-non-react-statics" "^3.3.1"
     hoist-non-react-statics "^3.3.0"

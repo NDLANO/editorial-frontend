@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import config from '../../config';
 import { LocaleContext } from '../App/App';
 import H5PElement from '../../components/H5PElement';
 import { HistoryShape } from '../../shapes';
 
 const H5PPage = props => {
+  const [height, setHeight] = useState(800);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setHeight(window.innerHeight - 85);
+    }
+  }, []);
+
   return (
     <LocaleContext.Consumer>
       {locale => (
@@ -16,6 +24,7 @@ const H5PPage = props => {
             props.history.goBack();
           }}
           locale={locale}
+          height={height}
         />
       )}
     </LocaleContext.Consumer>

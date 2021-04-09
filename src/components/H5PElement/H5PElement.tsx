@@ -19,9 +19,13 @@ const FlexWrapper = styled.div`
   width: 100%;
 `;
 
-const StyledIFrame = styled.iframe`
+interface IframeProps {
+  iframeHeight: number;
+}
+
+const StyledIFrame = styled.iframe<IframeProps>`
   height: 100%;
-  min-height: 1000px;
+  min-height: ${props => props.iframeHeight}px;
 `;
 
 interface OnSelectObject {
@@ -31,6 +35,7 @@ interface OnSelectObject {
 
 interface Props {
   h5pUrl?: string;
+  height?: number;
   onSelect: (selected: OnSelectObject) => void;
   onClose: () => void;
   locale: string;
@@ -112,7 +117,7 @@ class H5PElement extends Component<Props & tType, State> {
 
   render() {
     const { url, fetchFailed } = this.state;
-    const { t } = this.props;
+    const { height = 950, t } = this.props;
     return (
       <FlexWrapper>
         {fetchFailed && (
@@ -129,13 +134,14 @@ class H5PElement extends Component<Props & tType, State> {
             }}
           />
         )}
-        {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
+        {url && <StyledIFrame iframeHeight={height} src={url} title="H5P" frameBorder="0" />}
       </FlexWrapper>
     );
   }
 
   static propTypes = {
     h5pUrl: PropTypes.string,
+    height: PropTypes.number,
     onSelect: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,

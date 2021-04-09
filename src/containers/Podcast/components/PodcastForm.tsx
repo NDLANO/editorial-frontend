@@ -21,7 +21,8 @@ import Field from '../../../components/Field';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import { toEditPodcast } from '../../../util/routeHelpers';
 import {
-  NewPodcastMeta,
+  AudioFile,
+  ApiPodcastMetaType,
   NewPodcastMetaInformation,
   NewAudioMetaInformation,
   PodcastFormValues,
@@ -70,6 +71,19 @@ const podcastRules = {
   },
 };
 
+interface PodcastPropType {
+  id?: number;
+  revision?: number;
+  title?: string;
+  language?: string;
+  supportedLanguages?: string[];
+  audioFile?: AudioFile;
+  copyright?: Copyright;
+  tags?: string[];
+  audioType?: 'podcast';
+  podcastMeta?: ApiPodcastMetaType;
+}
+
 export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => {
   return {
     id: audio?.id || 0, // TODO remove ||
@@ -88,29 +102,11 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
     audioType: 'podcast',
     header: audio.podcastMeta?.header,
     introduction: audio.podcastMeta?.introduction,
-    coverPhotoId: audio.podcastMeta?.coverPhotoId,
-    metaImageAlt: audio.podcastMeta?.coverPhotoAltText, // coverPhotoAltText
+    coverPhotoId: audio.podcastMeta?.coverPhoto.id,
+    metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
     manuscript: audio.podcastMeta?.manuscript,
   };
 };
-
-interface PodcastPropType {
-  id?: number;
-  revision?: number;
-  title?: string;
-  language?: string;
-  supportedLanguages?: string[];
-  audioFile?: {
-    url: string;
-    mimeType: string;
-    fileSize: number;
-    language: string;
-  };
-  copyright?: Copyright;
-  tags?: string[];
-  audioType?: 'podcast';
-  podcastMeta?: NewPodcastMeta;
-}
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {

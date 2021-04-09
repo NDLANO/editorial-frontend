@@ -10,6 +10,13 @@ import { Author, Copyright } from '../../interfaces';
 
 type AudioType = 'standard' | 'podcast';
 
+export interface AudioFile {
+  url: string;
+  mimeType: string;
+  fileSize: number;
+  language: string;
+}
+
 export interface NewPodcastMeta {
   header: string;
   introduction: string;
@@ -27,6 +34,33 @@ export interface NewAudioMetaInformation {
   tags: string[];
   audioType: AudioType;
   podcastMeta?: NewPodcastMeta;
+}
+
+export interface ApiPodcastMetaType {
+  header: string;
+  introduction: string;
+  coverPhoto: {
+    id: string;
+    url: string;
+    altText: string;
+  };
+  manuscript: string;
+  language: string;
+}
+
+export interface ApiAudioType {
+  id: number;
+  revision: number;
+  title: string;
+  audioFile: AudioFile;
+  copyright: Copyright;
+  tags: {
+    language: string;
+    tags: string[];
+  };
+  supportedLanguages: string;
+  audioType: AudioType;
+  podcastMeta?: ApiPodcastMetaType;
 }
 
 export interface NewPodcastMetaInformation extends NewAudioMetaInformation {

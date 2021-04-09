@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AccordionWrapper, AccordionSection } from '@ndla/accordion';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -136,7 +136,7 @@ const ConceptForm = ({
               setTranslateOnContinue={setTranslateOnContinue}
               values={values}
             />
-            <AccordionWrapper>
+            <Accordions>
               <AccordionSection
                 id="concept-content"
                 title={t('form.contentSection')}
@@ -174,7 +174,7 @@ const ConceptForm = ({
                 hasError={!!errors.articles}>
                 <ConceptArticles />
               </AccordionSection>
-            </AccordionWrapper>
+            </Accordions>
             <FormFooter
               entityStatus={concept.status}
               inModal={inModal}

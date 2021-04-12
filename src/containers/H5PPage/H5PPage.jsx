@@ -14,6 +14,7 @@ const H5PPage = props => {
             styles={{
               '.o-content': {
                 height: '100vh',
+                display: 'flex',
               },
             }}
           />

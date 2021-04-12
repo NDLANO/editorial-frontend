@@ -24,11 +24,6 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-interface ComponentProps {
-  editorsChoices: ArticleType[];
-  elementId: string;
-}
-
 const SubjectpageAccordionPanels = ({
   t,
   editorsChoices,

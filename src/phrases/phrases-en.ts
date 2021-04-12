@@ -156,6 +156,8 @@ const phrases = {
       content: 'Search hits from content',
       tags: 'Search hits from tags',
       embedAttributes: 'Search hits from embedded elements',
+      notes: 'Search hits from version log',
+      previousVersionsNotes: 'Search hits from version log',
     },
   },
   articleType: {
@@ -657,6 +659,7 @@ const phrases = {
       quality_assured_delayed: 'Ready for publishing-delayed',
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
       published: 'Published',
+      has_published: 'Has published version',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
       awaiting_archiving: 'Delayed archivation',

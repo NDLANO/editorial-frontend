@@ -12,11 +12,7 @@ describe('Search content', () => {
   beforeEach(() => {
     setToken();
     cy.server({ force404: true });
-    cy.apiroute(
-      'GET',
-      '/taxonomy/v1/resource-types/?language=nb',
-      'resourceTypes',
-    );
+    cy.apiroute('GET', '/taxonomy/v1/resource-types/?language=nb', 'resourceTypes');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
@@ -34,52 +30,72 @@ describe('Search content', () => {
   it('Can use text input', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
+      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
       'search',
     );
-    cy.get('input[name="query"]').type('Test').blur();
+    cy.get('input[name="query"]')
+      .type('Test')
+      .blur();
     cy.apiwait('@search');
   });
 
   it('Can use status dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
+      '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.get('select[name="status"]').select('Brukertest').blur();
+    cy.get('select[name="status"]')
+      .select('Brukertest')
+      .blur();
     cy.apiwait('@search');
+  });
 
+  it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
+    cy.apiroute(
+      'GET',
+      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=true&include-other-statuses=true&language=nb&page=1&page-size=10&sort=-relevance',
+      'search',
+    );
+    cy.get('select[name="status"]')
+      .select('Har publisert versjon')
+      .blur();
+    cy.apiwait('@search');
   });
 
   it('Can use resource type dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&resource-types=urn:resourcetype:academicArticle&sort=-relevance',
+      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&resource-types=urn:resourcetype:academicArticle&sort=-relevance',
       'search',
     );
-    cy.get('select[name="resourceTypes"]').select('Fagartikkel').blur();
+    cy.get('select[name="resourceTypes"]')
+      .select('Fagartikkel')
+      .blur();
     cy.apiwait('@search');
-
   });
 
   it('Can use subject dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance&subjects=urn:subject:1',
+      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&subjects=urn:subject:1',
       'search',
     );
-    cy.get('select[name="subjects"]').select('Medieuttrykk og mediesamfunnet').blur();
+    cy.get('select[name="subjects"]')
+      .select('Medieuttrykk og mediesamfunnet')
+      .blur();
     cy.apiwait('@search');
   });
 
   it('Can use user dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance&users="Y7JV1gH0YzjW4AwkSyH7LIi8"',
+      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="Y7JV1gH0YzjW4AwkSyH7LIi8"',
       'search',
     );
-    cy.get('select[name="users"]').select('Gunnar Velle').blur();
+    cy.get('select[name="users"]')
+      .select('Gunnar Velle')
+      .blur();
     cy.apiwait('@search');
   });
 });

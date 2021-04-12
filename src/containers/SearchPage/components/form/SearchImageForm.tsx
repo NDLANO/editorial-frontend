@@ -8,16 +8,33 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
-import { searchFormClasses } from './SearchForm';
-import { LocationShape } from '../../../../shapes';
+import { searchFormClasses, SearchParams } from './SearchForm';
+import { LocationShape, SearchParamsShape } from '../../../../shapes';
+import { SubjectType } from '../../../../interfaces';
 
-class SearchImageForm extends Component {
-  constructor(props) {
+interface Props {
+  search: (o: SearchParams) => void;
+  subjects: SubjectType[];
+  location: Location;
+  searchObject: SearchParams;
+  locale: string;
+}
+
+interface State {
+  search: {
+    query: string;
+    language: string;
+    page?: string;
+  };
+}
+
+class SearchImageForm extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
 
     const { searchObject } = props;
@@ -34,7 +51,7 @@ class SearchImageForm extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props & tType) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -46,23 +63,23 @@ class SearchImageForm extends Component {
     }
   }
 
-  onFieldChange(evt) {
-    const { value, name } = evt.target;
+  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+    const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
       this.handleSearch,
     );
   }
 
-  handleSearch(evt) {
+  handleSearch(evt?: React.SyntheticEvent) {
     if (evt) {
       evt.preventDefault();
     }
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ ...this.state.search, page: '1' });
   }
 
-  emptySearch(evt) {
+  emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
     this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
   }
@@ -113,22 +130,21 @@ class SearchImageForm extends Component {
       </form>
     );
   }
+
+  static propTypes = {
+    search: PropTypes.func.isRequired,
+    subjects: PropTypes.array.isRequired,
+    location: LocationShape,
+    searchObject: SearchParamsShape,
+    locale: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    searchObject: {
+      query: '',
+      language: '',
+    },
+  };
 }
-
-SearchImageForm.propTypes = {
-  search: PropTypes.func.isRequired,
-  location: LocationShape,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    language: PropTypes.string,
-  }),
-};
-
-SearchImageForm.defaultProps = {
-  searchObject: {
-    query: '',
-    language: '',
-  },
-};
 
 export default injectT(SearchImageForm);

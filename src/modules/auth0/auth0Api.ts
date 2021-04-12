@@ -8,10 +8,10 @@
 
 import { resolveJsonOrRejectWithError, fetchAuthorized } from '../../util/apiHelpers';
 
-export const fetchAuth0Users = uniqueUserIds =>
+export const fetchAuth0Users = (uniqueUserIds: string) =>
   fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(resolveJsonOrRejectWithError);
 
-export const fetchAuth0Editors = role =>
+export const fetchAuth0Editors = (role: string) =>
   fetchAuthorized(`/get_editors?role=${role}`).then(resolveJsonOrRejectWithError);
 
 export const fetchZendeskToken = () =>

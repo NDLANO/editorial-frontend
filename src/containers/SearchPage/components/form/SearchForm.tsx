@@ -13,13 +13,38 @@ import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
+import { SubjectType } from '../../../../interfaces';
+import { SearchParamsShape } from '../../../../shapes';
 
 export const searchFormClasses = new BEMHelper({
   name: 'search-form',
   prefix: 'c-',
 });
 
-const SearchForm = ({ type, searchObject, ...rest }) => {
+export interface SearchParams {
+  query?: string | null;
+  'draft-status'?: string | null;
+  'include-other-statuses'?: string | null;
+  'page-size'?: string | null;
+  'resource-types'?: string | null;
+  fallback?: boolean | null;
+  language?: string | null;
+  page?: string | null;
+  status?: string | null;
+  subjects?: string | null;
+  users?: string | null;
+}
+
+interface Props {
+  type: string;
+  searchObject: SearchParams;
+  search: (o: SearchParams) => void;
+  subjects: SubjectType[];
+  location: Location;
+  locale: string;
+}
+
+const SearchForm = ({ type, searchObject, ...rest }: Props) => {
   switch (type) {
     case 'content':
       return <SearchContentForm searchObject={searchObject} {...rest} />;
@@ -36,16 +61,7 @@ const SearchForm = ({ type, searchObject, ...rest }) => {
 
 SearchForm.propTypes = {
   type: PropTypes.string.isRequired,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    subjects: PropTypes.string,
-    'resource-types': PropTypes.string,
-    'draft-status': PropTypes.string,
-    status: PropTypes.string,
-    users: PropTypes.string,
-    language: PropTypes.string,
-    fallback: PropTypes.bool,
-  }),
+  searchObject: SearchParamsShape,
 };
 
 export default SearchForm;

@@ -222,6 +222,7 @@ const phrases = {
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       status: 'Velg status',
+      audio: 'Velg lydfiltype',
     },
     tagType: {
       query: 'Innhald',
@@ -240,6 +241,10 @@ const phrases = {
       topicArticle: 'Emnebeskrivelse',
       image: 'Bilde',
       audio: 'Lyd',
+    },
+    audioType: {
+      standard: 'Lydfil',
+      podcast: 'Podcast',
     },
     order: 'Rekkefølge',
     asc: 'Stigende',

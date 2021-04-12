@@ -30,6 +30,7 @@ class SearchAudioForm extends Component {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
+        audioType: searchObject['audio-type'] || '',
       },
     };
   }
@@ -41,6 +42,7 @@ class SearchAudioForm extends Component {
         search: {
           query: searchObject.query || '',
           language: searchObject.language || '',
+          'audio-type': searchObject['audio-type'] || '',
         },
       });
     }
@@ -64,11 +66,18 @@ class SearchAudioForm extends Component {
 
   emptySearch(evt) {
     evt.persist();
-    this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
+    this.setState({ search: { query: '', language: '', 'audio-type': '' } }, () =>
+      this.handleSearch(evt),
+    );
   }
 
   render() {
     const { t } = this.props;
+
+    const getAudioTypes = t => [
+      { id: 'standard', name: t('searchForm.audioType.standard') },
+      { id: 'podcast', name: t('searchForm.audioType.podcast') },
+    ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -110,6 +119,18 @@ class SearchAudioForm extends Component {
             {t('searchForm.btn')}
           </Button>
         </div>
+        <div {...searchFormClasses('field', '50-width')}>
+          <ObjectSelector
+            name="audio-type"
+            value={this.state.search['audio-type']}
+            options={getAudioTypes(t)}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.audio')}
+          />
+        </div>
       </form>
     );
   }
@@ -121,6 +142,7 @@ SearchAudioForm.propTypes = {
   searchObject: PropTypes.shape({
     query: PropTypes.string,
     language: PropTypes.string,
+    'audio-type': PropTypes.string,
   }),
 };
 
@@ -128,6 +150,7 @@ SearchAudioForm.defaultProps = {
   searchObject: {
     query: '',
     language: '',
+    'audio-type': '',
   },
 };
 

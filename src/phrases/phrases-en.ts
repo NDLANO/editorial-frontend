@@ -220,6 +220,7 @@ const phrases = {
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',
+      audio: 'Select audio file type',
     },
     tagType: {
       query: 'Query',
@@ -238,6 +239,10 @@ const phrases = {
       topicArticle: 'Topic description',
       image: 'Image',
       audio: 'Audio',
+    },
+    audioType: {
+      standard: 'Audio',
+      podcast: 'Podcast',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',

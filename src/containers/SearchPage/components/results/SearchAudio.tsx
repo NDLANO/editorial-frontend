@@ -11,13 +11,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 import { Audio } from '@ndla/icons/common';
-import { ContentResultType } from '../../../../interfaces';
-import { toEditAudio } from '../../../../util/routeHelpers';
+import { AudioSearchResultType } from '../../../../modules/audio/audioApiInterfaces';
+import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
 interface Props {
-  audio: ContentResultType;
+  audio: AudioSearchResultType;
   locale: string;
 }
 
@@ -27,7 +27,12 @@ const SearchAudio: React.FC<Props & tType> = ({ audio, locale, t }) => (
       <Audio />
     </div>
     <div {...searchClasses('content')}>
-      <Link to={toEditAudio(audio.id, audio.title.language)}>
+      <Link
+        to={
+          audio.audioType === 'podcast'
+            ? toEditPodcast(audio.id, audio.title.language)
+            : toEditAudio(audio.id, audio.title.language)
+        }>
         <h1 {...searchClasses('title')}>{audio.title.title || t('audioSearch.noTitle')}</h1>
       </Link>
       <p {...searchClasses('description')}>

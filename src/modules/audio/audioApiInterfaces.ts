@@ -1,3 +1,4 @@
+import { License } from './../../interfaces';
 /**
  * Copyright (c) 2021-present, NDLA.
  *
@@ -88,6 +89,14 @@ export interface PodcastFormValues {
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;
-  // TODO add url
   manuscript?: string;
+}
+
+export interface AudioSearchResultType {
+  id: number;
+  title: { title: string; language: string };
+  audioType: AudioType;
+  url: string;
+  supportedLanguages?: string[];
+  license: string;
 }

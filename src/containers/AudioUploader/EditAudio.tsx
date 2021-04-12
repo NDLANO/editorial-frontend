@@ -11,36 +11,67 @@ import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { createFormData } from '../../util/formDataHelper';
+import { License, LocaleType } from '../../interfaces';
+import {
+  AudioApiType,
+  FlattenedAudioApiType,
+  NewAudioMetaInformation,
+  UpdatedAudioMetaInformation,
+} from '../../modules/audio/audioApiInterfaces';
 
-const transformAudio = audio => {
+const transformAudio = (
+  audio: AudioApiType,
+  language: string,
+): FlattenedAudioApiType | undefined => {
   const audioLanguage =
-    audio && audio.supportedLanguages && audio.supportedLanguages.includes(audio.language)
-      ? audio.language
+    audio && audio.supportedLanguages && audio.supportedLanguages.includes(language)
+      ? language
       : undefined;
+
+  const title = convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage);
+  const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
 
   return audio
     ? {
         ...audio,
-        title: convertFieldWithFallback(audio, 'title', '', audioLanguage),
-        tags: convertFieldWithFallback(audio, 'tags', [], audioLanguage),
+        title,
+        tags,
       }
     : undefined;
 };
 
-const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) => {
-  const [audio, setAudio] = useState({});
+interface Props {
+  locale: LocaleType;
+  audioId: number;
+  audioLanguage: string;
+  isNewlyCreated?: boolean;
+  licenses: License[];
+}
+
+const EditAudio = ({
+  locale,
+  audioId,
+  audioLanguage,
+  isNewlyCreated,
+  licenses,
+  ...rest
+}: Props) => {
+  const [audio, setAudio] = useState<FlattenedAudioApiType | undefined>(undefined);
 
   const fetchAudio = async () => {
     if (audioId) {
       const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
-      setAudio(transformAudio(apiAudio));
+      setAudio(transformAudio(apiAudio, audioLanguage));
     }
   };
 
-  const onUpdate = async (newAudio, file) => {
+  const onUpdate = async (
+    newAudio: UpdatedAudioMetaInformation,
+    file: string | Blob,
+  ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
-    const updatedAudio = await audioApi.updateAudio(newAudio.id, formData);
-    const transformedAudio = transformAudio(updatedAudio);
+    const updatedAudio = await audioApi.updateAudio(audioId, formData);
+    const transformedAudio = transformAudio(updatedAudio, audioLanguage);
     setAudio(transformedAudio);
   };
 
@@ -48,7 +79,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
     fetchAudio();
   }, [audioId, audioLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (audioId && !audio.id) {
+  if (audioId && !audio?.id) {
     return null;
   }
 
@@ -60,6 +91,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
       onUpdate={onUpdate}
       audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
+      licenses={licenses}
       {...rest}
     />
   );

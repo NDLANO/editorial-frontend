@@ -16,13 +16,17 @@ export const transformApiToCleanConcept = (
   concept: ApiConceptType,
   language: string,
 ): ConceptType => {
-  const visualElementEmbed = convertFieldWithFallback(concept, 'visualElement', '');
+  const visualElementEmbed = convertFieldWithFallback<'visualElement'>(
+    concept,
+    'visualElement',
+    '',
+  );
   const parsedVisualElement = parseEmbedTag(visualElementEmbed);
   return {
     ...concept,
-    title: convertFieldWithFallback(concept, 'title', ''),
-    content: convertFieldWithFallback(concept, 'content', ''),
-    tags: convertFieldWithFallback(concept, 'tags', []),
+    title: convertFieldWithFallback<'title'>(concept, 'title', ''),
+    content: convertFieldWithFallback<'content'>(concept, 'content', ''),
+    tags: convertFieldWithFallback<'tags', string[]>(concept, 'tags', []),
     visualElement: visualElementEmbed,
     subjectIds: concept.subjectIds || [],
     updated: concept.updated || '',

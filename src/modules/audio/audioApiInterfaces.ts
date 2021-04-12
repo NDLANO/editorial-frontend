@@ -1,4 +1,5 @@
 import { Copyright } from '../../interfaces';
+import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 interface NewPodcastMeta {
   header: string;
@@ -31,6 +32,7 @@ export interface NewAudioMetaInformation {
 }
 
 export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
+  id: number;
   revision: number;
 }
 
@@ -55,6 +57,12 @@ export interface AudioApiType {
   supportedLanguages: string[];
   audioType: string;
   podcastMeta?: PodcastMeta;
+}
+
+export interface FlattenedAudioApiType extends Omit<AudioApiType, 'title' | 'tags'> {
+  title: string;
+  tags: string[];
+  language?: string;
 }
 
 export interface SearchParams {

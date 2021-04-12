@@ -10,14 +10,25 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 
-const AudioPlayer = ({ audio, noBorder, filepath }) => {
-  const audioPlayerRef = createRef();
+interface Props {
+  noBorder?: boolean;
+  filepath?: string;
+  audio?: {
+    fileSize: number;
+    language: string;
+    mimeType: string;
+    url: string;
+  };
+}
+
+const AudioPlayer = ({ audio, noBorder = true, filepath }: Props) => {
+  const audioPlayerRef = createRef<HTMLAudioElement>();
   return (
     <Field noBorder={noBorder}>
       {
         // eslint-disable-next-line jsx-a11y/media-has-caption
         <audio controls ref={audioPlayerRef}>
-          <source src={filepath || audio.url} type={audio.mimeType} />
+          <source src={filepath || audio?.url} type={audio?.mimeType} />
         </audio>
       }
     </Field>
@@ -33,11 +44,6 @@ AudioPlayer.propTypes = {
   }),
   filepath: PropTypes.string,
   noBorder: PropTypes.bool,
-};
-
-AudioPlayer.defaultProps = {
-  noBorder: true,
-  audio: {},
 };
 
 export default AudioPlayer;

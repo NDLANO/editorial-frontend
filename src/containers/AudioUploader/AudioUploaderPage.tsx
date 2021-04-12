@@ -8,18 +8,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
+// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { LocationShape } from '../../shapes';
+import { LocationShape, HistoryShape } from '../../shapes';
+import { ReduxState } from '../../interfaces';
 
-class AudioUploaderPage extends Component {
+const mapDispatchToProps = {
+  fetchLicenses: licenseActions.fetchLicenses,
+};
+
+const mapStateToProps = (state: ReduxState) => {
+  const locale = getLocale(state);
+  return {
+    locale,
+    licenses: getAllLicenses(state),
+  };
+};
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+interface BaseProps {}
+
+type Props = BaseProps & RouteComponentProps & PropsFromRedux & tType;
+
+interface State {
+  previousLocation: string;
+}
+
+class AudioUploaderPage extends Component<Props, State> {
   state = {
     previousLocation: '',
   };
@@ -28,20 +54,23 @@ class AudioUploaderPage extends Component {
     this.props.fetchLicenses();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setState({ previousLocation: prevProps.location.pathname });
     }
   }
 
   render() {
-    const { match, t, ...rest } = this.props;
+    const { match, t, licenses, locale } = this.props;
     return (
       <div>
         <OneColumn>
           <HelmetWithTracker title={t('htmlTitles.audioUploaderPage')} />
           <Switch>
-            <Route path={`${match.url}/new`} render={() => <CreateAudio {...rest} />} />
+            <Route
+              path={`${match.url}/new`}
+              render={() => <CreateAudio licenses={licenses} locale={locale} />}
+            />
             <Route
               path={`${match.url}/:audioId/edit/:audioLanguage`}
               render={props => (
@@ -49,7 +78,8 @@ class AudioUploaderPage extends Component {
                   audioId={props.match.params.audioId}
                   audioLanguage={props.match.params.audioLanguage}
                   isNewlyCreated={this.state.previousLocation === '/media/audio-upload/new'}
-                  {...rest}
+                  licenses={licenses}
+                  locale={locale}
                 />
               )}
             />
@@ -59,36 +89,26 @@ class AudioUploaderPage extends Component {
       </div>
     );
   }
+
+  static propTypes = {
+    match: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      params: PropTypes.shape({}).isRequired,
+      isExact: PropTypes.bool.isRequired,
+      path: PropTypes.string.isRequired,
+    }).isRequired,
+
+    licenses: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.string.isRequired,
+        license: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    fetchLicenses: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
+    history: HistoryShape,
+    location: LocationShape,
+  };
 }
 
-AudioUploaderPage.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  fetchLicenses: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  location: LocationShape,
-};
-
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-};
-
-const mapStateToProps = state => {
-  const locale = getLocale(state);
-  return {
-    locale,
-    licenses: getAllLicenses(state),
-  };
-};
-
-export default injectT(connect(mapStateToProps, mapDispatchToProps)(AudioUploaderPage));
+export default reduxConnector(injectT(AudioUploaderPage));

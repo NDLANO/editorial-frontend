@@ -111,10 +111,10 @@ export const getImage = (imageId: string, useLanguage: boolean = false) =>
       ? {
           ...image,
           id: Number(image.id),
-          title: convertFieldWithFallback(image, 'title', '', imageLanguage),
-          tags: convertFieldWithFallback(image, 'tags', [], imageLanguage),
-          alttext: convertFieldWithFallback(image, 'alttext', '', imageLanguage),
-          caption: convertFieldWithFallback(image, 'caption', '', imageLanguage),
+          title: convertFieldWithFallback<'title'>(image, 'title', '', imageLanguage),
+          tags: convertFieldWithFallback<'tags', string[]>(image, 'tags', [], imageLanguage),
+          alttext: convertFieldWithFallback<'alttext'>(image, 'alttext', '', imageLanguage),
+          caption: convertFieldWithFallback<'caption'>(image, 'caption', '', imageLanguage),
         }
       : undefined;
   });

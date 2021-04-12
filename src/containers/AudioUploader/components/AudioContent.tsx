@@ -20,10 +20,28 @@ interface Props {
   setFieldValue: FormikHelpers<AudioFormikType>['setFieldValue'];
 }
 
+const getPlayerObject = (
+  values: AudioFormikType,
+): { src: string; mimeType: string } | undefined => {
+  if (values.newAudio) {
+    return {
+      src: values.newAudio.filepath,
+      mimeType: values.newAudio.file.type,
+    };
+  } else if (values.storedAudioFile) {
+    return {
+      src: values.storedAudioFile.url,
+      mimeType: values.storedAudioFile.mimeType,
+    };
+  }
+  return undefined;
+};
+
 const AudioContent = ({ t, values, setFieldValue }: Props & tType) => {
   const PlayerOrSelector = () => {
-    if (values.id || (values.audioFile && values.filepath)) {
-      return <AudioPlayer audio={values.audioFile!} filepath={values.filepath} />;
+    const playerObject = getPlayerObject(values);
+    if (playerObject) {
+      return <AudioPlayer audio={playerObject} />;
     } else {
       return (
         <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
@@ -33,10 +51,9 @@ const AudioContent = ({ t, values, setFieldValue }: Props & tType) => {
               name="audioFile"
               type="file"
               onChange={evt => {
-                const targetFile = evt.currentTarget.files?.[0];
-                const filepathValue = targetFile ? URL.createObjectURL(targetFile) : undefined;
-                setFieldValue('filepath', filepathValue);
-                setFieldValue('audioFile', targetFile);
+                const file = evt.currentTarget.files?.[0];
+                const filepath = file ? URL.createObjectURL(file) : undefined;
+                setFieldValue('newAudio', { filepath, file });
               }}
             />
           )}

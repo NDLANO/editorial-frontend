@@ -1,5 +1,4 @@
 import { Copyright } from '../../interfaces';
-import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 interface NewPodcastMeta {
   header: string;

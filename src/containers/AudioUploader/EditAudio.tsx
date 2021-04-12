@@ -15,7 +15,6 @@ import { License, LocaleType } from '../../interfaces';
 import {
   AudioApiType,
   FlattenedAudioApiType,
-  NewAudioMetaInformation,
   UpdatedAudioMetaInformation,
 } from '../../modules/audio/audioApiInterfaces';
 

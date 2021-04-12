@@ -11,24 +11,21 @@ import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 
 interface Props {
-  noBorder?: boolean;
-  filepath?: string;
-  audio?: {
-    fileSize: number;
-    language: string;
+  audio: {
+    src: string;
     mimeType: string;
-    url: string;
   };
+  noBorder?: boolean;
 }
 
-const AudioPlayer = ({ audio, noBorder = true, filepath }: Props) => {
+const AudioPlayer = ({ audio, noBorder = true }: Props) => {
   const audioPlayerRef = createRef<HTMLAudioElement>();
   return (
     <Field noBorder={noBorder}>
       {
         // eslint-disable-next-line jsx-a11y/media-has-caption
         <audio controls ref={audioPlayerRef}>
-          <source src={filepath || audio?.url} type={audio?.mimeType} />
+          <source src={audio.src} type={audio.mimeType} />
         </audio>
       }
     </Field>
@@ -37,12 +34,9 @@ const AudioPlayer = ({ audio, noBorder = true, filepath }: Props) => {
 
 AudioPlayer.propTypes = {
   audio: PropTypes.shape({
-    fileSize: PropTypes.number.isRequired,
-    language: PropTypes.string.isRequired,
     mimeType: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
   }),
-  filepath: PropTypes.string,
   noBorder: PropTypes.bool,
 };
 

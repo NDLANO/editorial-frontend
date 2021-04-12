@@ -9,11 +9,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
+import BEMHelper from 'react-bem-helper';
 import { fetchSearchTags } from '../../../modules/draft/draftApi';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import BEMHelper from 'react-bem-helper';
 import { License } from '../../../interfaces';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];

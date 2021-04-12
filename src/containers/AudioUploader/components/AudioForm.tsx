@@ -6,7 +6,6 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { compose } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { injectT, tType } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
@@ -29,7 +28,6 @@ import * as messageActions from '../../Messages/messagesActions';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { Author, License } from '../../../interfaces';
 import {
-  AudioApiType,
   FlattenedAudioApiType,
   NewAudioMetaInformation,
   UpdatedAudioMetaInformation,
@@ -41,13 +39,16 @@ export interface AudioFormikType {
   language: string;
   supportedLanguages: string[];
   title: string;
-  audioFile?: {
+  storedAudioFile?: {
     url: string;
     mimeType: string;
     fileSize: number;
     language: string;
   };
-  filepath: string;
+  newAudio?: {
+    filepath: string;
+    file: File;
+  };
   tags: string[];
   creators: Author[];
   processors: Author[];
@@ -64,8 +65,8 @@ export const getInitialValues = (
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
   title: audio.title || '',
-  audioFile: audio.audioFile,
-  filepath: '',
+  storedAudioFile: audio.audioFile,
+  newAudio: undefined,
   tags: audio.tags || [],
   creators: parseCopyrightContributors(audio, 'creators'),
   processors: parseCopyrightContributors(audio, 'processors'),
@@ -158,7 +159,7 @@ class AudioForm extends Component<Props, State> {
         },
       };
       // @ts-ignore
-      await onUpdate(audioMetaData, values.audioFile);
+      await onUpdate(audioMetaData, values.storedAudioFile);
       actions.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -169,7 +170,7 @@ class AudioForm extends Component<Props, State> {
   };
 
   render() {
-    const { t, licenses, audio, isNewlyCreated, audioLanguage } = this.props;
+    const { t, licenses, audio, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
     const panels = ({ values, errors, setFieldValue }: FormikProps<AudioFormikType>) => {
       const hasErr = (fields: (keyof AudioFormikType)[]) => fields.some(field => !!errors[field]);
@@ -177,7 +178,7 @@ class AudioForm extends Component<Props, State> {
         {
           id: 'audio-upload-content',
           title: t('form.contentSection'),
-          hasError: hasErr(['title', 'audioFile']),
+          hasError: hasErr(['title', 'storedAudioFile']),
           component: (
             <AudioContent classes={formClasses} setFieldValue={setFieldValue} values={values} />
           ),
@@ -283,21 +284,20 @@ class AudioForm extends Component<Props, State> {
     );
   }
 
-  // TODO: fix or remove?
-  // static propTypes = {
-  //   licenses: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       description: PropTypes.string,
-  //       license: PropTypes.string,
-  //     }),
-  //   ).isRequired,
-  //   onUpdate: PropTypes.func.isRequired,
-  //   revision: PropTypes.number,
-  //   audio: AudioShape,
-  //   applicationError: PropTypes.func.isRequired,
-  //   audioLanguage: PropTypes.string,
-  //   isNewlyCreated: PropTypes.bool,
-  // };
+  static propTypes = {
+    licenses: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.string.isRequired,
+        license: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    revision: PropTypes.number,
+    audio: AudioShape,
+    applicationError: PropTypes.func.isRequired,
+    audioLanguage: PropTypes.string.isRequired,
+    isNewlyCreated: PropTypes.bool,
+  };
 }
 
 export default reduxConnector(injectT(AudioForm));

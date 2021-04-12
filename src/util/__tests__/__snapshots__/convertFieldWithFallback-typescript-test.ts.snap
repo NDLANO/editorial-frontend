@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`typescript: convertFieldWithFallback convert field title to string 1`] = `"Tester"`;
+
+exports[`typescript: convertFieldWithFallback converts string[] fields 1`] = `
+Array [
+  "apekatt",
+  "eplekjekk",
+]
+`;
+
+exports[`typescript: convertFieldWithFallback falls back if wrong language 1`] = `
+Array [
+  "english",
+  "tags",
+]
+`;

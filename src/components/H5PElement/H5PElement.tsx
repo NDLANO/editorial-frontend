@@ -21,7 +21,6 @@ const FlexWrapper = styled.div`
 
 const StyledIFrame = styled.iframe`
   height: 100%;
-  min-height: 1000px;
 `;
 
 interface OnSelectObject {

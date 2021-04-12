@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { css } from '@emotion/react';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 
@@ -18,6 +19,13 @@ const DisplayExternalModal = ({
   }
   return (
     <Modal
+      css={css`
+        overflow: hidden;
+        .modal-body {
+          height: 90%;
+          overflow: hidden;
+        }
+      `}
       controllable
       isOpen={isEditMode}
       size={allowedProvider.name.toLowerCase() === 'h5p' ? 'fullscreen' : 'large'}

@@ -20,6 +20,7 @@ const appearances = {
   `,
   fullscreen: css`
     max-width: 95%;
+    height: 90vh;
   `,
   modal: css`
     border-radius: 0;
@@ -73,7 +74,7 @@ const StyledLightbox = styled('div')`
 const StyledLightboxContent = styled('div')`
   overflow-x: auto;
   background-color: white;
-  margin: 52px auto 0;
+  margin: 52px auto 52px;
   padding: 1em 2em 3em;
   max-width: ${p => p.maxWidth || '400px'};
   border-radius: 5px;
@@ -95,6 +96,12 @@ export const StyledCross = styled(Cross)`
   margin-right: 7px;
   color: ${colors.brand.grey};
   ${p => severities[p.severity]};
+`;
+
+const ChildWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 class Lightbox extends React.PureComponent {
@@ -137,7 +144,7 @@ class Lightbox extends React.PureComponent {
               <StyledCross severity={severity} />
             </Button>
           )}
-          {children}
+          <ChildWrapper>{children}</ChildWrapper>
         </StyledLightboxContent>
       </StyledLightbox>
     ) : null;

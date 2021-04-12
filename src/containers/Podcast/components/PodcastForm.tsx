@@ -26,6 +26,7 @@ import {
   NewPodcastMetaInformation,
   NewAudioMetaInformation,
   PodcastFormValues,
+  UpdatedAudioMetaInformation,
 } from '../../../modules/audio/audioApiInterfaces';
 import { Copyright, License } from '../../../interfaces';
 
@@ -86,9 +87,9 @@ interface PodcastPropType {
 
 export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => {
   return {
-    id: audio?.id || 0, // TODO remove ||
-    revision: audio?.revision || 0, // TODO remove ||
-    language: audio?.language || '', // TODO remove ||
+    id: audio.id,
+    revision: audio.revision,
+    language: audio.language,
     supportedLanguages: audio.supportedLanguages || [],
     title: audio.title,
     audioFile: audio.audioFile,
@@ -119,7 +120,7 @@ interface Props {
   audio: PodcastPropType;
   inModal?: boolean;
   isNewlyCreated?: boolean;
-  formikProps?: FormikProps<PodcastPropType>; // TODO type in <?>
+  formikProps?: FormikProps<PodcastPropType>;
   licenses: License[];
   onUpdate: (audioMetadata: NewAudioMetaInformation, podcastFile: string | Blob) => void;
 }
@@ -133,7 +134,6 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
   ) => {
     const license = licenses.find(license => license.license === values.license);
     if (
-      // TODO burde vel finnes en bedre måte å gjøre dette på
       license === undefined ||
       values.title === undefined ||
       values.language === undefined ||
@@ -154,8 +154,9 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData: NewPodcastMetaInformation = {
-      id: values.id, // Used only to check if image was newly created. This id is discarded by backend. TODO
+    const podcastMetaData: NewPodcastMetaInformation | UpdatedAudioMetaInformation = {
+      id: values.id,
+      revision: values?.revision,
       title: values.title,
       tags: values.tags,
       audioType: 'podcast',

@@ -28,13 +28,22 @@ export interface NewPodcastMeta {
 }
 
 export interface NewAudioMetaInformation {
-  id?: number; // Used only to check if image was newly created. This id is discarded by backend. TODO
+  id?: number; // Used only to check if image was newly created. This id is discarded by backend.
   title: string;
   language: string;
   copyright: Copyright;
   tags: string[];
   audioType: AudioType;
   podcastMeta?: NewPodcastMeta;
+}
+
+export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
+  revision: number;
+}
+
+export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
+  audioType: 'podcast';
+  podcastMeta: NewPodcastMeta;
 }
 
 export interface ApiPodcastMetaType {

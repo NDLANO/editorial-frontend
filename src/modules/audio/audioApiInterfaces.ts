@@ -58,7 +58,7 @@ export interface ApiAudioType {
     language: string;
     tags: string[];
   };
-  supportedLanguages: string;
+  supportedLanguages: string[];
   audioType: AudioType;
   podcastMeta?: ApiPodcastMetaType;
 }

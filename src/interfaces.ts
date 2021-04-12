@@ -7,6 +7,7 @@
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
+import { ApiAudioType } from './modules/audio/audioApiInterfaces';
 
 export type LocaleType = 'nb' | 'nn' | 'en';
 
@@ -465,25 +466,9 @@ export interface Embed {
   'lower-right-y': string;
 }
 
-export interface AudioFile {
-  filesize: number;
-  language: string;
-  mimeType: string;
-  url: string;
-}
-
-export interface Audio {
-  audioFile: AudioFile;
+export interface SlateAudio extends ApiAudioType {
+  // Exists in audioApiInterfaces w/o caption
   caption: string;
-  copyright: Copyright;
-  id: number;
-  revision: number;
-  supportedLanguages: string[];
-  tags: {
-    language: string;
-    tags: string[];
-  };
-  title: string;
 }
 
 export interface CreateMessageType {

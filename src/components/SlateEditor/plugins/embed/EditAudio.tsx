@@ -16,7 +16,7 @@ import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed, LocaleType } from '../../../../interfaces';
+import { SlateAudio, Embed, LocaleType } from '../../../../interfaces';
 
 const placeholderStyle = css`
   position: relative;
@@ -24,7 +24,7 @@ const placeholderStyle = css`
 `;
 
 interface Props {
-  audio: Audio;
+  audio: SlateAudio;
   changes: { [x: string]: string };
   embed: Embed;
   language: string;

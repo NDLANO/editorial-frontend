@@ -12,10 +12,10 @@ import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
 import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { Audio, LocaleType } from '../../../../interfaces';
+import { SlateAudio, LocaleType } from '../../../../interfaces';
 
 interface Props {
-  audio: Audio;
+  audio: SlateAudio;
   locale: LocaleType;
   speech: boolean;
 }

@@ -220,6 +220,7 @@ const TopicArticleForm = props => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
+          createMessage={createMessage}
           {...rest}
         />
         <AlertModalWrapper

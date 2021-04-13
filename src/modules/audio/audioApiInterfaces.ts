@@ -72,18 +72,13 @@ export interface ApiAudioType {
   podcastMeta?: ApiPodcastMetaType;
 }
 
-export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
-  audioType: 'podcast';
-  podcastMeta: NewPodcastMeta;
-}
-
 export interface PodcastFormValues {
   id?: number;
   revision?: number;
   language?: string;
   supportedLanguages?: string[];
   title?: string;
-  audioFile: any; // TODO FIX - AudioFile, string?
+  audioFile: any; // TODO AudioFile? string?
   filepath: '';
   tags?: string[];
   origin?: string;

@@ -8,8 +8,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Lightbox from '../../components/Lightbox';
+import { ModalBody } from '@ndla/modal';
 import VisualElementSearch from './VisualElementSearch';
+import { StyledVisualElementModal } from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 
 class VisualElementSelectField extends Component {
   constructor(props) {
@@ -39,18 +40,25 @@ class VisualElementSelectField extends Component {
       return null;
     }
     return (
-      <Lightbox
-        display
-        appearance={selectedResource === 'h5p' ? 'fullscreen' : 'big'}
+      <StyledVisualElementModal
+        narrow
+        controllable
+        isOpen
+        size={selectedResource === 'h5p' ? 'fullscreen' : 'large'}
+        backgroundColor="white"
         onClose={this.onImageLightboxClose}>
-        <VisualElementSearch
-          selectedResource={selectedResource}
-          handleVisualElementChange={this.handleVisualElementChange}
-          closeModal={this.onImageLightboxClose}
-          videoTypes={videoTypes}
-          articleLanguage={articleLanguage}
-        />
-      </Lightbox>
+        {onCloseModal => (
+          <ModalBody>
+            <VisualElementSearch
+              selectedResource={selectedResource}
+              handleVisualElementChange={this.handleVisualElementChange}
+              closeModal={onCloseModal}
+              videoTypes={videoTypes}
+              articleLanguage={articleLanguage}
+            />
+          </ModalBody>
+        )}
+      </StyledVisualElementModal>
     );
   }
 }

@@ -13,10 +13,9 @@ interface Props {
   name: string;
   label?: string;
   noBorder?: boolean;
-  hasFocus?: boolean;
 }
 
-const FormikFieldLabel = ({ label, noBorder, name, hasFocus }: Props) => {
+const FormikFieldLabel = ({ label, noBorder, name }: Props) => {
   if (!label) {
     return null;
   }
@@ -36,7 +35,6 @@ FormikFieldLabel.propTypes = {
   noBorder: PropTypes.bool,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  hasFocus: PropTypes.bool,
 };
 
 export default FormikFieldLabel;

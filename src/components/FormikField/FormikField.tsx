@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import {
@@ -18,7 +18,6 @@ import {
   FieldProps,
 } from 'formik';
 import { Node } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
@@ -64,23 +63,17 @@ const FormikField = ({
   formik: { values, handleBlur, errors, touched },
   ...rest
 }: Props & tType & { formik: FormikContextType<FormikValues> }) => {
-  const [focus, setFocus] = useState(false);
   const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
     ? {
-        onFocus: () => {
-          setFocus(true);
-        },
         onBlur: (evt: Event) => {
           handleBlur(evt);
-          setFocus(false);
         },
       }
     : {};
-  const hasFocus = isSlateValue ? ReactEditor.isFocused(values[name]) : focus;
   return (
     <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
-      <FormikFieldLabel hasFocus={hasFocus} label={label} name={name} noBorder={noBorder} />
+      <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
         {children

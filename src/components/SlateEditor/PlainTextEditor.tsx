@@ -7,7 +7,7 @@
  *
  */
 
-import React, { useMemo, KeyboardEventHandler, FocusEventHandler } from 'react';
+import React, { useMemo, KeyboardEventHandler } from 'react';
 import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';

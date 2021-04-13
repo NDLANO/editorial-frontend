@@ -111,7 +111,7 @@ export function topicArticleContentToHTML(value) {
   return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export const NewPlain = {
+const Plain = {
   serialize: nodes => {
     return nodes.map(n => Node.string(n)).join('\n');
   },
@@ -125,11 +125,11 @@ export const NewPlain = {
 
 export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
   if (withDefaultPlainValue) {
-    return text ? NewPlain.deserialize(text) : NewPlain.deserialize('');
+    return text ? Plain.deserialize(text) : Plain.deserialize('');
   }
-  return text ? NewPlain.deserialize(text) : undefined;
+  return text ? Plain.deserialize(text) : undefined;
 }
 
 export function editorValueToPlainText(editorValue) {
-  return editorValue ? NewPlain.serialize(editorValue) : '';
+  return editorValue ? Plain.serialize(editorValue) : '';
 }

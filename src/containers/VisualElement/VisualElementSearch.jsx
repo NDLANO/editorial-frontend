@@ -150,7 +150,7 @@ class VisualElementSearch extends Component {
       case 'h5p': {
         return (
           <Fragment>
-            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
+            <h1>{titles(t, selectedResource)[selectedResource]}</h1>
             <H5PElement
               canReturnResources={true}
               h5pUrl={selectedResourceUrl}

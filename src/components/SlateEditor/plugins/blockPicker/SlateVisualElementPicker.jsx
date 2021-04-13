@@ -44,9 +44,11 @@ const SlateVisualElementPicker = ({
       minHeight={resource !== 'file' && '90vh'}>
       {onCloseModal => (
         <Fragment>
-          <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-          </ModalHeader>
+          {resource !== 'h5p' && (
+            <ModalHeader>
+              <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
+            </ModalHeader>
+          )}
           <ModalBody>
             <VisualElementSearch
               articleLanguage={articleLanguage}

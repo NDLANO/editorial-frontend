@@ -28,9 +28,11 @@ const DisplayExternalModal = ({
       minHeight="85vh">
       {onCloseModal => (
         <Fragment>
-          <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-          </ModalHeader>
+          {allowedProvider.name.toLowerCase() !== 'h5p' && (
+            <ModalHeader>
+              <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
+            </ModalHeader>
+          )}
           <ModalBody>
             <VisualElementSearch
               selectedResource={allowedProvider.name}

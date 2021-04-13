@@ -113,7 +113,6 @@ const LearningResourcePanels = ({
             createMessage={createMessage}
             history={history}
           />
-          }
         </AccordionSection>
       )}
     </Accordions>

@@ -64,7 +64,7 @@ interface ImageFormikType {
   alttext?: string;
   caption?: string;
   imageFile?: string;
-  tags?: string[];
+  tags: string[];
   creators?: Author[];
   processors?: Author[];
   rightsholders?: Author[];

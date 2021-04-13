@@ -12,7 +12,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import { AudioApiType } from './audioApiInterfaces';
+import { AudioApiType, TagSearchResult } from './audioApiInterfaces';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 
@@ -43,3 +43,13 @@ export const deleteLanguageVersionAudio = (
   fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
+
+export const fetchSearchTags = async (
+  input: string,
+  language: string,
+): Promise<TagSearchResult> => {
+  const response = await fetchAuthorized(
+    `${baseUrl}/tag-search/?language=${language}&query=${input}`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};

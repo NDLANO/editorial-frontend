@@ -72,3 +72,13 @@ export interface SearchParams {
   query?: string;
   sort?: string;
 }
+
+interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
+}
+
+export type TagSearchResult = SearchResultBase<string>;

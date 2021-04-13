@@ -10,7 +10,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
-import { fetchSearchTags } from '../../../modules/draft/draftApi';
+import { FieldProps } from 'formik';
+import { fetchSearchTags } from '../../../modules/audio/audioApi';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
@@ -36,7 +37,7 @@ const AudioMetaData = (props: Props) => {
         label={t('form.tags.label')}
         obligatory
         description={t('form.tags.description')}>
-        {({ field, form }) => (
+        {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
             language={audioLanguage}
             initialTags={audioTags}

@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { FormikHelpers } from 'formik';
+import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
@@ -19,10 +19,12 @@ import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 
-interface Props {
+interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
-  values: AudioFormikType;
-  setFieldValue: FormikHelpers<AudioFormikType>['setFieldValue'];
+}
+
+interface Props extends BaseProps {
+  formik: FormikContextType<AudioFormikType>;
 }
 
 const StyledDeleteButtonContainer = styled.div`
@@ -53,7 +55,8 @@ const getPlayerObject = (
   return undefined;
 };
 
-const AudioContent = ({ t, values, setFieldValue }: Props & tType) => {
+const AudioContent = ({ t, formik }: Props & tType) => {
+  const { values, setFieldValue } = formik;
   const PlayerOrSelector = () => {
     const playerObject = getPlayerObject(values);
     if (playerObject) {
@@ -107,4 +110,4 @@ const AudioContent = ({ t, values, setFieldValue }: Props & tType) => {
   );
 };
 
-export default injectT(AudioContent);
+export default injectT(connect<BaseProps & tType, AudioFormikType>(AudioContent));

@@ -75,7 +75,8 @@ const SubjectpageAccordionPanels = ({
         id="slideshow"
         title={t('ndlaFilm.editor.slideshowHeader')}
         className="u-6/6"
-        hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}>
+        hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}
+        startOpen>
         <FormikField name={'slideShow'}>
           {({ field, form }: FormikSlideshowProps) => (
             <SlideshowEditor
@@ -92,7 +93,8 @@ const SubjectpageAccordionPanels = ({
         id="themes"
         title={t('ndlaFilm.editor.movieGroupHeader')}
         className="u-6/6"
-        hasError={['editorsChoices'].some(field => field in errors)}>
+        hasError={['editorsChoices'].some(field => field in errors)}
+        startOpen>
         <FormikField name={'themes'}>
           {({ field, form }: FormikThemeProps) => (
             <ThemeEditor

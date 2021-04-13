@@ -67,6 +67,7 @@ class VisualElementSearch extends Component {
       selectedResource,
       selectedResourceUrl,
       selectedResourceType,
+      setH5pFetchFail,
       handleVisualElementChange,
       closeModal,
       articleLanguage,
@@ -164,6 +165,7 @@ class VisualElementSearch extends Component {
               }
               onClose={closeModal}
               locale={locale}
+              setH5pFetchFail={setH5pFetchFail}
             />
           </Fragment>
         );
@@ -245,6 +247,7 @@ VisualElementSearch.propTypes = {
   selectedResource: PropTypes.string.isRequired,
   selectedResourceUrl: PropTypes.string,
   selectedResourceType: PropTypes.string,
+  setH5pFetchFail: PropTypes.func,
   handleVisualElementChange: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,

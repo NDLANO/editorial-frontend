@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
@@ -14,6 +14,8 @@ const DisplayExternalModal = ({
   src,
   t,
 }) => {
+  const [h5pFetchFail, setH5pFetchFail] = useState(false);
+
   if (!isEditMode) {
     return null;
   }
@@ -28,7 +30,7 @@ const DisplayExternalModal = ({
       minHeight="85vh">
       {onCloseModal => (
         <Fragment>
-          {allowedProvider.name.toLowerCase() !== 'h5p' && (
+          {(allowedProvider.name.toLowerCase() !== 'h5p' || h5pFetchFail) && (
             <ModalHeader>
               <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
             </ModalHeader>
@@ -40,6 +42,7 @@ const DisplayExternalModal = ({
               selectedResourceType={type}
               handleVisualElementChange={onEditEmbed}
               closeModal={onClose}
+              setH5pFetchFail={setH5pFetchFail}
             />
           </ModalBody>
         </Fragment>

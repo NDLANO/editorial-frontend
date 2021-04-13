@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
@@ -20,6 +20,8 @@ const SlateVisualElementPicker = ({
   onInsertBlock,
   t,
 }) => {
+  const [h5pFetchFail, setH5pFetchFail] = useState(false);
+
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
       const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
@@ -44,7 +46,7 @@ const SlateVisualElementPicker = ({
       minHeight={resource !== 'file' && '90vh'}>
       {onCloseModal => (
         <Fragment>
-          {resource !== 'h5p' && (
+          {(resource !== 'h5p' || h5pFetchFail) && (
             <ModalHeader>
               <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
             </ModalHeader>
@@ -55,6 +57,7 @@ const SlateVisualElementPicker = ({
               selectedResource={resource}
               handleVisualElementChange={onVisualElementAdd}
               closeModal={onVisualElementClose}
+              setH5pFetchFail={setH5pFetchFail}
             />
           </ModalBody>
         </Fragment>

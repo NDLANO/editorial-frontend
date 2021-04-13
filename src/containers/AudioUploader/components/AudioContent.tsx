@@ -10,9 +10,9 @@ import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
+import { UploadDropZone } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
-import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import IconButton from '../../../components/IconButton';
 import AudioPlayer from './AudioPlayer';
@@ -28,10 +28,6 @@ interface Props extends BaseProps {
 }
 
 const StyledDeleteButtonContainer = styled.div`
-  position: absolute;
-  right: -${spacing.medium};
-  transform: translateY(${spacing.normal});
-  z-index: 1;
   display: flex;
   flex-direction: row;
 `;
@@ -63,6 +59,7 @@ const AudioContent = ({ t, formik }: Props & tType) => {
       return (
         <>
           <StyledDeleteButtonContainer>
+            <AudioPlayer audio={playerObject} />
             <Tooltip tooltip={t('form.audio.remove')}>
               <IconButton
                 onClick={() => {
@@ -73,22 +70,23 @@ const AudioContent = ({ t, formik }: Props & tType) => {
               </IconButton>
             </Tooltip>
           </StyledDeleteButtonContainer>
-          <AudioPlayer audio={playerObject} />
         </>
       );
     } else {
       return (
-        <input
-          id="audioFile"
+        <UploadDropZone
           name="audioFile"
-          type="file"
-          onChange={evt => {
+          allowedFiles={['audio/mp3', 'audio/mpeg']}
+          onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
             const file = evt.currentTarget.files?.[0];
             const filepath = file ? URL.createObjectURL(file) : undefined;
             const newFile = file && filepath ? { file, filepath } : undefined;
             setFieldValue('audioFile', { newFile });
           }}
-        />
+          ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
+          <strong>{t('form.audio.dragdrop.main')}</strong>
+          {t('form.audio.dragdrop.sub')}
+        </UploadDropZone>
       );
     }
   };

@@ -111,7 +111,7 @@ export function topicArticleContentToHTML(value) {
   return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
-const NewPlain = {
+export const NewPlain = {
   serialize: nodes => {
     return nodes.map(n => Node.string(n)).join('\n');
   },

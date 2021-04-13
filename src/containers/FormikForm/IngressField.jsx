@@ -18,6 +18,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
 import textTransform from '../../components/SlateEditor/hotkeys/textTransform';
+import { editorValueToPlainText, NewPlain } from '../../util/articleContentConverter';
 
 const markdown = new Remarkable({ breaks: true });
 markdown.inline.ruler.enable(['sub', 'sup']);
@@ -50,10 +51,10 @@ const IngressField = ({
       maxLength={maxLength}>
       {({ field }) =>
         preview ? (
-          <p className="article_introduction">
+          <div className="article_introduction">
             {/*TODO: Stop using serializer package*/}
-            {parse(renderMarkdown(Plain.serialize(field.value), concept))}
-          </p>
+            {parse(renderMarkdown(editorValueToPlainText(field.value), concept))}
+          </div>
         ) : (
           <PlainTextEditor
             id={field.name}

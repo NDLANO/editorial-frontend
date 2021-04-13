@@ -123,11 +123,8 @@ class SearchContentForm extends Component<Props & tType, State> {
   onFieldChange(evt: FormEvent<HTMLInputElement>) {
     const { name, value } = evt.currentTarget;
     this.setState(prevState => {
-      let includeOtherStatuses = prevState.search.includeOtherStatuses;
-      if (name === 'status') {
-        // HAS_PUBLISHED isn't a status in the backend.
-        includeOtherStatuses = value === 'HAS_PUBLISHED';
-      }
+      const includeOtherStatuses =
+        name === 'status' ? value === 'HAS_PUBLISHED' : prevState.search.includeOtherStatuses;
       return {
         search: {
           ...prevState.search,

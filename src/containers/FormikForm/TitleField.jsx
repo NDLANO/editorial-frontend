@@ -13,9 +13,9 @@ import { injectT } from '@ndla/i18n';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
+import textTransform from '../../components/SlateEditor/hotkeys/textTransform';
 
-const plugins = [textTransformPlugin()];
+const hotkeys = [...textTransform];
 
 const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => (
   <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
@@ -26,7 +26,7 @@ const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => (
         className={'title'}
         placeholder={t('form.title.label')}
         data-cy="learning-resource-title"
-        plugins={plugins}
+        hotkeys={hotkeys}
         handleSubmit={handleSubmit}
         onBlur={onBlur}
       />

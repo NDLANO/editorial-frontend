@@ -8,7 +8,7 @@
  */
 
 import React, { useMemo, KeyboardEventHandler, FocusEventHandler } from 'react';
-import { BaseEditor, createEditor, Descendant } from 'new-slate';
+import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';
 import isHotkey from 'is-hotkey';
@@ -24,6 +24,11 @@ declare module 'new-slate' {
   }
 }
 
+interface Hotkey {
+  isKey: (e: KeyboardEvent) => boolean;
+  action: (e: KeyboardEvent, editor: Editor) => void;
+}
+
 const isSaveHotkey = isHotkey('mod+s');
 
 interface SlateEditorProps {
@@ -33,7 +38,7 @@ interface SlateEditorProps {
   className?: string;
   onChange: (value: Descendant[]) => void;
   placeholder?: string;
-  plugins?: any; // TODO: Replace type: any
+  hotkeys?: Hotkey[]; // TODO: Replace type: any
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
@@ -49,13 +54,34 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
 
 const PlainTextEditor: React.FC<Props> = props => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const { onChange, value, handleSubmit, id, className, placeholder, onBlur, ...rest } = props;
+  const {
+    onChange,
+    value,
+    handleSubmit,
+    id,
+    className,
+    placeholder,
+    onBlur,
+    hotkeys,
+    ...rest
+  } = props;
 
-  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
-    if (isSaveHotkey(e)) {
+  const saveHotkey: Hotkey = {
+    isKey: e => isSaveHotkey(e),
+    action: e => {
       e.preventDefault();
       handleSubmit();
-    }
+    },
+  };
+
+  const hotkeyList: Hotkey[] = [...(hotkeys ? hotkeys : []), saveHotkey];
+
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
+    hotkeyList.forEach(hotkey => {
+      if (hotkey.isKey(e)) {
+        hotkey.action(e, editor);
+      }
+    });
   };
 
   return (

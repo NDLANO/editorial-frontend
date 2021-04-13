@@ -51,6 +51,7 @@ const IngressField = ({
       {({ field }) =>
         preview ? (
           <p className="article_introduction">
+            {/*TODO: Stop using serializer package*/}
             {parse(renderMarkdown(Plain.serialize(field.value), concept))}
           </p>
         ) : (

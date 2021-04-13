@@ -22,6 +22,8 @@ import { submitFormWithMessage } from '../conceptUtil';
 
 import { CreateMessageType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
+import { Editor } from 'new-slate';
+import { ReactEditor } from 'new-slate-react';
 
 const ByLine = styled.div`
   display: flex;
@@ -53,11 +55,16 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
     <>
       <TitleField
         handleSubmit={submitForm}
-        onBlur={(event: Event) => {
+        onBlur={(event: Event, editor: Editor) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+
+          // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slateTitle' } }), 0);
+          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
         }}
       />
       <ByLine>
@@ -80,11 +87,22 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
         preview={preview}
         concept
         handleSubmit={() => submitFormWithMessage(formikContext, createMessage)}
-        onBlur={(event: Event) => {
+        onBlur={(event: Event, editor: Editor) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+
+          // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'conceptContent' } }), 0);
+          setTimeout(
+            () =>
+              handleBlur({
+                target: { name: 'conceptContent' },
+              }),
+            0,
+          );
         }}
       />
     </>

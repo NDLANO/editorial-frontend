@@ -49,7 +49,7 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: FocusEventHandler<HTMLDivElement>;
+  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const PlainTextEditor: React.FC<Props> = props => {
@@ -98,7 +98,7 @@ const PlainTextEditor: React.FC<Props> = props => {
         });
       }}>
       <Editable
-        onBlur={onBlur}
+        onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
         onKeyDown={onKeyDown}
         className={className}
         placeholder={placeholder}

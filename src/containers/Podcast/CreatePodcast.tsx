@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useContext } from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
@@ -20,7 +20,7 @@ interface Props {
   licenses: License[];
 }
 
-const CreatePodcast: FC<Props> = ({ licenses, history }) => {
+const CreatePodcast = ({ licenses, history }: Props) => {
   const locale: string = useContext(LocaleContext);
 
   const onCreatePodcast = async (

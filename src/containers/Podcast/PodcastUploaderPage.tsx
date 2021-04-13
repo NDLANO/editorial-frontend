@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, Route, Switch } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -23,12 +23,12 @@ interface Props {
   location: RouteComponentProps['location'];
 }
 
-const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({
+const PodcastUploderPage = ({
   match,
   history,
   location,
   t,
-}) => {
+}: RouteComponentProps & Props & tType) => {
   const [licenses, setLicenses] = useState<any>([]); // TODO type License
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);

@@ -24,7 +24,7 @@ export const searchFormClasses = new BEMHelper({
 export interface SearchParams {
   query?: string | null;
   'draft-status'?: string | null;
-  'include-other-statuses'?: string | null;
+  'include-other-statuses'?: boolean | null;
   'page-size'?: string | null;
   'resource-types'?: string | null;
   fallback?: boolean | null;

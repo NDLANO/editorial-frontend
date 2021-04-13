@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -130,22 +129,25 @@ const LearningResourceForm = props => {
     savedToServer,
     formikRef,
     initialValues,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+  const { userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+    const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
+    setSaveAsNewVersion(isNewlyCreated);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
     return (
       <Form {...formClasses()}>
@@ -165,32 +167,29 @@ const LearningResourceForm = props => {
           <Spinner withWrapper />
         ) : (
           <LearningResourcePanels
-            values={values}
-            errors={errors}
             article={article}
-            touched={touched}
             updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            setValues={setValues}
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            {...formikProps}
-            {...rest}
+            userAccess={userAccess}
+            createMessage={createMessage}
+            history={history}
             handleSubmit={() => {
-              handleSubmit(formik, isNewlyCreated);
+              handleSubmit(values, formik);
             }}
           />
         )}
-
         <EditorFooter
           showSimpleFooter={!article.id}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
-            handleSubmit(formik, saveAsNewVersion);
+            setSaveAsNewVersion(saveAsNewVersion);
+            handleSubmit(values, formik);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
@@ -227,7 +226,7 @@ const LearningResourceForm = props => {
       innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount
-      onSubmit={() => ({})}
+      onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>
       {FormikChild}
     </Formik>
@@ -256,6 +255,9 @@ LearningResourceForm.propTypes = {
   translating: PropTypes.bool,
   translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default injectT(LearningResourceForm);

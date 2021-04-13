@@ -114,6 +114,8 @@ export const ArticleShape = PropTypes.shape({
   title: PropTypes.string,
   notes: PropTypes.arrayOf(NoteShape),
   language: PropTypes.string,
+  grepCodes: PropTypes.arrayOf(PropTypes.string),
+  revision: PropTypes.number,
 });
 
 export const NewArticleShape = PropTypes.shape({
@@ -315,6 +317,7 @@ export const FormikShape = PropTypes.shape({
   handleBlur: PropTypes.func,
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
+  setFieldValue: PropTypes.func,
 });
 
 export const RoutePropTypes = {

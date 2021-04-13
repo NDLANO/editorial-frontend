@@ -67,8 +67,8 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const updateArticle = async updatedArticle => {
-    const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
-    const relatedContent = updatedArticle.relatedContent.map(rc => (rc.id ? rc.id : rc));
+    const conceptIds = updatedArticle.conceptIds?.map(concept => concept.id);
+    const relatedContent = updatedArticle.relatedContent?.map(rc => (rc.id ? rc.id : rc));
     const savedArticle = await draftApi.updateDraft({
       ...updatedArticle,
       conceptIds,

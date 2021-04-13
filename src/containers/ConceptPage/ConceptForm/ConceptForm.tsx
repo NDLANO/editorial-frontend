@@ -29,7 +29,7 @@ import {
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import AccordionSection from './AccordionSection';
+import AccordionSection from '../../../components/Accordion/AccordionSection';
 import FormFooter from './FormFooter';
 import { NewConceptType, PatchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import {

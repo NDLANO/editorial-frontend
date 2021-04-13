@@ -51,7 +51,7 @@ export const getInitialValues = (article = {}) => {
     metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
-    origin: article.copyright?.origin || '',
+    origin: article.copyright?.origin,
     processors: parseCopyrightContributors(article, 'processors'),
     published: article.published,
     revision: article.revision,

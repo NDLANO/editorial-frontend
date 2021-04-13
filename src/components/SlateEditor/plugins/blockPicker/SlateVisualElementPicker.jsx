@@ -10,6 +10,9 @@ export const StyledModal = styled(Modal)`
   overflow: hidden;
   .modal-body {
     height: 90%;
+    h2 {
+      margin-top: 0 !important;
+    }
   }
 `;
 

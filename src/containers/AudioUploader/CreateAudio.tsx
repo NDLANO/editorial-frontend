@@ -24,7 +24,7 @@ interface Props extends RouteComponentProps {
 const CreateAudio = ({ history, locale, ...rest }: Props) => {
   const onCreateAudio = async (
     newAudio: NewAudioMetaInformation,
-    file: string | Blob,
+    file?: string | Blob,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);

@@ -66,7 +66,7 @@ const EditAudio = ({
 
   const onUpdate = async (
     newAudio: UpdatedAudioMetaInformation,
-    file: string | Blob,
+    file: string | Blob | undefined,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const updatedAudio = await audioApi.updateAudio(audioId, formData);

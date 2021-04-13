@@ -39,15 +39,17 @@ export interface AudioFormikType {
   language: string;
   supportedLanguages: string[];
   title: string;
-  storedAudioFile?: {
-    url: string;
-    mimeType: string;
-    fileSize: number;
-    language: string;
-  };
-  newAudio?: {
-    filepath: string;
-    file: File;
+  audioFile: {
+    storedFile?: {
+      url: string;
+      mimeType: string;
+      fileSize: number;
+      language: string;
+    };
+    newFile?: {
+      filepath: string;
+      file: File;
+    };
   };
   tags: string[];
   creators: Author[];
@@ -59,21 +61,22 @@ export interface AudioFormikType {
 
 export const getInitialValues = (
   audio: Partial<FlattenedAudioApiType> & { language: string },
-): AudioFormikType => ({
-  id: audio.id,
-  revision: audio.revision,
-  language: audio.language,
-  supportedLanguages: audio.supportedLanguages || [],
-  title: audio.title || '',
-  storedAudioFile: audio.audioFile,
-  newAudio: undefined,
-  tags: audio.tags || [],
-  creators: parseCopyrightContributors(audio, 'creators'),
-  processors: parseCopyrightContributors(audio, 'processors'),
-  rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
-  origin: audio.copyright?.origin || '',
-  license: audio.copyright?.license?.license || DEFAULT_LICENSE.license,
-});
+): AudioFormikType => {
+  return {
+    id: audio.id,
+    revision: audio.revision,
+    language: audio.language,
+    supportedLanguages: audio.supportedLanguages || [],
+    title: audio.title || '',
+    audioFile: { storedFile: audio.audioFile },
+    tags: audio.tags || [],
+    creators: parseCopyrightContributors(audio, 'creators'),
+    processors: parseCopyrightContributors(audio, 'processors'),
+    rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
+    origin: audio.copyright?.origin || '',
+    license: audio.copyright?.license?.license || DEFAULT_LICENSE.license,
+  };
+};
 
 const rules = {
   title: {
@@ -107,8 +110,8 @@ const mapDispatchToProps = {
 const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-type OnCreateFunc = (audio: NewAudioMetaInformation, file: string | Blob) => void;
-type OnUpdateFunc = (audio: UpdatedAudioMetaInformation, file: string | Blob) => void;
+type OnCreateFunc = (audio: NewAudioMetaInformation, file?: string | Blob) => void;
+type OnUpdateFunc = (audio: UpdatedAudioMetaInformation, file?: string | Blob) => void;
 
 interface BaseProps extends PropsFromRedux {
   licenses: License[];
@@ -146,7 +149,7 @@ class AudioForm extends Component<Props, State> {
       actions.setSubmitting(true);
       const audioMetaData = {
         id: values.id,
-        revision,
+        revision: revision,
         title: values.title,
         language: values.language,
         tags: values.tags,
@@ -158,8 +161,9 @@ class AudioForm extends Component<Props, State> {
           rightsholders: values.rightsholders,
         },
       };
-      // @ts-ignore
-      await onUpdate(audioMetaData, values.storedAudioFile);
+
+      await onUpdate(audioMetaData, values.audioFile.newFile?.file);
+
       actions.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -178,7 +182,7 @@ class AudioForm extends Component<Props, State> {
         {
           id: 'audio-upload-content',
           title: t('form.contentSection'),
-          hasError: hasErr(['title', 'storedAudioFile']),
+          hasError: hasErr(['title', 'audioFile']),
           component: (
             <AudioContent classes={formClasses} setFieldValue={setFieldValue} values={values} />
           ),

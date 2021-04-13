@@ -12,7 +12,7 @@ import {
 } from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
-  file: string | Blob,
+  file?: string | Blob,
   metadata?:
     | NewImageMetadata
     | UpdatedImageMetadata
@@ -24,6 +24,8 @@ export const createFormData = (
     if (metadata) {
       form.append('metadata', JSON.stringify(metadata));
     }
-    form.append('file', file);
+    if (file) {
+      form.append('file', file);
+    }
     resolve(form);
   });

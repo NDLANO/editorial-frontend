@@ -31,8 +31,8 @@ export interface NewAudioMetaInformation {
 }
 
 export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
-  id: number;
-  revision: number;
+  id?: number;
+  revision?: number;
 }
 
 export interface AudioApiType {

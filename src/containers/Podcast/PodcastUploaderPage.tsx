@@ -13,7 +13,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchLicenses } from '../../modules/draft/draftApi'; // TODO er dette rett lisenser?
-import { License } from '../../interfaces';
+// import { License } from '../../interfaces';
 import CreatePodcast from './CreatePodcast';
 import EditPodcast from './EditPodcast';
 
@@ -34,18 +34,15 @@ const PodcastUploderPage: FC<RouteComponentProps & Props & tType> = ({
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 
   useEffect(() => {
-    // TODO gjenbrukt kode - kan det lages en util
     /\/podcast-upload\/(.*)\/new/.test(location.pathname)
       ? setNewlyCreated(true)
       : setNewlyCreated(false);
     if (previousLocation !== location.pathname) {
       setPreviousLocation(location.pathname);
     }
-  }, []);
 
-  useEffect(() => {
     getLicenses();
-  }, []);
+  }, [location.pathname, previousLocation]);
 
   const getLicenses = async () => {
     const license = await fetchLicenses();

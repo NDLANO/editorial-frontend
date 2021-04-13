@@ -1,4 +1,3 @@
-import { License } from './../../interfaces';
 /**
  * Copyright (c) 2021-present, NDLA.
  *
@@ -28,7 +27,7 @@ export interface NewPodcastMeta {
 }
 
 export interface NewAudioMetaInformation {
-  id?: number; // Used only to check if image was newly created. This id is discarded by backend.
+  id?: number; // Only used by frontend, ignored by backend
   title: string;
   language: string;
   copyright: Copyright;

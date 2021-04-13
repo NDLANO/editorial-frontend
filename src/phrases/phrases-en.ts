@@ -39,10 +39,6 @@ const phrases = {
     create: 'Create new',
     isSelectedItem: 'Added',
   },
-  accordion: {
-    openAll: 'Open all',
-    closeAll: 'Close all',
-  },
   dialog: {
     close: 'Close',
     title: 'Title',

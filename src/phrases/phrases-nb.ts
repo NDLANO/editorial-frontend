@@ -33,10 +33,6 @@ const phrases = {
     create: 'Opprett nytt',
     isSelectedItem: 'Lagt til',
   },
-  accordion: {
-    openAll: 'Åpne alle',
-    closeAll: 'Lukk alle',
-  },
   meta: {
     description:
       'Kvalitetssikrede fritt tilgjengelige nettbaserte læremidler for videregående opplæring',

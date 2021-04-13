@@ -8,16 +8,33 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
-import { searchFormClasses } from './SearchForm';
-import { LocationShape } from '../../../../shapes';
+import { searchFormClasses, SearchParams } from './SearchForm';
+import { LocationShape, SearchParamsShape } from '../../../../shapes';
+import { SubjectType } from '../../../../interfaces';
 
-class SearchAudioForm extends Component {
-  constructor(props) {
+interface Props {
+  search: (o: SearchParams) => void;
+  subjects: SubjectType[];
+  location: Location;
+  searchObject: SearchParams;
+  locale: string;
+}
+
+interface State {
+  search: {
+    query: string;
+    language: string;
+    page?: string;
+  };
+}
+
+class SearchImageForm extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
 
     const { searchObject } = props;
@@ -30,61 +47,52 @@ class SearchAudioForm extends Component {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
-        audioType: searchObject['audio-type'] || '',
       },
     };
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props & tType) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
         search: {
           query: searchObject.query || '',
           language: searchObject.language || '',
-          'audio-type': searchObject['audio-type'] || '',
         },
       });
     }
   }
 
-  onFieldChange(evt) {
-    const { value, name } = evt.target;
+  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+    const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
       this.handleSearch,
     );
   }
 
-  handleSearch(evt) {
+  handleSearch(evt?: React.SyntheticEvent) {
     if (evt) {
       evt.preventDefault();
     }
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ ...this.state.search, page: '1' });
   }
 
-  emptySearch(evt) {
+  emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
-    this.setState({ search: { query: '', language: '', 'audio-type': '' } }, () =>
-      this.handleSearch(evt),
-    );
+    this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
   }
 
   render() {
     const { t } = this.props;
-
-    const getAudioTypes = t => [
-      { id: 'standard', name: t('searchForm.audioType.standard') },
-      { id: 'podcast', name: t('searchForm.audioType.podcast') },
-    ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
         <div {...searchFormClasses('field', '50-width')}>
           <input
             name="query"
-            placeholder={t('searchForm.types.audioQuery')}
+            placeholder={t('searchForm.types.imageQuery')}
             value={this.state.search.query}
             onChange={this.onFieldChange}
           />
@@ -119,39 +127,24 @@ class SearchAudioForm extends Component {
             {t('searchForm.btn')}
           </Button>
         </div>
-        <div {...searchFormClasses('field', '50-width')}>
-          <ObjectSelector
-            name="audio-type"
-            value={this.state.search['audio-type']}
-            options={getAudioTypes(t)}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={this.onFieldChange}
-            placeholder={t('searchForm.types.audio')}
-          />
-        </div>
       </form>
     );
   }
+
+  static propTypes = {
+    search: PropTypes.func.isRequired,
+    subjects: PropTypes.array.isRequired,
+    location: LocationShape,
+    searchObject: SearchParamsShape,
+    locale: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    searchObject: {
+      query: '',
+      language: '',
+    },
+  };
 }
 
-SearchAudioForm.propTypes = {
-  search: PropTypes.func.isRequired,
-  location: LocationShape,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    language: PropTypes.string,
-    'audio-type': PropTypes.string,
-  }),
-};
-
-SearchAudioForm.defaultProps = {
-  searchObject: {
-    query: '',
-    language: '',
-    'audio-type': '',
-  },
-};
-
-export default injectT(SearchAudioForm);
+export default injectT(SearchImageForm);

@@ -1,58 +1,44 @@
 {
-  "name" : "Film",
-  "about" : [
+  "name": "Film",
+  "about": [
     {
-      "title" : "film",
-      "description" : "film fag",
-      "visualElement" : {
-        "type" : "image",
-        "url" : "https://test.api.ndla.no/image-api/raw/id/37",
-        "alt" : "Et bilde Foto."
+      "title": "film",
+      "description": "film fag",
+      "visualElement": {
+        "type": "image",
+        "url": "https://test.api.ndla.no/image-api/raw/id/37",
+        "alt": "Et bilde Foto."
       },
-      "language" : "nb"
+      "language": "nb"
     }
   ],
-  "movieThemes" : [
+  "movieThemes": [
     {
-      "name" : [
+      "name": [
         {
-          "name" : "eksempel 1",
-          "language" : "nb"
+          "name": "eksempel 1",
+          "language": "nb"
         }
       ],
-      "movies" : [
-        "urn:article:288",
-        "urn:article:14191",
-        "urn:article:14320"
-      ]
+      "movies": ["urn:article:288", "urn:article:14191", "urn:article:14320"]
     },
     {
-      "name" : [
+      "name": [
         {
-          "name" : "eksempel 2",
-          "language" : "nb"
+          "name": "eksempel 2",
+          "language": "nb"
         },
         {
-          "name" : "eksempel 2",
-          "language" : "nn"
+          "name": "eksempel 2",
+          "language": "nn"
         },
         {
-          "name" : "example 2",
-          "language" : "en"
+          "name": "example 2",
+          "language": "en"
         }
       ],
-      "movies" : [
-        "urn:article:14274",
-        "urn:article:14537",
-        "urn:article:591",
-        "urn:article:13110"
-      ]
+      "movies": ["urn:article:14274", "urn:article:14537", "urn:article:591", "urn:article:13110"]
     }
   ],
-  "slideShow" : [
-    "urn:article:14547",
-    "urn:article:14188",
-    "urn:article:14178",
-    "urn:article:14186"
-  ]
+  "slideShow": ["urn:article:14547", "urn:article:14188", "urn:article:14178", "urn:article:14186"]
 }

@@ -9,7 +9,7 @@ import React, { useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { AccordionWrapper } from '@ndla/accordion';
-import AccordionSection from '../../ConceptPage/ConceptForm/AccordionSection';
+import AccordionSection from '../../../components/Accordion/AccordionSection';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';

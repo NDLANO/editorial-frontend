@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
@@ -32,7 +32,7 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure: React.FC<Props & tType> = ({
+const SlateFigure = ({
   t,
   attributes,
   editor,
@@ -40,23 +40,9 @@ const SlateFigure: React.FC<Props & tType> = ({
   language,
   locale = 'nb',
   node,
-}) => {
+}: Props & tType) => {
   const embed = getSchemaEmbed(node);
-  const [submitted, setSubmitted] = useState<boolean>(editor.props.submitted);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
-
-  const onSubmittedChange = () => {
-    const slateStore = editor.props.slateStore;
-    setSubmitted(slateStore.getState().submitted);
-  };
-
-  useEffect(() => {
-    const slateStore = editor.props.slateStore;
-    const unsubscribe = slateStore.subscribe(onSubmittedChange);
-
-    // ComponentWillUnmount
-    return () => unsubscribe();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onFigureInputChange = (event: FormikInputEvent) => {
     event.preventDefault();
@@ -100,7 +86,6 @@ const SlateFigure: React.FC<Props & tType> = ({
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
-          submitted={submitted}
           visualElement={false}
         />
       );
@@ -125,7 +110,6 @@ const SlateFigure: React.FC<Props & tType> = ({
           locale={locale}
           onRemoveClick={onRemoveClick}
           onFigureInputChange={onFigureInputChange}
-          submitted={submitted}
         />
       );
     case 'external':

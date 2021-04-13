@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import FormikFieldHelp from './FormikFieldHelp';
 
@@ -16,7 +16,7 @@ interface Props {
   getRemainingLabel: (maxLength: number, remaining: number) => ReactNode;
 }
 
-export const FormikRemainingCharacters: FC<Props> = ({ value, maxLength, getRemainingLabel }) => {
+export const FormikRemainingCharacters = ({ value, maxLength, getRemainingLabel }: Props) => {
   const currentLength = value ? value.length : 0;
   return (
     <FormikFieldHelp float="right">

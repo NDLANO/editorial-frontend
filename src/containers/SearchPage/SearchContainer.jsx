@@ -89,7 +89,8 @@ class SearchContainer extends Component {
       t,
       userAccess,
     } = this.props;
-    const searchObject = queryString.parse(location.search);
+    const queryStringObject = queryString.parse(location.search);
+    const searchObject = { ...queryStringObject, fallback: queryStringObject.fallback === 'true' };
     return (
       <OneColumn>
         <h2>
@@ -99,7 +100,7 @@ class SearchContainer extends Component {
         <SearchForm
           type={type}
           search={this.onQueryPush}
-          searchObject={searchObject}
+          searchObject={{ ...searchObject, fallback: searchObject.fallback === 'true' }}
           location={location}
           locale={locale}
           subjects={this.state.subjects}

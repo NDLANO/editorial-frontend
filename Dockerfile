@@ -12,7 +12,7 @@ WORKDIR $APP_PATH
 RUN yarn
 
 # Copy necessary source files for server and client build
-COPY .babelrc tsconfig.json razzle-add-entry-plugin.js razzle.config.js postcss.config.js $APP_PATH/
+COPY .babelrc tsconfig.json razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
 COPY custom-typings $APP_PATH/custom-typings

@@ -15,6 +15,7 @@ import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
+import { useSlateContext } from '../../SlateContext';
 import FigureButtons from './FigureButtons';
 import { SlateAudio, Embed, LocaleType } from '../../../../interfaces';
 
@@ -34,11 +35,10 @@ interface Props {
   onExit: Function;
   onRemoveClick: Function;
   speech: boolean;
-  submitted: boolean;
   type: string;
 }
 
-const EditAudio: React.FC<Props & tType> = ({
+const EditAudio = ({
   embed,
   onChange,
   onAudioFigureInputChange,
@@ -50,11 +50,11 @@ const EditAudio: React.FC<Props & tType> = ({
   locale,
   speech,
   audio,
-  submitted,
   changes,
-}) => {
+}: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
+  const { submitted } = useSlateContext();
 
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();

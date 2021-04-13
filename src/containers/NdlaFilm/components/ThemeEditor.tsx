@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
@@ -52,7 +52,7 @@ interface ThemeNames {
   };
 }
 
-const ThemeEditor: FC<Props & tType> = ({
+const ThemeEditor = ({
   t,
   allMovies,
   field,
@@ -60,7 +60,7 @@ const ThemeEditor: FC<Props & tType> = ({
   onUpdateMovieTheme,
   loading,
   selectedLanguage,
-}) => {
+}: Props & tType) => {
   if (loading) {
     return <Spinner />;
   }

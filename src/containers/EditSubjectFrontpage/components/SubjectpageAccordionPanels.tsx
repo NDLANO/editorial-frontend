@@ -4,7 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FormikErrors } from 'formik';
@@ -13,13 +13,13 @@ import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
 import { AccordionProps, ArticleType, FormikProperties } from '../../../interfaces';
-import { Values } from '../../../components/SlateEditor/editorTypes';
 import FormikField from '../../../components/FormikField';
+import { SubjectFormValues } from './SubjectpageForm';
 
 interface Props {
   editorsChoices: ArticleType[];
   elementId: string;
-  errors: FormikErrors<Values>;
+  errors: FormikErrors<SubjectFormValues>;
   handleSubmit: () => void;
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
@@ -34,7 +34,7 @@ const panels = [
     id: 'about',
     title: 'subjectpageForm.about',
     className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: ['title', 'description', 'visualElement'],
+    errorFields: ['title', 'description', 'visualElementObject'],
     component: ({
       handleSubmit,
       onBlur,
@@ -76,14 +76,14 @@ const panels = [
   },
 ];
 
-const SubjectpageAccordionPanels: FC<Props & tType> = ({
+const SubjectpageAccordionPanels = ({
   t,
   editorsChoices,
   elementId,
   errors,
   handleSubmit,
   onBlur,
-}) => {
+}: Props & tType) => {
   return (
     <Accordion openIndexes={['about']}>
       {({ openIndexes, handleItemClick }: AccordionProps) => (

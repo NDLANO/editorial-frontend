@@ -23,7 +23,7 @@ export const getInitialValues = (filmFrontpage, slideshowMovies, themes, languag
     name: filmFrontpage.name,
     title: aboutInSelectedLanguage.title,
     description: plainTextToEditorValue(aboutInSelectedLanguage.description),
-    visualElement: visualElement,
+    visualElementObject: visualElement,
     language: language,
     supportedLanguages: supportedLanguages,
     slideShow: slideshowMovies,
@@ -70,9 +70,9 @@ export const getNdlaFilmFromSlate = (oldFilmFrontpage, newFilmFrontpage, selecte
     language: selectedLanguage,
     title: newFilmFrontpage.title,
     visualElement: {
-      alt: newFilmFrontpage.visualElement.alt || newFilmFrontpage.visualElement.caption,
-      id: newFilmFrontpage.visualElement.metaData.id,
-      type: newFilmFrontpage.visualElement.resource,
+      alt: newFilmFrontpage.visualElementObject.alt || newFilmFrontpage.visualElementObject.caption,
+      id: newFilmFrontpage.visualElementObject.metaData.id,
+      type: newFilmFrontpage.visualElementObject.resource,
     },
   };
   let newLanguage = true;

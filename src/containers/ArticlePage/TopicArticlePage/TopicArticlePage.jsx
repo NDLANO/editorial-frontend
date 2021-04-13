@@ -5,83 +5,60 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import * as messageActions from '../../Messages/messagesActions';
-import { getLocale } from '../../../modules/locale/locale';
-import { fetchDraft } from '../../../modules/draft/draftApi';
-import EditTopicArticle from './EditTopicArticle';
+import EditArticleRedirect from './EditArticleRedirect';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
-import { toEditArticle } from '../../../util/routeHelpers';
 import { LocationShape } from '../../../shapes';
 
-class TopicArticlePage extends React.Component {
-  constructor(props) {
-    super();
-    this.state = { previousLocation: '' };
-  }
-  componentDidMount() {
-    const { fetchLicenses, licenses } = this.props;
+const TopicArticlePage = ({
+  location,
+  match,
+  history,
+  licenses,
+  fetchLicenses,
+  applicationError,
+  createMessage,
+  userAccess,
+}) => {
+  const previousLocation = useRef(location.pathname).current;
+
+  useEffect(() => {
     if (!licenses.length) {
       fetchLicenses();
     }
-  }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.setState({ previousLocation: prevProps.location.pathname });
-    }
-  }
+  const articleFormProps = { applicationError, licenses, createMessage, userAccess };
 
-  async getDraft(id) {
-    const draft = await fetchDraft(id);
-    this.setState({ draft });
-  }
+  return (
+    <OneColumn>
+      <Switch>
+        <Route
+          path={`${match.url}/new`}
+          render={() => <CreateTopicArticle history={history} {...articleFormProps} />}
+        />
+        <Route path={`${match.url}/:articleId/edit/`}>
+          {params => (
+            <EditArticleRedirect
+              match={params.match}
+              isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
+              {...articleFormProps}
+            />
+          )}
+        </Route>
+        <Route component={NotFoundPage} />
+      </Switch>
+    </OneColumn>
+  );
+};
 
-  render() {
-    const { match, history, ...rest } = this.props;
-    return (
-      <OneColumn>
-        <Switch>
-          <Route
-            path={`${match.url}/new`}
-            render={() => <CreateTopicArticle history={history} {...rest} />}
-          />
-          <Route
-            path={`${match.url}/:articleId/edit/:selectedLanguage`}
-            render={routeProps => (
-              <EditTopicArticle
-                articleId={routeProps.match.params.articleId}
-                selectedLanguage={routeProps.match.params.selectedLanguage}
-                isNewlyCreated={this.state.previousLocation === '/subject-matter/topic-article/new'}
-                {...rest}
-              />
-            )}
-          />
-          <Route
-            path={`${match.url}/:articleId/edit`}
-            render={routeProps => {
-              this.getDraft(routeProps.match.params.articleId);
-              const draft = this.state.draft;
-              const language =
-                draft && draft.supportedLanguages.find(lang => lang === this.props.locale);
-              draft &&
-                history.push(
-                  toEditArticle(draft.id, 'topic-article', language || draft.supportedLanguages[0]),
-                );
-            }}
-          />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </OneColumn>
-    );
-  }
-}
 TopicArticlePage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string.isRequired,
@@ -89,7 +66,6 @@ TopicArticlePage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
@@ -110,7 +86,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  locale: getLocale(state),
   licenses: getAllLicenses(state),
   userAccess: state.session.user.scope,
 });

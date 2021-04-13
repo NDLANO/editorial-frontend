@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
@@ -23,14 +23,14 @@ interface Props {
   form: FormikHelpers<FormikValues>;
 }
 
-const SlideshowEditor: FC<Props & tType> = ({
+const SlideshowEditor = ({
   t,
   onUpdateSlideshow,
   allMovies,
   loading,
   field,
   form,
-}) => {
+}: Props & tType) => {
   if (loading) {
     return <Spinner />;
   }

@@ -114,6 +114,8 @@ export const ArticleShape = PropTypes.shape({
   title: PropTypes.string,
   notes: PropTypes.arrayOf(NoteShape),
   language: PropTypes.string,
+  grepCodes: PropTypes.arrayOf(PropTypes.string),
+  revision: PropTypes.number,
 });
 
 export const NewArticleShape = PropTypes.shape({
@@ -181,7 +183,7 @@ export const PluginShape = PropTypes.shape({
 export const EditorShape = PropTypes.shape({
   onChange: PropTypes.func.isRequired,
   props: PropTypes.shape({
-    submitted: PropTypes.bool.isRequired,
+    submitted: PropTypes.bool,
     slateStore: PropTypes.shape({
       getState: PropTypes.func.isRequired,
       subscribe: PropTypes.func.isRequired,
@@ -315,4 +317,28 @@ export const FormikShape = PropTypes.shape({
   handleBlur: PropTypes.func,
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
+  setFieldValue: PropTypes.func,
+});
+
+export const RoutePropTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    params: PropTypes.object.isRequired,
+    isExact: PropTypes.bool.isRequired,
+    path: PropTypes.string.isRequired,
+  }).isRequired,
+  location: LocationShape,
+  history: HistoryShape.isRequired,
+};
+
+export const SearchParamsShape = PropTypes.shape({
+  query: PropTypes.string,
+  subjects: PropTypes.string,
+  'resource-types': PropTypes.string,
+  'draft-status': PropTypes.string,
+  'audio-type': PropTypes.string,
+  status: PropTypes.string,
+  users: PropTypes.string,
+  language: PropTypes.string,
+  fallback: PropTypes.bool,
 });

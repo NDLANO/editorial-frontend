@@ -158,6 +158,8 @@ const phrases = {
       content: 'Søketreff frå innhold',
       tags: 'Søketreff frå nøkkelord',
       embedAttributes: 'Søketreff frå innebygde elementer',
+      notes: 'Søketreff frå versjonslogg',
+      previousVersionsNotes: 'Søketreff frå versjonslogg',
     },
   },
   articleType: {
@@ -541,6 +543,7 @@ const phrases = {
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
       visualElement: 'Visuelt element',
+      visualElementObject: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
@@ -699,9 +702,11 @@ const phrases = {
       queued_for_publishing: 'Til publisering',
       queued_for_publishing_delayed: 'Publ-utsatt',
       published: 'Publisert',
+      has_published: 'Har publisert versjon',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
-      archived: 'Arkivert',
+      awaiting_archiving: 'Utsatt arkivering',
+      archived: 'Slettet',
       actions: {
         DRAFT: 'Kladd',
         PROPOSAL: 'Utkast',
@@ -716,8 +721,8 @@ const phrases = {
         PUBLISHED: 'Publiser',
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
-        ARCHIVED: 'Arkiver',
-        AWAITING_ARCHIVING: 'Arkivering-utsatt',
+        ARCHIVED: 'Slett',
+        AWAITING_ARCHIVING: 'Utsatt arkivering',
       },
       learningpath_statuses: {
         private: 'Kladd',
@@ -981,6 +986,10 @@ const phrases = {
       label: 'Artikkel',
       add: 'Legg til artikkel',
     },
+    learningpathConnections: {
+      sectionTitle: 'Bruk av artikkelen i læringsstiar',
+      title: 'Læringsstiar som inneheld denne artikkelen',
+    },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
       articlesTitle: 'Forklaringar',
@@ -1029,6 +1038,7 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var eit problem ved lasting av taksonomi',
+    unsavedTaxonomy: 'Du har ulagra endringar. Trykk avbryt igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {message}',
     statusCode: {

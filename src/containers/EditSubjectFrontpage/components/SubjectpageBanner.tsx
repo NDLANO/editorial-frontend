@@ -4,7 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
@@ -22,7 +22,7 @@ interface Props {
   title: string;
 }
 
-const SubjectpageBanner: FC<Props & tType> = ({ t, field, form, title }) => {
+const SubjectpageBanner = ({ t, field, form, title }: Props & tType) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
 
   const onImageChange = (image: VisualElement) => {

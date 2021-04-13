@@ -7,28 +7,56 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
+import PropTypes from 'prop-types';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
-import { searchFormClasses } from './SearchForm';
-import { LocationShape } from '../../../../shapes';
+import { searchFormClasses, SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
+import { SubjectType } from '../../../../interfaces';
+import { User } from './SearchContentForm';
+import { LocationShape, SearchParamsShape } from '../../../../shapes';
+import { MinimalTagType } from './SearchTag';
 
-const emptySearchState = {
+interface Props {
+  search: (o: SearchParams) => void;
+  subjects: SubjectType[];
+  location: Location;
+  searchObject: SearchParams;
+  locale: string;
+}
+
+interface SearchState {
+  query: string;
+  language: string;
+  subjects: string;
+  types: string;
+  status: string;
+  users: string;
+  page?: string;
+}
+
+interface State {
+  search: SearchState;
+  users: User[];
+}
+
+const emptySearchState: SearchState = {
+  status: '',
+  types: '',
   query: '',
   subjects: '',
   language: '',
   users: '',
 };
 
-class SearchConceptForm extends Component {
-  constructor(props) {
+class SearchConceptForm extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     const { searchObject } = props;
     this.state = {
@@ -58,7 +86,7 @@ class SearchConceptForm extends Component {
     this.setState({ users: users });
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props & tType) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -74,8 +102,8 @@ class SearchConceptForm extends Component {
     }
   }
 
-  onFieldChange = evt => {
-    const { value, name } = evt.target;
+  onFieldChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
       this.handleSearch,
@@ -88,16 +116,16 @@ class SearchConceptForm extends Component {
     });
   }
 
-  handleSearch = evt => {
+  handleSearch = (evt?: React.SyntheticEvent) => {
     if (evt) {
       evt.preventDefault();
       evt.stopPropagation();
     }
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ ...this.state.search, page: '1' });
   };
 
-  removeTagItem(tag) {
+  removeTagItem(tag: MinimalTagType) {
     this.setState(
       prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
       this.handleSearch,
@@ -110,13 +138,15 @@ class SearchConceptForm extends Component {
 
   async getUsers() {
     const editors = await fetchAuth0Editors(CONCEPT_WRITE_SCOPE);
-    return editors.map(u => {
+    return editors.map((u: { app_metadata: { ndla_id: string }; name: string }) => {
       return { id: `${u.app_metadata.ndla_id}`, name: u.name };
     });
   }
 
-  sortByProperty(property) {
-    return function(a, b) {
+  sortByProperty(property: string) {
+    type Sortable = { [key: string]: any };
+
+    return function(a: Sortable, b: Sortable) {
       return a[property]?.localeCompare(b[property]);
     };
   }
@@ -216,20 +246,14 @@ class SearchConceptForm extends Component {
       </form>
     );
   }
-}
 
-SearchConceptForm.propTypes = {
-  search: PropTypes.func.isRequired,
-  location: LocationShape,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    subjects: PropTypes.string,
-    language: PropTypes.string,
-    users: PropTypes.string,
-    status: PropTypes.string,
-  }),
-  locale: PropTypes.string.isRequired,
-  subjects: PropTypes.array,
-};
+  static propTypes = {
+    search: PropTypes.func.isRequired,
+    subjects: PropTypes.array.isRequired,
+    location: LocationShape,
+    searchObject: SearchParamsShape,
+    locale: PropTypes.string.isRequired,
+  };
+}
 
 export default injectT(SearchConceptForm);

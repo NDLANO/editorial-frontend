@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { css } from '@emotion/react';
+import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
+import { StyledModal } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 
 const DisplayExternalModal = ({
   isEditMode,
@@ -18,14 +18,8 @@ const DisplayExternalModal = ({
     return null;
   }
   return (
-    <Modal
-      css={css`
-        overflow: hidden;
-        .modal-body {
-          height: 90%;
-          overflow: hidden;
-        }
-      `}
+    <StyledModal
+      narrow
       controllable
       isOpen={isEditMode}
       size={allowedProvider.name.toLowerCase() === 'h5p' ? 'fullscreen' : 'large'}
@@ -48,7 +42,7 @@ const DisplayExternalModal = ({
           </ModalBody>
         </Fragment>
       )}
-    </Modal>
+    </StyledModal>
   );
 };
 

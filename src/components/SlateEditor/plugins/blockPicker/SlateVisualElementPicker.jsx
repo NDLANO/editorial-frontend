@@ -6,7 +6,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 
-const StyledModal = styled(Modal)`
+export const StyledModal = styled(Modal)`
   overflow: hidden;
   .modal-body {
     height: 90%;

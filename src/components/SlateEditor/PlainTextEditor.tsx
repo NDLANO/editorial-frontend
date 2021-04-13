@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * Copyright (c) 2017-present, NDLA.
  *
@@ -6,76 +7,79 @@
  *
  */
 
-import React, { ReactElement } from 'react';
-import PropTypes from 'prop-types';
-import { Editor } from 'slate-react';
-import { Editor as EditorType, EditorProperties, Operation, Value } from 'slate';
-import Types from 'slate-prop-types';
+import React, { useMemo, KeyboardEventHandler, FocusEventHandler } from 'react';
+import { BaseEditor, createEditor, Descendant } from 'new-slate';
+import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
+import { HistoryEditor, withHistory } from 'new-slate-history';
 import isHotkey from 'is-hotkey';
-import { List as ImmutableList } from 'immutable';
+
+type CustomElement = { type: 'paragraph'; children: CustomText[] };
+type CustomText = { text: string };
+
+declare module 'new-slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor & HistoryEditor;
+    Element: CustomElement;
+    Text: CustomText;
+  }
+}
 
 const isSaveHotkey = isHotkey('mod+s');
 
 interface SlateEditorProps {
   id?: string;
-  autoCorrect?: boolean;
+  autoCorrect?: string;
   autoFocus?: boolean;
   className?: string;
-  onChange?: EditorProperties['onChange'];
-  placeholder?: string | ReactElement;
-  plugins?: EditorProperties['plugins'];
+  onChange: (value: Descendant[]) => void;
+  placeholder?: string;
+  plugins?: any; // TODO: Replace type: any
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
   taxIndex?: number;
-  value?: Value;
+  value: Descendant[];
 }
 
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: Function;
+  onBlur: FocusEventHandler<HTMLDivElement>;
 }
 
-class PlainTextEditor extends React.PureComponent<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.onKeyDown = this.onKeyDown.bind(this);
-  }
+const PlainTextEditor: React.FC<Props> = props => {
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const { onChange, value, handleSubmit, id, className, placeholder, onBlur, ...rest } = props;
 
-  onKeyDown(e: Event, editor: EditorType, next: Function) {
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
     if (isSaveHotkey(e)) {
       e.preventDefault();
-      this.props.handleSubmit();
+      handleSubmit();
     }
-    next();
-  }
+  };
 
-  render() {
-    const { onChange, value, handleSubmit, ...rest } = this.props;
-    return (
-      <Editor
-        value={value}
-        onKeyDown={this.onKeyDown}
-        onChange={(val: { operations: ImmutableList<Operation>; value: Value }) =>
-          onChange({
-            target: {
-              name: rest.id,
-              value: val.value,
-              type: 'SlateEditorValue',
-            },
-          })
-        }
+  return (
+    <Slate
+      editor={editor}
+      value={value}
+      onChange={(val: Descendant[]) => {
+        onChange({
+          target: {
+            name: id,
+            value: val,
+            type: 'SlateEditorValue',
+          },
+        });
+      }}>
+      <Editable
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        className={className}
+        placeholder={placeholder}
         {...rest}
       />
-    );
-  }
-
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    value: Types.value.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-  };
-}
+    </Slate>
+  );
+};
 
 export default PlainTextEditor;

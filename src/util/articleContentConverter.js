@@ -7,7 +7,7 @@
  */
 
 import { Value } from 'slate';
-import Plain from 'slate-plain-serializer';
+import { Node } from 'new-slate';
 import Html from 'slate-html-serializer';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
@@ -111,13 +111,25 @@ export function topicArticleContentToHTML(value) {
   return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
+const NewPlain = {
+  serialize: nodes => {
+    return nodes.map(n => Node.string(n)).join('\n');
+  },
+  deserialize: text => {
+    return text.split('\n').map(t => ({
+      type: 'paragraph',
+      children: [{ text: t }],
+    }));
+  },
+};
+
 export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
   if (withDefaultPlainValue) {
-    return text ? Plain.deserialize(text) : Plain.deserialize('');
+    return text ? NewPlain.deserialize(text) : NewPlain.deserialize('');
   }
-  return text ? Plain.deserialize(text) : undefined;
+  return text ? NewPlain.deserialize(text) : undefined;
 }
 
 export function editorValueToPlainText(editorValue) {
-  return editorValue ? Plain.serialize(editorValue) : '';
+  return editorValue ? NewPlain.serialize(editorValue) : '';
 }

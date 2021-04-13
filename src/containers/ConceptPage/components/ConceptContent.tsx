@@ -53,12 +53,8 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
     <>
       <TitleField
         handleSubmit={submitForm}
-        onBlur={(event: Event, editor: unknown, next: () => void) => {
-          next();
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
+        onBlur={(event: Event) => {
+          handleBlur({ target: { name: 'slatetitle' } });
         }}
       />
       <ByLine>
@@ -81,12 +77,11 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
         preview={preview}
         concept
         handleSubmit={() => submitFormWithMessage(formikContext, createMessage)}
-        onBlur={(event: Event, editor: unknown, next: () => void) => {
-          next();
+        onBlur={(event: Event) => {
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
+          handleBlur({ target: { name: 'content' } });
         }}
       />
     </>

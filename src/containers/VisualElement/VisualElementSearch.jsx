@@ -166,6 +166,7 @@ class VisualElementSearch extends Component {
               onClose={closeModal}
               locale={locale}
               setH5pFetchFail={setH5pFetchFail}
+              setMinHeightForModal
             />
           </Fragment>
         );

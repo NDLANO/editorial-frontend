@@ -6,7 +6,7 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 
-export const StyledModal = styled(Modal)`
+export const StyledVisualElementModal = styled(Modal)`
   overflow: hidden;
   .modal-body {
     height: 90%;
@@ -39,7 +39,7 @@ const SlateVisualElementPicker = ({
     onVisualElementClose();
   };
   return (
-    <StyledModal
+    <StyledVisualElementModal
       controllable
       isOpen
       narrow
@@ -65,7 +65,7 @@ const SlateVisualElementPicker = ({
           </ModalBody>
         </Fragment>
       )}
-    </StyledModal>
+    </StyledVisualElementModal>
   );
 };
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
-import { StyledModal } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
+import { StyledVisualElementModal } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 
 const DisplayExternalModal = ({
   isEditMode,
@@ -20,7 +20,7 @@ const DisplayExternalModal = ({
     return null;
   }
   return (
-    <StyledModal
+    <StyledVisualElementModal
       narrow
       controllable
       isOpen={isEditMode}
@@ -47,7 +47,7 @@ const DisplayExternalModal = ({
           </ModalBody>
         </Fragment>
       )}
-    </StyledModal>
+    </StyledVisualElementModal>
   );
 };
 

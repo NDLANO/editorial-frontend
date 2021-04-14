@@ -156,7 +156,7 @@ export class DisplayExternal extends Component {
     }
 
     if (!src || !type) {
-      return <div/>;
+      return <div />;
     }
     return (
       <div className="c-figure">

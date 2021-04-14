@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { injectT } from '@ndla/i18n';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
@@ -115,31 +115,7 @@ class AudioForm extends Component {
   render() {
     const { t, licenses, audio, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
-    const panels = ({ values, errors, touched, setFieldValue }) => [
-      {
-        id: 'audio-upload-content',
-        title: t('form.contentSection'),
-        hasError: ['title', 'audioFile'].some(field => !!errors[field]),
-        component: (
-          <AudioContent classes={formClasses} setFieldValue={setFieldValue} values={values} />
-        ),
-      },
-      {
-        id: 'audio-upload-metadataSection',
-        title: t('form.metadataSection'),
-        hasError: ['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
-          field => !!errors[field],
-        ),
-        component: (
-          <AudioMetaData
-            classes={formClasses}
-            licenses={licenses}
-            audioLanguage={audio.language}
-            audioTags={audio.tags}
-          />
-        ),
-      },
-    ];
+
     const initialValues = getInitialValues(audio);
     return (
       <Formik
@@ -149,7 +125,7 @@ class AudioForm extends Component {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting, submitForm } = formikProps;
+          const { values, errors, dirty, isSubmitting, submitForm, setFieldValue } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -164,34 +140,34 @@ class AudioForm extends Component {
                 content={audio}
                 editUrl={lang => toEditAudio(values.id, lang)}
               />
-              <Accordion openIndexes={['audio-upload-content']}>
-                {({ openIndexes, handleItemClick }) => (
-                  <AccordionWrapper>
-                    {panels(formikProps).map(panel => (
-                      <Fragment key={panel.id}>
-                        <AccordionBar
-                          panelId={panel.id}
-                          ariaLabel={panel.title}
-                          onClick={() => handleItemClick(panel.id)}
-                          hasError={panel.hasError}
-                          title={panel.title}
-                          isOpen={openIndexes.includes(panel.id)}
-                        />
-                        {openIndexes.includes(panel.id) && (
-                          <AccordionPanel
-                            id={panel.id}
-                            hasError={panel.hasError}
-                            isOpen={openIndexes.includes(panel.id)}>
-                            <div className="u-4/6@desktop u-push-1/6@desktop">
-                              {panel.component}
-                            </div>
-                          </AccordionPanel>
-                        )}
-                      </Fragment>
-                    ))}
-                  </AccordionWrapper>
-                )}
-              </Accordion>
+              <Accordions>
+                <AccordionSection
+                  id="audio-upload-content"
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  title={t('form.contentSection')}
+                  hasError={['title', 'audioFile'].some(field => !!errors[field])}
+                  startOpen>
+                  <AudioContent
+                    classes={formClasses}
+                    setFieldValue={setFieldValue}
+                    values={values}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="audio-upload-metadataSection"
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  title={t('form.metadataSection')}
+                  hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
+                    field => !!errors[field],
+                  )}>
+                  <AudioMetaData
+                    classes={formClasses}
+                    licenses={licenses}
+                    audioLanguage={audio.language}
+                    audioTags={audio.tags}
+                  />
+                </AccordionSection>
+              </Accordions>
               <Field right>
                 <AbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}

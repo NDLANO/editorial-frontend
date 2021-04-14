@@ -67,7 +67,7 @@ const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }
   );
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(summary?.text || '');
-
+  console.log(summary)
   const summaryTextNode: Text =
     summary?.getLastText() ||
     Text.create({
@@ -80,11 +80,15 @@ const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }
     });
     editor.replaceNodeByKey(summaryTextNode.key, newTextNode);
     setShowEditModal(false);
+    // editor.focus();
+    // console.log(newTextNode);
+    // editor.moveToRangeOfNode(newTextNode).moveToEnd().moveForward(1).focus();
   };
 
   const toggleShowEditModal = (evt: MouseEvent) => {
     evt.preventDefault();
     setShowEditModal(!showEditModal);
+    // editor.focus();
   };
 
   const editSummaryButton = (
@@ -95,41 +99,43 @@ const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }
 
   return (
     <div draggable={!showEditModal} {...attributes}>
-      <Details editSummaryButton={editSummaryButton} editor={editor} node={node}>
+      <Details editSummaryButton={editSummaryButton} editor={editor} node={node} 
+        showEditModal={showEditModal} inputValue={inputValue} setInputValue={setInputValue}
+        toggleShowEditModal={toggleShowEditModal} onChangeSummary={onChangeSummary} summary={summary}>
         {children}
       </Details>
-      <Portal isOpened>
-        <Modal controllable isOpen={showEditModal}>
-          {() => (
-            <>
-              <ModalHeader>
-                {' '}
-                <ModalCloseButton title={t('dialog.close')} onClick={toggleShowEditModal} />
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  name="caption"
-                  container="div"
-                  label={t('detailBox.label')}
-                  type="text"
-                  value={inputValue}
-                  onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
-                    setInputValue(evt.target.value)
-                  }
-                  placeholder={t('detailBox.placeholder')}
-                />
-                <StyledButtonWrapper paddingLeft>
-                  <Button onClick={toggleShowEditModal} outline>
-                    {t('form.abort')}
-                  </Button>
-                  <Button onClick={onChangeSummary}>{t('form.save')}</Button>
-                </StyledButtonWrapper>
-              </ModalBody>
-            </>
-          )}
-        </Modal>
-      </Portal>
-    </div>
+      </div> // <Portal isOpened>
+      //</div>   <Modal controllable isOpen={showEditModal}>
+      //</div>     {() => (
+      //</div>       <>
+      //</div>         <ModalHeader>
+      //</div>           {' '}
+      //</div>           <ModalCloseButton title={t('dialog.close')} onClick={toggleShowEditModal} />
+      //</div>         </ModalHeader>
+      //</div>         <ModalBody>
+      //</div>           <Input
+      //</div>             name="caption"
+      //</div>             container="div"
+      //</div>             label={t('detailBox.label')}
+      //</div>             type="text"
+      //</div>             value={inputValue}
+      //</div>             onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
+      //</div>               setInputValue(evt.target.value)
+      //</div>             }
+      //</div>             placeholder={t('detailBox.placeholder')}
+      //</div>           />
+      //</div>           <StyledButtonWrapper paddingLeft>
+      //</div>             <Button onClick={toggleShowEditModal} outline>
+      //</div>               {t('form.abort')}
+      //</div>             </Button>
+      //</div>             <Button onClick={onChangeSummary}>{t('form.save')}</Button>
+      //</div>           </StyledButtonWrapper>
+      //</div>         </ModalBody>
+      //</div>       </>
+      //</div>     )}
+      //</div>   </Modal>
+      //</div> </Portal>
+    // </div>
   );
 };
 

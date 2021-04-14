@@ -172,7 +172,7 @@ export const createDetails = () => {
           <DetailsBox attributes={attributes} children={children} editor={editor} node={node} />
         );
       case 'summary':
-        return <span {...attributes}>{node.text}</span>;
+        return <span {...attributes}>{children}</span>;
       default:
         return next();
     }

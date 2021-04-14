@@ -27,13 +27,8 @@ const StyledContent = styled.div<{ isOpen: boolean }>`
   padding-left: ${spacing.normal};
 `;
 
-const StyledSummary = styled.summary<{ isOpen: boolean }>`
-  color: ${colors.brand.primary};
+const StyledChevron = styled.div<{ isOpen: boolean }>`
   cursor: pointer;
-  font-size: 20px;
-  padding: ${spacing.normal};
-  display: flex;
-
   &::before {
     content: '';
     margin-left: ${spacing.normal};
@@ -48,6 +43,15 @@ const StyledSummary = styled.summary<{ isOpen: boolean }>`
     position: relative;
     transform: ${p => p.isOpen && 'rotate(90deg)'};
   }
+`;
+
+const StyledSummary = styled.summary<{ isOpen: boolean }>`
+  color: ${colors.brand.primary};
+  font-size: 20px;
+  cursor: unset;
+  padding: ${spacing.normal};
+  padding-left: 0;
+  display: flex;
 `;
 
 const StyledRow = styled.div`
@@ -66,11 +70,10 @@ const StyledRow = styled.div`
 interface Props {
   children: ReactElement[];
   editor: Editor;
-  editSummaryButton: ReactElement;
   node: Node;
 }
 
-const Details = ({ children, editor, editSummaryButton, node }: Props) => {
+const Details = ({ children, editor, node }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -88,10 +91,10 @@ const Details = ({ children, editor, editSummaryButton, node }: Props) => {
   return (
     <StyledDetailsDiv className="c-bodybox">
       <StyledRow>
-        <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
+        <StyledSummary isOpen={isOpen}>
+          <StyledChevron isOpen={isOpen} onClick={toggleOpen} />
           {summaryNode}
         </StyledSummary>
-        {isOpen && editSummaryButton}
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <MoveContentButton onMouseDown={onMoveContent} />

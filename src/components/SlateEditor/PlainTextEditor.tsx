@@ -12,8 +12,7 @@ import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';
 type EditorWithKeyDown = {
-  onKeyDown: KeyboardEventHandler<HTMLDivElement>;
-  hotkeys: Hotkey[];
+  onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
 };
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string };
@@ -26,11 +25,6 @@ declare module 'new-slate' {
   }
 }
 
-interface Hotkey {
-  isKey: (e: KeyboardEvent) => boolean;
-  action: (e: KeyboardEvent, editor: Editor) => void;
-}
-
 type Plugin = (editor: Editor) => Editor;
 
 interface SlateEditorProps {
@@ -40,7 +34,6 @@ interface SlateEditorProps {
   className?: string;
   onChange: (value: Descendant[]) => void;
   placeholder?: string;
-  hotkeys?: Hotkey[]; // TODO: Replace type: any
   plugins?: Plugin[];
   readOnly?: boolean;
   role?: string;

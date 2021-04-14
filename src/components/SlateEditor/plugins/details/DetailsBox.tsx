@@ -81,14 +81,16 @@ const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) =>
     const currentScroll = window.scrollY;
     editor.replaceNodeByKey(summaryTextNode.key, newTextNode);
     setShowEditModal(false);
-    window.scrollTo(0, currentScroll);
+    setTimeout(() => window.scrollTo(0, currentScroll), 0);
   };
 
   const toggleShowEditModal = (evt: MouseEvent) => {
     const currentScroll = window.scrollY;
     evt.preventDefault();
     setShowEditModal(!showEditModal);
-    window.scrollTo(0, currentScroll);
+    if (showEditModal) {
+      setTimeout(() => window.scrollTo(0, currentScroll), 0);
+    }
   };
 
   const editSummaryButton = (

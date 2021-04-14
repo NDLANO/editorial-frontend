@@ -12,7 +12,7 @@ import { injectT } from '@ndla/i18n';
 
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
-import textTransform from '../../components/SlateEditor/hotkeys/textTransform';
+import textTransform from '../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityField from './components/AvailabilityField';

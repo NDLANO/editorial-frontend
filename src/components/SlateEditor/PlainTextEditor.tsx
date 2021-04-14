@@ -11,10 +11,8 @@ import React, { useMemo, KeyboardEventHandler } from 'react';
 import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';
-import isHotkey from 'is-hotkey';
-
 type EditorWithKeyDown = {
-  onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
+  onKeyDown: KeyboardEventHandler<HTMLDivElement>;
   hotkeys: Hotkey[];
 };
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
@@ -34,8 +32,6 @@ interface Hotkey {
 }
 
 type Plugin = (editor: Editor) => Editor;
-
-const isSaveHotkey = isHotkey('mod+s');
 
 interface SlateEditorProps {
   id?: string;
@@ -81,26 +77,6 @@ const PlainTextEditor: React.FC<Props> = props => {
   } = props;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
-
-  // const ref = React.useRef(handleSubmit);
-
-  // const saveHotkey: Hotkey = {
-  //   isKey: e => isSaveHotkey(e),
-  //   action: e => {
-  //     e.preventDefault();
-  //     handleSubmit();
-  //   },
-  // };
-
-  // const hotkeyList: Hotkey[] = [...(hotkeys ? hotkeys : []), saveHotkey];
-
-  // const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
-  //   hotkeyList.forEach(hotkey => {
-  //     if (hotkey.isKey(e)) {
-  //       hotkey.action(e, editor);
-  //     }
-  //   });
-  // };
 
   return (
     <Slate

@@ -13,11 +13,8 @@ import { injectT } from '@ndla/i18n';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-import {
-  textTransformPlugin,
-  onKeyDownPlugin,
-  savePlugin,
-} from '../../components/SlateEditor/hotkeys/textTransform';
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
+import { savePlugin } from '../../components/SlateEditor/plugins/saveForm';
 
 const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => {
   const ref = React.useRef(handleSubmit);
@@ -27,7 +24,7 @@ const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
-  const plugins = [onKeyDownPlugin, textTransformPlugin, savePlugin(() => ref.current())];
+  const plugins = [textTransformPlugin, savePlugin(() => ref.current())];
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
       {({ field }) => (

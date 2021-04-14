@@ -13,6 +13,8 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
+import { ReactEditor } from 'new-slate-react';
+import { Editor } from 'new-slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
@@ -22,8 +24,6 @@ import { submitFormWithMessage } from '../conceptUtil';
 
 import { CreateMessageType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
-import { Editor } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
 
 const ByLine = styled.div`
   display: flex;

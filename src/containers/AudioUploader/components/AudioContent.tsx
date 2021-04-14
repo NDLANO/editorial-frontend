@@ -29,6 +29,11 @@ interface Props extends BaseProps {
 }
 
 const StyledDeleteButtonContainer = styled.div`
+  margin-top: 2.7rem;
+  margin-left: 0.5rem;
+`;
+
+const PlayerWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
@@ -59,18 +64,20 @@ const AudioContent = ({ t, formik }: Props & tType) => {
     if (playerObject) {
       return (
         <>
-          <StyledDeleteButtonContainer>
+          <PlayerWrapper>
             <AudioPlayer audio={playerObject} />
-            <Tooltip tooltip={t('form.audio.remove')}>
-              <IconButton
-                onClick={() => {
-                  setFieldValue('audioFile', {});
-                }}
-                tabIndex={-1}>
-                <DeleteForever />
-              </IconButton>
-            </Tooltip>
-          </StyledDeleteButtonContainer>
+            <StyledDeleteButtonContainer>
+              <Tooltip tooltip={t('form.audio.remove')}>
+                <IconButton
+                  onClick={() => {
+                    setFieldValue('audioFile', {});
+                  }}
+                  tabIndex={-1}>
+                  <DeleteForever />
+                </IconButton>
+              </Tooltip>
+            </StyledDeleteButtonContainer>
+          </PlayerWrapper>
         </>
       );
     } else {

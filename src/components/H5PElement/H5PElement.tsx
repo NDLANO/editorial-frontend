@@ -17,6 +17,7 @@ import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi'
 const FlexWrapper = styled.div`
   height: 100%;
   width: 100%;
+  data-cy: 'h5p-editor';
 `;
 
 const StyledIFrame = styled.iframe`

@@ -8,8 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 
+import { Editor } from 'slate';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
@@ -17,7 +18,21 @@ import textTransformPlugin from '../../components/SlateEditor/plugins/textTransf
 
 const plugins = [textTransformPlugin()];
 
-const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => (
+interface Props {
+  maxLength?: number;
+  name?: string;
+  handleSubmit: () => Promise<void>;
+  onBlur: (event: Event, editor: Editor, next: Function) => void;
+  type?: string;
+}
+
+const TitleField = ({
+  t,
+  maxLength = 256,
+  name = 'slatetitle',
+  handleSubmit,
+  onBlur,
+}: Props & tType) => (
   <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
     {({ field }) => (
       <PlainTextEditor

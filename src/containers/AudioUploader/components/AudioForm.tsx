@@ -11,6 +11,11 @@ import { injectT, tType } from '@ndla/i18n';
 import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
+import { Value } from 'slate';
+import {
+  plainTextToEditorValue,
+  editorValueToPlainText,
+} from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -39,7 +44,7 @@ export interface AudioFormikType {
   revision?: number;
   language: string;
   supportedLanguages: string[];
-  title: string;
+  title: Value;
   audioFile: {
     storedFile?: {
       url: string;
@@ -68,7 +73,7 @@ export const getInitialValues = (
     revision: audio.revision,
     language: audio.language,
     supportedLanguages: audio.supportedLanguages || [],
-    title: audio.title || '',
+    title: plainTextToEditorValue(audio.title || '', true),
     audioFile: { storedFile: audio.audioFile },
     tags: audio.tags || [],
     creators: parseCopyrightContributors(audio, 'creators'),
@@ -151,7 +156,7 @@ class AudioForm extends Component<Props, State> {
       const audioMetaData = {
         id: values.id,
         revision: revision,
-        title: values.title,
+        title: editorValueToPlainText(values.title),
         language: values.language,
         tags: values.tags,
         copyright: {

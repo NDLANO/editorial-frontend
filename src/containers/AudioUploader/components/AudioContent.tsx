@@ -18,6 +18,7 @@ import IconButton from '../../../components/IconButton';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
+import { TitleField } from '../../FormikForm';
 
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
@@ -52,7 +53,7 @@ const getPlayerObject = (
 };
 
 const AudioContent = ({ t, formik }: Props & tType) => {
-  const { values, setFieldValue } = formik;
+  const { values, setFieldValue, submitForm, handleBlur } = formik;
   const PlayerOrSelector = () => {
     const playerObject = getPlayerObject(values);
     if (playerObject) {
@@ -93,12 +94,16 @@ const AudioContent = ({ t, formik }: Props & tType) => {
 
   return (
     <Fragment>
-      <FormikField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        placeholder={t('form.title.label')}
+      <TitleField
+        handleSubmit={submitForm}
+        name={'title'}
+        onBlur={(event: Event, editor: unknown, next: Function) => {
+          next();
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
+        }}
       />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>

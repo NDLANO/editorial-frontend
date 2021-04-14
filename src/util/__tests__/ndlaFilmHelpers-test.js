@@ -86,7 +86,7 @@ test('util/ndlaFilmHelpers getInitialValues', () => {
   ).toEqual(filmFrontPageAfterTransformation);
 });
 
-const numberId = '1987';
+const numberId = 1987;
 const urnId = `urn:article:${numberId}`;
 
 test('util/ndlaFilmHelpers getIdFromUrn', () => {

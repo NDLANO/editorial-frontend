@@ -132,7 +132,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
     );
   }
 
-  defaultProps = {
+  static defaultProps = {
     searchObject: {
       query: '',
       language: '',

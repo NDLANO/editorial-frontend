@@ -17,12 +17,12 @@ const article = {
 
 test('typescript: convertFieldWithFallback convert field title to string', () => {
   const obj = convertFieldWithFallback<'title', string>(article, 'title', '');
-  expect(obj).toBe('Tester');
+  expect(obj).toEqual('Tester');
 });
 
 test('typescript: convertFieldWithFallback converts string[] fields', () => {
   const obj = convertFieldWithFallback<'tags', string[]>(article, 'tags', [], 'nb');
-  expect(obj).toBe(['apekatt', 'eplekjekk']);
+  expect(obj).toEqual(['apekatt', 'eplekjekk']);
 });
 
 test('typescript: convertFieldWithFallback falls back if wrong language', () => {
@@ -32,5 +32,5 @@ test('typescript: convertFieldWithFallback falls back if wrong language', () => 
     ['english', 'tags'],
     'en',
   );
-  expect(obj).toBe(['english', 'tags']);
+  expect(obj).toEqual(['english', 'tags']);
 });

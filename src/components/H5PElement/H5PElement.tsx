@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import css from '@emotion/css';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
 import { ErrorMessage } from '@ndla/ui';
@@ -20,17 +19,8 @@ const FlexWrapper = styled.div`
   width: 100%;
 `;
 
-interface StyledProps {
-  setMinHeightForModal?: string;
-}
-
-const StyledIFrame = styled.iframe<StyledProps>`
+const StyledIFrame = styled.iframe`
   height: 100%;
-  ${props =>
-    props.setMinHeightForModal &&
-    css`
-      min-height: 85vh;
-    `};
 `;
 
 interface OnSelectObject {
@@ -45,7 +35,6 @@ interface Props {
   locale: string;
   canReturnResources?: boolean;
   setH5pFetchFail?: (failed: boolean) => void;
-  setMinHeightForModal?: string;
 }
 
 interface State {
@@ -124,7 +113,7 @@ class H5PElement extends Component<Props & tType, State> {
 
   render() {
     const { url, fetchFailed } = this.state;
-    const { t, setMinHeightForModal } = this.props;
+    const { t } = this.props;
     return (
       <FlexWrapper>
         {fetchFailed && (
@@ -141,14 +130,7 @@ class H5PElement extends Component<Props & tType, State> {
             }}
           />
         )}
-        {url && (
-          <StyledIFrame
-            src={url}
-            title="H5P"
-            frameBorder="0"
-            setMinHeightForModal={setMinHeightForModal}
-          />
-        )}
+        {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
       </FlexWrapper>
     );
   }

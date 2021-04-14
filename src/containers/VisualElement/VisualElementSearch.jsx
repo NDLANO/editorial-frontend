@@ -150,25 +150,21 @@ class VisualElementSearch extends Component {
       case 'H5P':
       case 'h5p': {
         return (
-          <Fragment>
-            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
-            <H5PElement
-              canReturnResources={true}
-              h5pUrl={selectedResourceUrl}
-              onSelect={h5p =>
-                handleVisualElementChange({
-                  resource: 'h5p',
-                  path: h5p.path,
-                  title: h5p.title,
-                  metaData: {},
-                })
-              }
-              onClose={closeModal}
-              locale={locale}
-              setH5pFetchFail={setH5pFetchFail}
-              setMinHeightForModal
-            />
-          </Fragment>
+          <H5PElement
+            canReturnResources={true}
+            h5pUrl={selectedResourceUrl}
+            onSelect={h5p =>
+              handleVisualElementChange({
+                resource: 'h5p',
+                path: h5p.path,
+                title: h5p.title,
+                metaData: {},
+              })
+            }
+            onClose={closeModal}
+            locale={locale}
+            setH5pFetchFail={setH5pFetchFail}
+          />
         );
       }
       case 'audio': {

@@ -1,9 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
-import { StyledVisualElementModal } from '../../SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
+import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
 
 const DisplayExternalModal = ({
   isEditMode,
@@ -14,40 +13,25 @@ const DisplayExternalModal = ({
   src,
   t,
 }) => {
-  const [h5pFetchFail, setH5pFetchFail] = useState(false);
-
   if (!isEditMode) {
     return null;
   }
   return (
-    <StyledVisualElementModal
-      narrow
-      controllable
+    <VisualElementModalWrapper
+      resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
-      size={allowedProvider.name.toLowerCase() === 'h5p' ? 'fullscreen' : 'large'}
-      backgroundColor="white"
-      onClose={onClose}
-      minHeight="85vh">
-      {onCloseModal => (
-        <Fragment>
-          {(allowedProvider.name.toLowerCase() !== 'h5p' || h5pFetchFail) && (
-            <ModalHeader>
-              <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-            </ModalHeader>
-          )}
-          <ModalBody>
-            <VisualElementSearch
-              selectedResource={allowedProvider.name}
-              selectedResourceUrl={src}
-              selectedResourceType={type}
-              handleVisualElementChange={onEditEmbed}
-              closeModal={onClose}
-              setH5pFetchFail={setH5pFetchFail}
-            />
-          </ModalBody>
-        </Fragment>
+      onClose={onClose}>
+      {setH5pFetchFail => (
+        <VisualElementSearch
+          selectedResource={allowedProvider.name}
+          selectedResourceUrl={src}
+          selectedResourceType={type}
+          handleVisualElementChange={onEditEmbed}
+          closeModal={onClose}
+          setH5pFetchFail={setH5pFetchFail}
+        />
       )}
-    </StyledVisualElementModal>
+    </VisualElementModalWrapper>
   );
 };
 

@@ -266,7 +266,7 @@ TopicArticleForm.propTypes = {
   isNewlyCreated: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
+  }),
 };
 
 export default injectT(TopicArticleForm);

@@ -36,6 +36,7 @@ class AudioUploaderPage extends Component {
 
   render() {
     const { match, t, ...rest } = this.props;
+
     return (
       <div>
         <OneColumn>

@@ -13,7 +13,7 @@ import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 
-const CreateAudio = ({ history, locale, ...rest }) => {
+const CreateAudio = ({ history, locale, tags, ...rest }) => {
   const onCreateAudio = async (newAudio, file) => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);
@@ -27,13 +27,14 @@ const CreateAudio = ({ history, locale, ...rest }) => {
       audio={{ language: locale }}
       onUpdate={onCreateAudio}
       audioLanguage={locale}
+      tags={tags || []}
       {...rest}
     />
   );
 };
 
 CreateAudio.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string),
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,

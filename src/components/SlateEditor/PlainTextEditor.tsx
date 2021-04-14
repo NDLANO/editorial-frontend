@@ -13,12 +13,16 @@ import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';
 import isHotkey from 'is-hotkey';
 
+type EditorWithKeyDown = {
+  onKeyDown: React.KeyboardEventHandler<HTMLDivElement>;
+  hotkeys: Hotkey[];
+};
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string };
 
 declare module 'new-slate' {
   interface CustomTypes {
-    Editor: BaseEditor & ReactEditor & HistoryEditor;
+    Editor: BaseEditor & ReactEditor & HistoryEditor & EditorWithKeyDown;
     Element: CustomElement;
     Text: CustomText;
   }
@@ -28,6 +32,8 @@ interface Hotkey {
   isKey: (e: KeyboardEvent) => boolean;
   action: (e: KeyboardEvent, editor: Editor) => void;
 }
+
+type Plugin = (editor: Editor) => Editor;
 
 const isSaveHotkey = isHotkey('mod+s');
 
@@ -39,6 +45,7 @@ interface SlateEditorProps {
   onChange: (value: Descendant[]) => void;
   placeholder?: string;
   hotkeys?: Hotkey[]; // TODO: Replace type: any
+  plugins?: Plugin[];
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
@@ -52,8 +59,14 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
   onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
+const withPlugins = (editor: Editor, plugins?: Plugin[]) => {
+  if (plugins) {
+    return plugins.reduce((editor, plugin) => plugin(editor), editor);
+  }
+  return editor;
+};
+
 const PlainTextEditor: React.FC<Props> = props => {
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const {
     onChange,
     value,
@@ -63,26 +76,31 @@ const PlainTextEditor: React.FC<Props> = props => {
     placeholder,
     onBlur,
     hotkeys,
+    plugins,
     ...rest
   } = props;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
-  const saveHotkey: Hotkey = {
-    isKey: e => isSaveHotkey(e),
-    action: e => {
-      e.preventDefault();
-      handleSubmit();
-    },
-  };
+  // const ref = React.useRef(handleSubmit);
 
-  const hotkeyList: Hotkey[] = [...(hotkeys ? hotkeys : []), saveHotkey];
+  // const saveHotkey: Hotkey = {
+  //   isKey: e => isSaveHotkey(e),
+  //   action: e => {
+  //     e.preventDefault();
+  //     handleSubmit();
+  //   },
+  // };
 
-  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
-    hotkeyList.forEach(hotkey => {
-      if (hotkey.isKey(e)) {
-        hotkey.action(e, editor);
-      }
-    });
-  };
+  // const hotkeyList: Hotkey[] = [...(hotkeys ? hotkeys : []), saveHotkey];
+
+  // const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (e: any) => {
+  //   hotkeyList.forEach(hotkey => {
+  //     if (hotkey.isKey(e)) {
+  //       hotkey.action(e, editor);
+  //     }
+  //   });
+  // };
 
   return (
     <Slate
@@ -99,7 +117,7 @@ const PlainTextEditor: React.FC<Props> = props => {
       }}>
       <Editable
         onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
-        onKeyDown={onKeyDown}
+        onKeyDown={editor.onKeyDown}
         className={className}
         placeholder={placeholder}
         {...rest}

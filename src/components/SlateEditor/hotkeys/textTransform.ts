@@ -1,4 +1,5 @@
 import { Editor, Transforms, Range } from 'new-slate';
+import isHotkey from 'is-hotkey';
 
 const replaceConsecutiveChars = (
   event: KeyboardEvent,
@@ -39,3 +40,34 @@ const keyActions = [
 ];
 
 export default keyActions;
+
+export const textTransformPlugin = (editor: Editor) => {
+  editor.hotkeys = editor.hotkeys.concat(keyActions);
+  return editor;
+};
+
+export const onKeyDownPlugin = (editor: Editor) => {
+  editor.hotkeys = [];
+  editor.onKeyDown = (e: any) => {
+    editor.hotkeys.forEach(hotkey => {
+      if (hotkey.isKey(e)) {
+        hotkey.action(e, editor);
+      }
+    });
+  };
+  return editor;
+};
+
+export const savePlugin = (handleSubmit: () => void) => (editor: Editor) => {
+  const isSaveHotkey = isHotkey('mod+s');
+  editor.hotkeys = editor.hotkeys.concat([
+    {
+      isKey: e => isSaveHotkey(e),
+      action: e => {
+        e.preventDefault();
+        handleSubmit();
+      },
+    },
+  ]);
+  return editor;
+};

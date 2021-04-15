@@ -17,7 +17,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
-import { savePlugin } from '../../components/SlateEditor/plugins/saveForm';
+import { savePlugin } from '../../components/SlateEditor/plugins/saveHotkey';
 import { Plain } from '../../util/slatePlainSerializer';
 
 const markdown = new Remarkable({ breaks: true });
@@ -40,14 +40,14 @@ const IngressField = ({
   concept = false,
   onBlur,
 }) => {
-  const ref = React.useRef(handleSubmit);
+  const handleSubmitRef = React.useRef(handleSubmit);
 
   React.useEffect(() => {
-    ref.current = handleSubmit;
+    handleSubmitRef.current = handleSubmit;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
-  const plugins = [textTransformPlugin, savePlugin(() => ref.current())];
+  const plugins = [textTransformPlugin, savePlugin(() => handleSubmitRef.current())];
   return (
     <StyledFormContainer>
       <FormikField

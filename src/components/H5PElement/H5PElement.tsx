@@ -17,7 +17,6 @@ import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi'
 const FlexWrapper = styled.div`
   height: 100%;
   width: 100%;
-  data-cy: 'h5p-editor';
 `;
 
 const StyledIFrame = styled.iframe`
@@ -116,7 +115,7 @@ class H5PElement extends Component<Props & tType, State> {
     const { url, fetchFailed } = this.state;
     const { t } = this.props;
     return (
-      <FlexWrapper>
+      <FlexWrapper data-cy="h5p-editor">
         {fetchFailed && (
           <ErrorMessage
             illustration={{

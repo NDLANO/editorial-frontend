@@ -14,7 +14,7 @@ import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
-import { savePlugin } from '../../components/SlateEditor/plugins/saveHotkey';
+import saveHotkey from '../../components/SlateEditor/plugins/saveHotkey';
 
 const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => {
   const handleSubmitRef = React.useRef(handleSubmit);
@@ -24,7 +24,7 @@ const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
-  const plugins = [textTransformPlugin, savePlugin(() => handleSubmitRef.current())];
+  const plugins = [textTransformPlugin, saveHotkey(() => handleSubmitRef.current())];
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
       {({ field }) => (

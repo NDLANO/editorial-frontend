@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import LicenseField from './components/LicenseField';
 import { AgreementConnectionField, ContributorsField } from '.';
 import FormikField from '../../components/FormikField';
+import { LicensesArrayOf } from '../../shapes';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -41,12 +42,7 @@ const CopyrightFieldGroup = ({
 };
 
 CopyrightFieldGroup.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
+  licenses: LicensesArrayOf.isRequired,
   values: PropTypes.shape({
     agreementId: PropTypes.number,
   }),

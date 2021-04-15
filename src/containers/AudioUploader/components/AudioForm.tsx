@@ -8,7 +8,7 @@
 import React, { Component, Fragment, ReactNode } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { injectT, tType } from '@ndla/i18n';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
 import { Value } from 'slate';
@@ -183,32 +183,6 @@ class AudioForm extends Component<Props, State> {
     const { t, licenses, audio, isNewlyCreated } = this.props;
     const { savedToServer } = this.state;
 
-    const panels: {
-      id: string;
-      title: string;
-      errorFields: (keyof AudioFormikType)[];
-      component: ReactNode;
-    }[] = [
-      {
-        id: 'audio-upload-content',
-        title: t('form.contentSection'),
-        errorFields: ['title', 'audioFile'],
-        component: <AudioContent classes={formClasses} />,
-      },
-      {
-        id: 'audio-upload-metadataSection',
-        title: t('form.metadataSection'),
-        errorFields: ['tags', 'creators', 'rightsholders', 'processors', 'license'],
-        component: (
-          <AudioMetaData
-            classes={formClasses}
-            licenses={licenses}
-            audioLanguage={audio.language}
-            audioTags={audio.tags || []}
-          />
-        ),
-      },
-    ];
     const initialValues = getInitialValues(audio);
     return (
       <Formik
@@ -224,6 +198,11 @@ class AudioForm extends Component<Props, State> {
             initialValues,
             dirty,
           });
+
+          const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
+            return errFields.some(field => !!errors[field]);
+          };
+
           return (
             <FormWrapper>
               <HeaderWithLanguage
@@ -233,43 +212,35 @@ class AudioForm extends Component<Props, State> {
                 content={audio}
                 editUrl={(lang: string) => toEditAudio(values.id, lang)}
               />
-              <Accordion openIndexes={['audio-upload-content']}>
-                {({
-                  openIndexes,
-                  handleItemClick,
-                }: {
-                  openIndexes: string[];
-                  handleItemClick: (id: string) => void;
-                }) => (
-                  <AccordionWrapper>
-                    {panels.map(panel => {
-                      const hasError = panel.errorFields.some(field => !!errors[field]);
-                      return (
-                        <Fragment key={panel.id}>
-                          <AccordionBar
-                            panelId={panel.id}
-                            ariaLabel={panel.title}
-                            onClick={() => handleItemClick(panel.id)}
-                            hasError={hasError}
-                            title={panel.title}
-                            isOpen={openIndexes.includes(panel.id)}
-                          />
-                          {openIndexes.includes(panel.id) && (
-                            <AccordionPanel
-                              id={panel.id}
-                              hasError={hasError}
-                              isOpen={openIndexes.includes(panel.id)}>
-                              <div className="u-4/6@desktop u-push-1/6@desktop">
-                                {panel.component}
-                              </div>
-                            </AccordionPanel>
-                          )}
-                        </Fragment>
-                      );
-                    })}
-                  </AccordionWrapper>
-                )}
-              </Accordion>
+              <Accordions>
+                <AccordionSection
+                  id="audio-upload-content"
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  title={t('form.contentSection')}
+                  hasError={hasError(['title', 'audioFile'])}
+                  startOpen>
+                  <AudioContent classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
+                  id="audio-upload-metadataSection"
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  title={t('form.metadataSection')}
+                  hasError={hasError([
+                    'tags',
+                    'creators',
+                    'rightsholders',
+                    'processors',
+                    'license',
+                  ])}>
+                  <AudioMetaData
+                    classes={formClasses}
+                    licenses={licenses}
+                    audioLanguage={audio.language}
+                    audioTags={audio.tags || []}
+                  />
+                </AccordionSection>
+              </Accordions>
+
               <Field right>
                 <AbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}

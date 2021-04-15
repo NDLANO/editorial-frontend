@@ -4,7 +4,7 @@ import isHotkey from 'is-hotkey';
 
 const isSaveHotkey = isHotkey('mod+s');
 
-export const saveHotkeyPlugin = (handleSubmit: () => void) => (editor: Editor) => {
+const saveHotkeyPlugin = (handleSubmit: () => void) => (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (isSaveHotkey(e)) {

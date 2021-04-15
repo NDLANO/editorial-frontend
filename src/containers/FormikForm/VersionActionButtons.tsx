@@ -1,11 +1,11 @@
 import React from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
 
 import { PreviewDraftLightbox } from '../../components';
-import { ArticleType, TranslateType } from '../../interfaces';
+import { ArticleType } from '../../interfaces';
 
 interface Props {
   showFromArticleApi: boolean;
@@ -13,11 +13,10 @@ interface Props {
   getArticle: VoidFunction;
   resetVersion: (version: ArticleType, language: string, showFromArticleApi: boolean) => void;
   version: ArticleType;
-  t: TranslateType;
   current: boolean;
 }
 
-const VersionActionButtons: React.FC<Props> = ({
+const VersionActionButtons = ({
   showFromArticleApi,
   current,
   article,
@@ -25,7 +24,7 @@ const VersionActionButtons: React.FC<Props> = ({
   resetVersion,
   version,
   t,
-}) => {
+}: Props & tType) => {
   // we only show preview and reset for current versions if they are the ONLY version
   // ie. that they were published before versions were introduced
   if (current && !showFromArticleApi) return null;

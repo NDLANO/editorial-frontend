@@ -17,13 +17,12 @@ import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
-interface Props {
-  history: RouteComponentProps['history'];
-  isNewlyCreated: boolean;
-  showSaved: boolean;
+interface Props extends RouteComponentProps {
+  isNewlyCreated?: boolean;
+  showSaved?: boolean;
 }
 
-const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteComponentProps) => {
+const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
   const locale: string = useContext(LocaleContext);
   const [licenses, setLicenses] = useState<License[]>([]);
 
@@ -51,7 +50,6 @@ const CreateImage = ({ history, isNewlyCreated, showSaved }: Props & RouteCompon
       isNewlyCreated={isNewlyCreated}
       licenses={draftLicensesToImageLicenses(licenses)}
       onUpdate={onCreateImage}
-      showSaved={showSaved}
     />
   );
 };

@@ -19,7 +19,7 @@ import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import { transformArticleToApiVersion } from '../../util/articleUtil';
-import { FormikActionButton } from '../../containers/FormikForm';
+import { ActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 import { Portal } from '../Portal';
 import PreviewDraft from './PreviewDraft';
@@ -159,14 +159,14 @@ class PreviewDraftLightbox extends React.Component {
         return children(this.openPreview);
       }
       return (
-        <FormikActionButton
+        <ActionButton
           onClick={this.openPreview}
           disabled={loading}
           link
           data-testid={typeOfPreview}>
           {loading && <Spinner appearance="small" css={customSpinnerStyle} />}
           {t(`form.${typeOfPreview}.button`)}
-        </FormikActionButton>
+        </ActionButton>
       );
     }
 

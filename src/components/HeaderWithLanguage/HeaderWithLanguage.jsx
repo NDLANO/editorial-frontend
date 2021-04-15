@@ -16,7 +16,7 @@ import HeaderActions from './HeaderActions';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
-  margin: 0 0 ${spacing.normal};
+  margin: 0;
   display: flex;
   align-items: center;
 `;
@@ -59,6 +59,7 @@ const HeaderWithLanguage = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         title={title}
+        id={id}
         published={published}
         taxonomyPaths={taxonomyPaths}
         {...rest}

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -14,20 +14,20 @@ import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-interface Props {
+interface Props extends RouteComponentProps {
   elementId: string;
   selectedLanguage: string;
   subjectpageId: string;
   isNewlyCreated: boolean;
 }
 
-const EditSubjectpage: FC<RouteComponentProps & Props & tType> = ({
+const EditSubjectpage = ({
   t,
   elementId,
   selectedLanguage,
   subjectpageId,
   isNewlyCreated,
-}) => {
+}: Props & tType) => {
   const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
     elementId,
     selectedLanguage,

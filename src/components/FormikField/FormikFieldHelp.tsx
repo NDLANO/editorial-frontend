@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
@@ -14,6 +14,7 @@ import { colors, fonts } from '@ndla/core';
 interface Props {
   error?: boolean;
   float?: 'left' | 'right' | 'none' | 'inherit';
+  children: React.ReactNode;
 }
 
 const StyledHelpMessage = styled.span`
@@ -23,7 +24,7 @@ const StyledHelpMessage = styled.span`
   float: ${(p: Props) => p.float || 'none'};
 `;
 
-const FormikFieldHelp: FC<Props> = ({ error, float, children }) => (
+const FormikFieldHelp = ({ error, float, children }: Props) => (
   <StyledHelpMessage error={error} float={float}>
     {children}
   </StyledHelpMessage>

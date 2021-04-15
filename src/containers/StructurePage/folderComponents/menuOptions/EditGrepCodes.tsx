@@ -6,8 +6,8 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import React, { useEffect, useState } from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Plus, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -16,8 +16,7 @@ import { spacing } from '@ndla/core';
 
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TranslateType } from '../../../../interfaces';
-import { convertGrepCodesToObject } from '../../../FormikForm/FormikGrepCodesContent';
+import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
 
@@ -29,7 +28,6 @@ interface Props {
   menuType: MenuType;
   metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: Function;
-  t: TranslateType;
   toggleEditMode: Function;
 }
 
@@ -55,7 +53,7 @@ const StyledGrepItem = styled('div')`
   margin: calc(var(--spacing--small) / 2);
 `;
 
-const EditGrepCodes: FC<Props> = ({
+const EditGrepCodes = ({
   editMode,
   getAllSubjects,
   id,
@@ -65,7 +63,7 @@ const EditGrepCodes: FC<Props> = ({
   refreshTopics,
   t,
   toggleEditMode,
-}) => {
+}: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);

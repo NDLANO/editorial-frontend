@@ -6,13 +6,13 @@
  *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
-import { FormikLicense, FormikContributors } from '../../FormikForm';
+import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
 
@@ -24,7 +24,7 @@ interface Props {
   imageLanguage?: string;
 }
 
-const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguage }) => (
+const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }: Props & tType) => (
   <Fragment>
     <FormikField
       name="tags"
@@ -43,11 +43,11 @@ const ImageMetaData: FC<Props & tType> = ({ t, imageTags, licenses, imageLanguag
     </FormikField>
     <FormikField name="license">
       {({ field }: { field: FieldInputProps<string> }) => (
-        <FormikLicense licenses={licenses} {...field} />
+        <LicenseField licenses={licenses} {...field} />
       )}
     </FormikField>
     <FormikField label={t('form.origin.label')} name="origin" />
-    <FormikContributors contributorTypes={contributorTypes} />
+    <ContributorsField contributorTypes={contributorTypes} />
   </Fragment>
 );
 

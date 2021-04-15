@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, Fragment, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { injectT, tType } from '@ndla/i18n';
@@ -20,12 +19,12 @@ import SearchImagePage from '../SearchPage/SearchImagePage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
-import { LocationShape, HistoryShape } from '../../shapes';
+import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
 
 interface Props extends RouteComponentProps, tType {}
 
-const SearchPage: FC<Props> = ({ match, t }) => {
+const SearchPage = ({ match, t }: Props) => {
   const locale = useContext(LocaleContext);
   const supportedTypes = [
     {
@@ -87,14 +86,7 @@ const SearchPage: FC<Props> = ({ match, t }) => {
 };
 
 SearchPage.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    params: PropTypes.object.isRequired,
-    isExact: PropTypes.bool.isRequired,
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  history: HistoryShape.isRequired,
+  ...RoutePropTypes,
 };
 
 export default injectT(withRouter(SearchPage));

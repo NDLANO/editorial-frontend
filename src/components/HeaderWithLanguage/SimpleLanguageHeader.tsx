@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import HeaderInformation from './HeaderInformation';
@@ -26,7 +26,7 @@ interface Props {
   title: string;
 }
 
-const SimpleLanguageHeader: FC<Props & tType> = ({
+const SimpleLanguageHeader = ({
   t,
   articleType,
   editUrl,
@@ -35,7 +35,7 @@ const SimpleLanguageHeader: FC<Props & tType> = ({
   language,
   supportedLanguages,
   title,
-}) => {
+}: Props & tType) => {
   const isNewLanguage = id && !supportedLanguages.includes(language);
 
   const languages = [

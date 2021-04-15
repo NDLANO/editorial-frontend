@@ -156,6 +156,8 @@ const phrases = {
       content: 'Search hits from content',
       tags: 'Search hits from tags',
       embedAttributes: 'Search hits from embedded elements',
+      notes: 'Search hits from version log',
+      previousVersionsNotes: 'Search hits from version log',
     },
   },
   articleType: {
@@ -501,6 +503,7 @@ const phrases = {
       caption: 'Caption',
       imageFile: 'Imagefile',
       visualElement: 'Visual element',
+      visualElementObject: 'Visual element',
       visualElementCaption: 'Caption',
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
@@ -657,9 +660,11 @@ const phrases = {
       quality_assured_delayed: 'Ready for publishing-delayed',
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
       published: 'Published',
+      has_published: 'Has published version',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
-      archived: 'Archived',
+      awaiting_archiving: 'Delayed archivation',
+      archived: 'Deleted',
       actions: {
         DRAFT: 'Draft',
         PROPOSAL: 'Proposal',
@@ -674,7 +679,8 @@ const phrases = {
         PUBLISHED: 'Publish',
         AWAITING_UNPUBLISHING: 'Queue for unpublishing',
         UNPUBLISHED: 'Unpublish',
-        ARCHIVED: 'Archive',
+        ARCHIVED: 'Delete',
+        AWAITING_ARCHIVING: 'Delayed archivation',
       },
       learningpath_statuses: {
         private: 'Draft',
@@ -942,6 +948,10 @@ const phrases = {
       label: 'Article',
       add: 'Add article',
     },
+    learningpathConnections: {
+      sectionTitle: 'Uses of the article in learningpaths',
+      title: 'Learningpaths containing this article',
+    },
     relatedConcepts: {
       placeholder: 'Search for title',
       articlesTitle: 'Concepts',
@@ -990,6 +1000,8 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    unsavedTaxonomy:
+      'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {message}',
     statusCode: {

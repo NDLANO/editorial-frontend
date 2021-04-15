@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import {
@@ -46,7 +46,7 @@ interface Props {
   placeholder?: string;
 }
 
-const FormikField: FC<Props & tType & { formik: FormikContextType<FormikValues> }> = ({
+const FormikField = ({
   children,
   className,
   label,
@@ -62,7 +62,7 @@ const FormikField: FC<Props & tType & { formik: FormikContextType<FormikValues> 
   t,
   formik: { values, handleBlur, errors, touched },
   ...rest
-}) => {
+}: Props & tType & { formik: FormikContextType<FormikValues> }) => {
   const [focus, setFocus] = useState(false);
 
   const isSlateValue = Value.isValue(values[name]);

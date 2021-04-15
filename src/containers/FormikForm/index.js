@@ -1,19 +1,20 @@
 import BEMHelper from 'react-bem-helper';
-import FormikAgreementConnection from './FormikAgreementConnection';
-import FormikCopyright from './FormikCopyright';
-import FormikIngress from './FormikIngress';
-import FormikTitle from './FormikTitle';
+import AgreementConnectionField from './AgreementConnectionField';
+import CopyrightFieldGroup from './CopyrightFieldGroup';
+import IngressField from './IngressField';
+import TitleField from './TitleField';
 import VersionAndNotesPanel from './VersionAndNotesPanel';
-import FormikAddNotes from './FormikAddNotes';
-import FormikLicense from './components/FormikLicense';
-import FormikAlertModalWrapper from './FormikAlertModalWrapper';
-import FormikActionButton from './components/FormikActionButton';
-import FormikMetaImageSearch from './FormikMetaImageSearch';
-import FormikDatePicker from './components/FormikDatePicker';
-import FormikCheckbox from './components/FormikCheckbox';
-import FormikContributors from './components/FormikContributors';
-import FormikMetadata from './FormikMetadata';
-import FormikAbortButton from './components/FormikAbortButton';
+import AddNotesField from './AddNotesField';
+import LicenseField from './components/LicenseField';
+import AlertModalWrapper from './AlertModalWrapper';
+import ActionButton from './components/ActionButton';
+import MetaImageSearch from './MetaImageSearch';
+import DatePicker from './components/DatePicker';
+import Checkbox from './components/Checkbox';
+import ContributorsField from './components/ContributorsField';
+import MetaDataField from './MetaDataField';
+import AbortButton from './components/AbortButton';
+import LearningpathConnection from '../../components/HeaderWithLanguage/LearningpathConnection';
 
 const formClasses = new BEMHelper({
   name: 'form',
@@ -21,20 +22,21 @@ const formClasses = new BEMHelper({
 });
 
 export {
-  FormikCopyright,
-  FormikAlertModalWrapper,
-  FormikAgreementConnection,
-  FormikDatePicker,
-  FormikIngress,
-  FormikTitle,
+  CopyrightFieldGroup,
+  AlertModalWrapper,
+  AgreementConnectionField,
+  DatePicker,
+  IngressField,
+  TitleField,
   VersionAndNotesPanel,
-  FormikAddNotes,
-  FormikLicense,
-  FormikActionButton,
-  FormikMetaImageSearch,
-  FormikCheckbox,
-  FormikContributors,
+  AddNotesField,
+  LicenseField,
+  ActionButton,
+  MetaImageSearch,
+  Checkbox,
+  ContributorsField,
   formClasses,
-  FormikMetadata,
-  FormikAbortButton,
+  MetaDataField,
+  AbortButton,
+  LearningpathConnection,
 };

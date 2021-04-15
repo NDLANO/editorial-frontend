@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { match, Route, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -16,7 +16,7 @@ interface Props {
   match: match;
 }
 
-const NdlaFilm: FC<Props> = ({ match }) => {
+const NdlaFilm = ({ match }: Props) => {
   return (
     <>
       <OneColumn>

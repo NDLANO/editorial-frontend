@@ -17,7 +17,7 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { Audio, Embed, LocaleType } from '../../../../interfaces';
 
-interface Props {
+interface BaseProps {
   attributes?: {
     'data-key': String;
     'data-slate-object': String;
@@ -28,14 +28,9 @@ interface Props {
   onRemoveClick: Function;
 }
 
-const SlatePodcast: React.FC<Props & tType> = ({
-  t,
-  attributes,
-  embed,
-  language,
-  locale,
-  onRemoveClick,
-}) => {
+type Props = BaseProps & tType;
+
+const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }: Props) => {
   const [audio, setAudio] = useState<Audio>({} as Audio);
 
   useEffect(() => {

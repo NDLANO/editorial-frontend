@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { NewImageMetadata } from '../modules/image/imageApiInterfaces';
+import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
 
 export const createFormData = (
   file: string | Blob,
-  metadata?: NewImageMetadata,
+  metadata?: NewImageMetadata | UpdatedImageMetadata,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();

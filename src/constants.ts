@@ -52,7 +52,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'Issuu', url: ['e.issuu.com'] },
-  { name: 'Geogebra', url: ['geogebra.org', 'ggbm.at'] },
+  { name: 'Geogebra', url: ['geogebra.org', 'www.geogebra.org', 'ggbm.at'] },
   { name: 'IMDB', url: ['www.imdb.com', 'imdb.com'], height: '398px' },
   { name: 'Tom Knudsen', url: ['www.tomknudsen.no', 'tomknudsen.no'] },
   { name: 'Phet', url: ['phet.colorado.edu'] },
@@ -63,5 +63,9 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'MolView', url: ['embed.molview.org'] },
-  { name: 'GeoGebra', url: ['www.geogebra.org'] },
+  {
+    name: 'NDLA Statisk',
+    url: ['statisk.ndla.no', 'statisk.test.ndla.no', 'statisk.staging.ndla.no'],
+  },
+  { name: 'NDLA Liste', url: ['liste'], height: '398px' },
 ];

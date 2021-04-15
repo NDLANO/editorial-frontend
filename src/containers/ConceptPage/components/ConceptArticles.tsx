@@ -24,8 +24,7 @@ const ConceptArticles = ({ t }: tType) => {
   } = useFormikContext<ConceptFormValues>();
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
-      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-      let newArticle = (await fetchDraft(article.id)) as ArticleType;
+      let newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
         setFieldValue('articles', temp);

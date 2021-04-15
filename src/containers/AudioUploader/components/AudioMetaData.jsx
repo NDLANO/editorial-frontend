@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { fetchSearchTags } from '../../../modules/draft/draftApi';
-import { FormikLicense, FormikContributors } from '../../FormikForm';
+import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 
@@ -36,10 +36,10 @@ const AudioMetaData = props => {
         )}
       </FormikField>
       <FormikField name="license">
-        {({ field }) => <FormikLicense licenses={licenses} {...field} />}
+        {({ field }) => <LicenseField licenses={licenses} {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
-      <FormikContributors contributorTypes={contributorTypes} />
+      <ContributorsField contributorTypes={contributorTypes} />
     </Fragment>
   );
 };

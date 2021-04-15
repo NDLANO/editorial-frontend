@@ -34,11 +34,10 @@ interface Props {
   language: string;
   onRemoveClick: Function;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
-  submitted: boolean;
   visualElement: boolean;
 }
 
-const SlateImage: React.FC<Props & tType> = ({
+const SlateImage = ({
   t,
   active,
   attributes,
@@ -48,9 +47,8 @@ const SlateImage: React.FC<Props & tType> = ({
   language,
   onRemoveClick,
   saveEmbedUpdates,
-  submitted,
   visualElement,
-}) => {
+}: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
@@ -87,12 +85,7 @@ const SlateImage: React.FC<Props & tType> = ({
         language={language}
       />
       {editMode && (
-        <EditImage
-          embed={embed}
-          saveEmbedUpdates={saveEmbedUpdates}
-          setEditModus={setEditMode}
-          submitted={submitted}
-        />
+        <EditImage embed={embed} saveEmbedUpdates={saveEmbedUpdates} setEditModus={setEditMode} />
       )}
       {!(visualElement && editMode) && (
         <Button

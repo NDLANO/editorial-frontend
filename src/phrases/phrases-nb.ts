@@ -157,6 +157,8 @@ const phrases = {
       content: 'Søketreff fra innhold',
       tags: 'Søketreff fra nøkkelord',
       embedAttributes: 'Søketreff fra innebygde elementer',
+      notes: 'Søketreff fra versjonslogg',
+      previousVersionsNotes: 'Søketreff fra versjonslogg',
     },
   },
   articleType: {
@@ -520,6 +522,7 @@ const phrases = {
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
       visualElement: 'Visuelt element',
+      visualElementObject: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt-tekst',
       validFrom: 'Gyldig fra',
@@ -670,9 +673,11 @@ const phrases = {
       quality_assured_delayed: 'Publ.klar-utsatt',
       queued_for_publishing_delayed: 'Publ-utsatt',
       published: 'Publisert',
+      has_published: 'Har publisert versjon',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
-      archived: 'Arkivert',
+      awaiting_archiving: 'Utsatt arkivering',
+      archived: 'Slettet',
       actions: {
         DRAFT: 'Kladd',
         PROPOSAL: 'Utkast',
@@ -687,7 +692,8 @@ const phrases = {
         PUBLISHED: 'Publiser',
         AWAITING_UNPUBLISHING: 'Til avpublisering',
         UNPUBLISHED: 'Avpubliser',
-        ARCHIVED: 'Arkiver',
+        ARCHIVED: 'Slett',
+        AWAITING_ARCHIVING: 'Utsatt arkivering',
       },
       learningpath_statuses: {
         private: 'Kladd',
@@ -965,6 +971,10 @@ const phrases = {
       label: 'Artikkel',
       add: 'Legg til artikkel',
     },
+    learningpathConnections: {
+      sectionTitle: 'Bruk av artikkelen i læringsstier',
+      title: 'Læringsstier som inneholder denne artikkelen',
+    },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
       articlesTitle: 'Forklaringer',
@@ -1013,6 +1023,7 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {message}',
     statusCode: {

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
   hasFocus?: boolean;
 }
 
-const FormikFieldLabel: FC<Props> = ({ label, noBorder, name, hasFocus }) => {
+const FormikFieldLabel = ({ label, noBorder, name, hasFocus }: Props) => {
   if (!label) {
     return null;
   }

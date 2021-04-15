@@ -32,12 +32,13 @@ interface MessageProps {
 interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
+  isEditable: boolean;
   // Element can be of type Article or Learningpath
   element: ContentResultType;
   executeDeleteFile: () => void;
   index: number;
   locale: string;
-  messages: MessageProps;
+  messages?: MessageProps;
   onDragEnd: () => void;
   onDragStart: (evt: React.MouseEvent, dragIndex: number) => void;
   showDragTooltip: boolean;
@@ -46,11 +47,12 @@ interface Props {
 const ElementListItem = ({
   deleteFile,
   deleteIndex,
+  isEditable,
   element,
   executeDeleteFile,
   index,
   locale,
-  messages: { removeElement, dragElement },
+  messages,
   onDragEnd,
   onDragStart,
   showDragTooltip,
@@ -74,9 +76,20 @@ const ElementListItem = ({
           </a>
         )}
       </div>
-      <div>
-        {showDragTooltip ? (
-          <Tooltip tooltip={dragElement}>
+      {isEditable && (
+        <div>
+          {showDragTooltip ? (
+            <Tooltip tooltip={messages?.dragElement}>
+              <StyledButtonIcons
+                draggable
+                tabIndex={-1}
+                type="button"
+                onMouseDown={e => onDragStart(e, index)}
+                onMouseUp={onDragEnd}>
+                <DragHorizontal />
+              </StyledButtonIcons>
+            </Tooltip>
+          ) : (
             <StyledButtonIcons
               draggable
               tabIndex={-1}
@@ -85,23 +98,14 @@ const ElementListItem = ({
               onMouseUp={onDragEnd}>
               <DragHorizontal />
             </StyledButtonIcons>
+          )}
+          <Tooltip tooltip={messages?.removeElement}>
+            <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
+              <DeleteForever />
+            </StyledButtonIcons>
           </Tooltip>
-        ) : (
-          <StyledButtonIcons
-            draggable
-            tabIndex={-1}
-            type="button"
-            onMouseDown={e => onDragStart(e, index)}
-            onMouseUp={onDragEnd}>
-            <DragHorizontal />
-          </StyledButtonIcons>
-        )}
-        <Tooltip tooltip={removeElement}>
-          <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
-            <DeleteForever />
-          </StyledButtonIcons>
-        </Tooltip>
-      </div>
+        </div>
+      )}
     </StyledListItem>
   );
 };

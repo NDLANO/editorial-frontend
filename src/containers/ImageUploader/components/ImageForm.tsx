@@ -8,24 +8,22 @@
 import React, { Component, ReactNode } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikHelpers } from 'formik';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
-import PropTypes from 'prop-types';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
-import { ImageShape } from '../../../shapes';
 import {
-  FormikActionButton,
-  FormikAbortButton,
+  ActionButton,
+  AbortButton,
   formClasses as classes,
-  FormikAlertModalWrapper,
+  AlertModalWrapper,
 } from '../../FormikForm';
 import { toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { NewImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 
 const imageRules = {
@@ -59,7 +57,7 @@ const imageRules = {
 };
 
 interface ImageFormikType {
-  id?: string;
+  id?: number;
   language?: string;
   supportedLanguages?: string[];
   title?: string;
@@ -76,7 +74,7 @@ interface ImageFormikType {
 
 export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
   return {
-    id: image.id,
+    id: Number(image.id),
     language: image.language,
     supportedLanguages: image.supportedLanguages || [],
     title: image.title || '',
@@ -99,38 +97,12 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-FormWrapper.propTypes = {
-  inModal: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-};
-
-type openIndexesProps = number | string;
-type AccordionChildrenProps = {
-  openIndexes: Array<openIndexesProps>;
-  handleItemClick: (arg: openIndexesProps) => void;
-  getBarProps: (
-    arg: openIndexesProps,
-  ) => {
-    tiny?: boolean;
-    onClick: () => void;
-    isOpen: boolean;
-    panelId: openIndexesProps;
-  };
-  getPanelProps: (
-    arg: openIndexesProps,
-  ) => {
-    id: openIndexesProps;
-    isOpen: boolean;
-    tiny?: boolean;
-  };
-};
-
 interface ImagePropType {
   alttext?: string;
   caption?: string;
   contentType?: string;
   copyright?: Copyright;
-  id?: string;
+  id?: number | string;
   imageUrl?: string;
   language?: string;
   metaUrl?: string;
@@ -140,6 +112,9 @@ interface ImagePropType {
   title?: string;
 }
 
+type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
+
 interface Props {
   image?: ImagePropType;
   licenses: {
@@ -147,8 +122,7 @@ interface Props {
     description: string;
     url?: string;
   }[];
-  onUpdate: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
-  showSaved: boolean;
+  onUpdate: OnCreateFunc | OnUpdateFunc;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -219,31 +193,7 @@ class ImageForm extends Component<Props & tType, State> {
       | 'rightsholders'
       | 'tags'
       | 'title';
-    const panels: {
-      id: string;
-      title: string;
-      errorFields: ErrorFields[];
-      component: ReactNode;
-    }[] = [
-      {
-        id: 'image-upload-content',
-        title: t('form.contentSection'),
-        errorFields: ['title', 'imageFile', 'caption', 'alttext'],
-        component: <ImageContent />,
-      },
-      {
-        id: 'image-upload-metadataSection',
-        title: t('form.metadataSection'),
-        errorFields: ['tags', 'rightsholders', 'creators', 'processors', 'license'],
-        component: (
-          <ImageMetaData
-            licenses={licenses}
-            imageLanguage={image?.language}
-            imageTags={image?.tags || []}
-          />
-        ),
-      },
-    ];
+
     const initialValues = getInitialValues(image);
     return (
       <Formik
@@ -252,12 +202,14 @@ class ImageForm extends Component<Props & tType, State> {
         validateOnMount
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
-        {({ values, dirty, errors, touched, isSubmitting, submitForm }) => {
+        {({ values, dirty, errors, isSubmitting, submitForm }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
             dirty,
           });
+          const hasError = (errorFields: ErrorFields[]): boolean =>
+            errorFields.some(field => !!errors[field]);
           return (
             <FormWrapper inModal={inModal}>
               <HeaderWithLanguage
@@ -267,46 +219,43 @@ class ImageForm extends Component<Props & tType, State> {
                 content={image}
                 editUrl={(lang: string) => toEditImage(values.id, lang)}
               />
-              <Accordion openIndexes={['image-upload-content']}>
-                {({ openIndexes, handleItemClick }: AccordionChildrenProps) => (
-                  <AccordionWrapper>
-                    {panels.map(panel => {
-                      const hasError = panel.errorFields.some(field => !!errors[field]);
-                      return (
-                        <React.Fragment key={panel.id}>
-                          <AccordionBar
-                            panelId={panel.id}
-                            ariaLabel={panel.title}
-                            onClick={() => handleItemClick(panel.id)}
-                            hasError={hasError}
-                            title={panel.title}
-                            isOpen={openIndexes.includes(panel.id)}
-                          />
-                          {openIndexes.includes(panel.id) && (
-                            <AccordionPanel
-                              id={panel.id}
-                              hasError={hasError}
-                              isOpen={openIndexes.includes(panel.id)}>
-                              <div className="u-4/6@desktop u-push-1/6@desktop">
-                                {panel.component}
-                              </div>
-                            </AccordionPanel>
-                          )}
-                        </React.Fragment>
-                      );
-                    })}
-                  </AccordionWrapper>
-                )}
-              </Accordion>
+              <Accordions>
+                <AccordionSection
+                  id="image-upload-content"
+                  title={t('form.contentSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
+                  startOpen>
+                  <ImageContent />
+                </AccordionSection>
+                <AccordionSection
+                  id="image-upload-metadataSection"
+                  title={t('form.metadataSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={hasError([
+                    'tags',
+                    'rightsholders',
+                    'creators',
+                    'processors',
+                    'license',
+                  ])}>
+                  <ImageMetaData
+                    licenses={licenses}
+                    imageLanguage={image?.language}
+                    imageTags={image?.tags || []}
+                  />
+                </AccordionSection>
+              </Accordions>
+
               <Field right>
                 {inModal ? (
-                  <FormikActionButton outline onClick={closeModal}>
+                  <ActionButton outline onClick={closeModal}>
                     {t('form.abort')}
-                  </FormikActionButton>
+                  </ActionButton>
                 ) : (
-                  <FormikAbortButton outline disabled={isSubmitting}>
+                  <AbortButton outline disabled={isSubmitting}>
                     {t('form.abort')}
-                  </FormikAbortButton>
+                  </AbortButton>
                 )}
                 <SaveButton
                   isSaving={isSubmitting}
@@ -322,7 +271,7 @@ class ImageForm extends Component<Props & tType, State> {
                   {t('form.save')} - {inModal}
                 </SaveButton>
               </Field>
-              <FormikAlertModalWrapper
+              <AlertModalWrapper
                 isSubmitting={isSubmitting}
                 severity="danger"
                 formIsDirty={formIsDirty}
@@ -334,21 +283,6 @@ class ImageForm extends Component<Props & tType, State> {
       </Formik>
     );
   }
-
-  static propTypes = {
-    image: ImageShape,
-    licenses: PropTypes.arrayOf(
-      PropTypes.shape({
-        description: PropTypes.string.isRequired,
-        license: PropTypes.string.isRequired,
-      }).isRequired,
-    ).isRequired,
-    onUpdate: PropTypes.func.isRequired,
-    showSaved: PropTypes.bool.isRequired,
-    inModal: PropTypes.bool,
-    closeModal: PropTypes.func,
-    isNewlyCreated: PropTypes.bool,
-  };
 }
 
 export default injectT(ImageForm);

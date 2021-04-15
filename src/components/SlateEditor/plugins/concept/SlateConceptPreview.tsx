@@ -6,8 +6,9 @@
  *
  */
 
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -41,10 +42,13 @@ interface Props {
   id: number;
 }
 
-const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }) => {
+const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) => {
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
+
+  const markdown = new Remarkable({ breaks: true });
+  markdown.inline.ruler.enable(['sub', 'sup']);
 
   const VisualElement = () => {
     const visualElement = concept.parsedVisualElement;
@@ -96,7 +100,13 @@ const SlateConceptPreview: FC<Props & tType> = ({ concept, handleRemove, id, t }
     <>
       <NotionDialogContent>
         <VisualElement />
-        <NotionDialogText>{concept.content}</NotionDialogText>
+        <NotionDialogText>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: markdown.render(concept.content),
+            }}
+          />
+        </NotionDialogText>
       </NotionDialogContent>
       <NotionDialogLicenses
         license={concept.copyright?.license?.license}

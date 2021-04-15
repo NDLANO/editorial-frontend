@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component, Fragment, ReactNode } from 'react';
+import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';

@@ -203,7 +203,7 @@ ElementList.propTypes = {
     removeElement: PropTypes.string,
     dragElement: PropTypes.string,
   }),
-  onUpdateElements: PropTypes.func.isRequired,
+  onUpdateElements: PropTypes.func,
 };
 
 ElementList.defaultProps = {

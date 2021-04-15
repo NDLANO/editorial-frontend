@@ -18,7 +18,7 @@ import FormikField from '../../components/FormikField';
 
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import { savePlugin } from '../../components/SlateEditor/plugins/saveForm';
-import { editorValueToPlainText } from '../../util/articleContentConverter';
+import { Plain } from '../../util/slatePlainSerializer';
 
 const markdown = new Remarkable({ breaks: true });
 markdown.inline.ruler.enable(['sub', 'sup']);
@@ -59,8 +59,7 @@ const IngressField = ({
         {({ field }) =>
           preview ? (
             <div className="article_introduction">
-              {/*TODO: Stop using serializer package*/}
-              {parse(renderMarkdown(editorValueToPlainText(field.value), concept))}
+              {parse(renderMarkdown(Plain.serialize(field.value), concept))}
             </div>
           ) : (
             <PlainTextEditor

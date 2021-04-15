@@ -7,8 +7,8 @@
  */
 
 import { Value } from 'slate';
-import { Node } from 'new-slate';
 import Html from 'slate-html-serializer';
+import { Plain } from './slatePlainSerializer';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 
@@ -110,18 +110,6 @@ export function topicArticleContentToHTML(value) {
 
   return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
-
-const Plain = {
-  serialize: nodes => {
-    return nodes.map(n => Node.string(n)).join('\n');
-  },
-  deserialize: text => {
-    return text.split('\n').map(t => ({
-      type: 'paragraph',
-      children: [{ text: t }],
-    }));
-  },
-};
 
 export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
   if (withDefaultPlainValue) {

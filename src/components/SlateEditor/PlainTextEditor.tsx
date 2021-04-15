@@ -7,25 +7,19 @@
  *
  */
 
-import React, { useMemo, KeyboardEventHandler } from 'react';
+import React, { useMemo } from 'react';
 import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';
-type EditorWithKeyDown = {
-  onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
-};
-type CustomElement = { type: 'paragraph'; children: CustomText[] };
-type CustomText = { text: string };
+import { CustomEditor, CustomElement, CustomText, SlatePlugin } from './interfaces';
 
 declare module 'new-slate' {
   interface CustomTypes {
-    Editor: BaseEditor & ReactEditor & HistoryEditor & EditorWithKeyDown;
+    Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
     Element: CustomElement;
     Text: CustomText;
   }
 }
-
-type Plugin = (editor: Editor) => Editor;
 
 interface SlateEditorProps {
   id?: string;
@@ -34,7 +28,7 @@ interface SlateEditorProps {
   className?: string;
   onChange: (value: Descendant[]) => void;
   placeholder?: string;
-  plugins?: Plugin[];
+  plugins?: SlatePlugin[];
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
@@ -48,7 +42,7 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
   onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
-const withPlugins = (editor: Editor, plugins?: Plugin[]) => {
+const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   if (plugins) {
     return plugins.reduce((editor, plugin) => plugin(editor), editor);
   }
@@ -64,7 +58,6 @@ const PlainTextEditor: React.FC<Props> = props => {
     className,
     placeholder,
     onBlur,
-    hotkeys,
     plugins,
     ...rest
   } = props;

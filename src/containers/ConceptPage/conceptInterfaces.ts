@@ -6,7 +6,7 @@
  *
  */
 
-import { Value } from 'slate';
+import { Descendant } from 'new-slate';
 import {
   SubjectType,
   VisualElement,
@@ -24,8 +24,8 @@ export interface ConceptFormType extends ConceptType {
 
 export interface ConceptFormValues extends StrippedConceptType, FormValues {
   articles: ArticleType[];
-  slatetitle: Value;
-  conceptContent: Value;
+  slatetitle: Descendant[];
+  conceptContent: Descendant[];
   created?: string;
   creators: Author[];
   license?: string;

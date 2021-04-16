@@ -7,8 +7,8 @@
  */
 
 import { Value } from 'slate';
-import Plain from 'slate-plain-serializer';
 import Html from 'slate-html-serializer';
+import { Plain } from './slatePlainSerializer';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 

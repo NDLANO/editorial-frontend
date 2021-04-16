@@ -74,7 +74,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
           }
         } else if (
           typeof initialValues[value] === 'object' &&
-          !isEqual(currentValue.toJSON(), initialValues[value].toJSON())
+          !isEqual(currentValue, initialValues[value])
         ) {
           dirtyFields.push(value);
         }

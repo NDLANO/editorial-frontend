@@ -13,26 +13,35 @@ import { injectT } from '@ndla/i18n';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
+import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
 
-const plugins = [textTransformPlugin()];
+const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => {
+  const handleSubmitRef = React.useRef(handleSubmit);
 
-const TitleField = ({ t, maxLength, name, handleSubmit, onBlur }) => (
-  <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
-    {({ field }) => (
-      <PlainTextEditor
-        id={field.name}
-        {...field}
-        className={'title'}
-        placeholder={t('form.title.label')}
-        data-cy="learning-resource-title"
-        plugins={plugins}
-        handleSubmit={handleSubmit}
-        onBlur={onBlur}
-      />
-    )}
-  </FormikField>
-);
+  React.useEffect(() => {
+    handleSubmitRef.current = handleSubmit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
+
+  const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
+  return (
+    <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
+      {({ field }) => (
+        <PlainTextEditor
+          id={field.name}
+          {...field}
+          className={'title'}
+          placeholder={t('form.title.label')}
+          data-cy="learning-resource-title"
+          plugins={plugins}
+          handleSubmit={handleSubmit}
+          onBlur={onBlur}
+        />
+      )}
+    </FormikField>
+  );
+};
 
 TitleField.defaultProps = {
   name: 'slatetitle',

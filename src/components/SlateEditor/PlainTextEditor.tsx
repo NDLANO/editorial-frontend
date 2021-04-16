@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * Copyright (c) 2017-present, NDLA.
  *
@@ -6,76 +7,85 @@
  *
  */
 
-import React, { ReactElement } from 'react';
-import PropTypes from 'prop-types';
-import { Editor } from 'slate-react';
-import { Editor as EditorType, EditorProperties, Operation, Value } from 'slate';
-import Types from 'slate-prop-types';
-import isHotkey from 'is-hotkey';
-import { List as ImmutableList } from 'immutable';
+import React, { useMemo } from 'react';
+import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
+import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
+import { HistoryEditor, withHistory } from 'new-slate-history';
+import { CustomEditor, CustomElement, CustomText, SlatePlugin } from './interfaces';
 
-const isSaveHotkey = isHotkey('mod+s');
+declare module 'new-slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
+    Element: CustomElement;
+    Text: CustomText;
+  }
+}
 
 interface SlateEditorProps {
   id?: string;
-  autoCorrect?: boolean;
+  autoCorrect?: string;
   autoFocus?: boolean;
   className?: string;
-  onChange?: EditorProperties['onChange'];
-  placeholder?: string | ReactElement;
-  plugins?: EditorProperties['plugins'];
+  onChange: (value: Descendant[]) => void;
+  placeholder?: string;
+  plugins?: SlatePlugin[];
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
   taxIndex?: number;
-  value?: Value;
+  value: Descendant[];
 }
 
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: Function;
+  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
-class PlainTextEditor extends React.PureComponent<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.onKeyDown = this.onKeyDown.bind(this);
+const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
+  if (plugins) {
+    return plugins.reduce((editor, plugin) => plugin(editor), editor);
   }
+  return editor;
+};
 
-  onKeyDown(e: Event, editor: EditorType, next: Function) {
-    if (isSaveHotkey(e)) {
-      e.preventDefault();
-      this.props.handleSubmit();
-    }
-    next();
-  }
+const PlainTextEditor: React.FC<Props> = props => {
+  const {
+    onChange,
+    value,
+    handleSubmit,
+    id,
+    className,
+    placeholder,
+    onBlur,
+    plugins,
+    ...rest
+  } = props;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
-  render() {
-    const { onChange, value, handleSubmit, ...rest } = this.props;
-    return (
-      <Editor
-        value={value}
-        onKeyDown={this.onKeyDown}
-        onChange={(val: { operations: ImmutableList<Operation>; value: Value }) =>
-          onChange({
-            target: {
-              name: rest.id,
-              value: val.value,
-              type: 'SlateEditorValue',
-            },
-          })
-        }
+  return (
+    <Slate
+      editor={editor}
+      value={value}
+      onChange={(val: Descendant[]) => {
+        onChange({
+          target: {
+            name: id,
+            value: val,
+            type: 'SlateEditorValue',
+          },
+        });
+      }}>
+      <Editable
+        onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+        onKeyDown={editor.onKeyDown}
+        className={className}
+        placeholder={placeholder}
         {...rest}
       />
-    );
-  }
-
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    value: Types.value.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-  };
-}
+    </Slate>
+  );
+};
 
 export default PlainTextEditor;

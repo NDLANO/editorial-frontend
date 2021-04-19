@@ -175,7 +175,7 @@ const phrases = {
     learningResource: 'Læringsressurs',
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
-    podcast: 'Ny podcast',
+    podcast: 'Ny podkast',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     searchContent: 'Søk innhold',

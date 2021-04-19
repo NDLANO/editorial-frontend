@@ -4,7 +4,7 @@ export const Plain = {
   serialize: (nodes: Descendant[]) => {
     return nodes.map(n => Node.string(n)).join('\n');
   },
-  deserialize: (text: string) => {
+  deserialize: (text: string): Descendant[] => {
     return text.split('\n').map(t => ({
       type: 'paragraph',
       children: [{ text: t }],

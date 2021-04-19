@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import { Value } from 'slate';
-import Html from 'slate-html-serializer';
+import escapeHtml from 'escape-html';
+import { Descendant, Text, Node } from 'new-slate';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 
+// TODO: Rewrite
 export const sectionSplitter = html => {
   const node = document.createElement('div');
   node.insertAdjacentHTML('beforeend', html);
@@ -23,31 +23,18 @@ export const sectionSplitter = html => {
   return sections;
 };
 
-export const createEmptyValue = () =>
-  Value.fromJSON({
-    document: {
-      nodes: [
-        {
-          object: 'block',
-          type: 'section',
-          nodes: [
-            {
-              object: 'block',
-              type: 'paragraph',
-              nodes: [
-                {
-                  object: 'text',
-                  text: '',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  });
-
-export function learningResourceContentToEditorValue(html, fragment = undefined) {
+export const createEmptyValue = (): Descendant[] => [
+  {
+    type: 'paragraph',
+    children: [
+      {
+        text: '',
+      },
+    ],
+  },
+];
+// TODO: Rewrite
+export const learningResourceContentToEditorValue = (html, fragment = undefined) => {
   if (!html) {
     return [createEmptyValue()];
   }
@@ -77,23 +64,37 @@ export function learningResourceContentToEditorValue(html, fragment = undefined)
 
     return value;
   });
-}
+};
 
-export function learningResourceContentToHTML(contentValues) {
-  // Use footnoteCounter hack until we have a better footnote api
-  const serializer = new Html({
-    rules: learningResourceRules,
-  });
+// TODO: Rewrite
+export function learningResourceContentToHTML(contentValues: Descendant[][]) {
+  const serialize = (node: Descendant): string => {
+    if (Text.isText(node)) {
+      let string = escapeHtml(node.text);
+      return string;
+    }
 
+    const children = node.children.map(n => serialize(n)).join('');
+
+    switch (node.type) {
+      case 'paragraph':
+        return `<p>${children}</p>`;
+      default:
+        return children;
+    }
+  };
   return contentValues
-    .map(value => serializer.serialize(value))
+    .map((descendants: Descendant[]) =>
+      descendants.map((descendant: Descendant) => serialize(descendant)),
+    )
     .join('')
     .replace(/<deleteme><\/deleteme>/g, '');
 }
 
+// TODO: Rewrite
 export function topicArticleContentToEditorValue(html, fragment = undefined) {
   if (!html) {
-    return createEmptyValue();
+    return [createEmptyValue()];
   }
   const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
 
@@ -105,19 +106,19 @@ export function topicArticleContentToEditorValue(html, fragment = undefined) {
   return value;
 }
 
+// TODO: Rewrite
 export function topicArticleContentToHTML(value) {
   const serializer = new Html({ rules: topicArticeRules });
 
   return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
-export function plainTextToEditorValue(text, withDefaultPlainValue = false) {
-  if (withDefaultPlainValue) {
-    return text ? Plain.deserialize(text) : Plain.deserialize('');
-  }
-  return text ? Plain.deserialize(text) : undefined;
+// TODO: Rewrite to TS only
+export function plainTextToEditorValue(text: string): Descendant[] {
+  return Plain.deserialize(text);
 }
 
-export function editorValueToPlainText(editorValue) {
+// TODO: Rewrite to TS only
+export function editorValueToPlainText(editorValue: Descendant[]) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }

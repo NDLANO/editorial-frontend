@@ -28,10 +28,10 @@ class RichBlockTextEditor extends PureComponent {
     if (window.MathJax) window.MathJax.typeset();
   }
 
-  onChange(evt, index) {
+  onChange(descendant, index) {
     const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = evt.target.value;
+    newValue[index] = descendant;
     onChange({
       target: {
         value: newValue,
@@ -71,13 +71,13 @@ class RichBlockTextEditor extends PureComponent {
           <StyledFormContainer
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
           >
-            {value.length > 1 ? (
+            {value.length > 1 && (
               <Tooltip
                 tooltip={t('form.section.remove')}
                 tooltipContainerClass="tooltipContainerClass">
                 <DeleteForeverButton stripped onClick={() => this.removeSection(index)} />
               </Tooltip>
-            ) : null}
+            )}
             <RichTextEditor
               id={name}
               name={name}
@@ -86,11 +86,11 @@ class RichBlockTextEditor extends PureComponent {
               data-cy={this.props['data-cy']}
               placeholder={placeholder}
               plugins={plugins}
-              renderMark={renderMark}
-              renderBlock={renderBlock}
-              renderInline={renderInline}
+              // renderMark={renderMark}
+              // renderBlock={renderBlock}
+              // renderInline={renderInline}
               submitted={submitted}
-              schema={schema}
+              // schema={schema}
               onChange={this.onChange}
               value={blockValue}
               removeSection={this.removeSection}

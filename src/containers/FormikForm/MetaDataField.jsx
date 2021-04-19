@@ -7,12 +7,13 @@
  */
 
 import React, { Fragment, useContext } from 'react';
+import { ReactEditor } from 'new-slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
-import textTransform from '../../components/SlateEditor/plugins/textTransform';
+import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityField from './components/AvailabilityField';
@@ -21,7 +22,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 
 const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
   const userAccess = useContext(UserAccessContext);
-  const hotkeys = [...textTransform];
+  const plugins = [textTransformPlugin];
 
   return (
     <Fragment>
@@ -58,13 +59,17 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
             handleSubmit={handleSubmit}
             {...field}
             onBlur={(event, editor, next) => {
-              next();
+              // Forcing slate field to be deselected before selecting new field.
+              // Fixes a problem where slate field is not properly focused on click.
+              ReactEditor.deselect(editor);
+
+              // TODO: Can possibly be removed
               // this is a hack since formik onBlur-handler interferes with slates
               // related to: https://github.com/ianstormtaylor/slate/issues/2434
               // formik handleBlur needs to be called for validation to work (and touched to be set)
               setTimeout(() => handleBlur({ target: { name: 'metaDescription' } }), 0);
             }}
-            hotkeys={hotkeys}
+            plugins={plugins}
           />
         )}
       </FormikField>

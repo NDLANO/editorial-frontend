@@ -100,12 +100,24 @@ class SearchAudioForm extends Component<Props & tType, State> {
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '50-width')}>
+        <div {...searchFormClasses('field', '25-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.audioQuery')}
             value={this.state.search.query}
             onChange={this.onFieldChange}
+          />
+        </div>
+        <div {...searchFormClasses('field', '25-width')}>
+          <ObjectSelector
+            name="audio-type"
+            value={this.state.search['audio-type']}
+            options={getAudioTypes()}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.audio')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
@@ -137,18 +149,6 @@ class SearchAudioForm extends Component<Props & tType, State> {
             submit>
             {t('searchForm.btn')}
           </Button>
-        </div>
-        <div {...searchFormClasses('field', '50-width')}>
-          <ObjectSelector
-            name="audio-type"
-            value={this.state.search['audio-type']}
-            options={getAudioTypes()}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={this.onFieldChange}
-            placeholder={t('searchForm.types.audio')}
-          />
         </div>
       </form>
     );

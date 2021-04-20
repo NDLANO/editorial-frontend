@@ -50,7 +50,7 @@ import paragraphPlugin from '../../../../components/SlateEditor/plugins/paragrap
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
-import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { TYPE as footnoteType } from '../../../../components/SlateEditor/plugins/footnote';
 
 import {
@@ -134,22 +134,22 @@ class LearningResourceContent extends Component {
     ];
   }
 
-  componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
-    const {
-      article: { id, language },
-    } = this.props;
-    if (prevLanguage !== language || prevId !== id) {
-      this.plugins = [
-        createEmbedPlugin(language),
-        conceptPlugin(language),
-        blockPickerPlugin({
-          articleLanguage: language,
-          actionsToShowInAreas,
-          ...this.plugins,
-        }),
-      ];
-    }
-  }
+  // componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
+  //   const {
+  //     article: { id, language },
+  //   } = this.props;
+  //   if (prevLanguage !== language || prevId !== id) {
+  //     this.plugins = [
+  //       createEmbedPlugin(language),
+  //       conceptPlugin(language),
+  //       blockPickerPlugin({
+  //         articleLanguage: language,
+  //         actionsToShowInAreas,
+  //         ...this.plugins,
+  //       }),
+  //     ];
+  //   }
+  // }
 
   render() {
     const {

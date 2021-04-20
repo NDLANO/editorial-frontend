@@ -14,7 +14,6 @@ import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
 import { HistoryEditor, withHistory } from 'new-slate-history';
 import { CustomEditor, SlatePlugin } from './interfaces';
-
 import isHotkey from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';

@@ -115,7 +115,7 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
     published: getPublishedDate(values, initialValues, preview),
     supportedLanguages: values.supportedLanguages,
     tags: values.tags,
-    title: values.title ? editorValueToPlainText(values.slatetitle) : '',
+    title: values.slatetitle ? editorValueToPlainText(values.slatetitle) : '',
     grepCodes: values.grepCodes,
     conceptIds: values.conceptIds,
     availability: values.availability,

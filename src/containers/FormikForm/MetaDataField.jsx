@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
-import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityField from './components/AvailabilityField';
@@ -58,7 +58,7 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
             placeholder={t('form.metaDescription.label')}
             handleSubmit={handleSubmit}
             {...field}
-            onBlur={(event, editor, next) => {
+            onBlur={(event, editor) => {
               // Forcing slate field to be deselected before selecting new field.
               // Fixes a problem where slate field is not properly focused on click.
               ReactEditor.deselect(editor);

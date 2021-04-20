@@ -11,7 +11,7 @@ import { FieldProps } from 'formik';
 import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
 import { FormikProperties, VisualElement } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';

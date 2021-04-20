@@ -5,11 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import escapeHtml from 'escape-html';
-import { Descendant, Text, Node } from 'new-slate';
+import { Descendant, Text, Node, Element } from 'new-slate';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
+import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph/index.tsx';
+import { SlateSerializer } from '../components/SlateEditor/interfaces';
+import { blockSerializer } from 'components/SlateEditor/plugins/blocks';
 
 // TODO: Rewrite
 export const sectionSplitter = html => {
@@ -25,10 +30,15 @@ export const sectionSplitter = html => {
 
 export const createEmptyValue = (): Descendant[] => [
   {
-    type: 'paragraph',
+    type: 'section',
     children: [
       {
-        text: '',
+        type: 'paragraph',
+        children: [
+          {
+            text: '',
+          },
+        ],
       },
     ],
   },
@@ -39,12 +49,45 @@ export const learningResourceContentToEditorValue = (html, fragment = undefined)
     return [createEmptyValue()];
   }
 
-  const serializer = new Html({
-    rules: learningResourceRules,
-    parseHtml: fragment,
-  });
+  const rules: SlateSerializer[] = [paragraphSerializer, blockSerializer];
+  const deserialize = (el: HTMLElement | ChildNode) => {
+    console.log(el);
+    if (el.nodeType === 3) {
+      return el.textContent;
+    } else if (el.nodeType !== 1) {
+      return null;
+    }
+
+    let children = Array.from(el.childNodes).map(deserialize);
+
+    if (children.length === 0) {
+      children = [{ text: '' }];
+    }
+
+    for (const rule of rules) {
+      if (!rule.deserialize) {
+        continue;
+      }
+      const ret = rule.deserialize(el, children);
+
+      if (ret === undefined) {
+        continue;
+      } else if (ret === null) {
+        return null;
+      } else {
+        return ret;
+      }
+    }
+    return el.textContent;
+  };
+
+  // const serializer = new Html({
+  //   rules: learningResourceRules,
+  //   parseHtml: fragment,
+  // });
 
   const sections = sectionSplitter(html);
+  console.log(sections);
 
   /**
    Map over each section and deserialize to get a new slate value. On this value, normalize with the schema rules and use the changed value. this
@@ -55,40 +98,55 @@ export const learningResourceContentToEditorValue = (html, fragment = undefined)
     /*   Slate's default sanitization just obliterates block nodes that contain both
     inline+text children and block children.
     see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-    const json = serializer.deserialize(section, {
-      toJSON: true,
-      parseHtml: fragment,
-    });
+    const document = new DOMParser().parseFromString(section, 'text/html');
+    console.log(document);
+    const nodes = deserialize(document.body);
+    // const json = serializer.deserialize(section, {
+    //   toJSON: true,
+    //   parseHtml: fragment,
+    // });
 
-    const value = convertFromHTML(json);
+    //const value = convertFromHTML(nodes);
 
-    return value;
+    return nodes;
   });
 };
 
-// TODO: Rewrite
 export function learningResourceContentToHTML(contentValues: Descendant[][]) {
-  const serialize = (node: Descendant): string => {
+  const rules: SlateSerializer[] = [paragraphSerializer, blockSerializer];
+
+  const serialize = (node: Descendant): string | null => {
     if (Text.isText(node)) {
-      let string = escapeHtml(node.text);
+      const string = escapeHtml(node.text);
       return string;
     }
 
-    const children = node.children.map(n => serialize(n)).join('');
+    const children = node.children.map((n: Descendant) => serialize(n)).join('');
 
-    switch (node.type) {
-      case 'paragraph':
-        return `<p>${children}</p>`;
-      default:
-        return children;
+    for (const rule of rules) {
+      if (!rule.serialize) {
+        continue;
+      }
+      const ret = rule.serialize(node, children);
+
+      if (ret === undefined) {
+        continue;
+      } else if (ret === null) {
+        return null;
+      } else {
+        return ret;
+      }
     }
+    return children;
   };
-  return contentValues
+
+  const elements = contentValues
     .map((descendants: Descendant[]) =>
-      descendants.map((descendant: Descendant) => serialize(descendant)),
+      descendants.map((descendant: Descendant) => serialize(descendant)).join(''),
     )
-    .join('')
-    .replace(/<deleteme><\/deleteme>/g, '');
+    .join('');
+
+  return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 
 // TODO: Rewrite
@@ -113,12 +171,11 @@ export function topicArticleContentToHTML(value) {
   return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
 }
 
-// TODO: Rewrite to TS only
 export function plainTextToEditorValue(text: string): Descendant[] {
+  console.log(text);
   return Plain.deserialize(text);
 }
 
-// TODO: Rewrite to TS only
 export function editorValueToPlainText(editorValue: Descendant[]) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }

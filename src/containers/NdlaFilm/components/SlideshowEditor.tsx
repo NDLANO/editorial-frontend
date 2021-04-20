@@ -13,7 +13,7 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from './DropdownSearch';
 import { ContentResultType } from '../../../interfaces';
-import config from '../../../config.js';
+import { NDLA_FILM_SUBJECT } from '../../../constants';
 
 interface Props {
   onUpdateSlideshow: Function;
@@ -64,8 +64,8 @@ const SlideshowEditor = ({
         selectedElements={slideshowMovies}
         onChange={(movie: ContentResultType) => onAddMovieToSlideshow(movie)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
-        subjectId={'urn:subject:20'}
-        contextTypes={config.ndlaFilmArticleType}
+        subjectId={NDLA_FILM_SUBJECT}
+        contextTypes={'standard'}
         clearInputField
       />
     </>

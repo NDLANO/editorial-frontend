@@ -161,6 +161,7 @@ const LearningResourceForm = props => {
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
+          history={history}
           {...rest}
         />
         {translating ? (

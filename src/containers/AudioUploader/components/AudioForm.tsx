@@ -6,12 +6,16 @@
  */
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { injectT } from '@ndla/i18n';
+import { connect, ConnectedProps } from 'react-redux';
+import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { Formik, Form } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
+import { Value } from 'slate';
+import {
+  plainTextToEditorValue,
+  editorValueToPlainText,
+} from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import {
@@ -27,22 +31,58 @@ import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import { Author, License } from '../../../interfaces';
+import {
+  FlattenedAudioApiType,
+  NewAudioMetaInformation,
+  UpdatedAudioMetaInformation,
+} from '../../../modules/audio/audioApiInterfaces';
+import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 
-export const getInitialValues = (audio = {}) => ({
-  id: audio.id,
-  revision: audio.revision,
-  language: audio.language,
-  supportedLanguages: audio.supportedLanguages || [],
-  title: audio.title || '',
-  audioFile: audio.audioFile,
-  filepath: '',
-  tags: audio.tags || [],
-  creators: parseCopyrightContributors(audio, 'creators'),
-  processors: parseCopyrightContributors(audio, 'processors'),
-  rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
-  origin: audio.copyright?.origin || '',
-  license: audio.copyright?.license?.license || DEFAULT_LICENSE.license,
-});
+export interface AudioFormikType {
+  id?: number;
+  revision?: number;
+  language: string;
+  supportedLanguages: string[];
+  title: Value;
+  audioFile: {
+    storedFile?: {
+      url: string;
+      mimeType: string;
+      fileSize: number;
+      language: string;
+    };
+    newFile?: {
+      filepath: string;
+      file: File;
+    };
+  };
+  tags: string[];
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  origin: string;
+  license: string;
+}
+
+export const getInitialValues = (
+  audio: Partial<FlattenedAudioApiType> & { language: string },
+): AudioFormikType => {
+  return {
+    id: audio.id,
+    revision: audio.revision,
+    language: audio.language,
+    supportedLanguages: audio.supportedLanguages || [],
+    title: plainTextToEditorValue(audio.title || '', true),
+    audioFile: { storedFile: audio.audioFile },
+    tags: audio.tags || [],
+    creators: parseCopyrightContributors(audio, 'creators'),
+    processors: parseCopyrightContributors(audio, 'processors'),
+    rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
+    origin: audio.copyright?.origin || '',
+    license: audio.copyright?.license?.license || DEFAULT_LICENSE.license,
+  };
+};
 
 const rules = {
   title: {
@@ -69,29 +109,54 @@ const rules = {
   },
 };
 
-class AudioForm extends Component {
-  constructor(props) {
+const mapDispatchToProps = {
+  applicationError: messageActions.applicationError,
+};
+
+const reduxConnector = connect(undefined, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+type OnCreateFunc = (audio: NewAudioMetaInformation, file?: string | Blob) => void;
+type OnUpdateFunc = (audio: UpdatedAudioMetaInformation, file?: string | Blob) => void;
+
+interface BaseProps extends PropsFromRedux {
+  licenses: License[];
+  onUpdate: OnCreateFunc | OnUpdateFunc;
+  audio: Partial<FlattenedAudioApiType> & { language: string };
+  audioLanguage: string;
+  revision?: number;
+  isNewlyCreated?: boolean;
+}
+
+interface State {
+  savedToServer: boolean;
+}
+
+type Props = BaseProps & tType;
+
+class AudioForm extends Component<Props, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.state = {
       savedToServer: false,
     };
   }
 
-  componentDidUpdate({ audioLanguage: prevAudioLanguage }) {
+  componentDidUpdate({ audioLanguage: prevAudioLanguage }: Props) {
     const { audioLanguage } = this.props;
     if (audioLanguage && audioLanguage !== prevAudioLanguage) {
       this.setState({ savedToServer: false });
     }
   }
 
-  handleSubmit = async (values, actions) => {
+  handleSubmit = async (values: AudioFormikType, actions: FormikHelpers<AudioFormikType>) => {
     const { licenses, onUpdate, revision, applicationError } = this.props;
     try {
       actions.setSubmitting(true);
       const audioMetaData = {
         id: values.id,
-        revision,
-        title: values.title,
+        revision: revision,
+        title: editorValueToPlainText(values.title),
         language: values.language,
         tags: values.tags,
         copyright: {
@@ -102,7 +167,9 @@ class AudioForm extends Component {
           rightsholders: values.rightsholders,
         },
       };
-      await onUpdate(audioMetaData, values.audioFile);
+
+      await onUpdate(audioMetaData, values.audioFile.newFile?.file);
+
       actions.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
@@ -125,49 +192,55 @@ class AudioForm extends Component {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, errors, dirty, isSubmitting, submitForm, setFieldValue } = formikProps;
+          const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
             dirty,
           });
+
+          const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
+            return errFields.some(field => !!errors[field]);
+          };
+
           return (
-            <Form {...formClasses()}>
+            <FormWrapper>
               <HeaderWithLanguage
                 noStatus
                 values={values}
                 type="audio"
                 content={audio}
-                editUrl={lang => toEditAudio(values.id, lang)}
+                editUrl={(lang: string) => toEditAudio(values.id, lang)}
               />
               <Accordions>
                 <AccordionSection
                   id="audio-upload-content"
                   className="u-4/6@desktop u-push-1/6@desktop"
                   title={t('form.contentSection')}
-                  hasError={['title', 'audioFile'].some(field => !!errors[field])}
+                  hasError={hasError(['title', 'audioFile'])}
                   startOpen>
-                  <AudioContent
-                    classes={formClasses}
-                    setFieldValue={setFieldValue}
-                    values={values}
-                  />
+                  <AudioContent classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
                   id="audio-upload-metadataSection"
                   className="u-4/6@desktop u-push-1/6@desktop"
                   title={t('form.metadataSection')}
-                  hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
-                    field => !!errors[field],
-                  )}>
+                  hasError={hasError([
+                    'tags',
+                    'creators',
+                    'rightsholders',
+                    'processors',
+                    'license',
+                  ])}>
                   <AudioMetaData
                     classes={formClasses}
                     licenses={licenses}
                     audioLanguage={audio.language}
-                    audioTags={audio.tags}
+                    audioTags={audio.tags || []}
                   />
                 </AccordionSection>
               </Accordions>
+
               <Field right>
                 <AbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}
@@ -189,31 +262,27 @@ class AudioForm extends Component {
                 severity="danger"
                 text={t('alertModal.notSaved')}
               />
-            </Form>
+            </FormWrapper>
           );
         }}
       </Formik>
     );
   }
+
+  static propTypes = {
+    licenses: PropTypes.arrayOf(
+      PropTypes.shape({
+        description: PropTypes.string.isRequired,
+        license: PropTypes.string.isRequired,
+      }).isRequired,
+    ).isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    revision: PropTypes.number,
+    audio: AudioShape,
+    applicationError: PropTypes.func.isRequired,
+    audioLanguage: PropTypes.string.isRequired,
+    isNewlyCreated: PropTypes.bool,
+  };
 }
 
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-};
-
-AudioForm.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  revision: PropTypes.number,
-  audio: AudioShape,
-  applicationError: PropTypes.func.isRequired,
-  audioLanguage: PropTypes.string,
-  isNewlyCreated: PropTypes.bool,
-};
-
-export default compose(connect(undefined, mapDispatchToProps), injectT)(AudioForm);
+export default reduxConnector(injectT(AudioForm));

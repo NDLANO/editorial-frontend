@@ -6,16 +6,26 @@
  *
  */
 import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
+import {
+  NewAudioMetaInformation,
+  UpdatedAudioMetaInformation,
+} from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
-  file: string | Blob,
-  metadata?: NewImageMetadata | UpdatedImageMetadata,
+  file?: string | Blob,
+  metadata?:
+    | NewImageMetadata
+    | UpdatedImageMetadata
+    | NewAudioMetaInformation
+    | UpdatedAudioMetaInformation,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();
     if (metadata) {
       form.append('metadata', JSON.stringify(metadata));
     }
-    form.append('file', file);
+    if (file) {
+      form.append('file', file);
+    }
     resolve(form);
   });

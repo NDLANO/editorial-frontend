@@ -7,14 +7,25 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
+import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import { License } from '../../interfaces';
+import { HistoryShape } from '../../shapes';
 
-const CreateAudio = ({ history, locale, tags, ...rest }) => {
-  const onCreateAudio = async (newAudio, file) => {
+interface Props extends RouteComponentProps {
+  licenses: License[];
+  locale: string;
+}
+
+const CreateAudio = ({ history, locale, ...rest }: Props) => {
+  const onCreateAudio = async (
+    newAudio: NewAudioMetaInformation,
+    file?: string | Blob,
+  ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);
     if (!newAudio.id) {
@@ -27,23 +38,19 @@ const CreateAudio = ({ history, locale, tags, ...rest }) => {
       audio={{ language: locale }}
       onUpdate={onCreateAudio}
       audioLanguage={locale}
-      tags={tags || []}
       {...rest}
     />
   );
 };
 
 CreateAudio.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string),
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
+      description: PropTypes.string.isRequired,
+      license: PropTypes.string.isRequired,
+    }).isRequired,
   ).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  history: HistoryShape,
   locale: PropTypes.string.isRequired,
 };
 

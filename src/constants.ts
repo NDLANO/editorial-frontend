@@ -20,6 +20,8 @@ export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet adde
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
 
+export const NDLA_FILM_SUBJECT = 'urn:subject:20';
+
 export const ARTICLE_EXTERNAL = 'external-learning-resources';
 
 export const DRAFT_ADMIN_SCOPE = 'drafts:admin';

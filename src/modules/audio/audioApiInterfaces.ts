@@ -45,6 +45,10 @@ export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
   podcastMeta: NewPodcastMeta;
 }
 
+export interface UpdatedPodcastMetaInformation extends NewPodcastMetaInformation {
+  revision: number;
+}
+
 export interface ApiPodcastMetaType {
   header: string;
   introduction: string;

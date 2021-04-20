@@ -26,8 +26,12 @@ import {
   NewPodcastMetaInformation,
   NewAudioMetaInformation,
   PodcastFormValues,
-  UpdatedAudioMetaInformation,
+  UpdatedPodcastMetaInformation,
 } from '../../../modules/audio/audioApiInterfaces';
+import {
+  editorValueToPlainText,
+  plainTextToEditorValue,
+} from '../../../util/articleContentConverter';
 import { Copyright, License } from '../../../interfaces';
 
 const podcastRules = {
@@ -102,10 +106,10 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
     license: audio?.copyright?.license?.license,
     audioType: 'podcast',
     header: audio.podcastMeta?.header,
-    introduction: audio.podcastMeta?.introduction,
+    introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
     coverPhotoId: audio.podcastMeta?.coverPhoto.id,
     metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
-    manuscript: audio.podcastMeta?.manuscript,
+    manuscript: plainTextToEditorValue(audio.podcastMeta?.manuscript, true),
   };
 };
 
@@ -154,7 +158,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData: NewPodcastMetaInformation | UpdatedAudioMetaInformation = {
+    const podcastMetaData: NewPodcastMetaInformation | UpdatedPodcastMetaInformation = {
       id: values.id,
       revision: values?.revision,
       title: values.title,
@@ -170,10 +174,10 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
       },
       podcastMeta: {
         header: values.header,
-        introduction: values.introduction,
+        introduction: editorValueToPlainText(values.introduction),
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
-        manuscript: values.manuscript,
+        manuscript: editorValueToPlainText(values.manuscript),
         language: values.language,
       },
     };
@@ -192,7 +196,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
       enableReinitialize
       validate={values => validateFormik(values, podcastRules, t)}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm, handleBlur } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -228,7 +232,16 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                   'metaImageAlt',
                   'manuscript',
                 ].some(field => field in errors)}>
-                <PodcastMetaData />
+                <PodcastMetaData
+                  handleSubmit={handleSubmit}
+                  onBlur={(event, editor, next) => {
+                    next();
+                    // this is a hack since formik onBlur-handler interferes with slates
+                    // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                    // formik handleBlur needs to be called for validation to work (and touched to be set)
+                    setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+                  }}
+                />
               </AccordionSection>
 
               <AccordionSection

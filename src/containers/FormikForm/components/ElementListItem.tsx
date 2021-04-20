@@ -65,7 +65,9 @@ const ElementListItem = ({
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
         <StyledElementImage
-          src={element.metaImage?.url || '/placeholder.png'}
+          src={
+            (element.metaImage?.url && `${element.metaImage.url}?width=100`) || '/placeholder.png'
+          }
           alt={element.metaImage?.alt || ''}
         />
         {linkProps.to ? (

@@ -23,7 +23,6 @@ export interface NewPodcastMeta {
   coverPhotoId: string;
   coverPhotoAltText: string;
   manuscript: string;
-  language: string;
 }
 
 export interface NewAudioMetaInformation {

@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
-import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import { NewPodcastMetaInformation } from '../../modules/audio/audioApiInterfaces';
 import { createAudioFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
@@ -24,7 +24,7 @@ const CreatePodcast = ({ licenses, history }: Props) => {
   const locale: string = useContext(LocaleContext);
 
   const onCreatePodcast = async (
-    newPodcast: NewAudioMetaInformation,
+    newPodcast: NewPodcastMetaInformation,
     podcastFile: string | Blob,
   ) => {
     const formData = await createAudioFormData(podcastFile, newPodcast);

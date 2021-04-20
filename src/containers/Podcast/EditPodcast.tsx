@@ -11,7 +11,10 @@ import * as audioApi from '../../modules/audio/audioApi';
 import { createAudioFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
 import PodcastForm from './components/PodcastForm';
-import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import {
+  NewPodcastMetaInformation,
+  UpdatedPodcastMetaInformation,
+} from '../../modules/audio/audioApiInterfaces';
 import { License } from '../../interfaces';
 
 interface Props {
@@ -25,9 +28,13 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
   const locale: string = useContext(LocaleContext);
   const [podcast, setPodcast] = useState<any>({}); // TODO type!!
 
-  const onUpdate = async (newPodcast: NewAudioMetaInformation, podcastFile: string | Blob) => {
+  const onUpdate = async (
+    newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
+    podcastFile: string | Blob,
+  ) => {
     const formData = await createAudioFormData(podcastFile, newPodcast);
     const updatedPodcast = await audioApi.updateAudio(newPodcast.id, formData);
+    // ^^^^^^ TODO: podcastMeta not updating
     const transformedPodcast = transformAudio(updatedPodcast);
     setPodcast(transformedPodcast);
   };

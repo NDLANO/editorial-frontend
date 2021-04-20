@@ -24,7 +24,6 @@ import {
   AudioFile,
   ApiPodcastMetaType,
   NewPodcastMetaInformation,
-  NewAudioMetaInformation,
   PodcastFormValues,
   UpdatedPodcastMetaInformation,
 } from '../../../modules/audio/audioApiInterfaces';
@@ -126,7 +125,10 @@ interface Props {
   isNewlyCreated?: boolean;
   formikProps?: FormikProps<PodcastPropType>;
   licenses: License[];
-  onUpdate: (audioMetadata: NewAudioMetaInformation, podcastFile: string | Blob) => void;
+  onUpdate: (
+    newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
+    podcastFile: string | Blob,
+  ) => void;
 }
 
 const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: Props & tType) => {
@@ -178,7 +180,6 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
         manuscript: editorValueToPlainText(values.manuscript),
-        language: values.language,
       },
     };
 

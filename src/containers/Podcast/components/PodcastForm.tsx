@@ -233,7 +233,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                   'manuscript',
                 ].some(field => field in errors)}>
                 <PodcastMetaData
-                  handleSubmit={handleSubmit}
+                  handleSubmit={submitForm}
                   onBlur={(event, editor, next) => {
                     next();
                     // this is a hack since formik onBlur-handler interferes with slates

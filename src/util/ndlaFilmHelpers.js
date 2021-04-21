@@ -109,7 +109,7 @@ export const getNdlaFilmFromSlate = (oldFilmFrontpage, newFilmFrontpage, selecte
 };
 
 export const getIdFromUrn = urnId => {
-  return urnId.replace('urn:article:', '');
+  return parseInt(urnId.replace('urn:article:', ''));
 };
 
 export const getUrnFromId = id => {

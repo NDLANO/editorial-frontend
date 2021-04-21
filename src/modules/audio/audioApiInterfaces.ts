@@ -8,6 +8,7 @@
 
 import { Author, Copyright } from '../../interfaces';
 
+
 type AudioType = 'standard' | 'podcast';
 
 export interface AudioFile {
@@ -25,30 +26,7 @@ export interface NewPodcastMeta {
   manuscript: string;
 }
 
-export interface NewAudioMetaInformation {
-  id?: number; // Only used by frontend, ignored by backend
-  title: string;
-  language: string;
-  copyright: Copyright;
-  tags: string[];
-  audioType: AudioType;
-  podcastMeta?: NewPodcastMeta;
-}
-
-export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
-  revision: number;
-}
-
-export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
-  audioType: 'podcast';
-  podcastMeta: NewPodcastMeta;
-}
-
-export interface UpdatedPodcastMetaInformation extends NewPodcastMetaInformation {
-  revision: number;
-}
-
-export interface ApiPodcastMetaType {
+export interface PodcastMeta {
   header: string;
   introduction: string;
   coverPhoto: {
@@ -60,19 +38,49 @@ export interface ApiPodcastMetaType {
   language: string;
 }
 
-export interface ApiAudioType {
+export interface NewAudioMetaInformation {
+  id?: number; // Only used by frontend, ignored by backend
+  title: string;
+  language: string;
+  copyright: Copyright;
+  tags: string[];
+  audioType: AudioType | string; // TODO!!! master: string, hva fuker?
+  podcastMeta?: NewPodcastMeta;
+}
+
+export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
+  revision: number;
+}
+// i master?
+//   id?: number;
+//   revision?: number;
+// }
+
+export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
+  audioType: 'podcast';
+  podcastMeta: NewPodcastMeta;
+}
+
+export interface UpdatedPodcastMetaInformation extends NewPodcastMetaInformation {
+  revision: number;
+}
+
+export interface AudioApiType {
   id: number;
   revision: number;
-  title: string;
-  audioFile: AudioFile;
+  title: {
+    title: string;
+    language: string;
+  };
+  audioFile: AudioFile
   copyright: Copyright;
   tags: {
-    language: string;
     tags: string[];
+    language: string;
   };
   supportedLanguages: string[];
-  audioType: AudioType;
-  podcastMeta?: ApiPodcastMetaType;
+  audioType: string;
+  podcastMeta?: PodcastMeta;
 }
 
 export interface PodcastFormValues {
@@ -118,3 +126,28 @@ export interface AudioSearchResultType {
   supportedLanguages?: string[];
   license: string;
 }
+
+export interface FlattenedAudioApiType extends Omit<AudioApiType, 'title' | 'tags'> {
+  title: string;
+  tags: string[];
+  language?: string;
+}
+
+export interface SearchParams {
+  'audio-type'?: string;
+  'page-size'?: number;
+  language?: string;
+  page?: number;
+  query?: string;
+  sort?: string;
+}
+
+interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
+}
+
+export type TagSearchResult = SearchResultBase<string>;

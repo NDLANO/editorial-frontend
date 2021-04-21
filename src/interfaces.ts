@@ -8,7 +8,7 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
 
-import { ApiAudioType } from './modules/audio/audioApiInterfaces';
+import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
 
@@ -469,7 +469,7 @@ export interface Embed {
   'lower-right-y': string;
 }
 
-export interface SlateAudio extends ApiAudioType {
+export interface SlateAudio extends AudioApiType {
   // Exists in audioApiInterfaces w/o caption
   caption: string;
 }

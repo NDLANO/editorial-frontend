@@ -6,31 +6,46 @@
  *
  */
 import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
-import { NewAudioMetaInformation } from '../modules/audio/audioApiInterfaces';
+
+
+import {
+  NewAudioMetaInformation,
+  UpdatedAudioMetaInformation,
+  NewPodcastMetaInformation,
+  UpdatedPodcastMetaInformation
+} from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
-  // TODO rename and use for Image
-  file: string | Blob,
-  metadata?: NewImageMetadata | UpdatedImageMetadata,
+  file?: string | Blob,
+  metadata?:
+    | NewImageMetadata
+    | UpdatedImageMetadata
+    | NewAudioMetaInformation
+    | UpdatedAudioMetaInformation
+    | NewPodcastMetaInformation
+    | UpdatedPodcastMetaInformation,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();
     if (metadata) {
       form.append('metadata', JSON.stringify(metadata));
     }
-    form.append('file', file);
+    if (file) {
+      form.append('file', file);
+    }
     resolve(form);
   });
 
-export const createAudioFormData = (
-  file: string | Blob,
-  metadata: NewAudioMetaInformation,
-): Promise<FormData> =>
-  new Promise(resolve => {
-    const form = new FormData();
-    if (metadata) {
-      form.append('metadata', JSON.stringify(metadata));
-    }
-    form.append('file', file);
-    resolve(form);
-  });
+  // TODO!!! Remove
+// export const createAudioFormData = (
+//   file: string | Blob,
+//   metadata: NewAudioMetaInformation,
+// ): Promise<FormData> =>
+//   new Promise(resolve => {
+//     const form = new FormData();
+//     if (metadata) {
+//       form.append('metadata', JSON.stringify(metadata));
+//     }
+//     form.append('file', file);
+//     resolve(form);
+//   });

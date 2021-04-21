@@ -10,15 +10,39 @@ import PropTypes from 'prop-types';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { transformAudio } from '../../util/audioHelpers';
-import { createAudioFormData } from '../../util/formDataHelper';
+import { createFormData } from '../../util/formDataHelper';
+import { License, LocaleType } from '../../interfaces';
+import {
+  FlattenedAudioApiType,
+  UpdatedAudioMetaInformation,
+} from '../../modules/audio/audioApiInterfaces';
 
-const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) => {
-  const [audio, setAudio] = useState({});
 
-  const onUpdate = async (newAudio, file) => {
-    const formData = await createAudioFormData(file, newAudio);
-    const updatedAudio = await audioApi.updateAudio(newAudio.id, formData);
-    const transformedAudio = transformAudio(updatedAudio);
+interface Props {
+  locale: LocaleType;
+  audioId: number;
+  audioLanguage: string;
+  isNewlyCreated?: boolean;
+  licenses: License[];
+}
+
+const EditAudio = ({
+  locale,
+  audioId,
+  audioLanguage,
+  isNewlyCreated,
+  licenses,
+  ...rest
+}: Props) => {
+  const [audio, setAudio] = useState<FlattenedAudioApiType | undefined>(undefined);
+
+  const onUpdate = async (
+    newAudio: UpdatedAudioMetaInformation,
+    file: string | Blob | undefined,
+  ): Promise<void> => {
+    const formData = await createFormData(file, newAudio);
+    const updatedAudio = await audioApi.updateAudio(audioId, formData);
+    const transformedAudio = transformAudio(updatedAudio, audioLanguage);
     setAudio(transformedAudio);
   };
 
@@ -27,13 +51,14 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
       if (audioId) {
         const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
         setAudio(transformAudio(apiAudio));
+        // TODO setAudio(transformAudio(apiAudio, audioLanguage));
       }
     }
 
     fetchAudio();
   }, [audioId, audioLanguage]);
 
-  if (audioId && !audio.id) {
+  if (audioId && !audio?.id) {
     return null;
   }
 
@@ -45,6 +70,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }) 
       onUpdate={onUpdate}
       audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
+      licenses={licenses}
       {...rest}
     />
   );

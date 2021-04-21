@@ -8,8 +8,8 @@
 import React, { useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
-import { AccordionWrapper } from '@ndla/accordion';
-import AccordionSection from '../../../components/Accordion/AccordionSection';
+import { Accordions, AccordionSection } from '@ndla/accordion';
+// import AccordionSection from '../../../components/Accordion/AccordionSection';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
@@ -22,7 +22,7 @@ import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/for
 import { toEditPodcast } from '../../../util/routeHelpers';
 import {
   AudioFile,
-  ApiPodcastMetaType,
+  PodcastMeta,
   NewPodcastMetaInformation,
   PodcastFormValues,
   UpdatedPodcastMetaInformation,
@@ -85,7 +85,7 @@ export interface PodcastPropType {
   copyright?: Copyright;
   tags?: string[];
   audioType?: 'podcast';
-  podcastMeta?: ApiPodcastMetaType;
+  podcastMeta?: PodcastMeta;
 }
 
 export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => ({
@@ -210,14 +210,14 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
             />
-            <AccordionWrapper>
+            <Accordions>
               <AccordionSection
                 id="podcast-upload-content"
                 title={t('form.contentSection')}
                 className="u-6/6"
                 hasError={['title', 'audioFile'].some(field => field in errors)}
                 startOpen>
-                <AudioContent />
+                <AudioContent  classes={formClasses}/>
               </AccordionSection>
 
               <AccordionSection
@@ -252,7 +252,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                 )}>
                 <AudioMetaData classes={formClasses} licenses={licenses} />
               </AccordionSection>
-            </AccordionWrapper>
+            </Accordions>
             <Field right>
               <AbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}

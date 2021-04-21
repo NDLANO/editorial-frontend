@@ -19,7 +19,11 @@ export const renderBlock = (props, editor, next) => {
     case 'br':
       return <br {...attributes} />;
     case 'paragraph':
-      return <p {...attributes}>{children}</p>;
+      return (
+        <p {...attributes} className={data.get('align') === 'center' ? 'u-text-center' : ''}>
+          {children}
+        </p>
+      );
     case 'bulleted-list':
       return (
         <ul className="c-block__bulleted-list" {...attributes}>

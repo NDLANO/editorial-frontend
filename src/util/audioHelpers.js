@@ -21,3 +21,27 @@ export const transformAudio = audio => {
       }
     : undefined;
 };
+
+
+
+// TODO!!! Rename to .ts
+// const transformAudio = (
+//   audio: AudioApiType,
+//   language: string,
+// ): FlattenedAudioApiType | undefined => {
+//   const audioLanguage =
+//     audio && audio.supportedLanguages && audio.supportedLanguages.includes(language)
+//       ? language
+//       : undefined;
+
+//   const title = convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage);
+//   const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
+
+//   return audio
+//     ? {
+//         ...audio,
+//         title,
+//         tags,
+//       }
+//     : undefined;
+// };

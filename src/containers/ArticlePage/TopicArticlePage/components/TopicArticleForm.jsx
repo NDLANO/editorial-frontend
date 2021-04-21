@@ -184,6 +184,7 @@ const TopicArticleForm = props => {
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
+          history={history}
           {...rest}
         />
         {translating ? (
@@ -266,7 +267,7 @@ TopicArticleForm.propTypes = {
   isNewlyCreated: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
-  }).isRequired,
+  }),
 };
 
 export default injectT(TopicArticleForm);

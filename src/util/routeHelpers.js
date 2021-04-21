@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import config from '../config';
+import { NDLA_FILM_SUBJECT } from '../constants';
 
 const articleTypes = {
   'topic-article': 'topic-article',
@@ -20,7 +21,7 @@ export function toEditArticle(articleId, articleType, locale) {
 }
 
 export function toEditSubjectpage(subjectId, locale, subjectpageId) {
-  if (subjectId === 'urn:subject:20') {
+  if (subjectId === NDLA_FILM_SUBJECT) {
     return toEditNdlaFilm(locale);
   }
   return `/subjectpage/${subjectId}/${subjectpageId}/edit/${locale}`;
@@ -47,7 +48,7 @@ export function toCreateTopicArticle() {
 }
 
 export function toCreateSubjectpage(subjectId, locale) {
-  if (subjectId === 'urn:subject:20') {
+  if (subjectId === NDLA_FILM_SUBJECT) {
     return '/film';
   }
   return `/subjectpage/${subjectId}/new/${locale}`;

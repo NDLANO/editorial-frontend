@@ -8,7 +8,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
-import { createAudioFormData } from '../../util/formDataHelper';
+import { createFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
 import PodcastForm, { PodcastPropType } from './components/PodcastForm';
 import {
@@ -32,7 +32,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
     podcastFile: string | Blob,
   ) => {
-    const formData = await createAudioFormData(podcastFile, newPodcast);
+    const formData = await createFormData(podcastFile, newPodcast);
     const updatedPodcast = await audioApi.updateAudio(newPodcast.id, formData);
     // ^^^^^^ TODO: podcastMeta not updating
     const transformedPodcast = transformAudio(updatedPodcast);

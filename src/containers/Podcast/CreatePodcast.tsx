@@ -10,7 +10,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import { NewPodcastMetaInformation } from '../../modules/audio/audioApiInterfaces';
-import { createAudioFormData } from '../../util/formDataHelper';
+import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
 import PodcastForm from './components/PodcastForm';
@@ -27,7 +27,7 @@ const CreatePodcast = ({ licenses, history }: Props) => {
     newPodcast: NewPodcastMetaInformation,
     podcastFile: string | Blob,
   ) => {
-    const formData = await createAudioFormData(podcastFile, newPodcast);
+    const formData = await createFormData(podcastFile, newPodcast);
     const createdPodcast = await audioApi.postAudio(formData);
     if (!newPodcast.id) {
       history.push(toEditPodcast(createdPodcast.id, newPodcast.language));

@@ -2,7 +2,6 @@ import { Node, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 
 const TYPE_SECTION = 'section';
-const TYPE_BODY = 'body';
 
 export interface SectionElement {
   type: 'section';

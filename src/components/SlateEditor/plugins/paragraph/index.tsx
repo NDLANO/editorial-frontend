@@ -23,7 +23,7 @@
 //     return <p {...dataProps}>{children}</p>;
 //   },
 // };
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Node, Element } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { CustomText } from '../../interfaces';
@@ -43,7 +43,7 @@ export interface ParagraphElement {
 
 function getCurrentParagraph(editor: Editor) {
   if (!editor.selection?.anchor) return null;
-  const startBlock = Node.get(editor, editor.selection?.anchor.path);
+  const startBlock = Node.parent(editor, editor.selection?.anchor.path);
   if (!Element.isElement(startBlock)) {
     return null;
   }
@@ -127,4 +127,5 @@ export const paragraphPlugin = (editor: Editor) => {
       nextOnKeyDown(e);
     }
   };
+  return editor;
 };

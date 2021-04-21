@@ -46,7 +46,7 @@ import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
 import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
-import paragraphPlugin from '../../../../components/SlateEditor/plugins/paragraph';
+import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph/index.tsx';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
@@ -102,6 +102,7 @@ class LearningResourceContent extends Component {
       preview: false,
     };
     this.plugins = [
+      // Todo: Implement all plugins
       // footnotePlugin(),
       // createEmbedPlugin(language, props.locale),
       // createBodyBoxPlugin(),
@@ -116,7 +117,7 @@ class LearningResourceContent extends Component {
       // blockquotePlugin,
       // editListPlugin,
       // listTextPlugin(),
-      // paragraphPlugin(),
+      paragraphPlugin,
       // createTablePlugin(),
       // editTablePlugin,
       // relatedPlugin(),
@@ -134,6 +135,8 @@ class LearningResourceContent extends Component {
     ];
   }
 
+  // Todo: Rewrite the following plugins
+  // For language support, consider using React.useRef().
   // componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
   //   const {
   //     article: { id, language },
@@ -238,11 +241,11 @@ class LearningResourceContent extends Component {
                 )}
               </FieldHeader>
               <RichBlockTextEditor
-                schema={schema}
-                renderBlock={renderBlock}
-                renderInline={renderInline}
+                // schema={schema}
+                // renderBlock={renderBlock}
+                // renderInline={renderInline}
                 submitted={isSubmitting}
-                renderMark={renderMark}
+                // renderMark={renderMark}
                 placeholder={t('form.content.placeholder')}
                 data-cy="learning-resource-content"
                 plugins={this.plugins}

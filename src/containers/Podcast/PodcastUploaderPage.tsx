@@ -12,8 +12,8 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { fetchLicenses } from '../../modules/draft/draftApi'; // TODO er dette rett lisenser?
-// import { License } from '../../interfaces';
+import { fetchLicenses } from '../../modules/draft/draftApi';
+import { License } from '../../interfaces';
 import CreatePodcast from './CreatePodcast';
 import EditPodcast from './EditPodcast';
 
@@ -29,7 +29,7 @@ const PodcastUploderPage = ({
   location,
   t,
 }: RouteComponentProps & Props & tType) => {
-  const [licenses, setLicenses] = useState<any>([]); // TODO type License
+  const [licenses, setLicenses] = useState<License[]>([]);
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 

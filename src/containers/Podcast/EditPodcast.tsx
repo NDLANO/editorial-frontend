@@ -10,7 +10,7 @@ import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createAudioFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
-import PodcastForm from './components/PodcastForm';
+import PodcastForm, { PodcastPropType } from './components/PodcastForm';
 import {
   NewPodcastMetaInformation,
   UpdatedPodcastMetaInformation,
@@ -26,7 +26,7 @@ interface Props {
 
 const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const locale: string = useContext(LocaleContext);
-  const [podcast, setPodcast] = useState<any>({}); // TODO type!!
+  const [podcast, setPodcast] = useState<PodcastPropType | undefined>(undefined);
 
   const onUpdate = async (
     newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
@@ -50,7 +50,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     fetchPodcast();
   }, [podcastId, podcastLanguage]);
 
-  if (podcastId && !podcast.id) {
+  if (podcastId && !podcast?.id) {
     return null;
   }
 

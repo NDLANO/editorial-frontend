@@ -75,7 +75,7 @@ const podcastRules = {
   },
 };
 
-interface PodcastPropType {
+export interface PodcastPropType {
   id?: number;
   revision?: number;
   title?: string;

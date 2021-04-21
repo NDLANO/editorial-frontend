@@ -50,7 +50,7 @@
 
 /* Should be moved to Article component in @ndla/ui */
 /* stylelint-disable-next-line */
-mjx-container[jax="CHTML"][display="true"] {
+mjx-container[jax='CHTML'][display='true'] {
   margin: 0;
   display: inline-block !important;
 }
@@ -71,6 +71,14 @@ mjx-container[jax="CHTML"][display="true"] {
 a.c-button {
   display: block;
   text-align: center;
+}
+
+.c-figure {
+  display: flex;
+
+  &__byline .c-license-icons__list {
+    margin-top: 0;
+  }
 }
 
 .c-figure__byline .c-license-icons__list {

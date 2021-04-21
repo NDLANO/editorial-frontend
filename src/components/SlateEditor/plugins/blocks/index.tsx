@@ -1,5 +1,6 @@
 import { Node, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
+import { SlateSerializer } from '../../interfaces';
 
 const TYPE_SECTION = 'section';
 
@@ -8,8 +9,8 @@ export interface SectionElement {
   children: Descendant[];
 }
 
-export const blockSerializer = {
-  deserialize(el: HTMLElement, children: Element[]) {
+export const blockSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'section') {
       return jsx('element', { type: TYPE_SECTION }, children);
@@ -19,7 +20,7 @@ export const blockSerializer = {
     }
     return;
   },
-  serialize(node: Element, children: any) {
+  serialize(node: Element, children: string) {
     if (!Node.isNode(node)) return;
     if (node.type === 'section') {
       return `<section>${children}</section>`;

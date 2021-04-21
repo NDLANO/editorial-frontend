@@ -46,7 +46,7 @@ import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
 import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
-import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph/index.tsx';
+import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph/index.ts';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';

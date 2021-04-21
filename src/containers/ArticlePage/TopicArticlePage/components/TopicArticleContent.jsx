@@ -30,7 +30,7 @@ import {
 import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
 import { editListPlugin } from '../../../../components/SlateEditor/plugins/externalPlugins';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
-import paragraphPlugin from '../../../../components/SlateEditor/plugins/paragraph';
+import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';

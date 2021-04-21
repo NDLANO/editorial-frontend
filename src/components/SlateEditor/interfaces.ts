@@ -1,10 +1,13 @@
-import { Element, Editor } from 'new-slate';
+import { Element, Editor, Descendant } from 'new-slate';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
-  serialize: (node: Element, children: any) => string;
-  deserialize: (el: HTMLElement | ChildNode, children: Element[]) => any;
+  serialize: (node: Element, children: string) => string | undefined | null;
+  deserialize: (
+    el: HTMLElement,
+    children: (Descendant[] | Descendant | null)[],
+  ) => Descendant[] | Descendant | undefined;
 }
 export type CustomText = { text: string };
 

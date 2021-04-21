@@ -24,9 +24,9 @@
 //   },
 // };
 import { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element } from 'new-slate';
+import { Editor, Node, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
-import { CustomText } from '../../interfaces';
+import { CustomText, SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
 
 const KEY_ENTER = 'Enter';
@@ -89,8 +89,8 @@ function onEnter(
   });
 }
 
-export const paragraphSerializer = {
-  deserialize(el: HTMLElement, children: Element[]) {
+export const paragraphSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'p') return;
 
     return jsx(
@@ -99,7 +99,7 @@ export const paragraphSerializer = {
       children,
     );
   },
-  serialize(node: Element, children: any) {
+  serialize(node: Element, children: string) {
     if (!Node.isNode(node)) return;
     if (node.type !== 'paragraph' /*&& node.type !== 'line'*/) return;
 

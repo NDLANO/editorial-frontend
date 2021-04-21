@@ -5,19 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import escapeHtml from 'escape-html';
 import { Descendant, Text, Node, Element } from 'new-slate';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules, learningResourceRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
-import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph/index.tsx';
+import { blockSerializer } from '../components/SlateEditor/plugins/blocks';
+import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph';
 import { SlateSerializer } from '../components/SlateEditor/interfaces';
-import { blockSerializer } from 'components/SlateEditor/plugins/blocks';
 
 // TODO: Rewrite
-export const sectionSplitter = html => {
+export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
   node.insertAdjacentHTML('beforeend', html);
   const sections = [];
@@ -52,7 +51,7 @@ export const learningResourceContentToEditorValue = (html: string, fragment = un
   const rules: SlateSerializer[] = [paragraphSerializer, blockSerializer];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
-      return el.textContent;
+      return { text: el.textContent || '' };
     } else if (el.nodeType !== 1) {
       return null;
     }
@@ -67,7 +66,11 @@ export const learningResourceContentToEditorValue = (html: string, fragment = un
       if (!rule.deserialize) {
         continue;
       }
-      const ret = rule.deserialize(el, children);
+
+      // Already checked that nodeType === 1 -> el must be of type Element.
+      // HTMLElement is a subset of Element.
+      // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+      const ret = rule.deserialize(el as HTMLElement, children);
 
       if (ret === undefined) {
         continue;
@@ -77,7 +80,7 @@ export const learningResourceContentToEditorValue = (html: string, fragment = un
         return ret;
       }
     }
-    return el.textContent;
+    return { text: el.textContent || '' };
   };
 
   const sections = sectionSplitter(html);

@@ -147,7 +147,6 @@ const LearningResourceForm = props => {
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
-    setSaveAsNewVersion(isNewlyCreated);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
     return (
       <Form {...formClasses()}>

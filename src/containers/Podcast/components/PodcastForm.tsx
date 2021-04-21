@@ -88,29 +88,27 @@ export interface PodcastPropType {
   podcastMeta?: ApiPodcastMetaType;
 }
 
-export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => {
-  return {
-    id: audio.id,
-    revision: audio.revision,
-    language: audio.language,
-    supportedLanguages: audio.supportedLanguages || [],
-    title: audio.title,
-    audioFile: audio.audioFile,
-    filepath: '',
-    tags: audio.tags || [],
-    origin: audio?.copyright?.origin || '',
-    creators: parseCopyrightContributors(audio, 'creators'),
-    processors: parseCopyrightContributors(audio, 'processors'),
-    rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
-    license: audio?.copyright?.license?.license,
-    audioType: 'podcast',
-    header: audio.podcastMeta?.header,
-    introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
-    coverPhotoId: audio.podcastMeta?.coverPhoto.id,
-    metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
-    manuscript: plainTextToEditorValue(audio.podcastMeta?.manuscript, true),
-  };
-};
+export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => ({
+  id: audio.id,
+  revision: audio.revision,
+  language: audio.language,
+  supportedLanguages: audio.supportedLanguages || [],
+  title: audio.title,
+  audioFile: { storedFile: audio.audioFile },
+  filepath: '',
+  tags: audio.tags || [],
+  origin: audio?.copyright?.origin || '',
+  creators: parseCopyrightContributors(audio, 'creators'),
+  processors: parseCopyrightContributors(audio, 'processors'),
+  rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
+  license: audio?.copyright?.license?.license,
+  audioType: 'podcast',
+  header: audio.podcastMeta?.header,
+  introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
+  coverPhotoId: audio.podcastMeta?.coverPhoto.id,
+  metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
+  manuscript: plainTextToEditorValue(audio.podcastMeta?.manuscript, true),
+});
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {
@@ -127,7 +125,7 @@ interface Props {
   licenses: License[];
   onUpdate: (
     newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
-    podcastFile: string | Blob,
+    podcastFile?: string | Blob,
   ) => void;
 }
 
@@ -183,7 +181,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
       },
     };
 
-    await onUpdate(podcastMetaData, values.audioFile);
+    await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
     setSavedToServer(true);
   };
 

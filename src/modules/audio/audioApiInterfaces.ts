@@ -76,12 +76,24 @@ export interface ApiAudioType {
 }
 
 export interface PodcastFormValues {
+  // TODO should extend AudioFormikType
   id?: number;
   revision?: number;
   language?: string;
   supportedLanguages?: string[];
   title?: string;
-  audioFile: any; // TODO AudioFile? string?
+  audioFile: {
+    storedFile?: {
+      url: string;
+      mimeType: string;
+      fileSize: number;
+      language: string;
+    };
+    newFile?: {
+      filepath: string;
+      file: File;
+    };
+  };
   filepath: '';
   tags?: string[];
   origin?: string;

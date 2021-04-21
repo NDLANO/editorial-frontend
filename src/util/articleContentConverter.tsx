@@ -44,14 +44,13 @@ export const createEmptyValue = (): Descendant[] => [
   },
 ];
 // TODO: Rewrite
-export const learningResourceContentToEditorValue = (html, fragment = undefined) => {
+export const learningResourceContentToEditorValue = (html: string, fragment = undefined) => {
   if (!html) {
     return [createEmptyValue()];
   }
 
   const rules: SlateSerializer[] = [paragraphSerializer, blockSerializer];
   const deserialize = (el: HTMLElement | ChildNode) => {
-    console.log(el);
     if (el.nodeType === 3) {
       return el.textContent;
     } else if (el.nodeType !== 1) {
@@ -81,32 +80,16 @@ export const learningResourceContentToEditorValue = (html, fragment = undefined)
     return el.textContent;
   };
 
-  // const serializer = new Html({
-  //   rules: learningResourceRules,
-  //   parseHtml: fragment,
-  // });
-
   const sections = sectionSplitter(html);
-  console.log(sections);
 
   /**
    Map over each section and deserialize to get a new slate value. On this value, normalize with the schema rules and use the changed value. this
    implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
    https://github.com/ianstormtaylor/slate/issues/1111
   */
-  return sections.map((section, index) => {
-    /*   Slate's default sanitization just obliterates block nodes that contain both
-    inline+text children and block children.
-    see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
+  return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
-    console.log(document);
     const nodes = deserialize(document.body);
-    // const json = serializer.deserialize(section, {
-    //   toJSON: true,
-    //   parseHtml: fragment,
-    // });
-
-    //const value = convertFromHTML(nodes);
 
     return nodes;
   });

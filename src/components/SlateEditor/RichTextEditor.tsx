@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /**
  * Copyright (c) 2016-present, NDLA.
  *
@@ -10,15 +9,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useMemo } from 'react';
-import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
-import { HistoryEditor, withHistory } from 'new-slate-history';
-import { CustomEditor, SlatePlugin } from './interfaces';
+import { createEditor, Descendant, Editor } from 'new-slate';
+import { Slate, Editable, withReact } from 'new-slate-react';
+import { withHistory } from 'new-slate-history';
+import { SlatePlugin } from './interfaces';
 import isHotkey from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlateProvider } from './SlateContext';
-import { PluginShape } from '../../shapes';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -50,6 +48,7 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
   onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
+  children: any;
 }
 
 const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
@@ -59,30 +58,27 @@ const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   return editor;
 };
 
-const RichTextEditor: React.FC<Props> = props => {
-  const {
-    children,
-    className,
-    id,
-    onBlur,
-    placeholder,
-    plugins,
-    value,
-    onChange,
-    handleSubmit,
-    submitted,
-    index,
-    ...rest
-  } = props;
+const RichTextEditor = ({
+  children,
+  className,
+  id,
+  onBlur,
+  placeholder,
+  plugins,
+  value,
+  onChange,
+  handleSubmit,
+  submitted,
+  index,
+  ...rest
+}: Props) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
-  // TODO: Add as plugin
+  // TODO:  create new plugin to remove section
   // const onKeyDown = (e, editor, next) => {
   //   const { value } = editor;
-  //   if (isHotkey('mod+s', e)) {
-  //     e.preventDefault();
-  //     this.props.handleSubmit();
-  //   } else if (e.key === 'Backspace') {
+  //   if (e.key === 'Backspace') {
   //     const { removeSection, index } = this.props;
   //     if (removeSection) {
   //       const { selection } = value;

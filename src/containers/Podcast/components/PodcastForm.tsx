@@ -93,7 +93,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   revision: audio.revision,
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
-  title: audio.title,
+  title: plainTextToEditorValue(audio.title || '', true),
   audioFile: { storedFile: audio.audioFile },
   filepath: '',
   tags: audio.tags || [],
@@ -117,16 +117,16 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
+type OnCreateFunc = (audio: NewPodcastMetaInformation, file?: string | Blob) => void;
+type OnUpdateFunc = (audio: UpdatedPodcastMetaInformation, file?: string | Blob) => void;
+
 interface Props {
   audio: PodcastPropType;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   formikProps?: FormikProps<PodcastPropType>;
   licenses: License[];
-  onUpdate: (
-    newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
-    podcastFile?: string | Blob,
-  ) => void;
+  onUpdate: OnCreateFunc | OnUpdateFunc;
 }
 
 const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: Props & tType) => {
@@ -137,6 +137,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
     actions: FormikHelpers<PodcastFormValues>,
   ) => {
     const license = licenses.find(license => license.license === values.license);
+
     if (
       license === undefined ||
       values.title === undefined ||
@@ -158,10 +159,10 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData: NewPodcastMetaInformation | UpdatedPodcastMetaInformation = {
+    const podcastMetaData = {
       id: values.id,
       revision: values?.revision,
-      title: values.title,
+      title: editorValueToPlainText(values.title),
       tags: values.tags,
       audioType: 'podcast',
       language: values.language,
@@ -217,7 +218,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                 className="u-6/6"
                 hasError={['title', 'audioFile'].some(field => field in errors)}
                 startOpen>
-                <AudioContent  classes={formClasses}/>
+                <AudioContent classes={formClasses} />
               </AccordionSection>
 
               <AccordionSection

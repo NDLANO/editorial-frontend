@@ -7,12 +7,11 @@
  */
 import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
 
-
 import {
   NewAudioMetaInformation,
   UpdatedAudioMetaInformation,
   NewPodcastMetaInformation,
-  UpdatedPodcastMetaInformation
+  UpdatedPodcastMetaInformation,
 } from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
@@ -36,7 +35,7 @@ export const createFormData = (
     resolve(form);
   });
 
-  // TODO!!! Remove
+// TODO!!! Remove
 // export const createAudioFormData = (
 //   file: string | Blob,
 //   metadata: NewAudioMetaInformation,

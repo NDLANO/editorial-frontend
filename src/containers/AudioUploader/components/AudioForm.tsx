@@ -232,10 +232,7 @@ class AudioForm extends Component<Props, State> {
                     'processors',
                     'license',
                   ])}>
-                  <AudioMetaData
-                    classes={formClasses}
-                    licenses={licenses}
-                  />
+                  <AudioMetaData classes={formClasses} licenses={licenses} />
                 </AccordionSection>
               </Accordions>
 

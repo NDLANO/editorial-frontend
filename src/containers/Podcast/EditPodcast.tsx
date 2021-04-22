@@ -19,7 +19,7 @@ import { License } from '../../interfaces';
 
 interface Props {
   licenses: License[];
-  podcastId: string;
+  podcastId: number;
   podcastLanguage: string;
   isNewlyCreated: boolean;
 }
@@ -29,11 +29,11 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
   const [podcast, setPodcast] = useState<PodcastPropType | undefined>(undefined);
 
   const onUpdate = async (
-    newPodcast: NewPodcastMetaInformation | UpdatedPodcastMetaInformation,
+    newPodcast: UpdatedPodcastMetaInformation,
     podcastFile: string | Blob,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
-    const updatedPodcast = await audioApi.updateAudio(newPodcast.id, formData);
+    const updatedPodcast = await audioApi.updateAudio(podcastId, formData);
     // ^^^^^^ TODO: podcastMeta not updating
     const transformedPodcast = transformAudio(updatedPodcast);
     setPodcast(transformedPodcast);

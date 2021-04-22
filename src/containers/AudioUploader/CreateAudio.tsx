@@ -16,7 +16,6 @@ import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces'
 import { License } from '../../interfaces';
 import { HistoryShape } from '../../shapes';
 
-
 interface Props extends RouteComponentProps {
   licenses: License[];
   locale: string;

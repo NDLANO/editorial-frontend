@@ -8,7 +8,6 @@
 
 import { Author, Copyright } from '../../interfaces';
 
-
 type AudioType = 'standard' | 'podcast';
 
 export interface AudioFile {
@@ -44,7 +43,7 @@ export interface NewAudioMetaInformation {
   language: string;
   copyright: Copyright;
   tags: string[];
-  audioType: AudioType | string; // TODO!!! master: string, hva fuker?
+  audioType: AudioType;
   podcastMeta?: NewPodcastMeta;
 }
 
@@ -72,7 +71,7 @@ export interface AudioApiType {
     title: string;
     language: string;
   };
-  audioFile: AudioFile
+  audioFile: AudioFile;
   copyright: Copyright;
   tags: {
     tags: string[];

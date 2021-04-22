@@ -21,7 +21,6 @@ import { License } from '../../../interfaces';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
   licenses: License[];
@@ -33,7 +32,9 @@ interface BaseProps {
 type Props = BaseProps & tType;
 
 const AudioMetaData = (props: Props) => {
-  const { values: {language, tags} } = useFormikContext();
+  const {
+    values: { language, tags },
+  } = useFormikContext();
   const { t, licenses } = props;
   return (
     <>

@@ -17,7 +17,6 @@ import {
   UpdatedAudioMetaInformation,
 } from '../../modules/audio/audioApiInterfaces';
 
-
 interface Props {
   locale: LocaleType;
   audioId: number;

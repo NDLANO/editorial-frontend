@@ -28,6 +28,8 @@ import { Editor, Node, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { CustomText, SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
+import { RenderElementProps } from 'new-slate-react';
+import React from 'react';
 
 const KEY_ENTER = 'Enter';
 const TYPE = 'paragraph';
@@ -118,7 +120,7 @@ export const paragraphSerializer: SlateSerializer = {
 };
 
 export const paragraphPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown } = editor;
+  const { onKeyDown: nextOnKeyDown, renderElement: nextRenderELement } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === KEY_ENTER) {
@@ -127,5 +129,15 @@ export const paragraphPlugin = (editor: Editor) => {
       nextOnKeyDown(e);
     }
   };
+
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (element.type === 'paragraph') {
+      return <p {...attributes}>{children}</p>;
+    } else if (nextRenderELement) {
+      return nextRenderELement({ attributes, children, element });
+    }
+    return undefined;
+  };
+
   return editor;
 };

@@ -10,7 +10,7 @@
 
 import React, { useMemo } from 'react';
 import { createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, Editable, withReact } from 'new-slate-react';
+import { Slate, Editable, withReact, RenderElementProps } from 'new-slate-react';
 import { withHistory } from 'new-slate-history';
 import { SlatePlugin } from './interfaces';
 import isHotkey from 'is-hotkey';
@@ -98,6 +98,17 @@ const RichTextEditor = ({
   //   next();
   // };
 
+  const renderElement = (props: RenderElementProps) => {
+    const { attributes, children } = props;
+    if (editor.renderElement) {
+      const ret = editor.renderElement(props);
+      if (ret) {
+        return ret;
+      }
+    }
+    return <div {...attributes}>{children}</div>;
+  };
+
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
@@ -113,6 +124,7 @@ const RichTextEditor = ({
               onKeyDown={editor.onKeyDown}
               className={className}
               placeholder={placeholder}
+              renderElement={renderElement}
               {...rest}
             />
           </Slate>

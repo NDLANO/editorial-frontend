@@ -1,4 +1,6 @@
 import { Element, Editor, Descendant } from 'new-slate';
+import { RenderElementProps } from 'new-slate-react';
+import React from 'react';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -13,4 +15,5 @@ export type CustomText = { text: string };
 
 export type CustomEditor = {
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
+  renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
 };

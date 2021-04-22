@@ -1,5 +1,7 @@
-import { Node, Element, Descendant } from 'new-slate';
+import { Node, Element, Descendant, Editor, Text, Transforms } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
+import { RenderElementProps } from 'new-slate-react';
+import React from 'react';
 import { SlateSerializer } from '../../interfaces';
 
 const TYPE_SECTION = 'section';
@@ -26,4 +28,41 @@ export const blockSerializer: SlateSerializer = {
       return `<section>${children}</section>`;
     }
   },
+};
+
+export const blockPlugin = (editor: Editor) => {
+  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (element.type === 'section') {
+      return <section {...attributes}>{children}</section>;
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
+    }
+    return undefined;
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === 'section') {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (Text.isText(child)) {
+          console.log('loop');
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: 'paragraph',
+              children: [],
+            },
+            { at: childPath },
+          );
+          return;
+        }
+      }
+    }
+    nextNormalizeNode(entry);
+  };
+
+  return editor;
 };

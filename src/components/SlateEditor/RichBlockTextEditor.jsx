@@ -111,7 +111,7 @@ RichBlockTextEditor.propTypes = {
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  plugins: PropTypes.arrayOf(PropTypes.func).isRequired,
   placeholder: PropTypes.string.isRequired,
   renderMark: PropTypes.func.isRequired,
   renderBlock: PropTypes.func.isRequired,

@@ -46,7 +46,7 @@ import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
 import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
-import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph/index.ts';
+import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
@@ -66,6 +66,7 @@ import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import { useState } from 'react';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
+import { blockPlugin } from '../../../../components/SlateEditor/plugins/blocks';
 
 const byLineStyle = css`
   display: flex;
@@ -142,6 +143,7 @@ const LearningResourceContent = ({
     // pasteHandler(),
     // toolbarPlugin(),
     textTransformPlugin,
+    blockPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
   ];
 

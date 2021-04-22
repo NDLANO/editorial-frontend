@@ -107,7 +107,6 @@ export const StyledCross = styled(Cross)`
 
 const ChildWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   height: 100%;
 `;
 

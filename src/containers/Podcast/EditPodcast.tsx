@@ -11,10 +11,7 @@ import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
 import PodcastForm, { PodcastPropType } from './components/PodcastForm';
-import {
-  NewPodcastMetaInformation,
-  UpdatedPodcastMetaInformation,
-} from '../../modules/audio/audioApiInterfaces';
+import { UpdatedPodcastMetaInformation } from '../../modules/audio/audioApiInterfaces';
 import { License } from '../../interfaces';
 
 interface Props {

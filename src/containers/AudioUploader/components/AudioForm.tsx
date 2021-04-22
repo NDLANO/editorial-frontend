@@ -159,6 +159,7 @@ class AudioForm extends Component<Props, State> {
         title: editorValueToPlainText(values.title),
         language: values.language,
         tags: values.tags,
+        audioType: 'standard',
         copyright: {
           license: licenses.find(license => license.license === values.license),
           origin: values.origin,

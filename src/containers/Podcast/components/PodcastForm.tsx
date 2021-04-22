@@ -117,8 +117,8 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnCreateFunc = (audio: NewPodcastMetaInformation, file?: string | Blob) => void;
-type OnUpdateFunc = (audio: UpdatedPodcastMetaInformation, file?: string | Blob) => void;
+type OnCreateFunc = (newPodcast: NewPodcastMetaInformation, file?: string | Blob) => void;
+type OnUpdateFunc = (newPodcast: UpdatedPodcastMetaInformation, file?: string | Blob) => void;
 
 interface Props {
   audio: PodcastPropType;
@@ -127,6 +127,7 @@ interface Props {
   formikProps?: FormikProps<PodcastPropType>;
   licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
+  revision?: number;
 }
 
 const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: Props & tType) => {
@@ -161,7 +162,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
     actions.setSubmitting(true);
     const podcastMetaData = {
       id: values.id,
-      revision: values?.revision,
+      revision: values.revision,
       title: editorValueToPlainText(values.title),
       tags: values.tags,
       audioType: 'podcast',

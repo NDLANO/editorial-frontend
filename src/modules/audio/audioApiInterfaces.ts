@@ -43,25 +43,20 @@ export interface NewAudioMetaInformation {
   language: string;
   copyright: Copyright;
   tags: string[];
-  audioType: AudioType;
+  audioType: string;
   podcastMeta?: NewPodcastMeta;
 }
 
 export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
-  revision: number;
+  revision?: number;
 }
-// i master?
-//   id?: number;
-//   revision?: number;
-// }
 
 export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
-  audioType: 'podcast';
   podcastMeta: NewPodcastMeta;
 }
 
 export interface UpdatedPodcastMetaInformation extends NewPodcastMetaInformation {
-  revision: number;
+  revision?: number;
 }
 
 export interface AudioApiType {
@@ -78,7 +73,7 @@ export interface AudioApiType {
     language: string;
   };
   supportedLanguages: string[];
-  audioType: string;
+  audioType: AudioType;
   podcastMeta?: PodcastMeta;
 }
 

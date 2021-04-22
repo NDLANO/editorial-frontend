@@ -17,7 +17,11 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
-import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
+import {
+  isFormikFormDirty,
+  parseCopyrightContributors,
+  DEFAULT_LICENSE,
+} from '../../../util/formHelper';
 import { toEditPodcast } from '../../../util/routeHelpers';
 import {
   AudioFile,
@@ -74,7 +78,7 @@ const podcastRules = {
   },
 };
 
-export interface PodcastPropType {
+interface PodcastPropType {
   id?: number;
   revision?: number;
   title?: string;
@@ -100,7 +104,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   creators: parseCopyrightContributors(audio, 'creators'),
   processors: parseCopyrightContributors(audio, 'processors'),
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
-  license: audio?.copyright?.license?.license,
+  license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
   audioType: 'podcast',
   header: audio.podcastMeta?.header,
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),

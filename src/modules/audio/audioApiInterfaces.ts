@@ -6,7 +6,8 @@
  *
  */
 
-import { Author, Copyright } from '../../interfaces';
+import { Copyright } from '../../interfaces';
+import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 type AudioType = 'standard' | 'podcast';
 
@@ -77,32 +78,9 @@ export interface AudioApiType {
   podcastMeta?: PodcastMeta;
 }
 
-export interface PodcastFormValues {
-  // TODO should extend AudioFormikType
-  id?: number;
-  revision?: number;
+export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
   language?: string;
-  supportedLanguages?: string[];
-  title?: string;
-  audioFile: {
-    storedFile?: {
-      url: string;
-      mimeType: string;
-      fileSize: number;
-      language: string;
-    };
-    newFile?: {
-      filepath: string;
-      file: File;
-    };
-  };
   filepath: '';
-  tags?: string[];
-  origin?: string;
-  creators?: Author[];
-  processors?: Author[];
-  rightsholders?: Author[];
-  license?: string;
   audioType?: 'podcast';
   header?: string;
   introduction?: string;

@@ -10,8 +10,11 @@ import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
-import PodcastForm, { PodcastPropType } from './components/PodcastForm';
-import { UpdatedPodcastMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import PodcastForm from './components/PodcastForm';
+import {
+  UpdatedPodcastMetaInformation,
+  FlattenedAudioApiType,
+} from '../../modules/audio/audioApiInterfaces';
 import { License } from '../../interfaces';
 
 interface Props {
@@ -23,16 +26,15 @@ interface Props {
 
 const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const locale: string = useContext(LocaleContext);
-  const [podcast, setPodcast] = useState<PodcastPropType | undefined>(undefined);
+  const [podcast, setPodcast] = useState<FlattenedAudioApiType | undefined>(undefined);
 
   const onUpdate = async (
     newPodcast: UpdatedPodcastMetaInformation,
-    podcastFile: string | Blob,
+    podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const updatedPodcast = await audioApi.updateAudio(podcastId, formData);
-    // ^^^^^^ TODO: podcastMeta not updating
-    const transformedPodcast = transformAudio(updatedPodcast);
+    const transformedPodcast = transformAudio(updatedPodcast, podcastLanguage);
     setPodcast(transformedPodcast);
   };
 
@@ -40,7 +42,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     async function fetchPodcast() {
       if (podcastId) {
         const apiPodcast = await audioApi.fetchAudio(podcastId, podcastLanguage);
-        setPodcast(transformAudio(apiPodcast));
+        setPodcast(transformAudio(apiPodcast, podcastLanguage));
       }
     }
 

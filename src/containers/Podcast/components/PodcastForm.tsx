@@ -84,7 +84,7 @@ export interface PodcastPropType {
   audioFile?: AudioFile;
   copyright?: Copyright;
   tags?: string[];
-  audioType?: 'podcast';
+  audioType?: string;
   podcastMeta?: PodcastMeta;
 }
 

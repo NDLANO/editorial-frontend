@@ -25,7 +25,7 @@ const CreatePodcast = ({ licenses, history }: Props) => {
 
   const onCreatePodcast = async (
     newPodcast: NewPodcastMetaInformation,
-    podcastFile: string | Blob,
+    podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const createdPodcast = await audioApi.postAudio(formData);

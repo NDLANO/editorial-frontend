@@ -49,8 +49,7 @@ const EditAudio = ({
     async function fetchAudio() {
       if (audioId) {
         const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
-        setAudio(transformAudio(apiAudio));
-        // TODO setAudio(transformAudio(apiAudio, audioLanguage));
+        setAudio(transformAudio(apiAudio, audioLanguage));
       }
     }
 

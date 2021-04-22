@@ -13,7 +13,6 @@ import { injectT, tType } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
 import { FieldProps, useFormikContext } from 'formik';
 import { fetchSearchTags } from '../../../modules/audio/audioApi';
-// TODO!!! Remove import { fetchSearchTags } from '../../../modules/draft/draftApi';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
@@ -24,9 +23,6 @@ const contributorTypes = ['creators', 'rightsholders', 'processors'];
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
   licenses: License[];
-  // TODO!!! Remove
-  // audioLanguage: string;
-  // audioTags: string[];
 }
 
 type Props = BaseProps & tType;
@@ -71,9 +67,6 @@ AudioMetaData.propTypes = {
       license: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  // TODO!!! Remove
-  // audioLanguage: PropTypes.string.isRequired,
-  // audioTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
 export default injectT(AudioMetaData);

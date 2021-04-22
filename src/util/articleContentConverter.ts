@@ -5,17 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { renderToStaticMarkup } from 'react-dom/server';
 import escapeHtml from 'escape-html';
-import { Descendant, Text, Node, Element } from 'new-slate';
+import { Descendant, Text } from 'new-slate';
 import { Plain } from './slatePlainSerializer';
-import { topicArticeRules, learningResourceRules } from './slateHelpers';
+import { topicArticeRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
-import { blockSerializer } from '../components/SlateEditor/plugins/blocks';
+import { sectionSerializer } from '../components/SlateEditor/plugins/section';
 import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph';
 import { SlateSerializer } from '../components/SlateEditor/interfaces';
+import { breakSerializer } from '../components/SlateEditor/plugins/break';
 
-// TODO: Rewrite
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
   node.insertAdjacentHTML('beforeend', html);
@@ -42,13 +41,13 @@ export const createEmptyValue = (): Descendant[] => [
     ],
   },
 ];
-// TODO: Rewrite
-export const learningResourceContentToEditorValue = (html: string, fragment = undefined) => {
+
+export const learningResourceContentToEditorValue = (html: string) => {
   if (!html) {
     return [createEmptyValue()];
   }
 
-  const rules: SlateSerializer[] = [paragraphSerializer, blockSerializer];
+  const rules: SlateSerializer[] = [paragraphSerializer, sectionSerializer, breakSerializer];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
@@ -85,11 +84,7 @@ export const learningResourceContentToEditorValue = (html: string, fragment = un
 
   const sections = sectionSplitter(html);
 
-  /**
-   Map over each section and deserialize to get a new slate value. On this value, normalize with the schema rules and use the changed value. this
-   implementation was needed because of v0.22.0 change (onBeforeChange was removed from componentWillReceiveProps in editor).
-   https://github.com/ianstormtaylor/slate/issues/1111
-  */
+  // Is it possible to do normalization here?
   return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
     const nodes = deserialize(document.body);
@@ -99,7 +94,7 @@ export const learningResourceContentToEditorValue = (html: string, fragment = un
 };
 
 export function learningResourceContentToHTML(contentValues: Descendant[][]) {
-  const rules: SlateSerializer[] = [paragraphSerializer, blockSerializer];
+  const rules: SlateSerializer[] = [paragraphSerializer, sectionSerializer, breakSerializer];
 
   const serialize = (node: Descendant): string | null => {
     if (Text.isText(node)) {
@@ -158,7 +153,6 @@ export function topicArticleContentToHTML(value) {
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {
-  console.log(text);
   return Plain.deserialize(text);
 }
 

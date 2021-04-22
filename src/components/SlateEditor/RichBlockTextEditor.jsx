@@ -14,7 +14,6 @@ import { injectT } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import RichTextEditor from './RichTextEditor';
 import StyledFormContainer from './common/StyledFormContainer';
-import { PluginShape } from '../../shapes';
 import DeleteForeverButton from '../DeleteForeverButton';
 
 class RichBlockTextEditor extends PureComponent {
@@ -52,15 +51,11 @@ class RichBlockTextEditor extends PureComponent {
   render() {
     const {
       t,
-      schema,
       children,
       value,
       name,
       placeholder,
       plugins,
-      renderMark,
-      renderBlock,
-      renderInline,
       submitted,
       onBlur,
       handleSubmit,
@@ -86,11 +81,7 @@ class RichBlockTextEditor extends PureComponent {
               data-cy={this.props['data-cy']}
               placeholder={placeholder}
               plugins={plugins}
-              // renderMark={renderMark}
-              // renderBlock={renderBlock}
-              // renderInline={renderInline}
               submitted={submitted}
-              // schema={schema}
               onChange={this.onChange}
               value={blockValue}
               removeSection={this.removeSection}
@@ -105,7 +96,6 @@ class RichBlockTextEditor extends PureComponent {
 }
 
 RichBlockTextEditor.propTypes = {
-  schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
@@ -113,9 +103,6 @@ RichBlockTextEditor.propTypes = {
   children: PropTypes.node,
   plugins: PropTypes.arrayOf(PropTypes.func).isRequired,
   placeholder: PropTypes.string.isRequired,
-  renderMark: PropTypes.func.isRequired,
-  renderBlock: PropTypes.func.isRequired,
-  renderInline: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,

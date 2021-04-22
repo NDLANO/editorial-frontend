@@ -23,13 +23,12 @@
 //     return <p {...dataProps}>{children}</p>;
 //   },
 // };
-import { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Node, Element, Descendant } from 'new-slate';
+import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { CustomText, SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
-import { RenderElementProps } from 'new-slate-react';
-import React from 'react';
 
 const KEY_ENTER = 'Enter';
 const TYPE = 'paragraph';
@@ -73,7 +72,10 @@ function onEnter(
    */
   if (Node.string(currentParagraph) === '') {
     editor.deleteBackward('character');
-    editor.insertBreak();
+    editor.insertNode({
+      type: 'br',
+      children: [{ text: '' }],
+    });
     editor.insertNode({
       type: TYPE,
       children: [{ text: '' }],

@@ -1,6 +1,10 @@
-import { Element, Editor, Descendant } from 'new-slate';
-import { RenderElementProps } from 'new-slate-react';
+import { Element, Editor, Descendant, BaseEditor } from 'new-slate';
+import { HistoryEditor } from 'new-slate-history';
+import { ReactEditor, RenderElementProps } from 'new-slate-react';
 import React from 'react';
+import { BreakElement } from './plugins/break';
+import { ParagraphElement } from './plugins/paragraph';
+import { SectionElement } from './plugins/section';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -17,3 +21,11 @@ export type CustomEditor = {
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
 };
+
+declare module 'new-slate' {
+  interface CustomTypes {
+    Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
+    Element: ParagraphElement | SectionElement | BreakElement;
+    Text: CustomText;
+  }
+}

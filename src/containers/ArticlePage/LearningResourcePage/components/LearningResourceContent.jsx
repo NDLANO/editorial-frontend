@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { ReactEditor } from 'new-slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
@@ -22,7 +22,6 @@ import { getLocale } from '../../../../modules/locale/locale';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import { schema } from '../../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine';
 import {
   renderBlock,
@@ -64,9 +63,9 @@ import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
-import { useState } from 'react';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
-import { blockPlugin } from '../../../../components/SlateEditor/plugins/blocks';
+import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
+import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 
 const byLineStyle = css`
   display: flex;
@@ -143,7 +142,8 @@ const LearningResourceContent = ({
     // pasteHandler(),
     // toolbarPlugin(),
     textTransformPlugin,
-    blockPlugin,
+    sectionPlugin,
+    breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
   ];
 
@@ -237,11 +237,7 @@ const LearningResourceContent = ({
               )}
             </FieldHeader>
             <RichBlockTextEditor
-              // schema={schema}
-              // renderBlock={renderBlock}
-              // renderInline={renderInline}
               submitted={isSubmitting}
-              // renderMark={renderMark}
               placeholder={t('form.content.placeholder')}
               data-cy="learning-resource-content"
               plugins={plugins}

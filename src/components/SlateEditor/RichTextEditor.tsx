@@ -12,10 +12,9 @@ import React, { useEffect, useMemo } from 'react';
 import { createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'new-slate-react';
 import { withHistory } from 'new-slate-history';
-import { SlatePlugin } from './interfaces';
-import isHotkey from 'is-hotkey';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
+import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 
 export const classes = new BEMHelper({
@@ -75,11 +74,13 @@ const RichTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
+  // TODO: Can normalization be done after deserialization in articleContentConverter?
   useEffect(() => {
     Editor.normalize(editor, { force: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO:  create new plugin to remove section
+  // TODO: add functionality to sectionPlugin
   // const onKeyDown = (e, editor, next) => {
   //   const { value } = editor;
   //   if (e.key === 'Backspace') {

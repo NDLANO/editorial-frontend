@@ -8,21 +8,10 @@
  */
 
 import React, { useMemo } from 'react';
-import { BaseEditor, createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, ReactEditor, Editable, withReact } from 'new-slate-react';
-import { HistoryEditor, withHistory } from 'new-slate-history';
-import { CustomEditor, CustomText, SlatePlugin } from './interfaces';
-import { ParagraphElement } from './plugins/paragraph';
-import { SectionElement } from './plugins/blocks';
-
-// TODO: Move to interface file or something
-declare module 'new-slate' {
-  interface CustomTypes {
-    Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
-    Element: ParagraphElement | SectionElement;
-    Text: CustomText;
-  }
-}
+import { createEditor, Descendant, Editor } from 'new-slate';
+import { Slate, Editable, withReact } from 'new-slate-react';
+import { withHistory } from 'new-slate-history';
+import { SlatePlugin } from './interfaces';
 
 interface SlateEditorProps {
   id?: string;

@@ -11,7 +11,7 @@ export interface SectionElement {
   children: Descendant[];
 }
 
-export const blockSerializer: SlateSerializer = {
+export const sectionSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'section') {
@@ -30,7 +30,7 @@ export const blockSerializer: SlateSerializer = {
   },
 };
 
-export const blockPlugin = (editor: Editor) => {
+export const sectionPlugin = (editor: Editor) => {
   const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
@@ -48,7 +48,6 @@ export const blockPlugin = (editor: Editor) => {
     if (Element.isElement(node) && node.type === 'section') {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Text.isText(child)) {
-          console.log('loop');
           Transforms.wrapNodes(
             editor,
             {

@@ -46,6 +46,19 @@ export const sectionPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === 'section') {
+      // Insert empty paragraph if section has no children.
+      if (node.children.length === 0) {
+        Transforms.insertNodes(
+          editor,
+          {
+            type: 'paragraph',
+            children: [{ text: '' }],
+          },
+          { at: [...path, 0] },
+        );
+        return;
+      }
+      // If section contains text, wrap it in paragraph.
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Text.isText(child)) {
           Transforms.wrapNodes(
@@ -59,7 +72,42 @@ export const sectionPlugin = (editor: Editor) => {
           return;
         }
       }
+
+      // If first child is not a paragraph, insert an empty paragraph
+      const firstChild = node.children[0];
+      if (Element.isElement(firstChild)) {
+        if (firstChild.type !== 'paragraph') {
+          Transforms.insertNodes(
+            editor,
+            {
+              type: 'paragraph',
+              children: [{ text: '' }],
+            },
+            { at: [...path, 0] },
+          );
+          return;
+        }
+      }
+
+      // If last child is not a paragraph, insert an empty paragraph
+      const lastChild = node.children[node.children.length - 1];
+      if (Element.isElement(lastChild)) {
+        if (lastChild.type !== 'paragraph') {
+          Transforms.insertNodes(
+            editor,
+            {
+              type: 'paragraph',
+              children: [{ text: '' }],
+            },
+            {
+              at: [...path, node.children.length],
+            },
+          );
+          return;
+        }
+      }
     }
+
     nextNormalizeNode(entry);
   };
 

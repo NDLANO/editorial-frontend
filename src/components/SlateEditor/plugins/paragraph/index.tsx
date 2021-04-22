@@ -1,28 +1,3 @@
-// export const paragraphRule = {
-//   deserialize(el, next) {
-//     if (el.tagName.toLowerCase() !== 'p') return;
-//     return {
-//       object: 'block',
-//       data: reduceElementDataAttributes(el, ['align', 'data-align']),
-//       type: 'paragraph',
-//       nodes: next(el.childNodes),
-//     };
-//   },
-//   serialize(slateObject, children) {
-//     if (slateObject.object !== 'block') return;
-//     if (slateObject.type !== 'paragraph' && slateObject.type !== 'line') return;
-
-//     /**
-//       We insert empty p tag throughout the document to enable positioning the cursor
-//       between element with no spacing (i.e two images). We need to remove these element
-//       on seriaization.
-//      */
-//     if (slateObject.text === '') return null;
-
-//     const dataProps = createDataProps(slateObject.data.toJS());
-//     return <p {...dataProps}>{children}</p>;
-//   },
-// };
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Node, Element, Descendant } from 'new-slate';
 import { RenderElementProps } from 'new-slate-react';

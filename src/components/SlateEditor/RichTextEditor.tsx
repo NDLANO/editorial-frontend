@@ -130,7 +130,6 @@ const RichTextEditor = ({
               className={className}
               placeholder={placeholder}
               renderElement={renderElement}
-              {...rest}
             />
           </Slate>
           {children}

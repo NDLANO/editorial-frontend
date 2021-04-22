@@ -9,7 +9,6 @@ import React, { useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-// import AccordionSection from '../../../components/Accordion/AccordionSection';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
@@ -208,7 +207,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
             <HeaderWithLanguage
               noStatus
               values={values}
-              type="audio"
+              type="podcast"
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
             />
@@ -216,7 +215,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
               <AccordionSection
                 id="podcast-upload-content"
                 title={t('form.contentSection')}
-                className="u-6/6"
+                className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={['title', 'audioFile'].some(field => field in errors)}
                 startOpen>
                 <AudioContent classes={formClasses} />
@@ -225,7 +224,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
               <AccordionSection
                 id="podcast-upload-podcastmeta"
                 title={t('form.podcastSection')}
-                className="u-6/6"
+                className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={[
                   'header',
                   'introduction',
@@ -248,7 +247,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
               <AccordionSection
                 id="podcast-upload-metadata"
                 title={t('form.metadataSection')}
-                className="u-6/6"
+                className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
                   field => field in errors,
                 )}>

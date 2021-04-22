@@ -72,6 +72,11 @@ export const types = {
     cssModifier: 'multimedia',
     icon: <SquareAudio />,
   },
+  podcast: {
+    form: 'podcastForm',
+    cssModifier: 'multimedia',
+    icon: <SquareAudio />,
+  },
   concept: {
     form: 'conceptform',
     cssModifier: 'concept',

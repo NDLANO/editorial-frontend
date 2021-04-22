@@ -926,6 +926,11 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload image',
+        ariaLabel: 'Drag and drop or click to upload image',
+      },
     },
     external: {
       title: 'external',

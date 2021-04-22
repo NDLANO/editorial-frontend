@@ -944,6 +944,11 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp lydfil',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
     },
     external: {
       title: 'eksternt',

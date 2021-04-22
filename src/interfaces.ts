@@ -469,8 +469,8 @@ export interface Embed {
   'lower-right-y': string;
 }
 
-export interface SlateAudio extends AudioApiType {
-  // Exists in audioApiInterfaces w/o caption
+export interface SlateAudio extends Omit<AudioApiType, 'title'> {
+  title: string;
   caption: string;
 }
 

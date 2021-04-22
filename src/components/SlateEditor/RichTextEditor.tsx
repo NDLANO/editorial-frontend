@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'new-slate-react';
 import { withHistory } from 'new-slate-history';
@@ -74,6 +74,10 @@ const RichTextEditor = ({
 }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+
+  useEffect(() => {
+    Editor.normalize(editor, { force: true });
+  }, []);
 
   // TODO:  create new plugin to remove section
   // const onKeyDown = (e, editor, next) => {

@@ -10,7 +10,7 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, Editable, withReact, RenderElementProps } from 'new-slate-react';
+import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'new-slate-react';
 import { withHistory } from 'new-slate-history';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -114,6 +114,17 @@ const RichTextEditor = ({
     return <div {...attributes}>{children}</div>;
   };
 
+  const renderLeaf = (props: RenderLeafProps) => {
+    const { attributes, children } = props;
+    if (editor.renderLeaf) {
+      const ret = editor.renderLeaf(props);
+      if (ret) {
+        return ret;
+      }
+    }
+    return <span {...attributes}>{children}</span>;
+  };
+
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
@@ -130,6 +141,7 @@ const RichTextEditor = ({
               className={className}
               placeholder={placeholder}
               renderElement={renderElement}
+              renderLeaf={renderLeaf}
             />
           </Slate>
           {children}

@@ -66,6 +66,7 @@ import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolb
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
+import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 
 const byLineStyle = css`
   display: flex;
@@ -145,6 +146,7 @@ const LearningResourceContent = ({
     sectionPlugin,
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
+    markPlugin,
   ];
 
   React.useEffect(() => {

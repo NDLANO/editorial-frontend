@@ -78,8 +78,8 @@ export const paragraphSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Element, children: string) {
-    if (!Node.isNode(node)) return;
+  serialize(node: Descendant, children: string) {
+    if (!Element.isElement(node)) return;
     if (node.type !== 'paragraph' /*&& node.type !== 'line'*/) return;
 
     /**

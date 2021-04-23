@@ -44,11 +44,12 @@ export function useArticleFormHooks({
   updateArticleAndStatus,
   licenses,
   getArticleFromSlate,
+  isNewlyCreated = false,
 }) {
   const { id, revision, language } = article;
   const formikRef = useRef(null);
   const [savedToServer, setSavedToServer] = useState(false);
-  const [saveAsNewVersion, setSaveAsNewVersion] = useState();
+  const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);
 
   useEffect(() => {

@@ -75,6 +75,7 @@ a.c-button {
 
 .c-figure {
   display: flow-root;
+
   &__byline .c-license-icons__list {
     margin-top: 0;
   }

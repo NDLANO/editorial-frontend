@@ -236,7 +236,7 @@ class AudioForm extends Component<Props, State> {
                     classes={formClasses}
                     licenses={licenses}
                     audioLanguage={audio.language}
-                    audioTags={audio.tags || []}
+                    audioTags={values.tags}
                   />
                 </AccordionSection>
               </Accordions>

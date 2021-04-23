@@ -168,7 +168,6 @@ const TopicArticleForm = props => {
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
-    setSaveAsNewVersion(isNewlyCreated);
     const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
     return (
       <Form {...formClasses()}>

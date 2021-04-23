@@ -31,6 +31,7 @@ const CreateTopicArticle = ({ history, t, ...rest }) => {
         staticArticle={{ notes: [] }}
         locale={locale}
         updateArticle={createArticleAndPushRoute}
+        history={history}
         {...rest}
       />
     </Fragment>

@@ -242,7 +242,7 @@ class ImageForm extends Component<Props & tType, State> {
                   <ImageMetaData
                     licenses={licenses}
                     imageLanguage={image?.language}
-                    imageTags={image?.tags || []}
+                    imageTags={values.tags}
                   />
                 </AccordionSection>
               </Accordions>

@@ -83,10 +83,10 @@ export const markPlugin = (editor: Editor) => {
       ret = <em {...attributes}>{ret || children}</em>;
     }
     if (leaf.sup) {
-      ret = <sup>{ret || children}</sup>;
+      ret = <sup {...attributes}>{ret || children}</sup>;
     }
     if (leaf.sub) {
-      ret = <sub>{ret || children}</sub>;
+      ret = <sub {...attributes}>{ret || children}</sub>;
     }
     if (leaf.underlined) {
       ret = <u {...attributes}>{ret || children}</u>;
@@ -109,6 +109,3 @@ export const markPlugin = (editor: Editor) => {
 
   return editor;
 };
-function escapeHtml(children: string): string {
-  throw new Error('Function not implemented.');
-}

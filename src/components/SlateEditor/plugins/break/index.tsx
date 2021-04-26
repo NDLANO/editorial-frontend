@@ -1,5 +1,5 @@
 import React from 'react';
-import { Editor, Node, Element } from 'new-slate';
+import { Editor, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { RenderElementProps } from 'new-slate-react';
 import { SlateSerializer } from '../../interfaces';
@@ -15,8 +15,8 @@ export const breakSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== TYPE) return;
     return jsx('element', { type: TYPE }, [{ text: '' }]);
   },
-  serialize(node: Element) {
-    if (!Node.isNode(node)) return;
+  serialize(node: Descendant) {
+    if (!Element.isElement(node)) return;
     if (node.type !== 'br') return;
 
     return `<br>`;

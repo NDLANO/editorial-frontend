@@ -11,6 +11,9 @@ import { listTypes } from '../externalPlugins';
 
 const DEFAULT_NODE = 'paragraph';
 
+// TODO: Rewrite functions to Slate 0.62 or remove when
+// new functions are written.
+
 export function handleClickBlock(event, editor, type) {
   event.preventDefault();
   stripSpacesFromSelectedText(editor);

@@ -16,6 +16,7 @@ import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
+import { SlateToolbar } from './plugins/toolbar';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -135,6 +136,7 @@ const RichTextEditor = ({
             onChange={(val: Descendant[]) => {
               onChange(val, index);
             }}>
+            <SlateToolbar editor={editor} />
             <Editable
               onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               onKeyDown={editor.onKeyDown}

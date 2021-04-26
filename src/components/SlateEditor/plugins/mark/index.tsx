@@ -4,6 +4,21 @@ import { RenderLeafProps } from 'new-slate-react';
 import { SlateSerializer } from '../../interfaces';
 import { jsx } from 'new-slate-hyperscript';
 
+export const isMarkActive = (editor: Editor, format: string) => {
+  const marks: { [key: string]: boolean } | null = Editor.marks(editor);
+  return marks ? marks[format] === true : false;
+};
+
+export const toggleMark = (editor: Editor, format: string) => {
+  const isActive = isMarkActive(editor, format);
+
+  if (isActive) {
+    Editor.removeMark(editor, format);
+  } else {
+    Editor.addMark(editor, format, true);
+  }
+};
+
 export interface CustomTextWithMarks {
   bold?: boolean;
   code?: boolean;

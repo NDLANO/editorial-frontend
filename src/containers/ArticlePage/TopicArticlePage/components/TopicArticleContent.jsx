@@ -40,7 +40,6 @@ import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
-import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 
 const byLineStyle = css`
@@ -71,7 +70,7 @@ const createPlugins = language => {
     conceptPlugin(language),
     paragraphPlugin(),
     mathmlPlugin(),
-    toolbarPlugin(),
+    // toolbarPlugin(),
     textTransformPlugin(),
   ];
 };

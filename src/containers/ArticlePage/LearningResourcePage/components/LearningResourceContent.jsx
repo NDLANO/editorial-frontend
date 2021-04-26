@@ -62,7 +62,7 @@ import { IngressField, TitleField } from '../../../FormikForm';
 import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
-import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
+import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
@@ -141,7 +141,7 @@ const LearningResourceContent = ({
     // }),
     // dndPlugin,
     // pasteHandler(),
-    // toolbarPlugin(),
+    toolbarPlugin,
     textTransformPlugin,
     sectionPlugin,
     breakPlugin,

@@ -596,6 +596,7 @@ const phrases = {
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
+    editPodcast: 'Endre podkast',
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsida?',
@@ -924,6 +925,9 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+    },
+    podcast: {
+      remove: 'Ta bort podkast',
     },
     external: {
       title: 'eksternt',

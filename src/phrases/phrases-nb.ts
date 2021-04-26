@@ -477,7 +477,7 @@ const phrases = {
       related: 'Relatert innhold',
       file: 'Fil',
       code: 'Kodevisning',
-      podcast: 'Podcast',
+      podcast: 'Podkast',
     },
   },
   form: {
@@ -595,6 +595,7 @@ const phrases = {
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
+    editPodcast: 'Endre podkast',
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
@@ -920,6 +921,9 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
+    },
+    podcast: {
+      remove: 'Ta bort podkast',
     },
     external: {
       title: 'eksternt',

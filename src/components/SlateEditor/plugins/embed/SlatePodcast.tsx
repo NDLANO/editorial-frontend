@@ -54,10 +54,10 @@ const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }:
     <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
         <FigureButtons
-          tooltip={t('form.audio.remove')}
+          figureType="podcast"
+          tooltip={t('form.podcast.remove')}
           onRemoveClick={onRemoveClick}
           embed={embed}
-          figureType="audio"
           language={language}
         />
         {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}

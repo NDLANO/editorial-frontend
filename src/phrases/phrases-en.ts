@@ -573,6 +573,7 @@ const phrases = {
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
+    editPodcast: 'Edit podcast',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -906,6 +907,9 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+    },
+    podcast: {
+      remove: 'Remove podcast',
     },
     external: {
       title: 'external',

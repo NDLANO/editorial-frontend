@@ -80,12 +80,6 @@ const RichTextEditor = ({
     removeSection(index);
   };
 
-  // TODO: Can normalization be done after deserialization in articleContentConverter?
-  useEffect(() => {
-    Editor.normalize(editor, { force: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const renderElement = (props: RenderElementProps) => {
     const { attributes, children } = props;
     if (editor.renderElement) {

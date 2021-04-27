@@ -61,7 +61,7 @@ class AudioUploaderPage extends Component<Props, State> {
   }
 
   render() {
-    const { match, t, licenses, locale } = this.props;
+    const { match, t, licenses, locale, history } = this.props;
     return (
       <div>
         <OneColumn>
@@ -80,6 +80,7 @@ class AudioUploaderPage extends Component<Props, State> {
                   isNewlyCreated={this.state.previousLocation === '/media/audio-upload/new'}
                   licenses={licenses}
                   locale={locale}
+                  history={history}
                 />
               )}
             />

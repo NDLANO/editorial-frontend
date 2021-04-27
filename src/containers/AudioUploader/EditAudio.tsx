@@ -6,11 +6,13 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { transformAudio } from '../../util/audioHelpers';
 import { createFormData } from '../../util/formDataHelper';
+import { toEditPodcast } from '../../util/routeHelpers';
 import { License, LocaleType } from '../../interfaces';
 import {
   FlattenedAudioApiType,
@@ -23,12 +25,14 @@ interface Props {
   audioLanguage: string;
   isNewlyCreated?: boolean;
   licenses: License[];
+  history: RouteComponentProps['history'];
 }
 
 const EditAudio = ({
   locale,
   audioId,
   audioLanguage,
+  history,
   isNewlyCreated,
   licenses,
   ...rest
@@ -60,6 +64,10 @@ const EditAudio = ({
     return null;
   }
 
+  if (audio?.audioType === 'podcast' && audio.id) {
+    history.push(toEditPodcast(audioId, audioLanguage));
+  }
+
   const language = audioLanguage || locale;
   return (
     <AudioForm
@@ -85,6 +93,7 @@ EditAudio.propTypes = {
   locale: PropTypes.string.isRequired,
   audioLanguage: PropTypes.string.isRequired,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({ push: PropTypes.func }),
 };
 
 export default EditAudio;

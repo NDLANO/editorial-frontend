@@ -13,13 +13,14 @@ export interface SectionElement {
 }
 
 export const sectionSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'section') {
+      // Wrap single text node in section in a paragraph
+      if (children.length === 1 && Text.isText(children[0])) {
+        children = [jsx('element', { type: 'paragraph' }, children)];
+      }
       return jsx('element', { type: TYPE_SECTION }, children);
-    }
-    if (tag === 'body') {
-      return jsx('fragment', {}, children);
     }
     return;
   },
@@ -37,7 +38,11 @@ const onBackspace = (
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
   if (editor.selection) {
-    const [section] = Node.fragment(editor, editor.selection);
+    // Find the closest ancestor <section>-element
+    const section = Editor.above(editor, {
+      match: node => Element.isElement(node) && node.type === 'section',
+      mode: 'lowest',
+    })?.[0];
     if (
       Element.isElement(section) &&
       section.children.length === 1 &&

@@ -7,7 +7,7 @@ const TYPE = 'br';
 
 export interface BreakElement {
   type: 'br';
-  children: any;
+  children: Descendant[];
 }
 
 export const breakSerializer: SlateSerializer = {

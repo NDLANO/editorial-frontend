@@ -11,10 +11,7 @@ export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
   serialize: (node: Descendant, children: string) => string | undefined | null;
-  deserialize: (
-    el: HTMLElement,
-    children: (Descendant[] | Descendant | null)[],
-  ) => Descendant[] | Descendant | undefined;
+  deserialize: (el: HTMLElement, children: (Descendant | null)[]) => Descendant | undefined;
 }
 export type CustomText = { text: string } & CustomTextWithMarks;
 

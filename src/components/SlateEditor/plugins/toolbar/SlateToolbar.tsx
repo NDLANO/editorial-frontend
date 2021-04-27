@@ -9,11 +9,11 @@
 // TODO: Implement lists, blocks and inlines
 
 import React, { useEffect } from 'react';
+import { Editor } from 'new-slate';
+import { ReactEditor } from 'new-slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { Editor } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
 import { isMarkActive, toggleMark } from '../mark';
 // import { listTypes } from '../externalPlugins';
 

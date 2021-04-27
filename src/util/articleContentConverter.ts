@@ -93,9 +93,10 @@ export const learningResourceContentToEditorValue = (html: string) => {
   // Is it possible to do normalization here?
   return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
-    const nodes = deserialize(document.body);
+    const nodes = deserialize(document.body.children[0]);
+    const normalizedNodes = convertFromHTML(nodes);
 
-    return nodes;
+    return [normalizedNodes];
   });
 };
 

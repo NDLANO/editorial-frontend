@@ -1,8 +1,8 @@
 import React from 'react';
 import { Descendant, Editor, Text } from 'new-slate';
+import { jsx } from 'new-slate-hyperscript';
 import { RenderLeafProps } from 'new-slate-react';
 import { SlateSerializer } from '../../interfaces';
-import { jsx } from 'new-slate-hyperscript';
 
 export const isMarkActive = (editor: Editor, format: string) => {
   const marks: { [key: string]: boolean } | null = Editor.marks(editor);

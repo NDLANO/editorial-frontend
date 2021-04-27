@@ -1,4 +1,4 @@
-import { Element, Editor, Descendant, BaseEditor } from 'new-slate';
+import { Editor, Descendant, BaseEditor } from 'new-slate';
 import { HistoryEditor } from 'new-slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'new-slate-react';
 import React from 'react';
@@ -22,6 +22,7 @@ export type CustomEditor = {
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
+  removeSection?: () => void;
 };
 
 declare module 'new-slate' {

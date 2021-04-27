@@ -17,20 +17,20 @@ export interface ParagraphElement {
   children: CustomText[];
 }
 
-function getCurrentParagraph(editor: Editor) {
+const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;
   const startBlock = Node.parent(editor, editor.selection?.anchor.path);
   if (!Element.isElement(startBlock)) {
     return null;
   }
   return startBlock && startBlock?.type === 'paragraph' ? startBlock : null;
-}
+};
 
-function onEnter(
+const onEnter = (
   e: KeyboardEvent<HTMLDivElement>,
   editor: Editor,
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
-) {
+) => {
   const currentParagraph = getCurrentParagraph(editor);
   if (!currentParagraph) {
     if (nextOnKeyDown) {
@@ -66,7 +66,7 @@ function onEnter(
     type: TYPE,
     children: [{ text: '' }],
   });
-}
+};
 
 export const paragraphSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {

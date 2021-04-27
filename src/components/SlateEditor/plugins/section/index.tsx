@@ -1,10 +1,11 @@
-import { Node, Element, Descendant, Editor, Text, Transforms } from 'new-slate';
+import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { RenderElementProps } from 'new-slate-react';
-import React from 'react';
+import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { SlateSerializer } from '../../interfaces';
 
 const TYPE_SECTION = 'section';
+const KEY_BACKSPACE = 'Backspace';
 
 export interface SectionElement {
   type: 'section';
@@ -22,16 +23,46 @@ export const sectionSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Element, children: string) {
-    if (!Node.isNode(node)) return;
+  serialize(node: Descendant, children: string) {
+    if (!Element.isElement(node)) return;
     if (node.type === 'section') {
       return `<section>${children}</section>`;
     }
   },
 };
 
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+) => {
+  if (editor.selection) {
+    const [section] = Node.fragment(editor, editor.selection);
+    if (
+      Element.isElement(section) &&
+      section.children.length === 1 &&
+      Node.string(section).length === 0 &&
+      Range.isCollapsed(editor.selection) &&
+      editor.selection.anchor.offset === 0
+    ) {
+      if (editor.removeSection) {
+        e.preventDefault();
+        editor.removeSection();
+        return;
+      }
+    }
+  }
+  if (nextOnKeyDown) {
+    nextOnKeyDown(e);
+  }
+};
+
 export const sectionPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    onKeyDown: nextOnKeyDown,
+  } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'section') {
@@ -40,6 +71,14 @@ export const sectionPlugin = (editor: Editor) => {
       return nextRenderElement({ attributes, children, element });
     }
     return undefined;
+  };
+
+  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === KEY_BACKSPACE) {
+      onBackspace(e, editor, nextOnKeyDown);
+    } else if (nextOnKeyDown) {
+      nextOnKeyDown(e);
+    }
   };
 
   editor.normalizeNode = entry => {

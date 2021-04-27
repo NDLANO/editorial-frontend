@@ -42,6 +42,7 @@ interface SlateEditorProps {
   taxIndex?: number;
   value: Descendant[];
   submitted: boolean;
+  removeSection: (index: number) => void;
 }
 
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
@@ -70,39 +71,20 @@ const RichTextEditor = ({
   handleSubmit,
   submitted,
   index,
+  removeSection,
   ...rest
 }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  editor.removeSection = () => {
+    removeSection(index);
+  };
 
   // TODO: Can normalization be done after deserialization in articleContentConverter?
   useEffect(() => {
     Editor.normalize(editor, { force: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // TODO: add functionality to sectionPlugin
-  // const onKeyDown = (e, editor, next) => {
-  //   const { value } = editor;
-  //   if (e.key === 'Backspace') {
-  //     const { removeSection, index } = this.props;
-  //     if (removeSection) {
-  //       const { selection } = value;
-  //       const numberOfNodesInSection = value.document.nodes.first().nodes.size;
-  //       if (
-  //         numberOfNodesInSection === 1 &&
-  //         value.document.text.length === 0 &&
-  //         selection.isCollapsed &&
-  //         selection.anchor.isAtStartOfNode(value.document)
-  //       ) {
-  //         removeSection(index);
-  //         return;
-  //       }
-  //       next();
-  //     }
-  //   }
-  //   next();
-  // };
 
   const renderElement = (props: RenderElementProps) => {
     const { attributes, children } = props;

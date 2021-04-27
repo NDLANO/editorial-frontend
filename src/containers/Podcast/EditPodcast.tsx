@@ -6,10 +6,12 @@
  */
 
 import React, { useContext, useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
+import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 import {
   UpdatedPodcastMetaInformation,
@@ -51,6 +53,10 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
 
   if (podcastId && !podcast?.id) {
     return null;
+  }
+
+  if (podcast?.audioType === 'standard') {
+    return <Redirect to={toEditAudio(podcastId, podcastLanguage)} />;
   }
 
   const language = podcastLanguage || locale;

@@ -13,6 +13,7 @@ import {
   toCreateConcept,
   toCreateImage,
   toCreateAudioFile,
+  toCreatePodcastFile,
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 
@@ -38,6 +39,9 @@ const OpenMenu = ({ t, close }) => {
             </StyledLink>
             <StyledLink to={toCreateAudioFile()} onClick={close}>
               <span>{t('subNavigation.audio')}</span>
+            </StyledLink>
+            <StyledLink to={toCreatePodcastFile()} onClick={close}>
+              <span>{t('subNavigation.podcast')}</span>
             </StyledLink>
           </div>
           <div>

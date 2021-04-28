@@ -1,6 +1,24 @@
-import { Copyright } from '../../interfaces';
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-interface NewPodcastMeta {
+import { Copyright } from '../../interfaces';
+import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
+
+type AudioType = 'standard' | 'podcast';
+
+export interface AudioFile {
+  url: string;
+  mimeType: string;
+  fileSize: number;
+  language: string;
+}
+
+export interface NewPodcastMeta {
   header: string;
   introduction: string;
   coverPhotoId: string;
@@ -8,7 +26,7 @@ interface NewPodcastMeta {
   manuscript: string;
 }
 
-interface PodcastMeta {
+export interface PodcastMeta {
   header: string;
   introduction: string;
   coverPhoto: {
@@ -26,12 +44,19 @@ export interface NewAudioMetaInformation {
   language: string;
   copyright: Copyright;
   tags: string[];
-  audioType?: string;
+  audioType: string;
   podcastMeta?: NewPodcastMeta;
 }
 
 export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
-  id?: number;
+  revision?: number;
+}
+
+export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
+  podcastMeta: NewPodcastMeta;
+}
+
+export interface UpdatedPodcastMetaInformation extends NewPodcastMetaInformation {
   revision?: number;
 }
 
@@ -42,20 +67,36 @@ export interface AudioApiType {
     title: string;
     language: string;
   };
-  audioFile: {
-    url: string;
-    mimeType: string;
-    fileSize: number;
-    language: string;
-  };
+  audioFile: AudioFile;
   copyright: Copyright;
   tags: {
     tags: string[];
     language: string;
   };
   supportedLanguages: string[];
-  audioType: string;
+  audioType: AudioType;
   podcastMeta?: PodcastMeta;
+}
+
+export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
+  language?: string;
+  filepath: '';
+  audioType?: 'podcast';
+  header?: string;
+  introduction?: string;
+  coverPhotoId?: string;
+  metaImageAlt?: string;
+  metaImageUrl?: string;
+  manuscript?: string;
+}
+
+export interface AudioSearchResultType {
+  id: number;
+  title: { title: string; language: string };
+  audioType: AudioType;
+  url: string;
+  supportedLanguages?: string[];
+  license: string;
 }
 
 export interface FlattenedAudioApiType extends Omit<AudioApiType, 'title' | 'tags'> {

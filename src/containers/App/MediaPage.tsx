@@ -12,6 +12,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
+import PodcastUploaderPage from '../Podcast/PodcastUploaderPage';
 import Footer from './components/Footer';
 
 const MediaPage = ({ match }: RouteComponentProps) => (
@@ -19,6 +20,7 @@ const MediaPage = ({ match }: RouteComponentProps) => (
     <Switch>
       <PrivateRoute path={`${match.url}/image-upload`} component={ImageUploaderPage} />
       <PrivateRoute path={`${match.url}/audio-upload`} component={AudioUploaderPage} />
+      <PrivateRoute path={`${match.url}/podcast-upload`} component={PodcastUploaderPage} />
       <Route component={NotFoundPage} />
     </Switch>
     <Footer showLocaleSelector={false} />

@@ -6,9 +6,12 @@
  *
  */
 import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
+
 import {
   NewAudioMetaInformation,
   UpdatedAudioMetaInformation,
+  NewPodcastMetaInformation,
+  UpdatedPodcastMetaInformation,
 } from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
@@ -17,7 +20,9 @@ export const createFormData = (
     | NewImageMetadata
     | UpdatedImageMetadata
     | NewAudioMetaInformation
-    | UpdatedAudioMetaInformation,
+    | UpdatedAudioMetaInformation
+    | NewPodcastMetaInformation
+    | UpdatedPodcastMetaInformation,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();

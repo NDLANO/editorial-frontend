@@ -6,11 +6,12 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
 import { injectT, tType } from '@ndla/i18n';
 import BEMHelper from 'react-bem-helper';
-import { FieldProps } from 'formik';
+import { FieldProps, useFormikContext } from 'formik';
 import { fetchSearchTags } from '../../../modules/audio/audioApi';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
@@ -22,16 +23,17 @@ const contributorTypes = ['creators', 'rightsholders', 'processors'];
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
   licenses: License[];
-  audioLanguage: string;
-  audioTags: string[];
 }
 
 type Props = BaseProps & tType;
 
 const AudioMetaData = (props: Props) => {
-  const { t, licenses, audioLanguage, audioTags } = props;
+  const {
+    values: { language, tags },
+  } = useFormikContext();
+  const { t, licenses } = props;
   return (
-    <Fragment>
+    <>
       <FormikField
         name="tags"
         label={t('form.tags.label')}
@@ -39,8 +41,8 @@ const AudioMetaData = (props: Props) => {
         description={t('form.tags.description')}>
         {({ field, form }: FieldProps<string[], string[]>) => (
           <AsyncSearchTags
-            language={audioLanguage}
-            initialTags={audioTags}
+            language={language}
+            initialTags={tags}
             field={field}
             form={form}
             fetchTags={fetchSearchTags}
@@ -52,20 +54,19 @@ const AudioMetaData = (props: Props) => {
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
       <ContributorsField contributorTypes={contributorTypes} />
-    </Fragment>
+    </>
   );
 };
 
 AudioMetaData.propTypes = {
   classes: PropTypes.func.isRequired,
+  values: PropTypes.object,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string.isRequired,
       license: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  audioLanguage: PropTypes.string.isRequired,
-  audioTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
 export default injectT(AudioMetaData);

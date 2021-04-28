@@ -6,38 +6,18 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
+import { transformAudio } from '../../util/audioHelpers';
 import { createFormData } from '../../util/formDataHelper';
+import { toEditPodcast } from '../../util/routeHelpers';
 import { License, LocaleType } from '../../interfaces';
 import {
-  AudioApiType,
   FlattenedAudioApiType,
   UpdatedAudioMetaInformation,
 } from '../../modules/audio/audioApiInterfaces';
-
-const transformAudio = (
-  audio: AudioApiType,
-  language: string,
-): FlattenedAudioApiType | undefined => {
-  const audioLanguage =
-    audio && audio.supportedLanguages && audio.supportedLanguages.includes(language)
-      ? language
-      : undefined;
-
-  const title = convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage);
-  const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
-
-  return audio
-    ? {
-        ...audio,
-        title,
-        tags,
-      }
-    : undefined;
-};
 
 interface Props {
   locale: LocaleType;
@@ -57,13 +37,6 @@ const EditAudio = ({
 }: Props) => {
   const [audio, setAudio] = useState<FlattenedAudioApiType | undefined>(undefined);
 
-  const fetchAudio = async () => {
-    if (audioId) {
-      const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
-      setAudio(transformAudio(apiAudio, audioLanguage));
-    }
-  };
-
   const onUpdate = async (
     newAudio: UpdatedAudioMetaInformation,
     file: string | Blob | undefined,
@@ -75,11 +48,22 @@ const EditAudio = ({
   };
 
   useEffect(() => {
+    async function fetchAudio() {
+      if (audioId) {
+        const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
+        setAudio(transformAudio(apiAudio, audioLanguage));
+      }
+    }
+
     fetchAudio();
-  }, [audioId, audioLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [audioId, audioLanguage]);
 
   if (audioId && !audio?.id) {
     return null;
+  }
+
+  if (audio?.audioType === 'podcast') {
+    return <Redirect to={toEditPodcast(audioId, audioLanguage)} />;
   }
 
   const language = audioLanguage || locale;

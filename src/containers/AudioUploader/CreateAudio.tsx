@@ -21,7 +21,7 @@ interface Props extends RouteComponentProps {
   locale: string;
 }
 
-const CreateAudio = ({ history, locale, ...rest }: Props) => {
+const CreateAudio = ({ history, licenses, locale, ...rest }: Props) => {
   const onCreateAudio = async (
     newAudio: NewAudioMetaInformation,
     file?: string | Blob,
@@ -38,6 +38,7 @@ const CreateAudio = ({ history, locale, ...rest }: Props) => {
       audio={{ language: locale }}
       onUpdate={onCreateAudio}
       audioLanguage={locale}
+      licenses={licenses}
       {...rest}
     />
   );

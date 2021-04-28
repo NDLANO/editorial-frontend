@@ -26,6 +26,7 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podkast ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {hits} treff`,
@@ -173,9 +174,10 @@ const phrases = {
     detailSearch: 'Detaljsøk',
     topicArticle: 'Opprett emne',
     learningResource: 'Læringsressurs',
-    image: 'Nytt Bilde',
-    audio: 'Ny Lydfil',
-    agreement: 'Ny Avtale',
+    image: 'Nytt bilde',
+    audio: 'Ny lydfil',
+    podcast: 'Ny podkast',
+    agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
@@ -222,6 +224,7 @@ const phrases = {
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       status: 'Velg status',
+      audio: 'Velg lydfiltype',
     },
     tagType: {
       query: 'Innhald',
@@ -240,6 +243,10 @@ const phrases = {
       topicArticle: 'Emnebeskrivelse',
       image: 'Bilde',
       audio: 'Lyd',
+    },
+    audioType: {
+      standard: 'Lydfil',
+      podcast: 'Podkast',
     },
     order: 'Rekkefølge',
     asc: 'Stigende',
@@ -408,6 +415,16 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastForm: {
+    title: 'Podkast',
+    fields: {
+      header: 'Overskrift',
+      introduction: 'Introduksjon',
+      coverPhoto: 'Bilde',
+      coverPhotoAltText: 'Alt-tekst',
+      manuscript: 'Manus',
+    },
+  },
   imageEditor: {
     editImage: 'Rediger bildet',
     remove: {
@@ -491,6 +508,7 @@ const phrases = {
     workflowSection: 'Versjonslogg og merknader',
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
+    podcastSection: 'Podkastinformasjon',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',
@@ -538,6 +556,9 @@ const phrases = {
       concepts: 'Forklaringar',
       relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
+      header: 'Overskrift',
+      manuscript: 'Manus',
+      coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
       button: 'Samanlikn utkast og artikkel',
@@ -923,6 +944,11 @@ const phrases = {
       remove: 'Ta bort lydfil',
       sound: 'Lyd',
       speech: 'Tale',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp lydfil',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
     },
     external: {
       title: 'eksternt',

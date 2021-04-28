@@ -130,9 +130,8 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
   it('opens and closes H5P', () => {
     cy.get('[data-cy=create-h5p]').click();
-    cy.get('[data-cy="modal-header"]').should('be.visible');
-    cy.get('[data-cy="modal-body"]').should('be.visible');
-    cy.get('[data-cy="close-modal-button"]').click();
+    cy.get('[data-cy=h5p-editor').should('be.visible');
+    cy.get('[data-testid="closeAlert"]').click();
   });
 
   it('opens and closes url', () => {

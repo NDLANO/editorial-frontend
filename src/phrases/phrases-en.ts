@@ -26,6 +26,7 @@ const phrases = {
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podcast ${titleTemplate}`,
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
@@ -173,6 +174,7 @@ const phrases = {
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
+    podcast: 'New Podcast',
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',
@@ -220,6 +222,7 @@ const phrases = {
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',
+      audio: 'Select audio file type',
     },
     tagType: {
       query: 'Query',
@@ -238,6 +241,10 @@ const phrases = {
       topicArticle: 'Topic description',
       image: 'Image',
       audio: 'Audio',
+    },
+    audioType: {
+      standard: 'Audio',
+      podcast: 'Podcast',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',
@@ -390,6 +397,16 @@ const phrases = {
   audioForm: {
     title: 'audio file',
   },
+  podcastForm: {
+    title: 'Podcast file',
+    fields: {
+      header: 'Header',
+      introduction: 'Introduction',
+      coverPhoto: 'Image',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Manuscript',
+    },
+  },
   imageEditor: {
     remove: {
       crop: 'Remove crop',
@@ -469,6 +486,7 @@ const phrases = {
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     articleSection: 'Articles',
+    podcastSection: 'Podcast information',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',
@@ -516,6 +534,9 @@ const phrases = {
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
+      header: 'Header',
+      manuscript: 'Manuscript',
+      coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -907,6 +928,11 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload image',
+        ariaLabel: 'Drag and drop or click to upload image',
+      },
     },
     podcast: {
       remove: 'Remove podcast',

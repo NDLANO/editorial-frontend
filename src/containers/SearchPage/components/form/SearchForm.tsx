@@ -27,6 +27,7 @@ export interface SearchParams {
   'include-other-statuses'?: boolean;
   'page-size'?: string | null;
   'resource-types'?: string | null;
+  'audio-type'?: string | null;
   fallback?: boolean | null;
   language?: string | null;
   page?: string | null;

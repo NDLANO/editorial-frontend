@@ -13,6 +13,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
+import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
@@ -53,7 +54,7 @@ const ConceptContent = ({ createMessage, t }: Props & tType) => {
     <>
       <TitleField
         handleSubmit={submitForm}
-        onBlur={(event: Event, editor: unknown, next: () => void) => {
+        onBlur={(event: Event, editor: Editor, next: Function) => {
           next();
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434

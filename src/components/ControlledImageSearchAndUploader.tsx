@@ -17,6 +17,7 @@ import { fetchLicenses } from '../modules/draft/draftApi';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 import { ImageType, License } from '../interfaces';
+import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -97,7 +98,9 @@ const ImageSearchAndUploader = ({
               closeModal={closeModal}
               licenses={licenses}
             />
-          ) : null,
+          ) : (
+            <EditorErrorMessage msg={t('errorMessage.description')} />
+          ),
         },
       ]}
     />

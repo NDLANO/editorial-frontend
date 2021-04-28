@@ -147,7 +147,6 @@ const LearningResourceForm = props => {
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
-    setSaveAsNewVersion(isNewlyCreated);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
     return (
       <Form {...formClasses()}>
@@ -161,6 +160,7 @@ const LearningResourceForm = props => {
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
+          history={history}
           {...rest}
         />
         {translating ? (

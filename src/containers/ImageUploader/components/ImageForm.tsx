@@ -64,7 +64,7 @@ interface ImageFormikType {
   alttext?: string;
   caption?: string;
   imageFile?: string;
-  tags?: string[];
+  tags: string[];
   creators?: Author[];
   processors?: Author[];
   rightsholders?: Author[];
@@ -242,7 +242,7 @@ class ImageForm extends Component<Props & tType, State> {
                   <ImageMetaData
                     licenses={licenses}
                     imageLanguage={image?.language}
-                    imageTags={image?.tags || []}
+                    imageTags={values.tags}
                   />
                 </AccordionSection>
               </Accordions>

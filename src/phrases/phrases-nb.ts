@@ -26,6 +26,7 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podkast ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {hits} treff`,
@@ -174,6 +175,7 @@ const phrases = {
     learningResource: 'Læringsressurs',
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
+    podcast: 'Ny podkast',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     searchContent: 'Søk innhold',
@@ -221,6 +223,7 @@ const phrases = {
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
+      audio: 'Velg lydfiltype',
     },
     tagType: {
       query: 'Innhold',
@@ -239,6 +242,10 @@ const phrases = {
       topicArticle: 'Emnebeskrivelse',
       image: 'Bilde',
       audio: 'Lyd',
+    },
+    audioType: {
+      standard: 'Lydfil',
+      podcast: 'Podkast',
     },
     order: 'Rekkefølge',
     asc: 'Stigende',
@@ -407,6 +414,16 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastForm: {
+    title: 'Podkast',
+    fields: {
+      header: 'Overskrift',
+      introduction: 'Introduksjon',
+      coverPhoto: 'Bilde',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Manus',
+    },
+  },
   imageEditor: {
     editImage: 'Rediger bildet',
     remove: {
@@ -487,6 +504,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     articleSection: 'Artikler',
+    podcastSection: 'Podkastinformasjon',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',
@@ -535,6 +553,9 @@ const phrases = {
       concepts: 'Forklaringer',
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
+      header: 'Overskrift',
+      manuscript: 'Manus',
+      coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',

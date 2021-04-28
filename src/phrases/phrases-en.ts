@@ -404,7 +404,7 @@ const phrases = {
       introduction: 'Introduction',
       coverPhoto: 'Image',
       coverPhotoAltText: 'Alt-text',
-      manuscript: 'Manuscript',
+      manuscript: 'Text version',
     },
   },
   imageEditor: {

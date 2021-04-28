@@ -421,7 +421,7 @@ const phrases = {
       introduction: 'Introduksjon',
       coverPhoto: 'Bilde',
       coverPhotoAltText: 'Alt-text',
-      manuscript: 'Manus',
+      manuscript: 'Tekstversjon',
     },
   },
   imageEditor: {

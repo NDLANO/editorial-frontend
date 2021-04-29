@@ -3,6 +3,7 @@ import { HistoryEditor } from 'new-slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'new-slate-react';
 import React from 'react';
 import { BreakElement } from './plugins/break';
+import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
@@ -13,7 +14,6 @@ export interface SlateSerializer {
   serialize: (node: Descendant, children: string) => string | undefined | null;
   deserialize: (el: HTMLElement, children: (Descendant | null)[]) => Descendant | undefined;
 }
-export type CustomText = { text: string } & CustomTextWithMarks;
 
 export type CustomEditor = {
   onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
@@ -25,7 +25,7 @@ export type CustomEditor = {
 declare module 'new-slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
-    Element: ParagraphElement | SectionElement | BreakElement;
-    Text: CustomText;
+    Element: ParagraphElement | SectionElement | BreakElement | LinkElement | ContentLinkElement;
+    Text: CustomTextWithMarks;
   }
 }

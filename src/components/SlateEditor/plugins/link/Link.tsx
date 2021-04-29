@@ -7,10 +7,9 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
+import { Editor, Node } from 'new-slate';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
@@ -18,15 +17,21 @@ import config from '../../../../config';
 import { toEditArticle, toLearningpathFull } from '../../../../util/routeHelpers';
 import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
-import { EditorShape } from '../../../../shapes';
 import { classes } from '../../RichTextEditor';
 import EditLink from './EditLink';
+import { ContentLinkElement, LinkElement } from '.';
 
 const linkMenuButtonStyle = css`
   color: ${colors.brand.primary};
   text-decoration: underline;
 `;
-const StyledLinkMenu = styled('span')`
+
+interface StyledLinkMenuProps {
+  top: number;
+  left: number;
+}
+
+const StyledLinkMenu = styled('span')<StyledLinkMenuProps>`
   position: absolute;
   top: ${p => p.top}px;
   left: ${p => p.left}px;
@@ -37,29 +42,53 @@ const StyledLinkMenu = styled('span')`
   z-index: 1;
 `;
 
-const fetchResourcePath = async (data, language, contentType) => {
+const fetchResourcePath = async (
+  data: ContentLinkElement,
+  language: string,
+  contentType: string,
+) => {
   const id = data['content-id'];
   return contentType === 'learningpath'
     ? toLearningpathFull(id, language)
     : `${config.editorialFrontendDomain}${toEditArticle(id, contentType)}`;
 };
 
-function hasHrefOrContentId(node) {
-  const data = node?.data?.toJS() || {};
-  return !!(data.resource === 'content-link' || data.href);
+function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
+  if (node.type === 'content-link') {
+    return !!node['content-id'];
+  } else {
+    return !!node.href;
+  }
 }
 
-const Link = props => {
+interface Props {
+  attributes: {
+    'data-key': string;
+  };
+  editor: Editor;
+  element: LinkElement | ContentLinkElement;
+  language: string;
+  children: JSX.Element;
+}
+
+interface Model {
+  href: string;
+  text: string;
+  checkbox: boolean;
+}
+
+const Link = (props: Props & tType) => {
   const {
     t,
     attributes,
-    editor: { onChange, blur, value },
-    node,
+    editor: { onChange },
+    editor,
+    element,
     language,
   } = props;
-  const linkRef = useRef(null);
-  const [model, setModel] = useState(null);
-  const [editMode, setEditMode] = useState(!hasHrefOrContentId(node));
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const [model, setModel] = useState<Model | null>(null);
+  const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
 
   const getMenuPosition = () => {
     if (linkRef.current) {
@@ -81,32 +110,32 @@ const Link = props => {
 
   useEffect(() => {
     const setStateFromNode = async () => {
-      const data = node?.data?.toJS() || {};
-
-      const contentType = data['content-type'] || 'article';
-
-      const href =
-        data.resource === 'content-link'
-          ? `${await fetchResourcePath(data, language, contentType)}`
-          : data.href;
-
-      const checkbox = data.target === '_blank' || data['open-in'] === 'new-context';
+      let href;
+      let checkbox;
+      if (element.type === 'content-link') {
+        const contentType = element['content-type'] || 'article';
+        href = `${await fetchResourcePath(element, language, contentType)}`;
+        checkbox = element['open-in'] === 'new-context';
+      } else {
+        href = element.href;
+        checkbox = element.target === '_blank';
+      }
 
       setModel({
         href,
-        text: node.text,
+        text: Node.string(element),
         checkbox,
       });
     };
     setStateFromNode();
-  }, [node, language]);
+  }, [element, language]);
 
   if (!model) {
     return null;
   }
 
   const { top, left } = getMenuPosition();
-  const isInline = isNodeInCurrentSelection(value, node);
+  const isInline = isNodeInCurrentSelection(editor, element);
   const { href } = model;
 
   return (
@@ -137,15 +166,6 @@ const Link = props => {
       )}
     </span>
   );
-};
-
-Link.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
-  editor: EditorShape,
-  node: Types.node.isRequired,
-  language: PropTypes.string.isRequired,
 };
 
 export default injectT(Link);

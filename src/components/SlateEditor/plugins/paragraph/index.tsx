@@ -1,9 +1,10 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant } from 'new-slate';
+import { Editor, Node, Element, Descendant, Text } from 'new-slate';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
-import { CustomText, SlateSerializer } from '../../interfaces';
+import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
+import { ContentLinkElement, LinkElement } from '../link';
 
 const KEY_ENTER = 'Enter';
 const TYPE = 'paragraph';
@@ -14,7 +15,7 @@ export interface ParagraphElement {
     'data-align'?: string;
     align?: string;
   };
-  children: CustomText[];
+  children: (Text | LinkElement | ContentLinkElement)[];
 }
 
 const getCurrentParagraph = (editor: Editor) => {
@@ -69,7 +70,7 @@ const onEnter = (
 };
 
 export const paragraphSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'p') return;
 
     return jsx(
@@ -97,7 +98,7 @@ export const paragraphSerializer: SlateSerializer = {
 };
 
 export const paragraphPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown, renderElement: nextRenderELement } = editor;
+  const { onKeyDown: nextOnKeyDown, renderElement: nextRenderElement } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === KEY_ENTER) {
@@ -110,8 +111,8 @@ export const paragraphPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'paragraph') {
       return <p {...attributes}>{children}</p>;
-    } else if (nextRenderELement) {
-      return nextRenderELement({ attributes, children, element });
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
     }
     return undefined;
   };

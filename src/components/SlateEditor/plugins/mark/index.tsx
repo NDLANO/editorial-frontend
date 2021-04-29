@@ -20,6 +20,7 @@ export const toggleMark = (editor: Editor, format: string) => {
 };
 
 export interface CustomTextWithMarks {
+  text: string;
   bold?: boolean;
   code?: boolean;
   italic?: boolean;

@@ -32,7 +32,7 @@ import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed'
 import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
-import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
+import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
 import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
@@ -94,7 +94,7 @@ const actionsToShowInAreas = {
 };
 
 const LearningResourceContent = ({
-  // article: { language: articleLanguage },
+  article: { language: articleLanguage },
   t,
   userAccess,
   formik: {
@@ -114,7 +114,7 @@ const LearningResourceContent = ({
     // createBodyBoxPlugin(),
     // createAsidePlugin(),
     // createDetailsPlugin(),
-    // createLinkPlugin(articleLanguage),
+    linkPlugin(articleLanguage),
     // conceptPlugin(articleLanguage),
     // headingPlugin(),
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
@@ -149,8 +149,7 @@ const LearningResourceContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
-  // Todo: Rewrite the following plugins
-  // For language support, consider using React.useRef().
+  // Todo: Rewrite the following plugins. For language support, consider using React.useRef().
   // componentDidUpdate({ article: { id: prevId, language: prevArticleLanguage } }) {
   //   const {
   //     article: { id, language: articleLanguage },

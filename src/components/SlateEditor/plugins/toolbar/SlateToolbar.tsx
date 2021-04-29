@@ -20,13 +20,13 @@ import { isMarkActive, toggleMark } from '../mark';
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  //   inline: ['link', 'mathml', 'concept'],
+  inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  //   inline: ['link', 'footnote', 'mathml', 'concept'],
+  inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -42,9 +42,10 @@ const onButtonClick = (event: Event, editor: Editor, kind: string, type: string)
   if (kind === 'mark') {
     event.preventDefault();
     toggleMark(editor, type);
-  } // else if (kind === 'block') {
-  // } else if (kind === 'inline') {
-  // }
+    // }  else if (kind === 'block') {
+  } else if (kind === 'inline') {
+    event.preventDefault();
+  }
 };
 
 const SlateToolbar = (props: Props) => {

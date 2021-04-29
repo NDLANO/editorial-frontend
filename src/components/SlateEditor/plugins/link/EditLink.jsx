@@ -14,7 +14,7 @@ import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
-import { TYPE } from '.';
+import { TYPE_LINK } from '.';
 import LinkForm from './LinkForm';
 import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 
@@ -25,7 +25,7 @@ const newTabAttributes = {
 
 const createContentLinkData = (id, resourceType, targetRel) => {
   return {
-    type: TYPE,
+    type: TYPE_LINK,
     data: {
       'content-id': id,
       'content-type': resourceType || 'article',
@@ -36,7 +36,7 @@ const createContentLinkData = (id, resourceType, targetRel) => {
 };
 
 const createLinkData = (href, targetRel) => ({
-  type: TYPE,
+  type: TYPE_LINK,
   data: {
     href,
     ...targetRel,

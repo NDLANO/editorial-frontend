@@ -15,6 +15,10 @@ import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph
 import { SlateSerializer } from '../components/SlateEditor/interfaces';
 import { breakSerializer } from '../components/SlateEditor/plugins/break';
 import { markSerializer } from '../components/SlateEditor/plugins/mark';
+import { linkSerializer } from '../components/SlateEditor/plugins/link';
+
+// remove
+import { jsx } from 'new-slate-hyperscript';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -53,6 +57,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     sectionSerializer,
     breakSerializer,
     markSerializer,
+    linkSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
@@ -62,7 +67,6 @@ export const learningResourceContentToEditorValue = (html: string) => {
     }
 
     let children = Array.from(el.childNodes).map(deserialize);
-
     if (children.length === 0) {
       children = [{ text: '' }];
     }
@@ -79,12 +83,11 @@ export const learningResourceContentToEditorValue = (html: string) => {
 
       if (ret === undefined) {
         continue;
-      } else if (ret === null) {
-        return null;
       } else {
         return ret;
       }
     }
+
     return { text: el.textContent || '' };
   };
 
@@ -105,6 +108,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     sectionSerializer,
     breakSerializer,
     markSerializer,
+    linkSerializer,
   ];
 
   const serialize = (node: Descendant): string | null => {

@@ -1,6 +1,8 @@
 import { KeyboardEvent } from 'react';
 import { Editor, Transforms, Range } from 'new-slate';
 
+const KEY_ENTER = 'Enter';
+
 const replaceConsecutiveChars = (
   event: KeyboardEvent<HTMLDivElement>,
   editor: Editor,
@@ -36,6 +38,9 @@ export const textTransformPlugin = (editor: Editor) => {
       replaceConsecutiveChars(e, editor, '<', '«');
     } else if (e.key === '>') {
       replaceConsecutiveChars(e, editor, '>', '»');
+    } else if (e.shiftKey === true && e.key === KEY_ENTER) {
+      e.preventDefault();
+      return editor.insertText('\n');
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

@@ -33,6 +33,7 @@ const onEnter = (
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
   const currentParagraph = getCurrentParagraph(editor);
+
   if (!currentParagraph) {
     if (nextOnKeyDown) {
       return nextOnKeyDown(e);

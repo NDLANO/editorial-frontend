@@ -127,8 +127,9 @@ const EditLink = (props: Props & tType) => {
       : createLinkData(href, checkbox ? newTabAttributes : {});
 
     if (element) {
-      // update/change
       const path = ReactEditor.findPath(editor, element);
+
+      Transforms.insertText(editor, text, { at: path });
 
       Transforms.setNodes(
         editor,
@@ -138,13 +139,7 @@ const EditLink = (props: Props & tType) => {
           match: node => node.type === 'link' || node.type === 'content-link',
         },
       );
-      Transforms.insertText(editor, text, { at: path });
-      handleChangeAndClose(
-        editor,
-        // .moveToRangeOfNode(element)
-        // .insertText(text)
-        // .setInlines(data),
-      );
+      handleChangeAndClose(editor);
     }
   };
 

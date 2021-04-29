@@ -32,9 +32,8 @@ const linkValidationRules = {
 };
 
 const getLinkFieldStyle = node => {
-  const data = node?.data?.toJS() || {};
-  const isExternalResource = data.href;
-  const isNdlaResource = data.resource === 'content-link';
+  const isExternalResource = node.href;
+  const isNdlaResource = node.resource === 'content-link';
 
   if (isNdlaResource) {
     return css`

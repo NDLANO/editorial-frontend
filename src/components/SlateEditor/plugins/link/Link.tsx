@@ -71,7 +71,7 @@ interface Props {
   children: JSX.Element;
 }
 
-interface Model {
+export interface Model {
   href: string;
   text: string;
   checkbox: boolean;

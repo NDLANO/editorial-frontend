@@ -36,9 +36,21 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
     source: t('dialog.source'),
   };
 
+  const podcastImg = {
+    url: audio.podcastMeta?.coverPhoto?.url || '',
+    alt: audio.podcastMeta?.coverPhoto?.altText || '',
+  };
+
   return (
     <div>
-      <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
+      <AudioPlayer
+        src={audio.audioFile.url}
+        title={audio.title}
+        speech={speech}
+        img={audio.podcastMeta?.coverPhoto && podcastImg}
+        description={audio.podcastMeta?.introduction}
+        textVersion={audio.podcastMeta?.manuscript}
+      />
       {!speech && (
         <>
           <FigureCaption

@@ -102,10 +102,23 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="remove-element"]').click();
   });
 
+  it('opens and closes podcast', () => {
+    cy.apiroute(
+      'GET',
+      '/audio-api/v1/audio/?audio-type=podcast&page=1&query=&page-size=16',
+      'editor/audios/podcastList',
+    );
+    cy.get('[data-cy=create-podcast]').click();
+    cy.apiwait('@editor/audios/podcastList');
+    cy.get('[data-cy="modal-header"]').should('be.visible');
+    cy.get('[data-cy="modal-body"]').should('be.visible');
+    cy.get('[data-cy="close-modal-button"]').click();
+  });
+
   it('opens and closes audio', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?page=1&query=&page-size=16',
+      '/audio-api/v1/audio/?audio-type=standard&page=1&query=&page-size=16',
       'editor/audios/audioList',
     );
     cy.get('[data-cy=create-audio]').click();

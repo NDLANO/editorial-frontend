@@ -167,12 +167,15 @@ class VisualElementSearch extends Component {
           />
         );
       }
-      case 'audio': {
+      case 'audio':
+      case 'podcast': {
+        const audioType = selectedResource === 'audio' ? 'standard' : 'podcast';
         const defaultQueryObject = {
           query: '',
           page: 1,
           pageSize: 16,
           locale,
+          audioType,
         };
         const fetchAudio = id => visualElementApi.fetchAudio(id, articleLanguage);
 
@@ -192,9 +195,9 @@ class VisualElementSearch extends Component {
             onAudioSelect={audio =>
               handleVisualElementChange({
                 caption: '', // Caption not supported by audio-api
-                resource: selectedResource,
+                resource: 'audio',
                 resource_id: audio.id.toString(),
-                type: 'standard',
+                type: audioType,
                 url: audio.url,
                 metaData: audio,
               })

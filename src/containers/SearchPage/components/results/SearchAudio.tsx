@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
-import { Audio } from '@ndla/icons/common';
+import { Audio, Podcast } from '@ndla/icons/common';
 import { AudioSearchResultType } from '../../../../modules/audio/audioApiInterfaces';
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
@@ -23,9 +23,7 @@ interface Props {
 
 const SearchAudio = ({ audio, locale, t }: Props & tType) => (
   <div {...searchClasses('result')}>
-    <div {...searchClasses('image')}>
-      <Audio />
-    </div>
+    <div {...searchClasses('image')}>{audio.audioType === 'podcast' ? <Podcast /> : <Audio />}</div>
     <div {...searchClasses('content')}>
       <Link
         to={

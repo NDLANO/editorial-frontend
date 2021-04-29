@@ -189,9 +189,9 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
-  -webkit-transform: rotate( 0deg );
-  -ms-transform: rotate( 0deg );
-  transform: rotate( 0deg );
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
 .emotion-114 {
@@ -230,9 +230,9 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
-  -webkit-transform: rotate( 90deg );
-  -ms-transform: rotate( 90deg );
-  transform: rotate( 90deg );
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .emotion-118 {
@@ -317,9 +317,9 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
-  -webkit-transform: rotate( deg );
-  -ms-transform: rotate( deg );
-  transform: rotate( deg );
+  -webkit-transform: rotate(deg);
+  -ms-transform: rotate(deg);
+  transform: rotate(deg);
 }
 
 .emotion-124 {

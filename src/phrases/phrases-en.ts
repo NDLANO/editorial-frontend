@@ -404,7 +404,7 @@ const phrases = {
       introduction: 'Introduction',
       coverPhoto: 'Image',
       coverPhotoAltText: 'Alt-text',
-      manuscript: 'Manuscript',
+      manuscript: 'Text version',
     },
   },
   imageEditor: {
@@ -476,6 +476,7 @@ const phrases = {
       related: 'Related content',
       file: 'File',
       code: 'Codeblock',
+      podcast: 'Podcast',
     },
   },
   form: {
@@ -593,6 +594,7 @@ const phrases = {
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
+    editPodcast: 'Edit podcast',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -931,6 +933,9 @@ const phrases = {
         sub: 'or click to upload image',
         ariaLabel: 'Drag and drop or click to upload image',
       },
+    },
+    podcast: {
+      remove: 'Remove podcast',
     },
     external: {
       title: 'external',

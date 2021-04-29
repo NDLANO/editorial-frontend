@@ -80,6 +80,10 @@ const RichTextEditor = ({
     removeSection(index);
   };
 
+  useEffect(() => {
+    Editor.normalize(editor, { force: true });
+  }, []);
+
   const renderElement = (props: RenderElementProps) => {
     const { attributes, children } = props;
     if (editor.renderElement) {
@@ -88,7 +92,7 @@ const RichTextEditor = ({
         return ret;
       }
     }
-    return <div {...attributes}>{children}</div>;
+    return <p {...attributes}>{children}</p>;
   };
 
   const renderLeaf = (props: RenderLeafProps) => {
@@ -116,7 +120,6 @@ const RichTextEditor = ({
             <Editable
               onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               onKeyDown={editor.onKeyDown}
-              className={className}
               placeholder={placeholder}
               renderElement={renderElement}
               renderLeaf={renderLeaf}

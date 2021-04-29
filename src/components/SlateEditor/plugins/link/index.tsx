@@ -43,7 +43,7 @@ export const linkSerializer: SlateSerializer = {
         'element',
         {
           type: TYPE_LINK,
-          url: a.href ?? '#',
+          href: a.href ?? '#',
           target: a.target !== '' ? a.target : undefined,
           title: a.title !== '' ? a.title : undefined,
           rel: a.rel !== '' ? a.rel : undefined,

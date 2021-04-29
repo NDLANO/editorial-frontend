@@ -151,7 +151,6 @@ export const sectionPlugin = (editor: Editor) => {
         }
       }
     }
-
     nextNormalizeNode(entry);
   };
 

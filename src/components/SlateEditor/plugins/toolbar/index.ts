@@ -3,6 +3,7 @@ import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
 import { Editor } from 'new-slate';
 import SlateToolbar from './SlateToolbar';
 import { toggleMark } from '../mark';
+import { handleClickInline } from './handleMenuClicks';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isCodeHotKey = isKeyHotkey('mod+k');
@@ -24,6 +25,7 @@ const toolbarPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    let inline;
     let mark;
     if (isBoldHotkey(e)) {
       mark = 'bold';
@@ -41,8 +43,8 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'italic';
       // } else if (isLetteredListHotKey(e)) {
       //   block = 'letter-list';
-      // } else if (isLinkHotKey(e)) {
-      //   inline = 'link';
+    } else if (isLinkHotKey(e)) {
+      inline = 'link';
       // } else if (isListHotKey(e)) {
       //   block = 'bulleted-list';
       // } else if (isMathHotKey(e)) {
@@ -64,6 +66,9 @@ const toolbarPlugin = (editor: Editor) => {
       //   handleClickBlock(e, editor, block);
       // } else if (inline) {
       //   handleClickInline(e, editor, inline);
+    } else if (inline) {
+      e.preventDefault();
+      handleClickInline(e, editor, inline);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

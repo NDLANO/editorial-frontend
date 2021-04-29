@@ -14,9 +14,10 @@ import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
-import { TYPE_LINK } from '.';
+import { TYPE_LINK, TYPE_CONTENT_LINK } from '.';
 import LinkForm from './LinkForm';
 import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
+import { ReactEditor } from 'new-slate-react';
 
 const newTabAttributes = {
   target: '_blank',
@@ -25,22 +26,18 @@ const newTabAttributes = {
 
 const createContentLinkData = (id, resourceType, targetRel) => {
   return {
-    type: TYPE_LINK,
-    data: {
-      'content-id': id,
-      'content-type': resourceType || 'article',
-      resource: 'content-link',
-      ...targetRel,
-    },
+    type: TYPE_CONTENT_LINK,
+    'content-id': id,
+    'content-type': resourceType || 'article',
+    resource: 'content-link',
+    ...targetRel,
   };
 };
 
 const createLinkData = (href, targetRel) => ({
   type: TYPE_LINK,
-  data: {
-    href,
-    ...targetRel,
-  },
+  href,
+  ...targetRel,
 });
 
 export const isNDLAArticleUrl = url =>
@@ -145,7 +142,7 @@ class EditLink extends React.Component {
   handleChangeAndClose(editor) {
     const { closeEditMode } = this.props;
 
-    editor.focus(); // Always return focus to editor
+    ReactEditor.focus(editor); // Always return focus to editor
 
     closeEditMode();
   }

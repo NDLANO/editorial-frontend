@@ -85,9 +85,10 @@ const Link = (props: Props & tType) => {
     editor,
     element,
     language,
+    children,
   } = props;
   const linkRef = useRef<HTMLAnchorElement>(null);
-  const [model, setModel] = useState<Model | null>(null);
+  const [model, setModel] = useState<Model | undefined>();
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
 
   const getMenuPosition = () => {
@@ -130,28 +131,21 @@ const Link = (props: Props & tType) => {
     setStateFromNode();
   }, [element, language]);
 
-  if (!model) {
-    return null;
-  }
-
   const { top, left } = getMenuPosition();
   const isInline = isNodeInCurrentSelection(editor, element);
-  const { href } = model;
 
   return (
-    <span {...attributes}>
-      <a {...classes('link')} href={href} ref={linkRef}>
-        {props.children}
-      </a>
+    <a {...attributes} {...classes('link')} ref={linkRef}>
+      {children}
       <Portal isOpened={isInline}>
         <StyledLinkMenu top={top} left={left}>
           <Button css={linkMenuButtonStyle} stripped onClick={toggleEditMode}>
             {t('form.content.link.change')}
           </Button>{' '}
           | {t('form.content.link.goTo')}{' '}
-          <a href={href} target="_blank" rel="noopener noreferrer">
+          <a href={model?.href} target="_blank" rel="noopener noreferrer">
             {' '}
-            {href}
+            {model?.href}
           </a>
         </StyledLinkMenu>
       </Portal>
@@ -164,7 +158,7 @@ const Link = (props: Props & tType) => {
           onChange={onChange}
         />
       )}
-    </span>
+    </a>
   );
 };
 

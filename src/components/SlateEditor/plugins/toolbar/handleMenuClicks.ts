@@ -6,8 +6,11 @@
  *
  */
 
+import { Editor } from 'new-slate';
+import { KeyboardEvent } from 'react';
 import { hasNodeOfType } from '../../utils';
 import { listTypes } from '../externalPlugins';
+import { insertLink } from '../link/utils';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -46,30 +49,31 @@ export function handleClickBlock(event, editor, type) {
   }
 }
 
-export function handleClickMark(event, editor, type) {
-  event.preventDefault();
-  stripSpacesFromSelectedText(editor);
-  editor.toggleMark(type);
-}
-
-export function handleClickInline(event, editor, type) {
-  event.preventDefault();
-  stripSpacesFromSelectedText(editor);
-
-  if (type === 'footnote') {
-    addTextAndWrapIntype(editor, '#', type);
-  } else if (type === 'mathml') {
-    const { value } = editor;
-    if (value.selection.start.offset !== value.selection.end.offset) {
-      editor.wrapInline(type);
-    } else {
-      addTextAndWrapIntype(editor, ' ', type);
-    }
-  } else {
-    editor.withoutNormalizing(() => {
-      editor.wrapInline(type);
-    });
+export function handleClickInline(
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  type: string,
+) {
+  console.log(type);
+  if (editor.selection) {
+    insertLink(editor);
   }
+  // stripSpacesFromSelectedText(editor);
+
+  // if (type === 'footnote') {
+  //   addTextAndWrapIntype(editor, '#', type);
+  // } else if (type === 'mathml') {
+  //   const { value } = editor;
+  //   if (value.selection.start.offset !== value.selection.end.offset) {
+  //     editor.wrapInline(type);
+  //   } else {
+  //     addTextAndWrapIntype(editor, ' ', type);
+  //   }
+  // } else {
+  //   editor.withoutNormalizing(() => {
+  //     editor.wrapInline(type);
+  //   });
+  // }
 }
 
 function addTextAndWrapIntype(editor, text, type) {

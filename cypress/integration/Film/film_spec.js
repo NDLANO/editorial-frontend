@@ -12,10 +12,9 @@ describe('Film editing', () => {
   before(() => {
     setToken();
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
-    cy.apiroute('GET', '**/search-api/v1/search/**', 'allMovies');
+    cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
     cy.visit('/film', visitOptions);
-    cy.apiwait('@filmFrontpage');
-    cy.apiwait('@allMovies');
+    cy.apiwait(['@filmFrontpage', '@allMovies']);
   });
 
   beforeEach(() => {
@@ -45,6 +44,7 @@ describe('Film editing', () => {
   });
 
   it('Can add theme', () => {
+    cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
     cy.get('[data-cy=add-theme-modal]')
       .click()
       .get(`input[placeholder="Skriv navn på Bokmål"]`)
@@ -52,5 +52,6 @@ describe('Film editing', () => {
       .get('button')
       .contains('Opprett gruppe')
       .click();
+    cy.wait('@allMovies')
   });
 });

@@ -1,1 +1,936 @@
-[{"id":"urn:subject:3","contentUri":"urn:frontpage:1","name":"Samfunnsfag Vg2","path":"/subject:3","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:6","contentUri":"urn:frontpage:4","name":"Brønnteknikk Vg2","path":"/subject:6","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:12","contentUri":"urn:frontpage:2","name":"Service og samferdsel Vg1","path":"/subject:12","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:22","contentUri":"urn:frontpage:3","name":"Salg, service og sikkerhet Vg2","path":"/subject:22","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:2","contentUri":"urn:frontpage:6","name":"Kinesisk","path":"/subject:2","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:7","contentUri":"urn:frontpage:7","name":"Markedsføring og ledelse 1","path":"/subject:7","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:8","contentUri":"urn:frontpage:8","name":"Tysk","path":"/subject:8","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:9","contentUri":"urn:frontpage:5","name":"Historie Vg2 og Vg3","path":"/subject:9","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:14","contentUri":"urn:frontpage:13","name":"Medie- og informasjonskunnskap","path":"/subject:14","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:23","contentUri":"urn:frontpage:10","name":"Samfunnsfaglig engelsk","path":"/subject:23","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:27","contentUri":"urn:frontpage:9","name":"Internasjonal engelsk","path":"/subject:27","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:4","contentUri":"urn:frontpage:11","name":"Helsearbeiderfag Vg2","path":"/subject:4","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:24","contentUri":"urn:frontpage:12","name":"Helse- og oppvekstfag Vg1","path":"/subject:24","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:17","contentUri":"urn:frontpage:17","name":"Engelskspråklig litteratur og kultur","path":"/subject:17","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:25","contentUri":"urn:frontpage:16","name":"IKT-servicefag Vg2","path":"/subject:25","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:29","contentUri":"urn:frontpage:22","name":"Praktisk matematikk","path":"/subject:29","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:30","contentUri":"urn:frontpage:20","name":"Matematikk for yrkesfaglige programmer","path":"/subject:30","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:31","contentUri":"urn:frontpage:19","name":"Matematikk for samfunnsfag","path":"/subject:31","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:32","contentUri":"urn:frontpage:18","name":"Matematikk for realfag","path":"/subject:32","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:33","contentUri":"urn:frontpage:15","name":"1T - Matematikk fellesfag","path":"/subject:33","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:34","contentUri":"urn:frontpage:14","name":"1P - Matematikk fellesfag","path":"/subject:34","metadata":{"grepCodes":["ARB01-03"],"visible":true}},{"id":"urn:subject:1","contentUri":"urn:frontpage:21","name":"Medieuttrykk og mediesamfunnet","path":"/subject:1","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:11","contentUri":"urn:frontpage:26","name":"Bygg- og anleggsteknikk","path":"/subject:11","metadata":{"grepCodes":["ARB01-03","BAT01-03"],"visible":true}},{"id":"urn:subject:13","contentUri":"urn:article:1","name":"Mathematics","path":"/subject:13","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:16","contentUri":"urn:frontpage:23","name":"Elektrofag","path":"/subject:16","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:18","contentUri":"urn:frontpage:27","name":"Kommunikasjon og kultur","path":"/subject:18","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:28","contentUri":"urn:frontpage:24","name":"Teknikk og industriell produksjon","path":"/subject:28","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:37","contentUri":"urn:frontpage:25","name":"Restaurant- og matfag Vg1","path":"/subject:37","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:21","contentUri":"urn:frontpage:30","name":"Naturfag","path":"/subject:21","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:26","contentUri":"urn:frontpage:29","name":"Kroppsøving","path":"/subject:26","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:35","contentUri":null,"name":"Reiseliv \uD83D\uDEE9","path":"/subject:35","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:36","contentUri":"urn:frontpage:32","name":"Transport og logistikk","path":"/subject:36","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:15","contentUri":"urn:frontpage:34","name":"Åarjelsaemien voestesgïeline BF jïh SR","path":"/subject:15","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:38","contentUri":"urn:frontpage:33","name":"Design og håndverk Vg1","path":"/subject:38","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:39","contentUri":"urn:frontpage:36","name":"Engelsk","path":"/subject:39","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:40","contentUri":"urn:frontpage:35","name":"BUA-faget","path":"/subject:40","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:19","contentUri":"urn:frontpage:37","name":"Norsk","path":"/subject:19","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:41","contentUri":"urn:frontpage:39","name":"Kokk- og servitørfag Vg2","path":"/subject:41","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:42","contentUri":"urn:frontpage:38","name":"Biologi","path":"/subject:42","metadata":{"grepCodes":["MUS03-02","NAT01-04"],"visible":true}},{"id":"urn:subject:43","contentUri":"urn:frontpage:41","name":"Sosiologi og sosialantropologi","path":"/subject:43","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:44","contentUri":"urn:frontpage:40","name":"Religion og etikk","path":"/subject:44","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:20","contentUri":null,"name":"NDLA film","path":"/subject:20","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:fe5fa228-f68e-4fcc-affb-4a9fcf75d1cb","contentUri":"urn:frontpage:76","name":"asd","path":"/subject:fe5fa228-f68e-4fcc-affb-4a9fcf75d1cb","metadata":{"grepCodes":[],"visible":false}},{"id":"urn:subject:9daafb5c-20b9-4ee4-989a-ba48709d6901","contentUri":null,"name":"om man prøver å endre navnet på noe","path":"/subject:9daafb5c-20b9-4ee4-989a-ba48709d6901","metadata":{"grepCodes":[],"visible":false}},{"id":"urn:subject:8560a64a-c297-4b18-a8d3-5b11b9a4ec46","contentUri":"urn:frontpage:5","name":"ingeborg2","path":"/subject:8560a64a-c297-4b18-a8d3-5b11b9a4ec46","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:93d1c490-165f-461c-b3a3-18832e75c3df","contentUri":"urn:frontpage:70","name":"a","path":"/subject:93d1c490-165f-461c-b3a3-18832e75c3df","metadata":{"grepCodes":[],"visible":false}},{"id":"urn:subject:3f27d2e9-4e05-41c7-9bce-4649aff96ccc","contentUri":null,"name":"test1","path":"/subject:3f27d2e9-4e05-41c7-9bce-4649aff96ccc","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:f530c34f-2879-4682-95be-fdf021423a90","contentUri":null,"name":"slett111","path":"/subject:f530c34f-2879-4682-95be-fdf021423a90","metadata":{"grepCodes":[],"visible":false}},{"id":"urn:subject:a5fe65cd-e76e-4008-bc7f-3766133811c5","contentUri":null,"name":"testfagyolo","path":"/subject:a5fe65cd-e76e-4008-bc7f-3766133811c5","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:44a187d6-3d16-4b52-8f2e-b83ff6a9469a","contentUri":null,"name":"testfagyolo2","path":"/subject:44a187d6-3d16-4b52-8f2e-b83ff6a9469a","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:90403cbc-e29e-4080-8f8e-5affcdc5b4cc","contentUri":null,"name":"testfag2","path":"/subject:90403cbc-e29e-4080-8f8e-5affcdc5b4cc","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:0bfea386-8a88-4bc3-8e41-426a66910bfc","contentUri":null,"name":"yeps","path":"/subject:0bfea386-8a88-4bc3-8e41-426a66910bfc","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:6ad2ae5e-5e6e-4f82-9ab8-91bbe16e3f90","contentUri":null,"name":"test2","path":"/subject:6ad2ae5e-5e6e-4f82-9ab8-91bbe16e3f90","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:1f79c52d-3143-444f-a754-2953cbef3a66","contentUri":"urn:frontpage:42","name":"woho2","path":"/subject:1f79c52d-3143-444f-a754-2953cbef3a66","metadata":{"grepCodes":[],"visible":false}},{"id":"urn:subject:27908580-32e2-456e-98f2-d22cce1f932a","contentUri":null,"name":"wips","path":"/subject:27908580-32e2-456e-98f2-d22cce1f932a","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f","contentUri":null,"name":"usynlig apekadder","path":"/subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f","metadata":{"grepCodes":["KM45"],"visible":false}},{"id":"urn:subject:6c532a92-9480-433f-8ef1-4169dc69a547","contentUri":null,"name":"testa1","path":"/subject:6c532a92-9480-433f-8ef1-4169dc69a547","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:868b086f-caf4-4407-ba1e-71170befe910","contentUri":null,"name":"testa2","path":"/subject:868b086f-caf4-4407-ba1e-71170befe910","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:4769840b-b45d-4957-9241-23eee589ede9","contentUri":null,"name":"testa3","path":"/subject:4769840b-b45d-4957-9241-23eee589ede9","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:ada56adc-6017-4b55-a413-f40e1eab1641","contentUri":null,"name":"testa4","path":"/subject:ada56adc-6017-4b55-a413-f40e1eab1641","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:8b18253e-8b0e-49d7-a97b-2240b46708cf","contentUri":"urn:frontpage:46","name":"awdawd gammel","path":"/subject:8b18253e-8b0e-49d7-a97b-2240b46708cf","metadata":{"grepCodes":["NOR01-06"],"visible":true}},{"id":"urn:subject:8a17804f-e6a4-4036-9a5a-d103de5b87e5","contentUri":"urn:frontpage:64","name":"awdad","path":"/subject:8a17804f-e6a4-4036-9a5a-d103de5b87e5","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:dd0c0686-3802-4b25-84b2-92b88b5075da","contentUri":null,"name":"testa23","path":"/subject:dd0c0686-3802-4b25-84b2-92b88b5075da","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:a9e84f05-6b97-4cfa-ae0e-7c547357fe92","contentUri":"urn:frontpage:78","name":"awdawd","path":"/subject:a9e84f05-6b97-4cfa-ae0e-7c547357fe92","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:c94cdb32-828f-46e8-a668-bace169a5180","contentUri":"urn:frontpage:75","name":"awdadadadadada","path":"/subject:c94cdb32-828f-46e8-a668-bace169a5180","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:7679d7a8-1606-4be7-a426-e3d4149cbf88","contentUri":null,"name":"yeyeey","path":"/subject:7679d7a8-1606-4be7-a426-e3d4149cbf88","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:c9cf8b18-8a87-4572-b109-f0c50761cf1e","contentUri":"urn:frontpage:71","name":"awdawdwadwdwad","path":"/subject:c9cf8b18-8a87-4572-b109-f0c50761cf1e","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:4e9a2e35-c15e-42a1-894f-311abe707ea2","contentUri":null,"name":"Tomt fag","path":"/subject:4e9a2e35-c15e-42a1-894f-311abe707ea2","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:2cb4ac00-d75f-4d30-a13d-f544fb4b946c","contentUri":"urn:frontpage:72","name":"awdawdawdwddw","path":"/subject:2cb4ac00-d75f-4d30-a13d-f544fb4b946c","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:3a81f111-27d9-4fc8-9e45-4476b82df298","contentUri":null,"name":"jonastesterdårligjavascript</>","path":"/subject:3a81f111-27d9-4fc8-9e45-4476b82df298","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:be65bb90-a0b1-44e3-8e8f-213881f55e59","contentUri":null,"name":"test1234","path":"/subject:be65bb90-a0b1-44e3-8e8f-213881f55e59","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","contentUri":null,"name":"Samfunnskunnskap","path":"/subject:5e750140-7d01-4b52-88ec-1daa007eeab3","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:6b597f92-6134-4d18-8ac3-4a358157edc1","contentUri":null,"name":"a","path":"/subject:6b597f92-6134-4d18-8ac3-4a358157edc1","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:9c539758-3966-440e-9907-a7231c9f7468","contentUri":null,"name":"a","path":"/subject:9c539758-3966-440e-9907-a7231c9f7468","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:04f71f20-5b61-42e5-8a2a-f82bcc177790","contentUri":"urn:frontpage:54","name":"CloneTo1","path":"/subject:04f71f20-5b61-42e5-8a2a-f82bcc177790","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:738b39f7-d0a1-41f7-96be-bfd72ff8c9f2","contentUri":"urn:frontpage:44","name":"CloneFrom1","path":"/subject:738b39f7-d0a1-41f7-96be-bfd72ff8c9f2","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:173026f4-bfcb-470c-90e5-84adf81a21fa","contentUri":null,"name":"jonastestsubject","path":"/subject:173026f4-bfcb-470c-90e5-84adf81a21fa","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:456966a2-f495-4a22-8108-ade90d989099","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:456966a2-f495-4a22-8108-ade90d989099","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:0630f89e-b23a-4494-8f78-76f823d796ce","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:4860440c-8564-4e88-ad52-3e6a954b8c1c","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:66a26c88-42de-4321-89f1-4d277da4b482","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:66a26c88-42de-4321-89f1-4d277da4b482","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:f3ee803d-1961-4c97-8ef3-579e7882f268","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:4769848b-9e19-468d-988a-c63d4af291e8","contentUri":null,"name":"kopieringsfag","path":"/subject:4769848b-9e19-468d-988a-c63d4af291e8","metadata":{"grepCodes":["KM45"],"visible":true}},{"id":"urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78","contentUri":null,"name":"Samfunnsfag Vg2","path":"/subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:9d591ba5-ce2c-4fff-829d-004655df54e5","contentUri":null,"name":"awdawd","path":"/subject:9d591ba5-ce2c-4fff-829d-004655df54e5","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:ca7c9f19-d451-481c-b9f3-0e8891c2cefb","contentUri":"urn:frontpage:52","name":"Tverr","path":"/subject:ca7c9f19-d451-481c-b9f3-0e8891c2cefb","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:f28d3e9a-d244-4391-90e6-3fcfcb42749b","contentUri":null,"name":"Tverr2","path":"/subject:f28d3e9a-d244-4391-90e6-3fcfcb42749b","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:subject:26ed6a6e-d147-4615-bfb3-8562bc70366b","contentUri":null,"name":"Filterløst testfag","path":"/subject:26ed6a6e-d147-4615-bfb3-8562bc70366b","metadata":{"grepCodes":[],"visible":true}}]
+[
+  {
+    "id": "urn:subject:3",
+    "contentUri": "urn:frontpage:1",
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:3",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:6",
+    "contentUri": "urn:frontpage:4",
+    "name": "Brønnteknikk Vg2",
+    "path": "/subject:6",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:12",
+    "contentUri": "urn:frontpage:2",
+    "name": "Service og samferdsel Vg1",
+    "path": "/subject:12",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:22",
+    "contentUri": "urn:frontpage:3",
+    "name": "Salg, service og sikkerhet Vg2",
+    "path": "/subject:22",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:2",
+    "contentUri": "urn:frontpage:6",
+    "name": "Kinesisk",
+    "path": "/subject:2",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:7",
+    "contentUri": "urn:frontpage:7",
+    "name": "Markedsføring og ledelse 1",
+    "path": "/subject:7",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:8",
+    "contentUri": "urn:frontpage:8",
+    "name": "Tysk",
+    "path": "/subject:8",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:9",
+    "contentUri": "urn:frontpage:5",
+    "name": "Historie Vg2 og Vg3",
+    "path": "/subject:9",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:14",
+    "contentUri": "urn:frontpage:13",
+    "name": "Medie- og informasjonskunnskap",
+    "path": "/subject:14",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:23",
+    "contentUri": "urn:frontpage:10",
+    "name": "Samfunnsfaglig engelsk",
+    "path": "/subject:23",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:27",
+    "contentUri": "urn:frontpage:9",
+    "name": "Internasjonal engelsk",
+    "path": "/subject:27",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:4",
+    "contentUri": "urn:frontpage:11",
+    "name": "Helsearbeiderfag Vg2",
+    "path": "/subject:4",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:24",
+    "contentUri": "urn:frontpage:12",
+    "name": "Helse- og oppvekstfag Vg1",
+    "path": "/subject:24",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:17",
+    "contentUri": "urn:frontpage:17",
+    "name": "Engelskspråklig litteratur og kultur",
+    "path": "/subject:17",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:25",
+    "contentUri": "urn:frontpage:16",
+    "name": "IKT-servicefag Vg2",
+    "path": "/subject:25",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:29",
+    "contentUri": "urn:frontpage:22",
+    "name": "Praktisk matematikk",
+    "path": "/subject:29",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:30",
+    "contentUri": "urn:frontpage:20",
+    "name": "Matematikk for yrkesfaglige programmer",
+    "path": "/subject:30",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:31",
+    "contentUri": "urn:frontpage:19",
+    "name": "Matematikk for samfunnsfag",
+    "path": "/subject:31",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:32",
+    "contentUri": "urn:frontpage:18",
+    "name": "Matematikk for realfag",
+    "path": "/subject:32",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:33",
+    "contentUri": "urn:frontpage:15",
+    "name": "1T - Matematikk fellesfag",
+    "path": "/subject:33",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:34",
+    "contentUri": "urn:frontpage:14",
+    "name": "1P - Matematikk fellesfag",
+    "path": "/subject:34",
+    "metadata": {
+      "grepCodes": [
+        "ARB01-03"
+      ],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:1",
+    "contentUri": "urn:frontpage:21",
+    "name": "Medieuttrykk og mediesamfunnet",
+    "path": "/subject:1",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:11",
+    "contentUri": "urn:frontpage:26",
+    "name": "Bygg- og anleggsteknikk",
+    "path": "/subject:11",
+    "metadata": {
+      "grepCodes": [
+        "ARB01-03",
+        "BAT01-03"
+      ],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:13",
+    "contentUri": "urn:article:1",
+    "name": "Mathematics",
+    "path": "/subject:13",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:16",
+    "contentUri": "urn:frontpage:23",
+    "name": "Elektrofag",
+    "path": "/subject:16",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:18",
+    "contentUri": "urn:frontpage:27",
+    "name": "Kommunikasjon og kultur",
+    "path": "/subject:18",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:28",
+    "contentUri": "urn:frontpage:24",
+    "name": "Teknikk og industriell produksjon",
+    "path": "/subject:28",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:37",
+    "contentUri": "urn:frontpage:25",
+    "name": "Restaurant- og matfag Vg1",
+    "path": "/subject:37",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:21",
+    "contentUri": "urn:frontpage:30",
+    "name": "Naturfag",
+    "path": "/subject:21",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:26",
+    "contentUri": "urn:frontpage:29",
+    "name": "Kroppsøving",
+    "path": "/subject:26",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:35",
+    "contentUri": null,
+    "name": "Reiseliv \uD83D\uDEE9",
+    "path": "/subject:35",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:36",
+    "contentUri": "urn:frontpage:32",
+    "name": "Transport og logistikk",
+    "path": "/subject:36",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:15",
+    "contentUri": "urn:frontpage:34",
+    "name": "Åarjelsaemien voestesgïeline BF jïh SR",
+    "path": "/subject:15",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:38",
+    "contentUri": "urn:frontpage:33",
+    "name": "Design og håndverk Vg1",
+    "path": "/subject:38",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:39",
+    "contentUri": "urn:frontpage:36",
+    "name": "Engelsk",
+    "path": "/subject:39",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:40",
+    "contentUri": "urn:frontpage:35",
+    "name": "BUA-faget",
+    "path": "/subject:40",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:19",
+    "contentUri": "urn:frontpage:37",
+    "name": "Norsk",
+    "path": "/subject:19",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:41",
+    "contentUri": "urn:frontpage:39",
+    "name": "Kokk- og servitørfag Vg2",
+    "path": "/subject:41",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:42",
+    "contentUri": "urn:frontpage:38",
+    "name": "Biologi",
+    "path": "/subject:42",
+    "metadata": {
+      "grepCodes": [
+        "MUS03-02",
+        "NAT01-04"
+      ],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:43",
+    "contentUri": "urn:frontpage:41",
+    "name": "Sosiologi og sosialantropologi",
+    "path": "/subject:43",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:44",
+    "contentUri": "urn:frontpage:40",
+    "name": "Religion og etikk",
+    "path": "/subject:44",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:20",
+    "contentUri": null,
+    "name": "NDLA film",
+    "path": "/subject:20",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:fe5fa228-f68e-4fcc-affb-4a9fcf75d1cb",
+    "contentUri": "urn:frontpage:76",
+    "name": "asd",
+    "path": "/subject:fe5fa228-f68e-4fcc-affb-4a9fcf75d1cb",
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:subject:9daafb5c-20b9-4ee4-989a-ba48709d6901",
+    "contentUri": null,
+    "name": "om man prøver å endre navnet på noe",
+    "path": "/subject:9daafb5c-20b9-4ee4-989a-ba48709d6901",
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:subject:8560a64a-c297-4b18-a8d3-5b11b9a4ec46",
+    "contentUri": "urn:frontpage:5",
+    "name": "ingeborg2",
+    "path": "/subject:8560a64a-c297-4b18-a8d3-5b11b9a4ec46",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:93d1c490-165f-461c-b3a3-18832e75c3df",
+    "contentUri": "urn:frontpage:70",
+    "name": "a",
+    "path": "/subject:93d1c490-165f-461c-b3a3-18832e75c3df",
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:subject:3f27d2e9-4e05-41c7-9bce-4649aff96ccc",
+    "contentUri": null,
+    "name": "test1",
+    "path": "/subject:3f27d2e9-4e05-41c7-9bce-4649aff96ccc",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:f530c34f-2879-4682-95be-fdf021423a90",
+    "contentUri": null,
+    "name": "slett111",
+    "path": "/subject:f530c34f-2879-4682-95be-fdf021423a90",
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:subject:a5fe65cd-e76e-4008-bc7f-3766133811c5",
+    "contentUri": null,
+    "name": "testfagyolo",
+    "path": "/subject:a5fe65cd-e76e-4008-bc7f-3766133811c5",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:44a187d6-3d16-4b52-8f2e-b83ff6a9469a",
+    "contentUri": null,
+    "name": "testfagyolo2",
+    "path": "/subject:44a187d6-3d16-4b52-8f2e-b83ff6a9469a",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:90403cbc-e29e-4080-8f8e-5affcdc5b4cc",
+    "contentUri": null,
+    "name": "testfag2",
+    "path": "/subject:90403cbc-e29e-4080-8f8e-5affcdc5b4cc",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:0bfea386-8a88-4bc3-8e41-426a66910bfc",
+    "contentUri": null,
+    "name": "yeps",
+    "path": "/subject:0bfea386-8a88-4bc3-8e41-426a66910bfc",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:6ad2ae5e-5e6e-4f82-9ab8-91bbe16e3f90",
+    "contentUri": null,
+    "name": "test2",
+    "path": "/subject:6ad2ae5e-5e6e-4f82-9ab8-91bbe16e3f90",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:1f79c52d-3143-444f-a754-2953cbef3a66",
+    "contentUri": "urn:frontpage:42",
+    "name": "woho2",
+    "path": "/subject:1f79c52d-3143-444f-a754-2953cbef3a66",
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:subject:27908580-32e2-456e-98f2-d22cce1f932a",
+    "contentUri": null,
+    "name": "wips",
+    "path": "/subject:27908580-32e2-456e-98f2-d22cce1f932a",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f",
+    "contentUri": null,
+    "name": "usynlig apekadder",
+    "path": "/subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f",
+    "metadata": {
+      "grepCodes": [
+        "KM45"
+      ],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:subject:6c532a92-9480-433f-8ef1-4169dc69a547",
+    "contentUri": null,
+    "name": "testa1",
+    "path": "/subject:6c532a92-9480-433f-8ef1-4169dc69a547",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:868b086f-caf4-4407-ba1e-71170befe910",
+    "contentUri": null,
+    "name": "testa2",
+    "path": "/subject:868b086f-caf4-4407-ba1e-71170befe910",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:4769840b-b45d-4957-9241-23eee589ede9",
+    "contentUri": null,
+    "name": "testa3",
+    "path": "/subject:4769840b-b45d-4957-9241-23eee589ede9",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:ada56adc-6017-4b55-a413-f40e1eab1641",
+    "contentUri": null,
+    "name": "testa4",
+    "path": "/subject:ada56adc-6017-4b55-a413-f40e1eab1641",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:8b18253e-8b0e-49d7-a97b-2240b46708cf",
+    "contentUri": "urn:frontpage:46",
+    "name": "awdawd gammel",
+    "path": "/subject:8b18253e-8b0e-49d7-a97b-2240b46708cf",
+    "metadata": {
+      "grepCodes": [
+        "NOR01-06"
+      ],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:8a17804f-e6a4-4036-9a5a-d103de5b87e5",
+    "contentUri": "urn:frontpage:64",
+    "name": "awdad",
+    "path": "/subject:8a17804f-e6a4-4036-9a5a-d103de5b87e5",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:dd0c0686-3802-4b25-84b2-92b88b5075da",
+    "contentUri": null,
+    "name": "testa23",
+    "path": "/subject:dd0c0686-3802-4b25-84b2-92b88b5075da",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:a9e84f05-6b97-4cfa-ae0e-7c547357fe92",
+    "contentUri": "urn:frontpage:78",
+    "name": "awdawd",
+    "path": "/subject:a9e84f05-6b97-4cfa-ae0e-7c547357fe92",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:c94cdb32-828f-46e8-a668-bace169a5180",
+    "contentUri": "urn:frontpage:75",
+    "name": "awdadadadadada",
+    "path": "/subject:c94cdb32-828f-46e8-a668-bace169a5180",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:7679d7a8-1606-4be7-a426-e3d4149cbf88",
+    "contentUri": null,
+    "name": "yeyeey",
+    "path": "/subject:7679d7a8-1606-4be7-a426-e3d4149cbf88",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:c9cf8b18-8a87-4572-b109-f0c50761cf1e",
+    "contentUri": "urn:frontpage:71",
+    "name": "awdawdwadwdwad",
+    "path": "/subject:c9cf8b18-8a87-4572-b109-f0c50761cf1e",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:4e9a2e35-c15e-42a1-894f-311abe707ea2",
+    "contentUri": null,
+    "name": "Tomt fag",
+    "path": "/subject:4e9a2e35-c15e-42a1-894f-311abe707ea2",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:2cb4ac00-d75f-4d30-a13d-f544fb4b946c",
+    "contentUri": "urn:frontpage:72",
+    "name": "awdawdawdwddw",
+    "path": "/subject:2cb4ac00-d75f-4d30-a13d-f544fb4b946c",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:3a81f111-27d9-4fc8-9e45-4476b82df298",
+    "contentUri": null,
+    "name": "jonastesterdårligjavascript</>",
+    "path": "/subject:3a81f111-27d9-4fc8-9e45-4476b82df298",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:be65bb90-a0b1-44e3-8e8f-213881f55e59",
+    "contentUri": null,
+    "name": "test1234",
+    "path": "/subject:be65bb90-a0b1-44e3-8e8f-213881f55e59",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
+    "contentUri": null,
+    "name": "Samfunnskunnskap",
+    "path": "/subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:6b597f92-6134-4d18-8ac3-4a358157edc1",
+    "contentUri": null,
+    "name": "a",
+    "path": "/subject:6b597f92-6134-4d18-8ac3-4a358157edc1",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:9c539758-3966-440e-9907-a7231c9f7468",
+    "contentUri": null,
+    "name": "a",
+    "path": "/subject:9c539758-3966-440e-9907-a7231c9f7468",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:04f71f20-5b61-42e5-8a2a-f82bcc177790",
+    "contentUri": "urn:frontpage:54",
+    "name": "CloneTo1",
+    "path": "/subject:04f71f20-5b61-42e5-8a2a-f82bcc177790",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:738b39f7-d0a1-41f7-96be-bfd72ff8c9f2",
+    "contentUri": "urn:frontpage:44",
+    "name": "CloneFrom1",
+    "path": "/subject:738b39f7-d0a1-41f7-96be-bfd72ff8c9f2",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:173026f4-bfcb-470c-90e5-84adf81a21fa",
+    "contentUri": null,
+    "name": "jonastestsubject",
+    "path": "/subject:173026f4-bfcb-470c-90e5-84adf81a21fa",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:456966a2-f495-4a22-8108-ade90d989099",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:456966a2-f495-4a22-8108-ade90d989099",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:0630f89e-b23a-4494-8f78-76f823d796ce",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:4860440c-8564-4e88-ad52-3e6a954b8c1c",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:66a26c88-42de-4321-89f1-4d277da4b482",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:66a26c88-42de-4321-89f1-4d277da4b482",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:f3ee803d-1961-4c97-8ef3-579e7882f268",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:4769848b-9e19-468d-988a-c63d4af291e8",
+    "contentUri": null,
+    "name": "kopieringsfag",
+    "path": "/subject:4769848b-9e19-468d-988a-c63d4af291e8",
+    "metadata": {
+      "grepCodes": [
+        "KM45"
+      ],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78",
+    "contentUri": null,
+    "name": "Samfunnsfag Vg2",
+    "path": "/subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:9d591ba5-ce2c-4fff-829d-004655df54e5",
+    "contentUri": null,
+    "name": "awdawd",
+    "path": "/subject:9d591ba5-ce2c-4fff-829d-004655df54e5",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:ca7c9f19-d451-481c-b9f3-0e8891c2cefb",
+    "contentUri": "urn:frontpage:52",
+    "name": "Tverr",
+    "path": "/subject:ca7c9f19-d451-481c-b9f3-0e8891c2cefb",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:f28d3e9a-d244-4391-90e6-3fcfcb42749b",
+    "contentUri": null,
+    "name": "Tverr2",
+    "path": "/subject:f28d3e9a-d244-4391-90e6-3fcfcb42749b",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:subject:26ed6a6e-d147-4615-bfb3-8562bc70366b",
+    "contentUri": null,
+    "name": "Filterløst testfag",
+    "path": "/subject:26ed6a6e-d147-4615-bfb3-8562bc70366b",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  }
+]

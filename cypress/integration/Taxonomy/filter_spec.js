@@ -11,7 +11,6 @@ import { visitOptions, setToken } from '../../support';
 describe('Test filter functionality', () => {
   beforeEach(() => {
     setToken();
-    cy.intercept({ force404: true });
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',

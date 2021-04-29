@@ -40,7 +40,7 @@ describe('Subject editing', () => {
     cy.intercept('PUT', `/taxonomy/v1/subjects/urn:subject:12`, []).as('newSubjectName');
     cy.intercept('POST', '/taxonomy/v1/topics', []).as('addNewTopic');
     cy.intercept('POST', '/taxonomy/v1/filters', []).as('addFilter');
-    cy.intercept('PUT', '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',[]).as('editFilter');
+    cy.intercept('PUT', '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29', []).as('editFilter');
     cy.intercept('DELETE', '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29', []).as('deleteFilter');
     cy.apiroute('GET', '/taxonomy/v1/topics?language=nb', 'allTopics');
     cy.intercept('POST', '/taxonomy/v1/topic-filters',[]);

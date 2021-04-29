@@ -48,6 +48,7 @@ describe('Edit article with everything', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
+    cy.apiwait(['@getUserData', '@patchUserData']);
   });
 
   it('Has access to the html-editor', () => {

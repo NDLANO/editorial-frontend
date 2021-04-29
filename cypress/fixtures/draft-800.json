@@ -1,1 +1,91 @@
-{"id":800,"oldNdlaUrl":"//red.ndla.no/node/167916","revision":14,"status":{"current":"PROPOSAL","other":["IMPORTED","PUBLISHED"]},"title":{"title":"Misfornøyde kunder er gull verdt Some change","language":"nb"},"content":{"content":"<section><embed data-align=\"\" data-alt=\"Kunde med handleposer. Foto.\" data-caption=\" \" data-resource=\"image\" data-resource_id=\"23264\" data-size=\"full\" data-url=\"https://api.test.ndla.no/image-api/v2/images/23264\"><h2>Klager</h2><p>En klage tar utgangspunkt i at en kunde ikke har fått den varen, tjenesten eller behandlingen han/hun har forventet eller mener å ha krav på.</p><p>Et eksempel er hotellgjesten som henvender seg i resepsjonen og er misfornøyd med utsikten fra rommet. Et annet, og kanskje mer alvorlig, eksempel er når en innbygger i en kommune klager på at han/hun er blitt forskjellsbehandlet i en byggesak. De administrative rutinene i klagesaker varierer. Man kan for eksempel</p><ul><li>sørge for at en klage som kommer over telefon eller i direkte samtale, blir registrert på samme måte som en skriftlig</li><li>sørge for at alle som klager, får skriftlig svar</li><li>sørge for at alle som klager, både får skriftlig svar og en samtale med en av de ansatte i bedriften</li><li>sørge for kompenserende tiltak som oppgradert rom eller verdikupong til restauranten</li></ul><h2>Garanti</h2><p>Garanti er et frivillig løfte fra selgeren eller den som yter service til en kunde. Om du er lærling i salgsfaget hos en bilforhandler, vet du at mange kunder sammenligner garantitiden for ulike merker når de skal kjøpe bil. De fabrikantene som i dag strekker seg lengst, gir garantier på inntil åtte år. Så lenge kunden får innfridd forventningene sine, er alt vel. Utfordringen er når det er avstand mellom det selgeren mener skal dekkes, og det kunden forventer. De administrative rutinene i tilknytning til garantisaker varierer også. Man kan for eksempel</p><ul><li>sørge for god skriftlig informasjon når en avtale blir inngått</li><li>sørge for god opplæring av de ansatte, slik at de formidler lik informasjon på en profesjonell måte</li><li>sørge for at all kommunikasjon med kunden blir notert og lagret på en kundeprofil</li><li>sørge for personlig oppfølging av kunder som har hatt negative opplevelser</li></ul><h2><embed data-align=\"\" data-alt=\"Ung mann i en elektrobutikk som prøver å selge et TV-apparat til en mannlig kunde. Foto.\" data-caption=\" \" data-resource=\"image\" data-resource_id=\"19639\" data-size=\"full\" data-url=\"https://api.test.ndla.no/image-api/v2/images/19639\"><p>Reklamasjon</p></h2><p>Reklamasjonsrett er en rettighet kjøperen har overfor selgeren.  <a href=\"http://www.lovdata.no/all/nl-19880513-027.html\" rel=\"noopener noreferrer\" target=\"_blank\" title=\"Kjøpsloven\">Kjøpsloven</a> og  <a href=\"http://www.lovdata.no/all/hl-20020621-034.html\" rel=\"noopener noreferrer\" target=\"_blank\" title=\"forbrukerkjøpsloven\">forbrukerkjøpsloven</a> avgjør om en vare eller tjeneste dekkes av reklamasjonsansvar. En lærling i IKT-servicefaget kan oppleve at flere printere svikter kort tid etter at de er kjøpt og installert. Selv om leverandøren ikke har tilbudt en spesiell garanti, kan kjøperen kreve at feilene blir utbedret. I dette tilfellet ville forbrukerkjøpsloven satt reklamasjonstiden til tre eller fem år. Reklamasjonssaker kan være krevende når kjøperen har forventninger som tydelig går utover det loven sier om den aktuelle varen. I slike saker kan det være fornuftig å ha administrative rutiner som</p><ul><li>sørger for å registrere og arkivere all informasjon i en sak</li><li>sørger for at det blir vurdert kompenserende tiltak som for eksempel rabatt på et nytt produkt</li><li>sørger for personlig oppfølging av kunder som har hatt negative opplevelser</li><li>sørger for at ansatte som har bidratt til en negativ opplevelse hos kunden, får tilbakemelding og kan gi bedre informasjon til framtidige kunder</li></ul></section>","language":"nb"},"copyright":{"license":{"license":"CC-BY-SA-4.0","description":"Creative Commons Attribution-ShareAlike 4.0 International","url":"https://creativecommons.org/licenses/by-sa/4.0/"},"origin":"","creators":[{"type":"Writer","name":"Elisabet Romedal"},{"type":"writer","name":"Olav Kristensen"}],"processors":[],"rightsholders":[]},"tags":{"tags":["administrative rutiner","garanti","klager","reklamasjon"],"language":"nb"},"requiredLibraries":[],"introduction":{"introduction":"Vi vil av og til oppleve at kunder er misfornøyd med varene eller tjenestene våre. Hvis en misfornøyd kunde sier fra, kan måten vi behandler vedkommende på, gjøre ham/henne til en av våre mest lojale og positive kunder. Det krever at vi har høy kompetanse, gode holdninger og trygge rutiner. Her skal vi først og fremst se på rutinene.","language":"nb"},"metaDescription":{"metaDescription":"Her skal vi se på administrative rutiner knyttet til klager, garantisaker og reklamasjon. Dette krever høy kompetanse, gode holdninger og trygge rutiner.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/23264","alt":"Kunde med handleposer","language":"nb"},"created":"2016-06-28T09:27:41Z","updated":"2020-06-26T10:31:57Z","updatedBy":"XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n","published":"2017-03-07T18:52:45Z","articleType":"standard","supportedLanguages":["nb","nn"],"notes":[{"note":"Status endret","user":"tXiamHcvp3TZ87iSy2A5Ph424l23K4Fi","status":{"current":"PROPOSAL","other":["IMPORTED","PUBLISHED"]},"timestamp":"2020-09-18T15:15:55Z"}],"editorLabels":[],"grepCodes":[],"conceptIds":[],"availability":"everyone","relatedContent":[]}
+{
+  "id": 800,
+  "oldNdlaUrl": "//red.ndla.no/node/167916",
+  "revision": 14,
+  "status": {
+    "current": "PROPOSAL",
+    "other": [
+      "IMPORTED",
+      "PUBLISHED"
+    ]
+  },
+  "title": {
+    "title": "Misfornøyde kunder er gull verdt Some change",
+    "language": "nb"
+  },
+  "content": {
+    "content": "<section><p> Cypress test </p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "",
+    "creators": [
+      {
+        "type": "Writer",
+        "name": "Elisabet Romedal"
+      },
+      {
+        "type": "writer",
+        "name": "Olav Kristensen"
+      }
+    ],
+    "processors": [],
+    "rightsholders": []
+  },
+  "tags": {
+    "tags": [
+      "administrative rutiner",
+      "garanti",
+      "klager",
+      "reklamasjon"
+    ],
+    "language": "nb"
+  },
+  "requiredLibraries": [],
+  "introduction": {
+    "introduction": "TEST",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "TEST",
+    "language": "nb"
+  },
+  "metaImage": {
+    "url": "https://api.test.ndla.no/image-api/raw/id/23264",
+    "alt": "Kunde med handleposer",
+    "language": "nb"
+  },
+  "created": "2016-06-28T09:27:41Z",
+  "updated": "2020-06-26T10:31:57Z",
+  "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+  "published": "2017-03-07T18:52:45Z",
+  "articleType": "standard",
+  "supportedLanguages": [
+    "nb",
+    "nn"
+  ],
+  "notes": [
+    {
+      "note": "Status endret",
+      "user": "tXiamHcvp3TZ87iSy2A5Ph424l23K4Fi",
+      "status": {
+        "current": "PROPOSAL",
+        "other": [
+          "IMPORTED",
+          "PUBLISHED"
+        ]
+      },
+      "timestamp": "2020-09-18T15:15:55Z"
+    }
+  ],
+  "editorLabels": [],
+  "grepCodes": [],
+  "conceptIds": [],
+  "availability": "everyone",
+  "relatedContent": []
+}

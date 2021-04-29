@@ -39,8 +39,6 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
-    cy.wait('@getNoteUsers');
   });
 
   it('Open previews', () => {
@@ -53,7 +51,7 @@ describe('Workflow features', () => {
       .first()
       .click();
     cy.wait('@transformedArticle');
-    cy.apiwait(`@converted-article-${ARTICLE_ID}`)
+    //cy.apiwait(`@converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=closePreview]').click();
   });
 

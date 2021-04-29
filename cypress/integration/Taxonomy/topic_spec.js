@@ -32,7 +32,7 @@ describe('Topic editing', () => {
     cy.intercept('POST', '/taxonomy/v1/topic-filters', []).as('addFilter');
     cy.apiroute('GET', `/taxonomy/v1/topics/${selectTopic}/filters`, 'topicFilters');
 
-    cy.intercept('PUT', '**/taxonomy/v1/topic-filters/**', []).as('changeFilter');
+    cy.intercept('PUT', '**/taxonomy/v1/topic-filters/**', []);
     cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
   });
 

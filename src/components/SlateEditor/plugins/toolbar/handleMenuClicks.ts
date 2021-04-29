@@ -54,7 +54,6 @@ export function handleClickInline(
   editor: Editor,
   type: string,
 ) {
-  console.log(type);
   if (editor.selection) {
     insertLink(editor);
   }

@@ -137,26 +137,30 @@ const Link = (props: Props & tType) => {
   return (
     <a {...attributes} {...classes('link')} ref={linkRef}>
       {children}
-      <Portal isOpened={isInline}>
-        <StyledLinkMenu top={top} left={left}>
-          <Button css={linkMenuButtonStyle} stripped onClick={toggleEditMode}>
-            {t('form.content.link.change')}
-          </Button>{' '}
-          | {t('form.content.link.goTo')}{' '}
-          <a href={model?.href} target="_blank" rel="noopener noreferrer">
-            {' '}
-            {model?.href}
-          </a>
-        </StyledLinkMenu>
-      </Portal>
-      {editMode && (
-        <EditLink
-          {...props}
-          model={model}
-          closeEditMode={toggleEditMode}
-          blur={blur}
-          onChange={onChange}
-        />
+      {model && (
+        <>
+          <Portal isOpened={isInline}>
+            <StyledLinkMenu top={top} left={left}>
+              <Button css={linkMenuButtonStyle} stripped onClick={toggleEditMode}>
+                {t('form.content.link.change')}
+              </Button>{' '}
+              | {t('form.content.link.goTo')}{' '}
+              <a href={model?.href} target="_blank" rel="noopener noreferrer">
+                {' '}
+                {model?.href}
+              </a>
+            </StyledLinkMenu>
+          </Portal>
+          {editMode && (
+            <EditLink
+              {...props}
+              model={model}
+              closeEditMode={toggleEditMode}
+              blur={blur}
+              onChange={onChange}
+            />
+          )}
+        </>
       )}
     </a>
   );

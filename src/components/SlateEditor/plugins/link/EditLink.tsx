@@ -126,13 +126,24 @@ const EditLink = (props: Props & tType) => {
       ? createContentLinkData(resourceId, resourceType, targetRel)
       : createLinkData(href, checkbox ? newTabAttributes : {});
 
-    if (element.key) {
+    if (element) {
       // update/change
+      const path = ReactEditor.findPath(editor, element);
+
+      Transforms.setNodes(
+        editor,
+        { ...data },
+        {
+          at: path,
+          match: node => node.type === 'link' || node.type === 'content-link',
+        },
+      );
+      Transforms.insertText(editor, text, { at: path });
       handleChangeAndClose(
-        editor
-          .moveToRangeOfNode(element)
-          .insertText(text)
-          .setInlines(data),
+        editor,
+        // .moveToRangeOfNode(element)
+        // .insertText(text)
+        // .setInlines(data),
       );
     }
   };

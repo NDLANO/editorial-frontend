@@ -27,7 +27,6 @@ const unwrapLink = (editor: Editor) => {
 };
 
 const wrapLink = (editor: Editor) => {
-  console.log(editor.children);
   if (isLinkActive(editor)) {
     unwrapLink(editor);
   }

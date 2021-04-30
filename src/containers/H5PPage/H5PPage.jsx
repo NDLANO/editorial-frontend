@@ -24,7 +24,7 @@ const H5PPage = props => {
             h5pApiUrl={`${config.h5pApiUrl}/select`}
             onSelect={() => {}}
             onClose={() => {
-              props.history.goBack();
+              props.history.push('/');
             }}
             locale={locale}
           />

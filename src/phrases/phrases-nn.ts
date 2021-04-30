@@ -27,6 +27,7 @@ const phrases = {
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
     podcastUploaderPage: `Podkast ${titleTemplate}`,
+    h5pPage: `H5P ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {hits} treff`,

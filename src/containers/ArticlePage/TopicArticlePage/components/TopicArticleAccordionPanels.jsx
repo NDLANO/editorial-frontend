@@ -111,7 +111,6 @@ const TopicArticleAccordionPanels = ({
             createMessage={createMessage}
             history={history}
           />
-          }
         </AccordionSection>
       )}
     </Accordions>

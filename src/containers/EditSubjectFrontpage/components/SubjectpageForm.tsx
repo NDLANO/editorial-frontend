@@ -6,6 +6,7 @@
  */
 
 import React, { useState } from 'react';
+import { Descendant } from 'new-slate';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
 import {
@@ -36,10 +37,12 @@ interface Props {
   elementId: string;
   isNewlyCreated: boolean;
 }
-export interface SubjectFormValues extends SubjectpageType {
+export interface SubjectFormValues
+  extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
   visualElementObject: VisualElement | {};
   articleType: string;
-  description?: string;
+  description?: Descendant[];
+  metaDescription?: Descendant[];
   desktopBanner?: VisualElement;
   editorsChoices: ArticleType[];
   language: string;
@@ -57,7 +60,7 @@ const getInitialValues = (
     articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
     supportedLanguages: subjectpage.supportedLanguages || [],
     language: selectedLanguage,
-    description: plainTextToEditorValue(subjectpage.description, true),
+    description: plainTextToEditorValue(subjectpage.description || ''),
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
@@ -69,7 +72,7 @@ const getInitialValues = (
     id: subjectpage.id,
     latestContent: subjectpage.latestContent || [],
     layout: subjectpage.layout || 'single',
-    metaDescription: plainTextToEditorValue(subjectpage.metaDescription, true),
+    metaDescription: plainTextToEditorValue(subjectpage.metaDescription || ''),
     mostRead: subjectpage.mostRead || [],
     name: subjectpage.name || '',
     topical: subjectpage.topical || '',
@@ -82,7 +85,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
   return {
     articleType: 'subjectpage',
     supportedLanguages: values.supportedLanguages,
-    description: editorValueToPlainText(values.description),
+    description: values.description ? editorValueToPlainText(values.description) : '',
     title: values.title,
     visualElement:
       'resource_id' in values.visualElementObject
@@ -104,7 +107,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     id: values.id,
     latestContent: values.latestContent,
     layout: values.layout,
-    metaDescription: editorValueToPlainText(values.metaDescription),
+    metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : '',
     mostRead: values.mostRead,
     name: values.name,
     topical: values.topical,

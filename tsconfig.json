@@ -20,30 +20,13 @@
     "noEmit": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": [
-      "es2018",
-      "esnext.asynciterable",
-      "dom"
-    ],
-    "types": [
-      "@emotion/core",
-      "@emotion/styled",
-      "jest",
-      "node",
-      "webpack-env"
-    ],
+    "lib": ["es2018", "esnext.asynciterable", "dom"],
+    "types": ["@emotion/core", "@emotion/styled", "jest", "node", "webpack-env"],
     "paths": {
-      "*": [
-        "node_modules/*",
-        "src/types/*"
-      ]
+      "*": ["node_modules/*", "src/types/*"]
     },
+    "downlevelIteration": true
   },
-  "include": [
-    "src/**/*",
-    "custom-typings/*"
-  ],
-  "exclude": [
-    "**/*-test.*"
-  ]
+  "include": ["src/**/*", "custom-typings/*"],
+  "exclude": ["**/*-test.*"]
 }

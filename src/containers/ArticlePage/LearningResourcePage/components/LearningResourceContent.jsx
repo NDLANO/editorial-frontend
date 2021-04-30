@@ -6,7 +6,8 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { ReactEditor } from 'new-slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -21,7 +22,6 @@ import { getLocale } from '../../../../modules/locale/locale';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import { schema } from '../../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine';
 import {
   renderBlock,
@@ -45,11 +45,11 @@ import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
 import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
-import paragraphPlugin from '../../../../components/SlateEditor/plugins/paragraph';
+import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
-import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { TYPE as footnoteType } from '../../../../components/SlateEditor/plugins/footnote';
 
 import {
@@ -63,6 +63,9 @@ import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
+import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
+import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
+import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 
 const byLineStyle = css`
   display: flex;
@@ -77,186 +80,192 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
+// TODO: Rewrite to new slate
 const findFootnotes = content =>
   content
     .reduce((all, value) => [...all, ...findNodesByType(value.document, footnoteType)], [])
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
+// TODO: Rewrite to new slate
 const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+// TODO: Rewrite to new slate
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
   bodybox: actions,
   summary: actions,
 };
-class LearningResourceContent extends Component {
-  constructor(props) {
-    super(props);
-    const {
-      article: { language },
-    } = props;
-    this.state = {
-      preview: false,
-    };
-    this.plugins = [
-      footnotePlugin(),
-      createEmbedPlugin(language, props.locale),
-      createBodyBoxPlugin(),
-      createAsidePlugin(),
-      createDetailsPlugin(),
-      createLinkPlugin(language),
-      conceptPlugin(language),
-      headingPlugin(),
-      // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
-      // Blockquote and editList actions need to be triggered before paragraph action, else
-      // unwrapping (jumping out of block) will not work.
-      blockquotePlugin,
-      editListPlugin,
-      listTextPlugin(),
-      paragraphPlugin(),
-      createTablePlugin(),
-      editTablePlugin,
-      relatedPlugin(),
-      filePlugin(),
-      mathmlPlugin(),
-      codeBlockPlugin(),
-      blockPickerPlugin({
-        articleLanguage: language,
-        actionsToShowInAreas,
-      }),
-      dndPlugin,
-      pasteHandler(),
-      toolbarPlugin(),
-      textTransformPlugin(),
-    ];
-  }
 
-  componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
-    const {
-      article: { id, language },
-    } = this.props;
-    if (prevLanguage !== language || prevId !== id) {
-      this.plugins = [
-        createEmbedPlugin(language),
-        conceptPlugin(language),
-        blockPickerPlugin({
-          articleLanguage: language,
-          actionsToShowInAreas,
-          ...this.plugins,
-        }),
-      ];
-    }
-  }
+const LearningResourceContent = ({
+  // article: { language: articleLanguage },
+  t,
+  userAccess,
+  formik: {
+    setFieldValue,
+    handleBlur,
+    values: { id, language, creators, published },
+  },
+  handleSubmit,
+}) => {
+  const handleSubmitRef = React.useRef(handleSubmit);
 
-  render() {
-    const {
-      t,
-      userAccess,
-      formik: {
-        setFieldValue,
-        handleBlur,
-        values: { id, language, creators, published },
-      },
-      handleSubmit,
-    } = this.props;
+  const [preview, setPreview] = useState(false);
+  const plugins = [
+    // TODO: Implement all plugins
+    // footnotePlugin(),
+    // createEmbedPlugin(articleLanguage, props.locale),
+    // createBodyBoxPlugin(),
+    // createAsidePlugin(),
+    // createDetailsPlugin(),
+    // createLinkPlugin(articleLanguage),
+    // conceptPlugin(articleLanguage),
+    // headingPlugin(),
+    // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
+    // // Blockquote and editList actions need to be triggered before paragraph action, else
+    // // unwrapping (jumping out of block) will not work.
+    // blockquotePlugin,
+    // editListPlugin,
+    // listTextPlugin(),
+    paragraphPlugin,
+    // createTablePlugin(),
+    // editTablePlugin,
+    // relatedPlugin(),
+    // filePlugin(),
+    // mathmlPlugin(),
+    // codeBlockPlugin(),
+    // blockPickerPlugin({
+    //   articleLanguage,
+    //   actionsToShowInAreas,
+    // }),
+    // dndPlugin,
+    // pasteHandler(),
+    // toolbarPlugin(),
+    textTransformPlugin,
+    sectionPlugin,
+    breakPlugin,
+    saveHotkeyPlugin(() => handleSubmitRef.current()),
+  ];
 
-    return (
-      <Fragment>
-        <TitleField
-          handleSubmit={handleSubmit}
-          onBlur={(event, editor, next) => {
-            next();
-            // this is a hack since formik onBlur-handler interferes with slates
-            // related to: https://github.com/ianstormtaylor/slate/issues/2434
-            // formik handleBlur needs to be called for validation to work (and touched to be set)
-            setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
-          }}
-        />
-        <FormikField name="published" css={byLineStyle}>
-          {({ field, form }) => (
-            <>
-              <LastUpdatedLine
-                name={field.name}
-                creators={creators}
-                published={published}
-                onChange={date => {
-                  form.setFieldValue(field.name, date);
-                }}
-              />
-              <IconContainer>
-                <Tooltip tooltip={t('form.markdown.button')}>
-                  <ToggleButton
-                    active={this.state.preview}
-                    onClick={() =>
-                      this.setState(prevState => ({
-                        preview: !prevState.preview,
-                      }))
-                    }>
-                    <Eye />
-                  </ToggleButton>
-                </Tooltip>
-                <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
-              </IconContainer>
-            </>
-          )}
-        </FormikField>
-        <IngressField
-          preview={this.state.preview}
-          handleSubmit={handleSubmit}
-          onBlur={(event, editor, next) => {
-            next();
-            // this is a hack since formik onBlur-handler interferes with slates
-            // related to: https://github.com/ianstormtaylor/slate/issues/2434
-            // formik handleBlur needs to be called for validation to work (and touched to be set)
-            setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-          }}
-        />
-        <FormikField
-          name="content"
-          label={t('form.content.label')}
-          noBorder
-          className={formikFieldClasses('', 'position-static').className}>
-          {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
-            <Fragment>
-              <FieldHeader title={t('form.content.label')}>
-                {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
-                  <EditMarkupLink
-                    to={toEditMarkup(id, language)}
-                    title={t('editMarkup.linkTitle')}
-                  />
-                )}
-              </FieldHeader>
-              <RichBlockTextEditor
-                schema={schema}
-                renderBlock={renderBlock}
-                renderInline={renderInline}
-                submitted={isSubmitting}
-                renderMark={renderMark}
-                placeholder={t('form.content.placeholder')}
-                data-cy="learning-resource-content"
-                plugins={this.plugins}
-                setFieldValue={setFieldValue}
-                value={value}
-                name={name}
-                onChange={onChange}
-                onBlur={(event, editor, next) => {
-                  next();
-                  // this is a hack since formik onBlur-handler interferes with slates
-                  // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                  // formik handleBlur needs to be called for validation to work (and touched to be set)
-                  setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
-                }}
-                handleSubmit={handleSubmit}
-              />
-              <LearningResourceFootnotes footnotes={findFootnotes(value)} />
-            </Fragment>
-          )}
-        </FormikField>
-      </Fragment>
-    );
-  }
-}
+  React.useEffect(() => {
+    handleSubmitRef.current = handleSubmit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
+
+  // Todo: Rewrite the following plugins
+  // For language support, consider using React.useRef().
+  // componentDidUpdate({ article: { id: prevId, language: prevArticleLanguage } }) {
+  //   const {
+  //     article: { id, language: articleLanguage },
+  //   } = this.props;
+  //   if (prevArticleLanguage !== articleLanguage || prevId !== id) {
+  //     this.plugins = [
+  //       createEmbedPlugin(articleLanguage),
+  //       conceptPlugin(articleLanguage),
+  //       blockPickerPlugin({
+  //         articleLanguage,
+  //         actionsToShowInAreas,
+  //         ...this.plugins,
+  //       }),
+  //     ];
+  //   }
+  // }
+
+  return (
+    <Fragment>
+      <TitleField
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+
+          // TODO: Can possibly be removed
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'slateTitle' } }), 0);
+        }}
+      />
+      <FormikField name="published" css={byLineStyle}>
+        {({ field, form }) => (
+          <>
+            <LastUpdatedLine
+              name={field.name}
+              creators={creators}
+              published={published}
+              onChange={date => {
+                form.setFieldValue(field.name, date);
+              }}
+            />
+            <IconContainer>
+              <Tooltip tooltip={t('form.markdown.button')}>
+                <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
+                  <Eye />
+                </ToggleButton>
+              </Tooltip>
+              <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
+            </IconContainer>
+          </>
+        )}
+      </FormikField>
+      <IngressField
+        preview={preview}
+        handleSubmit={handleSubmit}
+        onBlur={(event, editor) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+
+          // TODO: Can possibly be removed
+          // this is a hack since formik onBlur-handler interferes with slates
+          // related to: https://github.com/ianstormtaylor/slate/issues/2434
+          // formik handleBlur needs to be called for validation to work (and touched to be set)
+          setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+        }}
+      />
+      <FormikField
+        name="content"
+        label={t('form.content.label')}
+        noBorder
+        className={formikFieldClasses('', 'position-static').className}>
+        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
+          <Fragment>
+            <FieldHeader title={t('form.content.label')}>
+              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+                <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
+              )}
+            </FieldHeader>
+            <RichBlockTextEditor
+              submitted={isSubmitting}
+              placeholder={t('form.content.placeholder')}
+              data-cy="learning-resource-content"
+              plugins={plugins}
+              setFieldValue={setFieldValue}
+              value={value}
+              name={name}
+              onChange={onChange}
+              onBlur={(event, editor) => {
+                // Forcing slate field to be deselected before selecting new field.
+                // Fixes a problem where slate field is not properly focused on click.
+                ReactEditor.deselect(editor);
+
+                // TODO: Can possibly be removed
+                // this is a hack since formik onBlur-handler interferes with slates
+                // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                // formik handleBlur needs to be called for validation to work (and touched to be set)
+                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
+              }}
+              handleSubmit={handleSubmit}
+            />
+            {/* TODO: Rewrite to new slate */}
+            {/* <LearningResourceFootnotes footnotes={findFootnotes(value)} /> */}
+          </Fragment>
+        )}
+      </FormikField>
+    </Fragment>
+  );
+};
 
 LearningResourceContent.propTypes = {
   locale: PropTypes.string.isRequired,

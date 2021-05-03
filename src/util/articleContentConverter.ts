@@ -17,9 +17,6 @@ import { breakSerializer } from '../components/SlateEditor/plugins/break';
 import { markSerializer } from '../components/SlateEditor/plugins/mark';
 import { linkSerializer } from '../components/SlateEditor/plugins/link';
 
-// remove
-import { jsx } from 'new-slate-hyperscript';
-
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
   node.insertAdjacentHTML('beforeend', html);

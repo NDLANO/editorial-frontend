@@ -697,6 +697,7 @@ const phrases = {
       queued_for_publishing_delayed: 'Publ-utsatt',
       published: 'Publisert',
       has_published: 'Har publisert versjon',
+      unlisted: 'Lenkedelt',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
       awaiting_archiving: 'Utsatt arkivering',

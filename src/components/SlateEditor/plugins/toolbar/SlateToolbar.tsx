@@ -15,18 +15,18 @@ import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { isMarkActive, toggleMark } from '../mark';
-import { handleClickInline } from './handleMenuClicks';
+import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
-  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
+  // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: ['link', 'mathml', 'concept'],
+  // inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  block: ['quote' /*, ...listTypes, 'heading-two', 'heading-three'*/],
   inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
 };
 
@@ -48,8 +48,11 @@ const onButtonClick = (
   if (kind === 'mark') {
     event.preventDefault();
     toggleMark(editor, type);
-    // }  else if (kind === 'block') {
+  } else if (kind === 'block') {
+    event.preventDefault();
+    handleClickBlock(event, editor, type);
   } else if (kind === 'inline') {
+    event.preventDefault();
     handleClickInline(event, editor, type);
 
     event.preventDefault();

@@ -39,7 +39,7 @@ import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockP
 import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
-import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
+import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
@@ -120,7 +120,7 @@ const LearningResourceContent = ({
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.
-    // blockquotePlugin,
+    blockQuotePlugin,
     // editListPlugin,
     // listTextPlugin(),
     paragraphPlugin,

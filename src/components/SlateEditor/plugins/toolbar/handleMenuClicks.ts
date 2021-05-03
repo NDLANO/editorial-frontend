@@ -6,48 +6,59 @@
  *
  */
 
-import { Editor } from 'new-slate';
+import { Editor, Transforms, Element } from 'new-slate';
 import { KeyboardEvent } from 'react';
-import { hasNodeOfType } from '../../utils';
-import { listTypes } from '../externalPlugins';
 import { insertLink } from '../link/utils';
-
-const DEFAULT_NODE = 'paragraph';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
 
-export function handleClickBlock(event, editor, type) {
-  event.preventDefault();
-  stripSpacesFromSelectedText(editor);
+const isBlockActive = (editor: Editor, format: string) => {
+  const [match] = Editor.nodes(editor, {
+    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === format,
+  });
 
-  const { document, blocks } = editor.value;
-  const isActive = hasNodeOfType(editor, type);
+  return !!match;
+};
+
+export function handleClickBlock(
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  type: string,
+) {
+  // TODO: Move to function "toggleQuote" in blockquote plugin?
   if (type === 'quote') {
-    if (editor.isSelectionInBlockquote()) {
-      editor.unwrapBlockquote();
+    const isActive = isBlockActive(editor, type);
+
+    if (isActive) {
+      Transforms.liftNodes(editor, {
+        mode: 'lowest',
+        match: node => Element.isElement(node) && node.type === 'paragraph',
+      });
     } else {
-      editor.wrapInBlockquote();
+      Transforms.wrapNodes(
+        editor,
+        { type: 'quote' },
+        {
+          mode: 'lowest',
+          match: node => Element.isElement(node) && node.type === 'paragraph',
+        },
+      );
     }
-  } else if (listTypes.includes(type)) {
-    const isListTypeActive = blocks.some(
-      block => !!document.getClosest(block.key, parent => parent.type === type),
-    );
-    // Current list type is active
-    if (isListTypeActive) {
-      editor.unwrapList();
-      // Current selection is list, but not the same type
-    } else if (editor.isSelectionInList()) {
-      editor.unwrapList();
-      editor.wrapInList(type);
-      // No list found, wrap in list type
-    } else {
-      editor.wrapInList(type);
-    }
-  } else {
-    editor.setBlocks(isActive ? DEFAULT_NODE : type);
+    // TODO: Upgrade. Old code for handling lists
+    //   // Current list type is active
+    //   if (isListTypeActive) {
+    //     editor.unwrapList();
+    //     // Current selection is list, but not the same type
+    //   } else if (editor.isSelectionInList()) {
+    //     editor.unwrapList();
+    //     editor.wrapInList(type);
+    //     // No list found, wrap in list type
+    //   } else {
+    //     editor.wrapInList(type);
+    //   }
+    // }
   }
-}
 
 export function handleClickInline(
   event: KeyboardEvent<HTMLDivElement>,
@@ -55,7 +66,9 @@ export function handleClickInline(
   type: string,
 ) {
   if (editor.selection) {
-    insertLink(editor);
+    if (type === 'link') {
+      insertLink(editor);
+    }
   }
   // stripSpacesFromSelectedText(editor);
 

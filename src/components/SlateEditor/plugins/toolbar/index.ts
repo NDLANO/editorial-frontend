@@ -3,7 +3,7 @@ import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
 import { Editor } from 'new-slate';
 import SlateToolbar from './SlateToolbar';
 import { toggleMark } from '../mark';
-import { handleClickInline } from './handleMenuClicks';
+import { handleClickBlock, handleClickInline } from './handleMenuClicks';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
 const isCodeHotKey = isKeyHotkey('mod+k');
@@ -27,6 +27,7 @@ const toolbarPlugin = (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     let inline;
     let mark;
+    let block;
     if (isBoldHotkey(e)) {
       mark = 'bold';
     } else if (isCodeHotKey(e)) {
@@ -51,8 +52,8 @@ const toolbarPlugin = (editor: Editor) => {
       //   inline = 'mathml';
       // } else if (isNumberedListHotKey(e)) {
       //   block = 'numbered-list';
-      // } else if (isQuoteHotKey(e)) {
-      //   block = 'quote';
+    } else if (isQuoteHotKey(e)) {
+      block = 'quote';
     } else if (isSubHotKey(e)) {
       mark = 'sub';
     } else if (isSupHotKey(e)) {
@@ -62,10 +63,8 @@ const toolbarPlugin = (editor: Editor) => {
     if (mark) {
       e.preventDefault();
       toggleMark(editor, mark);
-      // } else if (block) {
-      //   handleClickBlock(e, editor, block);
-      // } else if (inline) {
-      //   handleClickInline(e, editor, inline);
+    } else if (block) {
+      handleClickBlock(e, editor, block);
     } else if (inline) {
       e.preventDefault();
       handleClickInline(e, editor, inline);

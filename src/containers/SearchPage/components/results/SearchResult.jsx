@@ -39,9 +39,9 @@ const SearchResult = ({
         />
       );
     case 'image':
-      return <SearchImage image={result} locale={locale} />;
+      return <SearchImage image={result} locale={locale} licenses={licenses} />;
     case 'audio':
-      return <SearchAudio audio={result} locale={locale} />;
+      return <SearchAudio audio={result} locale={locale} licenses={licenses} />;
     default:
       return <p>{t('searchForm.resultError', { type })}</p>;
   }

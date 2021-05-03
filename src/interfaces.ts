@@ -111,6 +111,7 @@ export interface ContentResultType {
   id: number;
   title: { title: string; language: string };
   url?: string;
+  license?: string;
   metaDescription?: { metaDescription: string; language: string };
   metaImage?: MetaImage;
   metaUrl?: string;

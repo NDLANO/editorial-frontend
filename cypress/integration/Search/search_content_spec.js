@@ -31,71 +31,71 @@ describe('Search content', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
-      'search',
+      'searchQuery',
     );
     cy.get('input[name="query"]')
       .type('Test')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchQuery');
   });
 
   it('Can use status dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance',
-      'search',
+      'searchStatus',
     );
     cy.get('select[name="status"]')
       .select('Brukertest')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchStatus');
   });
 
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=true&include-other-statuses=true&language=nb&page=1&page-size=10&sort=-relevance',
-      'search',
+      'searchOther',
     );
     cy.get('select[name="status"]')
       .select('Har publisert versjon')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchOther');
   });
 
   it('Can use resource type dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&resource-types=urn:resourcetype:academicArticle&sort=-relevance',
-      'search',
+      'searchType',
     );
     cy.get('select[name="resourceTypes"]')
       .select('Fagartikkel')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchType');
   });
 
   it('Can use subject dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&subjects=urn:subject:1',
-      'search',
+      'searchSubject',
     );
     cy.get('select[name="subjects"]')
-      .select('Medieuttrykk og mediesamfunnet')
+      .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchSubject');
   });
 
   it('Can use user dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="Y7JV1gH0YzjW4AwkSyH7LIi8"',
-      'search',
+      'searchUser',
     );
     cy.get('select[name="users"]')
       .select('Gunnar Velle')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchUser');
   });
 });

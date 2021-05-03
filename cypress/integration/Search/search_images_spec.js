@@ -1,0 +1,51 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { visitOptions, setToken } from '../../support';
+
+describe('Search content', () => {
+  beforeEach(() => {
+    setToken();
+    cy.server({ force404: true });
+    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+    cy.apiroute(
+      'GET',
+      '/image-api/v2/images/?page=1&page-size=10&sort=-relevance',
+      'searchImages',
+    );
+    cy.visit(
+      '/search/image?page=1&page-size=10&sort=-relevance',
+      visitOptions,
+    );
+    cy.apiwait(['@licenses', '@searchImages']);
+  });
+
+  it('Can use text input', () => {
+    cy.apiroute(
+      'GET',
+      '/image-api/v2/images/?page=1&page-size=10&query=Test&sort=-relevance',
+      'searchImagesQuery',
+    );
+    cy.get('input[name="query"]')
+      .type('Test')
+      .blur();
+    cy.apiwait('@searchImagesQuery');
+  });
+
+  it('Can use language dropdown', () => {
+    cy.apiroute(
+      'GET',
+      '/image-api/v2/images/?language=en&page=1&page-size=10&sort=-relevance',
+      'searchImagesLang',
+    );
+    cy.get('select[name="language"]')
+      .select('Engelsk')
+      .blur();
+    cy.apiwait('@searchImagesLang');
+  });
+});

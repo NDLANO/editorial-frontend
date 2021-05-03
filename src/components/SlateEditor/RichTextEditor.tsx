@@ -123,6 +123,7 @@ const RichTextEditor = ({
               placeholder={placeholder}
               renderElement={renderElement}
               renderLeaf={renderLeaf}
+              readOnly={submitted}
             />
           </Slate>
           {children}

@@ -40,7 +40,7 @@ export const textTransformPlugin = (editor: Editor) => {
       replaceConsecutiveChars(e, editor, '>', '»');
     } else if (e.shiftKey === true && e.key === KEY_ENTER) {
       e.preventDefault();
-      return editor.insertText('\n');
+      editor.insertText('\n');
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

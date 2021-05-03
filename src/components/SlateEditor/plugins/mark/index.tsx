@@ -1,5 +1,5 @@
 import React from 'react';
-import { Descendant, Editor, Text } from 'new-slate';
+import { Descendant, Editor, Text, Transforms } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { RenderLeafProps } from 'new-slate-react';
 import { SlateSerializer } from '../../interfaces';
@@ -73,7 +73,7 @@ export const markSerializer: SlateSerializer = {
 };
 
 export const markPlugin = (editor: Editor) => {
-  const { renderLeaf: nextRenderLeaf } = editor;
+  const { renderLeaf: nextRenderLeaf, normalizeNode: nextNormalizeNode } = editor;
 
   editor.renderLeaf = ({ attributes, children, leaf, text }: RenderLeafProps) => {
     let ret;
@@ -106,6 +106,19 @@ export const markPlugin = (editor: Editor) => {
       return nextRenderLeaf({ attributes, children, leaf, text });
     }
     return undefined;
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+    if (Text.isText(node) && node.text === '') {
+      if (node.bold || node.code || node.italic || node.sub || node.sup || node.underlined) {
+        Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+          at: path,
+        });
+        return;
+      }
+    }
+    nextNormalizeNode(entry);
   };
 
   return editor;

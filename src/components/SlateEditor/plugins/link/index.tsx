@@ -9,7 +9,7 @@
 import React from 'react';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
-import { Descendant, Editor, Element, Text, Node } from 'new-slate';
+import { Descendant, Editor, Element, Text, Node, Transforms } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
@@ -63,7 +63,14 @@ export const linkSerializer: SlateSerializer = {
           'open-in': embedAttributes['open-in'],
           'content-id': embedAttributes['content-id'],
         },
-        [{ text: embedAttributes['link-text'] ?? 'Ukjent link tekst' }],
+        [
+          {
+            text:
+              embedAttributes['link-text'] === ''
+                ? 'Ukjent link tekst'
+                : embedAttributes['link-text'],
+          },
+        ],
       );
     }
     return;
@@ -86,7 +93,11 @@ export const linkSerializer: SlateSerializer = {
 };
 
 export const linkPlugin = (language: string) => (editor: Editor) => {
-  const { isInline: nextIsInline, renderElement: nextRenderElement } = editor;
+  const {
+    isInline: nextIsInline,
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+  } = editor;
 
   editor.isInline = (element: Element) => {
     if (element.type === 'link' || element.type === 'content-link') {
@@ -97,10 +108,10 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
   };
 
   editor.renderElement = (props: RenderElementProps) => {
-    const { children, element } = props;
+    const { children, element, attributes } = props;
     if (element.type === 'link' || element.type === 'content-link') {
       return (
-        <Link {...props} editor={editor} language={language}>
+        <Link element={element} attributes={attributes} editor={editor} language={language}>
           {children}
         </Link>
       );
@@ -108,6 +119,39 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
       return nextRenderElement(props);
     }
     return undefined;
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+    if (Element.isElement(node)) {
+      if (node.type === 'content-link' || node.type === 'link') {
+        node.children.forEach((child, index) => {
+          if (!Text.isText(child)) {
+            Transforms.delete(editor, { at: [...path, index] });
+            return;
+          }
+        });
+      }
+      if (node.type === 'content-link') {
+        node.children.forEach(child => {
+          if (
+            child.bold ||
+            child.code ||
+            child.italic ||
+            child.sub ||
+            child.sup ||
+            child.underlined
+          ) {
+            Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+              at: path,
+              match: node => Text.isText(node),
+            });
+            return;
+          }
+        });
+      }
+    }
+    nextNormalizeNode(entry);
   };
 
   // TODO: Rewrite to normalizing

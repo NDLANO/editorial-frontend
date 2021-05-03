@@ -63,7 +63,11 @@ function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
 
 interface Props {
   attributes: {
-    'data-key': string;
+    'data-slate-node': 'element';
+    'data-slate-inline'?: true;
+    'data-slate-void'?: true;
+    dir?: 'rtl';
+    ref: any;
   };
   editor: Editor;
   element: LinkElement | ContentLinkElement;

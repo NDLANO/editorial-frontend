@@ -64,6 +64,7 @@ interface Props {
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;
+  setSrc: (src: Embed) => void;
 }
 
 interface embedProps {
@@ -85,6 +86,7 @@ const FigureButtons = ({
   providerName,
   tooltip,
   withMargin,
+  setSrc,
 }: Props & tType) => {
   const url: urlProps = {
     audio: {
@@ -137,16 +139,30 @@ const FigureButtons = ({
         </Tooltip>
       )}
       {figureType === 'video' && embed.resource === 'brightcove' && (
-        <Tooltip tooltip={t('form.video.brightcove')} align="right">
-          <IconButton
-            as={SafeLink}
-            to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
-            target="_blank"
-            title={t('form.video.brightcove')}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip tooltip={t('form.video.brightcove')} align="right">
+            <IconButton
+              as={SafeLink}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
+              target="_blank"
+              title={t('form.video.brightcove')}
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip tooltip="Bytt til synstolket versjon" align="right">
+            <IconButton
+              as={SafeLink}
+              onClick={() => {
+                setSrc({
+                  ...embed,
+                  videoid: '6226280526001',
+                });
+              }}>
+              ST
+            </IconButton>
+          </Tooltip>
+        </>
       )}
     </StyledFigureButtons>
   );

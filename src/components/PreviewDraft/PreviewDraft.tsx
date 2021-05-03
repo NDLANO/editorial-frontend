@@ -48,6 +48,7 @@ class PreviewDraft extends Component<Props & tType, {}> {
 
     const formatted = transformArticle(article);
 
+    console.log('article content', formatted.content);
     return (
       <Article
         article={formatted}

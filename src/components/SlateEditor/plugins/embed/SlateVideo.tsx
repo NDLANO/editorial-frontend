@@ -50,13 +50,14 @@ const SlateVideo = ({
   saveEmbedUpdates,
 }: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
+  const [tEmbed, setEmbed] = useState(embed);
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
-  const [caption, setCaption] = useState(embed.caption);
+  const [caption, setCaption] = useState(tEmbed.caption);
 
   useEffect(() => {
-    const { resource, account, videoid, url, player = 'default' } = embed;
+    const { resource, account, videoid, url, player = 'default' } = tEmbed;
     if (resource === 'brightcove') {
       if (isBrightcoveUrl(url)) {
         setSrc(url);
@@ -71,24 +72,26 @@ const SlateVideo = ({
       setStartTime(getStartTime(url));
       setStopTime(getStopTime(url));
     }
-  }, [embed]);
+  }, [tEmbed]);
 
   const toggleEditModus = () => {
     setEditMode(!editMode);
   };
+  console.log(src, tEmbed);
 
   return (
     <div className="c-figure" draggable="true" {...attributes}>
       <FigureButtons
         tooltip={t('form.video.remove')}
         onRemoveClick={onRemoveClick}
-        embed={embed}
+        embed={tEmbed}
         figureType="video"
         language={language}
+        setSrc={setEmbed}
       />
       {editMode ? (
         <EditVideo
-          embed={embed}
+          embed={tEmbed}
           toggleEditModus={toggleEditModus}
           figureClass={figureClass}
           src={src}
@@ -106,10 +109,10 @@ const SlateVideo = ({
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={embed.videoid || embed.url}
+            id={tEmbed.videoid || tEmbed.url}
             resizeIframe>
             <iframe
-              title={`Video: ${embed?.metaData?.name || ''}`}
+              title={`Video: ${tEmbed?.metaData?.name || ''}`}
               frameBorder="0"
               src={src}
               allowFullScreen
@@ -118,7 +121,7 @@ const SlateVideo = ({
           </Figure>
           <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
+              <div className="c-figure__info">{tEmbed.caption}</div>
             </figcaption>
           </Button>
         </Fragment>

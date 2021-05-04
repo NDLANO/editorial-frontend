@@ -9,7 +9,7 @@
  import { visitOptions, setToken } from '../../support';
 
  describe('Search concepts', () => {
-   before(() => {
+   beforeEach(() => {
      setToken();
      cy.server({ force404: true });
      cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
@@ -24,9 +24,6 @@
        visitOptions,
      );
      cy.apiwait(['@searchConcepts', '@allSubjects']);
-   });
-   beforeEach(() => {
-    cy.server({ force404: true });
    });
  
    it('Can use text input', () => {

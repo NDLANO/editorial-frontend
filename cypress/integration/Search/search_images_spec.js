@@ -9,7 +9,7 @@
 import { visitOptions, setToken } from '../../support';
 
 describe('Search images', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
@@ -23,9 +23,6 @@ describe('Search images', () => {
       visitOptions,
     );
     cy.apiwait(['@licenses', '@searchImages']);
-  });
-  beforeEach(() => {
-    cy.server({ force404: true });
   });
 
   it('Can use text input', () => {

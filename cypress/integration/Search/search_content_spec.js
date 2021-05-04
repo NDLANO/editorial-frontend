@@ -9,7 +9,7 @@
 import { visitOptions, setToken } from '../../support';
 
 describe('Search content', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute('GET', '/taxonomy/v1/resource-types/?language=nb', 'resourceTypes');
@@ -25,10 +25,6 @@ describe('Search content', () => {
       visitOptions,
     );
     cy.apiwait(['@resourceTypes', '@search', '@allSubjects']);
-  });
-  beforeEach(() => {
-    setToken();
-    cy.server({ force404: true });
   });
 
   it('Can use text input', () => {

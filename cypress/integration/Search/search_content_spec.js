@@ -19,83 +19,103 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.apiroute('GET', '/get_editors*', 'editors');
+    cy.route(
+      'GET', 
+      '/get_editors*',
+      [{
+        "name": "Ed Test",
+        "app_metadata": {
+          "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
+        }
+      }]);
     cy.visit(
       '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       visitOptions,
     );
-    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@editors']);
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects']);
   });
 
   it('Can use text input', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
-      'search',
+      'searchQuery',
     );
     cy.get('input[name="query"]')
       .type('Test')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchQuery');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('input[name="query"]').clear();
   });
 
   it('Can use status dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance',
-      'search',
+      'searchStatus',
     );
     cy.get('select[name="status"]')
       .select('Brukertest')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchStatus');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="status"]').select('Velg status');
   });
 
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=true&include-other-statuses=true&language=nb&page=1&page-size=10&sort=-relevance',
-      'search',
+      'searchOther',
     );
     cy.get('select[name="status"]')
       .select('Har publisert versjon')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchOther');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="status"]').select('Velg status');
   });
 
   it('Can use resource type dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&resource-types=urn:resourcetype:academicArticle&sort=-relevance',
-      'search',
+      'searchType',
     );
     cy.get('select[name="resourceTypes"]')
       .select('Fagartikkel')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchType');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="resourceTypes"]').select('Velg innholdstype');
   });
 
   it('Can use subject dropdown', () => {
     cy.apiroute(
       'GET',
       '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&subjects=urn:subject:1',
-      'search',
+      'searchSubject',
     );
     cy.get('select[name="subjects"]')
-      .select('Medieuttrykk og mediesamfunnet')
+      .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchSubject');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="subjects"]').select('Velg fag');
   });
 
   it('Can use user dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="Y7JV1gH0YzjW4AwkSyH7LIi8"',
-      'search',
+      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="PrcePFwCDOsb2_g0Kcb-maN0"',
+      'searchUser',
     );
     cy.get('select[name="users"]')
-      .select('Gunnar Velle')
+      .select('Ed Test')
       .blur();
-    cy.apiwait('@search');
+    cy.apiwait('@searchUser');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="users"]').select('Velg bruker');
   });
 });

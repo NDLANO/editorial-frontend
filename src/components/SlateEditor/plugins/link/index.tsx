@@ -31,6 +31,7 @@ export interface ContentLinkElement {
   'content-type': string;
   'content-id': string;
   'open-in': string;
+  resource: string;
   children: Text[];
 }
 

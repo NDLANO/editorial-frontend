@@ -18,7 +18,15 @@
        '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated',
        'searchConcepts',
      );
-     cy.route('GET', '/get_editors*');
+     cy.route(
+       'GET', 
+       '/get_editors*',
+       [{
+         "name": "Ed Test",
+         "app_metadata": {
+           "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
+         }
+       }]);
      cy.visit(
        '/search/concept?page=1&page-size=10&sort=-lastUpdated',
        visitOptions,

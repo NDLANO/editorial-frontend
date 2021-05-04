@@ -19,7 +19,15 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.route('GET', '/get_editors*');
+    cy.route(
+      'GET', 
+      '/get_editors*',
+      [{
+        "name": "Ed Test",
+        "app_metadata": {
+          "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
+        }
+      }]);
     cy.visit(
       '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       visitOptions,

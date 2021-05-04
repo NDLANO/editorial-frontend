@@ -6,12 +6,13 @@
  *
  */
 
-import React from 'react';
+import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { Descendant, Editor, Element, Text, Node, Transforms } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
 
+const KEY_ENTER = 'Enter';
 export const TYPE_QUOTE = 'quote';
 
 export interface BlockQuoteElement {
@@ -33,8 +34,52 @@ export const blockQuoteSerializer: SlateSerializer = {
   },
 };
 
+const getCurrentQuote = (editor: Editor) => {
+  const [match] = Editor.nodes(editor, {
+    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'quote',
+    mode: 'lowest',
+  });
+
+  return match;
+};
+
+const onEnter = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+) => {
+  const [quoteNode, quotePath] = getCurrentQuote(editor);
+
+  if (!quoteNode || !(editor.selection && editor.selection)) {
+    if (nextOnKeyDown) {
+      nextOnKeyDown(e);
+    }
+    return;
+  }
+
+  e.preventDefault();
+
+  if (e.shiftKey === true) {
+    return editor.insertText('\n');
+  }
+
+  if (Editor.string(editor, editor.selection.anchor.path) === '') {
+    const quoteChildPath = editor.selection.anchor.path.slice(0, quotePath.length + 1);
+
+    return Transforms.liftNodes(editor, {
+      at: quoteChildPath,
+    });
+  }
+
+  return editor.insertNode(jsx('element', { type: 'paragraph' }, [{ text: '' }]));
+};
+
 export const blockQuotePlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    onKeyDown: nextOnKeyDown,
+  } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
@@ -48,6 +93,14 @@ export const blockQuotePlugin = (editor: Editor) => {
 
   editor.normalizeNode = entry => {
     nextNormalizeNode(entry);
+  };
+
+  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === KEY_ENTER) {
+      onEnter(e, editor, nextOnKeyDown);
+    } else if (nextOnKeyDown) {
+      nextOnKeyDown(e);
+    }
   };
 
   return editor;

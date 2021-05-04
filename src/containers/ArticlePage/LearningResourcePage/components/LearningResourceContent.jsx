@@ -109,21 +109,22 @@ const LearningResourceContent = ({
   const [preview, setPreview] = useState(false);
   const plugins = [
     // TODO: Implement all plugins
+    sectionPlugin,
+    paragraphPlugin,
     // footnotePlugin(),
     // createEmbedPlugin(articleLanguage, props.locale),
     // createBodyBoxPlugin(),
     // createAsidePlugin(),
     // createDetailsPlugin(),
+    blockQuotePlugin,
     linkPlugin(articleLanguage),
     // conceptPlugin(articleLanguage),
     // headingPlugin(),
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.
-    blockQuotePlugin,
     // editListPlugin,
     // listTextPlugin(),
-    paragraphPlugin,
     // createTablePlugin(),
     // editTablePlugin,
     // relatedPlugin(),
@@ -138,7 +139,6 @@ const LearningResourceContent = ({
     // pasteHandler(),
     toolbarPlugin,
     textTransformPlugin,
-    sectionPlugin,
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
     markPlugin,

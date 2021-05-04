@@ -56,7 +56,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     breakSerializer,
     markSerializer,
     linkSerializer,
-    BlockQuoteSerializer,
+    blockQuoteSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {

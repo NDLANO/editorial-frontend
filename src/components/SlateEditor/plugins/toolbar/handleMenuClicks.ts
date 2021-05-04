@@ -59,6 +59,7 @@ export function handleClickBlock(
     //   }
     // }
   }
+}
 
 export function handleClickInline(
   event: KeyboardEvent<HTMLDivElement>,

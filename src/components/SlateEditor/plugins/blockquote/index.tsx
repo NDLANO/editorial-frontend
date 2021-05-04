@@ -11,7 +11,8 @@ import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
-import { isBlockActive } from '../../utils';
+import { getCurrentQuote } from './utils';
+import { TYPE_PARAGRAPH } from '../paragraph';
 
 const KEY_ENTER = 'Enter';
 export const TYPE_QUOTE = 'quote';
@@ -19,26 +20,6 @@ export const TYPE_QUOTE = 'quote';
 export interface BlockQuoteElement {
   type: 'quote';
 }
-
-export const toggleQuote = (editor: Editor) => {
-  const isActive = isBlockActive(editor, TYPE_QUOTE);
-
-  if (isActive) {
-    Transforms.unwrapNodes(editor, {
-      mode: 'lowest',
-      match: node => Element.isElement(node) && node.type === TYPE_QUOTE,
-    });
-  } else {
-    Transforms.wrapNodes(
-      editor,
-      { type: 'quote' },
-      {
-        mode: 'lowest',
-        match: node => Element.isElement(node) && node.type === 'paragraph',
-      },
-    );
-  }
-};
 
 export const blockQuoteSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
@@ -53,14 +34,6 @@ export const blockQuoteSerializer: SlateSerializer = {
       return `<blockquote>${children}</blockquote>`;
     }
   },
-};
-
-const getCurrentQuote = (editor: Editor) => {
-  const [match] = Editor.nodes(editor, {
-    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'quote',
-    mode: 'lowest',
-  });
-  return match;
 };
 
 const onEnter = (
@@ -91,7 +64,7 @@ const onEnter = (
     });
   }
 
-  return editor.insertNode(jsx('element', { type: 'paragraph' }, [{ text: '' }]));
+  return editor.insertNode(jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
 };
 
 export const blockQuotePlugin = (editor: Editor) => {
@@ -103,7 +76,7 @@ export const blockQuotePlugin = (editor: Editor) => {
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
-    if (element.type === 'quote') {
+    if (element.type === TYPE_QUOTE) {
       return <blockquote {...attributes}>{children}</blockquote>;
     } else if (nextRenderElement) {
       return nextRenderElement(props);

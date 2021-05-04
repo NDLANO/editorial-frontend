@@ -33,7 +33,6 @@ const createContentLinkData = (
     type: TYPE_CONTENT_LINK,
     'content-id': id,
     'content-type': resourceType || 'article',
-    resource: 'content-link',
     ...targetRel,
   };
 };
@@ -144,7 +143,7 @@ const EditLink = (props: Props & tType) => {
         {
           at: path,
           match: node =>
-            Element.isElement(node) && (node.type === 'link' || node.type === 'content-link'),
+            Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
       handleChangeAndClose(editor);
@@ -158,7 +157,7 @@ const EditLink = (props: Props & tType) => {
     Transforms.unwrapNodes(editor, {
       at: path,
       match: node =>
-        Element.isElement(node) && (node.type === 'link' || node.type === 'content-link'),
+        Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
     });
 
     ReactEditor.focus(editor);

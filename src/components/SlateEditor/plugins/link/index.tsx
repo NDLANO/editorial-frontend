@@ -31,7 +31,6 @@ export interface ContentLinkElement {
   'content-type': string;
   'content-id': string;
   'open-in': string;
-  resource: string;
   children: Text[];
 }
 
@@ -154,21 +153,6 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     }
     nextNormalizeNode(entry);
   };
-
-  // TODO: Rewrite to normalizing
-  // const schema = {
-  //   document: {},
-  //   inlines: {
-  //     link: {
-  //       data: {},
-  //       nodes: [
-  //         {
-  //           match: { object: 'text' },
-  //         },
-  //       ],
-  //     },
-  //   },
-  // };
 
   return editor;
 };

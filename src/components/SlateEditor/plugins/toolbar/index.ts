@@ -2,7 +2,7 @@ import { KeyboardEvent } from 'react';
 import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
 import { Editor } from 'new-slate';
 import SlateToolbar from './SlateToolbar';
-import { toggleMark } from '../mark';
+import { toggleMark } from '../mark/utils';
 import { handleClickBlock, handleClickInline } from './handleMenuClicks';
 
 const isBoldHotkey = isKeyHotkey('mod+b');
@@ -61,12 +61,10 @@ const toolbarPlugin = (editor: Editor) => {
     }
 
     if (mark) {
-      e.preventDefault();
-      toggleMark(editor, mark);
+      toggleMark(e, editor, mark);
     } else if (block) {
       handleClickBlock(e, editor, block);
     } else if (inline) {
-      e.preventDefault();
       handleClickInline(e, editor, inline);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);

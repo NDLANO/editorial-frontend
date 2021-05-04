@@ -12,14 +12,14 @@ import { ReactEditor } from 'new-slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { toggleMark } from '../mark';
+import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 import { hasNodeOfType } from '../../utils';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
   // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  // block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
   // inline: ['link', 'mathml', 'concept'],
 };
 
@@ -45,16 +45,11 @@ const onButtonClick = (
   type: string,
 ) => {
   if (kind === 'mark') {
-    event.preventDefault();
-    toggleMark(editor, type);
+    toggleMark(event, editor, type);
   } else if (kind === 'block') {
-    event.preventDefault();
     handleClickBlock(event, editor, type);
   } else if (kind === 'inline') {
-    event.preventDefault();
     handleClickInline(event, editor, type);
-
-    event.preventDefault();
   }
 };
 

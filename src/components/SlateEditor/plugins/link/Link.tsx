@@ -156,13 +156,7 @@ const Link = (props: Props & tType) => {
             </StyledLinkMenu>
           </Portal>
           {editMode && (
-            <EditLink
-              {...props}
-              model={model}
-              closeEditMode={toggleEditMode}
-              blur={blur}
-              onChange={onChange}
-            />
+            <EditLink {...props} model={model} closeEditMode={toggleEditMode} onChange={onChange} />
           )}
         </>
       )}

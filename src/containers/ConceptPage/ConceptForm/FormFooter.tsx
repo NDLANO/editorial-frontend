@@ -44,12 +44,14 @@ const FormFooter = ({
   t,
 }: Props & tType) => {
   const formikContext = useFormikContext<ConceptFormValues>();
-  const { values, initialValues, dirty, isSubmitting } = formikContext;
+  const { values, errors, initialValues, dirty, isSubmitting } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
     dirty,
   });
+
+  const disableSave = Object.keys(errors).length > 0;
 
   return (
     <>
@@ -64,6 +66,7 @@ const FormFooter = ({
             formIsDirty={formIsDirty}
             showSaved={savedToServer && !formIsDirty}
             submit={!inModal}
+            disabled={disableSave}
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
               submitFormWithMessage(formikContext, createMessage);
@@ -85,6 +88,7 @@ const FormFooter = ({
           isConcept
           isNewlyCreated={isNewlyCreated}
           validateEntity={() => {}}
+          hasErrors={isSubmitting || !formIsDirty || disableSave}
         />
       )}
       {!inModal && (

@@ -85,11 +85,11 @@
    it('Can use user dropdown', () => {
      cy.apiroute(
        'GET',
-       '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated&types=concept&users=vKAhUstqtfjF5EauMVl2kz93',
+       '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated&types=concept&users=PrcePFwCDOsb2_g0Kcb-maN0',
        'searchConceptUser',
      );
      cy.get('select[name="users"]')
-       .select('Anders Dahlin')
+       .select('Ed Test')
        .blur();
      cy.apiwait('@searchConceptUser');
      cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);

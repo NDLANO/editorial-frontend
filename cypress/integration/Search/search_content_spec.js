@@ -100,11 +100,11 @@ describe('Search content', () => {
   it('Can use user dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="Y7JV1gH0YzjW4AwkSyH7LIi8"',
+      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="PrcePFwCDOsb2_g0Kcb-maN0"',
       'searchUser',
     );
     cy.get('select[name="users"]')
-      .select('Gunnar Velle')
+      .select('Ed Test')
       .blur();
     cy.apiwait('@searchUser');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);

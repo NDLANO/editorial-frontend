@@ -14,8 +14,9 @@ import { ReactEditor } from 'new-slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { isMarkActive, toggleMark } from '../mark';
+import { toggleMark } from '../mark';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
@@ -109,7 +110,7 @@ const SlateToolbar = (props: Props) => {
         key={type}
         type={type}
         kind={kind}
-        isActive={isMarkActive(editor, type)}
+        isActive={hasNodeOfType(editor, type, kind)}
         handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
           onButtonClick(event, editor, kind, type);
         }}

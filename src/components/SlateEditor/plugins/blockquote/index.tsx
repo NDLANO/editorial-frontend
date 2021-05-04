@@ -60,7 +60,7 @@ const getCurrentQuote = (editor: Editor) => {
     match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'quote',
     mode: 'lowest',
   });
-  return match || [];
+  return match;
 };
 
 const onEnter = (
@@ -68,7 +68,7 @@ const onEnter = (
   editor: Editor,
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  const [quoteNode, quotePath] = getCurrentQuote(editor);
+  const [quoteNode, quotePath] = getCurrentQuote(editor) || [];
 
   if (!quoteNode || !(editor.selection && editor.selection)) {
     if (nextOnKeyDown) {

@@ -84,6 +84,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -91,6 +92,7 @@ const RichTextEditor = ({
       Editor.normalize(editor, { force: true });
     }
     prevSubmitted.current = submitted;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
   const renderElement = (props: RenderElementProps) => {

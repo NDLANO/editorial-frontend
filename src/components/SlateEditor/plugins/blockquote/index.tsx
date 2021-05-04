@@ -9,8 +9,9 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
-import { Descendant, Editor, Element, Text, Node, Transforms } from 'new-slate';
+import { Descendant, Editor, Element, Transforms } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
+import { isBlockActive } from '../../utils';
 
 const KEY_ENTER = 'Enter';
 export const TYPE_QUOTE = 'quote';
@@ -18,6 +19,26 @@ export const TYPE_QUOTE = 'quote';
 export interface BlockQuoteElement {
   type: 'quote';
 }
+
+export const toggleQuote = (editor: Editor) => {
+  const isActive = isBlockActive(editor, TYPE_QUOTE);
+
+  if (isActive) {
+    Transforms.unwrapNodes(editor, {
+      mode: 'lowest',
+      match: node => Element.isElement(node) && node.type === TYPE_QUOTE,
+    });
+  } else {
+    Transforms.wrapNodes(
+      editor,
+      { type: 'quote' },
+      {
+        mode: 'lowest',
+        match: node => Element.isElement(node) && node.type === 'paragraph',
+      },
+    );
+  }
+};
 
 export const blockQuoteSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
@@ -39,8 +60,7 @@ const getCurrentQuote = (editor: Editor) => {
     match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === 'quote',
     mode: 'lowest',
   });
-
-  return match;
+  return match || [];
 };
 
 const onEnter = (

@@ -6,8 +6,6 @@
  *
  */
 
-// TODO: Implement lists, blocks and inlines
-
 import React, { KeyboardEvent, useEffect } from 'react';
 import { Editor } from 'new-slate';
 import { ReactEditor } from 'new-slate-react';
@@ -16,7 +14,7 @@ import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
-import hasNodeOfType from '../../utils/hasNodeOfType';
+import { hasNodeOfType } from '../../utils';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {

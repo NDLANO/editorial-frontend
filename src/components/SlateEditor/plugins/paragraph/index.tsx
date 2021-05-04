@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant, Text } from 'new-slate';
+import { Editor, Node, Element, Descendant, Text, Transforms } from 'new-slate';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
@@ -48,11 +48,11 @@ const onEnter = (
    spacing (i.e two images).
    */
   if (Node.string(currentParagraph) === '') {
-    editor.deleteBackward('character');
     editor.insertNode({
       type: 'br',
       children: [{ text: '' }],
     });
+
     editor.insertNode({
       type: TYPE,
       children: [{ text: '' }],

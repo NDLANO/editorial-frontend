@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { createEditor, Descendant, Editor } from 'new-slate';
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'new-slate-react';
 import { withHistory } from 'new-slate-history';
@@ -80,9 +80,18 @@ const RichTextEditor = ({
     removeSection(index);
   };
 
+  const prevSubmitted = useRef(submitted);
+
   useEffect(() => {
     Editor.normalize(editor, { force: true });
   }, []);
+
+  useEffect(() => {
+    if (!submitted && prevSubmitted.current) {
+      Editor.normalize(editor, { force: true });
+    }
+    prevSubmitted.current = submitted;
+  }, [submitted]);
 
   const renderElement = (props: RenderElementProps) => {
     const { attributes, children } = props;

@@ -9,17 +9,10 @@
 import { Editor, Transforms, Element } from 'new-slate';
 import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
+import { isBlockActive } from '../../utils';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
-
-const isBlockActive = (editor: Editor, format: string) => {
-  const [match] = Editor.nodes(editor, {
-    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === format,
-  });
-
-  return !!match;
-};
 
 export function handleClickBlock(
   event: KeyboardEvent<HTMLDivElement>,
@@ -31,9 +24,9 @@ export function handleClickBlock(
     const isActive = isBlockActive(editor, type);
 
     if (isActive) {
-      Transforms.liftNodes(editor, {
+      Transforms.unwrapNodes(editor, {
         mode: 'lowest',
-        match: node => Element.isElement(node) && node.type === 'paragraph',
+        match: node => Element.isElement(node) && node.type === 'quote',
       });
     } else {
       Transforms.wrapNodes(

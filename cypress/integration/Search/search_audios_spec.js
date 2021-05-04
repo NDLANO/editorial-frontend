@@ -8,8 +8,8 @@
 
 import { visitOptions, setToken } from '../../support';
 
-describe('Search content', () => {
-  beforeEach(() => {
+describe('Search audios', () => {
+  before(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
@@ -24,6 +24,9 @@ describe('Search content', () => {
     );
     cy.apiwait(['@licenses', '@searchAudios']);
   });
+  beforeEach(() => {
+    cy.server({ force404: true });
+  });
 
   it('Can use text input', () => {
     cy.apiroute(
@@ -35,6 +38,8 @@ describe('Search content', () => {
       .type('Test')
       .blur();
     cy.apiwait('@searchAudioQuery');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('input[name="query"]').clear();
   });
 
   it('Can use audiotype dropdown', () => {
@@ -47,6 +52,8 @@ describe('Search content', () => {
       .select('Podkast')
       .blur();
     cy.apiwait('@searchAudioType');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="audio-type"]').select('Velg lydfiltype');
   });
 
   it('Can use language dropdown', () => {
@@ -59,5 +66,7 @@ describe('Search content', () => {
       .select('Engelsk')
       .blur();
     cy.apiwait('@searchAudioLang');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="language"]').select('Velg språk');
   });
 });

@@ -9,7 +9,7 @@
  import { visitOptions, setToken } from '../../support';
 
  describe('Search concepts', () => {
-   beforeEach(() => {
+   before(() => {
      setToken();
      cy.server({ force404: true });
      cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
@@ -18,12 +18,15 @@
        '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated',
        'searchConcepts',
      );
-     cy.apiroute('GET', '/get_editors*', 'editors');
+     cy.route('GET', '/get_editors*');
      cy.visit(
        '/search/concept?page=1&page-size=10&sort=-lastUpdated',
        visitOptions,
      );
-     cy.apiwait(['@searchConcepts', '@allSubjects', '@editors']);
+     cy.apiwait(['@searchConcepts', '@allSubjects']);
+   });
+   beforeEach(() => {
+    cy.server({ force404: true });
    });
  
    it('Can use text input', () => {
@@ -36,6 +39,8 @@
        .type('Test')
        .blur();
      cy.apiwait('@searchConceptQuery');
+     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+     cy.get('input[name="query"]').clear();
    });
  
    it('Can use status dropdown', () => {
@@ -48,6 +53,8 @@
        .select('Til språk')
        .blur();
      cy.apiwait('@searchConceptStatus');
+     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+     cy.get('select[name="status"]').select('Velg status');
    });
  
    it('Can use language type dropdown', () => {
@@ -60,6 +67,8 @@
        .select('Nynorsk')
        .blur();
      cy.apiwait('@searchConceptLang');
+     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+     cy.get('select[name="language"]').select('Velg språk');
    });
  
    it('Can use subject dropdown', () => {
@@ -72,6 +81,8 @@
        .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
        .blur();
      cy.apiwait('@searchConceptSubject');
+     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+     cy.get('select[name="subjects"]').select('Velg fag');
    });
  
    it('Can use user dropdown', () => {
@@ -84,6 +95,8 @@
        .select('Anders Dahlin')
        .blur();
      cy.apiwait('@searchConceptUser');
+     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+     cy.get('select[name="users"]').select('Velg bruker');
    });
  });
  

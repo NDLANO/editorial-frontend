@@ -9,7 +9,7 @@
 import { visitOptions, setToken } from '../../support';
 
 describe('Search content', () => {
-  beforeEach(() => {
+  before(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute('GET', '/taxonomy/v1/resource-types/?language=nb', 'resourceTypes');
@@ -19,12 +19,16 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.apiroute('GET', '/get_editors*', 'editors');
+    cy.route('GET', '/get_editors*');
     cy.visit(
       '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       visitOptions,
     );
-    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@editors']);
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects']);
+  });
+  beforeEach(() => {
+    setToken();
+    cy.server({ force404: true });
   });
 
   it('Can use text input', () => {
@@ -37,6 +41,8 @@ describe('Search content', () => {
       .type('Test')
       .blur();
     cy.apiwait('@searchQuery');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('input[name="query"]').clear();
   });
 
   it('Can use status dropdown', () => {
@@ -49,6 +55,8 @@ describe('Search content', () => {
       .select('Brukertest')
       .blur();
     cy.apiwait('@searchStatus');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="status"]').select('Velg status');
   });
 
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
@@ -61,6 +69,8 @@ describe('Search content', () => {
       .select('Har publisert versjon')
       .blur();
     cy.apiwait('@searchOther');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="status"]').select('Velg status');
   });
 
   it('Can use resource type dropdown', () => {
@@ -73,6 +83,8 @@ describe('Search content', () => {
       .select('Fagartikkel')
       .blur();
     cy.apiwait('@searchType');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="resourceTypes"]').select('Velg innholdstype');
   });
 
   it('Can use subject dropdown', () => {
@@ -85,6 +97,8 @@ describe('Search content', () => {
       .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
       .blur();
     cy.apiwait('@searchSubject');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="subjects"]').select('Velg fag');
   });
 
   it('Can use user dropdown', () => {
@@ -97,5 +111,7 @@ describe('Search content', () => {
       .select('Gunnar Velle')
       .blur();
     cy.apiwait('@searchUser');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="users"]').select('Velg bruker');
   });
 });

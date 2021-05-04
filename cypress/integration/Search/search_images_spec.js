@@ -8,8 +8,8 @@
 
 import { visitOptions, setToken } from '../../support';
 
-describe('Search content', () => {
-  beforeEach(() => {
+describe('Search images', () => {
+  before(() => {
     setToken();
     cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
@@ -24,6 +24,9 @@ describe('Search content', () => {
     );
     cy.apiwait(['@licenses', '@searchImages']);
   });
+  beforeEach(() => {
+    cy.server({ force404: true });
+  });
 
   it('Can use text input', () => {
     cy.apiroute(
@@ -35,6 +38,8 @@ describe('Search content', () => {
       .type('Test')
       .blur();
     cy.apiwait('@searchImagesQuery');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('input[name="query"]').clear();
   });
 
   it('Can use language dropdown', () => {
@@ -47,5 +52,7 @@ describe('Search content', () => {
       .select('Engelsk')
       .blur();
     cy.apiwait('@searchImagesLang');
+    cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="language"]').select('Velg språk');
   });
 });

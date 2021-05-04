@@ -75,7 +75,6 @@ class LinkForm extends Component {
 
   render() {
     const { t, isEdit, link, onRemove, onClose, node } = this.props;
-    console.log(link);
     return (
       <Formik
         initialValues={getInitialValues(link)}

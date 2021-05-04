@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Editor, Node, Transforms } from 'new-slate';
+import { Editor, Node, Transforms, Element } from 'new-slate';
 import { ReactEditor } from 'new-slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import Url from 'url-parse';
@@ -136,7 +136,8 @@ const EditLink = (props: Props & tType) => {
         { ...data },
         {
           at: path,
-          match: node => node.type === 'link' || node.type === 'content-link',
+          match: node =>
+            Element.isElement(node) && (node.type === 'link' || node.type === 'content-link'),
         },
       );
       handleChangeAndClose(editor);
@@ -145,7 +146,14 @@ const EditLink = (props: Props & tType) => {
 
   const handleRemove = () => {
     const { editor } = props;
-    editor.undo();
+    const path = ReactEditor.findPath(editor, element);
+
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: node =>
+        Element.isElement(node) && (node.type === 'link' || node.type === 'content-link'),
+    });
+
     ReactEditor.focus(editor);
   };
 

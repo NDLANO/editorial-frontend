@@ -62,7 +62,6 @@ describe('Selecting text and using the toolbar', () => {
       });
 
     cy.get('[data-testid=toolbar-button-link]').click({ force: true });
-    cy.wait(500);
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
@@ -84,7 +83,6 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .focus()
           .type('First item in list');
-        cy.wait(500);
         cy.wrap($el)
           .focus()
           .type('{selectall}');

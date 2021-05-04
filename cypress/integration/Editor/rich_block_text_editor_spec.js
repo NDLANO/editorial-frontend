@@ -18,7 +18,6 @@ describe('Learning resource editing', () => {
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
     cy.apiwait('@licenses');
-    cy.wait(600);
   });
 
   it('can enter title, ingress and content then save', () => {
@@ -34,16 +33,13 @@ describe('Learning resource editing', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
+    cy.apiwait('@patchUserData')
   });
 
   it('Can add all contributors', () => {
-    cy.get('button > span')
-      .contains('Lisens og bruker')
+    cy.contains('Lisens og bruker')
       .click();
     cy.apiwait('@agreements');
-    cy.get('button > span')
-      .contains('Innhold')
-      .click();
     cy.get('h2')
       .contains('Opphavsperson')
       .parent()

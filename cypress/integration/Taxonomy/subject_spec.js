@@ -40,8 +40,8 @@ describe('Subject editing', () => {
     cy.intercept('PUT', `/taxonomy/v1/subjects/urn:subject:12`, []).as('newSubjectName');
     cy.intercept('POST', '/taxonomy/v1/topics', []).as('addNewTopic');
     cy.intercept('POST', '/taxonomy/v1/filters', []).as('addFilter');
-    cy.intercept('PUT', '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29', []).as('editFilter');
-    cy.intercept('DELETE', '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29', []).as('deleteFilter');
+    cy.intercept('PUT', '**/taxonomy/v1/filters/*', []).as('editFilter');
+    cy.intercept('DELETE', '**/taxonomy/v1/filters/*', []).as('deleteFilter');
     cy.apiroute('GET', '/taxonomy/v1/topics?language=nb', 'allTopics');
     cy.intercept('POST', '/taxonomy/v1/topic-filters',[]);
     cy.intercept('POST', '/taxonomy/v1/subject-topics', []).as('addNewSubjectTopic');
@@ -68,11 +68,9 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@editFilter');
-    cy.get('[data-testid=editFilterBox] > div')
+    cy.get('[data-testid=deleteFilter]')
       .first()
-      .find('[data-testid=deleteFilter]')
       .click();
-    cy.wait(500);
     cy.get('[data-testid=warningModalConfirm]').click();
     cy.wait('@deleteFilter');
   });

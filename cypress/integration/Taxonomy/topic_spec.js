@@ -39,7 +39,6 @@ describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjectTopics');
     cy.wait('@allFilters');
-    cy.wait(1000);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
@@ -50,17 +49,14 @@ describe('Topic editing', () => {
 
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@allSubjectTopics']);
-    cy.wait(500);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
-    cy.wait(500);
     cy.wait('@allSubjectTopics');
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@addFilter']);
-    cy.wait(500);
   });
 });

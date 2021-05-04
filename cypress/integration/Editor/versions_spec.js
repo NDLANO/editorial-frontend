@@ -18,9 +18,7 @@ describe('Workflow features', () => {
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
-    cy.wait(500);
-    cy.get('button')
-      .contains('Versjonslogg og merknader')
+    cy.contains('Versjonslogg og merknader')
       .click();
     cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
     cy.wait('@getNoteUsers');

@@ -37,12 +37,11 @@ describe('Status changes', () => {
       visitOptions,
     );
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
-    cy.wait(500);
   });
 
   it('Can change status corretly', () => {
     // change from published to proposal
-    cy.get('footer button')
+    cy.get('[data-cy=footerStatus] button')
       .contains('Publisert')
       .click();
     cy.get('footer li > button')

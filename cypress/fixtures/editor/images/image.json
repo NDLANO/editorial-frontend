@@ -1,1 +1,51 @@
-{"id":"46821","metaUrl":"https://api.test.ndla.no/image-api/v2/images/46821","title":{"title":"    Kvinne leser avisen og drikker kaffe","language":"nb"},"alttext":{"alttext":"Kvinne leser avisen og drikker kaffe. Foto.","language":"nb"},"imageUrl":"https://api.test.ndla.no/image-api/raw/QFahFgbn.jpg","size":28449,"contentType":"image/jpeg","copyright":{"license":{"license":"CC-BY-SA-4.0","description":"Creative Commons Attribution-ShareAlike 4.0 International","url":"https://creativecommons.org/licenses/by-sa/4.0/"},"origin":"https://scanpix.no/","creators":[],"processors":[],"rightsholders":[{"type":"Supplier","name":"ntb scanpix"},{"type":"Supplier","name":"pixtal"}]},"tags":{"tags":["avis","kaffe","kvinne"],"language":"nb"},"caption":{"caption":"Kvinne leser avisen og drikker kaffe","language":"nb"},"supportedLanguages":["nb","nn"]}
+{
+  "id": "46821",
+  "metaUrl": "https://api.test.ndla.no/image-api/v2/images/46821",
+  "title": {
+    "title": "    Kvinne leser avisen og drikker kaffe",
+    "language": "nb"
+  },
+  "alttext": {
+    "alttext": "Kvinne leser avisen og drikker kaffe. Foto.",
+    "language": "nb"
+  },
+  "imageUrl": "https://api.test.ndla.no/image-api/raw/QFahFgbn.jpg",
+  "size": 28449,
+  "contentType": "image/jpeg",
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "https://scanpix.no/",
+    "creators": [],
+    "processors": [],
+    "rightsholders": [
+      {
+        "type": "Supplier",
+        "name": "ntb scanpix"
+      },
+      {
+        "type": "Supplier",
+        "name": "pixtal"
+      }
+    ]
+  },
+  "tags": {
+    "tags": [
+      "avis",
+      "kaffe",
+      "kvinne"
+    ],
+    "language": "nb"
+  },
+  "caption": {
+    "caption": "Kvinne leser avisen og drikker kaffe",
+    "language": "nb"
+  },
+  "supportedLanguages": [
+    "nb",
+    "nn"
+  ]
+}

@@ -36,8 +36,8 @@
     "alt": "Vanninjeksjon i reservoar. Illustrasjon.",
     "language": "nb"
   },
-  "introduction": "Vanninjeksjon er et tiltak som brukes for å opprettholde reservoartrykket slik at mest mulig olje kan produseres fra fellen. Vannet som injiseres bidrar også til å skyve oljen fram til produksjonsbrønnen. Injeksjonsvann er behandlet formasjonsvann eller sjøvann.",
-  "metaDescription": "Vanninjeksjon brukes for å øke oljeutvinning fra reservoaret, vannet erstatter produsert olje og fortrenger oljen inn mot produksjonsbrønnene.",
+  "introduction": "Test.",
+  "metaDescription": "Test",
   "created": "2015-11-24T16:04:42Z",
   "updated": "2018-06-29T08:11:39Z",
   "updatedBy": "r0gHb9Xg3li4yyXv0QSGQczV3bviakrT",
@@ -52,78 +52,5 @@
   "conceptIds": [],
   "availability": "everyone",
   "relatedContent": [],
-  "metaData": {
-    "images": [
-      {
-        "title": "Vanninjeksjon i reservoaret",
-        "altText": "Vanninjeksjon i reservoar. Illustrasjon.",
-        "copyright": {
-          "license": {
-            "license": "CC-BY-SA-4.0",
-            "description": "Creative Commons Attribution-ShareAlike 4.0 International",
-            "url": "https://creativecommons.org/licenses/by-sa/4.0/"
-          },
-          "origin": "",
-          "creators": [
-            {
-              "type": "Photographer",
-              "name": "Baker Hughes Inc"
-            }
-          ],
-          "processors": [],
-          "rightsholders": []
-        },
-        "src": "https://api.test.ndla.no/image-api/raw/vanninjeksjon.jpg"
-      },
-      {
-        "title": "Vanninjeksjon",
-        "altText": "Vanninjeksjonsbrønn. Illustrasjon.",
-        "copyright": {
-          "license": {
-            "license": "CC-BY-SA-4.0",
-            "description": "Creative Commons Attribution-ShareAlike 4.0 International",
-            "url": "https://creativecommons.org/licenses/by-sa/4.0/"
-          },
-          "origin": "",
-          "creators": [
-            {
-              "type": "Photographer",
-              "name": "Anna Aabø"
-            }
-          ],
-          "processors": [],
-          "rightsholders": []
-        },
-        "src": "https://api.test.ndla.no/image-api/raw/vanninjeksjonsbronn.jpg"
-      }
-    ],
-    "brightcoves": [
-      {
-        "title": "Vanninjeksjonsbrønn",
-        "description": null,
-        "copyright": {
-          "license": {
-            "license": "CC-BY-SA-4.0"
-          },
-          "creators": [],
-          "processors": [],
-          "rightsholders": [
-            {
-              "type": "supplier",
-              "name": "Baker Hughes Inc"
-            }
-          ]
-        },
-        "cover": "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/d6261529-c284-44ce-8c87-4fd15e802779/a12b532a-8283-436d-aad0-75a26ba10054/1280x720/match/image.jpg",
-        "download": "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/pmp4/static/clear/4806596774001/d6261529-c284-44ce-8c87-4fd15e802779/4eeb1da5-97c4-413f-a0c0-4382bd5a435b/main.mp4?fastly_token=NjA1YTNkYWJfYjQ0NmNjNTZiMGVhMzAwZmY3MmE2MTc2OTZlNTg1MjQwZTI2YTI1MjEwOWU4ODJlYmI5NTA0NGM2ZjMwNTk0N18vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvcG1wNC9zdGF0aWMvY2xlYXIvNDgwNjU5Njc3NDAwMS9kNjI2MTUyOS1jMjg0LTQ0Y2UtOGM4Ny00ZmQxNWU4MDI3NzkvNGVlYjFkYTUtOTdjNC00MTNmLWEwYzAtNDM4MmJkNWE0MzViL21haW4ubXA0",
-        "src": "https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796664371001",
-        "iframe": {
-          "src": "https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796664371001",
-          "height": 480,
-          "width": 720
-        },
-        "uploadDate": "2018-06-12T16:15:26.101Z"
-      }
-    ]
-  }
+  "metaData": {}
 }

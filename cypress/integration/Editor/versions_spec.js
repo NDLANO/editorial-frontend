@@ -14,6 +14,7 @@ describe('Workflow features', () => {
   beforeEach(() => {
     // change article ID and run cy-record to add the new fixture data
     setToken();
+    cy.wait(500);
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
@@ -36,11 +37,13 @@ describe('Workflow features', () => {
 
   it('Open previews', () => {
     cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
+    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
     cy.apiwait(`@converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=closePreview]').click();
+    cy.apiwait(`@converted-article-${ARTICLE_ID}`)
   });
 
   it('Can reset to prod', () => {

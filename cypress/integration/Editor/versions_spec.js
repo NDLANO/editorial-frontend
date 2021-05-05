@@ -14,15 +14,12 @@ describe('Workflow features', () => {
   beforeEach(() => {
     // change article ID and run cy-record to add the new fixture data
     setToken();
-    cy.wait(500);
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
-    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
     cy.contains('Versjonslogg og merknader')
       .click();
-    cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
-    cy.wait('@getNoteUsers');
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@articleHistory-${ARTICLE_ID}`, '@getNoteUsers']);
   });
 
   it('Can add notes and save', () => {
@@ -33,17 +30,16 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
+    cy.apiwait('@patchUserData');
   });
 
   it('Open previews', () => {
     cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
-    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
-    cy.apiwait(`@converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=closePreview]').click();
-    cy.apiwait(`@converted-article-${ARTICLE_ID}`)
+    cy.apiwait(`@converted-article-${ARTICLE_ID}`);
   });
 
   it('Can reset to prod', () => {

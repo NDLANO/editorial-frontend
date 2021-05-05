@@ -11,17 +11,12 @@ import editorRoutes from './editorRoutes';
 
 describe('Edit article with everything', () => {
   const ARTICLE_ID = 532;
-  before(() => {
-    setToken();
-    editorRoutes(ARTICLE_ID);
-
-    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`, `draft-${ARTICLE_ID}`);
-    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
-  });
-
   beforeEach(() => {
     setToken();
     editorRoutes(ARTICLE_ID);
+
+    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.apiwait(`@draft-${ARTICLE_ID}`);
   });
 
   it('Can change language and fetch the new article', () => {
@@ -32,7 +27,7 @@ describe('Edit article with everything', () => {
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.wait('@draftNN')
+    cy.wait('@draftNN');
   });
 
   it('Can edit the published date', () => {

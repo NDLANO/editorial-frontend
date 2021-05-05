@@ -33,7 +33,7 @@ describe('Learning resource editing', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait('@patchUserData')
+    cy.apiwait('@patchUserData');
   });
 
   it('Can add all contributors', () => {

@@ -16,22 +16,22 @@ describe('Edit article with everything', () => {
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
-    cy.apiwait(`@draft-${ARTICLE_ID}`);
+    cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses']);
   });
 
   it('Can change language and fetch the new article', () => {
     cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`, 'draftNN');
     cy.get('header button')
       .contains('Legg til språk')
-      .click({ force: true });
+      .click({ force: true })
+      .wait(200);
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.wait('@draftNN');
+    cy.apiwait(['@draftNN']);
   });
 
   it('Can edit the published date', () => {
-    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, `updateDraft-${ARTICLE_ID}`);
     // check that article is not dirty
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()

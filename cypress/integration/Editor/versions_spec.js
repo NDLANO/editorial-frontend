@@ -45,10 +45,11 @@ describe('Workflow features', () => {
   it('Can reset to prod', () => {
     cy.get('[data-testid=resetToVersion]')
       .first()
-      .click();
+      .click()
+      .wait(200);
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
+    cy.apiwait([`@updateDraft-${ARTICLE_ID}`, "@getUserData", `@articleHistory-${ARTICLE_ID}`, "@patchUserData", "@getNoteUsers"]);
   });
 });

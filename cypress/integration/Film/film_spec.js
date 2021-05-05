@@ -7,14 +7,10 @@
  */
 
 import { visitOptions, setToken } from '../../support';
-import editorRoutes from "../Editor/editorRoutes";
-const ARTICLE_ID = 532;
 
 describe('Film editing', () => {
   before(() => {
     setToken();
-    cy.wait(500);
-    editorRoutes(ARTICLE_ID);
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
     cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
     cy.visit('/film', visitOptions);

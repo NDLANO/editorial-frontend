@@ -70,7 +70,8 @@ describe('Subject editing', () => {
     cy.wait('@editFilter');
     cy.get('[data-testid=deleteFilter]')
       .first()
-      .click();
+      .click()
+      .wait(200);
     cy.get('[data-testid=warningModalConfirm]').click();
     cy.wait('@deleteFilter');
   });

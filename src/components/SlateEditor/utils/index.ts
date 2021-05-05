@@ -14,4 +14,3 @@ export { default as defaultBlocks } from './defaultBlocks';
 
 // Slate 0.62 helpers
 export { default as hasNodeOfType } from './hasNodeOfType';
-export { default as isBlockActive } from './isBlockActive';

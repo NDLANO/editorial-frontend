@@ -17,6 +17,7 @@ import { breakSerializer } from '../components/SlateEditor/plugins/break';
 import { markSerializer } from '../components/SlateEditor/plugins/mark';
 import { linkSerializer } from '../components/SlateEditor/plugins/link';
 import { blockQuoteSerializer } from '../components/SlateEditor/plugins/blockquote';
+import { headingSerializer } from '../components/SlateEditor/plugins/heading';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -57,6 +58,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     markSerializer,
     linkSerializer,
     blockQuoteSerializer,
+    headingSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
@@ -109,6 +111,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     markSerializer,
     linkSerializer,
     blockQuoteSerializer,
+    headingSerializer,
   ];
 
   const serialize = (node: Descendant): string | null => {

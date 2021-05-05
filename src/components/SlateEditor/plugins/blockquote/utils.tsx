@@ -1,9 +1,9 @@
 import { Editor, Element, Transforms } from 'new-slate';
-import { isBlockActive } from '../../utils';
+import { hasNodeOfType } from '../../utils';
 import { TYPE_QUOTE } from './index';
 
 export const toggleQuote = (editor: Editor) => {
-  const isActive = isBlockActive(editor, TYPE_QUOTE);
+  const isActive = hasNodeOfType(editor, { type: TYPE_QUOTE });
 
   if (isActive) {
     Transforms.unwrapNodes(editor, {
@@ -13,7 +13,7 @@ export const toggleQuote = (editor: Editor) => {
   } else {
     Transforms.wrapNodes(
       editor,
-      { type: 'quote' },
+      { type: 'quote', children: [] },
       {
         mode: 'lowest',
         match: node => Element.isElement(node) && node.type === 'paragraph',

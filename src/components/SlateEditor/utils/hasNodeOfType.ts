@@ -7,17 +7,14 @@
  */
 
 import { Editor, Element } from 'new-slate';
-import { isMarkActive } from '../plugins/mark';
 
-const hasNodeOfType = (editor: Editor, type: string, kind: string) => {
-  if (kind === 'mark') {
-    return isMarkActive(editor, type);
-  } else if (kind === 'block') {
-    const [match] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && node.type === type,
-    });
-    return !!match;
-  }
+const hasNodeOfType = (editor: Editor, props: Partial<Element>) => {
+  const [match] = Editor.nodes(editor, {
+    match: node => {
+      return Element.isElement(node) && Element.matches(node, props);
+    },
+  });
+  return !!match;
 };
 
 export default hasNodeOfType;

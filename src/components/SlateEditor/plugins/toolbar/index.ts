@@ -36,10 +36,10 @@ const toolbarPlugin = (editor: Editor) => {
       //   inline = 'concept';
       // } else if (isFootnoteHotKey(e)) {
       //   inline = 'footnote';
-      // } else if (isH2HotKey(e)) {
-      //   block = 'heading-two';
-      // } else if (isH3HotKey(e)) {
-      //   block = 'heading-three';
+    } else if (isH2HotKey(e)) {
+      block = 'heading-two';
+    } else if (isH3HotKey(e)) {
+      block = 'heading-three';
     } else if (isItalicHotKey(e)) {
       mark = 'italic';
       // } else if (isLetteredListHotKey(e)) {

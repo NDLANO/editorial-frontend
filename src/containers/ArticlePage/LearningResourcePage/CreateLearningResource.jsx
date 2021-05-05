@@ -28,8 +28,9 @@ const CreateLearningResource = ({ t, history, ...rest }) => {
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
       <LearningResourceForm
-        article={{ language: locale }}
+        article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
+        history={history}
         {...rest}
       />
     </Fragment>

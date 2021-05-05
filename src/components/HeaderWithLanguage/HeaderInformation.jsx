@@ -15,6 +15,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
+import { Podcast } from '@ndla/icons/common';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -71,6 +72,11 @@ export const types = {
     form: 'audioForm',
     cssModifier: 'multimedia',
     icon: <SquareAudio />,
+  },
+  podcast: {
+    form: 'podcastForm',
+    cssModifier: 'multimedia',
+    icon: <Podcast />,
   },
   concept: {
     form: 'conceptform',

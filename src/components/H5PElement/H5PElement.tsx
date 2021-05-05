@@ -21,7 +21,6 @@ const FlexWrapper = styled.div`
 
 const StyledIFrame = styled.iframe`
   height: 100%;
-  min-height: 1000px;
 `;
 
 interface OnSelectObject {
@@ -35,6 +34,7 @@ interface Props {
   onClose: () => void;
   locale: string;
   canReturnResources?: boolean;
+  setH5pFetchFail?: (failed: boolean) => void;
 }
 
 interface State {
@@ -64,7 +64,7 @@ class H5PElement extends Component<Props & tType, State> {
 
   /* eslint-disable react/no-did-mount-set-state -- See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
   async componentDidMount() {
-    const { h5pUrl, locale } = this.props;
+    const { h5pUrl, locale, setH5pFetchFail } = this.props;
     window.addEventListener('message', this.handleH5PChange);
     window.addEventListener('message', this.handleH5PClose);
     try {
@@ -74,6 +74,7 @@ class H5PElement extends Component<Props & tType, State> {
       this.setState(() => ({ url: data.url }));
     } catch (e) {
       this.setState({ fetchFailed: true });
+      setH5pFetchFail && setH5pFetchFail(true);
     }
   }
 
@@ -114,7 +115,7 @@ class H5PElement extends Component<Props & tType, State> {
     const { url, fetchFailed } = this.state;
     const { t } = this.props;
     return (
-      <FlexWrapper>
+      <FlexWrapper data-cy="h5p-editor">
         {fetchFailed && (
           <ErrorMessage
             illustration={{

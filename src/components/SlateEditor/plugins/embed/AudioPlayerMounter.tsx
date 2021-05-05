@@ -12,10 +12,10 @@ import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
 import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { Audio, LocaleType } from '../../../../interfaces';
+import { SlateAudio, LocaleType } from '../../../../interfaces';
 
 interface Props {
-  audio: Audio;
+  audio: SlateAudio;
   locale: LocaleType;
   speech: boolean;
 }
@@ -36,9 +36,21 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
     source: t('dialog.source'),
   };
 
+  const podcastImg = {
+    url: audio.podcastMeta?.coverPhoto?.url || '',
+    alt: audio.podcastMeta?.coverPhoto?.altText || '',
+  };
+
   return (
     <div>
-      <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
+      <AudioPlayer
+        src={audio.audioFile.url}
+        title={audio.title}
+        speech={speech}
+        img={audio.podcastMeta?.coverPhoto && podcastImg}
+        description={audio.podcastMeta?.introduction}
+        textVersion={audio.podcastMeta?.manuscript}
+      />
       {!speech && (
         <>
           <FigureCaption

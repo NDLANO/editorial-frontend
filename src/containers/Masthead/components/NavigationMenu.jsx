@@ -5,6 +5,9 @@ import { injectT } from '@ndla/i18n';
 import { Launch } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
+import { Camera, Concept, H5P, Taxonomy } from '@ndla/icons/editor';
+import { Audio, Podcast } from '@ndla/icons/common';
+import { ContentTypeBadge, constants } from '@ndla/ui';
 import StyledListButton from '../../../components/StyledListButton';
 import config from '../../../config';
 import {
@@ -13,42 +16,68 @@ import {
   toCreateConcept,
   toCreateImage,
   toCreateAudioFile,
+  toCreatePodcastFile,
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 
 const OpenMenu = ({ t, close }) => {
   const StyledLink = StyledListButton.withComponent(Link);
   const StyledHrefLink = StyledListButton.withComponent('a');
+  const { contentTypes } = constants;
   return (
     <StyledMenuContainer>
       <div>
         <nav>
           <div>
             <StyledLink to={toCreateLearningResource()} onClick={close}>
-              <span>{t('subNavigation.subjectMatter')}</span>
+              <span>
+                <ContentTypeBadge type={contentTypes.SUBJECT_MATERIAL} background size="xx-small" />{' '}
+                {t('subNavigation.subjectMatter')}
+              </span>
             </StyledLink>
             <StyledLink to={toCreateTopicArticle()} onClick={close}>
-              <span>{t('subNavigation.topicArticle')}</span>
+              <span>
+                <ContentTypeBadge type={contentTypes.TOPIC} background size="xx-small" />{' '}
+                {t('subNavigation.topicArticle')}
+              </span>
             </StyledLink>
             <StyledLink to={toCreateConcept()} onClick={close}>
-              <span>{t('subNavigation.newConcept')}</span>
+              <span>
+                <Concept /> {t('subNavigation.newConcept')}
+              </span>
             </StyledLink>
             <StyledLink to={toCreateImage()} onClick={close}>
-              <span>{t('subNavigation.image')}</span>
+              <span>
+                <Camera /> {t('subNavigation.image')}
+              </span>
             </StyledLink>
             <StyledLink to={toCreateAudioFile()} onClick={close}>
-              <span>{t('subNavigation.audio')}</span>
+              <span>
+                <Audio /> {t('subNavigation.audio')}
+              </span>
+            </StyledLink>
+            <StyledLink to={toCreatePodcastFile()} onClick={close}>
+              <span>
+                <Podcast /> {t('subNavigation.podcast')}
+              </span>
             </StyledLink>
           </div>
           <div>
             <StyledLink to="/structure" onClick={close}>
-              <span>{t('subNavigation.structure')}</span>
+              <span>
+                <Taxonomy /> {t('subNavigation.structure')}
+              </span>
             </StyledLink>
             <StyledLink to={toEditNdlaFilm()} onClick={close}>
-              <span>{t('subNavigation.film')}</span>
+              <span>
+                <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />{' '}
+                {t('subNavigation.film')}
+              </span>
             </StyledLink>
             <StyledLink to="/h5p" onClick={close}>
-              <span>{t('subNavigation.h5p')}</span>
+              <span>
+                <H5P /> {t('subNavigation.h5p')}
+              </span>
             </StyledLink>
             <StyledHrefLink
               href={config.learningpathFrontendDomain}
@@ -56,6 +85,7 @@ const OpenMenu = ({ t, close }) => {
               rel="noopener noreferrer"
               onClick={close}>
               <span>
+                <ContentTypeBadge type={contentTypes.LEARNING_PATH} background size="xx-small" />{' '}
                 {t('subNavigation.learningPathLink')} <Launch />
               </span>
             </StyledHrefLink>

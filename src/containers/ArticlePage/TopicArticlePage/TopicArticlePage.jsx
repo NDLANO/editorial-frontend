@@ -48,7 +48,7 @@ const TopicArticlePage = ({
           {params => (
             <EditArticleRedirect
               match={params.match}
-              isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
+              isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
               {...articleFormProps}
             />
           )}

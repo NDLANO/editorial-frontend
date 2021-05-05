@@ -28,7 +28,7 @@ import {
 } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
 import { ContentResultType, NdlaFilmThemesEditType } from '../../../interfaces';
-import config from '../../../config';
+import { NDLA_FILM_SUBJECT } from '../../../constants';
 
 interface Props {
   allMovies: ContentResultType[];
@@ -215,8 +215,8 @@ const ThemeEditor = ({
             <DropdownSearch
               selectedElements={theme.movies}
               onChange={(movie: ContentResultType) => onAddMovieToTheme(movie, index)}
-              subjectId={'urn:subject:20'}
-              contextTypes={config.ndlaFilmArticleType}
+              subjectId={NDLA_FILM_SUBJECT}
+              contextTypes={'standard'}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {
                 name: findName(theme.name, selectedLanguage),
               })}

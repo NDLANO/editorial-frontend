@@ -7,6 +7,8 @@
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
+
+import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
 
@@ -109,6 +111,7 @@ export interface ContentResultType {
   id: number;
   title: { title: string; language: string };
   url?: string;
+  license?: string;
   metaDescription?: { metaDescription: string; language: string };
   metaImage?: MetaImage;
   metaUrl?: string;
@@ -467,23 +470,9 @@ export interface Embed {
   'lower-right-y': string;
 }
 
-export interface Audio {
-  audioFile: {
-    filesize: number;
-    language: string;
-    mimeType: string;
-    url: string;
-  };
-  caption: string;
-  copyright: Copyright;
-  id: number;
-  revision: number;
-  supportedLanguages: string[];
-  tags: {
-    language: string;
-    tags: string[];
-  };
+export interface SlateAudio extends Omit<AudioApiType, 'title'> {
   title: string;
+  caption: string;
 }
 
 export interface CreateMessageType {

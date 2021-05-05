@@ -26,6 +26,8 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podkast ${titleTemplate}`,
+    h5pPage: `H5P ${titleTemplate}`,
   },
   dropdown: {
     numberHits: `Søket gav {hits} treff`,
@@ -157,6 +159,8 @@ const phrases = {
       content: 'Søketreff fra innhold',
       tags: 'Søketreff fra nøkkelord',
       embedAttributes: 'Søketreff fra innebygde elementer',
+      notes: 'Søketreff fra versjonslogg',
+      previousVersionsNotes: 'Søketreff fra versjonslogg',
     },
   },
   articleType: {
@@ -172,6 +176,7 @@ const phrases = {
     learningResource: 'Læringsressurs',
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
+    podcast: 'Ny podkast',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     searchContent: 'Søk innhold',
@@ -219,6 +224,7 @@ const phrases = {
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
+      audio: 'Velg lydfiltype',
     },
     tagType: {
       query: 'Innhold',
@@ -237,6 +243,10 @@ const phrases = {
       topicArticle: 'Emnebeskrivelse',
       image: 'Bilde',
       audio: 'Lyd',
+    },
+    audioType: {
+      standard: 'Lydfil',
+      podcast: 'Podkast',
     },
     order: 'Rekkefølge',
     asc: 'Stigende',
@@ -405,6 +415,16 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastForm: {
+    title: 'Podkast',
+    fields: {
+      header: 'Overskrift',
+      introduction: 'Introduksjon',
+      coverPhoto: 'Bilde',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Tekstversjon',
+    },
+  },
   imageEditor: {
     editImage: 'Rediger bildet',
     remove: {
@@ -475,6 +495,7 @@ const phrases = {
       related: 'Relatert innhold',
       file: 'Fil',
       code: 'Kodevisning',
+      podcast: 'Podkast',
     },
   },
   form: {
@@ -484,6 +505,7 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     articleSection: 'Artikler',
+    podcastSection: 'Podkastinformasjon',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',
@@ -532,6 +554,9 @@ const phrases = {
       concepts: 'Forklaringer',
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
+      header: 'Overskrift',
+      manuscript: 'Manus',
+      coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
       button: 'Sammenlign utkast og artikkel',
@@ -592,6 +617,7 @@ const phrases = {
     editImage: 'Endre bilde',
     editOriginalImage: 'Rediger orginal bilde',
     editAudio: 'Endre lyd',
+    editPodcast: 'Endre podkast',
     resetToProd: {
       button: 'Tilbakestill endringer',
       modal: 'Vil du tilbakestille utkastet til slik det er på ndla forsiden?',
@@ -670,6 +696,8 @@ const phrases = {
       quality_assured_delayed: 'Publ.klar-utsatt',
       queued_for_publishing_delayed: 'Publ-utsatt',
       published: 'Publisert',
+      has_published: 'Har publisert versjon',
+      unlisted: 'Lenkedelt',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
       awaiting_archiving: 'Utsatt arkivering',
@@ -917,6 +945,9 @@ const phrases = {
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
     },
+    podcast: {
+      remove: 'Ta bort podkast',
+    },
     external: {
       title: 'eksternt',
       edit: 'Rediger {type} element',
@@ -1019,6 +1050,7 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {message}',
     statusCode: {

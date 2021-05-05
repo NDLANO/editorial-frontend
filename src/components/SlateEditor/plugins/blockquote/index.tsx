@@ -19,6 +19,7 @@ export const TYPE_QUOTE = 'quote';
 
 export interface BlockQuoteElement {
   type: 'quote';
+  children: Descendant[];
 }
 
 export const blockQuoteSerializer: SlateSerializer = {

@@ -115,6 +115,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
       '/audio-api/v1/audio/?audio-type=podcast&page=1&query=&page-size=16',
       'editor/audios/podcastList',
     );
+    cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
     cy.get('[data-cy=create-podcast]').click();
     cy.apiwait('@editor/audios/podcastList');
     cy.get('[data-cy="modal-header"]').should('be.visible');
@@ -123,28 +124,12 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('opens and closes audio', () => {
-    cy.apiroute('GET', '/audio-api/v1/audio/?page=1&query=&page-size=16', 'editor/audios/audioList');
+    cy.apiroute('GET', '/audio-api/v1/audio/?audio-type=standard&page=1&query=&page-size=16', 'editor/audios/audioList');
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
 
     cy.get('[data-cy=create-audio]').click()
     cy.apiwait('@editor/audios/audioList');
 
-    cy.get('[data-cy="modal-header"]').should('exist');
-    cy.get('[data-cy="modal-body"]').should('exist');
-    cy.get('[data-cy="close-modal-button"]').click();
-  });
-
-  it('opens and closes H5P', () => {
-    // Discard h5p-auth request
-    cy.intercept('*', (req) => {
-      if (req.url.includes('auth')) {
-        req.reply({
-          statusCode: 404
-        })
-      }
-    })
-
-    cy.get('[data-cy=create-h5p]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();
@@ -172,5 +157,20 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="styled-article-modal"]').should('exist');
     cy.apiwait('@search')
     cy.get('[data-cy="close-related-button"]').click();
+  });
+
+  // Placed last because closing depends on event from iframe.
+  it('opens and closes H5P', () => {
+    // Discard h5p-auth request
+    cy.intercept('*', (req) => {
+      if (req.url.includes('auth')) {
+        req.reply({
+          statusCode: 404
+        })
+      }
+    })
+
+    cy.get('[data-cy=create-h5p]').click();
+    cy.get('[data-cy="h5p-editor"]').should('exist');
   });
 });

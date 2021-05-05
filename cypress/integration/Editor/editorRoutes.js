@@ -28,6 +28,7 @@ const editorRoutes = ARTICLE_ID => {
 
   cy.intercept('GET', '/taxonomy/v1/resources/**', []);
   cy.intercept('GET', '/taxonomy/v1/topics/**', '[]');
+  cy.intercept('GET', '/learningpath-api/v2/learningpaths/contains-article/*', [])
 
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');
   cy.apiroute('GET', '**/get_note_users?*', 'getNoteUsers');

@@ -13,7 +13,7 @@ describe('Edit article with everything', () => {
   const ARTICLE_ID = 532;
   before(() => {
     setToken();
-    editorRoutes();
+    editorRoutes(ARTICLE_ID);
 
     cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`, `draft-${ARTICLE_ID}`);
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
@@ -21,7 +21,7 @@ describe('Edit article with everything', () => {
 
   beforeEach(() => {
     setToken();
-    editorRoutes();
+    editorRoutes(ARTICLE_ID);
   });
 
   it('Can change language and fetch the new article', () => {

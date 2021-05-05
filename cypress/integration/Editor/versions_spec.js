@@ -11,7 +11,7 @@ import editorRoutes from './editorRoutes';
 
 describe('Workflow features', () => {
   const ARTICLE_ID = 532;
-  before(() => {
+  beforeEach(() => {
     // change article ID and run cy-record to add the new fixture data
     setToken();
     editorRoutes(ARTICLE_ID);
@@ -22,11 +22,6 @@ describe('Workflow features', () => {
       .click();
     cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
     cy.wait('@getNoteUsers');
-  });
-
-  beforeEach(() => {
-    setToken();
-    editorRoutes(ARTICLE_ID);
   });
 
   it('Can add notes and save', () => {
@@ -40,16 +35,11 @@ describe('Workflow features', () => {
   });
 
   it('Open previews', () => {
-    cy.intercept(
-      'POST',
-      '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true')
-      .as("transformedArticle");
-    cy.apiroute('GET', `/article-converter/json/nb/${ARTICLE_ID}`, `converted-article-${ARTICLE_ID}`)
+    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
-    cy.wait('@transformedArticle');
-    //cy.apiwait(`@converted-article-${ARTICLE_ID}`)
+    cy.apiwait(`@converted-article-${ARTICLE_ID}`)
     cy.get('[data-testid=closePreview]').click();
   });
 

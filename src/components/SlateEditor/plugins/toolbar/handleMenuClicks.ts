@@ -9,7 +9,8 @@
 import { Editor } from 'new-slate';
 import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
-import { toggleQuote } from '../blockquote/utils';
+import { toggleBlock } from '../../utils';
+import { toggleHeading } from '../heading/utils';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
@@ -21,21 +22,25 @@ export function handleClickBlock(
 ) {
   event.preventDefault();
   if (type === 'quote') {
-    toggleQuote(editor);
-    // TODO: Upgrade. Old code for handling lists
-    //   // Current list type is active
-    //   if (isListTypeActive) {
-    //     editor.unwrapList();
-    //     // Current selection is list, but not the same type
-    //   } else if (editor.isSelectionInList()) {
-    //     editor.unwrapList();
-    //     editor.wrapInList(type);
-    //     // No list found, wrap in list type
-    //   } else {
-    //     editor.wrapInList(type);
-    //   }
-    // }
+    toggleBlock(editor, type);
+  } else if (type === 'heading-2') {
+    toggleHeading(editor, 2);
+  } else if (type === 'heading-3') {
+    toggleHeading(editor, 3);
   }
+  // TODO: Upgrade. Old code for handling lists
+  //   // Current list type is active
+  //   if (isListTypeActive) {
+  //     editor.unwrapList();
+  //     // Current selection is list, but not the same type
+  //   } else if (editor.isSelectionInList()) {
+  //     editor.unwrapList();
+  //     editor.wrapInList(type);
+  //     // No list found, wrap in list type
+  //   } else {
+  //     editor.wrapInList(type);
+  //   }
+  // }
 }
 
 export function handleClickInline(

@@ -8,11 +8,12 @@
 
 import { Editor, Element } from 'new-slate';
 
-const hasNodeOfType = (editor: Editor, type: string) => {
+const getCurrentBlock = (editor: Editor, type: Element['type']) => {
   const [match] = Editor.nodes(editor, {
-    match: node => Element.isElement(node) && node.type === type,
+    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === type,
+    mode: 'lowest',
   });
-  return !!match;
+  return match;
 };
 
-export default hasNodeOfType;
+export default getCurrentBlock;

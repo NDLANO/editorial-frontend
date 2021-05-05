@@ -9,9 +9,9 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
-import { Descendant, Editor, Element } from 'new-slate';
+import { Descendant, Editor, Element, Transforms } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
-import { hasNodeOfType, isBlockActive } from '../../utils';
+import { hasNodeOfType } from '../../utils';
 const KEY_ENTER = 'Enter';
 export const TYPE_HEADING = 'heading';
 
@@ -57,9 +57,10 @@ const onEnter = (
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
   e.preventDefault();
-  if (hasNodeOfType(editor, { type: TYPE_HEADING })) {
+  if (hasNodeOfType(editor, TYPE_HEADING)) {
     return;
   }
+  return nextOnKeyDown && nextOnKeyDown(e);
 };
 
 export const headingPlugin = (editor: Editor) => {
@@ -88,10 +89,22 @@ export const headingPlugin = (editor: Editor) => {
         default:
           return nextRenderElement && nextRenderElement(props);
       }
+    } else if (nextRenderElement) {
+      return nextRenderElement(props);
     }
+    return undefined;
   };
 
   editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === 'heading') {
+      if (!node.level) {
+        Transforms.setNodes(editor, { level: 2 }, { at: path });
+        return;
+      }
+    }
+
     nextNormalizeNode(entry);
   };
 

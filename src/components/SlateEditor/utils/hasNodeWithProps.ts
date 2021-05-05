@@ -8,11 +8,13 @@
 
 import { Editor, Element } from 'new-slate';
 
-const hasNodeOfType = (editor: Editor, type: string) => {
+const hasNodeWithProps = (editor: Editor, props: Partial<Element>) => {
   const [match] = Editor.nodes(editor, {
-    match: node => Element.isElement(node) && node.type === type,
+    match: node => {
+      return Element.isElement(node) && Element.matches(node, props);
+    },
   });
   return !!match;
 };
 
-export default hasNodeOfType;
+export default hasNodeWithProps;

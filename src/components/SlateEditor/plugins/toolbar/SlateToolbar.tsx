@@ -14,7 +14,7 @@ import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
-import { hasNodeOfType } from '../../utils';
+import { hasNodeWithProps } from '../../utils';
 import { isMarkActive } from '../mark';
 // import { listTypes } from '../externalPlugins';
 
@@ -31,10 +31,6 @@ const learningResourceElements: { [key: string]: string[] } = {
 };
 
 const specialRules: { [key: string]: Partial<Element> } = {
-  'heading-1': {
-    type: 'heading',
-    level: 1,
-  },
   'heading-2': {
     type: 'heading',
     level: 2,
@@ -131,7 +127,7 @@ const SlateToolbar = (props: Props) => {
       key={type}
       type={type}
       kind={'block'}
-      isActive={hasNodeOfType(editor, specialRules[type] ?? { type })}
+      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
       handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
@@ -142,7 +138,7 @@ const SlateToolbar = (props: Props) => {
       key={type}
       type={type}
       kind={'inline'}
-      isActive={hasNodeOfType(editor, specialRules[type] ?? { type })}
+      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
       handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}

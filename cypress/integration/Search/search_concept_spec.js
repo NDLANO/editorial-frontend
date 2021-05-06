@@ -6,7 +6,7 @@
  *
  */
 
- import { visitOptions, setToken } from '../../support';
+ import { setToken } from '../../support';
 
  describe('Search concepts', () => {
    beforeEach(() => {
@@ -26,10 +26,7 @@
            "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
          }
        }]);
-     cy.visit(
-       '/search/concept?page=1&page-size=10&sort=-lastUpdated',
-       visitOptions,
-     );
+     cy.visit('/search/concept?page=1&page-size=10&sort=-lastUpdated');
      cy.apiwait(['@searchConcepts', '@allSubjects']);
    });
  

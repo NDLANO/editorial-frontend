@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 const ARTICLE_ID = 800;
@@ -16,7 +16,7 @@ describe('Learning resource editing', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait('@licenses');
   });
 

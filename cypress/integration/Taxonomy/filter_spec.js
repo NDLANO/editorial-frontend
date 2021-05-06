@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Test filter functionality', () => {
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('Test filter functionality', () => {
       '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
-    cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.visit('/structure/urn:subject:12');
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');

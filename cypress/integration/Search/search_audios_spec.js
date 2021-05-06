@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Search audios', () => {
   beforeEach(() => {
@@ -17,10 +17,7 @@ describe('Search audios', () => {
       '/audio-api/v1/audio/?page=1&page-size=10&sort=-relevance',
       'searchAudios',
     );
-    cy.visit(
-      '/search/audio?page=1&page-size=10&sort=-relevance',
-      visitOptions,
-    );
+    cy.visit('/search/audio?page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@licenses', '@searchAudios']);
   });
 

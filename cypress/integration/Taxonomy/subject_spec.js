@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Subject editing', () => {
   before(() => {
@@ -20,7 +20,7 @@ describe('Subject editing', () => {
     );
     cy.apiroute('GET', '/taxonomy/v1/subjects/urn:subject:12/filters', 'allSubjectFilters');
 
-    cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.visit('/structure/urn:subject:12');
     cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
   });
 

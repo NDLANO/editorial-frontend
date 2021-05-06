@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from "./editorRoutes";
 
 const CONCEPT_ID = 1;
@@ -16,7 +16,7 @@ describe('Language handling', () => {
     setToken();
     editorRoutes()
     cy.apiroute('GET', `**/concept-api/v1/drafts/${CONCEPT_ID}?*`, `concept-${CONCEPT_ID}`);
-    cy.visit(`/concept/${CONCEPT_ID}/edit/nb`,visitOptions);
+    cy.visit(`/concept/${CONCEPT_ID}/edit/nb`);
   });
 
   it('Can change language and fetch the new concept', () => {

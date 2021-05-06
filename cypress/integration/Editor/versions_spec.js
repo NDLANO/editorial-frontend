@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Workflow features', () => {
@@ -16,7 +16,7 @@ describe('Workflow features', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.contains('Versjonslogg og merknader')
       .click();
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@articleHistory-${ARTICLE_ID}`, '@getNoteUsers']);
@@ -32,9 +32,10 @@ describe('Workflow features', () => {
       .click();
     cy.apiwait('@patchUserData');
   });
-
+  
   it('Open previews', () => {
-    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
+    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
+    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();

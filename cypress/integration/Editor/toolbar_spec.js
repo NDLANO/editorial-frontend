@@ -6,12 +6,12 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Selecting text and using the toolbar', () => {
   before(() => {
     setToken();
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.visit('/subject-matter/learning-resource/new');
   });
 
   it('change the text styling', () => {

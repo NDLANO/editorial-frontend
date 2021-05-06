@@ -6,14 +6,14 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from "./editorRoutes";
 
 describe('can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them', () => {
   before(() => {
     setToken();
     editorRoutes();
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.visit('/subject-matter/learning-resource/new');
     cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
   });
 

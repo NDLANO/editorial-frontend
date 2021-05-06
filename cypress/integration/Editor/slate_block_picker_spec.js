@@ -117,7 +117,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
     cy.get('[data-cy=create-podcast]').click();
-    cy.apiwait('@editor/audios/podcastList');
+    cy.apiwait(['@editor/audios/podcastList', '@editor/audios/audio-1']);
     cy.get('[data-cy="modal-header"]').should('be.visible');
     cy.get('[data-cy="modal-body"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
@@ -128,7 +128,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
 
     cy.get('[data-cy=create-audio]').click()
-    cy.apiwait('@editor/audios/audioList');
+    cy.apiwait(['@editor/audios/audioList', '@editor/audios/audio-1']);
 
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');

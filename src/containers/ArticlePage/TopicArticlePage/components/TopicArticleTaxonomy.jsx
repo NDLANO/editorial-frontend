@@ -311,7 +311,7 @@ class TopicArticleTaxonomy extends Component {
   updateFilter = (resourceId, filter, relevanceId, remove) => {
     const { stagedTopicChanges, stagedFilterChanges } = this.state;
     let topic = stagedTopicChanges.find(topic =>
-      topic.paths?.some(path => path.includes(filter.subjectId.replace('urn:', ''))),
+      topic.path.includes(filter.subjectId.replace('urn:', '')),
     );
     if (!topic) {
       topic = stagedTopicChanges[0];

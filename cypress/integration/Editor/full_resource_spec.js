@@ -28,7 +28,7 @@ describe('Edit article with everything', () => {
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.apiwait(['@draftNN']);
+    cy.apiwait(['@draftNN', '@statusMachine']);
   });
 
   it('Can edit the published date', () => {

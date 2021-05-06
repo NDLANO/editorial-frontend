@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import coreResources from '../../fixtures/coreResources';
 
 describe('Resource listing', () => {
@@ -52,10 +52,7 @@ describe('Resource listing', () => {
       'getArticles',
     );
     cy.intercept('PUT', '/taxonomy/v1/topics/urn:topic:1:183437', '');
-    cy.visit(
-      '/structure/urn:subject:12/urn:topic:1:183043/urn:topic:1:183437',
-      visitOptions,
-    );
+    cy.visit('/structure/urn:subject:12/urn:topic:1:183043/urn:topic:1:183437');
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');

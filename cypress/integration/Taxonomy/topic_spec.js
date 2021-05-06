@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:12';
@@ -33,7 +33,7 @@ describe('Topic editing', () => {
     cy.apiroute('GET', `/taxonomy/v1/topics/${selectTopic}/filters`, 'topicFilters');
 
     cy.intercept('PUT', '**/taxonomy/v1/topic-filters/**', []);
-    cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
+    cy.visit(`/structure/${selectSubject}/${selectTopic}`);
   });
 
   it('should have a settings menu where everything works', () => {

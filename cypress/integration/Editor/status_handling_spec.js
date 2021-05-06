@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 // change article ID and run cy-record to add the new fixture data
@@ -32,10 +32,7 @@ describe('Status changes', () => {
       `statusChangeToPublish`,
     );
 
-    cy.visit(
-      `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
-      visitOptions,
-    );
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
   });
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Edit article with everything', () => {
@@ -15,7 +15,7 @@ describe('Edit article with everything', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses']);
   });
 

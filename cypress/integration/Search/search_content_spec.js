@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Search content', () => {
   beforeEach(() => {
@@ -27,10 +27,7 @@ describe('Search content', () => {
           "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
         }
       }]);
-    cy.visit(
-      '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
-      visitOptions,
-    );
+    cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@resourceTypes', '@search', '@allSubjects']);
   });
 

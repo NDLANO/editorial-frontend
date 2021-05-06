@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Workflow features', () => {
@@ -16,31 +16,32 @@ describe('Workflow features', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.contains('Versjonslogg og merknader')
       .click();
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@articleHistory-${ARTICLE_ID}`, '@getNoteUsers']);
   });
 
-  // it('Can add notes and save', () => {
-  //   cy.get('[data-testid=addNote]').click();
-  //   cy.get('[data-testid=notesInput]')
-  //     .type('Test merknad')
-  //     .blur();
-  //   cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-  //     .first()
-  //     .click();
-  //   cy.apiwait('@patchUserData');
-  // });
-  //
-  // it('Open previews', () => {
-  //   cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
-  //   cy.get('[data-testid=previewVersion]')
-  //     .first()
-  //     .click();
-  //   cy.get('[data-testid=closePreview]').click();
-  //   cy.apiwait(`@converted-article-${ARTICLE_ID}`);
-  // });
+  it('Can add notes and save', () => {
+    cy.get('[data-testid=addNote]').click();
+    cy.get('[data-testid=notesInput]')
+      .type('Test merknad')
+      .blur();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click();
+    cy.apiwait('@patchUserData');
+  });
+  
+  it('Open previews', () => {
+    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
+    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
+    cy.get('[data-testid=previewVersion]')
+      .first()
+      .click();
+    cy.get('[data-testid=closePreview]').click();
+    cy.apiwait(`@converted-article-${ARTICLE_ID}`);
+  });
 
   it('Can reset to prod', () => {
     // This operation is slow, and even slower on older/limited hardware, hence the additional 5s

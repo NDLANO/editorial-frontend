@@ -19,11 +19,11 @@ import { expiresIn } from '../../src/util/jwtHelper';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-export const visitOptions = {
+/*export const visitOptions = {
   onBeforeLoad: win => {
     win.fetch = null; //eslint-disable-line
   },
-};
+};*/
 
 let token = '';
 
@@ -77,6 +77,7 @@ Cypress.on('window:before:load', function (win) {
 
 Cypress.on('uncaught:exception', (err, runnable) => {
   if (err.message.includes('Network request failed')) {
+    console.warn(err.message);
     return false
   }
 })

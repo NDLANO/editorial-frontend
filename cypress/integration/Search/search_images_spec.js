@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Search images', () => {
   beforeEach(() => {
@@ -17,10 +17,7 @@ describe('Search images', () => {
       '/image-api/v2/images/?page=1&page-size=10&sort=-relevance',
       'searchImages',
     );
-    cy.visit(
-      '/search/image?page=1&page-size=10&sort=-relevance',
-      visitOptions,
-    );
+    cy.visit('/search/image?page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@licenses', '@searchImages']);
   });
 

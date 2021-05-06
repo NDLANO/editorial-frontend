@@ -6,7 +6,7 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Film editing', () => {
   before(() => {
@@ -14,7 +14,7 @@ describe('Film editing', () => {
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
     cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
-    cy.visit('/film', visitOptions);
+    cy.visit('/film');
     cy.apiwait(['@filmFrontpage', '@allMovies', '@zendeskToken']);
   });
 

@@ -27,7 +27,8 @@ describe('Film editing', () => {
       .parent()
       .parent()
       .contains('Page One')
-      .click();
+      .click()
+      .wait('@allMovies');
   });
 
   it('Can remove movie from slideshow', () => {

@@ -6,49 +6,52 @@
  *
  */
 
-import { setToken } from '../../support';
+import { visitOptions, setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 // change article ID and run cy-record to add the new fixture data
-const ARTICLE_ID = 533;
+const ARTICLE_ID = 800;
 
 describe('Status changes', () => {
   beforeEach(() => {
     setToken();
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
+
     editorRoutes(ARTICLE_ID);
     cy.apiroute(
       'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
-      `statusChangeToUtkast`,
-    );
-    cy.apiroute(
-      'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/QUEUED_FOR_PUBLISHING`,
-      `statusChangeToQueuePublish`,
-    );
-    cy.apiroute(
-      'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PUBLISHED`,
-      `statusChangeToPublish`,
+      `/draft-api/v1/drafts/${ARTICLE_ID}/status/**`,
+      `statusChange`,
     );
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
+    cy.visit(
+      `/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`,
+      visitOptions,
+    );
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
+    cy.wait(500);
   });
 
   it('Can change status corretly', () => {
     // change from published to proposal
-    cy.get('[data-cy=footerStatus] button')
+    cy.get('footer button')
       .contains('Publisert')
       .click();
     cy.get('footer li > button')
       .contains('Utkast')
       .click();
-    cy.apiwait(`@statusChangeToUtkast`);
+    cy.apiwait(`@statusChange`);
 
-    cy.get('[data-cy="learning-resource-title"]')
-      .click({force:true})
-      .type('Some change');
+    cy.get('[data-cy=learning-resource-title]').type('Some change');
     cy.get('footer button')
       .contains('Utkast')
       .click();
@@ -56,14 +59,14 @@ describe('Status changes', () => {
       .contains('Til publisering')
       .click();
     cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
-    cy.apiwait(`@statusChangeToQueuePublish`);
+    cy.apiwait(`@statusChange`);
 
     cy.get('footer button')
-      .contains('Til publisering')
+      .contains('Utkast')
       .click();
     cy.get('footer li > button')
       .contains('Publiser')
       .click();
-    cy.apiwait(`@statusChangeToPublish`);
+    cy.apiwait(`@statusChange`);
   });
 });

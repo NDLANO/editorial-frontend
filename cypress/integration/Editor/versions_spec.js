@@ -6,20 +6,39 @@
  *
  */
 
-import { setToken } from '../../support';
+import { visitOptions, setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Workflow features', () => {
   const ARTICLE_ID = 532;
-  beforeEach(() => {
+  before(() => {
     // change article ID and run cy-record to add the new fixture data
     setToken();
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
+      },
+    });
+
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.contains('Versjonslogg og merknader')
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
+    cy.wait(500);
+    cy.get('button')
+      .contains('Versjonslogg og merknader')
       .click();
-    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@articleHistory-${ARTICLE_ID}`, '@getNoteUsers']);
+    cy.apiwait(`@articleHistory-${ARTICLE_ID}`);
+  });
+
+  beforeEach(() => {
+    setToken();
+    cy.server({ force404: true });
+
+    editorRoutes(ARTICLE_ID);
   });
 
   it('Can add notes and save', () => {
@@ -30,29 +49,32 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait('@patchUserData');
+    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
   });
-  
+
   it('Open previews', () => {
-    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
-    cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
+    cy.route(
+      'POST',
+      '/article-converter/json/nb/transform-article?draftConcept=true&previewH5p=true',
+      'fixture:transformedArticle.json',
+    ).as('transformedArticle');
+    cy.wait(100);
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
+    cy.wait('@transformedArticle');
+    cy.wait(100);
     cy.get('[data-testid=closePreview]').click();
-    cy.apiwait(`@converted-article-${ARTICLE_ID}`);
   });
 
   it('Can reset to prod', () => {
-    // This operation is slow, and even slower on older/limited hardware, hence the additional 5s
-    cy.apiroute('GET', `/article-api/v2/articles/${ARTICLE_ID}*`, `article-${ARTICLE_ID}`);
     cy.get('[data-testid=resetToVersion]')
       .first()
       .click();
-    cy.contains('Innhold er tilbakestilt');
+    cy.get('[data-testid=closeAlert]').click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait([`@article-${ARTICLE_ID}`, `@updateDraft-${ARTICLE_ID}`, "@getUserData", `@articleHistory-${ARTICLE_ID}`, "@patchUserData", "@getNoteUsers"]);
+    cy.apiwait(`@updateDraft-${ARTICLE_ID}`);
   });
 });

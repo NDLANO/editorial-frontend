@@ -6,18 +6,22 @@
  *
  */
 
-import { setToken } from '../../support';
+import { visitOptions, setToken } from '../../support';
 
 describe('Search images', () => {
   beforeEach(() => {
     setToken();
+    cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.apiroute(
       'GET',
       '/image-api/v2/images/?page=1&page-size=10&sort=-relevance',
       'searchImages',
     );
-    cy.visit('/search/image?page=1&page-size=10&sort=-relevance');
+    cy.visit(
+      '/search/image?page=1&page-size=10&sort=-relevance',
+      visitOptions,
+    );
     cy.apiwait(['@licenses', '@searchImages']);
   });
 

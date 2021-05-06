@@ -21,16 +21,16 @@
     "test": "cross-env BABEL_ENV=test NODE_ENV=unittest jest",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "check-articles": "NODE_ENV=test CHECK_ARTICLE_SCRIPT=true node scripts/bin/check-articles",
-    "cy": "CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress open",
-    "cy-run": "CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run",
-    "cy-record": "CYPRESS_RECORD_FIXTURES=true BABEL_ENV=test cypress open",
+    "cy": "CYPRESS_USE_FIXTURES=true cypress open",
+    "cy-run": "CYPRESS_USE_FIXTURES=true cypress run",
+    "cy-record": "CYPRESS_RECORD_FIXTURES=true cypress open",
     "pree2e-ci-record": "cross-env NODE_ENV=production node build/server &",
-    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record  --parallel",
-    "run-e2e": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record --parallel'",
-    "run-cyp": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'BABEL_ENV=test yarn cy-run'",
-    "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress open",
-    "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true BABEL_ENV=test cypress run",
-    "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record"
+    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record  --parallel",
+    "run-e2e": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'CYPRESS_USE_FIXTURES=true cypress run --record --parallel'",
+    "run-cyp": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'yarn cy-run'",
+    "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true cypress open",
+    "e2e-record-fixtures": "cross-env CYPRESS_RECORD_FIXTURES=true cypress run",
+    "e2e-ci-record": "cross-env CYPRESS_USE_FIXTURES=true cypress run --record"
   },
   "jest": {
     "testRegex": "/__tests__/.*-test.(js|jsx|ts|tsx)$",
@@ -39,7 +39,7 @@
     ]
   },
   "engines": {
-    "node": ">=14.16.0",
+    "node": ">=10.4.0",
     "npm": ">=5.3.0"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "babel-preset-razzle": "4.0.2",
     "chalk": "^2.4.2",
     "cross-env": "^5.2.0",
-    "cypress": "^7.2.0",
+    "cypress": "^4.4.1",
     "diff-match-patch": "^1.0.5",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",

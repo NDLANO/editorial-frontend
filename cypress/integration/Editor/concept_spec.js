@@ -6,17 +6,36 @@
  *
  */
 
-import { setToken } from '../../support';
-import editorRoutes from "./editorRoutes";
+import { setToken, visitOptions } from '../../support';
 
 const CONCEPT_ID = 1;
 
 describe('Language handling', () => {
-  before(() => {
+  beforeEach(() => {
     setToken();
-    editorRoutes()
-    cy.apiroute('GET', `**/concept-api/v1/drafts/${CONCEPT_ID}?*`, `concept-${CONCEPT_ID}`);
-    cy.visit(`/concept/${CONCEPT_ID}/edit/nb`);
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
+
+    cy.apiroute(
+      'GET',
+      `/concept-api/v1/drafts/${CONCEPT_ID}?language=nb&fallback=true`,
+      `concept-${CONCEPT_ID}`,
+    );
+    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+
+    cy.visit(
+      `/concept/${CONCEPT_ID}/edit/nb`,
+      visitOptions,
+    );
+    cy.apiwait(['@licenses', `@concept-${CONCEPT_ID}`]);
   });
 
   it('Can change language and fetch the new concept', () => {

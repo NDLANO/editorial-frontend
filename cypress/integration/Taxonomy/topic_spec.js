@@ -6,7 +6,7 @@
  *
  */
 
-import { setToken } from '../../support';
+import { visitOptions, setToken } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:12';
@@ -15,30 +15,91 @@ const selectTopic = 'urn:topic:1:183043';
 describe('Topic editing', () => {
   beforeEach(() => {
     setToken();
-
+    cy.server({
+      force404: true,
+      whitelist: xhr => {
+        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
+        //return the default cypress whitelist filer
+        return (
+          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
+        );
+      },
+    });
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
       `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
-    cy.apiroute('GET', `/taxonomy/v1/topics?recursive=true&language=nb`, 'allTopics');
-    cy.apiroute('GET', `/taxonomy/v1/subjects/${selectSubject}/filters`, 'allSubjectFilters');
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/topics?recursive=true&language=nb`,
+      'allTopics',
+    );
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/subjects/${selectSubject}/filters`,
+      'allSubjectFilters',
+    );
     cy.apiroute('GET', '/taxonomy/v1/filters/?language=nb', 'allFilters');
-    cy.apiroute('GET', '/taxonomy/v1/resource-types/?language=nb', 'resourceTypes');
-    cy.apiroute('GET', '**/draft-api/v1/drafts/**', 'article');
+    cy.apiroute(
+      'GET',
+      '/taxonomy/v1/resource-types/?language=nb',
+      'resourceTypes',
+    );
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/topics/${selectTopic}/resources?language=nb`,
+      'allTopicResources',
+    );
+    cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
 
-    cy.intercept('POST', '/taxonomy/v1/topics', []);
-    cy.intercept('POST', '/taxonomy/v1/topic-filters', []).as('addFilter');
-    cy.apiroute('GET', `/taxonomy/v1/topics/${selectTopic}/filters`, 'topicFilters');
+    cy.route({
+      method: 'POST',
+      url: '/taxonomy/v1/topics',
+      status: 201,
+      headers: {
+        Location: 'newPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      response: '',
+    });
+    cy.apirouteTaxonomy({
+      method: 'POST',
+      status: 201,
+      url: '/taxonomy/v1/topic-filters',
+      headers: {
+        Location: 'newFilterPath',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      response: '',
+      alias: 'addFilter',
+    });
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/topics/${selectTopic}/filters`,
+      'topicFilters',
+    );
 
-    cy.intercept('PUT', '**/taxonomy/v1/topic-filters/**', []);
-    cy.visit(`/structure/${selectSubject}/${selectTopic}`);
+    cy.apirouteTaxonomy({
+      method: 'PUT',
+      url: '/taxonomy/v1/topic-filters/**',
+      headers: {
+        Location: 'filterLocation',
+        'content-type': 'text/plain; charset=UTF-8',
+      },
+      status: 201,
+      response: '',
+      alias: 'changeFilter',
+    });
+
+    cy.visit(`/structure/${selectSubject}/${selectTopic}`, visitOptions);
   });
 
   it('should have a settings menu where everything works', () => {
     cy.wait('@allSubjectTopics');
     cy.wait('@allFilters');
+    cy.wait(1000);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
@@ -49,14 +110,17 @@ describe('Topic editing', () => {
 
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@allSubjectTopics']);
+    cy.wait(500);
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
       .contains(phrases.taxonomy.connectFilters)
       .click();
+    cy.wait(500);
     cy.wait('@allSubjectTopics');
     cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
     cy.get('[data-testid="submitConnectFilters"]').click();
     cy.apiwait(['@addFilter']);
+    cy.wait(500);
   });
 });

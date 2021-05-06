@@ -6,12 +6,13 @@
  *
  */
 
-import { setToken } from '../../support';
+import { visitOptions, setToken } from '../../support';
 
 describe('Selecting text and using the toolbar', () => {
   before(() => {
     setToken();
-    cy.visit('/subject-matter/learning-resource/new');
+    cy.server({ force404: true });
+    cy.visit('/subject-matter/learning-resource/new', visitOptions);
   });
 
   it('change the text styling', () => {
@@ -62,6 +63,7 @@ describe('Selecting text and using the toolbar', () => {
       });
 
     cy.get('[data-testid=toolbar-button-link]').click({ force: true });
+    cy.wait(500);
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
@@ -83,6 +85,7 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .focus()
           .type('First item in list');
+        cy.wait(500);
         cy.wrap($el)
           .focus()
           .type('{selectall}');

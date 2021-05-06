@@ -61,7 +61,6 @@ const ElementListItem = ({
 
   return (
     <StyledListItem
-      data-cy="elementListItem"
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
@@ -103,12 +102,7 @@ const ElementListItem = ({
             </StyledButtonIcons>
           )}
           <Tooltip tooltip={messages?.removeElement}>
-            <StyledButtonIcons
-              data-cy="elementListItemDeleteButton"
-              tabIndex={-1}
-              type="button"
-              onClick={() => deleteFile(index)}
-              delete>
+            <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
               <DeleteForever />
             </StyledButtonIcons>
           </Tooltip>

@@ -1,1 +1,687 @@
-[{"id":"6237919560001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-08T13:34:02.341Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo":"Leverandør: Mediafarm","license":"Navngivelse-Del på samme vilkår","yt_privacy_status":"unlisted"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":81984,"economics":"FREE","folder_id":"5de785a903322864b27c7889","geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/b358eade-1485-417d-9651-215ccedfdd38/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/b358eade-1485-417d-9651-215ccedfdd38/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/43cba5fe-16d5-4c38-bfef-078a3c3e497f/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/43cba5fe-16d5-4c38-bfef-078a3c3e497f/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":null,"name":"Splittkneboey_NN","original_filename":"Splittkneboey_NN.mp4","projection":null,"published_at":"2021-03-08T13:34:02.350Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["anatomi","muskler","simulering","styrketrening"],"text_tracks":[{"id":"be5d9e69-3236-4b23-8206-171755bbf7cb","account_id":"4806596774001","src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/be5d9e69-3236-4b23-8206-171755bbf7cb/text.vtt?fastly_token=NjA1NGY0NWNfMDc5MDcwODEwOGM2NjlmODU2YmE0NDI2ZjE1MDY4ODIzMWZmNDQ1YTFlYjY2NGU2OTBlOTY3MjQwNjZlNGY4ZF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ0MzQ0MzdlLTAwZjItNDA3Mi04ODM5LWU3N2ExNzdhOTkxYy9iZTVkOWU2OS0zMjM2LTRiMjMtODIwNi0xNzE3NTViYmY3Y2IvdGV4dC52dHQ%3D","srclang":"nn-NO","label":"Nynorsk","kind":"captions","mime_type":"text/webvtt","asset_id":null,"sources":[{"src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/be5d9e69-3236-4b23-8206-171755bbf7cb/text.vtt?fastly_token=NjA1NGY0NWNfMDc5MDcwODEwOGM2NjlmODU2YmE0NDI2ZjE1MDY4ODIzMWZmNDQ1YTFlYjY2NGU2OTBlOTY3MjQwNjZlNGY4ZF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzQ0MzQ0MzdlLTAwZjItNDA3Mi04ODM5LWU3N2ExNzdhOTkxYy9iZTVkOWU2OS0zMjM2LTRiMjMtODIwNi0xNzE3NTViYmY3Y2IvdGV4dC52dHQ%3D"},{"src":"https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/4434437e-00f2-4072-8839-e77a177a991c/be5d9e69-3236-4b23-8206-171755bbf7cb/text.vtt?fastly_token=NjA1NGY0NWNfZjMwODYxYTY3ZGViN2MxYTQ5MGQyOWNjNDkxNzlhZGVkODhjMmNjOTNjMmJmZjg3Yjk3ZWVjNGNjZjQzMzIwOV9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS80NDM0NDM3ZS0wMGYyLTQwNzItODgzOS1lNzdhMTc3YTk5MWMvYmU1ZDllNjktMzIzNi00YjIzLTgyMDYtMTcxNzU1YmJmN2NiL3RleHQudnR0"}],"in_band_metadata_track_dispatch_type":"","default":false}],"updated_at":"2021-03-19T00:00:20.912Z","updated_by":{"type":"unknown"},"playback_rights_id":null},{"id":"6241566420001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-18T12:25:31.332Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":39079,"economics":"AD_SUPPORTED","folder_id":"5c6672048283656b30d290b3","geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/11b691c7-9165-406c-b0d4-71fa3e3cdc70/main/1280x720/19s539ms/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/11b691c7-9165-406c-b0d4-71fa3e3cdc70/main/1280x720/19s539ms/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/11b691c7-9165-406c-b0d4-71fa3e3cdc70/main/160x90/19s539ms/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/11b691c7-9165-406c-b0d4-71fa3e3cdc70/main/160x90/19s539ms/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":null,"name":"Velge design - test","original_filename":"Velge design - test.mp4","projection":null,"published_at":"2021-03-18T12:25:31.343Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["internett","nettside","sway","test"],"text_tracks":[],"updated_at":"2021-03-18T12:26:12.196Z","updated_by":{"type":"internal"},"playback_rights_id":null},{"id":"6241509990001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-18T07:44:24.312Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo":"Leverandør: Amendor As","licenseinfo2":"Opphaver: Kristin Bøhle","yt_privacy_status":"unlisted","license":"Navngivelse-Del på samme vilkår"},"delivery_type":"dynamic_origin","description":"Ozon er ein gass som er konsentrert i stratosfæren. Utslepp frå jorda kan skape hol i ozonlaget, noko som kan sleppe meir skadeleg stråling ned til jordoverflata.","digital_master_id":null,"duration":401003,"economics":"AD_SUPPORTED","folder_id":"5c6fc4ec2222482475075bcb","geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/7a40de1d-9783-4957-ac1a-1639fd7ee2e0/9328aa4e-8de9-4bcc-9a7c-1c93f780b1e0/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/7a40de1d-9783-4957-ac1a-1639fd7ee2e0/9328aa4e-8de9-4bcc-9a7c-1c93f780b1e0/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/7a40de1d-9783-4957-ac1a-1639fd7ee2e0/9a3dd378-f399-450a-ab21-e5b62eaab165/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/7a40de1d-9783-4957-ac1a-1639fd7ee2e0/9a3dd378-f399-450a-ab21-e5b62eaab165/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":null,"name":"Ozonlaget (nn)","original_filename":"Ozonlaget nynorsk ny.mp4","projection":null,"published_at":"2021-03-18T07:44:24.324Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["atmosfæren","eleketromagnetisk stråling","kfk-gasser","kjemi","ozon","ozonlaget","stratosfæren","stråling","ultrafiolett stråling","uv-a","uv-b. uv-c","uv-stråling"],"text_tracks":[],"updated_at":"2021-03-18T12:24:19.389Z","updated_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"playback_rights_id":null},{"id":"6240896492001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-16T09:43:15.305Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo":"Leverandør: Amendor AS","licenseinfo2":"Forfatter: Kristin Bøhle","yt_privacy_status":"unlisted","license":"Navngivelse-Del på samme vilkår"},"delivery_type":"dynamic_origin","description":"Ozon er ein gass som er konsentrert i stratosfæren. Utslepp frå jorda kan skape hol i ozonlaget, noko som kan sleppe meir skadeleg stråling ned til jordoverflata. ","digital_master_id":null,"duration":424917,"economics":"FREE","folder_id":null,"geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4cdee2f2-a016-4a46-8b2d-b56ae6342c21/0d409d71-1b90-4490-93bf-2feb7780f7c8/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4cdee2f2-a016-4a46-8b2d-b56ae6342c21/0d409d71-1b90-4490-93bf-2feb7780f7c8/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4cdee2f2-a016-4a46-8b2d-b56ae6342c21/241e604a-3e44-4852-bd80-35cec8fdc481/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/4cdee2f2-a016-4a46-8b2d-b56ae6342c21/241e604a-3e44-4852-bd80-35cec8fdc481/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":null,"name":"Ozonlaget (bm)","original_filename":"ozonlaget bokmål ny.mp4","projection":null,"published_at":"2021-03-16T09:43:15.316Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["kfk-gasser","ozon","ozonlaget","stråling","ultrafiolett stråling","uv-a","uv-b. uv-c","uv-stråling"],"text_tracks":[],"updated_at":"2021-03-18T11:09:07.212Z","updated_by":{"type":"internal"},"playback_rights_id":null},{"id":"5796799398001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2018-06-12T21:40:06.512Z","created_by":{"type":"unknown"},"cue_points":[],"custom_fields":{"yt_privacy_status":"private","license":"Navngivelse-Del på samme vilkår","licenseinfo":"Leverandør: Applaus! Film & TV"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":367061,"economics":"AD_SUPPORTED","folder_id":null,"geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/abdff665-7ccf-4c9c-89fc-9cb62c1aab22/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/abdff665-7ccf-4c9c-89fc-9cb62c1aab22/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/48358ebf-b0e4-4e6e-9ddc-1cc303c40e2e/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/48358ebf-b0e4-4e6e-9ddc-1cc303c40e2e/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":null,"name":"Det ondes problem","original_filename":"download-original","projection":null,"published_at":"2018-06-12T21:40:06.512Z","reference_id":"185042","schedule":null,"sharing":null,"state":"ACTIVE","tags":["det ondes problem","etikk","religion","religion og etikk"],"text_tracks":[{"id":"9603039c-eb1c-4b37-9878-f495c9e04118","account_id":"4806596774001","src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/9603039c-eb1c-4b37-9878-f495c9e04118/text.vtt?fastly_token=NjA1NGY1YThfMzQ5ODIwMzUzMjcyYWEzODZiMTUxNjFhOTU0OWRjZDkzYzgzNzlkY2Q4YWNlNDQzMDNmNmU2ZTJjN2Q5MmMwYV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzA2OWNlZDYyLTEyN2EtNDZiNi04YjM5LTY1MzljMGExNzhhNC85NjAzMDM5Yy1lYjFjLTRiMzctOTg3OC1mNDk1YzllMDQxMTgvdGV4dC52dHQ%3D","srclang":"nb-NO","label":"Bokmål","kind":"captions","mime_type":"text/webvtt","asset_id":null,"sources":[{"src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/9603039c-eb1c-4b37-9878-f495c9e04118/text.vtt?fastly_token=NjA1NGY1YThfMzQ5ODIwMzUzMjcyYWEzODZiMTUxNjFhOTU0OWRjZDkzYzgzNzlkY2Q4YWNlNDQzMDNmNmU2ZTJjN2Q5MmMwYV9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzA2OWNlZDYyLTEyN2EtNDZiNi04YjM5LTY1MzljMGExNzhhNC85NjAzMDM5Yy1lYjFjLTRiMzctOTg3OC1mNDk1YzllMDQxMTgvdGV4dC52dHQ%3D"},{"src":"https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/9603039c-eb1c-4b37-9878-f495c9e04118/text.vtt?fastly_token=NjA1NGY1YThfYTMxOTZlZTA5NTdlYTllYTgyNDU1Mjg2MTQ4NzJmM2YwYmM5ZmI4YmE4MWFiNDNiNWUxMThmNzAwYTdkOTMzY19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8wNjljZWQ2Mi0xMjdhLTQ2YjYtOGIzOS02NTM5YzBhMTc4YTQvOTYwMzAzOWMtZWIxYy00YjM3LTk4NzgtZjQ5NWM5ZTA0MTE4L3RleHQudnR0"}],"in_band_metadata_track_dispatch_type":"","default":false},{"id":"58994c47-820f-4a8a-b68f-83b052abeeba","account_id":"4806596774001","src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/58994c47-820f-4a8a-b68f-83b052abeeba/text.vtt?fastly_token=NjA1NGY1YThfZWE1NjllMDUyNTM0NjVlMjQzY2YxZWVmZTRhNWU2MWMzNDhmZjViNmVmZGVmZTkyNjc3N2FkY2RmNzlmNzkzYl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzA2OWNlZDYyLTEyN2EtNDZiNi04YjM5LTY1MzljMGExNzhhNC81ODk5NGM0Ny04MjBmLTRhOGEtYjY4Zi04M2IwNTJhYmVlYmEvdGV4dC52dHQ%3D","srclang":"nn-NO","label":"Nynorsk","kind":"captions","mime_type":"text/webvtt","asset_id":null,"sources":[{"src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/58994c47-820f-4a8a-b68f-83b052abeeba/text.vtt?fastly_token=NjA1NGY1YThfZWE1NjllMDUyNTM0NjVlMjQzY2YxZWVmZTRhNWU2MWMzNDhmZjViNmVmZGVmZTkyNjc3N2FkY2RmNzlmNzkzYl9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzA2OWNlZDYyLTEyN2EtNDZiNi04YjM5LTY1MzljMGExNzhhNC81ODk5NGM0Ny04MjBmLTRhOGEtYjY4Zi04M2IwNTJhYmVlYmEvdGV4dC52dHQ%3D"},{"src":"https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/069ced62-127a-46b6-8b39-6539c0a178a4/58994c47-820f-4a8a-b68f-83b052abeeba/text.vtt?fastly_token=NjA1NGY1YThfOTk1YzIyNGQwNDc1YjE3YzA0MmEyMWZiYzg5MjY4NTcwZDBkMGU4ZDFlM2UzYjcwMDZkZTIxN2IzNDRiYzZkNF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8wNjljZWQ2Mi0xMjdhLTQ2YjYtOGIzOS02NTM5YzBhMTc4YTQvNTg5OTRjNDctODIwZi00YThhLWI2OGYtODNiMDUyYWJlZWJhL3RleHQudnR0"}],"in_band_metadata_track_dispatch_type":"","default":false}],"updated_at":"2021-03-18T10:09:45.335Z","updated_by":{"type":"internal"},"playback_rights_id":null},{"id":"5796796594001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2018-06-12T21:40:06.625Z","created_by":{"type":"unknown"},"cue_points":[],"custom_fields":{"yt_privacy_status":"private","license":"Opphavsrett","licenseinfo":"Leverandør: Applaus! Film & TV"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":367061,"economics":"AD_SUPPORTED","folder_id":null,"geo":null,"has_digital_master":true,"images":{"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/8c17f325-fbfb-4a3f-962a-b25ce0e33a8a/7fdf82fb-5c76-4303-b278-8750f746ab58/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/8c17f325-fbfb-4a3f-962a-b25ce0e33a8a/7fdf82fb-5c76-4303-b278-8750f746ab58/160x90/match/image.jpg","height":90,"width":160}]},"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/8c17f325-fbfb-4a3f-962a-b25ce0e33a8a/bfa37bb7-e1ea-477f-99e5-c8eda5347436/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/8c17f325-fbfb-4a3f-962a-b25ce0e33a8a/bfa37bb7-e1ea-477f-99e5-c8eda5347436/1280x720/match/image.jpg","height":720,"width":1280}]}},"link":null,"long_description":null,"name":"Det ondes problem (NN)","original_filename":"download-original","projection":null,"published_at":"2018-06-12T21:40:06.625Z","reference_id":"185043","schedule":null,"sharing":null,"state":"ACTIVE","tags":["det ondes problem","etikk","religion"],"text_tracks":[],"updated_at":"2021-03-18T09:03:24.490Z","updated_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"playback_rights_id":null},{"id":"6240917320001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-16T11:44:14.897Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo":"Opphaver: Ann Kristin Bjørge","yt_privacy_status":"unlisted","license":"Navngivelse-Del på samme vilkår"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":128448,"economics":"FREE","folder_id":"5f44eefe0cb35b1f89b6042f","geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e3ebc61f-65a5-461f-8053-5433979f65ad/5cf25527-f3dd-4a08-a9f6-41a9d6dbd476/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e3ebc61f-65a5-461f-8053-5433979f65ad/5cf25527-f3dd-4a08-a9f6-41a9d6dbd476/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e3ebc61f-65a5-461f-8053-5433979f65ad/eb3b7494-b02a-4370-bb00-1f96f444d8b4/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e3ebc61f-65a5-461f-8053-5433979f65ad/eb3b7494-b02a-4370-bb00-1f96f444d8b4/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":null,"name":"4 farger","original_filename":"4 farger.mp4","projection":null,"published_at":"2021-03-16T11:44:14.913Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":[],"text_tracks":[],"updated_at":"2021-03-16T11:51:21.515Z","updated_by":{"type":"internal"},"playback_rights_id":null},{"id":"6240898115001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-16T10:05:14.392Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo2":"Rettighetshaver: Extreme Music","licenseinfo":"Leverandør: film_konsulentene","license":"Navngivelse-Ikkekommersiell-Del på samme vilkår","yt_privacy_status":"unlisted"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":351552,"economics":"FREE","folder_id":"5df9dff910ab342eaddb5043","geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/7c1651d9-7f58-4bda-8bc6-3b3578042875/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/7c1651d9-7f58-4bda-8bc6-3b3578042875/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/0c288d29-6583-4865-9086-1e7d00f85f40/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/0c288d29-6583-4865-9086-1e7d00f85f40/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":"Digital dømmekraft handler om at vi skal kunne bruke digitale verktøy, medier og ressurser på en forsvarlig og klok måte. For å utøve en slik dømmekraft må vi ha kunnskap om lovverket og evnen til kritisk refleksjon når det gjelder blant annet personvern, nettvett, opphavsrett og kildekritikk.","name":"Digital dømmekraft (bm)","original_filename":"NDL_O38_004_Ditigal dømmekraft_MASTER-HD_BM.mp4","projection":null,"published_at":"2021-03-16T10:05:14.401Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["barne- og ungdomsarbeider","digital","digital dømmekraft","dømmekraft","teknologi","video ndla"],"text_tracks":[{"id":"18ee423f-c866-4272-bfd1-ad14acd0f879","account_id":"4806596774001","src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/18ee423f-c866-4272-bfd1-ad14acd0f879/text.vtt?fastly_token=NjA1NGY1OTVfM2E3MDY4NjBhOWNjNWMxNGI2YmYwMzBiMThkODdkYzgxODU0MGJjYjg0NTZmOTlmNjE3ZDZmOGZmMGY1NzUzZF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzYyOTM2MDQ5LTM2MmItNDFlZS1hMTJkLTc5MGI5MGE1OGNlZC8xOGVlNDIzZi1jODY2LTQyNzItYmZkMS1hZDE0YWNkMGY4NzkvdGV4dC52dHQ%3D","srclang":"nb-NO","label":"Bokmål","kind":"captions","mime_type":"text/webvtt","asset_id":null,"sources":[{"src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/18ee423f-c866-4272-bfd1-ad14acd0f879/text.vtt?fastly_token=NjA1NGY1OTVfM2E3MDY4NjBhOWNjNWMxNGI2YmYwMzBiMThkODdkYzgxODU0MGJjYjg0NTZmOTlmNjE3ZDZmOGZmMGY1NzUzZF9odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxLzYyOTM2MDQ5LTM2MmItNDFlZS1hMTJkLTc5MGI5MGE1OGNlZC8xOGVlNDIzZi1jODY2LTQyNzItYmZkMS1hZDE0YWNkMGY4NzkvdGV4dC52dHQ%3D"},{"src":"https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/62936049-362b-41ee-a12d-790b90a58ced/18ee423f-c866-4272-bfd1-ad14acd0f879/text.vtt?fastly_token=NjA1NGY1OTVfMDQ2ZTZjYWUyZDgxNjA4OWY2ZmVlMTIzMjJkZjUyMjJiZGI3MzlhM2FkN2Q4MGI4OTY2NGM1MTZkNTk5ZDg1NF9odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS82MjkzNjA0OS0zNjJiLTQxZWUtYTEyZC03OTBiOTBhNThjZWQvMThlZTQyM2YtYzg2Ni00MjcyLWJmZDEtYWQxNGFjZDBmODc5L3RleHQudnR0"}],"in_band_metadata_track_dispatch_type":"","default":false}],"updated_at":"2021-03-16T10:14:50.301Z","updated_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"playback_rights_id":null},{"id":"6240898009001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-16T10:05:14.489Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo2":"Rettighetshaver: Extreme Music","licenseinfo":"Leverandør: film_konsulentene","license":"Navngivelse-Ikkekommersiell-Del på samme vilkår","yt_privacy_status":"unlisted"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":351957,"economics":"FREE","folder_id":"5df9dff910ab342eaddb5043","geo":null,"has_digital_master":true,"images":{"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/4893a87d-cc4e-4d97-a661-f72c47f1f63c/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/4893a87d-cc4e-4d97-a661-f72c47f1f63c/1280x720/match/image.jpg","height":720,"width":1280}]},"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/a39580d7-e7d5-4700-8633-2f42d12ab355/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/a39580d7-e7d5-4700-8633-2f42d12ab355/160x90/match/image.jpg","height":90,"width":160}]}},"link":null,"long_description":"Digital dømmekraft handler om at vi skal kunne bruke digitale verktøy, medier og ressurser på en forsvarlig og klok måte. For å utøve en slik dømmekraft må vi ha kunnskap om lovverket og evnen til kritisk refleksjon når det gjelder blant annet personvern, nettvett, opphavsrett og kildekritikk.","name":"Digital dømmekraft (nn)","original_filename":"NDL_O38_004_Ditigal dømmekraft_MASTER-HD_NN.mp4","projection":null,"published_at":"2021-03-16T10:05:14.499Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["barne- og ungdomsarbeider","digital","digital dømmekraft","dømmekraft","teknologi"],"text_tracks":[{"id":"bed6cf49-ba22-4bd7-a687-972c26746f91","account_id":"4806596774001","src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/bed6cf49-ba22-4bd7-a687-972c26746f91/text.vtt?fastly_token=NjA1NGY1OTdfNDY2NDFkNjFiNmUyZTY4NWJmNTljM2ViNDY0NTU3MzdjZDFiYmQ5M2JjMDY5YjZhMzJiMGM4Y2FlOTk2MGFiN19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2MyZWU0YWQ3LTE2NTUtNGM3Zi05NTRmLWQ4NzE4NjE4NzUzZC9iZWQ2Y2Y0OS1iYTIyLTRiZDctYTY4Ny05NzJjMjY3NDZmOTEvdGV4dC52dHQ%3D","srclang":"nn-NO","label":"Nynorsk","kind":"captions","mime_type":"text/webvtt","asset_id":null,"sources":[{"src":"http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/bed6cf49-ba22-4bd7-a687-972c26746f91/text.vtt?fastly_token=NjA1NGY1OTdfNDY2NDFkNjFiNmUyZTY4NWJmNTljM2ViNDY0NTU3MzdjZDFiYmQ5M2JjMDY5YjZhMzJiMGM4Y2FlOTk2MGFiN19odHRwOi8vaG91c2UtZmFzdGx5LXNpZ25lZC1ldS13ZXN0LTEtcHJvZC5icmlnaHRjb3ZlY2RuLmNvbS9tZWRpYS92MS90ZXh0L3Z0dC9jbGVhci80ODA2NTk2Nzc0MDAxL2MyZWU0YWQ3LTE2NTUtNGM3Zi05NTRmLWQ4NzE4NjE4NzUzZC9iZWQ2Y2Y0OS1iYTIyLTRiZDctYTY4Ny05NzJjMjY3NDZmOTEvdGV4dC52dHQ%3D"},{"src":"https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/c2ee4ad7-1655-4c7f-954f-d8718618753d/bed6cf49-ba22-4bd7-a687-972c26746f91/text.vtt?fastly_token=NjA1NGY1OTdfODY4MzU5ZDYxYzRiMDI0YzQ4NjE0ODY2NzI3Yjg0NjhjODMzZmRiNDUzMWEzYTAzMjJlNWIxZGMxNTg1ZjUyN19odHRwczovL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9jMmVlNGFkNy0xNjU1LTRjN2YtOTU0Zi1kODcxODYxODc1M2QvYmVkNmNmNDktYmEyMi00YmQ3LWE2ODctOTcyYzI2NzQ2ZjkxL3RleHQudnR0"}],"in_band_metadata_track_dispatch_type":"","default":false}],"updated_at":"2021-03-16T10:13:14.946Z","updated_by":{"type":"internal"},"playback_rights_id":null},{"id":"6240897138001","account_id":"4806596774001","ad_keys":null,"clip_source_video_id":null,"complete":true,"created_at":"2021-03-16T10:06:02.287Z","created_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"cue_points":[],"custom_fields":{"licenseinfo2":"Rettighetshaver: Extreme Music","licenseinfo":"Leverandør: film_konsulentene","license":"Navngivelse-Ikkekommersiell-Del på samme vilkår","yt_privacy_status":"unlisted"},"delivery_type":"dynamic_origin","description":null,"digital_master_id":null,"duration":356032,"economics":"FREE","folder_id":"5df9dff910ab342eaddb5043","geo":null,"has_digital_master":true,"images":{"thumbnail":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/f6d1fccf-65bc-4891-9618-963eab164468/9bc1af81-ea56-4533-9f4d-7c9d17a69855/160x90/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/f6d1fccf-65bc-4891-9618-963eab164468/9bc1af81-ea56-4533-9f4d-7c9d17a69855/160x90/match/image.jpg","height":90,"width":160}]},"poster":{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/f6d1fccf-65bc-4891-9618-963eab164468/82a3e7d7-a79a-4d58-80aa-6ccb3d948e7b/1280x720/match/image.jpg","sources":[{"src":"https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/f6d1fccf-65bc-4891-9618-963eab164468/82a3e7d7-a79a-4d58-80aa-6ccb3d948e7b/1280x720/match/image.jpg","height":720,"width":1280}]}},"link":null,"long_description":"Digital dømmekraft handler om at vi skal kunne bruke digitale verktøy, medier og ressurser på en forsvarlig og klok måte. For å utøve en slik dømmekraft må vi ha kunnskap om lovverket og evnen til kritisk refleksjon når det gjelder blant annet personvern, nettvett, opphavsrett og kildekritikk.","name":"Digital dømmekraft (st)","original_filename":"NDL_O38_004_Ditigal dømmekraft_MASTER-HD_BM_Synstolket (1).mp4","projection":null,"published_at":"2021-03-16T10:06:02.298Z","reference_id":null,"schedule":null,"sharing":null,"state":"ACTIVE","tags":["barne- og ungdomsarbeider","digital","digital dømmekraft","dømmekraft","teknologi"],"text_tracks":[],"updated_at":"2021-03-16T10:11:32.019Z","updated_by":{"type":"user","id":"76076200622","email":"hilde.hennes@ndla.no "},"playback_rights_id":null}]
+[ {
+  "id" : "6142502308001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-18T09:24:24.548Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : { },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 173440,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d9af1e23-5a78-4da7-bd85-96ef2c2b44bc/main/1280x720/1m26s720ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d9af1e23-5a78-4da7-bd85-96ef2c2b44bc/main/1280x720/1m26s720ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d9af1e23-5a78-4da7-bd85-96ef2c2b44bc/main/160x90/1m26s720ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d9af1e23-5a78-4da7-bd85-96ef2c2b44bc/main/160x90/1m26s720ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "NDLA Platon Nynorsk",
+  "original_filename" : "NDLA Platon Nynorsk.mp4",
+  "projection" : null,
+  "published_at" : null,
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "INACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-18T09:25:38.115Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "5796717943001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T18:40:47.504Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "licenseinfo" : "Regissør: Martin Aune Walther",
+    "licenseinfo2" : "Fotograf: Daniel Almli",
+    "license" : "Navngivelse-Del på samme vilkår",
+    "yt_privacy_status" : "private"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 35755,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/51bdfc52-a735-47d8-bcce-718a78d34ac6/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/51bdfc52-a735-47d8-bcce-718a78d34ac6/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/4e133966-63a0-4073-828b-887d17de94bd/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/4e133966-63a0-4073-828b-887d17de94bd/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Videokamera: Zebrastriper",
+  "original_filename" : "download-original",
+  "projection" : null,
+  "published_at" : "2018-06-12T18:40:47.504Z",
+  "reference_id" : "166725",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "aperture", "blenderåpning", "camera", "eksponering", "exposure", "kamera", "medie- og informasjonskunnskap 1 og 2", "medie- og informasjonskunnskap vg2", "medieuttrykk og mediesamfunnet", "video" ],
+  "text_tracks" : [ {
+    "id" : "72e510b1-9525-4d99-87b0-7e8a56065412",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/72e510b1-9525-4d99-87b0-7e8a56065412/text.vtt?fastly_token=NWU3MjdlZjdfMmY2NDMzOGQwYTFjYzFlZDRlODhiN2FiNzdkYWU2YThlNmM4NWUwMDhjNWZjZDg3NTM4OGY2MTQ0NmRlNzMwMl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9lMzFhODZhNy0wOGNiLTQwZGEtYWFkYy1lMjBkYzM2N2M5NTcvNzJlNTEwYjEtOTUyNS00ZDk5LTg3YjAtN2U4YTU2MDY1NDEyL3RleHQudnR0",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/72e510b1-9525-4d99-87b0-7e8a56065412/text.vtt?fastly_token=NWU3MjdlZjdfMmY2NDMzOGQwYTFjYzFlZDRlODhiN2FiNzdkYWU2YThlNmM4NWUwMDhjNWZjZDg3NTM4OGY2MTQ0NmRlNzMwMl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9lMzFhODZhNy0wOGNiLTQwZGEtYWFkYy1lMjBkYzM2N2M5NTcvNzJlNTEwYjEtOTUyNS00ZDk5LTg3YjAtN2U4YTU2MDY1NDEyL3RleHQudnR0"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/72e510b1-9525-4d99-87b0-7e8a56065412/text.vtt?fastly_token=NWU3MjdlZjdfMmY2NDMzOGQwYTFjYzFlZDRlODhiN2FiNzdkYWU2YThlNmM4NWUwMDhjNWZjZDg3NTM4OGY2MTQ0NmRlNzMwMl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9lMzFhODZhNy0wOGNiLTQwZGEtYWFkYy1lMjBkYzM2N2M5NTcvNzJlNTEwYjEtOTUyNS00ZDk5LTg3YjAtN2U4YTU2MDY1NDEyL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "f3274efd-8eda-4a25-922d-9dfff9318a52",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/f3274efd-8eda-4a25-922d-9dfff9318a52/text.vtt?fastly_token=NWU3MjdlZjdfMTVhYTg0NGY2OTI3OWE5MWIwZTEzMGFhMWRkNDJlNmI4OTk4MDU5OGQwOWE0ODk1MTE5NWZhMGVhNWU5M2YxZF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9lMzFhODZhNy0wOGNiLTQwZGEtYWFkYy1lMjBkYzM2N2M5NTcvZjMyNzRlZmQtOGVkYS00YTI1LTkyMmQtOWRmZmY5MzE4YTUyL3RleHQudnR0",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/f3274efd-8eda-4a25-922d-9dfff9318a52/text.vtt?fastly_token=NWU3MjdlZjdfMTVhYTg0NGY2OTI3OWE5MWIwZTEzMGFhMWRkNDJlNmI4OTk4MDU5OGQwOWE0ODk1MTE5NWZhMGVhNWU5M2YxZF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9lMzFhODZhNy0wOGNiLTQwZGEtYWFkYy1lMjBkYzM2N2M5NTcvZjMyNzRlZmQtOGVkYS00YTI1LTkyMmQtOWRmZmY5MzE4YTUyL3RleHQudnR0"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/e31a86a7-08cb-40da-aadc-e20dc367c957/f3274efd-8eda-4a25-922d-9dfff9318a52/text.vtt?fastly_token=NWU3MjdlZjdfMTVhYTg0NGY2OTI3OWE5MWIwZTEzMGFhMWRkNDJlNmI4OTk4MDU5OGQwOWE0ODk1MTE5NWZhMGVhNWU5M2YxZF8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS9lMzFhODZhNy0wOGNiLTQwZGEtYWFkYy1lMjBkYzM2N2M5NTcvZjMyNzRlZmQtOGVkYS00YTI1LTkyMmQtOWRmZmY5MzE4YTUyL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : true
+  } ],
+  "updated_at" : "2020-03-17T19:02:31.296Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "5796726865001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2018-06-12T18:43:12.010Z",
+  "created_by" : {
+    "type" : "unknown"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "yt_privacy_status" : "private",
+    "licenseinfo" : "Regissør: Martin Aune Walther",
+    "license" : "Navngivelse-Del på samme vilkår"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 24512,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/0b20e3bb-39b4-43a2-9524-e2005afa21e6/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/0b20e3bb-39b4-43a2-9524-e2005afa21e6/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/0a3e8ad4-b91f-44c4-b7e6-61eac34308d6/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/0a3e8ad4-b91f-44c4-b7e6-61eac34308d6/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "ND-filter",
+  "original_filename" : "download-original",
+  "projection" : null,
+  "published_at" : "2018-06-12T18:43:12.010Z",
+  "reference_id" : "166820",
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "camera", "kamera", "medieuttrykk og mediesamfunnet", "nd-filter", "video camera", "videokamera" ],
+  "text_tracks" : [ {
+    "id" : "e9049e61-c649-4f1c-b9cf-d641daf56a93",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/e9049e61-c649-4f1c-b9cf-d641daf56a93/text.vtt?fastly_token=NWU3MjdlZWFfMjY5ZTMzMTEzOTk1MjdhOWIxOWE0Zjc0Y2NkZmVhZGI3MjBmNjA4ZDdlYWQwNmU0YzVhZWIzMzhiZjk3NWMwYV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvZTkwNDllNjEtYzY0OS00ZjFjLWI5Y2YtZDY0MWRhZjU2YTkzL3RleHQudnR0",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/e9049e61-c649-4f1c-b9cf-d641daf56a93/text.vtt?fastly_token=NWU3MjdlZWFfMjY5ZTMzMTEzOTk1MjdhOWIxOWE0Zjc0Y2NkZmVhZGI3MjBmNjA4ZDdlYWQwNmU0YzVhZWIzMzhiZjk3NWMwYV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvZTkwNDllNjEtYzY0OS00ZjFjLWI5Y2YtZDY0MWRhZjU2YTkzL3RleHQudnR0"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/e9049e61-c649-4f1c-b9cf-d641daf56a93/text.vtt?fastly_token=NWU3MjdlZWFfMjY5ZTMzMTEzOTk1MjdhOWIxOWE0Zjc0Y2NkZmVhZGI3MjBmNjA4ZDdlYWQwNmU0YzVhZWIzMzhiZjk3NWMwYV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvZTkwNDllNjEtYzY0OS00ZjFjLWI5Y2YtZDY0MWRhZjU2YTkzL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "3530935f-6312-4eb1-b46a-4200cb5a31c0",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/3530935f-6312-4eb1-b46a-4200cb5a31c0/text.vtt?fastly_token=NWU3MjdlZWFfNDU1NWViYTE3NDllMGZjZmFhMmJhYzNjZDA4MjY5YTJmNjlhNzE3Y2FiY2I3YjA0YmE2MWQ5YTUxZDcxZjNiNV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvMzUzMDkzNWYtNjMxMi00ZWIxLWI0NmEtNDIwMGNiNWEzMWMwL3RleHQudnR0",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/3530935f-6312-4eb1-b46a-4200cb5a31c0/text.vtt?fastly_token=NWU3MjdlZWFfNDU1NWViYTE3NDllMGZjZmFhMmJhYzNjZDA4MjY5YTJmNjlhNzE3Y2FiY2I3YjA0YmE2MWQ5YTUxZDcxZjNiNV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvMzUzMDkzNWYtNjMxMi00ZWIxLWI0NmEtNDIwMGNiNWEzMWMwL3RleHQudnR0"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/21d8b64f-7d86-4078-85be-24609a4fb5b8/3530935f-6312-4eb1-b46a-4200cb5a31c0/text.vtt?fastly_token=NWU3MjdlZWFfNDU1NWViYTE3NDllMGZjZmFhMmJhYzNjZDA4MjY5YTJmNjlhNzE3Y2FiY2I3YjA0YmE2MWQ5YTUxZDcxZjNiNV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS8yMWQ4YjY0Zi03ZDg2LTQwNzgtODViZS0yNDYwOWE0ZmI1YjgvMzUzMDkzNWYtNjMxMi00ZWIxLWI0NmEtNDIwMGNiNWEzMWMwL3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : true
+  } ],
+  "updated_at" : "2020-03-16T20:14:39.585Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6138680598001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-05T14:33:56.477Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76076169534",
+    "email" : "ragnfrid.myhr@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "licenseinfo2" : "Forfatter: Reidar Kyllesdal",
+    "yt_privacy_status" : "public",
+    "license" : "Navngivelse-Del på samme vilkår",
+    "licenseinfo3" : "Forfatter: Kristin Bøhle",
+    "licenseinfo" : "Leverandør: Amendor AS"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 185834,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : "5c6fc4ec2222482475075bcb",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/1280x720/1m32s917ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/1280x720/1m32s917ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/160x90/1m32s917ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/main/160x90/1m32s917ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Vindenergi",
+  "original_filename" : "Vindenergi.mp4",
+  "projection" : null,
+  "published_at" : "2020-03-16T16:19:39.750Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ "naturfag" ],
+  "text_tracks" : [ {
+    "id" : "cbfdaefa-4992-41a0-8df8-90118be6f719",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/cbfdaefa-4992-41a0-8df8-90118be6f719/text.vtt?fastly_token=NWU3MjdmYTZfNTY3Njg0OWUwNWI5MjU4ZTI3MTNmMzRmMDU5NGE0OGZmMWFiOWQyYjczNmQwYjE1MTkxOTQ3MjlhNmJiZDdhZl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83MGYyMjBkYy1iYmMwLTRhNDQtOTA0MS0yMTkzOThmMmMyYzQvY2JmZGFlZmEtNDk5Mi00MWEwLThkZjgtOTAxMThiZTZmNzE5L3RleHQudnR0",
+    "srclang" : "nn-NO",
+    "label" : "Nynorsk",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/cbfdaefa-4992-41a0-8df8-90118be6f719/text.vtt?fastly_token=NWU3MjdmYTZfNTY3Njg0OWUwNWI5MjU4ZTI3MTNmMzRmMDU5NGE0OGZmMWFiOWQyYjczNmQwYjE1MTkxOTQ3MjlhNmJiZDdhZl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83MGYyMjBkYy1iYmMwLTRhNDQtOTA0MS0yMTkzOThmMmMyYzQvY2JmZGFlZmEtNDk5Mi00MWEwLThkZjgtOTAxMThiZTZmNzE5L3RleHQudnR0"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/cbfdaefa-4992-41a0-8df8-90118be6f719/text.vtt?fastly_token=NWU3MjdmYTZfNTY3Njg0OWUwNWI5MjU4ZTI3MTNmMzRmMDU5NGE0OGZmMWFiOWQyYjczNmQwYjE1MTkxOTQ3MjlhNmJiZDdhZl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83MGYyMjBkYy1iYmMwLTRhNDQtOTA0MS0yMTkzOThmMmMyYzQvY2JmZGFlZmEtNDk5Mi00MWEwLThkZjgtOTAxMThiZTZmNzE5L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : false
+  }, {
+    "id" : "219099d4-d3aa-401d-b88b-3fb7f48c3c24",
+    "account_id" : "4806596774001",
+    "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/219099d4-d3aa-401d-b88b-3fb7f48c3c24/text.vtt?fastly_token=NWU3MjdmYTZfY2NmMTg0MTQyNjUyMmNhNDkzYzIwZGU1OGIxYzAwNmQwNjZjNzhmMGMxNDBlMTBiYTZlNDg4NzU3MDE5M2YwYl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83MGYyMjBkYy1iYmMwLTRhNDQtOTA0MS0yMTkzOThmMmMyYzQvMjE5MDk5ZDQtZDNhYS00MDFkLWI4OGItM2ZiN2Y0OGMzYzI0L3RleHQudnR0",
+    "srclang" : "no-NO",
+    "label" : "Bokmål",
+    "kind" : "captions",
+    "mime_type" : "text/webvtt",
+    "asset_id" : null,
+    "sources" : [ {
+      "src" : "http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/219099d4-d3aa-401d-b88b-3fb7f48c3c24/text.vtt?fastly_token=NWU3MjdmYTZfY2NmMTg0MTQyNjUyMmNhNDkzYzIwZGU1OGIxYzAwNmQwNjZjNzhmMGMxNDBlMTBiYTZlNDg4NzU3MDE5M2YwYl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83MGYyMjBkYy1iYmMwLTRhNDQtOTA0MS0yMTkzOThmMmMyYzQvMjE5MDk5ZDQtZDNhYS00MDFkLWI4OGItM2ZiN2Y0OGMzYzI0L3RleHQudnR0"
+    }, {
+      "src" : "https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/text/vtt/clear/4806596774001/70f220dc-bbc0-4a44-9041-219398f2c2c4/219099d4-d3aa-401d-b88b-3fb7f48c3c24/text.vtt?fastly_token=NWU3MjdmYTZfY2NmMTg0MTQyNjUyMmNhNDkzYzIwZGU1OGIxYzAwNmQwNjZjNzhmMGMxNDBlMTBiYTZlNDg4NzU3MDE5M2YwYl8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvdGV4dC92dHQvY2xlYXIvNDgwNjU5Njc3NDAwMS83MGYyMjBkYy1iYmMwLTRhNDQtOTA0MS0yMTkzOThmMmMyYzQvMjE5MDk5ZDQtZDNhYS00MDFkLWI4OGItM2ZiN2Y0OGMzYzI0L3RleHQudnR0"
+    } ],
+    "in_band_metadata_track_dispatch_type" : "",
+    "default" : true
+  } ],
+  "updated_at" : "2020-03-16T16:19:39.847Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6141915010001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-16T08:46:04.733Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : {
+    "licenseinfo2" : "Redaksjonelt: Haldor Hove",
+    "licenseinfo" : "Fotograf: Tom Knudsen",
+    "yt_privacy_status" : "unlisted",
+    "license" : "Navngivelse-Del på samme vilkår"
+  },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 274390,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : "5d494c53d27c4a1a41d1dc86",
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/bb73b9e1-78bc-4391-b615-d9d8ff759981/70c057f2-7c41-46f6-b05d-6b1124edb3c2/1280x720/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/bb73b9e1-78bc-4391-b615-d9d8ff759981/70c057f2-7c41-46f6-b05d-6b1124edb3c2/1280x720/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/bb73b9e1-78bc-4391-b615-d9d8ff759981/70fd072e-599f-4006-9ec8-46383d8e520c/160x90/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/bb73b9e1-78bc-4391-b615-d9d8ff759981/70fd072e-599f-4006-9ec8-46383d8e520c/160x90/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Opplæringskontor bilfag",
+  "original_filename" : "Opplringskontor bilfag.mp4",
+  "projection" : null,
+  "published_at" : "2020-03-16T16:18:55.344Z",
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "ACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-16T16:18:55.445Z",
+  "updated_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6141906902001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-16T07:25:18.131Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : { },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 412587,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/6194aafa-a100-406e-9b4b-2e92c4ecb055/main/1280x720/3m26s293ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/6194aafa-a100-406e-9b4b-2e92c4ecb055/main/1280x720/3m26s293ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/6194aafa-a100-406e-9b4b-2e92c4ecb055/main/160x90/3m26s293ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/6194aafa-a100-406e-9b4b-2e92c4ecb055/main/160x90/3m26s293ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Holdbarhet",
+  "original_filename" : "Holdbarhet.mp4",
+  "projection" : null,
+  "published_at" : null,
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "INACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-16T07:33:47.268Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6141906095001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-16T07:25:18.259Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : { },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 270187,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d56d070b-a897-440e-9390-f1fce141c0f9/main/160x90/2m15s93ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d56d070b-a897-440e-9390-f1fce141c0f9/main/160x90/2m15s93ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d56d070b-a897-440e-9390-f1fce141c0f9/main/1280x720/2m15s93ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/d56d070b-a897-440e-9390-f1fce141c0f9/main/1280x720/2m15s93ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Kjøtt - Fra råvare til produkt",
+  "original_filename" : "Kjøtt - Fra råvare til produkt.mp4",
+  "projection" : null,
+  "published_at" : null,
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "INACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-16T07:31:12.213Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6141911307001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-16T07:25:18.263Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : { },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 310037,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/8b46c76d-d292-4922-9a16-a335e317e498/main/160x90/2m35s18ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/8b46c76d-d292-4922-9a16-a335e317e498/main/160x90/2m35s18ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/8b46c76d-d292-4922-9a16-a335e317e498/main/1280x720/2m35s18ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/8b46c76d-d292-4922-9a16-a335e317e498/main/1280x720/2m35s18ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Mel - Fra råvare til produkt",
+  "original_filename" : "Mel - Fra råvare til produkt.mp4",
+  "projection" : null,
+  "published_at" : null,
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "INACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-16T07:30:47.738Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6141907651001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-16T07:25:18.259Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : { },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 291072,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/f7bfba0d-65e5-4926-b640-901338acebaa/main/160x90/2m25s536ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/f7bfba0d-65e5-4926-b640-901338acebaa/main/160x90/2m25s536ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    },
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/f7bfba0d-65e5-4926-b640-901338acebaa/main/1280x720/2m25s536ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/f7bfba0d-65e5-4926-b640-901338acebaa/main/1280x720/2m25s536ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Fisk - Fra råvare til produkt",
+  "original_filename" : "Fisk - Fra råvare til produkt.mp4",
+  "projection" : null,
+  "published_at" : null,
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "INACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-16T07:30:33.113Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+}, {
+  "id" : "6141904393001",
+  "account_id" : "4806596774001",
+  "ad_keys" : null,
+  "clip_source_video_id" : null,
+  "complete" : true,
+  "created_at" : "2020-03-16T07:25:18.165Z",
+  "created_by" : {
+    "type" : "user",
+    "id" : "76075990729",
+    "email" : "vibekeklunglandopheim@ndla.no"
+  },
+  "cue_points" : [ ],
+  "custom_fields" : { },
+  "delivery_type" : "dynamic_origin",
+  "description" : null,
+  "digital_master_id" : null,
+  "duration" : 330539,
+  "economics" : "AD_SUPPORTED",
+  "folder_id" : null,
+  "geo" : null,
+  "has_digital_master" : true,
+  "images" : {
+    "poster" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/291475e3-8a68-442f-9037-d059a58df823/main/1280x720/2m45s269ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/291475e3-8a68-442f-9037-d059a58df823/main/1280x720/2m45s269ms/match/image.jpg",
+        "height" : 720,
+        "width" : 1280
+      } ]
+    },
+    "thumbnail" : {
+      "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/291475e3-8a68-442f-9037-d059a58df823/main/160x90/2m45s269ms/match/image.jpg",
+      "sources" : [ {
+        "src" : "https://cf-images.eu-west-1.prod.boltdns.net/v1/jit/4806596774001/291475e3-8a68-442f-9037-d059a58df823/main/160x90/2m45s269ms/match/image.jpg",
+        "height" : 90,
+        "width" : 160
+      } ]
+    }
+  },
+  "link" : null,
+  "long_description" : null,
+  "name" : "Marked og salg",
+  "original_filename" : "Marked og salg.mp4",
+  "projection" : null,
+  "published_at" : null,
+  "reference_id" : null,
+  "schedule" : null,
+  "sharing" : null,
+  "state" : "INACTIVE",
+  "tags" : [ ],
+  "text_tracks" : [ ],
+  "updated_at" : "2020-03-16T07:30:19.824Z",
+  "updated_by" : {
+    "type" : "internal"
+  },
+  "playback_rights_id" : null
+} ]

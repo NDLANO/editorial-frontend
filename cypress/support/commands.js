@@ -26,15 +26,20 @@
 
 Cypress.Commands.add('apiroute', (method, url, alias) => {
   if (Cypress.env('USE_FIXTURES')) {
-    return cy.intercept({method, url}, { fixture: `${alias}`}).as(alias);
+    return cy.route(method, url, `fixture:${alias}`).as(alias);
   }
-  return cy.intercept({method, url}).as(alias);
+  return cy.route(method, url).as(alias);
+});
+
+Cypress.Commands.add('apirouteTaxonomy', ({ alias, ...rest }) => {
+  if (Cypress.env('USE_FIXTURES')) {
+    return cy.route({ ...rest, fixture: `fixture:${alias}` }).as(alias);
+  }
+  return cy.route({ ...rest }).as(alias);
 });
 
 const readResponseBody = body => {
   const fr = new FileReader();
-  const jsonBody = JSON.stringify(body);
-  const blob = new Blob([jsonBody], {type:"application/json"});
 
   return new Promise((resolve, reject) => {
     fr.onerror = () => {
@@ -45,7 +50,7 @@ const readResponseBody = body => {
     fr.onload = () => {
       resolve(fr.result);
     };
-    fr.readAsText(blob);
+    fr.readAsText(body);
   });
 };
 
@@ -54,7 +59,7 @@ Cypress.Commands.add('apiwait', aliases => {
     let originalXhr = null;
     return cy
       .wait(aliases)
-      .then((xhr) => {
+      .then(xhr => {
         originalXhr = xhr;
         if (Array.isArray(xhr)) {
           return xhr;
@@ -62,7 +67,6 @@ Cypress.Commands.add('apiwait', aliases => {
         return [xhr];
       })
       .then(xhrs =>
-        // If response.body fails, that means you are trying to mock the same path with several fixtures
         Promise.all(xhrs.map(xhr => readResponseBody(xhr.response.body))),
       )
       .then(jsons =>
@@ -82,18 +86,3 @@ Cypress.Commands.add('apiwait', aliases => {
 
   return cy.wait(aliases);
 });
-
-const COMMAND_DELAY = Cypress.env('COMMAND_DELAY') || 0;
-if (COMMAND_DELAY > 0) {
-  for (const command of ['visit', 'click', 'trigger', 'type', 'clear', 'reload', 'contains']) {
-    Cypress.Commands.overwrite(command, (originalFn, ...args) => {
-      const origVal = originalFn(...args);
-
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(origVal);
-        }, COMMAND_DELAY);
-      });
-    });
-  }
-}

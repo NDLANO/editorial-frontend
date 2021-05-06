@@ -41,10 +41,10 @@ import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
-import { LocaleType, MessageI } from '../../interfaces';
+import { MessageI } from '../../interfaces';
 
 export const FirstLoadContext = React.createContext(true);
-export const LocaleContext = React.createContext<LocaleType>('nb');
+export const LocaleContext = React.createContext('');
 export const UserAccessContext = React.createContext<string | undefined>(undefined);
 
 interface InternalState {
@@ -53,7 +53,7 @@ interface InternalState {
 
 interface Props {
   messages: MessageI[];
-  locale: LocaleType;
+  locale: string;
   dispatch: Dispatch;
   authenticated: boolean;
   userName?: string;
@@ -135,7 +135,7 @@ class App extends React.Component<ActualProps, InternalState> {
   }
 
   static childContextTypes = {
-    locale: PropTypes.oneOf(['nb', 'nn', 'en']),
+    locale: PropTypes.string,
   };
 }
 

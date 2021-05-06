@@ -75,7 +75,7 @@ class AsyncDropDown extends React.Component {
             ...item,
             title: convertFieldWithFallback(item, 'title', ''),
             description: convertFieldWithFallback(item, 'metaDescription', ''),
-            image: item.metaImage && `${item.metaImage.url}?width=60`,
+            image: item.metaImage && item.metaImage.url,
             alt: item.metaImage && item.metaImage.alt,
           }))
         : [],

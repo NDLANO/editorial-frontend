@@ -6,11 +6,12 @@
  *
  */
 
-import { setToken } from '../../support';
+import { visitOptions, setToken } from '../../support';
 
 describe('Test filter functionality', () => {
   beforeEach(() => {
     setToken();
+    cy.server({ force404: true });
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
@@ -22,7 +23,7 @@ describe('Test filter functionality', () => {
       '/taxonomy/v1/subjects/urn:subject:12/filters',
       'allSubjectFilters',
     );
-    cy.visit('/structure/urn:subject:12');
+    cy.visit('/structure/urn:subject:12', visitOptions);
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');

@@ -47,8 +47,8 @@ describe('Workflow features', () => {
     // This operation is slow, and even slower on older/limited hardware, hence the additional 5s
     cy.get('[data-testid=resetToVersion]')
       .first()
-      .click()
-      .wait(5000);
+      .click();
+    cy.contains('Innhold er tilbakestilt');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();

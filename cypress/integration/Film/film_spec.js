@@ -22,22 +22,17 @@ describe('Film editing', () => {
     cy.get(`input[placeholder="Legg til film i slideshow"]`)
       .click()
       .type('Page One')
-      .parent()
-      .parent()
-      .parent()
-      .parent()
-      .contains('Page One')
+    cy.contains('Page One: A Year Inside the New York Times')
       .click()
       .wait('@allMovies');
   });
 
   it('Can remove movie from slideshow', () => {
-    cy.get('ul > li > div')
+    cy.get('[data-cy="elementListItem"]')
       .contains('Page One')
       .parent()
       .parent()
-      .find('button')
-      .eq(-1)
+      .find('button[data-cy="elementListItemDeleteButton"]')
       .click();
   });
 

@@ -22,7 +22,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-slate-object=block] > p')
       .first()
       .click();
-    cy.get('[data-cy=slate-block-picker]').click({ force: true });
+    cy.get('[data-cy=slate-block-picker]').click({ force: true }).wait(100);
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 

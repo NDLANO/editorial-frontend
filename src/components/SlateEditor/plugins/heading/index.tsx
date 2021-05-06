@@ -9,10 +9,12 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
-import { Descendant, Editor, Element, Transforms } from 'new-slate';
+import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
 import { hasNodeOfType } from '../../utils';
+
 const KEY_ENTER = 'Enter';
+const KEY_BACKSPACE = 'Backspace';
 export const TYPE_HEADING = 'heading';
 
 export interface HeadingElement {
@@ -56,9 +58,62 @@ const onEnter = (
   editor: Editor,
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  e.preventDefault();
   if (hasNodeOfType(editor, TYPE_HEADING)) {
+    e.preventDefault();
+    Transforms.insertNodes(editor, jsx('element', { type: 'paragraph' }, [{ text: '' }]));
     return;
+  }
+  return nextOnKeyDown && nextOnKeyDown(e);
+};
+
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+) => {
+  if (hasNodeOfType(editor, TYPE_HEADING)) {
+    if (Range.isRange(editor.selection)) {
+      // Replace heading with paragraph if last character is removed
+      if (
+        Range.isCollapsed(editor.selection) &&
+        Editor.string(editor, editor.selection.anchor.path).length === 1 &&
+        editor.selection.anchor.offset === 1
+      ) {
+        e.preventDefault();
+        editor.deleteBackward('character');
+        Transforms.unwrapNodes(editor, {
+          match: node => Element.isElement(node) && node.type === 'heading',
+        });
+        return;
+      }
+
+      // if (!Range.isCollapsed(editor.selection)) {
+      //   const [startBlock] = Editor.node(editor, editor.selection.anchor);
+      //   if (
+      //     Element.isElement(startBlock) &&
+      //     startBlock.type === 'heading' &&
+      //     editor.selection.anchor.offset === 0
+      //   ) {
+      //     e.preventDefault();
+      //     Transforms.delete(editor);
+      //     Editor.withoutNormalizing(editor, () => {
+      //       Transforms.unsetNodes(editor, ['level'], {
+      //         match: node =>
+      //           Element.isElement(node) && node.type === 'heading' && Node.string(node) === '',
+      //       });
+      //       Transforms.setNodes(
+      //         editor,
+      //         { type: 'paragraph' },
+      //         {
+      //           match: node =>
+      //             Element.isElement(node) && node.type === 'heading' && Node.string(node) === '',
+      //         },
+      //       );
+      //     });
+      //     return;
+      //   }
+      // }
+    }
   }
   return nextOnKeyDown && nextOnKeyDown(e);
 };
@@ -99,8 +154,21 @@ export const headingPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === 'heading') {
+      // If header exists without level, change it to h2.
       if (!node.level) {
         Transforms.setNodes(editor, { level: 2 }, { at: path });
+        return;
+      }
+
+      // Remove empty headers, but not when cursor is placed inside it.
+      if (
+        Node.string(node) === '' &&
+        (!Range.isRange(editor.selection) ||
+          (Range.isRange(editor.selection) &&
+            Range.isCollapsed(editor.selection) &&
+            !Path.isCommon(path, editor.selection.anchor.path)))
+      ) {
+        Transforms.unwrapNodes(editor, { at: path });
         return;
       }
     }
@@ -111,6 +179,8 @@ export const headingPlugin = (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
+    } else if (e.key === KEY_BACKSPACE) {
+      onBackspace(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

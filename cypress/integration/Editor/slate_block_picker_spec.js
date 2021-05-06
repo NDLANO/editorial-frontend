@@ -135,15 +135,15 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
-  it('opens and closes url', () => {
-    cy.get('[data-cy=create-url]').click();
+  it('opens and closes file', () => {
+    cy.get('[data-cy=create-file]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
-  it('opens and closes file', () => {
-    cy.get('[data-cy=create-file]').click();
+  it('opens and closes url', () => {
+    cy.get('[data-cy=create-url]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
     cy.get('[data-cy="close-modal-button"]').click();

@@ -13,8 +13,9 @@ describe('Film editing', () => {
     setToken();
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
     cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
+    cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/film', visitOptions);
-    cy.apiwait(['@filmFrontpage', '@allMovies']);
+    cy.apiwait(['@filmFrontpage', '@allMovies', '@zendeskToken']);
   });
 
   it('Can add a movie to the slideshow', () => {

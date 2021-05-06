@@ -22,9 +22,22 @@ export const toggleHeading = (editor: Editor, level: HeadingElement['level']) =>
   }
 
   if (isIdentical) {
-    Transforms.unwrapNodes(editor, {
-      match: node => Element.isElement(node) && node.type === 'heading',
-      at: Editor.unhangRange(editor, editor.selection),
+    Editor.withoutNormalizing(editor, () => {
+      if (!Range.isRange(editor.selection)) {
+        return;
+      }
+      Transforms.unsetNodes(editor, ['level'], {
+        match: node => Element.isElement(node) && node.type === 'heading',
+        at: Editor.unhangRange(editor, editor.selection),
+      });
+      Transforms.setNodes(
+        editor,
+        { type: 'paragraph' },
+        {
+          match: node => Element.isElement(node) && node.type === 'heading',
+          at: Editor.unhangRange(editor, editor.selection),
+        },
+      );
     });
   } else if (isHeading) {
     Transforms.setNodes(editor, newHeadingProps, {
@@ -32,10 +45,8 @@ export const toggleHeading = (editor: Editor, level: HeadingElement['level']) =>
       hanging: false,
     });
   } else {
-    Transforms.wrapNodes(editor, jsx('element', newHeadingProps, []), {
-      match: node =>
-        Text.isText(node) ||
-        (Element.isElement(node) && ['content-link', 'link', 'paragraph'].includes(node.type)),
+    Transforms.setNodes(editor, jsx('element', newHeadingProps, []), {
+      match: node => Element.isElement(node) && node.type === 'paragraph',
       at: Editor.unhangRange(editor, editor.selection),
     });
   }

@@ -74,3 +74,9 @@ Cypress.on('window:before:load', function (win) {
     set: function () { }
   })
 })
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('Network request failed')) {
+    return false
+  }
+})

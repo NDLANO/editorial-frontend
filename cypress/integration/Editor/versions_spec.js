@@ -45,6 +45,7 @@ describe('Workflow features', () => {
 
   it('Can reset to prod', () => {
     // This operation is slow, and even slower on older/limited hardware, hence the additional 5s
+    cy.apiroute('GET', `/article-api/v2/articles/${ARTICLE_ID}*`, `article-${ARTICLE_ID}`);
     cy.get('[data-testid=resetToVersion]')
       .first()
       .click();
@@ -52,6 +53,6 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait([`@updateDraft-${ARTICLE_ID}`, "@getUserData", `@articleHistory-${ARTICLE_ID}`, "@patchUserData", "@getNoteUsers"]);
+    cy.apiwait([`@article-${ARTICLE_ID}`, `@updateDraft-${ARTICLE_ID}`, "@getUserData", `@articleHistory-${ARTICLE_ID}`, "@patchUserData", "@getNoteUsers"]);
   });
 });

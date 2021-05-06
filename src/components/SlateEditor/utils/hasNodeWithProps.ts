@@ -6,13 +6,17 @@
  *
  */
 
-import { Editor, Element } from 'new-slate';
+import { Editor, Element, Range } from 'new-slate';
 
 const hasNodeWithProps = (editor: Editor, props: Partial<Element>) => {
+  if (!Range.isRange(editor.selection)) {
+    return false;
+  }
   const [match] = Editor.nodes(editor, {
     match: node => {
       return Element.isElement(node) && Element.matches(node, props);
     },
+    at: Editor.unhangRange(editor, editor.selection),
   });
   return !!match;
 };

@@ -6,11 +6,15 @@
  *
  */
 
-import { Editor, Element } from 'new-slate';
+import { Range, Editor, Element } from 'new-slate';
 
 const hasNodeOfType = (editor: Editor, type: string) => {
+  if (!Range.isRange(editor.selection)) {
+    return false;
+  }
   const [match] = Editor.nodes(editor, {
     match: node => Element.isElement(node) && node.type === type,
+    at: Editor.unhangRange(editor, editor.selection),
   });
   return !!match;
 };

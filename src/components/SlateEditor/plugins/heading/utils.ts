@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Transforms, Element, Text, Range } from 'new-slate';
+import { Editor, Transforms, Element, Range } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { HeadingElement } from '.';
 import { hasNodeOfType, hasNodeWithProps } from '../../utils';

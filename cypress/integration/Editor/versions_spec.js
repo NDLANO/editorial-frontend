@@ -22,25 +22,25 @@ describe('Workflow features', () => {
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@articleHistory-${ARTICLE_ID}`, '@getNoteUsers']);
   });
 
-  // it('Can add notes and save', () => {
-  //   cy.get('[data-testid=addNote]').click();
-  //   cy.get('[data-testid=notesInput]')
-  //     .type('Test merknad')
-  //     .blur();
-  //   cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-  //     .first()
-  //     .click();
-  //   cy.apiwait('@patchUserData');
-  // });
-  //
-  // it('Open previews', () => {
-  //   cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
-  //   cy.get('[data-testid=previewVersion]')
-  //     .first()
-  //     .click();
-  //   cy.get('[data-testid=closePreview]').click();
-  //   cy.apiwait(`@converted-article-${ARTICLE_ID}`);
-  // });
+  it('Can add notes and save', () => {
+    cy.get('[data-testid=addNote]').click();
+    cy.get('[data-testid=notesInput]')
+      .type('Test merknad')
+      .blur();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click();
+    cy.apiwait('@patchUserData');
+  });
+
+  it('Open previews', () => {
+    cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`)
+    cy.get('[data-testid=previewVersion]')
+      .first()
+      .click();
+    cy.get('[data-testid=closePreview]').click();
+    cy.apiwait(`@converted-article-${ARTICLE_ID}`);
+  });
 
   it('Can reset to prod', () => {
     // This operation is slow, and even slower on older/limited hardware, hence the additional 5s

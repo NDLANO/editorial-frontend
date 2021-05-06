@@ -26,7 +26,7 @@ interface Props {
   savedToServer: boolean;
   getEntity: () => Article | ConceptType;
   entityStatus: { current: string };
-  createMessage: (o: CreateMessageType) => void;
+  createMessage?: (o: CreateMessageType) => void;
   showSimpleFooter: boolean;
   onSaveClick: VoidFunction;
   fetchStatusStateMachine: () => Promise<PossibleStatuses>;
@@ -97,20 +97,27 @@ function EditorFooter<T extends FormValues>({
     />
   );
 
+  const catchError = (error: any, createMessage: (o: CreateMessageType) => void) => {
+    if (error?.json?.messages) {
+      createMessage(formatErrorMessage(error));
+    } else {
+      createMessage(error);
+    }
+  };
   const onValidateClick = async () => {
     const { id, revision } = values;
     const updatedEntity = { ...getEntity(), revision };
     try {
       await validateEntity(id, updatedEntity);
-      createMessage({
-        translationKey: 'form.validationOk',
-        severity: 'success',
-      });
+      if (createMessage) {
+        createMessage({
+          translationKey: 'form.validationOk',
+          severity: 'success',
+        });
+      }
     } catch (error) {
-      if (error?.json?.messages) {
-        createMessage(formatErrorMessage(error));
-      } else {
-        createMessage(error);
+      if (createMessage) {
+        catchError(error, createMessage);
       }
     }
   };
@@ -138,10 +145,8 @@ function EditorFooter<T extends FormValues>({
       setNewStatus(status);
       setFieldValue('status', { current: status });
     } catch (error) {
-      if (error?.json?.messages) {
-        createMessage(formatErrorMessage(error));
-      } else {
-        createMessage(error);
+      if (createMessage) {
+        catchError(error, createMessage);
       }
     }
   };

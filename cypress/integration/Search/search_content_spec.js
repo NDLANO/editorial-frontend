@@ -6,12 +6,11 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Search content', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
     cy.apiroute('GET', '/taxonomy/v1/resource-types/?language=nb', 'resourceTypes');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
@@ -19,7 +18,7 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
-    cy.route(
+    cy.intercept(
       'GET', 
       '/get_editors*',
       [{
@@ -28,17 +27,14 @@ describe('Search content', () => {
           "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
         }
       }]);
-    cy.visit(
-      '/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
-      visitOptions,
-    );
+    cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@resourceTypes', '@search', '@allSubjects']);
   });
 
   it('Can use text input', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&query=Test&sort=-relevance',
+      '/search-api/v1/search/editorial/?*query=Test*',
       'searchQuery',
     );
     cy.get('input[name="query"]')
@@ -52,7 +48,7 @@ describe('Search content', () => {
   it('Can use status dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?draft-status=USER_TEST&fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance',
+      '/search-api/v1/search/editorial/?draft-status=USER_TEST*',
       'searchStatus',
     );
     cy.get('select[name="status"]')
@@ -66,7 +62,7 @@ describe('Search content', () => {
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=true&include-other-statuses=true&language=nb&page=1&page-size=10&sort=-relevance',
+      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=true&include-other-statuses=true*',
       'searchOther',
     );
     cy.get('select[name="status"]')
@@ -80,7 +76,7 @@ describe('Search content', () => {
   it('Can use resource type dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&resource-types=urn:resourcetype:academicArticle&sort=-relevance',
+      '/search-api/v1/search/editorial/?*resource-types=urn%3Aresourcetype%3AacademicArticle*',
       'searchType',
     );
     cy.get('select[name="resourceTypes"]')
@@ -94,7 +90,7 @@ describe('Search content', () => {
   it('Can use subject dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&subjects=urn:subject:1',
+      '/search-api/v1/search/editorial/?*subjects=urn%3Asubject%3A1',
       'searchSubject',
     );
     cy.get('select[name="subjects"]')
@@ -108,7 +104,7 @@ describe('Search content', () => {
   it('Can use user dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&include-other-statuses=false&language=nb&page=1&page-size=10&sort=-relevance&users="PrcePFwCDOsb2_g0Kcb-maN0"',
+      '/search-api/v1/search/editorial/?*users=%22PrcePFwCDOsb2_g0Kcb-maN0%22',
       'searchUser',
     );
     cy.get('select[name="users"]')

@@ -19,11 +19,11 @@ import { expiresIn } from '../../src/util/jwtHelper';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-export const visitOptions = {
+/*export const visitOptions = {
   onBeforeLoad: win => {
     win.fetch = null; //eslint-disable-line
   },
-};
+};*/
 
 let token = '';
 

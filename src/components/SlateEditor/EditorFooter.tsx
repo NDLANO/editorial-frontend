@@ -148,7 +148,7 @@ function EditorFooter<T extends FormValues>({
 
   return (
     <Footer>
-      <div>
+      <div data-cy="footerPreviewAndValidate">
         {values.id && isConcept && (
           <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
         )}
@@ -167,7 +167,7 @@ function EditorFooter<T extends FormValues>({
           </FooterLinkButton>
         )}
       </div>
-      <div>
+      <div data-cy="footerStatus">
         <FooterStatus
           onSave={updateStatus}
           options={getStatuses()}

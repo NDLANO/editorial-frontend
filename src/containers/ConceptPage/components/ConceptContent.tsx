@@ -88,9 +88,7 @@ const ConceptContent = ({ t }: tType) => {
           setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
         }}
       />
-      {!isValid && showWarning && (
-        <StyledHelpMessage error>Det er fortsatt feil i skjemaet</StyledHelpMessage>
-      )}
+      {!isValid && showWarning && <StyledHelpMessage error>{t('form.feil')}</StyledHelpMessage>}
     </>
   );
 };

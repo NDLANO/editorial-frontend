@@ -515,6 +515,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagret ',
+    feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
     mustSaveFirst: 'Du må lagre endringene dine først',
     saveAsCopySuccess: 'Ny artikkel lagret',

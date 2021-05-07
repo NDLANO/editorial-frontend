@@ -85,14 +85,14 @@ export const parseEmbedTag = embedTag => {
   return obj;
 };
 
-export const createEmbedTag = visualElement => {
-  if (Object.keys(visualElement).length === 0) {
+export const createEmbedTag = (data: { [key: string]: string }) => {
+  if (Object.keys(data).length === 0) {
     return '';
   }
   const embed = document.createElement('embed');
-  Object.keys(visualElement)
-    .filter(key => visualElement[key] !== undefined && !isObject(visualElement[key]))
-    .forEach(key => embed.setAttribute(`data-${key}`, visualElement[key]));
+  Object.keys(data)
+    .filter(key => data[key] !== undefined && !isObject(data[key]))
+    .forEach(key => embed.setAttribute(`data-${key}`, data[key]));
   return embed.outerHTML;
 };
 

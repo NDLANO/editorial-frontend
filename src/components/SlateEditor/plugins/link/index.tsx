@@ -26,6 +26,7 @@ export interface LinkElement {
   children: Text[];
 }
 
+// TODO: change to data: {content-type, content-id, open-in}
 export interface ContentLinkElement {
   type: 'content-link';
   'content-type': string;

@@ -140,11 +140,8 @@ export const learningResourceRules = {
   content: {
     required: true,
     test: value => {
-      // TODO: Upgrade to slate 0.62
       const embedsHasErrors = value.find(sectionValue => {
-        const embeds = findNodesByType(sectionValue.document, 'embed').map(node =>
-          node.get('data').toJS(),
-        );
+        const embeds = findNodesByType(sectionValue.document, 'embed').map(node => node.data);
         const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
         return notValidEmbeds.length > 0;
       });

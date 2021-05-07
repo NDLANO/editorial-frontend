@@ -11,8 +11,7 @@ import { Editor, Node, Element, Descendant, Text } from 'new-slate';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
-import { ContentLinkElement, LinkElement } from '../link';
+import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
 import { getCurrentParagraph } from './utils';
 
@@ -22,10 +21,9 @@ export const TYPE_PARAGRAPH = 'paragraph';
 export interface ParagraphElement {
   type: 'paragraph';
   data?: {
-    'data-align'?: string;
     align?: string;
   };
-  children: (Text | LinkElement | ContentLinkElement)[];
+  children: Descendant[];
 }
 
 const onEnter = (
@@ -90,12 +88,10 @@ export const paragraphSerializer: SlateSerializer = {
       between element with no spacing (i.e two images). We need to remove these element
       on seriaization.
      */
-    if (Node.string(node) === '') return null;
+    if (Node.string(node) === '' && children.length === 1 && Text.isText(children[0])) return null;
 
-    const dataProps = node.data ? createDataProps(node.data) : {};
-    return `<p${Object.entries(dataProps).map((key, val) => {
-      return ` "${key}"="${val}"`;
-    })}>${children}</p>`;
+    const attributes = node.data?.align ? ` data-align="${node.data.align}"` : '';
+    return `<p${attributes}>${children}</p>`;
   },
 };
 

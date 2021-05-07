@@ -11,6 +11,7 @@ import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
 import { toggleBlock } from '../../utils';
 import { toggleHeading } from '../heading/utils';
+import { insertFootnote } from '../footnote/utils';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
@@ -52,6 +53,9 @@ export function handleClickInline(
   if (editor.selection) {
     if (type === 'link') {
       insertLink(editor);
+    }
+    if (type === 'footnote') {
+      insertFootnote(editor);
     }
   }
 

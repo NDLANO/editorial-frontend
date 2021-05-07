@@ -41,7 +41,7 @@ import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
-import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
+import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
@@ -128,7 +128,7 @@ const LearningResourceContent = ({
     // editTablePlugin,
     // relatedPlugin(),
     // filePlugin(),
-    // mathmlPlugin(),
+    mathmlPlugin,
     // codeBlockPlugin(),
     // blockPickerPlugin({
     //   articleLanguage,

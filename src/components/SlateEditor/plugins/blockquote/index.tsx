@@ -71,7 +71,6 @@ const onEnter = (
 export const blockQuotePlugin = (editor: Editor) => {
   const {
     renderElement: nextRenderElement,
-    normalizeNode: nextNormalizeNode,
     onKeyDown: nextOnKeyDown,
   } = editor;
 
@@ -83,10 +82,6 @@ export const blockQuotePlugin = (editor: Editor) => {
       return nextRenderElement(props);
     }
     return undefined;
-  };
-
-  editor.normalizeNode = entry => {
-    nextNormalizeNode(entry);
   };
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {

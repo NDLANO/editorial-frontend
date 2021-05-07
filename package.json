@@ -25,7 +25,7 @@
     "cy-run": "CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run",
     "cy-record": "CYPRESS_RECORD_FIXTURES=true BABEL_ENV=test cypress open",
     "pree2e-ci-record": "cross-env NODE_ENV=production node build/server &",
-    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record  --parallel",
+    "e2e-ci": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record --parallel",
     "run-e2e": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress run --record --parallel'",
     "run-cyp": "start-server-and-test 'DISABLE_CSP=true yarn start' :3000 'BABEL_ENV=test yarn cy-run'",
     "e2e-use-fixtures": "cross-env CYPRESS_USE_FIXTURES=true BABEL_ENV=test cypress open",

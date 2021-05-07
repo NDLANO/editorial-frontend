@@ -8,25 +8,26 @@
 
 // TODO: Implement lists, blocks and inlines
 
-import React, { useEffect } from 'react';
+import React, { KeyboardEvent, useEffect } from 'react';
 import { Editor } from 'new-slate';
 import { ReactEditor } from 'new-slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { isMarkActive, toggleMark } from '../mark';
+import { handleClickInline } from './handleMenuClicks';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  //   inline: ['link', 'mathml', 'concept'],
+  inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  //   inline: ['link', 'footnote', 'mathml', 'concept'],
+  inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -38,13 +39,21 @@ interface Props {
   editor: Editor;
 }
 
-const onButtonClick = (event: Event, editor: Editor, kind: string, type: string) => {
+const onButtonClick = (
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  kind: string,
+  type: string,
+) => {
   if (kind === 'mark') {
     event.preventDefault();
     toggleMark(editor, type);
-  } // else if (kind === 'block') {
-  // } else if (kind === 'inline') {
-  // }
+    // }  else if (kind === 'block') {
+  } else if (kind === 'inline') {
+    handleClickInline(event, editor, type);
+
+    event.preventDefault();
+  }
 };
 
 const SlateToolbar = (props: Props) => {
@@ -98,7 +107,7 @@ const SlateToolbar = (props: Props) => {
         type={type}
         kind={kind}
         isActive={isMarkActive(editor, type)}
-        handleOnClick={(event: Event, kind: string, type: string) => {
+        handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
           onButtonClick(event, editor, kind, type);
         }}
       />

@@ -7,16 +7,17 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import Types from 'slate-prop-types';
+import { Editor, Node, Transforms } from 'new-slate';
+import { ReactEditor } from 'new-slate-react';
+import { injectT, tType } from '@ndla/i18n';
 import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
-import { TYPE } from '.';
+import { TYPE_LINK, TYPE_CONTENT_LINK, LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
 import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
+import { Model } from './Link';
 
 const newTabAttributes = {
   target: '_blank',
@@ -25,22 +26,18 @@ const newTabAttributes = {
 
 const createContentLinkData = (id, resourceType, targetRel) => {
   return {
-    type: TYPE,
-    data: {
-      'content-id': id,
-      'content-type': resourceType || 'article',
-      resource: 'content-link',
-      ...targetRel,
-    },
+    type: TYPE_CONTENT_LINK,
+    'content-id': id,
+    'content-type': resourceType || 'article',
+    resource: 'content-link',
+    ...targetRel,
   };
 };
 
 const createLinkData = (href, targetRel) => ({
-  type: TYPE,
-  data: {
-    href,
-    ...targetRel,
-  },
+  type: TYPE_LINK,
+  href,
+  ...targetRel,
 });
 
 export const isNDLAArticleUrl = url =>
@@ -95,26 +92,30 @@ const getIdAndTypeFromUrl = async href => {
   return { resourceId: null };
 };
 
-class EditLink extends React.Component {
-  constructor() {
-    super();
-    this.handleSave = this.handleSave.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleChangeAndClose = this.handleChangeAndClose.bind(this);
-    this.onClose = this.onClose.bind(this);
-  }
+interface Props {
+  model: {
+    href?: string;
+    text?: string;
+    checkbox?: boolean;
+  };
+  closeEditMode: () => void;
+  onChange: () => void;
+  editor: Editor;
+  element: LinkElement | ContentLinkElement;
+}
 
-  onClose() {
-    const { editor, model } = this.props;
+const EditLink = (props: Props & tType) => {
+  const onClose = () => {
+    const { editor, model } = props;
     if (!model.href) {
-      this.handleRemove();
+      handleRemove();
     } else {
-      this.handleChangeAndClose(editor);
+      handleChangeAndClose(editor);
     }
-  }
+  };
 
-  async handleSave(model) {
-    const { editor, node } = this.props;
+  const handleSave = async (model: Model) => {
+    const { editor, element } = props;
     const { href, text, checkbox } = model;
 
     const { resourceId, resourceType } = await getIdAndTypeFromUrl(href);
@@ -125,63 +126,55 @@ class EditLink extends React.Component {
       ? createContentLinkData(resourceId, resourceType, targetRel)
       : createLinkData(href, checkbox ? newTabAttributes : {});
 
-    if (node.key) {
-      // update/change
-      this.handleChangeAndClose(
-        editor
-          .moveToRangeOfNode(node)
-          .insertText(text)
-          .setInlines(data),
+    if (element) {
+      const path = ReactEditor.findPath(editor, element);
+
+      Transforms.insertText(editor, text, { at: path });
+
+      Transforms.setNodes(
+        editor,
+        { ...data },
+        {
+          at: path,
+          match: node => node.type === 'link' || node.type === 'content-link',
+        },
       );
+      handleChangeAndClose(editor);
     }
-  }
+  };
 
-  handleRemove() {
-    const { editor, node } = this.props;
-    const nextValue = editor.removeNodeByKey(node.key).insertText(node.text);
-    this.handleChangeAndClose(nextValue);
-  }
+  const handleRemove = () => {
+    const { editor } = props;
+    editor.undo();
+    ReactEditor.focus(editor);
+  };
 
-  handleChangeAndClose(editor) {
-    const { closeEditMode } = this.props;
+  const handleChangeAndClose = (editor: Editor) => {
+    const { closeEditMode } = props;
 
-    editor.focus(); // Always return focus to editor
+    ReactEditor.focus(editor); // Always return focus to editor
 
     closeEditMode();
-  }
+  };
 
-  render() {
-    const { t, model, node } = this.props;
-    const isEdit = model !== undefined && model.href !== undefined;
+  const { t, model, element } = props;
+  const isEdit = model !== undefined && model.href !== undefined;
 
-    return (
-      <Portal isOpened>
-        <Lightbox display appearance="big" onClose={this.onClose}>
-          <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
-          <LinkForm
-            onClose={this.onClose}
-            link={model}
-            node={node}
-            isEdit={isEdit}
-            onRemove={this.handleRemove}
-            onSave={this.handleSave}
-          />
-        </Lightbox>
-      </Portal>
-    );
-  }
-}
-
-EditLink.propTypes = {
-  model: PropTypes.shape({
-    href: PropTypes.string,
-    text: PropTypes.string,
-    checkbox: PropTypes.bool,
-  }).isRequired,
-  closeEditMode: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  editor: PropTypes.object.isRequired,
-  node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
+  return (
+    <Portal isOpened>
+      <Lightbox display appearance="big" onClose={onClose}>
+        <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
+        <LinkForm
+          onClose={onClose}
+          link={model}
+          node={element}
+          isEdit={isEdit}
+          onRemove={handleRemove}
+          onSave={handleSave}
+        />
+      </Lightbox>
+    </Portal>
+  );
 };
 
 export default injectT(EditLink);

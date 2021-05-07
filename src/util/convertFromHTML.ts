@@ -15,13 +15,16 @@
 
 import { Descendant, Element, Text, Node } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
+import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
 
 export function convertFromHTML(root: Descendant | null) {
   const wrapMixedChildren = (node: Descendant): Descendant => {
     if (Element.isElement(node)) {
       const children = node.children;
 
-      const blockChildren = children.filter(child => Element.isElement(child));
+      const blockChildren = children.filter(
+        child => Element.isElement(child) && child.type !== 'link' && child.type !== 'content-link',
+      );
       const mixed = blockChildren.length > 0 && blockChildren.length !== children.length;
       if (!mixed) {
         node.children = children.map(wrapMixedChildren);
@@ -30,12 +33,15 @@ export function convertFromHTML(root: Descendant | null) {
       const cleanNodes = [];
       let openWrapperBlock;
       for (const child of children) {
-        if (Text.isText(child)) {
+        if (
+          Text.isText(child) ||
+          (Element.isElement(child) && (child.type === 'link' || child.type === 'content-link'))
+        ) {
           if (Node.string(child) === '') {
             continue;
           }
           if (!openWrapperBlock) {
-            openWrapperBlock = jsx('element', { type: 'paragraph' }, []);
+            openWrapperBlock = jsx('element', { type: 'paragraph' }, []) as ParagraphElement;
             cleanNodes.push(openWrapperBlock);
           }
           openWrapperBlock.children.push(child);

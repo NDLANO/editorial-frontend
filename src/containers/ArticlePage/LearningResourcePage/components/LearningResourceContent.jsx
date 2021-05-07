@@ -32,7 +32,7 @@ import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed'
 import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
-import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
+import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
 import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
@@ -94,7 +94,7 @@ const actionsToShowInAreas = {
 };
 
 const LearningResourceContent = ({
-  // article: { language: articleLanguage },
+  article: { language: articleLanguage },
   t,
   userAccess,
   formik: {
@@ -114,7 +114,7 @@ const LearningResourceContent = ({
     // createBodyBoxPlugin(),
     // createAsidePlugin(),
     // createDetailsPlugin(),
-    // createLinkPlugin(articleLanguage),
+    linkPlugin(articleLanguage),
     // conceptPlugin(articleLanguage),
     // headingPlugin(),
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
@@ -149,8 +149,7 @@ const LearningResourceContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
-  // Todo: Rewrite the following plugins
-  // For language support, consider using React.useRef().
+  // Todo: Rewrite the following plugins. For language support, consider using React.useRef().
   // componentDidUpdate({ article: { id: prevId, language: prevArticleLanguage } }) {
   //   const {
   //     article: { id, language: articleLanguage },
@@ -243,10 +242,6 @@ const LearningResourceContent = ({
               name={name}
               onChange={onChange}
               onBlur={(event, editor) => {
-                // Forcing slate field to be deselected before selecting new field.
-                // Fixes a problem where slate field is not properly focused on click.
-                ReactEditor.deselect(editor);
-
                 // TODO: Can possibly be removed
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434

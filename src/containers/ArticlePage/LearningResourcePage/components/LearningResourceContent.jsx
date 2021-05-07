@@ -79,7 +79,7 @@ const IconContainer = styled.div`
 const findFootnotes = content =>
   content
     .reduce((all, value) => [...all, ...findNodesByType(value, TYPE_FOOTNOTE)], [])
-    // .filter(footnote => footnote.data.size > 0)
+    .filter(footnote => Object.keys(footnote.data).length > 0)
     .map(footnoteElement => footnoteElement.data);
 
 const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];

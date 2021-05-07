@@ -20,7 +20,7 @@ export const transformApiConceptToFormValues = (
 ): ConceptFormValues => {
   return {
     id: concept.id,
-    slatetitle: plainTextToEditorValue(concept.title || '', true),
+    slatetitle: plainTextToEditorValue(concept.title || ''),
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
@@ -28,7 +28,7 @@ export const transformApiConceptToFormValues = (
       ? subjects.filter(subject => concept.subjectIds.find(id => id === subject.id))
       : [],
     created: concept.created,
-    conceptContent: plainTextToEditorValue(concept.content || '', true),
+    conceptContent: plainTextToEditorValue(concept.content || ''),
     supportedLanguages: concept.supportedLanguages || [],
     creators: concept.copyright?.creators || [],
     rightsholders: concept.copyright?.rightsholders || [],

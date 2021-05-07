@@ -520,6 +520,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagra ',
+    feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
     saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {

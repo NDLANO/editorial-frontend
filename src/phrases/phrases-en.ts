@@ -497,6 +497,7 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
     preview: {

@@ -88,7 +88,6 @@ ConceptPage.propTypes = {
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
   applicationError: messageActions.applicationError,
-  createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
 const mapStateToProps = state => ({

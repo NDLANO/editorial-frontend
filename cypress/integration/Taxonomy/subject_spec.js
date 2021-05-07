@@ -62,18 +62,18 @@ describe('Subject editing', () => {
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
     cy.wait('@addFilter');
 
-    cy.get('[data-testid=editFilterBox] > div')
-      .find('button')
-      .first()
-      .click();
-    cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.wait('@editFilter');
-    cy.get('[data-testid=editFilterBox] > div')
-      .first()
-      .find('[data-testid=deleteFilter]')
-      .click();
-    cy.wait(500);
-    cy.get('[data-testid=warningModalConfirm]').click();
-    cy.wait('@deleteFilter');
+    // cy.get('[data-testid=editFilterBox] > div')
+    //   .find('button')
+    //   .first()
+    //   .click();
+    // cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
+    // cy.wait('@editFilter');
+    // cy.get('[data-testid=editFilterBox] > div')
+    //   .first()
+    //   .find('[data-testid=deleteFilter]')
+    //   .click();
+    // cy.wait(500);
+    // cy.get('[data-testid=warningModalConfirm]').click();
+    // cy.wait('@deleteFilter');
   });
 });

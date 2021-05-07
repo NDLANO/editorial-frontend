@@ -1,10 +1,11 @@
-import { Node, Element, Descendant, Editor, Text, Transforms } from 'new-slate';
+import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { RenderElementProps } from 'new-slate-react';
-import React from 'react';
+import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { SlateSerializer } from '../../interfaces';
 
 const TYPE_SECTION = 'section';
+const KEY_BACKSPACE = 'Backspace';
 
 export interface SectionElement {
   type: 'section';
@@ -12,26 +13,61 @@ export interface SectionElement {
 }
 
 export const sectionSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'section') {
+      // Wrap single text node in section in a paragraph
+      if (children.length === 1 && Text.isText(children[0])) {
+        children = [jsx('element', { type: 'paragraph' }, children)];
+      }
       return jsx('element', { type: TYPE_SECTION }, children);
-    }
-    if (tag === 'body') {
-      return jsx('fragment', {}, children);
     }
     return;
   },
-  serialize(node: Element, children: string) {
-    if (!Node.isNode(node)) return;
+  serialize(node: Descendant, children: string) {
+    if (!Element.isElement(node)) return;
     if (node.type === 'section') {
       return `<section>${children}</section>`;
     }
   },
 };
 
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+) => {
+  if (editor.selection) {
+    // Find the closest ancestor <section>-element
+    const section = Editor.above(editor, {
+      match: node => Element.isElement(node) && node.type === 'section',
+      mode: 'lowest',
+    })?.[0];
+    if (
+      Element.isElement(section) &&
+      section.children.length === 1 &&
+      Node.string(section).length === 0 &&
+      Range.isCollapsed(editor.selection) &&
+      editor.selection.anchor.offset === 0
+    ) {
+      if (editor.removeSection) {
+        e.preventDefault();
+        editor.removeSection();
+        return;
+      }
+    }
+  }
+  if (nextOnKeyDown) {
+    nextOnKeyDown(e);
+  }
+};
+
 export const sectionPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    onKeyDown: nextOnKeyDown,
+  } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'section') {
@@ -40,6 +76,14 @@ export const sectionPlugin = (editor: Editor) => {
       return nextRenderElement({ attributes, children, element });
     }
     return undefined;
+  };
+
+  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === KEY_BACKSPACE) {
+      onBackspace(e, editor, nextOnKeyDown);
+    } else if (nextOnKeyDown) {
+      nextOnKeyDown(e);
+    }
   };
 
   editor.normalizeNode = entry => {

@@ -23,11 +23,6 @@ import FormikField, { classes as formikFieldClasses } from '../../../../componen
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine';
-import {
-  renderBlock,
-  renderMark,
-  renderInline,
-} from '../../../../components/SlateEditor/slateRendering';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
@@ -62,10 +57,11 @@ import { IngressField, TitleField } from '../../../FormikForm';
 import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
-import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
+import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
+import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 
 const byLineStyle = css`
   display: flex;
@@ -140,11 +136,12 @@ const LearningResourceContent = ({
     // }),
     // dndPlugin,
     // pasteHandler(),
-    // toolbarPlugin(),
+    toolbarPlugin,
     textTransformPlugin,
     sectionPlugin,
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
+    markPlugin,
   ];
 
   React.useEffect(() => {

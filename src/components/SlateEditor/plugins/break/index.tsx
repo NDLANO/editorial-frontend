@@ -1,5 +1,5 @@
 import React from 'react';
-import { Editor, Node, Element } from 'new-slate';
+import { Editor, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { RenderElementProps } from 'new-slate-react';
 import { SlateSerializer } from '../../interfaces';
@@ -7,7 +7,7 @@ const TYPE = 'br';
 
 export interface BreakElement {
   type: 'br';
-  children: any;
+  children: Descendant[];
 }
 
 export const breakSerializer: SlateSerializer = {
@@ -15,8 +15,8 @@ export const breakSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== TYPE) return;
     return jsx('element', { type: TYPE }, [{ text: '' }]);
   },
-  serialize(node: Element) {
-    if (!Node.isNode(node)) return;
+  serialize(node: Descendant) {
+    if (!Element.isElement(node)) return;
     if (node.type !== 'br') return;
 
     return `<br>`;
@@ -28,6 +28,7 @@ export const breakPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'br') {
+      // Children of br tag is not rendered.
       return <br {...attributes} />;
     } else if (nextRenderELement) {
       return nextRenderELement({ attributes, children, element });

@@ -14,6 +14,7 @@ import { sectionSerializer } from '../components/SlateEditor/plugins/section';
 import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph';
 import { SlateSerializer } from '../components/SlateEditor/interfaces';
 import { breakSerializer } from '../components/SlateEditor/plugins/break';
+import { markSerializer } from '../components/SlateEditor/plugins/mark';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -26,7 +27,7 @@ export const sectionSplitter = (html: string) => {
   return sections;
 };
 
-export const createEmptyValue = (): Descendant[] => [
+export const createEmptyValue = () => [
   {
     type: 'section',
     children: [
@@ -47,7 +48,12 @@ export const learningResourceContentToEditorValue = (html: string) => {
     return [createEmptyValue()];
   }
 
-  const rules: SlateSerializer[] = [paragraphSerializer, sectionSerializer, breakSerializer];
+  const rules: SlateSerializer[] = [
+    paragraphSerializer,
+    sectionSerializer,
+    breakSerializer,
+    markSerializer,
+  ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
@@ -84,25 +90,30 @@ export const learningResourceContentToEditorValue = (html: string) => {
 
   const sections = sectionSplitter(html);
 
-  // Is it possible to do normalization here?
   return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
-    const nodes = deserialize(document.body);
+    const nodes = deserialize(document.body.children[0]);
+    const normalizedNodes = convertFromHTML(nodes);
 
-    return nodes;
+    return [normalizedNodes];
   });
 };
 
 export function learningResourceContentToHTML(contentValues: Descendant[][]) {
-  const rules: SlateSerializer[] = [paragraphSerializer, sectionSerializer, breakSerializer];
+  const rules: SlateSerializer[] = [
+    paragraphSerializer,
+    sectionSerializer,
+    breakSerializer,
+    markSerializer,
+  ];
 
   const serialize = (node: Descendant): string | null => {
+    let children;
     if (Text.isText(node)) {
-      const string = escapeHtml(node.text);
-      return string;
+      children = escapeHtml(node.text);
+    } else {
+      children = node.children.map((n: Descendant) => serialize(n)).join('');
     }
-
-    const children = node.children.map((n: Descendant) => serialize(n)).join('');
 
     for (const rule of rules) {
       if (!rule.serialize) {

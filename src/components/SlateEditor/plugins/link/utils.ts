@@ -6,8 +6,8 @@
  *
  */
 
-import { Editor, Element, Range, Transforms } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
+import { Editor, Element, Range, Transforms } from 'slate';
+import { jsx } from 'slate-hyperscript';
 
 export const insertLink = (editor: Editor) => {
   if (editor.selection) {

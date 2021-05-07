@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from 'new-slate';
+import { Editor } from 'slate';
 import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
 import { toggleBlock } from '../../utils';

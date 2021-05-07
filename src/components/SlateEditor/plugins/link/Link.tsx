@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Editor, Node } from 'new-slate';
+import { Editor, Node } from 'slate';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';

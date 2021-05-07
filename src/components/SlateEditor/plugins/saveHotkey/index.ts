@@ -7,9 +7,9 @@
  */
 
 import { KeyboardEvent } from 'react';
-import { Editor } from 'new-slate';
+import { Editor } from 'slate';
 import isHotkey from 'is-hotkey';
-import { ReactEditor } from 'new-slate-react';
+import { ReactEditor } from 'slate-react';
 
 const isSaveHotkey = isHotkey('mod+s');
 

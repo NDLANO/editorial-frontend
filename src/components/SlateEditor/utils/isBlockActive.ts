@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element } from 'new-slate';
+import { Editor, Element } from 'slate';
 
 const isBlockActive = (editor: Editor, type: string) => {
   const [match] = Editor.nodes(editor, {

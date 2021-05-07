@@ -10,7 +10,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Formik, Form } from 'formik';
-import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -114,7 +113,7 @@ LinkForm.propTypes = {
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
+  node: PropTypes.any,
 };
 
 export default compose(injectT)(LinkForm);

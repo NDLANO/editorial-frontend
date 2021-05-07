@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Types from 'slate-prop-types';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { EditorShape } from '../../../../shapes';
@@ -42,7 +41,7 @@ SlateBodyBox.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: Types.node.isRequired,
+  node: PropTypes.any,
   editor: EditorShape,
 };
 

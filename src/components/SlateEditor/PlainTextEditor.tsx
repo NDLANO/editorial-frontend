@@ -8,9 +8,9 @@
  */
 
 import React, { useMemo } from 'react';
-import { createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, Editable, withReact } from 'new-slate-react';
-import { withHistory } from 'new-slate-history';
+import { createEditor, Descendant, Editor } from 'slate';
+import { Slate, Editable, withReact } from 'slate-react';
+import { withHistory } from 'slate-history';
 import { SlatePlugin } from './interfaces';
 
 interface SlateEditorProps {

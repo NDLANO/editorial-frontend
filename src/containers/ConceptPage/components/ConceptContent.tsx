@@ -13,8 +13,8 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { ReactEditor } from 'new-slate-react';
-import { Editor } from 'new-slate';
+import { ReactEditor } from 'slate-react';
+import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';

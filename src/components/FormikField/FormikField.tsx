@@ -17,7 +17,7 @@ import {
   FormikValues,
   FieldProps,
 } from 'formik';
-import { Node } from 'new-slate';
+import { Node } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';

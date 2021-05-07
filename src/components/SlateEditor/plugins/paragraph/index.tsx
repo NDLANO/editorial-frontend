@@ -7,9 +7,9 @@
  */
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant, Text } from 'new-slate';
-import { RenderElementProps } from 'new-slate-react';
-import { jsx } from 'new-slate-hyperscript';
+import { Editor, Node, Element, Descendant, Text } from 'slate';
+import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';

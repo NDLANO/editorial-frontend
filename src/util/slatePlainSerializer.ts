@@ -1,4 +1,4 @@
-import { Node, Descendant } from 'new-slate';
+import { Node, Descendant } from 'slate';
 
 export const Plain = {
   serialize: (nodes: Descendant[]) => {

@@ -7,8 +7,8 @@
  */
 
 import React, { ReactNode, useState } from 'react';
-import { Descendant, Editor } from 'new-slate';
-import { useFocused, useSelected } from 'new-slate-react';
+import { Descendant, Editor } from 'slate';
+import { useFocused, useSelected } from 'slate-react';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import EditFootnote from './EditFootnote';

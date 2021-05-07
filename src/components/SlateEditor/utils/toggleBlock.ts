@@ -6,8 +6,8 @@
  *
  */
 
-import { Element, Editor, Transforms, Range } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
+import { Element, Editor, Transforms, Range } from 'slate';
+import { jsx } from 'slate-hyperscript';
 import { hasNodeOfType } from '.';
 
 const toggleBlock = (editor: Editor, type: Element['type']) => {

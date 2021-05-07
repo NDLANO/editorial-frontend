@@ -16,7 +16,7 @@ import {
   reduceChildElements,
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
-import { Node } from 'new-slate';
+import { Node } from 'slate';
 
 const BLOCK_TAGS = {
   section: 'section',

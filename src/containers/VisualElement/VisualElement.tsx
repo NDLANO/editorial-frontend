@@ -58,8 +58,9 @@ const VisualElement = ({
   if (isSubjectPage && value.resource === 'image') {
     delete value.caption;
   }
-
-  return <VisualElementEditor name={name} value={value} plugins={plugins} onChange={onChange} />;
+  // TODO: Upgrade to slate 0.62
+  return null;
+  // return <VisualElementEditor name={name} value={value} plugins={plugins} onChange={onChange} />;
 };
 
 export default VisualElement;

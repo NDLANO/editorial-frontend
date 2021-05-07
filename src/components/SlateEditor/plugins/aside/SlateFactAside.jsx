@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -107,7 +106,7 @@ SlateFactAside.propTypes = {
   }),
   onRemoveClick: PropTypes.func.isRequired,
   editor: EditorShape.isRequired,
-  node: Types.node.isRequired,
+  node: PropTypes.any,
 };
 
 export default SlateFactAside;

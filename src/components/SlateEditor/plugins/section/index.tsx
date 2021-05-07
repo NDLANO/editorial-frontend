@@ -6,9 +6,9 @@
  *
  */
 
-import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
-import { RenderElementProps } from 'new-slate-react';
+import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slate';
+import { jsx } from 'slate-hyperscript';
+import { RenderElementProps } from 'slate-react';
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { SlateSerializer } from '../../interfaces';
 

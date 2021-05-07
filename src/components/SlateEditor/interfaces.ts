@@ -1,6 +1,6 @@
-import { Editor, Descendant, BaseEditor } from 'new-slate';
-import { HistoryEditor } from 'new-slate-history';
-import { ReactEditor, RenderElementProps, RenderLeafProps } from 'new-slate-react';
+import { Editor, Descendant, BaseEditor } from 'slate';
+import { HistoryEditor } from 'slate-history';
+import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import React from 'react';
 import { BlockQuoteElement } from './plugins/blockquote';
 import { BreakElement } from './plugins/break';
@@ -25,7 +25,7 @@ export type CustomEditor = {
   removeSection?: () => void;
 };
 
-declare module 'new-slate' {
+declare module 'slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
     Element:

@@ -7,8 +7,8 @@
  */
 
 import React, { Fragment, createRef, Component } from 'react';
-import Types from 'slate-prop-types';
 import he from 'he';
+import PropTypes from 'prop-types';
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
@@ -147,7 +147,7 @@ class MathEditor extends Component {
 
 MathEditor.propTypes = {
   editor: EditorShape,
-  node: Types.node.isRequired,
+  node: PropTypes.any,
 };
 
 export default MathEditor;

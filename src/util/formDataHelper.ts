@@ -5,17 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { NewImageMetadata } from '../modules/image/imageApiInterfaces';
+import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
+
+import {
+  NewAudioMetaInformation,
+  UpdatedAudioMetaInformation,
+  NewPodcastMetaInformation,
+  UpdatedPodcastMetaInformation,
+} from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
-  file: string | Blob,
-  metadata?: NewImageMetadata,
+  file?: string | Blob,
+  metadata?:
+    | NewImageMetadata
+    | UpdatedImageMetadata
+    | NewAudioMetaInformation
+    | UpdatedAudioMetaInformation
+    | NewPodcastMetaInformation
+    | UpdatedPodcastMetaInformation,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();
     if (metadata) {
       form.append('metadata', JSON.stringify(metadata));
     }
-    form.append('file', file);
+    if (file) {
+      form.append('file', file);
+    }
     resolve(form);
   });

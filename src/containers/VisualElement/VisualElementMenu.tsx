@@ -6,13 +6,13 @@
  *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
 import { H5P, Camera, Video, Link } from '@ndla/icons/editor';
-import { visualElementClasses } from '../FormikForm/components/FormikVisualElement';
+import { visualElementClasses } from '../FormikForm/components/VisualElementField';
 
 const visualElementButtonStyle = css`
   height: 40px;
@@ -35,7 +35,7 @@ interface Props {
   onSelect: Function;
 }
 
-const VisualElementMenu: FC<Props> = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }) => {
+const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }: Props) => {
   const [isOpen, setOpen] = useState(false);
   const typeClassName = isOpen ? '' : 'hidden';
 

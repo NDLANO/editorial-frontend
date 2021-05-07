@@ -20,7 +20,7 @@ const extraPaddedCSS = css`
   padding: ${spacing.xsmall};
 `;
 
-const normalPaddingCSS = css`
+export const normalPaddingCSS = css`
   width: ${spacing.normal};
   height: ${spacing.normal};
   padding: 0;

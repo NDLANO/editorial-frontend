@@ -12,6 +12,7 @@ import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
+import { useSlateContext } from '../../SlateContext';
 import { isEmpty } from '../../../validators';
 
 export const StyledInputWrapper = styled.div`
@@ -24,23 +25,23 @@ export const StyledInputWrapper = styled.div`
 interface Props {
   caption: string;
   alt: string;
-  submitted: boolean;
   madeChanges: boolean;
   onChange: Function;
   onAbort: Function;
   onSave: Function;
 }
 
-const FigureInput: React.FC<Props & tType> = ({
+const FigureInput = ({
   t,
   caption,
   alt,
-  submitted,
   madeChanges,
   onChange,
   onAbort,
   onSave,
-}) => {
+}: Props & tType) => {
+  const { submitted } = useSlateContext();
+
   return (
     <StyledInputWrapper>
       {caption !== undefined && (

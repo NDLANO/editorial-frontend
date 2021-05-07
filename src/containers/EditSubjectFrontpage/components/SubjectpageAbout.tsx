@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
 import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
-import FormikVisualElement from '../../FormikForm/components/FormikVisualElement';
+import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit, onBlur }) => {
+const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -38,7 +38,7 @@ const SubjectpageAbout: FC<Props & tType> = ({ t, handleSubmit, onBlur }) => {
           />
         )}
       </FormikField>
-      <FormikVisualElement types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
+      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
     </>
   );
 };

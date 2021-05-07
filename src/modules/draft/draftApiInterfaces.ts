@@ -6,13 +6,7 @@
  *
  */
 
-import { Author, AvailabilityType, Status } from '../../interfaces';
-
-export interface DraftApiLicense {
-  license: string;
-  description?: string;
-  url?: string;
-}
+import { Author, AvailabilityType, RelatedContent, Status, License } from '../../interfaces';
 
 export interface DraftStatusStateMachineType {
   QUALITY_ASSURED: string[];
@@ -88,7 +82,8 @@ export type DraftStatusTypes =
   | 'QUEUED_FOR_PUBLISHING_DELAYED'
   | 'AWAITING_UNPUBLISHING'
   | 'UNPUBLISHED'
-  | 'ARCHIVED';
+  | 'ARCHIVED'
+  | 'AWAITING_ARCHIVING';
 
 export interface DraftSearchQuery {
   query?: string;
@@ -230,6 +225,7 @@ export interface DraftApiType {
   grepCodes: string[];
   conceptIds: number[];
   availability: AvailabilityType;
+  relatedContent: RelatedContent[];
 }
 
 export interface UpdatedDraftApiType {
@@ -263,6 +259,7 @@ export interface UpdatedDraftApiType {
   conceptIds?: number[];
   createNewVersion?: boolean;
   availability?: AvailabilityType;
+  relatedContent?: RelatedContent[];
 }
 
 export interface NewDraftApiType {
@@ -290,10 +287,11 @@ export interface NewDraftApiType {
   grepCodes: string[];
   conceptIds: number[];
   availability?: AvailabilityType;
+  relatedContent: RelatedContent[];
 }
 
 interface Copyright {
-  license?: DraftApiLicense;
+  license?: License;
   origin?: string;
   creators: Author[];
   processors: Author[];

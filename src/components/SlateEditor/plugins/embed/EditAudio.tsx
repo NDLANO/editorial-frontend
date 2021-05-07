@@ -10,15 +10,14 @@
 import { css, jsx } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { initAudioPlayers } from '@ndla/article-scripts';
 import { Input } from '@ndla/forms';
-// @ts-ignore
-import { AudioPlayer } from '@ndla/ui';
+import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
+import { useSlateContext } from '../../SlateContext';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed } from '../../../../interfaces';
+import { SlateAudio, Embed, LocaleType } from '../../../../interfaces';
 
 const placeholderStyle = css`
   position: relative;
@@ -26,20 +25,20 @@ const placeholderStyle = css`
 `;
 
 interface Props {
-  audio: Audio;
+  audio: SlateAudio;
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
+  locale: LocaleType;
   onAudioFigureInputChange: Function;
   onChange: Function;
   onExit: Function;
   onRemoveClick: Function;
   speech: boolean;
-  submitted: boolean;
   type: string;
 }
 
-const EditAudio: React.FC<Props & tType> = ({
+const EditAudio = ({
   embed,
   onChange,
   onAudioFigureInputChange,
@@ -48,13 +47,14 @@ const EditAudio: React.FC<Props & tType> = ({
   type,
   t,
   language,
+  locale,
   speech,
   audio,
-  submitted,
   changes,
-}) => {
+}: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
+  const { submitted } = useSlateContext();
 
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
@@ -67,8 +67,8 @@ const EditAudio: React.FC<Props & tType> = ({
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedElement.style.left = `${placeholderRect.left}px`;
     embedElement.style.width = `${placeholderRect.width}px`;
-    initAudioPlayers();
-  }, []);
+    initAudioPlayers(locale);
+  }, [embedElement, locale, placeholderElement]);
 
   return (
     <Fragment>
@@ -109,12 +109,7 @@ const EditAudio: React.FC<Props & tType> = ({
               },
             ]}
           />
-          <AudioPlayer
-            type={audio.audioFile.mimeType}
-            src={audio.audioFile.url}
-            title={audio.title}
-            speech={speech}
-          />
+          <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
           <Input
             name="caption"
             label={t('form.audio.caption.label')}

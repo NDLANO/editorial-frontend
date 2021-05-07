@@ -66,7 +66,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     setShowAlert(
       failedResources.length !== 0 && publishedCount + failedResources.length === articleCount,
     );
-  }, [failedResources, publishedCount]);
+  }, [articleCount, failedResources, publishedCount]);
 
   const done = publishedCount + failedResources.length === articleCount;
 

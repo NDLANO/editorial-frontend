@@ -159,13 +159,15 @@ export const topicArticleRules = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values => values.visualElement && values.visualElement.resource === 'image',
+    onlyValidateIf: values =>
+      values.visualElementObject && values.visualElementObject.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
-      values.visualElement &&
-      (values.visualElement.resource === 'image' || values.visualElement.resource === 'brightcove'),
+      values.visualElementObject &&
+      (values.visualElementObject.resource === 'image' ||
+        values.visualElementObject.resource === 'brightcove'),
   },
 };
 
@@ -177,7 +179,7 @@ export const subjectpageRules = {
     required: true,
     maxLength: 300,
   },
-  visualElement: {
+  visualElementObject: {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';
@@ -201,7 +203,7 @@ export const ndlaFilmRules = {
     required: true,
     maxLength: 300,
   },
-  visualElement: {
+  visualElementObject: {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';

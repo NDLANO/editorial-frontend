@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Block, Document, Editor, Inline, Node, Text } from 'slate';
 import { css } from '@emotion/core';
@@ -61,7 +61,7 @@ interface Props {
   node: Node;
 }
 
-const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }) => {
+const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) => {
   const summary: Node | null = (node as ParentNode)?.findDescendant(
     node => (node as ParentNode)?.type === 'summary',
   );
@@ -78,13 +78,19 @@ const DetailsBox: FC<Props & tType> = ({ t, attributes, children, editor, node }
     const newTextNode = Text.create({
       text: inputValue,
     });
+    const currentScroll = window.scrollY;
     editor.replaceNodeByKey(summaryTextNode.key, newTextNode);
     setShowEditModal(false);
+    setTimeout(() => window.scrollTo(0, currentScroll), 0);
   };
 
   const toggleShowEditModal = (evt: MouseEvent) => {
+    const currentScroll = window.scrollY;
     evt.preventDefault();
     setShowEditModal(!showEditModal);
+    if (showEditModal) {
+      setTimeout(() => window.scrollTo(0, currentScroll), 0);
+    }
   };
 
   const editSummaryButton = (

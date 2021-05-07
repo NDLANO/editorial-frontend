@@ -16,7 +16,7 @@ import HeaderActions from './HeaderActions';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
-  margin: 0 0 ${spacing.normal};
+  margin: 0;
   display: flex;
   align-items: center;
 `;
@@ -59,6 +59,7 @@ const HeaderWithLanguage = ({
         statusText={statusText}
         isNewLanguage={isNewLanguage}
         title={title}
+        id={id}
         published={published}
         taxonomyPaths={taxonomyPaths}
         {...rest}
@@ -97,7 +98,15 @@ HeaderWithLanguage.propTypes = {
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func,
-  type: PropTypes.oneOf(['image', 'audio', 'iframe', 'topic-article', 'standard', 'concept']),
+  type: PropTypes.oneOf([
+    'image',
+    'audio',
+    'iframe',
+    'topic-article',
+    'standard',
+    'concept',
+    'podcast',
+  ]),
   translateArticle: PropTypes.func,
   values: PropTypes.shape({
     articleType: PropTypes.string,

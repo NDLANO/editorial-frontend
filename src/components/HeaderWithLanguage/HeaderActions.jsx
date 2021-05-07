@@ -73,7 +73,7 @@ const HeaderActions = ({
 
   if (id) {
     return (
-      <Fragment>
+      <>
         <HeaderSupportedLanguages
           id={id}
           editUrl={editUrl}
@@ -114,19 +114,14 @@ const HeaderActions = ({
             </Fragment>
           )}
         <DeleteLanguageVersion values={values} type={type} />
-      </Fragment>
+      </>
     );
   }
   return (
-    <Fragment>
-      <div>
-        <HeaderLanguagePill current>
-          <Check />
-          {t(`language.${language}`)}
-        </HeaderLanguagePill>
-      </div>
-      <div />
-    </Fragment>
+    <HeaderLanguagePill current>
+      <Check />
+      {t(`language.${language}`)}
+    </HeaderLanguagePill>
   );
 };
 

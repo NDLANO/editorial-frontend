@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { match, Route, RouteComponentProps, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -19,7 +19,7 @@ interface Props {
   location: RouteComponentProps['location'];
 }
 
-const Subjectpage: FC<Props> = ({ match, location }) => {
+const Subjectpage = ({ match, location }: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 
@@ -30,7 +30,7 @@ const Subjectpage: FC<Props> = ({ match, location }) => {
     if (previousLocation !== location.pathname) {
       setPreviousLocation(location.pathname);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -52,7 +52,9 @@ const Subjectpage: FC<Props> = ({ match, location }) => {
           <Route
             path={`${match.url}/:elementId/new/:selectedLanguage`}
             render={routeProps => {
-              const { elementName } = routeProps.location.state;
+              const elementName =
+                routeProps.location.state && routeProps.location.state.elementName;
+
               return (
                 <CreateSubjectpage
                   elementId={routeProps.match.params.elementId}

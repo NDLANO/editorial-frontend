@@ -19,7 +19,7 @@ import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import { StructureShape, TopicShape } from '../../shapes';
 import HowToHelper from '../HowTo/HowToHelper';
-import StructureButtons from '../../containers/LearningResourcePage/components/taxonomy/StructureButtons';
+import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};

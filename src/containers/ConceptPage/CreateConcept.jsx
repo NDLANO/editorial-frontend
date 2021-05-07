@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
-import ConceptForm from './components/ConceptForm';
+import ConceptForm from './ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {
@@ -49,7 +49,7 @@ const CreateConcept = props => {
     <Fragment>
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
-        concept={concept ? concept : { ...initialConcept, language: locale, articles: [] }}
+        concept={concept ? concept : { ...initialConcept, language: locale }}
         locale={locale}
         onUpdate={createConceptAndPushRoute}
         fetchStateStatuses={fetchStatusStateMachine}
@@ -71,7 +71,6 @@ CreateConcept.propTypes = {
   initialConcept: PropTypes.shape({
     title: PropTypes.string,
   }),
-  createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   licenses: LicensesArrayOf,
   inModal: PropTypes.bool,

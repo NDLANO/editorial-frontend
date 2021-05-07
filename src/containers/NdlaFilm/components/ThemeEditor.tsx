@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
@@ -28,7 +28,7 @@ import {
 } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
 import { ContentResultType, NdlaFilmThemesEditType } from '../../../interfaces';
-import config from '../../../config';
+import { NDLA_FILM_SUBJECT } from '../../../constants';
 
 interface Props {
   allMovies: ContentResultType[];
@@ -52,7 +52,7 @@ interface ThemeNames {
   };
 }
 
-const ThemeEditor: FC<Props & tType> = ({
+const ThemeEditor = ({
   t,
   allMovies,
   field,
@@ -60,7 +60,7 @@ const ThemeEditor: FC<Props & tType> = ({
   onUpdateMovieTheme,
   loading,
   selectedLanguage,
-}) => {
+}: Props & tType) => {
   if (loading) {
     return <Spinner />;
   }
@@ -215,8 +215,8 @@ const ThemeEditor: FC<Props & tType> = ({
             <DropdownSearch
               selectedElements={theme.movies}
               onChange={(movie: ContentResultType) => onAddMovieToTheme(movie, index)}
-              subjectId={'urn:subject:20'}
-              contextTypes={config.ndlaFilmArticleType}
+              subjectId={NDLA_FILM_SUBJECT}
+              contextTypes={'standard'}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {
                 name: findName(theme.name, selectedLanguage),
               })}

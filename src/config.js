@@ -97,16 +97,12 @@ export const getAuth0Hostname = () => {
   }
 };
 
-// defaults to topic-article for now. Change to standard later, or remove all together.
-const ndlaFilmArticleType = getEnvironmentVariabel('NDLA_FILM_ARTICLE_TYPE', 'topic-article');
-
 export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
 const config = {
   ndlaEnvironment,
-  ndlaFilmArticleType,
   componentName: getEnvironmentVariabel('npm_package_name'),
   host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),
@@ -133,6 +129,7 @@ const config = {
   gaTrackingId: gaTrackingId(),
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
+  disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
 };
 
 export function getUniversalConfig() {

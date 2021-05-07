@@ -6,29 +6,33 @@
  *
  */
 
-import { ConceptApiType } from './conceptApiInterfaces';
+import { ApiConceptType } from './conceptApiInterfaces';
 import { ConceptType } from '../../interfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { parseImageUrl } from '../../util/formHelper';
 
 export const transformApiToCleanConcept = (
-  concept: ConceptApiType,
+  concept: ApiConceptType,
   language: string,
 ): ConceptType => {
-  const visualElementEmbed = convertFieldWithFallback(concept, 'visualElement', '');
-  const ParsedVisualElement = parseEmbedTag(visualElementEmbed);
+  const visualElementEmbed = convertFieldWithFallback<'visualElement'>(
+    concept,
+    'visualElement',
+    '',
+  );
+  const parsedVisualElement = parseEmbedTag(visualElementEmbed);
   return {
     ...concept,
-    title: convertFieldWithFallback(concept, 'title', ''),
-    content: convertFieldWithFallback(concept, 'content', ''),
-    tags: convertFieldWithFallback(concept, 'tags', []),
+    title: convertFieldWithFallback<'title'>(concept, 'title', ''),
+    content: convertFieldWithFallback<'content'>(concept, 'content', ''),
+    tags: convertFieldWithFallback<'tags', string[]>(concept, 'tags', []),
     visualElement: visualElementEmbed,
     subjectIds: concept.subjectIds || [],
     updated: concept.updated || '',
     updatedBy: concept.updatedBy || [],
     metaImageId: parseImageUrl(concept.metaImage),
-    parsedVisualElement: ParsedVisualElement,
+    parsedVisualElement,
     language,
   };
 };

@@ -8,6 +8,12 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { Editor, Node } from 'slate';
 import { Store } from 'redux';
 
+import { AudioApiType } from './modules/audio/audioApiInterfaces';
+import { ReduxImageState } from './modules/image/image';
+import { ReduxLicenseState } from './modules/license/license';
+
+export type LocaleType = 'nb' | 'nn' | 'en';
+
 export type ConceptStatusType =
   | 'DRAFT'
   | 'QUALITY_ASSURED'
@@ -34,8 +40,8 @@ export interface Author {
 }
 
 export interface Status {
-  current: string;
-  other: string[];
+  current: ConceptStatusType;
+  other: ConceptStatusType[];
 }
 
 export interface Note {
@@ -49,7 +55,7 @@ export interface Copyright {
   license?: License;
   origin?: string;
   creators: Author[];
-  processors?: Author[];
+  processors: Author[];
   rightsholders: Author[];
   agreementId?: number;
   validFrom?: string;
@@ -73,6 +79,21 @@ export interface ResourceTranslation {
   language: string;
 }
 
+export interface ImageType {
+  id: string;
+  metaUrl: string;
+  title: string;
+  alttext: string;
+  imageUrl: string;
+  size: number;
+  contentType: string;
+  copyright: Copyright;
+  tags: string[];
+  caption: string;
+  supportedLanguages: string[];
+  language: string;
+}
+
 export interface MetaImage {
   alt: string;
   url: string;
@@ -90,6 +111,7 @@ export interface ContentResultType {
   id: number;
   title: { title: string; language: string };
   url?: string;
+  license?: string;
   metaDescription?: { metaDescription: string; language: string };
   metaImage?: MetaImage;
   metaUrl?: string;
@@ -153,7 +175,17 @@ export interface ArticleType {
   content: string;
   grepCodes: string[];
   conceptIds: number[];
+  relatedContent: RelatedContent[];
 }
+
+export interface RelatedContentLink {
+  title: string;
+  url: string;
+}
+
+export type RelatedContent = RelatedContentLink | number;
+
+export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
 
 export interface TaxonomyMetadata {
   grepCodes: string[];
@@ -438,23 +470,16 @@ export interface Embed {
   'lower-right-y': string;
 }
 
-export interface Audio {
-  audioFile: {
-    filesize: number;
-    language: string;
-    mimeType: string;
-    url: string;
-  };
-  caption: string;
-  copyright: Copyright;
-  id: number;
-  revision: number;
-  supportedLanguages: string[];
-  tags: {
-    language: string;
-    tags: string[];
-  };
+export interface SlateAudio extends Omit<AudioApiType, 'title'> {
   title: string;
+  caption: string;
+}
+
+export interface CreateMessageType {
+  severity: string;
+  message?: string;
+  timeToLive?: number;
+  translationKey?: string;
 }
 
 export interface FormikInputEvent {
@@ -481,6 +506,13 @@ export interface License {
   url?: string;
 }
 
+export type FormValues = {
+  id: number;
+  language: string;
+  revision?: number;
+  status: Status;
+};
+
 export interface StrippedConceptType {
   id: number;
   title?: string;
@@ -491,9 +523,9 @@ export interface StrippedConceptType {
   source?: string;
   metaImage?: {
     id?: string;
-    url: string;
+    url?: string;
     alt: string;
-    language: string;
+    language?: string;
   };
   tags: string[];
   subjectIds?: string[];
@@ -510,7 +542,7 @@ export interface ConceptType extends StrippedConceptType {
   updatedBy: string[];
   supportedLanguages: string[];
   status: Status;
-  created: string;
+  created?: string;
   updated: string;
   metaImageId: string;
   parsedVisualElement: VisualElement;
@@ -522,4 +554,21 @@ export interface ConceptPreviewType extends ConceptType {
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
+}
+
+export interface MessageI {
+  id: string;
+  message?: string;
+  statusCode?: string;
+  translationKey?: string;
+  severity?: string;
+  action?: {
+    title: string;
+    onClick: Function;
+  };
+}
+
+export interface ReduxState {
+  images: ReduxImageState;
+  licenses: ReduxLicenseState;
 }

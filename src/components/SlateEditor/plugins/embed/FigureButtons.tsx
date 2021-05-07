@@ -75,7 +75,7 @@ interface urlProps {
   [key: string]: embedProps;
 }
 
-const FigureButtons: React.FC<Props & tType> = ({
+const FigureButtons = ({
   t,
   embed,
   figureType,
@@ -85,11 +85,15 @@ const FigureButtons: React.FC<Props & tType> = ({
   providerName,
   tooltip,
   withMargin,
-}) => {
+}: Props & tType) => {
   const url: urlProps = {
     audio: {
       path: '/media/audio-upload',
       editTitle: t('form.editAudio'),
+    },
+    podcast: {
+      path: '/media/podcast-upload',
+      editTitle: t('form.editPodcast'),
     },
     image: {
       path: '/media/image-upload',
@@ -109,7 +113,7 @@ const FigureButtons: React.FC<Props & tType> = ({
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      {(figureType === 'image' || figureType === 'audio') && (
+      {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') && (
         <Tooltip tooltip={url[figureType].editTitle} align="right">
           <IconButton
             as={Link}

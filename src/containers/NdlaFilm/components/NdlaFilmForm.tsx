@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { injectT, tType } from '@ndla/i18n';
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
@@ -13,7 +13,7 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
 import { isFormikFormDirty, ndlaFilmRules } from '../../../util/formHelper';
 import validateFormik from '../../../components/formikValidationSchema';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm/index';
+import { AlertModalWrapper, formClasses } from '../../FormikForm/index';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
@@ -29,7 +29,7 @@ interface Props {
   themes: NdlaFilmThemesEditType;
 }
 
-const NdlaFilmForm: FC<Props & tType> = ({
+const NdlaFilmForm = ({
   t,
   filmFrontpage,
   updateFilmFrontpage,
@@ -38,7 +38,7 @@ const NdlaFilmForm: FC<Props & tType> = ({
   allMovies,
   slideshowMovies,
   themes,
-}) => {
+}: Props & tType) => {
   const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
     t,
     filmFrontpage,
@@ -102,7 +102,7 @@ const NdlaFilmForm: FC<Props & tType> = ({
                 disabled={!isValid}
               />
             </Field>
-            <FormikAlertModalWrapper
+            <AlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"

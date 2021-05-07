@@ -5,13 +5,18 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
-import { SubjectpageEditType } from '../../../interfaces';
+import {
+  SubjectpageEditType,
+  SubjectpageType,
+  VisualElement,
+  ArticleType,
+} from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import { FormikAlertModalWrapper, formClasses } from '../../FormikForm';
+import { AlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
@@ -31,12 +36,23 @@ interface Props {
   elementId: string;
   isNewlyCreated: boolean;
 }
+export interface SubjectFormValues extends SubjectpageType {
+  visualElementObject: VisualElement | {};
+  articleType: string;
+  description?: string;
+  desktopBanner?: VisualElement;
+  editorsChoices: ArticleType[];
+  language: string;
+  mobileBanner?: number;
+  elementId?: string;
+  title: string;
+}
 
 const getInitialValues = (
   subjectpage: SubjectpageEditType,
   elementId: string,
   selectedLanguage: string,
-) => {
+): SubjectFormValues => {
   return {
     articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
     supportedLanguages: subjectpage.supportedLanguages || [],
@@ -45,7 +61,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElement: subjectpage.visualElement || {},
+    visualElementObject: subjectpage.visualElement || {},
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -62,19 +78,22 @@ const getInitialValues = (
   };
 };
 
-const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
+const getSubjectpageFromSlate = (values: SubjectFormValues) => {
   return {
     articleType: 'subjectpage',
     supportedLanguages: values.supportedLanguages,
     description: editorValueToPlainText(values.description),
     title: values.title,
-    visualElement: {
-      resource: values.visualElement?.resource,
-      url: values.visualElement?.url,
-      resource_id: values.visualElement?.resource_id,
-      videoid: values.visualElement?.videoid,
-      alt: values.visualElement?.alt || values.visualElement?.caption,
-    },
+    visualElement:
+      'resource_id' in values.visualElementObject
+        ? {
+            resource: values.visualElementObject.resource,
+            url: values.visualElementObject.url,
+            resource_id: values.visualElementObject.resource_id,
+            videoid: values.visualElementObject.videoid,
+            alt: values.visualElementObject.alt || values.visualElementObject.caption,
+          }
+        : undefined,
     language: values.language,
     mobileBanner: values.mobileBanner,
     desktopBanner: values.desktopBanner,
@@ -93,14 +112,14 @@ const getSubjectpageFromSlate = (values: SubjectpageEditType) => {
   };
 };
 
-const SubjectpageForm: FC<Props & tType> = ({
+const SubjectpageForm = ({
   t,
   elementId,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
   isNewlyCreated,
-}) => {
+}: Props & tType) => {
   const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
     updateSubjectpage,
@@ -161,7 +180,7 @@ const SubjectpageForm: FC<Props & tType> = ({
                 disabled={!isValid}
               />
             </Field>
-            <FormikAlertModalWrapper
+            <AlertModalWrapper
               isSubmitting={isSubmitting}
               formIsDirty={formIsDirty}
               severity="danger"

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,8 +12,8 @@ import styled from '@emotion/styled';
 import { spacing, shadows } from '@ndla/core';
 import { ContentResultShape } from '../../../shapes';
 import { LocaleContext } from '../../App/App';
-
 import ElementListItem from './ElementListItem';
+import ElementListLink from './ElementListLink';
 
 const ELEMENT_HEIGHT = 69;
 
@@ -142,7 +142,7 @@ class ElementList extends Component {
   };
 
   render() {
-    const { elements, messages } = this.props;
+    const { isEditable, elements, messages } = this.props;
     const { draggingIndex, deleteIndex } = this.state;
     return (
       <StyledWrapper>
@@ -151,21 +151,43 @@ class ElementList extends Component {
             <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
               {elements
                 .filter(element => !!element)
-                .map((element, index) => (
-                  <ElementListItem
-                    key={element.id}
-                    element={element}
-                    deleteIndex={deleteIndex}
-                    messages={messages}
-                    index={index}
-                    locale={locale}
-                    executeDeleteFile={this.executeDeleteFile}
-                    showDragTooltip={elements.length > 1 && draggingIndex === -1}
-                    onDragEnd={this.onDragEnd}
-                    onDragStart={this.onDragStart}
-                    deleteFile={this.deleteFile}
-                  />
-                ))}
+                .map((element, index) => {
+                  if (element.id || !(element.url && element.title)) {
+                    return (
+                      <ElementListItem
+                        key={element.id}
+                        isEditable={isEditable}
+                        element={element}
+                        deleteIndex={deleteIndex}
+                        messages={messages}
+                        index={index}
+                        locale={locale}
+                        executeDeleteFile={this.executeDeleteFile}
+                        showDragTooltip={elements.length > 1 && draggingIndex === -1}
+                        onDragEnd={this.onDragEnd}
+                        onDragStart={this.onDragStart}
+                        deleteFile={this.deleteFile}
+                      />
+                    );
+                  } else {
+                    return (
+                      <ElementListLink
+                        key={element.title + element.url}
+                        isEditable={isEditable}
+                        element={element}
+                        deleteIndex={deleteIndex}
+                        messages={messages}
+                        index={index}
+                        locale={locale}
+                        executeDeleteFile={this.executeDeleteFile}
+                        showDragTooltip={elements.length > 1 && draggingIndex === -1}
+                        onDragEnd={this.onDragEnd}
+                        onDragStart={this.onDragStart}
+                        deleteFile={this.deleteFile}
+                      />
+                    );
+                  }
+                })}
             </StyledList>
           )}
         </LocaleContext.Consumer>
@@ -176,15 +198,17 @@ class ElementList extends Component {
 
 ElementList.propTypes = {
   elements: PropTypes.arrayOf(ContentResultShape),
+  isEditable: PropTypes.bool,
   messages: PropTypes.shape({
-    removeElement: PropTypes.string.isRequired,
-    dragElement: PropTypes.string.isRequired,
-  }).isRequired,
-  onUpdateElements: PropTypes.func.isRequired,
+    removeElement: PropTypes.string,
+    dragElement: PropTypes.string,
+  }),
+  onUpdateElements: PropTypes.func,
 };
 
 ElementList.defaultProps = {
   elements: [],
+  isEditable: true,
 };
 
 export default ElementList;

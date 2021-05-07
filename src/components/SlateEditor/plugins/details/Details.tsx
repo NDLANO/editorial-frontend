@@ -4,11 +4,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { Editor, Node } from 'slate';
+import { Editor, Node, Block } from 'slate';
 import DeleteButton from '../../../DeleteButton';
+import MoveContentButton from '../../../MoveContentButton';
 
 const StyledDetailsDiv = styled.div`
   position: relative;
@@ -69,7 +70,7 @@ interface Props {
   node: Node;
 }
 
-const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
+const Details = ({ children, editor, editSummaryButton, node }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -77,6 +78,9 @@ const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
   const onRemoveClick = () => {
     editor.removeNodeByKey(node.key);
     editor.focus();
+  };
+  const onMoveContent = () => {
+    editor.unwrapBlockByKey(node.key, (node as Block).type);
   };
 
   const [summaryNode, ...contentNodes] = children;
@@ -90,6 +94,7 @@ const Details: FC<Props> = ({ children, editor, editSummaryButton, node }) => {
         {isOpen && editSummaryButton}
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
+      <MoveContentButton onMouseDown={onMoveContent} />
       <DeleteButton data-cy="remove-details" stripped onMouseDown={onRemoveClick} />
     </StyledDetailsDiv>
   );

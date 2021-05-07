@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:10-alpine as builder
+FROM node:14.16-alpine as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/editorial-frontend
@@ -12,7 +12,7 @@ WORKDIR $APP_PATH
 RUN yarn
 
 # Copy necessary source files for server and client build
-COPY .babelrc tsconfig.json razzle-add-entry-plugin.js razzle.config.js postcss.config.js $APP_PATH/
+COPY .babelrc tsconfig.json razzle.config.js postcss.config.js $APP_PATH/
 
 COPY src $APP_PATH/src
 COPY custom-typings $APP_PATH/custom-typings
@@ -22,7 +22,7 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:10-alpine
+FROM node:14.16-alpine
 
 RUN apk add py2-pip jq && pip install awscli
 COPY run-editorial-frontend.sh /

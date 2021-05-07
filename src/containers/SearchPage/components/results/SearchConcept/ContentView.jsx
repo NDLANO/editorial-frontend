@@ -106,8 +106,8 @@ const ContentView = ({
 ContentView.propTypes = {
   concept: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    title: PropTypes.string,
-    content: PropTypes.string,
+    title: PropTypes.shape({ title: PropTypes.string, language: PropTypes.string }),
+    content: PropTypes.shape({ content: PropTypes.string, language: PropTypes.string }),
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
     subjectIds: PropTypes.arrayOf(PropTypes.string),
     metaImage: PropTypes.shape({

@@ -53,7 +53,7 @@ const VisualElement = ({
 }: Props) => {
   const plugins = useMemo(() => {
     return createPlugins(!Object.keys(value).length, types, changeVisualElement, language);
-  }, [value, language]);
+  }, [value, types, language, changeVisualElement]);
 
   if (isSubjectPage && value.resource === 'image') {
     delete value.caption;

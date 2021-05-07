@@ -81,23 +81,17 @@ interface Props {
 
 type StateProp = 'crop' | 'focalPoint' | undefined;
 
-const ImageEditor: React.FC<Props & tType> = ({
-  t,
-  embed,
-  onUpdatedImageSettings,
-  imageUpdates,
-}) => {
+const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props & tType) => {
   const [editType, setEditType] = useState<StateProp>(undefined);
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 
   useEffect(() => {
+    const getImage = async () => {
+      const img = await fetchImage(embed.resource_id, 'nb');
+      setImage(img);
+    };
     getImage();
-  }, []);
-
-  const getImage = async () => {
-    const img = await fetchImage(embed.resource_id, 'nb');
-    setImage(img);
-  };
+  }, [embed]);
 
   const onFocalPointChange = (focalPoint: { x: number; y: number }) => {
     onUpdatedImageSettings({

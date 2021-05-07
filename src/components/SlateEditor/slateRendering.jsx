@@ -19,7 +19,11 @@ export const renderBlock = (props, editor, next) => {
     case 'br':
       return <br {...attributes} />;
     case 'paragraph':
-      return <p {...attributes}>{children}</p>;
+      return (
+        <p {...attributes} className={data.get('align') === 'center' ? 'u-text-center' : ''}>
+          {children}
+        </p>
+      );
     case 'bulleted-list':
       return (
         <ul className="c-block__bulleted-list" {...attributes}>
@@ -42,6 +46,10 @@ export const renderBlock = (props, editor, next) => {
       return <blockquote {...attributes}>{children}</blockquote>;
     case 'div':
       return <div {...attributes}>{children}</div>;
+    case 'table':
+      // Let table-plugin render itself, then wrap with custom div.
+      const rendered = next();
+      return <div className="c-table__wrapper c-table__content">{rendered}</div>;
     default:
       return next();
   }

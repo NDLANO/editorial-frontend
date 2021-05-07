@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -23,6 +23,7 @@ import { LocaleContext, UserAccessContext } from '../App/App';
 
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
+import { LocaleType } from '../../interfaces';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -37,25 +38,24 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage: FC<tType> = ({ t }) => {
+export const WelcomePage = ({ t }: tType) => {
   const [lastUsed, setLastUsed] = useState<string[]>([]);
-  const locale: string = useContext(LocaleContext);
-  const userAccess: string = useContext(UserAccessContext);
+  const locale: LocaleType = useContext(LocaleContext);
+  const userAccess: string | undefined = useContext(UserAccessContext);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
 
-  const fetchLastUsed = async () => {
-    if (isValid(token) && isAccessTokenPersonal) {
-      const result = await fetchUserData();
-      const lastUsed = result.latestEditedArticles || [];
-      setLastUsed(lastUsed);
-    }
-  };
-
   useEffect(() => {
+    const fetchLastUsed = async () => {
+      if (isValid(token) && isAccessTokenPersonal) {
+        const result = await fetchUserData();
+        const lastUsed = result.latestEditedArticles || [];
+        setLastUsed(lastUsed);
+      }
+    };
     fetchLastUsed();
-  }, []);
+  }, [isAccessTokenPersonal, token]);
 
   localStorage.setItem('lastPath', '');
 

@@ -6,16 +6,17 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
+import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import { FormikInputEvent, SlateFigureProps } from '../../../../interfaces';
+import { FormikInputEvent, LocaleType, SlateFigureProps } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -23,7 +24,7 @@ export const editorClasses = new BEMHelper({
 });
 
 interface Props extends SlateFigureProps {
-  locale?: string;
+  locale?: LocaleType;
 }
 
 interface ChangesProp {
@@ -32,7 +33,7 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure: React.FC<Props & tType> = ({
+const SlateFigure = ({
   t,
   attributes,
   editor,
@@ -40,23 +41,9 @@ const SlateFigure: React.FC<Props & tType> = ({
   language,
   locale = 'nb',
   node,
-}) => {
+}: Props & tType) => {
   const embed = getSchemaEmbed(node);
-  const [submitted, setSubmitted] = useState<boolean>(editor.props.submitted);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
-
-  const onSubmittedChange = () => {
-    const slateStore = editor.props.slateStore;
-    setSubmitted(slateStore.getState().submitted);
-  };
-
-  useEffect(() => {
-    const slateStore = editor.props.slateStore;
-    const unsubscribe = slateStore.subscribe(onSubmittedChange);
-
-    // ComponentWillUnmount
-    return () => unsubscribe();
-  }, []);
 
   const onFigureInputChange = (event: FormikInputEvent) => {
     event.preventDefault();
@@ -100,7 +87,6 @@ const SlateFigure: React.FC<Props & tType> = ({
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
-          submitted={submitted}
           visualElement={false}
         />
       );
@@ -116,6 +102,17 @@ const SlateFigure: React.FC<Props & tType> = ({
         />
       );
     case 'audio':
+      if (embed.type === 'podcast') {
+        return (
+          <SlatePodcast
+            attributes={attributes}
+            embed={embed}
+            language={language}
+            locale={locale}
+            onRemoveClick={onRemoveClick}
+          />
+        );
+      }
       return (
         <SlateAudio
           attributes={attributes}
@@ -125,7 +122,6 @@ const SlateFigure: React.FC<Props & tType> = ({
           locale={locale}
           onRemoveClick={onRemoveClick}
           onFigureInputChange={onFigureInputChange}
-          submitted={submitted}
         />
       );
     case 'external':

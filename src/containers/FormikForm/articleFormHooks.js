@@ -44,10 +44,12 @@ export function useArticleFormHooks({
   updateArticleAndStatus,
   licenses,
   getArticleFromSlate,
+  isNewlyCreated = false,
 }) {
   const { id, revision, language } = article;
   const formikRef = useRef(null);
   const [savedToServer, setSavedToServer] = useState(false);
+  const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);
 
   useEffect(() => {
@@ -59,9 +61,8 @@ export function useArticleFormHooks({
     }
   }, [language, id]);
 
-  const handleSubmit = async (formik, saveAsNewVersion) => {
-    formik.setSubmitting(true);
-    const values = formik.values;
+  const handleSubmit = async (values, formikHelpers) => {
+    formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status.current;
     const statusChange = initialStatus !== newStatus;
@@ -114,9 +115,9 @@ export function useArticleFormHooks({
       await deleteRemovedFiles(article.content, newArticle.content);
 
       setSavedToServer(true);
-      formik.resetForm({ values: getInitialValues(savedArticle) });
+      formikHelpers.resetForm({ values: getInitialValues(savedArticle) });
 
-      formik.setFieldValue('notes', [], false);
+      formikHelpers.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {
         createMessage({
@@ -130,18 +131,19 @@ export function useArticleFormHooks({
       }
       if (statusChange) {
         // if validation failed we need to set status back so it won't be saved as new status on next save
-        formik.setFieldValue('status', { current: initialStatus });
+        formikHelpers.setFieldValue('status', { current: initialStatus });
       }
       setSavedToServer(false);
     }
-    formik.setSubmitting(false);
-    await formik.validateForm();
+    formikHelpers.setSubmitting(false);
+    await formikHelpers.validateForm();
   };
 
   return {
     savedToServer,
     formikRef,
     initialValues,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,

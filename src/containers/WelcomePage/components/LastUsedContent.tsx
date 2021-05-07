@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 
@@ -21,22 +21,21 @@ import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 interface Props {
   articleId: number;
   locale: string;
-  userAccess: string;
+  userAccess?: string;
 }
 
-const LastUsedContent: FC<Props & tType> = ({ articleId, locale, userAccess, t }) => {
+const LastUsedContent = ({ articleId, locale, userAccess, t }: Props & tType) => {
   const [article, setArticle] = useState<DraftApiType>();
 
-  const fetchArticle = async (articleId: number, locale: string) => {
-    const article = await fetchDraft(articleId, locale);
-    setArticle(article);
-  };
-
   useEffect(() => {
+    const fetchArticle = async (articleId: number, locale: string) => {
+      const article = await fetchDraft(articleId, locale);
+      setArticle(article);
+    };
     if (articleId) {
       fetchArticle(articleId, locale);
     }
-  }, []);
+  }, [articleId, locale]);
 
   return (
     <div {...classes('result')}>

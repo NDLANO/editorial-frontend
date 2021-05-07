@@ -6,9 +6,9 @@
  *
  */
 
-import React, { ReactNode, useState } from 'react';
-import { Descendant, Editor } from 'new-slate';
-import { useFocused, useSelected } from 'new-slate-react';
+import React, { useState } from 'react';
+import { Editor } from 'new-slate';
+import { RenderElementProps, useFocused, useSelected } from 'new-slate-react';
 import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import EditFootnote from './EditFootnote';
@@ -17,22 +17,15 @@ import { FootnoteElement } from '.';
 // Todo: a -> button
 /* eslint jsx-a11y/no-static-element-interactions: 1 */
 
-interface Props {
-  attributes: {
-    'data-key': string;
-  };
+interface Props extends RenderElementProps {
   editor: Editor;
-  value: Descendant[];
   element: FootnoteElement;
-  children: ReactNode;
 }
 
 const Footnote = (props: Props) => {
   const { attributes, children, editor, element } = props;
 
-  const existingFootnote: { [key: string]: string } = element.data ? element.data : {};
-
-  const [editMode, setEditMode] = useState(!existingFootnote.title);
+  const [editMode, setEditMode] = useState(!element.data.title);
   const selected = useSelected();
   const focused = useFocused();
 
@@ -43,20 +36,20 @@ const Footnote = (props: Props) => {
   return (
     <React.Fragment>
       <a
-        style={{ boxShadow: selected && focused ? `0 0 0 2px ${colors.brand.tertiary}` : 'none' }}
+        style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
         contentEditable={false}
         {...attributes}
         role="link"
         tabIndex={0}
         onClick={toggleEditMode}>
-        <sup>#</sup>
+        <sup>[#]</sup>
         {children}
       </a>
       {editMode && (
         <EditFootnote
           editor={editor}
           node={element}
-          existingFootnote={existingFootnote}
+          existingFootnote={element.data}
           closeDialog={toggleEditMode}
           onChange={editor.onChange}
         />

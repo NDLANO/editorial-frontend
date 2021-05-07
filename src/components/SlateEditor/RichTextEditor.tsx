@@ -135,6 +135,7 @@ const RichTextEditor = ({
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               readOnly={submitted}
+              {...classes('content', undefined, className)}
             />
           </Slate>
           {children}

@@ -49,7 +49,7 @@ export const footnoteSerializer: SlateSerializer = {
           authors: embedAttributes.authors ? embedAttributes.authors.split(';') : [],
         },
       },
-      [{ text: '#' }],
+      [{ text: '[#]' }],
     );
   },
   serialize(node: Descendant, children: string) {
@@ -73,9 +73,13 @@ export const footnotePlugin = (editor: Editor) => {
   } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
-    const { element } = props;
+    const { element, attributes, children } = props;
     if (element.type === TYPE_FOOTNOTE) {
-      return <Footnote {...props} editor={editor} />;
+      return (
+        <Footnote element={element} attributes={attributes} editor={editor}>
+          {children}
+        </Footnote>
+      );
     }
     return nextRenderElement && nextRenderElement(props);
   };

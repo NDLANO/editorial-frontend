@@ -12,6 +12,7 @@ import { jsx } from 'new-slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
 import { hasNodeOfType } from '../../utils';
+import { range } from 'lodash';
 
 const KEY_ENTER = 'Enter';
 const KEY_BACKSPACE = 'Backspace';
@@ -73,6 +74,20 @@ const onBackspace = (
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     if (Range.isRange(editor.selection)) {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        editor.deleteBackward('word');
+        // Replace heading with paragraph if last character is removed
+        if (
+          hasNodeOfType(editor, 'heading') &&
+          Editor.string(editor, editor.selection.anchor.path) === ''
+        ) {
+          Transforms.unwrapNodes(editor, {
+            match: node => Element.isElement(node) && node.type === 'heading',
+          });
+          return;
+        }
+      }
       // Replace heading with paragraph if last character is removed
       if (
         Range.isCollapsed(editor.selection) &&
@@ -86,33 +101,6 @@ const onBackspace = (
         });
         return;
       }
-
-      // if (!Range.isCollapsed(editor.selection)) {
-      //   const [startBlock] = Editor.node(editor, editor.selection.anchor);
-      //   if (
-      //     Element.isElement(startBlock) &&
-      //     startBlock.type === 'heading' &&
-      //     editor.selection.anchor.offset === 0
-      //   ) {
-      //     e.preventDefault();
-      //     Transforms.delete(editor);
-      //     Editor.withoutNormalizing(editor, () => {
-      //       Transforms.unsetNodes(editor, ['level'], {
-      //         match: node =>
-      //           Element.isElement(node) && node.type === 'heading' && Node.string(node) === '',
-      //       });
-      //       Transforms.setNodes(
-      //         editor,
-      //         { type: 'paragraph' },
-      //         {
-      //           match: node =>
-      //             Element.isElement(node) && node.type === 'heading' && Node.string(node) === '',
-      //         },
-      //       );
-      //     });
-      //     return;
-      //   }
-      // }
     }
   }
   return nextOnKeyDown && nextOnKeyDown(e);

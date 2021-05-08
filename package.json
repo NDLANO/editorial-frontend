@@ -160,7 +160,7 @@
     "jsplumb": "^2.11.2",
     "jwks-rsa": "^1.6.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "monaco-editor": "0.23.0",
     "ndla-slate-edit-list": "0.14.0",
     "polished": "^3.4.1",

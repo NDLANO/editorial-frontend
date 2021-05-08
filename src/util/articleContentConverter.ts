@@ -117,6 +117,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     blockQuoteSerializer,
     headingSerializer,
     footnoteSerializer,
+    mathmlSerializer,
   ];
 
   const serialize = (node: Descendant): string | null => {

@@ -7,15 +7,15 @@
  */
 
 import React, { Fragment, useState, useRef } from 'react';
-import { RenderElementProps } from 'slate-react';
-import { Editor, Node } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
+import { Editor, Element, Node, Path, Transforms } from 'slate';
 import he from 'he';
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
-import { getSchemaEmbed } from '../../editorSchema';
 import BlockMenu from './BlockMenu';
 import { MathmlElement } from '.';
+import { HistoryEditor } from 'slate-history';
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
@@ -70,39 +70,73 @@ const MathEditor = (props: Props & RenderElementProps) => {
   const onExit = () => {
     const { element, editor } = props;
     setEditMode(false);
+    const elementPath = ReactEditor.findPath(editor, element);
+    let leafPath: Path;
+
     if (isFirstEdit) {
+      leafPath = Path.previous(elementPath);
+      const oldLeafLength = Editor.string(editor, leafPath, { voids: true }).length;
+      const mathLength = Node.string(element).length;
       handleRemove();
+      setTimeout(() => {
+        Transforms.select(editor, {
+          anchor: { path: leafPath, offset: oldLeafLength + mathLength },
+          focus: { path: leafPath, offset: oldLeafLength + mathLength },
+        });
+      }, 0);
+    } else {
+      leafPath = Path.next(elementPath);
+      ReactEditor.focus(editor);
+      Transforms.select(editor, {
+        anchor: { path: leafPath, offset: 0 },
+        focus: { path: leafPath, offset: 0 },
+      });
     }
-    editor
-      .moveToRangeOfNode(element)
-      .moveToEnd()
-      .focus()
-      .moveForward(1);
   };
 
-  const handleSave = mathML => {
+  const handleSave = (mathML: string) => {
     const { element, editor } = props;
     const properties = {
-      data: { ...getSchemaEmbed(element), innerHTML: mathML },
+      data: { innerHTML: mathML },
     };
-    editor.setNodeByKey(element.key, properties);
+    const path = ReactEditor.findPath(editor, element);
+    const leafPath = Path.next(path);
+
+    if (isFirstEdit) {
+      HistoryEditor.withoutSaving(editor, () =>
+        Transforms.setNodes(editor, properties, {
+          at: path,
+          voids: true,
+          match: node => Element.isElement(node) && node.type === 'mathml',
+        }),
+      );
+    } else {
+      Transforms.setNodes(editor, properties, {
+        at: path,
+        voids: true,
+        match: node => Element.isElement(node) && node.type === 'mathml',
+      });
+    }
+
     setIsFirstEdit(false);
     setEditMode(false);
-    editor
-      .moveToRangeOfNode(element)
-      .moveToEnd()
-      .focus()
-      .moveForward(1);
+    ReactEditor.focus(editor);
+    Transforms.select(editor, {
+      anchor: { path: leafPath, offset: 0 },
+      focus: { path: leafPath, offset: 0 },
+    });
   };
 
   const handleRemove = () => {
     const { editor, element } = props;
-    editor
-      .moveToRangeOfNode(element)
-      .moveToEnd()
-      .focus()
-      .moveForward(1);
-    editor.unwrapInlineByKey(element.key, 'mathml');
+
+    const path = ReactEditor.findPath(editor, element);
+
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === 'mathml',
+      voids: true,
+    });
   };
 
   const { element, children } = props;

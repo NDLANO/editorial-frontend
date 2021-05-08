@@ -8,12 +8,12 @@
 
 import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
+import isObject from 'lodash/fp/isObject';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import MathEditor from './MathEditor';
-import isObject from 'lodash/fp/isObject';
-import { RenderElementProps } from 'slate-react';
 
 export const TYPE_MATHML = 'mathml';
 
@@ -48,12 +48,7 @@ export const mathmlSerializer: SlateSerializer = {
 };
 
 export const mathmlPlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    isInline: nextIsInline,
-    isVoid: nextIsVoid,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
+  const { renderElement: nextRenderElement, isInline: nextIsInline, isVoid: nextIsVoid } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;

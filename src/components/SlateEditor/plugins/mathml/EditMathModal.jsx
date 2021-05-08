@@ -46,6 +46,7 @@ const EditMathModal = ({
   openDiscardModal,
   renderMathML,
   previewMath,
+  id,
   t,
 }) => {
   useEffect(() => {
@@ -68,7 +69,7 @@ const EditMathModal = ({
           <ModalBody>
             <h1>{t('mathEditor.editMath')}</h1>
             <hr />
-            <StyledMathEditorWrapper id="mathEditorContainer" />
+            <StyledMathEditorWrapper id={`mathEditorContainer-${id}`} />
             <StyledButtonWrapper>
               <Button outline css={buttonStyle} onClick={previewMath}>
                 {t('form.preview.button')}
@@ -113,6 +114,7 @@ const EditMathModal = ({
 };
 
 EditMathModal.propTypes = {
+  id: PropTypes.string.isRequired,
   handleExit: PropTypes.func.isRequired,
   handleSave: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,

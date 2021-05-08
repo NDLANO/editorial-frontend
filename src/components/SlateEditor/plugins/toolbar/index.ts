@@ -56,8 +56,8 @@ const toolbarPlugin = (editor: Editor) => {
       inline = 'link';
       // } else if (isListHotKey(e)) {
       //   block = 'bulleted-list';
-      // } else if (isMathHotKey(e)) {
-      //   inline = 'mathml';
+    } else if (isMathHotKey(e)) {
+      inline = 'mathml';
       // } else if (isNumberedListHotKey(e)) {
       //   block = 'numbered-list';
     } else if (isQuoteHotKey(e)) {

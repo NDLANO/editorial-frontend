@@ -80,10 +80,8 @@ const TopicArticleContent = props => {
   const {
     t,
     userAccess,
-    formik: {
-      values: { id, language, creators, published },
-      handleBlur,
-    },
+    values: { id, language, creators, published },
+    handleBlur,
     handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
@@ -174,23 +172,12 @@ const TopicArticleContent = props => {
 
 TopicArticleContent.propTypes = {
   userAccess: PropTypes.string,
-  formik: PropTypes.shape({
-    values: PropTypes.shape({
-      id: PropTypes.number,
-      language: PropTypes.string,
-      published: PropTypes.string,
-      title: PropTypes.string,
-      updatePublished: PropTypes.bool,
-      creators: PropTypes.array,
-      visualElement: PropTypes.object,
-    }),
-    initialValues: PropTypes.shape({
-      id: PropTypes.number,
-      published: PropTypes.string,
-      title: PropTypes.string,
-      updatePublished: PropTypes.bool,
-    }),
-    handleBlur: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func,
+  values: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+    creators: PropTypes.array,
+    published: PropTypes.string,
   }),
   handleSubmit: PropTypes.func,
 };

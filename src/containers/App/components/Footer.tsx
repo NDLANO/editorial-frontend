@@ -6,35 +6,27 @@
  *
  */
 
-import React from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
-//@ts-ignore
 import { injectT, tType } from '@ndla/i18n';
 import { getLocaleUrls } from '../../../util/localeHelpers';
-import { getLocale } from '../../../modules/locale/locale';
+import { LocaleType } from '../../../interfaces';
+import { LocaleContext } from '../App';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
 `;
 
-enum lang {
-  NB = 'nb',
-  NN = 'nn',
-  EN = 'en',
-}
-
-interface Props {
-  location: Location;
-  locale: lang;
+interface Props extends RouteComponentProps {
+  location: RouteComponentProps['location'];
   showLocaleSelector?: boolean;
 }
 
-export const FooterWrapper = ({ location, locale, showLocaleSelector, t }: Props & tType) => {
+const FooterWrapper = ({ location, showLocaleSelector, t }: Props & tType) => {
+  const locale: LocaleType = useContext(LocaleContext);
   const languageSelector = showLocaleSelector ? (
     <LanguageSelector
       center
@@ -57,8 +49,4 @@ export const FooterWrapper = ({ location, locale, showLocaleSelector, t }: Props
   );
 };
 
-const mapStateToProps = (state: { locale: string }) => ({
-  locale: getLocale(state),
-});
-
-export default compose<any>(injectT, withRouter, connect(mapStateToProps, null))(FooterWrapper);
+export default withRouter(injectT(FooterWrapper));

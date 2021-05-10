@@ -14,7 +14,7 @@ import { fetchFilmFrontpage } from '../../modules/frontpage/frontpageApi';
 import { searchResources } from '../../modules/search/searchApi';
 import handleError from '../../util/handleError';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
-import config from '../../config';
+import { NDLA_FILM_SUBJECT } from '../../constants';
 import NdlaFilmForm from './components/NdlaFilmForm';
 import Spinner from '../../components/Spinner';
 
@@ -65,7 +65,8 @@ class NdlaFilmEditor extends React.Component {
     const slideshowIds = slideShowUrnIds.map(getIdFromUrn);
     const slideshowResult = await this.queryArticles(slideshowIds.join());
     const correctOrderSlideshow = this.sortMoviesByIdList(slideshowIds, slideshowResult);
-    return correctOrderSlideshow;
+    const withArticleType = this.addArticleType(correctOrderSlideshow);
+    return withArticleType;
   };
 
   getThemes = async movieThemes => {
@@ -82,9 +83,16 @@ class NdlaFilmEditor extends React.Component {
     if (movieThemeIds.length > 0) {
       const fetchedMovies = await this.queryArticles(movieThemeIds.join());
       const sortedMovies = this.sortMoviesByIdList(movieThemeIds, fetchedMovies);
-      return { ...movieTheme, movies: sortedMovies };
+      const withArticleType = this.addArticleType(sortedMovies);
+      return { ...movieTheme, movies: withArticleType };
     }
     return movieTheme;
+  };
+
+  addArticleType = movieList => {
+    return movieList.map(movie => {
+      return { ...movie, articleType: movie.learningResourceType };
+    });
   };
 
   sortMoviesByIdList = (idList, movieList) => {
@@ -92,7 +100,7 @@ class NdlaFilmEditor extends React.Component {
     const notFoundMovie = { title: { title: t('ndlaFilm.editor.notFound') } };
     return idList.map(
       id =>
-        movieList.find(movie => movie.id.toString() === id) || {
+        movieList.find(movie => movie.id === id) || {
           ...notFoundMovie,
           id: id,
         },
@@ -102,8 +110,8 @@ class NdlaFilmEditor extends React.Component {
   fetchAllMovies = async () => {
     const query = {
       page: 1,
-      subjects: 'urn:subject:20',
-      'context-types': config.ndlaFilmArticleType,
+      subjects: NDLA_FILM_SUBJECT,
+      'context-types': 'standard',
       sort: '-relevance',
       'page-size': 10000,
     };
@@ -114,7 +122,7 @@ class NdlaFilmEditor extends React.Component {
   queryArticles = async ids => {
     const query = {
       page: 1,
-      'context-types': config.ndlaFilmArticleType,
+      'context-types': 'standard',
       sort: '-relevance',
       'page-size': 10,
       ids: ids,

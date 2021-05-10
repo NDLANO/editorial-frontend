@@ -26,6 +26,8 @@ const phrases = {
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podcast ${titleTemplate}`,
+    h5pPage: `H5P ${titleTemplate}`,
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
@@ -156,6 +158,8 @@ const phrases = {
       content: 'Search hits from content',
       tags: 'Search hits from tags',
       embedAttributes: 'Search hits from embedded elements',
+      notes: 'Search hits from version log',
+      previousVersionsNotes: 'Search hits from version log',
     },
   },
   articleType: {
@@ -171,6 +175,7 @@ const phrases = {
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
+    podcast: 'New Podcast',
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',
@@ -218,6 +223,7 @@ const phrases = {
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',
+      audio: 'Select audio file type',
     },
     tagType: {
       query: 'Query',
@@ -236,6 +242,10 @@ const phrases = {
       topicArticle: 'Topic description',
       image: 'Image',
       audio: 'Audio',
+    },
+    audioType: {
+      standard: 'Audio',
+      podcast: 'Podcast',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',
@@ -388,6 +398,16 @@ const phrases = {
   audioForm: {
     title: 'audio file',
   },
+  podcastForm: {
+    title: 'Podcast file',
+    fields: {
+      header: 'Header',
+      introduction: 'Introduction',
+      coverPhoto: 'Image',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Text version',
+    },
+  },
   imageEditor: {
     remove: {
       crop: 'Remove crop',
@@ -457,6 +477,7 @@ const phrases = {
       related: 'Related content',
       file: 'File',
       code: 'Codeblock',
+      podcast: 'Podcast',
     },
   },
   form: {
@@ -466,6 +487,7 @@ const phrases = {
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     articleSection: 'Articles',
+    podcastSection: 'Podcast information',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',
@@ -475,6 +497,7 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
     preview: {
@@ -513,6 +536,9 @@ const phrases = {
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
+      header: 'Header',
+      manuscript: 'Manuscript',
+      coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -570,6 +596,7 @@ const phrases = {
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
+    editPodcast: 'Edit podcast',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -657,6 +684,8 @@ const phrases = {
       quality_assured_delayed: 'Ready for publishing-delayed',
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
       published: 'Published',
+      has_published: 'Has published version',
+      unlisted: 'Link shared',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
       awaiting_archiving: 'Delayed archivation',
@@ -902,6 +931,14 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload image',
+        ariaLabel: 'Drag and drop or click to upload image',
+      },
+    },
+    podcast: {
+      remove: 'Remove podcast',
     },
     external: {
       title: 'external',
@@ -996,6 +1033,8 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    unsavedTaxonomy:
+      'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {message}',
     statusCode: {

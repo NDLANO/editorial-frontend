@@ -61,11 +61,14 @@ const ElementListItem = ({
 
   return (
     <StyledListItem
+      data-cy="elementListItem"
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
         <StyledElementImage
-          src={element.metaImage?.url || '/placeholder.png'}
+          src={
+            (element.metaImage?.url && `${element.metaImage.url}?width=100`) || '/placeholder.png'
+          }
           alt={element.metaImage?.alt || ''}
         />
         {linkProps.to ? (
@@ -100,7 +103,12 @@ const ElementListItem = ({
             </StyledButtonIcons>
           )}
           <Tooltip tooltip={messages?.removeElement}>
-            <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
+            <StyledButtonIcons
+              data-cy="elementListItemDeleteButton"
+              tabIndex={-1}
+              type="button"
+              onClick={() => deleteFile(index)}
+              delete>
               <DeleteForever />
             </StyledButtonIcons>
           </Tooltip>

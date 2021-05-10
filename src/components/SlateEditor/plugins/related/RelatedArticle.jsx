@@ -27,6 +27,7 @@ const RelatedArticle = ({ item, t, numberInList }) => (
     title={convertFieldWithFallback(item, 'title', item.title)}
     introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
     to={item.url || toEditArticle(item.id, 'standard')}
+    target="_blank"
     linkInfo={
       item.id === 'external-learning-resources'
         ? t('form.content.relatedArticle.urlLocation', {

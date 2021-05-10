@@ -50,6 +50,8 @@ import {
 } from '../../../../modules/taxonomy/resourcetypes';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import { ArticleShape } from '../../../../shapes';
+import { FormikFieldHelp } from '../../../../components/FormikField';
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -65,6 +67,7 @@ class TopicArticleTaxonomy extends Component {
         allFilters: [],
         allTopics: [],
       },
+      showWarning: false,
     };
   }
 
@@ -293,12 +296,15 @@ class TopicArticleTaxonomy extends Component {
 
   onCancel = () => {
     const { isDirty } = this.state;
-    const { closePanel } = this.props;
+    const { setIsOpen } = this.props;
     if (!isDirty) {
-      closePanel();
+      setIsOpen(false);
     } else {
-      // TODO open warning
-      closePanel();
+      if (this.state.showWarning) {
+        setIsOpen(false);
+      } else {
+        this.setState({ showWarning: true });
+      }
     }
   };
 
@@ -474,6 +480,7 @@ class TopicArticleTaxonomy extends Component {
       structure,
       status,
       isDirty,
+      showWarning,
     } = this.state;
     const {
       t,
@@ -543,6 +550,9 @@ class TopicArticleTaxonomy extends Component {
               updateFilter={this.updateFilter}
             />
           )}
+        {showWarning && (
+          <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>
+        )}
         <Field right>
           <ActionButton outline onClick={this.onCancel} disabled={status === 'loading'}>
             {t('form.abort')}
@@ -561,15 +571,9 @@ class TopicArticleTaxonomy extends Component {
 }
 
 TopicArticleTaxonomy.propTypes = {
-  language: PropTypes.string,
   locale: PropTypes.string,
-  closePanel: PropTypes.func.isRequired,
-  article: PropTypes.shape({
-    title: PropTypes.string,
-    id: PropTypes.number,
-    language: PropTypes.string,
-    revision: PropTypes.number,
-  }).isRequired,
+  setIsOpen: PropTypes.func,
+  article: ArticleShape.isRequired,
   updateNotes: PropTypes.func.isRequired,
   userAccess: PropTypes.string,
 };

@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AccordionWrapper } from '@ndla/accordion';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -29,22 +29,14 @@ import {
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import AccordionSection from './AccordionSection';
 import FormFooter from './FormFooter';
 import { NewConceptType, PatchConceptType } from '../../../modules/concept/conceptApiInterfaces';
-import {
-  License,
-  SubjectType,
-  SearchResult,
-  ConceptStatusType,
-  CreateMessageType,
-} from '../../../interfaces';
+import { License, SubjectType, SearchResult, ConceptStatusType } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   applicationError: (err: string) => void;
   concept: ConceptFormType;
-  createMessage: (o: CreateMessageType) => void;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
   inModal: boolean;
   isNewlyCreated: boolean;
@@ -62,7 +54,6 @@ interface Props {
 
 const ConceptForm = ({
   concept,
-  createMessage,
   fetchConceptTags,
   inModal,
   isNewlyCreated,
@@ -137,14 +128,14 @@ const ConceptForm = ({
               setTranslateOnContinue={setTranslateOnContinue}
               values={values}
             />
-            <AccordionWrapper>
+            <Accordions>
               <AccordionSection
                 id="concept-content"
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={!!(errors.slatetitle || errors.conceptContent)}
                 startOpen>
-                <ConceptContent createMessage={createMessage} />
+                <ConceptContent />
               </AccordionSection>
               <AccordionSection
                 id="concept-copyright"
@@ -175,7 +166,7 @@ const ConceptForm = ({
                 hasError={!!errors.articles}>
                 <ConceptArticles />
               </AccordionSection>
-            </AccordionWrapper>
+            </Accordions>
             <FormFooter
               entityStatus={concept.status}
               inModal={inModal}
@@ -184,7 +175,6 @@ const ConceptForm = ({
               showSimpleFooter={!concept.id}
               onClose={onClose}
               onContinue={translateOnContinue ? translateConcept : () => {}}
-              createMessage={createMessage}
               getApiConcept={() => getConcept(values, licenses, concept.updatedBy)}
             />
           </FormWrapper>

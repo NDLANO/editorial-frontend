@@ -15,8 +15,7 @@ import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
-import { submitFormWithMessage } from '../conceptUtil';
-import { ConceptType, CreateMessageType } from '../../../interfaces';
+import { ConceptType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
@@ -27,7 +26,6 @@ interface Props {
   showSimpleFooter: boolean;
   onClose: () => void;
   onContinue: () => void;
-  createMessage: (o: CreateMessageType) => void;
   getApiConcept: () => ConceptType;
 }
 
@@ -39,17 +37,18 @@ const FormFooter = ({
   showSimpleFooter,
   onClose,
   onContinue,
-  createMessage,
   getApiConcept,
   t,
 }: Props & tType) => {
   const formikContext = useFormikContext<ConceptFormValues>();
-  const { values, initialValues, dirty, isSubmitting } = formikContext;
+  const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
     dirty,
   });
+
+  const disableSave = Object.keys(errors).length > 0;
 
   return (
     <>
@@ -64,9 +63,10 @@ const FormFooter = ({
             formIsDirty={formIsDirty}
             showSaved={savedToServer && !formIsDirty}
             submit={!inModal}
+            disabled={disableSave}
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
-              submitFormWithMessage(formikContext, createMessage);
+              submitForm();
             }}>
             {t('form.save')}
           </SaveButton>
@@ -77,14 +77,14 @@ const FormFooter = ({
           savedToServer={savedToServer}
           getEntity={getApiConcept}
           entityStatus={entityStatus}
-          createMessage={createMessage}
           fetchStatusStateMachine={fetchStatusStateMachine}
           showSimpleFooter={showSimpleFooter}
-          onSaveClick={() => submitFormWithMessage(formikContext, createMessage)}
+          onSaveClick={submitForm}
           hideSecondaryButton
           isConcept
           isNewlyCreated={isNewlyCreated}
           validateEntity={() => {}}
+          hasErrors={isSubmitting || !formIsDirty || disableSave}
         />
       )}
       {!inModal && (

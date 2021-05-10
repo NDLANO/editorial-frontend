@@ -8,17 +8,13 @@
 
 import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { FormikHelpers, FieldProps, FormikValues } from 'formik';
+import { FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
 import GrepCodesFieldContent from './GrepCodesFieldContent';
 import { ArticleType } from '../../interfaces';
 
 interface Props {
   article: ArticleType;
-  field: FieldProps<string[]>['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
 }
 
 const GrepCodesField = ({ t, article }: Props & tType) => {

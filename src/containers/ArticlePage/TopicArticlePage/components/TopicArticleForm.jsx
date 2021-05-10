@@ -136,6 +136,7 @@ const TopicArticleForm = props => {
     formikRef,
     initialValues,
     setResetModal,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -151,12 +152,15 @@ const TopicArticleForm = props => {
     translateArticle,
     licenses,
     isNewlyCreated,
+    createMessage,
+    history,
+    userAccess,
     ...rest
   } = props;
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+    const { values, dirty, isSubmitting, setValues } = formik;
 
     const formIsDirty = isFormikFormDirty({
       values,
@@ -179,26 +183,26 @@ const TopicArticleForm = props => {
           translateArticle={translateArticle}
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
+          history={history}
           {...rest}
         />
         {translating ? (
           <Spinner withWrapper />
         ) : (
           <TopicArticleAccordionPanels
-            values={values}
-            errors={errors}
             updateNotes={updateArticle}
             article={article}
-            touched={touched}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            setValues={setValues}
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            {...formikProps}
-            {...rest}
-            handleSubmit={() => handleSubmit(formik)}
+            handleSubmit={() => {
+              handleSubmit(values, formik);
+            }}
+            history={history}
+            userAccess={userAccess}
+            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -207,12 +211,16 @@ const TopicArticleForm = props => {
           savedToServer={savedToServer}
           getEntity={getArticle}
           showReset={() => setResetModal(true)}
-          onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
+          onSaveClick={saveAsNewVersion => {
+            setSaveAsNewVersion(saveAsNewVersion);
+            handleSubmit(values, formik);
+          }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
+          createMessage={createMessage}
           {...rest}
         />
         <AlertModalWrapper
@@ -233,7 +241,7 @@ const TopicArticleForm = props => {
       initialValues={initialValues}
       validateOnChange={false}
       innerRef={formikRef}
-      onSubmit={() => ({})}
+      onSubmit={handleSubmit}
       validate={values => validateFormik(values, topicArticleRules, t)}>
       {FormikChild}
     </Formik>
@@ -250,11 +258,15 @@ TopicArticleForm.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   updateArticleAndStatus: PropTypes.func,
+  userAccess: PropTypes.string,
   licenses: LicensesArrayOf,
   article: ArticleShape,
   translating: PropTypes.bool,
   translateArticle: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 export default injectT(TopicArticleForm);

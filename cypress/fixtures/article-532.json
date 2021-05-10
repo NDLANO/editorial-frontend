@@ -1,1 +1,46 @@
-{"id":532,"oldNdlaUrl":"//red.ndla.no/node/153040","revision":9,"title":{"title":"Vanninjeksjon i reservoarformasjonen","language":"nb"},"content":{"content":"<section><embed data-align=\"\" data-alt=\"Vanninjeksjon i reservoar. Illustrasjon.\" data-caption=\"\" data-resource=\"image\" data-resource_id=\"56786\" data-size=\"full\" data-url=\"https://api.test.ndla.no/image-api/v2/images/56786\"><aside data-type=\"rightAside\"><p><br>        <br>            </p><h3>Sentralt i emnet:</h3><ul><li>Injeksjonsbrønn</li><li>Reservoarforbindelse</li><li>Økt utvinningsgrad</li></ul><p>        <br>    </p></aside></section><section><h2>Vanninjeksjon</h2><p>For å unngå at reservoartrykket og oljeproduksjonen faller for raskt kan vanninjeksjon brukes i reservoarene. Dette øker utvinningsgraden vesentlig. Vannet erstatter produsert olje og opprettholder reservoartrykket samtidig med at vannet fortrenger oljen inn mot produksjonsbrønnene.</p><p>Vannet blir injisert i egne brønner, injeksjonsbrønner. Injeksjonsbrønnene blir plassert i god avstand fra produksjonsbrønnene slik at vannet effektivt kan fortrenge olje mot produksjonsbrønnen. Det må likevel være kontakt/kommunikasjon i reservoaret mellom produksjons- og injeksjonsbrønner. <br>Forkastninger eller områder med dårlig permeabilitet kan redusere kommunikasjonen i et reservoar og dermed redusere effekten av vanninjeksjon.</p></section><section><embed data-account=\"4806596774001\" data-caption=\"Vanninjeksjonsbrønn\" data-player=\"BkLm8fT\" data-resource=\"brightcove\" data-videoid=\"5796664371001\"></section><section><p>Vanninjeksjon medfører mange utfordringer og krever omfattende planlegging. Det kreves store store investeringer i vanninjeksjonsanlegg og prosessanlegg samt i brønner for å injisere vannet. Driftskostnadene blir økt tilsvarende.</p><p>Etter en tid med oljeproduksjon og vanninjeksjon (som oftest flere år) vil store mengder vann ha strømmet gjennom reservoaret og inn mot produksjonsbrønnene. Til slutt når injeksjonsvannet fram til produksjonsbrønnene. Injeksjonsvannet blir så produsert sammen med oljen.</p><p>Når en får vanngjennombrudd i produksjonsbrønnene oppstår dramatiske endringer; vann er tyngre enn olje og løfte/produksjonskapasiteten til brønnen blir derfor redusert. Vannet kan også medføre at en får utfelling av kjemikalier (<em>scale</em>) som kan blokkere utstyr og redusere indre diameter i brønnen.</p><p>Vannet endrer også drakreftene i sanden i reservoaret slik at sandkorn løsner og blir produsert sammen med vannet inn i produksjonsbrønnen. Sand og vannproduksjon er store utfordringer på norsk sokkel.</p><p>I dag produseres det mer enn 50 prosent vann på mange av feltene i Nordsjøen \u2013 det blir altså produsert mer vann enn olje. På Gullfaks-feltet i Nordsjøen er ratene i noen brønner redusert med 50 prosent for å unngå for høy sandproduksjon.</p></section><section><embed data-resource=\"image\" data-resource_id=\"56535\" data-size=\"fullbredde\" data-align=\"\" data-alt=\"\nVanninjeksjonsbrønn. Illustrasjon.\n\" data-caption=\"Vanninjeksjon i reservoaret\" data-url=\"https://api.test.ndla.no/image-api/v2/images/56535\"></section><section><h2>Vanninjeksjon på norsk sokkel</h2><p>Til tross for store utfordringer knyttet til vanninjeksjon er oljefeltene i Nordsjøen i all hovedsak produsert med vanninjeksjon. Dette er fordi vanninjeksjon øker utvinningsgraden dramatisk.</p><p>På Ekofiskfeltet ble estimert utvinning økt fra 17 prosent uten vanninjeksjon til 45\u201350 prosent med vanninjeksjon. Dette representerer enorme verdier. Generelt kan utvinningsgraden være mellom 40\u201360 prosent ved vanninjeksjon. For reservoarer med særdeles gode egenskaper kan utvinningsgraden komme opp mot 70 prosent.</p></section>","language":"nb"},"copyright":{"license":{"license":"CC-BY-SA-4.0","description":"Creative Commons Attribution-ShareAlike 4.0 International","url":"https://creativecommons.org/licenses/by-sa/4.0/"},"origin":"","creators":[{"type":"Writer","name":"Anna Aabø"}],"processors":[],"rightsholders":[{"type":"Supplier","name":"Cerpus AS"}]},"tags":{"tags":["drivmekanisme","formasjonstrykk","vanninjeksjon"],"language":"nb"},"requiredLibraries":[],"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/4379","alt":"Vanninjeksjon i reservoar. Illustrasjon.","language":"nb"},"introduction":{"introduction":"Vanninjeksjon er et tiltak som brukes for å opprettholde reservoartrykket slik at mest mulig olje kan produseres fra fellen. Vannet som injiseres bidrar også til å skyve oljen fram til produksjonsbrønnen. Injeksjonsvann er behandlet formasjonsvann eller sjøvann.","language":"nb"},"metaDescription":{"metaDescription":"Vanninjeksjon brukes for å øke oljeutvinning fra reservoaret, vannet erstatter produsert olje og fortrenger oljen inn mot produksjonsbrønnene.","language":"nb"},"created":"2015-11-24T16:04:42Z","updated":"2021-04-12T09:00:36Z","updatedBy":"pHEuiJpTMIZ8y9rUehK7bXe2","published":"2018-06-29T08:11:39Z","articleType":"standard","supportedLanguages":["nb"],"grepCodes":[],"conceptIds":[],"availability":"everyone","relatedContent":[]}
+{
+  "id": 532,
+  "oldNdlaUrl": "//red.ndla.no/node/153040",
+  "revision": 9,
+  "title": { "title": "Vanninjeksjon i reservoarformasjonen", "language": "nb" },
+  "content": {
+    "content": "<section><p>Artikkel tilbakestillt fra historikk</p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "",
+    "creators": [{ "type": "Writer", "name": "Anna Aabø" }],
+    "processors": [],
+    "rightsholders": []
+  },
+  "tags": { "tags": ["drivmekanisme", "formasjonstrykk", "vanninjeksjon"], "language": "nb" },
+  "requiredLibraries": [],
+  "metaImage": {
+    "url": "https://api.test.ndla.no/image-api/raw/id/4379",
+    "alt": "Vanninjeksjon i reservoar. Illustrasjon.",
+    "language": "nb"
+  },
+  "introduction": {
+    "introduction": "Artikkel tilbakestillt fra historikk.",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "Artikkel tilbakestillt fra historikk.",
+    "language": "nb"
+  },
+  "created": "2015-11-24T16:04:42Z",
+  "updated": "2021-04-12T09:00:36Z",
+  "updatedBy": "pHEuiJpTMIZ8y9rUehK7bXe2",
+  "published": "2018-06-29T08:11:39Z",
+  "articleType": "standard",
+  "supportedLanguages": ["nb"],
+  "grepCodes": [],
+  "conceptIds": [],
+  "availability": "everyone",
+  "relatedContent": []
+}

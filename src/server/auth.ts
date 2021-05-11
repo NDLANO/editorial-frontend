@@ -6,7 +6,7 @@
  *
  */
 
-import 'isomorphic-fetch';
+import fetch from 'cross-fetch';
 import btoa from 'btoa';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Editor, Node, Transforms } from 'new-slate';
+import { Editor, Transforms, Element } from 'new-slate';
 import { ReactEditor } from 'new-slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import Url from 'url-parse';
@@ -24,33 +24,39 @@ const newTabAttributes = {
   rel: 'noopener noreferrer',
 };
 
-const createContentLinkData = (id, resourceType, targetRel) => {
+const createContentLinkData = (
+  id: string,
+  resourceType: string,
+  targetRel: { 'open-in': string },
+): Partial<ContentLinkElement> => {
   return {
     type: TYPE_CONTENT_LINK,
     'content-id': id,
     'content-type': resourceType || 'article',
-    resource: 'content-link',
     ...targetRel,
   };
 };
 
-const createLinkData = (href, targetRel) => ({
+const createLinkData = (
+  href: string,
+  targetRel: { target?: string; rel?: string },
+): Partial<LinkElement> => ({
   type: TYPE_LINK,
   href,
   ...targetRel,
 });
 
-export const isNDLAArticleUrl = url =>
+export const isNDLAArticleUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
-export const isNDLATaxonomyUrl = url =>
+export const isNDLATaxonomyUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(.*)\/topic(.*)/.test(url);
-export const isNDLALearningPathUrl = url =>
+export const isNDLALearningPathUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
-export const isNDLAEdPathUrl = url =>
+export const isNDLAEdPathUrl = (url: string) =>
   /^http(s)?:\/\/ed.((.*)\.)?ndla.no\/((.*)\/)?subject-matter\/(.*)/.test(url);
-export const isPlainId = url => /^\d+/.test(url);
+export const isPlainId = (url: string) => /^\d+/.test(url);
 
-const getIdAndTypeFromUrl = async href => {
+const getIdAndTypeFromUrl = async (href: string) => {
   // Removes search queries before split
   const baseHref = href.split(/\?/)[0];
   if (isNDLAArticleUrl(baseHref)) {
@@ -136,7 +142,8 @@ const EditLink = (props: Props & tType) => {
         { ...data },
         {
           at: path,
-          match: node => node.type === 'link' || node.type === 'content-link',
+          match: node =>
+            Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
         },
       );
       handleChangeAndClose(editor);
@@ -145,7 +152,14 @@ const EditLink = (props: Props & tType) => {
 
   const handleRemove = () => {
     const { editor } = props;
-    editor.undo();
+    const path = ReactEditor.findPath(editor, element);
+
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: node =>
+        Element.isElement(node) && (node.type === TYPE_LINK || node.type === TYPE_CONTENT_LINK),
+    });
+
     ReactEditor.focus(editor);
   };
 

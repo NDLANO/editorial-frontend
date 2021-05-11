@@ -8,44 +8,33 @@
 
 import { Editor } from 'new-slate';
 import { KeyboardEvent } from 'react';
-import { hasNodeOfType } from '../../utils';
-import { listTypes } from '../externalPlugins';
 import { insertLink } from '../link/utils';
-
-const DEFAULT_NODE = 'paragraph';
+import { toggleQuote } from '../blockquote/utils';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
 
-export function handleClickBlock(event, editor, type) {
+export function handleClickBlock(
+  event: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  type: string,
+) {
   event.preventDefault();
-  stripSpacesFromSelectedText(editor);
-
-  const { document, blocks } = editor.value;
-  const isActive = hasNodeOfType(editor, type);
   if (type === 'quote') {
-    if (editor.isSelectionInBlockquote()) {
-      editor.unwrapBlockquote();
-    } else {
-      editor.wrapInBlockquote();
-    }
-  } else if (listTypes.includes(type)) {
-    const isListTypeActive = blocks.some(
-      block => !!document.getClosest(block.key, parent => parent.type === type),
-    );
-    // Current list type is active
-    if (isListTypeActive) {
-      editor.unwrapList();
-      // Current selection is list, but not the same type
-    } else if (editor.isSelectionInList()) {
-      editor.unwrapList();
-      editor.wrapInList(type);
-      // No list found, wrap in list type
-    } else {
-      editor.wrapInList(type);
-    }
-  } else {
-    editor.setBlocks(isActive ? DEFAULT_NODE : type);
+    toggleQuote(editor);
+    // TODO: Upgrade. Old code for handling lists
+    //   // Current list type is active
+    //   if (isListTypeActive) {
+    //     editor.unwrapList();
+    //     // Current selection is list, but not the same type
+    //   } else if (editor.isSelectionInList()) {
+    //     editor.unwrapList();
+    //     editor.wrapInList(type);
+    //     // No list found, wrap in list type
+    //   } else {
+    //     editor.wrapInList(type);
+    //   }
+    // }
   }
 }
 
@@ -54,10 +43,12 @@ export function handleClickInline(
   editor: Editor,
   type: string,
 ) {
+  event.preventDefault();
   if (editor.selection) {
-    insertLink(editor);
+    if (type === 'link') {
+      insertLink(editor);
+    }
   }
-  // stripSpacesFromSelectedText(editor);
 
   // if (type === 'footnote') {
   //   addTextAndWrapIntype(editor, '#', type);
@@ -73,33 +64,4 @@ export function handleClickInline(
   //     editor.wrapInline(type);
   //   });
   // }
-}
-
-function addTextAndWrapIntype(editor, text, type) {
-  editor
-    .moveToEnd()
-    .insertText(text)
-    .moveFocusForward(-text.length)
-    .wrapInline(type);
-}
-
-/**
- * Default windows behaviour when selecting text via double click is to select the word + the following space.
- * This function checks the selected text and removes 1 space from each end.
- * Selections spanning more than one text is supported.
- */
-function stripSpacesFromSelectedText(editor) {
-  const { value } = editor;
-  if (value.selection.start.offset === value.selection.end.offset) {
-    return;
-  }
-  const { startText, endText } = value;
-  const selectedStartText = startText.text.slice(value.selection.start.offset);
-  if (selectedStartText.startsWith(' ')) {
-    editor.moveStartForward(1);
-  }
-  const selectedEndText = endText.text.slice(value.selection.end.offset - 1);
-  if (selectedEndText.startsWith(' ')) {
-    editor.moveEndBackward(1);
-  }
 }

@@ -154,20 +154,5 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  // TODO: Rewrite to normalizing
-  // const schema = {
-  //   document: {},
-  //   inlines: {
-  //     link: {
-  //       data: {},
-  //       nodes: [
-  //         {
-  //           match: { object: 'text' },
-  //         },
-  //       ],
-  //     },
-  //   },
-  // };
-
   return editor;
 };

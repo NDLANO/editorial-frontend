@@ -5,9 +5,11 @@ import { jsx } from 'new-slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
 import { ContentLinkElement, LinkElement } from '../link';
+import { TYPE_BREAK } from '../break';
+import { getCurrentParagraph } from './utils';
 
 const KEY_ENTER = 'Enter';
-const TYPE = 'paragraph';
+export const TYPE_PARAGRAPH = 'paragraph';
 
 export interface ParagraphElement {
   type: 'paragraph';
@@ -17,15 +19,6 @@ export interface ParagraphElement {
   };
   children: (Text | LinkElement | ContentLinkElement)[];
 }
-
-const getCurrentParagraph = (editor: Editor) => {
-  if (!editor.selection?.anchor) return null;
-  const startBlock = Node.parent(editor, editor.selection?.anchor.path);
-  if (!Element.isElement(startBlock)) {
-    return null;
-  }
-  return startBlock && startBlock?.type === 'paragraph' ? startBlock : null;
-};
 
 const onEnter = (
   e: KeyboardEvent<HTMLDivElement>,
@@ -48,13 +41,13 @@ const onEnter = (
    spacing (i.e two images).
    */
   if (Node.string(currentParagraph) === '') {
-    editor.deleteBackward('character');
     editor.insertNode({
-      type: 'br',
+      type: TYPE_BREAK,
       children: [{ text: '' }],
     });
+
     editor.insertNode({
-      type: TYPE,
+      type: TYPE_PARAGRAPH,
       children: [{ text: '' }],
     });
     return;
@@ -65,7 +58,7 @@ const onEnter = (
   }
 
   return editor.insertNode({
-    type: TYPE,
+    type: TYPE_PARAGRAPH,
     children: [{ text: '' }],
   });
 };
@@ -76,13 +69,13 @@ export const paragraphSerializer: SlateSerializer = {
 
     return jsx(
       'element',
-      { type: TYPE, data: reduceElementDataAttributes(el, ['align', 'data-align']) },
+      { type: TYPE_PARAGRAPH, data: reduceElementDataAttributes(el, ['align', 'data-align']) },
       children,
     );
   },
   serialize(node: Descendant, children: string) {
     if (!Element.isElement(node)) return;
-    if (node.type !== 'paragraph' /*&& node.type !== 'line'*/) return;
+    if (node.type !== TYPE_PARAGRAPH /*&& node.type !== 'line'*/) return;
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor
@@ -110,7 +103,7 @@ export const paragraphPlugin = (editor: Editor) => {
   };
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === 'paragraph') {
+    if (element.type === TYPE_PARAGRAPH) {
       return <p {...attributes}>{children}</p>;
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });

@@ -2,6 +2,7 @@ import { Editor, Descendant, BaseEditor } from 'new-slate';
 import { HistoryEditor } from 'new-slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'new-slate-react';
 import React from 'react';
+import { BlockQuoteElement } from './plugins/blockquote';
 import { BreakElement } from './plugins/break';
 import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
@@ -25,7 +26,13 @@ export type CustomEditor = {
 declare module 'new-slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
-    Element: ParagraphElement | SectionElement | BreakElement | LinkElement | ContentLinkElement;
+    Element:
+      | ParagraphElement
+      | SectionElement
+      | BreakElement
+      | LinkElement
+      | ContentLinkElement
+      | BlockQuoteElement;
     Text: CustomTextWithMarks;
   }
 }

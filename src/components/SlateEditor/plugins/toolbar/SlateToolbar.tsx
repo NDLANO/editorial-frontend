@@ -6,27 +6,26 @@
  *
  */
 
-// TODO: Implement lists, blocks and inlines
-
 import React, { KeyboardEvent, useEffect } from 'react';
 import { Editor } from 'new-slate';
 import { ReactEditor } from 'new-slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
-import { isMarkActive, toggleMark } from '../mark';
-import { handleClickInline } from './handleMenuClicks';
+import { toggleMark } from '../mark/utils';
+import { handleClickInline, handleClickBlock } from './handleMenuClicks';
+import { hasNodeOfType } from '../../utils';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
-  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  inline: ['link', 'mathml', 'concept'],
+  // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
+  // block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  // inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  //   block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
+  block: ['quote' /*, ...listTypes, 'heading-two', 'heading-three'*/],
   inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
 };
 
@@ -46,13 +45,11 @@ const onButtonClick = (
   type: string,
 ) => {
   if (kind === 'mark') {
-    event.preventDefault();
-    toggleMark(editor, type);
-    // }  else if (kind === 'block') {
+    toggleMark(event, editor, type);
+  } else if (kind === 'block') {
+    handleClickBlock(event, editor, type);
   } else if (kind === 'inline') {
     handleClickInline(event, editor, type);
-
-    event.preventDefault();
   }
 };
 
@@ -106,7 +103,7 @@ const SlateToolbar = (props: Props) => {
         key={type}
         type={type}
         kind={kind}
-        isActive={isMarkActive(editor, type)}
+        isActive={hasNodeOfType(editor, type, kind)}
         handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
           onButtonClick(event, editor, kind, type);
         }}

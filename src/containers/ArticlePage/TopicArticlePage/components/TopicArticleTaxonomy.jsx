@@ -48,7 +48,6 @@ import {
   createTopicResourceType,
   deleteTopicResourceType,
 } from '../../../../modules/taxonomy/resourcetypes';
-
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';

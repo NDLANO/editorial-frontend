@@ -8,7 +8,7 @@
 const jsdom = require('jsdom');
 const chalk = require('chalk');
 const queryString = require('query-string');
-const fetch = require('isomorphic-fetch');
+const fetch = require('cross-fetch');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const { diffHTML } = require('../../src/util/diffHTML');

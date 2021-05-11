@@ -8,12 +8,12 @@
 
 import { Editor, Element } from 'new-slate';
 
-const isBlockActive = (editor: Editor, type: string) => {
+const getCurrentBlock = (editor: Editor, type: Element['type']) => {
   const [match] = Editor.nodes(editor, {
     match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === type,
+    mode: 'lowest',
   });
-
-  return !!match;
+  return match;
 };
 
-export default isBlockActive;
+export default getCurrentBlock;

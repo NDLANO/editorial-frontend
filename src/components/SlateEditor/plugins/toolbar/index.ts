@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { KeyboardEvent } from 'react';
 import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
 import { Editor } from 'new-slate';
@@ -36,10 +44,10 @@ const toolbarPlugin = (editor: Editor) => {
       //   inline = 'concept';
       // } else if (isFootnoteHotKey(e)) {
       //   inline = 'footnote';
-      // } else if (isH2HotKey(e)) {
-      //   block = 'heading-two';
-      // } else if (isH3HotKey(e)) {
-      //   block = 'heading-three';
+    } else if (isH2HotKey(e)) {
+      block = 'heading-2';
+    } else if (isH3HotKey(e)) {
+      block = 'heading-3';
     } else if (isItalicHotKey(e)) {
       mark = 'italic';
       // } else if (isLetteredListHotKey(e)) {

@@ -4,6 +4,7 @@ import { ReactEditor, RenderElementProps, RenderLeafProps } from 'new-slate-reac
 import React from 'react';
 import { BlockQuoteElement } from './plugins/blockquote';
 import { BreakElement } from './plugins/break';
+import { HeadingElement } from './plugins/heading';
 import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
@@ -32,7 +33,8 @@ declare module 'new-slate' {
       | BreakElement
       | LinkElement
       | ContentLinkElement
-      | BlockQuoteElement;
+      | BlockQuoteElement
+      | HeadingElement;
     Text: CustomTextWithMarks;
   }
 }

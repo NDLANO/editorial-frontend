@@ -7,14 +7,15 @@
  */
 
 import React, { KeyboardEvent, useEffect } from 'react';
-import { Editor } from 'new-slate';
+import { Editor, Element } from 'new-slate';
 import { ReactEditor } from 'new-slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
-import { hasNodeOfType } from '../../utils';
+import { hasNodeWithProps } from '../../utils';
+import { isMarkActive } from '../mark';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
@@ -25,8 +26,19 @@ const topicArticleElements: { [key: string]: string[] } = {
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote' /*, ...listTypes, 'heading-two', 'heading-three'*/],
+  block: ['quote', 'heading-2', 'heading-3' /*, ...listTypes*/],
   inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
+};
+
+const specialRules: { [key: string]: Partial<Element> } = {
+  'heading-2': {
+    type: 'heading',
+    level: 2,
+  },
+  'heading-3': {
+    type: 'heading',
+    level: 3,
+  },
 };
 
 export const toolbarClasses = new BEMHelper({
@@ -97,24 +109,48 @@ const SlateToolbar = (props: Props) => {
   const toolbarElements = window.location.pathname.includes('learning-resource')
     ? learningResourceElements
     : topicArticleElements;
-  const toolbarButtons = Object.keys(toolbarElements).map(kind =>
-    toolbarElements[kind].map(type => (
-      <ToolbarButton
-        key={type}
-        type={type}
-        kind={kind}
-        isActive={hasNodeOfType(editor, type, kind)}
-        handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
-          onButtonClick(event, editor, kind, type);
-        }}
-      />
-    )),
-  );
+
+  const markButtons = toolbarElements.mark.map(type => (
+    <ToolbarButton
+      key={type}
+      type={type}
+      kind={'mark'}
+      isActive={isMarkActive(editor, type)}
+      handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
+        onButtonClick(event, editor, kind, type);
+      }}
+    />
+  ));
+
+  const blockButtons = toolbarElements.block.map(type => (
+    <ToolbarButton
+      key={type}
+      type={type}
+      kind={'block'}
+      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+      handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
+        onButtonClick(event, editor, kind, type);
+      }}
+    />
+  ));
+  const inlineButtons = toolbarElements.inline.map(type => (
+    <ToolbarButton
+      key={type}
+      type={type}
+      kind={'inline'}
+      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+      handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
+        onButtonClick(event, editor, kind, type);
+      }}
+    />
+  ));
 
   return (
     <Portal isOpened>
       <div ref={portalRef} {...toolbarClasses()}>
-        {toolbarButtons}
+        {markButtons}
+        {blockButtons}
+        {inlineButtons}
       </div>
     </Portal>
   );

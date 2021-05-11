@@ -6,17 +6,19 @@
  *
  */
 
-import { Range, Editor, Element } from 'new-slate';
+import { Editor, Element, Range } from 'new-slate';
 
-const hasNodeOfType = (editor: Editor, type: string) => {
+const hasNodeWithProps = (editor: Editor, props: Partial<Element>) => {
   if (!Range.isRange(editor.selection)) {
     return false;
   }
   const [match] = Editor.nodes(editor, {
-    match: node => Element.isElement(node) && node.type === type,
+    match: node => {
+      return Element.isElement(node) && Element.matches(node, props);
+    },
     at: Editor.unhangRange(editor, editor.selection),
   });
   return !!match;
 };
 
-export default hasNodeOfType;
+export default hasNodeWithProps;

@@ -34,7 +34,7 @@ import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside'
 import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
-import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
+import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
@@ -120,7 +120,7 @@ const LearningResourceContent = ({
     blockQuotePlugin,
     linkPlugin(articleLanguage),
     // conceptPlugin(articleLanguage),
-    // headingPlugin(),
+    headingPlugin,
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.

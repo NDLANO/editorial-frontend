@@ -11,7 +11,7 @@ import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'new-slate';
 import { SlateSerializer } from '../../interfaces';
-import { getCurrentQuote } from './utils';
+import { getCurrentBlock } from '../../utils';
 import { TYPE_PARAGRAPH } from '../paragraph';
 
 const KEY_ENTER = 'Enter';
@@ -42,7 +42,7 @@ const onEnter = (
   editor: Editor,
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  const [quoteNode, quotePath] = getCurrentQuote(editor) || [];
+  const [quoteNode, quotePath] = getCurrentBlock(editor, TYPE_QUOTE) || [];
 
   if (!quoteNode || !(editor.selection && editor.selection)) {
     if (nextOnKeyDown) {

@@ -6,29 +6,25 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Search audios', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.apiroute(
       'GET',
       '/audio-api/v1/audio/?page=1&page-size=10&sort=-relevance',
       'searchAudios',
     );
-    cy.visit(
-      '/search/audio?page=1&page-size=10&sort=-relevance',
-      visitOptions,
-    );
+    cy.visit('/search/audio?page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@licenses', '@searchAudios']);
   });
 
   it('Can use text input', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?page=1&page-size=10&query=Test&sort=-relevance',
+      '**/audio-api/v1/audio/?*query=Test*',
       'searchAudioQuery',
     );
     cy.get('input[name="query"]')
@@ -42,7 +38,7 @@ describe('Search audios', () => {
   it('Can use audiotype dropdown', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?audio-type=podcast&page=1&page-size=10&sort=-relevance',
+      '**/audio-api/v1/audio/?audio-type=podcast*',
       'searchAudioType',
     );
     cy.get('select[name="audio-type"]')
@@ -56,7 +52,7 @@ describe('Search audios', () => {
   it('Can use language dropdown', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?language=en&page=1&page-size=10&sort=-relevance',
+      '**/audio-api/v1/audio/?language=en*',
       'searchAudioLang',
     );
     cy.get('select[name="language"]')

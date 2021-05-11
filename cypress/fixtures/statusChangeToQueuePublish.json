@@ -1,0 +1,102 @@
+{
+  "id": 533,
+  "oldNdlaUrl": "//red.ndla.no/node/153041",
+  "revision": 38,
+  "status": {
+    "current": "QUEUED_FOR_PUBLISHING",
+    "other": [
+      "IMPORTED",
+      "PUBLISHED"
+    ]
+  },
+  "title": {
+    "title": "Gassinjeksjon i Some changeSome change",
+    "language": "nb"
+  },
+  "content": {
+    "content": "<section><p>cypress test</p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "",
+    "creators": [
+      {
+        "type": "Writer",
+        "name": "Anna Aabø"
+      }
+    ],
+    "processors": [],
+    "rightsholders": [
+      {
+        "type": "Supplier",
+        "name": "Cerpus AS"
+      }
+    ]
+  },
+  "tags": {
+    "tags": [
+      "drivmekanisme",
+      "gassinjeksjon",
+      "reservoartrykk"
+    ],
+    "language": "nb"
+  },
+  "requiredLibraries": [],
+  "introduction": {
+    "introduction": "test",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "test",
+    "language": "nb"
+  },
+  "metaImage": {
+    "url": "https://api.test.ndla.no/image-api/raw/id/4378",
+    "alt": "Gassinjeksjon i reservoar. Illustrasjon.",
+    "language": "nb"
+  },
+  "created": "2015-11-24T16:12:51Z",
+  "updated": "2021-03-23T08:23:55Z",
+  "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+  "published": "2018-06-29T08:13:49Z",
+  "articleType": "standard",
+  "supportedLanguages": [
+    "nb"
+  ],
+  "notes": [
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": {
+        "current": "PROPOSAL",
+        "other": [
+          "IMPORTED",
+          "PUBLISHED"
+        ]
+      },
+      "timestamp": "2021-03-23T08:23:46Z"
+    },
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": {
+        "current": "QUEUED_FOR_PUBLISHING",
+        "other": [
+          "IMPORTED",
+          "PUBLISHED"
+        ]
+      },
+      "timestamp": "2021-03-23T08:23:57Z"
+    }
+  ],
+  "editorLabels": [],
+  "grepCodes": [],
+  "conceptIds": [],
+  "availability": "everyone",
+  "relatedContent": []
+}

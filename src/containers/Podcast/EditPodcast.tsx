@@ -13,6 +13,7 @@ import { createFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
 import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
+import Spinner from '../../components/Spinner';
 import {
   UpdatedPodcastMetaInformation,
   FlattenedAudioApiType,
@@ -29,6 +30,7 @@ interface Props {
 const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const locale: string = useContext(LocaleContext);
   const [podcast, setPodcast] = useState<FlattenedAudioApiType | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onUpdate = async (
     newPodcast: UpdatedPodcastMetaInformation,
@@ -43,8 +45,10 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
   useEffect(() => {
     async function fetchPodcast() {
       if (podcastId) {
+        setLoading(true);
         const apiPodcast = await audioApi.fetchAudio(podcastId, podcastLanguage);
         setPodcast(transformAudio(apiPodcast, podcastLanguage));
+        setLoading(false);
       }
     }
 
@@ -53,6 +57,10 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
 
   if (podcastId && !podcast?.id) {
     return null;
+  }
+
+  if (loading) {
+    return <Spinner withWrapper />;
   }
 
   if (podcast?.audioType === 'standard') {

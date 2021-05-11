@@ -6,19 +6,11 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 
 describe('Subject editing', () => {
   before(() => {
     setToken();
-    cy.server({
-      force404: true,
-      whitelist: xhr => {
-        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-        //return the default cypress whitelist filer
-        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
-      },
-    });
 
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
@@ -28,25 +20,16 @@ describe('Subject editing', () => {
     );
     cy.apiroute('GET', '/taxonomy/v1/subjects/urn:subject:12/filters', 'allSubjectFilters');
 
-    cy.visit('/structure/urn:subject:12', visitOptions);
+    cy.visit('/structure/urn:subject:12');
     cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
   });
 
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
   });
 
   it('should add a new subject', () => {
-    cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/subjects',
-      status: 201,
-      headers: {
-        Location: 'newPath',
-      },
-      response: '',
-    }).as('addSubject');
+    cy.intercept('POST', '/taxonomy/v1/subjects', []).as('addSubject');
 
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
@@ -54,68 +37,19 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.route({
-      method: 'PUT',
-      url: `/taxonomy/v1/subjects/urn:subject:12`,
-      status: 204,
-      response: '',
-      headers: {
-        Location: 'newPath',
-      },
-    }).as('newSubjectName');
-    cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/topics',
-      status: 201,
-      response: '',
-      headers: {
-        Location: 'newPath',
-      },
-    }).as('addNewTopic');
-    cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/filters',
-      status: 201,
-      response: '',
-      headers: { Location: 'filterPath' },
-    }).as('addFilter');
-    cy.route({
-      method: 'PUT',
-      url: '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
-      status: 204,
-      response: '',
-    }).as('editFilter');
-    cy.route({
-      method: 'DELETE',
-      url: '/taxonomy/v1/filters/urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29',
-      response: '',
-      status: 204,
-    }).as('deleteFilter');
+    cy.intercept('PUT', `/taxonomy/v1/subjects/urn:subject:12`, []).as('newSubjectName');
+    cy.intercept('POST', '/taxonomy/v1/topics', []).as('addNewTopic');
+    cy.intercept('POST', '/taxonomy/v1/filters', []).as('addFilter');
+    cy.intercept('PUT', '**/taxonomy/v1/filters/*', []).as('editFilter');
+    cy.intercept('DELETE', '**/taxonomy/v1/filters/*', []).as('deleteFilter');
     cy.apiroute('GET', '/taxonomy/v1/topics?language=nb', 'allTopics');
-    cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/topic-filters',
-      status: 201,
-      response: '',
-      headers: {
-        Location: 'filterPath',
-        'content-type': 'text/plain; charset=UTF-8',
-      },
-    });
-    cy.route({
-      method: 'POST',
-      url: '/taxonomy/v1/subject-topics',
-      status: 201,
-      response: '',
-      headers: {
-        Location: 'newPath',
-        'content-type': 'text/plain; charset=UTF-8',
-      },
-    }).as('addNewSubjectTopic');
+    cy.intercept('POST', '/taxonomy/v1/topic-filters',[]);
+    cy.intercept('POST', '/taxonomy/v1/subject-topics', []).as('addNewSubjectTopic');
 
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
+    cy.wait('@allTopics')
     cy.get('[data-testid=changeSubjectNameButton]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@newSubjectName');
@@ -134,11 +68,10 @@ describe('Subject editing', () => {
       .click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@editFilter');
-    cy.get('[data-testid=editFilterBox] > div')
+    cy.get('[data-testid=deleteFilter]')
       .first()
-      .find('[data-testid=deleteFilter]')
-      .click();
-    cy.wait(500);
+      .click()
+      .wait(200);
     cy.get('[data-testid=warningModalConfirm]').click();
     cy.wait('@deleteFilter');
   });

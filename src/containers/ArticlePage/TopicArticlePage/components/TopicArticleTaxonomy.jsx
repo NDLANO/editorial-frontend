@@ -42,14 +42,11 @@ import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
-import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import { fetchTopicResourceTypes } from '../../../../modules/taxonomy/topics';
 import {
   createTopicResourceType,
   deleteTopicResourceType,
 } from '../../../../modules/taxonomy/resourcetypes';
-
-import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 
@@ -161,11 +158,8 @@ class TopicArticleTaxonomy extends Component {
         stagedTopicChanges: topicsWithConnections,
         stagedFilterChanges: topicFiltersWithId,
         originalFilters: topicFiltersWithId,
-        originalResourceTypes: resourceTypes,
-        stagedResourceTypeChanges: resourceTypes,
         structure: sortedSubjects,
         taxonomyChoices: {
-          availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
           allTopics: allTopics.filter(topic => topic.name),
           availableFilters: filterToSubjects(allFilters.filter(filt => filt.name)),
           allFilters: allFilters.filter(filt => filt.name),
@@ -439,42 +433,9 @@ class TopicArticleTaxonomy extends Component {
     return updatedFilters;
   };
 
-  onChangeSelectedResource = evt => {
-    const {
-      taxonomyChoices: { availableResourceTypes },
-    } = this.state;
-    const options = evt.target.value && evt.target.value.split(',');
-    const selectedResource = availableResourceTypes.find(
-      resourceType => resourceType.id === (options.length > 0 && options[0]),
-    );
-
-    if (selectedResource) {
-      const resourceTypes = [
-        {
-          name: selectedResource.name,
-          id: selectedResource.id,
-        },
-      ];
-
-      if (options.length > 1) {
-        const subType = selectedResource.subtypes.find(subtype => subtype.id === options[1]);
-        resourceTypes.push({
-          id: subType.id,
-          name: subType.name,
-          parentId: selectedResource.id,
-        });
-      }
-
-      this.stageTaxonomyChanges({ resourceTypes });
-    } else {
-      this.stageTaxonomyChanges({ resourceTypes: [] });
-    }
-  };
-
   render() {
     const {
-      taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
-      stagedResourceTypeChanges,
+      taxonomyChoices: { availableFilters, allTopics },
       stagedTopicChanges,
       stagedFilterChanges,
       structure,
@@ -484,11 +445,9 @@ class TopicArticleTaxonomy extends Component {
     } = this.state;
     const {
       t,
-      userAccess,
       article: { title },
       locale,
     } = this.props;
-    const showResourceType = userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
 
     if (status === 'loading') {
       return <Spinner />;
@@ -521,13 +480,6 @@ class TopicArticleTaxonomy extends Component {
 
     return (
       <Fragment>
-        {showResourceType && (
-          <ResourceTypeSelect
-            availableResourceTypes={availableResourceTypes}
-            resourceTypes={stagedResourceTypeChanges}
-            onChangeSelectedResource={this.onChangeSelectedResource}
-          />
-        )}
         <TopicArticleConnections
           availableFilters={availableFilters}
           structure={structure}
@@ -575,7 +527,6 @@ TopicArticleTaxonomy.propTypes = {
   setIsOpen: PropTypes.func,
   article: ArticleShape.isRequired,
   updateNotes: PropTypes.func.isRequired,
-  userAccess: PropTypes.string,
 };
 
 export default injectT(TopicArticleTaxonomy);

@@ -26,7 +26,6 @@ import {
   updateTopicFilter,
   fetchTopicFilters,
   addTopic,
-  fetchResourceTypes,
 } from '../../../../modules/taxonomy';
 import {
   filterToSubjects,
@@ -42,11 +41,6 @@ import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
-import { fetchTopicResourceTypes } from '../../../../modules/taxonomy/topics';
-import {
-  createTopicResourceType,
-  deleteTopicResourceType,
-} from '../../../../modules/taxonomy/resourcetypes';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 
@@ -93,32 +87,16 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  getResourceTypeParentId = (resourceTypesList, resourceTypeId) => {
-    const parentType = resourceTypesList.find(
-      rt => rt.subtypes && rt.subtypes.some(st => st.id === resourceTypeId),
-    );
-    return parentType && parentType.id;
-  };
-
   fetchTaxonomy = async () => {
     const {
       article: { language, id },
     } = this.props;
     try {
-      const [
-        topics,
-        allTopics,
-        allFilters,
-        subjects,
-        allResourceTypes,
-        topicResourceTypeConnections,
-      ] = await Promise.all([
+      const [topics, allTopics, allFilters, subjects] = await Promise.all([
         queryTopics(id, language),
         fetchTopics(language),
         fetchFilters(language),
         fetchSubjects(language),
-        fetchResourceTypes(language),
-        fetchTopicResourceTypes(language),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -133,25 +111,6 @@ class TopicArticleTaxonomy extends Component {
         topicConnections: topicConnections[index],
         ...topic,
       }));
-
-      const allSubtypes = allResourceTypes
-        .flatMap(rt => rt.subtypes)
-        .filter(st => st)
-        .concat(allResourceTypes);
-
-      const resourceTypes = topicResourceTypeConnections
-        .filter(con => topics.map(t => t.id).includes(con.topicId))
-        .map(con => {
-          const subType = allSubtypes.find(st => st.id === con.resourceTypeId);
-          const name = subType && subType.name;
-
-          return {
-            connectionId: con.id,
-            id: con.resourceTypeId,
-            name: name,
-            parentId: this.getResourceTypeParentId(allResourceTypes, con.resourceTypeId),
-          };
-        });
 
       this.setState({
         status: 'initial',
@@ -171,7 +130,7 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  stageTaxonomyChanges = ({ path, filter, resourceTypes }) => {
+  stageTaxonomyChanges = ({ path, filter }) => {
     const {
       article: { title },
     } = this.props;
@@ -188,12 +147,6 @@ class TopicArticleTaxonomy extends Component {
     }
     if (filter) {
       this.setState({ isDirty: true, stagedFilterChanges: filter });
-    }
-    if (resourceTypes) {
-      this.setState({
-        isDirty: true,
-        stagedResourceTypeChanges: resourceTypes,
-      });
     }
   };
 
@@ -219,13 +172,7 @@ class TopicArticleTaxonomy extends Component {
 
   handleSubmit = async evt => {
     evt.preventDefault();
-    const {
-      stagedTopicChanges,
-      stagedFilterChanges,
-      originalFilters,
-      stagedResourceTypeChanges,
-      originalResourceTypes,
-    } = this.state;
+    const { stagedTopicChanges, stagedFilterChanges, originalFilters } = this.state;
     const {
       updateNotes,
       article: { id: articleId, language, revision },
@@ -250,18 +197,10 @@ class TopicArticleTaxonomy extends Component {
           stagedFilterChanges,
         );
 
-        const updatedResourceTypes = await this.createDeleteUpdateResourceTypes(
-          stagedTopicChanges,
-          stagedResourceTypeChanges,
-          originalResourceTypes,
-        );
-
         this.setState({
           isDirty: false,
           originalFilters: updatedFilters,
           stagedFilterChanges: updatedFilters,
-          originalResourceTypes: updatedResourceTypes,
-          stagedResourceTypeChanges: updatedResourceTypes,
           status: 'success',
         });
       }
@@ -366,42 +305,6 @@ class TopicArticleTaxonomy extends Component {
       id: newTopicId,
       path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
     };
-  };
-
-  createDeleteUpdateResourceTypes = async (
-    topics,
-    stagedResourceTypeChanges,
-    originalResourceTypes,
-  ) => {
-    const resourceTypesForTopics = await Promise.all(
-      topics.map(async topic => {
-        const [createItems, deleteItems] = sortIntoCreateDeleteUpdate({
-          changedItems: stagedResourceTypeChanges,
-          originalItems: originalResourceTypes,
-        });
-
-        const created = await Promise.all(
-          createItems.map(async item => {
-            const newConnectionUrl = await createTopicResourceType({
-              resourceTypeId: item.id,
-              topicId: topic.id,
-            });
-            const connectionId = newConnectionUrl.split('/').pop();
-            return {
-              connectionId,
-              ...item,
-            };
-          }),
-        );
-
-        deleteItems.forEach(item => {
-          deleteTopicResourceType(item.connectionId);
-        });
-
-        return created.concat(originalResourceTypes).filter(rt => !deleteItems.includes(rt));
-      }),
-    );
-    return resourceTypesForTopics.flat();
   };
 
   createDeleteUpdateTopicFilters = async (

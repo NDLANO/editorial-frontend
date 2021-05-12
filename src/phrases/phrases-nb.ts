@@ -1007,6 +1007,7 @@ const phrases = {
       sectionTitleArticle: 'Artikler som bruker bildet',
       sectionTitleConcept: 'Forklaringer som bruker bildet',
       title: 'Bruk av bildet',
+      info: 'Bruk av bildet i artikler og/eller forklaringer',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',

@@ -14,6 +14,7 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
+import ImageConnection from './ImageInformation/ImageConnection';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -94,7 +95,7 @@ const HeaderStatusInformation = ({
     <LearningpathConnection id={id} />
   );
 
-  const imageConnections = type === 'image' && <h1>Bruk av bilde</h1>;
+  const imageConnections = type === 'image' && <ImageConnection id={id} />;
 
   const splitter = !indentLeft && <StyledSplitter />;
 

@@ -43,11 +43,9 @@ const podcastRules = {
   audioFile: {
     required: true,
   },
-  header: {
-    required: true,
-  },
   introduction: {
     required: true,
+    maxLength: 1000,
   },
   manuscript: {
     required: true,
@@ -70,7 +68,6 @@ const podcastRules = {
     allObjectFieldsRequired: true,
   },
   creators: {
-    minItems: 1,
     allObjectFieldsRequired: true,
   },
   rightsholders: {
@@ -106,7 +103,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
   audioType: 'podcast',
-  header: audio.podcastMeta?.header,
+  header: audio.podcastMeta?.header || '',
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
@@ -229,13 +226,9 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
                 id="podcast-upload-podcastmeta"
                 title={t('form.podcastSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={[
-                  'header',
-                  'introduction',
-                  'coverPhotoId',
-                  'metaImageAlt',
-                  'manuscript',
-                ].some(field => field in errors)}>
+                hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                  field => field in errors,
+                )}>
                 <PodcastMetaData
                   handleSubmit={submitForm}
                   onBlur={(event, editor, next) => {

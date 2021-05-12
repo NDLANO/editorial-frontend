@@ -21,7 +21,7 @@ interface Props {
 }
 
 const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
-  const { caption, copyright, podcastMeta } = audio;
+  const { copyright, podcastMeta } = audio;
 
   useEffect(() => {
     initAudioPlayers(locale);
@@ -49,7 +49,7 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
         src={audio.audioFile.url}
         title={audio.title}
         speech={speech}
-        img={podcastMeta?.coverPhoto && podcastImg}
+        img={podcastImg}
         description={podcastMeta?.introduction}
         textVersion={podcastMeta?.manuscript}
       />
@@ -58,7 +58,7 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
           <FigureCaption
             id={figureLicenseDialogId}
             figureId={`figure-${audio.id}`}
-            caption={caption}
+            caption={audio.caption}
             reuseLabel=""
             licenseRights={license.rights}
             authors={copyright.creators}

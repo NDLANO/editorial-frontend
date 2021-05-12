@@ -123,15 +123,15 @@ type OnUpdateFunc = (newPodcast: UpdatedPodcastMetaInformation, file?: string | 
 
 interface Props {
   audio: PodcastPropType;
-  podcastChanged: boolean;
+  podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   formikProps?: FormikProps<PodcastPropType>;
   licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
   revision?: number;
-  translating: boolean;
-  translateArticle: () => void;
+  translating?: boolean;
+  translateArticle?: () => void;
 }
 
 const PodcastForm = ({

@@ -985,6 +985,12 @@ const phrases = {
       sectionTitle: 'Uses of the article in learningpaths',
       title: 'Learningpaths containing this article',
     },
+    imageConnections: {
+      sectionTitleArticle: 'Articles containing this image',
+      sectionTitleConcept: 'Concepts containing this image',
+      title: 'Uses of the image',
+      info: 'Uses of the image in articles and/or concepts',
+    },
     relatedConcepts: {
       placeholder: 'Search for title',
       articlesTitle: 'Concepts',

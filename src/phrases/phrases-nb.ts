@@ -1004,8 +1004,8 @@ const phrases = {
       title: 'Læringsstier som inneholder denne artikkelen',
     },
     imageConnections: {
-      sectionTitleArticle: 'Artikler som bruker bildet',
-      sectionTitleConcept: 'Forklaringer som bruker bildet',
+      sectionTitleArticle: 'Artikler som bruker dette bildet',
+      sectionTitleConcept: 'Forklaringer som bruker dette bildet',
       title: 'Bruk av bildet',
       info: 'Bruk av bildet i artikler og/eller forklaringer',
     },

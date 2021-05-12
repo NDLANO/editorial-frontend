@@ -45,6 +45,7 @@ const podcastRules = {
   },
   introduction: {
     required: true,
+    maxLength: 1000,
   },
   manuscript: {
     required: true,
@@ -67,7 +68,6 @@ const podcastRules = {
     allObjectFieldsRequired: true,
   },
   creators: {
-    minItems: 1,
     allObjectFieldsRequired: true,
   },
   rightsholders: {

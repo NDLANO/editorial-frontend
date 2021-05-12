@@ -5,6 +5,7 @@ import React from 'react';
 import { BreakElement } from './plugins/break';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
+import { ListElement } from './plugins/list';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -25,7 +26,7 @@ export type CustomEditor = {
 declare module 'new-slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
-    Element: ParagraphElement | SectionElement | BreakElement;
+    Element: ParagraphElement | SectionElement | BreakElement | ListElement;
     Text: CustomText;
   }
 }

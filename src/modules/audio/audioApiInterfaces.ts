@@ -8,6 +8,7 @@
 
 import { Copyright } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
+import { PodcastSeriesFormikType } from '../../containers/PodcastSeries/components/PodcastSeriesForm';
 
 type AudioType = 'standard' | 'podcast';
 
@@ -121,5 +122,53 @@ interface SearchResultBase<T> {
   language: string;
   results: T[];
 }
+
+export interface PodcastSeriesApiType {
+  id: number;
+  revision: number;
+  title: { title: string; language: string };
+  coverPhoto: { id: string; altText: string };
+  episodes?: AudioApiType[];
+  supportedLanguages: string[];
+}
+
+export interface FlattenedPodcastSeries extends Omit<PodcastSeriesApiType, 'title'> {
+  title: string;
+  language?: string;
+}
+
+export interface NewPodcastSeries {
+  id?: number;
+  title: string;
+  revision?: number;
+  coverPhotoId: string;
+  coverPhotoAltText: string;
+  episodes: number[];
+  language: string;
+}
+
+export interface SeriesSearchParams {
+  query?: string;
+  page?: number;
+  'page-size'?: number;
+  language?: string;
+}
+
+export interface SeriesSearchSummary {
+  id: number;
+  title: {
+    title: string;
+    language: string;
+  };
+  supportedLanguages: string[];
+  episodes: AudioSearchResultType[];
+  coverPhoto: {
+    id: string;
+    url: string;
+    altText: string;
+  };
+}
+
+export type SeriesSearchResult = SearchResultBase<SeriesSearchSummary>;
 
 export type TagSearchResult = SearchResultBase<string>;

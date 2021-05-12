@@ -8,13 +8,21 @@
 
 import queryString from 'query-string';
 import {
-  resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
+  resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
-import { AudioApiType, TagSearchResult } from './audioApiInterfaces';
+import {
+  AudioApiType,
+  NewPodcastSeries,
+  PodcastSeriesApiType,
+  SeriesSearchParams,
+  SeriesSearchResult,
+  TagSearchResult,
+} from './audioApiInterfaces';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
+const seriesBaseUrl = apiResourceUrl('/audio-api/v1/series');
 
 export const postAudio = (formData: FormData): Promise<AudioApiType> =>
   fetchAuthorized(`${baseUrl}`, {
@@ -52,4 +60,28 @@ export const fetchSearchTags = async (
     `${baseUrl}/tag-search/?language=${language}&query=${input}`,
   );
   return resolveJsonOrRejectWithError(response);
+};
+
+export const fetchSeries = (id: number, language: string): Promise<PodcastSeriesApiType> =>
+  fetchAuthorized(`${seriesBaseUrl}/${id}?language=${language}`).then(resolveJsonOrRejectWithError);
+
+export const postSeries = (newSeries: NewPodcastSeries): Promise<PodcastSeriesApiType> =>
+  fetchAuthorized(`${seriesBaseUrl}`, {
+    method: 'POST',
+    body: JSON.stringify(newSeries),
+  }).then(resolveJsonOrRejectWithError);
+
+export const updateSeries = (
+  id: number,
+  newSeries: NewPodcastSeries,
+): Promise<PodcastSeriesApiType> =>
+  fetchAuthorized(`${seriesBaseUrl}/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(newSeries),
+  }).then(resolveJsonOrRejectWithError);
+
+export const searchSeries = (query: SeriesSearchParams): Promise<SeriesSearchResult> => {
+  return fetchAuthorized(`${seriesBaseUrl}/?${queryString.stringify(query)}`).then(
+    resolveJsonOrRejectWithError,
+  );
 };

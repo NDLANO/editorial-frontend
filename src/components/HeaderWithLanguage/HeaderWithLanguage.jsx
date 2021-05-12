@@ -106,6 +106,7 @@ HeaderWithLanguage.propTypes = {
     'standard',
     'concept',
     'podcast',
+    'podcast-series',
   ]),
   translateToNN: PropTypes.func,
   values: PropTypes.shape({

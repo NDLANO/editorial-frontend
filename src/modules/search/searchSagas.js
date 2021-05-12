@@ -67,6 +67,17 @@ export function* searchImage(query) {
   }
 }
 
+export function* searchPodcastSeries(query) {
+  try {
+    const searchResult = yield call(audioApi.searchSeries, query);
+    yield put(actions.setPodcastSeriesSearchResult(searchResult));
+  } catch (error) {
+    yield put(actions.searchError());
+    // TODO: handle error
+    console.error(error); // eslint-disable-line no-console
+  }
+}
+
 export function* watchSearchAudio() {
   while (true) {
     const {
@@ -94,5 +105,20 @@ export function* watchSearchImage() {
   }
 }
 
-const functions = [watchSearch, watchSearchAudio, watchSearchConcept, watchSearchImage];
+export function* watchSearchPodcastSeries() {
+  while (true) {
+    const {
+      payload: { query },
+    } = yield take(actions.searchPodcastSeries);
+    yield call(searchPodcastSeries, query);
+  }
+}
+
+const functions = [
+  watchSearch,
+  watchSearchAudio,
+  watchSearchConcept,
+  watchSearchImage,
+  watchSearchPodcastSeries,
+];
 export default functions;

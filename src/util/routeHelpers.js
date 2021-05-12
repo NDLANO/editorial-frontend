@@ -86,8 +86,16 @@ export function toCreatePodcastFile() {
   return '/media/podcast-upload/new';
 }
 
+export function toCreatePodcastSeries() {
+  return '/media/podcast-series/new';
+}
+
 export function toEditPodcast(audioId, language) {
   return `/media/podcast-upload/${audioId}/edit/${language}`;
+}
+
+export function toEditPodcastSeries(seriesId, language) {
+  return `/media/podcast-series/${seriesId}/edit/${language}`;
 }
 
 export function toCreateImage() {

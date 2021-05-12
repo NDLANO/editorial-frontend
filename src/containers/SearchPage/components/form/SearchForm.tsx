@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
+import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SubjectType } from '../../../../interfaces';
@@ -55,6 +56,8 @@ const SearchForm = ({ type, searchObject, ...rest }: Props) => {
       return <SearchImageForm searchObject={searchObject} {...rest} />;
     case 'concept':
       return <SearchConceptForm searchObject={searchObject} {...rest} />;
+    case 'podcast-series':
+      return <SearchPodcastSeriesForm searchObject={searchObject} {...rest} />;
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }

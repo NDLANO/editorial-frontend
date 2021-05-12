@@ -1,22 +1,30 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React from 'react';
-import { Editor, Node, Element } from 'new-slate';
+import { Editor, Element, Descendant } from 'new-slate';
 import { jsx } from 'new-slate-hyperscript';
 import { RenderElementProps } from 'new-slate-react';
 import { SlateSerializer } from '../../interfaces';
-const TYPE = 'br';
+export const TYPE_BREAK = 'br';
 
 export interface BreakElement {
   type: 'br';
-  children: any;
+  children: Descendant[];
 }
 
 export const breakSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
-    if (el.tagName.toLowerCase() !== TYPE) return;
-    return jsx('element', { type: TYPE }, [{ text: '' }]);
+    if (el.tagName.toLowerCase() !== TYPE_BREAK) return;
+    return jsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
   },
-  serialize(node: Element) {
-    if (!Node.isNode(node)) return;
+  serialize(node: Descendant) {
+    if (!Element.isElement(node)) return;
     if (node.type !== 'br') return;
 
     return `<br>`;
@@ -27,7 +35,8 @@ export const breakPlugin = (editor: Editor) => {
   const { renderElement: nextRenderELement, isVoid: nextIsVoid } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === 'br') {
+    if (element.type === TYPE_BREAK) {
+      // Children of br tag is not rendered.
       return <br {...attributes} />;
     } else if (nextRenderELement) {
       return nextRenderELement({ attributes, children, element });
@@ -36,7 +45,7 @@ export const breakPlugin = (editor: Editor) => {
   };
 
   editor.isVoid = (element: Element) => {
-    if (element.type === 'br') {
+    if (element.type === TYPE_BREAK) {
       return true;
     }
     return nextIsVoid(element);

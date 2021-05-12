@@ -1,12 +1,23 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant } from 'new-slate';
+import { Editor, Node, Element, Descendant, Text } from 'new-slate';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
-import { CustomText, SlateSerializer } from '../../interfaces';
+import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
+import { ContentLinkElement, LinkElement } from '../link';
+import { TYPE_BREAK } from '../break';
+import { getCurrentParagraph } from './utils';
 
 const KEY_ENTER = 'Enter';
-const TYPE = 'paragraph';
+export const TYPE_PARAGRAPH = 'paragraph';
 
 export interface ParagraphElement {
   type: 'paragraph';
@@ -14,24 +25,16 @@ export interface ParagraphElement {
     'data-align'?: string;
     align?: string;
   };
-  children: CustomText[];
+  children: (Text | LinkElement | ContentLinkElement)[];
 }
 
-function getCurrentParagraph(editor: Editor) {
-  if (!editor.selection?.anchor) return null;
-  const startBlock = Node.parent(editor, editor.selection?.anchor.path);
-  if (!Element.isElement(startBlock)) {
-    return null;
-  }
-  return startBlock && startBlock?.type === 'paragraph' ? startBlock : null;
-}
-
-function onEnter(
+const onEnter = (
   e: KeyboardEvent<HTMLDivElement>,
   editor: Editor,
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
-) {
+) => {
   const currentParagraph = getCurrentParagraph(editor);
+
   if (!currentParagraph) {
     if (nextOnKeyDown) {
       return nextOnKeyDown(e);
@@ -46,13 +49,13 @@ function onEnter(
    spacing (i.e two images).
    */
   if (Node.string(currentParagraph) === '') {
-    editor.deleteBackward('character');
     editor.insertNode({
-      type: 'br',
+      type: TYPE_BREAK,
       children: [{ text: '' }],
     });
+
     editor.insertNode({
-      type: TYPE,
+      type: TYPE_PARAGRAPH,
       children: [{ text: '' }],
     });
     return;
@@ -63,24 +66,24 @@ function onEnter(
   }
 
   return editor.insertNode({
-    type: TYPE,
+    type: TYPE_PARAGRAPH,
     children: [{ text: '' }],
   });
-}
+};
 
 export const paragraphSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'p') return;
 
     return jsx(
       'element',
-      { type: TYPE, data: reduceElementDataAttributes(el, ['align', 'data-align']) },
+      { type: TYPE_PARAGRAPH, data: reduceElementDataAttributes(el, ['align', 'data-align']) },
       children,
     );
   },
-  serialize(node: Element, children: string) {
-    if (!Node.isNode(node)) return;
-    if (node.type !== 'paragraph' /*&& node.type !== 'line'*/) return;
+  serialize(node: Descendant, children: string) {
+    if (!Element.isElement(node)) return;
+    if (node.type !== TYPE_PARAGRAPH /*&& node.type !== 'line'*/) return;
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor
@@ -97,7 +100,7 @@ export const paragraphSerializer: SlateSerializer = {
 };
 
 export const paragraphPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown, renderElement: nextRenderELement } = editor;
+  const { onKeyDown: nextOnKeyDown, renderElement: nextRenderElement } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === KEY_ENTER) {
@@ -108,10 +111,10 @@ export const paragraphPlugin = (editor: Editor) => {
   };
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    if (element.type === 'paragraph') {
+    if (element.type === TYPE_PARAGRAPH) {
       return <p {...attributes}>{children}</p>;
-    } else if (nextRenderELement) {
-      return nextRenderELement({ attributes, children, element });
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
     }
     return undefined;
   };

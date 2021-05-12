@@ -23,11 +23,6 @@ import FormikField, { classes as formikFieldClasses } from '../../../../componen
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine';
-import {
-  renderBlock,
-  renderMark,
-  renderInline,
-} from '../../../../components/SlateEditor/slateRendering';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
@@ -37,14 +32,14 @@ import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed'
 import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
-import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
+import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
-import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
+import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
 import filePlugin from '../../../../components/SlateEditor/plugins/file';
 import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
-import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
+import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
@@ -62,10 +57,11 @@ import { IngressField, TitleField } from '../../../FormikForm';
 import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
-import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
+import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
+import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 
 const byLineStyle = css`
   display: flex;
@@ -98,7 +94,7 @@ const actionsToShowInAreas = {
 };
 
 const LearningResourceContent = ({
-  // article: { language: articleLanguage },
+  article: { language: articleLanguage },
   t,
   userAccess,
   formik: {
@@ -111,23 +107,25 @@ const LearningResourceContent = ({
   const handleSubmitRef = React.useRef(handleSubmit);
 
   const [preview, setPreview] = useState(false);
+  // TODO: Implement all plugins
+  // Plugins are checked from last to first
   const plugins = [
-    // TODO: Implement all plugins
+    sectionPlugin,
+    paragraphPlugin,
     // footnotePlugin(),
     // createEmbedPlugin(articleLanguage, props.locale),
     // createBodyBoxPlugin(),
     // createAsidePlugin(),
     // createDetailsPlugin(),
-    // createLinkPlugin(articleLanguage),
+    blockQuotePlugin,
+    linkPlugin(articleLanguage),
     // conceptPlugin(articleLanguage),
-    // headingPlugin(),
+    headingPlugin,
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.
-    // blockquotePlugin,
     // editListPlugin,
     // listTextPlugin(),
-    paragraphPlugin,
     // createTablePlugin(),
     // editTablePlugin,
     // relatedPlugin(),
@@ -140,11 +138,11 @@ const LearningResourceContent = ({
     // }),
     // dndPlugin,
     // pasteHandler(),
-    // toolbarPlugin(),
+    toolbarPlugin,
     textTransformPlugin,
-    sectionPlugin,
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
+    markPlugin,
   ];
 
   React.useEffect(() => {
@@ -152,8 +150,7 @@ const LearningResourceContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
-  // Todo: Rewrite the following plugins
-  // For language support, consider using React.useRef().
+  // Todo: Rewrite the following plugins. For language support, consider using React.useRef().
   // componentDidUpdate({ article: { id: prevId, language: prevArticleLanguage } }) {
   //   const {
   //     article: { id, language: articleLanguage },
@@ -246,10 +243,6 @@ const LearningResourceContent = ({
               name={name}
               onChange={onChange}
               onBlur={(event, editor) => {
-                // Forcing slate field to be deselected before selecting new field.
-                // Fixes a problem where slate field is not properly focused on click.
-                ReactEditor.deselect(editor);
-
                 // TODO: Can possibly be removed
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434

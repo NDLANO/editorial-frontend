@@ -8,14 +8,15 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, Editable, withReact, RenderElementProps } from 'new-slate-react';
+import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'new-slate-react';
 import { withHistory } from 'new-slate-history';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
+import { SlateToolbar } from './plugins/toolbar';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -41,6 +42,7 @@ interface SlateEditorProps {
   taxIndex?: number;
   value: Descendant[];
   submitted: boolean;
+  removeSection: (index: number) => void;
 }
 
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
@@ -69,39 +71,29 @@ const RichTextEditor = ({
   handleSubmit,
   submitted,
   index,
+  removeSection,
   ...rest
 }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  editor.removeSection = () => {
+    removeSection(index);
+  };
 
-  // TODO: Can normalization be done after deserialization in articleContentConverter?
+  const prevSubmitted = useRef(submitted);
+
   useEffect(() => {
     Editor.normalize(editor, { force: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO: add functionality to sectionPlugin
-  // const onKeyDown = (e, editor, next) => {
-  //   const { value } = editor;
-  //   if (e.key === 'Backspace') {
-  //     const { removeSection, index } = this.props;
-  //     if (removeSection) {
-  //       const { selection } = value;
-  //       const numberOfNodesInSection = value.document.nodes.first().nodes.size;
-  //       if (
-  //         numberOfNodesInSection === 1 &&
-  //         value.document.text.length === 0 &&
-  //         selection.isCollapsed &&
-  //         selection.anchor.isAtStartOfNode(value.document)
-  //       ) {
-  //         removeSection(index);
-  //         return;
-  //       }
-  //       next();
-  //     }
-  //   }
-  //   next();
-  // };
+  useEffect(() => {
+    if (!submitted && prevSubmitted.current) {
+      Editor.normalize(editor, { force: true });
+    }
+    prevSubmitted.current = submitted;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [submitted]);
 
   const renderElement = (props: RenderElementProps) => {
     const { attributes, children } = props;
@@ -111,7 +103,18 @@ const RichTextEditor = ({
         return ret;
       }
     }
-    return <div {...attributes}>{children}</div>;
+    return <p {...attributes}>{children}</p>;
+  };
+
+  const renderLeaf = (props: RenderLeafProps) => {
+    const { attributes, children } = props;
+    if (editor.renderLeaf) {
+      const ret = editor.renderLeaf(props);
+      if (ret) {
+        return ret;
+      }
+    }
+    return <span {...attributes}>{children}</span>;
   };
 
   return (
@@ -124,12 +127,14 @@ const RichTextEditor = ({
             onChange={(val: Descendant[]) => {
               onChange(val, index);
             }}>
+            <SlateToolbar editor={editor} />
             <Editable
               onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               onKeyDown={editor.onKeyDown}
-              className={className}
               placeholder={placeholder}
               renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              readOnly={submitted}
             />
           </Slate>
           {children}

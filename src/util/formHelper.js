@@ -140,6 +140,7 @@ export const learningResourceRules = {
   content: {
     required: true,
     test: value => {
+      // TODO: Upgrade to slate 0.62
       const embedsHasErrors = value.find(sectionValue => {
         const embeds = findNodesByType(sectionValue.document, 'embed').map(node =>
           node.get('data').toJS(),

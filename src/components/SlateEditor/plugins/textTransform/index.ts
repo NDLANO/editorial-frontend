@@ -1,5 +1,15 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { KeyboardEvent } from 'react';
 import { Editor, Transforms, Range } from 'new-slate';
+
+const KEY_ENTER = 'Enter';
 
 const replaceConsecutiveChars = (
   event: KeyboardEvent<HTMLDivElement>,
@@ -36,6 +46,9 @@ export const textTransformPlugin = (editor: Editor) => {
       replaceConsecutiveChars(e, editor, '<', '«');
     } else if (e.key === '>') {
       replaceConsecutiveChars(e, editor, '>', '»');
+    } else if (e.shiftKey === true && e.key === KEY_ENTER) {
+      e.preventDefault();
+      editor.insertText('\n');
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

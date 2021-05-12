@@ -25,8 +25,6 @@ const plugins = [textTransformPlugin()];
 const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
   return (
     <>
-      <FormikField label={t('podcastForm.fields.header')} name="header" />
-
       <FormikField label={t('podcastForm.fields.introduction')} name="introduction" maxLength={300}>
         {({ field }) => (
           <PlainTextEditor

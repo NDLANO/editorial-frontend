@@ -41,7 +41,7 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   return false;
 };
 
-export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
+export const isFormikFormDirty = ({ values, initialValues, articleChanged, dirty = false }) => {
   if (!dirty) {
     return false;
   }
@@ -82,7 +82,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
         dirtyFields.push(value);
       }
     });
-  return dirtyFields.length > 0;
+  return dirtyFields.length > 0 || articleChanged;
 };
 
 const formikCommonArticleRules = {

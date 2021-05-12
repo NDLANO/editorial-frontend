@@ -19,7 +19,7 @@ import { useTranslateForm } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 
 const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, ...rest }) => {
-  const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -38,6 +38,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
         article={article}
         revision={article.revision}
         articleStatus={article.status}
+        articleChanged={articleChanged}
         translating={translating}
         translateArticle={translateArticle}
         isNewlyCreated={isNewlyCreated}

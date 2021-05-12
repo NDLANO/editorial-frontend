@@ -135,7 +135,7 @@ const LearningResourceForm = props => {
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
-  const { userAccess, createMessage, history } = props;
+  const { articleChanged, userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = formik => {
@@ -144,6 +144,7 @@ const LearningResourceForm = props => {
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
+      articleChanged,
       dirty,
     });
     usePreventWindowUnload(formIsDirty);
@@ -242,6 +243,7 @@ LearningResourceForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  articleChanged: PropTypes.bool,
   updateArticleAndStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,

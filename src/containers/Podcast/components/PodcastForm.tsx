@@ -248,13 +248,9 @@ const PodcastForm = ({
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[
-                    'header',
-                    'introduction',
-                    'coverPhotoId',
-                    'metaImageAlt',
-                    'manuscript',
-                  ].some(field => field in errors)}>
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                    field => field in errors,
+                  )}>
                   <PodcastMetaData
                     handleSubmit={submitForm}
                     onBlur={(event, editor, next) => {

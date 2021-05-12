@@ -94,6 +94,8 @@ const HeaderStatusInformation = ({
     <LearningpathConnection id={id} />
   );
 
+  const imageConnections = type === 'image' && <h1>Bruk av bilde</h1>;
+
   const splitter = !indentLeft && <StyledSplitter />;
 
   if (noStatus && isNewLanguage) {
@@ -103,6 +105,7 @@ const HeaderStatusInformation = ({
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {learningpathConnections}
+        {imageConnections}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
       </StyledStatusWrapper>
     );
@@ -119,6 +122,8 @@ const HeaderStatusInformation = ({
         </StyledStatus>
       </StyledStatusWrapper>
     );
+  } else if (type === 'image') {
+    return <StyledStatusWrapper>{imageConnections}</StyledStatusWrapper>;
   }
   return null;
 };

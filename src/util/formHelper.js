@@ -41,14 +41,9 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   return false;
 };
 
-export const isFormikFormDirty = ({
-  values,
-  initialValues,
-  dirty = false,
-  articleChanged = false,
-}) => {
+export const isFormikFormDirty = ({ values, initialValues, dirty = false, changed = false }) => {
   if (!dirty) {
-    return articleChanged;
+    return changed;
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = [
@@ -87,7 +82,7 @@ export const isFormikFormDirty = ({
         dirtyFields.push(value);
       }
     });
-  return dirtyFields.length > 0 || articleChanged;
+  return dirtyFields.length > 0 || changed;
 };
 
 const formikCommonArticleRules = {

@@ -145,7 +145,7 @@ const LearningResourceForm = props => {
       values,
       initialValues,
       dirty,
-      articleChanged,
+      changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });

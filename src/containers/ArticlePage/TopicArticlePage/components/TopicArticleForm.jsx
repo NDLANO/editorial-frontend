@@ -167,7 +167,7 @@ const TopicArticleForm = props => {
       values,
       initialValues,
       dirty,
-      articleChanged,
+      changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });

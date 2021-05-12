@@ -37,6 +37,7 @@ import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 interface Props {
   applicationError: (err: string) => void;
   concept: ConceptFormType;
+  conceptChanged: boolean;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
   inModal: boolean;
   isNewlyCreated: boolean;
@@ -54,6 +55,7 @@ interface Props {
 
 const ConceptForm = ({
   concept,
+  conceptChanged,
   fetchConceptTags,
   inModal,
   isNewlyCreated,
@@ -169,6 +171,7 @@ const ConceptForm = ({
             </Accordions>
             <FormFooter
               entityStatus={concept.status}
+              conceptChanged={conceptChanged}
               inModal={inModal}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}

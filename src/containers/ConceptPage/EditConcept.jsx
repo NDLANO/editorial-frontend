@@ -23,6 +23,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     fetchStatusStateMachine,
     loading,
     setConcept,
+    conceptChanged,
     subjects,
     updateConcept,
     updateConceptAndStatus,
@@ -41,6 +42,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
       <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
       <ConceptForm
         concept={concept}
+        conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
         fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}

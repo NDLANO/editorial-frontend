@@ -148,6 +148,7 @@ const TopicArticleForm = props => {
     t,
     article,
     updateArticle,
+    articleChanged,
     translating,
     translateArticle,
     licenses,
@@ -166,6 +167,7 @@ const TopicArticleForm = props => {
       values,
       initialValues,
       dirty,
+      articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
@@ -257,6 +259,7 @@ TopicArticleForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  articleChanged: PropTypes.bool,
   updateArticleAndStatus: PropTypes.func,
   userAccess: PropTypes.string,
   licenses: LicensesArrayOf,

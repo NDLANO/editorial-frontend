@@ -17,7 +17,7 @@ import { useTranslateForm } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...rest }) => {
-  const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
@@ -35,6 +35,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...r
       <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
         articleStatus={article.status}
+        articleChanged={articleChanged}
         article={article}
         translateArticle={translateArticle}
         translating={translating}

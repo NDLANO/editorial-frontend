@@ -144,8 +144,8 @@ const LearningResourceForm = props => {
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
-      articleChanged,
       dirty,
+      articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });

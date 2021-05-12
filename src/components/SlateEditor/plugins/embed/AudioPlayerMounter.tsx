@@ -7,7 +7,6 @@
  */
 
 import React, { useEffect } from 'react';
-import { Remarkable } from 'remarkable';
 import { injectT, tType } from '@ndla/i18n';
 import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
@@ -28,12 +27,6 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
     initAudioPlayers(locale);
   }, [locale]);
 
-  const renderMarkdown = (text: string) => {
-    const md = new Remarkable();
-    const rendered = md.render(text);
-    return <span dangerouslySetInnerHTML={{ __html: rendered }}></span>;
-  };
-
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
 
@@ -49,8 +42,6 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
     url: `${podcastMeta.coverPhoto.url}?width=200&height=200`,
     alt: podcastMeta.coverPhoto.altText,
   };
-  const description = podcastMeta?.introduction && renderMarkdown(podcastMeta.introduction);
-  const textVersion = podcastMeta?.manuscript && renderMarkdown(podcastMeta.manuscript);
 
   return (
     <div>
@@ -59,9 +50,8 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
         title={audio.title}
         speech={speech}
         img={podcastMeta?.coverPhoto && podcastImg}
-        // @ts-ignore
-        description={description}
-        textVersion={textVersion}
+        description={podcastMeta?.introduction}
+        textVersion={podcastMeta?.manuscript}
       />
       {!speech && (
         <>

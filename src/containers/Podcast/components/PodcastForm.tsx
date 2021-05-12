@@ -103,7 +103,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
   audioType: 'podcast',
-  header: audio.podcastMeta?.header || '',
+  header: audio.podcastMeta?.header || ' ',
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText

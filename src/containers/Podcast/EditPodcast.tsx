@@ -14,7 +14,7 @@ import { transformAudio } from '../../util/audioHelpers';
 import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 import Spinner from '../../components/Spinner';
-import { useTranslateForm } from '../FormikForm/translateFormHooks';
+import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import {
   UpdatedPodcastMetaInformation,
   FlattenedAudioApiType,
@@ -37,9 +37,15 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     setPodcastChanged(changed);
   };
   const [loading, setLoading] = useState<boolean>(false);
-  const { translating, translateArticle } = useTranslateForm(
+  const { translating, translateFunc } = useTranslateApi(
     podcast,
     (podcast: FlattenedAudioApiType) => setPodcastWithFlag(podcast, true),
+    {
+      id: podcast?.id,
+      title: podcast?.title,
+      'podcastMeta.introduction': podcast?.podcastMeta?.introduction,
+      'podcastMeta.manuscript': podcast?.podcastMeta?.manuscript,
+    },
   );
 
   const onUpdate = async (
@@ -86,7 +92,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
-      translateArticle={translateArticle}
+      translateFunc={translateFunc}
     />
   );
 };

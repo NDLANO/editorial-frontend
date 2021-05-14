@@ -15,7 +15,7 @@ import LearningResourceForm from './components/LearningResourceForm';
 import { LicensesArrayOf } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import { useTranslateForm } from '../../FormikForm/translateFormHooks';
+import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 
 const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, ...rest }) => {
@@ -23,7 +23,13 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
     articleId,
     selectedLanguage,
   );
-  const { translating, translateArticle } = useTranslateForm(article, setArticle);
+  const { translating, translateFunc } = useTranslateApi(article, setArticle, {
+    id: article?.id,
+    title: article?.title,
+    metaDescription: article?.metaDescription,
+    introduction: article?.introduction,
+    content: article?.content,
+  });
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
@@ -31,6 +37,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
   if (article.articleType !== 'standard') {
     return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
   }
+
   return (
     <Fragment>
       <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
@@ -40,7 +47,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
         articleStatus={article.status}
         articleChanged={articleChanged}
         translating={translating}
-        translateArticle={translateArticle}
+        translateFunc={translateFunc}
         isNewlyCreated={isNewlyCreated}
         {...rest}
         {...articleHooks}

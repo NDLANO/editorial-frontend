@@ -7,24 +7,20 @@
  */
 
 import { useState } from 'react';
+import dot from 'dot-object';
+import { merge } from 'lodash';
 import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
-export function useTranslateForm(article, setArticle) {
+export function useTranslateApi(element, setElement, fields = {}) {
   const [translating, setTranslating] = useState(false);
 
-  const translateArticle = async () => {
+  const translateFunc = async () => {
     setTranslating(true);
-    const { id, title, metaDescription, introduction, content } = article;
-    const translatedArticleContents = await fetchNnTranslation({
-      id,
-      title,
-      metaDescription,
-      introduction,
-      content,
-    });
-    setArticle({
-      ...article,
-      ...translatedArticleContents.document,
+
+    const translatedContents = await fetchNnTranslation({ ...fields });
+    const document = dot.object(translatedContents.document);
+    setElement({
+      ...merge(element, document),
       language: 'nn',
     });
     setTranslating(false);
@@ -32,31 +28,6 @@ export function useTranslateForm(article, setArticle) {
 
   return {
     translating,
-    translateArticle,
-  };
-}
-
-export function useTranslateConceptForm(concept, setConcept) {
-  const [translating, setTranslating] = useState(false);
-
-  const translateConcept = async () => {
-    setTranslating(true);
-    const { id, title, content } = concept;
-    const translatedConceptContents = await fetchNnTranslation({
-      id,
-      title,
-      content,
-    });
-    setConcept({
-      ...concept,
-      ...translatedConceptContents.document,
-      language: 'nn',
-    });
-    setTranslating(false);
-  };
-
-  return {
-    translating,
-    translateConcept,
+    translateFunc,
   };
 }

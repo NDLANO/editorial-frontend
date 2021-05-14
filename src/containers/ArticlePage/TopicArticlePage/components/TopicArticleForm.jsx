@@ -150,7 +150,7 @@ const TopicArticleForm = props => {
     updateArticle,
     articleChanged,
     translating,
-    translateArticle,
+    translateFunc,
     licenses,
     isNewlyCreated,
     createMessage,
@@ -182,7 +182,7 @@ const TopicArticleForm = props => {
           getInitialValues={getInitialValues}
           setValues={setValues}
           isSubmitting={isSubmitting}
-          translateArticle={translateArticle}
+          translateFunc={translateFunc}
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
           history={history}
@@ -228,7 +228,7 @@ const TopicArticleForm = props => {
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateArticle : () => {}}
+          onContinue={translateOnContinue ? translateFunc : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -265,7 +265,7 @@ TopicArticleForm.propTypes = {
   licenses: LicensesArrayOf,
   article: ArticleShape,
   translating: PropTypes.bool,
-  translateArticle: PropTypes.func,
+  translateFunc: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

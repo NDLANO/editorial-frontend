@@ -52,7 +52,7 @@ const HeaderActions = ({
   setTranslateOnContinue,
   t,
   type,
-  translateArticle,
+  translateFunc,
   values,
 }) => {
   const { articleType, id, language, supportedLanguages } = values;
@@ -106,7 +106,7 @@ const HeaderActions = ({
             <Fragment>
               <StyledSplitter />
               <TranslateNbToNn
-                translateArticle={translateArticle}
+                translateFunc={translateFunc}
                 editUrl={editUrl}
                 formIsDirty={formIsDirty}
                 setTranslateOnContinue={setTranslateOnContinue}
@@ -133,7 +133,7 @@ HeaderActions.propTypes = {
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func,
-  translateArticle: PropTypes.func,
+  translateFunc: PropTypes.func,
   type: PropTypes.string,
   values: PropTypes.shape({
     articleType: PropTypes.string,

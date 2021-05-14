@@ -42,8 +42,8 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'code';
       // } else if (isConceptBlockHotKey(e)) {
       //   inline = 'concept';
-      // } else if (isFootnoteHotKey(e)) {
-      //   inline = 'footnote';
+    } else if (isFootnoteHotKey(e)) {
+      inline = 'footnote';
     } else if (isH2HotKey(e)) {
       block = 'heading-2';
     } else if (isH3HotKey(e)) {

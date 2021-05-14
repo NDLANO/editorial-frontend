@@ -23,7 +23,11 @@ export function convertFromHTML(root: Descendant | null) {
       const children = node.children;
 
       const blockChildren = children.filter(
-        child => Element.isElement(child) && child.type !== 'link' && child.type !== 'content-link',
+        child =>
+          Element.isElement(child) &&
+          child.type !== 'link' &&
+          child.type !== 'content-link' &&
+          child.type !== 'footnote',
       );
       const mixed = blockChildren.length > 0 && blockChildren.length !== children.length;
       if (!mixed) {
@@ -35,7 +39,8 @@ export function convertFromHTML(root: Descendant | null) {
       for (const child of children) {
         if (
           Text.isText(child) ||
-          (Element.isElement(child) && (child.type === 'link' || child.type === 'content-link'))
+          (Element.isElement(child) &&
+            (child.type === 'link' || child.type === 'content-link' || child.type === 'footnote'))
         ) {
           if (Node.string(child) === '') {
             continue;

@@ -16,6 +16,7 @@ import {
   reduceChildElements,
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
+import { Node } from 'new-slate';
 
 const BLOCK_TAGS = {
   section: 'section',
@@ -58,13 +59,12 @@ const emptyNodes = [
   },
 ];
 
-export const findNodesByType = (node, type, nodes = []) => {
-  if (node.type === type) {
-    nodes.push(node);
-  } else if (node.object === 'document' || (node.object === 'block' && node.nodes.size > 0)) {
-    node.nodes.forEach(n => findNodesByType(n, type, nodes));
-  }
-  return nodes;
+export const findNodesByType = (descendants, type) => {
+  const ret = descendants
+    .flatMap(descendant => Array.from(Node.elements(descendant)))
+    .map(([node]) => node)
+    .filter(node => node.type === type);
+  return ret;
 };
 
 export const toJSON = state => state.toJSON();

@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
 
-export const removeEmptyElementDataAttributes = obj => {
-  const newObject = {};
-  Object.keys(obj).forEach(key => {
+export const removeEmptyElementDataAttributes = (obj: Dictionary<string>) => {
+  const newObject: Dictionary<string> = {};
+  Object.keys(obj).forEach((key: string) => {
     if (obj[key] !== null && obj[key] !== undefined) {
       newObject[key] = obj[key];
     }
@@ -18,9 +19,14 @@ export const removeEmptyElementDataAttributes = obj => {
   return newObject;
 };
 
-export const reduceElementDataAttributes = (el, filter) => {
-  if (!el.attributes) return null;
-  let attrs = [].slice.call(el.attributes).filter(a => a.name !== 'style');
+export const reduceElementDataAttributes = (
+  el: HTMLElement,
+  filter?: string[],
+): { [key: string]: string } => {
+  if (!el.attributes) return {};
+  let attrs: Attr[] = [].slice.call(el.attributes);
+  attrs = attrs.filter(a => a.name !== 'style');
+
   if (filter) attrs = attrs.filter(a => filter.includes(a.name));
   const obj = attrs.reduce(
     (all, attr) => Object.assign({}, all, { [attr.name.replace('data-', '')]: attr.value }),
@@ -85,14 +91,14 @@ export const parseEmbedTag = embedTag => {
   return obj;
 };
 
-export const createEmbedTag = visualElement => {
-  if (Object.keys(visualElement).length === 0) {
+export const createEmbedTag = (data: { [key: string]: string }) => {
+  if (Object.keys(data).length === 0) {
     return '';
   }
   const embed = document.createElement('embed');
-  Object.keys(visualElement)
-    .filter(key => visualElement[key] !== undefined && !isObject(visualElement[key]))
-    .forEach(key => embed.setAttribute(`data-${key}`, visualElement[key]));
+  Object.keys(data)
+    .filter(key => data[key] !== undefined && !isObject(data[key]))
+    .forEach(key => embed.setAttribute(`data-${key}`, data[key]));
   return embed.outerHTML;
 };
 

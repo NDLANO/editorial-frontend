@@ -27,7 +27,7 @@ import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
 import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBlock';
-import footnotePlugin from '../../../../components/SlateEditor/plugins/footnote';
+import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
 import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside';
@@ -45,7 +45,6 @@ import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
 import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
-import { TYPE as footnoteType } from '../../../../components/SlateEditor/plugins/footnote';
 
 import {
   editListPlugin,
@@ -79,11 +78,10 @@ const IconContainer = styled.div`
 // TODO: Rewrite to new slate
 const findFootnotes = content =>
   content
-    .reduce((all, value) => [...all, ...findNodesByType(value.document, footnoteType)], [])
-    .filter(footnote => footnote.data.size > 0)
-    .map(footnoteNode => footnoteNode.data.toJS());
+    .reduce((all, value) => [...all, ...findNodesByType(value, TYPE_FOOTNOTE)], [])
+    .filter(footnote => Object.keys(footnote.data).length > 0)
+    .map(footnoteElement => footnoteElement.data);
 
-// TODO: Rewrite to new slate
 const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
 // TODO: Rewrite to new slate
 const actionsToShowInAreas = {
@@ -112,7 +110,7 @@ const LearningResourceContent = ({
   const plugins = [
     sectionPlugin,
     paragraphPlugin,
-    // footnotePlugin(),
+    footnotePlugin,
     // createEmbedPlugin(articleLanguage, props.locale),
     // createBodyBoxPlugin(),
     // createAsidePlugin(),
@@ -251,8 +249,7 @@ const LearningResourceContent = ({
               }}
               handleSubmit={handleSubmit}
             />
-            {/* TODO: Rewrite to new slate */}
-            {/* <LearningResourceFootnotes footnotes={findFootnotes(value)} /> */}
+            <LearningResourceFootnotes footnotes={findFootnotes(value)} />
           </Fragment>
         )}
       </FormikField>

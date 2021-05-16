@@ -16,6 +16,7 @@ import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
 import { MathmlElement } from '.';
+import { mergeLastUndos } from '../../utils';
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
@@ -115,10 +116,7 @@ const MathEditor = (props: Props & RenderElementProps) => {
         voids: true,
       });
 
-      // Merges two most recent history entries. Undo will then remove both saved mathml and the initial empty mathml.
-      const arr = editor.history.undos;
-      const tail = arr.pop() || [];
-      arr[arr.length - 1] = arr[arr.length - 1].concat(tail);
+      mergeLastUndos(editor);
     } else {
       Transforms.setNodes(editor, properties, {
         at: path,

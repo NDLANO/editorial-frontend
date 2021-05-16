@@ -18,3 +18,4 @@ export { default as hasNodeOfType } from './hasNodeOfType';
 export { default as getCurrentBlock } from './getCurrentBlock';
 export { default as toggleBlock } from './toggleBlock';
 export { default as containsVoid } from './containsVoid';
+export { default as mergeLastUndos } from './mergeLastUndos';

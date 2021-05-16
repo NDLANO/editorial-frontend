@@ -14,6 +14,7 @@ import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
 import { getCurrentParagraph } from './utils';
+import { containsVoid } from 'components/SlateEditor/utils';
 
 const KEY_ENTER = 'Enter';
 export const TYPE_PARAGRAPH = 'paragraph';
@@ -46,7 +47,7 @@ const onEnter = (
    throughout the document to enable positioning the cursor between element with no
    spacing (i.e two images).
    */
-  if (Node.string(currentParagraph) === '') {
+  if (Node.string(currentParagraph) === '' && !containsVoid(editor, currentParagraph)) {
     editor.insertNode({
       type: TYPE_BREAK,
       children: [{ text: '' }],

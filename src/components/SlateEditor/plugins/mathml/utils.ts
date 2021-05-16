@@ -1,4 +1,4 @@
-import { Editor, Element, Node, Range, Transforms } from 'slate';
+import { Editor, Element, Range, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { hasNodeOfType } from '../../utils';
 

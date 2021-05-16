@@ -7,15 +7,15 @@
  */
 
 import React, { Fragment, useState, useRef } from 'react';
-import { ReactEditor, RenderElementProps } from 'slate-react';
 import { Editor, Element, Node, Path, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
+import { colors } from '@ndla/core';
 import he from 'he';
 import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
 import { MathmlElement } from '.';
-import { HistoryEditor } from 'slate-history';
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};
@@ -41,6 +41,8 @@ const MathEditor = (props: Props & RenderElementProps) => {
   const [isFirstEdit, setIsFirstEdit] = useState(isFirstEditStatus);
   const [editMode, setEditMode] = useState(isFirstEditStatus);
   const [showMenu, setShowMenu] = useState(false);
+  const selected = useSelected();
+  const focused = useFocused();
 
   const mathMLRef = useRef<HTMLSpanElement>(null);
 
@@ -103,13 +105,20 @@ const MathEditor = (props: Props & RenderElementProps) => {
     const leafPath = Path.next(path);
 
     if (isFirstEdit) {
-      HistoryEditor.withoutSaving(editor, () =>
-        Transforms.setNodes(editor, properties, {
-          at: path,
-          voids: true,
-          match: node => Element.isElement(node) && node.type === 'mathml',
-        }),
-      );
+      Transforms.setNodes(editor, properties, {
+        at: path,
+        voids: true,
+        match: node => Element.isElement(node) && node.type === 'mathml',
+      });
+      Transforms.insertText(editor, '', {
+        at: path,
+        voids: true,
+      });
+
+      // Merges two most recent history entries. Undo will then remove both saved mathml and the initial empty mathml.
+      const arr = editor.history.undos;
+      const tail = arr.pop() || [];
+      arr[arr.length - 1] = arr[arr.length - 1].concat(tail);
     } else {
       Transforms.setNodes(editor, properties, {
         at: path,
@@ -145,7 +154,13 @@ const MathEditor = (props: Props & RenderElementProps) => {
 
   return (
     <Fragment>
-      <span ref={mathMLRef} role="button" tabIndex={0} onKeyPress={toggleMenu} onClick={toggleMenu}>
+      <span
+        ref={mathMLRef}
+        role="button"
+        tabIndex={0}
+        onKeyPress={toggleMenu}
+        onClick={toggleMenu}
+        style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}>
         <MathML node={element} model={model} {...props} />
         <Portal isOpened={showMenu}>
           <BlockMenu

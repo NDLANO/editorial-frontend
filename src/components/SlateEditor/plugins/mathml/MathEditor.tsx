@@ -111,7 +111,11 @@ const MathEditor = (props: Props & RenderElementProps) => {
         voids: true,
         match: node => Element.isElement(node) && node.type === 'mathml',
       });
-      Transforms.insertText(editor, '', {
+
+      const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
+        ?.textContent;
+
+      Transforms.insertText(editor, mathAsString || '', {
         at: path,
         voids: true,
       });

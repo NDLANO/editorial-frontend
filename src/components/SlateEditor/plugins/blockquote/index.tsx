@@ -11,7 +11,7 @@ import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
-import { getCurrentBlock } from '../../utils';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph';
 
 const KEY_ENTER = 'Enter';
@@ -69,10 +69,7 @@ const onEnter = (
 };
 
 export const blockQuotePlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
+  const { renderElement: nextRenderElement, onKeyDown: nextOnKeyDown } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;

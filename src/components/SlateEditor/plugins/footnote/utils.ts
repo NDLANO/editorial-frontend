@@ -1,6 +1,6 @@
 import { Editor, Transforms, Element } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { hasNodeOfType } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const insertFootnote = (editor: Editor) => {
   if (hasNodeOfType(editor, 'footnote')) {

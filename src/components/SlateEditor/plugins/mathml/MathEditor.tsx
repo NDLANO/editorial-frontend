@@ -16,7 +16,7 @@ import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
 import { MathmlElement } from '.';
-import { mergeLastUndos } from '../../utils';
+import mergeLastUndos from '../../utils/mergeLastUndos';
 
 const getInfoFromNode = (node: MathmlElement) => {
   const data = node.data ? node.data : {};

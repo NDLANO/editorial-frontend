@@ -1,6 +1,6 @@
 import { Editor, Transforms, Element, Range } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { hasNodeOfType } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const insertConcept = (editor: Editor) => {
   if (hasNodeOfType(editor, 'concept')) {

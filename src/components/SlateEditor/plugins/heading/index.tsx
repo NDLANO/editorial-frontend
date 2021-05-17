@@ -11,7 +11,7 @@ import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
 import { SlateSerializer } from '../../interfaces';
-import { hasNodeOfType } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 import { TYPE_PARAGRAPH } from '../paragraph';
 
 const KEY_ENTER = 'Enter';

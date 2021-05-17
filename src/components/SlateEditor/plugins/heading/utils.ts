@@ -9,7 +9,8 @@
 import { Editor, Transforms, Element, Range } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { HeadingElement } from '.';
-import { hasNodeOfType, hasNodeWithProps } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
+import hasNodeWithProps from '../../utils/hasNodeWithProps';
 
 export const toggleHeading = (editor: Editor, level: HeadingElement['level']) => {
   const newHeadingProps: Partial<HeadingElement> = { type: 'heading', level };

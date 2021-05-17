@@ -74,6 +74,20 @@ const onBackspace = (
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     if (Range.isRange(editor.selection)) {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        editor.deleteBackward('word');
+        // Replace heading with paragraph if last character is removed
+        if (
+          hasNodeOfType(editor, 'heading') &&
+          Editor.string(editor, editor.selection.anchor.path) === ''
+        ) {
+          Transforms.unwrapNodes(editor, {
+            match: node => Element.isElement(node) && node.type === 'heading',
+          });
+          return;
+        }
+      }
       // Replace heading with paragraph if last character is removed
       if (
         Range.isCollapsed(editor.selection) &&

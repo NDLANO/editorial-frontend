@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
-import { defaultBlocks, checkSelectionForType } from '../../utils';
+import { defaultBlocks } from '../../utils';
 // import { defaultBodyBoxBlock } from '../bodybox';
 // import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
@@ -68,19 +68,19 @@ class SlateBlockPicker extends Component {
     const { editor } = this.props;
     switch (block.type) {
       case 'bodybox': {
-        this.onInsertBlock(defaultBodyBoxBlock());
+        // this.onInsertBlock(defaultBodyBoxBlock());
         break;
       }
       case 'details': {
-        this.onInsertBlock(defaultDetailsBlock());
+        // this.onInsertBlock(defaultDetailsBlock());
         break;
       }
       case 'table': {
-        editor.insertTable(2, 2);
+        // editor.insertTable(2, 2);
         break;
       }
       case 'aside': {
-        this.onInsertBlock(defaultAsideBlock(block.object));
+        // this.onInsertBlock(defaultAsideBlock(block.object));
         break;
       }
       case 'file':
@@ -94,11 +94,11 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'related': {
-        this.onInsertBlock(defaultRelatedBlock());
+        // this.onInsertBlock(defaultRelatedBlock());
         break;
       }
       case 'code-block': {
-        this.onInsertBlock(defaultCodeBlock());
+        // this.onInsertBlock(defaultCodeBlock());
         break;
       }
       default:
@@ -176,24 +176,21 @@ class SlateBlockPicker extends Component {
 
   getActionsForArea() {
     const { actionsToShowInAreas, editor } = this.props;
+    let nodes = Editor.nodes(editor, {
+      match: node => Element.isElement(node) && !editor.isInline(node),
+      reverse: true,
+    });
+
+    for (let entry in nodes) {
+      const [node] = entry;
+      if (!node || node.type === 'section' || node.type === 'document') {
+        return actions;
+      }
+      if (actionsToShowInAreas[node.type]) {
+        return actions.filter(action => actionsToShowInAreas[node.type].includes(action.data.type));
+      }
+    }
     return actions;
-    // let node = editor.value.document.getClosestBlock(editor.value.selection.start.key);
-    // if (!node || !actionsToShowInAreas) {
-    //   return actions;
-    // }
-    // while (true) {
-    //   const parent = editor.value.document.getParent(node.key);
-    //   if (!parent || parent.get('type') === 'section' || parent.get('type') === 'document') {
-    //     return actions;
-    //   }
-    //   const parentType = parent.get('type');
-    //   if (actionsToShowInAreas[parentType]) {
-    //     return actions.filter(action =>
-    //       actionsToShowInAreas[parentType].includes(action.data.type),
-    //     );
-    //   }
-    //   node = parent;
-    // }
   }
 
   render() {

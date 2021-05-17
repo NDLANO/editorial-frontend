@@ -7,18 +7,19 @@
  */
 
 import React, { useState, useEffect, ReactNode } from 'react';
+import { Editor, Element, Node, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
+import { Dictionary } from 'lodash';
 import Notion from '@ndla/notion';
-import PropTypes from 'prop-types';
 import { ConceptElement, TYPE_CONCEPT } from '.';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
-import { Editor, Element, Node, Path, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
 import { ConceptFormType } from '../../../../interfaces';
+import { mergeLastUndos } from '../../utils';
 
-const getConceptDataAttributes = ({ id, title: { title } }) => ({
+const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT,
   data: {
     'content-id': id,
@@ -74,6 +75,7 @@ const EditSlateConcept = (props: Props & tType) => {
         { data: data.data },
         { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
       );
+      mergeLastUndos(editor);
       handleChangeAndClose(editor);
     }
   };

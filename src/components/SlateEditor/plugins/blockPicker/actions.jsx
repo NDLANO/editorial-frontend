@@ -17,11 +17,11 @@ import HowToHelper from '../../../HowTo/HowToHelper';
 const renderArticleInModal = pageId => <HowToHelper pageId={pageId} extraIconPadding />;
 
 const actions = [
-  // {
-  //   data: { type: 'aside', object: 'factAside' },
-  //   icon: <FactBoxMaterial />,
-  //   helpIcon: renderArticleInModal('FactASide'),
-  // },
+  {
+    data: { type: 'aside', object: 'factAside' },
+    icon: <FactBoxMaterial />,
+    helpIcon: renderArticleInModal('FactASide'),
+  },
   // {
   //   data: { type: 'table', object: 'table' },
   //   icon: <TableMaterial />,

@@ -7,6 +7,8 @@
  */
 
 import React, { Component } from 'react';
+import { Editor, Element, Node, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -16,10 +18,9 @@ import { defaultBlocks } from '../../utils';
 // import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
-import { Editor, Element, Node } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { defaultAsideBlock } from '../aside/utils';
 
-const { defaultAsideBlock, defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
+const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
 class SlateBlockPicker extends Component {
   constructor(props) {
@@ -58,10 +59,8 @@ class SlateBlockPicker extends Component {
 
   onInsertBlock(block) {
     const { editor } = this.props;
-    editor
-      .insertBlock(block)
-      .focus()
-      .moveForward(1);
+    Editor.insertNode(editor, block);
+    ReactEditor.focus(editor);
   }
 
   onElementAdd(block) {
@@ -80,7 +79,7 @@ class SlateBlockPicker extends Component {
         break;
       }
       case 'aside': {
-        // this.onInsertBlock(defaultAsideBlock(block.object));
+        this.onInsertBlock(defaultAsideBlock(block.object));
         break;
       }
       case 'file':

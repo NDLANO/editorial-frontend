@@ -17,6 +17,8 @@ import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
+import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
+import options from './plugins/blockPicker/options';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -39,6 +41,8 @@ interface SlateEditorProps {
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
+  language: string;
+  actionsToShowInAreas: string[];
   taxIndex?: number;
   value: Descendant[];
   submitted: boolean;
@@ -70,6 +74,8 @@ const RichTextEditor = ({
   onChange,
   handleSubmit,
   submitted,
+  language,
+  actionsToShowInAreas,
   index,
   removeSection,
   ...rest
@@ -128,6 +134,14 @@ const RichTextEditor = ({
               onChange(val, index);
             }}>
             <SlateToolbar editor={editor} />
+            <SlateBlockPicker
+              editor={editor}
+              onChange={editor.onChange}
+              {...options({
+                articleLanguage: language,
+                actionsToShowInAreas,
+              })}
+            />
             <Editable
               onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               onKeyDown={editor.onKeyDown}

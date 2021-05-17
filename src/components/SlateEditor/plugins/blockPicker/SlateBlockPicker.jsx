@@ -12,10 +12,12 @@ import { injectT } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks, checkSelectionForType } from '../../utils';
-import { defaultBodyBoxBlock } from '../bodybox';
-import { defaultDetailsBlock } from '../details';
+// import { defaultBodyBoxBlock } from '../bodybox';
+// import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions from './actions';
+import { Editor, Element, Node } from 'slate';
+import { ReactEditor } from 'slate-react';
 
 const { defaultAsideBlock, defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
@@ -111,12 +113,12 @@ class SlateBlockPicker extends Component {
 
   async update() {
     const { current: slateBlockRef } = this.slateBlockRef;
-    if (slateBlockRef) {
+    const { editor } = this.props;
+    if (slateBlockRef && ReactEditor.isFocused(editor)) {
       await new Promise(resolve => setTimeout(resolve, 50));
 
       // Find location of text selection to calculate where to move slateBlock
-      const native = window.getSelection();
-      const range = native.getRangeAt(0);
+      const range = ReactEditor.toDOMRange(editor, editor.selection);
       const rect = range.getBoundingClientRect();
 
       slateBlockRef.style.top = `${rect.top + window.scrollY - 14}px`;
@@ -136,18 +138,23 @@ class SlateBlockPicker extends Component {
 
   shouldShowMenuPicker = () => {
     const { editor, illegalAreas, allowedPickAreas } = this.props;
-    const node = editor.value.document.getClosestBlock(editor.value.selection.start.key);
-    const focusInsideIllegalArea = checkSelectionForType({
-      type: illegalAreas,
-      value: editor.value,
+
+    const [node] = Editor.nodes(editor, {
+      match: node => Element.isElement(node) && !editor.isInline(node),
+      mode: 'lowest',
     });
+
+    const [illegalBlock] = Editor.nodes(editor, {
+      match: node => Element.isElement(node) && illegalAreas.includes(node.type),
+    });
+
     return (
       this.state.isOpen ||
       (node &&
-        node.text.length === 0 &&
-        !focusInsideIllegalArea &&
-        allowedPickAreas.includes(node.type) &&
-        editor.value.selection.isFocused)
+        Node.string(node[0]).length === 0 &&
+        !illegalBlock &&
+        allowedPickAreas.includes(node[0].type) &&
+        ReactEditor.isFocused(editor))
     );
   };
 
@@ -169,23 +176,24 @@ class SlateBlockPicker extends Component {
 
   getActionsForArea() {
     const { actionsToShowInAreas, editor } = this.props;
-    let node = editor.value.document.getClosestBlock(editor.value.selection.start.key);
-    if (!node || !actionsToShowInAreas) {
-      return actions;
-    }
-    while (true) {
-      const parent = editor.value.document.getParent(node.key);
-      if (!parent || parent.get('type') === 'section' || parent.get('type') === 'document') {
-        return actions;
-      }
-      const parentType = parent.get('type');
-      if (actionsToShowInAreas[parentType]) {
-        return actions.filter(action =>
-          actionsToShowInAreas[parentType].includes(action.data.type),
-        );
-      }
-      node = parent;
-    }
+    return actions;
+    // let node = editor.value.document.getClosestBlock(editor.value.selection.start.key);
+    // if (!node || !actionsToShowInAreas) {
+    //   return actions;
+    // }
+    // while (true) {
+    //   const parent = editor.value.document.getParent(node.key);
+    //   if (!parent || parent.get('type') === 'section' || parent.get('type') === 'document') {
+    //     return actions;
+    //   }
+    //   const parentType = parent.get('type');
+    //   if (actionsToShowInAreas[parentType]) {
+    //     return actions.filter(action =>
+    //       actionsToShowInAreas[parentType].includes(action.data.type),
+    //     );
+    //   }
+    //   node = parent;
+    // }
   }
 
   render() {

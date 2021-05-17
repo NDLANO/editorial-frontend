@@ -240,6 +240,8 @@ const LearningResourceContent = ({
               value={value}
               name={name}
               onChange={onChange}
+              language={articleLanguage}
+              actionsToShowInAreas={actionsToShowInAreas}
               onBlur={(event, editor) => {
                 // TODO: Can possibly be removed
                 // this is a hack since formik onBlur-handler interferes with slates

@@ -11,6 +11,7 @@ import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
 import { MathmlElement } from './plugins/mathml';
+import { ConceptElement } from './plugins/concept';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -38,7 +39,8 @@ declare module 'slate' {
       | BlockQuoteElement
       | HeadingElement
       | FootnoteElement
-      | MathmlElement;
+      | MathmlElement
+      | ConceptElement;
     Text: CustomTextWithMarks;
   }
 }

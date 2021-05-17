@@ -12,6 +12,7 @@ import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import { hasNodeOfType } from '../../utils';
+import { TYPE_PARAGRAPH } from '../paragraph';
 
 const KEY_ENTER = 'Enter';
 const KEY_BACKSPACE = 'Backspace';
@@ -60,7 +61,7 @@ const onEnter = (
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
-    Transforms.insertNodes(editor, jsx('element', { type: 'paragraph' }, [{ text: '' }]));
+    Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
     return;
   }
   return nextOnKeyDown && nextOnKeyDown(e);
@@ -82,37 +83,10 @@ const onBackspace = (
         e.preventDefault();
         editor.deleteBackward('character');
         Transforms.unwrapNodes(editor, {
-          match: node => Element.isElement(node) && node.type === 'heading',
+          match: node => Element.isElement(node) && node.type === TYPE_HEADING,
         });
         return;
       }
-
-      // if (!Range.isCollapsed(editor.selection)) {
-      //   const [startBlock] = Editor.node(editor, editor.selection.anchor);
-      //   if (
-      //     Element.isElement(startBlock) &&
-      //     startBlock.type === 'heading' &&
-      //     editor.selection.anchor.offset === 0
-      //   ) {
-      //     e.preventDefault();
-      //     Transforms.delete(editor);
-      //     Editor.withoutNormalizing(editor, () => {
-      //       Transforms.unsetNodes(editor, ['level'], {
-      //         match: node =>
-      //           Element.isElement(node) && node.type === 'heading' && Node.string(node) === '',
-      //       });
-      //       Transforms.setNodes(
-      //         editor,
-      //         { type: 'paragraph' },
-      //         {
-      //           match: node =>
-      //             Element.isElement(node) && node.type === 'heading' && Node.string(node) === '',
-      //         },
-      //       );
-      //     });
-      //     return;
-      //   }
-      // }
     }
   }
   return nextOnKeyDown && nextOnKeyDown(e);
@@ -153,7 +127,7 @@ export const headingPlugin = (editor: Editor) => {
   editor.normalizeNode = entry => {
     const [node, path] = entry;
 
-    if (Element.isElement(node) && node.type === 'heading') {
+    if (Element.isElement(node) && node.type === TYPE_HEADING) {
       // If header exists without level, change it to h2.
       if (!node.level) {
         Transforms.setNodes(editor, { level: 2 }, { at: path });

@@ -6,17 +6,20 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
-import { injectT } from '@ndla/i18n';
+import React, { useState, useEffect, ReactNode } from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import Notion from '@ndla/notion';
 import PropTypes from 'prop-types';
-import { TYPE } from '.';
+import { ConceptElement, TYPE_CONCEPT } from '.';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
+import { Editor, Element, Node, Path, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
+import { ConceptFormType } from '../../../../interfaces';
 
 const getConceptDataAttributes = ({ id, title: { title } }) => ({
-  type: TYPE,
+  type: TYPE_CONCEPT,
   data: {
     'content-id': id,
     'link-text': title,
@@ -25,13 +28,23 @@ const getConceptDataAttributes = ({ id, title: { title } }) => ({
   },
 });
 
-const EditSlateConcept = props => {
-  const { t, children, node, locale, editor, attributes } = props;
-  const nodeText = node.text.trim();
+interface Props {
+  element: ConceptElement;
+  locale: string;
+  editor: Editor;
+  attributes: {
+    'data-key': string;
+  };
+  children: ReactNode;
+}
+
+const EditSlateConcept = (props: Props & tType) => {
+  const { t, children, element, locale, editor, attributes } = props;
+  const nodeText = Node.string(element).trim();
 
   const [showConcept, setShowConcept] = useState(false);
 
-  const toggleConceptModal = evt => {
+  const toggleConceptModal = (evt?: React.MouseEvent) => {
     if (evt) {
       evt.preventDefault();
     }
@@ -39,36 +52,44 @@ const EditSlateConcept = props => {
   };
 
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
-    node.data.get('content-id'),
+    parseInt(element.data['content-id']),
     locale,
   );
   const conceptId = concept && concept.id ? concept.id : undefined;
 
-  const handleChangeAndClose = editor => {
-    editor.focus(); // Always return focus to editor
+  const handleChangeAndClose = (editor: Editor) => {
+    ReactEditor.focus(editor); // Always return focus to editor
     toggleConceptModal();
   };
 
-  const addConcept = addedConcept => {
+  const addConcept = (addedConcept: ConceptFormType) => {
     const data = getConceptDataAttributes({
       ...addedConcept,
       title: { title: nodeText },
     });
-    if (node.key) {
-      handleChangeAndClose(editor.moveToRangeOfNode(node).setInlines(data));
+    if (element) {
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.setNodes(
+        editor,
+        { data: data.data },
+        { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
+      );
+      handleChangeAndClose(editor);
     }
   };
 
   const handleRemove = () => {
-    const nextValue = editor
-      .moveToRangeOfNode(node)
-      .removeNodeByKey(node.key)
-      .insertText(node.text);
-    handleChangeAndClose(nextValue);
+    const path = ReactEditor.findPath(editor, element);
+
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
+    });
+    handleChangeAndClose(editor);
   };
 
   const onClose = () => {
-    if (!node.data.get('content-id')) {
+    if (!element.data['content-id']) {
       handleRemove();
     } else {
       handleChangeAndClose(editor);
@@ -76,27 +97,21 @@ const EditSlateConcept = props => {
   };
 
   useEffect(() => {
-    if (!node.data.get('content-id')) {
+    if (!element.data['content-id']) {
       setShowConcept(true);
     }
-  }, [node]);
+  }, [element]);
 
   return (
     <span>
       <span {...attributes} onMouseDown={toggleConceptModal}>
-        {conceptId ? (
+        {conceptId && concept ? (
           <Notion
             id={conceptId}
             title={concept.title}
             subTitle={t('conceptform.title')}
             content={
-              <SlateConceptPreview
-                concept={concept}
-                handleRemove={handleRemove}
-                id={conceptId}
-                onClose={onClose}
-                locale={locale}
-              />
+              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={conceptId} />
             }
             ariaLabel={t('notions.edit')}>
             {children}
@@ -119,19 +134,6 @@ const EditSlateConcept = props => {
       />
     </span>
   );
-};
-
-EditSlateConcept.propTypes = {
-  node: PropTypes.shape({
-    data: PropTypes.any,
-    key: PropTypes.string,
-    text: PropTypes.string,
-  }),
-  locale: PropTypes.string,
-  editor: PropTypes.object,
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
 };
 
 export default injectT(EditSlateConcept);

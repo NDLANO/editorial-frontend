@@ -24,8 +24,10 @@ export function useTranslateApi(element: any, setElement: (type: any) => void, f
 
   const translateToNN = async () => {
     setTranslating(true);
-    let fieldMap = new Map();
-    fields.map(field => fieldMap.set(field, dot.pick(field, element)));
+    const fieldMap = fields.reduce<Map<string, string>>((acc, field) => {
+      acc.set(field, dot.pick(field, element));
+      return acc;
+    }, new Map());
     const payload = Object.fromEntries(fieldMap);
 
     const translated = await fetchNnTranslation(payload);

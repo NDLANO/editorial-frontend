@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import ConceptForm from './ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
-import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
+import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
 const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
@@ -29,7 +29,11 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
-  const { translating, translateConcept } = useTranslateConceptForm(concept, setConcept);
+  const { translating, translateToNN } = useTranslateApi(concept, setConcept, {
+    id: concept?.id,
+    title: concept?.title,
+    content: concept?.content,
+  });
 
   if (!concept) {
     return null;
@@ -49,7 +53,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
         licenses={licenses}
         onUpdate={updateConcept}
         subjects={subjects}
-        translateConcept={translateConcept}
+        translateToNN={translateToNN}
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
         setConcept={setConcept}

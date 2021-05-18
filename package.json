@@ -141,6 +141,7 @@
     "date-fns": "2.0.0",
     "defined": "1.0.0",
     "diff-match-patch": "^1.0.5",
+    "dot-object": "^2.1.4",
     "downshift": "^3.2.12",
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",

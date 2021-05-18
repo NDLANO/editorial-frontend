@@ -19,14 +19,21 @@ import { fetchNnTranslation } from '../../modules/translate/translateApi';
  * fields in original domain object.
  */
 
-export function useTranslateApi(element: any, setElement: (type: any) => void, fields = {}) {
+export function useTranslateApi(
+  element: any,
+  setElement: (element: any) => void,
+  fields: string[],
+) {
   const [translating, setTranslating] = useState(false);
 
   const translateToNN = async () => {
     setTranslating(true);
-
-    const translatedContents = await fetchNnTranslation({ ...fields });
-    const document = dot.object(translatedContents.document);
+    const payload = fields.reduce(
+      (acc, field) => ({ ...acc, [field]: dot.pick(field, element) }),
+      {},
+    );
+    const translated = await fetchNnTranslation(payload);
+    const document = dot.object(translated.document);
     setElement({
       ...merge(element, document),
       language: 'nn',

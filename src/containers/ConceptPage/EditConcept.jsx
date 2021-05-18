@@ -29,11 +29,11 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
-  const { translating, translateToNN } = useTranslateApi(concept, setConcept, {
-    id: concept?.id,
-    title: concept?.title,
-    content: concept?.content,
-  });
+  const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
+    'id',
+    'title',
+    'content',
+  ]);
 
   if (!concept) {
     return null;

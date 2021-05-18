@@ -23,13 +23,13 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
     articleId,
     selectedLanguage,
   );
-  const { translating, translateToNN } = useTranslateApi(article, setArticle, {
-    id: article?.id,
-    title: article?.title,
-    metaDescription: article?.metaDescription,
-    introduction: article?.introduction,
-    content: article?.content,
-  });
+  const { translating, translateToNN } = useTranslateApi(article, setArticle, [
+    'id',
+    'title',
+    'metaDescription',
+    'introduction',
+    'content',
+  ]);
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;

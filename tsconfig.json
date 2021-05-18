@@ -21,7 +21,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "lib": [
-      "es2018",
+      "es2019",
       "esnext.asynciterable",
       "dom"
     ],

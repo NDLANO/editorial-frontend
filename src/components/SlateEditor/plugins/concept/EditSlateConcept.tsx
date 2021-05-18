@@ -83,7 +83,7 @@ const EditSlateConcept = (props: Props & tType) => {
   const handleRemove = () => {
     const path = ReactEditor.findPath(editor, element);
 
-    Transforms.removeNodes(editor, {
+    Transforms.unwrapNodes(editor, {
       at: path,
       match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
     });

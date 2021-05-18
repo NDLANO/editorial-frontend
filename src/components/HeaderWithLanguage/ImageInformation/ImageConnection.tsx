@@ -18,8 +18,8 @@ import Button from '@ndla/button';
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi'; // TODO kan jeg bruke denne direkte?
-import { ConceptSearchResult } from '../../../modules/concept/conceptApiInterfaces';
-import { SearchResultWithContentResultType } from '../../../interfaces';
+import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
 interface Props {
@@ -38,13 +38,13 @@ const searchObjects = (imageId: number) => ({
 });
 
 const ImageConnection = ({ t, id }: Props & tType) => {
-  const [articles, setArticles] = useState<SearchResultWithContentResultType>();
-  const [concepts, setConcepts] = useState<ConceptSearchResult>();
+  const [articles, setArticles] = useState<ContentResultType[]>();
+  const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
   useEffect(() => {
     if (id) {
       // TODO: Fetch articles with image
-      searchArticles(searchObjects(id)).then(setArticles);
+      searchArticles(searchObjects(id)).then(restult => setArticles(restult.results));
       searchConcepts({
         ...searchObjects(id),
         idList: [],
@@ -52,14 +52,13 @@ const ImageConnection = ({ t, id }: Props & tType) => {
         tags: [],
         status: [],
         users: [],
-      }).then(setConcepts);
+      }).then(result => setConcepts(result.results));
     }
   }, [id]);
 
-  // TODO don't show this if the image isn't in use
-  //  if (!articles.length && !concepts.results.length) {
-  //    return null;
-  //  }
+  if (!articles?.length && !concepts?.length) {
+    return null;
+  }
 
   return (
     <Modal
@@ -80,11 +79,11 @@ const ImageConnection = ({ t, id }: Props & tType) => {
           </ModalHeader>
           <ModalBody>
             <h1>{t('form.imageConnections.title')}</h1>
-            {articles && (
+            {!!articles?.length && (
               <>
                 <p>{t('form.imageConnections.sectionTitleArticle')}</p>
                 <ElementList
-                  elements={articles?.results.map(obj => ({
+                  elements={articles?.map(obj => ({
                     ...obj,
                     articleType: obj.learningResourceType,
                   }))}
@@ -92,11 +91,11 @@ const ImageConnection = ({ t, id }: Props & tType) => {
                 />
               </>
             )}
-            {concepts && (
+            {!!concepts?.length && (
               <>
                 <p>{t('form.imageConnections.sectionTitleConcept')}</p>
                 <ElementList
-                  elements={concepts.results.map(obj => ({ ...obj, articleType: 'concept' }))}
+                  elements={concepts.map(obj => ({ ...obj, articleType: 'concept' }))}
                   isEditable={false}
                 />
               </>

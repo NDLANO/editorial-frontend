@@ -175,12 +175,13 @@ class SlateBlockPicker extends Component {
 
   getActionsForArea() {
     const { actionsToShowInAreas, editor } = this.props;
-    let nodes = Editor.nodes(editor, {
+    console.log(editor.selection);
+    const nodes = Editor.levels(editor, {
       match: node => Element.isElement(node) && !editor.isInline(node),
       reverse: true,
     });
 
-    for (let entry in nodes) {
+    for (const entry of nodes) {
       const [node] = entry;
       if (!node || node.type === 'section' || node.type === 'document') {
         return actions;
@@ -189,6 +190,7 @@ class SlateBlockPicker extends Component {
         return actions.filter(action => actionsToShowInAreas[node.type].includes(action.data.type));
       }
     }
+
     return actions;
   }
 

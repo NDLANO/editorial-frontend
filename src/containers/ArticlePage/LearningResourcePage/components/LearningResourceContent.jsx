@@ -83,7 +83,6 @@ const findFootnotes = content =>
     .map(footnoteElement => footnoteElement.data);
 
 const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
-// TODO: Rewrite to new slate
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,

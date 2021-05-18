@@ -23,10 +23,12 @@ import {
   toCreateAudioFile,
   toCreateConcept,
   toCreateImage,
+  toCreatePodcastFile,
   toEditArticle,
   toEditAudio,
   toEditConcept,
   toEditImage,
+  toEditPodcast,
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
@@ -75,6 +77,14 @@ class DeleteLanguageVersion extends React.Component {
               newAfterLanguageDeletion
                 ? toCreateAudioFile()
                 : toEditAudio(id, otherSupportedLanguage),
+            );
+            break;
+          case 'podcast':
+            await deleteLanguageVersionAudio(id, language);
+            history.push(
+              newAfterLanguageDeletion
+                ? toCreatePodcastFile()
+                : toEditPodcast(id, otherSupportedLanguage),
             );
             break;
           case 'image':

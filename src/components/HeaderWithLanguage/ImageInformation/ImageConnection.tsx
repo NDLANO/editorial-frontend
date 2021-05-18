@@ -76,11 +76,15 @@ const ImageConnection = ({ t, id }: Props & tType) => {
           <ModalBody>
             <h1>{t('form.imageConnections.title')}</h1>
             {/* TODO: List articles with image */}
+            {/* <h2>{t('form.imageConnections.sectionTitleArticle')}</h2> */}
             {concepts && (
-              <ElementList
-                elements={concepts.results.map(obj => ({ ...obj, articleType: 'concept' }))}
-                isEditable={false}
-              />
+              <>
+                <p>{t('form.imageConnections.sectionTitleConcept')}</p>
+                <ElementList
+                  elements={concepts.results.map(obj => ({ ...obj, articleType: 'concept' }))}
+                  isEditable={false}
+                />
+              </>
             )}
           </ModalBody>
         </>

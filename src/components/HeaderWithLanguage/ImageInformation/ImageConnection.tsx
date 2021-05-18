@@ -32,17 +32,7 @@ const ImageInformationIcon = styled(InformationOutline)`
   cursor: pointer;
 `;
 
-const searchObjectsConcept = (imageId: number) => ({
-  idList: [],
-  subjects: [],
-  tags: [],
-  status: [],
-  users: [],
-  'embed-id': imageId,
-  'embed-resource': 'image',
-});
-
-const searchObjectsArticle = (imageId: number) => ({
+const searchObjects = (imageId: number) => ({
   'embed-id': imageId,
   'embed-resource': 'image',
 });
@@ -54,8 +44,15 @@ const ImageConnection = ({ t, id }: Props & tType) => {
   useEffect(() => {
     if (id) {
       // TODO: Fetch articles with image
-      searchArticles(searchObjectsArticle(id)).then(setArticles);
-      searchConcepts(searchObjectsConcept(id)).then(setConcepts);
+      searchArticles(searchObjects(id)).then(setArticles);
+      searchConcepts({
+        ...searchObjects(id),
+        idList: [],
+        subjects: [],
+        tags: [],
+        status: [],
+        users: [],
+      }).then(setConcepts);
     }
   }, [id]);
 

@@ -17,7 +17,7 @@ import Button from '@ndla/button';
 
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
-import { search as searchArticles } from '../../../modules/search/searchApi'; // TODO kan jeg bruke denne direkte?
+import { search as searchArticles } from '../../../modules/search/searchApi';
 import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import { ContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
@@ -43,8 +43,7 @@ const ImageConnection = ({ t, id }: Props & tType) => {
 
   useEffect(() => {
     if (id) {
-      // TODO: Fetch articles with image
-      searchArticles(searchObjects(id)).then(restult => setArticles(restult.results));
+      searchArticles(searchObjects(id)).then(result => setArticles(result.results));
       searchConcepts({
         ...searchObjects(id),
         idList: [],

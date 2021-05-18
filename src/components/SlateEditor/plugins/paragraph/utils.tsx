@@ -6,14 +6,20 @@
  *
  */
 
-import { Editor, Node, Element } from 'slate';
+import { Editor, Element } from 'slate';
 import { TYPE_PARAGRAPH } from './index';
 
 export const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;
-  const startBlock = Node.parent(editor, editor.selection?.anchor.path);
-  if (!Element.isElement(startBlock)) {
+  const [entry] = Editor.nodes(editor, {
+    match: node => Element.isElement(node) && !editor.isInline(node),
+    mode: 'lowest',
+  });
+
+  if (!entry) {
     return null;
   }
-  return startBlock && startBlock?.type === TYPE_PARAGRAPH ? startBlock : null;
+  const [startBlock] = entry;
+
+  return Element.isElement(startBlock) && startBlock?.type === TYPE_PARAGRAPH ? startBlock : null;
 };

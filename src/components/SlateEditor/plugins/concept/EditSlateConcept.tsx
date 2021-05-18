@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect, ReactNode } from 'react';
 import { Editor, Element, Node, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { Dictionary } from 'lodash';
 import Notion from '@ndla/notion';
@@ -33,9 +33,7 @@ interface Props {
   element: ConceptElement;
   locale: string;
   editor: Editor;
-  attributes: {
-    'data-key': string;
-  };
+  attributes: RenderElementProps['attributes'];
   children: ReactNode;
 }
 
@@ -83,7 +81,7 @@ const EditSlateConcept = (props: Props & tType) => {
   const handleRemove = () => {
     const path = ReactEditor.findPath(editor, element);
 
-    Transforms.removeNodes(editor, {
+    Transforms.unwrapNodes(editor, {
       at: path,
       match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
     });

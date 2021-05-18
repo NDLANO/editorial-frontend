@@ -6,18 +6,12 @@
  *
  */
 
-import { fetch } from 'cross-fetch';
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import config from '../../config';
 
 const baseUrl = 'https://nynorsk.cloud/translate';
 
-interface Translatable {
-  id: number;
-  content: any;
-}
-
-export const fetchNnTranslation = ({ id, ...content }: Translatable) =>
+export const fetchNnTranslation = ({ id, ...articleContents }) =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
@@ -27,7 +21,7 @@ export const fetchNnTranslation = ({ id, ...content }: Translatable) =>
       token: config.npkToken,
       guid: config.ndlaEnvironment + '_' + id,
       prefs: { x: true }, // Hack to tell the service to use old html-parser, ref jo.christian.oterhals@ntb.no
-      document: content,
+      document: articleContents,
       fileType: 'htmlp', // Tells old html-parser to skip changing æøå to entities.
     }),
   }).then(resolveJsonOrRejectWithError);

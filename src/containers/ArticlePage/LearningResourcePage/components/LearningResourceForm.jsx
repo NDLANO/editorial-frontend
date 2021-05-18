@@ -135,7 +135,7 @@ const LearningResourceForm = props => {
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
-  const { userAccess, createMessage, history } = props;
+  const { articleChanged, userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = formik => {
@@ -145,6 +145,7 @@ const LearningResourceForm = props => {
       values,
       initialValues,
       dirty,
+      changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
@@ -157,7 +158,7 @@ const LearningResourceForm = props => {
           getEntity={getArticle}
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateArticle={translateArticle}
+          translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
           history={history}
@@ -201,7 +202,7 @@ const LearningResourceForm = props => {
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateArticle : () => {}}
+          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -214,7 +215,7 @@ const LearningResourceForm = props => {
     article,
     updateArticle,
     translating,
-    translateArticle,
+    translateToNN,
     licenses,
     isNewlyCreated,
     ...rest
@@ -242,6 +243,7 @@ LearningResourceForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  articleChanged: PropTypes.bool,
   updateArticleAndStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
@@ -253,7 +255,7 @@ LearningResourceForm.propTypes = {
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
-  translateArticle: PropTypes.func,
+  translateToNN: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -17,6 +17,7 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
+import Spinner from '../../../components/Spinner';
 import {
   isFormikFormDirty,
   parseCopyrightContributors,
@@ -122,15 +123,28 @@ type OnUpdateFunc = (newPodcast: UpdatedPodcastMetaInformation, file?: string | 
 
 interface Props {
   audio: PodcastPropType;
+  podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   formikProps?: FormikProps<PodcastPropType>;
   licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
   revision?: number;
+  translating?: boolean;
+  translateToNN?: () => void;
 }
 
-const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: Props & tType) => {
+const PodcastForm = ({
+  t,
+  audio,
+  podcastChanged,
+  inModal,
+  isNewlyCreated,
+  licenses,
+  onUpdate,
+  translating,
+  translateToNN,
+}: Props & tType) => {
   const [savedToServer, setSavedToServer] = useState(false);
 
   const handleSubmit = async (
@@ -202,6 +216,7 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
           values,
           initialValues,
           dirty,
+          changed: podcastChanged,
         });
         return (
           <FormWrapper inModal={inModal}>
@@ -211,46 +226,50 @@ const PodcastForm = ({ t, audio, inModal, isNewlyCreated, licenses, onUpdate }: 
               type="podcast"
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
+              translateToNN={translateToNN}
             />
-            <Accordions>
-              <AccordionSection
-                id="podcast-upload-content"
-                title={t('form.contentSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'audioFile'].some(field => field in errors)}
-                startOpen>
-                <AudioContent classes={formClasses} />
-              </AccordionSection>
+            {translating ? (
+              <Spinner withWrapper />
+            ) : (
+              <Accordions>
+                <AccordionSection
+                  id="podcast-upload-content"
+                  title={t('form.contentSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={['title', 'audioFile'].some(field => field in errors)}
+                  startOpen>
+                  <AudioContent classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-podcastmeta"
+                  title={t('form.podcastSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                    field => field in errors,
+                  )}>
+                  <PodcastMetaData
+                    handleSubmit={submitForm}
+                    onBlur={(event, editor, next) => {
+                      next();
+                      // this is a hack since formik onBlur-handler interferes with slates
+                      // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                      // formik handleBlur needs to be called for validation to work (and touched to be set)
+                      setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+                    }}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-metadata"
+                  title={t('form.metadataSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
+                    field => field in errors,
+                  )}>
+                  <AudioMetaData classes={formClasses} licenses={licenses} />
+                </AccordionSection>
+              </Accordions>
+            )}
 
-              <AccordionSection
-                id="podcast-upload-podcastmeta"
-                title={t('form.podcastSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
-                  field => field in errors,
-                )}>
-                <PodcastMetaData
-                  handleSubmit={submitForm}
-                  onBlur={(event, editor, next) => {
-                    next();
-                    // this is a hack since formik onBlur-handler interferes with slates
-                    // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                    // formik handleBlur needs to be called for validation to work (and touched to be set)
-                    setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-                  }}
-                />
-              </AccordionSection>
-
-              <AccordionSection
-                id="podcast-upload-metadata"
-                title={t('form.metadataSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
-                  field => field in errors,
-                )}>
-                <AudioMetaData classes={formClasses} licenses={licenses} />
-              </AccordionSection>
-            </Accordions>
             <Field right>
               <AbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}

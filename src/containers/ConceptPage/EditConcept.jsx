@@ -13,7 +13,7 @@ import { injectT } from '@ndla/i18n';
 import ConceptForm from './ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
-import { useTranslateConceptForm } from '../FormikForm/translateFormHooks';
+import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 
 const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
@@ -23,12 +23,17 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     fetchStatusStateMachine,
     loading,
     setConcept,
+    conceptChanged,
     subjects,
     updateConcept,
     updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
-  const { translating, translateConcept } = useTranslateConceptForm(concept, setConcept);
+  const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
+    'id',
+    'title',
+    'content',
+  ]);
 
   if (!concept) {
     return null;
@@ -41,13 +46,14 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
       <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
       <ConceptForm
         concept={concept}
+        conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
         fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
         licenses={licenses}
         onUpdate={updateConcept}
         subjects={subjects}
-        translateConcept={translateConcept}
+        translateToNN={translateToNN}
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
         setConcept={setConcept}

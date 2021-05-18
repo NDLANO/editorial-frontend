@@ -556,7 +556,7 @@ const phrases = {
       relatedContent: 'Relatert innhold',
       subjects: 'Fag',
       header: 'Overskrift',
-      manuscript: 'Manus',
+      manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {

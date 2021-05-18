@@ -175,7 +175,6 @@ class SlateBlockPicker extends Component {
 
   getActionsForArea() {
     const { actionsToShowInAreas, editor } = this.props;
-    console.log(editor.selection);
     const nodes = Editor.levels(editor, {
       match: node => Element.isElement(node) && !editor.isInline(node),
       reverse: true,

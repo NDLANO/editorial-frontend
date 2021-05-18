@@ -291,6 +291,10 @@ export interface SearchResult {
   results: string[];
 }
 
+export interface SearchResultWithContentResultType extends Omit<SearchResult, 'results'> {
+  results: ContentResultType[];
+}
+
 export interface SubjectType {
   id: string;
   contentUri: string;

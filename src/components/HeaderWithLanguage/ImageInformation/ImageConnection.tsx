@@ -17,7 +17,9 @@ import Button from '@ndla/button';
 
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
+import { search as searchArticles } from '../../../modules/search/searchApi'; // TODO kan jeg bruke denne direkte?
 import { ConceptSearchResult } from '../../../modules/concept/conceptApiInterfaces';
+import { SearchResultWithContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
 interface Props {
@@ -30,7 +32,7 @@ const ImageInformationIcon = styled(InformationOutline)`
   cursor: pointer;
 `;
 
-const searchObjects = (imageId: number) => ({
+const searchObjectsConcept = (imageId: number) => ({
   idList: [],
   subjects: [],
   tags: [],
@@ -40,14 +42,20 @@ const searchObjects = (imageId: number) => ({
   'embed-resource': 'image',
 });
 
+const searchObjectsArticle = (imageId: number) => ({
+  'embed-id': imageId,
+  'embed-resource': 'image',
+});
+
 const ImageConnection = ({ t, id }: Props & tType) => {
-  // TODO: const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState<SearchResultWithContentResultType>();
   const [concepts, setConcepts] = useState<ConceptSearchResult>();
 
   useEffect(() => {
     if (id) {
       // TODO: Fetch articles with image
-      searchConcepts(searchObjects(id)).then(setConcepts);
+      searchArticles(searchObjectsArticle(id)).then(setArticles);
+      searchConcepts(searchObjectsConcept(id)).then(setConcepts);
     }
   }, [id]);
 
@@ -75,8 +83,18 @@ const ImageConnection = ({ t, id }: Props & tType) => {
           </ModalHeader>
           <ModalBody>
             <h1>{t('form.imageConnections.title')}</h1>
-            {/* TODO: List articles with image */}
-            {/* <h2>{t('form.imageConnections.sectionTitleArticle')}</h2> */}
+            {articles && (
+              <>
+                <p>{t('form.imageConnections.sectionTitleArticle')}</p>
+                <ElementList
+                  elements={articles?.results.map(obj => ({
+                    ...obj,
+                    articleType: obj.learningResourceType,
+                  }))}
+                  isEditable={false}
+                />
+              </>
+            )}
             {concepts && (
               <>
                 <p>{t('form.imageConnections.sectionTitleConcept')}</p>

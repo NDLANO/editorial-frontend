@@ -45,7 +45,7 @@ interface Props {
   onClose: () => void;
   onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: string) => void;
   subjects: SubjectType[];
-  translateFunc: () => void;
+  translateToNN: () => void;
   updateConceptAndStatus: (
     updatedConcept: PatchConceptType,
     newStatus: ConceptStatusType,
@@ -62,7 +62,7 @@ const ConceptForm = ({
   licenses,
   onClose,
   subjects,
-  translateFunc,
+  translateToNN,
   updateConceptAndStatus,
   onUpdate,
   applicationError,
@@ -125,7 +125,7 @@ const ConceptForm = ({
               content={concept}
               editUrl={(lang: string) => toEditConcept(values.id, lang)}
               getEntity={() => getConcept(values, licenses, concept.updatedBy)}
-              translateFunc={translateFunc}
+              translateToNN={translateToNN}
               type="concept"
               setTranslateOnContinue={setTranslateOnContinue}
               values={values}
@@ -177,7 +177,7 @@ const ConceptForm = ({
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept.id}
               onClose={onClose}
-              onContinue={translateOnContinue ? translateFunc : () => {}}
+              onContinue={translateOnContinue ? translateToNN : () => {}}
               getApiConcept={() => getConcept(values, licenses, concept.updatedBy)}
             />
           </FormWrapper>

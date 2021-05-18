@@ -23,7 +23,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
     articleId,
     selectedLanguage,
   );
-  const { translating, translateFunc } = useTranslateApi(article, setArticle, {
+  const { translating, translateToNN } = useTranslateApi(article, setArticle, {
     id: article?.id,
     title: article?.title,
     metaDescription: article?.metaDescription,
@@ -47,7 +47,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, t, isNewlyCreated, 
         articleStatus={article.status}
         articleChanged={articleChanged}
         translating={translating}
-        translateFunc={translateFunc}
+        translateToNN={translateToNN}
         isNewlyCreated={isNewlyCreated}
         {...rest}
         {...articleHooks}

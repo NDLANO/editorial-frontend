@@ -131,7 +131,7 @@ interface Props {
   onUpdate: OnCreateFunc | OnUpdateFunc;
   revision?: number;
   translating?: boolean;
-  translateFunc?: () => void;
+  translateToNN?: () => void;
 }
 
 const PodcastForm = ({
@@ -143,7 +143,7 @@ const PodcastForm = ({
   licenses,
   onUpdate,
   translating,
-  translateFunc,
+  translateToNN,
 }: Props & tType) => {
   const [savedToServer, setSavedToServer] = useState(false);
 
@@ -226,7 +226,7 @@ const PodcastForm = ({
               type="podcast"
               content={audio}
               editUrl={(lang: string) => toEditPodcast(values.id, lang)}
-              translateFunc={translateFunc}
+              translateToNN={translateToNN}
             />
             {translating ? (
               <Spinner withWrapper />

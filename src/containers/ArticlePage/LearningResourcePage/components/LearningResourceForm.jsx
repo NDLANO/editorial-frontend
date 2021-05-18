@@ -158,7 +158,7 @@ const LearningResourceForm = props => {
           getEntity={getArticle}
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateFunc={translateFunc}
+          translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
           history={history}
@@ -202,7 +202,7 @@ const LearningResourceForm = props => {
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateFunc : () => {}}
+          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -215,7 +215,7 @@ const LearningResourceForm = props => {
     article,
     updateArticle,
     translating,
-    translateFunc,
+    translateToNN,
     licenses,
     isNewlyCreated,
     ...rest
@@ -255,7 +255,7 @@ LearningResourceForm.propTypes = {
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
-  translateFunc: PropTypes.func,
+  translateToNN: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

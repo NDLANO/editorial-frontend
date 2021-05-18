@@ -29,7 +29,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     updateConceptAndStatus,
   } = useFetchConceptData(conceptId, selectedLanguage);
 
-  const { translating, translateFunc } = useTranslateApi(concept, setConcept, {
+  const { translating, translateToNN } = useTranslateApi(concept, setConcept, {
     id: concept?.id,
     title: concept?.title,
     content: concept?.content,
@@ -53,7 +53,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
         licenses={licenses}
         onUpdate={updateConcept}
         subjects={subjects}
-        translateFunc={translateFunc}
+        translateToNN={translateToNN}
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
         setConcept={setConcept}

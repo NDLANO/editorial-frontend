@@ -13,7 +13,7 @@ import StyledFilledButton from '../../components/StyledFilledButton';
 const StyledLink = StyledFilledButton.withComponent(Link);
 
 interface Props {
-  translateFunc: () => void;
+  translateToNN: () => void;
   editUrl: (lang: string) => string;
   setTranslateOnContinue: (translateOnContinue: boolean) => void;
   formIsDirty: boolean;
@@ -21,7 +21,7 @@ interface Props {
 
 const TranslateNbToNn = ({
   formIsDirty,
-  translateFunc,
+  translateToNN,
   setTranslateOnContinue,
   editUrl,
   t,
@@ -29,7 +29,7 @@ const TranslateNbToNn = ({
   return (
     <StyledLink
       to={editUrl('nn')}
-      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateFunc())}>
+      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateToNN())}>
       {t('form.variant.translate')}
     </StyledLink>
   );

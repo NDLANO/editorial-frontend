@@ -11,10 +11,18 @@ import dot from 'dot-object';
 import { merge } from 'lodash';
 import { fetchNnTranslation } from '../../modules/translate/translateApi';
 
-export function useTranslateApi(element, setElement, fields = {}) {
+/**
+ * The translate service requires a json-payload with one level of fields.
+ * To support translating nested domain objects, dot-object is used
+ * to transform 'podcastMeta.manuscript' to podcastMeta: { manuscript }.
+ * Lodash.merge is used to avoid nested translated fields to shadow nested
+ * fields in original domain object.
+ */
+
+export function useTranslateApi(element: any, setElement: (type: any) => void, fields = {}) {
   const [translating, setTranslating] = useState(false);
 
-  const translateFunc = async () => {
+  const translateToNN = async () => {
     setTranslating(true);
 
     const translatedContents = await fetchNnTranslation({ ...fields });
@@ -28,6 +36,6 @@ export function useTranslateApi(element, setElement, fields = {}) {
 
   return {
     translating,
-    translateFunc,
+    translateToNN,
   };
 }

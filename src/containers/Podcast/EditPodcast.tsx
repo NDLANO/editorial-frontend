@@ -37,7 +37,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     setPodcastChanged(changed);
   };
   const [loading, setLoading] = useState<boolean>(false);
-  const { translating, translateFunc } = useTranslateApi(
+  const { translating, translateToNN } = useTranslateApi(
     podcast,
     (podcast: FlattenedAudioApiType) => setPodcastWithFlag(podcast, true),
     {
@@ -92,7 +92,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
-      translateFunc={translateFunc}
+      translateToNN={translateToNN}
     />
   );
 };

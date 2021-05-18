@@ -21,7 +21,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...r
     articleId,
     selectedLanguage,
   );
-  const { translating, translateFunc } = useTranslateApi(article, setArticle, {
+  const { translating, translateToNN } = useTranslateApi(article, setArticle, {
     id: article?.id,
     title: article?.title,
     metaDescription: article?.metaDescription,
@@ -43,7 +43,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...r
         articleStatus={article.status}
         articleChanged={articleChanged}
         article={article}
-        translateFunc={translateFunc}
+        translateToNN={translateToNN}
         translating={translating}
         isNewlyCreated={isNewlyCreated}
         {...rest}

@@ -42,7 +42,7 @@ interface SlateEditorProps {
   role?: string;
   spellCheck?: boolean;
   language: string;
-  actionsToShowInAreas: string[];
+  actionsToShowInAreas: { [key: string]: string[] };
   taxIndex?: number;
   value: Descendant[];
   submitted: boolean;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Element } from 'slate';
 import {
   ArrowExpand,
   Camera,
@@ -14,9 +15,20 @@ import {
 import { Download, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
 
-const renderArticleInModal = pageId => <HowToHelper pageId={pageId} extraIconPadding />;
+const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
-const actions = [
+export interface ActionData {
+  type: Element['type'];
+  object: string;
+}
+
+export interface Action {
+  data: ActionData;
+  icon: JSX.Element;
+  helpIcon: JSX.Element;
+}
+
+const actions: Action[] = [
   {
     data: { type: 'aside', object: 'factAside' },
     icon: <FactBoxMaterial />,

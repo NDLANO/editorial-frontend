@@ -58,6 +58,8 @@ export interface ConceptQuery {
   tags: string[];
   status: string[];
   users: string[];
+  'embed-id'?: number;
+  'embed-resource'?: string;
 }
 
 interface UpdateConceptType {

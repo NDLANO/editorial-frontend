@@ -14,7 +14,10 @@ import { InformationOutline } from '@ndla/icons/common';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import Button from '@ndla/button';
+
 import { normalPaddingCSS } from '../../HowTo';
+import { searchConcepts } from '../../../modules/concept/conceptApi';
+import { ConceptSearchResult } from '../../../modules/concept/conceptApiInterfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
 interface Props {
@@ -27,17 +30,29 @@ const ImageInformationIcon = styled(InformationOutline)`
   cursor: pointer;
 `;
 
+const searchObjects = (imageId: number) => ({
+  idList: [],
+  subjects: [],
+  tags: [],
+  status: [],
+  users: [],
+  'embed-id': imageId,
+  'embed-resource': 'image',
+});
+
 const ImageConnection = ({ t, id }: Props & tType) => {
-  const [articles, setArticles] = useState([]);
-  const [concepts, setConcepts] = useState([]);
+  // TODO: const [articles, setArticles] = useState([]);
+  const [concepts, setConcepts] = useState<ConceptSearchResult>();
 
   useEffect(() => {
-    //  if (id) {
-    //    fetchLearningpathsWithArticle(id).then(setLearningpaths);
-    //  }
+    if (id) {
+      // TODO: Fetch articles with image
+      searchConcepts(searchObjects(id)).then(setConcepts);
+    }
   }, [id]);
 
-  //  if (!articles.length && !concepts.length) {
+  // TODO don't show this if the image isn't in use
+  //  if (!articles.length && !concepts.results.length) {
   //    return null;
   //  }
 
@@ -60,7 +75,13 @@ const ImageConnection = ({ t, id }: Props & tType) => {
           </ModalHeader>
           <ModalBody>
             <h1>{t('form.imageConnections.title')}</h1>
-            {/* <ElementList elements={learningpaths} isEditable={false} /> */}
+            {/* TODO: List articles with image */}
+            {concepts && (
+              <ElementList
+                elements={concepts.results.map(obj => ({ ...obj, articleType: 'concept' }))}
+                isEditable={false}
+              />
+            )}
           </ModalBody>
         </>
       )}

@@ -57,8 +57,10 @@ const EditSlateConcept = (props: Props & tType) => {
   const conceptId = concept && concept.id ? concept.id : undefined;
 
   const handleChangeAndClose = (editor: Editor) => {
-    ReactEditor.focus(editor); // Always return focus to editor
     toggleConceptModal();
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+    }, 0);
   };
 
   const addConcept = (addedConcept: ConceptFormType) => {

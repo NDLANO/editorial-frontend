@@ -191,13 +191,13 @@
     "remarkable": "^2.0.0",
     "reselect": "^4.0.0",
     "serialize-javascript": "^3.1.0",
-    "slate": "^0.62.1",
+    "slate": "^0.63.0",
     "slate-deep-table": "^0.9.6",
     "slate-history": "^0.62.0",
     "slate-html-serializer": "^0.8.11",
     "slate-plain-serializer": "^0.7.11",
     "slate-prop-types": "^0.5.42",
-    "slate-react": "^0.62.1",
+    "slate-react": "^0.63.0",
     "source-map-support": "^0.5.13"
   },
   "repository": {

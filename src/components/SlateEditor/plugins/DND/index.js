@@ -26,9 +26,10 @@ function onDragStart(event, editor, next) {
   event.dataTransfer.setData('text/nodeKey', dragSource.key);
 }
 
-export default {
+const dndPlugin = {
   onDragStart,
   onDragOver,
   onDrop,
   schema: {},
 };
+export default dndPlugin;

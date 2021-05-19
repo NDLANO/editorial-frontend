@@ -8,24 +8,26 @@
 
 import React, { useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { initAudioPlayers } from '@ndla/article-scripts';
+import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
-import { AudioPlayer, FigureCaption, FigureLicenseDialog } from '@ndla/ui';
+import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { Audio } from '../../../../interfaces';
+import { SlateAudio, LocaleType } from '../../../../interfaces';
 
 interface Props {
-  audio: Audio;
-  locale: string;
+  audio: SlateAudio;
+  locale: LocaleType;
   speech: boolean;
 }
 
-const AudioPlayerMounter: React.FC<Props & tType> = ({ t, audio, locale, speech }) => {
-  useEffect(() => {
-    initAudioPlayers();
-  }, []);
+const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
+  const { copyright, podcastMeta } = audio;
 
-  const license = getLicenseByAbbreviation(audio.copyright.license?.license, locale);
+  useEffect(() => {
+    initAudioPlayers(locale);
+  }, [locale]);
+
+  const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
 
   const messages = {
@@ -36,13 +38,20 @@ const AudioPlayerMounter: React.FC<Props & tType> = ({ t, audio, locale, speech 
     source: t('dialog.source'),
   };
 
+  const podcastImg = podcastMeta?.coverPhoto && {
+    url: `${podcastMeta.coverPhoto.url}?width=200&height=200`,
+    alt: podcastMeta.coverPhoto.altText,
+  };
+
   return (
     <div>
       <AudioPlayer
-        type={audio.audioFile.mimeType}
         src={audio.audioFile.url}
         title={audio.title}
         speech={speech}
+        img={podcastImg}
+        description={podcastMeta?.introduction}
+        textVersion={podcastMeta?.manuscript}
       />
       {!speech && (
         <>
@@ -52,7 +61,7 @@ const AudioPlayerMounter: React.FC<Props & tType> = ({ t, audio, locale, speech 
             caption={audio.caption}
             reuseLabel=""
             licenseRights={license.rights}
-            authors={audio.copyright.creators}
+            authors={copyright.creators}
           />
           <FigureLicenseDialog
             id={figureLicenseDialogId}

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, fonts, misc } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
@@ -60,19 +60,18 @@ interface Props {
   concept: ConceptPreviewType;
 }
 
-const PreviewConcept: FC<Props & tType> = ({ concept, t }) => {
+const PreviewConcept = ({ concept, t }: Props & tType) => {
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   useEffect(() => {
+    const getSubjects = async () => {
+      const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
+      setSubjects(subjects);
+    };
     getSubjects();
-  }, [concept.id]);
-
-  const getSubjects = async () => {
-    const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
-    setSubjects(subjects);
-  };
+  }, [concept]);
 
   const VisualElement = () => {
     const visualElement = concept.visualElementResources;

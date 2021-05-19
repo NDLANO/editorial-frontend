@@ -154,6 +154,10 @@ export class DisplayExternal extends Component {
     if (!allowedProvider) {
       return errorHolder();
     }
+
+    if (!src || !type) {
+      return <div />;
+    }
     return (
       <div className="c-figure">
         <FigureButtons

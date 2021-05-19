@@ -6,13 +6,13 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import coreResources from '../../fixtures/coreResources';
 
 describe('Resource listing', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
@@ -32,7 +32,7 @@ describe('Resource listing', () => {
     );
     cy.apiroute(
       'GET',
-      '/taxonomy/v1/topics/**/resources/?language=nb',
+      '**/taxonomy/v1/topics/**/resources/?language=nb',
       'coreResources',
     );
     cy.apiroute(
@@ -45,17 +45,14 @@ describe('Resource listing', () => {
       '/taxonomy/v1/topics/urn:topic:1:183437',
       'topic-183437',
     );
-    cy.apiroute('GET', '/draft-api/v1/drafts/**', 'article');
+    cy.apiroute('GET', '**/draft-api/v1/drafts/**', 'article');
     cy.apiroute(
       'GET',
       '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=&content-type=topic-article',
       'getArticles',
     );
-    cy.route('PUT', '/taxonomy/v1/topics/urn:topic:1:183437', '');
-    cy.visit(
-      '/structure/urn:subject:12/urn:topic:1:183043/urn:topic:1:183437',
-      visitOptions,
-    );
+    cy.intercept('PUT', '/taxonomy/v1/topics/urn:topic:1:183437', '');
+    cy.visit('/structure/urn:subject:12/urn:topic:1:183043/urn:topic:1:183437');
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');

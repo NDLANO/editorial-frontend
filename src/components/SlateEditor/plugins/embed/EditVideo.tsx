@@ -42,7 +42,7 @@ interface Props {
   toggleEditModus: Function;
 }
 
-const EditVideo: React.FC<Props & tType> = ({
+const EditVideo = ({
   t,
   caption,
   embed,
@@ -55,7 +55,7 @@ const EditVideo: React.FC<Props & tType> = ({
   setStartTime,
   setStopTime,
   toggleEditModus,
-}) => {
+}: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
 
@@ -72,7 +72,7 @@ const EditVideo: React.FC<Props & tType> = ({
     const embedRect = embedElement.getBoundingClientRect();
 
     placeholderElement.style.height = `${embedRect.height}px`;
-  }, []);
+  }, [embedElement, placeholderElement]);
 
   const onCaptionChange = (e: FormikInputEvent) => {
     setCaption(e.target.value);

@@ -4,123 +4,68 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FC, Fragment } from 'react';
-import Accordion, { AccordionWrapper, AccordionBar, AccordionPanel } from '@ndla/accordion';
+import React from 'react';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FormikErrors } from 'formik';
 import { Editor } from 'slate';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import { AccordionProps, ArticleType, FormikProperties } from '../../../interfaces';
-import { Values } from '../../../components/SlateEditor/editorTypes';
+import { ArticleType, FormikProperties } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
+import { SubjectFormValues } from './SubjectpageForm';
 
 interface Props {
   editorsChoices: ArticleType[];
   elementId: string;
-  errors: FormikErrors<Values>;
+  errors: FormikErrors<SubjectFormValues>;
   handleSubmit: () => void;
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-interface ComponentProps {
-  editorsChoices: ArticleType[];
-  elementId: string;
-}
-
-const panels = [
-  {
-    id: 'about',
-    title: 'subjectpageForm.about',
-    className: 'u-4/6@desktop u-push-1/6@desktop',
-    errorFields: ['title', 'description', 'visualElement'],
-    component: ({
-      handleSubmit,
-      onBlur,
-    }: {
-      handleSubmit: () => void;
-      onBlur: (event: Event, editor: Editor, next: Function) => void;
-    }) => <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />,
-  },
-  {
-    id: 'metadata',
-    title: 'subjectpageForm.metadata',
-    className: 'u-6/6',
-    errorFields: ['metaDescription', 'mobileBannerId'],
-    component: ({
-      handleSubmit,
-      onBlur,
-    }: {
-      handleSubmit: () => void;
-      onBlur: (event: Event, editor: Editor, next: Function) => void;
-    }) => <SubjectpageMetadata handleSubmit={handleSubmit} onBlur={onBlur} />,
-  },
-  {
-    id: 'articles',
-    title: 'subjectpageForm.articles',
-    className: 'u-6/6',
-    errorFields: ['editorsChoices'],
-    component: ({ editorsChoices, elementId }: ComponentProps) => (
-      <FormikField name={'editorsChoices'}>
-        {({ field, form }: FormikProperties) => (
-          <SubjectpageArticles
-            editorsChoices={editorsChoices}
-            elementId={elementId}
-            field={field}
-            form={form}
-          />
-        )}
-      </FormikField>
-    ),
-  },
-];
-
-const SubjectpageAccordionPanels: FC<Props & tType> = ({
+const SubjectpageAccordionPanels = ({
   t,
   editorsChoices,
   elementId,
   errors,
   handleSubmit,
   onBlur,
-}) => {
+}: Props & tType) => {
   return (
-    <Accordion openIndexes={['about']}>
-      {({ openIndexes, handleItemClick }: AccordionProps) => (
-        <AccordionWrapper>
-          {panels.map(panel => {
-            const hasError = panel.errorFields.some(field => field in errors);
-            return (
-              <Fragment key={panel.id}>
-                <AccordionBar
-                  panelId={panel.id}
-                  ariaLabel={t(panel.title)}
-                  onClick={() => handleItemClick(panel.id)}
-                  title={t(panel.title)}
-                  hasError={hasError}
-                  isOpen={openIndexes.includes(panel.id)}
-                />
-                {openIndexes.includes(panel.id) && (
-                  <AccordionPanel
-                    id={panel.id}
-                    hasError={hasError}
-                    isOpen={openIndexes.includes(panel.id)}>
-                    <div className={panel.className}>
-                      {panel.component({
-                        editorsChoices,
-                        elementId,
-                        handleSubmit,
-                        onBlur,
-                      })}
-                    </div>
-                  </AccordionPanel>
-                )}
-              </Fragment>
-            );
-          })}
-        </AccordionWrapper>
-      )}
-    </Accordion>
+    <Accordions>
+      <AccordionSection
+        id="about"
+        title={t('subjectpageForm.about')}
+        className="u-4/6@desktop u-push-1/6@desktop"
+        hasError={['title', 'description', 'visualElementObject'].some(field => field in errors)}
+        startOpen>
+        <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />
+      </AccordionSection>
+      <AccordionSection
+        id="metadata"
+        title={t('subjectpageForm.metadata')}
+        className="u-6/6"
+        hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}>
+        <SubjectpageMetadata handleSubmit={handleSubmit} onBlur={onBlur} />
+      </AccordionSection>
+      <AccordionSection
+        id="articles"
+        title={t('subjectpageForm.articles')}
+        className="u-6/6"
+        hasError={['editorsChoices'].some(field => field in errors)}>
+        <FormikField name={'editorsChoices'}>
+          {({ field, form }: FormikProperties) => (
+            <SubjectpageArticles
+              editorsChoices={editorsChoices}
+              elementId={elementId}
+              field={field}
+              form={form}
+            />
+          )}
+        </FormikField>
+      </AccordionSection>
+    </Accordions>
   );
 };
 

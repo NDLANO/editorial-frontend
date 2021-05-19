@@ -31,6 +31,9 @@ export const fetchLearningpath = (
   );
 };
 
+export const fetchLearningpathsWithArticle = (id: number): Promise<Learningpath[]> =>
+  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then(resolveJsonOrRejectWithError);
+
 export const updateStatusLearningpath = (
   id: number,
   status: string,

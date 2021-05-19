@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -31,7 +31,7 @@ interface Props {
   obligatory?: boolean;
 }
 
-const FormikFieldDescription: FC<Props> = ({ description, obligatory }) => {
+const FormikFieldDescription = ({ description, obligatory }: Props) => {
   if (!description) {
     return null;
   }

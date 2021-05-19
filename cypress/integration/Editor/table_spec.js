@@ -6,13 +6,13 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
 import t from '../../../src/phrases/phrases-nb';
 
 describe('Table plugin', () => {
   beforeEach(() => {
     setToken();
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.visit('/subject-matter/learning-resource/new');
   });
 
   it('all table functions work', () => {

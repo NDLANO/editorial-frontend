@@ -10,7 +10,7 @@ import React from 'react';
 import Filelist from './Filelist';
 import defaultBlocks from '../../utils/defaultBlocks';
 
-export default () => {
+export default function filePlugin() {
   const schema = {
     document: {},
     blocks: {
@@ -55,4 +55,4 @@ export default () => {
     schema,
     renderBlock,
   };
-};
+}

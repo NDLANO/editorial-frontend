@@ -11,7 +11,7 @@ import config from '../../config';
 
 const baseUrl = 'https://nynorsk.cloud/translate';
 
-export const fetchNnTranslation = ({ id, ...articleContents }) =>
+export const fetchNnTranslation = ({ id, ...content }) =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
@@ -21,6 +21,7 @@ export const fetchNnTranslation = ({ id, ...articleContents }) =>
       token: config.npkToken,
       guid: config.ndlaEnvironment + '_' + id,
       prefs: { x: true }, // Hack to tell the service to use old html-parser, ref jo.christian.oterhals@ntb.no
-      document: articleContents,
+      document: content,
+      fileType: 'htmlp', // Tells old html-parser to skip changing æøå to entities.
     }),
   }).then(resolveJsonOrRejectWithError);

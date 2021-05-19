@@ -40,7 +40,7 @@ interface Props {
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
 }
 
-const SlateVideo: React.FC<Props & tType> = ({
+const SlateVideo = ({
   t,
   attributes,
   embed,
@@ -48,7 +48,7 @@ const SlateVideo: React.FC<Props & tType> = ({
   language,
   onRemoveClick,
   saveEmbedUpdates,
-}) => {
+}: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -71,7 +71,7 @@ const SlateVideo: React.FC<Props & tType> = ({
       setStartTime(getStartTime(url));
       setStopTime(getStopTime(url));
     }
-  }, []);
+  }, [embed]);
 
   const toggleEditModus = () => {
     setEditMode(!editMode);

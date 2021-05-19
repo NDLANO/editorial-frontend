@@ -27,7 +27,7 @@ const baseUrl = apiResourceUrl('/image-api/v2/images');
 export const postImage = (formData: FormData): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}`, {
     method: 'POST',
-    headers: { 'Content-Type': undefined },
+    headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
@@ -38,6 +38,13 @@ export const updateImage = (imageMetadata: UpdatedImageMetadata): Promise<ImageA
   fetchAuthorized(`${baseUrl}/${imageMetadata.id}`, {
     method: 'PATCH',
     body: JSON.stringify(imageMetadata),
+  }).then(resolveJsonOrRejectWithError);
+
+export const patchImage = (id: number, formData: FormData): Promise<ImageApiType> =>
+  fetchAuthorized(`${baseUrl}/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
+    body: formData,
   }).then(resolveJsonOrRejectWithError);
 
 export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult> => {

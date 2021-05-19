@@ -11,11 +11,11 @@ import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
 export function useSubjectpageFormHooks(
-  getSubjectpageFromSlate: Function,
-  updateSubjectpage: Function,
+  getSubjectpageFromSlate: Function, // TODO fix type
+  updateSubjectpage: Function, // TODO fix type
   t: TranslateType,
   subjectpage: SubjectpageEditType,
-  getInitialValues: Function,
+  getInitialValues: Function, // TODO fix type
   selectedLanguage: string,
   elementId: string,
 ) {

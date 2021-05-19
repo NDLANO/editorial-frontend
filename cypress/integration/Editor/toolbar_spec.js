@@ -6,16 +6,13 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
-
-before(() => {
-  setToken();
-  cy.server({ force404: true });
-  cy.visit('/subject-matter/learning-resource/new', visitOptions);
-});
-
+import { setToken } from '../../support';
 
 describe('Selecting text and using the toolbar', () => {
+  before(() => {
+    setToken();
+    cy.visit('/subject-matter/learning-resource/new');
+  });
 
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
@@ -58,12 +55,13 @@ describe('Selecting text and using the toolbar', () => {
       .focus()
       .wait(500)
       .then($el => {
-        cy.wrap($el).type('This is a test link{leftarrow}{leftarrow}').blur();
+        cy.wrap($el)
+          .type('This is a test link{leftarrow}{leftarrow}')
+          .blur();
         cy.wrap($el).type('{selectall}');
       });
 
     cy.get('[data-testid=toolbar-button-link]').click({ force: true });
-    cy.wait(500);
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
@@ -85,7 +83,6 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el)
           .focus()
           .type('First item in list');
-        cy.wait(500);
         cy.wrap($el)
           .focus()
           .type('{selectall}');
@@ -131,7 +128,9 @@ describe('Selecting text and using the toolbar', () => {
       .type('Testnavn')
       .blur();
     cy.get('input[name=year]').type('1984');
-    cy.get('[data-testid=multiselect]').type('Navn navnesen').blur();
+    cy.get('[data-testid=multiselect]')
+      .type('Navn navnesen')
+      .blur();
     cy.get('button')
       .contains('Opprett ny')
       .click({ force: true });

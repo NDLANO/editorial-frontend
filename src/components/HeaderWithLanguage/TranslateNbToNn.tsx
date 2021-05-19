@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
 import StyledFilledButton from '../../components/StyledFilledButton';
@@ -13,23 +13,23 @@ import StyledFilledButton from '../../components/StyledFilledButton';
 const StyledLink = StyledFilledButton.withComponent(Link);
 
 interface Props {
-  translateArticle: () => void;
+  translateToNN: () => void;
   editUrl: (lang: string) => string;
   setTranslateOnContinue: (translateOnContinue: boolean) => void;
   formIsDirty: boolean;
 }
 
-const TranslateNbToNn: FC<Props & tType> = ({
+const TranslateNbToNn = ({
   formIsDirty,
-  translateArticle,
+  translateToNN,
   setTranslateOnContinue,
   editUrl,
   t,
-}) => {
+}: Props & tType) => {
   return (
     <StyledLink
       to={editUrl('nn')}
-      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateArticle())}>
+      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateToNN())}>
       {t('form.variant.translate')}
     </StyledLink>
   );

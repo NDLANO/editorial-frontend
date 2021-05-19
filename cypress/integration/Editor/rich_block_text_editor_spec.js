@@ -6,58 +6,56 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
+
+const ARTICLE_ID = 800;
 
 describe('Learning resource editing', () => {
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    editorRoutes(ARTICLE_ID);
 
-    editorRoutes();
-
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait('@licenses');
   });
 
   it('can enter title, ingress and content then save', () => {
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click({ force: true }); // checking that saving is disabled
-    cy.get('[data-cy=learning-resource-title]').type('This is a test title.', {
-      force: true,
-    });
-    cy.get('[data-cy=learning-resource-ingress]').type('Test ingress', {
-      force: true,
-    });
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click({ force: true }); // checking that saving is disabled
+    cy.get('[data-cy=learning-resource-title]').type('This is a test title.', { force: true });
+    cy.get('[data-cy=learning-resource-ingress]').type('Test ingress', { force: true });
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .type('This is test content {enter}', {
-        force: true,
-      });
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').first().click();
-    // cy.url().should('contain', 'subject-matter/learning-resource/9337/edit/nb');
+      .type('This is test content {enter}', { force: true });
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click();
+    cy.apiwait('@patchUserData');
   });
 
   it('Can add all contributors', () => {
-    cy.get('button > span')
-      .contains('Lisens og bruker')
+    cy.contains('Lisens og bruker')
       .click();
     cy.apiwait('@agreements');
-    cy.get('button > span')
-      .contains('Innhold')
-      .click();
     cy.get('h2')
       .contains('Opphavsperson')
       .parent()
       .parent()
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
-        cy.get('input[type="text"]').type('Ola Nordmann', {
-          force: true,
-        }).blur();
-        cy.get('[data-cy="contributor-selector"]').select('Originator', {
-          force: true,
-        });
+        cy.get('input[type="text"]')
+          .last()
+          .type('Ola Nordmann', { force: true })
+          .blur();
+        cy.get('[data-cy="contributor-selector"]')
+          .last()
+          .select('originator', { force: true });
+        cy.get('[data-cy="contributor-selector"]')
+          .first()
+          .should('have.value', 'writer');
       });
     cy.get('h2')
       .contains('Rettighetshaver')
@@ -65,12 +63,10 @@ describe('Learning resource editing', () => {
       .parent()
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
-        cy.get('input[type="text"]').type('Ola Nordmann', {
-          force: true,
-        }).blur();
-        cy.get('[data-cy="contributor-selector"]').select('Rightsholder', {
-          force: true,
-        });
+        cy.get('input[type="text"]')
+          .type('Ola Nordmann', { force: true })
+          .blur();
+        cy.get('[data-cy="contributor-selector"]').select('rightsholder', { force: true });
       });
     cy.get('h2')
       .contains('Bearbeider')
@@ -78,12 +74,13 @@ describe('Learning resource editing', () => {
       .parent()
       .within(_ => {
         cy.get('[data-cy=addContributor]').click({ force: true });
-        cy.get('input[type="text"]').type('Ola Nordmann', {
-          force: true,
-        }).blur();
-        cy.get('[data-cy="contributor-selector"]').select('Processor', {
-          force: true,
-        });
+        cy.get('input[type="text"]')
+          .last()
+          .type('Ola Nordmann', { force: true })
+          .blur();
+        cy.get('[data-cy="contributor-selector"]')
+          .last()
+          .select('processor', { force: true });
       });
   });
 });

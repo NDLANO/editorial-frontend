@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
@@ -13,7 +13,7 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from './DropdownSearch';
 import { ContentResultType } from '../../../interfaces';
-import config from '../../../config.js';
+import { NDLA_FILM_SUBJECT } from '../../../constants';
 
 interface Props {
   onUpdateSlideshow: Function;
@@ -23,14 +23,14 @@ interface Props {
   form: FormikHelpers<FormikValues>;
 }
 
-const SlideshowEditor: FC<Props & tType> = ({
+const SlideshowEditor = ({
   t,
   onUpdateSlideshow,
   allMovies,
   loading,
   field,
   form,
-}) => {
+}: Props & tType) => {
   if (loading) {
     return <Spinner />;
   }
@@ -64,8 +64,8 @@ const SlideshowEditor: FC<Props & tType> = ({
         selectedElements={slideshowMovies}
         onChange={(movie: ContentResultType) => onAddMovieToSlideshow(movie)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
-        subjectId={'urn:subject:20'}
-        contextTypes={config.ndlaFilmArticleType}
+        subjectId={NDLA_FILM_SUBJECT}
+        contextTypes={'standard'}
         clearInputField
       />
     </>

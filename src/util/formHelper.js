@@ -41,9 +41,9 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   return false;
 };
 
-export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
+export const isFormikFormDirty = ({ values, initialValues, dirty = false, changed = false }) => {
   if (!dirty) {
-    return false;
+    return changed;
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = [
@@ -82,7 +82,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
         dirtyFields.push(value);
       }
     });
-  return dirtyFields.length > 0;
+  return dirtyFields.length > 0 || changed;
 };
 
 const formikCommonArticleRules = {
@@ -159,13 +159,15 @@ export const topicArticleRules = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values => values.visualElement && values.visualElement.resource === 'image',
+    onlyValidateIf: values =>
+      values.visualElementObject && values.visualElementObject.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
-      values.visualElement &&
-      (values.visualElement.resource === 'image' || values.visualElement.resource === 'brightcove'),
+      values.visualElementObject &&
+      (values.visualElementObject.resource === 'image' ||
+        values.visualElementObject.resource === 'brightcove'),
   },
 };
 
@@ -177,7 +179,7 @@ export const subjectpageRules = {
     required: true,
     maxLength: 300,
   },
-  visualElement: {
+  visualElementObject: {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';
@@ -201,7 +203,7 @@ export const ndlaFilmRules = {
     required: true,
     maxLength: 300,
   },
-  visualElement: {
+  visualElementObject: {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';

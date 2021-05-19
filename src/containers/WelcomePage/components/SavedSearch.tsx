@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
@@ -32,7 +32,7 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SavedSearch: FC<Props & tType> = ({ deleteSearch, locale, search, index, t }) => {
+const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');
@@ -43,31 +43,28 @@ const SavedSearch: FC<Props & tType> = ({ deleteSearch, locale, search, index, t
   const userId = searchObject['users'] || '';
 
   useEffect(() => {
+    const fetchSubjectName = async (id: string, locale: string) => {
+      const result = await fetchSubject(id, locale);
+      setSubjectName(result.name);
+    };
     if (subject) {
       fetchSubjectName(subject, locale);
     }
+    const fetchResourceTypeName = async (id: string, locale: string) => {
+      const result = await fetchResourceType(id, locale);
+      setResourceTypeName(result.name);
+    };
     if (resourceType) {
       fetchResourceTypeName(resourceType, locale);
     }
+    const fetchUser = async (userId: string) => {
+      const user = await fetchAuth0Users(userId);
+      setUserName(user?.[0].name);
+    };
     if (userId) {
       fetchUser(userId);
     }
-  }, [subject, resourceType, userId]);
-
-  const fetchSubjectName = async (id: string, locale: string) => {
-    const result = await fetchSubject(id, locale);
-    setSubjectName(result.name);
-  };
-
-  const fetchResourceTypeName = async (id: string, locale: string) => {
-    const result = await fetchResourceType(id, locale);
-    setResourceTypeName(result.name);
-  };
-
-  const fetchUser = async (userId: string) => {
-    const user = await fetchAuth0Users(userId);
-    setUserName(user?.[0].name);
-  };
+  }, [subject, resourceType, userId, locale]);
 
   const linkText = (search: string) => {
     const query = searchObject.query || undefined;

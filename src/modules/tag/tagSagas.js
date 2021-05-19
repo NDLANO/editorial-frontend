@@ -31,4 +31,5 @@ export function* watchFetchTags() {
   }
 }
 
-export default [watchFetchTags];
+const functions = [watchFetchTags];
+export default functions;

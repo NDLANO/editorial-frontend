@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FC } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
 import { Editor } from 'slate';
@@ -26,7 +26,7 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => {
+const SubjectpageMetadata = ({ handleSubmit, onBlur, t }: Props & tType) => {
   const plugins = [textTransformPlugin()];
   return (
     <>
@@ -36,23 +36,21 @@ const SubjectpageMetadata: FC<Props & tType> = ({ handleSubmit, onBlur, t }) => 
         showMaxLength
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}>
-        {({ field }: FormikProperties) => (
+        {({ field }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
+            {...field}
             placeholder={t('form.metaDescription.label')}
             handleSubmit={handleSubmit}
-            {...field}
-            onBlur={onBlur}
             plugins={plugins}
+            onBlur={onBlur}
           />
         )}
       </FormikField>
       <FormikField name="desktopBanner">
-        {({ field, form }: FormikProps) => {
-          return (
-            <SubjectpageBanner field={field} form={form} title={t('form.name.desktopBanner')} />
-          );
-        }}
+        {({ field, form }: FormikProps) => (
+          <SubjectpageBanner field={field} form={form} title={t('form.name.desktopBanner')} />
+        )}
       </FormikField>
     </>
   );

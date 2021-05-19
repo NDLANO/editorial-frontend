@@ -79,7 +79,7 @@ const ConceptForm = ({
   const { values, errors, handleChange, handleBlur, setValues } = formik;
   useEffect(() => {
     setValues({ ...values, title: initialValues.title });
-  }, [initialValues.title]);
+  }, [initialValues.title]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasChanges = !isEqual(initialValues, values);
 
   const licensesWithTranslations = licenses

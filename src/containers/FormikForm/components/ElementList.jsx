@@ -142,7 +142,7 @@ class ElementList extends Component {
   };
 
   render() {
-    const { elements, messages } = this.props;
+    const { isEditable, elements, messages } = this.props;
     const { draggingIndex, deleteIndex } = this.state;
     return (
       <StyledWrapper>
@@ -156,6 +156,7 @@ class ElementList extends Component {
                     return (
                       <ElementListItem
                         key={element.id}
+                        isEditable={isEditable}
                         element={element}
                         deleteIndex={deleteIndex}
                         messages={messages}
@@ -172,6 +173,7 @@ class ElementList extends Component {
                     return (
                       <ElementListLink
                         key={element.title + element.url}
+                        isEditable={isEditable}
                         element={element}
                         deleteIndex={deleteIndex}
                         messages={messages}
@@ -196,15 +198,17 @@ class ElementList extends Component {
 
 ElementList.propTypes = {
   elements: PropTypes.arrayOf(ContentResultShape),
+  isEditable: PropTypes.bool,
   messages: PropTypes.shape({
-    removeElement: PropTypes.string.isRequired,
-    dragElement: PropTypes.string.isRequired,
-  }).isRequired,
-  onUpdateElements: PropTypes.func.isRequired,
+    removeElement: PropTypes.string,
+    dragElement: PropTypes.string,
+  }),
+  onUpdateElements: PropTypes.func,
 };
 
 ElementList.defaultProps = {
   elements: [],
+  isEditable: true,
 };
 
 export default ElementList;

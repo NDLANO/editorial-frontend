@@ -6,7 +6,6 @@
  *
  */
 
-import 'isomorphic-fetch';
 import defined from 'defined';
 import auth0 from 'auth0-js';
 import config from '../config';
@@ -15,7 +14,7 @@ import * as messageActions from '../containers/Messages/messagesActions';
 
 const client =
   process.env.NODE_ENV !== 'unittest'
-    ? require('../client.jsx')
+    ? require('../client.tsx')
     : {
         store: {
           dispatch: () => {},

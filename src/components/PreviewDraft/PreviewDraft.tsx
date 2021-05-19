@@ -12,13 +12,14 @@ import { Remarkable } from 'remarkable';
 //@ts-ignore
 import { Article, ContentTypeBadge } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
-import { ArticleType } from '../../interfaces';
+import { ArticleType, LocaleType } from '../../interfaces';
 //@ts-ignore
 import { transformArticle } from '../../util/articleUtil';
 
 interface Props {
   article: ArticleType;
   label: string;
+  language: LocaleType;
   contentType?: string;
 }
 
@@ -28,7 +29,7 @@ class PreviewDraft extends Component<Props & tType, {}> {
   }
 
   render() {
-    const { article, contentType, label, t } = this.props;
+    const { article, contentType, label, language, t } = this.props;
     if (!article) {
       return null;
     }
@@ -52,6 +53,7 @@ class PreviewDraft extends Component<Props & tType, {}> {
         article={formatted}
         icon={icon}
         contentType={contentType}
+        locale={language}
         messages={{
           lastUpdated: t('article.lastUpdated'),
           edition: t('article.edition'),

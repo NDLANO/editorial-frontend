@@ -34,7 +34,7 @@ const StyledDiv = styled.div`
   display: inline-block;
 `;
 
-const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
+const SearchHighlight = ({ content, locale, t }: Props & tType) => {
   if (content.highlights === undefined) {
     return null;
   }
@@ -49,7 +49,11 @@ const SearchHighlight: React.FC<Props & tType> = ({ content, locale, t }) => {
     highlightsToSearch.find(highlight => highlight.field.split('.')[0] === field);
 
   const selectedHighlights =
-    selectHighlights('content') || selectHighlights('embedAttributes') || selectHighlights('tags');
+    selectHighlights('content') ||
+    selectHighlights('embedAttributes') ||
+    selectHighlights('tags') ||
+    selectHighlights('notes') ||
+    selectHighlights('previousVersionsNotes');
 
   return selectedHighlights ? (
     <StyledDiv>

@@ -15,6 +15,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
+import { Podcast } from '@ndla/icons/common';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -72,6 +73,11 @@ export const types = {
     cssModifier: 'multimedia',
     icon: <SquareAudio />,
   },
+  podcast: {
+    form: 'podcastForm',
+    cssModifier: 'multimedia',
+    icon: <Podcast />,
+  },
   concept: {
     form: 'conceptform',
     cssModifier: 'concept',
@@ -87,6 +93,7 @@ export const types = {
 const HeaderInformation = ({
   type,
   noStatus,
+  id,
   statusText,
   published,
   isNewLanguage,
@@ -145,6 +152,8 @@ const HeaderInformation = ({
         isNewLanguage={isNewLanguage}
         published={published}
         taxonomyPaths={taxonomyPaths}
+        type={type}
+        id={id}
       />
     </StyledHeader>
   );
@@ -163,6 +172,7 @@ HeaderInformation.propTypes = {
   formIsDirty: PropTypes.bool,
   createMessage: PropTypes.func,
   taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
+  id: PropTypes.number,
 };
 
 export default injectT(HeaderInformation);

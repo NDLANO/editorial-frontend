@@ -6,6 +6,7 @@ yarn-error.log
 *.iml
 /.idea
 /build/
+/cache/
 /coverage/
 /cypress/screenshots
 /cypress/videos

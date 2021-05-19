@@ -30,7 +30,6 @@ interface Props {
   embed: Embed;
   saveEmbedUpdates: Function;
   setEditModus: Function;
-  submitted: boolean;
 }
 
 interface StateProps {
@@ -53,13 +52,7 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage: React.FC<Props & tType> = ({
-  t,
-  embed,
-  saveEmbedUpdates,
-  setEditModus,
-  submitted,
-}) => {
+const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
   const [state, setState] = useState<StateProps>({
@@ -93,7 +86,7 @@ const EditImage: React.FC<Props & tType> = ({
       spacing.spacingUnit -
       placeholderRect.width * (0.333 / 2)}px`;
     embedElement.style.width = `${placeholderRect.width * 1.333 - spacing.spacingUnit * 2}px`;
-  }, []);
+  }, [embedElement, placeholderElement]);
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
     setState({
@@ -166,7 +159,6 @@ const EditImage: React.FC<Props & tType> = ({
             <FigureInput
               caption={state.caption}
               alt={state.alt}
-              submitted={submitted}
               madeChanges={state.madeChanges}
               onChange={onChange}
               onAbort={onAbort}

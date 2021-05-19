@@ -990,6 +990,7 @@ const phrases = {
       sectionTitleConcept: 'Concepts containing this image',
       title: 'Uses of the image',
       info: 'Uses of the image in articles and/or concepts',
+      notInUse: 'No uses of the image in articles and/or concepts were found',
     },
     relatedConcepts: {
       placeholder: 'Search for title',

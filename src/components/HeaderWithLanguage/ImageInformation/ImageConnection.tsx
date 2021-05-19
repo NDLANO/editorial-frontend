@@ -56,7 +56,11 @@ const ImageConnection = ({ t, id }: Props & tType) => {
   }, [id]);
 
   if (!articles?.length && !concepts?.length) {
-    return null;
+    return (
+      <Tooltip tooltip={t('form.imageConnections.notInUse')}>
+        <ImageInformationIcon css={normalPaddingCSS} />
+      </Tooltip>
+    );
   }
 
   return (

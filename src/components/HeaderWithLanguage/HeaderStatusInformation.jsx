@@ -95,7 +95,10 @@ const HeaderStatusInformation = ({
     <LearningpathConnection id={id} />
   );
 
-  const imageConnections = type === 'image' && <EmbedConnection id={id} />;
+  const imageConnections = type === 'image' && <EmbedConnection id={id} type="image" />;
+  const audioConnections = (type === 'audio' || type === 'podcast') && (
+    <EmbedConnection id={id} type="audio" />
+  );
 
   const splitter = !indentLeft && <StyledSplitter />;
 
@@ -125,6 +128,8 @@ const HeaderStatusInformation = ({
     );
   } else if (type === 'image') {
     return <StyledStatusWrapper>{imageConnections}</StyledStatusWrapper>;
+  } else if (type === 'audio' || type === 'podcast') {
+    return <StyledStatusWrapper>{audioConnections}</StyledStatusWrapper>;
   }
   return null;
 };

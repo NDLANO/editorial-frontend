@@ -22,8 +22,11 @@ import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces
 import { ContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
+type embedType = 'image' | 'audio';
+
 interface Props {
   id: number;
+  type: embedType;
 }
 
 const ImageInformationIcon = styled(SubjectMaterial)`
@@ -32,33 +35,37 @@ const ImageInformationIcon = styled(SubjectMaterial)`
   cursor: pointer;
 `;
 
-const searchObjects = (imageId: number) => ({
-  'embed-id': imageId,
-  'embed-resource': 'image',
+const searchObjects = (embedId: number, embedType: embedType) => ({
+  'embed-id': embedId,
+  'embed-resource': embedType,
   'page-size': 50, // TODO er det sansynlig at flere enn X atikler bruker ett bilde?
 });
 
-const EmbedConnection = ({ t, id }: Props & tType) => {
+const EmbedConnection = ({ t, id, type }: Props & tType) => {
   const [articles, setArticles] = useState<ContentResultType[]>();
   const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
   useEffect(() => {
     if (id) {
-      searchArticles(searchObjects(id)).then(result => setArticles(result.results));
-      searchConcepts({
-        ...searchObjects(id),
-        idList: [],
-        subjects: [],
-        tags: [],
-        status: [],
-        users: [],
-      }).then(result => setConcepts(result.results));
+      searchArticles(searchObjects(id, type)).then(result => setArticles(result.results));
+      type === 'image' &&
+        searchConcepts({
+          ...searchObjects(id, type),
+          idList: [],
+          subjects: [],
+          tags: [],
+          status: [],
+          users: [],
+        }).then(result => setConcepts(result.results));
     }
-  }, [id]);
+  }, [id, type]);
 
   if (!articles?.length && !concepts?.length) {
     return (
-      <Tooltip tooltip={t('form.embedConnections.notInUse')}>
+      <Tooltip
+        tooltip={t('form.embedConnections.notInUse', {
+          resource: t(`form.embedConnections.type.${type}`),
+        })}>
         <ImageInformationIcon css={normalPaddingCSS} />
       </Tooltip>
     );
@@ -69,7 +76,12 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
       backgroundColor="white"
       narrow
       wrapperFunctionForButton={(activateButton: any) => (
-        <Tooltip tooltip={t('form.embedConnections.info')}>{activateButton}</Tooltip>
+        <Tooltip
+          tooltip={t('form.embedConnections.info', {
+            resource: t(`form.embedConnections.type.${type}`),
+          })}>
+          {activateButton}
+        </Tooltip>
       )}
       activateButton={
         <Button stripped>
@@ -82,11 +94,17 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>
           <ModalBody>
-            <h1>{t('form.embedConnections.title')}</h1>
+            <h1>
+              {t('form.embedConnections.title', {
+                resource: t(`form.embedConnections.type.${type}`),
+              })}
+            </h1>
             {!!articles?.length && (
               <>
                 <p>
-                  {t('form.embedConnections.sectionTitleArticle')}{' '}
+                  {t('form.embedConnections.sectionTitleArticle', {
+                    resource: t(`form.embedConnections.type.${type}`),
+                  })}{' '}
                   <em>({t('form.embedConnections.articles', { articles: articles.length })})</em>
                 </p>
                 <ElementList
@@ -101,7 +119,9 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
             {!!concepts?.length && (
               <>
                 <p>
-                  {t('form.embedConnections.sectionTitleConcept')}{' '}
+                  {t('form.embedConnections.sectionTitleConcept', {
+                    resource: t(`form.embedConnections.type.${type}`),
+                  })}{' '}
                   <em>({t('form.embedConnections.concepts', { concepts: concepts.length })})</em>
                 </p>
                 <ElementList

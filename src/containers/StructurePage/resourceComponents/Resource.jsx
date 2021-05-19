@@ -69,7 +69,7 @@ const Resource = ({
         .then(filters => setActiveFilters(filters))
         .catch(e => handleError(e));
     }
-  }, []);
+  }, [contentType, locale, resource.id]);
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 

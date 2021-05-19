@@ -10,7 +10,7 @@ import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { tType } from '@ndla/i18n';
-import ResourceTypeSelect from '../../LearningResourcePage/components/taxonomy/ResourceTypeSelect';
+import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';

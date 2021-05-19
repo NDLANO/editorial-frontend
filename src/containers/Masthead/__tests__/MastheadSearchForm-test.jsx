@@ -43,7 +43,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   }, global.DEFAULT_TIMEOUT);
 });
 
-test('MastheadSearchForm redirects on ndla url paste with taxonomyApi id at the end', () => {
+test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
   const historyMock = {
     push: jest.fn(),
   };

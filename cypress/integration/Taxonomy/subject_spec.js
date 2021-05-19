@@ -6,22 +6,25 @@
  *
  */
 
+import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support';
+
+const selectSubject = 'urn:subject:20';
 
 describe('Subject editing', () => {
   before(() => {
     setToken();
 
-    cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
+      `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
-    cy.apiroute('GET', '/taxonomy2/v1/subjects/urn:subject:12/filters', 'allSubjectFilters');
+    cy.apiroute('GET', `${taxonomyApi}/subjects/${selectSubject}/filters`, 'allSubjectFilters');
 
-    cy.visit('/structure/urn:subject:12');
-    cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
+    cy.visit(`/structure/${selectSubject}`);
+    cy.apiwait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
   });
 
   beforeEach(() => {
@@ -29,30 +32,30 @@ describe('Subject editing', () => {
   });
 
   it('should add a new subject', () => {
-    cy.intercept('POST', '/taxonomy2/v1/subjects', []).as('addSubject');
+    cy.intercept('POST', `${taxonomyApi}/subjects`, []).as('addSubject');
 
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
-    cy.wait('@addSubject');
+    cy.apiwait('@addSubject');
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.intercept('PUT', `/taxonomy2/v1/subjects/urn:subject:12`, []).as('newSubjectName');
-    cy.intercept('POST', '/taxonomy2/v1/topics', []).as('addNewTopic');
-    cy.intercept('POST', '/taxonomy2/v1/filters', []).as('addFilter');
-    cy.intercept('PUT', '**/taxonomy2/v1/filters/*', []).as('editFilter');
-    cy.intercept('DELETE', '**/taxonomy2/v1/filters/*', []).as('deleteFilter');
-    cy.apiroute('GET', '/taxonomy2/v1/topics?language=nb', 'allTopics');
-    cy.intercept('POST', '/taxonomy2/v1/topic-filters',[]);
-    cy.intercept('POST', '/taxonomy2/v1/subject-topics', []).as('addNewSubjectTopic');
+    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}`, []).as('newSubjectName');
+    cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
+    cy.intercept('POST', `${taxonomyApi}/filters`, []).as('addFilter');
+    cy.intercept('PUT', `${taxonomyApi}/filters/*`, []).as('editFilter');
+    cy.intercept('DELETE', `${taxonomyApi}/filters/*`, []).as('deleteFilter');
+    cy.apiroute('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics');
+    cy.intercept('POST', `${taxonomyApi}/topic-filters`,[]);
+    cy.intercept('POST', `${taxonomyApi}/subject-topics`, []).as('addNewSubjectTopic');
 
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
-    cy.wait('@allTopics')
+    cy.apiwait('@allTopics')
     cy.get('[data-testid=changeSubjectNameButton]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.wait('@newSubjectName');
+    cy.apiwait('@newSubjectName');
 
     cy.get('[data-cy=settings-button-subject]')
       .first()
@@ -60,7 +63,7 @@ describe('Subject editing', () => {
     cy.get('[data-testid=editSubjectFiltersButton]').click();
     cy.get('[data-testid=addFilterButton]').click();
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
-    cy.wait('@addFilter');
+    cy.apiwait('@addFilter');
 
     // cy.get('[data-testid=editFilterBox] > div')
     //   .find('button')

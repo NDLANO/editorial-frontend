@@ -10,6 +10,7 @@ import nock from 'nock';
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
+import { taxonomyApi } from '../../../config';
 
 const noop = () => {};
 
@@ -42,13 +43,13 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   }, global.DEFAULT_TIMEOUT);
 });
 
-test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end', () => {
+test('MastheadSearchForm redirects on ndla url paste with taxonomyApi id at the end', () => {
   const historyMock = {
     push: jest.fn(),
   };
 
   nock('http://ndla-api')
-    .get('/taxonomy2/v1/topics/urn:topic:1:179373/?language=nb')
+    .get(`${taxonomyApi}/topics/urn:topic:1:179373/?language=nb`)
     .reply(200, { contentUri: 'urn:content:4232' });
 
   const component = TestRenderer.create(

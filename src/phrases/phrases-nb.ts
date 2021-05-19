@@ -1003,12 +1003,14 @@ const phrases = {
       sectionTitle: 'Bruk av artikkelen i læringsstier',
       title: 'Læringsstier som inneholder denne artikkelen',
     },
-    imageConnections: {
+    embedConnections: {
       sectionTitleArticle: 'Artikler som bruker dette bildet',
       sectionTitleConcept: 'Forklaringer som bruker dette bildet',
       title: 'Bruk av bildet',
       info: 'Bruk av bildet i artikler og/eller forklaringer',
       notInUse: 'Fant ingen artikler eller forklaringer som bruker bildet',
+      articles: '{articles, plural, one{1 artikkel} other{# artikler}}',
+      concepts: '{concepts, plural, one{1 forklaring} other{# forklaringer}}',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',

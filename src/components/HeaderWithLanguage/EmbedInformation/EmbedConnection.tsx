@@ -23,7 +23,7 @@ import { ContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
 interface Props {
-  id: number; 
+  id: number;
 }
 
 const ImageInformationIcon = styled(SubjectMaterial)`
@@ -35,6 +35,7 @@ const ImageInformationIcon = styled(SubjectMaterial)`
 const searchObjects = (imageId: number) => ({
   'embed-id': imageId,
   'embed-resource': 'image',
+  'page-size': 50, // TODO er det sansynlig at flere enn X atikler bruker ett bilde?
 });
 
 const EmbedConnection = ({ t, id }: Props & tType) => {
@@ -51,13 +52,13 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
         tags: [],
         status: [],
         users: [],
-      }).then(result => setConcepts(result.results));      
+      }).then(result => setConcepts(result.results));
     }
   }, [id]);
 
   if (!articles?.length && !concepts?.length) {
     return (
-      <Tooltip tooltip={t('form.imageConnections.notInUse')}>
+      <Tooltip tooltip={t('form.embedConnections.notInUse')}>
         <ImageInformationIcon css={normalPaddingCSS} />
       </Tooltip>
     );
@@ -68,7 +69,7 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
       backgroundColor="white"
       narrow
       wrapperFunctionForButton={(activateButton: any) => (
-        <Tooltip tooltip={t('form.imageConnections.info')}>{activateButton}</Tooltip>
+        <Tooltip tooltip={t('form.embedConnections.info')}>{activateButton}</Tooltip>
       )}
       activateButton={
         <Button stripped>
@@ -81,10 +82,13 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
             <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
           </ModalHeader>
           <ModalBody>
-            <h1>{t('form.imageConnections.title')}</h1>
+            <h1>{t('form.embedConnections.title')}</h1>
             {!!articles?.length && (
               <>
-                <p>{t('form.imageConnections.sectionTitleArticle')}</p>
+                <p>
+                  {t('form.embedConnections.sectionTitleArticle')}{' '}
+                  <em>({t('form.embedConnections.articles', { articles: articles.length })})</em>
+                </p>
                 <ElementList
                   elements={articles?.map(obj => ({
                     ...obj,
@@ -96,7 +100,10 @@ const EmbedConnection = ({ t, id }: Props & tType) => {
             )}
             {!!concepts?.length && (
               <>
-                <p>{t('form.imageConnections.sectionTitleConcept')}</p>
+                <p>
+                  {t('form.embedConnections.sectionTitleConcept')}{' '}
+                  <em>({t('form.embedConnections.concepts', { concepts: concepts.length })})</em>
+                </p>
                 <ElementList
                   elements={concepts.map(obj => ({ ...obj, articleType: 'concept' }))}
                   isEditable={false}

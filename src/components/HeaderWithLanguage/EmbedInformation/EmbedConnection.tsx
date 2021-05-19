@@ -38,7 +38,7 @@ const ImageInformationIcon = styled(SubjectMaterial)`
 const searchObjects = (embedId: number, embedType: embedType) => ({
   'embed-id': embedId,
   'embed-resource': embedType,
-  'page-size': 50, // TODO er det sansynlig at flere enn X atikler bruker ett bilde?
+  'page-size': 50,
 });
 
 const EmbedConnection = ({ t, id, type }: Props & tType) => {

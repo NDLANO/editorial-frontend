@@ -23,7 +23,7 @@ import { ContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 
 interface Props {
-  id: number;
+  id: number; 
 }
 
 const ImageInformationIcon = styled(SubjectMaterial)`
@@ -37,7 +37,7 @@ const searchObjects = (imageId: number) => ({
   'embed-resource': 'image',
 });
 
-const ImageConnection = ({ t, id }: Props & tType) => {
+const EmbedConnection = ({ t, id }: Props & tType) => {
   const [articles, setArticles] = useState<ContentResultType[]>();
   const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
@@ -51,7 +51,7 @@ const ImageConnection = ({ t, id }: Props & tType) => {
         tags: [],
         status: [],
         users: [],
-      }).then(result => setConcepts(result.results));
+      }).then(result => setConcepts(result.results));      
     }
   }, [id]);
 
@@ -110,4 +110,4 @@ const ImageConnection = ({ t, id }: Props & tType) => {
   );
 };
 
-export default injectT(ImageConnection);
+export default injectT(EmbedConnection);

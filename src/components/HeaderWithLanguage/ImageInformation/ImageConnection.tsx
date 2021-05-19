@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
-import { InformationOutline } from '@ndla/icons/common';
+import { SubjectMaterial } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import Button from '@ndla/button';
@@ -26,7 +26,7 @@ interface Props {
   id: number;
 }
 
-const ImageInformationIcon = styled(InformationOutline)`
+const ImageInformationIcon = styled(SubjectMaterial)`
   margin-top: -3px;
   color: ${colors.brand.primary};
   cursor: pointer;

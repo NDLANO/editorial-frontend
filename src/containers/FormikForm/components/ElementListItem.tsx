@@ -72,7 +72,9 @@ const ElementListItem = ({
           alt={element.metaImage?.alt || ''}
         />
         {linkProps.to ? (
-          <Link to={linkProps.to}>{element.title.title}</Link>
+          <Link to={linkProps.to} target="_blank" rel="noopener noreferrer">
+            {element.title.title}
+          </Link>
         ) : (
           <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
             {element.title.title}

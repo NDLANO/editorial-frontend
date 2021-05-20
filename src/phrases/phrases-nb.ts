@@ -1003,6 +1003,22 @@ const phrases = {
       sectionTitle: 'Bruk av artikkelen i læringsstier',
       title: 'Læringsstier som inneholder denne artikkelen',
     },
+    embedConnections: {
+      type: {
+        image: 'bildet',
+        audio: 'lydfilen',
+      },
+      sectionTitleArticle: 'Artikler som bruker {resource}',
+      sectionTitleConcept: 'Forklaringer som bruker {resource}',
+      title: 'Bruk av {resource}',
+      info: {
+        image: 'Bruk av bildet i artikler og/eller forklaringer',
+        audio: 'Bruk av lydfilen i artikler',
+      },
+      notInUse: 'Fant ingen artikler eller forklaringer som bruker {resource}',
+      articles: '{articles, plural, one{1 artikkel} other{# artikler}}',
+      concepts: '{concepts, plural, one{1 forklaring} other{# forklaringer}}',
+    },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
       articlesTitle: 'Forklaringer',

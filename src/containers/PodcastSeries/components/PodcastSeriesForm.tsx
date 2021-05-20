@@ -10,7 +10,6 @@ import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Value } from 'slate';
-import AudioContent from '../../AudioUploader/components/AudioContent';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -57,8 +56,6 @@ export interface PodcastSeriesFormikType {
 
 const getInitialValues = (podcastSeries: PodcastSeriesPropType): PodcastSeriesFormikType => {
   const title: Value = plainTextToEditorValue(podcastSeries.title || '', true);
-  const coverPhotoId: Value = plainTextToEditorValue(podcastSeries.coverPhoto?.id, true);
-  const metaImageAlt: Value = plainTextToEditorValue(podcastSeries.coverPhoto?.altText || '', true);
   return {
     id: podcastSeries.id,
     revision: podcastSeries.revision,

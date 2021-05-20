@@ -8,7 +8,6 @@
 
 import { Copyright } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
-import { PodcastSeriesFormikType } from '../../containers/PodcastSeries/components/PodcastSeriesForm';
 
 type AudioType = 'standard' | 'podcast';
 

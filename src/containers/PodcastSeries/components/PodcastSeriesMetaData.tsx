@@ -10,9 +10,9 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Editor } from 'slate';
 
+import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { MetaImageSearch, TitleField } from '../../FormikForm';
-import { useFormikContext } from 'formik';
 import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
 
 interface Props {}

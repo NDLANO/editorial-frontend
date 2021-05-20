@@ -12,10 +12,6 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { fetchLicenses } from '../../modules/draft/draftApi';
-import { License } from '../../interfaces';
-import CreatePodcast from './CreatePodcast';
-import EditPodcast from './EditPodcast';
 import CreatePodcastSeries from './CreatePodcastSeries';
 import EditPodcastSeries from './EditPodcastSeries';
 

@@ -37,6 +37,7 @@ import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 interface Props {
   applicationError: (err: string) => void;
   concept: ConceptFormType;
+  conceptChanged: boolean;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
   inModal: boolean;
   isNewlyCreated: boolean;
@@ -44,7 +45,7 @@ interface Props {
   onClose: () => void;
   onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: string) => void;
   subjects: SubjectType[];
-  translateConcept: () => void;
+  translateToNN: () => void;
   updateConceptAndStatus: (
     updatedConcept: PatchConceptType,
     newStatus: ConceptStatusType,
@@ -54,13 +55,14 @@ interface Props {
 
 const ConceptForm = ({
   concept,
+  conceptChanged,
   fetchConceptTags,
   inModal,
   isNewlyCreated,
   licenses,
   onClose,
   subjects,
-  translateConcept,
+  translateToNN,
   updateConceptAndStatus,
   onUpdate,
   applicationError,
@@ -123,7 +125,7 @@ const ConceptForm = ({
               content={concept}
               editUrl={(lang: string) => toEditConcept(values.id, lang)}
               getEntity={() => getConcept(values, licenses, concept.updatedBy)}
-              translateArticle={translateConcept}
+              translateToNN={translateToNN}
               type="concept"
               setTranslateOnContinue={setTranslateOnContinue}
               values={values}
@@ -169,12 +171,13 @@ const ConceptForm = ({
             </Accordions>
             <FormFooter
               entityStatus={concept.status}
+              conceptChanged={conceptChanged}
               inModal={inModal}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept.id}
               onClose={onClose}
-              onContinue={translateOnContinue ? translateConcept : () => {}}
+              onContinue={translateOnContinue ? translateToNN : () => {}}
               getApiConcept={() => getConcept(values, licenses, concept.updatedBy)}
             />
           </FormWrapper>

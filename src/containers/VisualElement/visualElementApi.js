@@ -6,6 +6,7 @@
  *
  */
 
+import fetch from 'cross-fetch';
 import queryString from 'query-string';
 import defined from 'defined';
 import config from '../../config';

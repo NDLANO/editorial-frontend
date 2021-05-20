@@ -560,7 +560,7 @@ const phrases = {
       relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
       header: 'Overskrift',
-      manuscript: 'Manus',
+      manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {

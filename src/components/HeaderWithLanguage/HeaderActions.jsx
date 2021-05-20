@@ -52,7 +52,7 @@ const HeaderActions = ({
   setTranslateOnContinue,
   t,
   type,
-  translateArticle,
+  translateToNN,
   values,
 }) => {
   const { articleType, id, language, supportedLanguages } = values;
@@ -69,7 +69,7 @@ const HeaderActions = ({
   const emptyLanguages = languages.filter(
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
-  const translatableTypes = ['concept', 'standard', 'topic-article'];
+  const translatableTypes = ['concept', 'standard', 'topic-article', 'podcast'];
 
   if (id) {
     return (
@@ -106,7 +106,7 @@ const HeaderActions = ({
             <Fragment>
               <StyledSplitter />
               <TranslateNbToNn
-                translateArticle={translateArticle}
+                translateToNN={translateToNN}
                 editUrl={editUrl}
                 formIsDirty={formIsDirty}
                 setTranslateOnContinue={setTranslateOnContinue}
@@ -133,7 +133,7 @@ HeaderActions.propTypes = {
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func,
-  translateArticle: PropTypes.func,
+  translateToNN: PropTypes.func,
   type: PropTypes.string,
   values: PropTypes.shape({
     articleType: PropTypes.string,

@@ -25,9 +25,11 @@ const plugins = [textTransformPlugin()];
 const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
   return (
     <>
-      <FormikField label={t('podcastForm.fields.header')} name="header" />
-
-      <FormikField label={t('podcastForm.fields.introduction')} name="introduction" maxLength={300}>
+      <FormikField
+        label={t('podcastForm.fields.introduction')}
+        name="introduction"
+        maxLength={1000}
+        showMaxLength>
         {({ field }) => (
           <PlainTextEditor
             id={field.name}
@@ -41,7 +43,7 @@ const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
         )}
       </FormikField>
 
-      <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript" maxLength={300}>
+      <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript">
         {({ field }) => (
           <PlainTextEditor
             id={field.name}

@@ -537,7 +537,7 @@ const phrases = {
       relatedContent: 'Related content',
       subjects: 'Subject',
       header: 'Header',
-      manuscript: 'Manuscript',
+      manuscript: 'Text version',
       coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {

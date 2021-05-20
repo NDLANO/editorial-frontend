@@ -21,11 +21,13 @@ interface Props {
 }
 
 const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
+  const { copyright, podcastMeta } = audio;
+
   useEffect(() => {
     initAudioPlayers(locale);
   }, [locale]);
 
-  const license = getLicenseByAbbreviation(audio.copyright.license?.license || '', locale);
+  const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
 
   const messages = {
@@ -36,9 +38,9 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
     source: t('dialog.source'),
   };
 
-  const podcastImg = {
-    url: audio.podcastMeta?.coverPhoto?.url || '',
-    alt: audio.podcastMeta?.coverPhoto?.altText || '',
+  const podcastImg = podcastMeta?.coverPhoto && {
+    url: `${podcastMeta.coverPhoto.url}?width=200&height=200`,
+    alt: podcastMeta.coverPhoto.altText,
   };
 
   return (
@@ -47,9 +49,9 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
         src={audio.audioFile.url}
         title={audio.title}
         speech={speech}
-        img={audio.podcastMeta?.coverPhoto && podcastImg}
-        description={audio.podcastMeta?.introduction}
-        textVersion={audio.podcastMeta?.manuscript}
+        img={podcastImg}
+        description={podcastMeta?.introduction}
+        textVersion={podcastMeta?.manuscript}
       />
       {!speech && (
         <>
@@ -59,7 +61,7 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
             caption={audio.caption}
             reuseLabel=""
             licenseRights={license.rights}
-            authors={audio.copyright.creators}
+            authors={copyright.creators}
           />
           <FigureLicenseDialog
             id={figureLicenseDialogId}

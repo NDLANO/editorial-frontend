@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Transforms } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
+import { Descendant, Editor, Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import FootnoteForm from './FootnoteForm';
 import { Portal } from '../../../Portal';

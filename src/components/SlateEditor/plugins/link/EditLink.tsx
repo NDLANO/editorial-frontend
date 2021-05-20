@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import { Editor, Transforms, Element } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
+import { Editor, Transforms, Element } from 'slate';
+import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';

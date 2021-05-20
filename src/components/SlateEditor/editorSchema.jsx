@@ -7,7 +7,7 @@
  *
  */
 
-import { Block } from 'slate';
+import { Element as Block } from 'slate';
 import defaultBlocks from './utils/defaultBlocks';
 
 export const getSchemaEmbed = node => node.get('data').toJS();

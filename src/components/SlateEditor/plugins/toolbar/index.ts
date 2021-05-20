@@ -8,7 +8,7 @@
 
 import { KeyboardEvent } from 'react';
 import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
-import { Editor } from 'new-slate';
+import { Editor } from 'slate';
 import SlateToolbar from './SlateToolbar';
 import { toggleMark } from '../mark/utils';
 import { handleClickBlock, handleClickInline } from './handleMenuClicks';

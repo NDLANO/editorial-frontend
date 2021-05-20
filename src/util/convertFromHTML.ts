@@ -13,8 +13,8 @@
 
 /* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
 
-import { Descendant, Element, Text, Node } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
+import { Descendant, Element, Text, Node } from 'slate';
+import { jsx } from 'slate-hyperscript';
 import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
 
 export function convertFromHTML(root: Descendant | null) {

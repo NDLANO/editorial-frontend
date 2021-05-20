@@ -7,9 +7,9 @@
  */
 
 import React, { KeyboardEvent } from 'react';
-import { Descendant, Editor, Element, Transforms } from 'new-slate';
-import { RenderElementProps } from 'new-slate-react';
-import { jsx } from 'new-slate-hyperscript';
+import { Descendant, Editor, Element, Transforms } from 'slate';
+import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Footnote from './Footnote';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';

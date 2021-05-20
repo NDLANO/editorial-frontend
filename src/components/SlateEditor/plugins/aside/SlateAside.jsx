@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
 import { EditorShape } from '../../../../shapes';
@@ -45,7 +44,7 @@ SlateAside.propTypes = {
   attributes: PropTypes.shape({
     'data-key': PropTypes.string.isRequired,
   }),
-  node: Types.node.isRequired,
+  node: PropTypes.any,
   editor: EditorShape,
 };
 

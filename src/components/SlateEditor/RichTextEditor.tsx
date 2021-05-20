@@ -9,9 +9,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'new-slate-react';
-import { withHistory } from 'new-slate-history';
+import { createEditor, Descendant, Editor } from 'slate';
+import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'slate-react';
+import { withHistory } from 'slate-history';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';

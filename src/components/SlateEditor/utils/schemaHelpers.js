@@ -7,7 +7,7 @@
  *
  */
 
-import { Block } from 'slate';
+import { Element as Block } from 'slate';
 import defaultBlocks from './defaultBlocks';
 
 export const textBlockValidationRules = {

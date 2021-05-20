@@ -91,7 +91,7 @@ export const parseEmbedTag = embedTag => {
   return obj;
 };
 
-export const createEmbedTag = (data: { [key: string]: string }) => {
+export const createEmbedTag = (data: { [key: string]: any }) => {
   if (Object.keys(data).length === 0) {
     return '';
   }

@@ -7,8 +7,8 @@
  */
 
 import React, { KeyboardEvent, useEffect } from 'react';
-import { Editor, Element } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
+import { Editor, Element } from 'slate';
+import { ReactEditor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';

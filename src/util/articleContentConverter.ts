@@ -6,7 +6,7 @@
  *
  */
 import escapeHtml from 'escape-html';
-import { Descendant, Text } from 'new-slate';
+import { Descendant, Text } from 'slate';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';

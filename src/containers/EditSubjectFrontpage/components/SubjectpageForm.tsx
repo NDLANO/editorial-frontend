@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { Descendant } from 'new-slate';
+import { Descendant } from 'slate';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
 import {

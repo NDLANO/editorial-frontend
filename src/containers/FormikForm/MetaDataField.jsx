@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment, useContext } from 'react';
-import { ReactEditor } from 'new-slate-react';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 

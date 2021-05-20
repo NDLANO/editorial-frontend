@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Node, Element } from 'new-slate';
+import { Editor, Node, Element } from 'slate';
 import { TYPE_PARAGRAPH } from './index';
 
 export const getCurrentParagraph = (editor: Editor) => {

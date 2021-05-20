@@ -6,7 +6,7 @@
  *
  */
 
-import { Range, Editor, Element } from 'new-slate';
+import { Range, Editor, Element } from 'slate';
 
 const hasNodeOfType = (editor: Editor, type: string) => {
   if (!Range.isRange(editor.selection)) {

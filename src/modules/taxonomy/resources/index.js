@@ -110,14 +110,16 @@ export async function getFullResource(resourceId, language) {
 
   const topics = await Promise.all(
     // Need to fetch each topic seperate because path is not returned in parentTopics
-    parentTopics.map(async item => {
-      const topicArticle = await fetchTopic(item.id, language);
-      return {
-        ...topicArticle,
-        primary: item.isPrimary,
-        connectionId: item.connectionId,
-      };
-    }),
+    parentTopics
+      .filter(pt => pt.path)
+      .map(async item => {
+        const topicArticle = await fetchTopic(item.id, language);
+        return {
+          ...topicArticle,
+          primary: item.isPrimary,
+          connectionId: item.connectionId,
+        };
+      }),
   );
   return {
     resourceTypes,

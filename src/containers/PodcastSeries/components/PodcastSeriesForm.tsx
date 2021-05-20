@@ -145,8 +145,7 @@ const PodcastSeriesForm = ({
             <HeaderWithLanguage
               noStatus
               values={values}
-              // TODO: Fix type til podcast-series kanskje?
-              type="podcast"
+              type="podcast-series"
               content={podcastSeries}
               editUrl={(lang: string) => toEditPodcastSeries(values.id, lang)}
             />

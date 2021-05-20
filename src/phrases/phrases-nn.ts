@@ -422,6 +422,9 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastSeriesForm: {
+    title: 'Podkastserie',
+  },
   podcastForm: {
     title: 'Podkast',
     fields: {

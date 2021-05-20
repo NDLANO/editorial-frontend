@@ -404,6 +404,9 @@ const phrases = {
   audioForm: {
     title: 'audio file',
   },
+  podcastSeriesForm: {
+    title: 'Podcast series',
+  },
   podcastForm: {
     title: 'Podcast file',
     fields: {

@@ -8,7 +8,7 @@
 
 import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support';
-//import phrases from '../../../src/phrases/phrases-nb';
+import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:20';
 const selectTopic = 'urn:topic:1:186732';
@@ -23,7 +23,7 @@ describe('Topic editing', () => {
       `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
-    cy.apiroute('GET', `${taxonomyApi}/topics?recursive=true&language=nb`, 'allTopics');
+    cy.apiroute('GET', `${taxonomyApi}/topics?*language=nb`, 'allTopics');
     cy.apiroute('GET', `${taxonomyApi}/subjects/${selectSubject}/filters`, 'allSubjectFilters');
     cy.apiroute('GET', `${taxonomyApi}/filters/?language=nb`, 'allFilters');
     cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
@@ -32,6 +32,8 @@ describe('Topic editing', () => {
     cy.intercept('POST', `${taxonomyApi}/topics`, []);
     cy.intercept('POST', `${taxonomyApi}/topic-filters`, []).as('addFilter');
     cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/filters`, 'topicFilters');
+    cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
+    cy.intercept('GET', `${taxonomyApi}/topics/${selectTopic}/resources/?language=nb`, []);
 
     cy.intercept('PUT', `${taxonomyApi}/topic-filters/**`, []);
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
@@ -40,16 +42,14 @@ describe('Topic editing', () => {
   it('should have a settings menu where everything works', () => {
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allFilters');
+    cy.apiroute('PUT', `${taxonomyApi}/topics/${selectTopic}/metadata`, 'invisibleMetadata');
 
-    /*cy.get('[data-cy=settings-button-topic]').click();
+    cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
+      .contains(phrases.metadata.changeVisibility)
       .click();
-    cy.apiwait('@allSubjectTopics');
-    cy.get('[data-testid=toggleRelevance]').click({ multiple: true });
-
-    cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@allSubjectTopics']);*/
+    cy.get('input[id="visible"]').click({force: true});
+    cy.wait('@invisibleMetadata');
 
     /*cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')

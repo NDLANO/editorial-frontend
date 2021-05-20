@@ -45,6 +45,7 @@ describe('Resource listing', () => {
       'topic-183043',
     );
     cy.apiroute('GET', '**/draft-api/v1/drafts/**', 'article');
+    cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
     cy.apiroute(
       'GET',
       '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=&content-type=topic-article',
@@ -56,6 +57,7 @@ describe('Resource listing', () => {
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');
     cy.apiwait('@allFilters');
+    cy.apiwait('@topicConnections');
     cy.apiwait('@coreResources');
     cy.apiwait('@article');
     cy.apiwait('@topic-183043');

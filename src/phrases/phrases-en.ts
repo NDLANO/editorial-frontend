@@ -993,7 +993,10 @@ const phrases = {
       sectionTitleArticle: 'Articles containing the {resource}',
       sectionTitleConcept: 'Concepts containing the {resource}',
       title: 'Uses of the {resource}',
-      info: 'Uses of the {resource} in articles and/or concepts',
+      info: {
+        image: 'Uses of the image in articles and/or concepts',
+        audio: 'Uses of the audio file in articles',
+      },
       notInUse: 'No uses of the {resource} in articles and/or concepts were found',
       articles: '{articles, plural, one{1 article} other{# articles}}',
       concepts: '{concepts, plural, one{1 concept} other{# concepts}}',

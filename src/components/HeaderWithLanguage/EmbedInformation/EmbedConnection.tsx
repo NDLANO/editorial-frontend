@@ -66,7 +66,7 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
         tooltip={t('form.embedConnections.notInUse', {
           resource: t(`form.embedConnections.type.${type}`),
         })}>
-        <ImageInformationIcon css={normalPaddingCSS} />
+        <SubjectMaterial css={normalPaddingCSS} />
       </Tooltip>
     );
   }
@@ -76,12 +76,7 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
       backgroundColor="white"
       narrow
       wrapperFunctionForButton={(activateButton: any) => (
-        <Tooltip
-          tooltip={t('form.embedConnections.info', {
-            resource: t(`form.embedConnections.type.${type}`),
-          })}>
-          {activateButton}
-        </Tooltip>
+        <Tooltip tooltip={t(`form.embedConnections.info.${type}`)}>{activateButton}</Tooltip>
       )}
       activateButton={
         <Button stripped>
@@ -99,33 +94,39 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
                 resource: t(`form.embedConnections.type.${type}`),
               })}
             </h1>
-            {!!articles?.length && (
-              <>
-                <p>
-                  {t('form.embedConnections.sectionTitleArticle', {
-                    resource: t(`form.embedConnections.type.${type}`),
-                  })}{' '}
-                  <em>({t('form.embedConnections.articles', { articles: articles.length })})</em>
-                </p>
-                <ElementList
-                  elements={articles?.map(obj => ({
-                    ...obj,
-                    articleType: obj.learningResourceType,
-                  }))}
-                  isEditable={false}
-                />
-              </>
-            )}
-            {!!concepts?.length && (
+            <p>
+              {t('form.embedConnections.sectionTitleArticle', {
+                resource: t(`form.embedConnections.type.${type}`),
+              })}{' '}
+              <em>
+                ({t('form.embedConnections.articles', { articles: articles ? articles.length : 0 })}
+                )
+              </em>
+            </p>
+            <ElementList
+              elements={articles?.map(obj => ({
+                ...obj,
+                articleType: obj.learningResourceType,
+              }))}
+              isEditable={false}
+            />
+
+            {type === 'image' && (
               <>
                 <p>
                   {t('form.embedConnections.sectionTitleConcept', {
                     resource: t(`form.embedConnections.type.${type}`),
                   })}{' '}
-                  <em>({t('form.embedConnections.concepts', { concepts: concepts.length })})</em>
+                  <em>
+                    (
+                    {t('form.embedConnections.concepts', {
+                      concepts: concepts ? concepts.length : 0,
+                    })}
+                    )
+                  </em>
                 </p>
                 <ElementList
-                  elements={concepts.map(obj => ({ ...obj, articleType: 'concept' }))}
+                  elements={concepts?.map(obj => ({ ...obj, articleType: 'concept' }))}
                   isEditable={false}
                 />
               </>

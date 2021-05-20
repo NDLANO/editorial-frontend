@@ -1011,7 +1011,10 @@ const phrases = {
       sectionTitleArticle: 'Artiklar som bruker {resource}',
       sectionTitleConcept: 'Forklaringar som bruker {resource}',
       title: 'Bruk av {resource}',
-      info: 'Bruk av  {resource} i artiklar og/eller forklaringar',
+      info: {
+        image: 'Bruk av bildet i artiklar og/eller forklaringar',
+        audio: 'Bruk av lydfilen i artikler',
+      },
       notInUse: 'Fant ingen artikler eller forklaringar som bruker {resource}',
       articles: '{articles, plural, one{1 artikkel} other{# artikler}}',
       concepts: '{concepts, plural, one{1 forklaring} other{# forklaringar}}',

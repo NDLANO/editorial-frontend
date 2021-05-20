@@ -43,20 +43,6 @@ const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
         )}
       </FormikField>
 
-      <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript">
-        {({ field }) => (
-          <PlainTextEditor
-            id={field.name}
-            {...field}
-            className={'manuscript'}
-            placeholder={t('podcastForm.fields.manuscript')}
-            handleSubmit={handleSubmit}
-            plugins={plugins}
-            onBlur={onBlur}
-          />
-        )}
-      </FormikField>
-
       <FormikField name="coverPhotoId">
         {({ field, form }) => (
           <MetaImageSearch

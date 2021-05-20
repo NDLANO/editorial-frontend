@@ -13,6 +13,7 @@ import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
+import PodcastManuscript from './PodcastManuscript';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
@@ -244,7 +245,7 @@ const PodcastForm = ({
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
                   <PodcastMetaData
@@ -255,6 +256,22 @@ const PodcastForm = ({
                       // related to: https://github.com/ianstormtaylor/slate/issues/2434
                       // formik handleBlur needs to be called for validation to work (and touched to be set)
                       setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
+                    }}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <PodcastManuscript
+                    handleSubmit={submitForm}
+                    onBlur={(event, editor, next) => {
+                      next();
+                      // this is a hack since formik onBlur-handler interferes with slates
+                      // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                      // formik handleBlur needs to be called for validation to work (and touched to be set)
+                      setTimeout(() => handleBlur({ target: { name: 'manuscript' } }), 0);
                     }}
                   />
                 </AccordionSection>

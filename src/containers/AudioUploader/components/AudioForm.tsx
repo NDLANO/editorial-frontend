@@ -45,6 +45,7 @@ export interface AudioFormikType {
   language: string;
   supportedLanguages: string[];
   title: Value;
+  manuscript: Value;
   audioFile: {
     storedFile?: {
       url: string;
@@ -74,6 +75,7 @@ export const getInitialValues = (
     language: audio.language,
     supportedLanguages: audio.supportedLanguages || [],
     title: plainTextToEditorValue(audio.title || '', true),
+    manuscript: plainTextToEditorValue(audio?.manuscript, true),
     audioFile: { storedFile: audio.audioFile },
     tags: audio.tags || [],
     creators: parseCopyrightContributors(audio, 'creators'),
@@ -88,11 +90,13 @@ const rules = {
   title: {
     required: true,
   },
+  manuscript: {
+    required: false,
+  },
   tags: {
     minItems: 3,
   },
   creators: {
-    minItems: 1,
     allObjectFieldsRequired: true,
   },
   processors: {
@@ -157,6 +161,7 @@ class AudioForm extends Component<Props, State> {
         id: values.id,
         revision: revision,
         title: editorValueToPlainText(values.title),
+        manuscript: editorValueToPlainText(values.manuscript),
         language: values.language,
         tags: values.tags,
         audioType: 'standard',

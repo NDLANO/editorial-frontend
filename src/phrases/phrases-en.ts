@@ -924,6 +924,7 @@ const phrases = {
         label: 'Audio title',
         placeholder: 'Audio title',
       },
+      manuscript: 'Text version',
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',

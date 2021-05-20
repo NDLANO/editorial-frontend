@@ -942,6 +942,7 @@ const phrases = {
         label: 'Lydtittel',
         placeholder: 'Lydtittel',
       },
+      manuscript: 'Tekstversjon',
       caption: {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',

@@ -1,3 +1,5 @@
+import { taxonomyApi } from '../../../src/config';
+
 const editorRoutes = ARTICLE_ID => {
   if (ARTICLE_ID) {
     cy.apiroute(
@@ -27,8 +29,8 @@ const editorRoutes = ARTICLE_ID => {
   cy.apiroute('GET', '/concept-api/v1/drafts/status-state-machine/','conceptStatusMachine');
 
   cy.intercept('GET', '/learningpath-api/v2/learningpaths/contains-article/*', { body: [] })
-  cy.intercept('GET', '/taxonomy2/v1/resources/**', { body: [] });
-  cy.intercept('GET', '/taxonomy2/v1/topics/**', { body: [] });
+  cy.intercept('GET', `${taxonomyApi}/resources/**`, { body: [] });
+  cy.intercept('GET', `${taxonomyApi}/topics/**`, { body: [] });
 
   cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');

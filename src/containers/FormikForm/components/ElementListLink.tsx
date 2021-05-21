@@ -25,7 +25,8 @@ interface MessageProps {
 interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
-  editable: boolean;
+  isEditable: boolean;
+  isOrderable: boolean;
   // Element can be of type Article or Learningpath
   element: RelatedContentLink;
   executeDeleteFile: () => void;
@@ -40,7 +41,8 @@ interface Props {
 const ElementListLink = ({
   deleteFile,
   deleteIndex,
-  editable,
+  isEditable,
+  isOrderable,
   element,
   executeDeleteFile,
   index,
@@ -64,10 +66,21 @@ const ElementListLink = ({
           </a>
         </Tooltip>
       </div>
-      {editable && (
+      {isEditable && (
         <div>
-          {showDragTooltip ? (
-            <Tooltip tooltip={messages?.dragElement}>
+          {isOrderable ? (
+            showDragTooltip ? (
+              <Tooltip tooltip={messages?.dragElement}>
+                <StyledButtonIcons
+                  draggable
+                  tabIndex={-1}
+                  type="button"
+                  onMouseDown={e => onDragStart(e, index)}
+                  onMouseUp={onDragEnd}>
+                  <DragHorizontal />
+                </StyledButtonIcons>
+              </Tooltip>
+            ) : (
               <StyledButtonIcons
                 draggable
                 tabIndex={-1}
@@ -76,17 +89,8 @@ const ElementListLink = ({
                 onMouseUp={onDragEnd}>
                 <DragHorizontal />
               </StyledButtonIcons>
-            </Tooltip>
-          ) : (
-            <StyledButtonIcons
-              draggable
-              tabIndex={-1}
-              type="button"
-              onMouseDown={e => onDragStart(e, index)}
-              onMouseUp={onDragEnd}>
-              <DragHorizontal />
-            </StyledButtonIcons>
-          )}
+            )
+          ) : null}
           <Tooltip tooltip={messages?.removeElement}>
             <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
               <DeleteForever />

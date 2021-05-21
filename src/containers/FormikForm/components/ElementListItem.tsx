@@ -33,6 +33,7 @@ interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
   isEditable: boolean;
+  isOrderable: boolean;
   // Element can be of type Article or Learningpath
   element: ContentResultType;
   executeDeleteFile: () => void;
@@ -48,6 +49,7 @@ const ElementListItem = ({
   deleteFile,
   deleteIndex,
   isEditable,
+  isOrderable,
   element,
   executeDeleteFile,
   index,
@@ -83,8 +85,19 @@ const ElementListItem = ({
       </div>
       {isEditable && (
         <div>
-          {showDragTooltip ? (
-            <Tooltip tooltip={messages?.dragElement}>
+          {isOrderable ? (
+            showDragTooltip ? (
+              <Tooltip tooltip={messages?.dragElement}>
+                <StyledButtonIcons
+                  draggable
+                  tabIndex={-1}
+                  type="button"
+                  onMouseDown={e => onDragStart(e, index)}
+                  onMouseUp={onDragEnd}>
+                  <DragHorizontal />
+                </StyledButtonIcons>
+              </Tooltip>
+            ) : (
               <StyledButtonIcons
                 draggable
                 tabIndex={-1}
@@ -93,17 +106,8 @@ const ElementListItem = ({
                 onMouseUp={onDragEnd}>
                 <DragHorizontal />
               </StyledButtonIcons>
-            </Tooltip>
-          ) : (
-            <StyledButtonIcons
-              draggable
-              tabIndex={-1}
-              type="button"
-              onMouseDown={e => onDragStart(e, index)}
-              onMouseUp={onDragEnd}>
-              <DragHorizontal />
-            </StyledButtonIcons>
-          )}
+            )
+          ) : null}
           <Tooltip tooltip={messages?.removeElement}>
             <StyledButtonIcons
               data-cy="elementListItemDeleteButton"

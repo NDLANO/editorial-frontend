@@ -516,6 +516,8 @@ const phrases = {
     articleSection: 'Artikler',
     podcastSection: 'Podkastinformasjon',
     podcastSeriesSection: 'Podkastserie',
+    podcastEpisodesSection: 'Episoder',
+    podcastEpisodesTypeName: 'Podkaster',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',

@@ -13,12 +13,12 @@ import { Editor } from 'slate';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { MetaImageSearch, TitleField } from '../../FormikForm';
-import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
+import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 
 interface Props {}
 
 const PodcastSeriesMetadata = ({ t }: Props & tType) => {
-  const formikContext = useFormikContext<PodcastFormValues>();
+  const formikContext = useFormikContext<PodcastSeriesFormikType>();
   const { handleBlur, submitForm } = formikContext;
   return (
     <>

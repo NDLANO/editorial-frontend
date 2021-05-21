@@ -21,12 +21,14 @@ import {
   PodcastFormValues,
   NewPodcastSeries,
   FlattenedPodcastSeries,
+  AudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
+import PodcastEpisodes from './PodcastEpisodes';
 
 const podcastRules = {
   title: {
@@ -50,7 +52,7 @@ export interface PodcastSeriesFormikType {
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
-  episodes: number[];
+  episodes: AudioApiType[];
   supportedLanguages: string[];
 }
 
@@ -63,7 +65,7 @@ const getInitialValues = (podcastSeries: PodcastSeriesPropType): PodcastSeriesFo
     title,
     coverPhotoId: podcastSeries.coverPhoto?.id,
     metaImageAlt: podcastSeries.coverPhoto?.altText,
-    episodes: podcastSeries.episodes?.map(e => e.id) ?? [],
+    episodes: podcastSeries.episodes ?? [],
     supportedLanguages: podcastSeries.supportedLanguages ?? [],
   };
 };
@@ -117,7 +119,7 @@ const PodcastSeriesForm = ({
       coverPhotoId: values.coverPhotoId,
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,
-      episodes: values.episodes,
+      episodes: values.episodes.map(ep => ep.id),
     };
 
     await onUpdate(newPodcastSeries);
@@ -157,6 +159,13 @@ const PodcastSeriesForm = ({
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
                 <PodcastSeriesMetaData />
+              </AccordionSection>
+              <AccordionSection
+                id="podcast-series-podcastepisodes"
+                title={t('form.podcastEpisodesSection')}
+                className="u-4/6@desktop u-push-1/6@desktop"
+                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
+                <PodcastEpisodes />
               </AccordionSection>
             </Accordions>
             <Field right>

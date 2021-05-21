@@ -19,12 +19,14 @@ export const transformAudio = (
       : undefined;
 
   const title = convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage);
+  const manuscript = convertFieldWithFallback<'manuscript'>(audio, 'manuscript', '', audioLanguage);
   const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
 
   return audio
     ? {
         ...audio,
         title,
+        manuscript,
         tags,
       }
     : undefined;

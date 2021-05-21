@@ -42,15 +42,15 @@ const podcastRules = {
   title: {
     required: true,
   },
+  manuscript: {
+    required: false,
+  },
   audioFile: {
     required: true,
   },
   introduction: {
     required: true,
     maxLength: 1000,
-  },
-  manuscript: {
-    required: true,
   },
   coverPhotoId: {
     required: true,
@@ -81,6 +81,7 @@ interface PodcastPropType {
   id?: number;
   revision?: number;
   title?: string;
+  manuscript?: string;
   language?: string;
   supportedLanguages?: string[];
   audioFile?: AudioFile;
@@ -96,6 +97,7 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
   title: plainTextToEditorValue(audio.title || '', true),
+  manuscript: plainTextToEditorValue(audio.manuscript || '', true),
   audioFile: { storedFile: audio.audioFile },
   filepath: '',
   tags: audio.tags || [],
@@ -105,11 +107,9 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
   audioType: 'podcast',
-  header: audio.podcastMeta?.header || ' ',
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
-  manuscript: plainTextToEditorValue(audio.podcastMeta?.manuscript, true),
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
@@ -157,14 +157,13 @@ const PodcastForm = ({
     if (
       license === undefined ||
       values.title === undefined ||
+      values.manuscript === undefined ||
       values.language === undefined ||
       values.tags === undefined ||
       values.origin === undefined ||
       values.creators === undefined ||
       values.processors === undefined ||
       values.rightsholders === undefined ||
-      values.header === undefined ||
-      values.manuscript === undefined ||
       values.introduction === undefined ||
       values.coverPhotoId === undefined ||
       values.metaImageAlt === undefined
@@ -179,6 +178,7 @@ const PodcastForm = ({
       id: values.id,
       revision: values.revision,
       title: editorValueToPlainText(values.title),
+      manuscript: editorValueToPlainText(values.manuscript),
       tags: values.tags,
       audioType: 'podcast',
       language: values.language,
@@ -190,11 +190,9 @@ const PodcastForm = ({
         rightsholders: values.rightsholders,
       },
       podcastMeta: {
-        header: values.header,
         introduction: editorValueToPlainText(values.introduction),
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
-        manuscript: editorValueToPlainText(values.manuscript),
       },
     };
 

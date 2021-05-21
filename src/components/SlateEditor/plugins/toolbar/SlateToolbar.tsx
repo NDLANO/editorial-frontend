@@ -27,7 +27,7 @@ const topicArticleElements: { [key: string]: string[] } = {
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3' /*, ...listTypes*/],
-  inline: ['link', 'footnote' /*'mathml', 'concept'*/],
+  inline: ['link', 'footnote', 'mathml' /*, 'concept'*/],
 };
 
 const specialRules: { [key: string]: Partial<Element> } = {

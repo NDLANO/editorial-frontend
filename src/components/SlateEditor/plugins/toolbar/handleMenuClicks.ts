@@ -12,6 +12,7 @@ import { insertLink } from '../link/utils';
 import { toggleBlock } from '../../utils';
 import { toggleHeading } from '../heading/utils';
 import { insertFootnote } from '../footnote/utils';
+import { insertMathml } from '../mathml/utils';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
@@ -49,13 +50,16 @@ export function handleClickInline(
   editor: Editor,
   type: string,
 ) {
-  event.preventDefault();
   if (editor.selection) {
+    event.preventDefault();
     if (type === 'link') {
       insertLink(editor);
     }
     if (type === 'footnote') {
       insertFootnote(editor);
+    }
+    if (type === 'mathml') {
+      insertMathml(editor);
     }
   }
 

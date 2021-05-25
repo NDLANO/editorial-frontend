@@ -16,6 +16,7 @@ import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
+import { List } from '@ndla/icons/action';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -81,7 +82,7 @@ export const types = {
   'podcast-series': {
     form: 'podcastSeriesForm',
     cssModifier: 'multimedia',
-    icon: <Podcast />,
+    icon: <List />,
   },
   concept: {
     form: 'conceptform',

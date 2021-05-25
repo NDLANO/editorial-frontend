@@ -8,6 +8,7 @@
 import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
+import { List } from '@ndla/icons/action';
 import { Podcast } from '@ndla/icons/common';
 import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router';
@@ -74,7 +75,7 @@ const SearchPage = ({ match, t }: Props) => {
       title: t('subNavigation.searchPodcastSeries'),
       type: 'podcast-series',
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'podcast-series'),
-      icon: <Podcast className="c-icon--large" />,
+      icon: <List className="c-icon--large" />,
     },
   ];
 

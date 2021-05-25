@@ -25,17 +25,17 @@ import {
 } from '../../../util/formHelper';
 import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import {
-  AudioFile,
-  PodcastMeta,
   NewPodcastMetaInformation,
   PodcastFormValues,
   UpdatedPodcastMetaInformation,
+  FlattenedAudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import { Copyright, License } from '../../../interfaces';
+import { License } from '../../../interfaces';
+import PodcastSeriesInformation from './PodcastSeriesInformation';
 
 const podcastRules = {
   title: {
@@ -76,21 +76,9 @@ const podcastRules = {
   },
 };
 
-interface PodcastPropType {
-  id?: number;
-  revision?: number;
-  title?: string;
-  manuscript?: string;
-  language?: string;
-  supportedLanguages?: string[];
-  audioFile?: AudioFile;
-  copyright?: Copyright;
-  tags?: string[];
-  audioType?: string;
-  podcastMeta?: PodcastMeta;
-}
+type PodcastPropType = Partial<FlattenedAudioApiType> & { language: string };
 
-export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => ({
+export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => ({
   id: audio.id,
   revision: audio.revision,
   language: audio.language,
@@ -257,6 +245,10 @@ const PodcastForm = ({
                       // formik handleBlur needs to be called for validation to work (and touched to be set)
                       setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
                     }}
+                  />
+                  <PodcastSeriesInformation
+                    podcastSeries={audio.series}
+                    language={audio.language}
                   />
                 </AccordionSection>
                 <AccordionSection

@@ -415,6 +415,10 @@ const phrases = {
       coverPhoto: 'Image',
       coverPhotoAltText: 'Alt-text',
       manuscript: 'Text version',
+      series: 'Series',
+    },
+    information: {
+      partOfSeries: 'This podcast is a part of the series',
     },
   },
   imageEditor: {

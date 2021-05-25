@@ -433,6 +433,10 @@ const phrases = {
       coverPhoto: 'Bilde',
       coverPhotoAltText: 'Alt-tekst',
       manuscript: 'Tekstversjon',
+      series: 'Serie',
+    },
+    information: {
+      partOfSeries: 'Denne podkasten er en del av serien',
     },
   },
   imageEditor: {

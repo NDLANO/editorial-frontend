@@ -77,6 +77,7 @@ export interface AudioApiType {
   supportedLanguages: string[];
   audioType: AudioType;
   podcastMeta?: PodcastMeta;
+  series?: PodcastSeriesApiType;
 }
 
 export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {

@@ -17,6 +17,8 @@ import { DeleteForever } from '@ndla/icons/editor';
 import IconButton from '../../../components/IconButton';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
+import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
+import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
 
@@ -57,47 +59,11 @@ const getPlayerObject = (
   return undefined;
 };
 
+const plugins = [textTransformPlugin()];
+
 const AudioContent = ({ t, formik }: Props & tType) => {
   const { values, setFieldValue, submitForm, handleBlur } = formik;
-  const PlayerOrSelector = () => {
-    const playerObject = getPlayerObject(values);
-    if (playerObject) {
-      return (
-        <>
-          <PlayerWrapper>
-            <AudioPlayer audio={playerObject} />
-            <StyledDeleteButtonContainer>
-              <Tooltip tooltip={t('form.audio.remove')}>
-                <IconButton
-                  onClick={() => {
-                    setFieldValue('audioFile', {});
-                  }}
-                  tabIndex={-1}>
-                  <DeleteForever />
-                </IconButton>
-              </Tooltip>
-            </StyledDeleteButtonContainer>
-          </PlayerWrapper>
-        </>
-      );
-    } else {
-      return (
-        <UploadDropZone
-          name="audioFile"
-          allowedFiles={['audio/mp3', 'audio/mpeg']}
-          onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
-            const file = evt.currentTarget.files?.[0];
-            const filepath = file ? URL.createObjectURL(file) : undefined;
-            const newFile = file && filepath ? { file, filepath } : undefined;
-            setFieldValue('audioFile', { newFile });
-          }}
-          ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
-          <strong>{t('form.audio.dragdrop.main')}</strong>
-          {t('form.audio.dragdrop.sub')}
-        </UploadDropZone>
-      );
-    }
-  };
+  const playerObject = getPlayerObject(values);
 
   return (
     <Fragment>
@@ -114,7 +80,60 @@ const AudioContent = ({ t, formik }: Props & tType) => {
       />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
-        {() => <PlayerOrSelector />}
+        {() =>
+          playerObject ? (
+            <>
+              <PlayerWrapper>
+                <AudioPlayer audio={playerObject} />
+                <StyledDeleteButtonContainer>
+                  <Tooltip tooltip={t('form.audio.remove')}>
+                    <IconButton
+                      onClick={() => {
+                        setFieldValue('audioFile', {});
+                      }}
+                      tabIndex={-1}>
+                      <DeleteForever />
+                    </IconButton>
+                  </Tooltip>
+                </StyledDeleteButtonContainer>
+              </PlayerWrapper>
+            </>
+          ) : (
+            <UploadDropZone
+              name="audioFile"
+              allowedFiles={['audio/mp3', 'audio/mpeg']}
+              onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
+                const file = evt.currentTarget.files?.[0];
+                const filepath = file ? URL.createObjectURL(file) : undefined;
+                const newFile = file && filepath ? { file, filepath } : undefined;
+                setFieldValue('audioFile', { newFile });
+              }}
+              ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
+              <strong>{t('form.audio.dragdrop.main')}</strong>
+              {t('form.audio.dragdrop.sub')}
+            </UploadDropZone>
+          )
+        }
+      </FormikField>
+
+      <FormikField label={t('form.audio.manuscript')} name="manuscript" maxLength={1000}>
+        {({ field }) => (
+          <PlainTextEditor
+            id={field.name}
+            {...field}
+            className={'manuscript'}
+            placeholder={t('form.audio.manuscript')}
+            handleSubmit={submitForm}
+            plugins={plugins}
+            onBlur={(event: Event, editor: unknown, next: Function) => {
+              next();
+              // this is a hack since formik onBlur-handler interferes with slates
+              // related to: https://github.com/ianstormtaylor/slate/issues/2434
+              // formik handleBlur needs to be called for validation to work (and touched to be set)
+              setTimeout(() => handleBlur({ target: { name: 'manuscript' } }), 0);
+            }}
+          />
+        )}
       </FormikField>
     </Fragment>
   );

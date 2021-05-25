@@ -1,1 +1,1442 @@
-[{"id":"urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c","name":"Mediesamfunnet 3","subjectId":"urn:subject:1","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:be544090-ff77-4017-8c65-7840bf28ba22","name":"Kommunikasjon og samhandlinger","subjectId":"urn:subject:4","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:f5602ca2-99ac-48d5-8ca7-59b434f2ce97","name":"SF VG1/YF VG2","subjectId":"urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:34237fe6-63a5-47ea-8ee6-94ed6a0c92b7","name":"Dokumentasjon og kvalitet","subjectId":"urn:subject:28","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:e8ce40d7-99db-4d63-9c26-438fa13f6080","name":"Automatiseringssystemer","subjectId":"urn:subject:16","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:6b35c125-5a82-4a30-9d60-0646c31dce32","name":"Markedsføring og salg","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b5156afd-e11c-4426-a3ba-a1e25c03f489","name":"Råvarer og produksjon","subjectId":"urn:subject:41","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:78e538a3-78bf-4db2-af00-2ca7d721cb25","name":"SF VG3","subjectId":"urn:subject:44","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:4a73afd7-f263-48fa-b6fb-49bd21e517ab","name":"KK2","subjectId":"urn:subject:18","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b40855bb-9e21-4944-9257-c96679da549a","name":"Sikkerhet","subjectId":"urn:subject:22","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b46acacc-c29e-4e1f-b433-6a213d0e7bc2","name":"jonastest","subjectId":"urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:9ed83b27-f806-4ff3-a618-c30e44315f7d","name":"jonastest","subjectId":"urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22","name":"YF Vg2","subjectId":"urn:subject:15","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:557e75cb-a070-4c03-9209-487cf9ac3c96","name":"jonastest","subjectId":"urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:364a61b2-1653-4fe2-bc74-f1d41ec43ba8","name":"NDLA Film","subjectId":"urn:subject:20","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186","name":"MIK 2","subjectId":"urn:subject:14","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:572373fc-5272-4faa-b61a-8bdc32453162","name":"jonastest","subjectId":"urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:fe2f29b2-8acd-4c20-a3c9-acc999125ff6","name":"Tegning og bransjelære","subjectId":"urn:subject:11","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:ac93fdc4-f949-4fd2-9b22-e0ad9ab33f36","name":"jonastest","subjectId":"urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a","name":"YF VG1","subjectId":"urn:subject:13","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:10ca354c-ec30-470e-a430-b11e2ddc500b","name":"jonastest","subjectId":"urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:980866f7-3bf5-429c-ba7a-f91a6cb37f9f","name":"Medieuttrykk 3","subjectId":"urn:subject:1","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:1d441d40-358a-47a8-8cd5-7a80382a9062","name":"Kinesisk 1","subjectId":"urn:subject:2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:229eabc2-af47-4a7e-bcd6-a655ecb758e6","name":"jonastest","subjectId":"urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:e59518d1-308e-44ae-9017-1cf6d51d3ea6","name":"Kosthald og livsstil","subjectId":"urn:subject:37","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","subjectId":"urn:subject:3","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:ebaf899b-4161-4281-80ab-2cb7eebecca4","name":"S2","subjectId":"urn:subject:31","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:0138913b-81ce-4faf-b8bc-c34c5f59a8ac","name":"SF VG1/YF VG2","subjectId":"urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:05c3153e-9dfd-4b8b-a810-f3ca174a2be8","name":"SF VG1/YF VG2","subjectId":"urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3170610c-6a5a-4da5-aeba-adb247aae48c","name":"Kinesisk 2","subjectId":"urn:subject:2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:382e6cf8-0c78-4f78-b96a-2927cfef632a","name":"Sal og marknadsføring","subjectId":"urn:subject:35","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:992c86f7-8cae-45ef-aab3-a40cdc5e99d9","name":"Helsefremmende arbeid","subjectId":"urn:subject:4","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:d97809a8-47b6-4d26-ae5c-1839f4c27940","name":"Drift og vedlikehold","subjectId":"urn:subject:25","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71","name":"Virksomhetsstøtte","subjectId":"urn:subject:25","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:d9900359-abd3-470f-99b2-809e58abd5d7","name":"Transport og logistikk ","subjectId":"urn:subject:36","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:470720f9-6b03-40cb-ab58-e3e130803578","name":"SF VG1/YF VG2","subjectId":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b0a79538-d211-4254-852a-5aa2c4b89db7","name":"2P","subjectId":"urn:subject:29","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:113986bb-9b00-42dc-b1ff-0b9a352369f4","name":"YFF","subjectId":"urn:subject:24","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b9e86c43-93b8-49e9-81af-09dbc7d79401","name":"KK3","subjectId":"urn:subject:18","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:f0aebf22-5610-401d-a2da-aaf3cf47f06a","name":"Sikkerhet og transport","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:92b5414a-cc19-471a-96f1-deb6d0aba841","name":"Medieuttrykk 1","subjectId":"urn:subject:1","contentUri":"urn:frontpage:51","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c71ed1a1-1cda-4679-89ac-0ba8c4a2a250","name":"Filter 1","subjectId":"urn:subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:2cbe8089-7d7b-407f-8f04-fbfdc116abc1","name":"Yrkesutøving","subjectId":"urn:subject:24","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:8181c74a-d7cd-40de-b199-864e069ffb8b","name":"Etablering og drift","subjectId":"urn:subject:35","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20","name":"SF Vg2","subjectId":"urn:subject:19","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:cc6d1f6b-6b1a-416d-998b-86d4279dee29","name":"Filter 1","subjectId":"urn:subject:4769848b-9e19-468d-988a-c63d4af291e8","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:6677db5d-7ed3-4c47-8a0d-d895d1e0505d","name":"Tekniske tjenester","subjectId":"urn:subject:28","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7","name":"SF VG3","subjectId":"urn:subject:9","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:89f7d059-6ae6-4e83-846f-7db4d24b1d36","name":"Servering, bransje og miljø","subjectId":"urn:subject:41","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:26a01df2-376e-4090-b0bf-eec2ca3d41dd","name":"Vertskapsrolla","subjectId":"urn:subject:35","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:06270029-7aa7-4a7a-b383-128b275ff150","name":"SF VG3","subjectId":"urn:subject:23","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:45ff62cd-eade-4ecb-9a75-4af405021fdb","name":"Vg2","subjectId":"urn:subject:26","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:ab03c895-0fbf-42d2-9ce0-204dc7018982","name":"jonastest","subjectId":"urn:subject:66a26c88-42de-4321-89f1-4d277da4b482","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:2931ee0d-ba04-476c-a080-1455cf8a508b","name":"SF VG1/YF VG2","subjectId":"urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:777ae87e-ca79-4866-920a-115cfeb7bbe1","name":"Kommunikasjon og samhandling","subjectId":"urn:subject:24","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:4200b774-5b7b-4900-bf1d-e0b298b9cb97","name":"R2","subjectId":"urn:subject:32","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:11ea8113-82e9-4bfd-b493-fe3cb03012e9","name":"1T","subjectId":"urn:subject:34","contentUri":"urn:frontpage:49","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:047d1613-97bf-4665-8872-3e0c044832e2","name":"Produksjon","subjectId":"urn:subject:28","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b3351e92-65b0-4ac8-a502-2ea6fd33f18e","name":"Mediesamfunnet 1","subjectId":"urn:subject:1","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:f4581340-52f1-435d-8f99-d5de4e123f70","name":"YF Vg1/Vg2","subjectId":"urn:subject:19","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c621fe47-6d28-4ecd-95cb-ad641382d8f4","name":"SF VG2","subjectId":"urn:subject:43","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:da27bdd3-8169-4a72-8837-1cf441a16018","name":"jonastest2","subjectId":"urn:subject:3","contentUri":null,"metadata":{"grepCodes":[],"visible":false}},{"id":"urn:filter:797f7c40-4146-48aa-a41e-21840fc204e9","name":"SF VG1/YF VG2","subjectId":"urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:a3c1b65a-c41f-4879-b650-32a13fe1801b","name":"VG1P","subjectId":"urn:subject:34","contentUri":"urn:frontpage:48","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:be5883e6-02a1-4b54-8143-20559c98b411","name":"jonastest","subjectId":"urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:8c230faa-c1b1-4c16-b47a-490d8d7247cf","name":"Yrkesutøvelse","subjectId":"urn:subject:40","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3ae2c40f-4661-4863-9987-4944ff534974","name":"S1","subjectId":"urn:subject:31","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa","name":"1P","subjectId":"urn:subject:29","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:ec288dfb-4768-4f82-8387-fe2d73fff1e1","name":"Tysk 2","subjectId":"urn:subject:8","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:ca607ca1-4dd0-4bbd-954f-67461f4b96fc","name":"Vg1","subjectId":"urn:subject:26","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:cddc3895-a19b-4e30-bd27-2f91b4a02894","name":"SF Vg3","subjectId":"urn:subject:19","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:1a05c6c7-121e-49e2-933c-580da74afe1a","name":"Tysk 1","subjectId":"urn:subject:8","contentUri":"urn:frontpage:56","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:537bdc1a-159b-43d8-80f4-97e0cf8b78eb","name":"YFF","subjectId":"urn:subject:4","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c94e4aef-b605-4c76-a332-5a01e8542d5d","name":"SF VG1/YF VG2","subjectId":"urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:1152af37-2ef3-4b1b-bb1b-fddfd90bb1d5","name":"Tysk 3","subjectId":"urn:subject:8","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:f731eeb2-cc24-4cbd-8d0b-de2dd7e09cad","name":"Filter 2","subjectId":"urn:subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:05344551-b05a-416e-8f2a-a3aef35cc59a","name":"jonastest","subjectId":"urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:fb02fcf8-7995-42f5-a497-318dbcc06cbd","name":"Elenergisystemer","subjectId":"urn:subject:16","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:433559e2-5bf4-4ba1-a592-24fa4057ec01","name":"ML 1","subjectId":"urn:subject:7","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6","name":"SF","subjectId":"urn:subject:39","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:58d7143c-5456-47b5-81e7-8d57f542b0e4","name":"jonastest","subjectId":"urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26","name":"YF VG3","subjectId":"urn:subject:6","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:fdefda2a-7d3a-4749-92cf-24ad466a20db","name":"Råstoff og produksjon","subjectId":"urn:subject:37","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:1a6bcbb9-8236-4f46-ae70-02af0fb89248","name":"jonastest","subjectId":"urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:9a925996-e067-42bc-aea0-f3fcb1d7c043","name":"Kvalitet og dokumentasjon","subjectId":"urn:subject:38","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c338d76a-6e12-4ab5-9018-34e25b4dc9cf","name":"Mediesamfunnet 2","subjectId":"urn:subject:1","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:a4d2ed33-2d86-4995-b756-31fdeb17f310","name":"Helsefremjande arbeid","subjectId":"urn:subject:24","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0","name":"SF Vg3","subjectId":"urn:subject:15","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:38bc9538-63fd-48f3-9085-c2142dafd64c","name":"2P-Y","subjectId":"urn:subject:30","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3ebb951a-fbe6-4f60-a02a-dd22fe348fb2","name":"1T-Y","subjectId":"urn:subject:30","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:f3d2143b-66e3-428c-89ca-72c1abc659ea","name":"PB Vg3","subjectId":"urn:subject:19","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:9132d125-4d8f-41a6-b61d-77741662d5a9","name":"PB VG3","subjectId":"urn:subject:9","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:d9ac9ac0-89a3-4bc2-bc45-28b3eaf3e47a","name":"awdawd 1","subjectId":"urn:subject:8b18253e-8b0e-49d7-a97b-2240b46708cf","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:18569f4e-5901-472a-96a0-b06c09b201fb","name":"KK1","subjectId":"urn:subject:18","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:e836a938-ae37-4fec-b02b-1fef6acda110","name":"SF VG1","subjectId":"urn:subject:21","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:ee84a147-0472-4fc6-832b-704faefa2ff0","name":"Medieuttrykk 2","subjectId":"urn:subject:1","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:039ea5e2-c196-4c9a-abad-8c615bddbdbd","name":"jonastest","subjectId":"urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:b100450f-c0bd-4b73-b924-44ab6baf4777","name":"1P-Y","subjectId":"urn:subject:30","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:71d2d6dd-f768-48ec-a101-66d24352822b","name":"Filter 1","subjectId":"urn:subject:456966a2-f495-4a22-8108-ade90d989099","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:cfa0043e-c52f-4930-b9c3-c65dcefafb62","name":"YFF","subjectId":"urn:subject:40","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9","name":"Helsefremmende arbeid","subjectId":"urn:subject:40","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:a532138d-e16a-4046-a46e-bd5bc9487b8b","name":"PB Vg3","subjectId":"urn:subject:15","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:5b028a77-1c35-4774-8e10-49e1bac2d6fd","name":"Økonomi og administrasjon","subjectId":"urn:subject:22","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:8bfd0a97-d456-448d-8b5f-3bc49e445b37","name":"1T","subjectId":"urn:subject:33","contentUri":"urn:frontpage:47","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3ebacacd-90ad-4142-a086-f3095f32e934","name":"jonastest","subjectId":"urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3ae0b95b-294a-4a93-9b34-27a75b8cc6e0","name":"jonastest","subjectId":"urn:subject:66a26c88-42de-4321-89f1-4d277da4b482","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:12312312","name":"jonastest","subjectId":"urn:subject:3","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:7326d0d7-fc69-40b9-a80b-8eee56f6f5a7","name":"SF VG1/YF VG2","subjectId":"urn:subject:66a26c88-42de-4321-89f1-4d277da4b482","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:8ee2047e-d1f1-495c-9c19-0a42384dfd81","name":"Yrkesutøvelse","subjectId":"urn:subject:4","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:776b6d7e-c2b6-4552-ab29-c01178854f33","name":"jonastest","subjectId":"urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:892a61a9-5b76-40c3-bdb0-8fece8b434a7","name":"Vg3","subjectId":"urn:subject:26","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:111db909-f52d-4b25-881f-40b37077043e","name":"YFF","subjectId":"urn:subject:28","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e","name":"MIK 1","subjectId":"urn:subject:14","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:4ee36865-dc37-456e-a12e-0c472d3e8ca9","name":"Data- og elektronikksystemer","subjectId":"urn:subject:16","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b","name":"Bransje, fag og miljø","subjectId":"urn:subject:37","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:37e92c60-cca9-4b68-b2ee-a706f568756e","name":"Kommunikasjon","subjectId":"urn:subject:40","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:87a4f94f-1d4f-47b8-baf7-5975df8ef0bb","name":"SF VG1/YF VG2","subjectId":"urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:84b75005-4a78-4a73-bcd9-80aec60249e9","name":"Filter 2","subjectId":"urn:subject:4769848b-9e19-468d-988a-c63d4af291e8","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:22dee9ab-5b1a-4c23-8c97-c68107b881bb","name":"Biologi 1","subjectId":"urn:subject:42","contentUri":"urn:frontpage:45","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182","name":"SF Vg2","subjectId":"urn:subject:15","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:29950014-33fb-4aa7-b1ca-e52da2f6083d","name":"YFF","subjectId":"urn:subject:38","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:41cb93c0-abc7-4212-b69f-df81106ae3c0","name":"SF VG3","subjectId":"urn:subject:17","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c3a6cbee-9828-4835-b8a4-c44c0a7acf90","name":"YFF","subjectId":"urn:subject:11","contentUri":"urn:frontpage:50","metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:4bd03b4c-1e32-4d01-9c22-e435896ecedb","name":"YF Vg1","subjectId":"urn:subject:15","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30","name":"YF VG2","subjectId":"urn:subject:6","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:db5c8029-7add-4995-96b9-43e54444d40e","name":"SF VG1/YF VG2","subjectId":"urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:34ea30e7-3294-48c1-821b-b0d76ac77eba","name":"Bransjeteknikk","subjectId":"urn:subject:36","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c04eaec4-0d02-4674-9876-8823908a4c92","name":"jonastest","subjectId":"urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:d553350c-fc38-4a4d-b621-6ae42234a40f","name":"Testfilter","subjectId":"urn:subject:27","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:6f770e8e-7426-4b43-b1b1-9c12bbbcae43","name":"Kosthold, ernæring og helse","subjectId":"urn:subject:41","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:c08e9657-f9c7-494f-85f3-225955147bdf","name":"Produksjon","subjectId":"urn:subject:11","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:68f5f263-0036-4aa0-97ce-ea24e3db58ab","name":"jonastest","subjectId":"urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c","name":"SF VG2","subjectId":"urn:subject:27","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:8c55be96-a808-4e00-ab76-325d64d27ec5","name":"Produksjon","subjectId":"urn:subject:38","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3","name":"R1","subjectId":"urn:subject:32","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:a9e14915-c279-462b-82fa-714ceee05116","name":"Bruker- og driftsstøtte","subjectId":"urn:subject:25","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:410c2790-c62c-4dc1-a30c-49ecd1063690","name":"YF VG1","subjectId":"urn:subject:21","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:3687db4f-b3c9-471b-b0e6-9e36c39cc445","name":"Markedsføring og salg","subjectId":"urn:subject:22","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1","name":"SF VG2","subjectId":"urn:subject:9","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:671bd263-eee6-4c56-9e23-a6bbd3130f33","name":"PB VG3","subjectId":"urn:subject:21","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:021e4beb-fbdf-4f1c-b408-23d08f6446f3","name":"YFF","subjectId":"urn:subject:35","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:e4c0e04c-6162-4921-865d-68b020f62244","name":"SF Vg1","subjectId":"urn:subject:19","contentUri":null,"metadata":{"grepCodes":[],"visible":true}},{"id":"urn:filter:6f99fa59-4f28-45fc-b53b-c87f80d30a88","name":"SF Vg1","subjectId":"urn:subject:15","contentUri":null,"metadata":{"grepCodes":[],"visible":true}}]
+[
+  {
+    "id": "urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c",
+    "name": "Mediesamfunnet 3",
+    "subjectId": "urn:subject:1",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:be544090-ff77-4017-8c65-7840bf28ba22",
+    "name": "Kommunikasjon og samhandlinger",
+    "subjectId": "urn:subject:4",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:f5602ca2-99ac-48d5-8ca7-59b434f2ce97",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:34237fe6-63a5-47ea-8ee6-94ed6a0c92b7",
+    "name": "Dokumentasjon og kvalitet",
+    "subjectId": "urn:subject:28",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:e8ce40d7-99db-4d63-9c26-438fa13f6080",
+    "name": "Automatiseringssystemer",
+    "subjectId": "urn:subject:16",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:6b35c125-5a82-4a30-9d60-0646c31dce32",
+    "name": "Markedsføring og salg",
+    "subjectId": "urn:subject:12",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b5156afd-e11c-4426-a3ba-a1e25c03f489",
+    "name": "Råvarer og produksjon",
+    "subjectId": "urn:subject:41",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:78e538a3-78bf-4db2-af00-2ca7d721cb25",
+    "name": "SF VG3",
+    "subjectId": "urn:subject:44",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:4a73afd7-f263-48fa-b6fb-49bd21e517ab",
+    "name": "KK2",
+    "subjectId": "urn:subject:18",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b40855bb-9e21-4944-9257-c96679da549a",
+    "name": "Sikkerhet",
+    "subjectId": "urn:subject:22",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b46acacc-c29e-4e1f-b433-6a213d0e7bc2",
+    "name": "jonastest",
+    "subjectId": "urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:9ed83b27-f806-4ff3-a618-c30e44315f7d",
+    "name": "jonastest",
+    "subjectId": "urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:2a1420a8-a485-4000-8593-6fe0341a8a22",
+    "name": "YF Vg2",
+    "subjectId": "urn:subject:15",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:557e75cb-a070-4c03-9209-487cf9ac3c96",
+    "name": "jonastest",
+    "subjectId": "urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:364a61b2-1653-4fe2-bc74-f1d41ec43ba8",
+    "name": "NDLA Film",
+    "subjectId": "urn:subject:20",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186",
+    "name": "MIK 2",
+    "subjectId": "urn:subject:14",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:572373fc-5272-4faa-b61a-8bdc32453162",
+    "name": "jonastest",
+    "subjectId": "urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:fe2f29b2-8acd-4c20-a3c9-acc999125ff6",
+    "name": "Tegning og bransjelære",
+    "subjectId": "urn:subject:11",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:ac93fdc4-f949-4fd2-9b22-e0ad9ab33f36",
+    "name": "jonastest",
+    "subjectId": "urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:d48cec4b-2e3c-4a0c-8da0-48147988154a",
+    "name": "YF VG1",
+    "subjectId": "urn:subject:13",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:10ca354c-ec30-470e-a430-b11e2ddc500b",
+    "name": "jonastest",
+    "subjectId": "urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:980866f7-3bf5-429c-ba7a-f91a6cb37f9f",
+    "name": "Medieuttrykk 3",
+    "subjectId": "urn:subject:1",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:1d441d40-358a-47a8-8cd5-7a80382a9062",
+    "name": "Kinesisk 1",
+    "subjectId": "urn:subject:2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:229eabc2-af47-4a7e-bcd6-a655ecb758e6",
+    "name": "jonastest",
+    "subjectId": "urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:e59518d1-308e-44ae-9017-1cf6d51d3ea6",
+    "name": "Kosthald og livsstil",
+    "subjectId": "urn:subject:37",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:19dae192-699d-488f-8218-d81535ce3ae3",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:3",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:ebaf899b-4161-4281-80ab-2cb7eebecca4",
+    "name": "S2",
+    "subjectId": "urn:subject:31",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:0138913b-81ce-4faf-b8bc-c34c5f59a8ac",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:05c3153e-9dfd-4b8b-a810-f3ca174a2be8",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:4860440c-8564-4e88-ad52-3e6a954b8c1c",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3170610c-6a5a-4da5-aeba-adb247aae48c",
+    "name": "Kinesisk 2",
+    "subjectId": "urn:subject:2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:382e6cf8-0c78-4f78-b96a-2927cfef632a",
+    "name": "Sal og marknadsføring",
+    "subjectId": "urn:subject:35",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:992c86f7-8cae-45ef-aab3-a40cdc5e99d9",
+    "name": "Helsefremmende arbeid",
+    "subjectId": "urn:subject:4",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:d97809a8-47b6-4d26-ae5c-1839f4c27940",
+    "name": "Drift og vedlikehold",
+    "subjectId": "urn:subject:25",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71",
+    "name": "Virksomhetsstøtte",
+    "subjectId": "urn:subject:25",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:d9900359-abd3-470f-99b2-809e58abd5d7",
+    "name": "Transport og logistikk ",
+    "subjectId": "urn:subject:36",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:470720f9-6b03-40cb-ab58-e3e130803578",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b0a79538-d211-4254-852a-5aa2c4b89db7",
+    "name": "2P",
+    "subjectId": "urn:subject:29",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:113986bb-9b00-42dc-b1ff-0b9a352369f4",
+    "name": "YFF",
+    "subjectId": "urn:subject:24",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b9e86c43-93b8-49e9-81af-09dbc7d79401",
+    "name": "KK3",
+    "subjectId": "urn:subject:18",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:f0aebf22-5610-401d-a2da-aaf3cf47f06a",
+    "name": "Sikkerhet og transport",
+    "subjectId": "urn:subject:12",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:92b5414a-cc19-471a-96f1-deb6d0aba841",
+    "name": "Medieuttrykk 1",
+    "subjectId": "urn:subject:1",
+    "contentUri": "urn:frontpage:51",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c71ed1a1-1cda-4679-89ac-0ba8c4a2a250",
+    "name": "Filter 1",
+    "subjectId": "urn:subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:2cbe8089-7d7b-407f-8f04-fbfdc116abc1",
+    "name": "Yrkesutøving",
+    "subjectId": "urn:subject:24",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:8181c74a-d7cd-40de-b199-864e069ffb8b",
+    "name": "Etablering og drift",
+    "subjectId": "urn:subject:35",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20",
+    "name": "SF Vg2",
+    "subjectId": "urn:subject:19",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:cc6d1f6b-6b1a-416d-998b-86d4279dee29",
+    "name": "Filter 1",
+    "subjectId": "urn:subject:4769848b-9e19-468d-988a-c63d4af291e8",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:6677db5d-7ed3-4c47-8a0d-d895d1e0505d",
+    "name": "Tekniske tjenester",
+    "subjectId": "urn:subject:28",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7",
+    "name": "SF VG3",
+    "subjectId": "urn:subject:9",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:89f7d059-6ae6-4e83-846f-7db4d24b1d36",
+    "name": "Servering, bransje og miljø",
+    "subjectId": "urn:subject:41",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:26a01df2-376e-4090-b0bf-eec2ca3d41dd",
+    "name": "Vertskapsrolla",
+    "subjectId": "urn:subject:35",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:06270029-7aa7-4a7a-b383-128b275ff150",
+    "name": "SF VG3",
+    "subjectId": "urn:subject:23",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:45ff62cd-eade-4ecb-9a75-4af405021fdb",
+    "name": "Vg2",
+    "subjectId": "urn:subject:26",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:ab03c895-0fbf-42d2-9ce0-204dc7018982",
+    "name": "jonastest",
+    "subjectId": "urn:subject:66a26c88-42de-4321-89f1-4d277da4b482",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:2931ee0d-ba04-476c-a080-1455cf8a508b",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:777ae87e-ca79-4866-920a-115cfeb7bbe1",
+    "name": "Kommunikasjon og samhandling",
+    "subjectId": "urn:subject:24",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:4200b774-5b7b-4900-bf1d-e0b298b9cb97",
+    "name": "R2",
+    "subjectId": "urn:subject:32",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:11ea8113-82e9-4bfd-b493-fe3cb03012e9",
+    "name": "1T",
+    "subjectId": "urn:subject:34",
+    "contentUri": "urn:frontpage:49",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:047d1613-97bf-4665-8872-3e0c044832e2",
+    "name": "Produksjon",
+    "subjectId": "urn:subject:28",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b3351e92-65b0-4ac8-a502-2ea6fd33f18e",
+    "name": "Mediesamfunnet 1",
+    "subjectId": "urn:subject:1",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:f4581340-52f1-435d-8f99-d5de4e123f70",
+    "name": "YF Vg1/Vg2",
+    "subjectId": "urn:subject:19",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c621fe47-6d28-4ecd-95cb-ad641382d8f4",
+    "name": "SF VG2",
+    "subjectId": "urn:subject:43",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:da27bdd3-8169-4a72-8837-1cf441a16018",
+    "name": "jonastest2",
+    "subjectId": "urn:subject:3",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    }
+  },
+  {
+    "id": "urn:filter:797f7c40-4146-48aa-a41e-21840fc204e9",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:a3c1b65a-c41f-4879-b650-32a13fe1801b",
+    "name": "VG1P",
+    "subjectId": "urn:subject:34",
+    "contentUri": "urn:frontpage:48",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:be5883e6-02a1-4b54-8143-20559c98b411",
+    "name": "jonastest",
+    "subjectId": "urn:subject:fb4d7ffe-c8c6-4619-915b-f4c1a0e06958",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:8c230faa-c1b1-4c16-b47a-490d8d7247cf",
+    "name": "Yrkesutøvelse",
+    "subjectId": "urn:subject:40",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3ae2c40f-4661-4863-9987-4944ff534974",
+    "name": "S1",
+    "subjectId": "urn:subject:31",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa",
+    "name": "1P",
+    "subjectId": "urn:subject:29",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:ec288dfb-4768-4f82-8387-fe2d73fff1e1",
+    "name": "Tysk 2",
+    "subjectId": "urn:subject:8",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:ca607ca1-4dd0-4bbd-954f-67461f4b96fc",
+    "name": "Vg1",
+    "subjectId": "urn:subject:26",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:cddc3895-a19b-4e30-bd27-2f91b4a02894",
+    "name": "SF Vg3",
+    "subjectId": "urn:subject:19",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:1a05c6c7-121e-49e2-933c-580da74afe1a",
+    "name": "Tysk 1",
+    "subjectId": "urn:subject:8",
+    "contentUri": "urn:frontpage:56",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:537bdc1a-159b-43d8-80f4-97e0cf8b78eb",
+    "name": "YFF",
+    "subjectId": "urn:subject:4",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c94e4aef-b605-4c76-a332-5a01e8542d5d",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:1152af37-2ef3-4b1b-bb1b-fddfd90bb1d5",
+    "name": "Tysk 3",
+    "subjectId": "urn:subject:8",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:f731eeb2-cc24-4cbd-8d0b-de2dd7e09cad",
+    "name": "Filter 2",
+    "subjectId": "urn:subject:9ab72ce3-0974-4f7d-a87d-7efda2cb739f",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:05344551-b05a-416e-8f2a-a3aef35cc59a",
+    "name": "jonastest",
+    "subjectId": "urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:fb02fcf8-7995-42f5-a497-318dbcc06cbd",
+    "name": "Elenergisystemer",
+    "subjectId": "urn:subject:16",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:433559e2-5bf4-4ba1-a592-24fa4057ec01",
+    "name": "ML 1",
+    "subjectId": "urn:subject:7",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6",
+    "name": "SF",
+    "subjectId": "urn:subject:39",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:58d7143c-5456-47b5-81e7-8d57f542b0e4",
+    "name": "jonastest",
+    "subjectId": "urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:765ff687-efd9-4fd9-82e7-19ba59908d26",
+    "name": "YF VG3",
+    "subjectId": "urn:subject:6",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:fdefda2a-7d3a-4749-92cf-24ad466a20db",
+    "name": "Råstoff og produksjon",
+    "subjectId": "urn:subject:37",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:1a6bcbb9-8236-4f46-ae70-02af0fb89248",
+    "name": "jonastest",
+    "subjectId": "urn:subject:f3ee803d-1961-4c97-8ef3-579e7882f268",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:9a925996-e067-42bc-aea0-f3fcb1d7c043",
+    "name": "Kvalitet og dokumentasjon",
+    "subjectId": "urn:subject:38",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c338d76a-6e12-4ab5-9018-34e25b4dc9cf",
+    "name": "Mediesamfunnet 2",
+    "subjectId": "urn:subject:1",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:a4d2ed33-2d86-4995-b756-31fdeb17f310",
+    "name": "Helsefremjande arbeid",
+    "subjectId": "urn:subject:24",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:20e0fdca-5237-4095-a9e5-cea7d63866c0",
+    "name": "SF Vg3",
+    "subjectId": "urn:subject:15",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:38bc9538-63fd-48f3-9085-c2142dafd64c",
+    "name": "2P-Y",
+    "subjectId": "urn:subject:30",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3ebb951a-fbe6-4f60-a02a-dd22fe348fb2",
+    "name": "1T-Y",
+    "subjectId": "urn:subject:30",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:f3d2143b-66e3-428c-89ca-72c1abc659ea",
+    "name": "PB Vg3",
+    "subjectId": "urn:subject:19",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:9132d125-4d8f-41a6-b61d-77741662d5a9",
+    "name": "PB VG3",
+    "subjectId": "urn:subject:9",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:d9ac9ac0-89a3-4bc2-bc45-28b3eaf3e47a",
+    "name": "awdawd 1",
+    "subjectId": "urn:subject:8b18253e-8b0e-49d7-a97b-2240b46708cf",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:18569f4e-5901-472a-96a0-b06c09b201fb",
+    "name": "KK1",
+    "subjectId": "urn:subject:18",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:e836a938-ae37-4fec-b02b-1fef6acda110",
+    "name": "SF VG1",
+    "subjectId": "urn:subject:21",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:ee84a147-0472-4fc6-832b-704faefa2ff0",
+    "name": "Medieuttrykk 2",
+    "subjectId": "urn:subject:1",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:039ea5e2-c196-4c9a-abad-8c615bddbdbd",
+    "name": "jonastest",
+    "subjectId": "urn:subject:a08a90ef-3f59-4fe6-ab9a-13400a3a8ab2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:b100450f-c0bd-4b73-b924-44ab6baf4777",
+    "name": "1P-Y",
+    "subjectId": "urn:subject:30",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:71d2d6dd-f768-48ec-a101-66d24352822b",
+    "name": "Filter 1",
+    "subjectId": "urn:subject:456966a2-f495-4a22-8108-ade90d989099",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:cfa0043e-c52f-4930-b9c3-c65dcefafb62",
+    "name": "YFF",
+    "subjectId": "urn:subject:40",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:f1c484c4-a826-4ba0-a9ee-e00e0b4e35b9",
+    "name": "Helsefremmende arbeid",
+    "subjectId": "urn:subject:40",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:a532138d-e16a-4046-a46e-bd5bc9487b8b",
+    "name": "PB Vg3",
+    "subjectId": "urn:subject:15",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:5b028a77-1c35-4774-8e10-49e1bac2d6fd",
+    "name": "Økonomi og administrasjon",
+    "subjectId": "urn:subject:22",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:8bfd0a97-d456-448d-8b5f-3bc49e445b37",
+    "name": "1T",
+    "subjectId": "urn:subject:33",
+    "contentUri": "urn:frontpage:47",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3ebacacd-90ad-4142-a086-f3095f32e934",
+    "name": "jonastest",
+    "subjectId": "urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3ae0b95b-294a-4a93-9b34-27a75b8cc6e0",
+    "name": "jonastest",
+    "subjectId": "urn:subject:66a26c88-42de-4321-89f1-4d277da4b482",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:12312312",
+    "name": "jonastest",
+    "subjectId": "urn:subject:3",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:7326d0d7-fc69-40b9-a80b-8eee56f6f5a7",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:66a26c88-42de-4321-89f1-4d277da4b482",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:8ee2047e-d1f1-495c-9c19-0a42384dfd81",
+    "name": "Yrkesutøvelse",
+    "subjectId": "urn:subject:4",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:776b6d7e-c2b6-4552-ab29-c01178854f33",
+    "name": "jonastest",
+    "subjectId": "urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:892a61a9-5b76-40c3-bdb0-8fece8b434a7",
+    "name": "Vg3",
+    "subjectId": "urn:subject:26",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:111db909-f52d-4b25-881f-40b37077043e",
+    "name": "YFF",
+    "subjectId": "urn:subject:28",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:94dfe81f-9e11-45fc-ab5a-fba63784d48e",
+    "name": "MIK 1",
+    "subjectId": "urn:subject:14",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:4ee36865-dc37-456e-a12e-0c472d3e8ca9",
+    "name": "Data- og elektronikksystemer",
+    "subjectId": "urn:subject:16",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b",
+    "name": "Bransje, fag og miljø",
+    "subjectId": "urn:subject:37",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:37e92c60-cca9-4b68-b2ee-a706f568756e",
+    "name": "Kommunikasjon",
+    "subjectId": "urn:subject:40",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:87a4f94f-1d4f-47b8-baf7-5975df8ef0bb",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:80b7cf8f-ee5f-43ca-a2e5-d2d5249e80f5",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:84b75005-4a78-4a73-bcd9-80aec60249e9",
+    "name": "Filter 2",
+    "subjectId": "urn:subject:4769848b-9e19-468d-988a-c63d4af291e8",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:22dee9ab-5b1a-4c23-8c97-c68107b881bb",
+    "name": "Biologi 1",
+    "subjectId": "urn:subject:42",
+    "contentUri": "urn:frontpage:45",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:d4511941-a1fc-4336-bc80-0a05c534a182",
+    "name": "SF Vg2",
+    "subjectId": "urn:subject:15",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:29950014-33fb-4aa7-b1ca-e52da2f6083d",
+    "name": "YFF",
+    "subjectId": "urn:subject:38",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:41cb93c0-abc7-4212-b69f-df81106ae3c0",
+    "name": "SF VG3",
+    "subjectId": "urn:subject:17",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c3a6cbee-9828-4835-b8a4-c44c0a7acf90",
+    "name": "YFF",
+    "subjectId": "urn:subject:11",
+    "contentUri": "urn:frontpage:50",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:4bd03b4c-1e32-4d01-9c22-e435896ecedb",
+    "name": "YF Vg1",
+    "subjectId": "urn:subject:15",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:01c27030-e8f8-4a7c-a5b3-489fdb8fea30",
+    "name": "YF VG2",
+    "subjectId": "urn:subject:6",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:db5c8029-7add-4995-96b9-43e54444d40e",
+    "name": "SF VG1/YF VG2",
+    "subjectId": "urn:subject:097ac7f5-132b-423e-912e-9e8b5bbf63f2",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:34ea30e7-3294-48c1-821b-b0d76ac77eba",
+    "name": "Bransjeteknikk",
+    "subjectId": "urn:subject:36",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c04eaec4-0d02-4674-9876-8823908a4c92",
+    "name": "jonastest",
+    "subjectId": "urn:subject:9bda85d4-d42a-4cee-bc4d-a7655bd32c78",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:d553350c-fc38-4a4d-b621-6ae42234a40f",
+    "name": "Testfilter",
+    "subjectId": "urn:subject:27",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:6f770e8e-7426-4b43-b1b1-9c12bbbcae43",
+    "name": "Kosthold, ernæring og helse",
+    "subjectId": "urn:subject:41",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:c08e9657-f9c7-494f-85f3-225955147bdf",
+    "name": "Produksjon",
+    "subjectId": "urn:subject:11",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:68f5f263-0036-4aa0-97ce-ea24e3db58ab",
+    "name": "jonastest",
+    "subjectId": "urn:subject:0630f89e-b23a-4494-8f78-76f823d796ce",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c",
+    "name": "SF VG2",
+    "subjectId": "urn:subject:27",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:8c55be96-a808-4e00-ab76-325d64d27ec5",
+    "name": "Produksjon",
+    "subjectId": "urn:subject:38",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+    "name": "Administrasjon og økonomi",
+    "subjectId": "urn:subject:12",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:fbdf693f-58d7-448e-ad5b-5d5c8fb685f3",
+    "name": "R1",
+    "subjectId": "urn:subject:32",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:a9e14915-c279-462b-82fa-714ceee05116",
+    "name": "Bruker- og driftsstøtte",
+    "subjectId": "urn:subject:25",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:410c2790-c62c-4dc1-a30c-49ecd1063690",
+    "name": "YF VG1",
+    "subjectId": "urn:subject:21",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:3687db4f-b3c9-471b-b0e6-9e36c39cc445",
+    "name": "Markedsføring og salg",
+    "subjectId": "urn:subject:22",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1",
+    "name": "SF VG2",
+    "subjectId": "urn:subject:9",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:671bd263-eee6-4c56-9e23-a6bbd3130f33",
+    "name": "PB VG3",
+    "subjectId": "urn:subject:21",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:021e4beb-fbdf-4f1c-b408-23d08f6446f3",
+    "name": "YFF",
+    "subjectId": "urn:subject:35",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:e4c0e04c-6162-4921-865d-68b020f62244",
+    "name": "SF Vg1",
+    "subjectId": "urn:subject:19",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  },
+  {
+    "id": "urn:filter:6f99fa59-4f28-45fc-b53b-c87f80d30a88",
+    "name": "SF Vg1",
+    "subjectId": "urn:subject:15",
+    "contentUri": null,
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    }
+  }
+]

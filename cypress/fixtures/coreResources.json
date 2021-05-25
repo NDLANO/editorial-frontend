@@ -1,1 +1,768 @@
-[{"id":"urn:resource:1:167841","name":"Fra brev til e-post","contentUri":"urn:article:791","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167841","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:2af09be0-b980-43cf-bf18-e4f651d7f964"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:629600a2-d85e-4bfe-92e5-34e67a047f9c"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:24117bfc-5a57-49f3-b3e2-06e41700b068","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167841"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:59dfc90a-3456-42e3-85c8-b74c9eaedb0f","rank":1,"primary":true},{"id":"urn:resource:1:167852","name":"Kundemøter på telefon","contentUri":"urn:article:792","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167852","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:a63a89be-19c1-46cd-88f6-a6db346b4e2a"},{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:6ecdbd32-b2ed-4fec-aef0-00dbd7065269"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:a781a79d-90a6-4b81-a45d-45f655a90f2b","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167852"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:8cedc164-383f-424e-8568-9296c475b761","rank":2,"primary":true},{"id":"urn:resource:1:167894","name":"Digitale møter med kunden","contentUri":"urn:article:793","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167894","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:a2aeb04f-9298-4676-82d2-1fdca3791003"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:7624c0ca-b02f-43d0-b708-3ceac43a4514"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:d19c2726-edff-486b-a117-969bfef6ece6","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167894"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:22b57a95-2223-477b-a43e-c922524052c6","rank":3,"primary":true},{"id":"urn:resource:1:167901","name":"Skriftlig kommunikasjon","contentUri":"urn:article:795","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167901","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:db5990e8-f963-4c1e-9093-cc3585948218"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:193a36e9-e56b-4127-8414-0f84a8f0043b"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:9013955a-1f7e-4c63-ac81-9415ba3c0f9a","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167901"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:94fec9ca-ef1b-4287-baac-3b290d78a5b8","rank":4,"primary":true},{"id":"urn:resource:1:167902","name":"Journalføring og arkiv","contentUri":"urn:article:798","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167902","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:505543af-d258-4c0b-8688-f47da7d3c1be"},{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:9af58d4b-8ad4-445a-8c44-d9863b511e41"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:4e194d0b-0c30-4567-ab41-fc723826fd3c","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167902"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:73bbf603-aab1-449b-aefe-23b8dee7e64d","rank":5,"primary":true},{"id":"urn:resource:1:167912","name":"Elektronisk journal","contentUri":"urn:article:799","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167912","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:964cd58d-7974-41cc-9336-13c3fa388d9e"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:7695e69c-8a04-4dfc-b7b4-3637fd1d5c4d"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:022de0e7-0928-4251-bb58-70929cd7e360","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167912"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:a6722e16-2370-4347-836d-e35e48518fb6","rank":6,"primary":true},{"id":"urn:resource:1:167916","name":"Misfornøyde kunder er gull verdt Some change","contentUri":"urn:article:800","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167916","metadata":{"grepCodes":[],"visible":false},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:8f98fd0c-65f9-44b9-99b8-5a8282fe63cb"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:56d789fd-1a91-4782-b132-7b4d229daabb"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:c50eb021-62e3-4a3f-a912-23636f109b8c","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167916"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:1e81d8be-726f-4c7c-9c3b-dd8514638831","rank":7,"primary":true},{"id":"urn:resource:1:167925","name":"Adgangskontroll","contentUri":"urn:article:801","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167925","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:8f1fdd2d-18bd-4b7a-8b2e-77ceaf0612cb"},{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:c70c5d32-d69a-437f-a331-9220fe7d8c29"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:198d31ac-17aa-462f-9c5c-a23a7047687c","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167925"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:a29e6098-dc0d-45fb-a13e-600b7f5ba182","rank":8,"primary":true},{"id":"urn:resource:1:167930","name":"Oppgavene til internservice","contentUri":"urn:article:802","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:167930","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:e5b79c10-613c-418f-abdb-868dc0737c5e"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:50780189-d79d-4e88-8001-20886b0245fb"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:4f6cedd8-f1bc-4697-b839-b81ab2747d1c","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:167930"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:c5e59539-1932-473c-86c0-6e3a7fc818f3","rank":9,"primary":true},{"id":"urn:resource:1:95567","name":"Personalrutiner","contentUri":"urn:article:803","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:95567","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:dddfab52-1e53-4ce4-ad2f-3639ff611805"},{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:37d99f47-f0a6-462d-a7b7-85a05ac10f50"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:be2012cb-65dc-413a-b201-4cd1b919847b","relevanceId":"urn:relevance:supplementary"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:95567"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:60179d05-eeb1-4009-86e2-aa224e054857","rank":10,"primary":true},{"id":"urn:resource:1:95938","name":"Rutiner i rekrutteringsprosessen","contentUri":"urn:article:805","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:95938","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:6ee94e5b-b343-460e-bdae-b1b035391580"},{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:f706bc27-4694-4d6a-a05e-f327d4f03070"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:4f9aab26-419e-429c-9ce5-20e5f475091b","relevanceId":"urn:relevance:supplementary"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:95938","/subject:12/topic:1:183043/topic:1:61604/resource:1:95938"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:c1134bf7-7375-4791-9ef6-6269a03deb3c","rank":11,"primary":true},{"id":"urn:resource:1:95569","name":"Medarbeidersamtale","contentUri":"urn:article:807","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:95569","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:dee73e96-a196-4763-9db6-ff770ce5d297"},{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:af0f48e1-2134-43fa-9ff7-894c2c252d36"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:786834ce-9165-4d39-aa54-9a0f33c2ac9c","relevanceId":"urn:relevance:supplementary"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:95569"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:a0b853ce-7e01-4b25-a14e-f98fc534c709","rank":12,"primary":true},{"id":"urn:resource:1:95571","name":"Økonomiske rutiner","contentUri":"urn:article:808","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:95571","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:45865930-9f46-4204-8055-f132e6d2db27"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:fedf33db-2827-4985-bc23-e013b80f56ef"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:ad3ae8c1-ea5d-4e47-a777-3c11202453f5","relevanceId":"urn:relevance:supplementary"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:95571"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:43e66af4-21ec-4264-afd9-51850b60dbdc","rank":13,"primary":true},{"id":"urn:resource:1:95574","name":"Bestillingsrutiner","contentUri":"urn:article:810","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:95574","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","parentId":null,"name":"Fagstoff","connectionId":"urn:resource-resourcetype:b5675951-97a9-4cb9-a9fd-fc3a619d9fe5"},{"id":"urn:resourcetype:academicArticle","parentId":"urn:resourcetype:subjectMaterial","name":"Fagartikkel","connectionId":"urn:resource-resourcetype:68e1f614-2437-4171-b923-5669adb24dc0"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:79707d74-4ad9-44b0-a536-4b91b7284557","relevanceId":"urn:relevance:supplementary"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:95574"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:c101e8ef-7a1a-4ccb-8c49-6c174b77176d","rank":14,"primary":true},{"id":"urn:resource:1:134447","name":"Skolens administrative rutiner ","contentUri":"urn:article:812","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:134447","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","parentId":null,"name":"Oppgaver og aktiviteter","connectionId":"urn:resource-resourcetype:4868b7a1-6da8-44ea-b316-78e5842ae3fb"},{"id":"urn:resourcetype:workAssignment","parentId":"urn:resourcetype:tasksAndActivities","name":"Arbeidsoppdrag","connectionId":"urn:resource-resourcetype:0cb66094-8db2-47cb-adae-d6e54277f785"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:314061a8-d4d6-43f2-ba4c-77338e806aff","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:134447"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:165c0560-893f-4a2b-8154-332c44349892","rank":15,"primary":true},{"id":"urn:resource:1:134451","name":"Økonomirutiner","contentUri":"urn:article:809","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:134451","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","parentId":null,"name":"Oppgaver og aktiviteter","connectionId":"urn:resource-resourcetype:fe56620d-ed6b-4f8d-b447-4105bed40d1e"},{"id":"urn:resourcetype:workAssignment","parentId":"urn:resourcetype:tasksAndActivities","name":"Arbeidsoppdrag","connectionId":"urn:resource-resourcetype:cffe4e28-c181-4111-86e7-92050ee202a6"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:c36c5bce-84fa-4a87-a72e-717f74856dc0","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:134451"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:2fdf8496-daf5-4573-a700-bf8df7cb9041","rank":16,"primary":true},{"id":"urn:resource:1:134453","name":"Ordregangen i en bedrift","contentUri":"urn:article:811","path":"/subject:12/topic:1:183043/topic:1:183437/resource:1:134453","metadata":{"grepCodes":[],"visible":true},"resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","parentId":null,"name":"Oppgaver og aktiviteter","connectionId":"urn:resource-resourcetype:35ff427b-7416-42b1-b193-ffff3605c4d0"},{"id":"urn:resourcetype:task","parentId":"urn:resourcetype:tasksAndActivities","name":"Oppgave","connectionId":"urn:resource-resourcetype:03fac8e4-c5cc-4646-92a6-e4a642d81259"}],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","subjectId":"urn:subject:12","contentUri":null,"metadata":{"grepCodes":[],"visible":true},"connectionId":"urn:resource-filter:13b2c05d-540b-4c6d-8918-08e8fa0b4f2a","relevanceId":"urn:relevance:core"}],"paths":["/subject:12/topic:1:183043/topic:1:183437/resource:1:134453"],"topicId":"urn:topic:1:183437","connectionId":"urn:topic-resource:b0457072-7ebb-4440-917c-8be1382be5b9","rank":17,"primary":true}]
+[
+  {
+    "id": "urn:resource:1:167841",
+    "name": "Fra brev til e-post",
+    "contentUri": "urn:article:791",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167841",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:2af09be0-b980-43cf-bf18-e4f651d7f964"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:629600a2-d85e-4bfe-92e5-34e67a047f9c"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:24117bfc-5a57-49f3-b3e2-06e41700b068",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167841"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:59dfc90a-3456-42e3-85c8-b74c9eaedb0f",
+    "rank": 1,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167852",
+    "name": "Kundemøter på telefon",
+    "contentUri": "urn:article:792",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167852",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:a63a89be-19c1-46cd-88f6-a6db346b4e2a"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:6ecdbd32-b2ed-4fec-aef0-00dbd7065269"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:a781a79d-90a6-4b81-a45d-45f655a90f2b",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167852"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:8cedc164-383f-424e-8568-9296c475b761",
+    "rank": 2,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167894",
+    "name": "Digitale møter med kunden",
+    "contentUri": "urn:article:793",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167894",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:a2aeb04f-9298-4676-82d2-1fdca3791003"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:7624c0ca-b02f-43d0-b708-3ceac43a4514"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:d19c2726-edff-486b-a117-969bfef6ece6",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167894"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:22b57a95-2223-477b-a43e-c922524052c6",
+    "rank": 3,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167901",
+    "name": "Skriftlig kommunikasjon",
+    "contentUri": "urn:article:795",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167901",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:db5990e8-f963-4c1e-9093-cc3585948218"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:193a36e9-e56b-4127-8414-0f84a8f0043b"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:9013955a-1f7e-4c63-ac81-9415ba3c0f9a",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167901"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:94fec9ca-ef1b-4287-baac-3b290d78a5b8",
+    "rank": 4,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167902",
+    "name": "Journalføring og arkiv",
+    "contentUri": "urn:article:798",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167902",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:505543af-d258-4c0b-8688-f47da7d3c1be"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:9af58d4b-8ad4-445a-8c44-d9863b511e41"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:4e194d0b-0c30-4567-ab41-fc723826fd3c",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167902"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:73bbf603-aab1-449b-aefe-23b8dee7e64d",
+    "rank": 5,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167912",
+    "name": "Elektronisk journal",
+    "contentUri": "urn:article:799",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167912",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:964cd58d-7974-41cc-9336-13c3fa388d9e"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:7695e69c-8a04-4dfc-b7b4-3637fd1d5c4d"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:022de0e7-0928-4251-bb58-70929cd7e360",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167912"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:a6722e16-2370-4347-836d-e35e48518fb6",
+    "rank": 6,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167916",
+    "name": "Misfornøyde kunder er gull verdt Some change",
+    "contentUri": "urn:article:800",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167916",
+    "metadata": {
+      "grepCodes": [],
+      "visible": false
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:8f98fd0c-65f9-44b9-99b8-5a8282fe63cb"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:56d789fd-1a91-4782-b132-7b4d229daabb"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:c50eb021-62e3-4a3f-a912-23636f109b8c",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167916"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:1e81d8be-726f-4c7c-9c3b-dd8514638831",
+    "rank": 7,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167925",
+    "name": "Adgangskontroll",
+    "contentUri": "urn:article:801",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167925",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:8f1fdd2d-18bd-4b7a-8b2e-77ceaf0612cb"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:c70c5d32-d69a-437f-a331-9220fe7d8c29"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:198d31ac-17aa-462f-9c5c-a23a7047687c",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167925"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:a29e6098-dc0d-45fb-a13e-600b7f5ba182",
+    "rank": 8,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:167930",
+    "name": "Oppgavene til internservice",
+    "contentUri": "urn:article:802",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:167930",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:e5b79c10-613c-418f-abdb-868dc0737c5e"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:50780189-d79d-4e88-8001-20886b0245fb"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:4f6cedd8-f1bc-4697-b839-b81ab2747d1c",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:167930"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:c5e59539-1932-473c-86c0-6e3a7fc818f3",
+    "rank": 9,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:95567",
+    "name": "Personalrutiner",
+    "contentUri": "urn:article:803",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95567",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:dddfab52-1e53-4ce4-ad2f-3639ff611805"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:37d99f47-f0a6-462d-a7b7-85a05ac10f50"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:be2012cb-65dc-413a-b201-4cd1b919847b",
+        "relevanceId": "urn:relevance:supplementary"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:95567"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:60179d05-eeb1-4009-86e2-aa224e054857",
+    "rank": 10,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:95938",
+    "name": "Rutiner i rekrutteringsprosessen",
+    "contentUri": "urn:article:805",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95938",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:6ee94e5b-b343-460e-bdae-b1b035391580"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:f706bc27-4694-4d6a-a05e-f327d4f03070"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:4f9aab26-419e-429c-9ce5-20e5f475091b",
+        "relevanceId": "urn:relevance:supplementary"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:95938",
+      "/subject:12/topic:1:183043/topic:1:61604/resource:1:95938"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:c1134bf7-7375-4791-9ef6-6269a03deb3c",
+    "rank": 11,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:95569",
+    "name": "Medarbeidersamtale",
+    "contentUri": "urn:article:807",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95569",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:dee73e96-a196-4763-9db6-ff770ce5d297"
+      },
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:af0f48e1-2134-43fa-9ff7-894c2c252d36"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:786834ce-9165-4d39-aa54-9a0f33c2ac9c",
+        "relevanceId": "urn:relevance:supplementary"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:95569"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:a0b853ce-7e01-4b25-a14e-f98fc534c709",
+    "rank": 12,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:95571",
+    "name": "Økonomiske rutiner",
+    "contentUri": "urn:article:808",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95571",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:45865930-9f46-4204-8055-f132e6d2db27"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:fedf33db-2827-4985-bc23-e013b80f56ef"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:ad3ae8c1-ea5d-4e47-a777-3c11202453f5",
+        "relevanceId": "urn:relevance:supplementary"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:95571"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:43e66af4-21ec-4264-afd9-51850b60dbdc",
+    "rank": 13,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:95574",
+    "name": "Bestillingsrutiner",
+    "contentUri": "urn:article:810",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:95574",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:subjectMaterial",
+        "parentId": null,
+        "name": "Fagstoff",
+        "connectionId": "urn:resource-resourcetype:b5675951-97a9-4cb9-a9fd-fc3a619d9fe5"
+      },
+      {
+        "id": "urn:resourcetype:academicArticle",
+        "parentId": "urn:resourcetype:subjectMaterial",
+        "name": "Fagartikkel",
+        "connectionId": "urn:resource-resourcetype:68e1f614-2437-4171-b923-5669adb24dc0"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:79707d74-4ad9-44b0-a536-4b91b7284557",
+        "relevanceId": "urn:relevance:supplementary"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:95574"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:c101e8ef-7a1a-4ccb-8c49-6c174b77176d",
+    "rank": 14,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:134447",
+    "name": "Skolens administrative rutiner ",
+    "contentUri": "urn:article:812",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:134447",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "parentId": null,
+        "name": "Oppgaver og aktiviteter",
+        "connectionId": "urn:resource-resourcetype:4868b7a1-6da8-44ea-b316-78e5842ae3fb"
+      },
+      {
+        "id": "urn:resourcetype:workAssignment",
+        "parentId": "urn:resourcetype:tasksAndActivities",
+        "name": "Arbeidsoppdrag",
+        "connectionId": "urn:resource-resourcetype:0cb66094-8db2-47cb-adae-d6e54277f785"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:314061a8-d4d6-43f2-ba4c-77338e806aff",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:134447"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:165c0560-893f-4a2b-8154-332c44349892",
+    "rank": 15,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:134451",
+    "name": "Økonomirutiner",
+    "contentUri": "urn:article:809",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:134451",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "parentId": null,
+        "name": "Oppgaver og aktiviteter",
+        "connectionId": "urn:resource-resourcetype:fe56620d-ed6b-4f8d-b447-4105bed40d1e"
+      },
+      {
+        "id": "urn:resourcetype:workAssignment",
+        "parentId": "urn:resourcetype:tasksAndActivities",
+        "name": "Arbeidsoppdrag",
+        "connectionId": "urn:resource-resourcetype:cffe4e28-c181-4111-86e7-92050ee202a6"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:c36c5bce-84fa-4a87-a72e-717f74856dc0",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:134451"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:2fdf8496-daf5-4573-a700-bf8df7cb9041",
+    "rank": 16,
+    "primary": true
+  },
+  {
+    "id": "urn:resource:1:134453",
+    "name": "Ordregangen i en bedrift",
+    "contentUri": "urn:article:811",
+    "path": "/subject:12/topic:1:183043/topic:1:183437/resource:1:134453",
+    "metadata": {
+      "grepCodes": [],
+      "visible": true
+    },
+    "resourceTypes": [
+      {
+        "id": "urn:resourcetype:tasksAndActivities",
+        "parentId": null,
+        "name": "Oppgaver og aktiviteter",
+        "connectionId": "urn:resource-resourcetype:35ff427b-7416-42b1-b193-ffff3605c4d0"
+      },
+      {
+        "id": "urn:resourcetype:task",
+        "parentId": "urn:resourcetype:tasksAndActivities",
+        "name": "Oppgave",
+        "connectionId": "urn:resource-resourcetype:03fac8e4-c5cc-4646-92a6-e4a642d81259"
+      }
+    ],
+    "filters": [
+      {
+        "id": "urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29",
+        "name": "Administrasjon og økonomi",
+        "subjectId": "urn:subject:12",
+        "contentUri": null,
+        "metadata": {
+          "grepCodes": [],
+          "visible": true
+        },
+        "connectionId": "urn:resource-filter:13b2c05d-540b-4c6d-8918-08e8fa0b4f2a",
+        "relevanceId": "urn:relevance:core"
+      }
+    ],
+    "paths": [
+      "/subject:12/topic:1:183043/topic:1:183437/resource:1:134453"
+    ],
+    "topicId": "urn:topic:1:183437",
+    "connectionId": "urn:topic-resource:b0457072-7ebb-4440-917c-8be1382be5b9",
+    "rank": 17,
+    "primary": true
+  }
+]

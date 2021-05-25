@@ -13,6 +13,8 @@ import { createFormData } from '../../util/formDataHelper';
 import { transformAudio } from '../../util/audioHelpers';
 import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
+import Spinner from '../../components/Spinner';
+import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import {
   UpdatedPodcastMetaInformation,
   FlattenedAudioApiType,
@@ -29,6 +31,17 @@ interface Props {
 const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const locale: string = useContext(LocaleContext);
   const [podcast, setPodcast] = useState<FlattenedAudioApiType | undefined>(undefined);
+  const [podcastChanged, setPodcastChanged] = useState(false);
+  const setPodcastWithFlag = (podcast: FlattenedAudioApiType | undefined, changed: boolean) => {
+    setPodcast(podcast);
+    setPodcastChanged(changed);
+  };
+  const [loading, setLoading] = useState<boolean>(false);
+  const { translating, translateToNN } = useTranslateApi(
+    podcast,
+    (podcast: FlattenedAudioApiType) => setPodcastWithFlag(podcast, true),
+    ['id', 'manuscript', 'title', 'podcastMeta.introduction'],
+  );
 
   const onUpdate = async (
     newPodcast: UpdatedPodcastMetaInformation,
@@ -37,14 +50,16 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     const formData = await createFormData(podcastFile, newPodcast);
     const updatedPodcast = await audioApi.updateAudio(podcastId, formData);
     const transformedPodcast = transformAudio(updatedPodcast, podcastLanguage);
-    setPodcast(transformedPodcast);
+    setPodcastWithFlag(transformedPodcast, false);
   };
 
   useEffect(() => {
     async function fetchPodcast() {
       if (podcastId) {
+        setLoading(true);
         const apiPodcast = await audioApi.fetchAudio(podcastId, podcastLanguage);
-        setPodcast(transformAudio(apiPodcast, podcastLanguage));
+        setPodcastWithFlag(transformAudio(apiPodcast, podcastLanguage), false);
+        setLoading(false);
       }
     }
 
@@ -55,6 +70,10 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
     return null;
   }
 
+  if (loading) {
+    return <Spinner withWrapper />;
+  }
+
   if (podcast?.audioType === 'standard') {
     return <Redirect to={toEditAudio(podcastId, podcastLanguage)} />;
   }
@@ -63,9 +82,12 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
   return (
     <PodcastForm
       audio={{ ...podcast, language }}
+      podcastChanged={podcastChanged}
       licenses={licenses}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
+      translating={translating}
+      translateToNN={translateToNN}
     />
   );
 };

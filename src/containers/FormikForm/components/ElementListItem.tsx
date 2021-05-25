@@ -61,6 +61,7 @@ const ElementListItem = ({
 
   return (
     <StyledListItem
+      data-cy="elementListItem"
       delete={deleteIndex === index}
       onAnimationEnd={deleteIndex === index ? executeDeleteFile : undefined}>
       <div>
@@ -71,7 +72,9 @@ const ElementListItem = ({
           alt={element.metaImage?.alt || ''}
         />
         {linkProps.to ? (
-          <Link to={linkProps.to}>{element.title.title}</Link>
+          <Link to={linkProps.to} target="_blank" rel="noopener noreferrer">
+            {element.title.title}
+          </Link>
         ) : (
           <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
             {element.title.title}
@@ -102,7 +105,12 @@ const ElementListItem = ({
             </StyledButtonIcons>
           )}
           <Tooltip tooltip={messages?.removeElement}>
-            <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
+            <StyledButtonIcons
+              data-cy="elementListItemDeleteButton"
+              tabIndex={-1}
+              type="button"
+              onClick={() => deleteFile(index)}
+              delete>
               <DeleteForever />
             </StyledButtonIcons>
           </Tooltip>

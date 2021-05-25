@@ -520,6 +520,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saved: 'Lagra ',
+    feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
     saveAsCopySuccess: 'Ny artikkel lagret',
     preview: {
@@ -559,7 +560,7 @@ const phrases = {
       relatedContent: 'Relaterte forklaringar',
       subjects: 'Fag',
       header: 'Overskrift',
-      manuscript: 'Manus',
+      manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
@@ -706,6 +707,7 @@ const phrases = {
       queued_for_publishing_delayed: 'Publ-utsatt',
       published: 'Publisert',
       has_published: 'Har publisert versjon',
+      unlisted: 'Lenkedelt',
       unpublished: 'Avpublisert',
       awaiting_unpublishing: 'Til avpublisering',
       awaiting_archiving: 'Utsatt arkivering',
@@ -940,6 +942,7 @@ const phrases = {
         label: 'Lydtittel',
         placeholder: 'Lydtittel',
       },
+      manuscript: 'Tekstversjon',
       caption: {
         label: 'Lydtekst',
         placeholder: 'Lydtekst',
@@ -1000,6 +1003,22 @@ const phrases = {
     learningpathConnections: {
       sectionTitle: 'Bruk av artikkelen i læringsstiar',
       title: 'Læringsstiar som inneheld denne artikkelen',
+    },
+    embedConnections: {
+      type: {
+        image: 'bildet',
+        audio: 'lydfilen',
+      },
+      sectionTitleArticle: 'Artiklar som bruker {resource}',
+      sectionTitleConcept: 'Forklaringar som bruker {resource}',
+      title: 'Bruk av {resource}',
+      info: {
+        image: 'Bruk av bildet i artiklar og/eller forklaringar',
+        audio: 'Bruk av lydfilen i artikler',
+      },
+      notInUse: 'Fant ingen artikler eller forklaringar som bruker {resource}',
+      articles: '{articles, plural, one{1 artikkel} other{# artikler}}',
+      concepts: '{concepts, plural, one{1 forklaring} other{# forklaringar}}',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',

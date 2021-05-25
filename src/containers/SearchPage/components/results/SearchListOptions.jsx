@@ -32,7 +32,7 @@ class SearchListOptions extends React.Component {
     return (
       <div {...searchClasses('options-container')}>
         <div {...searchClasses('option')}>
-          <span>
+          <span data-cy="totalCount">
             {t('searchPage.totalCount')}: <b>{totalCount}</b>
           </span>
           <select onChange={this.handlePageSizeChange} value={this.state.pageSize}>

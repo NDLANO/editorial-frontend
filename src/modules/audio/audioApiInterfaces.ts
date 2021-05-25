@@ -19,28 +19,25 @@ export interface AudioFile {
 }
 
 export interface NewPodcastMeta {
-  header: string;
   introduction: string;
   coverPhotoId: string;
   coverPhotoAltText: string;
-  manuscript: string;
 }
 
 export interface PodcastMeta {
-  header: string;
   introduction: string;
   coverPhoto: {
     id: string;
     url: string;
     altText: string;
   };
-  manuscript: string;
   language: string;
 }
 
 export interface NewAudioMetaInformation {
   id?: number; // Only used by frontend, ignored by backend
   title: string;
+  manuscript: string;
   language: string;
   copyright: Copyright;
   tags: string[];
@@ -67,6 +64,10 @@ export interface AudioApiType {
     title: string;
     language: string;
   };
+  manuscript: {
+    manuscript: string;
+    language: string;
+  };
   audioFile: AudioFile;
   copyright: Copyright;
   tags: {
@@ -82,12 +83,10 @@ export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
   language?: string;
   filepath: '';
   audioType?: 'podcast';
-  header?: string;
   introduction?: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;
-  manuscript?: string;
 }
 
 export interface AudioSearchResultType {
@@ -99,8 +98,9 @@ export interface AudioSearchResultType {
   license: string;
 }
 
-export interface FlattenedAudioApiType extends Omit<AudioApiType, 'title' | 'tags'> {
+export interface FlattenedAudioApiType extends Omit<AudioApiType, 'title' | 'manuscript' | 'tags'> {
   title: string;
+  manuscript: string;
   tags: string[];
   language?: string;
 }

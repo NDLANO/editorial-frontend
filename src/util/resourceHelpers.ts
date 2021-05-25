@@ -88,20 +88,18 @@ export const resourceToLinkProps = (
       rel: 'noopener noreferrer',
     };
   }
+
+  const foundSupportedLanguage = content.supportedLanguages?.find(l => l === locale);
+  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? 'nb';
+
   if (isConceptType(contentType)) {
     return {
-      to: toEditConcept(
-        content.id,
-        content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
-      ),
+      to: toEditConcept(content.id, languageOrDefault),
     };
   }
   if (isAudioType(contentType)) {
     return {
-      to: toEditAudio(
-        content.id,
-        content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
-      ),
+      to: toEditAudio(content.id, languageOrDefault),
     };
   }
 
@@ -109,7 +107,7 @@ export const resourceToLinkProps = (
     to: toEditArticle(
       content.id,
       content?.contexts?.[0]?.learningResourceType || 'standard',
-      content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
+      languageOrDefault,
     ),
   };
 };

@@ -2,40 +2,44 @@ import queryString from 'query-string';
 import config from '../config';
 import { NDLA_FILM_SUBJECT } from '../constants';
 
-const articleTypes = {
+const articleTypes: Record<string, string> = {
   'topic-article': 'topic-article',
   standard: 'learning-resource',
 };
 
-export function toSearch(query, type = 'content') {
+export function toSearch(query: object, type = 'content') {
   if (query) {
     return `/search/${type}?${queryString.stringify(query)}`;
   }
   return `/search/${type}`;
 }
 
-export function toEditArticle(articleId, articleType, locale) {
+export function toEditArticle(articleId: number, articleType: string, locale?: string) {
   const url = articleTypes[articleType] || articleTypes.standard;
   const path = `/subject-matter/${url}/${articleId}/edit`;
   return locale ? `${path}/${locale}` : path;
 }
 
-export function toEditSubjectpage(subjectId, locale, subjectpageId) {
+export function toEditSubjectpage(
+  subjectId: string,
+  locale: string,
+  subjectpageId?: number | string,
+) {
   if (subjectId === NDLA_FILM_SUBJECT) {
     return toEditNdlaFilm(locale);
   }
   return `/subjectpage/${subjectId}/${subjectpageId}/edit/${locale}`;
 }
 
-export function toEditNdlaFilm(language) {
+export function toEditNdlaFilm(language?: string) {
   return `/film/${language ? language : 'nb'}`;
 }
 
-export function toEditConcept(conceptId, locale) {
+export function toEditConcept(conceptId: number, locale: string) {
   return `/concept/${conceptId}/edit/${locale}`;
 }
 
-export function toEditMarkup(id, language) {
+export function toEditMarkup(id: number | string, language: string) {
   return `/edit-markup/${id}/${language}`;
 }
 
@@ -47,7 +51,7 @@ export function toCreateTopicArticle() {
   return '/subject-matter/topic-article/new';
 }
 
-export function toCreateSubjectpage(subjectId, locale) {
+export function toCreateSubjectpage(subjectId: string, locale: string) {
   if (subjectId === NDLA_FILM_SUBJECT) {
     return '/film';
   }
@@ -78,7 +82,7 @@ export function toCreateAudioFile() {
   return '/media/audio-upload/new';
 }
 
-export function toEditAudio(audioId, language) {
+export function toEditAudio(audioId: number, language: string) {
   return `/media/audio-upload/${audioId}/edit/${language}`;
 }
 
@@ -90,11 +94,11 @@ export function toCreatePodcastSeries() {
   return '/media/podcast-series/new';
 }
 
-export function toEditPodcast(audioId, language) {
+export function toEditPodcast(audioId: number, language: string) {
   return `/media/podcast-upload/${audioId}/edit/${language}`;
 }
 
-export function toEditPodcastSeries(seriesId, language) {
+export function toEditPodcastSeries(seriesId: number, language: string) {
   return `/media/podcast-series/${seriesId}/edit/${language}`;
 }
 
@@ -102,7 +106,7 @@ export function toCreateImage() {
   return '/media/image-upload/new';
 }
 
-export function toEditImage(imageId, language) {
+export function toEditImage(imageId: number | string, language: string) {
   return `/media/image-upload/${imageId}/edit/${language}`;
 }
 
@@ -110,11 +114,11 @@ export function toCreateAgreement() {
   return '/agreement/new';
 }
 
-export function toEditAgreement(agreementId) {
+export function toEditAgreement(agreementId: number) {
   return `/agreement/${agreementId}/edit`;
 }
 
-export function toPreviewDraft(draftId, language) {
+export function toPreviewDraft(draftId: number, language: string) {
   return `/preview/${draftId}/${language}`;
 }
 
@@ -122,12 +126,12 @@ export function to404() {
   return '/404';
 }
 
-export function isLearningpath(path) {
+export function isLearningpath(path: string | string[]): boolean {
   if (typeof path !== 'string') return false;
   return path.includes('learningpath-api');
 }
 
-export function getResourceIdFromPath(path) {
+export function getResourceIdFromPath(path?: string): string | undefined {
   if (typeof path !== 'string') return undefined;
   const learningPath = path.match(/learningpaths\/(\d+)/);
   if (learningPath && learningPath[1]) return learningPath[1];
@@ -135,22 +139,22 @@ export function getResourceIdFromPath(path) {
   return resource ? `urn:${resource[1]}` : '';
 }
 
-export function toLearningpathFull(id, locale) {
+export function toLearningpathFull(id: number, locale: string) {
   return `${config.learningpathFrontendDomain}/${locale}/learningpaths/${id}/first-step`;
 }
 
-export const removeLastItemFromUrl = url =>
+export const removeLastItemFromUrl = (url: string) =>
   url
     .split('/')
     .splice(0, url.split('/').length - 1)
     .join('/');
 
-export const getPathsFromUrl = url =>
-  url
+export const getPathsFromUrl = (url: string) => {
+  return url
     .split('/')
     .filter(item => item.includes('urn:'))
     .reduce(
-      (acc, curr) => [
+      (acc: string[], curr) => [
         ...acc,
         acc
           .slice(-1)
@@ -159,3 +163,4 @@ export const getPathsFromUrl = url =>
       ],
       [],
     );
+};

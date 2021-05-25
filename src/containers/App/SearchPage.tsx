@@ -9,7 +9,6 @@ import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
-import { Podcast } from '@ndla/icons/common';
 import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';

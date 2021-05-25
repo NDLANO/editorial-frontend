@@ -23,7 +23,7 @@ import {
   parseCopyrightContributors,
   DEFAULT_LICENSE,
 } from '../../../util/formHelper';
-import { toEditPodcast } from '../../../util/routeHelpers';
+import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import {
   AudioFile,
   PodcastMeta,
@@ -223,7 +223,10 @@ const PodcastForm = ({
               values={values}
               type="podcast"
               content={audio}
-              editUrl={(lang: string) => toEditPodcast(values.id, lang)}
+              editUrl={(lang: string) => {
+                if (values.id) return toEditPodcast(values.id, lang);
+                else toCreatePodcastFile();
+              }}
               translateToNN={translateToNN}
             />
             {translating ? (

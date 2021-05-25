@@ -22,9 +22,9 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { RoutePropTypes } from '../../shapes';
 import { ReduxState } from '../../interfaces';
 
-const usePreviousLocation = (value: any) => {
-  const ref = useRef();
-  const actualRef = useRef();
+const usePreviousLocation = (value: string) => {
+  const ref = useRef<string>();
+  const actualRef = useRef<string>();
   useEffect(() => {
     if (ref.current !== actualRef.current) {
       actualRef.current = ref.current;

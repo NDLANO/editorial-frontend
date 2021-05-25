@@ -16,7 +16,7 @@ import validateFormik from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { toEditPodcastSeries } from '../../../util/routeHelpers';
+import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import {
   PodcastFormValues,
   NewPodcastSeries,
@@ -149,7 +149,10 @@ const PodcastSeriesForm = ({
               values={values}
               type="podcast-series"
               content={podcastSeries}
-              editUrl={(lang: string) => toEditPodcastSeries(values.id, lang)}
+              editUrl={(lang: string) => {
+                if (values.id) return toEditPodcastSeries(values.id, lang);
+                else toCreatePodcastSeries();
+              }}
             />
             <Accordions>
               <AccordionSection

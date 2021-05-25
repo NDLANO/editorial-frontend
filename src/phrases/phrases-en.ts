@@ -184,7 +184,7 @@ const phrases = {
     structure: 'Structure',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
-    searchPodcastSeries: 'Search podcast',
+    searchPodcastSeries: 'Search series',
     searchImage: 'Search image',
     searchConcepts: 'Search concepts',
     film: 'Edit NDLA film',

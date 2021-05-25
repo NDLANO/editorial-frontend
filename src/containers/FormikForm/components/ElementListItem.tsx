@@ -34,7 +34,6 @@ interface Props {
   deleteIndex: number;
   isEditable: boolean;
   isOrderable: boolean;
-  // Element can be of type Article or Learningpath
   element: ContentResultType;
   executeDeleteFile: () => void;
   index: number;

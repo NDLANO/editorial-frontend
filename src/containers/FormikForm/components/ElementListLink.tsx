@@ -27,7 +27,6 @@ interface Props {
   deleteIndex: number;
   isEditable: boolean;
   isOrderable: boolean;
-  // Element can be of type Article or Learningpath
   element: RelatedContentLink;
   executeDeleteFile: () => void;
   index: number;

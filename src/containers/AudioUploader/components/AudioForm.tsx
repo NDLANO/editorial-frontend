@@ -26,6 +26,7 @@ import {
 import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
+import AudioManuscript from './AudioManuscript';
 import { toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
@@ -198,7 +199,7 @@ class AudioForm extends Component<Props, State> {
         validateOnMount
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
-          const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
+          const { values, dirty, isSubmitting, submitForm, handleBlur, errors } = formikProps;
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -239,6 +240,22 @@ class AudioForm extends Component<Props, State> {
                     'license',
                   ])}>
                   <AudioMetaData classes={formClasses} licenses={licenses} />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript
+                    handleSubmit={submitForm}
+                    onBlur={(event, editor, next) => {
+                      next();
+                      // this is a hack since formik onBlur-handler interferes with slates
+                      // related to: https://github.com/ianstormtaylor/slate/issues/2434
+                      // formik handleBlur needs to be called for validation to work (and touched to be set)
+                      setTimeout(() => handleBlur({ target: { name: 'manuscript' } }), 0);
+                    }}
+                  />
                 </AccordionSection>
               </Accordions>
 

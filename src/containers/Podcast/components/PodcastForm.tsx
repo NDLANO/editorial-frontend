@@ -11,9 +11,9 @@ import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
+import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
-import PodcastManuscript from './PodcastManuscript';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
@@ -262,7 +262,7 @@ const PodcastForm = ({
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some(field => field in errors)}>
-                  <PodcastManuscript
+                  <AudioManuscript
                     handleSubmit={submitForm}
                     onBlur={(event, editor, next) => {
                       next();

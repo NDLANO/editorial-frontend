@@ -58,6 +58,16 @@ const OpenMenu = ({ t, close }) => {
                 <Audio /> {t('subNavigation.audio')}
               </span>
             </StyledLink>
+            <StyledLink to={toCreatePodcastFile()} onClick={close}>
+              <span>
+                <Podcast /> {t('subNavigation.podcast')}
+              </span>
+            </StyledLink>
+            <StyledLink to={toCreatePodcastSeries()} onClick={close}>
+              <span>
+                <List /> {t('subNavigation.podcastSeries')}
+              </span>
+            </StyledLink>
           </div>
           <div>
             <StyledLink to="/structure" onClick={close}>
@@ -86,16 +96,6 @@ const OpenMenu = ({ t, close }) => {
                 {t('subNavigation.learningPathLink')} <Launch />
               </span>
             </StyledHrefLink>
-            <StyledLink to={toCreatePodcastFile()} onClick={close}>
-              <span>
-                <Podcast /> {t('subNavigation.podcast')}
-              </span>
-            </StyledLink>
-            <StyledLink to={toCreatePodcastSeries()} onClick={close}>
-              <span>
-                <List /> {t('subNavigation.podcastSeries')}
-              </span>
-            </StyledLink>
           </div>
         </nav>
       </div>

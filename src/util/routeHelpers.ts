@@ -1,4 +1,6 @@
 import queryString from 'query-string';
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import config from '../config';
 import { NDLA_FILM_SUBJECT } from '../constants';
 
@@ -163,4 +165,18 @@ export const getPathsFromUrl = (url: string) => {
       ],
       [],
     );
+};
+
+export const usePreviousLocation = () => {
+  const currentLocationRef = useRef<string>();
+  const previousLocationRef = useRef<string>();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (currentLocationRef.current !== previousLocationRef.current) {
+      previousLocationRef.current = currentLocationRef.current;
+    }
+    currentLocationRef.current = location.pathname;
+  }, [location.pathname]);
+  return previousLocationRef.current;
 };

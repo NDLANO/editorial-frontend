@@ -5,32 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState } from 'react';
-import { match, Route, RouteComponentProps, Switch } from 'react-router';
+import React from 'react';
+import { Route, RouteComponentProps, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import EditSubjectpage from './EditSubjectpage';
 import CreateSubjectpage from './CreateSubjectpage';
 import Footer from '../App/components/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { usePreviousLocation } from '../../util/routeHelpers';
 
-interface Props {
-  match: match;
-  location: RouteComponentProps['location'];
-}
+interface Props extends RouteComponentProps {}
 
-const Subjectpage = ({ match, location }: Props) => {
-  const [previousLocation, setPreviousLocation] = useState('');
-  const [isNewlyCreated, setNewlyCreated] = useState(false);
-
-  useEffect(() => {
-    /\/subjectpage\/(.*)\/new/.test(location.pathname)
-      ? setNewlyCreated(true)
-      : setNewlyCreated(false);
-    if (previousLocation !== location.pathname) {
-      setPreviousLocation(location.pathname);
-    }
-  }, [location.pathname, previousLocation]);
+const Subjectpage = ({ match }: Props) => {
+  const previousLocation = usePreviousLocation();
 
   return (
     <>
@@ -44,7 +32,7 @@ const Subjectpage = ({ match, location }: Props) => {
                   elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
                   subjectpageId={routeProps.match.params.subjectpageId}
-                  isNewlyCreated={isNewlyCreated}
+                  isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
                 />
               );
             }}

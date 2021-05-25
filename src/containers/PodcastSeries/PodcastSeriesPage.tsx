@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { RouteComponentProps, Route, Switch, RouteProps } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -14,6 +14,7 @@ import { injectT, tType } from '@ndla/i18n';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import CreatePodcastSeries from './CreatePodcastSeries';
 import EditPodcastSeries from './EditPodcastSeries';
+import { usePreviousLocation } from '../../util/routeHelpers';
 
 interface MatchParams {
   seriesId: string;
@@ -30,17 +31,7 @@ const PodcastSeriesPage = ({
   location,
   t,
 }: RouteComponentProps<MatchParams> & tType) => {
-  const [previousLocation, setPreviousLocation] = useState('');
-  const [isNewlyCreated, setNewlyCreated] = useState(false);
-
-  useEffect(() => {
-    /\/podcast-series\/(.*)\/new/.test(location.pathname)
-      ? setNewlyCreated(true)
-      : setNewlyCreated(false);
-    if (previousLocation !== location.pathname) {
-      setPreviousLocation(location.pathname);
-    }
-  }, [location.pathname, previousLocation]);
+  const previousLocation = usePreviousLocation();
 
   return (
     <OneColumn>
@@ -54,7 +45,7 @@ const PodcastSeriesPage = ({
           path={`${match.url}/:seriesId/edit/:seriesLanguage`}
           render={routeProps => (
             <EditPodcastSeries
-              isNewlyCreated={isNewlyCreated}
+              isNewlyCreated={previousLocation === '/media/podcast-series/new'}
               podcastSeriesId={Number(routeProps.match.params.seriesId)}
               podcastSeriesLanguage={routeProps.match.params.seriesLanguage}
             />

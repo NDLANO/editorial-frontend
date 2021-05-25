@@ -40,7 +40,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
   const { translating, translateToNN } = useTranslateApi(
     podcast,
     (podcast: FlattenedAudioApiType) => setPodcastWithFlag(podcast, true),
-    ['id', 'manuscript', 'title', 'podcastMeta.introduction'],
+    ['id', 'manuscript', 'title', 'podcastMeta.introduction', 'podcastMeta.coverPhoto.altText'],
   );
 
   const onUpdate = async (

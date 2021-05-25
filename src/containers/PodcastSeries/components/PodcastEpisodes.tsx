@@ -44,7 +44,7 @@ const PodcastEpisodes = ({ t }: tType) => {
     return searchAudio({
       query: input,
       language: language,
-      audioType: 'podcast',
+      'audio-type': 'podcast',
     });
   };
 

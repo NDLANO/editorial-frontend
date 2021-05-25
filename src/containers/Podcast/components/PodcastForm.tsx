@@ -240,6 +240,13 @@ const PodcastForm = ({
                   <AudioContent classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
@@ -254,22 +261,6 @@ const PodcastForm = ({
                       // related to: https://github.com/ianstormtaylor/slate/issues/2434
                       // formik handleBlur needs to be called for validation to work (and touched to be set)
                       setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-                    }}
-                  />
-                </AccordionSection>
-                <AccordionSection
-                  id="podcast-upload-podcastmanus"
-                  title={t('podcastForm.fields.manuscript')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
-                  <AudioManuscript
-                    handleSubmit={submitForm}
-                    onBlur={(event, editor, next) => {
-                      next();
-                      // this is a hack since formik onBlur-handler interferes with slates
-                      // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                      // formik handleBlur needs to be called for validation to work (and touched to be set)
-                      setTimeout(() => handleBlur({ target: { name: 'manuscript' } }), 0);
                     }}
                   />
                 </AccordionSection>

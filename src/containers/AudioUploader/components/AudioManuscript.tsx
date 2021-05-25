@@ -8,32 +8,48 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { Editor } from 'slate';
+import { connect, FormikContextType } from 'formik';
+import BEMHelper from 'react-bem-helper';
+
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
+import { AudioFormikType } from './AudioForm';
 
-interface Props {
-  handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: () => void) => void;
+interface BaseProps {
+  classes: BEMHelper<BEMHelper.ReturnObject>;
+}
+
+interface Props extends BaseProps {
+  formik: FormikContextType<AudioFormikType>;
 }
 
 const plugins = [textTransformPlugin()];
 
-const AudioManuscript = ({ handleSubmit, onBlur, t }: Props & tType) => (
-  <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript">
-    {({ field }) => (
-      <PlainTextEditor
-        id={field.name}
-        {...field}
-        className={'manuscript'}
-        placeholder={t('podcastForm.fields.manuscript')}
-        handleSubmit={handleSubmit}
-        plugins={plugins}
-        onBlur={onBlur}
-      />
-    )}
-  </FormikField>
-);
+const AudioManuscript = ({ t, formik }: Props & tType) => {
+  const { submitForm, handleBlur } = formik;
 
-export default injectT(AudioManuscript);
+  return (
+    <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript">
+      {({ field }) => (
+        <PlainTextEditor
+          id={field.name}
+          {...field}
+          className={'manuscript'}
+          placeholder={t('podcastForm.fields.manuscript')}
+          handleSubmit={submitForm}
+          plugins={plugins}
+          onBlur={(event: Event, editor: unknown, next: Function) => {
+            next();
+            // this is a hack since formik onBlur-handler interferes with slates
+            // related to: https://github.com/ianstormtaylor/slate/issues/2434
+            // formik handleBlur needs to be called for validation to work (and touched to be set)
+            setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
+          }}
+        />
+      )}
+    </FormikField>
+  );
+};
+
+export default injectT(connect<BaseProps & tType, AudioFormikType>(AudioManuscript));

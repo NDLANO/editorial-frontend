@@ -15,8 +15,9 @@ import { updateResourceMetadata } from './resources';
 import { createDeleteResourceTypes } from './resourcetypes';
 import { createDeleteUpdateFilters } from './filter';
 import { createDeleteUpdateTopicResources } from './topicresouces';
+import { taxonomyApi } from '../../config';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl(taxonomyApi);
 
 /* Option items */
 function fetchResourceTypes(language) {

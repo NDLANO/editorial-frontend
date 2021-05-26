@@ -32,6 +32,7 @@ import {
   fetchTopicConnections,
   updateTopicSubtopic,
   updateSubjectTopic,
+  updateTopicResource,
   deleteTopicConnection,
   deleteSubTopicConnection,
   fetchFilters,
@@ -42,6 +43,8 @@ import RoundIcon from '../../components/RoundIcon';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
+
+export const StructureContext = React.createContext();
 
 export class StructureContainer extends React.PureComponent {
   constructor(props) {
@@ -80,6 +83,7 @@ export class StructureContainer extends React.PureComponent {
     this.fetchFavoriteSubjects = this.fetchFavoriteSubjects.bind(this);
     this.getFavoriteSubjects = this.getFavoriteSubjects.bind(this);
     this.toggleShowFavorites = this.toggleShowFavorites.bind(this);
+    this.updateRelevanceId = this.updateRelevanceId.bind(this);
   }
 
   async componentDidMount() {
@@ -209,6 +213,24 @@ export class StructureContainer extends React.PureComponent {
         primary: true,
       });
       if (ok) this.deleteConnections();
+    }
+  }
+
+  async updateRelevanceId(connectionId, body) {
+    const [, connectionType] = connectionId.split(':');
+
+    switch (connectionType) {
+      case 'topic-resource':
+        updateTopicResource(connectionId, body);
+        break;
+      case 'topic-subtopic':
+        updateTopicSubtopic(connectionId, body);
+        break;
+      case 'subject-topic':
+        updateSubjectTopic(connectionId, body);
+        break;
+      default:
+        return;
     }
   }
 
@@ -402,92 +424,94 @@ export class StructureContainer extends React.PureComponent {
 
     return (
       <ErrorBoundary>
-        <OneColumn>
-          <Accordion
-            handleToggle={this.toggleStructure}
-            header={
-              <React.Fragment>
-                <Taxonomy className="c-icon--medium" />
-                {t('taxonomy.editStructure')}
-              </React.Fragment>
-            }
-            appearance="taxonomy"
-            addButton={
-              userAccess &&
-              userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (
-                <InlineAddButton title={t('taxonomy.addSubject')} action={this.addSubject} />
-              )
-            }
-            toggleSwitch={
-              <Switch
-                onChange={this.toggleShowFavorites}
-                checked={showFavorites}
-                label={t('taxonomy.favorites')}
-                id={'favorites'}
-                style={{ color: colors.white, width: '15.2em' }}
-              />
-            }
-            hidden={editStructureHidden}>
-            <div id="plumbContainer">
-              <Structure
-                DND
-                onDragEnd={this.onDragEnd}
-                openedPaths={getPathsFromUrl(match.url)}
-                structure={
-                  showFavorites ? this.getFavoriteSubjects(subjects, favoriteSubjects) : subjects
-                }
-                filters={filters}
-                toggleOpen={this.handleStructureToggle}
+        <StructureContext.Provider value={this.updateRelevanceId}>
+          <OneColumn>
+            <Accordion
+              handleToggle={this.toggleStructure}
+              header={
+                <React.Fragment>
+                  <Taxonomy className="c-icon--medium" />
+                  {t('taxonomy.editStructure')}
+                </React.Fragment>
+              }
+              appearance="taxonomy"
+              addButton={
+                userAccess &&
+                userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (
+                  <InlineAddButton title={t('taxonomy.addSubject')} action={this.addSubject} />
+                )
+              }
+              toggleSwitch={
+                <Switch
+                  onChange={this.toggleShowFavorites}
+                  checked={showFavorites}
+                  label={t('taxonomy.favorites')}
+                  id={'favorites'}
+                  style={{ color: colors.white, width: '15.2em' }}
+                />
+              }
+              hidden={editStructureHidden}>
+              <div id="plumbContainer">
+                <Structure
+                  DND
+                  onDragEnd={this.onDragEnd}
+                  openedPaths={getPathsFromUrl(match.url)}
+                  structure={
+                    showFavorites ? this.getFavoriteSubjects(subjects, favoriteSubjects) : subjects
+                  }
+                  filters={filters}
+                  toggleOpen={this.handleStructureToggle}
+                  activeFilters={activeFilters}
+                  highlightMainActive
+                  toggleFavorite={this.toggleFavorite}
+                  favoriteSubjectIds={favoriteSubjects}
+                  renderListItems={listProps => (
+                    <FolderItem
+                      {...listProps}
+                      key={listProps.id}
+                      refFunc={this.refFunc}
+                      getAllSubjects={this.getAllSubjects}
+                      onAddSubjectTopic={this.onAddSubjectTopic}
+                      subjectFilters={filters[params.subject]}
+                      onAddExistingTopic={this.onAddExistingTopic}
+                      refreshTopics={this.refreshTopics}
+                      linkViewOpen={linkViewOpen}
+                      getFilters={this.getFilters}
+                      activeFilters={activeFilters}
+                      setPrimary={this.setPrimary}
+                      toggleFilter={this.toggleFilter}
+                      deleteTopicLink={this.deleteTopicLink}
+                      structure={subjects}
+                      jumpToResources={() =>
+                        this.resourceSection && this.resourceSection.current.scrollIntoView()
+                      }
+                      locale={locale}
+                      userAccess={userAccess}
+                      setResourcesUpdated={this.setResourcesUpdated}
+                    />
+                  )}
+                />
+                <div ref={this.starButton}>{linkViewOpen && <RoundIcon icon={<Star />} />}</div>
+              </div>
+            </Accordion>
+            {topicId && (
+              <StructureResources
+                locale={locale}
+                params={params}
+                resourceRef={this.resourceSection}
+                availableFilters={this.state.availableFilters}
                 activeFilters={activeFilters}
-                highlightMainActive
-                toggleFavorite={this.toggleFavorite}
-                favoriteSubjectIds={favoriteSubjects}
-                renderListItems={listProps => (
-                  <FolderItem
-                    {...listProps}
-                    key={listProps.id}
-                    refFunc={this.refFunc}
-                    getAllSubjects={this.getAllSubjects}
-                    onAddSubjectTopic={this.onAddSubjectTopic}
-                    subjectFilters={filters[params.subject]}
-                    onAddExistingTopic={this.onAddExistingTopic}
-                    refreshTopics={this.refreshTopics}
-                    linkViewOpen={linkViewOpen}
-                    getFilters={this.getFilters}
-                    activeFilters={activeFilters}
-                    setPrimary={this.setPrimary}
-                    toggleFilter={this.toggleFilter}
-                    deleteTopicLink={this.deleteTopicLink}
-                    structure={subjects}
-                    jumpToResources={() =>
-                      this.resourceSection && this.resourceSection.current.scrollIntoView()
-                    }
-                    locale={locale}
-                    userAccess={userAccess}
-                    setResourcesUpdated={this.setResourcesUpdated}
-                  />
-                )}
+                currentTopic={currentTopic}
+                currentSubject={currentSubject}
+                structure={subjects}
+                refreshTopics={this.refreshTopics}
+                resourcesUpdated={this.state.resourcesUpdated}
+                setResourcesUpdated={this.setResourcesUpdated}
               />
-              <div ref={this.starButton}>{linkViewOpen && <RoundIcon icon={<Star />} />}</div>
-            </div>
-          </Accordion>
-          {topicId && (
-            <StructureResources
-              locale={locale}
-              params={params}
-              resourceRef={this.resourceSection}
-              availableFilters={this.state.availableFilters}
-              activeFilters={activeFilters}
-              currentTopic={currentTopic}
-              currentSubject={currentSubject}
-              structure={subjects}
-              refreshTopics={this.refreshTopics}
-              resourcesUpdated={this.state.resourcesUpdated}
-              setResourcesUpdated={this.setResourcesUpdated}
-            />
-          )}
-        </OneColumn>
-        <Footer showLocaleSelector />
+            )}
+          </OneColumn>
+          <Footer showLocaleSelector />
+        </StructureContext.Provider>
       </ErrorBoundary>
     );
   }

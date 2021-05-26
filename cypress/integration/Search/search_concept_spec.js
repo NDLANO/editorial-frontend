@@ -6,12 +6,13 @@
  *
  */
 
+ import { taxonomyApi } from '../../../src/config';
  import { setToken } from '../../support';
 
  describe('Search concepts', () => {
    beforeEach(() => {
      setToken();
-     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
      cy.apiroute(
        'GET',
        '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated',

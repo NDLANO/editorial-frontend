@@ -56,7 +56,7 @@ const EditSlateConcept = (props: Props & tType) => {
   );
   const conceptId = concept && concept.id ? concept.id : undefined;
 
-  const handleChangeAndClose = (isNewConcept: boolean) => {
+  const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
     if (isNewConcept) {
       Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
@@ -69,7 +69,7 @@ const EditSlateConcept = (props: Props & tType) => {
   const addConcept = (addedConcept: ConceptFormType) => {
     toggleConceptModal();
     setTimeout(() => {
-      handleChangeAndClose(true);
+      handleSelectionChange(true);
       const data = getConceptDataAttributes({
         ...addedConcept,
         title: { title: nodeText },
@@ -89,7 +89,7 @@ const EditSlateConcept = (props: Props & tType) => {
   const handleRemove = () => {
     toggleConceptModal();
     setTimeout(() => {
-      handleChangeAndClose(false);
+      handleSelectionChange(false);
       const path = ReactEditor.findPath(editor, element);
       Transforms.unwrapNodes(editor, {
         at: path,
@@ -102,7 +102,8 @@ const EditSlateConcept = (props: Props & tType) => {
     if (!element.data['content-id']) {
       handleRemove();
     } else {
-      handleChangeAndClose(false);
+      toggleConceptModal();
+      handleSelectionChange(false);
     }
   };
 

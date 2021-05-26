@@ -47,7 +47,7 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           {showAllOptions && <PublishTopic {...rest} />}
-          <ConnectFilterOption {...rest} />
+          {rest.subjectFilters.length === 0 || <ConnectFilterOption {...rest} />}
           {showAllOptions && (
             <>
               <DeleteTopic {...rest} />

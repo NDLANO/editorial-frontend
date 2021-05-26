@@ -26,6 +26,8 @@ import FilterConnections from '../../../components/Taxonomy/filter/FilterConnect
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import { StructureShape, AvailableFiltersShape, TopicShape, MetadataShape } from '../../../shapes';
+import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
+import { StructureContext } from '../StructureContainer';
 
 const filterButtonStyle = css`
   padding: 0 10px;
@@ -61,6 +63,10 @@ const Resource = ({
   status,
   metadata,
   locale,
+  relevanceId,
+  primary,
+  refreshResources,
+  rank,
   t,
 }) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -95,6 +101,18 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
+      <StructureContext.Consumer>
+        {updateRelevanceId => (
+          <RelevanceOption
+            relevanceId={relevanceId}
+            isPrimary={primary}
+            connectionId={connectionId}
+            onChange={updateRelevanceId}
+            refreshResources={refreshResources}
+            rank={rank}
+          />
+        )}
+      </StructureContext.Consumer>
       {contentType !== 'topic-article' && (
         <Button
           stripped
@@ -175,6 +193,15 @@ Resource.propTypes = {
   metadata: MetadataShape,
   locale: PropTypes.string.isRequired,
   breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
+  relevanceId: PropTypes.oneOf([
+    'urn:relevance:core',
+    'urn:relevance:supplementary',
+    null,
+    undefined,
+  ]),
+  primary: PropTypes.bool,
+  rank: PropTypes.number,
+  refreshResources: PropTypes.func,
 };
 
 export default injectT(Resource);

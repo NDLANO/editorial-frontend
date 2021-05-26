@@ -201,6 +201,13 @@ const SlateBlockPicker = (props: Props & tType) => {
     const { actionsToShowInAreas, editor } = props;
     if (!lastActiveSelection) return actions;
 
+    if (
+      !Node.has(editor, Range.start(lastActiveSelection).path) ||
+      !Node.has(editor, Range.end(lastActiveSelection).path)
+    ) {
+      return actions;
+    }
+
     const nodes = Editor.levels(editor, {
       match: node => Element.isElement(node) && !editor.isInline(node),
       at: Editor.unhangRange(editor, lastActiveSelection),

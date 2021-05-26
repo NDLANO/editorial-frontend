@@ -60,6 +60,16 @@ const EditSlateConcept = (props: Props & tType) => {
     toggleConceptModal();
     setTimeout(() => {
       ReactEditor.focus(editor);
+      setTimeout(() => {
+        if (editor.selection) {
+          // DOM is not in sync with slate selection. Likely caused by react portal or modals.
+          // Updating DOM selection to be equal to slate.
+          const domRange = ReactEditor.toDOMRange(editor, editor.selection);
+          const domSelection = ReactEditor.getWindow(editor).getSelection();
+          domSelection?.empty();
+          domSelection?.addRange(domRange);
+        }
+      }, 150);
     }, 0);
   };
 

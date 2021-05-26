@@ -14,6 +14,7 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
+import EmbedConnection from './EmbedInformation/EmbedConnection';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -94,6 +95,11 @@ const HeaderStatusInformation = ({
     <LearningpathConnection id={id} />
   );
 
+  const imageConnections = type === 'image' && <EmbedConnection id={id} type="image" />;
+  const audioConnections = (type === 'audio' || type === 'podcast') && (
+    <EmbedConnection id={id} type="audio" />
+  );
+
   const splitter = !indentLeft && <StyledSplitter />;
 
   if (noStatus && isNewLanguage) {
@@ -103,6 +109,7 @@ const HeaderStatusInformation = ({
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {learningpathConnections}
+        {imageConnections}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
       </StyledStatusWrapper>
     );
@@ -119,6 +126,10 @@ const HeaderStatusInformation = ({
         </StyledStatus>
       </StyledStatusWrapper>
     );
+  } else if (type === 'image') {
+    return <StyledStatusWrapper>{imageConnections}</StyledStatusWrapper>;
+  } else if (type === 'audio' || type === 'podcast') {
+    return <StyledStatusWrapper>{audioConnections}</StyledStatusWrapper>;
   }
   return null;
 };

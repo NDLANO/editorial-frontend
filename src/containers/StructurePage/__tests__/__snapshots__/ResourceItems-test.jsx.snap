@@ -325,6 +325,8 @@ exports[`matches snapshot 1`] = `
         >
           <a
             href="/subject-matter/topic-article/89/edit"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <h1
               class="c-topic-resource__title emotion-0 emotion-1"
@@ -440,6 +442,8 @@ exports[`matches snapshot 1`] = `
         >
           <a
             href="/subject-matter/topic-article/78/edit"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <h1
               class="c-topic-resource__title emotion-0 emotion-1"
@@ -555,6 +559,8 @@ exports[`matches snapshot 1`] = `
         >
           <a
             href="/subject-matter/topic-article/813/edit"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <h1
               class="c-topic-resource__title emotion-0 emotion-1"
@@ -670,6 +676,8 @@ exports[`matches snapshot 1`] = `
         >
           <a
             href="/subject-matter/topic-article/508/edit"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <h1
               class="c-topic-resource__title emotion-0 emotion-1"
@@ -785,6 +793,8 @@ exports[`matches snapshot 1`] = `
         >
           <a
             href="/subject-matter/topic-article/401/edit"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <h1
               class="c-topic-resource__title emotion-0 emotion-1"

@@ -19,8 +19,9 @@ export const insertConcept = (editor: Editor) => {
     return;
   }
   if (Range.isRange(editor.selection) && !Range.isCollapsed(editor.selection)) {
-    Transforms.wrapNodes(editor, jsx('element', { type: 'concept', data: {} }, [{ text: '' }]), {
+    Transforms.wrapNodes(editor, jsx('element', { type: 'concept', data: {} }), {
       at: Editor.unhangRange(editor, editor.selection),
+      split: true,
     });
   }
 };

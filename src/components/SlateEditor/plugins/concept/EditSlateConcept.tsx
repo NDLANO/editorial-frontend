@@ -57,8 +57,20 @@ const EditSlateConcept = (props: Props & tType) => {
   const conceptId = concept && concept.id ? concept.id : undefined;
 
   const handleChangeAndClose = (editor: Editor) => {
-    ReactEditor.focus(editor); // Always return focus to editor
     toggleConceptModal();
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      setTimeout(() => {
+        if (editor.selection) {
+          // DOM is not in sync with slate selection. Likely caused by react portal or modals.
+          // Updating DOM selection to be equal to slate.
+          const domRange = ReactEditor.toDOMRange(editor, editor.selection);
+          const domSelection = ReactEditor.getWindow(editor).getSelection();
+          domSelection?.empty();
+          domSelection?.addRange(domRange);
+        }
+      }, 150);
+    }, 0);
   };
 
   const addConcept = (addedConcept: ConceptFormType) => {

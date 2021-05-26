@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect, ReactNode } from 'react';
-import { Editor, Element, Node, Transforms } from 'slate';
+import { Editor, Element, Node, Transforms, Range, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { Dictionary } from 'lodash';
@@ -56,20 +56,18 @@ const EditSlateConcept = (props: Props & tType) => {
   );
   const conceptId = concept && concept.id ? concept.id : undefined;
 
-  const handleChangeAndClose = (editor: Editor) => {
+  const handleChangeAndClose = (editor: Editor, isNewConcept: boolean) => {
     toggleConceptModal();
     setTimeout(() => {
       ReactEditor.focus(editor);
-      setTimeout(() => {
-        if (editor.selection) {
-          // DOM is not in sync with slate selection. Likely caused by react portal or modals.
-          // Updating DOM selection to be equal to slate.
-          const domRange = ReactEditor.toDOMRange(editor, editor.selection);
-          const domSelection = ReactEditor.getWindow(editor).getSelection();
-          domSelection?.empty();
-          domSelection?.addRange(domRange);
+      if (editor.selection) {
+        let endRange = Range.end(editor.selection);
+        if (isNewConcept) {
+          Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
+        } else {
+          Transforms.select(editor, endRange);
         }
-      }, 150);
+      }
     }, 0);
   };
 
@@ -86,7 +84,7 @@ const EditSlateConcept = (props: Props & tType) => {
         { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
       );
       mergeLastUndos(editor);
-      handleChangeAndClose(editor);
+      handleChangeAndClose(editor, true);
     }
   };
 
@@ -97,14 +95,14 @@ const EditSlateConcept = (props: Props & tType) => {
       at: path,
       match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
     });
-    handleChangeAndClose(editor);
+    handleChangeAndClose(editor, false);
   };
 
   const onClose = () => {
     if (!element.data['content-id']) {
       handleRemove();
     } else {
-      handleChangeAndClose(editor);
+      handleChangeAndClose(editor, false);
     }
   };
 

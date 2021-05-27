@@ -13,9 +13,7 @@ import { toggleBlock } from '../../utils';
 import { toggleHeading } from '../heading/utils';
 import { insertFootnote } from '../footnote/utils';
 import { insertMathml } from '../mathml/utils';
-
-// TODO: Rewrite functions to Slate 0.62 or remove when
-// new functions are written.
+import { insertConcept } from '../concept/utils';
 
 export function handleClickBlock(
   event: KeyboardEvent<HTMLDivElement>,
@@ -61,20 +59,8 @@ export function handleClickInline(
     if (type === 'mathml') {
       insertMathml(editor);
     }
+    if (type === 'concept') {
+      insertConcept(editor);
+    }
   }
-
-  // if (type === 'footnote') {
-  //   addTextAndWrapIntype(editor, '#', type);
-  // } else if (type === 'mathml') {
-  //   const { value } = editor;
-  //   if (value.selection.start.offset !== value.selection.end.offset) {
-  //     editor.wrapInline(type);
-  //   } else {
-  //     addTextAndWrapIntype(editor, ' ', type);
-  //   }
-  // } else {
-  //   editor.withoutNormalizing(() => {
-  //     editor.wrapInline(type);
-  //   });
-  // }
 }

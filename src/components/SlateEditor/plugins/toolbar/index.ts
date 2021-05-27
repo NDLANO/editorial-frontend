@@ -40,8 +40,8 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'bold';
     } else if (isCodeHotKey(e)) {
       mark = 'code';
-      // } else if (isConceptBlockHotKey(e)) {
-      //   inline = 'concept';
+    } else if (isConceptBlockHotKey(e)) {
+      inline = 'concept';
     } else if (isFootnoteHotKey(e)) {
       inline = 'footnote';
     } else if (isH2HotKey(e)) {

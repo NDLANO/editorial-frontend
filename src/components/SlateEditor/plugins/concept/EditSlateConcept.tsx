@@ -7,8 +7,8 @@
  */
 
 import React, { useState, useEffect, ReactNode } from 'react';
-import { Editor, Element, Node, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { Editor, Element, Node, Transforms, Path } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { Dictionary } from 'lodash';
 import Notion from '@ndla/notion';
@@ -33,9 +33,7 @@ interface Props {
   element: ConceptElement;
   locale: string;
   editor: Editor;
-  attributes: {
-    'data-key': string;
-  };
+  attributes: RenderElementProps['attributes'];
   children: ReactNode;
 }
 
@@ -58,43 +56,54 @@ const EditSlateConcept = (props: Props & tType) => {
   );
   const conceptId = concept && concept.id ? concept.id : undefined;
 
-  const handleChangeAndClose = (editor: Editor) => {
-    ReactEditor.focus(editor); // Always return focus to editor
-    toggleConceptModal();
-  };
-
-  const addConcept = (addedConcept: ConceptFormType) => {
-    const data = getConceptDataAttributes({
-      ...addedConcept,
-      title: { title: nodeText },
-    });
-    if (element) {
-      const path = ReactEditor.findPath(editor, element);
-      Transforms.setNodes(
-        editor,
-        { data: data.data },
-        { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
-      );
-      mergeLastUndos(editor);
-      handleChangeAndClose(editor);
+  const handleSelectionChange = (isNewConcept: boolean) => {
+    ReactEditor.focus(editor);
+    if (isNewConcept) {
+      Transforms.select(editor, Path.next(ReactEditor.findPath(editor, element)));
+      Transforms.collapse(editor, { edge: 'start' });
+    } else {
+      Transforms.select(editor, ReactEditor.findPath(editor, element));
     }
   };
 
-  const handleRemove = () => {
-    const path = ReactEditor.findPath(editor, element);
+  const addConcept = (addedConcept: ConceptFormType) => {
+    toggleConceptModal();
+    setTimeout(() => {
+      handleSelectionChange(true);
+      const data = getConceptDataAttributes({
+        ...addedConcept,
+        title: { title: nodeText },
+      });
+      if (element && true) {
+        const path = ReactEditor.findPath(editor, element);
+        Transforms.setNodes(
+          editor,
+          { data: data.data },
+          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
+        );
+        mergeLastUndos(editor);
+      }
+    }, 0);
+  };
 
-    Transforms.removeNodes(editor, {
-      at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
-    });
-    handleChangeAndClose(editor);
+  const handleRemove = () => {
+    toggleConceptModal();
+    setTimeout(() => {
+      handleSelectionChange(false);
+      const path = ReactEditor.findPath(editor, element);
+      Transforms.unwrapNodes(editor, {
+        at: path,
+        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
+      });
+    }, 0);
   };
 
   const onClose = () => {
     if (!element.data['content-id']) {
       handleRemove();
     } else {
-      handleChangeAndClose(editor);
+      toggleConceptModal();
+      handleSelectionChange(false);
     }
   };
 

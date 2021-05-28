@@ -1,4 +1,6 @@
-export const getTopNode = (node, editor) => {
+import { Editor, Element } from 'slate';
+
+export const getTopNode = (node: Element, editor: Editor): Element | null => {
   if (node.type === 'section') {
     return node;
   }
@@ -12,7 +14,7 @@ export const getTopNode = (node, editor) => {
   return getTopNode(parent, editor);
 };
 
-export const shouldCopyTableOrList = (type, editor) => {
+export const shouldCopyTableOrList = (type: string, editor: Editor) => {
   if (type === 'table' || type.includes('list')) {
     const nativeSelection = window.getSelection();
     const range = editor.findRange(nativeSelection);

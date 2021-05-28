@@ -8,7 +8,7 @@
 
 import React, { ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import PropTypes from 'prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
@@ -19,6 +19,7 @@ interface Props {
   element: AsideElement;
   editor: Editor;
   children: ReactNode;
+  attributes: RenderElementProps['attributes'];
 }
 
 const SlateAside = (props: Props) => {

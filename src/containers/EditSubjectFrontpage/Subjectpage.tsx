@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Route, RouteComponentProps, StaticContext, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import EditSubjectpage from './EditSubjectpage';
@@ -17,6 +17,18 @@ import { usePreviousLocation } from '../../util/routeHelpers';
 
 interface Props extends RouteComponentProps {}
 
+type NewRouteProps = RouteComponentProps<
+  { elementId: string; selectedLanguage: string },
+  StaticContext,
+  { elementName: string }
+>;
+
+type EditRouteProps = RouteComponentProps<{
+  elementId: string;
+  selectedLanguage: string;
+  subjectpageId: string;
+}>;
+
 const Subjectpage = ({ match }: Props) => {
   const previousLocation = usePreviousLocation();
 
@@ -26,7 +38,8 @@ const Subjectpage = ({ match }: Props) => {
         <Switch>
           <Route
             path={`${match.url}/:elementId/:subjectpageId/edit/:selectedLanguage`}
-            render={routeProps => {
+            render={rp => {
+              const routeProps = rp as EditRouteProps; // Dirty assertion since react-router types are lacking for <Route>
               return (
                 <EditSubjectpage
                   elementId={routeProps.match.params.elementId}
@@ -39,7 +52,9 @@ const Subjectpage = ({ match }: Props) => {
           />
           <Route
             path={`${match.url}/:elementId/new/:selectedLanguage`}
-            render={routeProps => {
+            render={rp => {
+              const routeProps = rp as NewRouteProps; // Dirty assertion since react-router types are lacking for <Route>
+
               const elementName =
                 routeProps.location.state && routeProps.location.state.elementName;
 
@@ -48,8 +63,6 @@ const Subjectpage = ({ match }: Props) => {
                   elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
                   elementName={elementName}
-                  // @ts-ignore
-                  history={routeProps.history}
                 />
               );
             }}

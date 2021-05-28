@@ -14,6 +14,8 @@ import {
 } from '../../util/apiHelpers';
 import {
   AudioApiType,
+  AudioSearchResult,
+  AudioSearchResultType,
   NewPodcastSeries,
   PodcastSeriesApiType,
   SeriesSearchParams,
@@ -41,7 +43,7 @@ export const updateAudio = (id: number, formData: FormData): Promise<AudioApiTyp
     body: formData,
   }).then(resolveJsonOrRejectWithError);
 
-export const searchAudio = (query: object) =>
+export const searchAudio = (query: object): Promise<AudioSearchResult> =>
   fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(resolveJsonOrRejectWithError);
 
 export const deleteLanguageVersionAudio = (

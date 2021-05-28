@@ -97,6 +97,20 @@ export interface AudioSearchResultType {
   url: string;
   supportedLanguages?: string[];
   license: string;
+  podcastMeta?: PodcastMeta;
+  series?: {
+    id: number;
+    title: {
+      title: string;
+      language: string;
+    };
+    supportedLanguages: string[];
+    coverPhoto: {
+      id: string;
+      url: string;
+      altText: string;
+    };
+  };
 }
 
 export interface FlattenedAudioApiType extends Omit<AudioApiType, 'title' | 'manuscript' | 'tags'> {
@@ -169,6 +183,6 @@ export interface SeriesSearchSummary {
   };
 }
 
+export type AudioSearchResult = SearchResultBase<AudioSearchResultType>;
 export type SeriesSearchResult = SearchResultBase<SeriesSearchSummary>;
-
 export type TagSearchResult = SearchResultBase<string>;

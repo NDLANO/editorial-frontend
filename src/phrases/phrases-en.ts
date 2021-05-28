@@ -406,6 +406,7 @@ const phrases = {
   },
   podcastSeriesForm: {
     title: 'Podcast series',
+    alreadyPartOfSeries: 'Part of another series',
   },
   podcastForm: {
     title: 'Podcast file',

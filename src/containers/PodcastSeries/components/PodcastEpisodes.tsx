@@ -14,17 +14,15 @@ import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
 
 import {
+  AudioSearchResult,
   AudioSearchResultType,
-  SeriesSearchResult,
 } from '../../../modules/audio/audioApiInterfaces';
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 
 const PodcastEpisodes = ({ t }: tType) => {
-  const {
-    values: { episodes, language },
-    setFieldValue,
-  } = useFormikContext<PodcastSeriesFormikType>();
+  const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
+  const { episodes, language } = values;
   const onAddEpisodeToList = async (audio: AudioSearchResultType) => {
     try {
       const newAudio = await fetchAudio(audio.id, language);
@@ -40,13 +38,38 @@ const PodcastEpisodes = ({ t }: tType) => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (input: string): Promise<SeriesSearchResult> => {
-    return searchAudio({
+  const searchForPodcasts = async (
+    input: string,
+  ): Promise<AudioSearchResult & { disabledText?: string; image?: string; alt?: string }> => {
+    const searchResult = await searchAudio({
       query: input,
       language: language,
       'audio-type': 'podcast',
     });
+
+    const results = searchResult.results.map(result => {
+      const usedByOther = result.series?.id !== undefined && result.series?.id !== values.id;
+      const disabledText = usedByOther ? t('podcastSeriesForm.alreadyPartOfSeries') : undefined;
+      return {
+        ...result,
+        disabledText,
+        image: result.podcastMeta?.coverPhoto.url,
+        alt: result.podcastMeta?.coverPhoto.altText,
+      };
+    });
+
+    return { ...searchResult, results };
   };
+
+  const elements = episodes.map(ep => ({
+    ...ep,
+    metaImage: {
+      alt: ep.podcastMeta?.coverPhoto.altText,
+      url: ep.podcastMeta?.coverPhoto.url,
+      language,
+    },
+    articleType: 'audio',
+  }));
 
   return (
     <>
@@ -55,15 +78,7 @@ const PodcastEpisodes = ({ t }: tType) => {
         subTitle={t('form.podcastEpisodesTypeName')}
       />
       <ElementList
-        elements={episodes.map(ep => ({
-          ...ep,
-          metaImage: {
-            alt: ep.podcastMeta?.coverPhoto.altText,
-            url: ep.podcastMeta?.coverPhoto.url,
-            language,
-          },
-          articleType: 'audio',
-        }))}
+        elements={elements}
         isOrderable={false}
         messages={{
           dragElement: t('conceptpageForm.changeOrder'),
@@ -72,7 +87,7 @@ const PodcastEpisodes = ({ t }: tType) => {
         onUpdateElements={onUpdateElements}
       />
       <AsyncDropdown
-        selectedItems={[]}
+        selectedItems={elements}
         idField="id"
         name="relatedArticleSearch"
         labelField="title"

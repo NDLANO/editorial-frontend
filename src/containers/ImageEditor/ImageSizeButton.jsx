@@ -22,7 +22,7 @@ const icon = {
 const ImageSizeButton = ({ currentSize, size, onFieldChange, t }) => (
   <Tooltip tooltip={t(`form.image.sizes.${size}`)}>
     <ImageEditorButton
-      isActive={currentSize === size}
+      isActive={currentSize.startsWith(size)}
       tabIndex={-1}
       stripped
       onClick={evt => onFieldChange(evt, 'size', size)}>

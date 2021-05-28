@@ -15,7 +15,6 @@ import {
 import {
   AudioApiType,
   AudioSearchResult,
-  AudioSearchResultType,
   NewPodcastSeries,
   PodcastSeriesApiType,
   SeriesSearchParams,

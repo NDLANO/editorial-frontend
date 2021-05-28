@@ -13,8 +13,9 @@ import {
 } from '../../../util/apiHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { fetchTopic } from '../topics';
+import { taxonomyApi } from '../../../config';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl(taxonomyApi);
 
 export function fetchResource(id, language) {
   const lang = language ? `?language=${language}` : '';
@@ -109,14 +110,16 @@ export async function getFullResource(resourceId, language) {
 
   const topics = await Promise.all(
     // Need to fetch each topic seperate because path is not returned in parentTopics
-    parentTopics.map(async item => {
-      const topicArticle = await fetchTopic(item.id, language);
-      return {
-        ...topicArticle,
-        primary: item.isPrimary,
-        connectionId: item.connectionId,
-      };
-    }),
+    parentTopics
+      .filter(pt => pt.path)
+      .map(async item => {
+        const topicArticle = await fetchTopic(item.id, language);
+        return {
+          ...topicArticle,
+          primary: item.isPrimary,
+          connectionId: item.connectionId,
+        };
+      }),
   );
   return {
     resourceTypes,

@@ -97,12 +97,15 @@ export const getAuth0Hostname = () => {
   }
 };
 
+export const taxonomyApi = `/taxonomy/v1`;
+
 export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
 const config = {
   ndlaEnvironment,
+  taxonomyApi,
   componentName: getEnvironmentVariabel('npm_package_name'),
   host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),

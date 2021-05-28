@@ -13,8 +13,9 @@ import {
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
+import { taxonomyApi } from '../../../config';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl(taxonomyApi);
 
 export function createResourceFilter(filter) {
   return fetchAuthorized(`${baseUrl}/resource-filters`, {

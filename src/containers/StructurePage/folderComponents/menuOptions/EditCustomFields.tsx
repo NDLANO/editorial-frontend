@@ -37,7 +37,7 @@ const EditCustomFields = ({
     <div>
       <MenuItemButton
         stripped
-        data-testid="editSubjectFiltersButton"
+        data-testid="editCustomFieldsButton"
         onClick={() => toggleEditMode('openCustomFields')}>
         <RoundIcon small open={editMode === 'openCustomFields'} icon={<Pencil />} />
         {t('taxonomy.metadata.customFields.alterFields')}

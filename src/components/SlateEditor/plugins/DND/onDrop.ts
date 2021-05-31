@@ -1,17 +1,46 @@
 import { DragEventHandler } from 'react';
-import { Editor, Element, Path, Transforms } from 'slate';
+import { Editor, Element, Path, Range, Transforms } from 'slate';
 import { HistoryEditor } from 'slate-history';
+import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 
 const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
   const data = event.dataTransfer;
 
   const originPath = JSON.parse(data.getData('application/slate-node-path') || '[]');
+  const headingRange = JSON.parse(data.getData('application/slate-heading-range') || '{}');
+  const headingPath = JSON.parse(data.getData('application/slate-heading-path') || '[]');
+
+  const targetNode = ReactEditor.toSlateNode(editor, event.target as Node);
+  const targetPath = ReactEditor.findPath(editor, targetNode);
+
+  if (Range.isRange(headingRange) && Path.isPath(headingPath)) {
+    if (Range.includes(headingRange, targetPath)) {
+      return;
+    }
+    const [headingNode] = Editor.node(editor, headingPath);
+    if (Element.isElement(headingNode) && headingNode.type === 'heading') {
+      console.log(targetPath);
+      event.preventDefault();
+      event.stopPropagation();
+      const text = Editor.string(editor, headingRange);
+      console.log(headingRange);
+      console.log(text);
+      Transforms.delete(editor, { at: headingRange });
+      Transforms.insertNodes(
+        editor,
+        jsx('element', { type: 'heading', level: headingNode.level }, [{ text }]),
+        { at: Path.parent(targetPath) },
+      );
+      if (!ReactEditor.isFocused(editor)) {
+        ReactEditor.focus(editor);
+      }
+      data.clearData();
+      return;
+    }
+  }
 
   if (Array.isArray(originPath) && originPath.length > 0) {
-    const targetNode = ReactEditor.toSlateNode(editor, event.target as Node);
-    const targetPath = ReactEditor.findPath(editor, targetNode);
-
     if (Path.equals(originPath, targetPath) || Path.isDescendant(targetPath, originPath)) {
       return;
     }

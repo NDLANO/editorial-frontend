@@ -22,8 +22,21 @@ const onDragStart = (editor: Editor): DragEventHandler<HTMLDivElement> => event 
   const path = ReactEditor.findPath(editor, node);
   if (Element.isElement(node)) {
     event.dataTransfer.setData('application/slate-node-path', JSON.stringify(path));
+    return;
   }
+  const [parent, parentPath] = Editor.node(editor, Path.parent(path));
+  if (Element.isElement(parent) && parent.type === 'heading') {
+    if (!editor.selection) return;
 
+    if (
+      !Path.isChild(editor.selection.anchor.path, parentPath) ||
+      !Path.isChild(editor.selection.focus.path, parentPath)
+    ) {
+      return;
+    }
+    console.log(JSON.stringify(editor.selection));
+    event.dataTransfer.setData('application/slate-heading-range', JSON.stringify(editor.selection));
+    event.dataTransfer.setData('application/slate-heading-path', JSON.stringify(parentPath));
   }
 };
 

@@ -11,8 +11,9 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
+import { taxonomyApi } from '../../../config';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl(taxonomyApi);
 
 function fetchSubjects(locale) {
   return fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(

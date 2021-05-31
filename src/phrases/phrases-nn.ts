@@ -1162,6 +1162,14 @@ const phrases = {
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
+    metadata: {
+      customFields: {
+        alterFields: 'Legg til/endra metadata',
+        addField: 'Nytt metadata felt',
+        languagePlaceholder: 'Frontpage språk',
+        resourceGroupPlaceholder: 'Grupperte ressursar',
+      },
+    },
   },
   notions: {
     edit: 'Rediger forklaring',

@@ -1142,6 +1142,14 @@ const phrases = {
       addNew: 'Add new grep code',
     },
     missingResourceType: 'Missing resource type',
+    metadata: {
+      customFields: {
+        alterFields: 'Add/change metadata',
+        addField: 'New metadata field',
+        languagePlaceholder: 'Frontpage språk',
+        resourceGroupPlaceholder: 'Grouped resources',
+      },
+    },
   },
   notions: {
     edit: 'Edit notions',

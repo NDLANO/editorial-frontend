@@ -26,6 +26,7 @@ declare global {
       locale: string;
     };
     errorReporter: any;
+    config: Record<string, string | boolean | undefined>;
   }
 }
 

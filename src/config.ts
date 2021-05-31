@@ -6,15 +6,18 @@
  *
  */
 
-export const getEnvironmentVariabel = (key, fallback = undefined) => {
+export const getEnvironmentVariabel = (
+  key: string,
+  fallback: string | undefined | boolean = undefined,
+) => {
   const env = 'env';
   const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
   return variabel || fallback;
 };
 
-const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
+const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test') as string;
 
-export const getNdlaApiUrl = env => {
+export const getNdlaApiUrl = (env: string): string => {
   switch (env) {
     case 'local':
       return 'http://api-gateway.ndla-local';

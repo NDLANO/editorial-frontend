@@ -26,6 +26,7 @@ import {
 import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
+import AudioManuscript from './AudioManuscript';
 import { toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
@@ -226,6 +227,13 @@ class AudioForm extends Component<Props, State> {
                   hasError={hasError(['title', 'audioFile'])}
                   startOpen>
                   <AudioContent classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
                   id="audio-upload-metadataSection"

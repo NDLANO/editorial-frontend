@@ -6,11 +6,12 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { spacing, colors } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Done } from '@ndla/icons/editor';
+import { StyledMenuItemInputField, StyledErrorMessage } from '../styles';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import Spinner from '../../../../components/Spinner';
@@ -22,91 +23,83 @@ const StyledMenuItemEditField = styled('div')`
   margin: calc(${spacing.small} / 2);
 `;
 
-const StyledmenuItemInputField = styled('input')`
-  margin-right: calc(${spacing.small} / 2);
-  max-height: ${spacing.normal};
-`;
+interface Props {
+  onSubmit: Function;
+  onClose: Function;
+  currentVal: string;
+  icon?: React.ReactNode;
+  messages: {
+    errorMessage?: string;
+  };
+  dataTestid?: string;
+  placeholder?: string;
+}
 
-export const StyledErrorMessage = styled('div')`
-  color: ${colors.support.red};
-  text-align: center;
-`;
+const MenuItemEditField = ({
+  onSubmit,
+  onClose,
+  currentVal = '',
+  icon,
+  messages = {},
+  dataTestid = 'inlineEditInput',
+  placeholder,
+}: Props) => {
+  const [status, setStatus] = useState('initial');
+  const [input, setInput] = useState<string | undefined>(undefined);
 
-class MenuItemEditField extends PureComponent {
-  constructor() {
-    super();
-    this.state = {
-      status: 'initial',
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-  }
-
-  async handleSubmit() {
-    this.setState({ status: 'loading' });
+  const handleSubmit = async () => {
+    setStatus('loading');
     try {
-      await this.props.onSubmit(this.state.input);
-      this.setState({ status: 'success' });
-      this.props.onClose();
+      await onSubmit(input);
+      setStatus('success');
+      onClose();
     } catch (e) {
       handleError(e);
-      this.setState({
-        status: 'error',
-      });
+      setStatus('error');
     }
-  }
+  };
 
-  handleKeyPress(e) {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
-      this.setState({ status: 'initial' });
+      setStatus('initial');
     }
     if (e.key === 'Enter') {
-      this.handleSubmit();
+      handleSubmit();
     }
-  }
+  };
 
-  render() {
-    const {
-      currentVal = '',
-      icon,
-      messages = {},
-      dataTestid = 'inlineEditInput',
-      placeholder,
-    } = this.props;
-    const { status, input } = this.state;
-    const value = input === undefined ? currentVal : input;
-    return (
-      <Fragment>
-        <StyledMenuItemEditField>
-          <RoundIcon open small icon={icon} />
-          <StyledmenuItemInputField
-            type="text"
-            placeholder={placeholder}
-            value={value}
-            data-testid={dataTestid}
-            onChange={e => this.setState({ input: e.target.value })}
-            onKeyDown={this.handleKeyPress}
-          />
-          <MenuItemSaveButton
-            data-testid="inlineEditSaveButton"
-            disabled={status === 'loading'}
-            onClick={this.handleSubmit}>
-            {status === 'loading' ? (
-              <Spinner appearance="small" />
-            ) : (
-              <Done className="c-icon--small" />
-            )}
-          </MenuItemSaveButton>
-        </StyledMenuItemEditField>
-        {status === 'error' && (
-          <StyledErrorMessage data-testid="inlineEditErrorMessage">
-            {messages.errorMessage}
-          </StyledErrorMessage>
-        )}
-      </Fragment>
-    );
-  }
-}
+  const value = input ?? currentVal;
+  return (
+    <Fragment>
+      <StyledMenuItemEditField>
+        <RoundIcon open small icon={icon} />
+        <StyledMenuItemInputField
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          data-testid={dataTestid}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={handleKeyPress}
+        />
+        <MenuItemSaveButton
+          data-testid="inlineEditSaveButton"
+          disabled={status === 'loading'}
+          onClick={handleSubmit}>
+          {status === 'loading' ? (
+            <Spinner appearance="small" />
+          ) : (
+            <Done className="c-icon--small" />
+          )}
+        </MenuItemSaveButton>
+      </StyledMenuItemEditField>
+      {status === 'error' && (
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">
+          {messages.errorMessage}
+        </StyledErrorMessage>
+      )}
+    </Fragment>
+  );
+};
 
 MenuItemEditField.propTypes = {
   onSubmit: PropTypes.func,

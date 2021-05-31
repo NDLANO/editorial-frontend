@@ -488,6 +488,7 @@ export class StructureContainer extends React.PureComponent {
                       locale={locale}
                       userAccess={userAccess}
                       setResourcesUpdated={this.setResourcesUpdated}
+                      saveSubjectItems={this.saveSubjectItems}
                     />
                   )}
                 />

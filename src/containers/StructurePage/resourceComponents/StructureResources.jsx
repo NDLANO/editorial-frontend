@@ -9,7 +9,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-
+import { spacing } from '@ndla/core';
+import styled from '@emotion/styled';
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
 import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
@@ -19,6 +20,13 @@ import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 import { StructureShape, AvailableFiltersShape } from '../../../shapes';
+import GroupTopicResources from '../folderComponents/GroupTopicResources';
+
+const StyledDiv = styled('div')`
+  width: calc(${spacing.large} * 4.5);
+  margin-left: auto;
+  margin-right: calc(${spacing.nsmall});
+`;
 
 export class StructureResources extends React.PureComponent {
   constructor(props) {
@@ -222,6 +230,16 @@ export class StructureResources extends React.PureComponent {
     }
     return (
       <Fragment>
+        {currentTopic.id && (
+          <StyledDiv>
+            <GroupTopicResources
+              id={currentTopic.id}
+              metadata={currentTopic.metadata}
+              refreshTopics={refreshTopics}
+              hideIcon
+            />
+          </StyledDiv>
+        )}
         <TopicDescription
           topicDescription={topicDescription}
           locale={locale}
@@ -264,6 +282,7 @@ StructureResources.propTypes = {
   currentTopic: PropTypes.shape({
     id: PropTypes.string,
     contentUri: PropTypes.string,
+    metadata: PropTypes.object,
   }).isRequired,
   refreshTopics: PropTypes.func,
   availableFilters: AvailableFiltersShape,

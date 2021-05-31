@@ -13,8 +13,9 @@ import {
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
+import { taxonomyApi } from '../../../config';
 
-const baseUrl = apiResourceUrl('/taxonomy2/v1');
+const baseUrl = apiResourceUrl(taxonomyApi);
 
 function fetchAllTopicResource(language) {
   return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(

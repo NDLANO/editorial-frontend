@@ -12,6 +12,7 @@ import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import EditFilters from '../folderComponents/EditFilters';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
+import { taxonomyApi } from '../../../config';
 
 afterEach(cleanup);
 
@@ -53,10 +54,10 @@ it('maps out filters', async () => {
 
 it('calls add filter', async () => {
   nock('http://ndla-api')
-    .post('/taxonomy2/v1/filters', JSON.stringify({ subjectId: 'test', name: 'Nytt filter' }))
+    .post(`${taxonomyApi}/filters`, JSON.stringify({ subjectId: 'test', name: 'Nytt filter' }))
     .reply(201);
   nock('http://ndla-api')
-    .get('/taxonomy2/v1/subjects/test/filters')
+    .get(`${taxonomyApi}/subjects/test/filters`)
     .reply(200, [...filterMock, { name: 'Nytt filter', id: 'test' }]);
   const { getByTestId, container } = wrapper();
   fireEvent.click(getByTestId('addFilterButton'));

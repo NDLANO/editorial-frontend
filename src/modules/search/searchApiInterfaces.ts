@@ -47,4 +47,6 @@ export interface MultiSearchApiQuery {
   'context-filters'?: CommaSeparatedList;
   'search-context'?: string;
   'grep-codes'?: CommaSeparatedList;
+  'embed-id'?: number;
+  'embed-resource'?: string;
 }

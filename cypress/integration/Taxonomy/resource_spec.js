@@ -6,67 +6,67 @@
  *
  */
 
+import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support';
 import coreResources from '../../fixtures/coreResources';
+
+const selectSubject = 'urn:subject:20';
+const selectTopic = 'urn:topic:1:186732';
 
 describe('Resource listing', () => {
   beforeEach(() => {
     setToken();
 
-    cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
+      `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/subjects/urn:subject:12/filters',
+      `${taxonomyApi}/subjects/${selectSubject}/filters`,
       'allSubjectFilters',
     );
-    cy.apiroute('GET', '/taxonomy2/v1/filters/?language=nb', 'allFilters');
+    cy.apiroute('GET', `${taxonomyApi}/filters/?language=nb`, 'allFilters');
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/resource-types/?language=nb',
+      `${taxonomyApi}/resource-types/?language=nb`,
       'resourceTypes',
     );
     cy.apiroute(
       'GET',
-      '**/taxonomy2/v1/topics/**/resources/?language=nb',
+      `${taxonomyApi}/topics/**/resources/?language=nb`,
       'coreResources',
     );
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/topics/urn:topic:1:183043',
+      `${taxonomyApi}/topics/urn:topic:**`,
       'topic-183043',
     );
-    cy.apiroute(
-      'GET',
-      '/taxonomy2/v1/topics/urn:topic:1:183437',
-      'topic-183437',
-    );
     cy.apiroute('GET', '**/draft-api/v1/drafts/**', 'article');
+    cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
     cy.apiroute(
       'GET',
       '/article-api/v2/articles/?language=nb&fallback=true&type=articles&query=&content-type=topic-article',
       'getArticles',
     );
-    cy.intercept('PUT', '/taxonomy2/v1/topics/urn:topic:1:183437', '');
-    cy.visit('/structure/urn:subject:12/urn:topic:1:183043/urn:topic:1:183437');
+    cy.intercept('PUT', `${taxonomyApi}/topics/${selectTopic}`, '');
+    cy.visit(`/structure/${selectSubject}/${selectTopic}`);
     cy.apiwait('@allSubjects');
     cy.apiwait('@allSubjectTopics');
     cy.apiwait('@allSubjectFilters');
     cy.apiwait('@allFilters');
+    cy.apiwait('@topicConnections');
     cy.apiwait('@coreResources');
     cy.apiwait('@article');
     cy.apiwait('@topic-183043');
-    cy.apiwait('@topic-183437');
   });
 
   it('should open filter picker and have functioning buttons', () => {
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/resources/urn:resource:1:167841/filters?language=nb',
+      `${taxonomyApi}/resources/urn:resource:1:167841/filters?language=nb`,
       'resourceFilters',
     );
 

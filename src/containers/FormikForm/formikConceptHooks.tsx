@@ -18,6 +18,7 @@ import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
+  const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
 
@@ -33,6 +34,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
             ...concept,
             articles: convertedArticles,
           });
+          setConceptChanged(false);
           setLoading(false);
         }
       } catch (e) {
@@ -69,6 +71,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     const formConcept = { ...savedConcept, articles: convertedArticles };
     setConcept(formConcept);
+    setConceptChanged(false);
     return formConcept;
   };
 
@@ -77,6 +80,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     const formConcept = { ...savedConcept, articles: convertedArticles };
     setConcept(formConcept);
+    setConceptChanged(false);
     return formConcept;
   };
 
@@ -95,6 +99,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
       status: conceptChangedStatus.status,
       articles: convertedArticles,
     });
+    setConceptChanged(false);
   };
 
   return {
@@ -103,7 +108,11 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     fetchSearchTags,
     fetchStatusStateMachine,
     loading,
-    setConcept,
+    setConcept: (concept: ConceptFormType) => {
+      setConcept(concept);
+      setConceptChanged(true);
+    },
+    conceptChanged,
     subjects,
     updateConcept,
     updateConceptAndStatus,

@@ -35,7 +35,7 @@ const HeaderWithLanguage = ({
   noStatus,
   setTranslateOnContinue,
   t,
-  translateArticle,
+  translateToNN,
   type,
   values,
   ...rest
@@ -72,7 +72,7 @@ const HeaderWithLanguage = ({
           type={multiType}
           title={title}
           isSubmitting={isSubmitting}
-          translateArticle={translateArticle}
+          translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           {...rest}
         />
@@ -107,7 +107,7 @@ HeaderWithLanguage.propTypes = {
     'concept',
     'podcast',
   ]),
-  translateArticle: PropTypes.func,
+  translateToNN: PropTypes.func,
   values: PropTypes.shape({
     articleType: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),

@@ -6,22 +6,27 @@
  *
  */
 
+import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support';
+import phrases from '../../../src/phrases/phrases-nb';
+
+const selectSubject = 'urn:subject:20';
 
 describe('Subject editing', () => {
   before(() => {
     setToken();
 
-    cy.apiroute('GET', '/taxonomy2/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      '/taxonomy2/v1/subjects/urn:subject:12/topics?recursive=true&language=nb',
+      `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
-    cy.apiroute('GET', '/taxonomy2/v1/subjects/urn:subject:12/filters', 'allSubjectFilters');
+    cy.apiroute('GET', `${taxonomyApi}/subjects/${selectSubject}/filters`, 'allSubjectFilters');
+    cy.apiroute('GET', `${taxonomyApi}/filters/?language=nb`, 'allFilters');
 
-    cy.visit('/structure/urn:subject:12');
-    cy.wait(['@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
+    cy.visit(`/structure/${selectSubject}`);
+    cy.apiwait(['@allFilters', '@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
   });
 
   beforeEach(() => {
@@ -29,7 +34,7 @@ describe('Subject editing', () => {
   });
 
   it('should add a new subject', () => {
-    cy.intercept('POST', '/taxonomy2/v1/subjects', []).as('addSubject');
+    cy.intercept('POST', `${taxonomyApi}/subjects`, []).as('addSubject');
 
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');
@@ -37,19 +42,21 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.intercept('PUT', `/taxonomy2/v1/subjects/urn:subject:12`, []).as('newSubjectName');
-    cy.intercept('POST', '/taxonomy2/v1/topics', []).as('addNewTopic');
-    cy.intercept('POST', '/taxonomy2/v1/filters', []).as('addFilter');
-    cy.intercept('PUT', '**/taxonomy2/v1/filters/*', []).as('editFilter');
-    cy.intercept('DELETE', '**/taxonomy2/v1/filters/*', []).as('deleteFilter');
-    cy.apiroute('GET', '/taxonomy2/v1/topics?language=nb', 'allTopics');
-    cy.intercept('POST', '/taxonomy2/v1/topic-filters',[]);
-    cy.intercept('POST', '/taxonomy2/v1/subject-topics', []).as('addNewSubjectTopic');
+    cy.intercept('GET', `${taxonomyApi}/filters`, 'allFilters');
+    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}`, []).as('newSubjectName');
+    cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
+    cy.intercept('POST', `${taxonomyApi}/filters`, []).as('addFilter');
+    cy.intercept('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics').as('allTopics');
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject');
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/topics*`, 'allSubjectTopics');
+    cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/filters`, 'allSubjectFilters');
+    cy.apiroute('PUT', `${taxonomyApi}/subjects/${selectSubject}/metadata`, 'invisibleMetadata');
 
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
-    cy.wait('@allTopics')
+    cy.wait('@allTopics');
     cy.get('[data-testid=changeSubjectNameButton]').click();
     cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
     cy.wait('@newSubjectName');
@@ -62,18 +69,10 @@ describe('Subject editing', () => {
     cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
     cy.wait('@addFilter');
 
-    // cy.get('[data-testid=editFilterBox] > div')
-    //   .find('button')
-    //   .first()
-    //   .click();
-    // cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    // cy.wait('@editFilter');
-    // cy.get('[data-testid=editFilterBox] > div')
-    //   .first()
-    //   .find('[data-testid=deleteFilter]')
-    //   .click();
-    // cy.wait(500);
-    // cy.get('[data-testid=warningModalConfirm]').click();
-    // cy.wait('@deleteFilter');
+    cy.get('button')
+      .contains(phrases.metadata.changeVisibility)
+      .click();
+    cy.get('input[id="visible"]').click({force: true});
+    cy.wait('@invisibleMetadata');
   });
 });

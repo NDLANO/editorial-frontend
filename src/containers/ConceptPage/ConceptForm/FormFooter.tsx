@@ -20,6 +20,7 @@ import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   entityStatus: { current: string };
+  conceptChanged: boolean;
   inModal?: boolean;
   savedToServer: boolean;
   isNewlyCreated: boolean;
@@ -31,6 +32,7 @@ interface Props {
 
 const FormFooter = ({
   entityStatus,
+  conceptChanged,
   inModal,
   savedToServer,
   isNewlyCreated,
@@ -46,6 +48,7 @@ const FormFooter = ({
     values,
     initialValues,
     dirty,
+    changed: conceptChanged,
   });
 
   const disableSave = Object.keys(errors).length > 0;

@@ -6,7 +6,6 @@
  *
  */
 
-import 'isomorphic-fetch';
 import defined from 'defined';
 import auth0 from 'auth0-js';
 import config from '../config';

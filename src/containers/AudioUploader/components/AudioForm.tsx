@@ -26,6 +26,7 @@ import {
 import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
+import AudioManuscript from './AudioManuscript';
 import { toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
@@ -45,6 +46,7 @@ export interface AudioFormikType {
   language: string;
   supportedLanguages: string[];
   title: Value;
+  manuscript: Value;
   audioFile: {
     storedFile?: {
       url: string;
@@ -74,6 +76,7 @@ export const getInitialValues = (
     language: audio.language,
     supportedLanguages: audio.supportedLanguages || [],
     title: plainTextToEditorValue(audio.title || '', true),
+    manuscript: plainTextToEditorValue(audio?.manuscript, true),
     audioFile: { storedFile: audio.audioFile },
     tags: audio.tags || [],
     creators: parseCopyrightContributors(audio, 'creators'),
@@ -88,11 +91,13 @@ const rules = {
   title: {
     required: true,
   },
+  manuscript: {
+    required: false,
+  },
   tags: {
     minItems: 3,
   },
   creators: {
-    minItems: 1,
     allObjectFieldsRequired: true,
   },
   processors: {
@@ -157,6 +162,7 @@ class AudioForm extends Component<Props, State> {
         id: values.id,
         revision: revision,
         title: editorValueToPlainText(values.title),
+        manuscript: editorValueToPlainText(values.manuscript),
         language: values.language,
         tags: values.tags,
         audioType: 'standard',
@@ -221,6 +227,13 @@ class AudioForm extends Component<Props, State> {
                   hasError={hasError(['title', 'audioFile'])}
                   startOpen>
                   <AudioContent classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
                   id="audio-upload-metadataSection"

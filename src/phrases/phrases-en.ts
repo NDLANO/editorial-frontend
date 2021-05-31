@@ -537,7 +537,7 @@ const phrases = {
       relatedContent: 'Related content',
       subjects: 'Subject',
       header: 'Header',
-      manuscript: 'Manuscript',
+      manuscript: 'Text version',
       coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
@@ -924,6 +924,7 @@ const phrases = {
         label: 'Audio title',
         placeholder: 'Audio title',
       },
+      manuscript: 'Text version',
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',
@@ -984,6 +985,22 @@ const phrases = {
     learningpathConnections: {
       sectionTitle: 'Uses of the article in learningpaths',
       title: 'Learningpaths containing this article',
+    },
+    embedConnections: {
+      type: {
+        image: 'image',
+        audio: 'audio file',
+      },
+      sectionTitleArticle: 'Articles containing the {resource}',
+      sectionTitleConcept: 'Concepts containing the {resource}',
+      title: 'Uses of the {resource}',
+      info: {
+        image: 'Uses of the image in articles and/or concepts',
+        audio: 'Uses of the audio file in articles',
+      },
+      notInUse: 'No uses of the {resource} in articles and/or concepts were found',
+      articles: '{articles, plural, one{1 article} other{# articles}}',
+      concepts: '{concepts, plural, one{1 concept} other{# concepts}}',
     },
     relatedConcepts: {
       placeholder: 'Search for title',

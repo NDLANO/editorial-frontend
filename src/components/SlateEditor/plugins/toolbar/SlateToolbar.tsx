@@ -14,7 +14,7 @@ import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
-import { hasNodeWithProps } from '../../utils';
+import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
 // import { listTypes } from '../externalPlugins';
 

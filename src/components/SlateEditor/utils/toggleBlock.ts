@@ -8,7 +8,7 @@
 
 import { Element, Editor, Transforms, Range } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { hasNodeOfType } from '.';
+import hasNodeOfType from './hasNodeOfType';
 
 const toggleBlock = (editor: Editor, type: Element['type']) => {
   if (!Range.isRange(editor.selection)) {

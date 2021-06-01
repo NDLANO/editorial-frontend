@@ -10,7 +10,7 @@ import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import { hasNodeOfType } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import EditSlateConcept from './EditSlateConcept';

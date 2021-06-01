@@ -17,7 +17,7 @@ import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 import { ConceptFormType } from '../../../../interfaces';
-import { mergeLastUndos } from '../../utils';
+import mergeLastUndos from '../../utils/mergeLastUndos';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT,

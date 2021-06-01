@@ -62,7 +62,6 @@ class SlateFactAside extends React.Component {
       expanded: true,
     };
     this.toggleExpanded = this.toggleExpanded.bind(this);
-    this.onMoveContent = this.onMoveContent.bind(this);
   }
 
   toggleExpanded(evt) {
@@ -72,13 +71,8 @@ class SlateFactAside extends React.Component {
     }));
   }
 
-  onMoveContent() {
-    const { editor, node } = this.props;
-    editor.unwrapBlockByKey(node.key, node.type);
-  }
-
   render() {
-    const { children, onRemoveClick, attributes } = this.props;
+    const { children, onRemoveClick, attributes, onMoveContent } = this.props;
 
     return (
       <aside
@@ -86,7 +80,7 @@ class SlateFactAside extends React.Component {
         draggable
         {...attributes}>
         <div className="c-factbox__content c-bodybox">
-          <MoveContentButton onMouseDown={this.onMoveContent} />
+          <MoveContentButton onMouseDown={onMoveContent} />
           <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
           {children}
         </div>
@@ -105,6 +99,7 @@ SlateFactAside.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   onRemoveClick: PropTypes.func.isRequired,
+  onMoveContent: PropTypes.func.isRequired,
   editor: EditorShape.isRequired,
   node: PropTypes.any,
 };

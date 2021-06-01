@@ -1,6 +1,14 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Editor, Transforms, Element, Range } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { hasNodeOfType } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const insertConcept = (editor: Editor) => {
   if (hasNodeOfType(editor, 'concept')) {

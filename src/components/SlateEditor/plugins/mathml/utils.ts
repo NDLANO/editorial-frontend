@@ -1,6 +1,6 @@
 import { Editor, Element, Range, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { hasNodeOfType } from '../../utils';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const insertMathml = (editor: Editor) => {
   const { selection } = editor;

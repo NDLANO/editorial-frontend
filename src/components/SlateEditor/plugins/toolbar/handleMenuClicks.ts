@@ -9,7 +9,7 @@
 import { Editor } from 'slate';
 import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
-import { toggleBlock } from '../../utils';
+import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
 import { insertFootnote } from '../footnote/utils';
 import { insertMathml } from '../mathml/utils';

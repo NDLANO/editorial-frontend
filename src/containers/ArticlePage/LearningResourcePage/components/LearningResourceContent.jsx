@@ -30,7 +30,7 @@ import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBloc
 import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
-import createAsidePlugin from '../../../../components/SlateEditor/plugins/aside';
+import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
@@ -83,7 +83,6 @@ const findFootnotes = content =>
     .map(footnoteElement => footnoteElement.data);
 
 const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
-// TODO: Rewrite to new slate
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,
@@ -113,7 +112,7 @@ const LearningResourceContent = ({
     footnotePlugin,
     // createEmbedPlugin(articleLanguage, props.locale),
     // createBodyBoxPlugin(),
-    // createAsidePlugin(),
+    asidePlugin,
     // createDetailsPlugin(),
     blockQuotePlugin,
     linkPlugin(articleLanguage),

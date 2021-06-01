@@ -458,12 +458,9 @@ export class StructureContainer extends React.PureComponent {
                       refFunc={this.refFunc}
                       getAllSubjects={this.getAllSubjects}
                       onAddSubjectTopic={this.onAddSubjectTopic}
-                      subjectFilters={filters[params.subject]}
                       onAddExistingTopic={this.onAddExistingTopic}
                       refreshTopics={this.refreshTopics}
                       linkViewOpen={linkViewOpen}
-                      getFilters={this.getFilters}
-                      activeFilters={activeFilters}
                       setPrimary={this.setPrimary}
                       toggleFilter={this.toggleFilter}
                       deleteTopicLink={this.deleteTopicLink}

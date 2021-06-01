@@ -53,6 +53,15 @@ export const deleteLanguageVersionAudio = (
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
 
+export const deleteLanguageVersionSeries = (
+  seriesId: number,
+  language: string,
+): Promise<PodcastSeriesApiType | undefined> => {
+  return fetchAuthorized(`${seriesBaseUrl}/${seriesId}/language/${language}`, {
+    method: 'DELETE',
+  }).then(resolveJsonOrRejectWithError);
+};
+
 export const fetchSearchTags = async (
   input: string,
   language: string,

@@ -23,8 +23,6 @@ const onDragStart = (editor: Editor): DragEventHandler<HTMLDivElement> => event 
   if (Element.isElement(node)) {
     event.dataTransfer.setData('application/slate-node-path', JSON.stringify(path));
   }
-
-  }
 };
 
 export { onDragOver, onDragStart, onDrop };

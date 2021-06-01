@@ -12,10 +12,12 @@ export const search = createAction('SEARCH');
 export const searchAudio = createAction('SEARCH_AUDIO');
 export const searchConcept = createAction('SEARCH_CONCEPT');
 export const searchImage = createAction('SEARCH_IMAGE');
+export const searchPodcastSeries = createAction('SEARCH_PODCAST_SERIES');
 export const searchError = createAction('SEARCH_ERROR');
 export const clearSearchResult = createAction('CLEAR_SEARCH_RESULT');
 export const setSearchResult = createAction('SET_SEARCH_RESULT');
 export const setAudioSearchResult = createAction('SET_AUDIO_SEARCH_RESULT');
+export const setPodcastSeriesSearchResult = createAction('SET_PODCAST_SERIES_SEARCH_RESULT');
 export const setConceptSearchResult = createAction('SET_CONCEPT_SEARCH_RESULT');
 export const setImageSearchResult = createAction('SET_IMAGE_SEARCH_RESULT');
 
@@ -24,6 +26,7 @@ export const initalState = {
   totalAudioResults: { results: [] },
   totalConceptResults: { results: [] },
   totalImageResults: { results: [] },
+  totalPodcastSeriesResults: { results: [] },
   searching: false,
 };
 
@@ -42,6 +45,10 @@ export default handleActions(
       throw: state => state,
     },
     [searchImage]: {
+      next: state => ({ ...state, searching: true }),
+      throw: state => state,
+    },
+    [searchPodcastSeries]: {
       next: state => ({ ...state, searching: true }),
       throw: state => state,
     },
@@ -73,6 +80,14 @@ export default handleActions(
       next: (state, action) => ({
         ...state,
         totalImageResults: action.payload,
+        searching: false,
+      }),
+      throw: state => state,
+    },
+    [setPodcastSeriesSearchResult]: {
+      next: (state, action) => ({
+        ...state,
+        totalPodcastSeriesResults: action.payload,
         searching: false,
       }),
       throw: state => state,

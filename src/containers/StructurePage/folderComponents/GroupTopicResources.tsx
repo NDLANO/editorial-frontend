@@ -20,22 +20,32 @@ import { TaxonomyMetadata } from '../../../interfaces';
 import { updateTopicMetadata } from '../../../modules/taxonomy/topics';
 
 interface Props {
-  id: string;
+  topicId: string;
+  subjectId: string;
   metadata: TaxonomyMetadata;
-  refreshTopics: () => void;
+  updateLocalTopics: (a: string, b: string, c: any) => void;
   hideIcon?: boolean;
 }
 
-const GroupTopicResources = ({ id, metadata, refreshTopics, hideIcon, t }: Props & tType) => {
-  const updateMetadata = () => {
+const GroupTopicResources = ({
+  topicId,
+  subjectId,
+  metadata,
+  updateLocalTopics,
+  hideIcon,
+  t,
+}: Props & tType) => {
+  const updateMetadata = async () => {
     const customFields = {
       ...metadata.customFields,
       [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isGrouped
         ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
-    updateTopicMetadata(id, { customFields });
-    setTimeout(() => refreshTopics(), 500);
+    const response = await updateTopicMetadata(topicId, { customFields });
+    updateLocalTopics(subjectId, topicId, {
+      metadata: { ...metadata, customFields: response.customFields },
+    });
   };
 
   // eslint-disable-next-line react/prop-types

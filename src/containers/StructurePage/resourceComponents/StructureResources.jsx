@@ -223,6 +223,7 @@ export class StructureResources extends React.PureComponent {
       resourceRef,
       currentSubject,
       structure,
+      saveSubjectTopicItems,
     } = this.props;
     const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
     if (loading) {
@@ -233,9 +234,10 @@ export class StructureResources extends React.PureComponent {
         {currentTopic.id && (
           <StyledDiv>
             <GroupTopicResources
-              id={currentTopic.id}
+              topicId={currentTopic.id}
+              subjectId={`urn:${currentTopic.path.split('/')[1]}`}
               metadata={currentTopic.metadata}
-              refreshTopics={refreshTopics}
+              updateLocalTopics={saveSubjectTopicItems}
               hideIcon
             />
           </StyledDiv>
@@ -283,6 +285,7 @@ StructureResources.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
     metadata: PropTypes.object,
+    path: PropTypes.string,
   }).isRequired,
   refreshTopics: PropTypes.func,
   availableFilters: AvailableFiltersShape,
@@ -295,6 +298,7 @@ StructureResources.propTypes = {
   structure: PropTypes.arrayOf(StructureShape),
   resourcesUpdated: PropTypes.bool,
   setResourcesUpdated: PropTypes.func,
+  saveSubjectTopicItems: PropTypes.func,
 };
 
 export default injectT(StructureResources);

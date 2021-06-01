@@ -38,17 +38,23 @@ const StyledSelect = styled('select')`
 `;
 
 interface Props extends TaxonomyElement {
+  subjectId: string;
   saveSubjectItems: (subjectid: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  refreshTopics: () => void;
+  updateLocalTopics: (
+    subjectId: string,
+    topicId: string,
+    saveItems: Pick<TaxonomyElement, 'metadata'>,
+  ) => void;
   type: 'topic' | 'subject';
 }
 
 const MenuItemCustomField = ({
   id,
+  subjectId,
   metadata,
   saveSubjectItems,
   type,
-  refreshTopics,
+  updateLocalTopics,
   t,
 }: Props & tType) => {
   const [localState, setLocalState] = useState<'localStateOpen' | 'localStateClosed'>(
@@ -65,8 +71,11 @@ const MenuItemCustomField = ({
         saveSubjectItems(id, { metadata: { ...metadata, customFields: res.customFields } }),
       );
     } else if (type === 'topic' && haveFieldsBeenUpdated) {
-      updateTopicMetadata(id, { customFields });
-      setTimeout(() => refreshTopics(), 500);
+      updateTopicMetadata(id, { customFields }).then((res: TaxonomyMetadata) =>
+        updateLocalTopics(subjectId, id, {
+          metadata: { ...metadata, customFields: res.customFields },
+        }),
+      );
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -128,7 +137,12 @@ const MenuItemCustomField = ({
       {type === 'subject' ? (
         TaxonomyMetadataLanguageSelector()
       ) : (
-        <GroupTopicResources metadata={metadata} id={id} refreshTopics={refreshTopics} />
+        <GroupTopicResources
+          metadata={metadata}
+          topicId={id}
+          subjectId={subjectId}
+          updateLocalTopics={updateLocalTopics}
+        />
       )}
       {filterHardcodedMetadataValues()
         .sort((a, b) => a[0].localeCompare(b[0]))

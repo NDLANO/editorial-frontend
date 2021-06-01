@@ -15,21 +15,27 @@ import MenuItemButton from './MenuItemButton';
 import MenuItemCustomField from './MenuItemCustomField';
 
 interface Props extends TaxonomyElement {
+  subjectId: string;
   toggleEditMode: (state: string) => void;
   editMode: string;
   saveSubjectItems: (subjectid: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  refreshTopics: () => void;
+  saveSubjectTopicItems: (
+    subjectId: string,
+    topicId: string,
+    saveItems: Pick<TaxonomyElement, 'metadata'>,
+  ) => void;
   type: 'topic' | 'subject';
 }
 
 const EditCustomFields = ({
   id,
+  subjectId,
   name,
   metadata,
   toggleEditMode,
   editMode,
   saveSubjectItems,
-  refreshTopics,
+  saveSubjectTopicItems,
   type,
   t,
 }: Props & tType) => {
@@ -46,11 +52,12 @@ const EditCustomFields = ({
       {editMode === 'openCustomFields' && (
         <MenuItemCustomField
           id={id}
+          subjectId={subjectId}
           name={name}
           metadata={metadata}
           saveSubjectItems={saveSubjectItems}
           type={type}
-          refreshTopics={refreshTopics}
+          updateLocalTopics={saveSubjectTopicItems}
         />
       )}
     </div>

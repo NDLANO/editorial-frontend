@@ -7,17 +7,20 @@
  */
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Element, Descendant, Editor, Path, Transforms, Node, Text } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
 import { TYPE_PARAGRAPH } from '../paragraph';
 import hasNodeOfType from '../../utils/hasNodeOfType';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import containsVoid from '../../utils/containsVoid';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
 const KEY_ENTER = 'Enter';
+const KEY_BACKSPACE = 'Backspace';
 
 export interface DetailsElement {
   type: 'details';
@@ -41,6 +44,45 @@ const onEnter = (
       always: true,
     });
     return;
+  }
+  return nextOnKeyDown && nextOnKeyDown(e);
+};
+
+const onBackspace = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+) => {
+  if (
+    hasNodeOfType(editor, TYPE_DETAILS) &&
+    Location.isLocation(editor.selection) &&
+    Range.isCollapsed(editor.selection)
+  ) {
+    const detailsEntry = getCurrentBlock(editor, TYPE_DETAILS);
+    if (detailsEntry) {
+      const [detailsNode, detailsPath] = detailsEntry;
+
+      const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
+
+      if (summaryEntry) {
+        const [summaryNode] = summaryEntry;
+        if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
+          e.preventDefault();
+          Transforms.move(editor, { reverse: true });
+          return;
+        }
+      }
+      if (
+        Node.string(detailsNode) === '' &&
+        Element.isElement(detailsNode) &&
+        !containsVoid(editor, detailsNode) &&
+        detailsNode.children.length === 2
+      ) {
+        e.preventDefault();
+        Transforms.removeNodes(editor, { at: detailsPath });
+        return;
+      }
+    }
   }
   return nextOnKeyDown && nextOnKeyDown(e);
 };
@@ -74,6 +116,8 @@ export const detailsPlugin = (editor: Editor) => {
   editor.onKeyDown = event => {
     if (event.key === KEY_ENTER) {
       onEnter(event, editor, nextOnKeyDown);
+    } else if (event.key === KEY_BACKSPACE) {
+      onBackspace(event, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(event);
     }

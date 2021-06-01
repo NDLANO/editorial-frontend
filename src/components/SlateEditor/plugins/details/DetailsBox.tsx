@@ -55,72 +55,11 @@ interface Props extends RenderElementProps {
 }
 
 const DetailsBox = ({ t, attributes, children, editor, element }: Props & tType) => {
-  const summary: Node | null = Node.get(element, [0]);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>(Node.string(summary));
-
-  const summaryTextNode: Text =
-    'e' ||
-    summary?.getLastText() ||
-    Text.create({
-      text: '',
-    });
-
-  const onChangeSummary = () => {
-    const newTextNode = Text.create({
-      text: inputValue,
-    });
-    editor.replaceNodeByKey(summaryTextNode.key, newTextNode);
-    setShowEditModal(false);
-  };
-
-  const toggleShowEditModal = (evt: MouseEvent) => {
-    evt.preventDefault();
-    setShowEditModal(!showEditModal);
-  };
-
-  const editSummaryButton = (
-    <Button css={editButtonStyle} onMouseDown={toggleShowEditModal} stripped>
-      <Pencil />
-    </Button>
-  );
-
   return (
-    <div draggable={!showEditModal} {...attributes}>
-      <Details editSummaryButton={editSummaryButton} editor={editor} node={element}>
+    <div draggable {...attributes}>
+      <Details editor={editor} node={element}>
         {children}
       </Details>
-      <Portal isOpened>
-        <Modal controllable isOpen={showEditModal}>
-          {() => (
-            <>
-              <ModalHeader>
-                {' '}
-                <ModalCloseButton title={t('dialog.close')} onClick={toggleShowEditModal} />
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  name="caption"
-                  container="div"
-                  label={t('detailBox.label')}
-                  type="text"
-                  value={inputValue}
-                  onChange={(evt: React.ChangeEvent<HTMLInputElement>) =>
-                    setInputValue(evt.target.value)
-                  }
-                  placeholder={t('detailBox.placeholder')}
-                />
-                <StyledButtonWrapper paddingLeft>
-                  <Button onClick={toggleShowEditModal} outline>
-                    {t('form.abort')}
-                  </Button>
-                  <Button onClick={onChangeSummary}>{t('form.save')}</Button>
-                </StyledButtonWrapper>
-              </ModalBody>
-            </>
-          )}
-        </Modal>
-      </Portal>
     </div>
   );
 };

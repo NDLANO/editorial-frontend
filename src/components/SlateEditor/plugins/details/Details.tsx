@@ -7,7 +7,7 @@
 import React, { ReactElement, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { Editor, Node, Block } from 'slate';
+import { Editor, Node, Block, Transforms } from 'slate';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 
@@ -27,14 +27,14 @@ const StyledContent = styled.div<{ isOpen: boolean }>`
   padding-left: ${spacing.normal};
 `;
 
-const StyledSummary = styled.summary<{ isOpen: boolean }>`
+const StyledChevron = styled.div<{ isOpen: boolean }>`
   color: ${colors.brand.primary};
-  cursor: pointer;
   font-size: 20px;
-  padding: ${spacing.normal};
+  cursor: pointer;
   display: flex;
-
+  user-select: none;
   &::before {
+    user-select: none;
     content: '';
     margin-left: ${spacing.normal};
     border-color: transparent ${colors.brand.primary};
@@ -48,6 +48,14 @@ const StyledSummary = styled.summary<{ isOpen: boolean }>`
     position: relative;
     transform: ${p => p.isOpen && 'rotate(90deg)'};
   }
+`;
+
+const StyledSummary = styled.summary<{ isOpen: boolean }>`
+  color: ${colors.brand.primary};
+  font-size: 20px;
+  cursor: inherit;
+  padding: ${spacing.normal};
+  display: flex;
 `;
 
 const StyledRow = styled.div`
@@ -66,11 +74,10 @@ const StyledRow = styled.div`
 interface Props {
   children: ReactElement[];
   editor: Editor;
-  editSummaryButton: ReactElement;
   node: Node;
 }
 
-const Details = ({ children, editor, editSummaryButton, node }: Props) => {
+const Details = ({ children, editor, node }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -88,7 +95,8 @@ const Details = ({ children, editor, editSummaryButton, node }: Props) => {
   return (
     <StyledDetailsDiv className="c-bodybox">
       <StyledRow>
-        <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
+        <StyledSummary isOpen={isOpen}>
+          <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />
           {summaryNode}
         </StyledSummary>
       </StyledRow>

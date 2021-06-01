@@ -9,6 +9,8 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
   const originPath = JSON.parse(data.getData('application/slate-node-path') || '[]');
 
   if (Array.isArray(originPath) && originPath.length > 0) {
+    event.preventDefault();
+    event.stopPropagation();
     const targetNode = ReactEditor.toSlateNode(editor, event.target as Node);
     const targetPath = ReactEditor.findPath(editor, targetNode);
 
@@ -48,9 +50,7 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
       if (Path.equals(insertBeforeNode, originPath)) {
         return;
       }
-      // Prevent default Editable function from executing.
-      event.preventDefault();
-      event.stopPropagation();
+
       HistoryEditor.withoutMerging(editor, () => {
         Transforms.moveNodes(editor, {
           at: originPath,
@@ -61,9 +61,7 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
       if (Path.equals(originPath, targetPath) || Path.isDescendant(targetPath, originPath)) {
         return;
       }
-      // Prevent default Editable function from executing.
-      event.preventDefault();
-      event.stopPropagation();
+
       HistoryEditor.withoutMerging(editor, () => {
         Transforms.moveNodes(editor, { at: originPath, to: targetPath });
       });

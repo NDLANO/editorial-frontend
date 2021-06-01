@@ -31,6 +31,10 @@ const SlateAside = (props: Props) => {
       at: path,
       match: node => Element.isElement(node) && node.type === TYPE_ASIDE,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+    }, 0);
   };
 
   const onMoveContent = () => {
@@ -40,6 +44,11 @@ const SlateAside = (props: Props) => {
       match: node => Element.isElement(node) && node.type === TYPE_ASIDE,
       voids: true,
     });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor, { edge: 'start' });
+    }, 0);
   };
 
   const type = element.data.type;

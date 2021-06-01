@@ -91,7 +91,6 @@ const Details = ({ children, editor, editSummaryButton, node }: Props) => {
         <StyledSummary isOpen={isOpen} onClick={toggleOpen}>
           {summaryNode}
         </StyledSummary>
-        {isOpen && editSummaryButton}
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <MoveContentButton onMouseDown={onMoveContent} />

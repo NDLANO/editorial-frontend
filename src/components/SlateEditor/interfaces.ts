@@ -13,6 +13,7 @@ import { SectionElement } from './plugins/section';
 import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
+import { DetailsElement, SummaryElement } from './plugins/details';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -42,7 +43,9 @@ declare module 'slate' {
       | FootnoteElement
       | MathmlElement
       | ConceptElement
-      | AsideElement;
+      | AsideElement
+      | DetailsElement
+      | SummaryElement;
     Text: CustomTextWithMarks;
   }
 }

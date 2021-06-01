@@ -76,10 +76,9 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   this.onInsertBlock(defaultBodyBoxBlock());
       //   break;
       // }
-      // case 'details': {
-      //   this.onInsertBlock(defaultDetailsBlock());
-      //   break;
-      // }
+      case 'details': {
+        break;
+      }
       // case 'table': {
       //   editor.insertTable(2, 2);
       //   break;

@@ -17,6 +17,7 @@ import Button from '@ndla/button';
 import { spacing, colors } from '@ndla/core';
 import { Portal } from '../../../Portal';
 import Details from './Details';
+import { RenderElementProps } from 'slate-react';
 
 const editButtonStyle = css`
   height: 100%;
@@ -49,26 +50,17 @@ const editButtonStyle = css`
   }
 `;
 
-type ParentNode = Document | Block | Inline;
-
-interface Props {
-  attributes: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  children: ReactElement[];
+interface Props extends RenderElementProps {
   editor: Editor;
-  node: Node;
 }
 
-const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) => {
-  const summary: Node | null = (node as ParentNode)?.findDescendant(
-    node => (node as ParentNode)?.type === 'summary',
-  );
+const DetailsBox = ({ t, attributes, children, editor, element }: Props & tType) => {
+  const summary: Node | null = Node.get(element, [0]);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>(summary?.text || '');
+  const [inputValue, setInputValue] = useState<string>(Node.string(summary));
 
   const summaryTextNode: Text =
+    'e' ||
     summary?.getLastText() ||
     Text.create({
       text: '',
@@ -95,7 +87,7 @@ const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) =>
 
   return (
     <div draggable={!showEditModal} {...attributes}>
-      <Details editSummaryButton={editSummaryButton} editor={editor} node={node}>
+      <Details editSummaryButton={editSummaryButton} editor={editor} node={element}>
         {children}
       </Details>
       <Portal isOpened>

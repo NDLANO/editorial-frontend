@@ -31,7 +31,7 @@ import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEdito
 import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
 import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
-import createDetailsPlugin from '../../../../components/SlateEditor/plugins/details';
+import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
@@ -113,7 +113,7 @@ const LearningResourceContent = ({
     // createEmbedPlugin(articleLanguage, props.locale),
     // createBodyBoxPlugin(),
     asidePlugin,
-    // createDetailsPlugin(),
+    detailsPlugin,
     blockQuotePlugin,
     linkPlugin(articleLanguage),
     conceptPlugin(articleLanguage),

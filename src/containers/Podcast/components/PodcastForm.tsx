@@ -11,6 +11,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
+import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -230,10 +231,17 @@ const PodcastForm = ({
                   <AudioContent classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
                   <PodcastMetaData

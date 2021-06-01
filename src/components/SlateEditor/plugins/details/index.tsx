@@ -6,18 +6,18 @@
  *
  */
 
-import React, { ReactElement } from 'react';
-import { Element, Descendant, Editor } from 'slate';
+import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import { Element, Descendant, Editor, Path, Transforms, Node, Text } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
-import DetailsBox from './DetailsBox';
-import { defaultBlocks } from '../../utils';
-import onKeyDown from './onKeyDown';
-import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
+import Details from './Details';
+import { TYPE_PARAGRAPH } from '../paragraph';
+import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
+const KEY_ENTER = 'Enter';
 
 export interface DetailsElement {
   type: 'details';
@@ -28,6 +28,22 @@ export interface SummaryElement {
   type: 'summary';
   children: Descendant[];
 }
+
+const onEnter = (
+  e: KeyboardEvent<HTMLDivElement>,
+  editor: Editor,
+  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+) => {
+  if (hasNodeOfType(editor, TYPE_SUMMARY)) {
+    e.preventDefault();
+    Transforms.splitNodes(editor, {
+      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
+      always: true,
+    });
+    return;
+  }
+  return nextOnKeyDown && nextOnKeyDown(e);
+};
 
 export const detailsSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
@@ -49,14 +65,26 @@ export const detailsSerializer: SlateSerializer = {
 };
 
 export const detailsPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    onKeyDown: nextOnKeyDown,
+  } = editor;
+
+  editor.onKeyDown = event => {
+    if (event.key === KEY_ENTER) {
+      onEnter(event, editor, nextOnKeyDown);
+    } else if (nextOnKeyDown) {
+      nextOnKeyDown(event);
+    }
+  };
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_SUMMARY) {
       return <span {...attributes}>{children}</span>;
     } else if (element.type === TYPE_DETAILS) {
       return (
-        <DetailsBox attributes={attributes} children={children} editor={editor} element={element} />
+        <Details attributes={attributes} children={children} editor={editor} element={element} />
       );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
@@ -64,14 +92,85 @@ export const detailsPlugin = (editor: Editor) => {
     return undefined;
   };
   editor.normalizeNode = entry => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node)) {
       if (node.type === TYPE_DETAILS) {
-        return;
+        for (const [child, childPath] of Node.children(editor, path)) {
+          if (!Path.hasPrevious(childPath)) {
+            // Unwrap first element in details if it is not a summary element
+
+            if (Element.isElement(child) && child.type !== TYPE_SUMMARY) {
+              Transforms.unwrapNodes(editor, { at: childPath });
+              return;
+              // If first child is text, wrap it in a summary element
+            }
+            if (Text.isText(child)) {
+              Transforms.wrapNodes(editor, jsx('element', { type: TYPE_SUMMARY }), {
+                at: childPath,
+              });
+              return;
+            }
+
+            const nextSiblingPath = Path.next(childPath);
+
+            if (Node.has(editor, nextSiblingPath)) {
+              const [nextSibling] = Editor.node(editor, nextSiblingPath);
+
+              // Insert empty paragraph after summary if it does not already exist.
+              if (
+                !Node.has(editor, nextSiblingPath) ||
+                !Element.isElement(nextSibling) ||
+                nextSibling.type !== TYPE_PARAGRAPH
+              ) {
+                // Does only apply when summary is the first element.
+                if (!Path.hasPrevious(childPath)) {
+                  Transforms.insertNodes(
+                    editor,
+                    jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
+                    {
+                      at: nextSiblingPath,
+                    },
+                  );
+                  return;
+                }
+              }
+            } else {
+              // If no sibling exists, insert an empty paragraph.
+              Transforms.insertNodes(
+                editor,
+                jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
+                {
+                  at: nextSiblingPath,
+                },
+              );
+              return;
+            }
+          }
+        }
       }
       if (node.type === TYPE_SUMMARY) {
-        return;
+        const [parent] = Editor.node(editor, Path.parent(path));
+        // Change summary node to paragraph if not a child of details element
+        if (!Element.isElement(parent) || parent.type !== TYPE_DETAILS) {
+          Transforms.setNodes(editor, { type: TYPE_PARAGRAPH }, { at: path });
+          return;
+        }
+        // Change summary node to paragraph if not first child of details element
+        if (Element.isElement(parent) && parent.type === TYPE_DETAILS) {
+          if (Path.hasPrevious(path)) {
+            Transforms.setNodes(editor, { type: TYPE_PARAGRAPH }, { at: path });
+            return;
+          }
+        }
+
+        for (const [child, childPath] of Node.children(editor, path)) {
+          // Unwrap elements inside summary until only the text remains.
+          if (Element.isElement(child)) {
+            Transforms.unwrapNodes(editor, { at: childPath });
+            return;
+          }
+        }
       }
     }
     nextNormalizeNode(entry);

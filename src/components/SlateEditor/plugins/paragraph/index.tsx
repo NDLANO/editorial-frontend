@@ -8,7 +8,7 @@
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Node, Element, Descendant, Text } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
@@ -89,7 +89,9 @@ export const paragraphSerializer: SlateSerializer = {
       between element with no spacing (i.e two images). We need to remove these element
       on seriaization.
      */
-    if (Node.string(node) === '' && children.length === 1 && Text.isText(children[0])) return null;
+
+    if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0]))
+      return null;
 
     const attributes = node.data?.align ? ` data-align="${node.data.align}"` : '';
     return `<p${attributes}>${children}</p>`;

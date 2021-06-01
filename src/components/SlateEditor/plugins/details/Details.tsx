@@ -4,12 +4,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
+import { Editor, Transforms, Element } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { Editor, Node, Block, Transforms } from 'slate';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
+import { TYPE_DETAILS } from '.';
 
 const StyledDetailsDiv = styled.div`
   position: relative;
@@ -72,28 +74,45 @@ const StyledRow = styled.div`
 `;
 
 interface Props {
-  children: ReactElement[];
   editor: Editor;
-  node: Node;
 }
 
-const Details = ({ children, editor, node }: Props) => {
+const Details = ({ children, editor, element, attributes }: Props & RenderElementProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
+
   const onRemoveClick = () => {
-    editor.removeNodeByKey(node.key);
-    editor.focus();
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_DETAILS,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+    }, 0);
   };
+
   const onMoveContent = () => {
-    editor.unwrapBlockByKey(node.key, (node as Block).type);
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.unwrapNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_DETAILS,
+      voids: true,
+    });
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, path);
+      Transforms.collapse(editor, { edge: 'start' });
+    }, 0);
   };
 
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv className="c-bodybox">
+    <StyledDetailsDiv className="c-bodybox" {...attributes}>
       <StyledRow>
         <StyledSummary isOpen={isOpen}>
           <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />

@@ -38,11 +38,10 @@ function fetchTopicResourceTypes(language) {
   );
 }
 
-function fetchTopicResources(topicId, language, relevance, filters) {
+function fetchTopicResources(topicId, language, relevance) {
   const query = [];
   if (language) query.push(`language=${language}`);
   if (relevance) query.push(`relevance=${relevance}`);
-  if (filters) query.push(`filters=${filters}`);
   return fetchAuthorized(
     `${baseUrl}/topics/${topicId}/resources/${query.length ? `?${query.join('&')}` : ''}`,
   ).then(resolveJsonOrRejectWithError);

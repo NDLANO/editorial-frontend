@@ -36,6 +36,11 @@ const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
+const deleteButtonStyle = css`
+  line-height: 1;
+  margin-left: ${spacing.xsmall};
+`;
+
 const Resource = ({
   contentType,
   name,
@@ -97,7 +102,7 @@ const Resource = ({
         )}
       </StructureContext.Consumer>
       {onDelete && (
-        <Button onClick={() => onDelete(connectionId)} stripped>
+        <Button css={deleteButtonStyle} onClick={() => onDelete(connectionId)} stripped>
           <RemoveCircle {...classes('deleteIcon')} />
         </Button>
       )}

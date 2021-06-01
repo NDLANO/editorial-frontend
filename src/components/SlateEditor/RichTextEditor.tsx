@@ -19,6 +19,7 @@ import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import options from './plugins/blockPicker/options';
+import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -149,6 +150,9 @@ const RichTextEditor = ({
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               readOnly={submitted}
+              onDragStart={onDragStart(editor)}
+              onDragOver={onDragOver(editor)}
+              onDrop={onDrop(editor)}
               {...classes('content', undefined, className)}
             />
           </Slate>

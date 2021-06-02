@@ -121,7 +121,6 @@ const Resource = ({
 };
 
 Resource.defaultProps = {
-  activeFilters: [],
   dragHandleProps: {},
 };
 

@@ -58,9 +58,9 @@ export const asidePlugin = (editor: Editor) => {
 
     if (Element.isElement(node) && node.type === TYPE_ASIDE) {
       defaultTextBlockNormalizer(editor, entry, nextNormalizeNode);
-      return;
+    } else {
+      nextNormalizeNode(entry);
     }
-    nextNormalizeNode(entry);
   };
 
   return editor;

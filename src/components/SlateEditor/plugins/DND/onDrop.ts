@@ -2,6 +2,7 @@ import { DragEventHandler } from 'react';
 import { Editor, Element, Path, Transforms } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
+import { getTopNode } from './utils';
 
 const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
   const data = event.dataTransfer;
@@ -9,17 +10,28 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
   const originPath = JSON.parse(data.getData('application/slate-node-path') || '[]');
 
   if (Array.isArray(originPath) && originPath.length > 0) {
+    event.preventDefault();
+    event.stopPropagation();
     const targetNode = ReactEditor.toSlateNode(editor, event.target as Node);
     const targetPath = ReactEditor.findPath(editor, targetNode);
+    const topLevelTargetEntry = getTopNode(editor, targetPath);
+    if (!topLevelTargetEntry) {
+      return;
+    }
+    const [topLevelTargetNode, topLevelTargetPath] = topLevelTargetEntry;
 
-    if (Path.equals(originPath, targetPath) || Path.isDescendant(targetPath, originPath)) {
+    if (
+      Path.equals(originPath, targetPath) ||
+      Path.isDescendant(targetPath, originPath) ||
+      Path.equals(originPath, topLevelTargetPath)
+    ) {
       return;
     }
 
     // Handle case where root section is detected as the target.
-    if (Element.isElement(targetNode) && targetNode.type === 'section') {
+    if (Element.isElement(topLevelTargetNode) && topLevelTargetNode.type === 'section') {
       // We need to manually calculate the correct posistion to move the node
-      // @ts-ignore EventTarget interface does not include children, but the property does exist on target in this case.
+      // @ts-ignore EventTarget interface does not include children attribute, but the property does exist on target in this case.
       const children = event.target.children as HTMLCollection;
       let prevElementTop = 0;
       let insertAtNode;
@@ -48,9 +60,7 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
       if (Path.equals(insertBeforeNode, originPath)) {
         return;
       }
-      // Prevent default Editable function from executing.
-      event.preventDefault();
-      event.stopPropagation();
+
       HistoryEditor.withoutMerging(editor, () => {
         Transforms.moveNodes(editor, {
           at: originPath,
@@ -58,14 +68,20 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
         });
       });
     } else {
-      if (Path.equals(originPath, targetPath) || Path.isDescendant(targetPath, originPath)) {
+      if (
+        Path.equals(originPath, topLevelTargetPath) ||
+        Path.isDescendant(topLevelTargetPath, originPath)
+      ) {
         return;
       }
-      // Prevent default Editable function from executing.
-      event.preventDefault();
-      event.stopPropagation();
+      const { height, top } = (event.target as HTMLDivElement).getBoundingClientRect();
+      const goUp = top + height / 2 > event.clientY;
+
       HistoryEditor.withoutMerging(editor, () => {
-        Transforms.moveNodes(editor, { at: originPath, to: targetPath });
+        Transforms.moveNodes(editor, {
+          at: originPath,
+          to: goUp ? topLevelTargetPath : Path.next(topLevelTargetPath),
+        });
       });
     }
     if (!ReactEditor.isFocused(editor)) {

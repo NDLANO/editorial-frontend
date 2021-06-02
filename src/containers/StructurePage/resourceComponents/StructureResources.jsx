@@ -221,7 +221,6 @@ export class StructureResources extends React.PureComponent {
               params={this.props.params}
               refreshResources={this.getTopicResources}
               locale={locale}
-              currentTopic={currentTopic}
               currentSubject={currentSubject}
               disable={resourceType.disabled}
             />

@@ -1962,13 +1962,24 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.9.12":
-  version "0.9.12"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.12.tgz#078007a01fb1142280625e172c36cdca5b960ba6"
-  integrity sha512-Lp5zeJBSYQtKUeGh8GB74kddNvt+RSvsXzC+N9u29xTFGZ4X/jGM23uCSniYyte9zv4MbqleMO0HPutjfC6zgA==
+"@ndla/core@^0.6.39":
+  version "0.6.39"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.6.39.tgz#71375b4467f287bf4e4f5a8cea7f99a408d6342b"
+  integrity sha512-V+lGBhBpk/WwrzeLYvxKck51KcDikplZwbdQvo3oeo3gaG2yCi7KWoksEp4SFXWvou/OVbVnrlvgSQtw0hJCPQ==
   dependencies:
-    "@ndla/core" "^0.6.38"
-    "@ndla/icons" "^0.7.5"
+    "@types/facepaint" "^1.2.1"
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/editor@^0.9.14":
+  version "0.9.14"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.14.tgz#5299e4951c608101464a5d03fc568a2077e0e893"
+  integrity sha512-nyQkim9lJ8VYPWaY3gmRDCzPS1OwxhoaT49G96ZVVWewiWTTUm3TYfN8kLrdf20ewh5haJ25++6k1GnIWtpTHA==
+  dependencies:
+    "@ndla/core" "^0.6.39"
+    "@ndla/icons" "^0.7.6"
     "@types/react-beautiful-dnd" "^11.0.3"
     prismjs "^1.22.0"
     react-beautiful-dnd "^12.0.0"
@@ -2029,6 +2040,11 @@
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.7.5.tgz#2a7ea0f304354b0ed5d389f6fe2f171033533bab"
   integrity sha512-+3+y5zskO1UWH7YQF6mhN5ko20JV7he2mAdiiDxJAKAkOug9c64gQMjO3d4CesLLRyw8qtF4YcKLSGf36/EZqQ==
+
+"@ndla/icons@^0.7.6":
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.7.6.tgz#fb44cdeea91d63d361fabb7ecf6081e885844bf4"
+  integrity sha512-MuLRYBHGOHK3EgHca6uAcEhgFFQ3rA23MvWgfaww5DgD3ly9P8TeUee4MNron60TFVohwdacm9JWWxYDSbw5Tw==
 
 "@ndla/image-search@^0.8.198":
   version "0.8.198"

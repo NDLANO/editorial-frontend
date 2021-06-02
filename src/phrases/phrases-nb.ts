@@ -1186,7 +1186,7 @@ const phrases = {
       customFields: {
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
-        languagePlaceholder: 'Frontpage språk',
+        languagePlaceholder: 'Visningsspråk ndla.no',
         resourceGroupPlaceholder: 'Grupperte ressurser',
       },
     },

@@ -27,14 +27,13 @@ import {
 import { filterWrapper, StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import { updateSubjectMetadata } from '../../../../modules/taxonomy/subjects';
 import { updateTopicMetadata } from '../../../../modules/taxonomy/topics';
-import config from '../../../../config';
 import MenuItemSaveButton from './MenuItemSaveButton';
 
 const StyledSelect = styled('select')`
   padding: 0 ${spacing.nsmall} 0 calc(${spacing.nsmall} / 2);
   width: calc(${spacing.large} * 2);
   margin-left: 0;
-  margin-right: 38%;
+  margin-right: 35%;
 `;
 
 interface Props extends TaxonomyElement {
@@ -57,9 +56,7 @@ const MenuItemCustomField = ({
   updateLocalTopics,
   t,
 }: Props & tType) => {
-  const [localState, setLocalState] = useState<'localStateOpen' | 'localStateClosed'>(
-    'localStateClosed',
-  );
+  const [isOpen, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
   );
@@ -156,7 +153,9 @@ const MenuItemCustomField = ({
           />
         ))}
 
-      {config.ndlaEnvironment === 'test' && localState === 'localStateClosed' && (
+      {isOpen ? (
+        <CustomFieldComponent onSubmit={setCustomFields} onClose={() => setOpen(false)} />
+      ) : (
         <div css={filterWrapper}>
           <Button
             stripped
@@ -164,18 +163,11 @@ const MenuItemCustomField = ({
               text-decoration: underline;
             `}
             data-testid="addCustomFieldButton"
-            onClick={() => setLocalState('localStateOpen')}>
+            onClick={() => setOpen(true)}>
             <Plus />
             {t('taxonomy.metadata.customFields.addField')}
           </Button>
         </div>
-      )}
-
-      {config.ndlaEnvironment === 'test' && localState === 'localStateOpen' && (
-        <CustomFieldComponent
-          onSubmit={setCustomFields}
-          onClose={() => setLocalState('localStateClosed')}
-        />
       )}
     </div>
   );

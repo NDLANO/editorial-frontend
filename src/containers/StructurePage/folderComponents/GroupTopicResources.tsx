@@ -60,7 +60,7 @@ const GroupTopicResources = ({
         placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')}
         disabled
       />
-      <ToggleSwitch on={isGrouped} offLabel={'U'} onLabel={'G'} onClick={() => updateMetadata()} />
+      <ToggleSwitch on={isGrouped} labelOff={'U'} labelOn={'G'} onClick={() => updateMetadata()} />
     </StyledMenuItemEditField>
   );
 };

@@ -16,6 +16,7 @@ import { TYPE_PARAGRAPH } from '../paragraph';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
@@ -192,6 +193,39 @@ export const detailsPlugin = (editor: Editor) => {
             }
           }
         }
+        const nextPath = Path.next(path);
+
+        if (Editor.hasPath(editor, nextPath)) {
+          const [nextNode] = Editor.node(editor, nextPath);
+          if (
+            !Element.isElement(nextNode) ||
+            !afterOrBeforeTextBlockElement.includes(nextNode.type)
+          ) {
+            Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+              at: nextPath,
+            });
+
+            return;
+          }
+        }
+
+        if (Path.hasPrevious(path)) {
+          const previousPath = Path.previous(path);
+
+          if (Editor.hasPath(editor, previousPath)) {
+            const [previousNode] = Editor.node(editor, previousPath);
+            if (
+              !Element.isElement(previousNode) ||
+              !afterOrBeforeTextBlockElement.includes(previousNode.type)
+            ) {
+              Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+                at: path,
+              });
+
+              return;
+            }
+          }
+        }
       }
       if (node.type === TYPE_SUMMARY) {
         const [parent] = Editor.node(editor, Path.parent(path));
@@ -217,6 +251,7 @@ export const detailsPlugin = (editor: Editor) => {
         }
       }
     }
+
     nextNormalizeNode(entry);
   };
   return editor;

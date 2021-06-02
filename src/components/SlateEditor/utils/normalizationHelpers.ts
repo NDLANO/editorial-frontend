@@ -84,19 +84,20 @@ export const defaultTextBlockNormalizer = (
     }
   }
 
-  const previousPath = Path.previous(path);
+  if (Path.hasPrevious(path)) {
+    const previousPath = Path.previous(path);
 
-  if (Editor.hasPath(editor, previousPath)) {
-    const [previousNode] = Editor.node(editor, previousPath);
-    if (
-      !Element.isElement(previousNode) ||
-      !afterOrBeforeTextBlockElement.includes(previousNode.type)
-    ) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
-        at: path,
-      });
-
-      return;
+    if (Editor.hasPath(editor, previousPath)) {
+      const [previousNode] = Editor.node(editor, previousPath);
+      if (
+        !Element.isElement(previousNode) ||
+        !afterOrBeforeTextBlockElement.includes(previousNode.type)
+      ) {
+        Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+          at: path,
+        });
+        return;
+      }
     }
   }
   nextNormalizeNode(entry);

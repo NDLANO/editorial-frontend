@@ -49,14 +49,7 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
     if (id) {
       searchArticles(searchObjects(id, type)).then(result => setArticles(result.results));
       type === 'image' &&
-        searchConcepts({
-          ...searchObjects(id, type),
-          idList: [],
-          subjects: [],
-          tags: [],
-          status: [],
-          users: [],
-        }).then(result => setConcepts(result.results));
+        searchConcepts(searchObjects(id, type)).then(result => setConcepts(result.results));
     }
   }, [id, type]);
 

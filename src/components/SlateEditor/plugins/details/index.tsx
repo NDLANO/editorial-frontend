@@ -8,7 +8,7 @@
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';

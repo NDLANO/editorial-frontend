@@ -7,7 +7,7 @@
  */
 
 import { DragEventHandler } from 'react';
-import { Editor, Element, Path } from 'slate';
+import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import onDrop from './onDrop';
 

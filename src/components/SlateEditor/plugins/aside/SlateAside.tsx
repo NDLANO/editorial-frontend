@@ -34,6 +34,7 @@ const SlateAside = (props: Props) => {
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
+      Transforms.collapse(editor);
     }, 0);
   };
 

@@ -92,6 +92,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
     setTimeout(() => {
       ReactEditor.focus(editor);
       Transforms.select(editor, path);
+      Transforms.collapse(editor);
     }, 0);
   };
 

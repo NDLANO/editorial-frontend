@@ -7,7 +7,7 @@
  */
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Editor, Element, Node, Location, Range } from 'slate';
+import { Editor, Element, Node, Location, Range, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -18,6 +18,7 @@ import { defaultBlocks } from '../../utils';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
+import { defaultDetailsBlock } from '../details/utils';
 
 const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
@@ -77,6 +78,7 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   break;
       // }
       case 'details': {
+        onInsertBlock(defaultDetailsBlock);
         break;
       }
       // case 'table': {

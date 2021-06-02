@@ -50,14 +50,5 @@ describe('Topic editing', () => {
       .click();
     cy.get('input[id="visible"]').click({force: true});
     cy.wait('@invisibleMetadata');
-
-    /*cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
-      .click();
-    cy.apiwait('@allSubjectTopics');
-    cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
-    cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@addFilter']);*/
   });
 });

@@ -804,13 +804,6 @@ const phrases = {
       searchPlaceholder: 'Søk etter fag',
       placeholder: 'Legg til fag',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Legg til filter',
-      core: 'Kjernestoff',
-      supplementary: 'Tilleggsstoff',
-      setRelevance: 'Velg relevans',
-    },
     topics: {
       label: 'Emnetilknytning',
       placeholder: 'Legg til emnetilknytning',
@@ -1079,13 +1072,6 @@ const phrases = {
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
-    emptyFilter: 'Ingen treff',
-    editFilter: 'Rediger filter',
-    editFilterName: 'Rediger filternavn',
-    addFilter: 'Nytt filter',
-    deleteFilter: 'Slett filter',
-    connectFilters: 'Koble til filter',
-    confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
@@ -1115,7 +1101,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
-      chooseFilter: 'Koble til filter',
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
     },
@@ -1140,15 +1125,7 @@ const phrases = {
       addNewTopic: 'Legg til nytt emne',
       addNewSubTopic: 'Legg til nytt underemne',
       addedTopic: 'Lagt til',
-      filterTopic: 'Filtrer emner',
       disconnectedTaxonomyWarning: 'Ugyldig tilknytning',
-    },
-    filters: {
-      title: 'Filter',
-      subTitle: 'Hvilket fagfilter gjelder for denne ressursen?',
-      helpLabel: 'Hva er et fagfilter?',
-      additional: 'Tilleggsressurs',
-      core: 'Kjerneressurs',
     },
     grepCodes: {
       edit: 'Endre læreplankobling',

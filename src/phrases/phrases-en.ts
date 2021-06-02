@@ -791,13 +791,6 @@ const phrases = {
       searchPlaceholder: 'Search for subjects',
       placeholder: 'Add subjects',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Add filter',
-      core: 'Core',
-      supplementary: 'Supplementary',
-      setRelevance: 'Set relevance',
-    },
     topics: {
       label: 'Topics',
       placeholder: 'Add topic',
@@ -1057,10 +1050,6 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
-    editFilter: 'Edit filter',
-    editFilterName: 'Edit filter name',
-    deleteFilter: 'Delete filter',
-    emptyFilter: 'No hits',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: 'Change name',
@@ -1068,9 +1057,6 @@ const phrases = {
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
-    addFilter: 'Add filter',
-    connectFilters: 'Connect filters',
-    confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
@@ -1099,7 +1085,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
-      chooseFilter: 'Connect to filters',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
@@ -1119,14 +1104,7 @@ const phrases = {
       addNewTopic: 'Add new topic',
       addNewSubTopic: 'Add new sub topic',
       addedTopic: 'Added to taxonomy',
-      filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',
-    },
-    filters: {
-      title: 'Filters',
-      subTitle: 'Which filters should be applied?',
-      additional: 'Additional resource',
-      core: 'Core resource',
     },
     grepCodes: {
       edit: 'Edit grep codes',

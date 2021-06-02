@@ -103,7 +103,6 @@ class TopicArticleConnections extends Component {
                       addTopic={() => this.addTopic(props.path, closeModal)}
                     />
                   )}
-                  filters={{}}
                 />
               </ModalBody>
             </Fragment>

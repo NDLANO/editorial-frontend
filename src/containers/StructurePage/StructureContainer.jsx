@@ -396,7 +396,6 @@ export class StructureContainer extends React.PureComponent {
                   structure={
                     showFavorites ? this.getFavoriteSubjects(subjects, favoriteSubjects) : subjects
                   }
-                  filters={{}}
                   toggleOpen={this.handleStructureToggle}
                   highlightMainActive
                   toggleFavorite={this.toggleFavorite}

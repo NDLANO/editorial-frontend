@@ -122,7 +122,6 @@ class TopicConnections extends Component {
                       addTopic={this.addTopic}
                     />
                   )}
-                  filters={{}}
                 />
               </ModalBody>
             </Fragment>

@@ -27,6 +27,7 @@ const phrases = {
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
     podcastUploaderPage: `Podkast ${titleTemplate}`,
+    podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
   },
   dropdown: {
@@ -118,6 +119,7 @@ const phrases = {
       audio: 'Søk etter lydfiler',
       image: 'Søk etter bilder',
       concept: 'Søk etter forklaringar',
+      'podcast-series': 'Søk etter podkastserier',
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',
@@ -125,6 +127,7 @@ const phrases = {
     language: 'Språk',
     contentNoHits: 'Ingen innhald samsvarte med søket ditt på: {query}',
     conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {query}',
+    'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {query}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
     imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
@@ -153,10 +156,12 @@ const phrases = {
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
     podcast: 'Ny podkast',
+    podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
+    searchPodcastSeries: 'Søk serie',
     searchImage: 'Søk bilde',
     searchConcepts: 'Søk forklaring',
     film: 'Rediger NDLA film',
@@ -194,6 +199,7 @@ const phrases = {
       conceptQuery: 'Søk på forklaringar',
       contentQuery: 'Søk på innhald',
       audioQuery: 'Søk på lydfiler',
+      podcastSeriesQuery: 'Søk på podkastserier',
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
@@ -391,6 +397,10 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastSeriesForm: {
+    title: 'Podkastserie',
+    alreadyPartOfSeries: 'Del av ein anna serie',
+  },
   podcastForm: {
     title: 'Podkast',
     fields: {
@@ -399,6 +409,10 @@ const phrases = {
       coverPhoto: 'Bilde',
       coverPhotoAltText: 'Alt-tekst',
       manuscript: 'Tekstversjon',
+      series: 'Serie',
+    },
+    information: {
+      partOfSeries: 'Denne podkasten er en del av serien',
     },
   },
   imageEditor: {
@@ -486,6 +500,9 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     podcastSection: 'Podkastinformasjon',
+    podcastSeriesSection: 'Podkastserie',
+    podcastEpisodesSection: 'Episoder',
+    podcastEpisodesTypeName: 'Podkaster',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',

@@ -21,7 +21,7 @@ import {
   formClasses as classes,
   AlertModalWrapper,
 } from '../../FormikForm';
-import { toEditImage } from '../../../util/routeHelpers';
+import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
@@ -217,7 +217,10 @@ class ImageForm extends Component<Props & tType, State> {
                 values={values}
                 type="image"
                 content={image}
-                editUrl={(lang: string) => toEditImage(values.id, lang)}
+                editUrl={(lang: string) => {
+                  if (values.id) return toEditImage(values.id, lang);
+                  else return toCreateImage();
+                }}
               />
               <Accordions>
                 <AccordionSection

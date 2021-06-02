@@ -113,7 +113,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   const [summaryNode, ...contentNodes] = children;
 
   return (
-    <StyledDetailsDiv className="c-bodybox" {...attributes}>
+    <StyledDetailsDiv className="c-bodybox" {...attributes} draggable>
       <StyledRow>
         <StyledSummary isOpen={isOpen}>
           <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />

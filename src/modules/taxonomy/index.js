@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export { fetchResourceTypes, fetchFilters, fetchRelevances, updateTaxonomy } from './taxonomyApi';
+export { fetchResourceTypes, fetchRelevances, updateTaxonomy } from './taxonomyApi';
 
 export {
   fetchResource,
@@ -13,11 +13,8 @@ export {
   queryResources,
   queryTopics,
   fetchResourceResourceType,
-  fetchResourceFilter,
   fetchResourceMetadata,
-  addFilterToResource,
   fetchFullResource,
-  updateResourceRelevance,
   getFullResource,
   getResourceId, // fetchTopicResource,
   queryLearningPathResource,
@@ -31,17 +28,6 @@ export {
   deleteResourceResourceType,
   createDeleteResourceTypes,
 } from './resourcetypes';
-export {
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
-  fetchSubjectFilter,
-  createDeleteUpdateFilters,
-  createSubjectFilter,
-  updateSubjectFilter,
-  deleteFilter,
-  updateFilterMetadata,
-} from './filter';
 export {
   fetchAllTopicResource,
   fetchSingleTopicResource,
@@ -58,7 +44,6 @@ export {
   addSubject,
   updateSubjectName,
   updateSubject,
-  fetchSubjectFilters,
   addSubjectTopic,
   updateSubjectTopic,
   updateSubjectMetadata,
@@ -69,14 +54,10 @@ export {
   addTopic,
   fetchTopics,
   fetchTopic,
-  fetchTopicFilters,
   updateTopic,
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
-  addFilterToTopic,
-  updateTopicFilter,
-  deleteTopicFilter,
   fetchTopicResources,
   fetchTopicConnections,
   updateTopicSubtopic,

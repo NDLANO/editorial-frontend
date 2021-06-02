@@ -27,10 +27,6 @@ function fetchTopic(id, language) {
   return fetchAuthorized(`${baseUrl}/topics/${id}${lang}`).then(resolveJsonOrRejectWithError);
 }
 
-function fetchTopicFilters(id) {
-  return fetchAuthorized(`${baseUrl}/topics/${id}/filters`).then(resolveJsonOrRejectWithError);
-}
-
 function fetchTopicResourceTypes(language) {
   const lang = language ? `?language=${language}` : '';
   return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(
@@ -100,28 +96,6 @@ function deleteSubTopicConnection(id) {
   }).then(resolveTaxonomyResponse);
 }
 
-function addFilterToTopic({ filterId, relevanceId = 'urn:relevance:core', topicId }) {
-  return fetchAuthorized(`${baseUrl}/topic-filters`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ filterId, relevanceId, topicId }),
-  }).then(resolveTaxonomyResponse);
-}
-
-function updateTopicFilter({ connectionId, relevanceId }) {
-  return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ relevanceId }),
-  }).then(resolveTaxonomyResponse);
-}
-
-function deleteTopicFilter({ connectionId }) {
-  return fetchAuthorized(`${baseUrl}/topic-filters/${connectionId}`, {
-    method: 'DELETE',
-  }).then(resolveTaxonomyResponse);
-}
-
 function fetchTopicConnections(id) {
   return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(resolveJsonOrRejectWithError);
 }
@@ -154,10 +128,6 @@ export {
   addTopicToTopic,
   deleteTopicConnection,
   deleteSubTopicConnection,
-  fetchTopicFilters,
-  addFilterToTopic,
-  updateTopicFilter,
-  deleteTopicFilter,
   fetchTopicResources,
   fetchTopicConnections,
   updateTopicSubtopic,

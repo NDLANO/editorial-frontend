@@ -46,33 +46,8 @@ export function fetchResourceResourceType(id, language) {
   );
 }
 
-export function fetchResourceFilter(id, language) {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/filters${lang}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
 export function fetchResourceMetadata(id) {
   return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(resolveJsonOrRejectWithError);
-}
-
-export function addFilterToResource({ filterId, relevanceId = 'urn:relevance:core', resourceId }) {
-  return fetchAuthorized(`${baseUrl}/resource-filters`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ filterId, relevanceId, resourceId }),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
-}
-
-export function updateResourceRelevance(resourceFilterId, relevance) {
-  return fetchAuthorized(`${baseUrl}/resource-filters/${resourceFilterId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify({ relevanceId: relevance }),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
 export function updateResourceMetadata(resourceId, body) {

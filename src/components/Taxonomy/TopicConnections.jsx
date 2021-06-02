@@ -30,11 +30,9 @@ class TopicConnections extends Component {
     super(props);
     this.state = {
       openedPaths: [],
-      activeFilters: [],
     };
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
     this.addTopic = this.addTopic.bind(this);
-    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   handleOpenToggle({ path, isSubject, id }) {
@@ -81,17 +79,9 @@ class TopicConnections extends Component {
     closeModal();
   }
 
-  toggleFilter(id) {
-    this.setState(({ activeFilters }) => ({
-      activeFilters: activeFilters.includes(id)
-        ? activeFilters.filter(activeFilter => activeFilter !== id)
-        : [...activeFilters, id],
-    }));
-  }
-
   render() {
-    const { t, structure, availableFilters, activeTopics, ...rest } = this.props;
-    const { activeFilters, openedPaths } = this.state;
+    const { t, structure, activeTopics, ...rest } = this.props;
+    const { openedPaths } = this.state;
 
     return (
       <Fragment>
@@ -129,14 +119,10 @@ class TopicConnections extends Component {
                       {...listProps}
                       closeModal={closeModal}
                       activeTopics={activeTopics}
-                      availableFilters={availableFilters}
-                      activeFilters={activeFilters}
-                      toggleFilter={this.toggleFilter}
                       addTopic={this.addTopic}
                     />
                   )}
-                  activeFilters={activeFilters}
-                  filters={availableFilters}
+                  filters={{}}
                 />
               </ModalBody>
             </Fragment>
@@ -161,13 +147,6 @@ TopicConnections.propTypes = {
   ),
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
-  availableFilters: PropTypes.objectOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    ),
-  ),
   allowMultipleSubjectsOpen: PropTypes.bool,
   stageTaxonomyChanges: PropTypes.func,
   getSubjectTopics: PropTypes.func,

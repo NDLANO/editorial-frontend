@@ -103,10 +103,7 @@ export async function getResourceId({ id, language }) {
 }
 
 export async function getFullResource(resourceId, language) {
-  const { resourceTypes, filters, parentTopics, metadata } = await fetchFullResource(
-    resourceId,
-    language,
-  );
+  const { resourceTypes, parentTopics, metadata } = await fetchFullResource(resourceId, language);
 
   const topics = await Promise.all(
     // Need to fetch each topic seperate because path is not returned in parentTopics
@@ -123,7 +120,6 @@ export async function getFullResource(resourceId, language) {
   );
   return {
     resourceTypes,
-    filters,
     metadata,
     topics,
   };

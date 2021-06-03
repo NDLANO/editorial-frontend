@@ -16,9 +16,9 @@ import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
-import { SubjectType } from '../../../../interfaces';
+import { SearchType, SubjectType } from '../../../../interfaces';
 import { SearchParamsShape } from '../../../../shapes';
-import { SearchType, SearchTypeValues } from '../../interfaces';
+import { SearchTypeValues } from '../../../../constants';
 
 export const searchFormClasses = new BEMHelper({
   name: 'search-form',

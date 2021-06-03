@@ -14,7 +14,7 @@ import MastheadSearchForm from './components/MastheadSearchForm';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
 import { LocaleContext } from '../App/App';
-import { SearchTypeValues } from '../SearchPage/interfaces';
+import { SearchTypeValues } from '../../constants';
 
 class MastheadSearch extends Component {
   static getDerivedStateFromProps(props, state) {

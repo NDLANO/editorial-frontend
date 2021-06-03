@@ -11,6 +11,7 @@ import { Store } from 'redux';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
+import { SearchTypeValues } from './constants';
 
 export type LocaleType = 'nb' | 'nn' | 'en';
 
@@ -572,3 +573,5 @@ export interface ReduxState {
   images: ReduxImageState;
   licenses: ReduxLicenseState;
 }
+
+export type SearchType = typeof SearchTypeValues[number];

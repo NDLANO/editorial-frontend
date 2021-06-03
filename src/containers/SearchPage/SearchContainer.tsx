@@ -23,12 +23,12 @@ import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
 import { LocaleContext, UserAccessContext } from '../App/App';
-import { SubjectType } from '../../interfaces';
-import { SearchType, SearchTypeValues } from './interfaces';
+import { SearchType, SubjectType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
 import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
+import { SearchTypeValues } from '../../constants';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -129,7 +129,7 @@ const SearchContainer = ({ type, searchFunction, t }: Props) => {
       />
       <SearchList
         searchObject={searchObject}
-        results={results?.results}
+        results={results?.results ?? []}
         searching={isSearching}
         type={type}
         locale={locale}

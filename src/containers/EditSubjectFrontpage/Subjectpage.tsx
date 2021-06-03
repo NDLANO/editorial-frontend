@@ -5,41 +5,32 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState } from 'react';
-import { Route, RouteComponentProps, Switch } from 'react-router';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import { Route, RouteComponentProps, StaticContext, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import EditSubjectpage from './EditSubjectpage';
 import CreateSubjectpage from './CreateSubjectpage';
 import Footer from '../App/components/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { usePreviousLocation } from '../../util/routeHelpers';
 
-interface LocationState {
-  elementName: string;
-}
+interface Props extends RouteComponentProps {}
 
-interface MatchParams {
+type NewRouteProps = RouteComponentProps<
+  { elementId: string; selectedLanguage: string },
+  StaticContext,
+  { elementName: string }
+>;
+
+type EditRouteProps = RouteComponentProps<{
   elementId: string;
   selectedLanguage: string;
   subjectpageId: string;
-}
-interface Props extends RouteComponentProps<MatchParams, any, LocationState> {}
+}>;
 
 const Subjectpage = ({ match }: Props) => {
-  const [previousLocation, setPreviousLocation] = useState('');
-  const [isNewlyCreated, setNewlyCreated] = useState(false);
-
-  const location = useLocation<LocationState>();
-
-  useEffect(() => {
-    /\/subjectpage\/(.*)\/new/.test(location.pathname)
-      ? setNewlyCreated(true)
-      : setNewlyCreated(false);
-    if (previousLocation !== location.pathname) {
-      setPreviousLocation(location.pathname);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const previousLocation = usePreviousLocation();
 
   return (
     <>
@@ -47,29 +38,31 @@ const Subjectpage = ({ match }: Props) => {
         <Switch>
           <Route
             path={`${match.url}/:elementId/:subjectpageId/edit/:selectedLanguage`}
-            render={routeProps => {
+            render={rp => {
+              const routeProps = rp as EditRouteProps; // Dirty assertion since react-router types are lacking for <Route>
               return (
                 <EditSubjectpage
                   elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
                   subjectpageId={routeProps.match.params.subjectpageId}
-                  isNewlyCreated={isNewlyCreated}
+                  isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
                 />
               );
             }}
           />
           <Route
             path={`${match.url}/:elementId/new/:selectedLanguage`}
-            render={routeProps => {
-              const elementName = location.state && location.state.elementName;
+            render={rp => {
+              const routeProps = rp as NewRouteProps; // Dirty assertion since react-router types are lacking for <Route>
+
+              const elementName =
+                routeProps.location.state && routeProps.location.state.elementName;
 
               return (
                 <CreateSubjectpage
                   elementId={routeProps.match.params.elementId}
                   selectedLanguage={routeProps.match.params.selectedLanguage}
                   elementName={elementName}
-                  // @ts-ignore
-                  history={routeProps.history}
                 />
               );
             }}

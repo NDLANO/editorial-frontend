@@ -11,6 +11,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
+import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -23,19 +24,19 @@ import {
   parseCopyrightContributors,
   DEFAULT_LICENSE,
 } from '../../../util/formHelper';
-import { toEditPodcast } from '../../../util/routeHelpers';
+import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import {
-  AudioFile,
-  PodcastMeta,
   NewPodcastMetaInformation,
   PodcastFormValues,
   UpdatedPodcastMetaInformation,
+  FlattenedAudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import { Copyright, License } from '../../../interfaces';
+import { License } from '../../../interfaces';
+import PodcastSeriesInformation from './PodcastSeriesInformation';
 
 const podcastRules = {
   title: {
@@ -76,21 +77,9 @@ const podcastRules = {
   },
 };
 
-interface PodcastPropType {
-  id?: number;
-  revision?: number;
-  title?: string;
-  manuscript?: string;
-  language?: string;
-  supportedLanguages?: string[];
-  audioFile?: AudioFile;
-  copyright?: Copyright;
-  tags?: string[];
-  audioType?: string;
-  podcastMeta?: PodcastMeta;
-}
+type PodcastPropType = Partial<FlattenedAudioApiType> & { language: string };
 
-export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => ({
+export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => ({
   id: audio.id,
   revision: audio.revision,
   language: audio.language,
@@ -223,7 +212,10 @@ const PodcastForm = ({
               values={values}
               type="podcast"
               content={audio}
-              editUrl={(lang: string) => toEditPodcast(values.id, lang)}
+              editUrl={(lang: string) => {
+                if (values.id) return toEditPodcast(values.id, lang);
+                else toCreatePodcastFile();
+              }}
               translateToNN={translateToNN}
             />
             {translating ? (
@@ -239,10 +231,17 @@ const PodcastForm = ({
                   <AudioContent classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
                   <PodcastMetaData
@@ -254,6 +253,10 @@ const PodcastForm = ({
                       // formik handleBlur needs to be called for validation to work (and touched to be set)
                       setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
                     }}
+                  />
+                  <PodcastSeriesInformation
+                    podcastSeries={audio.series}
+                    language={audio.language}
                   />
                 </AccordionSection>
                 <AccordionSection

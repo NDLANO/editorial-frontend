@@ -6,6 +6,7 @@ import { Launch } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
 import { Camera, Concept, H5P, Taxonomy } from '@ndla/icons/editor';
+import { List } from '@ndla/icons/action';
 import { Audio, Podcast } from '@ndla/icons/common';
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import StyledListButton from '../../../components/StyledListButton';
@@ -17,6 +18,7 @@ import {
   toCreateImage,
   toCreateAudioFile,
   toCreatePodcastFile,
+  toCreatePodcastSeries,
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 
@@ -59,6 +61,11 @@ const OpenMenu = ({ t, close }) => {
             <StyledLink to={toCreatePodcastFile()} onClick={close}>
               <span>
                 <Podcast /> {t('subNavigation.podcast')}
+              </span>
+            </StyledLink>
+            <StyledLink to={toCreatePodcastSeries()} onClick={close}>
+              <span>
+                <List /> {t('subNavigation.podcastSeries')}
               </span>
             </StyledLink>
           </div>

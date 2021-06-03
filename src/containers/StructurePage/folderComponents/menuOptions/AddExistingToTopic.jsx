@@ -36,14 +36,11 @@ class AddExistingToTopic extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { locale, subjectId, path } = this.props;
-    // TODO: Should rather be fetching subjectTopics, but that endpoint does not return paths.
-    const topics = await fetchTopics(locale);
+    const { locale, path } = this.props;
+    const topics = await fetchTopics(locale || 'nb');
     this.setState({
       topics: topics
-        .filter(topic =>
-          topic.paths.find(path => path.split('/')[1] === subjectId.replace('urn:', '')),
-        )
+        .filter(topic => topic.path)
         .filter(topic => !topic.paths?.find(p => path.includes(p)))
         .map(topic => ({
           ...topic,
@@ -132,7 +129,6 @@ AddExistingToTopic.propTypes = {
   refreshTopics: PropTypes.func.isRequired,
   topicFilters: PropTypes.arrayOf(FilterShape).isRequired,
   numberOfSubtopics: PropTypes.number,
-  subjectId: PropTypes.string,
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 

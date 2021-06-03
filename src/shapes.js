@@ -38,6 +38,14 @@ export const AudioResultShape = PropTypes.shape({
   }).isRequired,
 });
 
+export const SeriesResultShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
+});
+
 export const ImageResultShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   title: PropTypes.shape({

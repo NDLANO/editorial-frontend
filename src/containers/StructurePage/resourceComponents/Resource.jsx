@@ -38,7 +38,7 @@ const statusButtonStyle = css`
 
 const deleteButtonStyle = css`
   line-height: 1;
-  margin-left: 10px;
+  margin-left: ${spacing.small};
 `;
 
 const Resource = ({

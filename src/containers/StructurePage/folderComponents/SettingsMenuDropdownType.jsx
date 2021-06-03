@@ -18,6 +18,7 @@ import EditGrepCodes from './menuOptions/EditGrepCodes';
 import PublishTopic from './menuOptions/PublishTopic';
 import ToggleVisibility from './menuOptions/ToggleVisibility';
 import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
+import EditCustomFields from './menuOptions/EditCustomFields';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -30,6 +31,7 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           <ChangeSubjectName {...rest} />
+          <EditCustomFields {...rest} type={settingsMenuType} />
           {showAllOptions && (
             <>
               <AddExistingToSubjectTopic {...rest} />
@@ -44,6 +46,7 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           {showAllOptions && <PublishTopic {...rest} />}
+          <EditCustomFields {...rest} type={settingsMenuType} />
           {showAllOptions && (
             <>
               <DeleteTopic {...rest} />

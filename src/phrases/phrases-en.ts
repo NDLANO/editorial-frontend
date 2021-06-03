@@ -814,6 +814,7 @@ const phrases = {
       primaryTopic: 'Primary topic',
       sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
+      RGTooltip: 'Choose between Core(K) or Supplementary(T)',
     },
     metaDescription: {
       label: 'Meta description',
@@ -1134,6 +1135,15 @@ const phrases = {
       addNew: 'Add new grep code',
     },
     missingResourceType: 'Missing resource type',
+    metadata: {
+      customFields: {
+        alterFields: 'Add/change metadata',
+        addField: 'New metadata field',
+        languagePlaceholder: 'Ndla.no interface language',
+        resourceGroupPlaceholder: 'Grouped resources',
+        RGTooltip: 'Show resources Grouped or Ungrouped',
+      },
+    },
   },
   notions: {
     edit: 'Edit notions',

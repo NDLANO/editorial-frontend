@@ -827,6 +827,7 @@ const phrases = {
       primaryTopic: 'Primærkobling',
       sharedTopic: 'Delt emne',
       setPrimaryTopic: 'Velg som primærkoblet emne',
+      RGTooltip: 'Velg mellom Kjernestoff eller Tilleggsstoff',
     },
     metaDescription: {
       label: 'Metabeskrivelse',
@@ -1156,6 +1157,15 @@ const phrases = {
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
+    metadata: {
+      customFields: {
+        alterFields: 'Legg til/endre metadata',
+        addField: 'Nytt metadata felt',
+        languagePlaceholder: 'Visningsspråk ndla.no',
+        resourceGroupPlaceholder: 'Grupperte ressurser',
+        RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+      },
+    },
   },
   detailBox: {
     label: 'Endre overskrift',

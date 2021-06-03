@@ -897,6 +897,10 @@ const phrases = {
         sub: 'eller trykk for å laste opp bilde',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
       },
+      byline: {
+        show: 'Vis byline',
+        hide: 'Skjul byline',
+      },
     },
     video: {
       caption: {

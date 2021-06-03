@@ -888,6 +888,10 @@ const phrases = {
         sub: 'or click to upload image',
         ariaLabel: 'Drag and drop or click to upload image',
       },
+      byline: {
+        show: 'Show byline',
+        hide: 'Hide byline',
+      },
     },
     video: {
       caption: {

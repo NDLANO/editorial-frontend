@@ -1093,6 +1093,7 @@ const phrases = {
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',
+    removeResource: 'Fjern ressurs frå emne',
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',

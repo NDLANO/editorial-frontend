@@ -102,9 +102,11 @@ const Resource = ({
         )}
       </StructureContext.Consumer>
       {onDelete && (
-        <Button css={deleteButtonStyle} onClick={() => onDelete(connectionId)} stripped>
-          <RemoveCircle {...classes('deleteIcon')} />
-        </Button>
+        <Tooltip tooltip={t('taxonomy.removeResource')}>
+          <Button css={deleteButtonStyle} onClick={() => onDelete(connectionId)} stripped>
+            <RemoveCircle {...classes('deleteIcon')} />
+          </Button>
+        </Tooltip>
       )}
       {showVersionHistory && (
         <VersionHistoryLightbox

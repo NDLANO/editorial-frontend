@@ -1075,6 +1075,7 @@ const phrases = {
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
     addResource: 'Add resource',
+    removeResource: 'Remove resource from topic',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',

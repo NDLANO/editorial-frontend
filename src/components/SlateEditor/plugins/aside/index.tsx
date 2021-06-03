@@ -43,7 +43,7 @@ export const asidePlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_ASIDE) {
       return (
-        <SlateAside editor={editor} element={element}>
+        <SlateAside editor={editor} element={element} attributes={attributes}>
           {children}
         </SlateAside>
       );
@@ -58,9 +58,9 @@ export const asidePlugin = (editor: Editor) => {
 
     if (Element.isElement(node) && node.type === TYPE_ASIDE) {
       defaultTextBlockNormalizer(editor, entry, nextNormalizeNode);
-      return;
+    } else {
+      nextNormalizeNode(entry);
     }
-    nextNormalizeNode(entry);
   };
 
   return editor;

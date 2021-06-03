@@ -1,4 +1,4 @@
-import { Editor, Element, NodeEntry, Node, Transforms, Text } from 'slate';
+import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph';
 
@@ -19,7 +19,7 @@ export const textBlockElements: Element['type'][] = [
 
 export const lastTextBlockElement: Element['type'][] = ['paragraph'];
 
-export const afterTextBlockElement: Element['type'][] = ['paragraph', 'heading'];
+export const afterOrBeforeTextBlockElement: Element['type'][] = ['paragraph', 'heading'];
 
 export const defaultTextBlockNormalizer = (
   editor: Editor,
@@ -71,13 +71,31 @@ export const defaultTextBlockNormalizer = (
     }
   }
 
-  const next = Editor.next(editor, { at: path });
-  if (next) {
-    const [nextNode, nextPath] = next;
-    if (!Element.isElement(nextNode) || !afterTextBlockElement.includes(nextNode.type)) {
-      Transforms.wrapNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+  const nextPath = Path.next(path);
+
+  if (Editor.hasPath(editor, nextPath)) {
+    const [nextNode] = Editor.node(editor, nextPath);
+    if (!Element.isElement(nextNode) || !afterOrBeforeTextBlockElement.includes(nextNode.type)) {
+      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
         at: nextPath,
       });
+
+      return;
+    }
+  }
+
+  const previousPath = Path.previous(path);
+
+  if (Editor.hasPath(editor, previousPath)) {
+    const [previousNode] = Editor.node(editor, previousPath);
+    if (
+      !Element.isElement(previousNode) ||
+      !afterOrBeforeTextBlockElement.includes(previousNode.type)
+    ) {
+      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+        at: path,
+      });
+
       return;
     }
   }

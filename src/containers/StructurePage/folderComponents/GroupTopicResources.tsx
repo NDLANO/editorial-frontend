@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -60,7 +61,9 @@ const GroupTopicResources = ({
         placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')}
         disabled
       />
-      <ToggleSwitch on={isGrouped} labelOff={'U'} labelOn={'G'} onClick={() => updateMetadata()} />
+      <Tooltip tooltip={t("taxonomy.metadata.customFields.RGTooltip")}>
+        <ToggleSwitch on={isGrouped} labelOff={'U'} labelOn={'G'} onClick={() => updateMetadata()} />
+      </Tooltip>
     </StyledMenuItemEditField>
   );
 };

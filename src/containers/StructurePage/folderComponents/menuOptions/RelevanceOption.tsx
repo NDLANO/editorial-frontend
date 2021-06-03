@@ -7,6 +7,8 @@
  */
 
 import React from 'react';
+import { injectT, tType } from "@ndla/i18n";
+import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../../constants';
@@ -33,23 +35,26 @@ const RelevanceOption = ({
   onChange,
   refreshResources,
   rank,
-}: Props) => {
+  t,
+}: Props & tType) => {
   const relevance: boolean = (relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE;
 
   return (
     <StyledToggleSwitch>
-      <ToggleSwitch
-        onClick={() => {
-          setTimeout(() => refreshResources(), 200);
-          return onChange(connectionId, {
-            relevanceId: relevance ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
-            primary: isPrimary,
-            rank: rank,
-          });
-        }}
-        on={relevance}
-        testId="toggleRelevanceId"
-      />
+      <Tooltip tooltip={t("form.filter.tooltip")}>
+        <ToggleSwitch
+          onClick={() => {
+            setTimeout(() => refreshResources(), 200);
+            return onChange(connectionId, {
+              relevanceId: relevance ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
+              primary: isPrimary,
+              rank: rank,
+            });
+          }}
+          on={relevance}
+          testId="toggleRelevanceId"
+        />
+      </Tooltip>
     </StyledToggleSwitch>
   );
 };
@@ -61,4 +66,4 @@ const StyledToggleSwitch = styled('div')`
   margin-left: 10px;
 `;
 
-export default RelevanceOption;
+export default injectT(RelevanceOption);

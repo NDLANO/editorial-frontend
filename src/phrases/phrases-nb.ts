@@ -835,6 +835,7 @@ const phrases = {
       core: 'Kjernestoff',
       supplementary: 'Tilleggsstoff',
       setRelevance: 'Velg relevans',
+      tooltip: 'Velg mellom Kjernestoff eller Tilleggsstoff',
     },
     topics: {
       label: 'Emnetilknytning',
@@ -1188,6 +1189,7 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         resourceGroupPlaceholder: 'Grupperte ressurser',
+        RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
       },
     },
   },

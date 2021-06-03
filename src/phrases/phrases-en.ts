@@ -822,6 +822,7 @@ const phrases = {
       core: 'Core',
       supplementary: 'Supplementary',
       setRelevance: 'Set relevance',
+      tooltip: 'Choose between Core(K) or Supplementary(T)',
     },
     topics: {
       label: 'Topics',
@@ -1165,6 +1166,7 @@ const phrases = {
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
         resourceGroupPlaceholder: 'Grouped resources',
+        RGTooltip: 'Show resources Grouped or Ungrouped',
       },
     },
   },

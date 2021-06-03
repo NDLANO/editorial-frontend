@@ -50,6 +50,7 @@ class PreviewDraft extends Component<Props, {}> {
     return (
       <Article
         article={formatted}
+        //@ts-ignore Must update wrong proptype in Article
         icon={icon}
         contentType={contentType}
         locale={language}

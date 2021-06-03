@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
+import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import {
   TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
@@ -19,7 +20,6 @@ import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { TaxonomyMetadata } from '../../../interfaces';
 import { updateTopicMetadata } from '../../../modules/taxonomy/topics';
-import { css } from '@emotion/core';
 
 interface Props {
   topicId: string;

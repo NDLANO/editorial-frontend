@@ -19,7 +19,7 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { StructureShape, AvailableFiltersShape } from '../../../shapes';
+import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 
 const StyledDiv = styled('div')`
@@ -59,16 +59,11 @@ export class StructureResources extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const {
       currentTopic: { id, contentUri },
-      activeFilters,
       resourcesUpdated,
       setResourcesUpdated,
       locale,
     } = this.props;
-    if (
-      id !== prevProps.currentTopic.id ||
-      activeFilters.length !== prevProps.activeFilters.length ||
-      resourcesUpdated
-    ) {
+    if (id !== prevProps.currentTopic.id || resourcesUpdated) {
       this.getTopicResources();
     }
     if (contentUri && contentUri !== prevProps.currentTopic.contentUri) {
@@ -116,19 +111,13 @@ export class StructureResources extends React.PureComponent {
     const {
       currentTopic: { id: topicId },
       locale,
-      activeFilters,
       currentTopic,
     } = this.props;
     const { resourceTypes } = this.state;
     if (topicId) {
       try {
         this.setState({ loading: true });
-        const initialTopicResources = await fetchTopicResources(
-          topicId,
-          locale,
-          undefined,
-          activeFilters.join(','),
-        );
+        const initialTopicResources = await fetchTopicResources(topicId, locale, undefined);
         const allTopicResources = await Promise.all(
           initialTopicResources.map(async r => {
             const breadCrumbs = await this.getCrumbsFromPath(r);
@@ -215,14 +204,11 @@ export class StructureResources extends React.PureComponent {
 
   render() {
     const {
-      availableFilters,
-      activeFilters,
       locale,
       refreshTopics,
       currentTopic,
       resourceRef,
       currentSubject,
-      structure,
       saveSubjectTopicItems,
     } = this.props;
     const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
@@ -260,12 +246,8 @@ export class StructureResources extends React.PureComponent {
               topicResource={topicResource}
               params={this.props.params}
               refreshResources={this.getTopicResources}
-              availableFilters={availableFilters}
-              activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
               locale={locale}
-              currentTopic={currentTopic}
               currentSubject={currentSubject}
-              structure={structure}
               disable={resourceType.disabled}
             />
           );
@@ -288,8 +270,6 @@ StructureResources.propTypes = {
     path: PropTypes.string,
   }).isRequired,
   refreshTopics: PropTypes.func,
-  availableFilters: AvailableFiltersShape,
-  activeFilters: PropTypes.arrayOf(PropTypes.string),
   resourceRef: PropTypes.object,
   currentSubject: PropTypes.shape({
     id: PropTypes.string,

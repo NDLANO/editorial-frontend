@@ -13,7 +13,6 @@ import {
 } from '../../util/apiHelpers';
 import { updateResourceMetadata } from './resources';
 import { createDeleteResourceTypes } from './resourcetypes';
-import { createDeleteUpdateFilters } from './filter';
 import { createDeleteUpdateTopicResources } from './topicresouces';
 import { taxonomyApi } from '../../config';
 
@@ -22,12 +21,6 @@ const baseUrl = apiResourceUrl(taxonomyApi);
 /* Option items */
 function fetchResourceTypes(language) {
   return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
-function fetchFilters(language) {
-  return fetchAuthorized(`${baseUrl}/filters/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 }
@@ -51,15 +44,13 @@ function resolveUrls(path) {
 /* Taxonomy actions */
 async function updateTaxonomy(
   resourceId,
-  { topics: originalTopics, filter: originalFilters, resourceTypes: originalResourceTypes },
+  { topics: originalTopics, resourceTypes: originalResourceTypes },
   taxonomyChanges,
   language,
 ) {
   try {
     await Promise.all([
       createDeleteResourceTypes(resourceId, taxonomyChanges.resourceTypes, originalResourceTypes),
-
-      createDeleteUpdateFilters(resourceId, taxonomyChanges.filter, originalFilters),
 
       updateResourceMetadata(resourceId, taxonomyChanges.metadata),
 
@@ -76,11 +67,4 @@ async function updateTaxonomy(
   }
 }
 
-export {
-  fetchResourceTypes,
-  fetchFilters,
-  fetchRelevances,
-  fetchSubject,
-  updateTaxonomy,
-  resolveUrls,
-};
+export { fetchResourceTypes, fetchRelevances, fetchSubject, updateTaxonomy, resolveUrls };

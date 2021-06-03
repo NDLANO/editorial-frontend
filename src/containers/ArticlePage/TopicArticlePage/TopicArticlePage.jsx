@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -15,10 +15,9 @@ import EditArticleRedirect from './EditArticleRedirect';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
-import { LocationShape } from '../../../shapes';
+import { usePreviousLocation } from '../../../util/routeHelpers';
 
 const TopicArticlePage = ({
-  location,
   match,
   history,
   licenses,
@@ -27,7 +26,7 @@ const TopicArticlePage = ({
   createMessage,
   userAccess,
 }) => {
-  const previousLocation = useRef(location.pathname).current;
+  const previousLocation = usePreviousLocation();
 
   useEffect(() => {
     if (!licenses.length) {
@@ -76,7 +75,6 @@ TopicArticlePage.propTypes = {
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
   userAccess: PropTypes.string,
-  location: LocationShape,
 };
 
 const mapDispatchToProps = {

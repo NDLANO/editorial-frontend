@@ -278,13 +278,6 @@ export interface Learningpath {
   };
 }
 
-export interface Filter {
-  id: string;
-  connectionId: string;
-  relevanceId: string;
-  name: string;
-}
-
 export interface SearchResult {
   totalCount: number;
   page: number;

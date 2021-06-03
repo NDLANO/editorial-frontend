@@ -26,6 +26,7 @@ test('reducers/search initalState', () => {
     totalAudioResults: { results: [] },
     totalConceptResults: { results: [] },
     totalImageResults: { results: [] },
+    totalPodcastSeriesResults: { results: [] },
     searching: false,
   });
 });
@@ -39,6 +40,7 @@ test('reducers/search search', () => {
     totalAudioResults: { results: [] },
     totalConceptResults: { results: [] },
     totalImageResults: { results: [] },
+    totalPodcastSeriesResults: { results: [] },
   });
 });
 

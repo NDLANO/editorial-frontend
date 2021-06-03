@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -17,18 +17,18 @@ import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { LicensesArrayOf } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import { LocationShape } from '../../../shapes';
+import { usePreviousLocation } from '../../../util/routeHelpers';
 
 const LearningResourcePage = ({
   fetchLicenses,
   licenses,
   applicationError,
   createMessage,
-  location,
   userAccess,
   match,
   history,
 }) => {
-  const previousLocation = useRef(location.pathname).current;
+  const previousLocation = usePreviousLocation();
   useEffect(() => {
     if (!licenses.length) {
       fetchLicenses();

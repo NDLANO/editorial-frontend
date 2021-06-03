@@ -5,23 +5,7 @@ exports[`matches snapshot 1`] = `
   color: #20588f;
 }
 
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  margin-left: 10px;
-}
-
-.emotion-9 {
+.emotion-10 {
   position: relative;
 }
 
@@ -52,6 +36,22 @@ exports[`matches snapshot 1`] = `
   text-align: center;
   white-space: nowrap;
   max-width: calc(100vw - #{26px});
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: 10px;
 }
 
 .emotion-7 {
@@ -117,7 +117,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-12 {
+.emotion-15 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -147,37 +147,39 @@ exports[`matches snapshot 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
+  line-height: 1;
+  margin-left: 13px;
 }
 
-.emotion-12:hover,
-.emotion-12:focus {
+.emotion-15:hover,
+.emotion-15:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-12[disabled] {
+.emotion-15[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-12:focus {
+.emotion-15:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-12:hover,
-.emotion-12:active,
-.emotion-12:disabled,
-.emotion-12:focus {
+.emotion-15:hover,
+.emotion-15:active,
+.emotion-15:disabled,
+.emotion-15:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-12:focus {
+.emotion-15:focus {
   outline-width: medium;
 }
 
@@ -252,24 +254,24 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class="emotion-11"
+          class=" emotion-10 emotion-11"
         >
           <div
-            class=" emotion-9 emotion-10"
+            class="emotion-3 emotion-4"
+          >
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Velg mellom Kjernestoff eller Tilleggsstoff
+            </span>
+          </div>
+          <div
+            aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+            class=""
           >
             <div
-              class="emotion-3 emotion-4"
-            >
-              <span
-                class="emotion-2"
-                role="tooltip"
-              >
-                Velg mellom Kjernestoff eller Tilleggsstoff
-              </span>
-            </div>
-            <div
-              aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
-              class=""
+              class="emotion-9"
             >
               <label
                 class="emotion-7 emotion-8"
@@ -286,35 +288,54 @@ exports[`matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <button
-          class="emotion-12 emotion-13"
-          type="button"
+        <div
+          class=" emotion-10 emotion-11"
         >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <div
+            class="emotion-3 emotion-4"
           >
-            <title>
-              RemoveCircle
-            </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </g>
-          </svg>
-        </button>
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Fjern ressurs fra emne
+            </span>
+          </div>
+          <div
+            aria-label="Fjern ressurs fra emne"
+            class=""
+          >
+            <button
+              class="emotion-15 emotion-16"
+              type="button"
+            >
+              <svg
+                class="c-icon c-topic-resource__deleteIcon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  RemoveCircle
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -388,24 +409,24 @@ exports[`matches snapshot 1`] = `
           </a>
         </div>
         <div
-          class="emotion-11"
+          class=" emotion-10 emotion-11"
         >
           <div
-            class=" emotion-9 emotion-10"
+            class="emotion-3 emotion-4"
+          >
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Velg mellom Kjernestoff eller Tilleggsstoff
+            </span>
+          </div>
+          <div
+            aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+            class=""
           >
             <div
-              class="emotion-3 emotion-4"
-            >
-              <span
-                class="emotion-2"
-                role="tooltip"
-              >
-                Velg mellom Kjernestoff eller Tilleggsstoff
-              </span>
-            </div>
-            <div
-              aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
-              class=""
+              class="emotion-9"
             >
               <label
                 class="emotion-7 emotion-8"
@@ -422,35 +443,54 @@ exports[`matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <button
-          class="emotion-12 emotion-13"
-          type="button"
+        <div
+          class=" emotion-10 emotion-11"
         >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <div
+            class="emotion-3 emotion-4"
           >
-            <title>
-              RemoveCircle
-            </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </g>
-          </svg>
-        </button>
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Fjern ressurs fra emne
+            </span>
+          </div>
+          <div
+            aria-label="Fjern ressurs fra emne"
+            class=""
+          >
+            <button
+              class="emotion-15 emotion-16"
+              type="button"
+            >
+              <svg
+                class="c-icon c-topic-resource__deleteIcon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  RemoveCircle
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -524,24 +564,24 @@ exports[`matches snapshot 1`] = `
           </a>
         </div>
         <div
-          class="emotion-11"
+          class=" emotion-10 emotion-11"
         >
           <div
-            class=" emotion-9 emotion-10"
+            class="emotion-3 emotion-4"
+          >
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Velg mellom Kjernestoff eller Tilleggsstoff
+            </span>
+          </div>
+          <div
+            aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+            class=""
           >
             <div
-              class="emotion-3 emotion-4"
-            >
-              <span
-                class="emotion-2"
-                role="tooltip"
-              >
-                Velg mellom Kjernestoff eller Tilleggsstoff
-              </span>
-            </div>
-            <div
-              aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
-              class=""
+              class="emotion-9"
             >
               <label
                 class="emotion-7 emotion-8"
@@ -558,35 +598,54 @@ exports[`matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <button
-          class="emotion-12 emotion-13"
-          type="button"
+        <div
+          class=" emotion-10 emotion-11"
         >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <div
+            class="emotion-3 emotion-4"
           >
-            <title>
-              RemoveCircle
-            </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </g>
-          </svg>
-        </button>
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Fjern ressurs fra emne
+            </span>
+          </div>
+          <div
+            aria-label="Fjern ressurs fra emne"
+            class=""
+          >
+            <button
+              class="emotion-15 emotion-16"
+              type="button"
+            >
+              <svg
+                class="c-icon c-topic-resource__deleteIcon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  RemoveCircle
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -660,24 +719,24 @@ exports[`matches snapshot 1`] = `
           </a>
         </div>
         <div
-          class="emotion-11"
+          class=" emotion-10 emotion-11"
         >
           <div
-            class=" emotion-9 emotion-10"
+            class="emotion-3 emotion-4"
+          >
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Velg mellom Kjernestoff eller Tilleggsstoff
+            </span>
+          </div>
+          <div
+            aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+            class=""
           >
             <div
-              class="emotion-3 emotion-4"
-            >
-              <span
-                class="emotion-2"
-                role="tooltip"
-              >
-                Velg mellom Kjernestoff eller Tilleggsstoff
-              </span>
-            </div>
-            <div
-              aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
-              class=""
+              class="emotion-9"
             >
               <label
                 class="emotion-7 emotion-8"
@@ -694,35 +753,54 @@ exports[`matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <button
-          class="emotion-12 emotion-13"
-          type="button"
+        <div
+          class=" emotion-10 emotion-11"
         >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <div
+            class="emotion-3 emotion-4"
           >
-            <title>
-              RemoveCircle
-            </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </g>
-          </svg>
-        </button>
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Fjern ressurs fra emne
+            </span>
+          </div>
+          <div
+            aria-label="Fjern ressurs fra emne"
+            class=""
+          >
+            <button
+              class="emotion-15 emotion-16"
+              type="button"
+            >
+              <svg
+                class="c-icon c-topic-resource__deleteIcon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  RemoveCircle
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -796,24 +874,24 @@ exports[`matches snapshot 1`] = `
           </a>
         </div>
         <div
-          class="emotion-11"
+          class=" emotion-10 emotion-11"
         >
           <div
-            class=" emotion-9 emotion-10"
+            class="emotion-3 emotion-4"
+          >
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Velg mellom Kjernestoff eller Tilleggsstoff
+            </span>
+          </div>
+          <div
+            aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+            class=""
           >
             <div
-              class="emotion-3 emotion-4"
-            >
-              <span
-                class="emotion-2"
-                role="tooltip"
-              >
-                Velg mellom Kjernestoff eller Tilleggsstoff
-              </span>
-            </div>
-            <div
-              aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
-              class=""
+              class="emotion-9"
             >
               <label
                 class="emotion-7 emotion-8"
@@ -830,35 +908,54 @@ exports[`matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <button
-          class="emotion-12 emotion-13"
-          type="button"
+        <div
+          class=" emotion-10 emotion-11"
         >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <div
+            class="emotion-3 emotion-4"
           >
-            <title>
-              RemoveCircle
-            </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </g>
-          </svg>
-        </button>
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Fjern ressurs fra emne
+            </span>
+          </div>
+          <div
+            aria-label="Fjern ressurs fra emne"
+            class=""
+          >
+            <button
+              class="emotion-15 emotion-16"
+              type="button"
+            >
+              <svg
+                class="c-icon c-topic-resource__deleteIcon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  RemoveCircle
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -932,24 +1029,24 @@ exports[`matches snapshot 1`] = `
           </a>
         </div>
         <div
-          class="emotion-11"
+          class=" emotion-10 emotion-11"
         >
           <div
-            class=" emotion-9 emotion-10"
+            class="emotion-3 emotion-4"
+          >
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Velg mellom Kjernestoff eller Tilleggsstoff
+            </span>
+          </div>
+          <div
+            aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+            class=""
           >
             <div
-              class="emotion-3 emotion-4"
-            >
-              <span
-                class="emotion-2"
-                role="tooltip"
-              >
-                Velg mellom Kjernestoff eller Tilleggsstoff
-              </span>
-            </div>
-            <div
-              aria-label="Velg mellom Kjernestoff eller Tilleggsstoff"
-              class=""
+              class="emotion-9"
             >
               <label
                 class="emotion-7 emotion-8"
@@ -966,35 +1063,54 @@ exports[`matches snapshot 1`] = `
             </div>
           </div>
         </div>
-        <button
-          class="emotion-12 emotion-13"
-          type="button"
+        <div
+          class=" emotion-10 emotion-11"
         >
-          <svg
-            class="c-icon c-topic-resource__deleteIcon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <div
+            class="emotion-3 emotion-4"
           >
-            <title>
-              RemoveCircle
-            </title>
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </g>
-          </svg>
-        </button>
+            <span
+              class="emotion-2"
+              role="tooltip"
+            >
+              Fjern ressurs fra emne
+            </span>
+          </div>
+          <div
+            aria-label="Fjern ressurs fra emne"
+            class=""
+          >
+            <button
+              class="emotion-15 emotion-16"
+              type="button"
+            >
+              <svg
+                class="c-icon c-topic-resource__deleteIcon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  RemoveCircle
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

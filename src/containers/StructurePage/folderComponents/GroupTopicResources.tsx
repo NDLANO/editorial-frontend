@@ -19,6 +19,7 @@ import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { TaxonomyMetadata } from '../../../interfaces';
 import { updateTopicMetadata } from '../../../modules/taxonomy/topics';
+import { css } from '@emotion/core';
 
 interface Props {
   topicId: string;
@@ -61,7 +62,11 @@ const GroupTopicResources = ({
         placeholder={t('taxonomy.metadata.customFields.resourceGroupPlaceholder')}
         disabled
       />
-      <Tooltip tooltip={t('taxonomy.metadata.customFields.RGTooltip')}>
+      <Tooltip
+        tooltip={t('taxonomy.metadata.customFields.RGTooltip')}
+        css={css`
+          display: flex;
+        `}>
         <ToggleSwitch
           on={isGrouped}
           labelOff={'U'}

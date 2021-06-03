@@ -40,8 +40,8 @@ const RelevanceOption = ({
   const relevance: boolean = (relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE;
 
   return (
-    <StyledToggleSwitch>
-      <Tooltip tooltip={t('form.filter.tooltip')}>
+    <Tooltip tooltip={t('form.filter.tooltip')}>
+      <StyledToggleSwitch>
         <ToggleSwitch
           onClick={() => {
             setTimeout(() => refreshResources(), 200);
@@ -54,8 +54,8 @@ const RelevanceOption = ({
           on={relevance}
           testId="toggleRelevanceId"
         />
-      </Tooltip>
-    </StyledToggleSwitch>
+      </StyledToggleSwitch>
+    </Tooltip>
   );
 };
 

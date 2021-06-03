@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from "@ndla/i18n";
+import { injectT, tType } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
@@ -41,7 +41,7 @@ const RelevanceOption = ({
 
   return (
     <StyledToggleSwitch>
-      <Tooltip tooltip={t("form.filter.tooltip")}>
+      <Tooltip tooltip={t('form.filter.tooltip')}>
         <ToggleSwitch
           onClick={() => {
             setTimeout(() => refreshResources(), 200);

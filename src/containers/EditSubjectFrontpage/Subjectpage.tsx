@@ -6,7 +6,8 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Route, RouteComponentProps, Switch, useLocation } from 'react-router';
+import { Route, RouteComponentProps, Switch } from 'react-router';
+import { useLocation } from 'react-router-dom';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import EditSubjectpage from './EditSubjectpage';

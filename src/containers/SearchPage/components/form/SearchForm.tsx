@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { RouteComponentProps } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import queryString from 'query-string';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
@@ -41,6 +42,28 @@ export interface SearchParams {
   sort?: string;
   type?: string;
 }
+
+export const parseSearchParams = (locationSearch: string): SearchParams => {
+  const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
+  return {
+    query: queryStringObject.query,
+    'draft-status': queryStringObject['draft-status'],
+    'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
+    'resource-types': queryStringObject['resource-types'],
+    'audio-type': queryStringObject['audio-type'],
+    fallback: queryStringObject.fallback === 'true',
+    language: queryStringObject.language,
+    page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
+    'page-size': queryStringObject['page-size']
+      ? parseInt(queryStringObject['page-size'], 10)
+      : undefined,
+    status: queryStringObject.status,
+    subjects: queryStringObject.subjects,
+    users: queryStringObject.users,
+    sort: queryStringObject.sort,
+    type: queryStringObject.type,
+  };
+};
 
 interface Props extends RouteComponentProps {
   type: SearchType;

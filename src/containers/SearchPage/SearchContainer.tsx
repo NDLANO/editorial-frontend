@@ -18,7 +18,7 @@ import BEMHelper from 'react-bem-helper';
 import { useLocation, useHistory } from 'react-router-dom';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
-import SearchForm, { SearchParams } from './components/form/SearchForm';
+import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
@@ -35,7 +35,7 @@ export const searchClasses = new BEMHelper({
   prefix: 'c-',
 });
 
-type ResultType =
+export type ResultType =
   | ImageSearchResult
   | ConceptSearchResult
   | SeriesSearchResult
@@ -64,8 +64,7 @@ const SearchContainer = ({ type, searchFunction, t }: Props) => {
     ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
     : 1;
 
-  const queryStringObject = queryString.parse(location.search);
-  const searchObject = { ...queryStringObject, fallback: queryStringObject.fallback === 'true' };
+  const searchObject = parseSearchParams(location.search);
 
   const onQueryPush = debounce(
     useCallback(
@@ -116,7 +115,7 @@ const SearchContainer = ({ type, searchFunction, t }: Props) => {
       <SearchForm
         type={type}
         search={onQueryPush}
-        searchObject={{ ...searchObject, fallback: searchObject.fallback === 'true' }}
+        searchObject={searchObject}
         locale={locale}
         subjects={subjects}
       />
@@ -137,7 +136,7 @@ const SearchContainer = ({ type, searchFunction, t }: Props) => {
         userAccess={userAccess}
       />
       <Pager
-        page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
+        page={searchObject.page ?? 1}
         lastPage={lastPage}
         query={searchObject}
         onClick={onQueryPush}

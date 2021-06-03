@@ -25,17 +25,22 @@ import { fetchSubjects } from '../../modules/taxonomy';
 import { LocaleContext, UserAccessContext } from '../App/App';
 import { SubjectType } from '../../interfaces';
 import { SearchType, SearchTypeValues } from './interfaces';
+import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
+import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
+import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
+import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
   prefix: 'c-',
 });
 
-type ResultType = {
-  totalCount?: number;
-  pageSize?: number;
-  results?: {}[];
-};
+type ResultType =
+  | ImageSearchResult
+  | ConceptSearchResult
+  | SeriesSearchResult
+  | AudioSearchResult
+  | MultiSearchResult;
 
 interface BaseProps {
   type: SearchType;
@@ -53,9 +58,11 @@ const SearchContainer = ({ type, searchFunction, t }: Props) => {
 
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
 
-  const [results, setResults] = useState<ResultType>({ results: [] });
+  const [results, setResults] = useState<ResultType | undefined>();
   const [isSearching, setSearching] = useState(true);
-  const lastPage = results.totalCount ? Math.ceil(results.totalCount / (results.pageSize ?? 1)) : 1;
+  const lastPage = results?.totalCount
+    ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
+    : 1;
 
   const queryStringObject = queryString.parse(location.search);
   const searchObject = { ...queryStringObject, fallback: queryStringObject.fallback === 'true' };
@@ -117,12 +124,12 @@ const SearchContainer = ({ type, searchFunction, t }: Props) => {
       <SearchListOptions
         type={type}
         searchObject={searchObject}
-        totalCount={results.totalCount}
+        totalCount={results?.totalCount}
         search={onQueryPush}
       />
       <SearchList
         searchObject={searchObject}
-        results={results.results}
+        results={results?.results}
         searching={isSearching}
         type={type}
         locale={locale}

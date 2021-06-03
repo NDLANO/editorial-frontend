@@ -1962,10 +1962,10 @@
     polished "^2.3.3"
     sass-mq "^5.0.0"
 
-"@ndla/editor@^0.9.13":
-  version "0.9.13"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.13.tgz#cf636e6f4552e4bb7fc203b8eda4905548b3c5fe"
-  integrity sha512-6aKfppDCI/28RRIONGhiobl3hrP34w2YBVyVuJN+U9MVXKEO5SaMXzam3Fv5k90su5ZEuIObFqZnvZt2or+EXA==
+"@ndla/editor@^0.9.14":
+  version "0.9.14"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.9.14.tgz#5299e4951c608101464a5d03fc568a2077e0e893"
+  integrity sha512-nyQkim9lJ8VYPWaY3gmRDCzPS1OwxhoaT49G96ZVVWewiWTTUm3TYfN8kLrdf20ewh5haJ25++6k1GnIWtpTHA==
   dependencies:
     "@ndla/core" "^0.6.39"
     "@ndla/icons" "^0.7.6"

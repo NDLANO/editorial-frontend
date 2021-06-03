@@ -23,20 +23,6 @@ const sortByName = (a, b) => {
   return 0;
 };
 
-const filterToSubjects = allFilters => {
-  const filterObjects = {};
-  allFilters.forEach(filter => {
-    if (!filterObjects[filter.subjectId]) {
-      filterObjects[filter.subjectId] = [];
-    }
-    filterObjects[filter.subjectId].push(filter);
-  });
-  Object.keys(filterObjects).forEach(subjectId => {
-    filterObjects[subjectId] = filterObjects[subjectId].sort(sortByName);
-  });
-  return filterObjects;
-};
-
 function flattenResourceTypesAndAddContextTypes(data = [], t) {
   const resourceTypes = [];
   data.forEach(type => {
@@ -201,7 +187,6 @@ export {
   groupSortResourceTypesFromTopicResources,
   groupTopics,
   getCurrentTopic,
-  filterToSubjects,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,

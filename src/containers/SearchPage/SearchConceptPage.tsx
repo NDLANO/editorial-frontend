@@ -10,12 +10,12 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import SearchContainer from './SearchContainer';
-import * as conceptApi from '../../modules/concept/conceptApi';
+import { searchConcepts } from '../../modules/concept/conceptApi';
 
 const SearchConceptPage = ({ t }: tType) => (
   <>
     <HelmetWithTracker title={t('htmlTitles.searchConceptPage')} />
-    <SearchContainer type="concept" searchFunction={conceptApi.searchConcepts} />
+    <SearchContainer type="concept" searchFunction={searchConcepts} />
   </>
 );
 

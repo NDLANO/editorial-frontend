@@ -6,20 +6,20 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 
-import * as audioApi from '../../modules/audio/audioApi';
+import { searchSeries } from '../../modules/audio/audioApi';
 
 import SearchContainer from './SearchContainer';
 
 const SearchPodcastSeriesPage = ({ t }: tType) => {
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.searchAudioPage')} />
-      <SearchContainer type="podcast-series" searchFunction={audioApi.searchSeries} />
-    </Fragment>
+      <SearchContainer type="podcast-series" searchFunction={searchSeries} />
+    </>
   );
 };
 

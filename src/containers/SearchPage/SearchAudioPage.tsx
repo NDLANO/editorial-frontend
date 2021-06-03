@@ -6,17 +6,17 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import * as audioApi from '../../modules/audio/audioApi';
+import { searchAudio } from '../../modules/audio/audioApi';
 import SearchContainer from './SearchContainer';
 
 const SearchAudioPage = ({ t }: tType) => (
-  <Fragment>
+  <>
     <HelmetWithTracker title={t('htmlTitles.searchAudioPage')} />
-    <SearchContainer type="audio" searchFunction={audioApi.searchAudio} />
-  </Fragment>
+    <SearchContainer type="audio" searchFunction={searchAudio} />
+  </>
 );
 
 export default injectT(SearchAudioPage);

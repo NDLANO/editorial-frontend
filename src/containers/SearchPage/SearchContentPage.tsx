@@ -6,18 +6,18 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 
 import SearchContainer from './SearchContainer';
-import * as searchApi from '../../modules/search/searchApi';
+import { search } from '../../modules/search/searchApi';
 
 const SearchContentPage = ({ t }: tType) => (
-  <Fragment>
+  <>
     <HelmetWithTracker title={t('htmlTitles.searchContentPage')} />
-    <SearchContainer type="content" searchFunction={searchApi.search} />
-  </Fragment>
+    <SearchContainer type="content" searchFunction={search} />
+  </>
 );
 
 export default injectT(SearchContentPage);

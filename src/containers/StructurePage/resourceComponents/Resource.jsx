@@ -24,7 +24,6 @@ import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import { MetadataShape } from '../../../shapes';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
-import { StructureContext } from '../StructureContainer';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -89,18 +88,13 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      <StructureContext.Consumer>
-        {updateRelevanceId => (
-          <RelevanceOption
-            relevanceId={relevanceId}
-            isPrimary={primary}
-            connectionId={connectionId}
-            onChange={updateRelevanceId}
-            refreshResources={refreshResources}
-            rank={rank}
-          />
-        )}
-      </StructureContext.Consumer>
+      <RelevanceOption
+        relevanceId={relevanceId}
+        isPrimary={primary}
+        connectionId={connectionId}
+        refreshResources={refreshResources}
+        rank={rank}
+      />
       {onDelete && (
         <Tooltip tooltip={t('taxonomy.removeResource')}>
           <Button css={deleteButtonStyle} onClick={() => onDelete(connectionId)} stripped>

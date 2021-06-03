@@ -10,12 +10,16 @@ import React from 'react';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../../constants';
+import {
+  updateTopicResource,
+  updateTopicSubtopic,
+  updateSubjectTopic,
+} from '../../../../modules/taxonomy';
 
 interface Props {
   relevanceId: string | null | undefined;
   isPrimary: boolean;
   connectionId: string;
-  onChange: (connectionId: string, body: Body) => void;
   refreshResources: () => void;
   rank: number;
 }
@@ -26,11 +30,28 @@ interface Body {
   rank: number;
 }
 
+const updateRelevanceId = (connectionId: string, body: Body) => {
+  const [, connectionType] = connectionId.split(':');
+
+  switch (connectionType) {
+    case 'topic-resource':
+      updateTopicResource(connectionId, body);
+      break;
+    case 'topic-subtopic':
+      updateTopicSubtopic(connectionId, body);
+      break;
+    case 'subject-topic':
+      updateSubjectTopic(connectionId, body);
+      break;
+    default:
+      return;
+  }
+};
+
 const RelevanceOption = ({
   relevanceId,
   isPrimary,
   connectionId,
-  onChange,
   refreshResources,
   rank,
 }: Props) => {
@@ -41,7 +62,7 @@ const RelevanceOption = ({
       <ToggleSwitch
         onClick={() => {
           setTimeout(() => refreshResources(), 200);
-          return onChange(connectionId, {
+          return updateRelevanceId(connectionId, {
             relevanceId: relevance ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
             primary: isPrimary,
             rank: rank,

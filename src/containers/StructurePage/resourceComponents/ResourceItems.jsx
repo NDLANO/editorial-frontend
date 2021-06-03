@@ -87,7 +87,6 @@ class ResourceItems extends React.PureComponent {
               contentType={contentType}
               currentSubject={currentSubject}
               onDelete={this.toggleDelete}
-              refreshResources={this.props.refreshResources}
               {...resource}
               locale={locale}
             />

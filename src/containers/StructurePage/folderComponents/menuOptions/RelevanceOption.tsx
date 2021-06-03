@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../../constants';
@@ -20,7 +20,6 @@ interface Props {
   relevanceId: string | null | undefined;
   isPrimary: boolean;
   connectionId: string;
-  refreshResources: () => void;
   rank: number;
 }
 
@@ -32,7 +31,6 @@ interface Body {
 
 const updateRelevanceId = (connectionId: string, body: Body) => {
   const [, connectionType] = connectionId.split(':');
-
   switch (connectionType) {
     case 'topic-resource':
       updateTopicResource(connectionId, body);
@@ -48,27 +46,21 @@ const updateRelevanceId = (connectionId: string, body: Body) => {
   }
 };
 
-const RelevanceOption = ({
-  relevanceId,
-  isPrimary,
-  connectionId,
-  refreshResources,
-  rank,
-}: Props) => {
-  const relevance: boolean = (relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE;
+const RelevanceOption = ({ relevanceId, isPrimary, connectionId, rank }: Props) => {
+  const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
 
   return (
     <StyledToggleSwitch>
       <ToggleSwitch
         onClick={() => {
-          setTimeout(() => refreshResources(), 200);
+          setIsOn(!isOn);
           return updateRelevanceId(connectionId, {
-            relevanceId: relevance ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
+            relevanceId: isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
             primary: isPrimary,
             rank: rank,
           });
         }}
-        on={relevance}
+        on={isOn}
         testId="toggleRelevanceId"
       />
     </StyledToggleSwitch>

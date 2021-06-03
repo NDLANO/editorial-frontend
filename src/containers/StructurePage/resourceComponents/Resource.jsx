@@ -52,7 +52,6 @@ const Resource = ({
   locale,
   relevanceId,
   primary,
-  refreshResources,
   rank,
   t,
 }) => {
@@ -92,7 +91,6 @@ const Resource = ({
         relevanceId={relevanceId}
         isPrimary={primary}
         connectionId={connectionId}
-        refreshResources={refreshResources}
         rank={rank}
       />
       {onDelete && (
@@ -146,7 +144,6 @@ Resource.propTypes = {
   ]),
   primary: PropTypes.bool,
   rank: PropTypes.number,
-  refreshResources: PropTypes.func,
 };
 
 export default injectT(Resource);

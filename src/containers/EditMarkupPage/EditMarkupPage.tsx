@@ -120,12 +120,16 @@ ErrorMessage.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
+interface LocationState {
+  backUrl: string;
+}
+
 interface MatchParams {
   draftId: string;
   language: string;
 }
 
-interface Props extends tType, RouteComponentProps<MatchParams> {}
+interface Props extends tType, RouteComponentProps<MatchParams, any, LocationState> {}
 
 type Status =
   | 'initial'

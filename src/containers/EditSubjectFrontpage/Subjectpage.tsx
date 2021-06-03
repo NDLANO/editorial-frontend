@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { match, Route, RouteComponentProps, Switch } from 'react-router';
+import { Route, RouteComponentProps, Switch, useLocation } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import EditSubjectpage from './EditSubjectpage';
@@ -14,14 +14,22 @@ import CreateSubjectpage from './CreateSubjectpage';
 import Footer from '../App/components/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
-interface Props {
-  match: match;
-  location: RouteComponentProps['location'];
+interface LocationState {
+  elementName: string;
 }
 
-const Subjectpage = ({ match, location }: Props) => {
+interface MatchParams {
+  elementId: string;
+  selectedLanguage: string;
+  subjectpageId: string;
+}
+interface Props extends RouteComponentProps<MatchParams, any, LocationState> {}
+
+const Subjectpage = ({ match }: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
+
+  const location = useLocation<LocationState>();
 
   useEffect(() => {
     /\/subjectpage\/(.*)\/new/.test(location.pathname)
@@ -52,8 +60,7 @@ const Subjectpage = ({ match, location }: Props) => {
           <Route
             path={`${match.url}/:elementId/new/:selectedLanguage`}
             render={routeProps => {
-              const elementName =
-                routeProps.location.state && routeProps.location.state.elementName;
+              const elementName = location.state && location.state.elementName;
 
               return (
                 <CreateSubjectpage

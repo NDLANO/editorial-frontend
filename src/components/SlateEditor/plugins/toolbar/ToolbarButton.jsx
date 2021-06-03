@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Button from '@ndla/button';
+import { colors } from '@ndla/core';
 import {
   Bold,
   Code,
@@ -62,22 +62,55 @@ const toolbarIcon = t => ({
 });
 /* eslint-enable jsx-a11y/anchor-is-valid */
 
-const toolbarButtonStyle = css`
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+const toolbarButtonStyle = isActive => css`
   display: inline-block;
+  background: ${isActive ? colors.background.dark : colors.white};
+  cursor: pointer;
+  padding: 8px 0.5rem 8px 0.5rem;
+  border-width: 0px;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-style: solid;
+  border-color: ${isActive ? colors.background.darker : colors.background.dark};
+
+  .c-toolbar__button--active + & {
+    border-left-width: 0px;
+  }
+
+  ${isActive && 'border-width: 1px;'}
+
+  .c-toolbar__button--active + .c-toolbar__button--active {
+    border-left-width: 0px;
+  }
+
+  :first-child {
+    border-left-width: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  :last-child {
+    border-right-width: 1px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  :hover {
+    background: ${colors.background.dark};
+  }
 `;
+
 const ToolbarButton = ({ isActive, type, kind, handleOnClick, t }) => {
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
-    <Button
-      stripped
+    <button
+      {...toolbarClasses('button', isActive ? 'active' : '')}
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
-      css={toolbarButtonStyle}>
+      css={toolbarButtonStyle(isActive)}>
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>{toolbarIcon(t)[type]}</span>
-    </Button>
+    </button>
   );
 };
 

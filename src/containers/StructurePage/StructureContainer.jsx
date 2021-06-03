@@ -37,7 +37,7 @@ import {
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 
@@ -87,6 +87,8 @@ export class StructureContainer extends React.PureComponent {
     }
     this.showLink();
     this.fetchFavoriteSubjects();
+    const showFavourites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
+    this.setState({ showFavorites: showFavourites === 'true' });
   }
 
   componentDidUpdate({
@@ -338,6 +340,7 @@ export class StructureContainer extends React.PureComponent {
   }
 
   toggleShowFavorites() {
+    window.localStorage.setItem(REMEMBER_FAVOURITE_SUBJECTS, !this.state.showFavorites);
     this.setState(prevState => ({ showFavorites: !prevState.showFavorites }));
   }
 

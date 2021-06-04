@@ -48,7 +48,7 @@ class ResourceItems extends React.PureComponent {
     }
     try {
       const { resources, refreshResources } = this.props;
-      const { connectionId, primary, rank: currentRank } = resources[source.index];
+      const { connectionId, primary, relevanceId, rank: currentRank } = resources[source.index];
       const { rank } = resources[destination.index];
       if (currentRank === rank) {
         return;
@@ -56,8 +56,9 @@ class ResourceItems extends React.PureComponent {
 
       this.setState({ loading: true });
       await updateTopicResource(connectionId, {
-        rank: currentRank > rank ? rank : rank + 1,
         primary,
+        rank: currentRank > rank ? rank : rank + 1,
+        relevanceId,
       });
       await refreshResources();
       this.setState({ loading: false });

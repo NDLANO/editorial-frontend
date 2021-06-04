@@ -4,70 +4,6 @@ import { colors, spacing, fonts, misc } from '@ndla/core';
 
 /* CSS */
 
-const checkboxItemStyle = css`
-  border: 2px solid ${colors.brand.tertiary};
-  background: transparent;
-  width: 18px;
-  height: 18px;
-  margin: 4px ${spacing.xsmall} 4px 0;
-  border-radius: 2px;
-  position: relative;
-
-  &:before {
-    content: '';
-    width: 0px;
-    height: 2px;
-    border-radius: 2px;
-    position: absolute;
-    background: ${colors.brand.tertiary};
-    transform: rotate(45deg);
-    transition: width 50ms ease;
-    transform-origin: 0% 0%;
-    top: 7px;
-    left: 4px;
-  }
-
-  &:after {
-    content: '';
-    width: 0px;
-    height: 2px;
-    border-radius: 2px;
-    position: absolute;
-    background: ${colors.brand.tertiary};
-    transform: rotate(305deg);
-    transition: width 50ms ease;
-    transform-origin: 0% 0%;
-    top: 10px;
-    left: 5px;
-  }
-`;
-
-const checkboxItemSelectedStyle = css`
-  background: ${colors.brand.primary};
-  border: 2px solid ${colors.brand.primary};
-  &:before {
-    width: 5px;
-    transition: width 100ms ease;
-    background: #fff;
-  }
-  &:after {
-    width: 10px;
-    transition: width 150ms ease 100ms;
-    background: #fff;
-  }
-`;
-
-const checkboxItemHoverStyle = css`
-  &:before {
-    width: 5px;
-    transition: width 100ms ease;
-  }
-  &:after {
-    width: 10px;
-    transition: width 150ms ease 100ms;
-  }
-`;
-
 const flexButtonCenterAlignStyle = css`
   display: flex;
   align-items: center;
@@ -84,7 +20,7 @@ const StyledConnections = styled('div')`
   border-radius: ${misc.borderRadius};
   span {
     padding: ${spacing.xsmall};
-    ${fonts.sizes(16, 1.1)} &:nth-child(2) {
+    ${fonts.sizes(16, 1.1)} &:nth-of-type(2) {
       font-weight: ${fonts.weight.semibold};
     }
   }
@@ -146,63 +82,6 @@ const StyledRelevanceButton = styled('button')`
   }
 `;
 
-const StyledFilterCheckBox = styled('button')`
-  border: 0;
-  background: none;
-  ${flexButtonCenterAlignStyle};
-  justify-content: center;
-  text-align: left;
-  padding: ${spacing.xsmall};
-  font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props => (!props.isVisible ? colors.brand.grey : colors.text.primary)};
-  ${fonts.sizes(16, 1.1)} font-weight: ${fonts.weight.semibold};
-  > span:first-of-type {
-    ${checkboxItemStyle};
-    margin-right: ${spacing.small};
-  }
-  &:hover,
-  &:focus {
-    > span:first-of-type {
-      ${checkboxItemHoverStyle};
-    }
-  }
-  &.checkboxItem--checked {
-    > span:first-of-type {
-      ${checkboxItemSelectedStyle};
-    }
-  }
-`;
-
-const StyledFilterListTableRow = styled('tr')`
-  border-bottom: 1px solid ${colors.brand.lighter};
-  td:last-child {
-    transition: opacity 200ms ease;
-    &:hover {
-      opacity: 1;
-    }
-  }
-  ${props =>
-    !props.active &&
-    css`
-      td:last-child {
-        opacity: 0;
-      }
-      &:hover,
-      &:focus-within {
-        td:last-child {
-          opacity: 1;
-        }
-      }
-    `};
-`;
-
-const StyledFilterTable = styled('table')`
-  width: 100%;
-  td:first-of-type {
-    width: 100%;
-  }
-`;
-
 const connectionButtonStyle = css`
   border: 0;
   border-radius: ${misc.borderRadius};
@@ -249,39 +128,6 @@ const StyledRemoveConnectionButton = styled('button')`
   }
 `;
 
-const StyledFilterButton = styled('button')`
-  border: 0;
-  margin: 0 0 0 ${spacing.xsmall};
-  background: none;
-  transition: opacity 100ms ease;
-  ${flexButtonCenterAlignStyle};
-  justify-content: center;
-  text-align: left;
-  padding: ${spacing.xsmall};
-  font-style: ${props => !props.isVisible && 'italic'};
-  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
-  ${fonts.sizes(14, 1.2)} white-space: no-wrap;
-  &:disabled {
-    color: ${colors.brand.light};
-  }
-  > span:first-of-type {
-    ${checkboxItemStyle};
-  }
-  &:not(:disabled) {
-    &:hover,
-    &:focus {
-      > span:first-of-type {
-        ${checkboxItemHoverStyle};
-      }
-    }
-  }
-  &.checkboxItem--checked {
-    > span:first-of-type {
-      ${checkboxItemSelectedStyle};
-    }
-  }
-`;
-
 const StyledSubjectName = styled('div')`
   padding: ${props => (props.firstSubject ? spacing.small : spacing.medium)} 0 ${spacing.xsmall};
 `;
@@ -291,11 +137,7 @@ export {
   StyledConnections,
   StyledConnectionsWrapper,
   StyledErrorLabel,
-  StyledFilterButton,
   StyledRelevanceButton,
-  StyledFilterCheckBox,
-  StyledFilterListTableRow,
-  StyledFilterTable,
   StyledPrimaryConnectionButton,
   StyledRemoveConnectionButton,
   StyledDuplicateConnectionLabel,

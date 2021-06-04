@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
@@ -28,19 +27,17 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject,
-  fetchSubjectFilters,
   fetchTopicConnections,
   updateTopicSubtopic,
   updateSubjectTopic,
   updateTopicResource,
   deleteTopicConnection,
   deleteSubTopicConnection,
-  fetchFilters,
 } from '../../modules/taxonomy';
-import { groupTopics, getCurrentTopic, filterToSubjects } from '../../util/taxonomyHelpers';
+import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 
@@ -52,8 +49,6 @@ export class StructureContainer extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
-      availableFilters: {},
-      filters: {},
       jsPlumbConnections: [],
       activeConnections: [],
       resourcesUpdated: false,
@@ -68,11 +63,9 @@ export class StructureContainer extends React.PureComponent {
     this.showLink = this.showLink.bind(this);
     this.refFunc = this.refFunc.bind(this);
     this.deleteConnections = this.deleteConnections.bind(this);
-    this.getFilters = this.getFilters.bind(this);
-    this.toggleFilter = this.toggleFilter.bind(this);
     this.setPrimary = this.setPrimary.bind(this);
-    this.getActiveFiltersFromUrl = this.getActiveFiltersFromUrl.bind(this);
     this.saveSubjectItems = this.saveSubjectItems.bind(this);
+    this.saveSubjectTopicItems = this.saveSubjectTopicItems.bind(this);
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
     this.refreshTopics = this.refreshTopics.bind(this);
     this.toggleStructure = this.toggleStructure.bind(this);
@@ -92,11 +85,11 @@ export class StructureContainer extends React.PureComponent {
     const locale = this.props.locale;
     if (subject) {
       this.getSubjectTopics(subject, locale);
-      this.getFilters();
     }
     this.showLink();
-    this.getAvailableFilters();
     this.fetchFavoriteSubjects();
+    const showFavourites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
+    this.setState({ showFavorites: showFavourites === 'true' });
   }
 
   componentDidUpdate({
@@ -105,7 +98,7 @@ export class StructureContainer extends React.PureComponent {
     },
     location: { pathname: prevPathname },
   }) {
-    const { subjects, filters } = this.state;
+    const { subjects } = this.state;
     const {
       location: { pathname },
       match: { params },
@@ -114,9 +107,6 @@ export class StructureContainer extends React.PureComponent {
     if (pathname !== prevPathname) {
       this.deleteConnections();
       const { subject } = params;
-      if (subject !== prevSubject && !filters[subject]) {
-        this.getFilters();
-      }
       const currentSub = subjects.find(sub => sub.id === subject);
       if (currentSub) {
         this.getSubjectTopics(subject, locale);
@@ -125,14 +115,6 @@ export class StructureContainer extends React.PureComponent {
         this.showLink();
       }
     }
-  }
-
-  getActiveFiltersFromUrl() {
-    const {
-      location: { search },
-    } = this.props;
-    const { filters } = queryString.parse(search);
-    return filters ? filters.split(',') : [];
   }
 
   async getAllSubjects() {
@@ -170,30 +152,24 @@ export class StructureContainer extends React.PureComponent {
     }));
   }
 
-  async getFilters() {
-    const { subject } = this.props.match.params;
-    try {
-      const filters = await fetchSubjectFilters(subject);
-      this.setState(prevState => ({
-        filters: {
-          ...prevState.filters,
-          [subject]: filters,
-        },
-      }));
-    } catch (e) {
-      handleError(e);
-    }
-  }
-
-  async getAvailableFilters() {
-    try {
-      const availableFilters = await fetchFilters(this.props.locale);
-      this.setState({
-        availableFilters: filterToSubjects(availableFilters.filter(filter => filter.name)),
-      });
-    } catch (e) {
-      handleError(e);
-    }
+  saveSubjectTopicItems(subjectid, topicId, saveItems) {
+    this.setState(prevState => ({
+      subjects: prevState.subjects.map(subject => {
+        if (subject.id === subjectid)
+          return {
+            ...subject,
+            topics: subject.topics.map(topic => {
+              if (topic.id === topicId)
+                return {
+                  ...topic,
+                  ...saveItems,
+                };
+              return topic;
+            }),
+          };
+        return subject;
+      }),
+    }));
   }
 
   async setPrimary(subjectId) {
@@ -299,20 +275,6 @@ export class StructureContainer extends React.PureComponent {
     this[id] = element;
   }
 
-  toggleFilter(filterId) {
-    const activeFilters = this.getActiveFiltersFromUrl();
-    const { history } = this.props;
-    if (activeFilters.find(id => id === filterId)) {
-      history.push({
-        search: `?filters=${activeFilters.filter(id => id !== filterId).join(',')}`,
-      });
-    } else {
-      history.push({
-        search: `?filters=${[...activeFilters, filterId].join(',')}`,
-      });
-    }
-  }
-
   refreshTopics() {
     const {
       match: { params },
@@ -399,20 +361,19 @@ export class StructureContainer extends React.PureComponent {
   }
 
   toggleShowFavorites() {
+    window.localStorage.setItem(REMEMBER_FAVOURITE_SUBJECTS, !this.state.showFavorites);
     this.setState(prevState => ({ showFavorites: !prevState.showFavorites }));
   }
 
   render() {
     const { match, t, locale, userAccess } = this.props;
     const {
-      filters,
       jsPlumbConnections,
       subjects,
       editStructureHidden,
       showFavorites,
       favoriteSubjects,
     } = this.state;
-    const activeFilters = this.getActiveFiltersFromUrl();
     const { params } = match;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
     const currentSubject = subjects.find(sub => sub.id === params.subject);
@@ -459,9 +420,7 @@ export class StructureContainer extends React.PureComponent {
                   structure={
                     showFavorites ? this.getFavoriteSubjects(subjects, favoriteSubjects) : subjects
                   }
-                  filters={filters}
                   toggleOpen={this.handleStructureToggle}
-                  activeFilters={activeFilters}
                   highlightMainActive
                   toggleFavorite={this.toggleFavorite}
                   favoriteSubjectIds={favoriteSubjects}
@@ -472,14 +431,10 @@ export class StructureContainer extends React.PureComponent {
                       refFunc={this.refFunc}
                       getAllSubjects={this.getAllSubjects}
                       onAddSubjectTopic={this.onAddSubjectTopic}
-                      subjectFilters={filters[params.subject]}
                       onAddExistingTopic={this.onAddExistingTopic}
                       refreshTopics={this.refreshTopics}
                       linkViewOpen={linkViewOpen}
-                      getFilters={this.getFilters}
-                      activeFilters={activeFilters}
                       setPrimary={this.setPrimary}
-                      toggleFilter={this.toggleFilter}
                       deleteTopicLink={this.deleteTopicLink}
                       structure={subjects}
                       jumpToResources={() =>
@@ -488,6 +443,8 @@ export class StructureContainer extends React.PureComponent {
                       locale={locale}
                       userAccess={userAccess}
                       setResourcesUpdated={this.setResourcesUpdated}
+                      saveSubjectItems={this.saveSubjectItems}
+                      saveSubjectTopicItems={this.saveSubjectTopicItems}
                     />
                   )}
                 />
@@ -499,12 +456,11 @@ export class StructureContainer extends React.PureComponent {
                 locale={locale}
                 params={params}
                 resourceRef={this.resourceSection}
-                availableFilters={this.state.availableFilters}
-                activeFilters={activeFilters}
                 currentTopic={currentTopic}
                 currentSubject={currentSubject}
                 structure={subjects}
                 refreshTopics={this.refreshTopics}
+                saveSubjectTopicItems={this.saveSubjectTopicItems}
                 resourcesUpdated={this.state.resourcesUpdated}
                 setResourcesUpdated={this.setResourcesUpdated}
               />

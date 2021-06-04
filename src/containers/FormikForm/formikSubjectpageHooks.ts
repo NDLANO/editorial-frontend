@@ -13,7 +13,6 @@ import {
 } from '../../util/subjectHelpers';
 import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
-import { fetchSubjectFilter, updateSubjectFilter } from '../../modules/taxonomy/filter';
 import {
   fetchResource,
   queryResources,
@@ -32,16 +31,8 @@ export function useFetchSubjectpageData(
   subjectpageId: string | undefined,
 ) {
   const [subjectpage, setSubjectpage] = useState<SubjectpageEditType>();
-  const [subjectId, setSubjectId] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
-
-  const fetchSubjectId = async (elementId: string, selectedLanguage: string) => {
-    if (elementId.includes('filter')) {
-      const filter = await fetchSubjectFilter(elementId, selectedLanguage);
-      setSubjectId(filter.subjectId);
-    }
-  };
 
   const fetchElementList = async (taxonomyUrns: string[]) => {
     const taxonomyElements = await Promise.all(
@@ -115,17 +106,7 @@ export function useFetchSubjectpageData(
     const savedSubjectpage = await frontpageApi.createSubjectpage(
       transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices),
     );
-    if (subjectId) {
-      // filter
-      await updateSubjectFilter(
-        elementId,
-        savedSubjectpage.name,
-        getUrnFromId(savedSubjectpage.id),
-        subjectId,
-      );
-    } else {
-      await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
-    }
+    await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
     setSubjectpage(
       transformSubjectpageFromApiVersion(
         savedSubjectpage,
@@ -169,7 +150,6 @@ export function useFetchSubjectpageData(
       }
     };
     fetchSubjectpage();
-    fetchSubjectId(elementId, selectedLanguage);
   }, [elementId, selectedLanguage, subjectpageId]);
 
   return {

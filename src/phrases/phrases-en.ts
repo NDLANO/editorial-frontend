@@ -808,19 +808,13 @@ const phrases = {
       searchPlaceholder: 'Search for subjects',
       placeholder: 'Add subjects',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Add filter',
-      core: 'Core',
-      supplementary: 'Supplementary',
-      setRelevance: 'Set relevance',
-    },
     topics: {
       label: 'Topics',
       placeholder: 'Add topic',
       primaryTopic: 'Primary topic',
       sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
+      RGTooltip: 'Choose between Core(K) or Supplementary(T)',
     },
     metaDescription: {
       label: 'Meta description',
@@ -894,6 +888,10 @@ const phrases = {
         main: 'Drag and drop',
         sub: 'or click to upload image',
         ariaLabel: 'Drag and drop or click to upload image',
+      },
+      byline: {
+        show: 'Show byline',
+        hide: 'Hide byline',
       },
     },
     video: {
@@ -1074,10 +1072,6 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
-    editFilter: 'Edit filter',
-    editFilterName: 'Edit filter name',
-    deleteFilter: 'Delete filter',
-    emptyFilter: 'No hits',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: 'Change name',
@@ -1085,10 +1079,8 @@ const phrases = {
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
-    addFilter: 'Add filter',
-    connectFilters: 'Connect filters',
-    confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
+    removeResource: 'Remove resource from topic',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
@@ -1116,7 +1108,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
-      chooseFilter: 'Connect to filters',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
@@ -1136,14 +1127,7 @@ const phrases = {
       addNewTopic: 'Add new topic',
       addNewSubTopic: 'Add new sub topic',
       addedTopic: 'Added to taxonomy',
-      filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',
-    },
-    filters: {
-      title: 'Filters',
-      subTitle: 'Which filters should be applied?',
-      additional: 'Additional resource',
-      core: 'Core resource',
     },
     grepCodes: {
       edit: 'Edit grep codes',
@@ -1151,6 +1135,15 @@ const phrases = {
       addNew: 'Add new grep code',
     },
     missingResourceType: 'Missing resource type',
+    metadata: {
+      customFields: {
+        alterFields: 'Add/change metadata',
+        addField: 'New metadata field',
+        languagePlaceholder: 'Ndla.no interface language',
+        resourceGroupPlaceholder: 'Grouped resources',
+        RGTooltip: 'Show resources Grouped or Ungrouped',
+      },
+    },
   },
   notions: {
     edit: 'Edit notions',

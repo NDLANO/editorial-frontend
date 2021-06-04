@@ -20,7 +20,6 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
-import { FilterShape } from '../../../../shapes';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
 class AddExistingToSubjectTopic extends React.PureComponent {
@@ -116,7 +115,6 @@ AddExistingToSubjectTopic.propTypes = {
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
   locale: PropTypes.string,
-  subjectFilters: PropTypes.arrayOf(FilterShape),
   id: PropTypes.string.isRequired,
   refreshTopics: PropTypes.func.isRequired,
   structure: PropTypes.arrayOf(PropTypes.object),

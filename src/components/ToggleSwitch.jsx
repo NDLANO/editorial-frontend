@@ -12,10 +12,10 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 
-const ToggleSwitch = ({ on, onClick, testId, large, offLabel, onLabel }) => (
-  <StyledLabel data-testid={testId} large={large} onLabel={onLabel}>
+const ToggleSwitch = ({ on, onClick, testId, large, labelOff, labelOn }) => (
+  <StyledLabel data-testid={testId} large={large} labelOn={labelOn}>
     <input checked={on} onChange={onClick} type="checkbox" />
-    <StyledSlider large={large} offLabel={offLabel} />
+    <StyledSlider large={large} labelOff={labelOff} />
   </StyledLabel>
 );
 
@@ -46,7 +46,7 @@ const StyledSlider = styled.span`
 
   &::before {
     position: absolute;
-    content: '${props => props.offLabel}';
+    content: '${props => props.labelOff}';
     left: -3px;
     top: -0.63px;
     display: flex;
@@ -84,7 +84,7 @@ const StyledLabel = styled.label`
     transform: translateX(20px);
     background-color: #507aa4;
     color: white;
-    content: '${props => props.onLabel}';
+    content: '${props => props.labelOn}';
     border: 0.91px solid #446b92;
   }
 `;
@@ -94,13 +94,13 @@ ToggleSwitch.propTypes = {
   onClick: PropTypes.func,
   testId: PropTypes.string,
   large: PropTypes.bool,
-  offLabel: PropTypes.string,
-  onLabel: PropTypes.string,
+  labelOff: PropTypes.string,
+  labelOn: PropTypes.string,
 };
 
 ToggleSwitch.defaultProps = {
-  offLabel: 'T',
-  onLabel: 'K',
+  labelOff: 'T',
+  labelOn: 'K',
 };
 
 export default ToggleSwitch;

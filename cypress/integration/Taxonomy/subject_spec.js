@@ -22,11 +22,9 @@ describe('Subject editing', () => {
       `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
-    cy.apiroute('GET', `${taxonomyApi}/subjects/${selectSubject}/filters`, 'allSubjectFilters');
-    cy.apiroute('GET', `${taxonomyApi}/filters/?language=nb`, 'allFilters');
 
     cy.visit(`/structure/${selectSubject}`);
-    cy.apiwait(['@allFilters', '@allSubjects', '@allSubjectTopics', '@allSubjectFilters']);
+    cy.apiwait(['@allSubjects', '@allSubjectTopics']);
   });
 
   beforeEach(() => {
@@ -42,15 +40,12 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.intercept('GET', `${taxonomyApi}/filters`, 'allFilters');
     cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}`, []).as('newSubjectName');
     cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
-    cy.intercept('POST', `${taxonomyApi}/filters`, []).as('addFilter');
     cy.intercept('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics').as('allTopics');
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject');
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/topics*`, 'allSubjectTopics');
     cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
-    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/filters`, 'allSubjectFilters');
     cy.apiroute('PUT', `${taxonomyApi}/subjects/${selectSubject}/metadata`, 'invisibleMetadata');
 
     cy.get('[data-cy=settings-button-subject]')
@@ -64,11 +59,6 @@ describe('Subject editing', () => {
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
-    cy.get('[data-testid=editSubjectFiltersButton]').click();
-    cy.get('[data-testid=addFilterButton]').click();
-    cy.get('[data-testid=addFilterInput]').type('cypress-test-filter{enter}');
-    cy.wait('@addFilter');
-
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
       .click();

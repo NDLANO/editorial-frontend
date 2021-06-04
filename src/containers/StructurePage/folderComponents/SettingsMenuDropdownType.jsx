@@ -12,14 +12,13 @@ import PropTypes from 'prop-types';
 import AddExistingToTopic from './menuOptions/AddExistingToTopic';
 import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
 import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import ConnectFilterOption from './menuOptions/ConnectFilterOption';
 import CopyResources from './menuOptions/CopyResources';
 import DeleteTopic from './menuOptions/DeleteTopic';
-import EditFilterOption from './menuOptions/EditFilterOption';
 import EditGrepCodes from './menuOptions/EditGrepCodes';
 import PublishTopic from './menuOptions/PublishTopic';
 import ToggleVisibility from './menuOptions/ToggleVisibility';
 import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
+import EditCustomFields from './menuOptions/EditCustomFields';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -32,9 +31,9 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           <ChangeSubjectName {...rest} />
+          <EditCustomFields {...rest} type={settingsMenuType} />
           {showAllOptions && (
             <>
-              <EditFilterOption {...rest} />
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
@@ -47,7 +46,7 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           {showAllOptions && <PublishTopic {...rest} />}
-          {rest.subjectFilters.length === 0 || <ConnectFilterOption {...rest} />}
+          <EditCustomFields {...rest} type={settingsMenuType} />
           {showAllOptions && (
             <>
               <DeleteTopic {...rest} />

@@ -289,14 +289,6 @@ export const TopicShape = PropTypes.shape({
   topicConnections: PropTypes.arrayOf(TopicConnectionShape),
 });
 
-export const FilterShape = PropTypes.shape({
-  connectionId: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  relevanceId: PropTypes.string,
-  metadata: MetadataShape,
-});
-
 export const AvailableFiltersShape = PropTypes.objectOf(
   PropTypes.arrayOf(
     PropTypes.shape({

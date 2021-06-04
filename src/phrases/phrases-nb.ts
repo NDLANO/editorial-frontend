@@ -821,19 +821,13 @@ const phrases = {
       searchPlaceholder: 'Søk etter fag',
       placeholder: 'Legg til fag',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Legg til filter',
-      core: 'Kjernestoff',
-      supplementary: 'Tilleggsstoff',
-      setRelevance: 'Velg relevans',
-    },
     topics: {
       label: 'Emnetilknytning',
       placeholder: 'Legg til emnetilknytning',
       primaryTopic: 'Primærkobling',
       sharedTopic: 'Delt emne',
       setPrimaryTopic: 'Velg som primærkoblet emne',
+      RGTooltip: 'Velg mellom Kjernestoff eller Tilleggsstoff',
     },
     metaDescription: {
       label: 'Metabeskrivelse',
@@ -903,6 +897,10 @@ const phrases = {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp bilde',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
+      },
+      byline: {
+        show: 'Vis byline',
+        hide: 'Skjul byline',
       },
     },
     video: {
@@ -1096,17 +1094,11 @@ const phrases = {
     changeName: 'Endre navn',
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
-    emptyFilter: 'Ingen treff',
-    editFilter: 'Rediger filter',
-    editFilterName: 'Rediger filternavn',
-    addFilter: 'Nytt filter',
-    deleteFilter: 'Slett filter',
-    connectFilters: 'Koble til filter',
-    confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',
+    removeResource: 'Fjern ressurs fra emne',
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
@@ -1132,7 +1124,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
-      chooseFilter: 'Koble til filter',
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
     },
@@ -1157,15 +1148,7 @@ const phrases = {
       addNewTopic: 'Legg til nytt emne',
       addNewSubTopic: 'Legg til nytt underemne',
       addedTopic: 'Lagt til',
-      filterTopic: 'Filtrer emner',
       disconnectedTaxonomyWarning: 'Ugyldig tilknytning',
-    },
-    filters: {
-      title: 'Filter',
-      subTitle: 'Hvilket fagfilter gjelder for denne ressursen?',
-      helpLabel: 'Hva er et fagfilter?',
-      additional: 'Tilleggsressurs',
-      core: 'Kjerneressurs',
     },
     grepCodes: {
       edit: 'Endre læreplankobling',
@@ -1174,6 +1157,15 @@ const phrases = {
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
+    metadata: {
+      customFields: {
+        alterFields: 'Legg til/endre metadata',
+        addField: 'Nytt metadata felt',
+        languagePlaceholder: 'Visningsspråk ndla.no',
+        resourceGroupPlaceholder: 'Grupperte ressurser',
+        RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+      },
+    },
   },
   detailBox: {
     label: 'Endre overskrift',

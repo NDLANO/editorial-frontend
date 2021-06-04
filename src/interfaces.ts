@@ -291,6 +291,7 @@ export interface SubjectType {
   contentUri: string;
   name: string;
   path: string;
+  metadata: TaxonomyMetadata;
 }
 
 export interface SubjectpageType {

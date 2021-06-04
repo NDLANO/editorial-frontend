@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Block, Document, Inline, Node } from 'slate';
+import { Block, Document, Element, Inline, Node } from 'slate';
 import he from 'he';
 
 import Button from '@ndla/button';
@@ -9,14 +9,20 @@ import { injectT } from '@ndla/i18n';
 import { Codeblock } from '@ndla/code';
 
 import { getSchemaEmbed } from '../../editorSchema';
-import { CodeBlockType, CodeBlockProps } from '../../../../interfaces';
+import { CodeBlockType } from '../../../../interfaces';
 import EditCodeBlock from './EditCodeBlock';
+import { RenderElementProps } from 'slate-react';
+import { CodeblockElement } from '.';
 
 type ParentNode = Document | Block | Inline;
 
 const CodeDiv = styled.div`
   cursor: pointer;
 `;
+
+interface Props {
+  editor: Editor;
+}
 
 interface RemoveCodeBlockProps {
   handleRemove: () => void;
@@ -30,9 +36,9 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
   );
 };
 
-const getInfoFromNode = (node: Node) => {
-  const data = (node as ParentNode)?.data?.toJS() || {};
-  const codeBlock = data['code-block'] || node.text;
+const getInfoFromNode = (element: CodeblockElement) => {
+  const { data } = element;
+  const codeBlock = data['code-block'] || Node.string(element);
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
@@ -48,8 +54,8 @@ const getInfoFromNode = (node: Node) => {
   };
 };
 
-const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
-  const { isFirstEdit, model } = getInfoFromNode(node);
+const CodeBlock = ({ attributes, editor, element }: Props & RenderElementProps) => {
+  const { isFirstEdit, model } = getInfoFromNode(element as CodeblockElement);
   const [editMode, setEditMode] = useState<boolean>(!model.code);
   const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
 
@@ -61,7 +67,7 @@ const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
     const { code } = codeBlock;
     const properties = {
       data: {
-        ...getSchemaEmbed(node),
+        ...getSchemaEmbed(element),
         title: codeBlock.title,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
@@ -106,7 +112,6 @@ const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
           blur={editor.blur}
           editor={editor}
           onChange={editor.onChange}
-          node={node}
           closeDialog={toggleEditMode}
           handleSave={handleSave}
           model={model}

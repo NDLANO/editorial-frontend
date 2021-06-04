@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Editor, Node } from 'slate';
+import { Editor } from 'slate';
 
 import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
@@ -11,7 +11,6 @@ interface Props {
   handleSave: (code: CodeBlockType) => void;
   onExit: () => void;
   onChange: Editor['onChange'];
-  node: Node;
   model: CodeBlockType;
 }
 

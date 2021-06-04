@@ -7,56 +7,118 @@
  */
 
 import React from 'react';
-import { Block, Document, Inline } from 'slate';
+import { Block, Descendant, Document, Editor, Element, Inline } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import CodeBlock from './CodeBlock';
-import defaultBlocks from '../../utils/defaultBlocks';
-import { SlateEditor, CodeBlockProps } from '../../../../interfaces';
+import { SlateSerializer } from '../../interfaces';
+import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
+import { Dictionary } from 'lodash';
+import {
+  createDataProps,
+  createEmbedTag,
+  reduceElementDataAttributes,
+} from '../../../../util/embedTagHelpers';
+import { jsx } from 'slate-hyperscript';
 
-type ParentNode = Document | Block | Inline;
+// type ParentNode = Document | Block | Inline;
 
-export const TYPE = 'code-block';
+export const TYPE_CODEBLOCK = 'code-block';
 
-export default function codeBlockPlugin() {
-  const schema = {
-    blocks: {
-      'code-block': {
-        isVoid: true,
-        data: {},
-        next: [
-          {
-            type: 'paragraph',
-          },
-          { type: 'heading-two' },
-          { type: 'heading-three' },
-        ],
-        normalize: (editor: SlateEditor, error: { code: string; child: any }) => {
-          switch (error.code) {
-            case 'next_sibling_type_invalid': {
-              editor.withoutSaving(() => {
-                editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
-              });
-              break;
-            }
-            default:
-              break;
-          }
-        },
-      },
-    },
+export interface CodeblockElement {
+  type: 'code-block';
+  data: Dictionary<any>;
+  children: Descendant[];
+}
+
+export const codeblockSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+    if (!el.tagName.toLowerCase().startsWith('embed')) return;
+    const embed = el as HTMLEmbedElement;
+    const embedAttributes = reduceElementDataAttributes(embed);
+    if (embedAttributes.resource !== 'code-block') return;
+    return jsx('element', { type: TYPE_CODEBLOCK, data: { ...embedAttributes } }, [{ text: '' }]);
+  },
+  serialize(node: Descendant, children: string) {
+    if (!Element.isElement(node) || node.type !== 'code-block') return;
+
+    const { data } = node;
+    const props = {
+      resource: 'code-block',
+      'code-content': data['code-block']?.code || data['code-content'],
+      'code-format': data['code-block']?.format || data['code-format'],
+      title: data['title']?.title || data['title'],
+    };
+
+    return createEmbedTag(props);
+  },
+};
+
+export const codeblockPlugin = (editor: Editor) => {
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
+
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (element.type === TYPE_CODEBLOCK) {
+      return (
+        <CodeBlock editor={editor} element={element} attributes={attributes}>
+          {children}
+        </CodeBlock>
+      );
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
+    }
+    return undefined;
   };
 
-  const renderBlock = (props: CodeBlockProps, editor: SlateEditor, next: () => void) => {
-    const { node } = props;
-    switch ((node as ParentNode)?.type) {
-      case TYPE:
-        return <CodeBlock attributes={props.attributes} editor={props.editor} node={node} />;
-      default:
-        return next();
+  editor.normalizeNode = entry => {
+    const [node] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
+      nextNormalizeNode(entry);
+    } else {
+      nextNormalizeNode(entry);
     }
   };
 
-  return {
-    schema,
-    renderBlock,
+  editor.isVoid = element => {
+    if (Element.isElement(element) && element.type === TYPE_CODEBLOCK) {
+      return true;
+    } else {
+      return nextIsVoid(element);
+    }
   };
-}
+
+  return editor;
+};
+
+// export default function codeBlockPlugin() {
+//   const schema = {
+//     blocks: {
+//       'code-block': {
+//         isVoid: true,
+//         data: {},
+//         next: [
+//           {
+//             type: 'paragraph',
+//           },
+//           { type: 'heading-two' },
+//           { type: 'heading-three' },
+//         ],
+//         normalize: (editor: SlateEditor, error: { code: string; child: any }) => {
+//           switch (error.code) {
+//             case 'next_sibling_type_invalid': {
+//               editor.withoutSaving(() => {
+//                 editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
+//               });
+//               break;
+//             }
+//             default:
+//               break;
+//           }
+//         },
+//       },
+//     },
+//   };

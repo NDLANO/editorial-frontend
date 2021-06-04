@@ -36,7 +36,7 @@ import {
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
-import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
 
@@ -62,6 +62,7 @@ export class StructureContainer extends React.PureComponent {
     this.deleteConnections = this.deleteConnections.bind(this);
     this.setPrimary = this.setPrimary.bind(this);
     this.saveSubjectItems = this.saveSubjectItems.bind(this);
+    this.saveSubjectTopicItems = this.saveSubjectTopicItems.bind(this);
     this.deleteTopicLink = this.deleteTopicLink.bind(this);
     this.refreshTopics = this.refreshTopics.bind(this);
     this.toggleStructure = this.toggleStructure.bind(this);
@@ -83,6 +84,8 @@ export class StructureContainer extends React.PureComponent {
     }
     this.showLink();
     this.fetchFavoriteSubjects();
+    const showFavourites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
+    this.setState({ showFavorites: showFavourites === 'true' });
   }
 
   componentDidUpdate({
@@ -139,6 +142,26 @@ export class StructureContainer extends React.PureComponent {
           return {
             ...subject,
             ...saveItems,
+          };
+        return subject;
+      }),
+    }));
+  }
+
+  saveSubjectTopicItems(subjectid, topicId, saveItems) {
+    this.setState(prevState => ({
+      subjects: prevState.subjects.map(subject => {
+        if (subject.id === subjectid)
+          return {
+            ...subject,
+            topics: subject.topics.map(topic => {
+              if (topic.id === topicId)
+                return {
+                  ...topic,
+                  ...saveItems,
+                };
+              return topic;
+            }),
           };
         return subject;
       }),
@@ -316,6 +339,7 @@ export class StructureContainer extends React.PureComponent {
   }
 
   toggleShowFavorites() {
+    window.localStorage.setItem(REMEMBER_FAVOURITE_SUBJECTS, !this.state.showFavorites);
     this.setState(prevState => ({ showFavorites: !prevState.showFavorites }));
   }
 
@@ -396,6 +420,8 @@ export class StructureContainer extends React.PureComponent {
                     locale={locale}
                     userAccess={userAccess}
                     setResourcesUpdated={this.setResourcesUpdated}
+                    saveSubjectItems={this.saveSubjectItems}
+                    saveSubjectTopicItems={this.saveSubjectTopicItems}
                   />
                 )}
               />
@@ -411,6 +437,7 @@ export class StructureContainer extends React.PureComponent {
               currentSubject={currentSubject}
               structure={subjects}
               refreshTopics={this.refreshTopics}
+              saveSubjectTopicItems={this.saveSubjectTopicItems}
               resourcesUpdated={this.state.resourcesUpdated}
               setResourcesUpdated={this.setResourcesUpdated}
             />

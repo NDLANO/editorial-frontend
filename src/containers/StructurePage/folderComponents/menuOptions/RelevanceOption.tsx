@@ -12,43 +12,13 @@ import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../../constants';
-import {
-  updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-} from '../../../../modules/taxonomy';
 
 interface Props {
   relevanceId: string | null | undefined;
-  isPrimary: boolean;
-  connectionId: string;
-  rank: number;
+  onChange: (id: string) => void;
 }
 
-interface Body {
-  relevanceId: string;
-  primary: boolean;
-  rank: number;
-}
-
-const updateRelevanceId = (connectionId: string, body: Body) => {
-  const [, connectionType] = connectionId.split(':');
-  switch (connectionType) {
-    case 'topic-resource':
-      updateTopicResource(connectionId, body);
-      break;
-    case 'topic-subtopic':
-      updateTopicSubtopic(connectionId, body);
-      break;
-    case 'subject-topic':
-      updateSubjectTopic(connectionId, body);
-      break;
-    default:
-      return;
-  }
-};
-
-const RelevanceOption = ({ relevanceId, isPrimary, connectionId, rank, t }: Props & tType) => {
+const RelevanceOption = ({ relevanceId, onChange, t }: Props & tType) => {
   const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
 
   return (
@@ -56,12 +26,8 @@ const RelevanceOption = ({ relevanceId, isPrimary, connectionId, rank, t }: Prop
       <StyledToggleSwitch>
         <ToggleSwitch
           onClick={() => {
+            onChange(isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE);
             setIsOn(!isOn);
-            return updateRelevanceId(connectionId, {
-              relevanceId: isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
-              primary: isPrimary,
-              rank: rank,
-            });
           }}
           on={isOn}
           testId="toggleRelevanceId"

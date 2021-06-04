@@ -51,6 +51,7 @@ const Resource = ({
   metadata,
   locale,
   relevanceId,
+  updateRelevanceId,
   primary,
   rank,
   t,
@@ -89,9 +90,13 @@ const Resource = ({
       )}
       <RelevanceOption
         relevanceId={relevanceId}
-        isPrimary={primary}
-        connectionId={connectionId}
-        rank={rank}
+        onChange={relevanceIdUpdate =>
+          updateRelevanceId(connectionId, {
+            relevanceId: relevanceIdUpdate,
+            primary,
+            rank,
+          })
+        }
       />
       {onDelete && (
         <Tooltip tooltip={t('taxonomy.removeResource')}>
@@ -142,6 +147,7 @@ Resource.propTypes = {
     null,
     undefined,
   ]),
+  updateRelevanceId: PropTypes.func,
   primary: PropTypes.bool,
   rank: PropTypes.number,
 };

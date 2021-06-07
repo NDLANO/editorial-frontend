@@ -84,12 +84,13 @@ class TopicArticleTaxonomy extends Component {
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
+      const activeTopics = topics.filter(t => t.path);
 
       const topicConnections = await Promise.all(
-        topics.map(topic => fetchTopicConnections(topic.id)),
+        activeTopics.map(topic => fetchTopicConnections(topic.id)),
       );
 
-      const topicsWithConnections = topics.map((topic, index) => ({
+      const topicsWithConnections = activeTopics.map((topic, index) => ({
         topicConnections: topicConnections[index],
         ...topic,
       }));

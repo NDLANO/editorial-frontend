@@ -401,6 +401,7 @@ const phrases = {
   podcastSeriesForm: {
     title: 'Podkastserie',
     alreadyPartOfSeries: 'Del av en annen serie',
+    description: 'Beskrivelse',
   },
   podcastForm: {
     title: 'Podkast',

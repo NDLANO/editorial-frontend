@@ -17,6 +17,7 @@ import { MetaImageSearch } from '../../FormikForm';
 import { SubjectType, SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
 
 interface Props {
   subjects: SubjectType[];
@@ -26,6 +27,10 @@ interface Props {
 
 const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => {
   const { values } = useFormikContext<ConceptFormValues>();
+
+  const conceptSubjects = subjects.filter(
+    s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== undefined,
+  );
 
   return (
     <Fragment>
@@ -43,9 +48,17 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => 
           )}
         </FormikField>
       )}
-      <FormikField name="subjects" label={t('form.subjects.label')}>
+      <FormikField
+        name="subjects"
+        label={t('form.subjects.label')}
+        description={t('form.concept.subjects')}>
         {({ field }) => (
-          <MultiSelectDropdown labelField="name" minSearchLength={1} data={subjects} {...field} />
+          <MultiSelectDropdown
+            labelField="name"
+            minSearchLength={1}
+            data={conceptSubjects}
+            {...field}
+          />
         )}
       </FormikField>
       <FormikField

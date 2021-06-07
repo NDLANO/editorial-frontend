@@ -35,10 +35,12 @@ export const CONCEPT_ADMIN_SCOPE = 'concept:admin';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
+
 export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = 'language';
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = 'grouped';
 export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 

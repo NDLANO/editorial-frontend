@@ -14,15 +14,17 @@ import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
-import SearchContentPage from '../SearchPage/SearchContentPage';
-import SearchAudioPage from '../SearchPage/SearchAudioPage';
-import SearchImagePage from '../SearchPage/SearchImagePage';
-import SearchPodcastSeriesPage from '../SearchPage/SearchPodcastSeriesPage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
-import SearchConceptPage from '../SearchPage/SearchConceptPage';
 import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
+import SearchContainer from '../SearchPage/SearchContainer';
+
+import { search as searchContent } from '../../modules/search/searchApi';
+import { searchImages } from '../../modules/image/imageApi';
+import { searchSeries } from '../../modules/audio/audioApi';
+import { searchAudio } from '../../modules/audio/audioApi';
+import { searchConcepts } from '../../modules/concept/conceptApi';
 
 interface Props extends RouteComponentProps, tType {}
 
@@ -82,11 +84,26 @@ const SearchPage = ({ match, t }: Props) => {
     <Fragment>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
-        <PrivateRoute path={`${match.url}/content`} component={SearchContentPage} />
-        <PrivateRoute path={`${match.url}/audio`} component={SearchAudioPage} />
-        <PrivateRoute path={`${match.url}/image`} component={SearchImagePage} />
-        <PrivateRoute path={`${match.url}/concept`} component={SearchConceptPage} />
-        <PrivateRoute path={`${match.url}/podcast-series`} component={SearchPodcastSeriesPage} />
+        <PrivateRoute
+          path={`${match.url}/content`}
+          component={() => <SearchContainer type="content" searchFunction={searchContent} />}
+        />
+        <PrivateRoute
+          path={`${match.url}/audio`}
+          component={() => <SearchContainer type="audio" searchFunction={searchAudio} />}
+        />
+        <PrivateRoute
+          path={`${match.url}/image`}
+          component={() => <SearchContainer type="image" searchFunction={searchImages} />}
+        />
+        <PrivateRoute
+          path={`${match.url}/concept`}
+          component={() => <SearchContainer type="concept" searchFunction={searchConcepts} />}
+        />
+        <PrivateRoute
+          path={`${match.url}/podcast-series`}
+          component={() => <SearchContainer type="podcast-series" searchFunction={searchSeries} />}
+        />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />

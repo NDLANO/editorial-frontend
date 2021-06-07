@@ -9,6 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { injectT, tType } from '@ndla/i18n';
+import { HelmetWithTracker } from '@ndla/tracker';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -135,41 +136,44 @@ class SearchContainer extends React.Component<Props, State> {
     return (
       <UserAccessContext.Consumer>
         {userAccess => (
-          <OneColumn>
-            <h2>
-              <Search className="c-icon--medium" />
-              {t(`searchPage.header.${type}`)}
-            </h2>
-            <SearchForm
-              type={type}
-              search={this.onQueryPush}
-              searchObject={searchObject}
-              locale={locale}
-              subjects={subjects}
-            />
-            <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
-            <SearchListOptions
-              type={type}
-              searchObject={searchObject}
-              totalCount={results?.totalCount}
-              search={this.onQueryPush}
-            />
-            <SearchList
-              searchObject={searchObject}
-              results={results?.results ?? []}
-              searching={isSearching}
-              type={type}
-              locale={locale}
-              subjects={subjects}
-              userAccess={userAccess}
-            />
-            <Pager
-              page={searchObject.page ?? 1}
-              lastPage={lastPage}
-              query={searchObject}
-              onClick={this.onQueryPush}
-            />
-          </OneColumn>
+          <>
+            <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+            <OneColumn>
+              <h2>
+                <Search className="c-icon--medium" />
+                {t(`searchPage.header.${type}`)}
+              </h2>
+              <SearchForm
+                type={type}
+                search={this.onQueryPush}
+                searchObject={searchObject}
+                locale={locale}
+                subjects={subjects}
+              />
+              <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
+              <SearchListOptions
+                type={type}
+                searchObject={searchObject}
+                totalCount={results?.totalCount}
+                search={this.onQueryPush}
+              />
+              <SearchList
+                searchObject={searchObject}
+                results={results?.results ?? []}
+                searching={isSearching}
+                type={type}
+                locale={locale}
+                subjects={subjects}
+                userAccess={userAccess}
+              />
+              <Pager
+                page={searchObject.page ?? 1}
+                lastPage={lastPage}
+                query={searchObject}
+                onClick={this.onQueryPush}
+              />
+            </OneColumn>
+          </>
         )}
       </UserAccessContext.Consumer>
     );

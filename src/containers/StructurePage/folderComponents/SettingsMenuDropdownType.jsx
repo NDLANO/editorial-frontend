@@ -31,9 +31,9 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           <ChangeSubjectName {...rest} />
-          <EditCustomFields {...rest} type={settingsMenuType} />
           {showAllOptions && (
             <>
+              <EditCustomFields {...rest} type={settingsMenuType} />
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
@@ -46,9 +46,9 @@ const SettingsMenuDropdownType = ({
       return (
         <>
           {showAllOptions && <PublishTopic {...rest} />}
-          <EditCustomFields {...rest} type={settingsMenuType} />
           {showAllOptions && (
             <>
+              <EditCustomFields {...rest} type={settingsMenuType} />
               <DeleteTopic {...rest} />
               <AddExistingToTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />

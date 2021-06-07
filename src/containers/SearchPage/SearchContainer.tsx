@@ -16,6 +16,7 @@ import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
 import { RouteComponentProps, withRouter } from 'react-router';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
@@ -23,7 +24,7 @@ import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
 import { LocaleContext, UserAccessContext } from '../App/App';
-import { SearchType, SubjectType } from '../../interfaces';
+import { LocaleType, SearchType, SubjectType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
 import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
@@ -47,7 +48,7 @@ interface BaseProps {
   searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps & tType & RouteComponentProps;
+type Props = BaseProps & tType & RouteComponentProps & { locale: LocaleType };
 
 interface State {
   subjects: SubjectType[];
@@ -55,10 +56,20 @@ interface State {
   isSearching: boolean;
 }
 
-class SearchContainer extends React.Component<Props, State> {
-  static contextType = LocaleContext;
-  context!: React.ContextType<typeof LocaleContext>;
+function withLocale<P>(
+  WrappedComponent: React.ComponentType<P & { locale: LocaleType }>,
+): React.ComponentType<P> {
+  const WithLocale = (props: P): React.ReactElement<P> => {
+    return (
+      <LocaleContext.Consumer>
+        {(locale: LocaleType) => <WrappedComponent {...{ ...props, locale }} />}
+      </LocaleContext.Consumer>
+    );
+  };
+  return hoistNonReactStatics(WithLocale, WrappedComponent);
+}
 
+class SearchContainer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -67,6 +78,7 @@ class SearchContainer extends React.Component<Props, State> {
       isSearching: true,
     };
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
     this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
   }
 
@@ -83,7 +95,7 @@ class SearchContainer extends React.Component<Props, State> {
   }
 
   async getExternalData() {
-    const subjects = await fetchSubjects(this.context);
+    const subjects = await fetchSubjects(this.props.locale);
     this.setState({ subjects });
   }
 
@@ -111,7 +123,7 @@ class SearchContainer extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, type, location } = this.props;
+    const { t, type, locale, location } = this.props;
     const { subjects, results, isSearching } = this.state;
 
     const lastPage = results?.totalCount
@@ -121,49 +133,45 @@ class SearchContainer extends React.Component<Props, State> {
     const searchObject = parseSearchParams(location.search);
 
     return (
-      <LocaleContext.Consumer>
-        {locale => (
-          <UserAccessContext.Consumer>
-            {userAccess => (
-              <OneColumn>
-                <h2>
-                  <Search className="c-icon--medium" />
-                  {t(`searchPage.header.${type}`)}
-                </h2>
-                <SearchForm
-                  type={type}
-                  search={this.onQueryPush}
-                  searchObject={searchObject}
-                  locale={locale}
-                  subjects={subjects}
-                />
-                <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
-                <SearchListOptions
-                  type={type}
-                  searchObject={searchObject}
-                  totalCount={results?.totalCount}
-                  search={this.onQueryPush}
-                />
-                <SearchList
-                  searchObject={searchObject}
-                  results={results?.results ?? []}
-                  searching={isSearching}
-                  type={type}
-                  locale={locale}
-                  subjects={subjects}
-                  userAccess={userAccess}
-                />
-                <Pager
-                  page={searchObject.page ?? 1}
-                  lastPage={lastPage}
-                  query={searchObject}
-                  onClick={this.onQueryPush}
-                />
-              </OneColumn>
-            )}
-          </UserAccessContext.Consumer>
+      <UserAccessContext.Consumer>
+        {userAccess => (
+          <OneColumn>
+            <h2>
+              <Search className="c-icon--medium" />
+              {t(`searchPage.header.${type}`)}
+            </h2>
+            <SearchForm
+              type={type}
+              search={this.onQueryPush}
+              searchObject={searchObject}
+              locale={locale}
+              subjects={subjects}
+            />
+            <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
+            <SearchListOptions
+              type={type}
+              searchObject={searchObject}
+              totalCount={results?.totalCount}
+              search={this.onQueryPush}
+            />
+            <SearchList
+              searchObject={searchObject}
+              results={results?.results ?? []}
+              searching={isSearching}
+              type={type}
+              locale={locale}
+              subjects={subjects}
+              userAccess={userAccess}
+            />
+            <Pager
+              page={searchObject.page ?? 1}
+              lastPage={lastPage}
+              query={searchObject}
+              onClick={this.onQueryPush}
+            />
+          </OneColumn>
         )}
-      </LocaleContext.Consumer>
+      </UserAccessContext.Consumer>
     );
   }
 
@@ -173,4 +181,4 @@ class SearchContainer extends React.Component<Props, State> {
   };
 }
 
-export default withRouter(injectT(SearchContainer));
+export default withRouter(withLocale(injectT(SearchContainer)));

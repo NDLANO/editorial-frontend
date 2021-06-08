@@ -36,7 +36,6 @@ const StyledMessageAlertOverlay = styled('div')`
   ${(p: { appearance: 'hidden' | '' }) => appearances[p.appearance]};
 `;
 
-// TODO: dispatch type?
 const getActions = (message: ReduxMessage, dispatch: Dispatch, t: tType['t']) => {
   if (message.type === 'auth0') {
     return [

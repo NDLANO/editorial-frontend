@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment, useCallback, useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
@@ -106,6 +106,7 @@ const SearchPage = ({ match, t }: Props) => {
         {supportedTypes.map(type => {
           return (
             <PrivateRoute
+              key={type.type}
               path={type.path}
               component={SearchContainer}
               type={type.type}

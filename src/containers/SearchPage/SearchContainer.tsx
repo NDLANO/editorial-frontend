@@ -81,11 +81,12 @@ class SearchContainer extends React.Component<Props, State> {
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.getExternalData = this.getExternalData.bind(this);
     this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
+    this.doInitialSearch = this.doInitialSearch.bind(this);
   }
 
-  componentDidMount() {
+  doInitialSearch(): void {
     const { location, searchFunction } = this.props;
-    if (location.search) {
+    if (location.search || this.props.type) {
       const searchObject = queryString.parse(location.search);
       this.setState({ isSearching: true });
       searchFunction(searchObject).then((results: ResultType) => {
@@ -93,6 +94,10 @@ class SearchContainer extends React.Component<Props, State> {
       });
     }
     this.getExternalData();
+  }
+
+  componentDidMount() {
+    this.doInitialSearch();
   }
 
   async getExternalData() {

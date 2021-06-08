@@ -55,7 +55,6 @@ const PrivateRoute = <T,>({ component, ...rest }: Props<T>) => {
 
 PrivateRoute.propTypes = {
   locale: PropTypes.string,
-  authenticated: PropTypes.bool.isRequired,
   location: LocationShape,
   // @ts-ignore -- propTypes aren't in the typescript types, but they are available: https://github.com/ReactTraining/react-router/blob/42933fe141819e4662113ab2c320bf86be3490fb/packages/react-router/modules/Route.js#L82
   ...Route.propTypes,

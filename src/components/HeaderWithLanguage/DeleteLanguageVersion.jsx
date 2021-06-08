@@ -16,7 +16,10 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../modules/draft/draftApi';
 import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
-import { deleteLanguageVersionAudio } from '../../modules/audio/audioApi';
+import {
+  deleteLanguageVersionAudio,
+  deleteLanguageVersionSeries,
+} from '../../modules/audio/audioApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import { HistoryShape } from '../../shapes';
 import {
@@ -24,11 +27,13 @@ import {
   toCreateConcept,
   toCreateImage,
   toCreatePodcastFile,
+  toCreatePodcastSeries,
   toEditArticle,
   toEditAudio,
   toEditConcept,
   toEditImage,
   toEditPodcast,
+  toEditPodcastSeries,
 } from '../../util/routeHelpers';
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
@@ -85,6 +90,14 @@ class DeleteLanguageVersion extends React.Component {
               newAfterLanguageDeletion
                 ? toCreatePodcastFile()
                 : toEditPodcast(id, otherSupportedLanguage),
+            );
+            break;
+          case 'podcast-series':
+            await deleteLanguageVersionSeries(id, language);
+            history.push(
+              newAfterLanguageDeletion
+                ? toCreatePodcastSeries()
+                : toEditPodcastSeries(id, otherSupportedLanguage),
             );
             break;
           case 'image':

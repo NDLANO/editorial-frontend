@@ -73,12 +73,6 @@ function updateSubject(id, name, contentUri) {
   }).then(res => resolveJsonOrRejectWithError(res, { taxonomy: true }));
 }
 
-function fetchSubjectFilters(id) {
-  return fetchAuthorized(`${baseUrl}/subjects/${id}/filters`).then(res =>
-    resolveJsonOrRejectWithError(res),
-  );
-}
-
 function updateSubjectMetadata(subjectId, body) {
   return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
     method: 'PUT',
@@ -105,7 +99,6 @@ export {
   addSubject,
   updateSubjectName,
   addSubjectTopic,
-  fetchSubjectFilters,
   updateSubjectTopic,
   updateSubjectMetadata,
   updateSubjectMetadataRecursive,

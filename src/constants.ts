@@ -16,7 +16,8 @@ export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES = 'urn:resourcetype:exter
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet added to @ndla/ui
 
-// Filters
+export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
+// Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';
 
@@ -34,6 +35,14 @@ export const CONCEPT_ADMIN_SCOPE = 'concept:admin';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
 export const TAXONOMY_ADMIN_SCOPE = 'taxonomy:admin';
+
+export const TAXONOMY_CUSTOM_FIELD_LANGUAGE = 'language';
+export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
+export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = 'grouped';
+export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
+
+export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
 export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'H5P', url: ['h5p'] },

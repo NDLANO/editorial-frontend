@@ -11,7 +11,6 @@ import { Remarkable } from 'remarkable';
 
 //@ts-ignore
 import { Article, ContentTypeBadge } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 import { ArticleType, LocaleType } from '../../interfaces';
 //@ts-ignore
 import { transformArticle } from '../../util/articleUtil';
@@ -23,13 +22,13 @@ interface Props {
   contentType?: string;
 }
 
-class PreviewDraft extends Component<Props & tType, {}> {
+class PreviewDraft extends Component<Props, {}> {
   componentDidMount() {
     if (window.MathJax) window.MathJax.typesetPromise();
   }
 
   render() {
-    const { article, contentType, label, language, t } = this.props;
+    const { article, contentType, label, language } = this.props;
     if (!article) {
       return null;
     }
@@ -51,19 +50,12 @@ class PreviewDraft extends Component<Props & tType, {}> {
     return (
       <Article
         article={formatted}
+        //@ts-ignore Must update wrong proptype in Article
         icon={icon}
         contentType={contentType}
         locale={language}
         messages={{
-          lastUpdated: t('article.lastUpdated'),
-          edition: t('article.edition'),
-          publisher: t('article.publisher'),
           label,
-          useContent: t('article.useContent'),
-          closeLabel: t('article.closeLabel'),
-          additionalLabel: t('article.additionalLabel'),
-          authorLabel: t('license.creditType.originator'),
-          authorDescription: t('license.creditType.authorDesc'),
         }}
         renderMarkdown={renderMarkdown}
       />
@@ -71,4 +63,4 @@ class PreviewDraft extends Component<Props & tType, {}> {
   }
 }
 
-export default injectT(PreviewDraft);
+export default PreviewDraft;

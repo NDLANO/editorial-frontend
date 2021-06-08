@@ -19,6 +19,7 @@ import { SearchConceptType } from '../../../../../modules/concept/conceptApiInte
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { SubjectType, License, ConceptType } from '../../../../../interfaces';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 
 interface Props {
   concept: SearchConceptType;
@@ -48,6 +49,10 @@ const FormView = ({
   }, [concept.id, language]);
 
   const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();
+
+  const conceptSubjects = subjects?.filter(
+    s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true',
+  );
 
   useEffect(() => {
     if (fullConcept && licenses && subjects) {
@@ -126,7 +131,7 @@ const FormView = ({
             });
           }}
           licenses={licenses}
-          allSubjects={subjects}
+          allSubjects={conceptSubjects}
           cancel={cancel}
         />
       ) : (

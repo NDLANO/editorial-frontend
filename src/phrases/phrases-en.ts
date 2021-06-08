@@ -6,6 +6,8 @@
  *
  */
 
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
+
 const titleTemplate = '- Production system - NDLA';
 
 const phrases = {
@@ -27,6 +29,7 @@ const phrases = {
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
     podcastUploaderPage: `Podcast ${titleTemplate}`,
+    podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
   },
   meta: {
@@ -87,31 +90,6 @@ const phrases = {
     embedCopied: 'Copied embed code!',
     hasCopiedTitle: 'Copied!',
     download: 'Download',
-    creditType: {
-      originator: 'Originator',
-      authorDesc: 'This article is made by several originators',
-      photographer: 'Photographer',
-      artist: 'Artist',
-      editorial: 'Editorial',
-      writer: 'Writer',
-      scriptwriter: 'Scriptwriter',
-      reader: 'Reader',
-      translator: 'Translator',
-      director: 'Director',
-      illustrator: 'Illustrator',
-      cowriter: 'Cowriter',
-      composer: 'Composer',
-      processor: 'Processor',
-      facilitator: 'facilitator',
-      linguistic: 'Linguistic',
-      idea: 'Idea',
-      compiler: 'Compiler',
-      correction: 'Correction',
-      rightsholder: 'Rightsholder',
-      publisher: 'Publisher',
-      distributor: 'Distributor',
-      supplier: 'Supplier',
-    },
   },
   language: {
     en: 'English',
@@ -142,12 +120,14 @@ const phrases = {
       audio: 'Search for audio files',
       image: 'Search for images',
       concept: 'Search for concepts',
+      'podcast-series': 'Search for podcast series',
     },
     searchButton: 'Search',
     emptyButton: 'Empty',
     title: 'Title',
     language: 'Language',
     contentNoHits: 'Your search - {query} - did not match any content.',
+    'podcast-seriesNoHits': 'Your search - {query} - did not match any content.',
     conceptNoHits: 'Your search - {query} - did not match any concept.',
     audioNoHits: 'Your search - {query} - did not match any audio files.',
     imageNoHits: 'Your search - {query} - did not match any images.',
@@ -176,10 +156,12 @@ const phrases = {
     image: 'New image',
     audio: 'New Audiofile',
     podcast: 'New Podcast',
+    podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
+    searchPodcastSeries: 'Search series',
     searchImage: 'Search image',
     searchConcepts: 'Search concepts',
     film: 'Edit NDLA film',
@@ -217,6 +199,7 @@ const phrases = {
       conceptQuery: 'Search for concept',
       contentQuery: 'Search for content',
       audioQuery: 'Search for audio files',
+      podcastSeriesQuery: 'Search for podcast series',
       imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
@@ -398,6 +381,10 @@ const phrases = {
   audioForm: {
     title: 'audio file',
   },
+  podcastSeriesForm: {
+    title: 'Podcast series',
+    alreadyPartOfSeries: 'Part of another series',
+  },
   podcastForm: {
     title: 'Podcast file',
     fields: {
@@ -406,6 +393,10 @@ const phrases = {
       coverPhoto: 'Image',
       coverPhotoAltText: 'Alt-text',
       manuscript: 'Text version',
+      series: 'Series',
+    },
+    information: {
+      partOfSeries: 'This podcast is a part of the series',
     },
   },
   imageEditor: {
@@ -488,6 +479,9 @@ const phrases = {
     copyrightSection: 'License and authors',
     articleSection: 'Articles',
     podcastSection: 'Podcast information',
+    podcastSeriesSection: 'Podcast series',
+    podcastEpisodesSection: 'Episodes',
+    podcastEpisodesTypeName: 'Podcasts',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',
@@ -652,6 +646,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
+      subjects: `Ony subjects with metadata field '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' will be displayed in the list.`,
     },
     workflow: {
       title: 'Status',
@@ -816,19 +811,13 @@ const phrases = {
       searchPlaceholder: 'Search for subjects',
       placeholder: 'Add subjects',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Add filter',
-      core: 'Core',
-      supplementary: 'Supplementary',
-      setRelevance: 'Set relevance',
-    },
     topics: {
       label: 'Topics',
       placeholder: 'Add topic',
       primaryTopic: 'Primary topic',
       sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
+      RGTooltip: 'Choose between Core(K) or Supplementary(T)',
     },
     metaDescription: {
       label: 'Meta description',
@@ -902,6 +891,10 @@ const phrases = {
         main: 'Drag and drop',
         sub: 'or click to upload image',
         ariaLabel: 'Drag and drop or click to upload image',
+      },
+      byline: {
+        show: 'Show byline',
+        hide: 'Hide byline',
       },
     },
     video: {
@@ -1082,10 +1075,6 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
-    editFilter: 'Edit filter',
-    editFilterName: 'Edit filter name',
-    deleteFilter: 'Delete filter',
-    emptyFilter: 'No hits',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: 'Change name',
@@ -1093,10 +1082,8 @@ const phrases = {
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
-    addFilter: 'Add filter',
-    connectFilters: 'Connect filters',
-    confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
+    removeResource: 'Remove resource from topic',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
@@ -1124,7 +1111,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
-      chooseFilter: 'Connect to filters',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
@@ -1144,14 +1130,7 @@ const phrases = {
       addNewTopic: 'Add new topic',
       addNewSubTopic: 'Add new sub topic',
       addedTopic: 'Added to taxonomy',
-      filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',
-    },
-    filters: {
-      title: 'Filters',
-      subTitle: 'Which filters should be applied?',
-      additional: 'Additional resource',
-      core: 'Core resource',
     },
     grepCodes: {
       edit: 'Edit grep codes',
@@ -1159,6 +1138,15 @@ const phrases = {
       addNew: 'Add new grep code',
     },
     missingResourceType: 'Missing resource type',
+    metadata: {
+      customFields: {
+        alterFields: 'Add/change metadata',
+        addField: 'New metadata field',
+        languagePlaceholder: 'Ndla.no interface language',
+        resourceGroupPlaceholder: 'Grouped resources',
+        RGTooltip: 'Show resources Grouped or Ungrouped',
+      },
+    },
   },
   notions: {
     edit: 'Edit notions',

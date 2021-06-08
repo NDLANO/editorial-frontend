@@ -26,7 +26,8 @@ import {
 import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
-import { toEditAudio } from '../../../util/routeHelpers';
+import AudioManuscript from './AudioManuscript';
+import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
@@ -216,7 +217,10 @@ class AudioForm extends Component<Props, State> {
                 values={values}
                 type="audio"
                 content={audio}
-                editUrl={(lang: string) => toEditAudio(values.id, lang)}
+                editUrl={(lang: string) => {
+                  if (values.id) return toEditAudio(values.id, lang);
+                  else return toCreateAudioFile();
+                }}
               />
               <Accordions>
                 <AccordionSection
@@ -226,6 +230,13 @@ class AudioForm extends Component<Props, State> {
                   hasError={hasError(['title', 'audioFile'])}
                   startOpen>
                   <AudioContent classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
                   id="audio-upload-metadataSection"

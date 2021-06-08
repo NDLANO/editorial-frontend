@@ -8,6 +8,7 @@
 import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
+import { List } from '@ndla/icons/action';
 import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -16,6 +17,7 @@ import SubNavigation from '../Masthead/components/SubNavigation';
 import SearchContentPage from '../SearchPage/SearchContentPage';
 import SearchAudioPage from '../SearchPage/SearchAudioPage';
 import SearchImagePage from '../SearchPage/SearchImagePage';
+import SearchPodcastSeriesPage from '../SearchPage/SearchPodcastSeriesPage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
 import SearchConceptPage from '../SearchPage/SearchConceptPage';
@@ -68,6 +70,12 @@ const SearchPage = ({ match, t }: Props) => {
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'concept'),
       icon: <Concept className="c-icon--large" />,
     },
+    {
+      title: t('subNavigation.searchPodcastSeries'),
+      type: 'podcast-series',
+      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'podcast-series'),
+      icon: <List className="c-icon--large" />,
+    },
   ];
 
   return (
@@ -78,6 +86,7 @@ const SearchPage = ({ match, t }: Props) => {
         <PrivateRoute path={`${match.url}/audio`} component={SearchAudioPage} />
         <PrivateRoute path={`${match.url}/image`} component={SearchImagePage} />
         <PrivateRoute path={`${match.url}/concept`} component={SearchConceptPage} />
+        <PrivateRoute path={`${match.url}/podcast-series`} component={SearchPodcastSeriesPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />

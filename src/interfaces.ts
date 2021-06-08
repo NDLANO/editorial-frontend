@@ -11,8 +11,9 @@ import { Store } from 'redux';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
+import { LOCALE_VALUES } from './constants';
 
-export type LocaleType = 'nb' | 'nn' | 'en';
+export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type ConceptStatusType =
   | 'DRAFT'
@@ -190,12 +191,13 @@ export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
 export interface TaxonomyMetadata {
   grepCodes: string[];
   visible: boolean;
+  customFields: Record<string, string>;
 }
 
 export interface TaxonomyElement {
   id: string;
   name: string;
-  metadata?: TaxonomyMetadata;
+  metadata: TaxonomyMetadata;
 }
 
 export interface Topic extends TaxonomyElement {
@@ -276,13 +278,6 @@ export interface Learningpath {
   };
 }
 
-export interface Filter {
-  id: string;
-  connectionId: string;
-  relevanceId: string;
-  name: string;
-}
-
 export interface SearchResult {
   totalCount: number;
   page: number;
@@ -296,6 +291,7 @@ export interface SubjectType {
   contentUri: string;
   name: string;
   path: string;
+  metadata: TaxonomyMetadata;
 }
 
 export interface SubjectpageType {

@@ -6,6 +6,8 @@
  *
  */
 
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
+
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -27,6 +29,7 @@ const phrases = {
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
     podcastUploaderPage: `Podkast ${titleTemplate}`,
+    podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
   },
   dropdown: {
@@ -88,31 +91,6 @@ const phrases = {
       description: 'Hugs å kopiera teksten som skal leggjast ved videoen der du bruker han.',
       rules: 'Regler for bruk av videoen:',
     },
-    creditType: {
-      originator: 'Opphavsmann',
-      authorDesc: 'Denne artikkelen er laga av fleire opphavsmenn',
-      photographer: 'Fotograf',
-      artist: 'Kunstnar',
-      editorial: 'Redaksjonelt',
-      writer: 'Forfattar',
-      scriptwriter: 'Manusforfattar',
-      reader: 'Innlesar',
-      translator: 'Omsetjar',
-      director: 'Regissør',
-      illustrator: 'Illustratør',
-      cowriter: 'Medforfatter',
-      composer: 'Komponist',
-      processor: 'Tilarbeidar',
-      facilitator: 'Tilretteleggjar',
-      linguistic: 'Språkleg',
-      idea: 'Idé',
-      compiler: 'Sammenstillar',
-      correction: 'Korrektur',
-      rightsholder: 'Rettshaver',
-      publisher: 'Forlag',
-      distributor: 'Distributør',
-      supplier: 'Leverandør',
-    },
   },
   language: {
     en: 'Engelsk',
@@ -143,6 +121,7 @@ const phrases = {
       audio: 'Søk etter lydfiler',
       image: 'Søk etter bilder',
       concept: 'Søk etter forklaringar',
+      'podcast-series': 'Søk etter podkastserier',
     },
     searchButton: 'Søk',
     emptyButton: 'Tøm',
@@ -150,6 +129,7 @@ const phrases = {
     language: 'Språk',
     contentNoHits: 'Ingen innhald samsvarte med søket ditt på: {query}',
     conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {query}',
+    'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {query}',
     audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
     imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
     pageSize: '{pageSize} treff per side',
@@ -178,10 +158,12 @@ const phrases = {
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
     podcast: 'Ny podkast',
+    podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
+    searchPodcastSeries: 'Søk serie',
     searchImage: 'Søk bilde',
     searchConcepts: 'Søk forklaring',
     film: 'Rediger NDLA film',
@@ -219,6 +201,7 @@ const phrases = {
       conceptQuery: 'Søk på forklaringar',
       contentQuery: 'Søk på innhald',
       audioQuery: 'Søk på lydfiler',
+      podcastSeriesQuery: 'Søk på podkastserier',
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
@@ -416,6 +399,10 @@ const phrases = {
   audioForm: {
     title: 'Lyd',
   },
+  podcastSeriesForm: {
+    title: 'Podkastserie',
+    alreadyPartOfSeries: 'Del av ein anna serie',
+  },
   podcastForm: {
     title: 'Podkast',
     fields: {
@@ -424,6 +411,10 @@ const phrases = {
       coverPhoto: 'Bilde',
       coverPhotoAltText: 'Alt-tekst',
       manuscript: 'Tekstversjon',
+      series: 'Serie',
+    },
+    information: {
+      partOfSeries: 'Denne podkasten er en del av serien',
     },
   },
   imageEditor: {
@@ -511,6 +502,9 @@ const phrases = {
     taxonomySection: 'Taksonomi',
     copyrightSection: 'Lisens og bruker',
     podcastSection: 'Podkastinformasjon',
+    podcastSeriesSection: 'Podkastserie',
+    podcastEpisodesSection: 'Episoder',
+    podcastEpisodesTypeName: 'Podkaster',
     inlineEdit: 'Hurtigredigering',
     save: 'Lagre',
     saveAsNewVersion: 'Lagre som ny versjon',
@@ -674,6 +668,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
+      subjects: `Berre fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil visast i lista.`,
     },
     workflow: {
       title: 'Status',
@@ -838,19 +833,13 @@ const phrases = {
       searchPlaceholder: 'Søk etter fag',
       placeholder: 'Legg til fag',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Legg til filter',
-      core: 'Kjernestoff',
-      supplementary: 'Tilleggsstoff',
-      setRelevance: 'Velg relevans',
-    },
     topics: {
       label: 'Emnetilknytning',
       placeholder: 'Legg til emnetilknytning',
       primaryTopic: 'Primærkobling',
       sharedTopic: 'Delt emne',
-      setPrimaryTopic: 'Velg som primærkoblet emne',
+      setPrimaryTopic: 'Vel som primærkoblet emne',
+      RGTooltip: 'Vel mellom Kjernestoff eller Tilleggsstoff',
     },
     metaDescription: {
       label: 'Metabeskrivelse',
@@ -920,6 +909,10 @@ const phrases = {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp bilde',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp bilde',
+      },
+      byline: {
+        show: 'Vis byline',
+        hide: 'Skjul byline',
       },
     },
     video: {
@@ -1104,17 +1097,11 @@ const phrases = {
     changeName: 'Endre namn',
     addTopic: 'Legg til nytt emne',
     errorMessage: 'Ein feil oppsto',
-    emptyFilter: 'Ingen treff',
-    editFilter: 'Rediger filter',
-    editFilterName: 'Rediger filternamn',
-    addFilter: 'Nytt filter',
-    deleteFilter: 'Slett filter',
-    connectFilters: 'Koble til filter',
-    confirmDelete: 'Er du sikker på at du vil slette filteret?',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',
+    removeResource: 'Fjern ressurs frå emne',
     searchResource: 'Søk etter ressurs',
     searchArticle: 'Søk etter emneartikkel',
     or: 'Eller',
@@ -1140,7 +1127,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
-      chooseFilter: 'Koble til filter',
       copyError:
         'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
     },
@@ -1163,14 +1149,7 @@ const phrases = {
       addNewSubTopic: 'Legg til nytt underemne',
       filestructureClose: 'Lukk',
       addedTopic: 'Lagt til',
-      filterTopic: 'Filtrer emner',
       disconnectedTaxonomyWarning: 'Ugyldig tilknytning',
-    },
-    filters: {
-      title: 'Filter',
-      subTitle: 'Kva for eit fagfilter gjeld for denne ressursen?',
-      additional: 'Tilleggsressurs',
-      core: 'Kjerneressurs',
     },
     grepCodes: {
       edit: 'Endre læreplankobling',
@@ -1179,6 +1158,15 @@ const phrases = {
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
+    metadata: {
+      customFields: {
+        alterFields: 'Legg til/endra metadata',
+        addField: 'Nytt metadata felt',
+        languagePlaceholder: 'Visningsspråk ndla.no',
+        resourceGroupPlaceholder: 'Grupperte ressursar',
+        RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
+      },
+    },
   },
   notions: {
     edit: 'Rediger forklaring',

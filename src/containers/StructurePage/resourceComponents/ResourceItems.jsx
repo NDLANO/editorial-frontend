@@ -11,42 +11,28 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
-import {
-  deleteTopicResource,
-  fetchResourceFilter,
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
-  updateTopicResource,
-} from '../../../modules/taxonomy';
-import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
+import { deleteTopicResource, updateTopicResource } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
-import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
     super();
     this.state = {
-      activeFilters: {},
       filterPickerId: '',
     };
     this.onDelete = this.onDelete.bind(this);
-    this.onFilterSubmit = this.onFilterSubmit.bind(this);
-    this.updateFilter = this.updateFilter.bind(this);
-    this.toggleFilterPicker = this.toggleFilterPicker.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-  async onDelete(deleteId, resourceId) {
+  async onDelete(deleteId) {
     try {
       this.setState({ deleteId: '', error: '' });
       await deleteTopicResource(deleteId);
-      await this.deleteFilters(resourceId);
       this.props.refreshResources();
     } catch (e) {
       handleError(e);
@@ -56,23 +42,13 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  async deleteFilters(id) {
-    const resourceFilters = await fetchResourceFilter(id);
-    const topicFilterIds = this.props.currentTopic.filters.map(filter => filter.id);
-    resourceFilters.forEach(resourceFilter => {
-      if (topicFilterIds.includes(resourceFilter.id)) {
-        deleteResourceFilter(resourceFilter.connectionId);
-      }
-    });
-  }
-
   async onDragEnd({ destination, source }) {
     if (!destination) {
       return;
     }
     try {
       const { resources, refreshResources } = this.props;
-      const { connectionId, primary, rank: currentRank } = resources[source.index];
+      const { connectionId, primary, relevanceId, rank: currentRank } = resources[source.index];
       const { rank } = resources[destination.index];
       if (currentRank === rank) {
         return;
@@ -80,8 +56,9 @@ class ResourceItems extends React.PureComponent {
 
       this.setState({ loading: true });
       await updateTopicResource(connectionId, {
-        rank: currentRank > rank ? rank : rank + 1,
         primary,
+        rank: currentRank > rank ? rank : rank + 1,
+        relevanceId,
       });
       await refreshResources();
       this.setState({ loading: false });
@@ -90,88 +67,14 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  async onFilterSubmit(resourceId) {
-    try {
-      const { locale, refreshResources } = this.props;
-      const { activeFilters } = this.state;
-      this.setState({ error: '' });
-      const resourceFilters = await fetchResourceFilter(resourceId, locale);
-      const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
-        changedItems: activeFilters[resourceId],
-        originalItems: resourceFilters,
-        updateProperty: 'relevanceId',
-      });
-      await Promise.all([
-        ...createItems.map(({ id: filterId, ...filter }) =>
-          createResourceFilter({ filterId, resourceId, ...filter }),
-        ),
-        ...updateItems.map(filter => updateResourceFilter(filter.connectionId, filter)),
-        ...deleteItems.map(filter => deleteResourceFilter(filter.connectionId)),
-      ]);
-      refreshResources();
-      this.toggleFilterPicker(resourceId);
-    } catch (e) {
-      this.setState({
-        error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
-        filterPickerId: '',
-      });
-      handleError(e);
-    }
-  }
-
-  toggleDelete(deleteId, resourceId) {
-    this.setState({ deleteId, resourceId });
-  }
-
-  async toggleFilterPicker(id) {
-    const { filterPickerId } = this.state;
-    const { locale } = this.props;
-    const isOpen = filterPickerId === id;
-    if (!isOpen) {
-      const resourceFilters = await fetchResourceFilter(id, locale);
-      this.setState(prevState => ({
-        activeFilters: {
-          ...prevState.activeFilters,
-          [id]: resourceFilters,
-        },
-        filterPickerId: id,
-      }));
-    } else {
-      this.setState({
-        filterPickerId: '',
-      });
-    }
-  }
-
-  updateFilter(resourceId, filterToUpdate, relevanceId, remove) {
-    this.setState(prevState => {
-      const currentFilters = prevState.activeFilters[resourceId];
-      const newFilters = currentFilters.filter(filter => filter.id !== filterToUpdate.id);
-      if (!remove) {
-        newFilters.push({ ...filterToUpdate, relevanceId });
-      }
-      return {
-        activeFilters: {
-          ...prevState.activeFilters,
-          [resourceId]: newFilters,
-        },
-      };
-    });
+  toggleDelete(deleteId) {
+    this.setState({ deleteId });
   }
 
   render() {
-    const {
-      contentType,
-      resources,
-      t,
-      availableFilters,
-      currentTopic,
-      currentSubject,
-      structure,
-      locale,
-    } = this.props;
+    const { contentType, resources, t, currentSubject, locale } = this.props;
 
-    const { deleteId, resourceId, error, filterPickerId, activeFilters, loading } = this.state;
+    const { deleteId, error, filterPickerId, loading } = this.state;
 
     if (loading) {
       return <Spinner />;
@@ -183,16 +86,8 @@ class ResourceItems extends React.PureComponent {
             <Resource
               key={resource.id}
               contentType={contentType}
-              showFilterPicker={filterPickerId === resource.id}
               currentSubject={currentSubject}
-              structure={structure}
-              onFilterChange={this.updateFilter}
-              onFilterSubmit={this.onFilterSubmit}
-              toggleFilterPicker={this.toggleFilterPicker}
               onDelete={this.toggleDelete}
-              currentTopic={currentTopic}
-              availableFilters={availableFilters}
-              activeFilters={activeFilters[resource.id]}
               refreshResources={this.props.refreshResources}
               {...resource}
               locale={locale}
@@ -214,7 +109,7 @@ class ResourceItems extends React.PureComponent {
             },
             {
               text: t('alertModal.delete'),
-              onClick: () => this.onDelete(deleteId, resourceId),
+              onClick: () => this.onDelete(deleteId),
             },
           ]}
           onCancel={() => this.toggleDelete('')}
@@ -229,16 +124,10 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
-  availableFilters: AvailableFiltersShape,
-  activeFilter: PropTypes.string,
-  currentTopic: PropTypes.shape({
-    filters: PropTypes.array,
-  }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

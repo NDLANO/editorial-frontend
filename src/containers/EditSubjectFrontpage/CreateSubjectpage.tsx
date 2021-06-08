@@ -48,4 +48,4 @@ const CreateSubjectpage = ({
   );
 };
 
-export default injectT(withRouter(CreateSubjectpage));
+export default withRouter(injectT(CreateSubjectpage));

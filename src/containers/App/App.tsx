@@ -42,6 +42,7 @@ import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
 import { LocaleType, MessageI } from '../../interfaces';
+import { LOCALE_VALUES } from '../../constants';
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext<LocaleType>('nb');
@@ -135,7 +136,7 @@ class App extends React.Component<ActualProps, InternalState> {
   }
 
   static childContextTypes = {
-    locale: PropTypes.oneOf(['nb', 'nn', 'en']),
+    locale: PropTypes.oneOf(LOCALE_VALUES),
   };
 }
 

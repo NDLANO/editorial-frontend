@@ -64,7 +64,7 @@ interface Props {
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;
-  setSrc: (src: Embed) => void;
+  setSrc?: (src: Embed) => void;
 }
 
 interface embedProps {
@@ -150,18 +150,20 @@ const FigureButtons = ({
               <LinkIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip tooltip="Bytt til synstolket versjon" align="right">
-            <IconButton
-              as={SafeLink}
-              onClick={() => {
-                setSrc({
-                  ...embed,
-                  videoid: '6226280526001',
-                });
-              }}>
-              ST
-            </IconButton>
-          </Tooltip>
+          {setSrc && (
+            <Tooltip tooltip="Bytt til synstolket versjon" align="right">
+              <IconButton
+                as={SafeLink}
+                onClick={() => {
+                  setSrc({
+                    ...embed,
+                    videoid: '6226280526001',
+                  });
+                }}>
+                ST
+              </IconButton>
+            </Tooltip>
+          )}
         </>
       )}
     </StyledFigureButtons>

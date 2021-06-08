@@ -56,12 +56,12 @@ function deleteTopicResource(id) {
   }).then(resolveJsonOrRejectWithError);
 }
 
-async function createDeleteUpdateTopicResources(resourceId, topics, locale, originalTopics) {
+async function createDeleteUpdateTopicResources(resourceId, topics, originalTopics) {
   try {
     const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
       changedItems: topics,
       originalItems: originalTopics,
-      updateProperty: 'primary',
+      updateProperties: ['primary', 'relevanceId'],
     });
 
     await Promise.all(
@@ -76,10 +76,13 @@ async function createDeleteUpdateTopicResources(resourceId, topics, locale, orig
     await Promise.all(deleteItems.map(item => deleteTopicResource(item.connectionId)));
     updateItems.forEach(item => {
       // only update if changed to primary, previous primary is automatically unset
-      if (item.primary)
-        updateTopicResource(item.connectionId, {
-          primary: item.primary,
-        });
+      const update = {
+        ...(item.primary && { primary: item.primary }),
+        ...(originalTopics.find(topic => topic.id === item.id).relevanceId !== item.relevanceId && {
+          relevanceId: item.relevanceId,
+        }),
+      };
+      if (Object.keys(update).length) updateTopicResource(item.connectionId, update);
     });
   } catch (e) {
     throw new Error(e);

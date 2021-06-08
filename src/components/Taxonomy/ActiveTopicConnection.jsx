@@ -20,6 +20,7 @@ import {
 import SharedTopicConnections from './SharedTopicConnections';
 import { TopicShape } from '../../shapes';
 import Breadcrumb from './Breadcrumb';
+import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 
 const StyledFlexWrapper = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ const ActiveTopicConnection = ({
   retriveBreadCrumbs,
   removeConnection,
   setPrimaryConnection,
+  setRelevance,
   t,
   type,
   topic,
@@ -71,6 +73,10 @@ const ActiveTopicConnection = ({
           </StyledPrimaryConnectionButton>
           <Breadcrumb breadcrumb={breadcrumb} />
         </StyledFlexWrapper>
+        <RelevanceOption
+          relevanceId={topic.relevanceId}
+          onChange={relevanceId => setRelevance(topic.id, relevanceId)}
+        />
         <StyledRemoveConnectionButton
           type="button"
           onClick={() => removeConnection && removeConnection(topic.id)}>
@@ -88,6 +94,7 @@ ActiveTopicConnection.propTypes = {
   setPrimaryConnection: PropTypes.func,
   topic: TopicShape.isRequired,
   type: PropTypes.string,
+  setRelevance: PropTypes.func,
 };
 
 export default injectT(ActiveTopicConnection);

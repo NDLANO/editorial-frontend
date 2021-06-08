@@ -54,12 +54,7 @@ async function updateTaxonomy(
 
       updateResourceMetadata(resourceId, taxonomyChanges.metadata),
 
-      createDeleteUpdateTopicResources(
-        resourceId,
-        taxonomyChanges.topics,
-        language,
-        originalTopics,
-      ),
+      createDeleteUpdateTopicResources(resourceId, taxonomyChanges.topics, originalTopics),
     ]);
     return true;
   } catch (e) {

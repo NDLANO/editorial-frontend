@@ -6,18 +6,17 @@
  *
  */
 
-// import before all other imports component to make sure it is loaded befor any emotion stuff.
+// import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import Helmet from 'react-helmet';
 // @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
-import { Dispatch } from 'redux';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -41,7 +40,7 @@ import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
-import { LocaleType, MessageI } from '../../interfaces';
+import { LocaleType, ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
 
 export const FirstLoadContext = React.createContext(true);
@@ -52,16 +51,20 @@ interface InternalState {
   firstLoad: boolean;
 }
 
-interface Props {
-  messages: MessageI[];
-  locale: LocaleType;
-  dispatch: Dispatch;
-  authenticated: boolean;
-  userName?: string;
-  userAccess?: string;
-}
+interface Props {}
 
-type ActualProps = Props & RouteComponentProps<any> & tType;
+const mapStateToProps = (state: ReduxState) => ({
+  locale: getLocale(state),
+  messages: getMessages(state),
+  authenticated: state.session.authenticated,
+  userName: state.session.user.name,
+  userAccess: state.session.user.scope,
+});
+
+const reduxConnector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+type ActualProps = Props & RouteComponentProps & PropsFromRedux & tType;
 
 class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
@@ -140,12 +143,4 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 }
 
-const mapStateToProps = (state: Props & { session: any }) => ({
-  locale: getLocale(state),
-  messages: getMessages(state),
-  authenticated: state.session.authenticated,
-  userName: state.session.user.name,
-  userAccess: state.session.user.scope,
-});
-
-export default withRouter(connect(mapStateToProps)(injectT(App)));
+export default reduxConnector(withRouter(injectT(App)));

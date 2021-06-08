@@ -6,10 +6,7 @@
  *
  */
 
-export const getEnvironmentVariabel = (
-  key: string,
-  fallback: string | undefined | boolean = undefined,
-) => {
+export const getEnvironmentVariabel = (key: string, fallback?: string): string | undefined => {
   const env = 'env';
   const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
   return variabel || fallback;
@@ -106,7 +103,39 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
-const config = {
+export type ConfigType = {
+  brightCoveAccountId: string | undefined;
+  checkArticleScript: boolean;
+  logEnvironment: string | undefined;
+  ndlaApiUrl: string | undefined;
+  gaTrackingId: string;
+  editorialFrontendDomain: string;
+  googleTagManagerId: string | undefined;
+  ndlaFrontendDomain: string;
+  auth0Domain: string;
+  redirectPort: string | undefined;
+  host: string | undefined;
+  componentName: string | undefined;
+  googleSearchEngineId: string | undefined;
+  isNdlaProdEnvironment: boolean;
+  ndlaEnvironment: string;
+  learningpathFrontendDomain: string;
+  googleSearchApiKey: string | undefined;
+  localConverter: boolean;
+  brightcoveApiUrl: string;
+  logglyApiKey: string | undefined;
+  taxonomyApi: string;
+  h5pApiUrl: string | undefined;
+  googleSearchApiUrl: string | undefined;
+  port: string | undefined;
+  ndlaPersonalClientId: string | undefined;
+  npkToken: string | undefined;
+  zendeskWidgetKey: string | undefined;
+  brightcovePlayerId: string | undefined;
+  disableCSP: string | undefined;
+};
+
+const config: ConfigType = {
   ndlaEnvironment,
   taxonomyApi,
   componentName: getEnvironmentVariabel('npm_package_name'),
@@ -129,8 +158,8 @@ const config = {
   googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),
   googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),
   googleSearchEngineId: getEnvironmentVariabel('NDLA_GOOGLE_SEARCH_ENGINE_ID'),
-  localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', false),
-  checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', false),
+  localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
+  checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   gaTrackingId: gaTrackingId(),
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
@@ -138,7 +167,7 @@ const config = {
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
 };
 
-export function getUniversalConfig() {
+export function getUniversalConfig(): ConfigType {
   if (typeof window === 'undefined') {
     return config;
   }

@@ -16,17 +16,18 @@ import {
   clearAccessTokenFromLocalStorage,
 } from '../../util/authHelpers';
 
-export function* login(accessToken, history) {
+export function* login(accessToken: string, history: any) {
+  // TODO: history type
   try {
     const decoded = decodeToken(accessToken);
-    if (!decoded.scope.includes(':')) {
+    if (!decoded?.scope?.includes(':')) {
       yield put(actions.setUserNotRegistered(true));
     }
     yield put(actions.setAuthenticated(true));
     yield put(
       actions.setUserData({
-        name: decoded['https://ndla.no/user_name'],
-        scope: decoded.scope,
+        name: decoded?.['https://ndla.no/user_name'],
+        scope: decoded?.scope,
       }),
     );
     setAccessTokenInLocalStorage(accessToken, true);
@@ -37,7 +38,7 @@ export function* login(accessToken, history) {
   }
 }
 
-export function* logout(federated, returnToLogin = false) {
+export function* logout(federated: boolean, returnToLogin = false) {
   try {
     yield put(actions.setAuthenticated(false));
     yield put(actions.clearUserData());

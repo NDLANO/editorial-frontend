@@ -129,9 +129,7 @@ interface MarkupLocationState {
   backUrl?: string;
 }
 
-interface Props
-  extends tType,
-    RouteComponentProps<MatchParams, StaticContext, MarkupLocationState> {}
+interface Props extends RouteComponentProps<MatchParams, StaticContext, MarkupLocationState> {}
 
 type Status =
   | 'initial'
@@ -147,8 +145,8 @@ interface State {
   draft: DraftApiType | undefined;
 }
 
-class EditMarkupPage extends Component<Props, State> {
-  constructor(props: Props) {
+class EditMarkupPage extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.state = {
       status: 'initial',

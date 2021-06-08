@@ -1,33 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect, ConnectedProps } from 'react-redux';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { toLogin } from '../../util/routeHelpers';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 import { LocationShape } from '../../shapes';
-import { ReduxState } from '../../interfaces';
+import { AuthenticatedContext } from '../App/App';
 const okPaths = ['/login', '/logout'];
 
-type BaseProps<SubProps extends {}> = SubProps & {
-  component: React.ComponentType<SubProps>;
-};
+type BaseProps<SubProps> = RouteProps &
+  Omit<SubProps, keyof RouteComponentProps> & {
+    component: React.ComponentType<SubProps>;
+  };
 
-const mapStateToProps = (state: ReduxState) => ({
-  authenticated: state.session.authenticated,
-});
+type Props<SubProps> = BaseProps<SubProps>;
 
-const reduxConnector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-type Props<SubProps> = BaseProps<SubProps> & PropsFromRedux;
+const PrivateRoute = <T,>({ component, ...rest }: Props<T>) => {
+  const Component: React.ComponentType<T> = component;
+  const authenticated = useContext(AuthenticatedContext);
 
-/* FIXME: If we could make this component generic and take in the SubProps (now passed as `any`)
-          to `Props` here and in the assertion in the render function of the <Route /> component
-          it would allow us to do actual type checking on components used with `PrivateRoute`.
-          An issue with some comments on the issue:
-              https://github.com/piotrwitek/react-redux-typescript-guide/issues/55
- */
-function PrivateRoute({ component: Component, authenticated, ...rest }: Props<any>) {
   if (
     !authenticated &&
     window.location.pathname &&
@@ -45,8 +36,9 @@ function PrivateRoute({ component: Component, authenticated, ...rest }: Props<an
     <Route
       {...rest}
       render={p => {
-        const props = p as any & RouteComponentProps;
-        if (authenticated) return <Component {...props} />;
+        const props = p as T & RouteComponentProps;
+        const allProps = { ...props, ...rest };
+        if (authenticated) return <Component {...allProps} />;
 
         return (
           <Redirect
@@ -59,7 +51,7 @@ function PrivateRoute({ component: Component, authenticated, ...rest }: Props<an
       }}
     />
   );
-}
+};
 
 PrivateRoute.propTypes = {
   locale: PropTypes.string,
@@ -69,5 +61,4 @@ PrivateRoute.propTypes = {
   ...Route.propTypes,
 };
 
-const connected = reduxConnector(PrivateRoute);
-export default connected;
+export default PrivateRoute;

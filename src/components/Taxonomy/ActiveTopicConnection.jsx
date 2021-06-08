@@ -73,15 +73,17 @@ const ActiveTopicConnection = ({
           </StyledPrimaryConnectionButton>
           <Breadcrumb breadcrumb={breadcrumb} />
         </StyledFlexWrapper>
-        <RelevanceOption
-          relevanceId={topic.relevanceId}
-          onChange={relevanceId => setRelevance(topic.id, relevanceId)}
-        />
-        <StyledRemoveConnectionButton
-          type="button"
-          onClick={() => removeConnection && removeConnection(topic.id)}>
-          <Cross />
-        </StyledRemoveConnectionButton>
+        <StyledFlexWrapper>
+          <RelevanceOption
+            relevanceId={topic.relevanceId}
+            onChange={relevanceId => setRelevance(topic.id, relevanceId)}
+          />
+          <StyledRemoveConnectionButton
+            type="button"
+            onClick={() => removeConnection && removeConnection(topic.id)}>
+            <Cross />
+          </StyledRemoveConnectionButton>
+        </StyledFlexWrapper>
       </StyledConnections>
       <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />
     </Fragment>

@@ -119,6 +119,7 @@ const StyledRemoveConnectionButton = styled('button')`
   background: none;
   width: ${spacing.normal};
   height: ${spacing.normal};
+  margin-left: ${spacing.xsmall};
   transition: background 100ms ease;
   ${flexButtonCenterAlignStyle};
   justify-content: center;

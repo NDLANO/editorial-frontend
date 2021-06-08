@@ -21,9 +21,11 @@ import SharedTopicConnections from './SharedTopicConnections';
 import { TopicShape } from '../../shapes';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
+import RemoveButton from '../RemoveButton';
 
 const StyledFlexWrapper = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const ActiveTopicConnection = ({
@@ -78,11 +80,7 @@ const ActiveTopicConnection = ({
             relevanceId={topic.relevanceId}
             onChange={relevanceId => setRelevance(topic.id, relevanceId)}
           />
-          <StyledRemoveConnectionButton
-            type="button"
-            onClick={() => removeConnection && removeConnection(topic.id)}>
-            <Cross />
-          </StyledRemoveConnectionButton>
+          <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
       <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />

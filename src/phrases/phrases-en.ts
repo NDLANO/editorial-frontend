@@ -6,6 +6,8 @@
  *
  */
 
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
+
 const titleTemplate = '- Production system - NDLA';
 
 const phrases = {
@@ -647,6 +649,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
+      subjects: `Ony subjects with metadata field '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' will be displayed in the list.`,
     },
     workflow: {
       title: 'Status',

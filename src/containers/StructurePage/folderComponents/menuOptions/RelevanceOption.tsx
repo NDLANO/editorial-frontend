@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
@@ -15,43 +15,21 @@ import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../..
 
 interface Props {
   relevanceId: string | null | undefined;
-  isPrimary: boolean;
-  connectionId: string;
-  onChange: (connectionId: string, body: Body) => void;
-  refreshResources: () => void;
-  rank: number;
+  onChange: (id: string) => void;
 }
 
-interface Body {
-  relevanceId: string;
-  primary: boolean;
-  rank: number;
-}
-
-const RelevanceOption = ({
-  relevanceId,
-  isPrimary,
-  connectionId,
-  onChange,
-  refreshResources,
-  rank,
-  t,
-}: Props & tType) => {
-  const relevance: boolean = (relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE;
+const RelevanceOption = ({ relevanceId, onChange, t }: Props & tType) => {
+  const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
 
   return (
     <Tooltip tooltip={t('form.topics.RGTooltip')}>
       <StyledToggleSwitch>
         <ToggleSwitch
           onClick={() => {
-            setTimeout(() => refreshResources(), 200);
-            return onChange(connectionId, {
-              relevanceId: relevance ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE,
-              primary: isPrimary,
-              rank: rank,
-            });
+            onChange(isOn ? RESOURCE_FILTER_SUPPLEMENTARY : RESOURCE_FILTER_CORE);
+            setIsOn(!isOn);
           }}
-          on={relevance}
+          on={isOn}
           testId="toggleRelevanceId"
         />
       </StyledToggleSwitch>

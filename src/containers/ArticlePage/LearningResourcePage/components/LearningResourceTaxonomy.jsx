@@ -18,6 +18,7 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   fetchTopicConnections,
+  fetchTopicResources,
   updateTaxonomy,
   getFullResource,
   createResource,
@@ -31,7 +32,7 @@ import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
-import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import { TAXONOMY_ADMIN_SCOPE, RESOURCE_FILTER_CORE } from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 
@@ -124,6 +125,19 @@ class LearningResourceTaxonomy extends Component {
       topics: topics.map(topic => ({
         ...topic,
         primary: topic.id === id,
+      })),
+    });
+  };
+
+  setRelevance = (topicId, relevanceId) => {
+    const { topics } = this.state.taxonomyChanges;
+
+    this.stageTaxonomyChanges({
+      topics: topics.map(topic => ({
+        ...topic,
+        ...(topic.id === topicId && {
+          relevanceId,
+        }),
       })),
     });
   };
@@ -259,14 +273,18 @@ class LearningResourceTaxonomy extends Component {
     const topicConnections = await Promise.all(
       topics.map(topic => fetchTopicConnections(topic.id)),
     );
-    const topicsWithConnections = topics.map((topic, index) => ({
+    const topicResources = await Promise.all(topics.map(topic => fetchTopicResources(topic.id)));
+    const topicsWithConnectionsAndRelevanceId = topics.map((topic, index) => ({
       topicConnections: topicConnections[index],
+      relevanceId:
+        topicResources[index].find(resource => resource.id === resourceId).relevanceId ??
+        RESOURCE_FILTER_CORE,
       ...topic,
     }));
 
     return {
       resourceTypes,
-      topics: topicsWithConnections,
+      topics: topicsWithConnectionsAndRelevanceId,
       metadata,
     };
   };
@@ -378,6 +396,7 @@ class LearningResourceTaxonomy extends Component {
           retriveBreadCrumbs={topicPath => retriveBreadCrumbs({ topicPath, allTopics, structure })}
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
+          setRelevance={this.setRelevance}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
           getSubjectTopics={this.getSubjectTopics}
         />

@@ -141,19 +141,23 @@ export interface PodcastSeriesApiType {
   id: number;
   revision: number;
   title: { title: string; language: string };
+  description: { description: string; language: string };
   coverPhoto: { id: string; altText: string };
   episodes?: AudioApiType[];
   supportedLanguages: string[];
 }
 
-export interface FlattenedPodcastSeries extends Omit<PodcastSeriesApiType, 'title'> {
+export interface FlattenedPodcastSeries
+  extends Omit<PodcastSeriesApiType, 'title' | 'description'> {
   title: string;
+  description: string;
   language?: string;
 }
 
 export interface NewPodcastSeries {
   id?: number;
   title: string;
+  description: string;
   revision?: number;
   coverPhotoId: string;
   coverPhotoAltText: string;

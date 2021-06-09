@@ -8,7 +8,7 @@
 
 import { createAction } from 'redux-actions';
 import { Dispatch } from 'redux';
-import { NewReduxMessage, ReduxMessageError } from './messagesSelectors';
+import { NewReduxMessage, ReduxMessage, ReduxMessageError } from './messagesSelectors';
 
 export const applicationError = createAction<ReduxMessageError>('APPLICATION_ERROR');
 export const addMessage = createAction<NewReduxMessage>('ADD_MESSAGE');
@@ -18,7 +18,7 @@ export const showSaved = createAction('SHOW_SAVED');
 export const clearSaved = createAction('CLEAR_SAVED');
 export const addAuth0Message = createAction<NewReduxMessage>('ADD_AUTH0_MESSAGE');
 
-export function timeoutMessage(message: any) {
+export function timeoutMessage(message: ReduxMessage) {
   return (dispatch: Dispatch) =>
     setTimeout(() => dispatch(clearMessage(message.id)), message.timeToLive);
 }

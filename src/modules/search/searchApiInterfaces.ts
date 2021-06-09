@@ -50,3 +50,81 @@ export interface MultiSearchApiQuery {
   'embed-id'?: number;
   'embed-resource'?: string;
 }
+
+interface SearchResultBase<T> {
+  totalCount: number;
+  page?: number;
+  pageSize: number;
+  language: string;
+  suggestions: {
+    name: string;
+    suggestions: {
+      text: string;
+      offset: number;
+      length: number;
+      options: {
+        text: string;
+        score: number;
+      }[];
+    }[];
+  }[];
+  aggregations: {
+    field: string;
+    sumOtherDocCount: number;
+    docCountErrorUpperBound: number;
+    values: { value: string; count: number }[];
+  }[];
+  results: T[];
+}
+
+export interface MultiSearchSummary {
+  id: number;
+  title: {
+    title: string;
+    language: string;
+  };
+  metaDescription: {
+    metaDescription: string;
+    language: string;
+  };
+  metaImage?: {
+    url: string;
+    alt: string;
+    language: string;
+  };
+  url: string;
+  contexts: {
+    id: string;
+    subject: string;
+    subjectId: string;
+    path: string;
+    breadcrumbs: string[];
+    filters: {
+      id: string;
+      name: string;
+      relevance: string;
+    }[];
+    learningResourceType: string;
+    resourceTypes: {
+      id: string;
+      name: string;
+      language: string;
+    }[];
+    language: string;
+  }[];
+  supportedLanguages: string[];
+  learningResourceType: string;
+  status?: {
+    current: string;
+    other: string[];
+  };
+  traits: string[];
+  score: number;
+  highlights: {
+    field: string;
+    matches: string[];
+  }[];
+  paths: string[];
+}
+
+export type MultiSearchResult = SearchResultBase<MultiSearchSummary>;

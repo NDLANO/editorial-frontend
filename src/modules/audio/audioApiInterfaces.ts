@@ -178,6 +178,10 @@ export interface SeriesSearchSummary {
     title: string;
     language: string;
   };
+  description: {
+    description: string;
+    language: string;
+  };
   supportedLanguages: string[];
   episodes: AudioSearchResultType[];
   coverPhoto: {

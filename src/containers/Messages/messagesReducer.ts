@@ -6,15 +6,22 @@
  *
  */
 
-import { handleActions } from 'redux-actions';
+import { Action, handleActions } from 'redux-actions';
 import { uuid } from '@ndla/util';
-import * as actions from './messagesActions';
+import {
+  NewReduxMessage,
+  ReduxMessage,
+  ReduxMessageError,
+  ReduxMessageState,
+} from './messagesSelectors';
+
+type CombinedPayloads = string | ReduxMessage | NewReduxMessage;
 
 export default handleActions(
   {
-    [actions.addMessage]: {
-      next(state, action) {
-        const message = {
+    ADD_MESSAGE: {
+      next(state: ReduxMessageState, action: Action<NewReduxMessage>) {
+        const message: ReduxMessage = {
           id: uuid(),
           message: action.payload.message,
           translationKey: action.payload.translationKey,
@@ -32,12 +39,12 @@ export default handleActions(
         };
       },
     },
-    [actions.addAuth0Message]: {
-      next(state, action) {
+    ADD_AUTH0_MESSAGE: {
+      next(state: ReduxMessageState, action: Action<NewReduxMessage>) {
         if (state.messages && state.messages.find(msg => msg.type === 'auth0')) {
           return state;
         }
-        const message = {
+        const message: ReduxMessage = {
           id: uuid(),
           message: action.payload.message,
           translationKey: action.payload.translationKey,
@@ -55,24 +62,25 @@ export default handleActions(
         };
       },
     },
-    [actions.clearAllMessages]: {
+    CLEAR_ALL_MESSAGES: {
       next: state => ({
         ...state,
         messages: [],
       }),
     },
-
-    [actions.clearMessage]: {
-      next: (state, action) => ({
-        ...state,
-        messages: state.messages.filter(m => m.id !== action.payload),
-      }),
+    CLEAR_MESSAGE: {
+      next: (state: ReduxMessageState, action: Action<CombinedPayloads>) => {
+        const messages = state.messages.filter(m => m.id !== action.payload);
+        return {
+          ...state,
+          messages,
+        };
+      },
     },
-
-    [actions.applicationError]: {
-      throw(state, action) {
+    APPLICATION_ERROR: {
+      throw(state: ReduxMessageState, action: Action<ReduxMessageError>) {
         if (action.payload.json && action.payload.json.messages) {
-          const messages = action.payload.json.messages.map(m => ({
+          const messages: ReduxMessage[] = action.payload.json.messages.map(m => ({
             id: uuid(),
             message: `${m.field}: ${m.message}`,
             severity: 'danger',
@@ -86,13 +94,13 @@ export default handleActions(
         return state;
       },
     },
-    [actions.showSaved]: {
+    SHOW_SAVED: {
       next: state => ({
         ...state,
         showSaved: true,
       }),
     },
-    [actions.clearSaved]: {
+    CLEAR_SAVED: {
       next: state => ({
         ...state,
         showSaved: false,

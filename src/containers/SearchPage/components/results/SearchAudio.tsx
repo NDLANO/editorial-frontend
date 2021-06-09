@@ -22,7 +22,7 @@ import { searchClasses } from '../../SearchContainer';
 interface Props {
   audio: AudioSearchResultType;
   locale: string;
-  licenses: [License];
+  licenses: License[];
 }
 
 const SearchAudio = ({ audio, locale, licenses, t }: Props & tType) => {

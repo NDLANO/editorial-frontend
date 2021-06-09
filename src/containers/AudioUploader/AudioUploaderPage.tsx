@@ -19,7 +19,7 @@ import { getLocale } from '../../modules/locale/locale';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { LocationShape, HistoryShape } from '../../shapes';
+import { LocationShape, HistoryShape, LocaleShape } from '../../shapes';
 import { ReduxState } from '../../interfaces';
 
 const mapDispatchToProps = {
@@ -105,7 +105,7 @@ class AudioUploaderPage extends Component<Props, State> {
       }).isRequired,
     ).isRequired,
     fetchLicenses: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
+    locale: LocaleShape.isRequired,
     history: HistoryShape,
     location: LocationShape,
   };

@@ -14,21 +14,32 @@ import { RouteComponentProps } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
-import SearchContentPage from '../SearchPage/SearchContentPage';
-import SearchAudioPage from '../SearchPage/SearchAudioPage';
-import SearchImagePage from '../SearchPage/SearchImagePage';
-import SearchPodcastSeriesPage from '../SearchPage/SearchPodcastSeriesPage';
 import { toSearch } from '../../util/routeHelpers';
 import Footer from './components/Footer';
-import SearchConceptPage from '../SearchPage/SearchConceptPage';
 import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
+import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
+
+import { search as searchContent } from '../../modules/search/searchApi';
+import { searchImages } from '../../modules/image/imageApi';
+import { searchSeries } from '../../modules/audio/audioApi';
+import { searchAudio } from '../../modules/audio/audioApi';
+import { searchConcepts } from '../../modules/concept/conceptApi';
+import { SearchType } from '../../interfaces';
+import { SearchParams } from '../SearchPage/components/form/SearchForm';
 
 interface Props extends RouteComponentProps, tType {}
 
 const SearchPage = ({ match, t }: Props) => {
   const locale = useContext(LocaleContext);
-  const supportedTypes = [
+  const supportedTypes: {
+    title: string;
+    type: SearchType;
+    url: string;
+    icon: React.ReactElement;
+    path: string;
+    searchFunction: (query: SearchParams) => Promise<ResultType>;
+  }[] = [
     {
       title: t('subNavigation.searchContent'),
       type: 'content',
@@ -37,6 +48,8 @@ const SearchPage = ({ match, t }: Props) => {
         'content',
       ),
       icon: <SearchContent className="c-icon--large" />,
+      path: `${match.url}/content`,
+      searchFunction: searchContent,
     },
     {
       title: t('subNavigation.searchAudio'),
@@ -50,6 +63,8 @@ const SearchPage = ({ match, t }: Props) => {
         'audio',
       ),
       icon: <SquareAudio className="c-icon--large" />,
+      path: `${match.url}/audio`,
+      searchFunction: searchAudio,
     },
     {
       title: t('subNavigation.searchImage'),
@@ -63,18 +78,24 @@ const SearchPage = ({ match, t }: Props) => {
         'image',
       ),
       icon: <SearchMedia className="c-icon--large" />,
+      path: `${match.url}/image`,
+      searchFunction: searchImages,
     },
     {
       title: t('subNavigation.searchConcepts'),
       type: 'concept',
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'concept'),
       icon: <Concept className="c-icon--large" />,
+      path: `${match.url}/concept`,
+      searchFunction: searchConcepts,
     },
     {
       title: t('subNavigation.searchPodcastSeries'),
       type: 'podcast-series',
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'podcast-series'),
       icon: <List className="c-icon--large" />,
+      path: `${match.url}/podcast-series`,
+      searchFunction: searchSeries,
     },
   ];
 
@@ -82,11 +103,17 @@ const SearchPage = ({ match, t }: Props) => {
     <Fragment>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
-        <PrivateRoute path={`${match.url}/content`} component={SearchContentPage} />
-        <PrivateRoute path={`${match.url}/audio`} component={SearchAudioPage} />
-        <PrivateRoute path={`${match.url}/image`} component={SearchImagePage} />
-        <PrivateRoute path={`${match.url}/concept`} component={SearchConceptPage} />
-        <PrivateRoute path={`${match.url}/podcast-series`} component={SearchPodcastSeriesPage} />
+        {supportedTypes.map(type => {
+          return (
+            <PrivateRoute
+              key={type.type}
+              path={type.path}
+              component={SearchContainer}
+              type={type.type}
+              searchFunction={type.searchFunction}
+            />
+          );
+        })}
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />

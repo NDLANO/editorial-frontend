@@ -11,7 +11,10 @@ import { Store } from 'redux';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
-import { LOCALE_VALUES } from './constants';
+import { SearchTypeValues, LOCALE_VALUES } from './constants';
+import { ReduxSessionState } from './modules/session/session';
+import { ReduxMessageState } from './containers/Messages/messagesSelectors';
+import { ReduxLocaleState } from './modules/locale/locale';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -552,19 +555,12 @@ export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
 }
 
-export interface MessageI {
-  id: string;
-  message?: string;
-  statusCode?: string;
-  translationKey?: string;
-  severity?: string;
-  action?: {
-    title: string;
-    onClick: Function;
-  };
-}
-
 export interface ReduxState {
   images: ReduxImageState;
   licenses: ReduxLicenseState;
+  session: ReduxSessionState;
+  messages: ReduxMessageState;
+  locale: ReduxLocaleState;
 }
+
+export type SearchType = typeof SearchTypeValues[number];

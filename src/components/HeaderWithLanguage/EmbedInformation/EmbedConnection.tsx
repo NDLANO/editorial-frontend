@@ -19,8 +19,8 @@ import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi';
 import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
-import { ContentResultType } from '../../../interfaces';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 type embedType = 'image' | 'audio';
 
@@ -42,21 +42,14 @@ const searchObjects = (embedId: number, embedType: embedType) => ({
 });
 
 const EmbedConnection = ({ t, id, type }: Props & tType) => {
-  const [articles, setArticles] = useState<ContentResultType[]>();
+  const [articles, setArticles] = useState<MultiSearchSummary[]>();
   const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
   useEffect(() => {
     if (id) {
       searchArticles(searchObjects(id, type)).then(result => setArticles(result.results));
       type === 'image' &&
-        searchConcepts({
-          ...searchObjects(id, type),
-          idList: [],
-          subjects: [],
-          tags: [],
-          status: [],
-          users: [],
-        }).then(result => setConcepts(result.results));
+        searchConcepts(searchObjects(id, type)).then(result => setConcepts(result.results));
     }
   }, [id, type]);
 

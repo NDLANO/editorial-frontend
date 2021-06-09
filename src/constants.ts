@@ -80,3 +80,12 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   },
   { name: 'NDLA Liste', url: ['liste'], height: '398px' },
 ];
+
+export const SearchTypeValues = [
+  // Available search types, there is a type equivalent in `interfaces.ts`
+  'content',
+  'audio',
+  'image',
+  'concept',
+  'podcast-series',
+] as const;

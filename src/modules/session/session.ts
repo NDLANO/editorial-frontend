@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { handleActions, createAction } from 'redux-actions';
+import { handleActions, createAction, Action } from 'redux-actions';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { decodeToken, isValid } from '../../util/jwtHelper';
 
-export const setAuthenticated = createAction('SET_AUTHENTICATED');
+export const setAuthenticated = createAction<boolean>('SET_AUTHENTICATED');
 export const setUserData = createAction('SET_USER_DATA');
-export const setUserNotRegistered = createAction('SET_USER_NOT_REGISTERED');
+export const setUserNotRegistered = createAction<boolean>('SET_USER_NOT_REGISTERED');
 export const clearUserData = createAction('CLEAR_USER_DATA');
 export const loginSuccess = createAction('LOGIN_SUCCESS');
 export const logout = createAction('LOGOUT');
@@ -25,7 +25,16 @@ export const actions = {
   logout,
 };
 
-const initialState = {
+export interface ReduxSessionState {
+  user: {
+    name?: string;
+    scope?: string;
+  };
+  authenticated: boolean;
+  userNotRegistered: boolean;
+}
+
+const initialState: ReduxSessionState = {
   user: {},
   authenticated: false,
   userNotRegistered: true,
@@ -38,31 +47,34 @@ export const getSessionStateFromLocalStorage = () => {
     const decodedToken = decodeToken(token);
     return {
       user: {
-        name: decodedToken['https://ndla.no/user_name'],
-        scope: decodedToken.scope,
+        name: decodedToken?.['https://ndla.no/user_name'],
+        scope: decodedToken?.scope,
       },
       authenticated: true,
       userNotRegistered: false,
     };
   }
-  return initialState; // Return inital state if token is undefined
+  return initialState; // Return initial state if token is undefined
 };
 
 export default handleActions(
   {
-    [actions.setUserData]: {
-      next: (state, action) => ({ ...state, user: action.payload }),
+    SET_USER_DATA: {
+      next: (state: ReduxSessionState, action: Action<any>) => ({ ...state, user: action.payload }),
       throw: state => state,
     },
-    [actions.clearUserData]: {
-      next: state => ({ ...state, user: {} }),
+    CLEAR_USER_DATA: {
+      next: (state: ReduxSessionState) => ({ ...state, user: {} }),
       throw: state => state,
     },
-    [actions.setAuthenticated]: {
-      next: (state, action) => ({ ...state, authenticated: action.payload }),
+    SET_AUTHENTICATED: {
+      next: (state: ReduxSessionState, action: Action<boolean>) => ({
+        ...state,
+        authenticated: action.payload,
+      }),
       throw: state => state,
     },
-    [actions.setUserNotRegistered]: {
+    SET_USER_NOT_REGISTERED: {
       next: (state, action) => ({
         ...state,
         userNotRegistered: action.payload,

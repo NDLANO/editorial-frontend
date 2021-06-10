@@ -15,7 +15,7 @@ import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 
-import { Filter, Resource } from '../../../interfaces';
+import { Resource } from '../../../interfaces';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -38,12 +38,9 @@ interface Props {
     subtopics: string;
   };
   refreshResources: () => void;
-  availableFilters: Filter[];
   activeFilter: string;
   locale: string;
-  currentTopic: {
-    filters: Filter[];
-  };
+  currentTopic: {};
   currentSubject: {
     id: string;
     name: string;
@@ -56,7 +53,6 @@ const AllResourcesGroup = ({
   topicResources,
   params,
   refreshResources,
-  availableFilters,
   activeFilter,
   locale,
   currentTopic,
@@ -97,7 +93,6 @@ const AllResourcesGroup = ({
         <ResourceItems
           resources={topicResources}
           refreshResources={refreshResources}
-          availableFilters={availableFilters}
           activeFilter={activeFilter}
           locale={locale}
           currentTopic={currentTopic}
@@ -107,7 +102,6 @@ const AllResourcesGroup = ({
       </Accordion>
       {showAddModal && (
         <AddResourceModal
-          topicFilters={currentTopic.filters}
           resourceTypes={newResourceTypeOptions}
           topicId={topicId}
           refreshResources={refreshResources}

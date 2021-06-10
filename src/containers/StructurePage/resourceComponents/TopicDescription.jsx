@@ -54,6 +54,17 @@ class TopicDescription extends Component {
               resource={{ ...currentTopic, name: topicDescription, status }}
               contentType="topic-article"
               locale={locale}
+<<<<<<< HEAD
+=======
+              contentUri={currentTopic.contentUri}
+              status={status}
+              metadata={currentTopic.metadata}
+              connectionId={currentTopic.connectionId}
+              relevanceId={currentTopic.relevanceId}
+              refreshResources={refreshTopics}
+              primary={currentTopic.isPrimary}
+              rank={currentTopic.rank}
+>>>>>>> master
             />
           )}
         </Accordion>
@@ -78,6 +89,15 @@ TopicDescription.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
     metadata: MetadataShape,
+    connectionId: PropTypes.string,
+    relevanceId: PropTypes.oneOf([
+      'urn:relevance:core',
+      'urn:relevance:supplementary',
+      null,
+      undefined,
+    ]),
+    isPrimary: PropTypes.bool,
+    rank: PropTypes.number,
   }).isRequired,
   status: PropTypes.shape({
     current: PropTypes.string,

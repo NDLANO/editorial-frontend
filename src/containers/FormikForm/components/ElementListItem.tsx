@@ -33,7 +33,7 @@ interface Props {
   deleteFile: (deleteIndex: number) => void;
   deleteIndex: number;
   isEditable: boolean;
-  // Element can be of type Article or Learningpath
+  isOrderable: boolean;
   element: ContentResultType;
   executeDeleteFile: () => void;
   index: number;
@@ -48,6 +48,7 @@ const ElementListItem = ({
   deleteFile,
   deleteIndex,
   isEditable,
+  isOrderable,
   element,
   executeDeleteFile,
   index,
@@ -72,7 +73,9 @@ const ElementListItem = ({
           alt={element.metaImage?.alt || ''}
         />
         {linkProps.to ? (
-          <Link to={linkProps.to}>{element.title.title}</Link>
+          <Link to={linkProps.to} target="_blank" rel="noopener noreferrer">
+            {element.title.title}
+          </Link>
         ) : (
           <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
             {element.title.title}
@@ -81,8 +84,19 @@ const ElementListItem = ({
       </div>
       {isEditable && (
         <div>
-          {showDragTooltip ? (
-            <Tooltip tooltip={messages?.dragElement}>
+          {isOrderable ? (
+            showDragTooltip ? (
+              <Tooltip tooltip={messages?.dragElement}>
+                <StyledButtonIcons
+                  draggable
+                  tabIndex={-1}
+                  type="button"
+                  onMouseDown={e => onDragStart(e, index)}
+                  onMouseUp={onDragEnd}>
+                  <DragHorizontal />
+                </StyledButtonIcons>
+              </Tooltip>
+            ) : (
               <StyledButtonIcons
                 draggable
                 tabIndex={-1}
@@ -91,17 +105,8 @@ const ElementListItem = ({
                 onMouseUp={onDragEnd}>
                 <DragHorizontal />
               </StyledButtonIcons>
-            </Tooltip>
-          ) : (
-            <StyledButtonIcons
-              draggable
-              tabIndex={-1}
-              type="button"
-              onMouseDown={e => onDragStart(e, index)}
-              onMouseUp={onDragEnd}>
-              <DragHorizontal />
-            </StyledButtonIcons>
-          )}
+            )
+          ) : null}
           <Tooltip tooltip={messages?.removeElement}>
             <StyledButtonIcons
               data-cy="elementListItemDeleteButton"

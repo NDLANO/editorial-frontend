@@ -14,15 +14,12 @@ import RoundIcon from '../../../../components/RoundIcon';
 import {
   fetchTopics,
   addTopicToTopic,
-  addFilterToTopic,
   fetchTopicConnections,
   deleteSubTopicConnection,
   deleteTopicConnection,
-  fetchTopicFilters,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
-import { FilterShape } from '../../../../shapes';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
 class AddExistingToTopic extends React.PureComponent {
@@ -36,14 +33,11 @@ class AddExistingToTopic extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { locale, subjectId, path } = this.props;
-    // TODO: Should rather be fetching subjectTopics, but that endpoint does not return paths.
-    const topics = await fetchTopics(locale);
+    const { locale, path } = this.props;
+    const topics = await fetchTopics(locale || 'nb');
     this.setState({
       topics: topics
-        .filter(topic =>
-          topic.paths.find(path => path.split('/')[1] === subjectId.replace('urn:', '')),
-        )
+        .filter(topic => topic.path)
         .filter(topic => !topic.paths?.find(p => path.includes(p)))
         .map(topic => ({
           ...topic,
@@ -64,7 +58,7 @@ class AddExistingToTopic extends React.PureComponent {
   };
 
   async onAddExistingSubTopic(topic) {
-    const { id, numberOfSubtopics = 0, refreshTopics, topicFilters } = this.props;
+    const { id, numberOfSubtopics = 0, refreshTopics } = this.props;
     const connections = await fetchTopicConnections(topic.id);
 
     if (connections && connections.length > 0) {
@@ -76,26 +70,12 @@ class AddExistingToTopic extends React.PureComponent {
       }
     }
 
-    const filters = await fetchTopicFilters(topic.id);
-
-    await Promise.all([
-      addTopicToTopic({
-        subtopicid: topic.id,
-        topicid: id,
-        primary: false,
-        rank: numberOfSubtopics + 1,
-      }),
-      topicFilters.map(filter => {
-        if (!filters.map(f => f.id).includes(filter.id)) {
-          addFilterToTopic({
-            filterId: filter.id,
-            relevanceId: filter.relevanceId,
-            topicId: topic.id,
-          });
-        }
-        return filter;
-      }),
-    ]);
+    await addTopicToTopic({
+      subtopicid: topic.id,
+      topicid: id,
+      primary: false,
+      rank: numberOfSubtopics + 1,
+    });
     refreshTopics();
   }
 
@@ -130,9 +110,7 @@ AddExistingToTopic.propTypes = {
   locale: PropTypes.string,
   id: PropTypes.string,
   refreshTopics: PropTypes.func.isRequired,
-  topicFilters: PropTypes.arrayOf(FilterShape).isRequired,
   numberOfSubtopics: PropTypes.number,
-  subjectId: PropTypes.string,
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 

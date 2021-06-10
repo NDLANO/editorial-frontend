@@ -51,7 +51,7 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
         speech={speech}
         img={podcastImg}
         description={podcastMeta?.introduction}
-        textVersion={podcastMeta?.manuscript}
+        textVersion={audio?.manuscript}
       />
       {!speech && (
         <>

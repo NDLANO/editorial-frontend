@@ -7,7 +7,12 @@
  */
 
 import { convertFieldWithFallback } from './convertFieldWithFallback';
-import { AudioApiType, FlattenedAudioApiType } from '../modules/audio/audioApiInterfaces';
+import {
+  AudioApiType,
+  FlattenedAudioApiType,
+  FlattenedPodcastSeries,
+  PodcastSeriesApiType,
+} from '../modules/audio/audioApiInterfaces';
 
 export const transformAudio = (
   audio: AudioApiType,
@@ -19,13 +24,35 @@ export const transformAudio = (
       : undefined;
 
   const title = convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage);
+  const manuscript = convertFieldWithFallback<'manuscript'>(audio, 'manuscript', '', audioLanguage);
   const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
 
   return audio
     ? {
         ...audio,
         title,
+        manuscript,
         tags,
       }
     : undefined;
+};
+
+export const transformSeries = (
+  series: PodcastSeriesApiType,
+  language: string,
+): FlattenedPodcastSeries => {
+  const seriesLanguage = series.supportedLanguages.includes(language) ? language : undefined;
+  const title = convertFieldWithFallback<'title'>(series, 'title', '', seriesLanguage);
+  const description = convertFieldWithFallback<'description'>(
+    series,
+    'description',
+    '',
+    seriesLanguage,
+  );
+
+  return {
+    ...series,
+    title,
+    description,
+  };
 };

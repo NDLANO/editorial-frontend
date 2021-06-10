@@ -51,12 +51,7 @@ const TopicArticleAccordionPanels = ({
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <TopicArticleTaxonomy
-            userAccess={userAccess}
-            article={article}
-            locale={locale}
-            updateNotes={updateNotes}
-          />
+          <TopicArticleTaxonomy article={article} locale={locale} updateNotes={updateNotes} />
         </AccordionSection>
       )}
       <AccordionSection

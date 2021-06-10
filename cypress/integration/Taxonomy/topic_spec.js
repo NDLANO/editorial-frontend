@@ -6,57 +6,43 @@
  *
  */
 
+import { taxonomyApi } from '../../../src/config';
 import { setToken } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
-const selectSubject = 'urn:subject:12';
-const selectTopic = 'urn:topic:1:183043';
+const selectSubject = 'urn:subject:20';
+const selectTopic = 'urn:topic:1:186732';
 
 describe('Topic editing', () => {
   beforeEach(() => {
     setToken();
 
-    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
+    cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      `/taxonomy/v1/subjects/${selectSubject}/topics?recursive=true&language=nb`,
+      `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
-    cy.apiroute('GET', `/taxonomy/v1/topics?recursive=true&language=nb`, 'allTopics');
-    cy.apiroute('GET', `/taxonomy/v1/subjects/${selectSubject}/filters`, 'allSubjectFilters');
-    cy.apiroute('GET', '/taxonomy/v1/filters/?language=nb', 'allFilters');
-    cy.apiroute('GET', '/taxonomy/v1/resource-types/?language=nb', 'resourceTypes');
-    cy.apiroute('GET', '**/draft-api/v1/drafts/**', 'article');
+    cy.apiroute('GET', `${taxonomyApi}/topics?*language=nb`, 'allTopics');
+    cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
+    cy.apiroute('GET', `**/draft-api/v1/drafts/**`, 'article');
 
-    cy.intercept('POST', '/taxonomy/v1/topics', []);
-    cy.intercept('POST', '/taxonomy/v1/topic-filters', []).as('addFilter');
-    cy.apiroute('GET', `/taxonomy/v1/topics/${selectTopic}/filters`, 'topicFilters');
+    cy.intercept('POST', `${taxonomyApi}/topics`, []);
+    cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
+    cy.intercept('GET', `${taxonomyApi}/topics/${selectTopic}/resources/?language=nb`, []);
 
-    cy.intercept('PUT', '**/taxonomy/v1/topic-filters/**', []);
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.wait('@allSubjectTopics');
-    cy.wait('@allFilters');
+    cy.apiwait('@allSubjectTopics');
+    cy.apiroute('PUT', `${taxonomyApi}/topics/${selectTopic}/metadata`, 'invisibleMetadata');
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
+      .contains(phrases.metadata.changeVisibility)
       .click();
-    cy.wait('@allSubjectTopics');
-    cy.get('[data-testid=toggleRelevance]').click({ multiple: true });
-
-    cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@allSubjectTopics']);
-
-    cy.get('[data-cy=settings-button-topic]').click();
-    cy.get('button')
-      .contains(phrases.taxonomy.connectFilters)
-      .click();
-    cy.wait('@allSubjectTopics');
-    cy.get('[data-testid=connectFilterItem]').click({ multiple: true });
-    cy.get('[data-testid="submitConnectFilters"]').click();
-    cy.apiwait(['@addFilter']);
+    cy.get('input[id="visible"]').click({force: true});
+    cy.wait('@invisibleMetadata');
   });
 });

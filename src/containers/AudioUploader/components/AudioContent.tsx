@@ -59,45 +59,7 @@ const getPlayerObject = (
 
 const AudioContent = ({ t, formik }: Props & tType) => {
   const { values, setFieldValue, submitForm, handleBlur } = formik;
-  const PlayerOrSelector = () => {
-    const playerObject = getPlayerObject(values);
-    if (playerObject) {
-      return (
-        <>
-          <PlayerWrapper>
-            <AudioPlayer audio={playerObject} />
-            <StyledDeleteButtonContainer>
-              <Tooltip tooltip={t('form.audio.remove')}>
-                <IconButton
-                  onClick={() => {
-                    setFieldValue('audioFile', {});
-                  }}
-                  tabIndex={-1}>
-                  <DeleteForever />
-                </IconButton>
-              </Tooltip>
-            </StyledDeleteButtonContainer>
-          </PlayerWrapper>
-        </>
-      );
-    } else {
-      return (
-        <UploadDropZone
-          name="audioFile"
-          allowedFiles={['audio/mp3', 'audio/mpeg']}
-          onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
-            const file = evt.currentTarget.files?.[0];
-            const filepath = file ? URL.createObjectURL(file) : undefined;
-            const newFile = file && filepath ? { file, filepath } : undefined;
-            setFieldValue('audioFile', { newFile });
-          }}
-          ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
-          <strong>{t('form.audio.dragdrop.main')}</strong>
-          {t('form.audio.dragdrop.sub')}
-        </UploadDropZone>
-      );
-    }
-  };
+  const playerObject = getPlayerObject(values);
 
   return (
     <Fragment>
@@ -114,7 +76,40 @@ const AudioContent = ({ t, formik }: Props & tType) => {
       />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
-        {() => <PlayerOrSelector />}
+        {() =>
+          playerObject ? (
+            <>
+              <PlayerWrapper>
+                <AudioPlayer audio={playerObject} />
+                <StyledDeleteButtonContainer>
+                  <Tooltip tooltip={t('form.audio.remove')}>
+                    <IconButton
+                      onClick={() => {
+                        setFieldValue('audioFile', {});
+                      }}
+                      tabIndex={-1}>
+                      <DeleteForever />
+                    </IconButton>
+                  </Tooltip>
+                </StyledDeleteButtonContainer>
+              </PlayerWrapper>
+            </>
+          ) : (
+            <UploadDropZone
+              name="audioFile"
+              allowedFiles={['audio/mp3', 'audio/mpeg']}
+              onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
+                const file = evt.currentTarget.files?.[0];
+                const filepath = file ? URL.createObjectURL(file) : undefined;
+                const newFile = file && filepath ? { file, filepath } : undefined;
+                setFieldValue('audioFile', { newFile });
+              }}
+              ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
+              <strong>{t('form.audio.dragdrop.main')}</strong>
+              {t('form.audio.dragdrop.sub')}
+            </UploadDropZone>
+          )
+        }
       </FormikField>
     </Fragment>
   );

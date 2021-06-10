@@ -11,8 +11,12 @@ import { Store } from 'redux';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
+import { SearchTypeValues, LOCALE_VALUES } from './constants';
+import { ReduxSessionState } from './modules/session/session';
+import { ReduxMessageState } from './containers/Messages/messagesSelectors';
+import { ReduxLocaleState } from './modules/locale/locale';
 
-export type LocaleType = 'nb' | 'nn' | 'en';
+export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type ConceptStatusType =
   | 'DRAFT'
@@ -190,12 +194,13 @@ export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
 export interface TaxonomyMetadata {
   grepCodes: string[];
   visible: boolean;
+  customFields: Record<string, string>;
 }
 
 export interface TaxonomyElement {
   id: string;
   name: string;
-  metadata?: TaxonomyMetadata;
+  metadata: TaxonomyMetadata;
 }
 
 export interface Topic extends TaxonomyElement {
@@ -276,13 +281,6 @@ export interface Learningpath {
   };
 }
 
-export interface Filter {
-  id: string;
-  connectionId: string;
-  relevanceId: string;
-  name: string;
-}
-
 export interface SearchResult {
   totalCount: number;
   page: number;
@@ -296,6 +294,7 @@ export interface SubjectType {
   contentUri: string;
   name: string;
   path: string;
+  metadata: TaxonomyMetadata;
 }
 
 export interface SubjectpageType {
@@ -556,19 +555,12 @@ export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
 }
 
-export interface MessageI {
-  id: string;
-  message?: string;
-  statusCode?: string;
-  translationKey?: string;
-  severity?: string;
-  action?: {
-    title: string;
-    onClick: Function;
-  };
-}
-
 export interface ReduxState {
   images: ReduxImageState;
   licenses: ReduxLicenseState;
+  session: ReduxSessionState;
+  messages: ReduxMessageState;
+  locale: ReduxLocaleState;
 }
+
+export type SearchType = typeof SearchTypeValues[number];

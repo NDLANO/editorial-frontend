@@ -15,7 +15,6 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import { FilterShape, AvailableFiltersShape, StructureShape } from '../../../shapes';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({
@@ -50,12 +49,8 @@ class ResourceGroup extends PureComponent {
       t,
       params,
       refreshResources,
-      availableFilters,
-      activeFilter,
       locale,
-      currentTopic,
       currentSubject,
-      structure,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
 
@@ -79,18 +74,13 @@ class ResourceGroup extends PureComponent {
             <ResourceItems
               resources={topicResource.resources}
               refreshResources={refreshResources}
-              availableFilters={availableFilters}
-              activeFilter={activeFilter}
               locale={locale}
-              currentTopic={currentTopic}
               currentSubject={currentSubject}
-              structure={structure}
             />
           )}
         </Accordion>
         {this.state.showAddModal && (
           <AddResourceModal
-            topicFilters={currentTopic.filters}
             type={resourceType.id}
             allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
             topicId={topicId}
@@ -118,17 +108,11 @@ ResourceGroup.propTypes = {
     subtopics: PropTypes.string,
   }),
   refreshResources: PropTypes.func,
-  availableFilters: AvailableFiltersShape,
-  activeFilter: PropTypes.string,
   locale: PropTypes.string,
-  currentTopic: PropTypes.shape({
-    filters: PropTypes.arrayOf(FilterShape),
-  }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
 };
 
 export default injectT(ResourceGroup);

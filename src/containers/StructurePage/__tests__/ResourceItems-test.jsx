@@ -25,7 +25,6 @@ const wrapper = () =>
         <ResourceItems
           resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
           contentType="topic-article"
-          activeFilter="filter"
           locale="nb"
           refreshResources={() => {}}
         />

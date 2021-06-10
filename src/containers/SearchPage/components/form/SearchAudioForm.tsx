@@ -11,16 +11,16 @@ import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
+import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../interfaces';
 
-interface Props {
+interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
-  location: Location;
   searchObject: SearchParams;
   locale: string;
 }
@@ -80,7 +80,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
       evt.preventDefault();
     }
     const { search } = this.props;
-    search({ ...this.state.search, page: '1' });
+    search({ ...this.state.search, page: 1 });
   }
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {

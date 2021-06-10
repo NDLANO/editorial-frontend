@@ -123,7 +123,7 @@ const EditGrepCodes = ({
       {grepCodesWithName?.length > 0 ? (
         grepCodesWithName.map((grepCode, index) => {
           return (
-            <StyledGrepItem>
+            <StyledGrepItem key={index}>
               {grepCode.title}
               <Button stripped data-testid="deleteGrepCode" onClick={() => deleteGrepCode(index)}>
                 <RoundIcon small icon={<DeleteForever />} />

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
+import { RouteComponentProps } from 'react-router-dom';
 import { fetchResourceTypes } from '../../../../modules/taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -33,10 +34,9 @@ const emptySearchState: SearchState = {
   lang: '',
 };
 
-interface Props {
+interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
-  location: Location;
   searchObject: SearchParams;
   locale: string;
 }
@@ -118,7 +118,7 @@ class SearchContentForm extends Component<Props & tType, State> {
     }, this.handleSearch);
   }
 
-  async getExternalData() {
+  async getExternalData(): Promise<void> {
     const { locale } = this.props;
     const { t } = this.props;
     const [resourceTypes, users] = await Promise.all([fetchResourceTypes(locale), this.getUsers()]);
@@ -149,7 +149,7 @@ class SearchContentForm extends Component<Props & tType, State> {
       users,
       language: lang,
       fallback: true,
-      page: '1',
+      page: 1,
     });
   }
 

@@ -11,6 +11,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
+import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -23,23 +24,26 @@ import {
   parseCopyrightContributors,
   DEFAULT_LICENSE,
 } from '../../../util/formHelper';
-import { toEditPodcast } from '../../../util/routeHelpers';
+import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import {
-  AudioFile,
-  PodcastMeta,
   NewPodcastMetaInformation,
   PodcastFormValues,
   UpdatedPodcastMetaInformation,
+  FlattenedAudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../util/articleContentConverter';
-import { Copyright, License } from '../../../interfaces';
+import { License } from '../../../interfaces';
+import PodcastSeriesInformation from './PodcastSeriesInformation';
 
 const podcastRules = {
   title: {
     required: true,
+  },
+  manuscript: {
+    required: false,
   },
   audioFile: {
     required: true,
@@ -47,9 +51,6 @@ const podcastRules = {
   introduction: {
     required: true,
     maxLength: 1000,
-  },
-  manuscript: {
-    required: true,
   },
   coverPhotoId: {
     required: true,
@@ -76,25 +77,15 @@ const podcastRules = {
   },
 };
 
-interface PodcastPropType {
-  id?: number;
-  revision?: number;
-  title?: string;
-  language?: string;
-  supportedLanguages?: string[];
-  audioFile?: AudioFile;
-  copyright?: Copyright;
-  tags?: string[];
-  audioType?: string;
-  podcastMeta?: PodcastMeta;
-}
+type PodcastPropType = Partial<FlattenedAudioApiType> & { language: string };
 
-export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues => ({
+export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => ({
   id: audio.id,
   revision: audio.revision,
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
   title: plainTextToEditorValue(audio.title || '', true),
+  manuscript: plainTextToEditorValue(audio.manuscript || '', true),
   audioFile: { storedFile: audio.audioFile },
   filepath: '',
   tags: audio.tags || [],
@@ -104,11 +95,9 @@ export const getInitialValues = (audio: PodcastPropType = {}): PodcastFormValues
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
   audioType: 'podcast',
-  header: audio.podcastMeta?.header || ' ',
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
-  manuscript: plainTextToEditorValue(audio.podcastMeta?.manuscript, true),
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
@@ -156,14 +145,13 @@ const PodcastForm = ({
     if (
       license === undefined ||
       values.title === undefined ||
+      values.manuscript === undefined ||
       values.language === undefined ||
       values.tags === undefined ||
       values.origin === undefined ||
       values.creators === undefined ||
       values.processors === undefined ||
       values.rightsholders === undefined ||
-      values.header === undefined ||
-      values.manuscript === undefined ||
       values.introduction === undefined ||
       values.coverPhotoId === undefined ||
       values.metaImageAlt === undefined
@@ -178,6 +166,7 @@ const PodcastForm = ({
       id: values.id,
       revision: values.revision,
       title: editorValueToPlainText(values.title),
+      manuscript: editorValueToPlainText(values.manuscript),
       tags: values.tags,
       audioType: 'podcast',
       language: values.language,
@@ -189,11 +178,9 @@ const PodcastForm = ({
         rightsholders: values.rightsholders,
       },
       podcastMeta: {
-        header: values.header,
         introduction: editorValueToPlainText(values.introduction),
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
-        manuscript: editorValueToPlainText(values.manuscript),
       },
     };
 
@@ -225,7 +212,10 @@ const PodcastForm = ({
               values={values}
               type="podcast"
               content={audio}
-              editUrl={(lang: string) => toEditPodcast(values.id, lang)}
+              editUrl={(lang: string) => {
+                if (values.id) return toEditPodcast(values.id, lang);
+                else toCreatePodcastFile();
+              }}
               translateToNN={translateToNN}
             />
             {translating ? (
@@ -241,10 +231,17 @@ const PodcastForm = ({
                   <AudioContent classes={formClasses} />
                 </AccordionSection>
                 <AccordionSection
+                  id="podcast-upload-podcastmanus"
+                  title={t('podcastForm.fields.manuscript')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={[].some(field => field in errors)}>
+                  <AudioManuscript classes={formClasses} />
+                </AccordionSection>
+                <AccordionSection
                   id="podcast-upload-podcastmeta"
                   title={t('form.podcastSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt', 'manuscript'].some(
+                  hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
                   <PodcastMetaData
@@ -256,6 +253,10 @@ const PodcastForm = ({
                       // formik handleBlur needs to be called for validation to work (and touched to be set)
                       setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
                     }}
+                  />
+                  <PodcastSeriesInformation
+                    podcastSeries={audio.series}
+                    language={audio.language}
                   />
                 </AccordionSection>
                 <AccordionSection

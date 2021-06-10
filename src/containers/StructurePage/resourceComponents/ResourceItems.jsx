@@ -13,19 +13,15 @@ import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
 import {
   deleteTopicResource,
-  fetchResourceFilter,
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
   updateTopicResource,
+  updateTopicSubtopic,
+  updateSubjectTopic,
 } from '../../../modules/taxonomy';
-import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
-import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -37,11 +33,10 @@ class ResourceItems extends React.PureComponent {
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
-  async onDelete(deleteId, resourceId) {
+  async onDelete(deleteId) {
     try {
       this.setState({ deleteId: '', error: '' });
       await deleteTopicResource(deleteId);
-      await this.deleteFilters(resourceId);
       this.props.refreshResources();
     } catch (e) {
       handleError(e);
@@ -51,23 +46,13 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  async deleteFilters(id) {
-    const resourceFilters = await fetchResourceFilter(id);
-    const topicFilterIds = this.props.currentTopic.filters.map(filter => filter.id);
-    resourceFilters.forEach(resourceFilter => {
-      if (topicFilterIds.includes(resourceFilter.id)) {
-        deleteResourceFilter(resourceFilter.connectionId);
-      }
-    });
-  }
-
   async onDragEnd({ destination, source }) {
     if (!destination) {
       return;
     }
     try {
       const { resources, refreshResources } = this.props;
-      const { connectionId, primary, rank: currentRank } = resources[source.index];
+      const { connectionId, primary, relevanceId, rank: currentRank } = resources[source.index];
       const { rank } = resources[destination.index];
       if (currentRank === rank) {
         return;
@@ -75,8 +60,9 @@ class ResourceItems extends React.PureComponent {
 
       this.setState({ loading: true });
       await updateTopicResource(connectionId, {
-        rank: currentRank > rank ? rank : rank + 1,
         primary,
+        rank: currentRank > rank ? rank : rank + 1,
+        relevanceId,
       });
       await refreshResources();
       this.setState({ loading: false });
@@ -139,6 +125,7 @@ class ResourceItems extends React.PureComponent {
               resource={resource}
               key={resource.id}
               id={resource.id}
+              contentType={contentType}
               currentSubject={currentSubject}
               structure={structure}
               onFilterSubmit={this.onFilterSubmit}
@@ -164,7 +151,7 @@ class ResourceItems extends React.PureComponent {
             },
             {
               text: t('alertModal.delete'),
-              onClick: () => this.onDelete(deleteId, resourceId),
+              onClick: () => this.onDelete(deleteId),
             },
           ]}
           onCancel={() => this.toggleDelete('')}
@@ -178,16 +165,10 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
-  availableFilters: AvailableFiltersShape,
-  activeFilter: PropTypes.string,
-  currentTopic: PropTypes.shape({
-    filters: PropTypes.array,
-  }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

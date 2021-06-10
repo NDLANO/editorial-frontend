@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { LOCALE_VALUES } from './constants';
 
 export const ResourceShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -35,6 +36,25 @@ export const AudioResultShape = PropTypes.shape({
   title: PropTypes.shape({
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
+  }).isRequired,
+});
+
+export const SeriesResultShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
+  description: PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
+  supportedLanguages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  episodes: PropTypes.array.isRequired,
+  coverPhoto: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    altText: PropTypes.string.isRequired,
   }).isRequired,
 });
 
@@ -256,6 +276,12 @@ export const HistoryShape = PropTypes.shape({
   goBack: PropTypes.func.isRequired,
   block: PropTypes.func.isRequired,
   replace: PropTypes.func.isRequired,
+  length: PropTypes.number.isRequired,
+  location: LocationShape,
+  go: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  listen: PropTypes.func.isRequired,
+  createHref: PropTypes.func.isRequired,
 });
 
 export const MetadataShape = PropTypes.shape({
@@ -279,14 +305,6 @@ export const TopicShape = PropTypes.shape({
   path: PropTypes.string,
   primary: PropTypes.bool,
   topicConnections: PropTypes.arrayOf(TopicConnectionShape),
-});
-
-export const FilterShape = PropTypes.shape({
-  connectionId: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  relevanceId: PropTypes.string,
-  metadata: MetadataShape,
 });
 
 export const AvailableFiltersShape = PropTypes.objectOf(
@@ -330,6 +348,8 @@ export const RoutePropTypes = {
   location: LocationShape,
   history: HistoryShape.isRequired,
 };
+
+export const LocaleShape = PropTypes.oneOf(LOCALE_VALUES);
 
 export const SearchParamsShape = PropTypes.shape({
   query: PropTypes.string,

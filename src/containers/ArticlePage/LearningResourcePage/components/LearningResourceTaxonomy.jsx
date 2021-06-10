@@ -14,21 +14,20 @@ import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
 import {
   fetchResourceTypes,
-  fetchFilters,
   fetchTopics,
   fetchSubjects,
   fetchSubjectTopics,
   fetchTopicConnections,
+  fetchTopicResources,
   updateTaxonomy,
   getFullResource,
   createResource,
   getResourceId,
 } from '../../../../modules/taxonomy';
-import { filterToSubjects, sortByName, groupTopics } from '../../../../util/taxonomyHelpers';
+import { sortByName, groupTopics } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
-import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
@@ -41,7 +40,6 @@ const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 const emptyTaxonomy = {
   resourceTypes: [],
-  filter: [],
   topics: [],
   metadata: {},
 };
@@ -61,9 +59,7 @@ class LearningResourceTaxonomy extends Component {
         ...emptyTaxonomy,
       },
       taxonomyChoices: {
-        allFilters: [],
         allTopics: [],
-        availableFilters: {},
         availableResourceTypes: [],
       },
     };
@@ -135,6 +131,19 @@ class LearningResourceTaxonomy extends Component {
     });
   };
 
+  setRelevance = (topicId, relevanceId) => {
+    const { topics } = this.state.taxonomyChanges;
+
+    this.stageTaxonomyChanges({
+      topics: topics.map(topic => ({
+        ...topic,
+        ...(topic.id === topicId && {
+          relevanceId,
+        }),
+      })),
+    });
+  };
+
   fetchTaxonomy = async () => {
     const {
       article: { language, id },
@@ -174,9 +183,8 @@ class LearningResourceTaxonomy extends Component {
       article: { language },
     } = this.props;
     try {
-      const [allResourceTypes, allFilters, allTopics, subjects] = await Promise.all([
+      const [allResourceTypes, allTopics, subjects] = await Promise.all([
         fetchResourceTypes(language),
-        fetchFilters(language),
         fetchTopics(language),
         fetchSubjects(language),
       ]);
@@ -187,8 +195,6 @@ class LearningResourceTaxonomy extends Component {
         this.setState({
           taxonomyChoices: {
             availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
-            availableFilters: filterToSubjects(allFilters.filter(filt => filt.name)),
-            allFilters: allFilters.filter(filt => filt.name),
             allTopics: allTopics.filter(topic => topic.name),
           },
           structure: sortedSubjects,
@@ -264,23 +270,23 @@ class LearningResourceTaxonomy extends Component {
   };
 
   fetchFullResource = async (resourceId, language) => {
-    const { resourceTypes, filters, metadata, topics } = await getFullResource(
-      resourceId,
-      language,
-    );
+    const { resourceTypes, metadata, topics } = await getFullResource(resourceId, language);
 
     const topicConnections = await Promise.all(
       topics.map(topic => fetchTopicConnections(topic.id)),
     );
-    const topicsWithConnections = topics.map((topic, index) => ({
+    const topicResources = await Promise.all(topics.map(topic => fetchTopicResources(topic.id)));
+    const topicsWithConnectionsAndRelevanceId = topics.map((topic, index) => ({
       topicConnections: topicConnections[index],
+      relevanceId:
+        topicResources[index].find(resource => resource.id === resourceId).relevanceId ??
+        RESOURCE_FILTER_CORE,
       ...topic,
     }));
 
     return {
       resourceTypes,
-      filter: filters,
-      topics: topicsWithConnections,
+      topics: topicsWithConnectionsAndRelevanceId,
       metadata,
     };
   };
@@ -294,27 +300,8 @@ class LearningResourceTaxonomy extends Component {
   };
 
   removeConnection = id => {
-    const { topics, filter } = this.state.taxonomyChanges;
-    const currentConnection = topics.find(topic => topic.id === id);
+    const { topics } = this.state.taxonomyChanges;
     const updatedTopics = topics.filter(topic => topic.id !== id);
-    const currentConnectionSubjectId = currentConnection.path.split('/')[1];
-    // 1. Check if last of connection within this subject
-    // 2. If so, remove filters that subject
-    if (!updatedTopics.some(topic => topic.path.indexOf(currentConnectionSubjectId) !== -1)) {
-      const { availableFilters } = this.state.taxonomyChoices;
-      const removeFiltersFrom = availableFilters[`urn:${currentConnectionSubjectId}`];
-      const updatedFilters = filter.filter(
-        checkFilter =>
-          removeFiltersFrom &&
-          !removeFiltersFrom.some(removeFilter => removeFilter.id === checkFilter.id),
-      );
-      if (updatedFilters.length !== filter.length) {
-        // Need to update filters
-        this.stageTaxonomyChanges({
-          filter: updatedFilters,
-        });
-      }
-    }
 
     // Auto set primary of only one connection.
     if (updatedTopics.length === 1) {
@@ -322,26 +309,6 @@ class LearningResourceTaxonomy extends Component {
     }
     this.stageTaxonomyChanges({
       topics: updatedTopics,
-    });
-  };
-
-  updateFilter = (resourceId, filter, relevanceId, remove) => {
-    let updatedFilter = filter;
-    const updatedFilters = this.state.taxonomyChanges.filter.filter(modelFilter => {
-      const foundFilter = modelFilter.id === filter.id;
-      if (foundFilter) {
-        updatedFilter = {
-          ...filter,
-          ...modelFilter,
-        };
-      }
-      return !foundFilter;
-    });
-    if (!remove) {
-      updatedFilters.push({ ...updatedFilter, relevanceId });
-    }
-    this.stageTaxonomyChanges({
-      filter: updatedFilters,
     });
   };
 
@@ -371,8 +338,8 @@ class LearningResourceTaxonomy extends Component {
 
   render() {
     const {
-      taxonomyChoices: { availableResourceTypes, availableFilters, allTopics },
-      taxonomyChanges: { resourceTypes, topics, filter, metadata },
+      taxonomyChoices: { availableResourceTypes, allTopics },
+      taxonomyChanges: { resourceTypes, topics, metadata },
       resourceId,
       structure,
       status,
@@ -431,25 +398,16 @@ class LearningResourceTaxonomy extends Component {
           onChangeSelectedResource={this.onChangeSelectedResource}
         />
         <TopicConnections
-          availableFilters={availableFilters}
           structure={structure}
           allTopics={allTopics}
           activeTopics={topics}
           retriveBreadCrumbs={topicPath => retriveBreadCrumbs({ topicPath, allTopics, structure })}
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
+          setRelevance={this.setRelevance}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
           getSubjectTopics={this.getSubjectTopics}
         />
-        {topics.length > 0 && (
-          <FilterConnections
-            breadCrumbs={breadCrumbs}
-            activeFilters={filter}
-            structure={structure}
-            availableFilters={availableFilters}
-            updateFilter={this.updateFilter}
-          />
-        )}
         {showWarning && (
           <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>
         )}

@@ -24,7 +24,7 @@ import {
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import MenuItemButton from './MenuItemButton';
-import { StyledErrorMessage } from './MenuItemEditField';
+import { StyledErrorMessage } from '../styles';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
 

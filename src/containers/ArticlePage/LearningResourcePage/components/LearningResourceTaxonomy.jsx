@@ -32,7 +32,11 @@ import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
-import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
+import {
+  TAXONOMY_ADMIN_SCOPE,
+  RESOURCE_FILTER_CORE,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 

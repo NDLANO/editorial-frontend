@@ -28,14 +28,8 @@ import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
-
-import FilterConnections from '../../../../components/Taxonomy/filter/FilterConnections';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
-import { fetchTopicResourceTypes } from '../../../../modules/taxonomy/topics';
-import {
-  createTopicResourceType,
-  deleteTopicResourceType,
-} from '../../../../modules/taxonomy/resourcetypes';
+
 import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';

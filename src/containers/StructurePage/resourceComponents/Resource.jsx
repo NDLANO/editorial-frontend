@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { Filter } from '@ndla/icons/editor';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -21,14 +22,18 @@ import { classes } from './ResourceGroup';
 import { fetchResourceFilter } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
+import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
+import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import handleError from '../../../util/handleError';
 import { StructureShape, AvailableFiltersShape, ResourceShape } from '../../../shapes';
-import { MetadataShape } from '../../../shapes';
-import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
-import RemoveButton from '../../../components/RemoveButton';
+
+const filterButtonStyle = css`
+  padding: 0 10px;
+  margin: 0 20px;
+`;
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -45,8 +50,6 @@ const Resource = ({
   availableFilters,
   structure,
   onFilterSubmit,
-  contentType,
-  name,
   onDelete,
   connectionId,
   dragHandleProps,
@@ -143,11 +146,7 @@ const Resource = ({
           </Button>
         </TaxonomyLightbox>
       )}
-      {onDelete && (
-        <Button onClick={() => onDelete(resource.connectionId, resource.id)} stripped>
-          <RemoveCircle {...classes('deleteIcon')} />
-        </Button>
-      )}
+      {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
       {showVersionHistory && (
         <VersionHistoryLightbox
           onClose={() => setShowVersionHistory(false)}

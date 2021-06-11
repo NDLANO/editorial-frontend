@@ -15,6 +15,8 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
+
+import { FilterShape } from '../../../shapes';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({
@@ -50,6 +52,7 @@ class ResourceGroup extends PureComponent {
       params,
       refreshResources,
       locale,
+      currentTopic,
       currentSubject,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
@@ -110,6 +113,9 @@ ResourceGroup.propTypes = {
   }),
   refreshResources: PropTypes.func,
   locale: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filters: PropTypes.arrayOf(FilterShape),
+  }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

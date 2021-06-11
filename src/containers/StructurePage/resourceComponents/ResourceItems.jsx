@@ -13,15 +13,19 @@ import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
 import {
   deleteTopicResource,
+  fetchResourceFilter,
+  createResourceFilter,
+  updateResourceFilter,
+  deleteResourceFilter,
   updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
 } from '../../../modules/taxonomy';
+import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
+import { StructureShape, AvailableFiltersShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -97,8 +101,8 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  toggleDelete(deleteId, resourceId) {
-    this.setState({ deleteId, resourceId });
+  toggleDelete(deleteId) {
+    this.setState({ deleteId });
   }
 
   render() {
@@ -112,7 +116,7 @@ class ResourceItems extends React.PureComponent {
       locale,
     } = this.props;
 
-    const { deleteId, resourceId, error, loading } = this.state;
+    const { deleteId, error, loading } = this.state;
 
     if (loading) {
       return <Spinner />;
@@ -125,7 +129,6 @@ class ResourceItems extends React.PureComponent {
               resource={resource}
               key={resource.id}
               id={resource.id}
-              contentType={contentType}
               currentSubject={currentSubject}
               structure={structure}
               onFilterSubmit={this.onFilterSubmit}
@@ -165,10 +168,16 @@ ResourceItems.propTypes = {
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
+  availableFilters: AvailableFiltersShape,
+  activeFilter: PropTypes.string,
+  currentTopic: PropTypes.shape({
+    filters: PropTypes.array,
+  }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

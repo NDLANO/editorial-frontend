@@ -24,7 +24,7 @@ const Checkbox = ({ display, children, ...rest }) => {
     <FormikField {...rest}>
       {({ field }) => (
         <Fragment>
-          <StyledInputCheckbox display={display} type="checkbox" {...field} />
+          <StyledInputCheckbox display={display} type="checkbox" checked={field.value} {...field} />
           {children}
         </Fragment>
       )}

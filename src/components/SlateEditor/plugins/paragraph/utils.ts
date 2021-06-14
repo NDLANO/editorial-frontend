@@ -11,7 +11,7 @@ import { jsx } from 'slate-hyperscript';
 
 export const TYPE_PARAGRAPH = 'paragraph';
 
-export const defaultParagraphBlock = jsx('element', { type: TYPE_PARAGRAPH }, { text: '' });
+export const defaultParagraphBlock = () => jsx('element', { type: TYPE_PARAGRAPH }, { text: '' });
 
 export const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;

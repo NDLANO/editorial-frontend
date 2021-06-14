@@ -18,6 +18,7 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import Summary from './Summary';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
@@ -127,7 +128,7 @@ export const detailsPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_SUMMARY) {
-      return <span {...attributes}>{children}</span>;
+      return <Summary attributes={attributes} children={children} element={element} />;
     } else if (element.type === TYPE_DETAILS) {
       return (
         <Details attributes={attributes} children={children} editor={editor} element={element} />
@@ -164,7 +165,7 @@ export const detailsPlugin = (editor: Editor) => {
 
               // If summary is followed by text, wrap it in a paragraph
               if (Text.isText(nextSibling)) {
-                Transforms.wrapNodes(editor, defaultParagraphBlock, { at: nextSiblingPath });
+                Transforms.wrapNodes(editor, defaultParagraphBlock(), { at: nextSiblingPath });
                 return;
               }
 
@@ -172,7 +173,7 @@ export const detailsPlugin = (editor: Editor) => {
               if (!Element.isElement(nextSibling) || nextSibling.type !== TYPE_PARAGRAPH) {
                 // Does only apply when summary is the first element.
                 if (!Path.hasPrevious(childPath)) {
-                  Transforms.insertNodes(editor, defaultParagraphBlock, {
+                  Transforms.insertNodes(editor, defaultParagraphBlock(), {
                     at: nextSiblingPath,
                   });
                   return;
@@ -180,7 +181,7 @@ export const detailsPlugin = (editor: Editor) => {
               }
             } else {
               // If no sibling exists, insert an empty paragraph.
-              Transforms.insertNodes(editor, defaultParagraphBlock, {
+              Transforms.insertNodes(editor, defaultParagraphBlock(), {
                 at: nextSiblingPath,
               });
               return;

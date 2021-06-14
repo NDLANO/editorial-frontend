@@ -11,7 +11,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
@@ -45,8 +45,8 @@ export interface AudioFormikType {
   revision?: number;
   language: string;
   supportedLanguages: string[];
-  title: Value;
-  manuscript: Value;
+  title: Descendant[];
+  manuscript: Descendant[];
   audioFile: {
     storedFile?: {
       url: string;
@@ -75,8 +75,8 @@ export const getInitialValues = (
     revision: audio.revision,
     language: audio.language,
     supportedLanguages: audio.supportedLanguages || [],
-    title: plainTextToEditorValue(audio.title || '', true),
-    manuscript: plainTextToEditorValue(audio?.manuscript, true),
+    title: plainTextToEditorValue(audio.title || ''),
+    manuscript: plainTextToEditorValue(audio?.manuscript || ''),
     audioFile: { storedFile: audio.audioFile },
     tags: audio.tags || [],
     creators: parseCopyrightContributors(audio, 'creators'),

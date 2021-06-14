@@ -24,7 +24,7 @@ const phrases = {
     loginPage: `Logg inn ${titleTemplate}`,
     logoutPage: `Logg ut ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
-    podcastUploaderPage: `Podkast ${titleTemplate}`,
+    podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
     search: {
@@ -159,7 +159,7 @@ const phrases = {
     learningResource: 'Læringsressurs',
     image: 'Nytt bilde',
     audio: 'Ny lydfil',
-    podcast: 'Ny podkast',
+    podcast: 'Ny podkastepisode',
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
@@ -407,7 +407,7 @@ const phrases = {
     description: 'Beskrivelse',
   },
   podcastForm: {
-    title: 'Podkast',
+    title: 'Podkastepisode',
     fields: {
       header: 'Overskrift',
       introduction: 'Introduksjon',
@@ -490,7 +490,7 @@ const phrases = {
       related: 'Relatert innhold',
       file: 'Fil',
       code: 'Kodevisning',
-      podcast: 'Podkast',
+      podcast: 'Podkastepisode',
     },
   },
   form: {

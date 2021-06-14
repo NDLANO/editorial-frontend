@@ -8,9 +8,10 @@
 
 import { jsx } from 'slate-hyperscript';
 import { TYPE_ASIDE } from '.';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const defaultAsideBlock = (type?: string) =>
-  jsx('element', { type: TYPE_ASIDE, data: { type } }, [{ text: '' }]);
+  jsx('element', { type: TYPE_ASIDE, data: { type } }, defaultParagraphBlock());
 
 export const getAsideType = (el: HTMLElement): { type: string } => {
   const asideType = el.attributes.getNamedItem('data-type')?.value;

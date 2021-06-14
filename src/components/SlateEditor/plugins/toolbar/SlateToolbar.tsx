@@ -16,6 +16,7 @@ import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
+import { TYPE_SUMMARY } from '../details';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
@@ -87,6 +88,14 @@ const SlateToolbar = (props: Props) => {
       !selection?.focus ||
       Editor.string(editor, { anchor: selection?.anchor, focus: selection?.focus }) === ''
     ) {
+      menu.removeAttribute('style');
+      return;
+    }
+    const [summaryEntry] = Editor.nodes(editor, {
+      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
+    });
+
+    if (summaryEntry && Element.isElement(summaryEntry[0])) {
       menu.removeAttribute('style');
       return;
     }

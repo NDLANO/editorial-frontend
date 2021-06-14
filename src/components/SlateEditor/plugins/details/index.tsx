@@ -240,7 +240,22 @@ export const detailsPlugin = (editor: Editor) => {
         for (const [child, childPath] of Node.children(editor, path)) {
           // Unwrap elements inside summary until only the text remains.
           if (Element.isElement(child)) {
-            Transforms.unwrapNodes(editor, { at: childPath });
+            Transforms.unwrapNodes(editor, { at: childPath, voids: true });
+            return;
+          }
+
+          // Remove marks if any is active
+          if (
+            child.bold ||
+            child.code ||
+            child.italic ||
+            child.sub ||
+            child.sup ||
+            child.underlined
+          ) {
+            Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+              at: childPath,
+            });
             return;
           }
         }

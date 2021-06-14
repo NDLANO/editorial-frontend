@@ -18,6 +18,11 @@
        '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated',
        'searchConcepts',
      );
+     cy.apiroute(
+       'GET',
+       '/draft-api/v1/drafts/licenses/',
+       'licenses',
+     );
      cy.intercept(
        'GET', 
        '/get_editors*',
@@ -28,7 +33,7 @@
          }
        }]);
      cy.visit('/search/concept?page=1&page-size=10&sort=-lastUpdated');
-     cy.apiwait(['@searchConcepts', '@allSubjects']);
+     cy.apiwait(['@searchConcepts', '@licenses', '@allSubjects']);
    });
  
    it('Can use text input', () => {

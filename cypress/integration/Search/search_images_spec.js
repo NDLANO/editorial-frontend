@@ -12,13 +12,14 @@ describe('Search images', () => {
   beforeEach(() => {
     setToken();
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
       '/image-api/v2/images/?page=1&page-size=10&sort=-relevance',
       'searchImages',
     );
     cy.visit('/search/image?page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@licenses', '@searchImages']);
+    cy.apiwait(['@licenses', '@searchImages', '@allSubjects']);
   });
 
   it('Can use text input', () => {

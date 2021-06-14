@@ -12,13 +12,14 @@ describe('Search audios', () => {
   beforeEach(() => {
     setToken();
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+    cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(
       'GET',
       '/audio-api/v1/audio/?page=1&page-size=10&sort=-relevance',
       'searchAudios',
     );
     cy.visit('/search/audio?page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@licenses', '@searchAudios']);
+    cy.apiwait(['@licenses', '@searchAudios', '@allSubjects']);
   });
 
   it('Can use text input', () => {

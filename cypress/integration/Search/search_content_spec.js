@@ -19,6 +19,11 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
       'search',
     );
+    cy.apiroute(
+       'GET',
+       '/draft-api/v1/drafts/licenses/',
+       'licenses',
+     );
     cy.intercept(
       'GET', 
       '/get_editors*',
@@ -29,7 +34,7 @@ describe('Search content', () => {
         }
       }]);
     cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@resourceTypes', '@search', '@allSubjects']);
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@licenses']);
   });
 
   it('Can use text input', () => {
@@ -113,6 +118,5 @@ describe('Search content', () => {
       .blur();
     cy.apiwait('@searchUser');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
-    cy.get('select[name="users"]').select('Velg bruker');
   });
 });

@@ -5,6 +5,7 @@ import { injectT } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
+import { getFileBlock } from '../file/utils';
 
 const StyledModal = styled(Modal)`
   overflow: hidden;
@@ -25,10 +26,7 @@ const SlateVisualElementPicker = ({
       const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
       onInsertBlock(blockToInsert);
     } else if (type === 'file') {
-      const blockToInsert = defaultBlocks.defaultFilesBlock({
-        type: 'file',
-        nodes: visualElement,
-      });
+      const blockToInsert = getFileBlock(visualElement);
       onInsertBlock(blockToInsert);
     }
     onVisualElementClose();

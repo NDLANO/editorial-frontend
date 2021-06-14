@@ -88,16 +88,13 @@ const SlateBlockPicker = (props: Props & tType) => {
         onInsertBlock(defaultAsideBlock(data.object));
         break;
       }
-      // case 'file':
-      // case 'embed': {
-      //   this.setState({
-      //     visualElementSelect: {
-      //       isOpen: true,
-      //       visualElementType: block.object,
-      //     },
-      //   });
-      //   break;
-      // }
+      case 'file': {
+        setVisualElementSelect({
+          isOpen: true,
+          visualElementType: data.object,
+        });
+        break;
+      }
       // case 'related': {
       //   this.onInsertBlock(defaultRelatedBlock());
       //   break;

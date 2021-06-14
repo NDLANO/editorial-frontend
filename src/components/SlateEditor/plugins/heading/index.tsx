@@ -12,7 +12,7 @@ import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import hasNodeOfType from '../../utils/hasNodeOfType';
-import { TYPE_PARAGRAPH } from '../paragraph';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 const KEY_ENTER = 'Enter';
 const KEY_BACKSPACE = 'Backspace';

@@ -7,7 +7,7 @@
  */
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Editor, Element, Node, Location, Range, Transforms } from 'slate';
+import { Editor, Element, Node, Location, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -67,8 +67,9 @@ const SlateBlockPicker = (props: Props & tType) => {
 
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
-    Editor.insertNode(editor, block);
+    setIsOpen(false);
     ReactEditor.focus(editor);
+    Editor.insertNode(editor, block);
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -78,7 +79,7 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   break;
       // }
       case 'details': {
-        onInsertBlock(defaultDetailsBlock);
+        onInsertBlock(defaultDetailsBlock());
         break;
       }
       // case 'table': {
@@ -108,9 +109,9 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   break;
       // }
       default:
+        setIsOpen(false);
         break;
     }
-    setIsOpen(false);
   };
 
   const toggleIsOpen = (open: boolean) => {

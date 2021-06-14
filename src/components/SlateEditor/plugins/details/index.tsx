@@ -12,11 +12,13 @@ import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
-import { TYPE_PARAGRAPH } from '../paragraph';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { defaultParagraphBlock } from '../paragraph/utils';
+import Summary from './Summary';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
@@ -112,6 +114,7 @@ export const detailsPlugin = (editor: Editor) => {
     renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,
     onKeyDown: nextOnKeyDown,
+    shouldShowToolbar: nextShouldShowToolbar,
   } = editor;
 
   editor.onKeyDown = event => {
@@ -124,9 +127,23 @@ export const detailsPlugin = (editor: Editor) => {
     }
   };
 
+  editor.shouldShowToolbar = () => {
+    const [summaryEntry] = Editor.nodes(editor, {
+      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
+    });
+
+    if (summaryEntry && Element.isElement(summaryEntry[0])) {
+      return false;
+    }
+    if (nextShouldShowToolbar) {
+      return nextShouldShowToolbar();
+    }
+    return true;
+  };
+
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_SUMMARY) {
-      return <span {...attributes}>{children}</span>;
+      return <Summary attributes={attributes} children={children} element={element} />;
     } else if (element.type === TYPE_DETAILS) {
       return (
         <Details attributes={attributes} children={children} editor={editor} element={element} />
@@ -134,7 +151,6 @@ export const detailsPlugin = (editor: Editor) => {
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }
-    return undefined;
   };
   editor.normalizeNode = entry => {
     const [node, path] = entry;
@@ -162,33 +178,27 @@ export const detailsPlugin = (editor: Editor) => {
             if (Node.has(editor, nextSiblingPath)) {
               const [nextSibling] = Editor.node(editor, nextSiblingPath);
 
+              // If summary is followed by text, wrap it in a paragraph
+              if (Text.isText(nextSibling)) {
+                Transforms.wrapNodes(editor, defaultParagraphBlock(), { at: nextSiblingPath });
+                return;
+              }
+
               // Insert empty paragraph after summary if it does not already exist.
-              if (
-                !Node.has(editor, nextSiblingPath) ||
-                !Element.isElement(nextSibling) ||
-                nextSibling.type !== TYPE_PARAGRAPH
-              ) {
+              if (!Element.isElement(nextSibling) || nextSibling.type !== TYPE_PARAGRAPH) {
                 // Does only apply when summary is the first element.
                 if (!Path.hasPrevious(childPath)) {
-                  Transforms.insertNodes(
-                    editor,
-                    jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
-                    {
-                      at: nextSiblingPath,
-                    },
-                  );
+                  Transforms.insertNodes(editor, defaultParagraphBlock(), {
+                    at: nextSiblingPath,
+                  });
                   return;
                 }
               }
             } else {
               // If no sibling exists, insert an empty paragraph.
-              Transforms.insertNodes(
-                editor,
-                jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
-                {
-                  at: nextSiblingPath,
-                },
-              );
+              Transforms.insertNodes(editor, defaultParagraphBlock(), {
+                at: nextSiblingPath,
+              });
               return;
             }
           }
@@ -245,7 +255,22 @@ export const detailsPlugin = (editor: Editor) => {
         for (const [child, childPath] of Node.children(editor, path)) {
           // Unwrap elements inside summary until only the text remains.
           if (Element.isElement(child)) {
-            Transforms.unwrapNodes(editor, { at: childPath });
+            Transforms.unwrapNodes(editor, { at: childPath, voids: true });
+            return;
+          }
+
+          // Remove marks if any is active
+          if (
+            child.bold ||
+            child.code ||
+            child.italic ||
+            child.sub ||
+            child.sup ||
+            child.underlined
+          ) {
+            Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+              at: childPath,
+            });
             return;
           }
         }

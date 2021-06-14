@@ -67,8 +67,9 @@ const SlateBlockPicker = (props: Props & tType) => {
 
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
-    Editor.insertNode(editor, block);
+    setIsOpen(false);
     ReactEditor.focus(editor);
+    Editor.insertNode(editor, block);
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -78,7 +79,7 @@ const SlateBlockPicker = (props: Props & tType) => {
         break;
       }
       case 'details': {
-        onInsertBlock(defaultDetailsBlock);
+        onInsertBlock(defaultDetailsBlock());
         break;
       }
       // case 'table': {
@@ -108,9 +109,9 @@ const SlateBlockPicker = (props: Props & tType) => {
         break;
       }
       default:
+        setIsOpen(false);
         break;
     }
-    setIsOpen(false);
   };
 
   const toggleIsOpen = (open: boolean) => {

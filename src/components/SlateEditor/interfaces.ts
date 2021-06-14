@@ -29,6 +29,7 @@ export type CustomEditor = {
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
+  shouldShowToolbar: () => boolean;
 };
 
 declare module 'slate' {

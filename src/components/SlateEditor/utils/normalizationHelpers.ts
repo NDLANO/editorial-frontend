@@ -1,6 +1,6 @@
 import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { TYPE_PARAGRAPH } from '../plugins/paragraph';
+import { TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
 
 export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading'];
 
